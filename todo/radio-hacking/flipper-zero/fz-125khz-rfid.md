@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -17,7 +17,6 @@ Outras formas de apoiar o HackTricks:
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 ## Introdução
 
@@ -33,7 +32,7 @@ Para mais informações sobre esses tipos de tags, [**leia esta introdução**](
 
 ### Ler
 
-Tenta **ler** as informações do cartão. Em seguida, pode **emulá-las**.
+Tenta **ler** as informações do cartão. Em seguida, pode **emular** elas.
 
 {% hint style="warning" %}
 Observe que alguns interfones tentam se proteger contra a duplicação de chaves enviando um comando de gravação antes da leitura. Se a gravação for bem-sucedida, essa tag é considerada falsa. Quando o Flipper emula RFID, não há como o leitor distingui-lo do original, portanto, tais problemas não ocorrem.
@@ -49,16 +48,16 @@ Você pode criar **cartões falsos no Flipper Zero indicando os dados** manualme
 
 * **EM Marin**
 
-Por exemplo, neste cartão EM-Marin, no cartão físico é possível **ler os últimos 3 de 5 bytes claramente**.\
-Os outros 2 podem ser forçados se você não puder lê-los no cartão.
+Por exemplo, neste cartão EM-Marin é possível **ler os últimos 3 de 5 bytes claramente** no cartão físico.\
+Os outros 2 podem ser forçados por tentativa e erro se você não puder lê-los no cartão.
 
-<figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
 O mesmo acontece neste cartão HID, onde apenas 2 de 3 bytes podem ser encontrados impressos no cartão
 
-<figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Emular/Gravar
 
@@ -72,12 +71,11 @@ Depois de **copiar** um cartão ou **inserir** o ID **manualmente**, é possíve
 
 {% embed url="https://websec.nl/" %}
 
-
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)

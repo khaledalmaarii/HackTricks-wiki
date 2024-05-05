@@ -1,19 +1,20 @@
+# SeImpersonate de Alto para Sistema
+
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-
-## Código
+### Código
 
 O código a seguir de [aqui](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Ele permite **indicar um ID de Processo como argumento** e um CMD **executando como o usuário** do processo indicado será executado.\
 Executando em um processo de Alta Integridade você pode **indicar o PID de um processo em execução como Sistema** (como winlogon, wininit) e executar um cmd.exe como sistema.
@@ -151,9 +152,9 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-## Erro
+### Erro
 
-Em algumas ocasiões, você pode tentar se passar pelo System e não funcionará, mostrando uma saída como a seguinte:
+Em algumas ocasiões, você pode tentar se passar pelo Sistema e não funcionará, mostrando uma saída como a seguinte:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -164,7 +165,7 @@ Em algumas ocasiões, você pode tentar se passar pelo System e não funcionará
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Isso significa que mesmo que você esteja rodando em um nível de Integridade Alta **você não tem permissões suficientes**.\
+Isso significa que mesmo se você estiver rodando em um nível de Integridade Alta **você não tem permissões suficientes**.\
 Vamos verificar as permissões atuais do Administrador sobre os processos `svchost.exe` com o **processes explorer** (ou você também pode usar o process hacker):
 
 1. Selecione um processo de `svchost.exe`
@@ -174,28 +175,12 @@ Vamos verificar as permissões atuais do Administrador sobre os processos `svcho
 5. Selecione "Administradores" e clique em "Editar"
 6. Clique em "Mostrar permissões avançadas"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 A imagem anterior contém todos os privilégios que os "Administradores" têm sobre o processo selecionado (como você pode ver no caso do `svchost.exe`, eles têm apenas privilégios de "Consulta")
 
 Veja os privilégios que os "Administradores" têm sobre o `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 Dentro desse processo, os "Administradores" podem "Ler Memória" e "Ler Permissões", o que provavelmente permite que os Administradores se façam passar pelo token usado por esse processo.
-
-
-
-<details>
-
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
-
-</details>

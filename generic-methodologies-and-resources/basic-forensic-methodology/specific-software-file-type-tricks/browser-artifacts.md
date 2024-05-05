@@ -6,18 +6,18 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -69,10 +69,10 @@ Dentro de cada pasta de perfil, você pode encontrar vários arquivos importante
 * **logins.json**: Informações de login criptografadas.
 * **key4.db** ou **key3.db**: Armazena chaves de criptografia para proteger informações sensíveis.
 
-Além disso, verificar as configurações anti-phishing do navegador pode ser feito pesquisando por entradas `browser.safebrowsing` em `prefs.js`, indicando se os recursos de navegação segura estão ativados ou desativados.
+Além disso, verificar as configurações de antiphishing do navegador pode ser feito pesquisando por entradas `browser.safebrowsing` em `prefs.js`, indicando se os recursos de navegação segura estão ativados ou desativados.
 
 Para tentar descriptografar a senha mestra, você pode usar [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Com o seguinte script e chamada, você pode especificar um arquivo de senha para força bruta:
+Com o script a seguir e a chamada, você pode especificar um arquivo de senha para força bruta:
 
 {% code title="brute.sh" %}
 ```bash
@@ -87,7 +87,7 @@ done < $passfile
 ```
 {% endcode %}
 
-![](<../../../.gitbook/assets/image (417).png>)
+![](<../../../.gitbook/assets/image (692).png>)
 
 ## Google Chrome
 
@@ -101,7 +101,7 @@ Dentro desses diretórios, a maioria dos dados do usuário pode ser encontrada n
 
 - **Histórico**: Contém URLs, downloads e palavras-chave de pesquisa. No Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) pode ser usado para ler o histórico. A coluna "Tipo de Transição" tem vários significados, incluindo cliques do usuário em links, URLs digitadas, envios de formulários e recarregamentos de página.
 - **Cookies**: Armazena cookies. Para inspeção, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) está disponível.
-- **Cache**: Mantém dados em cache. Para inspeção, usuários do Windows podem utilizar [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+- **Cache**: Mantém dados em cache. Para inspeção, os usuários do Windows podem utilizar [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
 - **Favoritos**: Favoritos do usuário.
 - **Dados da Web**: Contém histórico de formulários.
 - **Favicons**: Armazena favicons de sites.
@@ -115,7 +115,7 @@ Dentro desses diretórios, a maioria dos dados do usuário pode ser encontrada n
 
 ## **Recuperação de Dados do Banco de Dados SQLite**
 
-Como observado nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Como pode ser observado nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
@@ -123,7 +123,7 @@ O Internet Explorer 11 gerencia seus dados e metadados em vários locais, auxili
 
 ### Armazenamento de Metadados
 
-Os metadados do Internet Explorer são armazenados em `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (sendo VX V01, V16 ou V24). Além disso, o arquivo `V01.log` pode mostrar discrepâncias de tempo de modificação com `WebcacheVX.data`, indicando a necessidade de reparo usando `esentutl /r V01 /d`. Esses metadados, alojados em um banco de dados ESE, podem ser recuperados e inspecionados usando ferramentas como photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Na tabela **Containers**, é possível discernir as tabelas ou contêineres específicos onde cada segmento de dados é armazenado, incluindo detalhes de cache para outras ferramentas da Microsoft, como o Skype.
+Os metadados do Internet Explorer são armazenados em `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (sendo VX V01, V16 ou V24). Além disso, o arquivo `V01.log` pode mostrar discrepâncias de tempo de modificação com `WebcacheVX.data`, indicando a necessidade de reparo usando `esentutl /r V01 /d`. Esses metadados, alojados em um banco de dados ESE, podem ser recuperados e inspecionados usando ferramentas como photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivamente. Na tabela **Containers**, é possível discernir as tabelas ou containers específicos onde cada segmento de dados é armazenado, incluindo detalhes de cache para outras ferramentas da Microsoft, como o Skype.
 
 ### Inspeção de Cache
 
@@ -135,7 +135,7 @@ Os cookies podem ser explorados usando [IECookiesView](https://www.nirsoft.net/u
 
 ### Detalhes de Downloads
 
-Metadados de downloads são acessíveis via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), com contêineres específicos contendo dados como URL, tipo de arquivo e localização do download. Os arquivos físicos podem ser encontrados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Metadados de downloads são acessíveis via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), com containers específicos contendo dados como URL, tipo de arquivo e local de download. Os arquivos físicos podem ser encontrados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Histórico de Navegação
 
@@ -143,7 +143,7 @@ Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](htt
 
 ### URLs Digitadas
 
-URLs digitadas e seus horários de uso são armazenados no registro em `NTUSER.DAT` em `Software\Microsoft\InternetExplorer\TypedURLs` e `Software\Microsoft\InternetExplorer\TypedURLsTime`, rastreando as últimas 50 URLs inseridas pelo usuário e seus últimos horários de entrada.
+URLs digitadas e seus tempos de uso são armazenados no registro em `NTUSER.DAT` em `Software\Microsoft\InternetExplorer\TypedURLs` e `Software\Microsoft\InternetExplorer\TypedURLsTime`, rastreando as últimas 50 URLs inseridas pelo usuário e seus últimos horários de entrada.
 
 ## Microsoft Edge
 
@@ -161,7 +161,7 @@ Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Arquivos-c
 
 - **History.db**: Contém tabelas `history_visits` e `history_items` com URLs e horários de visita. Use `sqlite3` para consultar.
 - **Downloads.plist**: Informações sobre arquivos baixados.
-- **Bookmarks.plist**: Armazena URLs marcadas como favoritas.
+- **Bookmarks.plist**: Armazena URLs marcados.
 - **TopSites.plist**: Sites mais visitados.
 - **Extensions.plist**: Lista de extensões do navegador Safari. Use `plutil` ou `pluginkit` para recuperar.
 - **UserNotificationPermissions.plist**: Domínios permitidos para enviar notificações. Use `plutil` para analisar.
@@ -170,7 +170,7 @@ Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Arquivos-c
 
 ## Opera
 
-Os dados do Opera estão em `/Users/$USER/Library/Application Support/com.operasoftware.Opera` e compartilham o formato de histórico e downloads do Chrome.
+Os dados do Opera estão localizados em `/Users/$USER/Library/Application Support/com.operasoftware.Opera` e compartilham o formato de histórico e downloads do Chrome.
 
 - **Anti-phishing integrado do navegador**: Verifique se `fraud_protection_enabled` no arquivo Preferences está definido como `true` usando `grep`.
 
@@ -183,23 +183,21 @@ Esses caminhos e comandos são cruciais para acessar e entender os dados de nave
 - [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
 - **Livro: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 * Se deseja ver a **sua empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
-
-</details>
+* **Compartilhe seus truques de hacking enviando PRs para os** repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).

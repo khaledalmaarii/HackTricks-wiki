@@ -6,17 +6,17 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe suas dicas de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+- **Compartilhe suas dicas de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
@@ -26,7 +26,7 @@ Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Melhore suas habilidades no Wireshark
 
@@ -41,51 +41,51 @@ Os seguintes tutoriais são incríveis para aprender alguns truques básicos leg
 
 ### Informações Analisadas
 
-**Informações de Especialistas**
+**Informação de Especialista**
 
 Clicando em _**Analyze** --> **Expert Information**_ você terá uma **visão geral** do que está acontecendo nos pacotes **analisados**:
 
-![](<../../../.gitbook/assets/image (253).png>)
+![](<../../../.gitbook/assets/image (256).png>)
 
 **Endereços Resolvidos**
 
-Em _**Statistics --> Resolved Addresses**_ você pode encontrar várias **informações** que foram "**resolvidas**" pelo wireshark, como porta/transporte para protocolo, MAC para o fabricante, etc. É interessante saber o que está envolvido na comunicação.
+Em _**Statistics --> Resolved Addresses**_ você pode encontrar várias **informações** que foram "**resolvidas**" pelo wireshark, como porta/transporte para protocolo, MAC para o fabricante, etc. É interessante saber o que está implicado na comunicação.
 
-![](<../../../.gitbook/assets/image (890).png>)
+![](<../../../.gitbook/assets/image (893).png>)
 
 **Hierarquia de Protocolo**
 
 Em _**Statistics --> Protocol Hierarchy**_ você pode encontrar os **protocolos** **envolvidos** na comunicação e dados sobre eles.
 
-![](<../../../.gitbook/assets/image (583).png>)
+![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversas**
 
 Em _**Statistics --> Conversations**_ você pode encontrar um **resumo das conversas** na comunicação e dados sobre elas.
 
-![](<../../../.gitbook/assets/image (450).png>)
+![](<../../../.gitbook/assets/image (453).png>)
 
 **Pontos Finais**
 
 Em _**Statistics --> Endpoints**_ você pode encontrar um **resumo dos pontos finais** na comunicação e dados sobre cada um deles.
 
-![](<../../../.gitbook/assets/image (893).png>)
+![](<../../../.gitbook/assets/image (896).png>)
 
 **Informações de DNS**
 
 Em _**Statistics --> DNS**_ você pode encontrar estatísticas sobre a solicitação de DNS capturada.
 
-![](<../../../.gitbook/assets/image (1060).png>)
+![](<../../../.gitbook/assets/image (1063).png>)
 
 **Gráfico de E/S**
 
 Em _**Statistics --> I/O Graph**_ você pode encontrar um **gráfico da comunicação**.
 
-![](<../../../.gitbook/assets/image (989).png>)
+![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filtros
 
-Aqui você pode encontrar filtros do wireshark dependendo do protocolo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Aqui você pode encontrar filtro do wireshark dependendo do protocolo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Outros filtros interessantes:
 
 - `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -107,7 +107,7 @@ Se você deseja **pesquisar** por **conteúdo** dentro dos **pacotes** das sess�
 
 Você pode adicionar uma coluna que mostra o cabeçalho Host HTTP:
 
-![](<../../../.gitbook/assets/image (635).png>)
+![](<../../../.gitbook/assets/image (639).png>)
 
 E uma coluna que adiciona o nome do servidor de uma conexão HTTPS iniciante (**ssl.handshake.type == 1**):
 
@@ -119,19 +119,19 @@ E uma coluna que adiciona o nome do servidor de uma conexão HTTPS iniciante (**
 
 No Wireshark atual, em vez de `bootp`, você precisa procurar por `DHCP`
 
-![](<../../../.gitbook/assets/image (1010).png>)
+![](<../../../.gitbook/assets/image (1013).png>)
 
 ### Do NBNS
 
-![](<../../../.gitbook/assets/image (1000).png>)
+![](<../../../.gitbook/assets/image (1003).png>)
 
 ## Descriptografando TLS
 
 ### Descriptografando tráfego https com chave privada do servidor
 
-_edit>preference>protocol>ssl>_
+_editar>preferência>protocolo>ssl>_
 
-![](<../../../.gitbook/assets/image (1100).png>)
+![](<../../../.gitbook/assets/image (1103).png>)
 
 Pressione _Editar_ e adicione todos os dados do servidor e da chave privada (_IP, Porta, Protocolo, Arquivo de chave e senha_)
 
@@ -141,13 +141,13 @@ Tanto o Firefox quanto o Chrome têm a capacidade de registrar chaves de sessão
 
 Para detectar isso, pesquise no ambiente pela variável `SSLKEYLOGFILE`
 
-Um arquivo de chaves compartilhadas terá este aspecto:
+Um arquivo de chaves compartilhadas se parecerá com isso:
 
-![](<../../../.gitbook/assets/image (817).png>)
+![](<../../../.gitbook/assets/image (820).png>)
 
 Para importar isso no wireshark, vá para \_editar > preferência > protocolo > ssl > e importe em (Pre)-Master-Secret log filename:
 
-![](<../../../.gitbook/assets/image (986).png>)
+![](<../../../.gitbook/assets/image (989).png>)
 ## Comunicação ADB
 
 Extrair um APK de uma comunicação ADB onde o APK foi enviado:
@@ -179,7 +179,7 @@ f.close()
 ```
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealers**.
 
@@ -188,7 +188,6 @@ O principal objetivo do WhiteIntel é combater a apropriação de contas e ataqu
 Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
-
 
 <details>
 

@@ -1,4 +1,4 @@
-# Domínio Florestal Externo - Apenas de Saída (Outbound)
+# Domínio Florestal Externo - Apenas de um Sentido (Saída)
 
 <details>
 
@@ -7,9 +7,9 @@
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -52,31 +52,31 @@ Esta extração é possível porque a conta, identificada com um **$** após o s
 
 **Aviso:** É viável aproveitar esta situação para obter uma posição de apoio no domínio **A** como usuário, embora com permissões limitadas. No entanto, este acesso é suficiente para realizar enumeração no domínio **A**.
 
-Em um cenário onde `ext.local` é o domínio confiante e `root.local` é o domínio confiável, uma conta de usuário chamada `EXT$` seria criada dentro de `root.local`. Através de ferramentas específicas, é possível extrair as chaves de confiança do Kerberos, revelando as credenciais de `EXT$` em `root.local`. O comando para realizar isso é:
+Num cenário onde `ext.local` é o domínio confiante e `root.local` é o domínio confiável, uma conta de usuário chamada `EXT$` seria criada dentro de `root.local`. Através de ferramentas específicas, é possível extrair as chaves de confiança do Kerberos, revelando as credenciais de `EXT$` em `root.local`. O comando para realizar isso é:
 ```bash
 lsadump::trust /patch
 ```
-Seguindo este procedimento, poderia-se usar a chave RC4 extraída para autenticar como `root.local\EXT$` dentro de `root.local` usando outro comando de ferramenta:
+Seguindo este procedimento, poder-se-ia usar a chave RC4 extraída para autenticar como `root.local\EXT$` dentro de `root.local` usando outro comando de ferramenta:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Este passo de autenticação abre a possibilidade de enumerar e até mesmo explorar serviços dentro de `root.local`, como realizar um ataque Kerberoast para extrair credenciais de conta de serviço usando:
+Esta etapa de autenticação abre a possibilidade de enumerar e até mesmo explorar serviços dentro de `root.local`, como realizar um ataque Kerberoast para extrair credenciais de conta de serviço usando:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
 ### Obtenção da senha de confiança em texto simples
 
-No fluxo anterior, foi utilizado o hash de confiança em vez da **senha em texto claro** (que também foi **capturada pelo mimikatz**).
+No fluxo anterior, foi utilizado o hash de confiança em vez da **senha em texto simples** (que também foi **capturada pelo mimikatz**).
 
-A senha em texto claro pode ser obtida convertendo a saída \[ CLEAR ] do mimikatz de hexadecimal e removendo os bytes nulos '\x00':
+A senha em texto simples pode ser obtida convertendo a saída \[ CLEAR ] do mimikatz de hexadecimal e removendo os bytes nulos '\x00':
 
-![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
+![](<../../.gitbook/assets/image (938).png>)
 
-Às vezes, ao criar um relacionamento de confiança, uma senha deve ser digitada pelo usuário para a confiança. Nesta demonstração, a chave é a senha de confiança original e, portanto, legível para humanos. À medida que a chave é alterada (a cada 30 dias), a senha em texto claro não será legível para humanos, mas ainda tecnicamente utilizável.
+Às vezes, ao criar um relacionamento de confiança, uma senha deve ser digitada pelo usuário para a confiança. Nesta demonstração, a chave é a senha de confiança original e, portanto, legível para humanos. À medida que a chave é alterada (a cada 30 dias), a senha em texto simples não será legível para humanos, mas ainda tecnicamente utilizável.
 
-A senha em texto claro pode ser usada para realizar autenticação regular como a conta de confiança, uma alternativa para solicitar um TGT usando a chave secreta do Kerberos da conta de confiança. Aqui, consultando root.local de ext.local para membros de Administradores de Domínio:
+A senha em texto simples pode ser usada para realizar autenticação regular como a conta de confiança, uma alternativa para solicitar um TGT usando a chave secreta do Kerberos da conta de confiança. Aqui, consultando root.local de ext.local para membros do Domain Admins:
 
-![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
+![](<../../.gitbook/assets/image (792).png>)
 
 ## Referências
 
@@ -84,14 +84,14 @@ A senha em texto claro pode ser usada para realizar autenticação regular como 
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

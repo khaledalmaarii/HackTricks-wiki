@@ -2,32 +2,32 @@
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
-O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares de roubo de informações.
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
 
 Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Modelagem de Ameaças
 
-Bem-vindo ao guia abrangente da HackTricks sobre Modelagem de Ameaças! Embarque em uma exploração deste aspecto crítico da cibersegurança, onde identificamos, entendemos e estrategizamos contra vulnerabilidades potenciais em um sistema. Este guia serve como um passo a passo repleto de exemplos do mundo real, software útil e explicações fáceis de entender. Ideal tanto para iniciantes quanto para profissionais experientes que buscam fortalecer suas defesas de cibersegurança.
+Bem-vindo ao guia abrangente da HackTricks sobre Modelagem de Ameaças! Embarque em uma exploração deste aspecto crítico da cibersegurança, onde identificamos, entendemos e elaboramos estratégias contra vulnerabilidades potenciais em um sistema. Este guia serve como um passo a passo repleto de exemplos do mundo real, software útil e explicações fáceis de entender. Ideal tanto para iniciantes quanto para profissionais experientes que buscam fortalecer suas defesas de cibersegurança.
 
 ### Cenários Comumente Utilizados
 
-1. **Desenvolvimento de Software**: Como parte do Ciclo de Vida de Desenvolvimento de Software Seguro (SSDLC), a modelagem de ameaças ajuda a **identificar potenciais fontes de vulnerabilidades** nas fases iniciais do desenvolvimento.
-2. **Teste de Penetração**: O framework Penetration Testing Execution Standard (PTES) requer a **modelagem de ameaças para entender as vulnerabilidades do sistema** antes de realizar o teste.
+1. **Desenvolvimento de Software**: Como parte do Ciclo de Vida de Desenvolvimento de Software Seguro (SSDLC), a modelagem de ameaças ajuda na **identificação de possíveis fontes de vulnerabilidades** nas fases iniciais do desenvolvimento.
+2. **Teste de Penetração**: O framework Padrão de Execução de Teste de Penetração (PTES) requer a **modelagem de ameaças para entender as vulnerabilidades do sistema** antes de realizar o teste.
 
-### Modelo de Ameaça em Resumo
+### Modelo de Ameaças em Poucas Palavras
 
-Um Modelo de Ameaça é tipicamente representado como um diagrama, imagem ou outra forma de ilustração visual que descreve a arquitetura planejada ou a construção existente de um aplicativo. Ele se assemelha a um **diagrama de fluxo de dados**, mas a distinção chave está em seu design orientado para a segurança.
+Um Modelo de Ameaças é tipicamente representado como um diagrama, imagem ou outra forma de ilustração visual que mostra a arquitetura planejada ou a construção existente de um aplicativo. Ele se assemelha a um **diagrama de fluxo de dados**, mas a distinção chave está em seu design orientado para a segurança.
 
-Os modelos de ameaças frequentemente apresentam elementos marcados em vermelho, simbolizando vulnerabilidades potenciais, riscos ou barreiras. Para simplificar o processo de identificação de riscos, a tríade CIA (Confidencialidade, Integridade, Disponibilidade) é empregada, formando a base de muitas metodologias de modelagem de ameaças, sendo o STRIDE um dos mais comuns. No entanto, a metodologia escolhida pode variar dependendo do contexto e requisitos específicos.
+Os modelos de ameaças frequentemente apresentam elementos marcados em vermelho, simbolizando vulnerabilidades, riscos ou barreiras potenciais. Para simplificar o processo de identificação de riscos, a tríade CIA (Confidencialidade, Integridade, Disponibilidade) é empregada, formando a base de muitas metodologias de modelagem de ameaças, sendo o STRIDE um dos mais comuns. No entanto, a metodologia escolhida pode variar dependendo do contexto e requisitos específicos.
 
 ### A Tríade CIA
 
@@ -40,11 +40,11 @@ A Tríade CIA é um modelo amplamente reconhecido no campo da segurança da info
 ### Metodologias de Modelagem de Ameaças
 
 1. **STRIDE**: Desenvolvido pela Microsoft, STRIDE é um acrônimo para **Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service e Elevation of Privilege**. Cada categoria representa um tipo de ameaça, e essa metodologia é comumente usada na fase de design de um programa ou sistema para identificar ameaças potenciais.
-2. **DREAD**: Esta é outra metodologia da Microsoft usada para avaliação de riscos de ameaças identificadas. DREAD significa **Damage potential, Reproducibility, Exploitability, Affected users e Discoverability**. Cada um desses fatores é pontuado, e o resultado é usado para priorizar ameaças identificadas.
-3. **PASTA** (Process for Attack Simulation and Threat Analysis): Esta é uma metodologia de sete etapas, **centrada em riscos**. Inclui a definição e identificação de objetivos de segurança, criação de um escopo técnico, decomposição de aplicativos, análise de ameaças, análise de vulnerabilidades e avaliação de riscos/triagem.
-4. **Trike**: Esta é uma metodologia baseada em riscos que se concentra na defesa de ativos. Ela parte de uma perspectiva de **gestão de riscos** e analisa ameaças e vulnerabilidades nesse contexto.
+2. **DREAD**: Esta é outra metodologia da Microsoft usada para avaliação de riscos de ameaças identificadas. DREAD significa **Damage potential, Reproducibility, Exploitability, Affected users e Discoverability**. Cada um desses fatores é pontuado, e o resultado é usado para priorizar as ameaças identificadas.
+3. **PASTA** (Process for Attack Simulation and Threat Analysis): Esta é uma metodologia de sete etapas, centrada em **risco**. Inclui a definição e identificação de objetivos de segurança, criação de um escopo técnico, decomposição de aplicativos, análise de ameaças, análise de vulnerabilidades e avaliação de riscos/triagem.
+4. **Trike**: Esta é uma metodologia baseada em risco que se concentra na defesa de ativos. Ela parte de uma perspectiva de **gestão de riscos** e analisa ameaças e vulnerabilidades nesse contexto.
 5. **VAST** (Modelagem de Ameaças Visual, Ágil e Simples): Esta abordagem visa ser mais acessível e se integra a ambientes de desenvolvimento ágil. Ela combina elementos de outras metodologias e se concentra em **representações visuais de ameaças**.
-6. **OCTAVE** (Avaliação de Ameaças, Ativos e Vulnerabilidades Operacionalmente Críticos): Desenvolvido pelo CERT Coordination Center, este framework é direcionado para **avaliação de riscos organizacionais em vez de sistemas ou software específicos**.
+6. **OCTAVE** (Avaliação de Ameaças, Ativos e Vulnerabilidades Operacionalmente Críticas): Desenvolvido pelo Centro de Coordenação CERT, este framework é direcionado para **avaliação de riscos organizacionais em vez de sistemas ou software específicos**.
 
 ## Ferramentas
 
@@ -52,7 +52,7 @@ Existem várias ferramentas e soluções de software disponíveis que podem **au
 
 ### [SpiderSuite](https://github.com/3nock/SpiderSuite)
 
-Uma avançada aranha/crawler web multiplataforma e com várias funcionalidades para profissionais de segurança cibernética. O Spider Suite pode ser usado para mapeamento e análise da superfície de ataque.
+Uma avançada aranha/crawler web GUI multiplataforma para profissionais de segurança cibernética. O Spider Suite pode ser usado para mapeamento e análise da superfície de ataque.
 
 **Uso**
 
@@ -66,7 +66,7 @@ Uma avançada aranha/crawler web multiplataforma e com várias funcionalidades p
 
 ### [OWASP Threat Dragon](https://github.com/OWASP/threat-dragon/releases)
 
-Um projeto de código aberto da OWASP, o Threat Dragon é tanto uma aplicação web quanto de desktop que inclui diagramação de sistemas, bem como um mecanismo de regras para gerar automaticamente ameaças/mitigações.
+Um projeto de código aberto da OWASP, o Threat Dragon é tanto uma aplicação web quanto desktop que inclui diagramação de sistemas, bem como um mecanismo de regras para gerar automaticamente ameaças/mitigações.
 
 **Uso**
 
@@ -86,7 +86,7 @@ Um projeto de código aberto da OWASP, o Threat Dragon é tanto uma aplicação 
 
 <figure><img src="../.gitbook/assets/save_new_project.jpg" alt=""><figcaption></figcaption></figure>
 
-4. Crie seu modelo
+4. Criar seu modelo
 
 Você pode usar ferramentas como o SpiderSuite Crawler para se inspirar, um modelo básico se pareceria com isso
 
@@ -110,27 +110,26 @@ Agora você pode criar a ameaça
 
 <figure><img src="../.gitbook/assets/4_threatmodel_create-threat.jpg" alt=""><figcaption></figcaption></figure>
 
-Lembre-se de que há uma diferença entre Ameaças de Ator e Ameaças de Processo. Se você adicionasse uma ameaça a um Ator, só poderia escolher "Spoofing" e "Repudiation". No entanto, em nosso exemplo, adicionamos uma ameaça a uma entidade de Processo, então veremos isso na caixa de criação de ameaças:
+Lembre-se de que há uma diferença entre Ameaças de Ator e Ameaças de Processo. Se você adicionar uma ameaça a um Ator, só poderá escolher "Spoofing" e "Repudiation". No entanto, em nosso exemplo, adicionamos uma ameaça a uma entidade de Processo, então veremos isso na caixa de criação de ameaças:
 
 <figure><img src="../.gitbook/assets/2_threatmodel_type-option.jpg" alt=""><figcaption></figcaption></figure>
 
 6. Concluído
 
-Agora seu modelo finalizado deve se parecer com isso. E assim você cria um modelo de ameaça simples com o OWASP Threat Dragon.
+Agora seu modelo finalizado deve se parecer com isso. E assim você cria um modelo de ameaças simples com o OWASP Threat Dragon.
 
 <figure><img src="../.gitbook/assets/threat_model_finished.jpg" alt=""><figcaption></figcaption></figure>
 ### [Ferramenta de Modelagem de Ameaças da Microsoft](https://aka.ms/threatmodelingtool)
 
-Esta é uma ferramenta gratuita da Microsoft que ajuda a encontrar ameaças na fase de design de projetos de software. Ela utiliza a metodologia STRIDE e é particularmente adequada para aqueles que desenvolvem na pilha da Microsoft.
-
+Esta é uma ferramenta gratuita da Microsoft que ajuda a encontrar ameaças na fase de design de projetos de software. Utiliza a metodologia STRIDE e é particularmente adequada para aqueles que desenvolvem na pilha da Microsoft.
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O principal objetivo do WhiteIntel é combater tomadas de contas e ataques de ransomware resultantes de malwares que roubam informações.
+O objetivo principal do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
 
 Você pode acessar o site deles e experimentar o mecanismo de busca de forma **gratuita** em:
 

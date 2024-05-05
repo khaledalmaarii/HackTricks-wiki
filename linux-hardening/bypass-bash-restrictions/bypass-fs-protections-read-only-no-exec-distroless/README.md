@@ -1,8 +1,8 @@
-# Bypass de proteções do sistema de arquivos: somente leitura / sem execução / Distroless
+# Bypassar proteções do sistema de arquivos: somente leitura / sem execução / Distroless
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
@@ -10,13 +10,13 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrito e falado é necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -29,7 +29,7 @@ Nos seguintes vídeos, você pode encontrar as técnicas mencionadas nesta pági
 
 ## Cenário de somente leitura / sem execução
 
-É cada vez mais comum encontrar máquinas Linux montadas com a proteção do sistema de arquivos em **somente leitura (ro)**, especialmente em contêineres. Isso ocorre porque executar um contêiner com sistema de arquivos ro é tão fácil quanto definir **`readOnlyRootFilesystem: true`** no `securitycontext`:
+É cada vez mais comum encontrar máquinas Linux montadas com **proteção de sistema de arquivos somente leitura (ro)**, especialmente em contêineres. Isso ocorre porque executar um contêiner com sistema de arquivos ro é tão fácil quanto definir **`readOnlyRootFilesystem: true`** no `securitycontext`:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-No entanto, mesmo que o sistema de arquivos esteja montado como ro, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção no-exec**, então se você baixar um binário aqui, **não poderá executá-lo**.
+No entanto, mesmo que o sistema de arquivos seja montado como ro, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção no-exec**, então se você baixar um binário aqui, **não poderá executá-lo**.
 
 {% hint style="warning" %}
 Do ponto de vista de uma equipe vermelha, isso torna **complicado baixar e executar** binários que não estão no sistema (como backdoors ou enumeradores como `kubectl`).
@@ -52,7 +52,7 @@ Do ponto de vista de uma equipe vermelha, isso torna **complicado baixar e execu
 
 ## Bypass mais fácil: Scripts
 
-Observe que mencionei binários, você pode **executar qualquer script** desde que o interpretador esteja dentro da máquina, como um **script shell** se `sh` estiver presente ou um **script python** se `python` estiver instalado.
+Observe que mencionei binários, você pode **executar qualquer script** desde que o interpretador esteja dentro da máquina, como um **script de shell** se `sh` estiver presente ou um **script python** se `python` estiver instalado.
 
 No entanto, isso não é suficiente para executar seu backdoor binário ou outras ferramentas binárias que você possa precisar executar.
 
@@ -64,7 +64,7 @@ Se você deseja executar um binário, mas o sistema de arquivos não permite, a 
 
 Se você tiver mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, você pode baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e então chamar uma **chamada de sistema `exec`** indicando o **fd como o arquivo a ser executado**.
 
-Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à **chamada de sistema exec** para executá-lo.
+Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a chamada de sistema `create_memfd` e uma chamada para a **chamada de sistema exec** para executá-lo.
 
 {% hint style="warning" %}
 Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema** brutos de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
@@ -108,7 +108,7 @@ O objetivo dos contêineres distroless é **reduzir a superfície de ataque dos 
 Em um contêiner distroless, você pode **nem mesmo encontrar `sh` ou `bash`** para obter um shell regular. Você também não encontrará binários como `ls`, `whoami`, `id`... tudo o que você costuma executar em um sistema.
 
 {% hint style="warning" %}
-Portanto, você **não** poderá obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
+Portanto, você **não** será capaz de obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
 {% endhint %}
 
 No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com a maioria das **linguagens de script**.
@@ -125,9 +125,9 @@ No entanto, nesse tipo de contêineres, essas proteções geralmente existirão,
 
 Você pode encontrar **exemplos** de como **explorar algumas vulnerabilidades de RCE** para obter **shells reversos de linguagens de script** e executar binários da memória em [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em uma **carreira em hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -138,9 +138,9 @@ Se você está interessado em uma **carreira em hacking** e hackear o inquebráv
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

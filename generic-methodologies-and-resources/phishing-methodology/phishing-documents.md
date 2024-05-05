@@ -7,8 +7,8 @@
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -27,9 +27,9 @@ assoc | findstr /i "word excel powerp"
 ### Carregamento de Imagem Externa
 
 Vá para: _Inserir --> Partes Rápidas --> Campo_\
-_**Categorias**: Links e Referências, **Nomes de Campos**: incluirImagem, e **Nome do Arquivo ou URL**:_ http://\<ip>/qualquercoisa
+_**Categorias**: Links e Referências, **Nomes de Campos**: includePicture e **Nome do Arquivo ou URL**:_ http://\<ip>/whatever
 
-![](<../../.gitbook/assets/image (316).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
 ### Backdoor de Macros
 
@@ -39,8 +39,8 @@ _**Categorias**: Links e Referências, **Nomes de Campos**: incluirImagem, e **N
 
 Quanto mais comuns forem, mais provável é que o AV as detecte.
 
-* AutoAbrir()
-* Documento\_Abrir()
+* AutoOpen()
+* Document\_Open()
 
 #### Exemplos de Código de Macros
 ```vba
@@ -74,12 +74,12 @@ proc.Create "powershell <beacon line generated>
 ```
 #### Remover manualmente metadados
 
-Vá para **Arquivo > Informações > Inspecionar Documento > Inspecionar Documento**, o que abrirá o Document Inspector. Clique em **Inspecionar** e depois em **Remover Tudo** ao lado de **Propriedades do Documento e Informações Pessoais**.
+Vá para **Arquivo > Informações > Inspecionar Documento > Inspecionar Documento**, o que abrirá o Document Inspector. Clique em **Inspecionar** e então em **Remover Tudo** ao lado de **Propriedades do Documento e Informações Pessoais**.
 
 #### Extensão do documento
 
 Ao terminar, selecione o menu suspenso **Salvar como tipo**, altere o formato de **`.docx`** para **Word 97-2003 `.doc`**.\
-Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** em torno da extensão de macro ativada **`.docm`** (por exemplo, o ícone em miniatura tem um `!` enorme e alguns gateways web/email os bloqueiam completamente). Portanto, esta **extensão legada `.doc` é o melhor compromisso**.
+Faça isso porque você **não pode salvar macros dentro de um `.docx`** e há um **estigma** em torno da extensão de macro ativada **`.docm`** (por exemplo, o ícone em miniatura tem um `!` enorme e alguns gateways web/email os bloqueiam completamente). Portanto, essa **extensão legada `.doc` é o melhor compromisso**.
 
 #### Geradores de Macros Maliciosas
 
@@ -173,8 +173,8 @@ Não se esqueça de que você não só pode roubar o hash ou a autenticação, m
 
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

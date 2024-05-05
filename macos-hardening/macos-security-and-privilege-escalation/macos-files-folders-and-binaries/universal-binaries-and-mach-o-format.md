@@ -6,8 +6,8 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
@@ -24,7 +24,7 @@ Esses binários seguem a **estrutura Mach-O** que é basicamente composta por:
 * Comandos de Carregamento
 * Dados
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (470).png>)
 
 ## Cabeçalho Fat
 
@@ -78,7 +78,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 ou usando a ferramenta [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
 Como você pode estar pensando, geralmente um binário universal compilado para 2 arquiteturas **dobra o tamanho** de um compilado para apenas 1 arquitetura.
 
@@ -134,7 +134,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 ```
 Ou usando [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
 ## **Flags Mach-O**
 
@@ -199,7 +199,7 @@ int32_t		initprot;	/* proteção VM inicial */
 
 Exemplo de cabeçalho de segmento:
 
-<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
 Este cabeçalho define o **número de seções cujos cabeçalhos aparecem após** ele:
 ```c
@@ -220,25 +220,25 @@ uint32_t	reserved3;	/* reserved */
 ```
 Exemplo de **cabeçalho de seção**:
 
-<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquivo começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-Também é possível obter informações dos **cabeçalhos** a partir da **linha de comando** com:
+Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
 otool -lv /bin/ls
 ```
 Segmentos comuns carregados por este comando:
 
 - **`__PAGEZERO`:** Instrui o kernel a **mapear** o **endereço zero** para que ele **não possa ser lido, escrito ou executado**. As variáveis maxprot e minprot na estrutura são definidas como zero para indicar que não há **direitos de leitura-escrita-execução nesta página**.
-- Essa alocação é importante para **mitigar vulnerabilidades de referência de ponteiro nulo**. Isso ocorre porque o XNU impõe uma página zero rígida que garante que a primeira página (apenas a primeira) da memória seja inacessível (exceto no i386). Um binário poderia atender a esses requisitos criando um pequeno \_\_PAGEZERO (usando o `-pagezero_size`) para cobrir os primeiros 4k e tendo o restante da memória de 32 bits acessível tanto no modo usuário quanto no modo kernel.
+- Essa alocação é importante para **mitigar vulnerabilidades de referência nula de ponteiro**. Isso ocorre porque o XNU impõe uma página zero rígida que garante que a primeira página (apenas a primeira) da memória seja inacessível (exceto em i386). Um binário poderia atender a esses requisitos criando um pequeno \_\_PAGEZERO (usando o `-pagezero_size`) para cobrir os primeiros 4k e tendo o restante da memória de 32 bits acessível tanto no modo usuário quanto no modo kernel.
 - **`__TEXT`**: Contém **código executável** com permissões de **leitura** e **execução** (não gravável)**.** Seções comuns deste segmento:
   - `__text`: Código binário compilado
   - `__const`: Dados constantes (somente leitura)
   - `__[c/u/os_log]string`: Constantes de string C, Unicode ou os logs
-  - `__stubs` e `__stubs_helper`: Envolvidos durante o processo de carregamento de biblioteca dinâmica
+  - `__stubs` e `__stubs_helper`: Envolvidos durante o processo de carregamento de bibliotecas dinâmicas
   - `__unwind_info`: Dados de desenrolamento de pilha.
 - Note que todo esse conteúdo é assinado, mas também marcado como executável (criando mais opções para exploração de seções que não necessariamente precisam desse privilégio, como seções dedicadas a strings).
 - **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
@@ -250,9 +250,9 @@ Segmentos comuns carregados por este comando:
   - `__data`: Variáveis globais (que foram inicializadas)
   - `__bss`: Variáveis estáticas (que não foram inicializadas)
   - `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução Objective-C
-- **`__DATA_CONST`**: \_\_DATA.\_\_const não é garantido ser constante (permissões de escrita), assim como outros ponteiros e a GOT. Esta seção torna `__const`, algumas inicializações e a tabela GOT (uma vez resolvida) **somente leitura** usando `mprotect`.
+- **`__DATA_CONST`**: \_\_DATA.\_\_const não é garantido ser constante (permissões de escrita), assim como outros ponteiros e a GOT. Esta seção torna `__const`, alguns inicializadores e a tabela GOT (uma vez resolvida) **somente leitura** usando `mprotect`.
 - **`__LINKEDIT`**: Contém informações para o linker (dyld) como, símbolo, string e entradas de tabela de realocação. É um contêiner genérico para conteúdos que não estão nem em `__TEXT` nem em `__DATA` e seu conteúdo é descrito em outros comandos de carregamento.
-  - Informações dyld: Rebase, opcodes de vinculação não preguiçosa/preguiçosa/fraca e informações de exportação
+  - Informações dyld: Rebase, opcodes de ligação não preguiçosa/preguiçosa/fraca e informações de exportação
   - Início de funções: Tabela de endereços de início de funções
   - Dados no Código: Ilhas de dados em \_\_text
   - Tabela de Símbolos: Símbolos no binário
@@ -271,9 +271,9 @@ Como foi possível ver no código, **os segmentos também suportam flags** (embo
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** contém o ponto de entrada no **atributo entryoff**. No momento do carregamento, **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, e então **salta** para esta instrução para iniciar a execução do código binário.
+**`LC_MAIN`** contém o ponto de entrada no **atributo entryoff**. No momento do carregamento, **dyld** simplesmente **adiciona** esse valor à (em memória) **base do binário**, então **salta** para esta instrução para iniciar a execução do código do binário.
 
-**`LC_UNIXTHREAD`** contém os valores que os registradores devem ter ao iniciar a thread principal. Isso já foi descontinuado, mas o **`dyld`** ainda o utiliza. É possível ver os valores dos registradores definidos por isso com:
+**`LC_UNIXTHREAD`** contém os valores que os registradores devem ter ao iniciar a thread principal. Isso já foi descontinuado, mas **`dyld`** ainda o utiliza. É possível ver os valores dos registradores definidos por isso com:
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -308,7 +308,7 @@ Suporte para criptografia binária. No entanto, é claro que se um atacante cons
 
 ### **`LC_LOAD_DYLINKER`**
 
-Contém o **caminho para o executável do link dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que no macOS, o mapeamento de dylib ocorre no **modo de usuário**, não no modo kernel.
+Contém o **caminho para o executável do link dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que no macOS, o mapeamento de dylib acontece no **modo de usuário**, não no modo kernel.
 
 ### **`LC_IDENT`**
 
@@ -316,7 +316,7 @@ Obsoleto, mas quando configurado para gerar despejos em caso de pânico, é cria
 
 ### **`LC_UUID`**
 
-UUID aleatório. Não é útil diretamente, mas o XNU o armazena com o restante das informações do processo. Pode ser usado em relatórios de falhas.
+UUID aleatório. É útil para qualquer coisa diretamente, mas o XNU o armazena com o restante das informações do processo. Pode ser usado em relatórios de falhas.
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
@@ -341,9 +341,9 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-![](<../../../.gitbook/assets/image (483).png>)
+![](<../../../.gitbook/assets/image (486).png>)
 
-Também é possível obter essas informações a partir da linha de comando com:
+Você também pode obter essas informações a partir da linha de comando com:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -364,7 +364,7 @@ Os deslocamentos de quaisquer construtores são mantidos na seção **\_\_mod\_i
 
 ## **Dados Mach-O**
 
-No cerne do arquivo está a região de dados, que é composta por vários segmentos conforme definido na região de comandos de carga. **Uma variedade de seções de dados pode ser alojada dentro de cada segmento**, com cada seção **mantendo código ou dados** específicos de um tipo.
+No cerne do arquivo está a região de dados, composta por vários segmentos conforme definido na região de comandos de carga. **Uma variedade de seções de dados pode ser alojada dentro de cada segmento**, com cada seção **mantendo código ou dados** específicos para um tipo.
 
 {% hint style="success" %}
 Os dados são basicamente a parte que contém todas as **informações** carregadas pelos comandos de carga **LC\_SEGMENTS\_64**
@@ -380,22 +380,30 @@ Isso inclui:
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
 Ou a partir da linha de comando:
 ```bash
 size -m /bin/ls
 ```
-<details>
+## Seções Comuns do Objetive-C
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+No segmento `__TEXT` (r-x):
 
-Outras maneiras de apoiar o HackTricks:
+- `__objc_classname`: Nomes das classes (strings)
+- `__objc_methname`: Nomes dos métodos (strings)
+- `__objc_methtype`: Tipos dos métodos (strings)
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+No segmento `__DATA` (rw-):
 
-</details>
+- `__objc_classlist`: Ponteiros para todas as classes Objetive-C
+- `__objc_nlclslist`: Ponteiros para classes Objetive-C não preguiçosas
+- `__objc_catlist`: Ponteiro para Categorias
+- `__objc_nlcatlist`: Ponteiro para Categorias não preguiçosas
+- `__objc_protolist`: Lista de protocolos
+- `__objc_const`: Dados constantes
+- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+
+## Swift
+
+- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

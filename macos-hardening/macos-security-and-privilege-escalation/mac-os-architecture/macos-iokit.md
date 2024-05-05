@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Aprenda hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking de AWS de zero a herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
@@ -33,7 +33,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-As funções expostas do IOKit poderiam realizar verificações de segurança adicionais quando um cliente tenta chamar uma função, mas observe que os aplicativos geralmente são limitados pelo sandbox com o qual as funções do IOKit podem interagir.
+As funções expostas do IOKit poderiam realizar verificações de segurança adicionais quando um cliente tenta chamar uma função, mas observe que os aplicativos geralmente são limitados pelo sandbox em relação às funções do IOKit com as quais podem interagir.
 {% endhint %}
 
 ## Drivers
@@ -41,7 +41,7 @@ As funções expostas do IOKit poderiam realizar verificações de segurança ad
 No macOS, eles estão localizados em:
 
 - **`/System/Library/Extensions`**
-- Arquivos KEXT incorporados no sistema operacional OS X.
+- Arquivos KEXT integrados ao sistema operacional OS X.
 - **`/Library/Extensions`**
 - Arquivos KEXT instalados por software de terceiros
 
@@ -79,7 +79,7 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-O **IORegistry** é uma parte crucial do framework IOKit no macOS e iOS que serve como um banco de dados para representar a configuração de hardware e estado do sistema. É uma **coleção hierárquica de objetos que representam todo o hardware e drivers** carregados no sistema, e suas relações entre si.&#x20;
+O **IORegistry** é uma parte crucial do framework IOKit no macOS e iOS que serve como um banco de dados para representar a configuração de hardware e estado do sistema. É uma **coleção hierárquica de objetos que representam todo o hardware e drivers** carregados no sistema, e suas relações entre si.
 
 Você pode obter o IORegistry usando o cli **`ioreg`** para inspecioná-lo a partir do console (especialmente útil para iOS).
 ```bash
@@ -87,9 +87,9 @@ ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Você pode baixar o **`IORegistryExplorer`** nas **Ferramentas Adicionais do Xcode** em [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) e inspecionar o **IORegistry do macOS** através de uma interface **gráfica**.
+Pode baixar o **`IORegistryExplorer`** nas **Ferramentas Adicionais do Xcode** em [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) e inspecionar o **IORegistry do macOS** através de uma interface **gráfica**.
 
-<figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
 No IORegistryExplorer, "planos" são usados para organizar e exibir as relações entre diferentes objetos no IORegistry. Cada plano representa um tipo específico de relação ou uma visualização particular da configuração de hardware e driver do sistema. Aqui estão alguns dos planos comuns que você pode encontrar no IORegistryExplorer:
 
@@ -102,7 +102,7 @@ No IORegistryExplorer, "planos" são usados para organizar e exibir as relaçõe
 
 ## Exemplo de Código de Comunicação de Driver
 
-O código a seguir se conecta ao serviço IOKit `"SeuNomeDoServiçoAqui"` e chama a função dentro do seletor 0. Para isso:
+O código a seguir se conecta ao serviço IOKit `"NomeDoSeuServiçoAqui"` e chama a função dentro do seletor 0. Para isso:
 
 * primeiro chama **`IOServiceMatching`** e **`IOServiceGetMatchingServices`** para obter o serviço.
 * Em seguida, estabelece uma conexão chamando **`IOServiceOpen`**.
@@ -165,15 +165,15 @@ Existem **outras** funções que podem ser usadas para chamar funções IOKit al
 
 ## Reversão do ponto de entrada do driver
 
-Você poderia obter essas, por exemplo, de uma [**imagem de firmware (ipsw)**](./#ipsw). Em seguida, carregue-a em seu decompilador favorito.
+Você pode obter essas, por exemplo, de uma [**imagem de firmware (ipsw)**](./#ipsw). Em seguida, carregue-a em seu decompilador favorito.
 
-Você poderia começar a descompilar a função **`externalMethod`** pois esta é a função do driver que estará recebendo a chamada e chamando a função correta:
+Você pode começar a descompilar a função **`externalMethod`** pois esta é a função do driver que estará recebendo a chamada e chamando a função correta:
 
-<figure><img src="../../../.gitbook/assets/image (696).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-A chamada desembaraçada significa:
+Aquele chamada desembaraçada significa:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -197,36 +197,36 @@ OSObject * target, void * reference)
 ```
 Com essas informações, você pode reescrever Ctrl+Right -> `Editar assinatura da função` e definir os tipos conhecidos:
 
-<figure><img src="../../../.gitbook/assets/image (702).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
 O novo código descompilado ficará assim:
 
-<figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Para o próximo passo, precisamos ter definido a estrutura **`IOExternalMethodDispatch2022`**. É de código aberto em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-lo:
+Para o próximo passo, precisamos ter definida a estrutura **`IOExternalMethodDispatch2022`**. É de código aberto em [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), você pode defini-la:
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
-Agora, seguindo `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` você pode ver muitos dados:
+Agora, seguindo o `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` você pode ver muitos dados:
 
-<figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Altere o Tipo de Dados para **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (705).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
-após a alteração:
+após a mudança:
 
-<figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-E como agora sabemos que temos um **array de 7 elementos** (verifique o código descompilado final), clique para criar um array de 7 elementos:
+E como agora temos um **array de 7 elementos** (verifique o código descompilado final), clique para criar um array de 7 elementos:
 
-<figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Depois que o array for criado, você pode ver todas as funções exportadas:
 
-<figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Se você se lembra, para **chamar** uma função **exportada** do espaço do usuário, não precisamos chamar o nome da função, mas o **número do seletor**. Aqui você pode ver que o seletor **0** é a função **`initializeDecoder`**, o seletor **1** é **`startDecoder`**, o seletor **2** **`initializeEncoder`**...
+Se você se lembra, para **chamar** uma função **exportada** do espaço do usuário, não precisamos chamar o nome da função, mas sim o **número do seletor**. Aqui você pode ver que o seletor **0** é a função **`initializeDecoder`**, o seletor **1** é **`startDecoder`**, o seletor **2** **`initializeEncoder`**...
 {% endhint %}

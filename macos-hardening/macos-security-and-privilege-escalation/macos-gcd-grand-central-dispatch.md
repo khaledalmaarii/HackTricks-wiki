@@ -4,10 +4,10 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Obtenha o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 - **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
@@ -24,7 +24,7 @@ Outras formas de apoiar o HackTricks:
 Em resumo, para executar código em **paralelo**, os processos podem enviar **blocos de código para o GCD**, que cuidará de sua execução. Portanto, os processos não criam novas threads; **o GCD executa o código fornecido com seu próprio pool de threads** (que pode aumentar ou diminuir conforme necessário).
 {% endhint %}
 
-Isso é muito útil para gerenciar a execução paralela com sucesso, reduzindo significativamente o número de threads que os processos criam e otimizando a execução paralela. Isso é ideal para tarefas que requerem **grande paralelismo** (força bruta?) ou para tarefas que não devem bloquear a thread principal: Por exemplo, a thread principal no iOS lida com interações de UI, então qualquer outra funcionalidade que possa fazer o aplicativo travar (pesquisar, acessar uma web, ler um arquivo...) é gerenciada dessa maneira.
+Isso é muito útil para gerenciar a execução paralela com sucesso, reduzindo significativamente o número de threads que os processos criam e otimizando a execução paralela. Isso é ideal para tarefas que requerem **grande paralelismo** (força bruta?) ou para tarefas que não devem bloquear a thread principal: Por exemplo, a thread principal no iOS lida com interações de UI, então qualquer outra funcionalidade que possa fazer o aplicativo travar (pesquisa, acesso a uma web, leitura de um arquivo...) é gerenciada dessa maneira.
 
 ### Blocos
 
@@ -43,14 +43,14 @@ No entanto, no nível do compilador, os blocos não existem, eles são `os_objec
 - **descritor de bloco**: Seu tamanho depende dos dados presentes (conforme indicado nas flags anteriores)
 - Possui alguns bytes reservados
 - O tamanho dele
-- Normalmente terá um ponteiro para uma assinatura de estilo Objective-C para saber quanto espaço é necessário para os parâmetros (flag `BLOCK_HAS_SIGNATURE`)
+- Normalmente terá um ponteiro para uma assinatura no estilo Objective-C para saber quanto espaço é necessário para os parâmetros (flag `BLOCK_HAS_SIGNATURE`)
 - Se variáveis são referenciadas, este bloco também terá ponteiros para um auxiliar de cópia (copiando o valor no início) e um auxiliar de liberação (liberando-o).
 
 ### Filas
 
 Uma fila de despacho é um objeto nomeado que fornece a ordenação FIFO de blocos para execuções.
 
-Blocos são definidos em filas para serem executados, e essas suportam 2 modos: `DISPATCH_QUEUE_SERIAL` e `DISPATCH_QUEUE_CONCURRENT`. Claro que a **serial** não terá problemas de condição de corrida, pois um bloco não será executado até que o anterior tenha terminado. Mas **o outro tipo de fila pode ter**.
+Blocos são definidos em filas para serem executados, e estas suportam 2 modos: `DISPATCH_QUEUE_SERIAL` e `DISPATCH_QUEUE_CONCURRENT`. Claro que o **serial** **não terá problemas de condição de corrida** já que um bloco não será executado até que o anterior tenha terminado. Mas **o outro tipo de fila pode ter**.
 
 Filas padrão:
 
@@ -70,11 +70,11 @@ Filas padrão:
 - `.root.user-interactive-qos`: Maior prioridade
 - `.root.background-qos.overcommit`
 
-Observe que será o sistema quem decide **quais threads manipulam quais filas em cada momento** (várias threads podem trabalhar na mesma fila ou a mesma thread pode trabalhar em filas diferentes em algum momento)
+Observe que será o sistema quem decide **quais threads manipulam quais filas em cada momento** (múltiplas threads podem trabalhar na mesma fila ou a mesma thread pode trabalhar em diferentes filas em algum momento)
 
 #### Atributos
 
-Ao criar uma fila com **`dispatch_queue_create`** o terceiro argumento é um `dispatch_queue_attr_t`, que geralmente é `DISPATCH_QUEUE_SERIAL` (que na verdade é NULL) ou `DISPATCH_QUEUE_CONCURRENT` que é um ponteiro para uma estrutura `dispatch_queue_attr_t` que permite controlar alguns parâmetros da fila.
+Ao criar uma fila com **`dispatch_queue_create`** o terceiro argumento é um `dispatch_queue_attr_t`, que geralmente é ou `DISPATCH_QUEUE_SERIAL` (que na verdade é NULL) ou `DISPATCH_QUEUE_CONCURRENT` que é um ponteiro para uma estrutura `dispatch_queue_attr_t` que permite controlar alguns parâmetros da fila.
 
 ### Objetos de Despacho
 
@@ -98,7 +98,7 @@ Em Objetive-C existem diferentes funções para enviar um bloco para ser executa
 - [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Submete um bloco para execução assíncrona em uma fila de despacho e retorna imediatamente.
 - [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Submete um objeto de bloco para execução e retorna após a conclusão desse bloco.
 - [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Executa um objeto de bloco apenas uma vez durante a vida útil de um aplicativo.
-- [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Submete um item de trabalho para execução e retorna somente após sua conclusão. Ao contrário de [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), esta função respeita todos os atributos da fila ao executar o bloco.
+- [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Submete um item de trabalho para execução e retorna somente após a conclusão. Ao contrário de [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), esta função respeita todos os atributos da fila ao executar o bloco.
 
 Essas funções esperam esses parâmetros: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
@@ -183,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-O seguinte script Frida pode ser usado para **interceptar várias funções `dispatch`** e extrair o nome da fila, o backtrace e o bloco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+O seguinte script Frida pode ser usado para **interceptar várias funções `dispatch`** e extrair o nome da fila, o rastreamento de pilha e o bloco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -202,11 +202,11 @@ Atualmente, o Ghidra não entende nem a estrutura **`dispatch_block_t`** do Obje
 
 Portanto, se você deseja que ele as entenda, você pode simplesmente **declará-las**:
 
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
-
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Em seguida, encontre um local no código onde elas são **usadas**:
 
@@ -214,15 +214,15 @@ Em seguida, encontre um local no código onde elas são **usadas**:
 Observe todas as referências feitas a "block" para entender como você poderia descobrir que a estrutura está sendo usada.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Clique com o botão direito na variável -> Alterar Tipo de Variável e selecione neste caso **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 O Ghidra irá reescrever automaticamente tudo:
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Referências
 

@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -50,7 +50,7 @@ O Sandbox do macOS **limita as aplicações** em execução dentro do sandbox à
 
 ### Restrições de Inicialização/Ambiente e Cache de Confiança
 
-As restrições de inicialização no macOS são um recurso de segurança para **regulamentar a inicialização de processos** definindo **quem pode iniciar** um processo, **como** e **de onde**. Introduzidas no macOS Ventura, elas categorizam binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável possui **regras** definidas para sua **inicialização**, incluindo restrições **próprias**, do **pai** e **responsáveis**. Estendidas para aplicativos de terceiros como Restrições de **Ambiente** no macOS Sonoma, esses recursos ajudam a mitigar possíveis explorações do sistema ao governar as condições de inicialização do processo.
+As restrições de inicialização no macOS são um recurso de segurança para **regular a inicialização de processos** definindo **quem pode iniciar** um processo, **como** e **de onde**. Introduzidas no macOS Ventura, elas categorizam binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável tem **regras** definidas para sua **inicialização**, incluindo restrições **próprias**, do **pai** e **responsáveis**. Estendidas para aplicativos de terceiros como Restrições de **Ambiente** no macOS Sonoma, esses recursos ajudam a mitigar possíveis explorações do sistema ao governar as condições de inicialização do processo.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -64,8 +64,8 @@ Uma vez que o malware é detectado em um Mac (seja pelo XProtect ou por outros m
 
 Enquanto tanto o XProtect quanto o MRT fazem parte das medidas de segurança do macOS, eles desempenham funções diferentes:
 
-* **XProtect** é uma ferramenta preventiva. Ele **verifica arquivos conforme são baixados** (por meio de certos aplicativos) e, se detectar algum tipo conhecido de malware, **impede que o arquivo seja aberto**, evitando assim que o malware infecte seu sistema em primeiro lugar.
-* **MRT**, por outro lado, é uma **ferramenta reativa**. Ele opera após o malware ter sido detectado em um sistema, com o objetivo de remover o software ofensivo para limpar o sistema.
+- **XProtect** é uma ferramenta preventiva. Ele **verifica arquivos conforme são baixados** (por meio de certos aplicativos) e, se detectar algum tipo conhecido de malware, **impede que o arquivo seja aberto**, evitando assim que o malware infecte seu sistema em primeiro lugar.
+- **MRT**, por outro lado, é uma **ferramenta reativa**. Ele opera depois que o malware foi detectado em um sistema, com o objetivo de remover o software ofensivo para limpar o sistema.
 
 O aplicativo MRT está localizado em **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
@@ -73,13 +73,13 @@ O aplicativo MRT está localizado em **`/Library/Apple/System/Library/CoreServic
 
 **macOS** agora **alerta** sempre que uma ferramenta usa uma **técnica conhecida para persistir a execução de código** (como Itens de Login, Daemons...), para que o usuário saiba melhor **qual software está persistindo**.
 
-<figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
 
 Isso é executado com um **daemon** localizado em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e o **agente** em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
 A maneira como o **`backgroundtaskmanagementd`** sabe que algo está instalado em uma pasta persistente é **obtendo os FSEvents** e criando alguns **manipuladores** para eles.
 
-Além disso, há um arquivo plist que contém **aplicativos conhecidos** que frequentemente persistem mantidos pela Apple localizado em: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+Além disso, há um arquivo plist que contém **aplicativos conhecidos** que frequentemente persistem mantidos pela Apple localizados em: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -97,25 +97,25 @@ Além disso, há um arquivo plist que contém **aplicativos conhecidos** que fre
 ```
 ### Enumeração
 
-É possível **enumerar todos** os itens de plano de fundo configurados em execução com a ferramenta cli da Apple:
+É possível **enumerar todos** os itens de plano de fundo configurados em execução usando a ferramenta de linha de comando da Apple:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-Além disso, também é possível listar essas informações com o [**DumpBTM**](https://github.com/objective-see/DumpBTM).
+Além disso, também é possível listar essas informações com [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Essas informações estão armazenadas em **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e o Terminal precisa de FDA.
+Esta informação está armazenada em **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e o Terminal precisa de FDA.
 
-### Mexendo com BTM
+### Mexendo com o BTM
 
-Quando uma nova persistência é encontrada, um evento do tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Portanto, qualquer maneira de **prevenir** que esse **evento** seja enviado ou o **agente de alerta** o usuário ajudará um atacante a _**burlar**_ o BTM.
+Quando uma nova persistência é encontrada, um evento do tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Portanto, qualquer maneira de **prevenir** que este **evento** seja enviado ou o **agente de alerta** o usuário ajudará um atacante a _**burlar**_ o BTM.
 
-* **Redefinindo o banco de dados**: Executar o seguinte comando irá redefinir o banco de dados (deve reconstruí-lo do zero), no entanto, por algum motivo, após executar isso, **nenhuma nova persistência será alertada até que o sistema seja reiniciado**.
+* **Redefinindo o banco de dados**: Executar o seguinte comando irá redefinir o banco de dados (deve reconstruí-lo do zero), no entanto, por alguma razão, após executar isso, **nenhuma nova persistência será alertada até que o sistema seja reiniciado**.
 * **root** é necessário.
 ```bash
 # Reset the database
@@ -148,10 +148,10 @@ Referências e **mais informações sobre BTM**:
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

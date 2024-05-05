@@ -14,10 +14,10 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -41,8 +41,8 @@ Nos certificados x509, vários **campos** desempenham papéis críticos para gar
 * **País (C)**, **Localidade (L)**, **Estado ou Província (ST, S ou P)**, **Organização (O)** e **Unidade Organizacional (OU)** fornecem detalhes geográficos e organizacionais.
 * O **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
 * O **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
-* O **Período de Validade** é marcado pelos carimbos de **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
-* A seção da **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
+* O **Período de Validade** é marcado pelos horários **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
+* A seção **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
 * As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso da Chave**, **Uso Estendido da Chave**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
 
 #### **Uso da Chave e Extensões**
@@ -93,6 +93,8 @@ Os logs de certificado são registros publicamente auditáveis e somente de adi�
 #### **Consulta**
 
 Para explorar os logs de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
+
+Diferentes formatos existem para armazenar certificados, cada um com seus próprios casos de uso e compatibilidade. Este resumo abrange os principais formatos e fornece orientações sobre a conversão entre eles.
 
 ## **Formatos**
 
@@ -157,15 +159,7 @@ openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-2. Converta PEM para PKCS8
-
-Para converter um arquivo PEM para o formato PKCS8, você pode usar a ferramenta OpenSSL com o seguinte comando:
-
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pk8 -nocrypt
-```
-
-Isso irá converter a chave privada do formato PEM para o formato PKCS8.
+2. Converter PEM para PKCS8
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -180,10 +174,10 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias **mais avançadas do mundo**.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas do mundo**.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

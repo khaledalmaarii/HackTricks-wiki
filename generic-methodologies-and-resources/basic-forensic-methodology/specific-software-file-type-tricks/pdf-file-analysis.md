@@ -1,4 +1,4 @@
-# Análise de Arquivo PDF
+# Análise de arquivo PDF
 
 <details>
 
@@ -14,7 +14,7 @@ Outras maneiras de apoiar o HackTricks:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
@@ -24,7 +24,7 @@ Acesse hoje:
 
 **Para mais detalhes, consulte:** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
-O formato PDF é conhecido por sua complexidade e potencial para ocultar dados, tornando-o um ponto focal para desafios de forense CTF. Ele combina elementos de texto simples com objetos binários, que podem estar comprimidos ou criptografados, e pode incluir scripts em idiomas como JavaScript ou Flash. Para entender a estrutura do PDF, pode-se consultar o material introdutório de Didier Stevens [aqui](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), ou usar ferramentas como um editor de texto ou um editor específico para PDF, como o Origami.
+O formato PDF é conhecido por sua complexidade e potencial para ocultar dados, tornando-o um ponto focal para desafios forenses de CTF. Ele combina elementos de texto simples com objetos binários, que podem estar comprimidos ou criptografados, e pode incluir scripts em idiomas como JavaScript ou Flash. Para entender a estrutura do PDF, pode-se consultar o material introdutório de Didier Stevens [aqui](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), ou usar ferramentas como um editor de texto ou um editor específico para PDF, como o Origami.
 
 Para exploração ou manipulação aprofundada de PDFs, estão disponíveis ferramentas como [qpdf](https://github.com/qpdf/qpdf) e [Origami](https://github.com/mobmewireless/origami-pdf). Dados ocultos dentro de PDFs podem estar escondidos em:
 

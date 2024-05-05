@@ -16,10 +16,9 @@
 
 {% embed url="https://websec.nl/" %}
 
+## **Enumeração / Descoberta do MSSQL**
 
-## **Enumeração / Descoberta MSSQL**
-
-O módulo powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) é muito útil nesse caso.
+O módulo powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) é muito útil neste caso.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -56,7 +55,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Uso Básico do MSSQL
+## Abuso Básico do MSSQL
 
 ### Acessar Banco de Dados
 ```powershell
@@ -79,7 +78,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 ```
 ### Truques Básicos de Hacking do MSSQL
 
-Verifique na página mencionada na **seção seguinte como fazer isso manualmente.**
+Verifique na página mencionada na **seção seguinte como fazer isso manualmente**.
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
@@ -87,7 +86,7 @@ Verifique na página mencionada na **seção seguinte como fazer isso manualment
 
 ## Links Confiáveis do MSSQL
 
-Se uma instância do MSSQL é confiável (link de banco de dados) por uma instância diferente do MSSQL. Se o usuário tiver privilégios sobre o banco de dados confiável, ele poderá **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
+Se uma instância do MSSQL é confiável (link de banco de dados) por uma instância diferente do MSSQL. Se o usuário tiver privilégios sobre o banco de dados confiável, ele será capaz de **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
 
 **Os links entre bancos de dados funcionam mesmo através de confianças entre florestas.**
 
@@ -139,14 +138,14 @@ No **Windows**, você também pode encontrar os links e executar comandos manual
 
 _Login usando autenticação do Windows:_
 
-![](<../../.gitbook/assets/image (805).png>)
+![](<../../.gitbook/assets/image (808).png>)
 
 #### Encontrar Links Confiáveis
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (713).png>)
+![](<../../.gitbook/assets/image (716).png>)
 
 #### Executar consultas em link confiável
 
@@ -158,7 +157,7 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 Verifique onde as aspas duplas e simples são usadas, é importante usá-las dessa maneira.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (640).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
 Você pode continuar essa cadeia de links confiáveis para sempre manualmente.
 ```sql
@@ -182,10 +181,9 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 
 O usuário local do **MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "impersonate a client after authentication" (impersonar um cliente após autenticação).
 
-Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a se autenticar em um serviço falso ou de intermediário criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto tenta se autenticar.
+Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a se autenticar em um serviço falso ou de intermediário criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto ele está tentando se autenticar.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas por meio do comando `execute-assembly` do Beacon.
-
+[SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas através do comando `execute-assembly` do Beacon.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -193,7 +191,7 @@ Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)

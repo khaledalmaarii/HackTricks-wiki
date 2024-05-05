@@ -1,47 +1,47 @@
-# Chaveiro do macOS
+# Cadeia de Chaves do macOS
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no GitHub.
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
 O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares de roubo de informações.
 
-Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
-## Principais Chaveiros
+## Principais Cadeias de Chaves
 
-* O **Chaveiro do Usuário** (`~/Library/Keychains/login.keycahin-db`), que é usado para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas de internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
-* O **Chaveiro do Sistema** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
+* A **Cadeia de Chaves do Usuário** (`~/Library/Keychains/login.keycahin-db`), que é usada para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas de internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
+* A **Cadeia de Chaves do Sistema** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
 
-### Acesso ao Chaveiro de Senhas
+### Acesso à Cadeia de Chaves de Senhas
 
 Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e exigem a **senha em texto simples do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usada para descriptografar.
 
-## Proteções de Entradas do Chaveiro
+## Proteções de Entradas da Cadeia de Chaves
 
 ### ACLs
 
-Cada entrada no chaveiro é governada por **Listas de Controle de Acesso (ACLs)** que ditam quem pode realizar várias ações na entrada do chaveiro, incluindo:
+Cada entrada na cadeia de chaves é governada por **Listas de Controle de Acesso (ACLs)** que ditam quem pode realizar várias ações na entrada da cadeia de chaves, incluindo:
 
 * **ACLAuhtorizationExportClear**: Permite ao detentor obter o texto claro do segredo.
 * **ACLAuhtorizationExportWrapped**: Permite ao detentor obter o texto claro criptografado com outra senha fornecida.
@@ -49,9 +49,9 @@ Cada entrada no chaveiro é governada por **Listas de Controle de Acesso (ACLs)*
 
 As ACLs são acompanhadas por uma **lista de aplicativos confiáveis** que podem realizar essas ações sem solicitação. Isso poderia ser:
 
-* &#x20;**N`il`** (nenhuma autorização necessária, **todos são confiáveis**)
+* **N`il`** (nenhuma autorização necessária, **todos são confiáveis**)
 * Uma lista **vazia** (ninguém é confiável)
-* Lista de **aplicativos específicos**.
+* **Lista** de **aplicativos** específicos.
 
 Além disso, a entrada pode conter a chave **`ACLAuthorizationPartitionID`,** que é usada para identificar o **teamid, apple** e **cdhash.**
 
@@ -59,7 +59,7 @@ Além disso, a entrada pode conter a chave **`ACLAuthorizationPartitionID`,** qu
 * Se o **apple** for especificado, então o aplicativo precisa ser **assinado** pela **Apple**.
 * Se o **cdhash** for indicado, então o **aplicativo** deve ter o **cdhash** específico.
 
-### Criando uma Entrada no Chaveiro
+### Criando uma Entrada na Cadeia de Chaves
 
 Quando uma **nova** **entrada** é criada usando o **`Keychain Access.app`**, as seguintes regras se aplicam:
 
@@ -69,7 +69,7 @@ Quando uma **nova** **entrada** é criada usando o **`Keychain Access.app`**, as
 * Nenhum aplicativo pode alterar as ACLs.
 * O **partitionID** é definido como **`apple`**.
 
-Quando um **aplicativo cria uma entrada no chaveiro**, as regras são ligeiramente diferentes:
+Quando um **aplicativo cria uma entrada na cadeia de chaves**, as regras são ligeiramente diferentes:
 
 * Todos os aplicativos podem criptografar.
 * Apenas o **aplicativo criador** (ou qualquer outro aplicativo adicionado explicitamente) pode exportar/descriptografar (sem solicitar ao usuário).
@@ -77,7 +77,7 @@ Quando um **aplicativo cria uma entrada no chaveiro**, as regras são ligeiramen
 * Nenhum aplicativo pode alterar as ACLs.
 * O **partitionID** é definido como **`teamid:[teamID aqui]`**.
 
-## Acessando o Chaveiro
+## Acessando a Cadeia de Chaves
 
 ### `security`
 ```bash
@@ -93,21 +93,21 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-A **enumeração e extração de segredos do chaveiro** que **não gera um prompt** pode ser feita com a ferramenta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+A enumeração e dumping do **keychain** de segredos que **não gerará um prompt** pode ser feita com a ferramenta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Liste e obtenha **informações** sobre cada entrada do chaveiro:
+Liste e obtenha **informações** sobre cada entrada do keychain:
 
 * A API **`SecItemCopyMatching`** fornece informações sobre cada entrada e existem alguns atributos que você pode definir ao usá-la:
 * **`kSecReturnData`**: Se verdadeiro, tentará descriptografar os dados (defina como falso para evitar possíveis pop-ups)
-* **`kSecReturnRef`**: Obtenha também a referência ao item do chaveiro (defina como verdadeiro caso depois você veja que pode descriptografar sem pop-up)
+* **`kSecReturnRef`**: Obtenha também a referência ao item do keychain (defina como verdadeiro no caso de você ver que pode descriptografar sem pop-up)
 * **`kSecReturnAttributes`**: Obtenha metadados sobre as entradas
 * **`kSecMatchLimit`**: Quantos resultados retornar
-* **`kSecClass`**: Que tipo de entrada do chaveiro
+* **`kSecClass`**: Que tipo de entrada do keychain
 
 Obtenha **ACLs** de cada entrada:
 
-* Com a API **`SecAccessCopyACLList`** você pode obter o **ACL para o item do chaveiro**, e ele retornará uma lista de ACLs (como `ACLAuhtorizationExportClear` e os outros mencionados anteriormente) onde cada lista tem:
+* Com a API **`SecAccessCopyACLList`** você pode obter o **ACL para o item do keychain**, e ele retornará uma lista de ACLs (como `ACLAuhtorizationExportClear` e os outros mencionados anteriormente) onde cada lista tem:
 * Descrição
 * **Lista de Aplicativos Confiáveis**. Isso poderia ser:
 * Um aplicativo: /Applications/Slack.app
@@ -124,7 +124,7 @@ E estes são os **requisitos** para poder **exportar um segredo sem um prompt**:
 * Se **1+ aplicativos confiáveis** listados:
 * Precisa das **autorizações apropriadas** (**`Nil`**, ou fazer **parte** da lista permitida de aplicativos na autorização para acessar as informações secretas)
 * Precisa que a assinatura de código corresponda ao **PartitionID**
-* Precisa que a assinatura de código corresponda à de um **aplicativo confiável** (ou ser membro do grupo KeychainAccessGroup correto)
+* Precisa que a assinatura de código corresponda à de um **aplicativo confiável** (ou ser membro do grupo de acesso correto do Keychain)
 * Se **todos os aplicativos forem confiáveis**:
 * Precisa das **autorizações apropriadas**
 * Precisa que a assinatura de código corresponda ao **PartitionID**
@@ -148,7 +148,7 @@ Se **apple** for indicado no **partitionID**, você poderá acessá-lo com **`os
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
@@ -167,7 +167,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

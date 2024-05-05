@@ -7,14 +7,14 @@
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-**Try Hard Security Group**
+**Grupo de Segurança Try Hard**
 
 <figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -51,13 +51,13 @@ O mérito aqui é que se um código-fonte perdido requer restauração de uma mo
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-Com um modelo abrangente de complementos e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET Reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que essa ferramenta oferece:
+Com um modelo de complemento abrangente e uma API que estende a ferramenta para atender às suas necessidades exatas, o .NET Reflector economiza tempo e simplifica o desenvolvimento. Vamos dar uma olhada na infinidade de serviços de engenharia reversa que essa ferramenta oferece:
 
 * Fornece uma visão de como os dados fluem por uma biblioteca ou componente
 * Fornece insights sobre a implementação e uso de idiomas e estruturas .NET
 * Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias usadas.
 * Encontra dependências e diferentes montagens
-* Localiza exatamente a origem dos erros em seu código, componentes de terceiros e bibliotecas.
+* Localiza exatamente a origem de erros em seu código, componentes de terceiros e bibliotecas.
 * Depura o código-fonte de todo o código .NET com o qual você trabalha.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
@@ -75,11 +75,11 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### Depuração do DNSpy
 
-Para depurar código usando o DNSpy, você precisa:
+Para depurar o código usando o DNSpy, você precisa:
 
-Primeiro, alterar os **atributos da Assembleia** relacionados à **depuração**:
+Primeiro, altere os **atributos do Assembly** relacionados à **depuração**:
 
-![](<../../.gitbook/assets/image (970).png>)
+![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -96,35 +96,35 @@ E clique em **compilar**:
 
 Em seguida, salve o novo arquivo via _**Arquivo >> Salvar módulo...**_:
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (602).png>)
 
-Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e poderia ser possível que ao depurar um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
+Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e poderia ser possível que ao depurar um **ponto de interrupção nunca seja alcançado** ou algumas **variáveis não existam**.
 
 Então, se sua aplicação .NET está sendo **executada** pelo **IIS**, você pode **reiniciá-la** com:
 ```
 iisreset /noforce
 ```
-Em seguida, para começar a depuração, você deve fechar todos os arquivos abertos e dentro da **Guia de Depuração** selecionar **Anexar ao Processo...**:
+Em seguida, para começar a depuração, você deve fechar todos os arquivos abertos e dentro da **Guia de Depuração** selecione **Anexar ao Processo...**:
 
-![](<../../.gitbook/assets/image (315).png>)
+![](<../../.gitbook/assets/image (318).png>)
 
-Em seguida, selecione **w3wp.exe** para anexar ao **servidor IIS** e clique em **anexar**:
+Em seguida, selecione **w3wp.exe** para anexar ao servidor **IIS** e clique em **anexar**:
 
-![](<../../.gitbook/assets/image (110).png>)
+![](<../../.gitbook/assets/image (113).png>)
 
 Agora que estamos depurando o processo, é hora de pará-lo e carregar todos os módulos. Primeiro clique em _Depurar >> Parar Tudo_ e depois clique em _**Depurar >> Janelas >> Módulos**_:
 
-![](<../../.gitbook/assets/image (129).png>)
+![](<../../.gitbook/assets/image (132).png>)
 
-![](<../../.gitbook/assets/image (831).png>)
+![](<../../.gitbook/assets/image (834).png>)
 
 Clique em qualquer módulo em **Módulos** e selecione **Abrir Todos os Módulos**:
 
-![](<../../.gitbook/assets/image (919).png>)
+![](<../../.gitbook/assets/image (922).png>)
 
 Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** e clique em **Ordenar Assemblies**:
 
-![](<../../.gitbook/assets/image (336).png>)
+![](<../../.gitbook/assets/image (339).png>)
 
 ## Decompilador Java
 
@@ -137,28 +137,28 @@ Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** 
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * Selecione o depurador **Windbg**
-* Selecione "**Suspender na carga/descarga da biblioteca**"
+* Selecione "**Suspender na carga/descarga de biblioteca**"
 
-![](<../../.gitbook/assets/image (865).png>)
+![](<../../.gitbook/assets/image (868).png>)
 
 * Configure os **parâmetros** da execução colocando o **caminho para a DLL** e a função que deseja chamar:
 
-![](<../../.gitbook/assets/image (701).png>)
+![](<../../.gitbook/assets/image (704).png>)
 
 Então, ao iniciar a depuração, a execução será interrompida quando cada DLL for carregada, então, quando o rundll32 carregar sua DLL, a execução será interrompida.
 
-Mas, como você pode chegar ao código da DLL que foi carregada? Usando este método, eu não sei como.
+Mas, como você pode chegar ao código da DLL que foi carregada? Usando este método, não sei como.
 
 ### Usando x64dbg/x32dbg
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * **Alterar a Linha de Comando** ( _Arquivo --> Alterar Linha de Comando_ ) e definir o caminho da dll e a função que deseja chamar, por exemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Alterar _Opções --> Configurações_ e selecionar "**Entrada de DLL**".
-* Em seguida, **iniciar a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL do seu dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
+* Altere _Opções --> Configurações_ e selecione "**Entrada de DLL**".
+* Em seguida, **inicie a execução**, o depurador irá parar em cada dll principal, em algum momento você irá **parar na Entrada da DLL da sua dll**. A partir daí, basta procurar os pontos onde deseja colocar um ponto de interrupção.
 
-Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código você está** olhando no **topo da janela do win64dbg**:
+Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código está** olhando no **topo da janela do win64dbg**:
 
-![](<../../.gitbook/assets/image (839).png>)
+![](<../../.gitbook/assets/image (842).png>)
 
 Então, olhando para isso, você pode ver quando a execução foi interrompida na dll que deseja depurar.
 
@@ -196,7 +196,7 @@ Você pode encontrar uma versão ligeiramente modificada do Blobrunner no seguin
 
 [**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Em seguida, você precisa **anexar o depurador** ao processo, **iniciar, esperar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Pule para a próxima instrução do loop eterno, pois será uma chamada para o shellcode, e finalmente você se encontrará executando o shellcode.
 
-![](<../../.gitbook/assets/image (506).png>)
+![](<../../.gitbook/assets/image (509).png>)
 
 Você pode baixar uma versão compilada do [jmp2it na página de lançamentos](https://github.com/adamkramer/jmp2it/releases/).
 
@@ -206,17 +206,17 @@ Você pode baixar uma versão compilada do [jmp2it na página de lançamentos](h
 
 Observe que o Cutter permite "Abrir Arquivo" e "Abrir Shellcode". No meu caso, quando abri o shellcode como um arquivo, ele o descompilou corretamente, mas quando o abri como um shellcode, não:
 
-![](<../../.gitbook/assets/image (559).png>)
+![](<../../.gitbook/assets/image (562).png>)
 
-Para iniciar a emulação no local desejado, defina um bp lá e aparentemente o Cutter iniciará automaticamente a emulação a partir desse ponto:
+Para iniciar a emulação no local desejado, defina um bp lá e aparentemente o cutter iniciará automaticamente a emulação a partir daí:
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (589).png>)
 
-![](<../../.gitbook/assets/image (384).png>)
+![](<../../.gitbook/assets/image (387).png>)
 
 Você pode ver a pilha, por exemplo, dentro de um despejo hexadecimal:
 
-![](<../../.gitbook/assets/image (183).png>)
+![](<../../.gitbook/assets/image (186).png>)
 
 ### Desofuscando shellcode e obtendo funções executadas
 
@@ -232,17 +232,17 @@ scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
 scDbg também conta com um iniciador gráfico onde você pode selecionar as opções desejadas e executar o shellcode
 
-![](<../../.gitbook/assets/image (255).png>)
+![](<../../.gitbook/assets/image (258).png>)
 
 A opção **Create Dump** irá despejar o shellcode final se alguma alteração for feita dinamicamente no shellcode na memória (útil para baixar o shellcode decodificado). O **start offset** pode ser útil para iniciar o shellcode em um deslocamento específico. A opção **Debug Shell** é útil para depurar o shellcode usando o terminal scDbg (no entanto, considero qualquer uma das opções explicadas anteriormente melhor para este assunto, pois você poderá usar o Ida ou x64dbg).
 
 ### Desmontagem usando o CyberChef
 
-Carregue seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Faça upload do seu arquivo de shellcode como entrada e use a seguinte receita para descompilá-lo: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para mais informações sobre como ele funciona:
+Este ofuscador **modifica todas as instruções para `mov`** (sim, muito legal). Ele também usa interrupções para alterar os fluxos de execução. Para mais informações sobre como funciona:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
@@ -260,7 +260,7 @@ Se estiver participando de um **CTF, essa solução alternativa para encontrar a
 
 Para encontrar o **ponto de entrada**, pesquise as funções por `::main` como em:
 
-![](<../../.gitbook/assets/image (1077).png>)
+![](<../../.gitbook/assets/image (1080).png>)
 
 Neste caso, o binário foi chamado de autenticador, então é bastante óbvio que esta é a função principal interessante.\
 Tendo o **nome** das **funções** sendo chamadas, pesquise sobre elas na **Internet** para aprender sobre suas **entradas** e **saídas**.
@@ -287,7 +287,7 @@ Isso resolverá os nomes das funções.
 
 ## Python Compilado
 
-Nesta página, você pode encontrar como obter o código Python de um binário compilado ELF/EXE:
+Nesta página, você pode encontrar como obter o código python de um binário compilado ELF/EXE python:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -304,7 +304,7 @@ Se você obter o **binário** de um jogo GBA, pode usar diferentes ferramentas p
 
 No [**no$gba**](https://problemkaputt.de/gba.htm), em _**Opções --> Configuração de Emulação --> Controles**_\*\* \*\* você pode ver como pressionar os **botões** do Game Boy Advance
 
-![](<../../.gitbook/assets/image (578).png>)
+![](<../../.gitbook/assets/image (581).png>)
 
 Quando pressionado, cada **tecla tem um valor** para identificá-la:
 ```
@@ -319,11 +319,11 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130**, você encontrará a função comumente encontrada: **KEYINPUT**.
+Portanto, neste tipo de programa, a parte interessante será **como o programa trata a entrada do usuário**. No endereço **0x4000130** você encontrará a função comumente encontrada: **KEYINPUT**.
 
-![](<../../.gitbook/assets/image (444).png>)
+![](<../../.gitbook/assets/image (447).png>)
 
-Na imagem anterior, você pode ver que a função é chamada de **FUN_080015a8** (endereços: _0x080015fa_ e _0x080017ac_).
+Na imagem anterior, você pode ver que a função é chamada de **FUN\_080015a8** (endereços: _0x080015fa_ e _0x080017ac_).
 
 Nessa função, após algumas operações de inicialização (sem importância alguma):
 ```c
@@ -388,12 +388,12 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 No código anterior, você pode ver que estamos comparando **uVar1** (o local onde está o **valor do botão pressionado**) com alguns valores:
 
-- Primeiro, é comparado com o **valor 4** (botão **SELECT**): No desafio, este botão limpa a tela.
-- Em seguida, é comparado com o **valor 8** (botão **START**): No desafio, isso verifica se o código é válido para obter a bandeira.
+- Primeiro, é comparado com o **valor 4** (botão **SELECT**): Neste desafio, este botão limpa a tela.
+- Em seguida, é comparado com o **valor 8** (botão **START**): Neste desafio, verifica se o código é válido para obter a bandeira.
 - Neste caso, a variável **`DAT_030000d8`** é comparada com 0xf3 e se o valor for o mesmo, algum código é executado.
 - Em todos os outros casos, é verificado um cont (`DAT_030000d4`). É um cont porque está adicionando 1 logo após entrar no código. Se for menor que 8, algo que envolve **adicionar** valores a **`DAT_030000d8`** é feito (basicamente está adicionando os valores dos botões pressionados nesta variável, desde que o cont seja menor que 8).
 
-Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8 para que a adição resultante seja 0xf3**.
+Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pressionar uma combinação com um comprimento menor que 8, de modo que a adição resultante seja 0xf3**.
 
 **Referência para este tutorial:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -418,10 +418,10 @@ Portanto, neste desafio, conhecendo os valores dos botões, você precisava **pr
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+- Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

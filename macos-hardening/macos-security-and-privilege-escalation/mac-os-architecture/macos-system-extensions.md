@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -18,13 +18,13 @@ Outras formas de apoiar o HackTricks:
 
 Ao contrário das Extensões de Kernel, as **Extensões do Sistema são executadas no espaço do usuário** em vez do espaço do kernel, reduzindo o risco de uma falha do sistema devido a mau funcionamento da extensão.
 
-<figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (606).png" alt="https://knight.sc/images/system-extension-internals-1.png"><figcaption></figcaption></figure>
 
 Existem três tipos de extensões do sistema: Extensões **DriverKit**, Extensões de **Rede** e Extensões de **Segurança de Ponta**.
 
 ### **Extensões DriverKit**
 
-O DriverKit é um substituto para extensões de kernel que **fornecem suporte de hardware**. Ele permite que drivers de dispositivos (como USB, Serial, NIC e HID drivers) sejam executados no espaço do usuário em vez do espaço do kernel. O framework DriverKit inclui **versões no espaço do usuário de certas classes do I/O Kit**, e o kernel encaminha eventos normais do I/O Kit para o espaço do usuário, oferecendo um ambiente mais seguro para esses drivers serem executados.
+DriverKit é um substituto para extensões de kernel que **fornecem suporte de hardware**. Ele permite que drivers de dispositivos (como USB, Serial, NIC e HID drivers) sejam executados no espaço do usuário em vez do espaço do kernel. O framework DriverKit inclui **versões no espaço do usuário de certas classes do I/O Kit**, e o kernel encaminha eventos normais do I/O Kit para o espaço do usuário, oferecendo um ambiente mais seguro para esses drivers serem executados.
 
 ### **Extensões de Rede**
 
@@ -32,8 +32,8 @@ As Extensões de Rede fornecem a capacidade de personalizar comportamentos de re
 
 * **Proxy de Aplicativo**: Isso é usado para criar um cliente VPN que implementa um protocolo VPN personalizado orientado ao fluxo. Isso significa que ele lida com o tráfego de rede com base em conexões (ou fluxos) em vez de pacotes individuais.
 * **Túnel de Pacotes**: Isso é usado para criar um cliente VPN que implementa um protocolo VPN personalizado orientado a pacotes. Isso significa que ele lida com o tráfego de rede com base em pacotes individuais.
-* **Filtro de Dados**: Isso é usado para filtrar "fluxos" de rede. Ele pode monitorar ou modificar dados de rede no nível do fluxo.
-* **Filtro de Pacotes**: Isso é usado para filtrar pacotes de rede individuais. Ele pode monitorar ou modificar dados de rede no nível do pacote.
+* **Filtro de Dados**: Isso é usado para filtrar "fluxos" de rede. Pode monitorar ou modificar dados de rede no nível do fluxo.
+* **Filtro de Pacotes**: Isso é usado para filtrar pacotes de rede individuais. Pode monitorar ou modificar dados de rede no nível do pacote.
 * **Proxy DNS**: Isso é usado para criar um provedor DNS personalizado. Pode ser usado para monitorar ou modificar solicitações e respostas DNS.
 
 ## Framework de Segurança de Ponta
@@ -45,7 +45,7 @@ Este framework fornece uma **coleção de APIs para monitorar e controlar a ativ
 O núcleo deste framework é implementado no kernel, como uma Extensão de Kernel (KEXT) localizada em **`/System/Library/Extensions/EndpointSecurity.kext`**. Esta KEXT é composta por vários componentes principais:
 
 * **EndpointSecurityDriver**: Atua como o "ponto de entrada" para a extensão do kernel. É o principal ponto de interação entre o SO e o framework de Segurança de Ponta.
-* **EndpointSecurityEventManager**: Este componente é responsável por implementar ganchos do kernel. Os ganchos do kernel permitem que o framework monitore eventos do sistema interceptando chamadas do sistema.
+* **EndpointSecurityEventManager**: Este componente é responsável por implementar ganchos do kernel. Ganchos do kernel permitem que o framework monitore eventos do sistema interceptando chamadas do sistema.
 * **EndpointSecurityClientManager**: Gerencia a comunicação com clientes no espaço do usuário, mantendo o controle de quais clientes estão conectados e precisam receber notificações de eventos.
 * **EndpointSecurityMessageManager**: Envia mensagens e notificações de eventos para clientes no espaço do usuário.
 
@@ -58,7 +58,7 @@ Os eventos que o framework de Segurança de Ponta pode monitorar são categoriza
 
 ### Arquitetura do Framework de Segurança de Ponta
 
-<figure><img src="../../../.gitbook/assets/image (3) (8).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1068).png" alt="https://www.youtube.com/watch?v=jaVkpM1UqOs"><figcaption></figcaption></figure>
 
 A **comunicação no espaço do usuário** com o framework de Segurança de Ponta ocorre por meio da classe IOUserClient. Duas subclasses diferentes são usadas, dependendo do tipo de chamador:
 
@@ -67,13 +67,13 @@ A **comunicação no espaço do usuário** com o framework de Segurança de Pont
 
 As Extensões de Segurança de Ponta:**`libEndpointSecurity.dylib`** é a biblioteca C que as extensões do sistema usam para se comunicar com o kernel. Esta biblioteca usa o I/O Kit (`IOKit`) para se comunicar com a KEXT de Segurança de Ponta.
 
-**`endpointsecurityd`** é um daemon do sistema chave envolvido na gestão e lançamento de extensões do sistema de segurança de ponta, especialmente durante o processo de inicialização inicial. **Apenas as extensões do sistema** marcadas com **`NSEndpointSecurityEarlyBoot`** em seu arquivo `Info.plist` recebem este tratamento de inicialização inicial.
+**`endpointsecurityd`** é um daemon do sistema chave envolvido na gestão e lançamento de extensões do sistema de segurança de ponta, especialmente durante o processo de inicialização inicial. **Apenas extensões do sistema** marcadas com **`NSEndpointSecurityEarlyBoot`** em seu arquivo `Info.plist` recebem este tratamento de inicialização inicial.
 
-Outro daemon do sistema, **`sysextd`**, **valida as extensões do sistema** e as move para as localizações adequadas do sistema. Em seguida, solicita ao daemon relevante que carregue a extensão. O **`SystemExtensions.framework`** é responsável por ativar e desativar as extensões do sistema.
+Outro daemon do sistema, **`sysextd`**, **valida as extensões do sistema** e as move para as localizações adequadas do sistema. Em seguida, solicita ao daemon relevante para carregar a extensão. O **`SystemExtensions.framework`** é responsável por ativar e desativar as extensões do sistema.
 
-## Bypass do ESF
+## Bypassing ESF
 
-O ESF é usado por ferramentas de segurança que tentarão detectar um red teamer, então qualquer informação sobre como isso poderia ser evitado soa interessante.
+ESF é usado por ferramentas de segurança que tentarão detectar um red teamer, então qualquer informação sobre como isso poderia ser evitado soa interessante.
 
 ### CVE-2021-30965
 
@@ -81,9 +81,9 @@ A questão é que a aplicação de segurança precisa ter as **permissões de Ac
 ```bash
 tccutil reset All
 ```
-Para **mais informações** sobre essa bypass e outras relacionadas, confira a palestra [#OBTS v5.0: "O Calcanhar de Aquiles da Segurança de Endpoint" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Para **mais informações** sobre esse bypass e outros relacionados, confira a palestra [#OBTS v5.0: "O Calcanhar de Aquiles da Segurança de Endpoint" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-No final, isso foi corrigido dando a nova permissão **`kTCCServiceEndpointSecurityClient`** ao aplicativo de segurança gerenciado por **`tccd`** para que o `tccutil` não limpe suas permissões, impedindo sua execução.
+No final, isso foi corrigido dando a nova permissão **`kTCCServiceEndpointSecurityClient`** ao aplicativo de segurança gerenciado por **`tccd`** para que o `tccutil` não limpe suas permissões, impedindo que ele seja executado.
 
 ## Referências
 
@@ -96,10 +96,10 @@ No final, isso foi corrigido dando a nova permissão **`kTCCServiceEndpointSecur
 
 Outras formas de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

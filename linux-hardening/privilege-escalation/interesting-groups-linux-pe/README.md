@@ -1,4 +1,4 @@
-# Grupos Interessantes - Linux Privesc
+# Grupos Interessantes - Escalação de Privilégios no Linux
 
 <details>
 
@@ -6,19 +6,19 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## Grupos Sudo/Admin
+## Grupos Sudo/Administrador
 
 ### **PE - Método 1**
 
-**Às vezes**, **por padrão (ou porque algum software precisa)** dentro do arquivo **/etc/sudoers**, você pode encontrar algumas dessas linhas:
+**Às vezes**, **por padrão (ou porque algum software precisa)** dentro do arquivo **/etc/sudoers** você pode encontrar algumas dessas linhas:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -28,7 +28,7 @@ Outras maneiras de apoiar o HackTricks:
 ```
 Isso significa que **qualquer usuário que pertença ao grupo sudo ou admin pode executar qualquer coisa como sudo**.
 
-Se for o caso, para **se tornar root, você pode simplesmente executar**:
+Se for o caso, para **se tornar root você pode simplesmente executar**:
 ```
 sudo su
 ```
@@ -80,7 +80,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 Isso significa que **qualquer usuário que pertença ao grupo wheel pode executar qualquer coisa como sudo**.
 
-Se este for o caso, para **se tornar root você pode simplesmente executar**:
+Se for o caso, para **se tornar root você pode simplesmente executar**:
 ```
 sudo su
 ```
@@ -90,11 +90,13 @@ Usuários do **grupo shadow** podem **ler** o arquivo **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-## Grupo de Funcionários
+Então, leia o arquivo e tente **quebrar algumas hashes**.
 
-**staff**: Permite aos usuários adicionar modificações locais ao sistema (`/usr/local`) sem precisar de privilégios de root (observe que os executáveis em `/usr/local/bin` estão no PATH de qualquer usuário e podem "substituir" os executáveis em `/bin` e `/usr/bin` com o mesmo nome). Compare com o grupo "adm", que está mais relacionado à monitorização/segurança. [\[fonte\]](https://wiki.debian.org/SystemGroups)
+## Grupo Staff
 
-Nas distribuições debian, a variável `$PATH` mostra que `/usr/local/` será executado com a mais alta prioridade, quer seja um usuário privilegiado ou não.
+**staff**: Permite aos usuários adicionar modificações locais ao sistema (`/usr/local`) sem precisar de privilégios de root (observe que os executáveis em `/usr/local/bin` estão no caminho de qualquer usuário e podem "substituir" os executáveis em `/bin` e `/usr/bin` com o mesmo nome). Compare com o grupo "adm", que está mais relacionado à monitorização/segurança. [\[fonte\]](https://wiki.debian.org/SystemGroups)
+
+Nas distribuições debian, a variável `$PATH` mostra que `/usr/local/` será executado com a maior prioridade, quer seja um usuário privilegiado ou não.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -104,7 +106,7 @@ $ echo $PATH
 ```
 Se conseguirmos sequestrar alguns programas em `/usr/local`, podemos facilmente obter acesso de root.
 
-Sequestrar o programa `run-parts` é uma maneira fácil de obter acesso de root, pois a maioria dos programas executará um `run-parts` (como crontab, quando o login ssh).
+Sequestrar o programa `run-parts` é uma maneira fácil de obter acesso de root, porque a maioria dos programas executará um `run-parts` (como crontab, quando o login ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -146,7 +148,7 @@ $ /bin/bash -p
 ```
 ## Grupo de Disco
 
-Este privilégio é quase **equivalente ao acesso root** pois permite acessar todos os dados dentro da máquina.
+Este privilégio é quase **equivalente ao acesso de root** pois permite acessar todos os dados dentro da máquina.
 
 Arquivos: `/dev/sd[a-z][1-9]`
 ```bash
@@ -162,7 +164,7 @@ Note que usando o debugfs você também pode **escrever arquivos**. Por exemplo,
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você terá um erro de "**Permissão negada**".
+No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você receberá um erro de "**Permissão negada**".
 
 ## Grupo de Vídeo
 
@@ -181,15 +183,15 @@ cat /sys/class/graphics/fb0/virtual_size
 ```
 Para **abrir** a **imagem bruta**, você pode usar o **GIMP**, selecionar o arquivo \*\*`screen.raw` \*\* e selecionar como tipo de arquivo **Dados de imagem bruta**:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (463).png>)
 
-Em seguida, modifique a Largura e Altura para as usadas na tela e verifique diferentes Tipos de Imagem (e selecione aquele que mostra melhor a tela):
+Em seguida, modifique a Largura e Altura para as usadas na tela e verifique os diferentes Tipos de Imagem (e selecione aquele que mostra melhor a tela):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (317).png>)
 
 ## Grupo Root
 
-Parece que por padrão, **membros do grupo root** podem ter acesso para **modificar** alguns arquivos de configuração de **serviços** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que poderiam ser usadas para escalar privilégios...
+Parece que por padrão **membros do grupo root** podem ter acesso para **modificar** alguns arquivos de configuração de **serviços** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que poderiam ser usadas para escalar privilégios...
 
 **Verifique quais arquivos os membros do root podem modificar**:
 ```bash
@@ -211,7 +213,7 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Grupo lxc/lxd
 
-Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados em _/var/log/_. Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve **dar uma olhada nos logs**.
+Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados dentro de _/var/log/_. Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve dar uma **olhada nos logs**.
 
 ## Grupo Auth
 

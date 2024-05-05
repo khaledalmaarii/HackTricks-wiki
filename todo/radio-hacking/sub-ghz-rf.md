@@ -1,16 +1,16 @@
-# RF Sub-GHz
+# Sub-GHz RF
 
 <details>
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -20,22 +20,22 @@ Os abridores de portas de garagem geralmente operam em frequências na faixa de 
 
 ## Portas de Carro
 
-A maioria dos controles remotos de carros opera em **315 MHz ou 433 MHz**. Essas são ambas frequências de rádio e são usadas em uma variedade de aplicações diferentes. A principal diferença entre as duas frequências é que 433 MHz tem um alcance maior do que 315 MHz. Isso significa que 433 MHz é melhor para aplicações que requerem um alcance maior, como entrada sem chave remota.\
+A maioria dos controles remotos de carros opera em **315 MHz ou 433 MHz**. Estas são ambas frequências de rádio e são usadas em uma variedade de aplicações diferentes. A principal diferença entre as duas frequências é que 433 MHz tem um alcance maior do que 315 MHz. Isso significa que 433 MHz é melhor para aplicações que requerem um alcance maior, como entrada sem chave remota.\
 Na Europa, é comum o uso de 433,92 MHz e nos EUA e Japão é o 315 MHz.
 
 ## **Ataque de Força Bruta**
 
-<figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
 
 Se, em vez de enviar cada código 5 vezes (enviado assim para garantir que o receptor o receba), você enviar apenas uma vez, o tempo é reduzido para 6 minutos:
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
 
 e se você **remover o período de espera de 2 ms** entre os sinais, você pode **reduzir o tempo para 3 minutos**.
 
 Além disso, ao usar a Sequência de De Bruijn (uma maneira de reduzir o número de bits necessários para enviar todos os números binários potenciais para força bruta), este **tempo é reduzido para apenas 8 segundos**:
 
-<figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
 
 Exemplo desse ataque foi implementado em [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
 
@@ -59,18 +59,18 @@ O **sinal de RF é tipicamente transmitido usando um código rolante**, o que si
 
 Em um sistema de código rolante, o controle remoto e o abridor da porta da garagem têm um **algoritmo compartilhado** que **gera um novo código** cada vez que o controle remoto é usado. O abridor da porta da garagem responderá apenas ao **código correto**, tornando muito mais difícil para alguém obter acesso não autorizado à garagem apenas capturando um código.
 
-### **Ataque de Elo Ausente**
+### **Ataque Missing Link**
 
 Basicamente, você escuta o botão e **captura o sinal enquanto o controle remoto está fora do alcance** do dispositivo (como o carro ou garagem). Em seguida, você se move para o dispositivo e **usa o código capturado para abri-lo**.
 
-### Ataque de Jamming de Elo Completo
+### Ataque de Jamming de Link Completo
 
-Um atacante poderia **interferir no sinal perto do veículo ou receptor** para que o **receptor não possa realmente ‘ouvir’ o código**, e uma vez que isso esteja acontecendo, você pode simplesmente **capturar e reproduzir** o código quando parar de interferir.
+Um atacante poderia **interferir no sinal perto do veículo ou receptor** para que o **receptor não possa realmente ‘ouvir’ o código**, e uma vez que isso esteja acontecendo, você pode simplesmente **capturar e retransmitir** o código quando parar de interferir.
 
 A vítima em algum momento usará as **chaves para travar o carro**, mas então o ataque terá **gravado códigos suficientes de "fechar a porta"** que esperançosamente poderiam ser reenviados para abrir a porta (uma **mudança de frequência pode ser necessária** pois há carros que usam os mesmos códigos para abrir e fechar, mas ouvem ambos os comandos em diferentes frequências).
 
 {% hint style="warning" %}
-**O Jamming funciona**, mas é perceptível, pois se a **pessoa que está trancando o carro simplesmente testar as portas** para garantir que estão trancadas, ela perceberá que o carro está destrancado. Além disso, se estiver ciente de tais ataques, ela poderia até mesmo ouvir o fato de que as portas nunca fizeram o som de **travamento** ou as **luzes** do carro nunca piscaram quando pressionou o botão de ‘travar’.
+**O Jamming funciona**, mas é perceptível, pois se a **pessoa que está trancando o carro simplesmente testar as portas** para garantir que estão trancadas, ela perceberá que o carro está destrancado. Além disso, se estiver ciente de tais ataques, ela poderia até mesmo ouvir o fato de que as portas nunca fizeram o som de **travamento** ou as **luzes do carro** nunca piscaram quando pressionou o botão de ‘travar’.
 {% endhint %}
 
 ### **Ataque de Captura de Código (também conhecido como ‘RollJam’)**
@@ -87,10 +87,9 @@ Outras implementações vistas em especificações mostram que o **código rolan
 {% hint style="danger" %}
 Observe que se a vítima enviar um terceiro código enquanto o atacante estiver enviando o primeiro, o primeiro e o segundo código serão invalidados.
 {% endhint %}
+### Ataque de Interferência Sonora
 
-### Ataque de Interferência com Alarme Sonoro
-
-Testando contra um sistema de código rolante de mercado instalado em um carro, **enviar o mesmo código duas vezes** imediatamente **ativou o alarme** e o imobilizador, proporcionando uma oportunidade única de **negação de serviço**. Ironicamente, o meio de **desativar o alarme** e o imobilizador era **pressionar** o **controle remoto**, fornecendo ao atacante a capacidade de **realizar continuamente ataques de negação de serviço**. Ou misture esse ataque com o **anterior para obter mais códigos**, já que a vítima gostaria de interromper o ataque o mais rápido possível.
+Ao testar um sistema de código rolante de reposição instalado em um carro, **enviar o mesmo código duas vezes** imediatamente **ativou o alarme** e o imobilizador, proporcionando uma oportunidade única de **negação de serviço**. Ironicamente, o meio de **desativar o alarme** e o imobilizador era **pressionar** o **controle remoto**, fornecendo a um atacante a capacidade de **realizar continuamente um ataque de negação de serviço**. Ou misturar esse ataque com o **anterior para obter mais códigos**, já que a vítima gostaria de parar o ataque o mais rápido possível.
 
 ## Referências
 
@@ -103,12 +102,12 @@ Testando contra um sistema de código rolante de mercado instalado em um carro, 
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
