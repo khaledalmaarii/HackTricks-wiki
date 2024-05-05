@@ -32,18 +32,18 @@ Die **uitgebreide attribuut `com.apple.macl`** word by die nuwe **lêer** gevoeg
 
 ### TCC ClickJacking
 
-Dit is moontlik om **'n venster oor die TCC-prompt te plaas** om die gebruiker dit te laat **aanvaar** sonder om dit te besef. Jy kan 'n PoC vind in [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
+Dit is moontlik om **'n venster oor die TCC-prompt te plaas** om die gebruiker dit te laat **aanvaar** sonder om dit te besef. Jy kan 'n bewys van konsep vind in [**TCC-ClickJacking**](https://github.com/breakpointHQ/TCC-ClickJacking)**.**
 
 <figure><img src="broken-reference" alt=""><figcaption><p><a href="https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg">https://github.com/breakpointHQ/TCC-ClickJacking/raw/main/resources/clickjacking.jpg</a></p></figcaption></figure>
 
 ### TCC Aanvraag per willekeurige naam
 
-'n Aanvaller kan **toepassings met enige naam skep** (bv. Finder, Google Chrome...) in die **`Info.plist`** en dit laat toegang tot 'n paar TCC-beskermde plekke aanvra. Die gebruiker sal dink dat die regte aansoek hierdie toegang aanvra.\
-Boonop is dit moontlik om **die regte program van die Dock te verwyder en die valse een daarop te plaas**, sodat wanneer die gebruiker op die valse een klik (wat dieselfde ikoon kan gebruik) dit die regte een kan aanroep, vir TCC-toestemmings kan vra en 'n kwaadwillige program kan uitvoer, sodat die gebruiker glo dat die regte program die toegang aangevra het.
+'n Aanvaller kan **toepassings met enige naam skep** (bv. Finder, Google Chrome...) in die **`Info.plist`** en dit laat versoek om toegang tot 'n paar TCC-beskermde plekke. Die gebruiker sal dink dat die regte toepassing die een is wat hierdie toegang versoek.\
+Boonop is dit moontlik om **die regte toepassing van die Dock te verwyder en die valse een daarop te plaas**, sodat wanneer die gebruiker op die valse een klik (wat dieselfde ikoon kan gebruik) dit die regte een kan aanroep, vir TCC-toestemmings kan vra en 'n kwaadwillige program kan uitvoer, sodat die gebruiker glo dat die regte toepassing die toegang versoek het.
 
 <figure><img src="https://lh7-us.googleusercontent.com/Sh-Z9qekS_fgIqnhPVSvBRmGpCXCpyuVuTw0x5DLAIxc2MZsSlzBOP7QFeGo_fjMeCJJBNh82f7RnewW1aWo8r--JEx9Pp29S17zdDmiyGgps1hH9AGR8v240m5jJM8k0hovp7lm8ZOrbzv-RC8NwzbB8w=s2048" alt="" width="375"><figcaption></figcaption></figure>
 
-Meer inligting en PoC in:
+Meer inligting en bewys van konsep in:
 
 {% content-ref url="../../../macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](../../../macos-privilege-escalation.md)
@@ -51,9 +51,9 @@ Meer inligting en PoC in:
 
 ### SSH Omgang
 
-Standaard het toegang via **SSH "Volle Skyf Toegang"**. Om dit uit te skakel, moet jy dit gelys hê maar uitgeschakel (om dit van die lys te verwyder sal nie daardie voorregte verwyder nie):
+Standaard het toegang via **SSH "Volle Skyf Toegang"**. Om dit uit te skakel, moet jy dit gelys hê maar gedeaktiveer (om dit uit die lys te verwyder sal nie daardie voorregte verwyder nie):
 
-![](<../../../../../.gitbook/assets/image (1074).png>)
+![](<../../../../../.gitbook/assets/image (1077).png>)
 
 Hier kan jy voorbeelde vind van hoe sommige **kwaadwillige programme hierdie beskerming kon omseil**:
 
@@ -65,23 +65,23 @@ Let daarop dat jy nou, om SSH te kan aktiveer, **Volle Skyf Toegang** nodig het
 
 ### Hanteer uitbreidings - CVE-2022-26767
 
-Die attribuut **`com.apple.macl`** word aan lêers gegee om 'n **sekere toepassing toestemming te gee om dit te lees.** Hierdie attribuut word ingestel wanneer 'n gebruiker 'n lêer oor 'n program sleep, of wanneer 'n gebruiker 'n lêer **dubbelklik** om dit met die **standaardtoepassing** oop te maak.
+Die attribuut **`com.apple.macl`** word aan lêers gegee om 'n **sekere toepassing toestemming te gee om dit te lees.** Hierdie attribuut word ingestel wanneer 'n gebruiker 'n lêer oor 'n toepassing sleep, of wanneer 'n gebruiker 'n lêer **dubbelklik** om dit met die **standaardtoepassing** oop te maak.
 
-Dus kan 'n gebruiker **'n kwaadwillige toepassing registreer** om al die uitbreidings te hanteer en Launch Services te roep om **enige lêer oop te maak** (sodat die kwaadwillige lêer toegang kry om dit te lees).
+Dus kan 'n gebruiker 'n kwaadwillige toepassing **registreer** om al die uitbreidings te hanteer en Launch Services te roep om **enige lêer oop te maak** (sodat die kwaadwillige lêer toegang kry om dit te lees).
 
 ### iCloud
 
-Die toestemming **`com.apple.private.icloud-account-access`** dit is moontlik om te kommunikeer met **`com.apple.iCloudHelper`** XPC-diens wat **iCloud-token** sal voorsien.
+Die toestemming **`com.apple.private.icloud-account-access`** dit is moontlik om te kommunikeer met die **`com.apple.iCloudHelper`** XPC-diens wat **iCloud-token** sal voorsien.
 
 **iMovie** en **Garageband** het hierdie toestemming en ander wat toegelaat het.
 
-Vir meer **inligting** oor die uitbuiting om **iCloud-tokens te kry** van daardie toestemming, kyk na die geselskap: [**#OBTS v5.0: "Wat Gebeur op jou Mac, Bly op Apple se iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Vir meer **inligting** oor die uitbuiting om **icloud-tokens te kry** van daardie toestemming, kyk na die geselsie: [**#OBTS v5.0: "Wat Gebeur op jou Mac, Bly op Apple se iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Outomatisering
 
 'n Toepassing met die **`kTCCServiceAppleEvents`** toestemming sal in staat wees om **ander Toepassings te beheer**. Dit beteken dat dit in staat kan wees om die toestemmings wat aan die ander Toepassings verleen is, te **misbruik**.
 
-Vir meer inligting oor Apple-skripte, kyk na:
+Vir meer inligting oor Apple-skripte kyk:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
@@ -89,7 +89,7 @@ Vir meer inligting oor Apple-skripte, kyk na:
 
 Byvoorbeeld, as 'n Toepassing **Outomatiseringstoestemming oor `iTerm`** het, byvoorbeeld in hierdie voorbeeld **`Terminal`** het toegang oor iTerm:
 
-<figure><img src="../../../../../.gitbook/assets/image (978).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (981).png" alt=""><figcaption></figcaption></figure>
 
 #### Oor iTerm
 
@@ -113,7 +113,7 @@ osascript iterm.script
 ```
 #### Oor Finder
 
-Of as 'n toepassing toegang oor Finder het, kan dit 'n skriffie soos hierdie een wees:
+Of as 'n toepassing toegang oor Finder het, kan dit 'n skrapsel soos hierdie wees:
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -129,7 +129,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 
 Die gebruikersland **tccd daemon** wat die **`HOME`** **env** veranderlike gebruik om toegang te verkry tot die TCC-gebruikersdatabasis vanaf: **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-Volgens [hierdie Stack Exchange pos](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) en omdat die TCC daemon hardloop via `launchd` binne die huidige gebruiker se domein, is dit moontlik om **alle omgewingsveranderlikes** wat aan dit oorgedra word, te **beheer**.\
+Volgens [hierdie Stack Exchange pos](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) en omdat die TCC daemon hardloop via `launchd` binne die huidige gebruiker se domein, is dit moontlik om **alle omgewingsveranderlikes** wat daaraan oorgedra word, te **beheer**.\
 Dus kan 'n **aanvaller die `$HOME` omgewingsveranderlike** in **`launchctl`** instel om te verwys na 'n **beheerde gids**, die **TCC** daemon **herlaai**, en dan die **TCC-databasis direk wysig** om homself **elke TCC-toestemming beskikbaar** te gee sonder om ooit die eindgebruiker te vra.\
 PoC:
 ```bash
@@ -160,33 +160,33 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Notas
 
-Notas het toegang gehad tot TCC-beskermde plekke, maar wanneer 'n nota geskep word, word dit **geskep in 'n nie-beskermde plek**. Jy kon dus notas vra om 'n beskermde lêer in 'n nota te kopieer (dus in 'n nie-beskermde plek) en dan toegang tot die lêer te verkry:
+Notas het toegang tot TCC-beskermde plekke gehad, maar wanneer 'n nota geskep word, word dit **geskep in 'n nie-beskermde plek**. So, jy kon notas vra om 'n beskermde lêer in 'n nota te kopieer (dus in 'n nie-beskermde plek) en dan die lêer te benader:
 
-<figure><img src="../../../../../.gitbook/assets/image (473).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (476).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-30782 - Translokasie
 
-Die binêre lêer `/usr/libexec/lsd` met die biblioteek `libsecurity_translocate` het die toestemming `com.apple.private.nullfs_allow` gehad wat dit toegelaat het om 'n **nullfs**-koppelpunt te skep en het die toestemming `com.apple.private.tcc.allow` met **`kTCCServiceSystemPolicyAllFiles`** gehad om toegang tot elke lêer te verkry.
+Die binêre `/usr/libexec/lsd` met die biblioteek `libsecurity_translocate` het die entitlement `com.apple.private.nullfs_allow` gehad wat dit toegelaat het om 'n **nullfs**-koppelpunt te skep en het die entitlement `com.apple.private.tcc.allow` met **`kTCCServiceSystemPolicyAllFiles`** gehad om toegang tot elke lêer te verkry.
 
-Dit was moontlik om die kwarantynkenmerk by "Library" toe te voeg, die **`com.apple.security.translocation`** XPC-diens te roep en dan sou dit Library na **`$TMPDIR/AppTranslocation/d/d/Library`** in kaart bring waar al die dokumente binne Library **toeganklik** sou wees.
+Dit was moontlik om die kwarantynkenmerk by "Library" toe te voeg, die **`com.apple.security.translocation`** XPC-diens te roep en dan sou dit Library na **`$TMPDIR/AppTranslocation/d/d/Library`** in kaart bring waar al die dokumente binne Library **benader** kon word.
 
 ### CVE-2023-38571 - Musiek & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
-**`Musiek`** het 'n interessante kenmerk: Wanneer dit loop, sal dit die lêers wat na **`~/Musiek/Musiek/Media.localized/Automatically Add to Music.localized`** gesleep word, in die gebruiker se "medialêer" **importe**. Verder, roep dit iets soos: **`rename(a, b);`** waar `a` en `b` is:
+**`Musiek`** het 'n interessante kenmerk: Wanneer dit loop, sal dit die lêers wat na **`~/Musiek/Musiek/Media.localized/Automatically Add to Music.localized`** gesleep word, in die gebruiker se "medialêer" **importeer**. Verder, roep dit iets soos: **`rename(a, b);** waar `a` en `b` is:
 
 * `a = "~/Musiek/Musiek/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
 * `b = "~/Musiek/Musiek/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
 
-Hierdie **`rename(a, b);`**-gedrag is vatbaar vir 'n **Race Condition**, aangesien dit moontlik is om 'n valse **TCC.db**-lêer binne die `Automatically Add to Music.localized`-vouer te plaas en dan wanneer die nuwe vouer(b) geskep word om die lêer te kopieer, dit te verwyder, en dit te rig na **`~/Library/Application Support/com.apple.TCC`**/.
+Hierdie **`rename(a, b);`**-gedrag is vatbaar vir 'n **Race Condition**, aangesien dit moontlik is om 'n valse **TCC.db**-lêer binne die `Automatically Add to Music.localized`-vouer te plaas en dan wanneer die nuwe vouer(b) geskep word om die lêer te kopieer, dit te verwyder, en dit te verwys na **`~/Library/Application Support/com.apple.TCC`**/.
 
 ### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-As **`SQLITE_SQLLOG_DIR="pad/vouer"`** basies beteken dat **enige oop db na daardie pad gekopieer word**. In hierdie CVE is hierdie beheer misbruik om binne 'n **SQLite-databasis te skryf** wat deur 'n proses met FDA die TCC-databasis oopgemaak gaan word, en dan **`SQLITE_SQLLOG_DIR`** misbruik met 'n **symboliese skakel in die lêernaam** sodat wanneer daardie databasis **oopgemaak** word, die gebruiker se **TCC.db oorskryf** word met die geopende een.\
-**Meer inligting** [**in die skryfstuk**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **en**[ **in die aanbieding**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
+As **`SQLITE_SQLLOG_DIR="pad/vouer"`** basies beteken dat **enige oop db na daardie pad gekopieer word**. In hierdie CVE is hierdie beheer misbruik om binne 'n **SQLite-databasis te skryf** wat deur 'n proses met FDA die TCC-databasis oopgemaak gaan word, en dan **`SQLITE_SQLLOG_DIR`** misbruik met 'n **symboliese skakel in die lêernaam** sodat wanneer daardie databasis **oopgemaak** word, die gebruiker se **TCC.db oorskryf** word met die geopen een.\
+**Meer inligting** [**in die skryfstuk**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **en**[ **in die geselsie**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
 
 ### **SQLITE\_AUTO\_TRACE**
 
-As die omgewingsveranderlike **`SQLITE_AUTO_TRACE`** ingestel is, sal die biblioteek **`libsqlite3.dylib`** begin om al die SQL-navrae **te log**. Baie toepassings het hierdie biblioteek gebruik, dus was dit moontlik om al hul SQLite-navrae te log.
+As die omgewingsveranderlike **`SQLITE_AUTO_TRACE`** ingestel is, sal die biblioteek **`libsqlite3.dylib`** begin om al die SQL-navrae te **log**. Baie toepassings het hierdie biblioteek gebruik, dus was dit moontlik om al hulle SQLite-navrae te log.
 
 Verskeie Apple-toepassings het hierdie biblioteek gebruik om toegang tot TCC-beskermde inligting te verkry.
 ```bash
@@ -195,11 +195,11 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 ```
 ### MTL_DUMP_PIPELINES_TO_JSON_FILE - CVE-2023-32407
 
-Hierdie **omgewingsveranderlike word deur die `Metal`-raamwerk** gebruik wat 'n afhanklikheid is van verskeie programme, veral `Musiek`, wat FDA het.
+Hierdie **omgewingsveranderlike word deur die `Metal`-raamwerk** gebruik wat 'n afhanklikheid is van verskeie programme, veral `Music`, wat FDA het.
 
 Stel die volgende in: `MTL_DUMP_PIPELINES_TO_JSON_FILE="pad/naam"`. As `pad` 'n geldige gids is, sal die fout geaktiveer word en kan ons `fs_usage` gebruik om te sien wat in die program aangaan:
 
-* 'n lêer sal `open()` word, genaamd `pad/.dat.nosyncXXXX.XXXXXX` (X is lukraak)
+* 'n lêer sal geopen word, genaamd `pad/.dat.nosyncXXXX.XXXXXX` (X is lukraak)
 * een of meer `write()`s sal die inhoud na die lêer skryf (ons beheer dit nie)
 * `pad/.dat.nosyncXXXX.XXXXXX` sal hernoem word na `pad/naam`
 
@@ -208,21 +208,21 @@ Dit is 'n tydelike lêer skryf, gevolg deur 'n **`hernoem(oud, nuut)`** **wat ni
 Dit is nie veilig nie omdat dit die ou en nuwe paaie apart moet **oplos**, wat tyd kan neem en vatbaar kan wees vir 'n Wedloopvoorwaarde. Vir meer inligting kan jy die `xnu`-funksie `renameat_internal()` nagaan.
 
 {% hint style="danger" %}
-Dus, as 'n bevoorregte proses hernoem vanaf 'n gids wat jy beheer, kan jy 'n RCE wen en dit laat toegang kry tot 'n ander lêer of, soos in hierdie CVE, die lêer wat die bevoorregte program geskep het, oopmaak en 'n FD stoor.
+Dus, as 'n bevoorregte proses hernoem vanaf 'n gids wat jy beheer, kan jy 'n RCE wen en dit laat toegang verkry tot 'n ander lêer of, soos in hierdie CVE, die lêer wat die bevoorregte program geskep het, oopmaak en 'n FD stoor.
 
 As die hernoem toegang tot 'n gids wat jy beheer, terwyl jy die bronlêer gewysig het of 'n FD daarvoor het, verander jy die bestemmingslêer (of gids) om na 'n simboolskakel te wys, sodat jy kan skryf wanneer jy wil.
 {% endhint %}
 
 Dit was die aanval in die CVE: Byvoorbeeld, om die gebruiker se `TCC.db` te oorskryf, kan ons:
 
-* skep `/Gebruikers/hacker/onskakel` om te wys na `/Gebruikers/hacker/Biblioteek-toepassingsondersteuning/com.apple.TCC/`
+* `/Gebruikers/hacker/onskakel` skep om te wys na `/Gebruikers/hacker/Biblioteek-toepassing/Ondersteuning/com.apple.TCC/`
 * skep die gids `/Gebruikers/hacker/tmp/`
 * stel `MTL_DUMP_PIPELINES_TO_JSON_FILE=/Gebruikers/hacker/tmp/TCC.db`
-* aktiveer die fout deur `Musiek` met hierdie omgewingsveranderlike te hardloop
+* aktiveer die fout deur `Music` met hierdie omgewingsveranderlike te hardloop
 * vang die `open()` van `/Gebruikers/hacker/tmp/.dat.nosyncXXXX.XXXXXX` (X is lukraak)
 * hier open ons ook hierdie lêer vir skryf, en hou die lêerbeskrywer vas
 * skakel atomies `/Gebruikers/hacker/tmp` met `/Gebruikers/hacker/onskakel` **in 'n lus**
-* ons doen dit om ons kanse om te slaag te maksimeer aangesien die wedloopvenster baie smal is, maar om die wedloop te verloor het verwaarloosbare nadeel
+* ons doen dit om ons kanse om te slaag te maksimeer aangesien die wedloopvenster baie smal is, maar om die wedloop te verloor het verwaarloosbare nadele
 * wag 'n bietjie
 * toets of ons gelukkig was
 * indien nie, hardloop weer van voor af aan
@@ -239,26 +239,26 @@ As root kan jy hierdie diens aktiveer en die **ARD-agent sal volle skakeltoegang
 
 ## Deur **NFSHomeDirectory**
 
-TCC gebruik 'n databasis in die gebruiker se TUIS-gids om toegang tot bronne wat spesifiek vir die gebruiker is, te beheer by **$HOME/Biblioteek-toepassingsondersteuning/com.apple.TCC/TCC.db**.\
-Daarom, as die gebruiker daarin slaag om TCC te herlaai met 'n $HOME-omgewingsveranderlike wat na 'n **ander gids** wys, kan die gebruiker 'n nuwe TCC-databasis skep in **/Biblioteek-toepassingsondersteuning/com.apple.TCC/TCC.db** en TCC mislei om enige TCC-toestemming aan enige toepassing toe te ken.
+TCC gebruik 'n databasis in die gebruiker se TUIS-gids om toegang tot bronne wat spesifiek vir die gebruiker is, te beheer by **$HOME/Biblioteek-toepassing/Ondersteuning/com.apple.TCC/TCC.db**.\
+Daarom, as die gebruiker daarin slaag om TCC te herlaai met 'n $HOME-omgewingsveranderlike wat na 'n **ander gids** wys, kan die gebruiker 'n nuwe TCC-databasis skep in **/Biblioteek-toepassing/Ondersteuning/com.apple.TCC/TCC.db** en TCC mislei om enige TCC-toestemming aan enige toepassing toe te ken.
 
 {% hint style="success" %}
-Let daarop dat Apple die instelling wat binne die gebruiker se profiel gestoor word in die **`NFSHomeDirectory`-eienskap** gebruik vir die **waarde van `$HOME`**, dus as jy 'n toepassing met toestemmings om hierdie waarde te wysig (**`kTCCServiceSystemPolicySysAdminFiles`**) kompromitteer, kan jy hierdie opsie **bewapen** met 'n TCC-omweg.
+Let daarop dat Apple die instelling wat binne die gebruiker se profiel gestoor word in die **`NFSHomeDirectory`-eienskap** gebruik vir die **waarde van `$HOME`**, dus as jy 'n toepassing kompromitteer met toestemmings om hierdie waarde te wysig (**`kTCCServiceSystemPolicySysAdminFiles`**), kan jy hierdie opsie **bewapen** met 'n TCC-omweg.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
 
-### [CVE-2020-27937 - Gidsnutshulpprogram](./#cve-2020-27937-directory-utility-1)
+### [CVE-2020-27937 - Directory Utility](./#cve-2020-27937-directory-utility-1)
 
 ### CVE-2021-30970 - Powerdir
 
 Die **eerste POC** gebruik [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/) en [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/) om die **HOME**-gids van die gebruiker te wysig.
 
-1. Kry 'n _csreq_ brok vir die teikentoep.
-2. Plant 'n valse _TCC.db_-lêer met vereiste toegang en die _csreq_-brok.
-3. Voer die gebruiker se Gidsdiensinskrywing uit met [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
-4. Wysig die Gidsdiensinskrywing om die gebruiker se tuisgids te verander.
-5. Voer die gewysigde Gidsdiensinskrywing in met [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
+1. Kry 'n _csreq_-klont vir die teikentoepassing.
+2. Plant 'n valse _TCC.db_-lêer met vereiste toegang en die _csreq_-klont.
+3. Voer die gebruiker se Dienste-gids uit met [**dsexport**](https://www.unix.com/man-page/osx/1/dsexport/).
+4. Wysig die Dienste-gids om die gebruiker se tuisgids te verander.
+5. Voer die gewysigde Dienste-gids in met [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
 6. Stop die gebruiker se _tccd_ en herlaai die proses.
 
 Die tweede POC het **`/usr/libexec/configd`** gebruik wat `com.apple.private.tcc.allow` met die waarde `kTCCServiceSystemPolicySysAdminFiles` gehad het.\
@@ -275,13 +275,13 @@ Daar is verskillende tegnieke om kode binne 'n proses in te spuit en sy TCC-voor
 {% endcontent-ref %}
 
 Verder is die mees algemene prosesinspuiting om TCC te omseil via **inproppe (laai biblioteek)**.\
-Inproppe is ekstra kode gewoonlik in die vorm van biblioteke of plist, wat deur die hooftoepassing **gelaai sal word** en sal uitvoer onder sy konteks. Daarom, as die hooftoepassing toegang tot TCC-beperkte lêers gehad het (via toegestane toestemmings of toekennings), sal die **aangepaste kode dit ook hê**.
+Inproppe is ekstra kode gewoonlik in die vorm van biblioteke of plist, wat deur die hooftoepassing **gelaai sal word** en sal uitgevoer word onder sy konteks. Daarom, as die hooftoepassing toegang tot TCC-beperkte lêers gehad het (via toegestane toestemmings of toekennings), sal die **aangepaste kode dit ook hê**.
 
-### CVE-2020-27937 - Gidsnutshulpprogram
+### CVE-2020-27937 - Directory Utility
 
-Die toepassing `/Sisteem/Biblioteek/Kerndiens/Apps/Gidsnutshulpprogram.app` het die toekennings **`kTCCServiceSystemPolicySysAdminFiles`**, het inproppe gelaai met die **`.daplug`**-uitbreiding en het nie die verhardde uitvoering gehad nie.
+Die toepassing `/System/Library/CoreServices/Applications/Directory Utility.app` het die toekennings **`kTCCServiceSystemPolicySysAdminFiles`** gehad, het inproppe gelaai met die **`.daplug`**-uitbreiding en het nie die versterkte uitvoering gehad nie.
 
-Om hierdie CVE te bewapen, word die **`NFSHomeDirectory`** verander (deur die vorige toekenning te misbruik) om in staat te wees om die gebruikers TCC-databasis oor te neem om TCC te omseil.
+Om hierdie CVE te bewapen, word die **`NFSHomeDirectory`** verander (deur die vorige toekenning te misbruik) sodat die gebruiker die TCC-databasis kan oorneem om TCC te omseil.
 
 Vir meer inligting, kyk na die [**oorspronklike verslag**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
 ### CVE-2020-29621 - Coreaudiod
@@ -315,7 +315,7 @@ add_tcc_entry();
 NSLog(@"[+] Exploitation finished...");
 exit(0);
 ```
-Vir meer inligting, kyk na die [**oorspronklike verslag**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
+Vir meer inligting kyk na die [**oorspronklike verslag**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
 ### Toestel-Abstraksie-Laag (DAL) Inproppe
 
@@ -361,9 +361,9 @@ Die binêre lêer `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` het
 
 ### CVE-2023-26818 - Telegram
 
-Telegram het die toestemmings **`com.apple.security.cs.allow-dyld-environment-variables`** en **`com.apple.security.cs.disable-library-validation`** gehad, dus was dit moontlik om dit te misbruik om **toegang tot sy toestemmings** te kry, soos die opname met die kamera. Jy kan [**die nutlading in die skryfstuk vind**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram het die toestemmings **`com.apple.security.cs.allow-dyld-environment-variables`** en **`com.apple.security.cs.disable-library-validation`** gehad, dus was dit moontlik om dit te misbruik om toegang tot sy regte te kry soos byvoorbeeld opname met die kamera. Jy kan [**die nutlading in die skryfstuk vind**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
-Merk op hoe om die omgewingsveranderlike te gebruik om 'n biblioteek te laai, is 'n **aangepaste plist** geskep om hierdie biblioteek in te spuit en **`launchctl`** is gebruik om dit te begin:
+Merk op hoe om die omgewingsveranderlike te gebruik om 'n biblioteek te laai, 'n **aangepaste plist** is geskep om hierdie biblioteek in te spuit en **`launchctl`** is gebruik om dit te begin:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -399,7 +399,7 @@ Dit is moontlik om **`open`** selfs te roep terwyl jy in 'n sandboks is
 
 ### Terminal Skripte
 
-Dit is redelik algemeen om die terminale **Volle Skyftoegang (FDA)** te gee, ten minste in rekenaars wat deur tegniese mense gebruik word. En dit is moontlik om **`.terminal`** skripte te roep deur dit te gebruik.
+Dit is redelik algemeen om terminale **Volle Skyftoegang (FDA)** te gee, ten minste in rekenaars wat deur tegniese mense gebruik word. En dit is moontlik om **`.terminal`** skripte te roep deur dit te gebruik.
 
 **`.terminal`** skripte is plist lêers soos hierdie een met die bevel om uit te voer in die **`CommandString`** sleutel:
 ```xml
@@ -419,7 +419,7 @@ Dit is redelik algemeen om die terminale **Volle Skyftoegang (FDA)** te gee, ten
 </dict>
 </plist>
 ```
-'n Toepassing kan 'n terminaalskrip skryf in 'n ligging soos /tmp en dit lanceer met 'n opdrag soos:'
+'n Toepassing kan 'n terminaalskrip skryf op 'n plek soos /tmp en dit begin met 'n kom soos:'
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -432,10 +432,10 @@ exploit_location]; task.standardOutput = pipe;
 ```
 ## Deur te koppel
 
-### CVE-2020-9771 - mount\_apfs TCC omseiling en voorregverhoging
+### CVE-2020-9771 - mount\_apfs TCC omseiling en voorreg-escalatie
 
-**Enige gebruiker** (selfs onbevoegdes) kan 'n tydmasjien-snapshot skep en koppel en **ALLE lêers** van daardie snapshot **toegang**.\
-Die **enigste voorreg** wat nodig is, is vir die gebruikte toepassing (soos `Terminal`) om **Volle Skyf Toegang** (FDA) toegang (`kTCCServiceSystemPolicyAllfiles`) te hê wat deur 'n admin verleen moet word.
+**Enige gebruiker** (selfs onbevoorregtes) kan 'n tydmasjien-snapshot skep en koppel en **ALLE lêers** van daardie snapshot **toegang**.\
+Die **enigste voorreg** wat nodig is, is vir die gebruikte toepassing (soos `Terminal`) om **Volle Skyf Toegang** (FDA) toegang (`kTCCServiceSystemPolicyAllfiles`) te hê wat deur 'n administrateur verleen moet word.
 
 {% code overflow="wrap" %}
 ```bash
@@ -488,7 +488,7 @@ Kyk na die **volledige uitbuiting** in die [**oorspronklike skryfstuk**](https:/
 
 ### asr
 
-Die gereedskap **`/usr/sbin/asr`** het toegelaat om die hele skyf te kopieer en dit op 'n ander plek te koppel deur TCC-beskerming te omseil.
+Die hulpmiddel **`/usr/sbin/asr`** het dit moontlik gemaak om die hele skyf te kopieer en dit op 'n ander plek te koppel deur TCC-beskerming te omseil.
 
 ### Liggingdiens
 
@@ -505,17 +505,17 @@ Die vouer **`/var/db/locationd/` was nie beskerm teen DMG-koppeling nie** sodat 
 
 In verskeie gevalle sal lêers sensitiewe inligting soos e-posse, telefoonnommers, boodskappe... in nie-beskermde liggings stoor (wat as 'n kwesbaarheid in Apple tel).
 
-<figure><img src="../../../../../.gitbook/assets/image (471).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (474).png" alt=""><figcaption></figcaption></figure>
 
 ## Sintetiese Klieks
 
-Dit werk nie meer nie, maar dit [**het in die verlede gewerk**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
+Dit werk nie meer nie, maar dit het in die verlede gewerk:
 
-<figure><img src="../../../../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (29).png" alt=""><figcaption></figcaption></figure>
 
 'n Ander manier om [**CoreGraphics-gebeurtenisse**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf) te gebruik:
 
-<figure><img src="../../../../../.gitbook/assets/image (27).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (30).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Verwysing
 

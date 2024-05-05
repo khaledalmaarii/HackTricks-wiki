@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,11 +14,11 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-MIG is geskep om die proses van Mach IPC-kode-skepping te **vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en kliënt om met 'n gegewe definisie te kommunikeer. Selfs al is die gegenereerde kode lelik, 'n ontwikkelaar sal dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+MIG is geskep om die proses van Mach IPC-kode-skepping te **vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en klient om met 'n gegewe definisie te kommunikeer. Selfs al is die gegenereerde kode lelik, 'n ontwikkelaar sal dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
 
 ### Voorbeeld
 
-Skep 'n definisiële lêer, in hierdie geval met 'n baie eenvoudige funksie:
+Skep 'n definisie-lêer, in hierdie geval met 'n baie eenvoudige funksie:
 
 {% code title="myipc.defs" %}
 ```cpp
@@ -43,7 +43,7 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Verskeie nuwe lêers sal geskep word in die huidige gids.
 
-In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die verklaring en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangsboodskap-ID (ons het 'n beginnommer van 500 aangedui):
+In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die deklarasie en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangende boodskap-ID (ons het 'n beginnommer van 500 aangedui):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -65,24 +65,37 @@ myipc_server_routine,
 {% endtab %}
 
 {% tab title="myipcServer.h" %}  
-### MacOS MIG (Mach Interface Generator)
+### macOS MIG (Mach Interface Generator)
 
-MIG is a tool used to define inter-process communication (IPC) for Mach-based systems. It generates server-side stubs and client-side proxies for the defined interfaces. This allows processes to communicate with each other using messages.
+Mach Interface Generator (MIG) is a tool used to define inter-process communication (IPC) for macOS. It generates client-server communication code based on the definitions provided in .defs files.
 
-To use MIG, you need to define the message formats and the functions that will handle these messages. The MIG compiler will then generate the necessary code for IPC.
-
-Here is an example of a MIG definition file:
+#### Example:
 
 ```c
-routine myipc_server(
-    in int arg1,
-    out int arg2
-);
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
+
+kern_return_t myipc_server(mach_port_t server_port);
 ```
 
-In this example, `myipc_server` is a routine that takes an integer input argument `arg1` and returns an integer output argument `arg2`.
+In the example above, `myipcServer.h` is the header file that contains the MIG-generated server code for the IPC communication.
 
-MIG is a powerful tool for handling IPC in MacOS systems, but it can also introduce security risks if not implemented correctly. It is important to follow best practices and secure coding guidelines when using MIG to prevent privilege escalation and other security vulnerabilities.  
+### macOS MIG (Mach Interface Generator)
+
+Mach Interface Generator (MIG) is 'n instrument wat gebruik word om interproseskommunikasie (IPC) vir macOS te definieer. Dit genereer kliënt-bediener kommunikasiekode gebaseer op die definisies wat verskaf word in .defs lêers.
+
+#### Voorbeeld:
+
+```c
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
+
+kern_return_t myipc_server(mach_port_t server_port);
+```
+
+In die voorbeeld hierbo, is `myipcServer.h` die kopteksleutel wat die MIG-gegenereerde bedienerskode vir die IPC-kommunikasie bevat.  
 {% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
@@ -114,7 +127,7 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies gedefinieer het, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou toegewys wees aan die ID **500**, die tweede een aan die ID **501**...
+In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies gedefinieer het, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou toegewys gewees het aan die ID **500**, die tweede een aan die ID **501**...
 
 Eintlik is dit moontlik om hierdie verhouding te identifiseer in die struktuur **`subsystem_to_name_map_myipc`** vanaf **`myipcServer.h`**:
 ```c
@@ -157,9 +170,9 @@ return FALSE;
 }
 </code></pre>
 
-Kontroleer die voorheen uitgeligte lyne deur die funksie te benader om te roep volgens ID.
+Kontroleer die voorheen uitgeligte lyne wat die funksie toegang gee om op ID te roep.
 
-In die volgende is die kode om 'n eenvoudige **bediener** en **kliënt** te skep waar die kliënt die funksies van die bediener kan aanroep:
+In die volgende is die kode om 'n eenvoudige **bediener** en **kliënt** te skep waar die kliënt die funksies van die bediener kan oproep:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -325,7 +338,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// Oproep na die berekende adres waar die funksie moet wees
+// Oproep na die gekalibreerde adres waar die funksie moet wees
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -351,9 +364,9 @@ return r0;
 
 Eintlik, as jy na die funksie **`0x100004000`** gaan, sal jy die reeks van **`routine_descriptor`** strukture vind. Die eerste element van die struktuur is die **adres** waar die **funksie** geïmplementeer is, en die **struktuur neem 0x28 byte**, dus elke 0x28 byte (beginnend van byte 0) kan jy 8 byte kry en dit sal die **adres van die funksie** wees wat aangeroep sal word:
 
-<figure><img src="../../../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Hierdie data kan onttrek word [**deur hierdie Hopper-skrip te gebruik**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 * **Deel jou hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.

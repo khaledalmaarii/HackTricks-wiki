@@ -10,35 +10,35 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Lêerhiërargie-indeling
+## Lêerhiërargie uitleg
 
 * **/Toepassings**: Die geïnstalleerde programme behoort hier te wees. Alle gebruikers sal hulle kan bereik.
 * **/bin**: Opdraglyn-binêre
 * **/kerne**: Indien dit bestaan, word dit gebruik om kernafleidings te stoor
-* **/dev**: Alles word as 'n lêer hanteer, sodat jy hardewaretoestelle hier gestoor kan sien.
-* **/ens**: Opsetlêers
-* **/Biblioteek**: 'n Baie sublêers en lêers wat verband hou met voorkeure, cache en logboeke kan hier gevind word. 'n Biblioteeklêer bestaan in die wortel en in elke gebruiker se gids.
-* **/privaat**: Onbeskryf, maar baie van die genoemde lêers is simboliese skakels na die privaatgids.
+* **/dev**: Alles word behandel as 'n lêer, sodat jy hardewaretoestelle hier gestoor kan sien.
+* **/ ens**: Konfigurasie lêers
+* **/Biblioteek**: 'n Baie subdossiers en lêers wat verband hou met voorkeure, cache en logboeke kan hier gevind word. 'N Biblioteek-dossier bestaan in die wortel en in elke gebruiker se gids.
+* **/privaat**: Onbeskryf, maar baie van die genoemde dossiers is simboliese skakels na die privaat gids.
 * **/sbin**: Essensiële stelsel-binêre (verwant aan administrasie)
 * **/Stelsel**: Lêer om OS X te laat loop. Jy behoort meestal net Apple-spesifieke lêers hier te vind (nie derdeparty nie).
 * **/tmp**: Lêers word na 3 dae verwyder (dit is 'n sagte skakel na /privaat/tmp)
 * **/Gebruikers**: Tuisgids vir gebruikers.
-* **/usr**: Opset- en stelsel-binêre
+* **/usr**: Konfig en stelsel-binêre
 * **/var**: Loglêers
-* **/Volumes**: Die gemoniteerde aandrywings sal hier verskyn.
-* **/.vol**: Deur `stat a.txt` te hardloop, verkry jy iets soos `16777223 7545753 -rw-r--r-- 1 gebruikersnaam wiel ...` waar die eerste nommer die id-nommer van die volume waar die lêer bestaan, en die tweede een die inode-nommer is. Jy kan die inhoud van hierdie lêer benader deur /.vol/ met daardie inligting te hardloop `cat /.vol/16777223/7545753`
+* **/Volumes**: Die aangehegde aandrywings sal hier verskyn.
+* **/.vol**: Deur `stat a.txt` te hardloop, verkry jy iets soos `16777223 7545753 -rw-r--r-- 1 gebruikersnaam wiel ...` waar die eerste nommer die id-nommer van die volume is waar die lêer bestaan en die tweede een is die inode-nommer. Jy kan die inhoud van hierdie lêer benader deur /.vol/ met daardie inligting te hardloop `cat /.vol/16777223/7545753`
 
-### Toepassingslêers
+### Toepassingsdossiers
 
 * **Stelseltoepassings** is geleë onder `/Stelsel/Toepassings`
 * **Geïnstalleerde** toepassings is gewoonlik geïnstalleer in `/Toepassings` of in `~/Toepassings`
-* **Toepassingsdata** kan gevind word in `/Biblioteek/Toepassingondersteuning` vir die toepassings wat as wortel hardloop en `~/Biblioteek/Toepassingondersteuning` vir toepassings wat as die gebruiker hardloop.
-* Derdeparty-toepassings **demone** wat **as wortel moet hardloop** is gewoonlik geleë in `/Biblioteek/BevoorregteHulpprogramme/`
-* **Gesandboxte** programme word in die `~/Biblioteek/Houers`-gids ingekart. Elke toep het 'n gids wat volgens die toepassing se bondel-ID genoem word (`com.apple.Safari`).
+* **Toepassingsdata** kan gevind word in `/Biblioteek/Toepassingondersteuning` vir die toepassings wat as wortel loop en `~/Biblioteek/Toepassingondersteuning` vir toepassings wat as die gebruiker loop.
+* Derdeparty-toepassings **demone** wat **as wortel moet loop** is gewoonlik geleë in `/Biblioteek/BevoorregteHulpinstrumente/`
+* **Gesandboxte** programme word in die `~/Biblioteek/Houers`-gids ingekart. Elke toep het 'n gids wat genoem word volgens die toepassing se bondel-ID (`com.apple.Safari`).
 * Die **kerne** is geleë in `/Stelsel/Biblioteek/Kerne/kerne`
 * **Apple se kernuitbreidings** is geleë in `/Stelsel/Biblioteek/Uitbreidings`
 * **Derdeparty-kernuitbreidings** word gestoor in `/Biblioteek/Uitbreidings`
@@ -47,42 +47,42 @@ Ander maniere om HackTricks te ondersteun:
 
 macOS stoor inligting soos wagwoorde op verskeie plekke:
 
-{% content-ref url="macos-sensitive-locations.md" %}
-[macos-sensitive-locations.md](macos-sensitive-locations.md)
+{% content-ref url="macos-sensitiewe-plekke.md" %}
+[macos-sensitiewe-plekke.md](macos-sensitiewe-plekke.md)
 {% endcontent-ref %}
 
 ### Kwesbare pkg-installeerders
 
-{% content-ref url="macos-installers-abuse.md" %}
-[macos-installers-abuse.md](macos-installers-abuse.md)
+{% content-ref url="macos-installeerders-misbruik.md" %}
+[macos-installeerders-misbruik.md](macos-installeerders-misbruik.md)
 {% endcontent-ref %}
 
 ## OS X Spesifieke Uitbreidings
 
 * **`.dmg`**: Apple Skyfafbeeldingslêers is baie algemeen vir installeerders.
 * **`.kext`**: Dit moet 'n spesifieke struktuur volg en dit is die OS X-weergawe van 'n bestuurder. (Dit is 'n bondel)
-* **`.plist`**: Ook bekend as eienskapslêer, stoor inligting in XML- of binêre formaat.
+* **`.plist`**: Ook bekend as eienskapslys, stoor inligting in XML- of binêre formaat.
 * Dit kan XML of binêre wees. Binêre eenhede kan gelees word met:
 * `standaarde lees konfig.plist`
-* `/usr/libexec/PlistBuddy -c druk konfig.plsit`
+* `/usr/libexec/PlistBuddy -c druk config.plsit`
 * `plutil -p ~/Biblioteek/Voorkeure/com.apple.screensaver.plist`
 * `plutil -omskakel xml1 ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
 * `plutil -omskakel json ~/Biblioteek/Voorkeure/com.apple.screensaver.plist -o -`
 * **`.app`**: Apple-toepassings wat die gidsstruktuur volg (Dit is 'n bondel).
 * **`.dylib`**: Dinamiese biblioteke (soos Windows DLL-lêers)
-* **`.pkg`**: Is dieselfde as xar (Uitbreibare Argief-formaat). Die installeerderopdrag kan gebruik word om die inhoud van hierdie lêers te installeer.
+* **`.pkg`**: Is dieselfde as xar (eXtensible Archive-formaat). Die installeerderopdrag kan gebruik word om die inhoud van hierdie lêers te installeer.
 * **`.DS_Store`**: Hierdie lêer is in elke gids, dit stoor die eienskappe en aanpassings van die gids.
 * **`.Spotlight-V100`**: Hierdie gids verskyn op die wortelgids van elke volume op die stelsel.
-* **`.metadata_never_index`**: As hierdie lêer aan die wortel van 'n volume is, sal Spotlight daardie volume nie indekseer nie.
+* **`.metadata_never_index`**: As hierdie lêer aan die wortel van 'n volume is, sal Spotlight daardie volume nie indeks nie.
 * **`.noindex`**: Lêers en gids met hierdie uitbreiding sal nie deur Spotlight geïndekseer word nie.
 * **`.sdef`**: Lêers binne bondels wat spesifiseer hoe dit moontlik is om met die toepassing te interaksieer vanuit 'n AppleScript.
 
 ### macOS Bondels
 
-'n Bondel is 'n **gids** wat **lyk soos 'n voorwerp in Finder** (‘n Bondelvoorbeeld is `*.app`-lêers).
+'n Bondel is 'n **gids** wat **lyk soos 'n voorwerp in Finder** ( 'n Voorbeeld van 'n Bondel is `*.app` lêers).
 
-{% content-ref url="macos-bundles.md" %}
-[macos-bundles.md](macos-bundles.md)
+{% content-ref url="macos-bondels.md" %}
+[macos-bondels.md](macos-bondels.md)
 {% endcontent-ref %}
 
 ## Dyld Gedeelde Biblioteekkas (SLC)
@@ -92,7 +92,7 @@ Op macOS (en iOS) word alle stelsel gedeelde biblioteke, soos raamwerke en dylib
 Dit is geleë in macOS in `/Stelsel/Volumes/Preboot/Cryptexes/OS/Stelsel/Biblioteek/dyld/` en in ouer weergawes kan jy die **gedeelde kas** dalk vind in **`/Stelsel/Biblioteek/dyld/`**.\
 In iOS kan jy hulle vind in **`/Stelsel/Biblioteek/Caches/com.apple.dyld/`**.
 
-Soortgelyk aan die dyld gedeelde kas, word die kernel en die kerneluitbreidings ook saamgestel in 'n kernelkas, wat by opstarttyd gelaai word.
+Soortgelyk aan die dyld gedeelde kas, word die kern en die kernuitbreidings ook saamgestel in 'n kernkas, wat by opstarttyd gelaai word.
 
 Om die biblioteke uit die enkele lêer dylib gedeelde kas te onttrek, was dit moontlik om die binêre [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) te gebruik wat dalk nie meer werk nie, maar jy kan ook [**dyldextractor**](https://github.com/arandomdev/dyldextractor) gebruik:
 
@@ -109,24 +109,24 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 {% endcode %}
 
 {% hint style="success" %}
-Let wel dat selfs as die `dyld_shared_cache_util`-werktuig nie werk nie, kan jy die **gedeelde dyld-binêre na Hopper** deurgee en Hopper sal in staat wees om al die biblioteke te identifiseer en jou **laat kies watter een** jy wil ondersoek:
+Merk op dat selfs as die `dyld_shared_cache_util`-werktuig nie werk nie, kan jy die **gedeelde dyld-binêre lêer aan Hopper oorhandig** en sal Hopper in staat wees om al die biblioteke te identifiseer en jou **laat kies watter een** jy wil ondersoek:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Sommige onttrekkers sal nie werk nie omdat dylibs vooraf gekoppel is met hardgekoppelde adresse en daarom moontlik na onbekende adresse kan spring.
+Sommige ekstrakteurs sal nie werk nie omdat dylibs vooraf gekoppel is met hardgekoppelde adresse en daarom moontlik na onbekende adresse kan spring.
 
 {% hint style="success" %}
 Dit is ook moontlik om die Gedeelde Biblioteekkas van ander \*OS-toestelle in macOS af te laai deur 'n emulator in Xcode te gebruik. Hulle sal binne gelaai word: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, soos:`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
-### In kaart bring van SLC
+### In Kaart Bring van SLC
 
 **`dyld`** gebruik die systaalaanroep **`shared_region_check_np`** om te weet of die SLC in kaart gebring is (wat die adres teruggee) en **`shared_region_map_and_slide_np`** om die SLC in kaart te bring.
 
-Let wel dat selfs as die SLC op die eerste gebruik geskuif word, gebruik al die **prosesse** dieselfde kopie, wat die ASLR-beskerming **uitgeskakel het** as die aanvaller in staat was om prosesse in die stelsel uit te voer. Dit is eintlik in die verlede uitgebuit en reggestel met die gedeelde streekpager.
+Merk op dat selfs as die SLC op die eerste gebruik geskuif word, gebruik al die **prosesse** dieselfde kopie, wat die ASLR-beskerming **elimineer** as die aanvaller in staat was om prosesse in die stelsel uit te voer. Dit is eintlik in die verlede uitgebuit en reggestel met die gedeelde streekpager.
 
-Takpoele is klein Mach-O-dylibs wat klein spasies tussen beeldafbeeldings skep wat dit onmoontlik maak om die funksies te interposeer.
+Takpoels is klein Mach-O-dylibs wat klein spasies tussen beeldtoewysings skep wat dit onmoontlik maak om die funksies te interposeer.
 
 ### Oorskryf SLC's
 
@@ -145,12 +145,12 @@ In 'n **vouer** laat **lees** toe om dit te **lys**, **skryf** laat toe om dit t
 
 Daar is sekere vlae wat in die lêers ingestel kan word wat die lêer anders laat optree. Jy kan die vlae van die lêers binne 'n gids nagaan met `ls -lO /path/directory`
 
-* **`uchg`**: Bekend as **uchange**-vlag sal **enige aksie** wat die **lêer** verander of verwyder **voorkom**. Om dit in te stel doen: `chflags uchg file.txt`
-* Die root-gebruiker kan die vlag **verwyder** en die lêer wysig
-* **`restricted`**: Hierdie vlag maak die lêer **beskerm deur SIP** (jy kan nie hierdie vlag by 'n lêer voeg nie).
+* **`uchg`**: Bekend as die **uchange**-vlag sal **enige aksie** wat die **lêer** verander of verwyder **voorkom**. Om dit in te stel doen: `chflags uchg file.txt`
+* Die root-gebruiker kon die vlag **verwyder** en die lêer wysig
+* **`beperk`**: Hierdie vlag maak die lêer **beskerm deur SIP** (jy kan nie hierdie vlag by 'n lêer voeg nie).
 * **`Sticky bit`**: As 'n gids met 'n plakkerige bit, kan **slegs** die **gidseienaar of root** lêers hernoem of verwyder. Tipies word dit op die /tmp-gids ingestel om gewone gebruikers te verhoed om ander gebruikers se lêers te verwyder of te skuif.
 
-Al die vlae kan in die lêer `sys/stat.h` gevind word (vind dit met `mdfind stat.h | grep stat.h`) en is:
+Al die vlae kan gevind word in die lêer `sys/stat.h` (vind dit deur `mdfind stat.h | grep stat.h`) en is:
 
 * `UF_SETTABLE` 0x0000ffff: Masker van eienaar veranderbare vlae.
 * `UF_NODUMP` 0x00000001: Moet lêer nie dump nie.
@@ -164,7 +164,7 @@ Al die vlae kan in die lêer `sys/stat.h` gevind word (vind dit met `mdfind stat
 * `SF_SUPPORTED` 0x009f0000: Masker van supergebruiker ondersteunde vlae.
 * `SF_SETTABLE` 0x3fff0000: Masker van supergebruiker veranderbare vlae.
 * `SF_SYNTHETIC` 0xc0000000: Masker van stelsel slegs-lees sintetiese vlae.
-* `SF_ARCHIVED` 0x00010000: Lêer is ge-argiveer.
+* `SF_ARCHIVED` 0x00010000: Lêer is gearkiveer.
 * `SF_IMMUTABLE` 0x00020000: Lêer mag nie verander word nie.
 * `SF_APPEND` 0x00040000: Skrywes na lêer mag slegs aangeheg word.
 * `SF_RESTRICTED` 0x00080000: Toestemming benodig vir skryf.
@@ -177,7 +177,7 @@ Al die vlae kan in die lêer `sys/stat.h` gevind word (vind dit met `mdfind stat
 Lêer **ACL's** bevat **ACE** (Toegangsbeheerinskrywings) waar meer **fynkorrelige regte** aan verskillende gebruikers toegewys kan word.
 
 Dit is moontlik om 'n **gids** hierdie regte toe te ken: `lys`, `soek`, `voeg_lêer_by`, `voeg_subgids_by`, `verwyder_kind`, `verwyder_kind`.\
-En aan 'n **lêer**: `lees`, `skryf`, `voeg_by`, `voer_uit`.
+En aan 'n **lêer**: `lees`, `skryf`, `aanheg`, `uitvoer`.
 
 Wanneer die lêer ACL's bevat, sal jy 'n "+" vind wanneer jy die regte lys soos in:
 ```bash
@@ -190,7 +190,7 @@ ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Jy kan **alle lêers met ACLs vind** met (dit is baaaie stadig):
+Jy kan **alle lêers met ACL's vind** met (dit is baaaie stadig):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
@@ -225,7 +225,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Jy kan **alle lêers wat hierdie uitgebreide attribuut bevat, vind met:**
+Jy kan **al die lêers wat hierdie uitgebreide eienskap bevat, vind met:**
 
 {% code overflow="wrap" %}
 ```bash
@@ -235,7 +235,7 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 ### decmpfs
 
-Die uitgebreide kenmerk `com.apple.decmpfs` dui daarop dat die lêer versleutel is, `ls -l` sal 'n **grootte van 0** rapporteer en die saamgedrukte data is binne hierdie kenmerk. Telkens wanneer die lêer benader word, sal dit in die geheue ontsluit word.
+Die uitgebreide kenmerk `com.apple.decmpfs` dui daarop dat die lêer versleutel is, `ls -l` sal 'n **grootte van 0** rapporteer en die saamgedrukte data is binne hierdie kenmerk. Telkens wanneer die lêer geopen word, sal dit in die geheue ontsluit word.
 
 Hierdie kenmerk kan gesien word met `ls -lO` aangedui as saamgedruk omdat saamgedrukte lêers ook gemerk word met die vlag `UF_COMPRESSED`. As 'n saamgedrukte lêer verwyder word, sal hierdie vlag met `chflags nocompressed </path/to/file>` verwyder word, die stelsel sal dan nie weet dat die lêer saamgedruk was nie en daarom sal dit nie kan ontsaam en toegang tot die data hê nie (dit sal dink dat dit eintlik leeg is).
 
@@ -248,6 +248,8 @@ Mac OS-lêers is gewoonlik saamgestel as **universale lêers**. 'n **Universale 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
+
+## macOS-prosesgeheue
 
 ## macOS-geheue-onttrekking
 
@@ -268,7 +270,7 @@ Die gids `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/Syste
 
 * **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: Bevat inligting oor afgelaai lêers, soos die URL waarvandaan hulle afgelaai is.
 * **`/var/log/system.log`**: Hooflog van OSX-stelsels. com.apple.syslogd.plist is verantwoordelik vir die uitvoering van die stelsellog (jy kan nagaan of dit gedeaktiveer is deur te soek na "com.apple.syslogd" in `launchctl list`.
-* **`/private/var/log/asl/*.asl`**: Dit is die Apple-stelsellogboeke wat dalk interessante inligting kan bevat.
+* **`/private/var/log/asl/*.asl`**: Dit is die Apple-stelsellogboeke wat dalk interessante inligting bevat.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Berg onlangs benaderde lêers en aansoeke deur "Finder" op.
 * **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Berg items om te begin met die stelselopstart
 * **`$HOME/Library/Logs/DiskUtility.log`**: Log lêer vir die DiskUtility-toep (inligting oor aandrywings, insluitend USB's)
@@ -282,7 +284,7 @@ Die gids `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/Syste
 Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Kry die [**amptelike PEASS & HackTricks-swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.

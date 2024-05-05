@@ -2,40 +2,40 @@
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksionaliteite bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjins wat **gratis** funksionaliteite bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromiteer** is.
 
-Die primêre doel van WhiteIntel is om rekeningoorname en losprysaanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
 
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Bedreigingsmodellering
 
-Welkom by HackTricks se omvattende gids oor Bedreigingsmodellering! Begin 'n ontdekkingsreis van hierdie kritieke aspek van sibersekerheid, waar ons potensiële kwesbaarhede in 'n stelsel identifiseer, verstaan, en daarteen strategiseer. Hierdie draad dien as 'n stap-vir-stap-gids propvol werklike voorbeelde, nuttige sagteware, en maklik verstaanbare verduidelikings. Ideaal vir beide beginners en ervare beoefenaars wat hul sibersekerheidsverdediging wil versterk.
+Welkom by HackTricks se omvattende gids oor Bedreigingsmodellering! Begin 'n verkenning van hierdie kritieke aspek van sibersekerheid, waar ons potensiële kwesbaarhede in 'n stelsel identifiseer, verstaan, en daarteen strategiseer. Hierdie draad dien as 'n stap-vir-stap-gids propvol werklike voorbeelde, nuttige sagteware, en maklik verstaanbare verduidelikings. Ideaal vir beide beginners en ervare beoefenaars wat hul sibersekerheidsverdediging wil versterk.
 
 ### Gewoonlik Gebruikte Scenarios
 
 1. **Sagteware-ontwikkeling**: As deel van die Veilige Sagteware-ontwikkelingslewensiklus (SSDLC) help bedreigingsmodellering om **potensiële bronne van kwesbaarhede** in die vroeë stadiums van ontwikkeling te identifiseer.
-2. **Indringingstoetsing**: Die Indringingstoetsuitvoeringsstandaard (PTES) raamwerk vereis **bedreigingsmodellering om die stelsel se kwesbaarhede** te verstaan voordat die toets uitgevoer word.
+2. **Pentesting**: Die Pentesting-uitvoeringsstandaard (PTES) raamwerk vereis **bedreigingsmodellering om die stelsel se kwesbaarhede te verstaan** voordat die toets uitgevoer word.
 
-### Bedreigingsmodel in 'n Neutedop
+### Bedreigingsmodel in 'n neutedop
 
-'n Bedreigingsmodel word tipies voorgestel as 'n diagram, beeld, of 'n ander vorm van visuele illustrasie wat die beplande argitektuur of bestaande bou van 'n aansoek uitbeeld. Dit vertoon ooreenkomste met 'n **data vloeidiagram**, maar die sleutelonderskeid lê in sy veiligheidsgeoriënteerde ontwerp.
+'n Bedreigingsmodel word tipies voorgestel as 'n diagram, beeld, of 'n ander vorm van visuele voorstelling wat die beplande argitektuur of bestaande bou van 'n aansoek uitbeeld. Dit vertoon ooreenkomste met 'n **data vloeidiagram**, maar die sleutelonderskeid lê in sy veiligheidsgeoriënteerde ontwerp.
 
-Bedreigingsmodelle bevat dikwels elemente wat in rooi gemerk is, wat potensiële kwesbaarhede, risiko's, of hindernisse simboliseer. Om die proses van risiko-identifikasie te stroomlyn, word die CIA (Vertroulikheid, Integriteit, Beskikbaarheid) driehoek gebruik, wat die basis vorm van baie bedreigingsmodelleringsmetodologieë, met STRIDE as een van die mees algemene. Die gekose metodologie kan egter wissel afhangende van die spesifieke konteks en vereistes.
+Bedreigingsmodelle bevat dikwels elemente wat in rooi gemerk is, wat potensiële kwesbaarhede, risiko's, of hindernisse simboliseer. Om die proses van risiko-identifikasie te stroomlyn, word die CIA (Vertroulikheid, Integriteit, Beskikbaarheid) driehoek gebruik, wat die basis vorm van baie bedreigingsmodelleringsmetodologieë, met STRIDE wat een van die mees algemene is. Die gekose metodologie kan egter wissel afhangende van die spesifieke konteks en vereistes.
 
 ### Die CIA Driehoek
 
-Die CIA Driehoek is 'n wyd erken model in die veld van inligtingsbeveiliging, wat staan vir Vertroulikheid, Integriteit, en Beskikbaarheid. Hierdie drie pilare vorm die fondament waarop baie veiligheidsmaatreëls en -beleide gebou word, insluitend bedreigingsmodelleringsmetodologieë.
+Die CIA Driehoek is 'n wyd erken model in die veld van inligtingsekuriteit, wat staan vir Vertroulikheid, Integriteit, en Beskikbaarheid. Hierdie drie pilare vorm die fondament waarop baie sekuriteitsmaatreëls en -beleide gebou word, insluitend bedreigingsmodelleringsmetodologieë.
 
 1. **Vertroulikheid**: Verseker dat die data of stelsel nie deur ongemagtigde individue benader word nie. Dit is 'n sentrale aspek van sekuriteit wat toepaslike toegangsbeheer, enkripsie, en ander maatreëls vereis om data-oortredings te voorkom.
 2. **Integriteit**: Die akkuraatheid, konsekwentheid, en betroubaarheid van die data oor sy lewensiklus. Hierdie beginsel verseker dat die data nie deur ongemagtigde partye verander of geskend word nie. Dit behels dikwels kontrolesomme, hasing, en ander data-verifikasiemetodes.
-3. **Beskikbaarheid**: Dit verseker dat data en dienste toeganklik is vir gemagtigde gebruikers wanneer dit nodig is. Dit behels dikwels oortolligheid, fouttoleransie, en hoë-beskikbaarheidskonfigurasies om stelsels selfs in die aangesig van onderbrekings aan die gang te hou.
+3. **Beskikbaarheid**: Dit verseker dat data en dienste toeganklik is vir gemagtigde gebruikers wanneer dit benodig word. Dit behels dikwels oorbodigheid, fouttoleransie, en hoë-beskikbaarheidskonfigurasies om stelsels selfs te laat werk in die aangesig van onderbrekings.
 
 ### Bedreigingsmodelleringsmetodologieë
 
@@ -78,7 +78,7 @@ Soms kan dit so lyk:
 
 <figure><img src="../.gitbook/assets/1_threatmodel_create_project.jpg" alt=""><figcaption></figcaption></figure>
 
-2. Lanseer Nuwe Projek
+2. Begin Nuwe Projek
 
 <figure><img src="../.gitbook/assets/launch_new_project_2.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -98,11 +98,11 @@ Net 'n bietjie verduideliking oor die entiteite:
 * Akteur ( 'n Persoon soos 'n Webwerfbesoeker, Gebruiker of Administrateur)
 * Data Vloei Lyn (Aanwyser van Interaksie)
 * Vertrouensgrens (Verskillende netwerksegmente of -omvang)
-* Berg (Dinge waar data gestoor word soos Databasisse)
+* Stoor (Dinge waar data gestoor word soos Databasisse)
 
 5. Skep 'n Bedreiging (Stap 1)
 
-Eerstens moet jy die laag kies waarin jy 'n bedreiging wil byvoeg
+Eerstens moet jy die laag kies waar jy 'n bedreiging wil byvoeg
 
 <figure><img src="../.gitbook/assets/3_threatmodel_chose-threat-layer.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -123,14 +123,13 @@ Nou behoort jou voltooide model iets soos dit te lyk. En dit is hoe jy 'n eenvou
 
 Dit is 'n gratis hulpmiddel van Microsoft wat help om bedreigings in die ontwerpfase van sagtewareprojekte te vind. Dit maak gebruik van die STRIDE-metodologie en is veral geskik vir diegene wat op Microsoft se stapel ontwikkel.
 
-
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diewe malware** **gekompromiteer** is.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneem en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
+Hul primêre doel van WhiteIntel is om rekening-oorneem te bekamp en lospryse aanvalle wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 

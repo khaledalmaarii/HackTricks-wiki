@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -59,13 +59,13 @@ Soos u in die vorige opdraglyn kan sien, het dit gesê dat dit 0 foute gevind he
 
 Om met die bus-piraat te verbind, kan u die dokumente volg:
 
-![](<../../.gitbook/assets/image (481).png>)
+![](<../../.gitbook/assets/image (484).png>)
 
 In hierdie geval gaan ek verbind met 'n EPROM: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (961).png>)
+![](<../../.gitbook/assets/image (964).png>)
 
-Om met die bus-piraat te praat, het ek Tera Term gebruik wat aan die piraatbus COM-poort gekoppel is met 'n Opstelling --> Seriële Poort --> Spoed van 115200.\
+Om met die bus-piraat te praat, het ek Tera Term gebruik wat aan die piraatbus se COM-poort gekoppel is met 'n Opstelling --> Seriële Poort --> Spoed van 115200.\
 In die volgende kommunikasie kan u vind hoe om die bus-piraat voor te berei om I2C te praat en hoe om vanaf die geheue te skryf en te lees (Opmerkings verskyn met "#", moenie daardie deel in die kommunikasie verwag nie):
 ```bash
 # Check communication with buspirate
@@ -167,9 +167,9 @@ NACK
 ```
 ### Sniffer
 
-In hierdie scenario gaan ons die I2C kommunikasie tussen die arduino en die vorige EPROM bespioneer, jy hoef net beide toestelle te koppel en dan die bus piraat aan te sluit op die SCL, SDA en GND-penne:
+In hierdie scenario gaan ons die I2C kommunikasie tussen die arduino en die vorige EPROM bespied, jy hoef net beide toestelle te koppel en dan die bus piraat aan te sluit op die SCL, SDA en GND-penne:
 
-![](<../../.gitbook/assets/image (163).png>)
+![](<../../.gitbook/assets/image (166).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -223,7 +223,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

@@ -16,52 +16,52 @@ Ander maniere om HackTricks te ondersteun:
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromitteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steel-malware** is **gekompromiteer**.
 
-Die primêre doel van WhiteIntel is om rekening-oorneem en losgeldaanvalle te beveg wat voortspruit uit inligtingsteelmalware.
+Die primêre doel van WhiteIntel is om rekening-oorneem en losgeldaanvalle te beveg wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Basiese Inligting
 
-UART is 'n seriële protokol, wat beteken dat dit data tussen komponente een bit op 'n slag oordra. In teenstelling, oordra parallelle kommunikasieprotokolle data gelyktydig deur meervoudige kanale. Gewone seriële protokolle sluit RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, en USB in.
+UART is 'n seriële protokol, wat beteken dit oordra data tussen komponente een bit op 'n slag. In teenstelling, oordra parallelle kommunikasieprotokolle data gelyktydig deur meervoudige kanale. Gewone seriële protokolle sluit RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, en USB in.
 
-Gewoonlik word die lyn hoog gehou (op 'n logiese 1-waarde) terwyl UART in die idle-toestand is. Dan, om die begin van 'n datatransmissie aan te dui, stuur die oordraer 'n beginbit na die ontvanger, tydens watter die sein laag gehou word (op 'n logiese 0-waarde). Vervolgens stuur die oordraer vyf tot agt databits wat die werklike boodskap bevat, gevolg deur 'n opsionele pariteitsbit en een of twee stopbietjies (met 'n logiese 1-waarde), afhangende van die konfigurasie. Die pariteitsbit, wat vir foutkontrole gebruik word, word selde in die praktyk gesien. Die stopbit (of bietjies) dui die einde van die transmissie aan.
+Gewoonlik word die lyn hoog gehou (op 'n logiese 1-waarde) terwyl UART in die idle-toestand is. Dan, om die begin van 'n data-oordrag aan te dui, stuur die versender 'n beginbit na die ontvanger, tydens watter die sein laag gehou word (op 'n logiese 0-waarde). Vervolgens stuur die versender vyf tot agt databits wat die werklike boodskap bevat, gevolg deur 'n opsionele pariteitsbit en een of twee stopbietjies (met 'n logiese 1-waarde), afhangende van die konfigurasie. Die pariteitsbit, wat vir foutkontrole gebruik word, word selde in die praktyk gesien. Die stopbit (of bietjies) dui die einde van die oordrag aan.
 
 Ons noem die mees algemene konfigurasie 8N1: agt databits, geen pariteit, en een stopbit. Byvoorbeeld, as ons die karakter C, of 0x43 in ASCII, in 'n 8N1 UART-konfigurasie wou stuur, sou ons die volgende bietjies stuur: 0 (die beginbit); 0, 1, 0, 0, 0, 0, 1, 1 (die waarde van 0x43 in binêre), en 0 (die stopbit).
 
-![](<../../.gitbook/assets/image (761).png>)
+![](<../../.gitbook/assets/image (764).png>)
 
 Hardewaregereedskap om met UART te kommunikeer:
 
-* USB-na-seriële-adapter
+* USB-naar-seriële adapter
 * Adapters met die CP2102 of PL2303 skyfies
 * Veeldoelige gereedskap soos: Bus Pirate, die Adafruit FT232H, die Shikra, of die Attify Badge
 
 ### Identifisering van UART-poorte
 
-UART het 4 poorte: **TX**(Oordra), **RX**(Ontvang), **Vcc**(Spanning), en **GND**(Grond). Jy mag dalk 4 poorte met die **`TX`** en **`RX`**-letters **geskryf** op die PCB vind. Maar as daar geen aanduiding is nie, mag jy dit dalk self moet probeer vind met 'n **multimeter** of 'n **logika-analiseerder**.
+UART het 4 poorte: **TX**(Stuur), **RX**(Ontvang), **Vcc**(Spanning), en **GND**(Grond). Jy mag dalk 4 poorte met die **`TX`** en **`RX`**-letters **geskryf** op die PCB vind. Maar as daar geen aanduiding is nie, mag jy dit dalk self moet probeer vind met 'n **multimeter** of 'n **logika-analiseerder**.
 
 Met 'n **multimeter** en die toestel afgeskakel:
 
-* Om die **GND**-pen te identifiseer, gebruik die **Continuïteitstoets**-modus, plaas die agterleier in die grond en toets met die rooi een totdat jy 'n geluid van die multimeter hoor. Verskeie GND-penne kan op die PCB gevind word, sodat jy dalk die een wat aan UART behoort, gevind het of nie.
+* Om die **GND**-pen te identifiseer, gebruik die **Deurlooptoets**-modus, plaas die agterleier in die grond en toets met die rooi een totdat jy 'n geluid van die multimeter hoor. Verskeie GND-penne kan op die PCB gevind word, sodat jy dalk die een wat aan UART behoort, gevind het of nie.
 * Om die **VCC-poort** te identifiseer, stel die **DC-spanningsmodus** in en stel dit op tot 20 V spanning. Swart sonde op grond en rooi sonde op die pen. Skakel die toestel aan. As die multimeter 'n konstante spanning van óf 3.3 V óf 5 V meet, het jy die Vcc-pen gevind. As jy ander spanninge kry, probeer met ander poorte.
-* Om die **TX** **poort** te identifiseer, **DC-spanningsmodus** tot 20 V spanning, swart sonde op grond, en rooi sonde op die pen, en skakel die toestel aan. As jy vind dat die spanning vir 'n paar sekondes fluktueer en dan stabiliseer teen die Vcc-waarde, het jy waarskynlik die TX-poort gevind. Dit is omdat dit wanneer dit aangeskakel word, 'n paar foutdata stuur.
-* Die **RX-poort** sou die naaste een tot die ander 3 wees, dit het die laagste spanningfluktuerings en die laagste algehele waarde van al die UART-penne.
+* Om die **TX** **poort** te identifiseer, **DC-spanningsmodus** tot 20 V spanning, swart sonde op grond, en rooi sonde op die pen, en skakel die toestel aan. As jy vind dat die spanning vir 'n paar sekondes fluktueer en dan stabiliseer teen die Vcc-waarde, het jy waarskynlik die TX-poort gevind. Dit is omdat dit wanneer dit aangeskakel word, 'n paar foutopsporingsdata stuur.
+* Die **RX-poort** sou die naaste een aan die ander 3 wees, dit het die laagste spanningfluktuerings en die laagste algehele waarde van al die UART-penne.
 
 Jy kan die TX- en RX-poorte verwar en niks sal gebeur nie, maar as jy die GND- en die VCC-poort verwar, kan jy die stroombaan beskadig.
 
-In sommige teikentoestelle is die UART-poort deur die vervaardiger gedeaktiveer deur RX of TX of selfs albei te deaktiveer. In daardie geval kan dit nuttig wees om die verbindinge op die stroombord na te spoor en 'n paar breekpunte te vind. 'n Sterk aanduiding dat daar geen opsporing van UART is nie en dat die stroombaan gebreek is, is om die toestelwaarborg te kontroleer. As die toestel met 'n waarborg gestuur is, laat die vervaardiger 'n paar foutinterfaces (in hierdie geval, UART) en het dus die UART ontkoppel en sal dit weer aanskakel terwyl dit foutopsporing doen. Hierdie breekpunte kan deur soldering of jumperdrade aangesluit word.
+In sommige teikentoestelle is die UART-poort deur die vervaardiger gedeaktiveer deur RX of TX of selfs albei te deaktiveer. In daardie geval kan dit nuttig wees om die verbindinge op die stroombord na te spoor en 'n paar breekpunte te vind. 'n Sterk aanduiding dat daar geen opsporing van UART is nie en die onderbreking van die stroombaan, is om die toestelwaarborg te kontroleer. As die toestel met 'n waarborg gestuur is, laat die vervaardiger 'n paar foutopsporingskoppelvlakke (in hierdie geval, UART) agter en het dus die UART ontkoppel en sal dit weer aanskakel terwyl dit foutopsporing doen. Hierdie breekpunte kan deur soldering of jumperdrade gekoppel word.
 
 ### Identifisering van die UART Baud Tempo
 
-Die maklikste manier om die korrekte baud tempo te identifiseer, is om na die **TX-pen se uitset te kyk en te probeer om die data te lees**. As die data wat jy ontvang nie leesbaar is nie, skakel oor na die volgende moontlike baud tempo totdat die data leesbaar word. Jy kan 'n USB-na-seriële-adapter of 'n veeldoelige toestel soos Bus Pirate gebruik om dit te doen, gekoppel met 'n hulpprogram, soos [baudrate.py](https://github.com/devttys0/baudrate/). Die mees algemene baud tempos is 9600, 38400, 19200, 57600, en 115200.
+Die maklikste manier om die korrekte baud-tempo te identifiseer, is om na die **TX-pen se uitset te kyk en probeer om die data te lees**. As die data wat jy ontvang nie leesbaar is nie, skakel oor na die volgende moontlike baud-tempo totdat die data leesbaar word. Jy kan 'n USB-naar-seriële adapter of 'n veeldoelige toestel soos Bus Pirate gebruik om dit te doen, gekoppel met 'n hulpprogram, soos [baudrate.py](https://github.com/devttys0/baudrate/). Die mees algemene baud-tempo's is 9600, 38400, 19200, 57600, en 115200.
 
 {% hint style="danger" %}
 Dit is belangrik om daarop te let dat in hierdie protokol jy die TX van die een toestel aan die RX van die ander moet koppel!
@@ -69,9 +69,9 @@ Dit is belangrik om daarop te let dat in hierdie protokol jy die TX van die een 
 
 ## CP210X UART na TTY-Adapter
 
-Die CP210X Skyf word gebruik in baie prototiperingborde soos NodeMCU (met esp8266) vir Seriële Kommunikasie. Hierdie adapters is relatief goedkoop en kan gebruik word om met die UART-koppelvlak van die teiken te verbind. Die toestel het 5-penne: 5V, GND, RXD, TXD, 3.3V. Maak seker om die spanning soos ondersteun deur die teiken aan te sluit om enige skade te voorkom. Verbind uiteindelik die RXD-pen van die Adapter met die TXD van die teiken en die TXD-pen van die Adapter met die RXD van die teiken.
+Die CP210X Skyf word gebruik in baie prototiperingborde soos NodeMCU (met esp8266) vir Seriële Kommunikasie. Hierdie adapters is relatief goedkoop en kan gebruik word om met die UART-koppelvlak van die teiken te verbind. Die toestel het 5-penne: 5V, GND, RXD, TXD, 3.3V. Maak seker om die spanning soos ondersteun deur die teiken te verbind om enige skade te voorkom. Verbind uiteindelik die RXD-pen van die Adapter aan TXD van die teiken en die TXD-pen van die Adapter aan RXD van die teiken.
 
-Indien die adapter nie opgespoor word nie, maak seker dat die CP210X-bestuurders in die gasstelsel geïnstalleer is. Sodra die adapter opgespoor en aangesluit is, kan gereedskap soos picocom, minicom of skerm gebruik word.
+Indien die adapter nie opgespoor word nie, maak seker dat die CP210X-bestuurders in die gasstelsel geïnstalleer is. Sodra die adapter opgespoor en gekoppel is, kan gereedskap soos picocom, minicom of skerm gebruik word.
 
 Om die toestelle wat aan Linux/MacOS-stelsels gekoppel is, te lys:
 ```
@@ -87,15 +87,15 @@ minicom -s
 ```
 Stel die instellings soos baudkoers en toestelnaam in die `Serial port setup` opsie.
 
-Na konfigurasie, gebruik die `minicom` bevel om die UART Konsol te begin.
+Na konfigurasie, gebruik die `minicom` bevel om die UART Konsole te begin.
 
-## UART Via Arduino UNO R3 (Verwyderbare Atmel 328p Chip Borde)
+## UART Via Arduino UNO R3 (Verwyderbare Atmel 328p Skyfborde)
 
-Indien UART Seriële na USB-adapters nie beskikbaar is nie, kan 'n Arduino UNO R3 met 'n vinnige hak gebruik word. Aangesien 'n Arduino UNO R3 gewoonlik oral beskikbaar is, kan dit baie tyd bespaar.
+Indien UART Seriële na USB-omsetters nie beskikbaar is nie, kan 'n Arduino UNO R3 met 'n vinnige hak gebruik word. Aangesien die Arduino UNO R3 gewoonlik oral beskikbaar is, kan dit baie tyd bespaar.
 
-Arduino UNO R3 het 'n USB na Seriële adapter wat op die bord self gebou is. Om 'n UART-verbinding te kry, trek net die Atmel 328p mikrokontroller-skyfie uit die bord. Hierdie hak werk op Arduino UNO R3-variant met die Atmel 328p wat nie op die bord gesoldeer is nie (SMD-weergawe word daarin gebruik). Verbind die RX-pen van Arduino (Digitale Pen 0) met die TX-pen van die UART-koppelvlak en die TX-pen van die Arduino (Digitale Pen 1) met die RX-pen van die UART-koppelvlak.
+Arduino UNO R3 het 'n USB na Seriële omsetter wat op die bord self ingebou is. Om 'n UART-verbinding te kry, trek net die Atmel 328p mikrokontroleer skyf uit die bord. Hierdie hak werk op Arduino UNO R3 variasies waar die Atmel 328p nie op die bord gesoldeer is nie (SMD weergawe word daarin gebruik). Verbind die RX-pen van Arduino (Digitale Pen 0) met die TX-pen van die UART-koppelvlak en die TX-pen van die Arduino (Digitale Pen 1) met die RX-pen van die UART-koppelvlak.
 
-Laastens word dit aanbeveel om die Arduino IDE te gebruik om die Seriële Konsol te kry. In die `tools` afdeling in die kieslys, kies die `Serial Console` opsie en stel die baudkoers in volgens die UART-koppelvlak.
+Laastens word dit aanbeveel om die Arduino IDE te gebruik om die Seriële Konsole te kry. In die `tools` afdeling in die kieslys, kies die `Serial Console` opsie en stel die baudkoers in volgens die UART-koppelvlak.
 
 ## Bus Pirate
 
@@ -173,21 +173,21 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware met UART-konsole
 
-UART-konsole bied 'n goeie manier om met die onderliggende firmware in die hardloop-omgewing te werk. Maar wanneer die toegang tot die UART-konsole slegs leesbaar is, kan dit baie beperkings inbring. In baie ingebedde toestelle word die firmware gestoor in EEPROM's en uitgevoer in verwerkers met vlugtige geheue. Daarom word die firmware as leesbaar gehou aangesien die oorspronklike firmware tydens vervaardiging binne die EEPROM self is en enige nuwe lêers verlore sou gaan as gevolg van vlugtige geheue. Daarom is dit waardevol om firmware te dump terwyl jy met ingebedde firmwares werk.
+UART-konsole bied 'n goeie manier om met die onderliggende firmware in die uitvoeringsomgewing te werk. Maar wanneer die toegang tot die UART-konsole slegs leesbaar is, kan dit baie beperkings inbring. In baie ingebedde toestelle word die firmware gestoor in EEPROM's en uitgevoer in verwerkers met vlugtige geheue. Daarom word die firmware as leesbaar gehou aangesien die oorspronklike firmware tydens vervaardiging binne die EEPROM self is en enige nuwe lêers verlore sou gaan as gevolg van vlugtige geheue. Daarom is dit waardevol om die firmware te dump terwyl jy met ingebedde firmwares werk.
 
-Daar is baie maniere om dit te doen en die SPI-afdeling dek metodes om firmware direk uit die EEPROM met verskeie toestelle te onttrek. Alhoewel, dit word aanbeveel om eers te probeer om firmware te dump met UART aangesien dit riskant kan wees om firmware te dump met fisiese toestelle en eksterne interaksies.
+Daar is baie maniere om dit te doen en die SPI-afdeling dek metodes om die firmware direk uit die EEPROM met verskeie toestelle te onttrek. Alhoewel, dit word aanbeveel om eers te probeer om die firmware te dump met UART aangesien die dump van firmware met fisiese toestelle en eksterne interaksies riskant kan wees.
 
-Firmware dump vanaf die UART-konsole vereis dat jy eerste toegang tot die opstartsprogramme kry. Baie gewilde verskaffers maak gebruik van <b>uboot</b> (Universal Bootloader) as hul opstartsprogram om Linux te laai. Daarom is dit noodsaaklik om toegang tot <b>uboot</b> te kry.
+Die dump van firmware vanaf die UART-konsole vereis dat jy eerste toegang tot die aanvangsladers kry. Baie gewilde verskaffers maak gebruik van uboot (Universal Bootloader) as hul aanvangslader om Linux te laai. Daarom is dit noodsaaklik om toegang tot uboot te kry.
 
-Om toegang tot die <b>boot</b> opstartsprogram te kry, verbind die UART-poort met die rekenaar en gebruik enige van die Seriële Konsole-hulpmiddels en hou die kragtoevoer na die toestel afgeskakel. Wanneer die opstelling gereed is, druk die Enter-sleutel in en hou dit vas. Verbind uiteindelik die kragtoevoer na die toestel en laat dit opstart.
+Om toegang tot die aanvangslader te kry, verbind die UART-poort met die rekenaar en gebruik enige van die Seriële Konsole-hulpmiddels en hou die kragtoevoer na die toestel afgeskakel. Wanneer die opstelling gereed is, druk die Enter-sleutel in en hou dit vas. Verbind uiteindelik die kragtoevoer na die toestel en laat dit opstart.
 
-Deur dit te doen, sal dit <b>uboot</b> onderbreek van laai en 'n kieslys voorsien. Dit word aanbeveel om <b>uboot</b> bevele te verstaan en die hulplys te gebruik om hulle te lys. Dit kan die `help` bevel wees. Aangesien verskillende verskaffers verskillende konfigurasies gebruik, is dit noodsaaklik om elkeen van hulle afsonderlik te verstaan.
+Deur dit te doen, sal uboot onderbreek word van die laai en 'n kieslys voorsien. Dit word aanbeveel om uboot-opdragte te verstaan en die hulplys te gebruik om hulle te lys. Dit kan die `help`-opdrag wees. Aangesien verskillende verskaffers verskillende konfigurasies gebruik, is dit noodsaaklik om elkeen van hulle afsonderlik te verstaan.
 
-Gewoonlik is die bevel om die firmware te dump:
+Gewoonlik is die opdrag om die firmware te dump:
 ```
 md
 ```
-wat staan vir "geheue dump". Dit sal die geheue (EEPROM-inhoud) op die skerm dump. Dit word aanbeveel om die Serial Console-uitset te log voordat die prosedure begin word om die geheue dump vas te vang.
+wat staan vir "geheue dump". Dit sal die geheue (EEPROM-inhoud) op die skerm dump. Dit word aanbeveel om die Seriële Konsole-uitset te log voordat die prosedure begin word om die geheue dump vas te vang.
 
 Laastens, sny net al die onnodige data uit die log-lêer uit en stoor die lêer as `lêernaam.rom` en gebruik binwalk om die inhoud te onttrek:
 ```
@@ -195,21 +195,19 @@ binwalk -e <filename.rom>
 ```
 Dit sal die moontlike inhoud van die EEPROM lys volgens die handtekeninge wat in die heks-lêer gevind is.
 
-Alhoewel, dit is noodsaaklik om daarop te let dat dit nie altyd die geval is dat die <b>uboot</b> oopgemaak is selfs al word dit gebruik nie. As die Enter-sleutel niks doen nie, kyk vir verskillende sleutels soos die Spasiesleutel, ens. As die laai-program gesluit is en nie onderbreek word nie, sal hierdie metode nie werk nie. Om te kyk of <b>uboot</b> die laai-program vir die toestel is, kyk na die uitset op die UART-konsole terwyl die toestel aan die laai is. Dit kan <b>uboot</b> noem terwyl dit aan die laai is.
-
+Alhoewel, dit is noodsaaklik om daarop te let dat dit nie altyd die geval is dat die uboot oopgemaak is selfs al word dit gebruik nie. As die Enter-sleutel niks doen nie, kyk vir verskillende sleutels soos die Spasiesleutel, ens. As die laaierslot is en nie onderbreek word nie, sal hierdie metode nie werk nie. Om te kyk of uboot die laaier vir die toestel is, kyk na die uitset op die UART-konsole terwyl die toestel aan die laai is. Dit kan uboot noem terwyl dit aan die laai is.
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte deur **diewe-malware** gekompromitteer is.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
-
 
 <details>
 
@@ -219,7 +217,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

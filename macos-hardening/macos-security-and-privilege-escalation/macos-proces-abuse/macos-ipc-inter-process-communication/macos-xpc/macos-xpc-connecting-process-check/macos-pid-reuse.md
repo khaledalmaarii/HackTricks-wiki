@@ -16,21 +16,21 @@ Ander maniere om HackTricks te ondersteun:
 
 ## PID Hergebruik
 
-Wanneer 'n macOS **XPC-diens** die geroepte proses op grond van die **PID** en nie die **oudit-token** nagaan nie, is dit vatbaar vir 'n PID-hergebruikaanval. Hierdie aanval is gebaseer op 'n **wedrenstoestand** waar 'n **uitbuiting** boodskappe na die XPC-diens **stuur en misbruik maak van die funksionaliteit en kort daarna** `posix_spawn(NULL, teiken_binêre, NULL, &attr, teiken_argv, environ)` uitvoer met die **toegelate** binêre.
+Wanneer 'n macOS **XPC-diens** die geroepte proses op grond van die **PID** en nie die **oudit-token** nagaan nie, is dit vatbaar vir 'n PID-hergebruikaanval. Hierdie aanval is gebaseer op 'n **wedrenstoestand** waar 'n **uitbuiting** boodskappe na die XPC-diens **stuur en misbruik maak van die funksionaliteit en net **daarna** die uitvoering van **`posix_spawn(NULL, teiken_binêre, NULL, &attr, teiken_argv, omgewing)`** met die **toegelate** binêre lê.
 
-Hierdie funksie sal die **toegelate binêre die PID laat besit**, maar die **skadelike XPC-boodskap sou net voorheen gestuur wees**. Dus, as die **XPC**-diens die **PID** gebruik om die sender te **verifieer** en dit **NA** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautriseerde** proses.
+Hierdie funksie sal die **toegelate binêre die PID laat besit**, maar die **skadelike XPC-boodskap sou net voorheen gestuur wees. Dus, as die **XPC**-diens die **PID** gebruik om die sender te **verifieer en dit **NA** die uitvoering van **`posix_spawn`** nagaan, sal dit dink dit kom van 'n **geautriseerde** proses.
 
 ### Uitbuitingsvoorbeeld
 
-As jy die funksie **`shouldAcceptNewConnection`** vind of 'n funksie wat deur dit geroep word wat **`processIdentifier`** noem en nie **`auditToken`** noem nie. Dit beteken hoogstwaarskynlik dat dit die proses-PID verifieer en nie die oudit-token nie.\
-Soos byvoorbeeld in hierdie afbeelding (geneem van die verwysing):
+As jy die funksie **`shouldAcceptNewConnection`** vind of 'n funksie wat deur dit geroep word **`processIdentifier`** en nie **`auditToken`** aanroep nie. Dit beteken hoogstwaarskynlik dat dit die proses-PID verifieer en nie die oudit-token nie.\
+Soos byvoorbeeld in hierdie afbeelding (geneem uit die verwysing):
 
-<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Kyk na hierdie uitbuitingsvoorbeeld (weer geneem van die verwysing) om die 2 dele van die uitbuiting te sien:
+Kyk na hierdie voorbeeld van 'n uitbuiting (weer geneem uit die verwysing) om die 2 dele van die uitbuiting te sien:
 
-* Een wat **verskeie forks genereer**
-* **Elke fork** sal die **lading** na die XPC-diens **stuur terwyl dit** `posix_spawn` net na die boodskap stuur.
+* Een wat **verskeie vurke genereer**
+* **Elke vurk** sal die **lading** na die XPC-diens **stuur terwyl dit** `posix_spawn` net na die boodskap stuur.
 
 {% hint style="danger" %}
 Vir die uitbuiting om te werk, is dit belangrik om ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** of om binne die uitbuiting te plaas:
@@ -43,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Eerste opsie om **`NSTasks`** en argument te gebruik om die kinders te lanceer om die RC uit te buit
+Eerste opsie om **`NSTasks`** en argument te gebruik om die kinders te lanceer om die RC te benut
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Hierdie voorbeeld maak gebruik van 'n rou **`fork`** om **kinders te begin wat die PID-wedrenstoestand sal uitbuit** en dan **'n ander wedrenstoestand via 'n Hard link sal uitbuit:**
+Hierdie voorbeeld maak gebruik van 'n rou **`fork`** om **kinders te begin wat die PID-wedrenstoestand sal uitbuit** en dan **'n ander wedrenstoestand via 'n Harde skakel sal uitbuit:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -299,13 +299,13 @@ return 0;
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

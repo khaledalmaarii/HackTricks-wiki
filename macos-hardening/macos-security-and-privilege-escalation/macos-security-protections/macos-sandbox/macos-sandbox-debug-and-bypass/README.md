@@ -16,9 +16,9 @@ Ander maniere om HackTricks te ondersteun:
 
 ## Sandbox laaiproses
 
-<figure><img src="../../../../../.gitbook/assets/image (898).png" alt=""><figcaption><p>Beeld vanaf <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Afbeelding van <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-In die vorige beeld is dit moontlik om te sien **hoe die sandput gelaai sal word** wanneer 'n aansoek met die toestemming **`com.apple.security.app-sandbox`** uitgevoer word.
+In die vorige afbeelding is dit moontlik om te sien **hoe die sandput gelaai sal word** wanneer 'n aansoek met die toestemming **`com.apple.security.app-sandbox`** uitgevoer word.
 
 Die samesteller sal `/usr/lib/libSystem.B.dylib` aan die binêre lê.
 
@@ -29,7 +29,7 @@ Laastens sal die sandput geaktiveer word met 'n oproep na **`__sandbox_ms`** wat
 
 ### Oorsprong van die karantynatribuut
 
-**Lêers wat deur geïsoleerde prosesse geskep word** kry die **karantynatribuut** om sandputontsnapping te voorkom. As jy egter daarin slaag om **'n `.app`-vouer sonder die karantynatribuut** binne 'n geïsoleerde aansoek te skep, kan jy die aansoekbundel-binêre lêer laat wys na **`/bin/bash`** en 'n paar omgewingsveranderlikes in die **plist** byvoeg om **`open`** te misbruik om die nuwe aansoek ongeïsoleerd te **begin**.
+**Lêers wat deur gesandputte prosesse geskep word** kry die **karantynatribuut** om sandputontsnapping te voorkom. As jy egter daarin slaag om **'n `.app`-vouer sonder die karantynatribuut** binne 'n gesandputte aansoek te skep, kan jy die aansoekbundel-binêre lêer laat wys na **`/bin/bash`** en voeg 'n paar omgewingsveranderlikes by die **plist** om **`open`** te misbruik om die nuwe aansoek ongesandput te **begin**.
 
 Dit is wat gedoen is in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
@@ -49,16 +49,16 @@ In die [**laaste voorbeelde van Word-sandputontsnapping**](macos-office-sandbox-
 
 ### Begin Agente/Daeëmons
 
-Selfs as 'n aansoek **bedoel is om geïsoleer te word** (`com.apple.security.app-sandbox`), is dit moontlik om die sandput te omseil as dit vanaf 'n Beginagent uitgevoer word (`~/Library/LaunchAgents`) byvoorbeeld.\
-Soos verduidelik in [**hierdie pos**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), as jy volharding wil verkry met 'n aansoek wat geïsoleer is, kan jy dit outomaties laat uitvoer as 'n Beginagent en miskien kwaadwillige kode inspuit via DyLib-omgewingsveranderlikes.
+Selfs as 'n aansoek **bedoel is om gesandput te word** (`com.apple.security.app-sandbox`), is dit moontlik om die sandput te omseil as dit vanaf 'n Beginagent **uitgevoer word** (`~/Library/LaunchAgents`) byvoorbeeld.\
+Soos verduidelik in [**hierdie pos**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), as jy volharding wil verkry met 'n aansoek wat gesandput is, kan jy dit outomaties laat uitvoer as 'n Beginagent en miskien boosaardige kode inspuit via DyLib-omgewingsveranderlikes.
 
-### Misbruik van Outomatiese Beginlokasies
+### Misbruik van Outomatiese Beginplekke
 
-As 'n geïsoleerde proses kan **skryf** op 'n plek waar **later 'n ongeïsoleerde aansoek die binêre lêer gaan uitvoer**, sal dit in staat wees om te **ontsnap deur net** die binêre lêer daar te plaas. 'n Goeie voorbeeld van hierdie soort lokasies is `~/Library/LaunchAgents` of `/System/Library/LaunchDaemons`.
+As 'n gesandputte proses kan **skryf** op 'n plek waar **later 'n ongesandputte aansoek die binêre lêer gaan uitvoer**, sal dit in staat wees om te **ontsnap deur net** die binêre lêer daar te plaas. 'n Goeie voorbeeld van hierdie soort plekke is `~/Library/LaunchAgents` of `/System/Library/LaunchDaemons`.
 
-Hiervoor mag jy selfs **2 stappe** nodig hê: Om 'n proses met 'n **meer inskiklike sandput** (`file-read*`, `file-write*`) jou kode te laat uitvoer wat eintlik in 'n plek sal skryf waar dit **ongeïsoleerd uitgevoer sal word**.
+Hiervoor mag jy selfs **2 stappe** nodig hê: Om 'n proses met 'n **meer inskiklike sandput** (`file-read*`, `file-write*`) jou kode te laat uitvoer wat eintlik in 'n plek sal skryf waar dit **ongesandput uitgevoer sal word**.
 
-Kyk na hierdie bladsy oor **Outomatiese Beginlokasies**:
+Kyk na hierdie bladsy oor **Outomatiese Beginplekke**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -66,7 +66,7 @@ Kyk na hierdie bladsy oor **Outomatiese Beginlokasies**:
 
 ### Misbruik van ander prosesse
 
-As jy vanuit die sandputproses in staat is om **ander prosesse** wat in minder beperkende sandpute (of geen) loop, te **kompromitteer**, sal jy kan ontsnap na hul sandpute:
+As jy vanuit die sandputproses in staat is om **ander prosesse** wat in minder beperkende sandputte (of geen) loop, te **kompromitteer**, sal jy kan ontsnap na hul sandputte:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -74,7 +74,7 @@ As jy vanuit die sandputproses in staat is om **ander prosesse** wat in minder b
 
 ### Statis Kompilering & Dinamies koppeling
 
-[**Hierdie navorsing**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) het 2 maniere ontdek om die Sandput te omseil. Omdat die sandput vanuit die gebruikersruimte toegepas word wanneer die **libSystem**-biblioteek gelaai word. As 'n binêre lêer dit kon vermy om dit te laai, sou dit nooit geïsoleer word nie:
+[**Hierdie navorsing**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) het 2 maniere ontdek om die Sandput te omseil. Omdat die sandput vanuit die gebruikersruimte toegepas word wanneer die **libSystem**-biblioteek gelaai word. As 'n binêre lêer dit kon vermy om dit te laai, sou dit nooit gesandput word nie:
 
 * As die binêre lêer **heeltemal staties gekompileer** was, kon dit vermy om daardie biblioteek te laai.
 * As die **binêre lêer nie enige biblioteke hoef te laai** nie (omdat die koppelaar ook in libSystem is), sal dit nie libSystem hoef te laai nie.
@@ -86,9 +86,9 @@ Let daarop dat **selfs skelkodes** in ARM64 in `libSystem.dylib` gekoppel moet w
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-### Regte
+### Bevoegdhede
 
-Let daarop dat selfs al is sommige **aksies toegelaat deur die sandput**, as 'n aansoek 'n spesifieke **regte** het, soos in:
+Let daarop dat selfs al is sommige **aksies** dalk **toegelaat deur die sandput** as 'n aansoek 'n spesifieke **bevoegdheid** het, soos in:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -176,7 +176,7 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
-### Foutopsporing en omseil Sandboks met lldb
+### Foutopsporing en omseiling van Sandboks met lldb
 
 Laten ons 'n toepassing saamstel wat gesandboks moet wees:
 
@@ -190,16 +190,10 @@ system("cat ~/Desktop/del.txt");
 ```
 {% endtab %}
 
-{% tab title="entitlements.xml" %} 
-### macOS Sandboxing: Foutopsporing en bypass
-
-#### Debugging van macOS Sandbox
-
-Om de macOS-sandbox te debuggen, kunt u de `sandbox-exec`-tool gebruiken om een ​​programma binnen de sandbox-omgeving uit te voeren en de uitvoer te controleren. U kunt ook de Console-applicatie gebruiken om systeemlogs te bekijken voor eventuele sandbox-gerelateerde fouten.
-
-#### Bypassing macOS Sandbox
-
-Om de macOS-sandbox te omzeilen, kunt u proberen om de sandboxbeperkingen te omzeilen door gebruik te maken van kwetsbaarheden in het doelsysteem of door het aanpassen van de toegewezen entitlements in het `entitlements.xml`-bestand. Het is ook mogelijk om bepaalde API-oproepen te verstoren om de sandbox te omzeilen. Let op: het omzeilen van de macOS-sandbox is een risicovolle activiteit en kan leiden tot beveiligingsproblemen op het systeem. Gebruik deze kennis verantwoordelijk en alleen voor legitieme doeleinden. 
+{% tab title="entitlements.xml" %}  
+### Afrikaans Translation:
+  
+Hierdie lêer bevat die toestemmings wat aan die sandbox-toepassing toegeken is. Dit bepaal watter spesiale funksies die toepassing mag uitvoer en watter hulpbronne dit kan benader.  
 {% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -212,9 +206,9 @@ Om de macOS-sandbox te omzeilen, kunt u proberen om de sandboxbeperkingen te omz
 {% endtab %}
 
 {% tab title="Info.plist" %}  
-### Inligting.plist
+### Inligting
 
-Die `Info.plist` lêer bevat inligting oor die program, insluitend die toestemmings wat dit benodig om te hardloop. Dit is belangrik vir die sandboks om die korrekte toestemmings in hierdie lêer te hê om te verseker dat die program binne die beperkings van die sandboks bly.  
+Hierdie lêer bevat die konfigurasie van die sandbox vir die toepassing. Dit bevat die beperkings en toestemmings wat aan die toepassing toegeken is. Dit is belangrik om die inhoud van hierdie lêer te verstaan om die beperkings van die sandbox te omseil.  
 {% endtab %}
 ```xml
 <plist version="1.0">
@@ -244,14 +238,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-Die program sal probeer om die lêer **`~/Desktop/del.txt`** te **lees**, wat die **Sandbox nie sal toelaat** nie.\
-Skep 'n lêer daarin, sodra die Sandbox omseil is, sal dit in staat wees om dit te lees:
+Die toepassing sal probeer om die lêer **`~/Desktop/del.txt`** te **lees**, wat die **Sandbox nie sal toelaat** nie.\
+Skep 'n lêer daarin sodat sodra die Sandbox omseil is, dit dit kan lees:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Laat ons die toepassing foutopspoor om te sien wanneer die Sandboks gelaai word:
+Laat ons die aansoek ontleed om te sien wanneer die Sandboks gelaai word:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -344,7 +338,7 @@ Process 2517 exited with status = 0 (0x00000000)
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

@@ -16,19 +16,19 @@ Ander maniere om HackTricks te ondersteun:
 
 ## Basiese Inligting
 
-**Grand Central Dispatch (GCD),** ook bekend as **libdispatch** (`libdispatch.dyld`), is beskikbaar op beide macOS en iOS. Dit is 'n tegnologie ontwikkel deur Apple om programondersteuning te optimaliseer vir gelyktydige (multidraad) uitvoering op multikern-hardeware.
+**Grand Central Dispatch (GCD),** ook bekend as **libdispatch** (`libdispatch.dyld`), is beskikbaar op beide macOS en iOS. Dit is 'n tegnologie wat deur Apple ontwikkel is om programondersteuning te optimaliseer vir gelyktydige (multidraad) uitvoering op meerkern-hardeware.
 
-**GCD** voorsien en bestuur **FIFO-rye** waar jou aansoek kan **take indien** in die vorm van **blokvoorwerpe**. Blokke wat na verspreidingsrye gestuur word, word **uitgevoer op 'n poel van drade** wat ten volle deur die stelsel bestuur word. GCD skep outomaties drade vir die uitvoering van die take in die verspreidingsrye en skeduleer daardie take om op die beskikbare kerne uit te voer.
+**GCD** voorsien en bestuur **FIFO-rye** waar jou aansoek kan **take indien** in die vorm van **blokvoorwerpe**. Blokke wat na verspreidingsrye gestuur word, word **uitgevoer op 'n poel van drade** wat volledig deur die stelsel bestuur word. GCD skep outomaties drade vir die uitvoering van die take in die verspreidingsrye en skeduleer daardie take om op die beskikbare kerne uit te voer.
 
 {% hint style="success" %}
 Opsomming, om kode **gelyktydig** uit te voer, kan prosesse **blokke kode na GCD stuur**, wat sal sorg vir hul uitvoering. Daarom skep prosesse nie nuwe drade nie; **GCD voer die gegewe kode uit met sy eie poel van drade** (wat moontlik vermeerder of verminder soos nodig).
 {% endhint %}
 
-Dit is baie nuttig om parallelle uitvoering suksesvol te bestuur, wat die aantal drade wat prosesse skep aansienlik verminder en die parallelle uitvoering optimaliseer. Dit is ideaal vir take wat **groot parallelisme** vereis (brute-krag?) of vir take wat nie die hoofdraad moet blokkeer nie: Byvoorbeeld, die hoofdraad op iOS hanteer UI-interaksies, so enige ander funksionaliteit wat die program kan laat vashang (soek, toegang tot 'n web, lees van 'n lêer...) word op hierdie manier hanteer.
+Dit is baie nuttig om parallelle uitvoering suksesvol te bestuur, wat die aantal drade wat prosesse skep aansienlik verminder en die parallelle uitvoering optimaliseer. Dit is ideaal vir take wat **groot parallelisme** vereis (brute-krag?) of vir take wat nie die hoofdraad moet blokkeer nie: Byvoorbeeld, die hoofdraad op iOS hanteer UI-interaksies, dus enige ander funksionaliteit wat die program kan laat vashang (soek, 'n web besoek, 'n lêer lees...) word op hierdie manier hanteer.
 
 ### Blokke
 
-'n Blok is 'n **selfstandige afdeling van kode** (soos 'n funksie met argumente wat 'n waarde teruggee) en kan ook gebonde veranderlikes spesifiseer.\
+'n Blok is 'n **selfstandige afdeling kode** (soos 'n funksie met argumente wat 'n waarde teruggee) en kan ook gebonde veranderlikes spesifiseer.\
 Tog, op kompilervlak bestaan blokke nie, hulle is `os_object`s. Elkeen van hierdie voorwerpe word gevorm deur twee strukture:
 
 * **blokliteraal**:&#x20;
@@ -38,21 +38,21 @@ Tog, op kompilervlak bestaan blokke nie, hulle is `os_object`s. Elkeen van hierd
 * `NSConcreateStackBlock` (blokke in stapel)
 * Dit het **`vlaggies`** (wat aandui watter velde teenwoordig is in die blokbeskrywing) en 'n paar gereserveerde byte
 * Die funksie-aanwysers om te roep
-* 'n Aanwyser na die blokbeskrywing
+* 'n aanwyser na die blokbeskrywing
 * Ingevoerde blokveranderlikes (indien enige)
 * **blokbeskrywing**: Dit se grootte hang af van die data wat teenwoordig is (soos aangedui in die vorige vlaggies)
 * Dit het 'n paar gereserveerde byte
 * Die grootte daarvan
-* Dit sal gewoonlik 'n aanwyser hê na 'n Objective-C-stylhandtekening om te weet hoeveel spasie nodig is vir die parameters (vlag `BLOCK_HAS_SIGNATURE`)
-* As veranderlikes verwys word, sal hierdie blok ook aanwysers hê na 'n kopiehulpprogram (wat die waarde aan die begin kopieer) en 'n verwyderhulpprogram (wat dit vrymaak).
+* Dit sal gewoonlik 'n aanwyser na 'n Objective-C-stylhandtekening hê om te weet hoeveel spasie vir die parameters benodig word (vlag `BLOCK_HAS_SIGNATURE`)
+* As veranderlikes verwys word, sal hierdie blok ook aanwysers hê na 'n kopiehulp (wat die waarde aan die begin kopieer) en 'n verwyderhulp (om dit vry te stel).
 
-### Rye
+### Ry
 
 'n Verspreidingsry is 'n benoemde voorwerp wat FIFO-orden van blokke vir uitvoering voorsien.
 
-Blokke word in rye geplaas om uitgevoer te word, en hierdie ondersteun 2 modusse: `DISPATCH_QUEUE_SERIAL` en `DISPATCH_QUEUE_CONCURRENT`. Natuurlik sal die **seriële** een **geen wedrenstoestandprobleme hê** nie aangesien 'n blok nie uitgevoer sal word totdat die vorige een klaar is nie. Maar **die ander tipe ry kan dit hê**.
+Blokke word in rye geplaas om uitgevoer te word, en hierdie ondersteun 2 modusse: `DISPATCH_QUEUE_SERIAL` en `DISPATCH_QUEUE_CONCURRENT`. Natuurlik sal die **seriële** een **geen wedstrydkondisieprobleme hê** nie aangesien 'n blok nie uitgevoer sal word totdat die vorige een klaar is nie. Maar **die ander tipe ry kan dit hê**.
 
-Verstek rye:
+Verstekrye:
 
 * `.main-thread`: Vanaf `dispatch_get_main_queue()`
 * `.libdispatch-manager`: GCD se rybestuurder
@@ -74,7 +74,7 @@ Let daarop dat dit die stelsel sal wees wat besluit **watter drade watter rye op
 
 #### Eienskappe
 
-Wanneer 'n ry geskep word met **`dispatch_queue_create`** is die derde argument 'n `dispatch_queue_attr_t`, wat gewoonlik of `DISPATCH_QUEUE_SERIAL` (wat eintlik NULL is) of `DISPATCH_QUEUE_CONCURRENT` is wat 'n aanwyser na 'n `dispatch_queue_attr_t` struktuur is wat toelaat om sekere parameters van die ry te beheer.
+Wanneer 'n ry geskep word met **`dispatch_queue_create`** is die derde argument 'n `dispatch_queue_attr_t`, wat gewoonlik ofwel `DISPATCH_QUEUE_SERIAL` (wat eintlik NULL is) of `DISPATCH_QUEUE_CONCURRENT` is wat 'n aanwyser na 'n `dispatch_queue_attr_t` struktuur is wat toelaat om sekere parameters van die ry te beheer.
 
 ### Verspreidingsvoorwerpe
 
@@ -100,7 +100,7 @@ In Objective-C is daar verskillende funksies om 'n blok te stuur om parallel uit
 * [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Voer 'n blokvoorwerp net een keer uit vir die leeftyd van 'n aansoek.
 * [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Stuur 'n werkeenheid vir uitvoering en keer slegs terug nadat dit klaar is met uitvoer. Anders as [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), respekteer hierdie funksie alle eienskappe van die ry wanneer dit die blok uitvoer.
 
-Hierdie funksies verwag hierdie parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`ry,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`blok`**
+Hierdie funksies verwag hierdie parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
 Dit is die **struktuur van 'n Blok**:
 ```c
@@ -145,7 +145,7 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** is 'n biblioteek wat **Swift-bindings** aan die Grand Central Dispatch (GCD) raamwerk voorsien wat oorspronklik in C geskryf is.\
+**`libswiftDispatch`** is 'n biblioteek wat **Swift-bindings** aan die Grand Central Dispatch (GCD) raamwerk bied wat oorspronklik in C geskryf is.\
 Die **`libswiftDispatch`** biblioteek wikkel die C GCD API's in 'n meer Swift-vriendelike koppelvlak, wat dit makliker en intuïtiever maak vir Swift-ontwikkelaars om met GCD te werk.
 
 * **`DispatchQueue.global().sync{ ... }`**
@@ -183,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Die volgende Frida-skrip kan gebruik word om in verskeie `dispatch`-funksies in te hake en die tou naam, die agtervolging en die blok te onttrek: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Die volgende Frida-skrip kan gebruik word om in verskeie `dispatch`-funksies in te hake en die tou naam, die agterspoor en die blok te onttrek: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -198,15 +198,15 @@ Backtrace:
 ```
 ## Ghidra
 
-Tansaner Ghidra verstaan tans nie die ObjectiveC **`dispatch_block_t`** struktuur nie, sowel as die **`swift_dispatch_block`** een.
+Tans Ghidra verstaan nie die ObjectiveC **`dispatch_block_t`** struktuur nie, ook nie die **`swift_dispatch_block`** een nie.
 
-As jy wil hê dit moet hulle verstaan, kan jy hulle net **declareer**:
-
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
+So as jy wil hê dit moet hulle verstaan, kan jy hulle net **declare**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Vind dan 'n plek in die kode waar hulle **gebruik** word:
 
@@ -214,15 +214,15 @@ Vind dan 'n plek in die kode waar hulle **gebruik** word:
 Merk alle verwysings na "block" om te verstaan hoe jy kan uitvind dat die struktuur gebruik word.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Regsklik op die veranderlike -> Herklassifiseer Veranderlike en kies in hierdie geval **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra sal outomaties alles herskryf:
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Verwysings
 

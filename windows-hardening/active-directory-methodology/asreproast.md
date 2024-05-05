@@ -14,15 +14,15 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
 **Hacking-insigte**\
-Raak betrokke by inhoud wat die opwinding en uitdagings van hack bekyk
+Raak betrokke by inhoud wat die opwinding en uitdagings van hack bevat
 
-**Hacker Nuus in Werklikheid**\
-Bly op hoogte van die snelveranderende hack-wêreld deur middel van werklike nuus en insigte
+**Haknuus in Werklikheid**\
+Bly op hoogte van die snelveranderende hackwêreld deur werklikheidsnuus en insigte
 
 **Nuutste Aankondigings**\
 Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
@@ -31,7 +31,7 @@ Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke plat
 
 ## ASREPRoast
 
-ASREPRoast is 'n sekuriteitsaanval wat gebruikers aanval wat die **Kerberos-voorafverifikasie vereiste kenmerk** ontbreek. Hierdie kwesbaarheid maak dit in wese vir aanvallers moontlik om verifikasie vir 'n gebruiker vanaf die Domeinbeheerder (DC) aan te vra sonder om die gebruiker se wagwoord nodig te hê. Die DC reageer dan met 'n boodskap wat versleutel is met die gebruiker se wagwoord-afgeleide sleutel, wat aanvallers offline kan probeer kraak om die gebruiker se wagwoord te ontdek.
+ASREPRoast is 'n sekuriteitsaanval wat gebruikers aanval wat die **Kerberos-voorafverifikasie vereiste kenmerk** ontbreek. Hierdie kwesbaarheid maak dit essensieel vir aanvallers om verifikasie vir 'n gebruiker van die Domeinbeheerder (DC) aan te vra sonder om die gebruiker se wagwoord nodig te hê. Die DC reageer dan met 'n boodskap wat versleutel is met die gebruiker se wagwoord-afgeleide sleutel, wat aanvallers kan probeer kraak om die gebruiker se wagwoord te ontdek.
 
 Die hoofvereistes vir hierdie aanval is:
 
@@ -82,7 +82,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 
 Dwing **preauth** nie vereis vir 'n gebruiker waar jy **GenericAll** toestemmings het (of toestemmings om eienskappe te skryf):
 
-{% code title="Gebruik Windows" %}
+{% code title="Gebruik van Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
@@ -92,10 +92,12 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
+{% endcode %}
+
 ## ASREProast sonder geloofsbriewe
 
-'n Aanvaller kan 'n man-in-die-middel-posisie gebruik om AS-REP-pakkette vas te vang terwyl hulle die netwerk deurloop sonder om te staatmaak op Kerberos-voorafverifikasie wat uitgeskakel is. Dit werk dus vir alle gebruikers op die VLAN.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) stel ons in staat om dit te doen. Verder dwing die instrument klient-werkstasies om RC4 te gebruik deur die Kerberos-onderhandeling te verander.
+'n Aanvaller kan 'n man-in-die-middel-posisie gebruik om AS-REP-pakkette vas te vang terwyl hulle die netwerk deurloop sonder om te staat te wees op Kerberos-voorafverifikasie wat uitgeskakel is. Dit werk dus vir alle gebruikers op die VLAN.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) stel ons in staat om dit te doen. Verder dwing die gereedskap klientewerkstasies om RC4 te gebruik deur die Kerberos-onderhandeling te verander.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -112,18 +114,18 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
-**Hacken-insigte**\
-Gaan in gesprek met inhoud wat die opwinding en uitdagings van hacken ondersoek
+**Hack-insigte**\
+Gaan in gesprek met inhoud wat die opwinding en uitdagings van hack bekyk
 
-**Hacknuus in Werklikheid**\
-Bly op hoogte van die snelveranderende hackwêreld deur werklikheidsnuus en insigte
+**Hack Nuus in Werklikheid**\
+Bly op hoogte van die snelbewegende hackwêreld deur werklikheidsnuus en insigte
 
 **Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en noodsaaklike platformopdaterings
+Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
@@ -133,10 +135,10 @@ Bly ingelig met die nuutste foutbelonings wat bekendgestel word en noodsaaklike 
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
 
 </details>

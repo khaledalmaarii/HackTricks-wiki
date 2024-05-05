@@ -10,7 +10,7 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
@@ -18,10 +18,9 @@ Ander maniere om HackTricks te ondersteun:
 
 {% embed url="https://websec.nl/" %}
 
-
 ## Inleiding
 
-Vir meer inligting oor hoe 125kHz-etikette werk, sien:
+Vir meer inligting oor hoe 125kHz-etikette werk, kyk na:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -36,29 +35,29 @@ Vir meer inligting oor hierdie tipes etikette [**lees hierdie inleiding**](../pe
 Probeer om die kaartinligting **te lees**. Dan kan dit **nageboots** word.
 
 {% hint style="warning" %}
-Let daarop dat sommige interkomme probeer om hulself teen sleutelverdubbeling te beskerm deur 'n skryfopdrag voor die leesopdrag te stuur. As die skryfopdrag slaag, word daardie etiket as vals beskou. Wanneer Flipper RFID naboots, is daar geen manier vir die leser om dit van die oorspronklike te onderskei nie, sodat sulke probleme nie voorkom nie.
+Let daarop dat sommige interkomme probeer om hulself teen sleutelduplicering te beskerm deur 'n skryfopdrag voor die leesopdrag te stuur. As die skryfopdrag slaag, word daardie etiket as vals beskou. Wanneer Flipper RFID naboots, is daar geen manier vir die leser om dit van die oorspronklike te onderskei nie, sodat sulke probleme nie voorkom nie.
 {% endhint %}
 
 ### Voeg Handmatig By
 
-Jy kan **vals kaarte in Flipper Zero skep wat die data** wat jy handmatig aandui, en dit dan naboots.
+Jy kan **vals kaarte in Flipper Zero skep deur die data** wat jy handmatig aandui en dit dan naboots.
 
 #### ID's op kaarte
 
-Soms, wanneer jy 'n kaart kry, sal jy die ID (of 'n deel daarvan) daarvan sien geskryf op die kaart.
+Soms, wanneer jy 'n kaart kry, sal jy die ID (of 'n deel daarvan) sien wat op die kaart geskryf is.
 
 * **EM Marin**
 
-Byvoorbeeld, op hierdie EM-Marin-kaart is dit moontlik om **die laaste 3 van 5 bytes duidelik te lees**.\
+Byvoorbeeld, op hierdie EM-Marin-kaart is dit moontlik om **die laaste 3 van 5 byte duidelik te lees**.\
 Die ander 2 kan gekraak word as jy hulle nie van die kaart kan lees nie.
 
-<figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Dieselfde gebeur op hierdie HID-kaart waar slegs 2 uit 3 bytes op die kaart gedruk kan word
+Dieselfde gebeur op hierdie HID-kaart waar slegs 2 uit 3 byte op die kaart gedruk kan word
 
-<figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Naboots/Skryf
 
@@ -72,7 +71,6 @@ Nadat 'n kaart **gekopieer** of die ID **handmatig ingevoer** is, is dit moontli
 
 {% embed url="https://websec.nl/" %}
 
-
 <details>
 
 <summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -83,6 +81,6 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>

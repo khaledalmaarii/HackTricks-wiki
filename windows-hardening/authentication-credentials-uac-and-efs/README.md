@@ -6,17 +6,17 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou en outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -30,7 +30,7 @@ Dit is algemeen vir organisasies om **cmd.exe en PowerShell.exe te blokkeer** en
 
 ### Kontroleer
 
-Kontroleer watter lêers/uitbreidings op die swartlys/witlys is:
+Kontroleer watter lêers/uitbreidings op 'n swartlys of witlys is:
 ```powershell
 Get-ApplockerPolicy -Effective -xml
 
@@ -43,9 +43,9 @@ Hierdie registerpad bevat die konfigurasies en beleide wat deur AppLocker toegep
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
-### Oorloop
+### Oorsteek
 
-* Nuttige **Skryfbare lêers** om die AppLocker-beleid te oorloop: As AppLocker toelaat om enigiets binne `C:\Windows\System32` of `C:\Windows` uit te voer, is daar **skryfbare lêers** wat jy kan gebruik om **hierdie** te oorloop.
+* Nuttige **Skryfbare lêers** om die AppLocker-beleid te oorsteek: As AppLocker toelaat om enigiets binne `C:\Windows\System32` of `C:\Windows` uit te voer, is daar **skryfbare lêers** wat jy kan gebruik om **hierdie** te oorsteek.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
@@ -55,9 +55,9 @@ C:\windows\tracing
 * Gewoonlik **vertroude** [**"LOLBAS se"**](https://lolbas-project.github.io/) bineêre lêers kan ook nuttig wees om AppLocker te omseil.
 * **Sleg geskrewe reëls kan ook omseil word**
 * Byvoorbeeld, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, kan jy 'n **gids genaamd `allowed`** enige plek skep en dit sal toegelaat word.
-* Organisasies fokus dikwels ook op die **blokkering van die `%System32%\WindowsPowerShell\v1.0\powershell.exe` uitvoerbare lêer**, maar vergeet van die **ander** [**PowerShell uitvoerbare lêerlokasies**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File_System\_Locations) soos `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` of `PowerShell_ISE.exe`.
-* **DLL afdwinging is baie selde geaktiveer** as gevolg van die addisionele las wat dit op 'n stelsel kan plaas, en die hoeveelheid toetsing wat vereis word om te verseker dat niks sal breek nie. Dus, die gebruik van **DLLs as agterdeure sal help om AppLocker te omseil**.
-* Jy kan [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) of [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) gebruik om **Powershell-kode uit te voer** in enige proses en AppLocker te omseil. Vir meer inligting kyk hier: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+* Organisasies fokus dikwels ook op die **blokkering van die `%System32%\WindowsPowerShell\v1.0\powershell.exe` uitvoerbare lêer**, maar vergeet van die **ander** [**PowerShell uitvoerbare lêerlokasies**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) soos `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` of `PowerShell_ISE.exe`.
+* **DLL-afdwinging baie selde geaktiveer** weens die addisionele las wat dit op 'n stelsel kan plaas, en die hoeveelheid toetsing wat vereis word om te verseker dat niks sal breek nie. Dus, die gebruik van **DLLs as agterdeure sal help om AppLocker te omseil**.
+* Jy kan [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) of [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) gebruik om **Powershell-kode uit te voer** in enige proses en AppLocker te omseil. Vir meer inligting kyk: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Bewaarplek van Geldele
 
@@ -75,10 +75,10 @@ Die **geldele** is **gestoor** binne die **proses LSASS**: Kerberos-kaartjies, h
 
 ### LSA-geheime
 
-LSA kan op die skijf sekere geldele stoor:
+LSA kan op die hardeskyf sekere geldele stoor:
 
 * Wagwoord van die rekenaarrekening van die Aktiewe Gids (onbereikbare domeinbeheerder).
-* Wagwoorde van die rekeninge van Windows-diens
+* Wagwoorde van die rekeninge van Windows-diensse
 * Wagwoorde vir geskeduleerde take
 * Meer (wagwoord van IIS-toepassings...)
 
@@ -88,11 +88,11 @@ Dit is die databasis van die Aktiewe Gids. Dit is slegs teenwoordig in Domeinbeh
 
 ## Verdediger
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) is 'n Antivirus wat beskikbaar is in Windows 10 en Windows 11, en in weergawes van Windows-bediener. Dit **blokkeer** algemene pentesting-hulpmiddels soos **`WinPEAS`**. Daar is egter maniere om hierdie beskerming te **omseil**.
+[**Microsoft Verdediger**](https://en.wikipedia.org/wiki/Microsoft\_Defender) is 'n Antivirus wat beskikbaar is in Windows 10 en Windows 11, en in weergawes van Windows-bediener. Dit **blokkeer** algemene pentesting-hulpmiddels soos **`WinPEAS`**. Daar is egter maniere om hierdie beskerming te **omseil**.
 
 ### Kontroleer
 
-Om die **status** van **Defender** te kontroleer kan jy die PS-opdrag **`Get-MpComputerStatus`** uitvoer (kontroleer die waarde van **`RealTimeProtectionEnabled`** om te weet of dit aktief is):
+Om die **status** van **Verdediger** te kontroleer kan jy die PS-opdrag **`Get-MpComputerStatus`** uitvoer (kontroleer die waarde van **`RealTimeProtectionEnabled`** om te weet of dit aktief is):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -122,12 +122,12 @@ sc query windefend
 ```
 ## Versleutelde Lêersisteem (EFS)
 
-EFS beveilig lêers deur middel van versleuteling, waarbij 'n **simmetriese sleutel** bekend as die **Lêerversleuteling Sleutel (FEK)** gebruik word. Hierdie sleutel word versleutel met die gebruiker se **openbare sleutel** en binne die versleutelde lêer se $EFS **alternatiewe datastroom** gestoor. Wanneer ontsleuteling benodig word, word die ooreenstemmende **privaatsleutel** van die gebruiker se digitale sertifikaat gebruik om die FEK van die $EFS-stroom te ontsluit. Meer besonderhede kan hier gevind word [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+EFS beveilig lêers deur middel van versleuteling, waarbij 'n **simmetriese sleutel** bekend as die **Lêerversleuteling Sleutel (FEK)** gebruik word. Hierdie sleutel word met die gebruiker se **openbare sleutel** versleutel en binne die versleutelde lêer se $EFS **alternatiewe datastroom** gestoor. Wanneer ontsleuteling nodig is, word die ooreenstemmende **privaatsleutel** van die gebruiker se digitale sertifikaat gebruik om die FEK van die $EFS-stroom te ontsluit. Meer besonderhede kan [hier](https://en.wikipedia.org/wiki/Encrypting\_File\_System) gevind word.
 
 **Ontsleuteling scenarios sonder gebruikersinisiatief** sluit in:
 
 * Wanneer lêers of vouers na 'n nie-EFS-lêersisteem geskuif word, soos [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), word hulle outomaties ontsluit.
-* Versleutelde lêers wat oor die netwerk gestuur word via die SMB/CIFS-protokol word ontsluit voordat dit gestuur word.
+* Versleutelde lêers wat oor die netwerk gestuur word via die SMB/CIFS-protokol word voor oordrag ontsluit.
 
 Hierdie versleutelingsmetode maak **deursigtige toegang** tot versleutelde lêers vir die eienaar moontlik. Tog sal die eenvoudige verandering van die eienaar se wagwoord en aanmelding nie ontsluiting toelaat nie.
 
@@ -147,11 +147,11 @@ Jy kan ook `cipher /e` en `cipher /d` binne 'n vouer gebruik om al die lêers te
 
 ### Ontsleuteling van EFS-lêers
 
-#### Wees 'n Gesaghebbende Stelsel
+#### Wees Gesaghebbende Stelsel
 
-Hierdie metode vereis dat die **slagoffer-gebruiker** 'n **proses** binne die gasheer laat **hardloop**. Indien dit die geval is, kan jy met 'n `meterpreter`-sessie die token van die gebruiker se proses naboots (`impersonate_token` van `incognito`). Of jy kan net na die proses van die gebruiker `migreer`.
+Hierdie metode vereis dat die **slagoffer-gebruiker** 'n **proses** binne die gasheer laat **hardloop**. Indien dit die geval is, kan jy met 'n `meterpreter`-sessie die token van die gebruiker se proses naboots (`impersonate_token` van `incognito`) of jy kan net na die proses van die gebruiker `migreer`.
 
-#### Weet die gebruikerswagwoord
+#### Kennis van die gebruikerswagwoord
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
@@ -165,7 +165,7 @@ Microsoft het **Groep Bestuurde Diensrekeninge (gMSA)** ontwikkel om die bestuur
 * **Geroosterde Taakvermoë**: Anders as bestuurde diensrekeninge, ondersteun gMSA's die uitvoer van geroosterde take.
 * **Vereenvoudigde SPN-bestuur**: Die stelsel werk outomaties die Diensprinsipaalnaam (SPN) by wanneer daar veranderinge aan die rekenaar se sAMaccountbesonderhede of DNS-naam is, wat SPN-bestuur vereenvoudig.
 
-Die wagwoorde vir gMSA's word gestoor in die LDAP-eienskap _**msDS-ManagedPassword**_ en word elke 30 dae outomaties deur Domeinrekenaars (DC's) gereset. Hierdie wagwoord, 'n versleutelde datablob bekend as [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kan slegs deur gemagtigde administrateurs en die bedieners waarop die gMSA's geïnstalleer is, verkry word, wat 'n veilige omgewing verseker. Om toegang tot hierdie inligting te verkry, is 'n beveiligde verbinding soos LDAPS vereis, of die verbinding moet met 'Sealing & Secure' geauthentiseer word.
+Die wagwoorde vir gMSA's word in die LDAP-eienskap _**msDS-ManagedPassword**_ gestoor en word elke 30 dae outomaties deur Domeinrekenaars (DC's) gereset. Hierdie wagwoord, 'n versleutelde datablob bekend as [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), kan slegs deur gemagtigde administrateurs en die bedieners waarop die gMSA's geïnstalleer is, verkry word, wat 'n veilige omgewing verseker. Om toegang tot hierdie inligting te verkry, is 'n beveiligde verbinding soos LDAPS vereis, of die verbinding moet met 'Sealing & Secure' geauthentiseer word.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../../.gitbook/assets/asd1.png)
 
@@ -175,7 +175,7 @@ Jy kan hierdie wagwoord lees met [**GMSAPasswordReader**](https://github.com/rva
 ```
 [**Vind meer inligting in hierdie pos**](https://cube0x0.github.io/Relaying-for-gMSA/)
 
-Kyk ook na hierdie [webwerf](https://cube0x0.github.io/Relaying-for-gMSA/) oor hoe om 'n **NTLM-relay-aanval** uit te voer om die **wagwoord** van **gMSA** te **lees**.
+Kyk ook hierdie [webwerf](https://cube0x0.github.io/Relaying-for-gMSA/) oor hoe om 'n **NTLM-relay-aanval** uit te voer om die **wagwoord** van **gMSA** te **lees**.
 
 ## LAPS
 
@@ -189,18 +189,18 @@ Die **Local Administrator Password Solution (LAPS)**, beskikbaar vir aflaai vana
 
 PowerShell [**Beperkte Taalmodus**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **sluit baie van die funksies af** wat nodig is om PowerShell doeltreffend te gebruik, soos die blokkering van COM-voorwerpe, slegs goedgekeurde .NET-tipes toe te laat, XAML-gebaseerde werkstrome, PowerShell-klasse, en meer.
 
-### **Kyk na**
+### **Kontroleer**
 ```powershell
 $ExecutionContext.SessionState.LanguageMode
 #Values could be: FullLanguage or ConstrainedLanguage
 ```
-### Oorloop
+### Omgang
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
-In die huidige Windows sal daardie omseilingsmetode nie werk nie, maar jy kan **PSByPassCLM** gebruik.\
-**Om dit te kompileer, mag jy nodig hê om** **'n Verwysing by te voeg** -> _Blader_ -> _Blader_ -> voeg `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` by en **verander die projek na .Net4.5**.
+In die huidige Windows sal daardie omseiling nie werk nie, maar jy kan **PSByPassCLM** gebruik.\
+**Om dit te kompileer, mag jy nodig hê om** _**'n Verwysing by te voeg'**_ -> _Blader_ -> _Blader_ -> voeg `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` by en **verander die projek na .Net4.5**.
 
 #### Direkte omseiling:
 ```bash
@@ -234,13 +234,13 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-Meer kan gevind word [hier](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
+Meer kan [hier](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/) gevind word
 
 ## Sekuriteitsondersteuningsverskaffer-koppelvlak (SSPI)
 
 Is die API wat gebruik kan word om gebruikers te verifieer.
 
-Die SSPI sal verantwoordelik wees vir die vind van die geskikte protokol vir twee masjiene wat wil kommunikeer. Die voorkeurmetode hiervoor is Kerberos. Dan sal die SSPI onderhandel oor watter verifikasieprotokol gebruik sal word, hierdie verifikasieprotokolle word genoem Sekuriteitsondersteuningsverskaffer (SSP), is geleë binne elke Windows-masjien in die vorm van 'n DLL en beide masjiene moet dieselfde ondersteun om te kan kommunikeer.
+Die SSPI sal verantwoordelik wees vir die vind van die geskikte protokol vir twee masjiene wat wil kommunikeer. Die voorkeurmetode hiervoor is Kerberos. Dan sal die SSPI onderhandel oor watter verifikasieprotokol gebruik sal word, hierdie verifikasieprotokolle word Sekuriteitsondersteuningsverskaffer (SSP) genoem, hulle is geleë binne elke Windows-masjien in die vorm van 'n DLL en beide masjiene moet dieselfde ondersteun om te kan kommunikeer.
 
 ### Hoof SSP's
 
@@ -265,10 +265,10 @@ Die SSPI sal verantwoordelik wees vir die vind van die geskikte protokol vir twe
 [uac-user-account-control.md](uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **outomatiseer werkafvloei** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **outomatiseer werksvloei** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -281,7 +281,7 @@ Kry Vandag Toegang:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

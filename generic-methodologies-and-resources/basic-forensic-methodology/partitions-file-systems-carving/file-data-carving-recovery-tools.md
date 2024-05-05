@@ -6,15 +6,15 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien jou **maatskappy geadverteer in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
-**Try Hard Security Group**
+**Probeer Hard Security Group**
 
 <figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -32,7 +32,7 @@ Die mees algemene gereedskap wat in forensika gebruik word om lêers uit beelde 
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** is 'n gereedskap vir die analise van binêre lêers om ingeslote inhoud te vind. Dit is installeerbaar via `apt` en die bron is op [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** is 'n gereedskap vir die analise van binêre lêers om ingeslote inhoud te vind. Dit is installeerbaar via `apt` en sy bron is op [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Nuttige bevele**:
 ```bash
@@ -51,7 +51,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** is nog 'n instrument wat gebruik kan word om **lêers wat in 'n lêer ingebed is** te vind en te onttrek. In hierdie geval sal jy nodig wees om uit die konfigurasie lêer (_/etc/scalpel/scalpel.conf_) die lêertipes wat jy wil onttrek, te ontkommentarieer.
+**Scalpel** is nog 'n instrument wat gebruik kan word om **lêers wat in 'n lêer ingebed is** te vind en te onttrek. In hierdie geval sal jy nodig hê om uit die konfigurasie lêer (_/etc/scalpel/scalpel.conf_) die lêertipes wat jy wil onttrek, te ontkommentarieer.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -72,7 +72,7 @@ Jy kan dit vind op [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://
 
 Dit kom met GUI- en CLI-weergawes. Jy kan die **lêertipes** kies wat PhotoRec moet soek.
 
-![](<../../../.gitbook/assets/image (239).png>)
+![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
@@ -101,10 +101,10 @@ Laai af [hier](https://sourceforge.net/projects/findaes/).
 
 ## Aanvullende instrumente
 
-Jy kan [**viu** ](https://github.com/atanunq/viu)gebruik om beelde vanaf die terminaal te sien.\
-Jy kan die linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf in te skakel na teks en dit te lees.
+Jy kan [**viu** ](https://github.com/atanunq/viu)gebruik om beelde van die terminaal te sien.\
+Jy kan die Linux-opdraglyn-instrument **pdftotext** gebruik om 'n pdf in te skakel na teks en dit te lees.
 
-**Probeer Hard Security Group**
+**Try Hard Security Group**
 
 <figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -118,7 +118,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 

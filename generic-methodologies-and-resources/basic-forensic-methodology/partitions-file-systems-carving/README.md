@@ -1,4 +1,4 @@
-# Partisies/Lêersisteme/Uitsnyding
+# Partisies / Lêersisteme / Uitsnyding
 
 <details>
 
@@ -6,9 +6,9 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -16,22 +16,22 @@ Ander maniere om HackTricks te ondersteun:
 
 ## Partisies
 
-'n Harde skyf of 'n **SSD-skyf kan verskillende partisies bevat** met die doel om data fisies te skei.\
-Die **minimum** eenheid van 'n skyf is die **sektor** (gewoonlik saamgestel uit 512B). Dus moet elke partisiegrootte 'n veelvoud van daardie grootte wees.
+'n Harde skyf of 'n **SSD-skyf kan verskillende partisies** bevat met die doel om data fisies te skei.\
+Die **minimum** eenheid van 'n skyf is die **sector** (gewoonlik saamgestel uit 512B). Dus moet elke partisiegrootte 'n veelvoud van daardie grootte wees.
 
-### MBR (Master Boot Record)
+### MBR (meester Koppelrekord)
 
-Dit is toegewys aan die **eerste sektor van die skyf na die 446B van die opstartkode**. Hierdie sektor is noodsaaklik om aan te dui aan die rekenaar wat en van waar 'n partisie moet word gelaai.\
-Dit laat tot **4 partisies** toe (hoogstens **net 1** kan aktief/**opstartbaar** wees). As jy egter meer partisies benodig, kan jy **uitgebreide partisies** gebruik. Die **laaste byte** van hierdie eerste sektor is die opstartrekord-handtekening **0x55AA**. Slegs een partisie kan as aktief gemerk word.\
+Dit is toegewys in die **eerste sektor van die skyf na die 446B van die opstartkode**. Hierdie sektor is noodsaaklik om aan te dui aan die rekenaar wat en van waar 'n partisie moet word gelaai.\
+Dit laat tot **4 partisies** toe (hoogstens **net 1** kan aktief/**opstartbaar** wees). As jy egter meer partisies benodig, kan jy **uitgebreide partisies** gebruik. Die **laaste byte** van hierdie eerste sektor is die opstartrekordhandtekening **0x55AA**. Slegs een partisie kan as aktief gemerk word.\
 MBR laat **maks 2.2TB** toe.
 
-![](<../../../.gitbook/assets/image (347).png>)
+![](<../../../.gitbook/assets/image (350).png>)
 
-![](<../../../.gitbook/assets/image (301).png>)
+![](<../../../.gitbook/assets/image (304).png>)
 
-Vanaf die **byte 440 tot die 443** van die MBR kan jy die **Windows Skyfhandtekening** vind (as Windows gebruik word). Die logiese aanduiding van die harde skyf hang af van die Windows Skyfhandtekening. Die verandering van hierdie handtekening kan voorkom dat Windows opstart (gereedskap: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Vanaf die **byte 440 tot die 443** van die MBR kan jy die **Windows Skyfhandtekening** vind (as Windows gebruik word). Die logiese aanduidingsbrief van die harde skyf hang af van die Windows Skyfhandtekening. Die verandering van hierdie handtekening kan voorkom dat Windows opstart (gereedskap: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
-![](<../../../.gitbook/assets/image (306).png>)
+![](<../../../.gitbook/assets/image (310).png>)
 
 **Formaat**
 
@@ -44,22 +44,22 @@ Vanaf die **byte 440 tot die 443** van die MBR kan jy die **Windows Skyfhandteke
 | 494 (0x1EE) | 16 (0x10)  | Vierde Partisie     |
 | 510 (0x1FE) | 2 (0x2)    | Handtekening 0x55 0xAA |
 
-**Partisie Rekord Formaat**
+**Partisie Rekordformaat**
 
 | Offset    | Lengte   | Item                                                   |
 | --------- | -------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01) | Aktiewe vlag (0x80 = opstartbaar)                     |
+| 0 (0x00)  | 1 (0x01) | Aktiewe vlag (0x80 = opstartbaar)                      |
 | 1 (0x01)  | 1 (0x01) | Beginkop                                               |
 | 2 (0x02)  | 1 (0x01) | Beginsektor (bits 0-5); boonste bits van silinder (6- 7) |
-| 3 (0x03)  | 1 (0x01) | Laagste 8 bits van begin silinder                     |
-| 4 (0x04)  | 1 (0x01) | Partisie tipe kode (0x83 = Linux)                      |
+| 3 (0x03)  | 1 (0x01) | Begin silinder laagste 8 bits                          |
+| 4 (0x04)  | 1 (0x01) | Partisietipekode (0x83 = Linux)                        |
 | 5 (0x05)  | 1 (0x01) | Eindekop                                               |
 | 6 (0x06)  | 1 (0x01) | Einde sektor (bits 0-5); boonste bits van silinder (6- 7)   |
-| 7 (0x07)  | 1 (0x01) | Laagste 8 bits van einde silinder                     |
-| 8 (0x08)  | 4 (0x04) | Sektor voor partisie (little endian)                  |
-| 12 (0x0C) | 4 (0x04) | Sektor in partisie                                    |
+| 7 (0x07)  | 1 (0x01) | Einde silinder laagste 8 bits                         |
+| 8 (0x08)  | 4 (0x04) | Sektorse voor partisie (little endian)                 |
+| 12 (0x0C) | 4 (0x04) | Sektorse in partisie                                  |
 
-Om 'n MBR in Linux te laai, moet jy eers die begin-offset kry (jy kan `fdisk` en die `p`-opdrag gebruik)
+Om 'n MBR in Linux te koppel, moet jy eers die beginoffset kry (jy kan `fdisk` en die `p`-opdrag gebruik)
 
 ![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
@@ -72,32 +72,32 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logiese blokadressering)**
 
-**Logiese blokadressering** (**LBA**) is 'n algemene skema wat gebruik word om **die ligging van blokke** data wat op rekenaarstoor-toestelle gestoor word, te spesifiseer, gewoonlik sekondêre stoorstelsels soos harde skyfies. LBA is 'n veral eenvoudige lineêre adresseringstelsel; **blokke word gelokaliseer deur 'n heelgetalindeks**, met die eerste blok wat LBA 0 is, die tweede LBA 1, ensovoorts.
+**Logiese blokadressering** (**LBA**) is 'n algemene skema wat gebruik word vir **die spesifisering van die ligging van blokke** van data wat gestoor word op rekenaarstoor-toestelle, gewoonlik sekondêre stoorstelsels soos harde skyfies. LBA is 'n veral eenvoudige lineêre adresseringstelsel; **blokke word gelokaliseer deur 'n heelgetalindeks**, met die eerste blok wat LBA 0 is, die tweede LBA 1, ensovoorts.
 
 ### GPT (GUID-partisietabel)
 
-Die GUID-partisietabel, bekend as GPT, word verkies vir sy verbeterde vermoëns in vergelyking met MBR (Meester Koppelrekord). Kenmerkend vir sy **wêreldwyd unieke identifiseerder** vir partisies, steek GPT uit op verskeie maniere:
+Die GUID-partisietabel, bekend as GPT, word verkies vir sy verbeterde vermoëns in vergelyking met MBR (Meester Koppelvlakrekord). Kenmerkend vir sy **wêreldwyd unieke identifiseerder** vir partisies, steek GPT uit op verskeie maniere:
 
 * **Ligging en Grootte**: Beide GPT en MBR begin by **sektor 0**. Tog werk GPT met **64-bits**, in teenstelling met MBR se 32-bits.
-* **Partisielimiete**: GPT ondersteun tot **128 partisies** op Windows-stelsels en kan tot **9.4ZB** data akkommodeer.
+* **Partisiegrense**: GPT ondersteun tot **128 partisies** op Windows-stelsels en akkommodeer tot **9.4ZB** aan data.
 * **Partisienames**: Bied die vermoë om partisies te benoem met tot 36 Unicode-karakters.
 
 **Dataweerbaarheid en -herwinning**:
 
 * **Redundansie**: Anders as MBR, beperk GPT nie partisionering en opstartdata tot 'n enkele plek nie. Dit dupliseer hierdie data oor die skyf, wat data-integriteit en -weerbaarheid verbeter.
-* **Sikliese Redundansie Kontrole (CRC)**: GPT gebruik CRC om data-integriteit te verseker. Dit monitor aktief vir datakorrupsie, en wanneer dit opgespoor word, probeer GPT die gekorrupreerde data vanaf 'n ander skyflokasie herwin.
+* **Sikliese Redundansie Kontrole (CRC)**: GPT gebruik CRC om data-integriteit te verseker. Dit monitor aktief vir datakorrupsie, en wanneer dit opgespoor word, probeer GPT om die gekorrupreerde data vanaf 'n ander skyflokasie te herwin.
 
 **Beskermende MBR (LBA0)**:
 
-* GPT handhaaf agterwaartse verenigbaarheid deur 'n beskermende MBR. Hierdie kenmerk bly in die erfenis MBR-ruimte, maar is ontwerp om te voorkom dat ouer MBR-gebaseerde nutsbedrywe per ongeluk GPT-skrywe oorskryf, en sodoende die data-integriteit op GPT-geformateerde skywe beskerm.
+* GPT handhaaf agterwaartse verenigbaarheid deur 'n beskermende MBR. Hierdie kenmerk bly in die erfenis MBR-ruimte, maar is ontwerp om te voorkom dat ouer MBR-gebaseerde gereedskap per abuis GPT-skijwe oorskryf, en sodoende die data-integriteit op GPT-geformateerde skywe te beskerm.
 
-![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1059).png>)
+![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
 **Hibriede MBR (LBA 0 + GPT)**
 
 [Vanaf Wikipedia](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
-In bedryfstelsels wat **GPT-gebaseerde opstart deur BIOS**-dienste ondersteun eerder as EFI, kan die eerste sektor ook steeds gebruik word om die eerste stadium van die **opstartlader**-kode te stoor, maar **aangepas** om **GPT-partisies** te herken. Die opstartlader in die MBR mag nie aanneem dat 'n sektor-grootte van 512 byte is nie.
+In bedryfstelsels wat **GPT-gebaseerde opstart deur BIOS**-dienste ondersteun eerder as EFI, kan die eerste sektor ook steeds gebruik word om die eerste stadium van die **opstartlaaikode** te stoor, maar **aangepas** om **GPT-partisies** te herken. Die opstartlaaier in die MBR mag nie aanneem dat 'n sektor-grootte van 512 byte is nie.
 
 **Partisietabelkop (LBA 1)**
 
@@ -110,14 +110,14 @@ Die partisietabelkop definieer die bruikbare blokke op die skyf. Dit definieer o
 | 0 (0x00)  | 8 byte   | Handtekening ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h of 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)op klein-eindige masjiene) |
 | 8 (0x08)  | 4 byte   | Revisie 1.0 (00h 00h 01h 00h) vir UEFI 2.8                                                                                                                                     |
 | 12 (0x0C) | 4 byte   | Kopgrootte in klein-eindige (in byte, gewoonlik 5Ch 00h 00h 00h of 92 byte)                                                                                                    |
-| 16 (0x10) | 4 byte   | [CRC32](https://en.wikipedia.org/wiki/CRC32) van kop (offset +0 tot kopgrootte) in klein-eindige, met hierdie veld genul tydens berekening                                      |
+| 16 (0x10) | 4 byte   | [CRC32](https://en.wikipedia.org/wiki/CRC32) van kop (offset +0 tot kopgrootte) in klein-eindige, met hierdie veld genul tydens berekening                                    |
 | 20 (0x14) | 4 byte   | Voorbehou; moet nul wees                                                                                                                                                       |
 | 24 (0x18) | 8 byte   | Huidige LBA (ligging van hierdie kopie van die kop)                                                                                                                             |
 | 32 (0x20) | 8 byte   | Agterste LBA (ligging van die ander kopie van die kop)                                                                                                                         |
-| 40 (0x28) | 8 byte   | Eerste bruikbare LBA vir partisies (primêre partisietabel laaste LBA + 1)                                                                                                      |
+| 40 (0x28) | 8 byte   | Eerste bruikbare LBA vir partisies (primêre partisietabel laaste LBA + 1)                                                                                                       |
 | 48 (0x30) | 8 byte   | Laaste bruikbare LBA (sekondêre partisietabel eerste LBA − 1)                                                                                                                  |
 | 56 (0x38) | 16 byte  | Skyf-GUID in gemengde eindige                                                                                                                                                  |
-| 72 (0x48) | 8 byte   | Begin LBA van 'n reeks partisie-inskrywings (altyd 2 in primêre kopie)                                                                                                         |
+| 72 (0x48) | 8 byte   | Begin LBA van 'n reeks partisie-inskrywings (altyd 2 in primêre kopie)                                                                                                          |
 | 80 (0x50) | 4 byte   | Aantal partisie-inskrywings in reeks                                                                                                                                            |
 | 84 (0x54) | 4 byte   | Grootte van 'n enkele partisie-inskrywing (gewoonlik 80h of 128)                                                                                                                |
 | 88 (0x58) | 4 byte   | CRC32 van partisie-inskrywingsreeks in klein-eindige                                                                                                                            |
@@ -127,25 +127,25 @@ Die partisietabelkop definieer die bruikbare blokke op die skyf. Dit definieer o
 
 | GUID-partisie-inskrywingsformaat |          |                                                                                                                   |
 | ------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Offset                        | Lengte   | Inhoud                                                                                                           |
-| 0 (0x00)                      | 16 byte  | [Partisie-tipe-GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (gemengde eindige) |
-| 16 (0x10)                     | 16 byte  | Unieke partisie-GUID (gemengde eindige)                                                                           |
-| 32 (0x20)                     | 8 byte   | Eerste LBA ([klein-eindige](https://en.wikipedia.org/wiki/Little\_endian))                                       |
-| 40 (0x28)                     | 8 byte   | Laaste LBA (inklusief, gewoonlik oneweredig)                                                                      |
-| 48 (0x30)                     | 8 byte   | Kenmerkvlagte (bv. bit 60 dui op slegs leesbaar)                                                                  |
-| 56 (0x38)                     | 72 byte  | Partisienaam (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE-kode-eenhede)                                  |
+| Offset                          | Lengte   | Inhoud                                                                                                           |
+| 0 (0x00)                        | 16 byte  | [Partisie-tipe-GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (gemengde eindige) |
+| 16 (0x10)                       | 16 byte  | Unieke partisie-GUID (gemengde eindige)                                                                          |
+| 32 (0x20)                       | 8 byte   | Eerste LBA ([klein-eindige](https://en.wikipedia.org/wiki/Little\_endian))                                       |
+| 40 (0x28)                       | 8 byte   | Laaste LBA (inklusief, gewoonlik oneweredig)                                                                      |
+| 48 (0x30)                       | 8 byte   | Kenmerkvlaggies (bv. bit 60 dui op slegs leesbaar)                                                               |
+| 56 (0x38)                       | 72 byte  | Partisienaam (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE-kode-eenhede)                                  |
 
 **Partisietipes**
 
-![](<../../../.gitbook/assets/image (80).png>)
+![](<../../../.gitbook/assets/image (83).png>)
 
 Meer partisietipes in [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 ### Inspeksie
 
-Nadat die forensiese beeld met [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/) aangeheg is, kan jy die eerste sektor inspekteer met die Windows-hulpmiddel [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** In die volgende beeld is 'n **MBR** op **sektor 0** opgespoor en geïnterpreteer:
+Nadat die forensiese beeld met [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/) aangeheg is, kan jy die eerste sektor inspekteer met die Windows-gereedskap [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** In die volgende beeld is 'n **MBR** op **sektor 0** opgespoor en geïnterpreteer:
 
-![](<../../../.gitbook/assets/image (351).png>)
+![](<../../../.gitbook/assets/image (354).png>)
 
 Indien dit 'n **GPT-tabel in plaas van 'n MBR** was, behoort die handtekening _EFI PART_ in **sektor 1** te verskyn (wat in die vorige beeld leeg is).
 ## Lêer-Stelsels
@@ -160,12 +160,12 @@ Indien dit 'n **GPT-tabel in plaas van 'n MBR** was, behoort die handtekening _E
 
 ### FAT
 
-Die **FAT (Lêer-toewysings-tabel)** lêer-stelsel is ontwerp rondom sy kernkomponent, die lêer-toewysings-tabel, wat by die begin van die volume geplaas is. Hierdie stelsel beskerm data deur **twee kopieë** van die tabel te handhaaf, wat data-integriteit verseker selfs as een beskadig is. Die tabel, saam met die hoofmap, moet in 'n **vaste posisie** wees, wat noodsaaklik is vir die stelsel se opstartproses.
+Die **FAT (Lêer-toewysingstabel)** lêer-stelsel is ontwerp rondom sy kernkomponent, die lêer-toewysingstabel, wat by die begin van die volume geplaas is. Hierdie stelsel beskerm data deur **twee kopieë** van die tabel te handhaaf, wat data-integriteit verseker selfs as een beskadig is. Die tabel, saam met die hoofmap, moet in 'n **vaste posisie** wees, wat noodsaaklik is vir die stelsel se opstartproses.
 
 Die basiese eenheid van stoorplek van die lêer-stelsel is 'n **kluster, gewoonlik 512B**, wat uit verskeie sektore bestaan. FAT het deur weergawes geëvolueer:
 
 * **FAT12**, wat 12-bietjie kluster-adresse ondersteun en tot 4078 klusters kan hanteer (4084 met UNIX).
-* **FAT16**, wat verbeter tot 16-bietjie adresse, en dus tot 65,517 klusters kan akkommodeer.
+* **FAT16**, wat vorder tot 16-bietjie adresse, en dus tot 65,517 klusters kan akkommodeer.
 * **FAT32**, wat verder vorder met 32-bietjie adresse, wat 'n indrukwekkende 268,435,456 klusters per volume toelaat.
 
 'n Beduidende beperking regoor FAT-weergawes is die **4GB maksimum lêergrootte**, opgelê deur die 32-bietjie veld wat vir lêergrootte stoor gebruik word.
@@ -200,9 +200,9 @@ Jy kan gereedskap soos [**exiftool**](https://exiftool.org) en [**Metadiver**](h
 
 ### Gelogde Verwyderde Lêers
 
-Soos voorheen gesien is daar verskeie plekke waar die lêer nog steeds gestoor word nadat dit "verwyder" is. Dit is omdat die verwydering van 'n lêer uit 'n lêer-stelsel dit gewoonlik net as verwyder gemerk, maar die data nie geraak word nie. Daarna is dit moontlik om die registre van die lêers (soos die MFT) te ondersoek en die verwyderde lêers te vind.
+Soos voorheen gesien is daar verskeie plekke waar die lêer nog steeds gestoor word nadat dit "verwyder" is. Dit is omdat die verwydering van 'n lêer uit 'n lêer-stelsel dit gewoonlik net as verwyder gemerk, maar die data nie geraak word nie. Dan is dit moontlik om die registre van die lêers (soos die MFT) te ondersoek en die verwyderde lêers te vind.
 
-Die bedryfstelsel stoor ook gewoonlik baie inligting oor lêer-stelselveranderinge en rugsteune, sodat dit moontlik is om dit te gebruik om die lêer of soveel moontlik inligting te herwin.
+Die bedryfstelsel stoor ook gewoonlik baie inligting oor lêer-stelselveranderinge en rugsteune, sodat dit moontlik is om te probeer om dit te gebruik om die lêer of soveel moontlik inligting te herwin.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -210,9 +210,9 @@ Die bedryfstelsel stoor ook gewoonlik baie inligting oor lêer-stelselveranderin
 
 ### **Lêer Uitsnyding**
 
-**Lêer uitsnyding** is 'n tegniek wat probeer om lêers in die massa data te vind. Daar is 3 hoof maniere waarop gereedskap soos hierdie werk: **Gebaseer op lêertipes koppe en sterte**, gebaseer op lêertipes **strukture** en gebaseer op die **inhoud** self.
+**Lêer uitsnyding** is 'n tegniek wat probeer om **lêers in die massa data te vind**. Daar is 3 hoof maniere waarop gereedskap soos hierdie werk: **Gebaseer op lêertipes koppe en sterte**, gebaseer op lêertipes **strukture** en gebaseer op die **inhoud** self.
 
-Let daarop dat hierdie tegniek **nie werk om gefragmenteerde lêers te herwin nie**. As 'n lêer **nie in aaneenlopende sektore gestoor word nie**, sal hierdie tegniek dit nie kan vind nie of ten minste 'n deel daarvan.
+Let daarop dat hierdie tegniek **nie werk om gefragmenteerde lêers te herwin nie**. As 'n lêer **nie in aaneenlopende sektore gestoor word nie**, sal hierdie tegniek dit nie kan vind of ten minste 'n deel daarvan nie.
 
 Daar is verskeie gereedskap wat jy kan gebruik vir lêer uitsnyding wat die lêertipes aandui wat jy wil soek
 
@@ -220,10 +220,10 @@ Daar is verskeie gereedskap wat jy kan gebruik vir lêer uitsnyding wat die lêe
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Datastroom **U**itsnyding
+### Datastroom **Uitsnyding**
 
 Datastroom Uitsnyding is soortgelyk aan Lêer Uitsnyding, maar **in plaas daarvan om na volledige lêers te soek, soek dit na interessante fragmente** van inligting.\
-Byvoorbeeld, in plaas daarvan om na 'n volledige lêer te soek wat gelogde URL's bevat, sal hierdie tegniek na URL's soek.
+Byvoorbeeld, in plaas van om na 'n volledige lêer te soek wat gelogde URL's bevat, sal hierdie tegniek na URL's soek.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -231,8 +231,8 @@ Byvoorbeeld, in plaas daarvan om na 'n volledige lêer te soek wat gelogde URL's
 
 ### Veilige Verwydering
 
-Duidelik is daar maniere om lêers en dele van logboeke oor hulle **"veilig" te verwyder**. Byvoorbeeld, dit is moontlik om die inhoud van 'n lêer met rommeldata verskeie kere te **oor-skryf**, en dan die **logboeke** van die **$MFT** en **$LOGFILE** oor die lêer te **verwyder**, en die Volume Shadow Copies te **verwyder**.\
-Jy mag opmerk dat selfs nadat daardie aksie uitgevoer is, daar dalk **ander dele is waar die bestaan van die lêer steeds gelog word**, en dit is waar en deel van die forensiese professionele werk is om hulle te vind.
+Duidelik is daar maniere om lêers **"veilig" te verwyder en deel van logboeke oor hulle**. Byvoorbeeld, dit is moontlik om die inhoud van 'n lêer met rommeldata verskeie kere te **oor-skryf**, en dan die **logboeke** van die **$MFT** en **$LOGFILE** oor die lêer te **verwyder**, en die Volume Shadow Copies te **verwyder**.\
+Jy mag opmerk dat selfs nadat daardie aksie uitgevoer is, daar dalk **ander dele waar die bestaan van die lêer steeds gelog is**, en dit is waar en deel van die forensiese professionele se werk is om hulle te vind.
 
 ## Verwysings
 

@@ -10,7 +10,7 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
 
@@ -24,9 +24,9 @@ Vir meer inligting oor wat 'n iButton is, kyk:
 
 ## Ontwerp
 
-Die **blou** gedeelte van die volgende beeld is hoe jy die werklike iButton moet **plaas sodat die Flipper dit kan lees.** Die **groen** gedeelte is hoe jy die leser met die Flipper zero moet **aanraak om 'n iButton korrek na te boots.**
+Die **blou** deel van die volgende beeld is hoe jy die werklike iButton moet **plaas sodat die Flipper dit kan lees.** Die **groen** deel is hoe jy die leser met die Flipper zero moet **aanraak om 'n iButton korrek na te boots.**
 
-<figure><img src="../../../.gitbook/assets/image (562).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
 ## Aksies
 
@@ -38,15 +38,15 @@ In Leesmodus wag die Flipper vir die iButton sleutel om aan te raak en is in sta
 
 Dit is moontlik om handmatig 'n iButton van die tipe: **Dallas, Cyfral, en Metakom** by te voeg.
 
-### Naboots
+### **Na-aap**
 
-Dit is moontlik om gestoorde iButtons na te boots (gelees of handmatig bygevoeg).
+Dit is moontlik om gestoorde iButtons na te aap (gelees of handmatig bygevoeg).
 
 {% hint style="info" %}
 As jy nie die verwagte kontakte van die Flipper Zero die leser kan laat raak nie, kan jy **die eksterne GPIO gebruik:**
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (135).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>
 
 ## Verwysings
 
@@ -62,6 +62,6 @@ Ander maniere om HackTricks te ondersteun:
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
