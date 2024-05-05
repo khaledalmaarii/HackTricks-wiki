@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? Au ungependa kupata upatikanaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu maalum wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* ¿Unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? Au ungependa kupata upatikanaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Pata [**swag rasmi ya PEASS na HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) **kikundi cha Discord** au [**kikundi cha telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) **kikundi cha Discord** au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Shiriki mbinu zako za udukuzi kwa kutuma PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Taarifa Msingi
 
-IO Kit ni **mfumo wa madereva ya kifaa** wa chanzo wazi katika kernel ya XNU, unashughulikia **madereva ya kifaa yaliyopakiwa kwa kudhibiti**. Inaruhusu msimbo wa modular kuongezwa kwenye kernel mara moja, ikisaidia vifaa mbalimbali.
+IO Kit ni **mtandao wa madereva wa kifaa** wa chanzo wazi, wenye mwelekeo wa vitu katika kernel ya XNU, unashughulikia **madereva ya kifaa yaliyopakiwa kwa kudumu**. Inaruhusu msimbo wa modular kuongezwa kwa kernel mara moja, ikiunga mkono vifaa mbalimbali.
 
-Madereva ya IOKit kimsingi **hutoa kazi kutoka kwa kernel**. Aina za **parameta** za kazi hizi ni **zilizopangwa mapema** na kudhibitishwa. Zaidi ya hayo, kama XPC, IOKit ni safu nyingine tu juu ya **ujumbe wa Mach**.
+Madereva ya IOKit kimsingi **hutoa kazi kutoka kernel**. Aina za **parameta** za kazi hizi ni **zilizopangwa mapema** na kuthibitishwa. Zaidi ya hayo, kama XPC, IOKit ni safu nyingine tu juu ya **ujumbe wa Mach**.
 
-**Msimbo wa kernel wa IOKit XNU** umefunguliwa na Apple katika [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Zaidi ya hayo, vipengele vya IOKit vya nafasi ya mtumiaji pia ni vya chanzo wazi [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+**Msimbo wa kernel wa IOKit XNU** umefunguliwa na Apple katika [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Zaidi ya hayo, vipengele vya IOKit vya nafasi ya mtumiaji pia vimefunguliwa [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Hata hivyo, **madereva ya IOKit** hayana chanzo wazi. Hata hivyo, mara kwa mara kutolewa kwa dereva kunaweza kuja na alama ambazo hufanya iwe rahisi kuidhibiti. Angalia jinsi ya [**kupata nyongeza za dereva kutoka kwa firmware hapa**](./#ipsw)**.**
+Hata hivyo, **madereva ya IOKit** hayajafunguliwa. Hata hivyo, mara kwa mara kutolewa kwa dereva kunaweza kuja na alama ambazo hufanya iwe rahisi kuidungua. Angalia jinsi ya [**kupata nyongeza za dereva kutoka kwa firmware hapa**](./#ipsw)**.**
 
 Imeandikwa katika **C++**. Unaweza kupata alama za C++ zilizopanguliwa na:
 ```bash
@@ -33,21 +33,21 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-Kazi zilizofunuliwa za IOKit zingeweza kufanya ukaguzi wa usalama wa ziada wakati mteja anajaribu kuita kazi lakini kumbuka kuwa programu kawaida zinazuiliwa na sanduku la IOKit wanaweza kuingiliana nayo.
+IOKit **kazi zilizofunuliwa** zinaweza kufanya **ukaguzi wa ziada wa usalama** wakati mteja anajaribu kuita kazi lakini kumbuka kuwa programu kawaida zinazuiliwa na **sandbox** ambayo IOKit kazi wanaweza kuingiliana nayo.
 {% endhint %}
 
 ## Madereva
 
 Katika macOS zinapatikana katika:
 
-- **`/System/Library/Extensions`**
-- Faili za KEXT zilizojengwa katika mfumo wa uendeshaji wa OS X.
-- **`/Library/Extensions`**
-- Faili za KEXT zilizowekwa na programu ya tatu
+* **`/System/Library/Extensions`**
+* Faili za KEXT zilizojengwa katika mfumo wa uendeshaji wa OS X.
+* **`/Library/Extensions`**
+* Faili za KEXT zilizowekwa na programu ya tatu
 
 Katika iOS zinapatikana katika:
 
-- **`/System/Library/Extensions`**
+* **`/System/Library/Extensions`**
 ```bash
 #Use kextstat to print the loaded drivers
 kextstat
@@ -72,41 +72,41 @@ Ili kupata nyongeza maalum unaweza kutumia:
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Kuweka na kutoa upanuzi wa kernel fanya:
+Kupakia na kusafirisha vifaa vya msingi fanya:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
-## Usajili wa IO
+## IORegistry
 
-**Usajili wa IO** ni sehemu muhimu ya mfumo wa IOKit katika macOS na iOS ambayo hutumika kama database kwa kuiwakilisha usanidi na hali ya vifaa vya mfumo. Ni **mkusanyiko wa hiari wa vitu vinavyowakilisha vifaa vyote na madereva** vilivyopakiwa kwenye mfumo, na mahusiano yao kati yao.
+**IORegistry** ni sehemu muhimu ya mfumo wa IOKit katika macOS na iOS ambayo hutumika kama database ya kuwakilisha usanidi na hali ya vifaa vya mfumo. Ni **mkusanyiko wa hiari wa vitu vinavyowakilisha vifaa vyote na madereva** vilivyopakiwa kwenye mfumo, na uhusiano wao kati yao.
 
-Unaweza kupata Usajili wa IO kwa kutumia cli **`ioreg`** kuiangalia kutoka kwenye koni (hasa inayofaa kwa iOS).
+Unaweza kupata IORegistry kwa kutumia cli **`ioreg`** kuikagua kutoka kwenye koni (hasa muhimu kwa iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Unaweza kupakua **`IORegistryExplorer`** kutoka **Zana za Ziada za Xcode** kutoka [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) na ukague **macOS IORegistry** kupitia kiolesura **cha picha**.
+Unaweza kupakua **`IORegistryExplorer`** kutoka **Zana Zingine za Xcode** kutoka [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) na ukague **macOS IORegistry** kupitia kiolesura **cha picha**.
 
-<figure><img src="../../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Katika IORegistryExplorer, "planes" hutumika kuandaa na kuonyesha uhusiano kati ya vitu tofauti katika IORegistry. Kila ndege inawakilisha aina maalum ya uhusiano au mtazamo fulani wa vifaa vya mfumo na usanidi wa dereva. Hapa kuna baadhi ya ndege za kawaida unazoweza kukutana nazo katika IORegistryExplorer:
+Katika IORegistryExplorer, "planes" hutumiwa kuandaa na kuonyesha uhusiano kati ya vitu tofauti katika IORegistry. Kila ndege inawakilisha aina maalum ya uhusiano au mtazamo maalum wa vifaa vya mfumo na usanidi wa dereva. Hapa kuna baadhi ya ndege za kawaida unazoweza kukutana nazo katika IORegistryExplorer:
 
-1. **IOService Plane**: Hii ni ndege ya kawaida zaidi, inayoonyesha vitu vya huduma vinavyowakilisha dereva na nubs (vituo vya mawasiliano kati ya madereva). Inaonyesha uhusiano wa mtoa huduma-mteja kati ya vitu hivi.
+1. **IOService Plane**: Hii ni ndege ya kawaida zaidi, inayoonyesha vitu vya huduma vinavyowakilisha dereva na nubs (njia za mawasiliano kati ya madereva). Inaonyesha uhusiano wa mtoa huduma-mteja kati ya vitu hivi.
 2. **IODeviceTree Plane**: Ndege hii inawakilisha uhusiano wa kimwili kati ya vifaa wanavyounganishwa kwenye mfumo. Mara nyingi hutumiwa kuona muundo wa vifaa vilivyounganishwa kupitia mabasi kama vile USB au PCI.
-3. **IOPower Plane**: Inaonyesha vitu na uhusiano wao kwa upande wa usimamizi wa nguvu. Inaweza kuonyesha ni vitu vipi vinavyoathiri hali ya nguvu ya vingine, inayoweza kutumika kwa kutatua matatizo yanayohusiana na nguvu.
+3. **IOPower Plane**: Inaonyesha vitu na uhusiano wao kwa upande wa usimamizi wa nguvu. Inaweza kuonyesha ni vitu vipi vinavyoathiri hali ya nguvu ya vingine, inayofaa kwa kutatua matatizo yanayohusiana na nguvu.
 4. **IOUSB Plane**: Kuzingatia hasa vifaa vya USB na uhusiano wao, ikiwaonyesha muundo wa vituo vya USB na vifaa vilivyounganishwa.
 5. **IOAudio Plane**: Ndege hii ni kwa ajili ya kuwakilisha vifaa vya sauti na uhusiano wao ndani ya mfumo.
 6. ...
 
 ## Mfano wa Kanuni ya Mawasiliano ya Dereva
 
-Msimbo ufuatao unahusiana na huduma ya IOKit `"JinaLakoLaHudumaHapa"` na kuita kazi ndani ya chaguzi 0. Kwa hilo:
+Msimbo ufuatao unahusiana na huduma ya IOKit `"JinaLakoLaHudumaHapa"` na kuita kazi ndani ya kuchagua 0. Kwa hilo:
 
 * kwanza inaita **`IOServiceMatching`** na **`IOServiceGetMatchingServices`** kupata huduma.
-* Kisha inaanzisha uhusiano kwa kuita **`IOServiceOpen`**.
-* Na hatimaye inaita kazi na **`IOConnectCallScalarMethod`** ikionyesha chaguo 0 (chaguo ni nambari ambayo kazi unayotaka kuita imepewa).
+* Kisha inathibitisha uhusiano kwa kuita **`IOServiceOpen`**.
+* Na hatimaye inaita kazi na **`IOConnectCallScalarMethod`** ikionyesha kuchagua 0 (kuchagua ni nambari ambayo kazi unayotaka kuita imepewa).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -165,15 +165,15 @@ Kuna **kazi nyingine** ambazo zinaweza kutumika kuita kazi za IOKit isipokuwa **
 
 ## Kugeuza mshale wa dereva
 
-Unaweza kupata hizi kwa mfano kutoka kwa [**picha ya firmware (ipsw)**](./#ipsw). Kisha, iweke katika decompiler yako pendwa.
+Unaweza kupata hizi kwa mfano kutoka kwa [**picha ya firmware (ipsw)**](./#ipsw). Kisha, iweke kwenye decompiler yako pendwa.
 
-Unaweza kuanza kugeuza mshale wa kazi ya **`externalMethod`** kwani hii ni kazi ya dereva ambayo itapokea simu na kuita kazi sahihi:
+Unaweza kuanza kudecompile kazi ya **`externalMethod`** kwani hii ni kazi ya dereva ambayo itapokea simu na kuita kazi sahihi:
 
-<figure><img src="../../../.gitbook/assets/image (1165).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (1166).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Simu hiyo mbaya iliyopangiliwa inamaanisha:
+Simu hiyo mbaya iliyopanguliwa inamaanisha:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -181,7 +181,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-Tazama jinsi paramu ya **`self`** ilivyokosekana katika ufafanuzi uliopita, ufafanuzi mzuri ungekuwa:
+Tazama jinsi katika ufafanuzi uliopita paramu ya **`self`** imeachwa, ufafanuzi mzuri ungekuwa:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -195,38 +195,38 @@ IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgu
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Na habari hii unaweza kuandika upya Ctrl+Right -> `Hariri saini ya kazi` na kuweka aina zilizojulikana:
+Na habari hii unaweza kuandika upya Ctrl+Right -> `Hariri saini ya kazi` na weka aina zilizojulikana:
 
-<figure><img src="../../../.gitbook/assets/image (1171).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-Msimbo mpya uliokwisha kudecompile utaonekana kama:
+Msimbo uliokwisha kudecompile utaonekana kama:
 
-<figure><img src="../../../.gitbook/assets/image (1172).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Kwa hatua inayofuata tunahitaji kuwa tumefafanua **`IOExternalMethodDispatch2022`** muundo. Ni wazi chanzo katika [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), unaweza kufafanua hivyo:
+Kwa hatua inayofuata tunahitaji kuwa tumefafanua muundo wa **`IOExternalMethodDispatch2022`**. Ni wazi chanzo katika [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), unaweza kufafanua hivyo:
 
-<figure><img src="../../../.gitbook/assets/image (1167).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
 Sasa, kufuatia `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` unaweza kuona data nyingi:
 
-<figure><img src="../../../.gitbook/assets/image (1173).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Badilisha Aina ya Data kuwa **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (1174).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
 baada ya mabadiliko:
 
-<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Na sasa tunajua kuwa kuna **array ya vipengele 7** (angalia msimbo uliokwisha kudecompile), bonyeza kuunda array ya vipengele 7:
+Na sasa tunavyo huko tuna **array ya vipengele 7** (angalia msimbo uliokwisha kudecompile), bonyeza kuunda array ya vipengele 7:
 
-<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Baada ya array kuundwa unaweza kuona kazi zote zilizosafirishwa:
 
-<figure><img src="../../../.gitbook/assets/image (1178).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Ukikumbuka, kwa **kupiga** kazi **iliyosafirishwa** kutoka nafasi ya mtumiaji hatuhitaji kuita jina la kazi, bali **namba ya kuchagua**. Hapa unaweza kuona kuwa chaguo **0** ni kazi **`initializeDecoder`**, chaguo **1** ni **`startDecoder`**, chaguo **2** **`initializeEncoder`**...
+Ukikumbuka, kwa **kupiga** kazi **iliyosafirishwa** kutoka nafasi ya mtumiaji hatuhitaji kupiga jina la kazi, bali **namba ya kuchagua**. Hapa unaweza kuona kwamba chaguo **0** ni kazi **`initializeDecoder`**, chaguo **1** ni **`startDecoder`**, chaguo **2** **`initializeEncoder`**...
 {% endhint %}

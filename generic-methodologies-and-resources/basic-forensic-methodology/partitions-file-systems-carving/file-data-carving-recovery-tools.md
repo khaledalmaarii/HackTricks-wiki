@@ -8,9 +8,9 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -28,7 +28,7 @@ Zana zaidi kwenye [https://github.com/Claudio-C/awesome-datarecovery](https://gi
 
 ### Autopsy
 
-Zana ya kawaida sana kutumika katika uchunguzi wa kiforensiki kutoa faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, isakinishe na ifanye iingize faili ili kupata faili "zilizofichwa". Kumbuka kwamba Autopsy imejengwa kusaidia picha za diski na aina zingine za picha, lakini sio faili za kawaida.
+Zana ya kawaida sana kutumika katika uchunguzi wa kisayansi kutoa faili kutoka kwa picha ni [**Autopsy**](https://www.autopsy.com/download/). Pakua, isakinishe na ifanye iingize faili ili kupata faili "zilizofichwa". Kumbuka kwamba Autopsy imejengwa kusaidia picha za diski na aina zingine za picha, lakini sio faili za kawaida.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa alama ya mstari. Ikiwa hutotoa alama yoyote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
+Chombo kingine cha kawaida cha kutafuta faili zilizofichwa ni **foremost**. Unaweza kupata faili ya usanidi wa foremost katika `/etc/foremost.conf`. Ikiwa unataka tu kutafuta baadhi ya faili maalum, toa maoni kwenye faili hizo. Ikiwa hutotoa maoni kwenye kitu chochote, foremost itatafuta aina zake za faili zilizosanidiwa kwa msingi.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -58,40 +58,38 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Chombo hiki kipo ndani ya kali lakini unaweza kukipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Chombo hiki kinapatikana ndani ya kali lakini unaweza kukipata hapa: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Chombo hiki kinaweza kuchunguza picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachotakiwa kufanya ni:
+Chombo hiki kinaweza kutafuta picha na **kutoa pcaps** ndani yake, **taarifa za mtandao (URLs, domains, IPs, MACs, barua pepe)** na **faili zaidi**. Unachohitaji kufanya ni:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Pitia **maelezo yote** ambayo chombo kimekusanya (nywila?), **chambua** **pakiti** (soma [**Uchambuzi wa Pcaps**](../pcap-inspection/)), tafuta **vikoa vya ajabu** (vikoa vinavyohusiana na **programu hasidi** au **visivyokuwepo**).
-
 ### PhotoRec
 
-Unaweza kupata hapa [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
+Unaweza kuipata kwenye [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
 Inakuja na toleo la GUI na CLI. Unaweza kuchagua **aina za faili** unazotaka PhotoRec iweze kutafuta.
 
-![](<../../../.gitbook/assets/image (239).png>)
+![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Angalia [mimba](https://code.google.com/archive/p/binvis/) na [zana ya ukurasa wa wavuti](https://binvis.io/#/).
+Angalia [code](https://code.google.com/archive/p/binvis/) na [ukurasa wa zana ya wavuti](https://binvis.io/#/).
 
 #### Sifa za BinVis
 
-* Mwonekano wa **muundo** wa kivutio
+* Mwangaza wa **muonekano wa muundo** na shughuli
 * Grafu nyingi kwa pointi tofauti za kuzingatia
 * Kuzingatia sehemu za sampuli
-* **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF kwa mfano
-* Kupata **mifumo** kwa ajili ya kriptoanalisi kwenye faili
-* **Kugundua** pakiti au taratibu za kificho
-* **Tambua** steganografia kwa mifumo
-* **Mwonekano** wa tofauti za binary
+* **Kuona maneno na rasilimali**, katika utekelezaji wa PE au ELF k.m.
+* Kupata **mifumo** kwa cryptanalysis kwenye faili
+* **Kugundua** pakiti au algorithm za encoder
+* **Kutambua** Steganography kwa mifumo
+* **Mwangaza** wa tofauti za binary
 
-BinVis ni **mwanzo mzuri wa kufahamiana na lengo lisilojulikana** katika hali ya sanduku jeusi.
+BinVis ni **mahali pazuri pa kuanzia ili kuzoea lengo lisilojulikana** katika hali ya black-boxing.
 
-## Zana Maalum za Ukarabati wa Data
+## Zana za Kuchimba Data Maalum
 
 ### FindAES
 
@@ -99,12 +97,12 @@ Inatafuta funguo za AES kwa kutafuta ratiba zao za funguo. Inaweza kupata funguo
 
 Pakua [hapa](https://sourceforge.net/projects/findaes/).
 
-## Zana Zingine za Kuboresha
+## Zana Zingine za Kufanikisha
 
 Unaweza kutumia [**viu** ](https://github.com/atanunq/viu)kuona picha kutoka kwenye terminal.\
 Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf kuwa maandishi na kusoma.
 
-**Kikundi cha Usalama cha Jaribio Kali**
+**Try Hard Security Group**
 
 <figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -116,10 +114,10 @@ Unaweza kutumia zana ya mstari wa amri ya linux **pdftotext** kubadilisha pdf ku
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

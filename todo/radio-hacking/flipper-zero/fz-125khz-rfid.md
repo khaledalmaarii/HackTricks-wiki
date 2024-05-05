@@ -10,14 +10,13 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 ## Utangulizi
 
@@ -52,17 +51,17 @@ Wakati mwingine, unapopata kadi utapata kitambulisho (au sehemu) yake imeandikwa
 Kwa mfano kwenye kadi hii ya EM-Marin kwenye kadi ya kimwili inawezekana **kusoma 3 ya 5 byte za mwisho wazi**.\
 Zingine 2 zinaweza kufanyiwa nguvu ikiwa huwezi kusoma kutoka kwenye kadi.
 
-<figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
 Hali kama hiyo hutokea kwenye kadi hii ya HID ambapo ni 2 kati ya 3 ya byte zinaweza kupatikana zikiwa zimeandikwa kwenye kadi
 
-<figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Iga/Andika
 
-Baada ya **kunakili** kadi au **kuingiza** kitambulisho **kwa mikono** inawezekana **kuiga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
+Baada ya **kukopi** kadi au **kuingiza** kitambulisho **kwa mikono** inawezekana **kuiga** kwa Flipper Zero au **kuandika** kwenye kadi halisi.
 
 ## Marejeo
 
@@ -71,7 +70,6 @@ Baada ya **kunakili** kadi au **kuingiza** kitambulisho **kwa mikono** inawezeka
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 <details>
 
@@ -83,6 +81,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

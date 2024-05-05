@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ### Msimbo
 
-Msimbo ufuatao kutoka [hapa](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Inaruhusu **kuashiria Kitambulisho cha Mchakato kama hoja** na CMD **inayotumika kama mtumiaji** wa mchakato ulioashiriwa itatekelezwa.\
+Msimbo ufuatao kutoka [hapa](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Inaruhusu **kuashiria Kitambulisho cha Mchakato kama hoja** na CMD **inayofanya kazi kama mtumiaji** wa mchakato ulioashiriwa itaendeshwa.\
 Ikiendeshwa katika mchakato wa Uadilifu wa Juu unaweza **kuashiria PID ya mchakato unaoendeshwa kama System** (kama vile winlogon, wininit) na kutekeleza cmd.exe kama mfumo.
 ```cpp
 impersonateuser.exe 1234
@@ -152,6 +152,8 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
+{% endcode %}
+
 ### Kosa
 
 Kwa baadhi ya matukio unaweza jaribu kujifanya kuwa System na haitafanya kazi ikionyesha matokeo kama yafuatayo:
@@ -165,22 +167,22 @@ Kwa baadhi ya matukio unaweza jaribu kujifanya kuwa System na haitafanya kazi ik
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Hii inamaanisha hata kama unafanya kazi kwenye kiwango cha Uadilifu wa Juu **huna idhini za kutosha**.\
+Hii inamaanisha kwamba hata kama unafanya kazi kwenye kiwango cha Uadilifu wa Juu **huna idhini za kutosha**.\
 Angalia idhini za sasa za Msimamizi kwenye michakato ya `svchost.exe` kwa kutumia **mchunguzi wa michakato** (au unaweza pia kutumia mchakato wa hacker):
 
 1. Chagua mchakato wa `svchost.exe`
 2. Bonyeza Kulia --> Mali
-3. Ndani ya Tabu ya "Usalama" bonyeza chini kulia kitufe "Idhini"
-4. Bonyeza "Advanced"
+3. Ndani ya Tab "Usalama" bonyeza chini kulia kitufe "Idhini"
+4. Bonyeza kwenye "Zaidi"
 5. Chagua "Waadiministrata" na bonyeza "Hariri"
 6. Bonyeza "Onyesha idhini za juu"
 
-![](<../../.gitbook/assets/image (434).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
-Picha iliyopita inaonyesha idhini zote ambazo "Waadiministrata" wanayo juu ya mchakato uliochaguliwa (kama unavyoona katika kesi ya `svchost.exe` wana idhini za "Uchunguzi" tu)
+Picha iliyotangulia inaonyesha idhini zote ambazo "Waadiministrata" wanayo juu ya mchakato ulioteuliwa (kama unavyoona katika kesi ya `svchost.exe` wana idhini za "Uchunguzi" tu)
 
 Angalia idhini ambazo "Waadiministrata" wanazo juu ya `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (1099).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 Ndani ya mchakato huo "Waadiministrata" wanaweza "Soma Kumbukumbu" na "Soma Idhini" ambayo labda inaruhusu Waadiministrata kuiga tokeni inayotumiwa na mchakato huu.

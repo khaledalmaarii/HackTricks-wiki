@@ -2,35 +2,35 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha** [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 ## Rejelea PID
 
-Wakati huduma ya **XPC** ya macOS inachunguza mchakato uliopigiwa msasa kulingana na **PID** na sio kulingana na **alama ya ukaguzi**, inakuwa hatarini kwa shambulio la rejelea ya PID. Shambulio hili linategemea **hali ya mbio** ambapo **kudukua** kutatuma ujumbe kwa huduma ya **XPC** **kutumia vibaya** utendaji na mara **baada ya** hilo, kutekeleza **`posix_spawn(NULL, lengo_binary, NULL, &attr, lengo_argv, mazingira)`** na **binary iliyoruhusiwa**.
+Wakati huduma ya **XPC ya macOS** inachunguza mchakato uliopigiwa msasa kulingana na **PID** na sio kulingana na **ishara ya ukaguzi**, inakuwa na hatari ya shambulio la rejelea ya PID. Shambulio hili linategemea **hali ya mbio** ambapo **kudukua** kutatuma ujumbe kwa huduma ya XPC **kutumia vibaya** utendaji na mara **baada ya** hilo, kutekeleza **`posix_spawn(NULL, lengo_binary, NULL, &attr, lengo_argv, mazingira)`** na **binary iliyoruhusiwa**.
 
-Kazi hii itafanya **binary iliyoruhusiwa iwe mmiliki wa PID** lakini **ujumbe wa XPC wenye nia mbaya ungekuwa umetumwa** muda mfupi kabla. Kwa hivyo, ikiwa huduma ya **XPC** **inatumia** **PID** kwa **uthibitisho** wa mtumaji na kuangalia **BAADA YA** utekelezaji wa **`posix_spawn`**, itadhani inatoka kwa mchakato **ulioidhinishwa**.
+Kazi hii itafanya **binary iliyoruhusiwa iwe na PID** lakini **ujumbe wa XPC wenye nia mbaya ungekuwa umetumwa** muda mfupi kabla. Kwa hivyo, ikiwa huduma ya **XPC** inatumia **PID** kwa **uthibitishaji** wa mtumaji na kuangalia **BAADA YA** utekelezaji wa **`posix_spawn`**, itadhani inatoka kwa mchakato **ulioidhinishwa**.
 
 ### Mfano wa Kudukua
 
-Ikiwa unapata kazi ya **`shouldAcceptNewConnection`** au kazi inayoitwa na hiyo **ikiita** **`processIdentifier`** na sio kuita **`auditToken`**. Inamaanisha kwa kiwango kikubwa kuwa inathibitisha **PID ya mchakato** na sio alama ya ukaguzi.\
-Kama vile mfano huu (uliochukuliwa kutoka kwa marejeo):
+Ikiwa unapata kazi ya **`shouldAcceptNewConnection`** au kazi inayoitwa na hiyo **ikiita** **`processIdentifier`** na sio kuita **`auditToken`**. Inamaanisha kwa kiwango kikubwa kuwa inathibitisha PID ya mchakato na sio ishara ya ukaguzi.\
+Kama kwa mfano katika picha hii (ilichukuliwa kutoka kwa kumbukumbu):
 
-<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Angalia mfano huu wa kudukua (tena, uliochukuliwa kutoka kwa marejeo) kuona sehemu 2 za kudukua:
+Angalia kudukua mfano huu (tena, uliochukuliwa kutoka kwa kumbukumbu) kuona sehemu 2 za kudukua:
 
-* Moja ambayo **inaunda forks kadhaa**
-* **Kila fork** itatuma **mzigo** kwa huduma ya XPC wakati ikitekeleza **`posix_spawn`** mara tu baada ya kutuma ujumbe.
+* Moja ambayo **inaunda matawi kadhaa**
+* **Kila tawi** litatuma **mzigo** kwa huduma ya XPC wakati ikitekeleza **`posix_spawn`** mara tu baada ya kutuma ujumbe.
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -40,7 +40,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Chaguo la kwanza kutumia **`NSTasks`** na hoja ya kuzindua watoto kutumia RC ya kudukua
+Chaguo la kwanza kutumia **`NSTasks`** na hoja ya kuzindua watoto kutumia RC exploit
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -282,6 +282,9 @@ pwned = true;
 return 0;
 }
 ```
+{% endtab %}
+{% endtabs %}
+
 ## Mifano mingine
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
@@ -299,7 +302,7 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 

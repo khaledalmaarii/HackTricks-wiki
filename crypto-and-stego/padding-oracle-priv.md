@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -16,20 +16,20 @@ Njia nyingine za kusaidia HackTricks:
 
 ## CBC - Cipher Block Chaining
 
-Katika modi ya CBC **block iliyotangulia iliyofichwa hutumiwa kama IV** ya XOR na block inayofuata:
+Katika modi ya CBC **block iliyotangulia iliyofanyiwa encryption hutumiwa kama IV** ya XOR na block inayofuata:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Kufichua CBC **operesheni za kinyume** hufanywa:
+Kwa kudecrypt CBC **operesheni za kinyume** hufanywa:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Tambua jinsi inavyohitajika kutumia **ufunguo wa kufichua** na **IV**.
+Tambua jinsi inavyohitajika kutumia **ufunguo wa encryption** na **IV**.
 
 ## Kupangilia Ujumbe
 
-Kwa kuwa kufichua kunafanywa katika **blocks za saizi iliyowekwa**, **padding** mara nyingi inahitajika katika **block ya mwisho** ili kukamilisha urefu wake.\
-Kawaida **PKCS7** hutumiwa, ambayo inazalisha padding **inayorudia** **idadi** ya **bytes** **inayohitajika** **kukamilisha** block. Kwa mfano, ikiwa block ya mwisho inakosa bytes 3, padding itakuwa `\x03\x03\x03`.
+Kwa kuwa encryption inafanywa katika **blocks za saizi iliyowekwa**, **padding** mara nyingi inahitajika katika **block ya mwisho** ili kukamilisha urefu wake.\
+Kawaida **PKCS7** hutumiwa, ambayo inazalisha padding **inayorudia** **idadi** ya **bytes** **inayohitajika** kukamilisha block. Kwa mfano, ikiwa block ya mwisho inakosa bytes 3, padding itakuwa `\x03\x03\x03`.
 
 Tuangalie mifano zaidi na **blocks 2 zenye urefu wa 8bytes**:
 
@@ -44,9 +44,9 @@ Tambua jinsi katika mfano wa mwisho **block ya mwisho ilikuwa kamili hivyo nying
 
 ## Oracle ya Padding
 
-Wakati programu inafichua data iliyofichwa, kwanza itaifichua data; kisha itaondoa padding. Wakati wa kusafisha padding, ikiwa **padding isiyo halali inachochea tabia inayoweza kugundulika**, una **udhaifu wa oracle ya padding**. Tabia inayoweza kugundulika inaweza kuwa **kosa**, **ukosefu wa matokeo**, au **jibu polepole**.
+Wakati programu inadecrypt data iliyofanyiwa encryption, kwanza itadecrypt data; kisha itaondoa padding. Wakati wa kusafisha padding, ikiwa **padding isiyo halali inachochea tabia inayoweza kugundulika**, una **udhaifu wa oracle ya padding**. Tabia inayoweza kugundulika inaweza kuwa **kosa**, **ukosefu wa matokeo**, au **jibu polepole**.
 
-Ukigundua tabia hii, unaweza **kufichua data iliyofichwa** na hata **kuficha cleartext yoyote**.
+Ukigundua tabia hii, unaweza **kudecrypt data iliyofanyiwa encryption** na hata **kufanya encryption ya maandishi wazi yoyote**.
 
 ### Jinsi ya kutumia
 
@@ -64,15 +64,15 @@ Unaweza pia **kutumia udhaifu huu kwa kuficha data mpya. Kwa mfano, fikiria maud
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ikiwa tovuti ina kasoro, `padbuster` itajaribu kiotomatiki kugundua wakati kosa la padding linatokea, lakini unaweza pia kuashiria ujumbe wa kosa kwa kutumia parameter **-error**.
+Ikiwa tovuti ina kasoro `padbuster` itajaribu kiotomatiki kupata wakati kosa la padding linatokea, lakini unaweza pia kuashiria ujumbe wa kosa kwa kutumia parameter ya **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ### Nadharia
 
-Kwa **muhtasari**, unaweza kuanza kufichua data iliyofichwa kwa kudhani thamani sahihi ambayo inaweza kutumika kuunda **paddings tofauti**. Kisha, shambulio la padding oracle litianza kufichua herufi kutoka mwisho hadi mwanzo kwa kudhani ni thamani sahihi ambayo **inaunda padding ya 1, 2, 3, nk**.
+Kwa **muhtasari**, unaweza kuanza kufichua data iliyofichwa kwa kudhani thamani sahihi ambayo inaweza kutumika kuunda **paddings tofauti** zote. Kisha, shambulio la padding oracle litianza kufichua herufi kutoka mwisho hadi mwanzo kwa kudhani ni thamani sahihi ambayo **inaunda padding ya 1, 2, 3, nk**.
 
-![](<../.gitbook/assets/image (558).png>)
+![](<../.gitbook/assets/image (561).png>)
 
 Fikiria una maandishi yaliyofichwa ambayo yanachukua **vikundi 2** vilivyoundwa na herufi kutoka **E0 hadi E15**.\
 Ili **kufichua** **kikundi cha mwisho** (**E8** hadi **E15**), kikundi nzima hupitia "ufichuaji wa block cipher" ukizalisha **herufi za kati I0 hadi I15**.\
@@ -84,26 +84,26 @@ Hatimaye, kila herufi ya kati ina **XORed** na herufi zilizofichwa hapo awali (E
 * `C12 = I12 ^ E4`
 * ...
 
-Sasa, Inawezekana **kurekebisha `E7` hadi `C15` iwe `0x01`**, ambayo pia itakuwa padding sahihi. Hivyo, katika kesi hii: `\x01 = I15 ^ E'7`
+Sasa, Inawezekana **kubadilisha `E7` hadi `C15` iwe `0x01`**, ambayo pia itakuwa padding sahihi. Hivyo, katika kesi hii: `\x01 = I15 ^ E'7`
 
 Hivyo, kwa kupata E'7, ni **inawezekana kuhesabu I15**: `I15 = 0x01 ^ E'7`
 
-Ambayo inaruhusu sisi **kuhesabu C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Hii inaruhusu sisi **kuhesabu C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Kwa kujua **C15**, sasa ni **inawezekana kuhesabu C14**, lakini wakati huu kwa kubadilisha padding `\x02\x02`.
+Kwa kujua **C15**, sasa ni **inawezekana kuhesabu C14**, lakini wakati huu kwa kubadilisha nguvu padding `\x02\x02`.
 
-BF hii ni ngumu kama ile ya awali kwa kuwa inawezekana kuhesabu **`E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo ni muhimu tu kupata **`E'14`** ambayo inazalisha **`C14` sawa na `0x02`**.\
+BF hii ni ngumu kama ile ya awali kwa sababu inawezekana kuhesabu **`E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo ni muhimu tu kupata **`E'14`** ambayo inazalisha **`C14` sawa na `0x02`**.\
 Kisha, fanya hatua sawa kufichua C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
 **Fuata mnyororo huu hadi ufichue maandishi yote yaliyofichwa.**
 
 ### Kugundua udhaifu
 
-Jisajili na akaunti na ingia kwa akaunti hiyo.\
-Ikiwa **unaingia mara nyingi** na daima unapata **cookie ile ile**, kuna uwezekano **kitu kibaya** katika programu. **Cookie inayotumwa inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa cookie ni **ile ile daima**, itakuwa inawezekana daima kuwa halali na **hakutakuwa na njia ya kuitengua**.
+Jisajili akaunti na ingia kwa akaunti hiyo.\
+Ikiwa **unaingia mara nyingi** na daima unapata **cookie sawa**, kuna uwezekano **kitu** **hakiko sawa** katika programu. **Cookie inayotumwa inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa cookie ni **sawa daima**, itakuwa uwezekano daima kuwa halali na **hakutakuwa na njia ya kuitengua**.
 
-Sasa, ikiwa jaribu **kurekebisha** **cookie**, utaona unapata **kosa** kutoka kwa programu.\
-Lakini ikiwa unatumia BF ya padding (kutumia padbuster kwa mfano) unaweza kupata cookie nyingine halali kwa mtumiaji tofauti. Hali hii inaweza kuwa na uwezekano mkubwa wa kuwa na udhaifu wa padbuster.
+Sasa, ikiwa jaribu **kubadilisha** **cookie**, utaona unapata **kosa** kutoka kwa programu.\
+Lakini ikiwa unatumia BF ya padding (kwa kutumia padbuster kwa mfano) unaweza kupata cookie nyingine halali kwa mtumiaji tofauti. Hali hii inaweza kuwa na uwezekano mkubwa wa kuwa na udhaifu wa padbuster.
 
 ### Marejeo
 
@@ -111,14 +111,14 @@ Lakini ikiwa unatumia BF ya padding (kutumia padbuster kwa mfano) unaweza kupata
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

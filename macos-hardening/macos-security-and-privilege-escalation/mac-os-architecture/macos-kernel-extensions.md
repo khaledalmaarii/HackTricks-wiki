@@ -4,9 +4,9 @@
 
 <summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionyeshwa kwenye HackTricks**? Au ungependa kupata ufikiaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Tazama [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? Au ungependa kupata upatikanaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Tazama [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu maalum wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi wa PEASS na HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi ya PEASS na HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) **kikundi cha Discord** au kwenye [**kikundi cha telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Shiriki mbinu zako za udukuzi kwa kutuma PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -14,25 +14,25 @@
 
 ## Taarifa Msingi
 
-Vifurushi vya Kernel (Kexts) ni **vifurushi** vyenye kipengele cha **`.kext`** ambavyo **hulandishwa moja kwa moja katika nafasi ya kernel ya macOS**, kutoa utendaji wa ziada kwa mfumo wa uendeshaji kuu.
+Vifurushi vya Kernel (Kexts) ni **vifurushi** vyenye kifaa cha **`.kext`** ambavyo **hulandishwa moja kwa moja katika nafasi ya kernel ya macOS**, kutoa utendaji wa ziada kwa mfumo wa uendeshaji kuu.
 
 ### Mahitaji
 
-Kwa wazi, hii ni **nguvu sana hivyo ni vigumu kuhifadhi kifurushi cha kernel**. Hizi ni **mahitaji** ambayo kifurushi cha kernel lazima kiyakidhi ili kuhifadhiwa:
+Kwa wazi, hii ni **nguvu sana hivyo ni vigumu kuhifadhi kifurushi cha kernel**. Hizi ni **mahitaji** ambayo kifurushi cha kernel lazima kiyakidhi ili kuhifadhiwe:
 
 * Wakati wa **kuingia kwenye hali ya kupona**, vifurushi vya kernel **lazima viweze kuhifadhiwa**:
   
-<figure><img src="../../../.gitbook/assets/image (324).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* Kifurushi cha kernel lazima kiwe **kimesainiwa na cheti cha usaini wa nambari ya kernel**, ambacho kinaweza kupewa tu na **Apple**. Ambaye atakagua kwa undani kampuni na sababu kwa nini inahitajika.
-* Kifurushi cha kernel pia lazima kiwe **kimethibitishwa**, Apple itaweza kukagua kwa zisizo za programu hasidi.
+* Kifurushi cha kernel lazima kiwe **kimesainiwa na cheti cha usaini wa nambari ya kernel**, ambacho kinaweza kupewa tu na **Apple**. Ambayo itapitia kwa undani kampuni na sababu kwa nini inahitajika.
+* Kifurushi cha kernel pia lazima kiwe **kimethibitishwa**, Apple itaweza kukagua ikiwa kina programu hasidi.
 * Kisha, mtumiaji wa **root** ndiye anayeweza **kupakia kifurushi cha kernel** na faili ndani ya kifurushi hicho lazima **ziwe mali ya root**.
 * Wakati wa mchakato wa kupakia, kifurushi lazima kiwe tayari katika eneo la **ulinzi lisilokuwa la root**: `/Library/StagedExtensions` (inahitaji kibali cha `com.apple.rootless.storage.KernelExtensionManagement`).
 * Hatimaye, wakati wa kujaribu kuhifadhi, mtumiaji atapokea [**ombi la uthibitisho**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) na, ikiwa itakubaliwa, kompyuta lazima **izimishwe** ili kuihifadhi.
 
 ### Mchakato wa Kuhifadhi
 
-Katika Catalina ilikuwa hivi: Ni muhimu kufahamu kuwa mchakato wa **uthibitisho** unatokea katika **userland**. Walakini, programu tu zenye kibali cha **`com.apple.private.security.kext-management`** zinaweza **kuomba kernel kuhifadhi kifurushi**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+Katika Catalina ilikuwa hivi: Ni muhimu kufahamu kuwa mchakato wa **uthibitisho** unatokea katika **userland**. Walakini, programu tu zenye kibali cha **`com.apple.private.security.kext-management`** ndizo zinaweza **kuomba kernel kuhifadhi kifurushi**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** cli **inaanza** mchakato wa **uthibitisho** wa kuhifadhi kifurushi
 * Itazungumza na **`kextd`** kwa kutuma kutumia **huduma ya Mach**.
@@ -53,9 +53,9 @@ Ikiwa **`kextd`** haipatikani, **`kextutil`** inaweza kufanya ukaguzi sawa.
 
 <summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionyeshwa kwenye HackTricks**? Au ungependa kupata ufikiaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Tazama [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? Au ungependa kupata upatikanaji wa **toleo la hivi karibuni la PEASS au kupakua HackTricks kwa PDF**? Tazama [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu maalum wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi wa PEASS na HackTricks**](https://peass.creator-spring.com)
+* Pata [**swag rasmi ya PEASS na HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) **kikundi cha Discord** au kwenye [**kikundi cha telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Shiriki mbinu zako za udukuzi kwa kutuma PR kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

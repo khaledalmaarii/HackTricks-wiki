@@ -4,19 +4,21 @@
 
 <summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionekana kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 {% hint style="info" %}
-Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka kwa stdin** unahitaji kuzalisha hali inayoanza baada ya **`scanf`**.
+Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka kwa stdin** unahitaji kuzalisha hali ambayo inaanza baada ya **`scanf`**.
 {% endhint %}
 
-Makod
+Makodsi yamechukuliwa kutoka [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+
+### Kuingiza ili kufikia anwani (ikiashiria anwani)
 ```python
 import angr
 import sys
@@ -49,7 +51,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Ingiza ili ufikie anwani (ikiashiria prints)
+### Ingiza kufikia anwani (ikiashiria machapisho)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -210,9 +212,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, kwa hivyo thamani **`0x00000001`** ya stack inatoka kwa **kuingia mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika kanuni tumepunguza **bytes 8 kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tukaipush BVS.
+Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, kwa hivyo thamani **`0x00000001`** ya stack inatoka kwa **kuingia mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika nambari tumetoa **bytes 8 kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tukaipush BVS.
 
-![](<../../../.gitbook/assets/image (133).png>)
+![](<../../../.gitbook/assets/image (136).png>)
 
 ### Thamani za Kumbukumbu za Stati (Vipimo vya Kimataifa)
 ```python
@@ -275,7 +277,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Thamani za Kumbukumbu ya Kielelezo (Malloc)
+### Thamani za Kumbukumbu ya Kudumu (Malloc)
 ```python
 import angr
 import claripy
@@ -416,8 +418,8 @@ Tafadhali kumbuka kwamba faili ya ishara inaweza pia kuwa na data ya kudumu iliy
 ### Kutumia Vizuizi
 
 {% hint style="info" %}
-Maranyingi shughuli za binadamu rahisi kama kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (mzunguko), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiasi kikubwa** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
-Hivyo basi, ni rahisi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
+Maranyingi shughuli za binadamu za kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (kwa kitanzi), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiwango cha kipekee** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
+Hivyo basi, ni rahisi zaidi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -499,7 +501,7 @@ Jambo lingine unaloweza kufanya katika hali hizi ni **kufunga kazi ya kumpa angr
 
 ### Mameneja wa Uigaji
 
-Baadhi ya mameneja wa uigaji wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kama matawi mengi muhimu yaliumbwa. Hapa, mbinu ya **veritesting** itaunganisha hayo na kupata suluhisho.\
+Baadhi ya mameneja wa uigaji wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kwa sababu matawi mengi muhimu yaliumbwa. Hapa, mbinu ya **veritesting** itaunganisha hayo na kupata suluhisho.\
 Mameneja huyu wa uigaji pia unaweza kuamshwa kwa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -538,7 +540,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kufunga/Kupitisha wito mmoja kwa kazi
+### Kufunga/Kupita moja kwa moja kwa wito wa kazi
 ```python
 # This level performs the following computations:
 #
@@ -752,7 +754,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Programu za Statisiki
+### Programu za Statiči
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -821,12 +823,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

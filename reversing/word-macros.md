@@ -10,7 +10,7 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -19,13 +19,13 @@ Njia nyingine za kusaidia HackTricks:
 Ni kawaida sana kupata **msimbo wa taka ambao haujatumika kamwe** ili kufanya upya wa macro kuwa mgumu zaidi.\
 Kwa mfano, katika picha ifuatayo unaweza kuona kwamba na If ambayo kamwe haitakuwa kweli hutumiwa kutekeleza baadhi ya msimbo wa taka na usio na maana.
 
-![](<../.gitbook/assets/image (365).png>)
+![](<../.gitbook/assets/image (369).png>)
 
 ### Aina za Macros
 
 Kwa kutumia kazi ya **GetObject** ni rahisi kupata data kutoka kwa fomu za macro. Hii inaweza kutumika kufanya uchambuzi kuwa mgumu zaidi. Ifuatayo ni picha ya fomu ya macro iliyotumika kuficha data ndani ya masanduku ya maandishi (sanduku la maandishi linaweza kuficha masanduku mengine ya maandishi):
 
-![](<../.gitbook/assets/image (341).png>)
+![](<../.gitbook/assets/image (344).png>)
 
 <details>
 
@@ -37,6 +37,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

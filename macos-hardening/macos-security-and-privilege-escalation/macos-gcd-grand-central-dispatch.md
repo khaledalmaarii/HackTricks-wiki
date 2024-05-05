@@ -18,24 +18,24 @@ Njia nyingine za kusaidia HackTricks:
 
 **Grand Central Dispatch (GCD),** inayojulikana pia kama **libdispatch** (`libdispatch.dyld`), inapatikana kwenye macOS na iOS. Ni teknolojia iliyoendelezwa na Apple kuboresha msaada wa programu kwa utekelezaji wa sawia (multithreaded) kwenye vifaa vya multicore.
 
-**GCD** hutoa na kusimamia **mistari ya FIFO** ambayo maombi yako yanaweza **kuwasilisha kazi** katika mfumo wa **vitu vya block**. Blocks zilizowasilishwa kwenye mistari ya utoaji hutekelezwa kwenye dimbwi la nyuzi zinazosimamiwa kabisa na mfumo. GCD inaunda nyuzi kiotomatiki kwa kutekeleza kazi kwenye mistari ya utoaji na kupanga kazi hizo zitekelezwe kwenye viini vilivyopo.
+**GCD** hutoa na kusimamia **mistari ya FIFO** ambayo maombi yako yanaweza **kuwasilisha kazi** katika mfumo wa **vitu vya block**. Blocks zilizowasilishwa kwenye mistari ya utekelezaji wa dispatch zina **tekelezwa kwenye dimbwi la nyuzi** linalosimamiwa kabisa na mfumo. GCD inaunda nyuzi kiotomatiki kwa kutekeleza kazi kwenye mistari ya utekelezaji wa dispatch na kupanga kazi hizo zitekelezwe kwenye viini vilivyopo.
 
 {% hint style="success" %}
-Kwa muhtasari, ili kutekeleza nambari kwa **pamoja**, michakato inaweza kutuma **vitengo vya nambari kwa GCD**, ambayo itahusika na utekelezaji wao. Kwa hivyo, michakato haziumbi nyuzi mpya; **GCD inatekeleza nambari iliyotolewa na dimbwi lake la nyuzi** (ambalo linaweza kuongezeka au kupungua kama inavyohitajika).
+Kwa muhtasari, ili kutekeleza nambari kwa **sawa**, michakato inaweza kutuma **vitengo vya nambari kwa GCD**, ambayo itahusika na utekelezaji wao. Kwa hivyo, michakato haziumbi nyuzi mpya; **GCD inatekeleza nambari iliyotolewa na dimbwi lake la nyuzi** (ambalo linaweza kuongezeka au kupungua kama inavyohitajika).
 {% endhint %}
 
-Hii ni muhimu sana kusimamia utekelezaji wa pamoja kwa ufanisi, ikipunguza sana idadi ya nyuzi ambazo michakato huzalisha na kuboresha utekelezaji wa pamoja. Hii ni bora kwa kazi zinazohitaji **pamoja kubwa** (kuvunja nguvu?) au kwa kazi ambazo hazipaswi kuzuia nyuzi kuu: Kwa mfano, nyuzi kuu kwenye iOS inashughulikia mwingiliano wa UI, kwa hivyo utendaji mwingine wowote ambao unaweza kufanya programu isikae bila kufanya chochote (kutafuta, kupata wavuti, kusoma faili...) unashughulikiwa kwa njia hii.
+Hii ni muhimu sana kusimamia utekelezaji wa sawia kwa ufanisi, ikipunguza sana idadi ya nyuzi ambazo michakato huzalisha na kuboresha utekelezaji wa sawia. Hii ni bora kwa kazi zinazohitaji **sawa kubwa** (kuvunja nguvu?) au kwa kazi ambazo hazipaswi kuzuia nyuzi kuu: Kwa mfano, nyuzi kuu kwenye iOS inashughulikia mwingiliano wa UI, kwa hivyo utendaji mwingine wowote ambao unaweza kufanya programu isikae bila kufanya kazi (kutafuta, kupata wavuti, kusoma faili...) unasimamiwa kwa njia hii.
 
 ### Blocks
 
-Block ni **sehemu iliyojitegemea ya nambari** (kama kazi na hoja zinazorudi thamani) na inaweza pia kubainisha pembe zilizofungwa.\
-Walakini, kwenye kiwango cha kisasa cha kompyuta, blocks hazipo, ni `os_object`s. Kila moja ya vitu hivi inaundwa na miundo miwili:
+Block ni **sehemu iliyojitegemea ya nambari** (kama kazi na hoja zinazorudisha thamani) na inaweza pia kubainisha pembe zilizofungwa.\
+Walakini, kwenye kiwango cha kielekezi, blocks hazipo, ni `os_object`s. Kila moja ya vitu hivi inaundwa na miundo miwili:
 
 * **block literal**:&#x20;
 * Inaanza na uga wa **`isa`**, ukionyesha darasa la block:
 * `NSConcreteGlobalBlock` (blocks kutoka `__DATA.__const`)
 * `NSConcreteMallocBlock` (blocks kwenye rundo)
-* `NSConcreateStackBlock` (blocks kwenye rundo la data)
+* `NSConcreateStackBlock` (blocks kwenye rundo)
 * Ina **`flags`** (ikionyesha uga uliopo katika maelezo ya block) na baadhi ya baiti zilizohifadhiwa
 * Kiashiria cha kazi ya kupiga simu
 * Kiashiria kwa maelezo ya block
@@ -46,17 +46,17 @@ Walakini, kwenye kiwango cha kisasa cha kompyuta, blocks hazipo, ni `os_object`s
 * Kawaida itakuwa na kiashiria kwa saini ya mtindo wa Objective-C ili kujua ni kiasi gani cha nafasi inahitajika kwa vigezo (bendera `BLOCK_HAS_SIGNATURE`)
 * Ikiwa pembe zinarejelewa, block hii pia itakuwa na viashiria kwa msaidizi wa nakala (kunakili thamani mwanzoni) na msaidizi wa kutolea mbali (kuifuta).
 
-### Mistari ya Utoaji
+### Mistari ya Utekelezaji
 
-Mstari wa utoaji ni kitu kilichopewa jina linalotoa upangaji wa FIFO wa vitengo vya utekelezaji.
+Mstari wa utekelezaji wa dispatch ni kitu kilichopewa jina linalotoa upangaji wa FIFO wa blocks kwa utekelezaji.
 
-Blocks hupangwa kwenye mistari ili kutekelezwa, na hizi zinasaidia njia 2: `DISPATCH_QUEUE_SERIAL` na `DISPATCH_QUEUE_CONCURRENT`. Kwa hakika **ile ya mfululizo** **haitakuwa na shida ya hali ya mbio** kwani block haitatekelezwa hadi ile iliyotangulia imemaliza. Lakini **aina nyingine ya mstari inaweza kuwa nayo**.
+Blocks hupangwa kwenye mistari ili kutekelezwa, na hizi zinasaidia njia 2: `DISPATCH_QUEUE_SERIAL` na `DISPATCH_QUEUE_CONCURRENT`. Kwa hakika **ile ya mfululizo** **haitakuwa na shida ya hali ya mbio** kwani block haitatekelezwa hadi ile iliyotangulia imemaliza. Lakini **aina nyingine ya mstari wa utekelezaji inaweza kuwa nayo**.
 
 Mistari ya msingi:
 
 * `.main-thread`: Kutoka `dispatch_get_main_queue()`
-* `.libdispatch-manager`: Meneja wa mistari ya GCD
-* `.root.libdispatch-manager`: Meneja wa mistari ya GCD
+* `.libdispatch-manager`: Meneja wa mistari wa GCD
+* `.root.libdispatch-manager`: Meneja wa mistari wa GCD
 * `.root.maintenance-qos`: Kazi zenye kipaumbele cha chini
 * `.root.maintenance-qos.overcommit`
 * `.root.background-qos`: Inapatikana kama `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
@@ -67,22 +67,22 @@ Mistari ya msingi:
 * `.root.background-qos.overcommit`
 * `.root.user-initiated-qos`: Inapatikana kama `DISPATCH_QUEUE_PRIORITY_HIGH`
 * `.root.background-qos.overcommit`
-* `.root.user-interactive-qos`: Kipaumbele cha juu zaidi
+* `.root.user-interactive-qos`: Kipaumbele cha juu
 * `.root.background-qos.overcommit`
 
-Tambua kuwa itakuwa mfumo ndio atakayeamua **nyuzi zipi zitashughulikia mistari gani wakati wowote** (nyuzi nyingi zinaweza kufanya kazi kwenye mstari mmoja au nyuzi ile ile inaweza kufanya kazi kwenye mistari tofauti wakati fulani)
+Tambua kuwa itakuwa mfumo ndio utakaoamua **nyuzi zipi zitashughulikia mistari gani wakati wowote** (nyuzi nyingi zinaweza kufanya kazi kwenye mstari mmoja au nyuzi ile ile inaweza kufanya kazi kwenye mistari tofauti wakati fulani)
 
-#### Vipengele
+#### Sifa
 
 Wakati wa kuunda mstari na **`dispatch_queue_create`** hoja ya tatu ni `dispatch_queue_attr_t`, ambayo kawaida ni au `DISPATCH_QUEUE_SERIAL` (ambayo kimsingi ni NULL) au `DISPATCH_QUEUE_CONCURRENT` ambayo ni kiashiria kwa muundo wa `dispatch_queue_attr_t` ambao huruhusu kudhibiti baadhi ya vigezo vya mstari.
 
-### Vitu vya Utoaji
+### Vitu vya Utekelezaji
 
-Kuna vitu kadhaa ambavyo libdispatch hutumia na mistari na blocks ni moja tu kati yao. Ni rahisi kuunda vitu hivi na `dispatch_object_create`:
+Kuna vitu kadhaa ambavyo libdispatch hutumia na mistari na blocks ni vitu 2 tu kati yao. Ni rahisi kuunda vitu hivi na `dispatch_object_create`:
 
 * `block`
-* `data`: Vitengo vya data
-* `group`: Kikundi cha vitengo
+* `data`: Blocks za data
+* `group`: Kikundi cha blocks
 * `io`: Maombi ya I/O ya Async
 * `mach`: Bandari za Mach
 * `mach_msg`: Ujumbe wa Mach
@@ -93,9 +93,9 @@ Kuna vitu kadhaa ambavyo libdispatch hutumia na mistari na blocks ni moja tu kat
 
 ## Objective-C
 
-Katika Objetive-C kuna kazi tofauti za kutuma block ili itekelezwe kwa pamoja:
+Katika Objetive-C kuna kazi tofauti za kutuma block ili itekelezwe kwa sawia:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Inawasilisha block kwa utekelezaji wa kiasynchronous kwenye mstari wa utoaji na kurudi mara moja.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Inawasilisha block kwa utekelezaji wa sawia kwenye mstari wa utekelezaji wa dispatch na kurudi mara moja.
 * [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Inawasilisha kipengee cha block kwa utekelezaji na kurudi baada ya block hiyo kumaliza kutekelezwa.
 * [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Inatekeleza kipengee cha block mara moja tu kwa maisha ya programu.
 * [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Inawasilisha kipengee cha kazi kwa utekelezaji na kurudi baada ya kumaliza kutekelezwa. Tofauti na [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), kazi hii inaheshimu sifa zote za mstari wakati inatekeleza block.
@@ -145,8 +145,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** ni maktaba inayotoa **mikufu ya Swift** kwa mfumo wa Grand Central Dispatch (GCD) ambao awali uliandikwa kwa C.\
-Maktaba ya **`libswiftDispatch`** inafunika APIs za C GCD kwa interface ya kirafiki zaidi ya Swift, ikifanya iwe rahisi na ya kihisia zaidi kwa watengenezaji wa Swift kufanya kazi na GCD.
+**`libswiftDispatch`** ni maktaba inayotoa **kufungamanisha Swift** kwa mfumo wa Grand Central Dispatch (GCD) ambao awali uliandikwa kwa C.\
+Maktaba ya **`libswiftDispatch`** inafunika APIs za C GCD kwa kiolesura cha kirafiki zaidi cha Swift, ikifanya iwe rahisi na ya kihisia zaidi kwa watengenezaji wa Swift kufanya kazi na GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -198,31 +198,31 @@ Backtrace:
 ```
 ## Ghidra
 
-Kwa sasa Ghidra haelewi wala muundo wa **`dispatch_block_t`** wa ObjectiveC, wala ule wa **`swift_dispatch_block`**.
+Kwa sasa Ghidra haielewi wala muundo wa **`dispatch_block_t`** wa ObjectiveC, wala ule wa **`swift_dispatch_block`**.
 
 Hivyo, ikiwa unataka ielewe, unaweza tu **kuzitangaza**:
 
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
-
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Kisha, tafuta sehemu katika nambari ambapo zinatumiwa:
 
 {% hint style="success" %}
-Tambua marejeo yote yaliyofanywa kwa "block" ili uelewe jinsi unavyoweza kugundua kuwa muundo unatumika.
+Tambua marejeo yote yaliyofanywa kwa "block" ili kuelewa jinsi unavyoweza kugundua kuwa muundo unatumika.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Bonyeza kulia kwenye kipengee -> Badilisha Aina ya Kipengee na chagua katika kesi hii **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra itaandika tena kila kitu kiotomatiki:
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Marejeo
 
