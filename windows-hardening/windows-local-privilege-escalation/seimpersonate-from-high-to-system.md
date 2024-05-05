@@ -1,22 +1,23 @@
+# SeImpersonate da High a System
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
-
-## Codice
+### Codice
 
 Il seguente codice da [qui](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Consente di **indicare un ID processo come argomento** e verrà eseguito un CMD **come l'utente** del processo indicato.\
-Eseguendo in un processo di alta integrità puoi **indicare l'ID del processo in esecuzione come System** (come winlogon, wininit) ed eseguire un cmd.exe come sistema.
+Eseguendo in un processo di alta integrità è possibile **indicare il PID di un processo in esecuzione come Sistema** (come winlogon, wininit) ed eseguire un cmd.exe come sistema.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -153,9 +154,9 @@ return 0;
 ```
 {% endcode %}
 
-## Errore
+### Errore
 
-In alcune occasioni potresti provare a impersonare il sistema e non funzionerà mostrando un output come il seguente:
+In alcune occasioni potresti provare a impersonare System e non funzionerà mostrando un output come il seguente:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -167,7 +168,7 @@ In alcune occasioni potresti provare a impersonare il sistema e non funzionerà 
 [-] CreateProcessWithTokenW Error: 1326
 ```
 Questo significa che anche se stai eseguendo con un livello di integrità elevato **non hai abbastanza autorizzazioni**.\
-Verifichiamo le autorizzazioni attuali degli amministratori sui processi `svchost.exe` con **processes explorer** (o puoi anche usare process hacker):
+Verifichiamo le autorizzazioni attuali dell'amministratore sui processi `svchost.exe` con **processes explorer** (o puoi anche usare process hacker):
 
 1. Seleziona un processo di `svchost.exe`
 2. Fai clic destro --> Proprietà
@@ -176,28 +177,12 @@ Verifichiamo le autorizzazioni attuali degli amministratori sui processi `svchos
 5. Seleziona "Amministratori" e fai clic su "Modifica"
 6. Fai clic su "Mostra autorizzazioni avanzate"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 L'immagine precedente contiene tutti i privilegi che gli "Amministratori" hanno sul processo selezionato (come puoi vedere nel caso di `svchost.exe` hanno solo privilegi di "Query")
 
 Guarda i privilegi che gli "Amministratori" hanno su `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
-All'interno di quel processo, gli "Amministratori" possono "Leggere la memoria" e "Leggere le autorizzazioni", il che probabilmente consente agli amministratori di impersonare il token utilizzato da questo processo.
-
-
-
-<details>
-
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+All'interno di quel processo gli "Amministratori" possono "Leggere la memoria" e "Leggere le autorizzazioni" che probabilmente consente agli Amministratori di impersonare il token utilizzato da questo processo.

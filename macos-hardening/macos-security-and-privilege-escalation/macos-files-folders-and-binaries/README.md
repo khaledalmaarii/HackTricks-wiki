@@ -6,7 +6,7 @@
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -30,7 +30,7 @@ Altri modi per supportare HackTricks:
 * **/usr**: Configurazione e binari di sistema
 * **/var**: File di log
 * **/Volumes**: Le unità montate appariranno qui.
-* **/.vol**: Eseguendo `stat a.txt` otterrai qualcosa del tipo `16777223 7545753 -rw-r--r-- 1 username wheel ...` dove il primo numero è l'id del volume in cui si trova il file e il secondo è il numero di inode. Puoi accedere al contenuto di questo file tramite /.vol/ con queste informazioni eseguendo `cat /.vol/16777223/7545753`
+* **/.vol**: Eseguendo `stat a.txt` otterrai qualcosa come `16777223 7545753 -rw-r--r-- 1 username wheel ...` dove il primo numero è l'id del volume in cui si trova il file e il secondo è il numero di inode. Puoi accedere al contenuto di questo file tramite /.vol/ con queste informazioni eseguendo `cat /.vol/16777223/7545753`
 
 ### Cartelle delle Applicazioni
 
@@ -70,11 +70,11 @@ macOS memorizza informazioni come password in diversi luoghi:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Applicazioni Apple che seguono la struttura delle directory (è un bundle).
 * **`.dylib`**: Librerie dinamiche (come i file DLL di Windows)
-* **`.pkg`**: Sono uguali a xar (formato di archivio eXtensible). Il comando installer può essere usato per installare i contenuti di questi file.
+* **`.pkg`**: Sono gli stessi di xar (formato di archivio eXtensible). Il comando installer può essere usato per installare i contenuti di questi file.
 * **`.DS_Store`**: Questo file è in ogni directory, salva gli attributi e le personalizzazioni della directory.
 * **`.Spotlight-V100`**: Questa cartella appare nella directory radice di ogni volume del sistema.
 * **`.metadata_never_index`**: Se questo file è nella radice di un volume Spotlight non indizzerà quel volume.
-* **`.noindex`**: I file e le cartelle con questa estensione non verranno indicizzati da Spotlight.
+* **`.noindex`**: File e cartelle con questa estensione non verranno indicizzati da Spotlight.
 * **`.sdef`**: File all'interno dei bundle che specificano come è possibile interagire con l'applicazione da uno script Apple.
 
 ### Bundle macOS
@@ -94,7 +94,7 @@ In iOS puoi trovarle in **`/System/Library/Caches/com.apple.dyld/`**.
 
 Analogamente alla cache delle librerie condivise dyld, il kernel e le estensioni del kernel sono anche compilati in una cache del kernel, che viene caricata all'avvio.
 
-Per estrarre le librerie dal file unico della cache delle librerie dyld era possibile utilizzare il binario [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) che potrebbe non funzionare al giorno d'oggi ma puoi anche usare [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Per estrarre le librerie dal file unico della cache delle librerie dylib condivise era possibile utilizzare il binario [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) che potrebbe non funzionare al giorno d'oggi ma puoi anche usare [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -112,12 +112,12 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 Nota che anche se lo strumento `dyld_shared_cache_util` non funziona, puoi passare il **binario dyld condiviso a Hopper** e Hopper sarà in grado di identificare tutte le librerie e permetterti di **selezionare quale** vuoi investigare:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Alcuni estrattori potrebbero non funzionare poiché le dylib sono precollegate con indirizzi codificati rigidamente e potrebbero quindi saltare a indirizzi sconosciuti
+Alcuni estrattori potrebbero non funzionare poiché le dylib sono prelinkate con indirizzi codificati rigidamente e potrebbero saltare a indirizzi sconosciuti
 
 {% hint style="success" %}
-È anche possibile scaricare la Cache delle Librerie Condivise di altri dispositivi \*OS su macOS utilizzando un emulatore in Xcode. Saranno scaricati all'interno di: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, come ad esempio: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
+È anche possibile scaricare la Cache delle Librerie Condivise di altri dispositivi \*OS in macOS utilizzando un emulatore in Xcode. Saranno scaricati all'interno di: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, come ad esempio: `$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
 ### Mappatura SLC
@@ -126,14 +126,14 @@ Alcuni estrattori potrebbero non funzionare poiché le dylib sono precollegate c
 
 Nota che anche se la SLC viene slittata al primo utilizzo, tutti i **processi** utilizzano la **stessa copia**, il che **elimina la protezione ASLR** se l'attaccante fosse in grado di eseguire processi nel sistema. Questo è stato effettivamente sfruttato in passato e risolto con il pager della regione condivisa.
 
-I branch pool sono piccole dylib Mach-O che creano piccoli spazi tra i mapping delle immagini rendendo impossibile interporre le funzioni.
+I branch pool sono piccole Mach-O dylib che creano piccoli spazi tra i mapping delle immagini rendendo impossibile interporre le funzioni.
 
 ### Sovrascrittura SLC
 
 Utilizzando le variabili di ambiente:
 
 * **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Questo permetterà di caricare una nuova cache di librerie condivise
-* **`DYLD_SHARED_CACHE_DIR=avoid`** e sostituire manualmente le librerie con collegamenti simbolici alla cache con quelle reali (dovrai estrarle)
+* **`DYLD_SHARED_CACHE_DIR=avoid`** e sostituire manualmente le librerie con symlink alla cache con le vere (dovrai estrarle)
 
 ## Autorizzazioni Speciali dei File
 
@@ -143,11 +143,11 @@ In una **cartella**, **read** permette di **elencarla**, **write** permette di *
 
 ### Modificatori di flag
 
-Ci sono alcuni flag che possono essere impostati nei file che faranno sì che il file si comporti in modo diverso. Puoi **controllare i flag** dei file all'interno di una directory con `ls -lO /percorso/directory`
+Ci sono alcuni flag che possono essere impostati nei file che faranno comportare il file in modo diverso. Puoi **controllare i flag** dei file all'interno di una directory con `ls -lO /percorso/directory`
 
 * **`uchg`**: Noto come flag **uchange** impedirà qualsiasi azione di cambiare o eliminare il **file**. Per impostarlo: `chflags uchg file.txt`
 * L'utente root potrebbe **rimuovere il flag** e modificare il file
-* **`restricted`**: Questo flag fa sì che il file sia **protetto da SIP** (non puoi aggiungere questo flag a un file).
+* **`restricted`**: Questo flag rende il file **protetto da SIP** (non puoi aggiungere questo flag a un file).
 * **`Sticky bit`**: Se una directory ha il bit sticky, **solo** il **proprietario delle directory o root può rinominare o eliminare** i file. Tipicamente questo è impostato sulla directory /tmp per impedire agli utenti ordinari di eliminare o spostare i file di altri utenti.
 
 Tutti i flag possono essere trovati nel file `sys/stat.h` (trovalo usando `mdfind stat.h | grep stat.h`) e sono:
@@ -159,7 +159,7 @@ Tutti i flag possono essere trovati nel file `sys/stat.h` (trovalo usando `mdfin
 * `UF_OPAQUE` 0x00000008: La directory è opaca rispetto all'unione.
 * `UF_COMPRESSED` 0x00000020: Il file è compresso (alcuni file-system).
 * `UF_TRACKED` 0x00000040: Nessuna notifica per eliminazioni/ridenominazioni per i file con questo set.
-* `UF_DATAVAULT` 0x00000080: Richiesta di autorizzazione per la lettura e la scrittura.
+* `UF_DATAVAULT` 0x00000080: Autorizzazione richiesta per la lettura e la scrittura.
 * `UF_HIDDEN` 0x00008000: Suggerimento che questo elemento non dovrebbe essere visualizzato in una GUI.
 * `SF_SUPPORTED` 0x009f0000: Maschera dei flag supportati dal superutente.
 * `SF_SETTABLE` 0x3fff0000: Maschera dei flag modificabili dal superutente.
@@ -167,9 +167,9 @@ Tutti i flag possono essere trovati nel file `sys/stat.h` (trovalo usando `mdfin
 * `SF_ARCHIVED` 0x00010000: Il file è archiviato.
 * `SF_IMMUTABLE` 0x00020000: Il file non può essere modificato.
 * `SF_APPEND` 0x00040000: Le scritture nel file possono solo essere aggiunte.
-* `SF_RESTRICTED` 0x00080000: Richiesta di autorizzazione per la scrittura.
+* `SF_RESTRICTED` 0x00080000: Autorizzazione richiesta per la scrittura.
 * `SF_NOUNLINK` 0x00100000: L'elemento non può essere rimosso, rinominato o montato.
-* `SF_FIRMLINK` 0x00800000: Il file è un collegamento fisso.
+* `SF_FIRMLINK` 0x00800000: Il file è un firmlink.
 * `SF_DATALESS` 0x40000000: Il file è un oggetto senza dati.
 
 ### **ACL dei File**
@@ -202,19 +202,19 @@ Gli attributi estesi hanno un nome e un valore desiderato, e possono essere visu
 - `com.apple.quarantine`: MacOS: meccanismo di quarantena di Gatekeeper (III/6)
 - `metadata:*`: MacOS: vari metadati, come `_backup_excludeItem`, o `kMD*`
 - `com.apple.lastuseddate` (#PS): Data dell'ultimo utilizzo del file
-- `com.apple.FinderInfo`: MacOS: informazioni del Finder (ad es., etichette di colore)
+- `com.apple.FinderInfo`: MacOS: informazioni del Finder (ad es., Tag di colore)
 - `com.apple.TextEncoding`: Specifica la codifica del testo dei file di testo ASCII
-- `com.apple.logd.metadata`: Utilizzato da logd su file in `/var/db/diagnostics`
+- `com.apple.logd.metadata`: Utilizzato da logd sui file in `/var/db/diagnostics`
 - `com.apple.genstore.*`: Archiviazione generazionale (`/.DocumentRevisions-V100` nella radice del filesystem)
 - `com.apple.rootless`: MacOS: Utilizzato da System Integrity Protection per etichettare il file (III/10)
-- `com.apple.uuidb.boot-uuid`: Marchiature di logd degli epoche di avvio con UUID univoci
+- `com.apple.uuidb.boot-uuid`: Marcature di logd degli epoche di avvio con UUID univoci
 - `com.apple.decmpfs`: MacOS: Compressione trasparente dei file (II/7)
 - `com.apple.cprotect`: \*OS: Dati di crittografia per file (III/11)
 - `com.apple.installd.*`: \*OS: Metadati utilizzati da installd, ad es., `installType`, `uniqueInstallID`
 
-### Biforcazioni delle Risorse | ADS di macOS
+### Biforcazioni delle Risorse | ADS macOS
 
-Questo è un modo per ottenere **Stream di Dati Alternativi in macOS**. È possibile salvare contenuti all'interno di un attributo esteso chiamato **com.apple.ResourceFork** all'interno di un file salvandolo in **file/..namedfork/rsrc**.
+Questo è un modo per ottenere **Stream di Dati Alternativi in MacOS**. È possibile salvare contenuti all'interno di un attributo esteso chiamato **com.apple.ResourceFork** all'interno di un file salvandolo in **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -249,13 +249,15 @@ Di solito i binari di Mac OS sono compilati come **universal binaries**. Un **un
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
-## Dumping della memoria di macOS
+## Memoria dei processi macOS
+
+## Dumping della memoria macOS
 
 {% content-ref url="macos-memory-dumping.md" %}
 [macos-memory-dumping.md](macos-memory-dumping.md)
 {% endcontent-ref %}
 
-## File di categoria di rischio di Mac OS
+## File di categoria di rischio Mac OS
 
 La directory `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` è dove sono memorizzate le informazioni sul **rischio associato a diverse estensioni di file**. Questa directory categorizza i file in vari livelli di rischio, influenzando come Safari gestisce questi file al momento del download. Le categorie sono le seguenti:
 
@@ -271,20 +273,6 @@ La directory `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/S
 * **`/private/var/log/asl/*.asl`**: Questi sono i Log di Sistema Apple che potrebbero contenere informazioni interessanti.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: Memorizza i file e le applicazioni recentemente accessi tramite "Finder".
 * **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Memorizza gli elementi da avviare all'avvio del sistema.
-* **`$HOME/Library/Logs/DiskUtility.log`**: File di log per l'app DiskUtility (informazioni su unità, inclusi USB)
+* **`$HOME/Library/Logs/DiskUtility.log`**: File di log per l'applicazione DiskUtility (informazioni su drive, inclusi USB)
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Dati sugli access point wireless.
-* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Elenco dei demoni disattivati.
-
-<details>
-
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+* **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Elenco dei daemon disattivati.

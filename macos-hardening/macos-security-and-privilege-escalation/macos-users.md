@@ -7,26 +7,26 @@
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è combattere i takeover degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è combattere le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ### Utenti Comuni
 
@@ -44,26 +44,26 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 ```
 {% endcode %}
 
-* **Nessuno**: I processi vengono eseguiti con questo utente quando sono richiesti permessi minimi
+* **Nobody**: I processi vengono eseguiti con questo utente quando sono richiesti permessi minimi
 * **Root**
 
 ### Privilegi degli Utenti
 
-* **Utente Standard**: L'utente più basilare. Questo utente ha bisogno di autorizzazioni concesse da un utente amministratore quando tenta di installare software o eseguire altre attività avanzate. Non è in grado di farlo da solo.
-* **Utente Amministratore**: Un utente che opera per la maggior parte del tempo come utente standard ma è anche autorizzato a eseguire azioni di root come installare software e altre attività amministrative. Tutti gli utenti appartenenti al gruppo admin **hanno accesso a root tramite il file sudoers**.
+* **Utente Standard**: Il più basilare degli utenti. Questo utente ha bisogno di autorizzazioni concesse da un utente amministratore quando cerca di installare software o eseguire altre attività avanzate. Non è in grado di farlo da solo.
+* **Utente Amministratore**: Un utente che opera per la maggior parte del tempo come un utente standard ma è anche autorizzato a eseguire azioni di root come installare software e altre attività amministrative. Tutti gli utenti appartenenti al gruppo admin **hanno accesso a root tramite il file sudoers**.
 * **Root**: Root è un utente autorizzato a eseguire quasi qualsiasi azione (ci sono limitazioni imposte da protezioni come la Protezione dell'Integrità del Sistema).
-* Ad esempio root non sarà in grado di inserire un file all'interno di `/System`
+* Ad esempio root non sarà in grado di inserire un file dentro `/System`
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

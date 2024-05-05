@@ -1,4 +1,4 @@
-# macOS MIG - Mach Interface Generator
+# macOS MIG - Generatore di Interfacce Mach
 
 <details>
 
@@ -10,7 +10,7 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
 
 </details>
 
@@ -38,15 +38,15 @@ n2          :  uint32_t);
 {% endcode %}
 
 Ora usa mig per generare il codice server e client che saranno in grado di comunicare tra loro per chiamare la funzione Sottrai:
-
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-
-Verranno creati diversi nuovi file nella directory corrente.
+Saranno creati diversi nuovi file nella directory corrente.
 
 Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che definisce fondamentalmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
 
+{% tabs %}
+{% tab title="myipcServer.c" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
@@ -62,9 +62,9 @@ myipc_server_routine,
 }
 };
 ```
+{% endtab %}
 
-Traduzione
-
+{% tab title="myipcServer.h" %}Traduzione in corso...{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -77,9 +77,10 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
+{% endtab %}
+{% endtabs %}
 
 Basandosi sulla struttura precedente, la funzione **`myipc_server_routine`** otterrà l'**ID del messaggio** e restituirà la funzione corretta da chiamare:
-
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -94,18 +95,15 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-
-In questo esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
+Nell'esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
 
 In realtà è possibile identificare questa relazione nella struttura **`subsystem_to_name_map_myipc`** da **`myipcServer.h`**:
-
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-
 Infine, un'altra funzione importante per far funzionare il server sarà **`myipc_server`**, che è quella che effettivamente **chiama la funzione** relativa all'id ricevuto:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
@@ -140,10 +138,12 @@ return FALSE;
 }
 </code></pre>
 
-Controlla le righe evidenziate in precedenza per accedere alla funzione da chiamare tramite ID.
+Controlla le linee precedentemente evidenziate accedendo alla funzione da chiamare tramite ID.
 
 Di seguito è riportato il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
 
+{% tabs %}
+{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -174,9 +174,19 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
+{% endtab %}
 
+{% tab title="myipc_client.c" %} 
 
+## macOS IPC: Inter-Process Communication
 
+### macOS MIG: Mach Interface Generator
+
+Il Generatore di Interfacce Mach (MIG) è uno strumento utilizzato per semplificare lo sviluppo di IPC su macOS. MIG genera codice C per la comunicazione tra processi su Mac utilizzando il framework Mach. Questo strumento è ampiamente utilizzato nel kernel di macOS per definire le interfacce tra i servizi del kernel e gli utenti.
+
+Per utilizzare MIG, è necessario definire un file di specifica dell'interfaccia che descrive i tipi di dati e le chiamate di funzione supportate. Questo file viene quindi elaborato da MIG per generare il codice sorgente C necessario per la comunicazione IPC.
+
+MIG semplifica notevolmente lo sviluppo di IPC su macOS, consentendo ai programmatori di concentrarsi sulla logica dell'applicazione anziché sulla gestione complessa della comunicazione tra processi.
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -201,18 +211,15 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-
 ### Analisi Binaria
 
 Poiché molti binari utilizzano ora MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID del messaggio e identificando la funzione da eseguire:
-
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-
-È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si avranno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato**, poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
+È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si avranno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato** poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
@@ -333,24 +340,13 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-In realtà, se si va alla funzione **`0x100004000`** si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui la **funzione** è implementata, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamata:
+In realtà, se si va alla funzione **`0x100004000`** si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui è implementata la **funzione**, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamata:
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Questi dati possono essere estratti [**utilizzando questo script di Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-
-<details>
-
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repository di Github.**
+* **Condividi i tuoi trucchi di hacking inviando PR ai repository** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
 
 </details>

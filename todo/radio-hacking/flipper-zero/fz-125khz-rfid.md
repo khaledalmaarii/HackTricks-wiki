@@ -18,7 +18,6 @@ Altri modi per supportare HackTricks:
 
 {% embed url="https://websec.nl/" %}
 
-
 ## Introduzione
 
 Per maggiori informazioni su come funzionano i tag a 125kHz, controlla:
@@ -36,33 +35,33 @@ Per ulteriori informazioni su questi tipi di tag [**leggi questa introduzione**]
 Tenta di **leggere** le informazioni della scheda. Poi può **emularle**.
 
 {% hint style="warning" %}
-Nota che alcuni citofoni cercano di proteggersi dalla duplicazione delle chiavi inviando un comando di scrittura prima della lettura. Se la scrittura ha successo, quella scheda viene considerata falsa. Quando Flipper emula l'RFID non c'è modo per il lettore di distinguerlo da quello originale, quindi non si verificano tali problemi.
+Nota che alcuni citofoni cercano di proteggersi dalla duplicazione delle chiavi inviando un comando di scrittura prima della lettura. Se la scrittura ha successo, quella scheda viene considerata falsa. Quando Flipper emula RFID non c'è modo per il lettore di distinguerlo da quello originale, quindi tali problemi non si verificano.
 {% endhint %}
 
 ### Aggiungi Manualmente
 
-Puoi creare **schede false in Flipper Zero indicando i dati** manualmente e poi emularle.
+Puoi creare **schede false in Flipper Zero indicando i dati** che inserisci manualmente e poi emularle.
 
 #### ID sulle schede
 
-A volte, quando ottieni una scheda, troverai l'ID (o parte) scritto nella scheda visibile.
+A volte, quando ottieni una scheda, troverai l'ID (o parte) scritto sulla scheda in modo visibile.
 
 * **EM Marin**
 
-Ad esempio in questa scheda EM-Marin nella scheda fisica è possibile **leggere gli ultimi 3 byte su 5 in chiaro**.\
-Gli altri 2 possono essere forzati se non puoi leggerli dalla scheda.
+Ad esempio, in questa scheda EM-Marin è possibile **leggere gli ultimi 3 byte su 5 in chiaro** sulla scheda fisica.\
+Gli altri 2 possono essere forzati se non riesci a leggerli dalla scheda.
 
-<figure><img src="../../../.gitbook/assets/image (101).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Lo stesso accade in questa scheda HID dove solo 2 su 3 byte possono essere trovati stampati nella scheda
+Lo stesso accade in questa scheda HID dove solo 2 su 3 byte possono essere trovati stampati sulla scheda
 
-<figure><img src="../../../.gitbook/assets/image (1011).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
 ### Emula/Scrivi
 
-Dopo aver **copiato** una scheda o **inserito** manualmente l'ID è possibile **emularla** con Flipper Zero o **scriverla** in una scheda reale.
+Dopo aver **copiato** una scheda o **inserito** manualmente l'ID, è possibile **emularla** con Flipper Zero o **scriverla** su una scheda reale.
 
 ## Riferimenti
 
@@ -71,7 +70,6 @@ Dopo aver **copiato** una scheda o **inserito** manualmente l'ID è possibile **
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 <details>
 

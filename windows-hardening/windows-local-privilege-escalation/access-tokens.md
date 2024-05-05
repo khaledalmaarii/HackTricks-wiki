@@ -6,25 +6,25 @@
 
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Token di Accesso
 
@@ -76,44 +76,44 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
 oppure utilizzando _Process Explorer_ di Sysinternals (seleziona il processo e accedi alla scheda "Sicurezza"):
 
-![](<../../.gitbook/assets/image (769).png>)
+![](<../../.gitbook/assets/image (772).png>)
 
 ### Amministratore locale
 
 Quando accede un amministratore locale, **vengono creati due token di accesso**: uno con i diritti di amministratore e l'altro con i diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo viene utilizzato quello con i **diritti regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualcosa **come amministratore** ("Esegui come amministratore", ad esempio) verrà utilizzato il **UAC** per chiedere il permesso.\
 Se desideri [**saperne di più sull'UAC leggi questa pagina**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Impersonificazione delle credenziali utente
+### Impersonificazione utente delle credenziali
 
 Se hai le **credenziali valide di un altro utente**, puoi **creare** una **nuova sessione di accesso** con tali credenziali:
 ```
 runas /user:domain\username cmd.exe
 ```
-L'**accesso token** ha anche un **riferimento** delle sessioni di accesso all'interno del **LSASS**, utile se il processo deve accedere ad alcuni oggetti della rete.\
+L'**accesso token** ha anche un **riferimento** delle sessioni di accesso all'interno del **LSASS**, questo è utile se il processo ha bisogno di accedere ad alcuni oggetti della rete.\
 È possibile avviare un processo che **utilizza credenziali diverse per accedere ai servizi di rete** utilizzando:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Questo è utile se si hanno credenziali valide per accedere agli oggetti nella rete ma tali credenziali non sono valide all'interno dell'host attuale in quanto saranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
+Questo è utile se si dispongono di credenziali utili per accedere agli oggetti nella rete ma tali credenziali non sono valide all'interno dell'host attuale in quanto verranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
 
 ### Tipi di token
 
 Ci sono due tipi di token disponibili:
 
 * **Token primario**: Serve come rappresentazione delle credenziali di sicurezza di un processo. La creazione e l'associazione di token primari con i processi sono azioni che richiedono privilegi elevati, sottolineando il principio della separazione dei privilegi. Tipicamente, un servizio di autenticazione è responsabile della creazione del token, mentre un servizio di accesso gestisce la sua associazione con la shell del sistema operativo dell'utente. È importante notare che i processi ereditano il token primario del processo genitore alla creazione.
-* **Token di impersonificazione**: Permette a un'applicazione server di adottare temporaneamente l'identità del client per accedere agli oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di operazione:
+* **Token di impersonificazione**: Permette a un'applicazione server di adottare temporaneamente l'identità del client per accedere agli oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di funzionamento:
   * **Anonimo**: Concede all server accesso simile a quello di un utente non identificato.
   * **Identificazione**: Consente al server di verificare l'identità del client senza utilizzarla per l'accesso agli oggetti.
-  * **Impersonificazione**: Consente al server di operare sotto l'identità del client.
+  * **Impersonificazione**: Consente al server di operare con l'identità del client.
   * **Delega**: Simile all'Impersonificazione ma include la capacità di estendere questa assunzione di identità a sistemi remoti con cui il server interagisce, garantendo la conservazione delle credenziali.
 
 #### Impersonare Token
 
-Utilizzando il modulo _**incognito**_ di metasploit se si hanno sufficienti privilegi è possibile **elencare** e **impersonare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se si fosse l'altro utente**. È anche possibile **escalare i privilegi** con questa tecnica.
+Utilizzando il modulo _**incognito**_ di metasploit, se si dispone di sufficienti privilegi, è possibile **elencare** e **impersonare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se si fosse l'altro utente**. È anche possibile **escalare i privilegi** con questa tecnica.
 
 ### Privilegi dei Token
 
-Scopri quali **privilegi dei token possono essere abusati per escalare i privilegi:**
+Scopri quali **privilegi dei token possono essere abusati per l'escalation dei privilegi:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
@@ -125,16 +125,15 @@ Dai un'occhiata a [**tutti i possibili privilegi dei token e alcune definizioni 
 
 Per saperne di più sui token in questi tutorial: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-L'obiettivo principale di WhiteIntel è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+L'obiettivo principale di WhiteIntel è combattere i sequestri di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
-Puoi visitare il loro sito web e provare il loro motore gratuitamente su:
+Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 

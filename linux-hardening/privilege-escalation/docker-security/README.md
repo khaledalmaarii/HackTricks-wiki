@@ -6,25 +6,25 @@
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Unisciti al** 💬 [**Gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare flussi di lavoro** con gli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## **Sicurezza di Base del Motore Docker**
 
-Il **motore Docker** utilizza i **Namespaces** e **Cgroups** del kernel Linux per isolare i container, offrendo uno strato di sicurezza di base. Una protezione aggiuntiva è fornita tramite **Capabilities dropping**, **Seccomp**, e **SELinux/AppArmor**, migliorando l'isolamento del container. Un **plugin di autenticazione** può ulteriormente limitare le azioni dell'utente.
+Il **motore Docker** utilizza i **Namespaces** e **Cgroups** del kernel Linux per isolare i container, offrendo uno strato di sicurezza di base. Una protezione aggiuntiva è fornita tramite **Capabilities dropping**, **Seccomp**, e **SELinux/AppArmor**, migliorando l'isolamento del container. Un **plugin di autenticazione** può limitare ulteriormente le azioni dell'utente.
 
 ![Sicurezza di Docker](https://sreeninet.files.wordpress.com/2016/03/dockersec1.png)
 
@@ -90,13 +90,13 @@ clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
 ### Firma delle immagini Docker
 
-La firma delle immagini Docker garantisce la sicurezza e l'integrità delle immagini utilizzate nei container. Ecco una spiegazione sintetica:
+La firma delle immagini Docker garantisce la sicurezza e l'integrità delle immagini utilizzate nei container. Ecco una spiegazione sintetizzata:
 
-- **Fiducia dei contenuti Docker** utilizza il progetto Notary, basato su The Update Framework (TUF), per gestire la firma delle immagini. Per ulteriori informazioni, consulta [Notary](https://github.com/docker/notary) e [TUF](https://theupdateframework.github.io).
-- Per attivare la fiducia dei contenuti Docker, imposta `export DOCKER_CONTENT_TRUST=1`. Questa funzionalità è disattivata per impostazione predefinita nelle versioni di Docker 1.10 e successive.
-- Con questa funzionalità abilitata, è possibile scaricare solo immagini firmate. Il primo push dell'immagine richiede di impostare passphrase per le chiavi di root e di tagging, con Docker che supporta anche Yubikey per una sicurezza potenziata. Ulteriori dettagli possono essere trovati [qui](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
-- Tentare di scaricare un'immagine non firmata con la fiducia dei contenuti abilitata porta a un errore "Nessun dato di fiducia per l'ultima versione".
-- Per i push delle immagini successivi al primo, Docker richiede la passphrase della chiave del repository per firmare l'immagine.
+- **Docker Content Trust** utilizza il progetto Notary, basato su The Update Framework (TUF), per gestire la firma delle immagini. Per ulteriori informazioni, consulta [Notary](https://github.com/docker/notary) e [TUF](https://theupdateframework.github.io).
+- Per attivare la fiducia nei contenuti di Docker, imposta `export DOCKER_CONTENT_TRUST=1`. Questa funzionalità è disattivata per impostazione predefinita nelle versioni di Docker 1.10 e successive.
+- Con questa funzionalità abilitata, è possibile scaricare solo immagini firmate. Il caricamento iniziale dell'immagine richiede di impostare passphrase per le chiavi di root e di tag, con Docker che supporta anche Yubikey per una sicurezza potenziata. Ulteriori dettagli possono essere trovati [qui](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
+- Tentare di scaricare un'immagine non firmata con la fiducia nei contenuti abilitata porta a un errore "Nessun dato di fiducia per l'ultima versione".
+- Per i caricamenti delle immagini successivi al primo, Docker richiede la passphrase della chiave del repository per firmare l'immagine.
 
 Per eseguire il backup delle tue chiavi private, utilizza il comando:
 ```bash
@@ -106,10 +106,10 @@ Quando si passa da un host Docker all'altro, è necessario spostare le chiavi di
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -128,7 +128,7 @@ Negli ambienti containerizzati, isolare i progetti e i loro processi è fondamen
 
 * **Scopo**: Garantire l'isolamento delle risorse come processi, rete e filesystem. In particolare in Docker, i namespaces mantengono separati i processi di un container dall'host e dagli altri container.
 * **Utilizzo di `unshare`**: Il comando `unshare` (o la syscall sottostante) viene utilizzato per creare nuovi namespaces, fornendo un ulteriore livello di isolamento. Tuttavia, mentre Kubernetes non blocca questo concetto in modo innato, Docker lo fa.
-* **Limitazione**: Creare nuovi namespaces non consente a un processo di tornare ai namespaces predefiniti dell'host. Per penetrare nei namespaces dell'host, di solito è necessario accedere alla directory `/proc` dell'host, utilizzando `nsenter` per l'ingresso.
+* **Limitazione**: La creazione di nuovi namespaces non consente a un processo di tornare ai namespaces predefiniti dell'host. Per penetrare nei namespaces dell'host, di solito è necessario accedere alla directory `/proc` dell'host, utilizzando `nsenter` per l'ingresso.
 
 **Gruppi di Controllo (CGroups)**
 
@@ -157,13 +157,13 @@ Il **profilo Seccomp predefinito di Docker** può essere trovato in [https://git
 
 Docker ha un modello che puoi attivare: [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor)
 
-Ciò permetterà di ridurre le capacità, le chiamate di sistema, l'accesso ai file e alle cartelle...
+Questo permetterà di ridurre le capacità, le chiamate di sistema, l'accesso ai file e alle cartelle...
 
 </details>
 
 ### Namespaces
 
-**I Namespaces** sono una caratteristica del kernel Linux che **partiziona le risorse del kernel** in modo che un insieme di **processi** **veda** un insieme di **risorse** mentre **un altro** insieme di **processi** vede un **insieme diverso** di risorse. La funzionalità funziona avendo lo stesso namespace per un insieme di risorse e processi, ma quei namespace si riferiscono a risorse distinte. Le risorse possono esistere in più spazi.
+**Namespaces** sono una caratteristica del kernel Linux che **partiziona le risorse del kernel** in modo che un insieme di **processi** **veda** un insieme di **risorse** mentre **un altro** insieme di **processi** vede un **diverso** insieme di risorse. La funzionalità funziona avendo lo stesso namespace per un insieme di risorse e processi, ma quei namespace si riferiscono a risorse distinte. Le risorse possono esistere in più spazi.
 
 Docker fa uso dei seguenti Namespaces del kernel Linux per ottenere l'isolamento dei Container:
 
@@ -182,7 +182,7 @@ Per **ulteriori informazioni sui namespaces** controlla la seguente pagina:
 ### cgroups
 
 La funzionalità del kernel Linux **cgroups** fornisce la capacità di **limitare risorse come cpu, memoria, io, larghezza di banda di rete tra** un insieme di processi. Docker consente di creare Container utilizzando la funzionalità cgroup che consente il controllo delle risorse per il Container specifico.\
-Di seguito è riportato un Container creato con la memoria dello spazio utente limitata a 500m, la memoria del kernel limitata a 50m, la quota cpu a 512, il peso blkioweight a 400. La quota cpu è un rapporto che controlla l'utilizzo della CPU del Container. Ha un valore predefinito di 1024 e un intervallo tra 0 e 1024. Se tre Container hanno la stessa quota cpu di 1024, ciascun Container può utilizzare fino al 33% della CPU in caso di contesa delle risorse della CPU. blkio-weight è un rapporto che controlla l'IO del Container. Ha un valore predefinito di 500 e un intervallo tra 10 e 1000.
+Di seguito è riportato un Container creato con la memoria dello spazio utente limitata a 500m, la memoria del kernel limitata a 50m, la quota cpu a 512, il peso blkioweight a 400. La quota cpu è un rapporto che controlla l'utilizzo della CPU del Container. Ha un valore predefinito di 1024 e un intervallo tra 0 e 1024. Se tre Container hanno la stessa quota cpu di 1024, ogni Container può utilizzare fino al 33% della CPU in caso di contesa delle risorse della CPU. blkio-weight è un rapporto che controlla l'IO del Container. Ha un valore predefinito di 500 e un intervallo tra 10 e 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -218,7 +218,7 @@ Si tratta di una funzionalità di sicurezza che consente a Docker di **limitare 
 
 ### AppArmor in Docker
 
-**AppArmor** è un potenziamento del kernel per confinare i **contenitori** a un **insieme limitato** di **risorse** con **profili per programma**:
+**AppArmor** è un potenziamento del kernel per confinare i **contenitori** a un **insieme limitato di risorse** con **profili per programma**:
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -227,10 +227,10 @@ Si tratta di una funzionalità di sicurezza che consente a Docker di **limitare 
 ### SELinux in Docker
 
 * **Sistema di etichettatura**: SELinux assegna un'etichetta univoca a ogni processo e oggetto del filesystem.
-* **Esecuzione delle policy**: Applica le policy di sicurezza che definiscono quali azioni può compiere un'etichetta di processo su altre etichette all'interno del sistema.
+* **Esecuzione delle policy**: Applica le policy di sicurezza che definiscono quali azioni può eseguire un'etichetta di processo su altre etichette all'interno del sistema.
 * **Etichette dei processi del contenitore**: Quando i motori dei contenitori avviano i processi del contenitore, di solito vengono assegnate loro un'etichetta SELinux confinata, comunemente `container_t`.
-* **Etichettatura dei file all'interno dei contenitori**: I file all'interno del contenitore sono di solito etichettati come `container_file_t`.
-* **Regole di policy**: La policy SELinux garantisce principalmente che i processi con l'etichetta `container_t` possano interagire solo (leggere, scrivere, eseguire) con i file etichettati come `container_file_t`.
+* **Etichettatura dei file all'interno dei contenitori**: I file all'interno del contenitore di solito sono etichettati come `container_file_t`.
+* **Regole di policy**: La policy SELinux garantisce principalmente che i processi con l'etichetta `container_t` possano interagire (leggere, scrivere, eseguire) solo con i file etichettati come `container_file_t`.
 
 Questo meccanismo garantisce che anche se un processo all'interno di un contenitore viene compromesso, è confinato nell'interagire solo con oggetti che hanno le etichette corrispondenti, limitando significativamente i danni potenziali da tali compromissioni.
 
@@ -263,7 +263,7 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-* Denial of Service della larghezza di banda
+* **Denial of Service della larghezza di banda**
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -281,9 +281,9 @@ Nella seguente pagina puoi apprendere **cosa implica il flag `--privileged`**:
 
 #### no-new-privileges
 
-Se stai eseguendo un container in cui un attaccante riesce ad ottenere accesso come utente a bassi privilegi. Se hai un **binario suid mal configurato**, l'attaccante potrebbe abusarne e **escalare i privilegi all'interno** del container. Ciò potrebbe consentirgli di evaderne.
+Se stai eseguendo un container in cui un attaccante riesce ad ottenere accesso come utente a basso livello di privilegi. Se hai un **binario suid mal configurato**, l'attaccante potrebbe abusarne e **escalare i privilegi all'interno** del container. Ciò potrebbe consentirgli di evaderne.
 
-Eseguire il container con l'opzione **`no-new-privileges`** abilitata **impedirà questo tipo di escalation dei privilegi**.
+Eseguire il container con l'opzione **`no-new-privileges`** abilitata **impedirà questo tipo di escalation di privilegi**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
@@ -306,13 +306,13 @@ Per ulteriori opzioni **`--security-opt`** controlla: [https://docs.docker.com/e
 
 ## Altre Considerazioni sulla Sicurezza
 
-### Gestione dei Segreti: Migliori Pratiche
+### Gestione delle Password: Migliori Pratiche
 
-È cruciale evitare di incorporare segreti direttamente nelle immagini Docker o di utilizzare variabili d'ambiente, poiché questi metodi espongono le tue informazioni sensibili a chiunque abbia accesso al container tramite comandi come `docker inspect` o `exec`.
+È cruciale evitare di incorporare le password direttamente nelle immagini Docker o di utilizzare variabili d'ambiente, poiché questi metodi espongono le informazioni sensibili a chiunque abbia accesso al container tramite comandi come `docker inspect` o `exec`.
 
-I **volumi Docker** sono un'alternativa più sicura, consigliata per accedere a informazioni sensibili. Possono essere utilizzati come filesystem temporaneo in memoria, mitigando i rischi associati a `docker inspect` e al logging. Tuttavia, gli utenti root e coloro con accesso `exec` al container potrebbero comunque accedere ai segreti.
+I **volumi Docker** sono un'alternativa più sicura, consigliata per accedere alle informazioni sensibili. Possono essere utilizzati come filesystem temporaneo in memoria, mitigando i rischi associati a `docker inspect` e al logging. Tuttavia, gli utenti root e coloro con accesso `exec` al container potrebbero comunque accedere alle password.
 
-I **segreti Docker** offrono un metodo ancora più sicuro per gestire informazioni sensibili. Per le istanze che richiedono segreti durante la fase di build dell'immagine, **BuildKit** presenta una soluzione efficiente con supporto per i segreti di build-time, migliorando la velocità di build e fornendo funzionalità aggiuntive.
+Le **password Docker** offrono un metodo ancora più sicuro per gestire le informazioni sensibili. Per le istanze che richiedono password durante la fase di costruzione dell'immagine, **BuildKit** presenta una soluzione efficiente con il supporto per le password in fase di costruzione, migliorando la velocità di costruzione e fornendo funzionalità aggiuntive.
 
 Per sfruttare BuildKit, può essere attivato in tre modi:
 
@@ -320,7 +320,7 @@ Per sfruttare BuildKit, può essere attivato in tre modi:
 2. Prefissando i comandi: `DOCKER_BUILDKIT=1 docker build .`
 3. Abilitandolo per impostazione predefinita nella configurazione di Docker: `{ "features": { "buildkit": true } }`, seguito da un riavvio di Docker.
 
-BuildKit consente l'uso di segreti di build-time con l'opzione `--secret`, garantendo che questi segreti non siano inclusi nella cache di build dell'immagine o nell'immagine finale, utilizzando un comando come:
+BuildKit consente l'uso di password in fase di costruzione con l'opzione `--secret`, garantendo che queste password non siano incluse nella cache di costruzione dell'immagine o nell'immagine finale, utilizzando un comando come:
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
@@ -337,13 +337,13 @@ secrets:
 my_secret:
 file: ./my_secret_file.txt
 ```
-Questa configurazione consente l'uso di segreti durante l'avvio dei servizi con Docker Compose.
+Questo file di configurazione permette l'uso di segreti durante l'avvio dei servizi con Docker Compose.
 
 Negli ambienti Kubernetes, i segreti sono supportati nativamente e possono essere ulteriormente gestiti con strumenti come [Helm-Secrets](https://github.com/futuresimple/helm-secrets). I controlli degli accessi basati sui ruoli (RBAC) di Kubernetes migliorano la sicurezza della gestione dei segreti, simile a Docker Enterprise.
 
 ### gVisor
 
-**gVisor** è un kernel dell'applicazione, scritto in Go, che implementa una parte sostanziale della superficie di sistema Linux. Include un runtime [Open Container Initiative (OCI)](https://www.opencontainers.org) chiamato `runsc` che fornisce un **confine di isolamento tra l'applicazione e il kernel host**. Il runtime `runsc` si integra con Docker e Kubernetes, semplificando l'esecuzione di container sandbox.
+**gVisor** è un kernel dell'applicazione, scritto in Go, che implementa una parte sostanziale della superficie di sistema Linux. Include un runtime [Open Container Initiative (OCI)](https://www.opencontainers.org) chiamato `runsc` che fornisce un **confine di isolamento tra l'applicazione e il kernel host**. Il runtime `runsc` si integra con Docker e Kubernetes, semplificando l'esecuzione di container sandboxati.
 
 {% embed url="https://github.com/google/gvisor" %}
 
@@ -355,24 +355,24 @@ Negli ambienti Kubernetes, i segreti sono supportati nativamente e possono esser
 
 ### Suggerimenti Riassuntivi
 
-* **Non utilizzare il flag `--privileged` o montare un** [**socket Docker all'interno del container**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Il socket Docker consente di avviare container, quindi è un modo semplice per assumere il pieno controllo dell'host, ad esempio, eseguendo un altro container con il flag `--privileged`.
-* **Non eseguire come root all'interno del container. Utilizzare un** [**utente diverso**](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) **e** [**spazi utente**](https://docs.docker.com/engine/security/userns-remap/)**.** Il root nel container è lo stesso dell'host a meno che non venga riassociato con spazi utente. È solo leggermente limitato principalmente da spazi utente Linux, capacità e cgroups.
+* **Non utilizzare il flag `--privileged` o montare un** [**socket Docker all'interno del container**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**.** Il socket Docker consente di avviare container, quindi è un modo semplice per prendere il pieno controllo dell'host, ad esempio, eseguendo un altro container con il flag `--privileged`.
+* Non eseguire come root all'interno del container. Utilizzare un [**utente diverso**](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) e [**spazi utente**](https://docs.docker.com/engine/security/userns-remap/)**.** Il root nel container è lo stesso dell'host a meno che non venga rimappato con gli spazi utente. È solo leggermente limitato principalmente da spazi utente Linux, capacità e cgroups.
 * [**Eliminare tutte le capacità**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) e abilitare solo quelle necessarie** (`--cap-add=...`). Molti carichi di lavoro non necessitano di alcuna capacità e aggiungerle aumenta la portata di un potenziale attacco.
 * [**Utilizzare l'opzione di sicurezza "no-new-privileges"**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) per impedire ai processi di ottenere più privilegi, ad esempio attraverso binari suid.
 * [**Limitare le risorse disponibili al container**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** I limiti delle risorse possono proteggere la macchina da attacchi di denial of service.
 * **Regolare** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(o SELinux)** i profili per limitare le azioni e le chiamate di sistema disponibili per il container al minimo richiesto.
-* **Utilizzare** [**immagini docker ufficiali**](https://docs.docker.com/docker-hub/official_images/) **e richiedere firme** o creare le proprie basate su di esse. Non ereditare o utilizzare immagini [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Conservare anche le chiavi di root, passphrase in un luogo sicuro. Docker ha piani per gestire le chiavi con UCP.
+* **Utilizzare** [**immagini docker ufficiali**](https://docs.docker.com/docker-hub/official_images/) **e richiedere firme** o creare le proprie basate su di esse. Non ereditare o utilizzare immagini [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Conservare anche le chiavi root, passphrase in un luogo sicuro. Docker ha piani per gestire le chiavi con UCP.
 * **Ricostruire regolarmente** le tue immagini per **applicare patch di sicurezza all'host e alle immagini**.
 * Gestire i **segreti saggiamente** in modo che sia difficile per l'attaccante accedervi.
-* Se **esponi il demone Docker usa HTTPS** con autenticazione client e server.
+* Se **esponi il demone docker usa HTTPS** con autenticazione client e server.
 * Nel tuo Dockerfile, **preferisci COPY invece di ADD**. ADD estrae automaticamente file zippati e può copiare file da URL. COPY non ha queste capacità. Quando possibile, evita di utilizzare ADD per non essere suscettibile ad attacchi attraverso URL remoti e file Zip.
-* Avere **container separati per ogni micro-s**ervizio
-* **Non inserire ssh** all'interno del container, "docker exec" può essere utilizzato per ssh al Container.
+* Avere **container separati per ogni microservizio**.
+* **Non inserire ssh** all'interno del container, "docker exec" può essere utilizzato per ssh al container.
 * Avere **immagini di container più piccole**
 
 ## Fuga da Docker / Escalation dei Privilegi
 
-Se sei **all'interno di un container Docker** o hai accesso a un utente nel **gruppo docker**, potresti provare a **fuggire ed elevare i privilegi**:
+Se sei **all'interno di un container Docker** o hai accesso a un utente nel **gruppo docker**, potresti provare a **fuggire ed escalare i privilegi**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -380,7 +380,7 @@ Se sei **all'interno di un container Docker** o hai accesso a un utente nel **gr
 
 ## Bypass del Plugin di Autenticazione Docker
 
-Se hai accesso al socket Docker o hai accesso a un utente nel **gruppo docker ma le tue azioni sono limitate da un plugin di autenticazione docker**, controlla se puoi **bypassarlo:**
+Se hai accesso al socket docker o hai accesso a un utente nel **gruppo docker ma le tue azioni sono limitate da un plugin di autenticazione docker**, controlla se puoi **bypassarlo:**
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -407,23 +407,23 @@ Se hai accesso al socket Docker o hai accesso a un utente nel **gruppo docker ma
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 * [https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/](https://resources.experfy.com/bigdata-cloud/top-20-docker-security-tips/)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire e **automatizzare facilmente flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per costruire facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
 
 </details>

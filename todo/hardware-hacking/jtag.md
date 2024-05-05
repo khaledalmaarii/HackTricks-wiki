@@ -1,50 +1,50 @@
+# JTAG
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la **tua azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** repository [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
+## JTAGenum
 
-# JTAGenum
+[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)è uno strumento che può essere utilizzato con un Raspberry PI o un Arduino per trovare e provare i pin JTAG di un chip sconosciuto.\
+Nell'**Arduino**, collega i **pin da 2 a 11 ai 10 pin potenzialmente appartenenti a un JTAG**. Carica il programma nell'Arduino e proverà a forzare tutti i pin per trovare se qualche pin appartiene a JTAG e quale sia ciascuno.\
+Nel **Raspberry PI** è possibile utilizzare solo i **pin da 1 a 6** (6 pin, quindi si procederà più lentamente testando ciascun pin JTAG potenziale).
 
-[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)è uno strumento che può essere utilizzato con una Raspberry PI o un Arduino per cercare i pin JTAG di un chip sconosciuto.\
-Nell'**Arduino**, collega i **pin da 2 a 11 ai 10 pin potenzialmente appartenenti a un JTAG**. Carica il programma nell'Arduino e proverà a forzare tutti i pin per scoprire se qualche pin appartiene a un JTAG e quale sia ciascuno.\
-Nella **Raspberry PI** puoi utilizzare solo i **pin da 1 a 6** (6 pin, quindi andrai più lentamente testando ogni potenziale pin JTAG).
+### Arduino
 
-## Arduino
+In Arduino, dopo aver collegato i cavi (pin da 2 a 11 ai pin JTAG e Arduino GND al GND della scheda madre), **carica il programma JTAGenum in Arduino** e nel Monitor Seriale invia un **`h`** (comando per l'aiuto) e dovresti vedere l'aiuto:
 
-Nell'Arduino, dopo aver collegato i cavi (pin 2 a 11 ai pin JTAG e GND dell'Arduino alla baseboard GND), **carica il programma JTAGenum nell'Arduino** e nella Serial Monitor invia un **`h`** (comando per l'aiuto) e dovresti vedere l'aiuto:
+![](<../../.gitbook/assets/image (939).png>)
 
-![](<../../.gitbook/assets/image (643).png>)
+![](<../../.gitbook/assets/image (578).png>)
 
-![](<../../.gitbook/assets/image (650).png>)
-
-Configura **"No line ending" e 115200baud**.\
+Configura **"Nessun terminatore di riga" e 115200baud**.\
 Invia il comando s per avviare la scansione:
 
-![](<../../.gitbook/assets/image (651) (1) (1) (1).png>)
+![](<../../.gitbook/assets/image (774).png>)
 
-Se stai contattando un JTAG, troverai una o più **righe che iniziano con FOUND!** che indicano i pin del JTAG.
-
+Se stai contattando un JTAG, troverai una o più **linee che iniziano con TROVATO!** indicando i pin del JTAG.
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la **tua azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** repository [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>

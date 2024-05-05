@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
@@ -14,11 +14,11 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-## Informazioni di base
+## Informazioni di Base
 
-**Grand Central Dispatch (GCD),** noto anche come **libdispatch** (`libdispatch.dyld`), è disponibile sia su macOS che su iOS. È una tecnologia sviluppata da Apple per ottimizzare il supporto dell'applicazione per l'esecuzione concorrente (multithread) sull'hardware multicore.
+**Grand Central Dispatch (GCD),** anche conosciuto come **libdispatch** (`libdispatch.dyld`), è disponibile sia su macOS che su iOS. È una tecnologia sviluppata da Apple per ottimizzare il supporto dell'applicazione per l'esecuzione concorrente (multithreaded) sull'hardware multicore.
 
-**GCD** fornisce e gestisce **code FIFO** a cui la tua applicazione può **inviare attività** sotto forma di **oggetti block**. I blocchi inviati alle code di invio vengono **eseguiti su un pool di thread** completamente gestito dal sistema. GCD crea automaticamente thread per eseguire le attività nelle code di invio e pianifica l'esecuzione di tali attività sui core disponibili.
+**GCD** fornisce e gestisce **code FIFO** a cui la tua applicazione può **inviare attività** sotto forma di **oggetti block**. I blocchi inviati alle code di dispatch vengono **eseguiti su un pool di thread** completamente gestito dal sistema. GCD crea automaticamente thread per eseguire le attività nelle code di dispatch e pianifica l'esecuzione di tali attività sui core disponibili.
 
 {% hint style="success" %}
 In sintesi, per eseguire codice in **parallelo**, i processi possono inviare **blocchi di codice a GCD**, che si occuperà della loro esecuzione. Pertanto, i processi non creano nuovi thread; **GCD esegue il codice fornito con il proprio pool di thread** (che potrebbe aumentare o diminuire secondo necessità).
@@ -44,13 +44,13 @@ Tuttavia, a livello di compilatore i blocchi non esistono, sono `os_object`. Cia
 * Ha alcuni byte riservati
 * La sua dimensione
 * Di solito avrà un puntatore a una firma in stile Objective-C per sapere di quanto spazio è necessario per i parametri (flag `BLOCK_HAS_SIGNATURE`)
-* Se le variabili sono referenziate, questo blocco avrà anche puntatori a un aiutante di copia (che copia il valore all'inizio) e a un aiutante di smaltimento (liberandolo).
+* Se le variabili sono referenziate, questo blocco avrà anche puntatori a un helper di copia (che copia il valore all'inizio) e a un helper di liberazione (liberandolo).
 
-### Code di invio
+### Code
 
-Una coda di invio è un oggetto nominato che fornisce l'ordinamento FIFO dei blocchi per le esecuzioni.
+Una coda di dispatch è un oggetto nominato che fornisce l'ordinamento FIFO dei blocchi per le esecuzioni.
 
-I blocchi sono impostati nelle code da eseguire e queste supportano 2 modalità: `DISPATCH_QUEUE_SERIAL` e `DISPATCH_QUEUE_CONCURRENT`. Naturalmente il **seriale** non avrà problemi di condizione di gara poiché un blocco non verrà eseguito fino a quando il precedente non sarà terminato. Ma **l'altro tipo di coda potrebbe averlo**.
+I blocchi sono impostati nelle code da eseguire e queste supportano 2 modalità: `DISPATCH_QUEUE_SERIAL` e `DISPATCH_QUEUE_CONCURRENT`. Naturalmente la **seriale** **non avrà problemi di condizione di gara** poiché un blocco non verrà eseguito fino a quando il precedente non sarà terminato. Ma **l'altro tipo di coda potrebbe averlo**.
 
 Code predefinite:
 
@@ -76,28 +76,28 @@ Nota che sarà il sistema a decidere **quali thread gestiscono quali code in ogn
 
 Quando si crea una coda con **`dispatch_queue_create`** il terzo argomento è un `dispatch_queue_attr_t`, che di solito è o `DISPATCH_QUEUE_SERIAL` (che in realtà è NULL) o `DISPATCH_QUEUE_CONCURRENT` che è un puntatore a una struttura `dispatch_queue_attr_t` che consente di controllare alcuni parametri della coda.
 
-### Oggetti di invio
+### Oggetti di Dispatch
 
-Ci sono diversi oggetti che libdispatch utilizza e code e blocchi sono solo 2 di essi. È possibile creare questi oggetti con `dispatch_object_create`:
+Ci sono diversi oggetti che libdispatch utilizza e le code e i blocchi sono solo 2 di essi. È possibile creare questi oggetti con `dispatch_object_create`:
 
-* `blocco`
-* `dati`: Blocchi di dati
-* `gruppo`: Gruppo di blocchi
+* `block`
+* `data`: Blocchi di dati
+* `group`: Gruppo di blocchi
 * `io`: Richieste di I/O asincrone
 * `mach`: Porte Mach
 * `mach_msg`: Messaggi Mach
 * `pthread_root_queue`: Una coda con un pool di thread pthread e senza code di lavoro
-* `coda`
-* `semaforo`
-* `sorgente`: Sorgente di eventi
+* `queue`
+* `semaphore`
+* `source`: Sorgente di eventi
 
 ## Objective-C
 
 In Objective-C ci sono diverse funzioni per inviare un blocco da eseguire in parallelo:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Invia un blocco per l'esecuzione asincrona su una coda di invio e restituisce immediatamente.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Invia un blocco per l'esecuzione asincrona su una coda di dispatch e restituisce immediatamente.
 * [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Invia un oggetto blocco per l'esecuzione e restituisce dopo che quel blocco ha finito di eseguire.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Esegue un blocco solo una volta per tutta la durata di un'applicazione.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Esegue un oggetto blocco solo una volta per tutta la durata di un'applicazione.
 * [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Invia un elemento di lavoro per l'esecuzione e restituisce solo dopo che ha finito di eseguire. A differenza di [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), questa funzione rispetta tutti gli attributi della coda quando esegue il blocco.
 
 Queste funzioni si aspettano questi parametri: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
@@ -183,7 +183,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Il seguente script Frida può essere utilizzato per **agganciarsi a diverse funzioni `dispatch`** ed estrarre il nome della coda, la traccia dello stack e il blocco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Il seguente script Frida può essere utilizzato per **agganciarsi a diverse funzioni `dispatch`** ed estrarre il nome della coda, la traccia retrospettiva e il blocco: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -200,29 +200,29 @@ Backtrace:
 
 Attualmente Ghidra non comprende né la struttura **`dispatch_block_t`** di ObjectiveC, né quella di **`swift_dispatch_block`**.
 
-Quindi, se vuoi che le comprenda, puoi semplicemente **dichiararle**:
-
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
+Quindi, se vuoi farlo capire loro, potresti semplicemente **dichiararli**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Successivamente, trova un punto nel codice in cui vengono **utilizzate**:
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+
+Successivamente, trova un punto nel codice in cui vengono **utilizzati**:
 
 {% hint style="success" %}
-Nota tutti i riferimenti al "block" per capire come potresti individuare che la struttura viene utilizzata.
+Nota tutti i riferimenti fatti a "block" per capire come potresti capire che la struttura viene utilizzata.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Fai clic destro sulla variabile -> Ridichiara la variabile e seleziona in questo caso **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ghidra riscriverà automaticamente tutto:
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## References
 

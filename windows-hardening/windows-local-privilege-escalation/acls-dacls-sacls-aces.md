@@ -1,6 +1,6 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
@@ -14,22 +14,22 @@ Ottieni l'accesso oggi:
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e ai repository github di [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## **Controllo degli Accessi (ACL)**
 
-Un Controllo degli Accessi (ACL) consiste in un insieme ordinato di Voci di Controllo degli Accessi (ACE) che determinano le protezioni per un oggetto e le sue proprietà. In sostanza, un ACL definisce quali azioni da parte di quali principali della sicurezza (utenti o gruppi) sono consentite o negate su un determinato oggetto.
+Un Controllo degli Accessi (ACL) consiste in un insieme ordinato di Voci di Controllo degli Accessi (ACE) che determinano le protezioni per un oggetto e le sue proprietà. In sostanza, un ACL definisce quali azioni da parte di quali principali della sicurezza (utenti o gruppi) sono permesse o negate su un dato oggetto.
 
 Ci sono due tipi di ACL:
 
 * **Discretionary Access Control List (DACL):** Specifica quali utenti e gruppi hanno o non hanno accesso a un oggetto.
-* **System Access Control List (SACL):** Regola l'audit degli tentativi di accesso a un oggetto.
+* **System Access Control List (SACL):** Regola la registrazione dei tentativi di accesso a un oggetto.
 
 Il processo di accesso a un file coinvolge il sistema che controlla il descrittore di sicurezza dell'oggetto rispetto al token di accesso dell'utente per determinare se l'accesso dovrebbe essere concesso e l'estensione di tale accesso, in base alle ACE.
 
@@ -40,9 +40,9 @@ Il processo di accesso a un file coinvolge il sistema che controlla il descritto
 
 ### **Interazione del Sistema con gli ACL**
 
-Ogni sessione utente è associata a un token di accesso che contiene informazioni di sicurezza rilevanti per quella sessione, inclusi utente, identità di gruppo e privilegi. Questo token include anche un SID di accesso che identifica univocamente la sessione.
+Ogni sessione utente è associata a un token di accesso che contiene informazioni di sicurezza rilevanti per quella sessione, inclusi utente, identità di gruppo e privilegi. Questo token include anche un SID di accesso che identifica in modo univoco la sessione.
 
-L'Autorità di Sicurezza Locale (LSASS) elabora le richieste di accesso agli oggetti esaminando il DACL per le ACE che corrispondono al principale della sicurezza che tenta l'accesso. L'accesso viene immediatamente concesso se non vengono trovate ACE rilevanti. Altrimenti, LSASS confronta le ACE con il SID del principale della sicurezza nel token di accesso per determinare l'ammissibilità all'accesso.
+L'Autorità di Sicurezza Locale (LSASS) elabora le richieste di accesso agli oggetti esaminando il DACL per le ACE che corrispondono al principale della sicurezza che tenta l'accesso. L'accesso viene immediatamente concesso se non vengono trovate ACE rilevanti. Altrimenti, LSASS confronta le ACE con il SID del principale della sicurezza nel token di accesso per determinare l'ammissibilità dell'accesso.
 
 ### **Processo Sintetizzato**
 
@@ -52,7 +52,7 @@ L'Autorità di Sicurezza Locale (LSASS) elabora le richieste di accesso agli ogg
 
 ### ACE
 
-Ci sono **tre principali tipi di Voci di Controllo degli Accessi (ACE)**:
+Ci sono **tre tipi principali di Voci di Controllo degli Accessi (ACE)**:
 
 * **ACE di Accesso Negato**: Questa ACE nega esplicitamente l'accesso a un oggetto per utenti o gruppi specificati (in un DACL).
 * **ACE di Accesso Consentito**: Questa ACE concede esplicitamente l'accesso a un oggetto per utenti o gruppi specificati (in un DACL).
@@ -65,11 +65,11 @@ Ogni ACE ha **quattro componenti critici**:
 3. **Flag di ereditarietà** che determinano se gli oggetti figlio possono ereditare l'ACE dal loro genitore.
 4. Una [**maschera di accesso**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), un valore a 32 bit che specifica i diritti concessi all'oggetto.
 
-La determinazione dell'accesso avviene esaminando sequenzialmente ciascuna ACE fino a quando:
+La determinazione dell'accesso avviene esaminando sequenzialmente ciascuna ACE finché:
 
 * Una **ACE di Accesso Negato** nega esplicitamente i diritti richiesti a un fiduciario identificato nel token di accesso.
 * Le **ACE di Accesso Consentito** concedono esplicitamente tutti i diritti richiesti a un fiduciario nel token di accesso.
-* Dopo aver controllato tutte le ACE, se un diritto richiesto **non è stato esplicitamente concesso**, l'accesso è implicitamente **negato**.
+* Al termine della verifica di tutte le ACE, se un diritto richiesto **non è stato esplicitamente concesso**, l'accesso viene implicitamente **negato**.
 
 ### Ordine delle ACE
 
@@ -77,22 +77,22 @@ Il modo in cui le **ACE** (regole che dicono chi può o non può accedere a qual
 
 C'è un modo migliore per organizzare queste ACE, ed è chiamato **"ordine canonico."** Questo metodo aiuta a garantire che tutto funzioni in modo fluido ed equo. Ecco come funziona per sistemi come **Windows 2000** e **Windows Server 2003**:
 
-* Prima, metti tutte le regole fatte **specificamente per questo elemento** prima di quelle che provengono da un'altra parte, come una cartella genitore.
-* In quelle regole specifiche, metti prima quelle che dicono **"no" (negare)** prima di quelle che dicono **"sì" (consentire)**.
-* Per le regole che provengono da un'altra parte, inizia con quelle dalla **fonte più vicina**, come il genitore, e poi torna indietro da lì. Di nuovo, metti **"no"** prima di **"sì."**
+* Prima di tutto, metti tutte le regole fatte **specificamente per questo elemento** prima di quelle che provengono da un'altra parte, come una cartella genitore.
+* Tra quelle regole specifiche, metti prima quelle che dicono **"no" (negare)** prima di quelle che dicono **"sì" (consentire)**.
+* Per le regole che provengono da un'altra parte, inizia con quelle dalla **fonte più vicina**, come il genitore, e poi procedi da lì. Di nuovo, metti **"no"** prima di **"sì."**
 
 Questa configurazione aiuta in due modi importanti:
 
 * Assicura che se c'è un **"no"** specifico, venga rispettato, indipendentemente dalle altre regole del **"sì"** presenti.
-* Permette al proprietario di un elemento di avere l'**ultima parola** su chi può accedere, prima che entrino in gioco le regole delle cartelle genitore o più indietro.
+* Permette al proprietario di un elemento di avere l'**ultima parola** su chi può accedere, prima che entrino in gioco regole da cartelle genitore o più indietro.
 
-Facendo in questo modo, il proprietario di un file o di una cartella può essere molto preciso su chi ha accesso, assicurandosi che le persone giuste possano accedere e quelle sbagliate no.
+Facendo in questo modo, il proprietario di un file o di una cartella può essere molto preciso su chi ottiene l'accesso, garantendo che le persone giuste possano entrare e quelle sbagliate no.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
 Quindi, questo **"ordine canonico"** riguarda tutto fare in modo che le regole di accesso siano chiare e funzionino bene, mettendo prima le regole specifiche e organizzando tutto in modo intelligente.
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
@@ -103,7 +103,7 @@ Ottieni l'accesso oggi:
 
 [**Esempio da qui**](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
 
-Questa è la classica scheda di sicurezza di una cartella che mostra lACL, DACL e ACE:
+Questa è la classica scheda di sicurezza di una cartella che mostra ACL, DACL e ACE:
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/classicsectab.jpg](../../.gitbook/assets/classicsectab.jpg)
 
@@ -125,17 +125,17 @@ Nel gestire l'accesso alle risorse, come una cartella, utilizziamo liste e regol
 
 #### Negare l'Accesso a un Gruppo Specifico
 
-Immagina di avere una cartella chiamata Cost, e vuoi che tutti vi accedano tranne il team di marketing. Impostando correttamente le regole, possiamo garantire che al team di marketing venga esplicitamente negato l'accesso prima di consentirlo a tutti gli altri. Questo viene fatto posizionando la regola per negare l'accesso al team di marketing prima della regola che consente l'accesso a tutti.
+Immagina di avere una cartella chiamata Costi e vuoi che tutti vi accedano tranne il team di marketing. Impostando correttamente le regole, possiamo garantire che al team di marketing sia esplicitamente negato l'accesso prima di consentirlo a tutti gli altri. Ciò viene fatto posizionando la regola per negare l'accesso al team di marketing prima della regola che consente l'accesso a tutti.
 
 #### Consentire l'Accesso a un Membro Specifico di un Gruppo Negato
 
-Supponiamo che Bob, il direttore del marketing, abbia bisogno di accedere alla cartella Cost, anche se in generale il team di marketing non dovrebbe avere accesso. Possiamo aggiungere una regola specifica (ACE) per Bob che gli concede l'accesso e posizionarla prima della regola che nega l'accesso al team di marketing. In questo modo, Bob ottiene l'accesso nonostante la restrizione generale sul suo team.
+Supponiamo che Bob, il direttore marketing, abbia bisogno di accedere alla cartella Costi, anche se in generale il team di marketing non dovrebbe avere accesso. Possiamo aggiungere una regola specifica (ACE) per Bob che gli concede l'accesso e posizionarla prima della regola che nega l'accesso al team di marketing. In questo modo, Bob ottiene l'accesso nonostante la restrizione generale sul suo team.
 
 #### Comprensione delle Voci di Controllo degli Accessi
 
 Le ACE sono le regole individuali in un ACL. Identificano utenti o gruppi, specificano quali accessi sono consentiti o negati e determinano come queste regole si applicano agli elementi secondari (ereditarietà). Ci sono due tipi principali di ACE:
 
-* **ACE Generiche**: Queste si applicano ampiamente, influenzando tutti i tipi di oggetti o distinguendo solo tra contenitori (come cartelle) e non contenitori (come file). Ad esempio, una regola che consente agli utenti di visualizzare i contenuti di una cartella ma non di accedere ai file al suo interno.
+* **ACE Generiche**: Queste si applicano ampiamente, influenzando tutti i tipi di oggetti o distinguendo solo tra contenitori (come cartelle) e non contenitori (come file). Ad esempio, una regola che consente agli utenti di vedere i contenuti di una cartella ma non di accedere ai file al suo interno.
 * **ACE Specifiche dell'Oggetto**: Queste forniscono un controllo più preciso, consentendo di impostare regole per tipi specifici di oggetti o addirittura proprietà individuali all'interno di un oggetto. Ad esempio, in una directory di utenti, una regola potrebbe consentire a un utente di aggiornare il proprio numero di telefono ma non le ore di accesso.
 
 Ogni ACE contiene informazioni importanti come a chi si applica la regola (usando un Identificatore di Sicurezza o SID), cosa consente o nega la regola (usando una maschera di accesso) e come viene ereditata da altri oggetti.
@@ -147,14 +147,14 @@ Ogni ACE contiene informazioni importanti come a chi si applica la regola (usand
 
 In sintesi, ACL e ACE aiutano a definire controlli di accesso precisi, garantendo che solo le persone o i gruppi giusti abbiano accesso a informazioni o risorse sensibili, con la possibilità di adattare i diritti di accesso fino al livello di proprietà individuali o tipi di oggetti.
 
-### Layout della Voce di Controllo degli Accessi
+### Layout dell'Voce di Controllo degli Accessi
 
 | Campo ACE  | Descrizione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tipo        | Flag che indica il tipo di ACE. Windows 2000 e Windows Server 2003 supportano sei tipi di ACE: Tre tipi di ACE generiche che sono collegati a tutti gli oggetti securizzabili. Tre tipi di ACE specifiche dell'oggetto che possono verificarsi per gli oggetti di Active Directory.                                                                                                                                                                                                                                                            |
+| Tipo        | Flag che indica il tipo di ACE. Windows 2000 e Windows Server 2003 supportano sei tipi di ACE: Tre tipi di ACE generiche che sono collegati a tutti gli oggetti securizzabili. Tre tipi di ACE specifici dell'oggetto che possono verificarsi per gli oggetti di Active Directory.                                                                                                                                                                                                                                                            |
 | Flag       | Insieme di bit flag che controllano l'ereditarietà e l'auditing.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Dimensione        | Numero di byte di memoria allocati per l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Maschera di accesso | Valore a 32 bit i cui bit corrispondono ai diritti di accesso per l'oggetto. I bit possono essere impostati su on o off, ma il significato dell'impostazione dipende dal tipo di ACE. Ad esempio, se il bit che corrisponde al diritto di leggere le autorizzazioni è attivato e il tipo di ACE è Deny, l'ACE nega il diritto di leggere le autorizzazioni dell'oggetto. Se lo stesso bit è attivato ma il tipo di ACE è Allow, l'ACE concede il diritto di leggere le autorizzazioni dell'oggetto. Ulteriori dettagli sulla Maschera di accesso appaiono nella tabella successiva. |
+| Maschera di accesso | Valore a 32 bit i cui bit corrispondono ai diritti di accesso per l'oggetto. I bit possono essere impostati su on o off, ma il significato dell'impostazione dipende dal tipo di ACE. Ad esempio, se il bit che corrisponde al diritto di leggere le autorizzazioni è attivato e il tipo di ACE è Deny, l'ACE nega il diritto di leggere le autorizzazioni dell'oggetto. Se lo stesso bit è attivato ma il tipo di ACE è Allow, l'ACE concede il diritto di leggere le autorizzazioni dell'oggetto. Ulteriori dettagli sulla Maschera di Accesso appaiono nella tabella successiva. |
 | SID         | Identifica un utente o gruppo il cui accesso è controllato o monitorato da questo ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### Layout della Maschera di Accesso

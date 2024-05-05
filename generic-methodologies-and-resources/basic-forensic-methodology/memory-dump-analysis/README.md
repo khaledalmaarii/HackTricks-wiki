@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -20,36 +20,33 @@
 
 ## Inizio
 
-Inizia **ricercando** malware all'interno del pcap. Usa gli **strumenti** menzionati in [**Analisi del malware**](../malware-analysis.md).
+Inizia a **cercare** **malware** all'interno del pcap. Utilizza gli **strumenti** menzionati in [**Analisi del malware**](../malware-analysis.md).
 
-## [Volatility](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)
+## [Volatility](volatility-cheatsheet.md)
 
-**Volatility è il principale framework open-source per l'analisi del dump di memoria**. Questo strumento Python analizza i dump da fonti esterne o da macchine virtuali VMware, identificando dati come processi e password in base al profilo del sistema operativo del dump. È estensibile con plugin, rendendolo estremamente versatile per le indagini forensi.
+**Volatility è il principale framework open-source per l'analisi del dump di memoria**. Questo strumento Python analizza i dump da fonti esterne o da macchine virtuali VMware, identificando dati come processi e password in base al profilo OS del dump. È estensibile con plugin, rendendolo altamente versatile per indagini forensi.
 
-**[Trova qui una cheatsheet](../../../generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-cheatsheet.md)**
-
+[**Trova qui un cheatsheet**](volatility-cheatsheet.md)
 
 ## Rapporto di crash del mini dump
 
-Quando il dump è piccolo (solo qualche KB, forse qualche MB), probabilmente si tratta di un rapporto di crash del mini dump e non di un dump di memoria.
+Quando il dump è piccolo (solo alcuni KB, forse alcuni MB) allora è probabilmente un rapporto di crash del mini dump e non un dump di memoria.
 
-![](<../../../.gitbook/assets/image (216).png>)
+![](<../../../.gitbook/assets/image (532).png>)
 
-Se hai Visual Studio installato, puoi aprire questo file e associare alcune informazioni di base come il nome del processo, l'architettura, le informazioni sull'eccezione e i moduli in esecuzione:
+Se hai Visual Studio installato, puoi aprire questo file e associare alcune informazioni di base come nome del processo, architettura, informazioni sull'eccezione e moduli in esecuzione:
 
-![](<../../../.gitbook/assets/image (217).png>)
+![](<../../../.gitbook/assets/image (263).png>)
 
 Puoi anche caricare l'eccezione e vedere le istruzioni decompilate
 
-![](<../../../.gitbook/assets/image (219).png>)
+![](<../../../.gitbook/assets/image (142).png>)
 
-![](<../../../.gitbook/assets/image (218) (1).png>)
+![](<../../../.gitbook/assets/image (610).png>)
 
 In ogni caso, Visual Studio non è lo strumento migliore per eseguire un'analisi approfondita del dump.
 
-Dovresti **aprirlo** utilizzando **IDA** o **Radare** per ispezionarlo in **profondità**.
-
-
+Dovresti **aprilo** utilizzando **IDA** o **Radare** per ispezionarlo in **profondità**.
 
 ​
 
@@ -61,12 +58,12 @@ Dovresti **aprirlo** utilizzando **IDA** o **Radare** per ispezionarlo in **prof
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

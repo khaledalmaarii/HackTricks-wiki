@@ -19,7 +19,7 @@ Altri modi per supportare HackTricks:
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Se riesci a **compromettere le credenziali di amministratore** per accedere alla piattaforma di gestione, potresti **potenzialmente compromettere tutti i computer** distribuendo il tuo malware nelle macchine.
+Se riesci a **compromettere le credenziali di amministrazione** per accedere alla piattaforma di gestione, potresti **potenzialmente compromettere tutti i computer** distribuendo il tuo malware nelle macchine.
 
 Per il red teaming negli ambienti MacOS è altamente consigliato avere una certa comprensione di come funzionano i MDM:
 
@@ -35,7 +35,7 @@ Per eseguire il proprio MDM è necessario **avere il tuo CSR firmato da un forni
 
 Tuttavia, per installare un'applicazione in un dispositivo registrato, è comunque necessario che sia firmata da un account sviluppatore... tuttavia, al momento dell'iscrizione al MDM il **dispositivo aggiunge il certificato SSL del MDM come CA attendibile**, quindi ora puoi firmare qualsiasi cosa.
 
-Per iscrivere il dispositivo in un MDM, è necessario installare un file **`mobileconfig`** come root, che potrebbe essere consegnato tramite un file **pkg** (potresti comprimerlo in zip e quando scaricato da Safari verrà decompresso).
+Per iscrivere il dispositivo in un MDM, è necessario installare un file **`mobileconfig`** come root, che potrebbe essere consegnato tramite un file **pkg** (potresti comprimerlo in zip e quando scaricato da safari verrà decompresso).
 
 **L'agente Mythic Orthrus** utilizza questa tecnica.
 
@@ -43,7 +43,7 @@ Per iscrivere il dispositivo in un MDM, è necessario installare un file **`mobi
 
 JAMF può eseguire **script personalizzati** (script sviluppati dall'amministratore di sistema), **payload nativi** (creazione di account locali, impostazione password EFI, monitoraggio file/processo...) e **MDM** (configurazioni del dispositivo, certificati del dispositivo...).
 
-#### Auto-iscrizione di JAMF
+#### Auto-iscrizione JAMF
 
 Vai su una pagina come `https://<nome-azienda>.jamfcloud.com/enroll/` per vedere se hanno abilitato l'**auto-iscrizione**. Se l'hanno potrebbe **chiedere le credenziali per accedere**.
 
@@ -51,16 +51,16 @@ Potresti utilizzare lo script [**JamfSniper.py**](https://github.com/WithSecureL
 
 Inoltre, dopo aver trovato le credenziali corrette potresti essere in grado di forzare altre username con il modulo successivo:
 
-![](<../../.gitbook/assets/image (7) (1) (1).png>)
+![](<../../.gitbook/assets/image (107).png>)
 
-#### Autenticazione del dispositivo JAMF
+#### Autenticazione dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
 Il binario **`jamf`** conteneva il segreto per aprire il portachiavi che al momento della scoperta era **condiviso** tra tutti ed era: **`jk23ucnq91jfu9aj`**.\
-Inoltre, jamf **persiste** come un **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
+Inoltre, jamf **persiste** come **LaunchDaemon** in **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### Presa del dispositivo JAMF
+#### Assunzione del controllo del dispositivo JAMF
 
 L'URL del **JSS** (Jamf Software Server) che **`jamf`** utilizzerà si trova in **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Questo file contiene fondamentalmente l'URL:
@@ -98,11 +98,11 @@ Per **impersonare la comunicazione** tra un dispositivo e JMF hai bisogno di:
 * L'**UUID** del dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * Il **portachiavi JAMF** da: `/Library/Application\ Support/Jamf/JAMF.keychain` che contiene il certificato del dispositivo
 
-Con queste informazioni, **crea una VM** con l'**UUID hardware rubato** e con **SIP disabilitato**, rilascia il **portachiavi JAMF**, **intercetta** l'**agente Jamf** e ruba le sue informazioni.
+Con queste informazioni, **crea una VM** con l'**UUID dell'hardware rubato** e con **SIP disabilitato**, rilascia il **portachiavi JAMF**, **intercetta** l'**agente Jamf** e ruba le sue informazioni.
 
 #### Furto di segreti
 
-<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
 Potresti anche monitorare la posizione `/Library/Application Support/Jamf/tmp/` per gli **script personalizzati** che gli amministratori potrebbero voler eseguire tramite Jamf poiché vengono **posizionati qui, eseguiti e rimossi**. Questi script **potrebbero contenere credenziali**.
 
@@ -134,17 +134,15 @@ In alcune occasioni potresti trovare che il **computer MacOS è connesso a un AD
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Alcuni **strumenti locali MacOS** che potrebbero aiutarti sono `dscl`:
+Uno **strumento locale MacOS** che potrebbe aiutarti è `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
 Inoltre ci sono alcuni strumenti preparati per MacOS per enumerare automaticamente l'AD e interagire con kerberos:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound è un'estensione dello strumento di audit Bloodhound che consente di raccogliere e inglobare le relazioni dell'Active Directory su host MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost è un progetto Objective-C progettato per interagire con le API Heimdal krb5 su macOS. L'obiettivo del progetto è consentire una migliore verifica della sicurezza attorno a Kerberos su dispositivi macOS utilizzando API native senza richiedere alcun altro framework o pacchetti nel target.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost è un progetto Objective-C progettato per interagire con le API Heimdal krb5 su macOS. L'obiettivo del progetto è consentire una migliore verifica della sicurezza attorno a Kerberos su dispositivi macOS utilizzando API native senza richiedere altri framework o pacchetti nel target.
 * [**Orchard**](https://github.com/its-a-feature/Orchard): Strumento JavaScript for Automation (JXA) per enumerare l'Active Directory.
-
-### Informazioni sul Dominio
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -197,20 +195,20 @@ Il portachiavi contiene molto probabilmente informazioni sensibili che, se acces
 
 ## Servizi esterni
 
-Il Red Teaming su MacOS è diverso da un Red Teaming regolare su Windows poiché di solito **MacOS è integrato con diversi piattaforme esterne direttamente**. Una configurazione comune di MacOS è accedere al computer utilizzando **le credenziali sincronizzate di OneLogin e accedere a diversi servizi esterni** (come github, aws...) tramite OneLogin.
+Il Red Teaming su MacOS è diverso da un Red Teaming regolare su Windows poiché di solito **MacOS è integrato direttamente con diverse piattaforme esterne**. Una configurazione comune di MacOS è accedere al computer utilizzando **le credenziali sincronizzate di OneLogin e accedere a diversi servizi esterni** (come github, aws...) tramite OneLogin.
 
 ## Tecniche di Red Team varie
 
 ### Safari
 
-Quando un file viene scaricato in Safari, se è un file "sicuro", verrà **aperto automaticamente**. Quindi, ad esempio, se **scarichi un file zip**, verrà decompresso automaticamente:
+Quando un file viene scaricato in Safari, se è un file "sicuro", verrà **aperto automaticamente**. Quindi, ad esempio, se si **scarica un file zip**, verrà decompresso automaticamente:
 
-<figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
 ## Riferimenti
 
 * [**https://www.youtube.com/watch?v=IiMladUbL6E**](https://www.youtube.com/watch?v=IiMladUbL6E)
 * [**https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6**](https://medium.com/xm-cyber/introducing-machound-a-solution-to-macos-active-directory-based-attacks-2a425f0a22b6)
 * [**https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0**](https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0)
-* [**Vieni sul Lato Oscuro, Abbiamo Mele: Rendere Malvagia la Gestione di macOS**](https://www.youtube.com/watch?v=pOQOh07eMxY)
+* [**Vieni sul Lato Oscuro, Abbiamo le Mele: Rendere Malvagia la Gestione di macOS**](https://www.youtube.com/watch?v=pOQOh07eMxY)
 * [**OBTS v3.0: "Una Prospettiva degli Attaccanti sulle Configurazioni di Jamf" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)

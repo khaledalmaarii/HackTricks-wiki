@@ -10,27 +10,27 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba informazioni**.
 
-Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
-Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
+Puoi visitare il loro sito web e provare il loro motore gratuitamente su:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Livelli di integrità
 
-In Windows Vista e nelle versioni successive, tutti gli elementi protetti sono contrassegnati da un livello di **integrità**. Questa configurazione assegna principalmente un livello di integrità "medio" ai file e alle chiavi di registro, ad eccezione di determinate cartelle e file a cui Internet Explorer 7 può scrivere a un livello di integrità basso. Il comportamento predefinito prevede che i processi avviati dagli utenti standard abbiano un livello di integrità medio, mentre i servizi operano tipicamente a un livello di integrità di sistema. Una etichetta di alta integrità protegge la directory radice.
+In Windows Vista e nelle versioni successive, tutti gli elementi protetti sono contrassegnati da un **livello di integrità**. Questa configurazione assegna principalmente un livello di integrità "medio" ai file e alle chiavi di registro, ad eccezione di determinate cartelle e file su cui Internet Explorer 7 può scrivere a un livello di integrità basso. Il comportamento predefinito prevede che i processi avviati dagli utenti standard abbiano un livello di integrità medio, mentre i servizi operano tipicamente a un livello di integrità di sistema. Una etichetta di alta integrità protegge la directory radice.
 
 Una regola chiave è che gli oggetti non possono essere modificati da processi con un livello di integrità inferiore rispetto al livello dell'oggetto. I livelli di integrità sono:
 
@@ -43,15 +43,15 @@ Una regola chiave è che gli oggetti non possono essere modificati da processi c
 
 Puoi ottenere il livello di integrità di un processo utilizzando **Process Explorer** di **Sysinternals**, accedendo alle **proprietà** del processo e visualizzando la scheda "**Sicurezza**":
 
-![](<../../.gitbook/assets/image (821).png>)
+![](<../../.gitbook/assets/image (824).png>)
 
 Puoi anche ottenere il tuo **livello di integrità attuale** utilizzando `whoami /groups`
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (325).png>)
 
 ### Livelli di integrità nel file-system
 
-Un oggetto all'interno del file-system può richiedere un **requisito minimo di livello di integrità** e se un processo non ha questo livello di integrità, non sarà in grado di interagire con esso.\
+Un oggetto all'interno del file-system potrebbe richiedere un **requisito minimo di livello di integrità** e se un processo non ha questo livello di integrità non sarà in grado di interagire con esso.\
 Ad esempio, vediamo **creare un file regolare da una console utente regolare e controllare le autorizzazioni**:
 ```
 echo asd >asd.txt
@@ -63,7 +63,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Ora, assegniamo un livello di integrità minimo di **Alto** al file. Questo **deve essere fatto da una console** in esecuzione come **amministratore** poiché una **console regolare** funzionerà a livello di integrità Medio e **non sarà autorizzata** ad assegnare il livello di integrità Alto a un oggetto:
+Ora, assegniamo un livello di integrità minimo di **Alto** al file. Questo **deve essere fatto da una console** in esecuzione come **amministratore** poiché una **console regolare** sarà in esecuzione a livello di integrità Medio e **non sarà autorizzata** ad assegnare un livello di integrità Alto a un oggetto:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -103,31 +103,29 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Ora, quando eseguo `cmd-low.exe` **verrà eseguito con un livello di integrità basso** invece che medio:
+Ora, quando eseguo `cmd-low.exe` esso **viene eseguito con un livello di integrità basso** invece che medio:
 
-![](<../../.gitbook/assets/image (310).png>)
+![](<../../.gitbook/assets/image (313).png>)
 
-Per le persone curiose, se si assegna un livello di integrità alto a un file eseguibile (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) non verrà eseguito automaticamente con un livello di integrità alto (se lo si invoca da un livello di integrità medio --per impostazione predefinita-- verrà eseguito con un livello di integrità medio).
+Per le persone curiose, se si assegna un livello di integrità elevato a un file binario (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) non verrà eseguito automaticamente con un livello di integrità elevato (se lo si invoca da un livello di integrità medio --per impostazione predefinita-- verrà eseguito con un livello di integrità medio).
 
 ### Livelli di Integrità nei Processi
 
-Non tutti i file e le cartelle hanno un livello di integrità minimo, **ma tutti i processi vengono eseguiti con un livello di integrità**. E simile a quanto accade con il file-system, **se un processo vuole scrivere all'interno di un altro processo deve avere almeno lo stesso livello di integrità**. Ciò significa che un processo con livello di integrità basso non può aprire un handle con accesso completo a un processo con livello di integrità medio.
+Non tutti i file e le cartelle hanno un livello di integrità minimo, **ma tutti i processi vengono eseguiti con un livello di integrità**. E simile a quanto accade con il file-system, **se un processo vuole scrivere all'interno di un altro processo deve avere almeno lo stesso livello di integrità**. Ciò significa che un processo con livello di integrità basso non può aprire un handle con pieno accesso a un processo con livello di integrità medio.
 
-A causa delle restrizioni commentate in questa e nella sezione precedente, da un punto di vista della sicurezza, è sempre **consigliabile eseguire un processo con il livello di integrità più basso possibile**.
-
+A causa delle restrizioni commentate in questa e nella sezione precedente, da un punto di vista della sicurezza, è sempre **consigliato eseguire un processo con il livello di integrità più basso possibile**.
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è combattere le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
-
 
 <details>
 
@@ -135,9 +133,9 @@ Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

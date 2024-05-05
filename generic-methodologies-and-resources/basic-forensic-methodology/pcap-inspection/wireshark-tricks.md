@@ -7,8 +7,8 @@
 Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -16,17 +16,17 @@ Altri modi per supportare HackTricks:
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba informazioni**.
 
-Il loro obiettivo principale di WhiteIntel è combattere i takeover degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Migliora le tue abilità di Wireshark
 
@@ -45,47 +45,47 @@ I seguenti tutorial sono fantastici per imparare alcuni trucchi di base interess
 
 Cliccando su _**Analyze** --> **Expert Information**_ avrai una **panoramica** di cosa sta accadendo nei pacchetti **analizzati**:
 
-![](<../../../.gitbook/assets/image (253).png>)
+![](<../../../.gitbook/assets/image (256).png>)
 
 **Indirizzi Risolti**
 
 Sotto _**Statistics --> Resolved Addresses**_ puoi trovare diverse **informazioni** che sono state "**risolte**" da Wireshark come porta/trasporto a protocollo, MAC al produttore, ecc. È interessante sapere cosa è coinvolto nella comunicazione.
 
-![](<../../../.gitbook/assets/image (890).png>)
+![](<../../../.gitbook/assets/image (893).png>)
 
 **Gerarchia dei Protocolli**
 
 Sotto _**Statistics --> Protocol Hierarchy**_ puoi trovare i **protocolli** **coinvolti** nella comunicazione e dati su di essi.
 
-![](<../../../.gitbook/assets/image (583).png>)
+![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversazioni**
 
 Sotto _**Statistics --> Conversations**_ puoi trovare un **riassunto delle conversazioni** nella comunicazione e dati su di esse.
 
-![](<../../../.gitbook/assets/image (450).png>)
+![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoint**
 
 Sotto _**Statistics --> Endpoints**_ puoi trovare un **riassunto degli endpoint** nella comunicazione e dati su ciascuno di essi.
 
-![](<../../../.gitbook/assets/image (893).png>)
+![](<../../../.gitbook/assets/image (896).png>)
 
 **Informazioni DNS**
 
 Sotto _**Statistics --> DNS**_ puoi trovare statistiche sulla richiesta DNS catturata.
 
-![](<../../../.gitbook/assets/image (1060).png>)
+![](<../../../.gitbook/assets/image (1063).png>)
 
 **Grafico I/O**
 
 Sotto _**Statistics --> I/O Graph**_ puoi trovare un **grafico della comunicazione**.
 
-![](<../../../.gitbook/assets/image (989).png>)
+![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filtri
 
-Qui puoi trovare filtri di Wireshark a seconda del protocollo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Qui puoi trovare filtri di Wireshark in base al protocollo: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Altri filtri interessanti:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -107,7 +107,7 @@ Se vuoi **cercare** **contenuti** all'interno dei **pacchetti** delle sessioni p
 
 Puoi aggiungere una colonna che mostra l'intestazione Host HTTP:
 
-![](<../../../.gitbook/assets/image (635).png>)
+![](<../../../.gitbook/assets/image (639).png>)
 
 E una colonna che aggiunge il nome del server da una connessione HTTPS iniziale (**ssl.handshake.type == 1**):
 
@@ -119,11 +119,11 @@ E una colonna che aggiunge il nome del server da una connessione HTTPS iniziale 
 
 Nel Wireshark attuale invece di `bootp` devi cercare `DHCP`
 
-![](<../../../.gitbook/assets/image (1010).png>)
+![](<../../../.gitbook/assets/image (1013).png>)
 
 ### Da NBNS
 
-![](<../../../.gitbook/assets/image (1000).png>)
+![](<../../../.gitbook/assets/image (1003).png>)
 
 ## Decrittazione TLS
 
@@ -131,7 +131,7 @@ Nel Wireshark attuale invece di `bootp` devi cercare `DHCP`
 
 _modifica>preferenze>protocollo>ssl>_
 
-![](<../../../.gitbook/assets/image (1100).png>)
+![](<../../../.gitbook/assets/image (1103).png>)
 
 Premi _Modifica_ e aggiungi tutti i dati del server e la chiave privata (_IP, Porta, Protocollo, File chiave e password_)
 
@@ -143,11 +143,11 @@ Per individuare questo cerca all'interno dell'ambiente la variabile `SSLKEYLOGFI
 
 Un file di chiavi condivise apparirà così:
 
-![](<../../../.gitbook/assets/image (817).png>)
+![](<../../../.gitbook/assets/image (820).png>)
 
 Per importarlo in Wireshark vai a \_modifica > preferenze > protocollo > ssl > e importalo in (Pre)-Master-Secret log filename:
 
-![](<../../../.gitbook/assets/image (986).png>)
+![](<../../../.gitbook/assets/image (989).png>)
 ## Comunicazione ADB
 
 Estrarre un APK da una comunicazione ADB in cui l'APK è stato inviato:
@@ -179,7 +179,7 @@ f.close()
 ```
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
@@ -189,7 +189,6 @@ Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
-
 <details>
 
 <summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -198,7 +197,7 @@ Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 

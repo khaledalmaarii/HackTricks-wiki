@@ -6,7 +6,7 @@
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -18,14 +18,14 @@ Altri modi per supportare HackTricks:
 
 Quando un servizio **XPC di macOS** sta verificando il processo chiamato in base al **PID** e non al **token di audit**, è vulnerabile all'attacco di riutilizzo di PID. Questo attacco si basa su una **condizione di gara** in cui un **exploit** invierà messaggi al servizio **XPC** **abusando** della funzionalità e subito dopo eseguirà **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** con il binario **consentito**.
 
-Questa funzione farà sì che il **binario consentito possieda il PID** ma il messaggio XPC **malintenzionato sarebbe stato inviato** appena prima. Quindi, se il servizio **XPC** utilizza il **PID** per **autenticare** il mittente e lo controlla **DOPO** l'esecuzione di **`posix_spawn`**, penserà che provenga da un processo **autorizzato**.
+Questa funzione farà sì che il binario **consentito possieda il PID** ma il messaggio XPC **malintenzionato sarebbe stato inviato** appena prima. Quindi, se il servizio **XPC** utilizza il **PID** per **autenticare** il mittente e lo controlla **DOPO** l'esecuzione di **`posix_spawn`**, penserà che provenga da un processo **autorizzato**.
 
 ### Esempio di exploit
 
 Se trovi la funzione **`shouldAcceptNewConnection`** o una funzione chiamata da essa che **chiama** **`processIdentifier`** e non chiama **`auditToken`**. Molto probabilmente significa che sta **verificando il PID del processo** e non il token di audit.\
 Come ad esempio in questa immagine (preso dal riferimento):
 
-<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
 Controlla questo esempio di exploit (di nuovo, preso dal riferimento) per vedere le 2 parti dell'exploit:
 
@@ -152,7 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Questo esempio utilizza un **`fork`** grezzo per avviare **dei processi figli che sfrutteranno la condizione di gara PID** e poi sfrutteranno **un'altra condizione di gara tramite un collegamento rigido:**
+Questo esempio utilizza un **`fork`** grezzo per avviare **dei processi figli che sfrutteranno la condizione di gara PID** e successivamente sfrutteranno **un'altra condizione di gara tramite un collegamento rigido:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -292,21 +292,21 @@ return 0;
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
 
-## Riferimenti
+## Referenze
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

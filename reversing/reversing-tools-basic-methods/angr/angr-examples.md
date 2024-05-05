@@ -7,8 +7,8 @@
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -16,7 +16,7 @@
 Se il programma utilizza `scanf` per ottenere **diversi valori contemporaneamente da stdin** è necessario generare uno stato che inizia dopo il **`scanf`**.
 {% endhint %}
 
-Codici presi da [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
+Codici presi da [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
 ### Input per raggiungere l'indirizzo (indicando l'indirizzo)
 ```python
@@ -212,9 +212,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Nel seguente scenario, l'input è stato preso con `scanf("%u %u")` e il valore `"1 1"` è stato fornito, quindi i valori **`0x00000001`** dello stack provengono dall'**input dell'utente**. È possibile vedere come questi valori inizino in `$ebp - 8`. Pertanto, nel codice abbiamo **sottratto 8 byte a `$esp` (poiché in quel momento `$ebp` e `$esp` avevano lo stesso valore)** e poi abbiamo pushato il BVS.
+Nel presente scenario, l'input è stato preso con `scanf("%u %u")` e il valore `"1 1"` è stato fornito, quindi i valori **`0x00000001`** dello stack provengono dall'**input dell'utente**. È possibile vedere come questi valori inizino in `$ebp - 8`. Pertanto, nel codice abbiamo **sottratto 8 byte a `$esp` (poiché in quel momento `$ebp` e `$esp` avevano lo stesso valore)** e poi abbiamo pushato il BVS.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (136).png>)
 
 ### Valori di memoria statica (Variabili globali)
 ```python
@@ -392,7 +392,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Si noti che il file simbolico potrebbe contenere anche dati costanti uniti a dati simbolici:
+Si noti che il file simbolico potrebbe contenere anche dati costanti uniti con dati simbolici:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,7 +418,7 @@ Si noti che il file simbolico potrebbe contenere anche dati costanti uniti a dat
 ### Applicazione dei vincoli
 
 {% hint style="info" %}
-A volte operazioni umane semplici come confrontare 2 parole di lunghezza 16 **carattere per carattere** (loop), **costano molto a un **angr** perché deve generare rami **esponenzialmente** perché genera 1 ramo per ogni if: `2^16`\
+A volte operazioni umane semplici come confrontare 2 parole di lunghezza 16 **carattere per carattere** (loop), **costano molto a un** angr perché deve generare rami **esponenzialmente** poiché genera 1 ramo per ogni if: `2^16`\
 Pertanto, è più semplice **chiedere ad angr di tornare a un punto precedente** (dove la parte realmente difficile è già stata fatta) e **impostare manualmente quei vincoli**.
 {% endhint %}
 ```python
@@ -496,12 +496,12 @@ In alcuni scenari è possibile attivare **veritesting**, che unirà stati simili
 {% endhint %}
 
 {% hint style="info" %}
-Un'altra cosa che puoi fare in questi scenari è **agganciare la funzione dando ad angr qualcosa che può comprendere** più facilmente.
+Un'altra cosa che puoi fare in questi scenari è **agganciare la funzione dando ad angr qualcosa che può capire** più facilmente.
 {% endhint %}
 
 ### Gestori di Simulazione
 
-Alcuni gestori di simulazione possono essere più utili di altri. Nell'esempio precedente c'era un problema in quanto venivano creati molti rami utili. Qui, la tecnica del **veritesting** unirà quelli e troverà una soluzione.\
+Alcuni gestori di simulazione possono essere più utili di altri. Nell'esempio precedente c'era un problema in quanto venivano creati molti rami utili. Qui, la tecnica **veritesting** unirà quelli e troverà una soluzione.\
 Questo gestore di simulazione può anche essere attivato con: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -826,9 +826,9 @@ main(sys.argv)
 <summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo di hacktricks](https://github.com/carlospolop/hacktricks) e al [repo di hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

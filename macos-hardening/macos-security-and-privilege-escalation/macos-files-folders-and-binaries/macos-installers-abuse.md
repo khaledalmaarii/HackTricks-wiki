@@ -14,7 +14,7 @@ Altri modi per supportare HackTricks:
 
 </details>
 
-## Informazioni di Base sui Pkg
+## Informazioni di Base su Pkg
 
 Un **pacchetto di installazione macOS** (noto anche come file `.pkg`) è un formato di file utilizzato da macOS per **distribuire software**. Questi file sono come una **scatola che contiene tutto ciò di cui un software** ha bisogno per installarsi ed eseguirsi correttamente.
 
@@ -56,35 +56,33 @@ Nota che gli installer **`.dmg`** supportano **così tanti formati** che in pass
 
 ### Gerarchia
 
-<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (225).png" alt=""><figcaption></figcaption></figure>
 
 La gerarchia di un file DMG può essere diversa in base al contenuto. Tuttavia, per i DMG delle applicazioni, di solito segue questa struttura:
 
 - Livello Superiore: Questo è la radice dell'immagine disco. Contiene spesso l'applicazione e eventualmente un collegamento alla cartella Applicazioni.
 - Applicazione (.app): Questa è l'applicazione effettiva. In macOS, un'applicazione è tipicamente un pacchetto che contiene molti file e cartelle individuali che compongono l'applicazione.
-- Collegamento Applicazioni: Questo è un collegamento alla cartella Applicazioni in macOS. Lo scopo di questo è rendere facile l'installazione dell'applicazione. Puoi trascinare il file .app su questo collegamento per installare l'app.
+- Collegamento alle Applicazioni: Questo è un collegamento rapido alla cartella Applicazioni in macOS. Lo scopo di questo è rendere facile l'installazione dell'applicazione. Puoi trascinare il file .app su questo collegamento per installare l'app.
 
 ## Privesc tramite abuso di pkg
 
 ### Esecuzione da directory pubbliche
 
-Se uno script di installazione precedente o successivo esegue ad esempio da **`/var/tmp/Installerutil`**, e un attaccante potrebbe controllare tale script per ottenere privilegi ogni volta che viene eseguito. Oppure un altro esempio simile:
+Se uno script di pre o post installazione ad esempio viene eseguito da **`/var/tmp/Installerutil`**, e un attaccante potrebbe controllare tale script per ottenere privilegi ogni volta che viene eseguito. Oppure un altro esempio simile:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Si tratta di una [funzione pubblica](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) che diversi installer e aggiornatori chiameranno per **eseguire qualcosa come root**. Questa funzione accetta il **percorso** del **file** da **eseguire** come parametro, tuttavia, se un attaccante potesse **modificare** questo file, sarà in grado di **abusare** della sua esecuzione con privilegi di root per **escalare i privilegi**.
+Questa è una [funzione pubblica](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) che diversi installer e aggiornatori chiameranno per **eseguire qualcosa come root**. Questa funzione accetta il **percorso** del **file** da **eseguire** come parametro, tuttavia, se un attaccante potesse **modificare** questo file, sarà in grado di **abusare** della sua esecuzione con privilegi di root per **escalare i privilegi**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Per ulteriori informazioni, controlla questo talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### Esecuzione tramite mountaggio
 
-### Esecuzione tramite mount
-
-Se un installer scrive in `/tmp/fixedname/bla/bla`, è possibile **creare un mount** su `/tmp/fixedname` senza proprietari in modo da poter **modificare qualsiasi file durante l'installazione** per abusare del processo di installazione.
+Se un programma di installazione scrive in `/tmp/fixedname/bla/bla`, è possibile **creare un mount** su `/tmp/fixedname` senza proprietari in modo da poter **modificare qualsiasi file durante l'installazione** per abusare del processo di installazione.
 
 Un esempio di ciò è **CVE-2021-26089** che è riuscito a **sovrascrivere uno script periodico** per ottenere l'esecuzione come root. Per ulteriori informazioni, guarda il talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
@@ -98,24 +96,10 @@ Un esempio di ciò è **CVE-2021-26089** che è riuscito a **sovrascrivere uno s
 
 È possibile aggiungere tag **`<script>`** nel file **xml di distribuzione** del pacchetto e quel codice verrà eseguito e può **eseguire comandi** utilizzando **`system.run`**:
 
-<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
 ## Riferimenti
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside MacOS Installer Packages**](https://www.youtube.com/watch?v=kCXhIYtODBg)
-
-<details>
-
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

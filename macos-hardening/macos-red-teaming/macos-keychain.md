@@ -9,24 +9,24 @@ Altri modi per supportare HackTricks:
 * Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è combattere le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è combattere le violazioni degli account e gli attacchi ransomware derivanti da malware che ruba informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Principali Portachiavi
 
@@ -35,7 +35,7 @@ Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
 ### Accesso al Portachiavi delle Password
 
-Questi file, sebbene non abbiano una protezione intrinseca e possano essere **scaricati**, sono crittografati e richiedono la **password in chiaro dell'utente per essere decifrati**. Uno strumento come [**Chainbreaker**](https://github.com/n0fate/chainbreaker) potrebbe essere utilizzato per la decrittazione.
+Questi file, sebbene non abbiano protezione intrinseca e possano essere **scaricati**, sono crittografati e richiedono la **password in chiaro dell'utente per essere decifrati**. Uno strumento come [**Chainbreaker**](https://github.com/n0fate/chainbreaker) potrebbe essere utilizzato per la decrittazione.
 
 ## Protezioni delle Voci del Portachiavi
 
@@ -43,13 +43,13 @@ Questi file, sebbene non abbiano una protezione intrinseca e possano essere **sc
 
 Ogni voce nel portachiavi è regolata da **Liste di Controllo degli Accessi (ACL)** che indicano chi può eseguire varie azioni sulla voce del portachiavi, tra cui:
 
-* **ACLAuhtorizationExportClear**: Consente al detentore di ottenere il testo in chiaro del segreto.
-* **ACLAuhtorizationExportWrapped**: Consente al detentore di ottenere il testo in chiaro criptato con un'altra password fornita.
-* **ACLAuhtorizationAny**: Consente al detentore di eseguire qualsiasi azione.
+* **ACLAuhtorizationExportClear**: Consente al titolare di ottenere il testo in chiaro del segreto.
+* **ACLAuhtorizationExportWrapped**: Consente al titolare di ottenere il testo in chiaro criptato con un'altra password fornita.
+* **ACLAuhtorizationAny**: Consente al titolare di eseguire qualsiasi azione.
 
 Le ACL sono ulteriormente accompagnate da un **elenco di applicazioni attendibili** che possono eseguire queste azioni senza richiesta. Questo potrebbe essere:
 
-* &#x20;**N`il`** (nessuna autorizzazione richiesta, **tutti sono attendibili**)
+* **N`il`** (nessuna autorizzazione richiesta, **tutti sono attendibili**)
 * Un **elenco vuoto** (nessuno è attendibile)
 * **Elenco** di **applicazioni specifiche**.
 
@@ -59,7 +59,7 @@ Inoltre, la voce potrebbe contenere la chiave **`ACLAuthorizationPartitionID`,**
 * Se l'**apple** è specificato, allora l'app deve essere **firmata** da **Apple**.
 * Se il **cdhash** è indicato, allora l'app deve avere il **cdhash** specifico.
 
-### Creazione di una Voce del Portachiavi
+### Creazione di una Voce nel Portachiavi
 
 Quando viene creata una **nuova** **voce** utilizzando **`Keychain Access.app`**, si applicano le seguenti regole:
 
@@ -99,7 +99,7 @@ L'**enumerazione e il dumping del portachiavi** dei segreti che **non genererann
 Elenca e ottieni **informazioni** su ciascuna voce del portachiavi:
 
 * L'API **`SecItemCopyMatching`** fornisce informazioni su ciascuna voce e ci sono alcuni attributi che è possibile impostare quando la si utilizza:
-* **`kSecReturnData`**: Se vero, cercherà di decifrare i dati (impostare su falso per evitare potenziali popup)
+* **`kSecReturnData`**: Se è vero, cercherà di decifrare i dati (impostare su falso per evitare potenziali popup)
 * **`kSecReturnRef`**: Ottieni anche il riferimento all'elemento del portachiavi (impostare su vero nel caso in cui successivamente si possa decifrare senza popup)
 * **`kSecReturnAttributes`**: Ottieni metadati sulle voci
 * **`kSecMatchLimit`**: Quanti risultati restituire
@@ -107,7 +107,7 @@ Elenca e ottieni **informazioni** su ciascuna voce del portachiavi:
 
 Ottieni **ACL** di ciascuna voce:
 
-* Con l'API **`SecAccessCopyACLList`** puoi ottenere l'**ACL per l'elemento del portachiavi**, e restituirà un elenco di ACL (come `ACLAuhtorizationExportClear` e gli altri precedentemente menzionati) dove ciascun elenco ha:
+* Con l'API **`SecAccessCopyACLList`** è possibile ottenere l'**ACL per l'elemento del portachiavi**, e restituirà un elenco di ACL (come `ACLAuhtorizationExportClear` e gli altri precedentemente menzionati) dove ciascun elenco ha:
 * Descrizione
 * **Elenco delle applicazioni attendibili**. Questo potrebbe essere:
 * Un'applicazione: /Applications/Slack.app
@@ -124,7 +124,7 @@ E questi sono i **requisiti** per poter **esportare un segreto senza un prompt**
 * Se sono elencate **1 o più app attendibili**:
 * È necessario avere le appropriate **autorizzazioni** (**`Nil`**, o far **parte** dell'elenco consentito di app nell'autorizzazione per accedere alle informazioni segrete)
 * È necessario che la firma del codice corrisponda a **PartitionID**
-* È necessario che la firma del codice corrisponda a quella di una **app attendibile** (o essere un membro del giusto KeychainAccessGroup)
+* È necessario che la firma del codice corrisponda a quella di un'app **attendibile** (o far parte del giusto KeychainAccessGroup)
 * Se **tutte le applicazioni sono attendibili**:
 * È necessario avere le appropriate **autorizzazioni**
 * È necessario che la firma del codice corrisponda a **PartitionID**
@@ -133,14 +133,14 @@ E questi sono i **requisiti** per poter **esportare un segreto senza un prompt**
 {% hint style="danger" %}
 Pertanto, se è elencata **1 applicazione**, è necessario **iniettare codice in quell'applicazione**.
 
-Se **apple** è indicato in **partitionID**, potresti accedervi con **`osascript`** quindi tutto ciò che si fida di tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe anche essere utilizzato per questo.
+Se **apple** è indicato in **partitionID**, potresti accedervi con **`osascript`** quindi a tutto ciò che si fida di tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe anche essere utilizzato per questo.
 {% endhint %}
 
 ### Due attributi aggiuntivi
 
-* **Invisibile**: È un flag booleano per **nascondere** la voce dall'applicazione **UI** del portachiavi
+* **Invisibile**: È un flag booleano per **nascondere** la voce dall'app **UI** del portachiavi
 * **Generale**: Serve per memorizzare **metadati** (quindi NON È CIFRATO)
-* Microsoft stava memorizzando in testo normale tutti i token di aggiornamento per accedere a endpoint sensibili.
+* Microsoft stava memorizzando in testo normale tutti i token di aggiornamento per accedere ai punti di accesso sensibili.
 
 ## Riferimenti
 
@@ -148,11 +148,11 @@ Se **apple** è indicato in **partitionID**, potresti accedervi con **`osascript
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
 
-Il loro obiettivo principale è combattere le violazioni di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
 
@@ -167,7 +167,7 @@ Altri modi per supportare HackTricks:
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
