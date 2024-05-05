@@ -6,9 +6,9 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -154,7 +154,7 @@ return 0;
 ```
 ### Greška
 
-U nekim slučajevima možete pokušati da se predstavite kao Sistem i neće uspeti, prikazujući izlaz kao u sledećem primeru:
+U nekim slučajevima možete pokušati da se predstavite kao System i neće uspeti, prikazujući izlaz kao u sledećem primeru:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -166,7 +166,7 @@ U nekim slučajevima možete pokušati da se predstavite kao Sistem i neće uspe
 [-] CreateProcessWithTokenW Error: 1326
 ```
 Ovo znači da čak i ako radite na nivou visokog integriteta **nemate dovoljno dozvola**.\
-Proverimo trenutne administratorske dozvole nad procesima `svchost.exe` pomoću **proces explorer-a** (ili možete koristiti i process hacker):
+Proverimo trenutne administratorske dozvole nad procesima `svchost.exe` pomoću **proces explorera** (ili možete koristiti i process hacker):
 
 1. Izaberite proces `svchost.exe`
 2. Desni klik --> Properties
@@ -175,12 +175,12 @@ Proverimo trenutne administratorske dozvole nad procesima `svchost.exe` pomoću 
 5. Izaberite "Administrators" i kliknite na "Edit"
 6. Kliknite na "Show advanced permissions"
 
-![](<../../.gitbook/assets/image (434).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
-Prethodna slika sadrži sve privilegije koje "Administrators" imaju nad izabranim procesom (kao što možete videti u slučaju `svchost.exe` imaju samo privilegije "Query")
+Prethodna slika sadrži sve privilegije koje "Administrators" imaju nad izabranim procesom (kao što možete videti u slučaju `svchost.exe` imaju samo privilegiju "Query")
 
 Pogledajte privilegije koje "Administrators" imaju nad `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (1099).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 Unutar tog procesa "Administrators" mogu "Read Memory" i "Read Permissions" što verovatno omogućava Administratorima da se predstave kao token koji koristi ovaj proces.

@@ -1,4 +1,4 @@
-# Padding Oracle
+# Oracle za popunjavanje
 
 <details>
 
@@ -20,16 +20,16 @@ U CBC režimu se **prethodni šifrovani blok koristi kao IV** za XOR sa sledeći
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Za dešifrovanje CBC se vrše **suprotne operacije**:
+Da bi se dešifrovao CBC, vrše se **suprotne operacije**:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
 Primetite kako je potrebno koristiti **ključ za šifrovanje** i **IV**.
 
-## Padding Poruke
+## Popunjavanje poruke
 
-Pošto se šifrovanje vrši u **fiksnim veličinama blokova**, **padding** je obično potreban u **poslednjem bloku** da bi se kompletirala njegova dužina.\
-Obično se koristi **PKCS7**, koji generiše padding **ponavljajući** **broj** **bajtova** **potrebnih** da se **kompletira** blok. Na primer, ako poslednjem bloku nedostaju 3 bajta, padding će biti `\x03\x03\x03`.
+Pošto se šifrovanje vrši u **fiksnim veličinama blokova**, obično je potrebno popunjavanje u **poslednjem bloku** da bi se kompletirala njegova dužina.\
+Obično se koristi **PKCS7**, koji generiše popunjavanje **ponavljanjem** **broja** **bajtova** **potrebnih** da se **kompletira** blok. Na primer, ako poslednjem bloku nedostaju 3 bajta, popunjavanje će biti `\x03\x03\x03`.
 
 Pogledajmo još primera sa **2 bloka dužine 8 bajtova**:
 
@@ -40,13 +40,13 @@ Pogledajmo još primera sa **2 bloka dužine 8 bajtova**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Primetite kako je u poslednjem primeru **poslednji blok bio pun pa je generisan još jedan samo sa paddingom**.
+Primetite kako je u poslednjem primeru **poslednji blok bio pun pa je generisan još jedan samo sa popunjavanjem**.
 
-## Padding Oracle
+## Oracle za popunjavanje
 
-Kada aplikacija dešifruje šifrovane podatke, prvo će dešifrovati podatke; zatim će ukloniti padding. Tokom čišćenja paddinga, ako **neispravan padding izazove detektibilno ponašanje**, imate **ranjivost padding orakla**. Detektibilno ponašanje može biti **greška**, **nedostatak rezultata**, ili **sporiji odgovor**.
+Kada aplikacija dešifruje šifrovane podatke, prvo će dešifrovati podatke; zatim će ukloniti popunjavanje. Tokom čišćenja popunjavanja, ako **neispravno popunjavanje pokrene detektibilno ponašanje**, imate **ranjivost orakla za popunjavanje**. Detektibilno ponašanje može biti **greška**, **nedostatak rezultata**, ili **sporiji odgovor**.
 
-Ako primetite ovo ponašanje, možete **dešifrovati šifrovane podatke** i čak **šifrovati bilo koji čisti tekst**.
+Ako otkrijete ovo ponašanje, možete **dešifrovati šifrovane podatke** i čak **šifrovati bilo koji čisti tekst**.
 
 ### Kako iskoristiti
 
@@ -58,24 +58,24 @@ Da biste testirali da li je kolačić sajta ranjiv, možete pokušati:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
-**Kodiranje 0** znači da se koristi **base64** (ali su dostupni i drugi, proverite meni za pomoć).
+**Kodiranje 0** znači da se koristi **base64** (ali su dostupni i drugi, proverite meni pomoći).
 
-Takođe možete **zloupotrebiti ovu ranjivost da biste šifrovali nove podatke. Na primer, zamislite da je sadržaj kolačića "**_**korisnik=MojeKorisničkoIme**_**", tada ga možete promeniti u "\_korisnik=administrator\_" i eskalirati privilegije unutar aplikacije. To takođe možete uraditi koristeći `paduster` navodeći parametar -plaintext**:
+Takođe možete **zloupotrebiti ovu ranjivost da biste šifrovali nove podatke. Na primer, zamislite da je sadržaj kolačića "**_**korisnik=MojeKorisničkoIme**_**", tada ga možete promeniti u "\_korisnik=administrator\_" i eskalirati privilegije unutar aplikacije. To takođe možete uraditi koristeći `paduster` navođenjem parametra -plaintext**:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u punjenju, ali možete i sami navesti poruku o grešci koristeći parametar **-error**.
+Ako je sajt ranjiv, `padbuster` će automatski pokušati da pronađe kada se javlja greška u punjenju, ali možete i navesti poruku o grešci koristeći parametar **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ### Teorija
 
-U **kratko**, možete početi dešifrovanje šifrovanih podataka pogađajući tačne vrednosti koje se mogu koristiti za kreiranje svih **različitih paddinga**. Zatim, napad padding orakla će početi dešifrovanje bajtova od kraja ka početku pogađajući koja će biti tačna vrednost koja **stvara padding od 1, 2, 3, itd**.
+U **kratko**, možete početi dešifrovanje šifrovanih podataka pogađajući tačne vrednosti koje se mogu koristiti za kreiranje svih **različitih punjenja**. Zatim, napad padding orakl će početi dešifrovanje bajtova od kraja ka početku pogađajući koja će biti tačna vrednost koja **stvara punjenje od 1, 2, 3, itd**.
 
-![](<../.gitbook/assets/image (558).png>)
+![](<../.gitbook/assets/image (561).png>)
 
 Zamislite da imate neki šifrovan tekst koji zauzima **2 bloka** formirana bajtovima od **E0 do E15**.\
-Da biste **dešifrovali** **poslednji blok** (**E8** do **E15**), ceo blok prolazi kroz "dešifrovanje blok šifre" generišući **posredne bajtove I0 do I15**.\
+Da biste **dešifrovali** **poslednji blok** (**E8** do **E15**), ceo blok prolazi kroz "dešifrovanje blokova šifre" generišući **posredne bajtove I0 do I15**.\
 Na kraju, svaki posredni bajt se **XORuje** sa prethodnim šifrovanim bajtovima (E0 do E7). Dakle:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
@@ -84,15 +84,15 @@ Na kraju, svaki posredni bajt se **XORuje** sa prethodnim šifrovanim bajtovima 
 * `C12 = I12 ^ E4`
 * ...
 
-Sada je moguće **modifikovati `E7` dok `C15` ne postane `0x01`**, što će takođe biti ispravan padding. Dakle, u ovom slučaju: `\x01 = I15 ^ E'7`
+Sada je moguće **modifikovati `E7` dok `C15` ne bude `0x01`**, što će takođe biti tačno punjenje. Dakle, u ovom slučaju: `\x01 = I15 ^ E'7`
 
 Dakle, pronalaženjem E'7, moguće je **izračunati I15**: `I15 = 0x01 ^ E'7`
 
 Što nam omogućava da **izračunamo C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Znajući **C15**, sada je moguće **izračunati C14**, ali ovog puta forsujući padding `\x02\x02`.
+Znajući **C15**, sada je moguće **izračunati C14**, ali ovog puta forsujući punjenje `\x02\x02`.
 
-Ovaj BF je jednako složen kao i prethodni jer je moguće izračunati `E''15` čija je vrednost 0x02: `E''7 = \x02 ^ I15` tako da je potrebno pronaći **`E'14`** koji generiše **`C14` jednako `0x02`**.\
+Ovaj BF je jednako složen kao i prethodni jer je moguće izračunati `E''15` čija je vrednost 0x02: `E''7 = \x02 ^ I15` tako da je potrebno samo pronaći **`E'14`** koji generiše **`C14` jednako `0x02`**.\
 Zatim, uradite iste korake za dešifrovanje C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
 **Pratite ovaj lanac dok ne dešifrujete ceo šifrovani tekst.**
@@ -100,10 +100,10 @@ Zatim, uradite iste korake za dešifrovanje C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^
 ### Otkrivanje ranjivosti
 
 Registrujte nalog i prijavite se sa tim nalogom.\
-Ako se **prijavite mnogo puta** i uvek dobijete **isti kolačić**, verovatno postoji **nešto** **pogrešno** u aplikaciji. Kolačić koji se vraća trebao bi biti jedinstven svaki put kada se prijavite. Ako je kolačić **uvek** **isti**, verovatno će uvek biti validan i **neće biti načina da se on poništi**.
+Ako se **prijavite mnogo puta** i uvek dobijete **isti kolačić**, verovatno postoji **nešto** **pogrešno** u aplikaciji. Kolačić koji se vraća trebao bi biti jedinstven svaki put kada se prijavite. Ako je kolačić **uvek** isti, verovatno će uvek biti validan i **neće biti načina da se on poništi**.
 
 Sada, ako pokušate da **modifikujete** kolačić, videćete da dobijate **grešku** od aplikacije.\
-Ali ako forsite padding (koristeći na primer padbuster) uspećete da dobijete drugi kolačić koji je validan za drugog korisnika. Ovaj scenario je vrlo verovatno ranjiv na padbuster.
+Ali ako forsite punjenje (koristeći na primer padbuster) uspećete da dobijete drugi kolačić koji je validan za drugog korisnika. Ovaj scenario je vrlo verovatno ranjiv na padbuster.
 
 ### Reference
 
@@ -115,7 +115,7 @@ Ali ako forsite padding (koristeći na primer padbuster) uspećete da dobijete d
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

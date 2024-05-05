@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -33,7 +33,7 @@ echo $MYGLOBAL #Prints: hello world
 ```
 Ova promenljiva će biti dostupna vašim trenutnim sesijama i njihovim potomcima.
 
-Možete **ukloniti** promenljivu tako što ćete uraditi:
+Možete **ukloniti** promenljivu tako što ćete:
 ```bash
 unset MYGLOBAL
 ```
@@ -58,7 +58,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 Sa: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
 * **DISPLAY** – prikaz koji koristi **X**. Ova promenljiva obično ima vrednost **:0.0**, što znači prvi prikaz na trenutnom računaru.
-* **EDITOR** – omiljeni tekst editor korisnika.
+* **EDITOR** – preferirani tekst editor korisnika.
 * **HISTFILESIZE** – maksimalan broj linija sadržanih u datoteci istorije.
 * **HISTSIZE** – Broj linija dodatih u datoteku istorije kada korisnik završi sesiju.
 * **HOME** – vaš matični direktorijum.
@@ -68,7 +68,7 @@ Sa: [https://geek-university.com/linux/common-environment-variables/](https://ge
 * **MANPATH** – lista direktorijuma za pretragu stranica priručnika.
 * **OSTYPE** – tip operativnog sistema.
 * **PS1** – podrazumevani znak za unos u bash-u.
-* **PATH** – čuva putanje svih direktorijuma koji sadrže binarne datoteke koje želite izvršiti samo navođenjem imena datoteke, a ne relativne ili apsolutne putanje.
+* **PATH** – čuva putanje svih direktorijuma koji sadrže binarne datoteke koje želite da izvršite samo navođenjem imena datoteke, a ne relativne ili apsolutne putanje.
 * **PWD** – trenutni radni direktorijum.
 * **SHELL** – putanja do trenutne komandne ljuske (na primer, **/bin/bash**).
 * **TERM** – trenutni tip terminala (na primer, **xterm**).
@@ -85,13 +85,13 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Promenite **vrednost ove promenljive na 0**, tako da kada **završite sesiju**, nijedna komanda neće biti dodata u **datoteku istorije** (\~/.bash\_history).
+Promenite **vrednost ove promenljive na 0**, tako da kada **završite sesiju**, bilo koja komanda neće biti dodata u **istorijski fajl** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesi će koristiti **proxy** koji je ovde naveden da bi se povezali na internet putem **http ili https**.
+Procesi će koristiti **proxy** koji je ovde deklarisan da bi se povezali na internet preko **http ili https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -111,19 +111,19 @@ Promenite izgled vašeg prompta.
 
 Root:
 
-![](<../.gitbook/assets/image (894).png>)
+![](<../.gitbook/assets/image (897).png>)
 
 Običan korisnik:
 
-![](<../.gitbook/assets/image (737).png>)
+![](<../.gitbook/assets/image (740).png>)
 
 Jedan, dva i tri pozadinski poslovi:
 
-![](<../.gitbook/assets/image (142).png>)
+![](<../.gitbook/assets/image (145).png>)
 
 Jedan pozadinski posao, jedan zaustavljen i poslednja komanda nije završena ispravno:
 
-![](<../.gitbook/assets/image (712).png>)
+![](<../.gitbook/assets/image (715).png>)
 
 **Try Hard Security Group**
 

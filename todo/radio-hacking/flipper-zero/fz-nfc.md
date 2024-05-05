@@ -4,17 +4,17 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF-u**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repou**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repou**](https://github.com/carlospolop/hacktricks-cloud).
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Uvod <a href="#id-9wrzi" id="id-9wrzi"></a>
 
-Za informacije o RFID-u i NFC-u pogledajte sledeću stranicu:
+Za informacije o RFID i NFC proverite sledeću stranicu:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -26,7 +26,7 @@ Za informacije o RFID-u i NFC-u pogledajte sledeću stranicu:
 Osim NFC kartica, Flipper Zero podržava **drugu vrstu kartica visoke frekvencije** kao što su nekoliko **Mifare** Classic i Ultralight i **NTAG**.
 {% endhint %}
 
-Novi tipovi NFC kartica će biti dodati na listu podržanih kartica. Flipper Zero podržava sledeće **tipove NFC kartica tipa A** (ISO 14443A):
+Novi tipovi NFC kartica će biti dodati na listu podržanih kartica. Flipper Zero podržava sledeće **NFC kartice tipa A** (ISO 14443A):
 
 * ﻿**Bankarske kartice (EMV)** — samo čita UID, SAK i ATQA bez čuvanja.
 * ﻿**Nepoznate kartice** — čita (UID, SAK, ATQA) i emulira UID.
@@ -45,7 +45,7 @@ Ekran čitanja bankarske karticeZa bankarske kartice, Flipper Zero može samo pr
 
 #### Nepoznate kartice <a href="#id-37eo8" id="id-37eo8"></a>
 
-Kada Flipper Zero **nije u mogućnosti da odredi tip NFC kartice**, tada se može **pročitati i sačuvati samo** UID, SAK i ATQA.
+Kada Flipper Zero **nije u mogućnosti da odredi tip NFC kartice**, tada se može **pročitati i sačuvati** samo UID, SAK i ATQA.
 
 Ekran čitanja nepoznate karticeZa nepoznate NFC kartice, Flipper Zero može emulirati samo UID.
 
@@ -63,25 +63,25 @@ Za uvod o NFC-u [**pročitajte ovu stranicu**](../pentesting-rfid.md#high-freque
 
 ### Čitanje
 
-Flipper Zero može **čitati NFC kartice**, međutim, **ne razume sve protokole** koji se zasnivaju na ISO 14443. Međutim, budući da je **UID atribut niskog nivoa**, možete se naći u situaciji kada je **UID već pročitan, ali protokol prenosa podataka visokog nivoa i dalje nepoznat**. Možete čitati, emulirati i ručno uneti UID pomoću Flippera za primitivne čitače koji koriste UID za autorizaciju.
+Flipper Zero može **čitati NFC kartice**, međutim, **ne razume sve protokole** koji se zasnivaju na ISO 14443. Međutim, pošto je **UID atribut niskog nivoa**, možete se naći u situaciji kada je **UID već pročitan, ali protokol visokog nivoa prenosa podataka je još uvek nepoznat**. Možete čitati, emulirati i ručno uneti UID pomoću Flippera za primitivne čitače koji koriste UID za autorizaciju.
 
 #### Čitanje UID-a NASPRAM Čitanja Podataka Unutar <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
-<figure><img src="../../../.gitbook/assets/image (214).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
 
-U Flipperu, čitanje oznaka na 13,56 MHz može se podeliti na dva dela:
+U Flipperu, čitanje oznaka na 13.56 MHz može se podeliti na dva dela:
 
 * **Čitanje niskog nivoa** — čita samo UID, SAK i ATQA. Flipper pokušava da pretpostavi protokol visokog nivoa na osnovu ovih podataka pročitanih sa kartice. Ne možete biti 100% sigurni u ovo, jer je to samo pretpostavka zasnovana na određenim faktorima.
 * **Čitanje visokog nivoa** — čita podatke iz memorije kartice koristeći određeni protokol visokog nivoa. To bi bilo čitanje podataka na Mifare Ultralight, čitanje sektora sa Mifare Classic ili čitanje atributa kartice iz PayPass/Apple Pay.
 
 ### Čitanje Specifično
 
-U slučaju da Flipper Zero nije sposoban da pronađe tip kartice iz niskog nivoa podataka, u `Dodatnim akcijama` možete odabrati `Čitanje Specifičnog Tipa Kartice` i **ručno** **ukazati na tip kartice koji želite da pročitate**.
+U slučaju da Flipper Zero nije sposoban da pronađe tip kartice iz podataka niskog nivoa, u `Dodatne akcije` možete odabrati `Čitanje Specifičnog Tipa Kartice` i **ručno** **označiti tip kartice koji želite da pročitate**.
 
 #### EMV Bankarske Kartice (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
 Osim što jednostavno čita UID, možete izvući mnogo više podataka sa bankarske kartice. Moguće je **dobiti puni broj kartice** (16 cifara na prednjoj strani kartice), **datum važenja**, a u nekim slučajevima čak i **ime vlasnika** zajedno sa listom **najnovijih transakcija**.\
-Međutim, **ne možete pročitati CVV na ovaj način** (3 cifre na poleđini kartice). Takođe, **bankarske kartice su zaštićene od napada ponovnog reprodukovanja**, pa kopiranje sa Flipperom i pokušaj emuliranja za plaćanje neće uspeti.
+Međutim, **ne možete pročitati CVV na ovaj način** (3 cifre na poleđini kartice). Takođe, **bankarske kartice su zaštićene od napada ponovnog reprodukovanja**, tako da kopiranje sa Flipperom i zatim pokušaj emuliranja za plaćanje neće raditi.
 ## Reference
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
@@ -94,6 +94,6 @@ Međutim, **ne možete pročitati CVV na ovaj način** (3 cifre na poleđini kar
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova** na [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podelite svoje hakovanje trikove slanjem PR-ova u** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

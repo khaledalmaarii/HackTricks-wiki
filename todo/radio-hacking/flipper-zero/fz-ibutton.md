@@ -6,9 +6,9 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks merch**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -24,15 +24,15 @@ Za više informacija o tome šta je iButton pogledajte:
 
 ## Dizajn
 
-**Plavi** deo sledeće slike je kako biste trebali **postaviti pravi iButton** tako da Flipper može da ga **pročita**. **Zeleni** deo je kako treba da **dodirnete čitač** sa Flipper Zero da biste **ispravno emulirali iButton**.
+**Plavi** deo sledeće slike je gde treba da **stavite pravi iButton** kako bi Flipper mogao da ga **pročita**. **Zeleni** deo je kako treba da dodirnete čitač sa Flipper Zero uređajem da biste **ispravno emulirali iButton**.
 
-<figure><img src="../../../.gitbook/assets/image (562).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
 ## Radnje
 
 ### Čitanje
 
-U režimu čitanja, Flipper čeka da se iButton ključ dodirne i može da obradi bilo koji od tri tipa ključeva: **Dallas, Cyfral i Metakom**. Flipper će **sami utvrditi tip ključa**. Naziv protokola ključa će biti prikazan na ekranu iznad ID broja.
+U režimu čitanja, Flipper čeka da se iButton ključ dodirne i može da obradi bilo koji od tri tipa ključeva: **Dallas, Cyfral i Metakom**. Flipper će **saznati tip ključa sam**. Ime protokola ključa će biti prikazano na ekranu iznad ID broja.
 
 ### Ručno dodavanje
 
@@ -43,10 +43,10 @@ Moguće je **ručno dodati** iButton tipa: **Dallas, Cyfral i Metakom**
 Moguće je **emulirati** sačuvane iButtone (pročitane ili ručno dodate).
 
 {% hint style="info" %}
-Ako ne možete ostvariti očekivane kontakte Flipper Zero uređaja sa čitačem, možete **koristiti spoljni GPIO:**
+Ako ne možete da ostvarite očekivane kontakte Flipper Zero uređaja sa čitačem, možete **koristiti spoljni GPIO:**
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (135).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>
 
 ## Reference
 
@@ -58,9 +58,9 @@ Ako ne možete ostvariti očekivane kontakte Flipper Zero uređaja sa čitačem,
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks merch**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 

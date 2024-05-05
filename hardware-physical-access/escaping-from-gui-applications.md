@@ -1,3 +1,5 @@
+# Bekstvo iz KIOSK-a
+
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
@@ -6,17 +8,17 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-### [WhiteIntel](https://whiteintel.io)
+#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **kradljivih malvera**.
 
 Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
 
@@ -24,9 +26,9 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
-# Provera mogućih akcija unutar GUI aplikacije
+## Provera mogućih akcija unutar GUI aplikacije
 
 **Uobičajeni dijalozi** su opcije poput **čuvanja fajla**, **otvaranja fajla**, izbora fonta, boje... Većina njih će **ponuditi punu funkcionalnost Explorer-a**. To znači da ćete moći pristupiti funkcionalnostima Explorer-a ako možete pristupiti ovim opcijama:
 
@@ -44,26 +46,26 @@ Treba da proverite da li možete:
 * Pristupiti ograničenim područjima
 * Izvršiti druge aplikacije
 
-## Izvršavanje komandi
+### Izvršavanje komandi
 
-Možda **korišćenjem opcije `Otvori sa`** možete otvoriti/izvršiti neku vrstu shell-a.
+Možda **korišćenjem opcije `Otvori sa`** možete otvoriti/izvršiti neku vrstu ljuske.
 
-### Windows
+#### Windows
 
 Na primer _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ pronađite više binarnih fajlova koji se mogu koristiti za izvršavanje komandi (i obavljanje neočekivanih akcija) ovde: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
-### \*NIX __
+#### \*NIX \_\_
 
 _bash, sh, zsh..._ Više ovde: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
-# Windows
+## Windows
 
-## Bypassiranje restrikcija putanje
+### Bypassing ograničenja putanje
 
 * **Okružne promenljive**: Postoji mnogo okružnih promenljivih koje pokazuju na neku putanju
 * **Drugi protokoli**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Simboličke veze**
-* **Prečice**: CTRL+N (otvori novu sesiju), CTRL+R (Izvrši komande), CTRL+SHIFT+ESC (Menadžer zadataka),  Windows+E (otvori explorer), CTRL-B, CTRL-I (Favoriti), CTRL-H (Istorija), CTRL-L, CTRL-O (Dijalog za otvaranje fajla), CTRL-P (Dijalog za štampanje), CTRL-S (Sačuvaj kao)
+* **Prečice**: CTRL+N (otvori novu sesiju), CTRL+R (Izvrši komande), CTRL+SHIFT+ESC (Menadžer zadataka), Windows+E (otvori explorer), CTRL-B, CTRL-I (Favoriti), CTRL-H (Istorija), CTRL-L, CTRL-O (Dijalog fajla/otvaranja), CTRL-P (Dijalog štampanja), CTRL-S (Sačuvaj kao)
 * Skriveni administrativni meni: CTRL-ALT-F8, CTRL-ESC-F9
 * **Shell URI-ji**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **UNC putanje**: Putanje za povezivanje sa deljenim fasciklama. Trebalo bi da pokušate da se povežete sa C$ lokalne mašine ("\\\127.0.0.1\c$\Windows\System32")
@@ -81,13 +83,13 @@ _bash, sh, zsh..._ Više ovde: [https://gtfobins.github.io/](https://gtfobins.gi
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Preuzimanje vaših binarnih fajlova
+### Preuzimanje vaših binarnih fajlova
 
 Konzola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
 Editor registra: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
-## Pristupanje fajl sistemu iz pretraživača
+### Pristupanje fajl sistemu iz pretraživača
 
 | PUTANJA                | PUTANJA              | PUTANJA               | PUTANJA                |
 | ------------------- | ----------------- | ------------------ | ------------------- |
@@ -99,7 +101,7 @@ Editor registra: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-## Prečice
+### Prečice
 
 * Ljepljive tipke – Pritisnite SHIFT 5 puta
 * Mišje tipke – SHIFT+ALT+NUMLOCK
@@ -117,26 +119,26 @@ Editor registra: [https://sourceforge.net/projects/uberregedit/](https://sourcef
 * CTRL+ALT+DEL – Početni ekran na novijim verzijama Windows-a
 * F1 – Pomoć F3 – Pretraga
 * F6 – Traka adrese
-* F11 – Prekidač za celozaslonski prikaz u Internet Explorer-u
+* F11 – Prekidač celog ekrana unutar Internet Explorera
 * CTRL+H – Istorija Internet Explorera
 * CTRL+T – Internet Explorer – Novi tab
 * CTRL+N – Internet Explorer – Nova stranica
 * CTRL+O – Otvori fajl
 * CTRL+S – Sačuvaj CTRL+N – Novi RDP / Citrix
-## Potezi
+### Swajpovi
 
-* Povucite s leve strane na desnu da biste videli sve otvorene prozore, minimizirajući KIOSK aplikaciju i direktno pristupajući celom OS-u;
-* Povucite s desne strane na levu da biste otvorili Akcioni centar, minimizirajući KIOSK aplikaciju i direktno pristupajući celom OS-u;
-* Povucite odozgo da biste videli traku sa naslovom za aplikaciju otvorenu u režimu punog ekrana;
-* Povucite odozdo nagore da biste prikazali traku sa zadacima u aplikaciji na punom ekranu.
+* Swajp sa leve strane na desnu da biste videli sve otvorene prozore, minimizirajući KIOSK aplikaciju i pristupajući celom OS direktno;
+* Swajp sa desne strane na levu da biste otvorili Akcioni centar, minimizirajući KIOSK aplikaciju i pristupajući celom OS direktno;
+* Swajp odozgo ka ivici da biste učinili traku sa naslovom vidljivom za aplikaciju otvorenu u režimu punog ekrana;
+* Swajp odozdo nagore da biste prikazali traku sa zadacima u aplikaciji na punom ekranu.
 
-## Trikovi za Internet Explorer
+### Trikovi za Internet Explorer
 
-### 'Alat za slike'
+#### 'Image Toolbar'
 
-To je traka sa alatima koja se pojavljuje u gornjem levom uglu slike kada se klikne na nju. Moći ćete da Sačuvate, Štampate, Pošaljete e-poštu, Otvorite "Moje slike" u Exploreru. Kiosk mora koristiti Internet Explorer.
+To je traka sa alatkama koja se pojavljuje na gornjem levom uglu slike kada se klikne na nju. Moći ćete da Sačuvate, Odštampate, Pošaljete e-poštu, Otvorite "Moje slike" u Exploreru. Kiosk mora koristiti Internet Explorer.
 
-### Shell protokol
+#### Shell Protocol
 
 Unesite ove URL-ove da biste dobili prikaz Explorer-a:
 
@@ -157,54 +159,44 @@ Unesite ove URL-ove da biste dobili prikaz Explorer-a:
 * `Shell:System`
 * `Shell:ControlPanelFolder`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Kontrolna tabla
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Moj računar
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Moj mrežni prostor
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Control Panel
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Computer
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> My Network Places
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-## Prikazivanje ekstenzija datoteka
+### Prikazivanje ekstenzija fajlova
 
 Proverite ovu stranicu za više informacija: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Trikovi za pretraživače
+## Trikovi za pretraživače
 
 Rezervne verzije iKat-a:
 
 [http://swin.es/k/](http://swin.es/k/)\
-[http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
+[http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\\
 
-Kreirajte zajednički dijalog pomoću JavaScript-a i pristupite istraživaču datoteka: `document.write('<input/type=file>')`
-Izvor: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
+Kreirajte zajednički dijalog koristeći JavaScript i pristupite Explorer-u fajlova: `document.write('<input/type=file>')`\
+Izvor: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
-# iPad
+## iPad
 
-## Pokreti i dugmad
+### Gestovi i dugmad
 
-* Povucite nagore sa četiri (ili pet) prstiju / Dvaput dodirnite dugme Početna: Da biste videli prikaz višestrukih zadataka i promenili aplikaciju
-
-* Povucite na jednu ili drugu stranu sa četiri ili pet prstiju: Da biste promenili na sledeću/prethodnu aplikaciju
-
-* Štipnite ekran sa pet prstiju / Dodirnite dugme Početna / Povucite nagore jednim prstom sa dna ekrana u brzom pokretu nagore: Da biste pristupili Početnoj stranici
-
-* Povucite jednim prstom sa dna ekrana samo 1-2 inča (sporo): Pojavljuje se dock
-
-* Povucite nadole sa vrha ekrana jednim prstom: Da biste videli obaveštenja
-
-* Povucite nadole jednim prstom u gornjem desnom uglu ekrana: Da biste videli kontrolni centar iPad Pro-a
-
-* Povucite jednim prstom sa leve strane ekrana 1-2 inča: Da biste videli Prikaz današnjih događaja
-
-* Brzo povucite jednim prstom sa centra ekrana udesno ili ulevo: Da biste promenili na sledeću/prethodnu aplikaciju
-
+* Swajp nagore sa četiri (ili pet) prstiju / Dvostruki dodir na dugme Početna: Da biste videli prikaz višezadatka i promenili aplikaciju
+* Swajp na jednu stranu ili drugu sa četiri ili pet prstiju: Da biste promenili na sledeću/prethodnu aplikaciju
+* Štipanje ekrana sa pet prstiju / Dodir na dugme Početna / Swajp odozdo nagore jednim prstom sa dna ekrana u brzom pokretu nagore: Da biste pristupili Početnom ekranu
+* Swajp jednim prstom odozdo ekrana samo 1-2 inča (sporo): Pojaviće se dock
+* Swajp nadole sa vrha ekrana jednim prstom: Da biste videli svoje obaveštenja
+* Swajp nadole jednim prstom u gornjem desnom uglu ekrana: Da biste videli kontrolni centar iPad Pro-a
+* Swajp jednim prstom sa leve strane ekrana 1-2 inča: Da biste videli Prikaz dana
+* Brz swajp jednim prstom sa centra ekrana udesno ili ulevo: Da biste promenili na sledeću/prethodnu aplikaciju
 * Pritisnite i držite dugme Uključi/**Isključi**/Spavanje u gornjem desnom uglu **iPad-a +** Pomerite klizač za **isključivanje** sve do kraja udesno: Da biste isključili
+* Pritisnite dugme Uključi/**Isključi**/Spavanje u gornjem desnom uglu **iPad-a i dugme Početna nekoliko sekundi**: Da biste prinudno isključili
+* Pritisnite dugme Uključi/**Isključi**/Spavanje u gornjem desnom uglu **iPad-a i dugme Početna brzo**: Da biste napravili snimak ekrana koji će se pojaviti u donjem levom uglu ekrana. Pritisnite oba dugmeta istovremeno veoma kratko kao da ih držite nekoliko sekundi, izvršiće se prinudno isključivanje.
 
-* Pritisnite dugme Uključi/**Isključi**/Spavanje u gornjem desnom uglu **iPad-a i dugme Početna nekoliko sekundi**: Da biste prinudno isključili uređaj
+### Prečice
 
-* Pritisnite dugme Uključi/**Isključi**/Spavanje u gornjem desnom uglu **iPad-a i dugme Početna brzo**: Da biste napravili snimak ekrana koji će se pojaviti u donjem levom uglu ekrana. Pritisnite oba dugmeta istovremeno veoma kratko, jer ako ih držite nekoliko sekundi, izvršiće se prinudno isključivanje.
-
-## Prečice
-
-Treba da imate tastaturu za iPad ili adapter za USB tastaturu. Biće prikazane samo prečice koje mogu pomoći u izlasku iz aplikacije.
+Treba da imate tastaturu za iPad ili adapter za USB tastaturu. Prikazane su samo prečice koje mogu pomoći u izlasku iz aplikacije.
 
 | Taster | Naziv         |
 | --- | ------------ |
@@ -219,11 +211,11 @@ Treba da imate tastaturu za iPad ili adapter za USB tastaturu. Biće prikazane s
 | ↑   | Strelica nagore     |
 | ↓   | Strelica nadole   |
 
-### Sistemske prečice
+#### Sistemske prečice
 
-Ove prečice su za vizuelna podešavanja i zvučna podešavanja, u zavisnosti od upotrebe iPada.
+Ove prečice su za vizuelna podešavanja i zvučna podešavanja, u zavisnosti od korišćenja iPada.
 
-| Prečica | Radnja                                                                         |
+| Prečica | Akcija                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Zamrači ekran                                                                    |
 | F2       | Osvetli ekran                                                                |
@@ -233,80 +225,79 @@ Ove prečice su za vizuelna podešavanja i zvučna podešavanja, u zavisnosti od
 | F10      | Isključi zvuk                                                                           |
 | F11      | Smanji zvuk                                                                |
 | F12      | Povećaj zvuk                                                                |
-| ⌘ Space  | Prikazuje listu dostupnih jezika; da biste izabrali jedan, ponovo dodirnite razmaknicu. |
+| ⌘ Space  | Prikazuje listu dostupnih jezika; da biste izabrali jedan, ponovo dodirnite taster space. |
 
-### Navigacija na iPad-u
+#### Navigacija na iPad-u
 
-| Prečica                                           | Radnja                                                  |
+| Prečica                                           | Akcija                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Idi na Početnu stranicu                                              |
-| ⌘⇧H (Command-Shift-H)                              | Idi na Početnu stranicu                                              |
+| ⌘H                                                 | Idi na Početnu stranu                                              |
+| ⌘⇧H (Command-Shift-H)                              | Idi na Početnu stranu                                              |
 | ⌘ (Space)                                          | Otvori Spotlight                                          |
 | ⌘⇥ (Command-Tab)                                   | Lista poslednjih deset korišćenih aplikacija                                 |
 | ⌘\~                                                | Idi na poslednju aplikaciju                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Snimak ekrana (pojavljuje se u donjem levom uglu za čuvanje ili radnju) |
-| ⌘⇧4                                                | Snimak ekrana i otvori ga u uređivaču                    |
-| Pritisnite i držite ⌘                                   | Lista dostupnih prečica za aplikaciju                 |
+| ⌘⇧3 (Command-Shift-3)                              | Snimak ekrana (pojaviće se u donjem levom uglu za čuvanje ili radnju) |
+| ⌘⇧4                                                | Snimak ekrana i otvori ga u editoru                    |
+| Pritisni i drži ⌘                                   | Lista dostupnih prečica za aplikaciju                 |
 | ⌘⌥D (Command-Option/Alt-D)                         | Prikazuje dock                                      |
 | ^⌥H (Control-Option-H)                             | Dugme Početna                                             |
-| ^⌥H H (Control-Option-H-H)                         | Prikazuje traku sa višestrukim zadacima                                      |
-| ^⌥I (Control-Option-i)                             | Biranje stavki                                            |
+| ^⌥H H (Control-Option-H-H)                         | Prikazuje traku sa višezadatka                                      |
+| ^⌥I (Control-Option-i)                             | Biranje stavke                                            |
 | Escape                                             | Dugme Nazad                                             |
 | → (Desna strelica)                                    | Sledeća stavka                                               |
 | ← (Leva strelica)                                     | Prethodna stavka                                           |
 | ↑↓ (Strelica nagore, Strelica nadole)                          | Istovremeno dodirnite izabranu stavku                        |
-| ⌥ ↓ (Opcija-Strelica nadole)                            | Pomeri nadole                                             |
-| ⌥↑ (Opcija-Strelica nagore)                               | Pomeri nagore                                               |
-| ⌥← ili ⌥→ (Opcija-Leva strelica ili Opcija-Desna strelica) | Pomeri levo ili desno                                    |
-| ^⌥S (Control-Option-S)                             | Uključi ili isključi govorni izlaz                         |
+| ⌥ ↓ (Opcija-Strelica nadole)                            | Pomeri se nadole                                             |
+| ⌥↑ (Opcija-Strelica nagore)                               | Pomeri se nagore                                               |
+| ⌥← ili ⌥→ (Opcija-Leva strelica ili Opcija-Desna strelica) | Pomeri se levo ili desno                                    |
+| ^⌥S (Control-Option-S)                             | Uključi/isključi VoiceOver govor                         |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | Prebaci se na prethodnu aplikaciju                              |
 | ⌘⇥ (Command-Tab)                                   | Vrati se na originalnu aplikaciju                         |
 | ←+→, zatim Opcija + ← ili Opcija+→                   | Navigacija kroz Dock                                   |
-### Safari prečice
+#### Safari prečice
 
 | Prečica                | Radnja                                           |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | Otvori lokaciju                                  |
+| ⌘L (Command-L)          | Otvori lokaciju                                   |
 | ⌘T                      | Otvori novi tab                                   |
-| ⌘W                      | Zatvori trenutni tab                            |
-| ⌘R                      | Osveži trenutni tab                          |
-| ⌘.                      | Zaustavi učitavanje trenutnog taba                     |
-| ^⇥                      | Prebaci se na sledeći tab                           |
-| ^⇧⇥ (Control-Shift-Tab) | Prebaci se na prethodni tab                         |
-| ⌘L                      | Izaberi tekstualni unos/URL polje da ga izmeniš     |
+| ⌘W                      | Zatvori trenutni tab                              |
+| ⌘R                      | Osveži trenutni tab                               |
+| ⌘.                      | Zaustavi učitavanje trenutnog taba                |
+| ^⇥                      | Prebaci se na sledeći tab                         |
+| ^⇧⇥ (Control-Shift-Tab) | Prebaci se na prethodni tab                       |
+| ⌘L                      | Izaberi tekstualni unos/URL polje za izmenu       |
 | ⌘⇧T (Command-Shift-T)   | Otvori poslednji zatvoreni tab (može se koristiti više puta) |
-| ⌘\[                     | Vrati se jednu stranicu unazad u istoriji pretrage      |
-| ⌘]                      | Idi napred jednu stranicu u istoriji pretrage   |
+| ⌘\[                     | Vrati se jednu stranicu unazad u istoriji pretraživanja |
+| ⌘]                      | Idi jednu stranicu unapred u istoriji pretraživanja |
 | ⌘⇧R                     | Aktiviraj režim čitača                             |
 
-### Prečice za Mail
+#### Prečice za e-poštu
 
 | Prečica                   | Radnja                       |
 | -------------------------- | ---------------------------- |
-| ⌘L                         | Otvori lokaciju                |
-| ⌘T                         | Otvori novi tab               |
-| ⌘W                         | Zatvori trenutni tab        |
-| ⌘R                         | Osveži trenutni tab      |
+| ⌘L                         | Otvori lokaciju              |
+| ⌘T                         | Otvori novi tab              |
+| ⌘W                         | Zatvori trenutni tab         |
+| ⌘R                         | Osveži trenutni tab          |
 | ⌘.                         | Zaustavi učitavanje trenutnog taba |
-| ⌘⌥F (Command-Option/Alt-F) | Pretraži svoj poštanski sandučić       |
+| ⌘⌥F (Command-Option/Alt-F) | Pretraži u svojoj poštanskoj sandučiću |
 
-# Reference
+## Reference
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
+#### [WhiteIntel](https://whiteintel.io)
 
-### [WhiteIntel](https://whiteintel.io)
+<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokrenut **dark web**-om koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera za krađu**.
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-webom** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade podatke**.
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
-
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -316,10 +307,10 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>

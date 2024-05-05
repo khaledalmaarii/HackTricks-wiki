@@ -6,17 +6,17 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete tokove rada** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** uz pomoć **najnaprednijih alata zajednice** na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -26,7 +26,7 @@ Dobijte pristup danas:
 Lista odobrenih softverskih aplikacija ili izvršnih datoteka koje su dozvoljene da budu prisutne i pokrenute na sistemu naziva se bela lista aplikacija. Cilj je zaštita okruženja od štetnog malvera i neodobrenog softvera koji se ne slaže sa specifičnim poslovnim potrebama organizacije.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) je Microsoft-ovo **rešenje za belu listu aplikacija** i daje sistem administratorima kontrolu nad **kojim aplikacijama i datotekama korisnici mogu pokrenuti**. Pruža **detaljnu kontrolu** nad izvršnim datotekama, skriptama, Windows instalacionim datotekama, DLL-ovima, upakovanim aplikacijama i instalaterima upakovanih aplikacija.\
-Često je za organizacije **blokirati cmd.exe i PowerShell.exe** i pristup pisanju određenim direktorijumima, **ali sve to može biti zaobiđeno**.
+Često je uobičajeno da organizacije **blokiraju cmd.exe i PowerShell.exe** i pristup za pisanje određenim direktorijumima, **ali sve to može biti zaobiđeno**.
 
 ### Provera
 
@@ -39,20 +39,20 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 $a = Get-ApplockerPolicy -effective
 $a.rulecollections
 ```
-Ovaj putanja registra sadrži konfiguracije i politike primenjene od strane AppLockera, pružajući način da se pregleda trenutni skup pravila koja se primenjuju na sistemu:
+Ovaj registarski putanja sadrži konfiguracije i politike koje primenjuje AppLocker, pružajući način da se pregleda trenutni skup pravila koja se primenjuju na sistemu:
 
 * `HKLM\Software\Policies\Microsoft\Windows\SrpV2`
 
 ### Zaobilazak
 
-* Korisne **Folderi za pisanje** za zaobilazak AppLocker politike: Ako AppLocker dozvoljava izvršavanje bilo čega unutar `C:\Windows\System32` ili `C:\Windows`, postoje **folderi za pisanje** koje možete koristiti da **zaobiđete ovo**.
+* Korisne **Folderi za pisanje** za zaobilaženje AppLocker politike: Ako AppLocker dozvoljava izvršavanje bilo čega unutar `C:\Windows\System32` ili `C:\Windows`, postoje **folderi za pisanje** koje možete koristiti da **zaobiđete ovo**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
 C:\Windows\Tasks
 C:\windows\tracing
 ```
-* Često **povereni** [**"LOLBAS-ovi"**](https://lolbas-project.github.io/) binarni fajlovi mogu biti korisni za zaobilaženje AppLockera.
+* Često **povereni** [**"LOLBAS's"**](https://lolbas-project.github.io/) binarni fajlovi takođe mogu biti korisni za zaobilaženje AppLockera.
 * **Loše napisana pravila takođe mogu biti zaobiđena**
 * Na primer, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, možete kreirati **folder nazvan `allowed`** bilo gde i biće dozvoljen.
 * Organizacije često takođe fokusiraju se na **blokiranje izvršnog fajla `%System32%\WindowsPowerShell\v1.0\powershell.exe`**, ali zaboravljaju na **druge** [**lokacije izvršnih fajlova PowerShell-a**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) kao što su `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ili `PowerShell_ISE.exe`.
@@ -67,9 +67,9 @@ Lokalne akreditacije prisutne su u ovom fajlu, lozinke su heširane.
 
 ### Lokalna sigurnosna autoriteta (LSA) - LSASS
 
-**Akreditacije** (heširane) su **sačuvane** u **memoriji** ovog podsistema iz razloga jednostavnog prijavljivanja.\
-**LSA** upravlja lokalnom **sigurnosnom politikom** (politika lozinke, dozvole korisnika...), **autentifikacijom**, **pristupnim tokenima**...\
-LSA će biti ta koja će **proveriti** dostavljene akreditacije unutar fajla **SAM** (za lokalnu prijavu) i **komunicirati** sa **kontrolorom domena** da autentifikuje korisnika domena.
+**Akreditacije** (heširane) su **sačuvane** u **memoriji** ovog podsistema iz razloga Jednokratne prijave.\
+**LSA** upravlja lokalnom **sigurnosnom politikom** (politika lozinke, dozvole korisnika...), **autentifikacija**, **pristupni tokeni**...\
+LSA će biti taj koji će **proveriti** dostavljene akreditacije unutar fajla **SAM** (za lokalnu prijavu) i **razgovarati** sa **kontrolorom domena** da autentifikuje korisnika domena.
 
 **Akreditacije** su **sačuvane** unutar **procesa LSASS**: Kerberos tiketi, heševi NT i LM, lako dešifrovane lozinke.
 
@@ -88,7 +88,7 @@ To je baza podataka Active Directory-ja. Prisutna je samo na kontrolorima domena
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) je antivirus koji je dostupan u Windows 10 i Windows 11, kao i u verzijama Windows Servera. On **blokira** česte alate za pentesting kao što je **`WinPEAS`**. Međutim, postoje načini da se **zaobiđu ove zaštite**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) je antivirus koji je dostupan u Windows 10 i Windows 11, kao i u verzijama Windows Servera. On **blokira** uobičajene alate za pentesting kao što su **`WinPEAS`**. Međutim, postoje načini da se **zaobiđu ove zaštite**.
 
 ### Provera
 
@@ -122,34 +122,34 @@ sc query windefend
 ```
 ## Enkriptovan sistem datoteka (EFS)
 
-EFS obezbeđuje sigurnost datoteka putem enkripcije, koristeći **simetrični ključ** poznat kao **Ključ za enkripciju datoteke (FEK)**. Ovaj ključ je enkriptovan korisnikovim **javni ključem** i čuva se unutar alternativnog podatkovnog toka $EFS enkriptovane datoteke. Kada je potrebno dešifrovati, odgovarajući **privatni ključ** korisnikovog digitalnog sertifikata se koristi za dešifrovanje FEK iz $EFS toka. Više detalja možete pronaći [ovde](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
+EFS obezbeđuje datoteke putem enkripcije, koristeći **simetrični ključ** poznat kao **Ključ za enkripciju datoteke (FEK)**. Ovaj ključ je enkriptovan korisnikovim **javni ključem** i čuva se unutar alternativnog podatkovnog toka $EFS enkriptovane datoteke. Kada je potrebna dekripcija, odgovarajući **privatni ključ** korisnikovog digitalnog sertifikata se koristi za dekripciju FEK-a iz $EFS toka. Više detalja možete pronaći [ovde](https://en.wikipedia.org/wiki/Encrypting\_File\_System).
 
-**Scenariji dešifrovanja bez inicijacije korisnika** uključuju:
+**Scenariji dekripcije bez inicijacije korisnika** uključuju:
 
-* Kada se datoteke ili folderi premeštaju na ne-EFS fajl sistem, poput [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), automatski se dešifruju.
-* Enkriptovane datoteke poslate preko mreže putem SMB/CIFS protokola se dešifruju pre slanja.
+* Kada se datoteke ili folderi premeštaju na ne-EFS fajl sistem, poput [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table), automatski se dekriptuju.
+* Enkriptovane datoteke poslate preko mreže putem SMB/CIFS protokola se dekriptuju pre slanja.
 
-Ovaj metod enkripcije omogućava **transparentan pristup** enkriptovanim datotekama vlasniku. Međutim, jednostavna promena lozinke vlasnika i prijava neće dozvoliti dešifrovanje.
+Ovaj metod enkripcije omogućava **transparentan pristup** enkriptovanim datotekama vlasniku. Međutim, jednostavna promena korisnikove lozinke i prijava neće dozvoliti dekripciju.
 
 **Ključne tačke**:
 
 * EFS koristi simetrični FEK, enkriptovan korisnikovim javnim ključem.
-* Dešifrovanje koristi korisnikov privatni ključ za pristup FEK-u.
-* Automatsko dešifrovanje se dešava pod određenim uslovima, poput kopiranja na FAT32 ili mrežnu transmisiju.
-* Enkriptovane datoteke su dostupne vlasniku bez dodatnih koraka.
+* Dekripcija koristi korisnikov privatni ključ za pristup FEK-u.
+* Automatska dekripcija se dešava pod određenim uslovima, poput kopiranja na FAT32 ili mrežnu transmisiju.
+* Enkriptovane datoteke su pristupačne vlasniku bez dodatnih koraka.
 
 ### Provera informacija o EFS-u
 
 Proverite da li je **korisnik** **koristio** ovu **uslugu** proverom da li postoji ovaj putanja: `C:\users\<korisničko_ime>\appdata\roaming\Microsoft\Protect`
 
 Proverite **ko** ima **pristup** datoteci korišćenjem cipher /c \<datoteka>\
-Takođe možete koristiti `cipher /e` i `cipher /d` unutar foldera da **enkriptujete** i **dešifrujete** sve datoteke
+Takođe možete koristiti `cipher /e` i `cipher /d` unutar foldera da **enkriptujete** i **dekriptujete** sve datoteke
 
-### Dešifrovanje EFS datoteka
+### Dekripcija EFS datoteka
 
-#### Biti sistem sa ovlašćenjem
+#### Bivanje autoritetni sistem
 
-Ovaj način zahteva da **žrtveni korisnik** pokreće **proces** unutar hosta. U tom slučaju, koristeći `meterpreter` sesije možete preuzeti token procesa korisnika (`impersonate_token` iz `incognito`). Ili jednostavno možete `migrate` na proces korisnika.
+Ovaj način zahteva da **korisnik žrtva** pokreće **proces** unutar hosta. U tom slučaju, koristeći `meterpreter` sesije možete preuzeti token procesa korisnika (`impersonate_token` iz `incognito`). Ili jednostavno možete `migrirati` na proces korisnika.
 
 #### Poznavanje korisnikove lozinke
 
@@ -160,12 +160,12 @@ Ovaj način zahteva da **žrtveni korisnik** pokreće **proces** unutar hosta. U
 Microsoft je razvio **Grupisane upravljane servisne naloge (gMSA)** kako bi pojednostavio upravljanje servisnim nalozima u IT infrastrukturama. Za razliku od tradicionalnih servisnih naloga koji često imaju podešavanje "**Lozinka nikada ne ističe**" omogućeno, gMSA nude sigurnije i upravljivije rešenje:
 
 * **Automatsko upravljanje lozinkom**: gMSA koriste kompleksnu lozinku od 240 karaktera koja se automatski menja prema domenskoj ili računarskoj politici. Ovaj proces rukovodi Microsoft-ova Key Distribution Service (KDC), eliminišući potrebu za ručnim ažuriranjem lozinke.
-* **Poboljšana sigurnost**: Ovi nalozi su imuni na blokade i ne mogu se koristiti za interaktivne prijave, poboljšavajući njihovu sigurnost.
+* **Poboljšana sigurnost**: Ovi nalozi su imuni na zaključavanje i ne mogu se koristiti za interaktivne prijave, poboljšavajući njihovu sigurnost.
 * **Podrška za više hostova**: gMSA mogu biti deljeni preko više hostova, čineći ih idealnim za servise koji se izvršavaju na više servera.
 * **Mogućnost zakazanih zadataka**: Za razliku od upravljanih servisnih naloga, gMSA podržavaju pokretanje zakazanih zadataka.
-* **Po verejednost upravljanja SPN-om**: Sistem automatski ažurira Service Principal Name (SPN) kada dođe do promena u sAMaccount detaljima računara ili DNS imenu, pojednostavljujući upravljanje SPN-om.
+* **Pojednostavljeno upravljanje SPN-om**: Sistem automatski ažurira Service Principal Name (SPN) kada dođe do promena u detaljima računara sAMaccount ili DNS imena, pojednostavljujući upravljanje SPN-om.
 
-Lozinke za gMSA se čuvaju u LDAP svojstvu _**msDS-ManagedPassword**_ i automatski se resetuju svakih 30 dana od strane Domain Controller-a (DC). Ova lozinka, enkriptovani podaci poznati kao [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), mogu biti dobijeni samo od ovlašćenih administratora i servera na kojima su instalirani gMSA, obezbeđujući sigurno okruženje. Da biste pristupili ovim informacijama, potrebna je obezbeđena veza poput LDAPS-a, ili veza mora biti autentifikovana sa 'Sealing & Secure'.
+Lozinke za gMSA se čuvaju u LDAP svojstvu _**msDS-ManagedPassword**_ i automatski se resetuju svakih 30 dana od strane kontrolora domena (DC). Ova lozinka, enkriptovani podaci poznati kao [MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e), mogu biti dobijeni samo od ovlašćenih administratora i servera na kojima su instalirani gMSA, obezbeđujući sigurno okruženje. Za pristup ovim informacijama, potrebna je obezbeđena veza poput LDAPS-a, ili veza mora biti autentifikovana sa 'Sealing & Secure'.
 
 ![https://cube0x0.github.io/Relaying-for-gMSA/](../../.gitbook/assets/asd1.png)
 
@@ -179,7 +179,7 @@ Takođe, proverite ovu [web stranicu](https://cube0x0.github.io/Relaying-for-gMS
 
 ## LAPS
 
-**Local Administrator Password Solution (LAPS)**, dostupno za preuzimanje sa [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), omogućava upravljanje lokalnim administratorskim lozinkama. Ove lozinke, koje su **slučajno generisane**, jedinstvene i **redovno menjane**, čuvaju se centralno u Active Directory-ju. Pristup ovim lozinkama je ograničen putem ACL-ova za ovlašćene korisnike. Sa dovoljnim dozvolama, omogućeno je čitanje lokalnih administratorskih lozinki.
+**Local Administrator Password Solution (LAPS)**, dostupno za preuzimanje sa [Microsoft](https://www.microsoft.com/en-us/download/details.aspx?id=46899), omogućava upravljanje lokalnim administratorskim šiframa. Ove šifre, koje su **slučajno generisane**, jedinstvene i **redovno menjane**, čuvaju se centralno u Active Directory-ju. Pristup ovim šiframa je ograničen putem ACL-ova autorizovanim korisnicima. Sa dovoljnim dozvolama dodeljenim, omogućeno je čitanje lokalnih administratorskih šifara.
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -199,10 +199,10 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-U trenutnim prozorima taj Bypass neće raditi, ali možete koristiti [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
+U trenutnom Windows-u taj Bypass neće raditi, ali možete koristiti [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).\
 **Da biste ga kompajlirali, možda će vam biti potrebno** **dodati referencu** -> _Pretraži_ -> _Pretraži_ -> dodajte `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` i **promenite projekat na .Net4.5**.
 
-#### Direktni Bypass:
+#### Direktni bypass:
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
@@ -238,9 +238,9 @@ Više informacija možete pronaći [ovde](https://blog.netspi.com/15-ways-to-byp
 
 ## Interfejs za podršku sigurnosnog provajdera (SSPI)
 
-Je API koji se može koristiti za autentifikaciju korisnika.
+To je API koji se može koristiti za autentifikaciju korisnika.
 
-SSPI će biti zadužen za pronalaženje odgovarajućeg protokola za dve mašine koje žele da komuniciraju. Preferirana metoda za ovo je Kerberos. Zatim će SSPI pregovarati o tome koji će autentifikacioni protokol biti korišćen, ovi autentifikacioni protokoli se nazivaju Provajderi podrške za sigurnost (SSP), nalaze se unutar svake Windows mašine u obliku DLL-a i obe mašine moraju podržavati isti kako bi mogle da komuniciraju.
+SSPI će biti zadužen za pronalaženje odgovarajućeg protokola za dve mašine koje žele da komuniciraju. Preferirana metoda za ovo je Kerberos. Zatim će SSPI pregovarati o tome koji će autentifikacioni protokol biti korišćen, ovi autentifikacioni protokoli se nazivaju Provajderi podrške za sigurnost (SSP), nalaze se unutar svake Windows mašine u obliku DLL datoteka i obe mašine moraju podržavati isti da bi mogle da komuniciraju.
 
 ### Glavni SSP-ovi
 
@@ -248,27 +248,27 @@ SSPI će biti zadužen za pronalaženje odgovarajućeg protokola za dve mašine 
 * %windir%\Windows\System32\kerberos.dll
 * **NTLMv1** i **NTLMv2**: Iz razloga kompatibilnosti
 * %windir%\Windows\System32\msv1\_0.dll
-* **Digest**: Veb serveri i LDAP, lozinka u obliku MD5 heša
+* **Digest**: Web serveri i LDAP, lozinka u obliku MD5 heša
 * %windir%\Windows\System32\Wdigest.dll
 * **Schannel**: SSL i TLS
 * %windir%\Windows\System32\Schannel.dll
-* **Negotiate**: Koristi se za pregovaranje o protokolu koji će se koristiti (Kerberos ili NTLM pri čemu je Kerberos podrazumevani)
+* **Negotiate**: Koristi se za pregovaranje o protokolu koji će se koristiti (Kerberos ili NTLM, pri čemu je Kerberos podrazumevani)
 * %windir%\Windows\System32\lsasrv.dll
 
 #### Pregovaranje može ponuditi nekoliko metoda ili samo jednu.
 
 ## UAC - Kontrola korisničkog naloga
 
-[Kontrola korisničkog naloga (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) je funkcija koja omogućava **zahtev za pristanak za povišene aktivnosti**.
+[Kontrola korisničkog naloga (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) je funkcija koja omogućava **prozor za pristanak za povišene aktivnosti**.
 
 {% content-ref url="uac-user-account-control.md" %}
 [uac-user-account-control.md](uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako kreirate i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -283,7 +283,7 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 

@@ -8,19 +8,19 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Provera BSSID-ova
 
-Kada dobijete snimak čiji je glavni saobraćaj Wifi, koristeći WireShark možete početi istraživanje svih SSID-ova snimka sa _Wireless --> WLAN Traffic_:
+Kada primite snimak čiji je glavni saobraćaj Wifi koristeći WireShark, možete početi istraživati sve SSID-ove snimka sa _Wireless --> WLAN Traffic_:
 
-![](<../../../.gitbook/assets/image (103).png>)
+![](<../../../.gitbook/assets/image (106).png>)
 
-![](<../../../.gitbook/assets/image (489).png>)
+![](<../../../.gitbook/assets/image (492).png>)
 
 ### Brute Force
 
@@ -30,23 +30,23 @@ aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
 ## Podaci u Bitovima / Bočni Kanal
 
-Ako sumnjate da **podaci cure unutar bitova Wi-Fi mreže**, možete proveriti bitove mreže koristeći filter poput sledećeg: `wlan contains <IMEmreže>`, ili `wlan.ssid == "IMEmreže"` tražite sumnjive niske unutar filtriranih paketa.
+Ako sumnjate da **podaci cure unutar bitova Wi-Fi mreže** možete proveriti bitove mreže koristeći filter poput sledećeg: `wlan contains <IMEmreže>`, ili `wlan.ssid == "IMEmreže"` pretražite filtrirane pakete za sumnjive niske.
 
 ## Pronalaženje Nepoznatih MAC Adresa u Wi-Fi Mreži
 
-Sledeći link će biti koristan za pronalaženje **mašina koje šalju podatke unutar Wi-Fi mreže**:
+Sledeći link će biti koristan za pronalaženje **mašina koje šalju podatke unutar Wi-Fi Mreže**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
 Ako već znate **MAC adrese, možete ih ukloniti iz rezultata** dodavanjem provera poput ove: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Kada otkrijete **nepoznate MAC** adrese koje komuniciraju unutar mreže, možete koristiti **filtre** poput sledećeg: `wlan.addr==<MAC adresa> && (ftp || http || ssh || telnet)` da biste filtrirali njen saobraćaj. Imajte na umu da su ftp/http/ssh/telnet filteri korisni ako ste dešifrovali saobraćaj.
+Kada otkrijete **nepoznate MAC** adrese koje komuniciraju unutar mreže, možete koristiti **filtere** poput sledećeg: `wlan.addr==<MAC adresa> && (ftp || http || ssh || telnet)` da filtrirate njen saobraćaj. Imajte na umu da su ftp/http/ssh/telnet filteri korisni ako ste dešifrovali saobraćaj.
 
 ## Dekriptovanje Saobraćaja
 
 Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
-![](<../../../.gitbook/assets/image (496).png>)
+![](<../../../.gitbook/assets/image (499).png>)
 
 <details>
 
@@ -54,7 +54,7 @@ Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

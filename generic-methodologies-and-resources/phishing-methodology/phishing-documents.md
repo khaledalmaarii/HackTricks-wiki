@@ -1,14 +1,14 @@
-# Fajlovi i Dokumenti za Ribarenje
+# Phishing Fajlovi & Dokumenti
 
 <details>
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** me na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova u** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -26,18 +26,18 @@ assoc | findstr /i "word excel powerp"
 ```
 ### Eksterni Učitavanje Slike
 
-Idi na: _Umetanje --> Brze delove --> Polje_\
-_**Kategorije**: Linkovi i Reference, **Nazivi polja**: includePicture, i **Naziv fajla ili URL**:_ http://\<ip>/bilošta
+Idi na: _Umetanje --> Brze Delove --> Polje_\
+_**Kategorije**: Linkovi i Reference, **Nazivi Polja**: includePicture, i **Naziv Fajla ili URL**:_ http://\<ip>/bilošta
 
-![](<../../.gitbook/assets/image (152).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
-### Makroi Pozadinska Vrata
+### Makro Pozadinska Vrata
 
 Moguće je koristiti makroe za pokretanje proizvoljnog koda iz dokumenta.
 
 #### Autoload funkcije
 
-Što su češći, to je veća verovatnoća da će ih AV otkriti.
+Što su češće, to je veća verovatnoća da će ih AV detektovati.
 
 * AutoOpen()
 * Document\_Open()
@@ -79,7 +79,7 @@ Idite na **File > Info > Inspect Document > Inspect Document**, što će otvorit
 #### Doc Ekstenzija
 
 Kada završite, izaberite opciju **Save as type**, promenite format sa **`.docx`** na **Word 97-2003 `.doc`**.\
-Ovo uradite jer **ne možete sačuvati makroe unutar `.docx`** i postoji **stigma** oko ekstenzije sa makroima **`.docm`** (npr. ikona sličica ima veliko `!` i neki web/email gateway ih potpuno blokiraju). Zbog toga je **ovaj stariji `.doc` format najbolji kompromis**.
+Ovo radite jer **ne možete sačuvati makroe unutar `.docx`** i postoji **stigma** oko ekstenzije sa makroima **`.docm`** (npr. ikona sličica ima veliko `!` i neki web/email gateway ih potpuno blokiraju). Zato je **ova zastarela `.doc` ekstenzija najbolji kompromis**.
 
 #### Generatori zlonamernih makroa
 
@@ -148,7 +148,7 @@ self.close
 ```
 ## Prisiljavanje NTLM autentikacije
 
-Postoje nekoliko načina da se **prisili NTLM autentikacija "na daljinu"**, na primer, možete dodati **nevidljive slike** u e-poštu ili HTML koje će korisnik pristupiti (čak i HTTP MitM?). Ili poslati žrtvi **adresu datoteka** koje će **pokrenuti** **autentikaciju** samo za **otvaranje fascikle.**
+Postoje nekoliko načina da **prisilite NTLM autentikaciju "na daljinu"**, na primer, možete dodati **nevidljive slike** u e-poštu ili HTML koje će korisnik pristupiti (čak i HTTP MitM?). Ili poslati žrtvi **adresu datoteka** koje će **pokrenuti** **autentikaciju** samo za **otvaranje fascikle.**
 
 **Proverite ove ideje i još mnogo toga na sledećim stranicama:**
 
@@ -162,7 +162,7 @@ Postoje nekoliko načina da se **prisili NTLM autentikacija "na daljinu"**, na p
 
 ### NTLM Prenos
 
-Ne zaboravite da ne samo da možete ukrasti heš ili autentikaciju već i **izvršiti napade prenosa NTLM-a**:
+Ne zaboravite da ne možete samo ukrasti heš ili autentikaciju već i **izvršiti napade prenosa NTLM-a**:
 
 * [**Napadi prenosa NTLM-a**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
 * [**AD CS ESC8 (NTLM prenos na sertifikate)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
@@ -171,10 +171,10 @@ Ne zaboravite da ne samo da možete ukrasti heš ili autentikaciju već i **izvr
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF-u**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova u** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

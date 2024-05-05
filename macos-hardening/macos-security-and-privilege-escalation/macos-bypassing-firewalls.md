@@ -1,4 +1,4 @@
-# Bypassovanje macOS Firewall-a
+# Bajpasiranje Firewall-a na macOS-u
 
 <details>
 
@@ -18,37 +18,37 @@ Drugi načini podrške HackTricks-u:
 
 Navedene tehnike su pronađene da funkcionišu u nekim macOS firewall aplikacijama.
 
-### Zloupotreba imena na whitelisti
+### Zloupotreba imena na beloj listi
 
-* Na primer, nazivanje malvera imenima poznatih macOS procesa poput **`launchd`**
+* Na primer nazivanje malvera imenima dobro poznatih macOS procesa poput **`launchd`**
 
 ### Sintetički Klik
 
 * Ako firewall zatraži dozvolu od korisnika, naterajte malver da **klikne na dozvolu**
 
-### **Korišćenje Apple potpisanih binarnih fajlova**
+### **Koristite Apple potpisane binarne datoteke**
 
 * Poput **`curl`**, ali i drugih poput **`whois`**
 
 ### Dobro poznati Apple domeni
 
-Firewall može dozvoljavati konekcije ka dobro poznatim Apple domenima poput **`apple.com`** ili **`icloud.com`**. iCloud bi mogao biti korišćen kao C2.
+Firewall bi mogao dozvoljavati konekcije ka dobro poznatim Apple domenima poput **`apple.com`** ili **`icloud.com`**. iCloud bi mogao biti korišćen kao C2.
 
-### Generički Bypass
+### Generički Bajpas
 
-Neke ideje za pokušaj zaobilaženja firewall-a
+Neke ideje za pokušaj obilaženja firewall-a
 
 ### Provera dozvoljenog saobraćaja
 
-Znanje o dozvoljenom saobraćaju će vam pomoći da identifikujete potencijalno belistane domene ili koje aplikacije imaju dozvolu da im pristupe
+Znanje o dozvoljenom saobraćaju će vam pomoći da identifikujete potencijalno beloliste domene ili koje aplikacije imaju dozvolu za pristup istima
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Zloupotreba DNS-a
 
-DNS rezolucije se vrše putem **`mdnsreponder`** potpisane aplikacije koja će verovatno biti dozvoljena da kontaktira DNS servere.
+DNS rezolucije se vrše putem potpisanog aplikacije **`mdnsreponder`** koja će verovatno biti dozvoljena da kontaktira DNS servere.
 
-<figure><img src="../../.gitbook/assets/image (464).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
 ### Putem aplikacija pregledača
 
@@ -95,7 +95,7 @@ Ako možete **ubaciti kod u proces** koji je dozvoljen da se poveže sa bilo koj
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

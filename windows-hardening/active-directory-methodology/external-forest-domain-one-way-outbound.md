@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -42,7 +42,7 @@ MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=F
 ```
 ## Napad na nalog poverenja
 
-Postoji sigurnosna ranjivost kada se uspostavi poverenje između dva domena, ovde identifikovanih kao domen **A** i domen **B**, gde domen **B** proširuje svoje poverenje na domen **A**. U ovom postavci, poseban nalog se kreira u domenu **A** za domen **B**, koji igra ključnu ulogu u procesu autentifikacije između ova dva domena. Ovaj nalog, povezan sa domenom **B**, koristi se za enkripciju karata za pristup uslugama preko domena.
+Postoji sigurnosna ranjivost kada se uspostavi poverenje između dva domena, identifikovana ovde kao domen **A** i domen **B**, gde domen **B** proširuje svoje poverenje na domen **A**. U ovom postavci, poseban nalog se kreira u domenu **A** za domen **B**, koji igra ključnu ulogu u procesu autentifikacije između ova dva domena. Ovaj nalog, povezan sa domenom **B**, koristi se za enkripciju karata za pristup uslugama preko domena.
 
 Ključno je razumeti da se lozinka i heš ovog posebnog naloga mogu izvući sa kontrolera domena u domenu **A** korišćenjem alata komandne linije. Komanda za izvođenje ove radnje je:
 ```powershell
@@ -52,7 +52,7 @@ Ova ekstrakcija je moguća jer je nalog, identifikovan sa **$** nakon svog imena
 
 **Upozorenje:** Moguće je iskoristiti ovu situaciju kako bi se stekao oslonac u domenu **A** kao korisnik, iako sa ograničenim dozvolama. Međutim, ovaj pristup je dovoljan za sprovođenje enumeracije na domenu **A**.
 
-U scenariju gde je `ext.local` domen koji veruje i `root.local` je povereni domen, korisnički nalog nazvan `EXT$` bi bio kreiran unutar `root.local`. Kroz određene alate, moguće je izvršiti iskopavanje Kerberos ključeva poverenja, otkrivajući akreditive `EXT$` u `root.local`. Komanda za postizanje ovoga je:
+U scenariju gde je `ext.local` domen koji veruje, a `root.local` je poverljivi domen, korisnički nalog nazvan `EXT$` bi bio kreiran unutar `root.local`. Kroz specifične alate, moguće je izvršiti iskopavanje Kerberos ključeva poverenja, otkrivajući akreditive `EXT$` u `root.local`. Komanda za postizanje ovoga je:
 ```bash
 lsadump::trust /patch
 ```
@@ -60,7 +60,7 @@ Nakon toga, moglo bi se koristiti izvučeni RC4 ključ za autentifikaciju kao `r
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Ovaj korak autentifikacije otvara mogućnost za enumeraciju i čak eksploataciju servisa unutar `root.local`, kao što je izvođenje Kerberoast napada radi izvlačenja kredencijala servisnog naloga korišćenjem:
+Ovaj korak autentifikacije otvara mogućnost za numerisanje čak i eksploataciju servisa unutar `root.local`, poput izvođenja Kerberoast napada radi izvlačenja kredencijala servisnog naloga korišćenjem:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
@@ -68,15 +68,15 @@ Ovaj korak autentifikacije otvara mogućnost za enumeraciju i čak eksploataciju
 
 U prethodnom toku korišćen je heš poverenja umesto **lozinke u čistom tekstu** (koja je takođe **izvučena pomoću alata mimikatz**).
 
-Lozinka u čistom tekstu može se dobiti konvertovanjem izlaza \[ CLEAR ] iz mimikatz-a iz heksadecimalnog oblika i uklanjanjem nultih bajtova ‘\x00’:
+Lozinka u čistom tekstu može se dobiti konvertovanjem izlaza \[ CLEAR ] iz alata mimikatz iz heksadecimalnog oblika i uklanjanjem nultih bajtova ‘\x00’:
 
-![](<../../.gitbook/assets/image (935).png>)
+![](<../../.gitbook/assets/image (938).png>)
 
-Ponekad prilikom kreiranja poverenja, korisnik mora uneti lozinku za poverenje. U ovom prikazu, ključ je originalna lozinka poverenja i stoga je čitljiva čoveku. Kako ključ rotira (svakih 30 dana), lozinka u čistom tekstu neće biti čitljiva čoveku, ali tehnički i dalje upotrebljiva.
+Ponekad prilikom kreiranja poverenja, korisnik mora uneti lozinku za poverenje. U ovom primeru, ključ je originalna lozinka poverenja i stoga je čitljiva čoveku. Kako ključevi rotiraju (svakih 30 dana), lozinka u čistom tekstu neće biti čitljiva čoveku, ali tehnički i dalje upotrebljiva.
 
 Lozinka u čistom tekstu može se koristiti za obavljanje redovne autentifikacije kao nalog poverenja, kao alternativa zahtevanju TGT-a korišćenjem Kerberos tajnog ključa naloga poverenja. Ovde, upit root.local sa ext.local za članove Domain Admins:
 
-![](<../../.gitbook/assets/image (789).png>)
+![](<../../.gitbook/assets/image (792).png>)
 
 ## Reference
 
@@ -88,8 +88,8 @@ Lozinka u čistom tekstu može se koristiti za obavljanje redovne autentifikacij
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks merch**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.

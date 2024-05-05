@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,18 +14,18 @@ Drugi načini podrške HackTricks-u:
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Ako ste zainteresovani za **hakersku karijeru** i hakovanje onoga što se ne može hakovati - **zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika, kako pisano tako i govorno_).
+Ako ste zainteresovani za **hakersku karijeru** i hakovanje onoga što se ne može hakovati - **zapošljavamo!** (_potrebno je tečno poznavanje pisanog i govornog poljskog jezika_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
-## Video snimci
+## Video zapisi
 
-U sledećim video snimcima možete pronaći tehnike pomenute na ovoj stranici objašnjene detaljnije:
+U sledećim video zapisima možete pronaći tehnike pomenute na ovoj stranici objašnjene detaljnije:
 
 * [**DEF CON 31 - Istraživanje manipulacije memorijom Linux-a radi prikrivanja i izbegavanja**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Prikriveni upadi sa DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**Prikriveni proboji sa DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
 ## Scenario samo za čitanje / bez izvršavanja
 
@@ -44,7 +44,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Međutim, čak i ako je fajl sistem montiran kao ro, **`/dev/shm`** će i dalje biti upisiv, tako da nije tačno da ne možemo ništa pisati na disk. Međutim, ovaj folder će biti **montiran sa zaštitom bez izvršavanja**, pa ako ovde preuzmete binarni fajl, **nećete moći da ga izvršite**.
+Međutim, čak i ako je fajl sistem montiran kao samo za čitanje, **`/dev/shm`** će i dalje biti upisiv, tako da nije istina da ne možemo ništa zapisati na disk. Međutim, ovaj folder će biti **montiran sa zaštitom bez izvršavanja**, pa ako preuzmete binarni fajl ovde, **nećete moći da ga izvršite**.
 
 {% hint style="warning" %}
 Sa perspektive crvenog tima, ovo otežava **preuzimanje i izvršavanje** binarnih fajlova koji već nisu u sistemu (kao što su backdoor-ovi ili enumeratori poput `kubectl`).
@@ -52,29 +52,29 @@ Sa perspektive crvenog tima, ovo otežava **preuzimanje i izvršavanje** binarni
 
 ## Najlakše zaobilaženje: Skripte
 
-Imajte na umu da sam spomenuo binarne fajlove, možete **izvršiti bilo koju skriptu** sve dok je interpretator unutar mašine, poput **shell skripte** ako je `sh` prisutan ili **python skripte** ako je instaliran `python`.
+Imajte na umu da sam spomenuo binarne fajlove, možete **izvršiti bilo koju skriptu** sve dok je interpretator unutar mašine, poput **shell skripte** ako je `sh` prisutan ili **python** **skripte** ako je instaliran `python`.
 
-Međutim, ovo nije dovoljno da biste izvršili vaš binarni backdoor ili druge binarne alate koje možda treba pokrenuti.
+Međutim, ovo nije dovoljno samo za izvršavanje vašeg binarnog backdoor-a ili drugih binarnih alata koje možda treba pokrenuti.
 
 ## Zaobilazak memorije
 
-Ako želite da izvršite binarni fajl, ali fajl sistem to ne dozvoljava, najbolji način je da to uradite **iz memorije**, jer se **zaštite ne primenjuju tamo**.
+Ako želite da izvršite binarni fajl, ali fajl sistem to ne dozvoljava, najbolji način da to uradite je **izvršavanje iz memorije**, jer se **zaštite ne primenjuju tamo**.
 
 ### FD + zaobilazak exec syscall-a
 
 Ako imate moćne skriptne motore unutar mašine, poput **Python-a**, **Perla** ili **Ruby-ja**, možete preuzeti binarni fajl za izvršavanje iz memorije, sačuvati ga u deskriptoru fajla u memoriji (`create_memfd` syscall), što neće biti zaštićeno tim zaštitama, a zatim pozvati **`exec` syscall** navodeći **fd kao fajl za izvršavanje**.
 
-Za ovo možete lako koristiti projekat [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Možete mu proslediti binarni fajl i on će generisati skriptu na naznačenom jeziku sa **binarnim fajlom kompresovanim i b64 enkodiranim** sa instrukcijama za **dekodiranje i dekompresovanje** u **fd** kreiranom pozivom `create_memfd` syscall-a i pozivom **exec** syscall-a za pokretanje.
+Za ovo možete lako koristiti projekat [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Možete mu proslediti binarni fajl i on će generisati skriptu na naznačenom jeziku sa **binarnim fajlom kompresovanim i b64 enkodiranim** sa instrukcijama za **dekodiranje i dekompresovanje** u **fd** kreiran pozivom `create_memfd` syscall-a i poziv **exec** syscall-a za pokretanje.
 
 {% hint style="warning" %}
 Ovo ne funkcioniše u drugim skriptnim jezicima poput PHP-a ili Node-a jer nemaju **podrazumevan način pozivanja sirovih syscalls** iz skripte, tako da nije moguće pozvati `create_memfd` da kreirate **memorijski fd** za čuvanje binarnog fajla.
 
-Osim toga, kreiranje **regularnog fd-a** sa fajlom u `/dev/shm` neće raditi, jer vam neće biti dozvoljeno da ga pokrenete zbog primene **zaštite bez izvršavanja**.
+Osim toga, kreiranje **regularnog fd** sa fajlom u `/dev/shm` neće raditi, jer vam neće biti dozvoljeno da ga pokrenete zbog primene **zaštite bez izvršavanja**.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) je tehnika koja vam omogućava da **modifikujete memoriju vašeg sopstvenog procesa** tako što ćete prebrisati njegov **`/proc/self/mem`**.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) je tehnika koja vam omogućava da **modifikujete memoriju vašeg sopstvenog procesa** tako što ćete prepisati njegov **`/proc/self/mem`**.
 
 Stoga, **kontrolišući asemblerski kod** koji se izvršava od strane procesa, možete napisati **shellcode** i "mutirati" proces da **izvrši bilo koji proizvoljni kod**.
 
@@ -111,13 +111,13 @@ Cilj distroless kontejnera je **smanjenje površine napada kontejnera eliminisan
 
 ### Reverse Shell
 
-U distroless kontejneru možda **nećete čak ni pronaći `sh` ili `bash`** da biste dobili običnu ljusku. Takođe nećete pronaći binarne fajlove poput `ls`, `whoami`, `id`... sve što obično pokrećete na sistemu.
+U distroless kontejneru možda **nećete pronaći `sh` ili `bash`** da biste dobili običnu ljusku. Takođe nećete pronaći binarne fajlove poput `ls`, `whoami`, `id`... sve što obično pokrećete na sistemu.
 
 {% hint style="warning" %}
 Stoga, **nećete** moći dobiti **reverse shell** ili **enumerisati** sistem kao što obično radite.
 {% endhint %}
 
-Međutim, ako kompromitovani kontejner pokreće na primer flask veb, tada je instaliran python, i stoga možete dobiti **Python reverse shell**. Ako pokreće node, možete dobiti Node rev shell, i isto važi za većinu **skriptnih jezika**.
+Međutim, ako kompromitovani kontejner pokreće na primer flask veb, tada je instaliran python, i stoga možete dobiti **Python reverse shell**. Ako pokreće node, možete dobiti Node rev šel, i isto važi za većinu **skriptnih jezika**.
 
 {% hint style="success" %}
 Korišćenjem skriptnog jezika možete **enumerisati sistem** koristeći mogućnosti jezika.
@@ -131,9 +131,9 @@ Međutim, u ovakvim kontejnerima ove zaštite obično postoje, ali možete koris
 
 Možete pronaći **primere** kako **iskoristiti neke RCE ranjivosti** da biste dobili **reverse shell-ove skriptnih jezika** i izvršili binarne fajlove iz memorije na [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Ako ste zainteresovani za **hakersku karijeru** i hakovanje neuhvatljivog - **zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika u pisanju i govoru_).
+Ako ste zainteresovani za **hakersku karijeru** i hakovanje neuhvatljivog - **zapošljavamo!** (_potrebno je tečno poznavanje poljskog jezika u pismu i govoru_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -143,9 +143,9 @@ Ako ste zainteresovani za **hakersku karijeru** i hakovanje neuhvatljivog - **za
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite videti svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzeti HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
