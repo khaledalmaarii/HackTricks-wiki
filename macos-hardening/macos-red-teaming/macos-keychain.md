@@ -7,41 +7,41 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to silnik wyszukiwania zasilany **dark webem**, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+[**WhiteIntel**](https://whiteintel.io) to **dark-web**-owy silnik wyszukiwania, który oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz odwiedzić ich stronę i wypróbować ich silnik **za darmo** pod adresem:
+Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
-## Główne Schowki
+## Główne Keychainy
 
-* **Schowek Użytkownika** (`~/Library/Keychains/login.keycahin-db`), który służy do przechowywania **danych uwierzytelniających specyficznych dla użytkownika**, takich jak hasła do aplikacji, hasła internetowe, certyfikaty wygenerowane przez użytkownika, hasła sieciowe oraz klucze publiczne/prywatne wygenerowane przez użytkownika.
-* **Schowek Systemowy** (`/Library/Keychains/System.keychain`), który przechowuje **dane uwierzytelniające na poziomie systemowym**, takie jak hasła WiFi, certyfikaty root systemu, prywatne klucze systemowe oraz hasła aplikacji systemowych.
+* **Keychain użytkownika** (`~/Library/Keychains/login.keycahin-db`), który służy do przechowywania **danych uwierzytelniających specyficznych dla użytkownika**, takich jak hasła do aplikacji, hasła internetowe, certyfikaty generowane przez użytkownika, hasła sieciowe oraz klucze publiczne/prywatne generowane przez użytkownika.
+* **Keychain systemowy** (`/Library/Keychains/System.keychain`), który przechowuje **dane uwierzytelniające na poziomie systemowym**, takie jak hasła WiFi, certyfikaty root systemu, prywatne klucze systemowe oraz hasła aplikacji systemowych.
 
-### Dostęp do Hasła w Schowku
+### Dostęp do Keychaina z Hasłami
 
 Te pliki, mimo że nie posiadają wbudowanej ochrony i mogą być **pobrane**, są szyfrowane i wymagają **czystego tekstu hasła użytkownika do odszyfrowania**. Narzędzie takie jak [**Chainbreaker**](https://github.com/n0fate/chainbreaker) może być użyte do odszyfrowania.
 
-## Ochrona Pozycji w Schowku
+## Ochrona Pozycji w Keychainie
 
-### Listy Kontroli Dostępu (ACLs)
+### ACLs
 
-Każda pozycja w schowku jest regulowana przez **Listy Kontroli Dostępu (ACLs)**, które określają, kto może wykonywać różne czynności na pozycji w schowku, w tym:
+Każda pozycja w keychainie jest regulowana przez **listy kontroli dostępu (ACLs)**, które określają, kto może wykonywać różne czynności na pozycji w keychainie, w tym:
 
 * **ACLAuhtorizationExportClear**: Pozwala posiadaczowi uzyskać czysty tekst tajemnicy.
 * **ACLAuhtorizationExportWrapped**: Pozwala posiadaczowi uzyskać zaszyfrowany czysty tekst za pomocą innego podanego hasła.
@@ -49,7 +49,7 @@ Każda pozycja w schowku jest regulowana przez **Listy Kontroli Dostępu (ACLs)*
 
 ACLs są dodatkowo wspierane przez **listę zaufanych aplikacji**, które mogą wykonywać te czynności bez prośby o zgodę. Mogą to być:
 
-* &#x20;**N`il`** (brak wymaganej autoryzacji, **każdy jest zaufany**)
+* **N`il`** (nie wymagana autoryzacja, **każdy jest zaufany**)
 * Pusta lista (**nikt nie jest zaufany**)
 * **Lista** konkretnych **aplikacji**.
 
@@ -59,25 +59,25 @@ Pozycja może również zawierać klucz **`ACLAuthorizationPartitionID`,** któr
 * Jeśli określono **apple**, to aplikacja musi być **podpisana** przez **Apple**.
 * Jeśli wskazano **cdhash**, to **aplikacja** musi mieć określony **cdhash**.
 
-### Tworzenie Pozycji w Schowku
+### Tworzenie Pozycji w Keychainie
 
 Gdy **nowa** **pozycja** jest tworzona za pomocą **`Keychain Access.app`**, obowiązują następujące zasady:
 
 * Wszystkie aplikacje mogą szyfrować.
-* **Żadna aplikacja** nie może eksportować/odszyfrować (bez prośby użytkownika).
+* **Żadna aplikacja** nie może eksportować/odszyfrowywać (bez prośby użytkownika).
 * Wszystkie aplikacje mogą zobaczyć sprawdzenie integralności.
 * Żadna aplikacja nie może zmieniać ACLs.
 * **partitionID** jest ustawione na **`apple`**.
 
-Gdy **aplikacja tworzy pozycję w schowku**, zasady są nieco inne:
+Gdy **aplikacja tworzy pozycję w keychainie**, zasady są nieco inne:
 
 * Wszystkie aplikacje mogą szyfrować.
-* Tylko **tworząca aplikacja** (lub inne aplikacje dodane explicite) mogą eksportować/odszyfrować (bez prośby użytkownika).
+* Tylko **tworząca aplikacja** (lub inne aplikacje dodane explicite) mogą eksportować/odszyfrowywać (bez prośby użytkownika).
 * Wszystkie aplikacje mogą zobaczyć sprawdzenie integralności.
 * Żadna aplikacja nie może zmieniać ACLs.
 * **partitionID** jest ustawione na **`teamid:[teamID tutaj]`**.
 
-## Dostęp do Schowka
+## Dostęp do Keychaina
 
 ### `security`
 ```bash
@@ -93,21 +93,21 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### Interfejsy programowania aplikacji
 
 {% hint style="success" %}
-**Wyliczenie i wyciek** tajemnic z **keychaina**, które **nie generują monitu**, można wykonać za pomocą narzędzia [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**Wyliczanie i wyciek** tajemnic z **keychaina**, które **nie generują monitu**, można wykonać za pomocą narzędzia [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
 Lista i uzyskanie **informacji** o każdym wpisie w keychainie:
 
-* Interfejs programowania aplikacji **`SecItemCopyMatching`** udostępnia informacje o każdym wpisie, a podczas korzystania z niego można ustawić kilka atrybutów:
-* **`kSecReturnData`**: Jeśli jest ustawione na true, spróbuje zdekodować dane (ustaw na false, aby uniknąć potencjalnych okienek)
-* **`kSecReturnRef`**: Uzyskaj również odniesienie do elementu keychaina (ustaw na true, jeśli później zauważysz, że możesz zdekodować bez okienka)
+* API **`SecItemCopyMatching`** udziela informacji o każdym wpisie, a przy jego użyciu można ustawić kilka atrybutów:
+* **`kSecReturnData`**: Jeśli jest ustawione na true, spróbuje odszyfrować dane (ustaw na false, aby uniknąć potencjalnych okienek)
+* **`kSecReturnRef`**: Uzyskaj również odniesienie do elementu keychaina (ustaw na true, jeśli później zauważysz, że możesz odszyfrować bez okienka)
 * **`kSecReturnAttributes`**: Uzyskaj metadane dotyczące wpisów
 * **`kSecMatchLimit`**: Ile wyników zwrócić
 * **`kSecClass`**: Jaki rodzaj wpisu w keychainie
 
 Uzyskaj **ACL** każdego wpisu:
 
-* Za pomocą interfejsu programowania aplikacji **`SecAccessCopyACLList`** można uzyskać **ACL dla elementu keychaina**, który zwróci listę ACL (takich jak `ACLAuhtorizationExportClear` i inne wcześniej wspomniane), gdzie każda lista zawiera:
+* Za pomocą API **`SecAccessCopyACLList`** można uzyskać **ACL dla elementu keychaina**, który zwróci listę ACL (takich jak `ACLAuhtorizationExportClear` i inne wcześniej wspomniane), gdzie każda lista zawiera:
 * Opis
 * **Lista zaufanych aplikacji**. Może to być:
 * Aplikacja: /Applications/Slack.app
@@ -116,31 +116,31 @@ Uzyskaj **ACL** każdego wpisu:
 
 Eksportuj dane:
 
-* Interfejs programowania aplikacji **`SecKeychainItemCopyContent`** pobiera tekst jawny
-* Interfejs programowania aplikacji **`SecItemExport`** eksportuje klucze i certyfikaty, ale może być konieczne ustawienie haseł do zaszyfrowania eksportowanych treści
+* API **`SecKeychainItemCopyContent`** pobiera tekst jawny
+* API **`SecItemExport`** eksportuje klucze i certyfikaty, ale może być konieczne ustawienie haseł do zaszyfrowania eksportowanych treści
 
-A oto **wymagania**, aby móc **eksportować tajemnicę bez monitu**:
+A oto **wymagania**, aby móc **wyeksportować tajemnicę bez monitu**:
 
-* Jeśli jest **1+ zaufanych** aplikacji wymienionych:
+* Jeśli jest **1 lub więcej zaufanych** aplikacji wymienionych:
 * Potrzebne są odpowiednie **uprawnienia** (**`Nil`**, lub być **częścią** listy dozwolonych aplikacji w autoryzacji dostępu do informacji o tajemnicy)
-* Kod musi pasować do **PartitionID**
-* Kod musi pasować do tego samego co kod jednej **zaufanej aplikacji** (lub być członkiem odpowiedniej grupy KeychainAccessGroup)
+* Wymagane jest dopasowanie sygnatury kodu do **PartitionID**
+* Wymagane jest dopasowanie sygnatury kodu do sygnatury jednej **zaufanej aplikacji** (lub być członkiem odpowiedniej grupy KeychainAccessGroup)
 * Jeśli **wszystkie aplikacje są zaufane**:
 * Potrzebne są odpowiednie **uprawnienia**
-* Kod musi pasować do **PartitionID**
+* Wymagane jest dopasowanie sygnatury kodu do **PartitionID**
 * Jeśli **brak PartitionID**, to nie jest to wymagane
 
 {% hint style="danger" %}
 Dlatego jeśli jest **wymieniona 1 aplikacja**, musisz **wstrzyknąć kod w tę aplikację**.
 
-Jeśli jest wskazane **apple** w **partitionID**, można uzyskać do niego dostęp za pomocą **`osascript`**, więc wszystko, co ufa wszystkim aplikacjom z apple w partitionID. Można również użyć **`Pythona`** do tego.
+Jeśli w **PartitionID** wskazane jest **apple**, można uzyskać do niego dostęp za pomocą **`osascript`**, więc wszystko, co ufa wszystkim aplikacjom z apple w PartitionID. **`Python`** również może być używany do tego.
 {% endhint %}
 
 ### Dwa dodatkowe atrybuty
 
 * **Niewidoczny**: Jest to flaga logiczna do **ukrycia** wpisu z aplikacji **UI** Keychain
 * **Ogólny**: Służy do przechowywania **metadanych** (więc NIE JEST SZYFROWANY)
-* Microsoft przechowywał w postaci zwykłego tekstu wszystkie tokeny odświeżania do dostępu do wrażliwych punktów końcowych.
+* Firma Microsoft przechowywała w postaci zwykłego tekstu wszystkie tokeny odświeżania do dostępu do wrażliwych punktów końcowych.
 
 ## Odnośniki
 
@@ -148,11 +148,11 @@ Jeśli jest wskazane **apple** w **partitionID**, można uzyskać do niego dost�
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące informacje**.
 
-Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
 Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
@@ -167,7 +167,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

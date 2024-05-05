@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -26,13 +26,13 @@ Poniższe techniki zostały znalezione działające w niektórych aplikacjach za
 
 * Jeśli zapora prosi użytkownika o zgodę, złośliwe oprogramowanie może **kliknąć na zezwolenie**
 
-### **Użyj podpisanych binariów Apple**
+### **Używanie podpisanych binariów Apple**
 
-* Takich jak **`curl`**, ale także inne, takie jak **`whois`**
+* Takich jak **`curl`**, ale także innych, takich jak **`whois`**
 
 ### Znane domeny Apple
 
-Zapora może zezwalać na połączenia z znanymi domenami Apple, takimi jak **`apple.com`** lub **`icloud.com`**. A iCloud może być używany jako C2.
+Zapora może zezwalać na połączenia z znanymi domenami Apple, takimi jak **`apple.com`** lub **`icloud.com`**. I iCloud może być używany jako C2.
 
 ### Ogólne Bypassowanie
 
@@ -40,17 +40,17 @@ Kilka pomysłów na próbę obejścia zapór sieciowych
 
 ### Sprawdź dozwolony ruch
 
-Znajomość dozwolonego ruchu pomoże Ci zidentyfikować potencjalnie uwzględnione na białej liście domeny lub aplikacje, które mają do nich dostęp.
+Znajomość dozwolonego ruchu pomoże Ci zidentyfikować potencjalnie domeny na białej liście lub aplikacje, które mają do nich dostęp
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Nadużywanie DNS
 
-Rozdzielanie DNS odbywa się za pomocą podpisanego aplikacji **`mdnsreponder`**, która prawdopodobnie będzie miała zezwolenie na kontakt z serwerami DNS.
+Rozdzielanie DNS odbywa się za pomocą podpisanego aplikacji **`mdnsreponder`**, która prawdopodobnie będzie mogła nawiązać kontakt z serwerami DNS.
 
-<figure><img src="../../.gitbook/assets/image (464).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Poprzez aplikacje przeglądarki
+### Za pomocą aplikacji przeglądarki
 
 * **oascript**
 ```applescript
@@ -91,14 +91,14 @@ Jeśli możesz **wstrzyknąć kod do procesu**, który ma zezwolenie na połącz
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>

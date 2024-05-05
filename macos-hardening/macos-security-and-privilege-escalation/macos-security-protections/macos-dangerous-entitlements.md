@@ -1,4 +1,4 @@
-# macOS Niebezpieczne Uprawnienia i Uprawnienia TCC
+# macOS Niebezpieczne Uprawnienia i uprawnienia TCC
 
 <details>
 
@@ -10,7 +10,7 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 
@@ -34,7 +34,7 @@ To uprawnienie pozwala uzyskać **port zadania dla dowolnego** procesu, z wyjąt
 
 ### `com.apple.security.get-task-allow`
 
-To uprawnienie pozwala innym procesom z uprawnieniem **`com.apple.security.cs.debugger`** uzyskać port zadania procesu uruchamianego przez binarny plik z tym uprawnieniem i **wstrzykiwać w niego kod**. Sprawdź [**to dla więcej informacji**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+To uprawnienie pozwala innym procesom z uprawnieniem **`com.apple.security.cs.debugger`** uzyskać port zadania procesu uruchamianego przez binarny plik z tym uprawnieniem i **wstrzyknąć w niego kod**. Sprawdź [**to dla więcej informacji**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
@@ -42,16 +42,16 @@ Aplikacje z uprawnieniem Debugging Tool mogą wywołać `task_for_pid()` w celu 
 
 ### `com.apple.security.cs.disable-library-validation`
 
-To uprawnienie pozwala na **ładowanie frameworków, wtyczek lub bibliotek bez podpisywania przez Apple lub podpisywania tym samym identyfikatorem zespołu** co główny plik wykonywalny, więc atakujący mógłby wykorzystać dowolne ładowanie biblioteki do wstrzykiwania kodu. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+To uprawnienie pozwala na **ładowanie frameworków, wtyczek lub bibliotek bez podpisywania przez Apple lub podpisywania tym samym identyfikatorem zespołu** co główny plik wykonywalny, więc atakujący mógłby wykorzystać niektóre arbitralne ładowanie bibliotek do wstrzyknięcia kodu. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-To uprawnienie jest bardzo podobne do **`com.apple.security.cs.disable-library-validation`** ale **zamiast bezpośrednio wyłączać** walidację biblioteki, pozwala procesowi **wywołać wywołanie systemowe `csops` w celu jej wyłączenia**.\
+To uprawnienie jest bardzo podobne do **`com.apple.security.cs.disable-library-validation`** ale **zamiast bezpośrednio wyłączać** walidację bibliotek, pozwala procesowi **wywołać wywołanie systemowe `csops` w celu jej wyłączenia**.\
 Sprawdź [**to dla więcej informacji**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-To uprawnienie pozwala na **używanie zmiennych środowiskowych DYLD**, które mogą być używane do wstrzykiwania bibliotek i kodu. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+To uprawnienie pozwala na **użycie zmiennych środowiskowych DYLD**, które mogą być używane do wstrzykiwania bibliotek i kodu. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` lub `com.apple.rootless.storage`.`TCC`
 
@@ -63,11 +63,11 @@ Te uprawnienia pozwalają na **instalowanie oprogramowania bez pytania o zgodę*
 
 ### `com.apple.private.security.kext-management`
 
-Uprawnienie potrzebne do żądania od **jądra załadowania rozszerzenia jądra**.
+Uprawnienie potrzebne do poproszenia **jądra o załadowanie rozszerzenia jądra**.
 
 ### **`com.apple.private.icloud-account-access`**
 
-Uprawnienie **`com.apple.private.icloud-account-access`** pozwala na komunikację z usługą XPC **`com.apple.iCloudHelper`**, która **dostarcza tokeny iCloud**.
+Uprawnienie **`com.apple.private.icloud-account-access`** pozwala na komunikację z usługą XPC **`com.apple.iCloudHelper`**, która **dostarczy tokeny iCloud**.
 
 **iMovie** i **Garageband** miały to uprawnienie.
 
@@ -79,15 +79,15 @@ TODO: Nie wiem, co to pozwala zrobić
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: W [**tym raporcie**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **wspomniano, że można to wykorzystać do** aktualizacji chronionych zawartości SSV po ponownym uruchomieniu. Jeśli wiesz, jak to zrobić, prześlij PR!
+TODO: W [**tym raporcie**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **wspomniano, że może to być używane do** aktualizacji chronionych zawartości SSV po ponownym uruchomieniu. Jeśli wiesz, jak to zrobić, prześlij PR!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: W [**tym raporcie**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **wspomniano, że można to wykorzystać do** aktualizacji chronionych zawartości SSV po ponownym uruchomieniu. Jeśli wiesz, jak to zrobić, prześlij PR!
+TODO: W [**tym raporcie**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **wspomniano, że może to być używane do** aktualizacji chronionych zawartości SSV po ponownym uruchomieniu. Jeśli wiesz, jak to zrobić, prześlij PR!
 
 ### `keychain-access-groups`
 
-To uprawnienie wymienia grupy **kluczy** do których aplikacja ma dostęp:
+Ta lista uprawnień określa grupy **kluczy** do których ma dostęp aplikacja:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -100,7 +100,7 @@ To uprawnienie wymienia grupy **kluczy** do których aplikacja ma dostęp:
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Nadaje uprawnienia **Pełnego dostępu do dysku**, jedno z najwyższych uprawnień TCC, jakie można uzyskać.
+Daje uprawnienia do **Pełnego dostępu do dysku**, jedno z najwyższych uprawnień TCC, jakie można mieć.
 
 ### **`kTCCServiceAppleEvents`**
 
@@ -114,7 +114,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Lub sprawić, że wykonują **dowolne czynności**.
+lub zmuszając je do **wykonywania dowolnych działań**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
@@ -126,28 +126,28 @@ Pozwala na **zmianę** atrybutu **`NFSHomeDirectory`** użytkownika, co zmienia 
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Pozwala na modyfikację plików wewnątrz pakietów aplikacji (wewnątrz app.app), co jest **domyślnie zabronione**.
+Pozwala na modyfikację plików wewnątrz pakietów aplikacji (wewnątrz app.app), co jest **domyślnie niedozwolone**.
 
-<figure><img src="../../../.gitbook/assets/image (28).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
 Można sprawdzić, kto ma ten dostęp w _Ustawienia systemowe_ > _Prywatność i bezpieczeństwo_ > _Zarządzanie aplikacjami_.
 
 ### `kTCCServiceAccessibility`
 
-Proces będzie mógł **nadużywać funkcje dostępności macOS**, co oznacza, że na przykład będzie mógł naciskać klawisze. Może poprosić o dostęp do kontrolowania aplikacji, takiej jak Finder, i zatwierdzić okno dialogowe z tym uprawnieniem.
+Proces będzie mógł **nadużywać funkcje dostępności macOS**, co oznacza, że na przykład będzie mógł naciskać klawisze. Dlatego mógłby poprosić o dostęp do kontrolowania aplikacji takiej jak Finder i zatwierdzić okno dialogowe z tym uprawnieniem.
 
 ## Średni
 
 ### `com.apple.security.cs.allow-jit`
 
-To uprawnienie pozwala na **tworzenie pamięci, która jest zapisywalna i wykonywalna**, przekazując flagę `MAP_JIT` do funkcji systemowej `mmap()`. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+To uprawnienie pozwala na **tworzenie pamięci, która jest zapisywalna i wykonywalna** poprzez przekazanie flagi `MAP_JIT` do funkcji systemowej `mmap()`. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-To uprawnienie pozwala na **nadpisanie lub łatanie kodu C**, używanie długo przestarzałego **`NSCreateObjectFileImageFromMemory`** (co jest zasadniczo niebezpieczne) lub korzystanie z frameworku **DVDPlayback**. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+To uprawnienie pozwala na **nadpisanie lub łatanie kodu C**, używanie długo przestarzałego **`NSCreateObjectFileImageFromMemory`** (co jest zasadniczo niebezpieczne), lub używanie frameworku **DVDPlayback**. Sprawdź [**to dla więcej informacji**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Uwzględnienie tego uprawnienia narazia Twoją aplikację na powszechne podatności w językach kodu nieszczelnego pamięciowo. Dokładnie rozważ, czy Twoja aplikacja potrzebuje tego wyjątku.
+Uwzględnienie tego uprawnienia narazia Twoją aplikację na powszechne podatności w językach kodu nieszyfrowanego w pamięci. Rozważ dokładnie, czy Twoja aplikacja potrzebuje tej wyjątkowej zgody.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`

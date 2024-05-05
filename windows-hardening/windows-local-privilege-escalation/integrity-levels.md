@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -16,43 +16,43 @@ Inne sposoby wsparcia HackTricks:
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
-Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
 Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Poziomy integralności
 
-W systemach Windows Vista i nowszych, wszystkie chronione elementy posiadają etykietę **poziomu integralności**. Ten układ przypisuje głównie "średni" poziom integralności plikom i kluczom rejestru, z wyjątkiem określonych folderów i plików, do których Internet Explorer 7 może zapisywać na niskim poziomie integralności. Domyślne zachowanie polega na tym, że procesy uruchamiane przez standardowych użytkowników mają średni poziom integralności, podczas gdy usługi zazwyczaj działają na poziomie integralności systemu. Etykieta wysokiej integralności chroni katalog główny.
+W systemach Windows Vista i nowszych, wszystkie chronione elementy posiadają etykietę **poziomu integralności**. Ten układ przypisuje głównie "średni" poziom integralności plikom i kluczom rejestru, z wyjątkiem określonych folderów i plików, do których Internet Explorer 7 może zapisywać na niskim poziomie integralności. Domyślne zachowanie polega na tym, że procesy inicjowane przez standardowych użytkowników mają średni poziom integralności, podczas gdy usługi zazwyczaj działają na poziomie integralności systemu. Etykieta wysokiego poziomu chroni katalog główny.
 
 Kluczową zasadą jest to, że obiekty nie mogą być modyfikowane przez procesy o niższym poziomie integralności niż poziom obiektu. Poziomy integralności to:
 
 * **Nieufny**: Ten poziom jest dla procesów z anonimowymi logowaniami. %%%Przykład: Chrome%%%
 * **Niski**: Głównie dla interakcji internetowych, zwłaszcza w trybie chronionym Internet Explorera, wpływający na powiązane pliki i procesy oraz niektóre foldery, takie jak **Tymczasowy folder internetowy**. Procesy o niskim poziomie integralności stoją przed znacznymi ograniczeniami, w tym brakiem dostępu do zapisu w rejestrze i ograniczonym dostępem do zapisu w profilu użytkownika.
 * **Średni**: Domyślny poziom dla większości działań, przypisany do standardowych użytkowników i obiektów bez określonych poziomów integralności. Nawet członkowie grupy Administratorzy działają domyślnie na tym poziomie.
-* **Wysoki**: Zarezerwowany dla administratorów, umożliwiający im modyfikowanie obiektów na niższych poziomach integralności, w tym tych na poziomie wysokim.
+* **Wysoki**: Zarezerwowany dla administratorów, umożliwiający im modyfikowanie obiektów na niższych poziomach integralności, w tym tych na wysokim poziomie.
 * **Systemowy**: Najwyższy poziom operacyjny dla jądra systemu Windows i podstawowych usług, niedostępny nawet dla administratorów, zapewniający ochronę istotnych funkcji systemu.
 * **Instalatora**: Wyjątkowy poziom stojący ponad wszystkimi innymi, umożliwiający obiektom na tym poziomie odinstalowanie dowolnego innego obiektu.
 
 Możesz uzyskać poziom integralności procesu za pomocą **Process Explorer** z **Sysinternals**, uzyskując dostęp do **właściwości** procesu i przeglądając zakładkę "**Bezpieczeństwo**":
 
-![](<../../.gitbook/assets/image (821).png>)
+![](<../../.gitbook/assets/image (824).png>)
 
 Możesz także sprawdzić swój **bieżący poziom integralności** za pomocą `whoami /groups`
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (325).png>)
 
 ### Poziomy integralności w systemie plików
 
-Obiekt w systemie plików może wymagać **minimalnego wymaganego poziomu integralności**, a jeśli proces nie ma tego poziomu integralności, nie będzie mógł z nim współdziałać.\
-Na przykład, stwórzmy **zwykły plik z konsoli użytkownika i sprawdźmy uprawnienia**:
+Obiekt w systemie plików może wymagać **minimalnego wymaganego poziomu integralności** i jeśli proces nie ma tego poziomu integralności, nie będzie mógł z nim współdziałać.\
+Na przykład, sprawdźmy **utworzenie pliku z konsoli użytkownika i sprawdźmy uprawnienia**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -63,7 +63,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Teraz przypiszmy minimalny poziom integralności **Wysoki** do pliku. To **należy zrobić z konsoli** uruchomionej jako **administrator**, ponieważ **zwykła konsola** działa na poziomie integralności Średni i **nie będzie uprawniona** do przypisania poziomu integralności Wysoki obiektowi:
+Teraz przypiszmy minimalny poziom integralności **Wysoki** do pliku. Ta czynność **musi zostać wykonana z konsoli** uruchomionej jako **administrator**, ponieważ **zwykła konsola** działa na poziomie integralności Średni i **nie będzie uprawniona** do przypisania poziomu integralności Wysoki obiektowi:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -78,7 +78,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-To jest moment, w którym rzeczy zaczynają się robić interesujące. Możesz zauważyć, że użytkownik `DESKTOP-IDJHTKP\user` ma **PEŁNE uprawnienia** do pliku (faktycznie to ten użytkownik utworzył plik), jednakże, z powodu zaimplementowanego minimalnego poziomu integralności, nie będzie mógł już modyfikować pliku, chyba że będzie działał na poziomie Wysokiej Integralności (zauważ, że nadal będzie mógł go czytać):
+To jest moment, w którym rzeczy zaczynają być interesujące. Możesz zauważyć, że użytkownik `DESKTOP-IDJHTKP\user` ma **PEŁNE uprawnienia** do pliku (faktycznie to ten użytkownik utworzył plik), jednakże, z powodu zaimplementowanego minimalnego poziomu integralności, nie będzie mógł już modyfikować pliku, chyba że będzie działał na poziomie Wysokiej Integralności (zauważ, że nadal będzie mógł go czytać):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -105,7 +105,7 @@ Mandatory Label\Low Mandatory Level:(NW)
 ```
 Teraz, gdy uruchomię `cmd-low.exe`, **uruchomi się na niskim poziomie integralności** zamiast na średnim:
 
-![](<../../.gitbook/assets/image (310).png>)
+![](<../../.gitbook/assets/image (313).png>)
 
 Dla ciekawskich, jeśli przypiszesz wysoki poziom integralności do pliku binarnego (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), nie będzie on uruchamiany automatycznie z wysokim poziomem integralności (jeśli wywołasz go z poziomu integralności średniego - domyślnie - uruchomi się na poziomie integralności średnim).
 
@@ -115,19 +115,17 @@ Nie wszystkie pliki i foldery mają minimalny poziom integralności, **ale wszys
 
 Ze względu na ograniczenia omówione w tej i poprzedniej sekcji, z punktu widzenia bezpieczeństwa zawsze **zaleca się uruchamianie procesu na jak najniższym poziomie integralności**.
 
-
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci nie zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
+[**WhiteIntel**](https://whiteintel.io) to wyszukiwarka zasilana przez **dark web**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci zostali **skompromitowani** przez **złośliwe oprogramowanie kradnące dane**.
 
-Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
+Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
 Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
-
 
 <details>
 
@@ -135,8 +133,8 @@ Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).

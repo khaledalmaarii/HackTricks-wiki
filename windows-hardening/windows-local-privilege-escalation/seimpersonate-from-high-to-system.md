@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -10,14 +10,14 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ### Kod
 
-Następujący kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Pozwala **wskazać identyfikator procesu jako argument** i uruchomić CMD **działające jako użytkownik** wskazanego procesu.\
-Uruchamiając w procesie o wysokiej integralności, możesz **wskazać PID procesu działającego jako System** (np. winlogon, wininit) i uruchomić cmd.exe jako system.
+Następujący kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Pozwala **wskazać identyfikator procesu jako argument** i CMD **uruchomione jako użytkownik** wskazanego procesu zostanie uruchomione.\
+Uruchamiając w procesie o wysokiej integralności, można **wskazać PID procesu uruchamianego jako System** (np. winlogon, wininit) i wykonać cmd.exe jako system.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -154,7 +154,7 @@ return 0;
 ```
 ### Błąd
 
-W niektórych sytuacjach próba podszycia się pod System może nie powieść się i zwrócić wynik podobny do poniższego:
+W niektórych sytuacjach możesz próbować podszyć się pod System i nie zadziała to, pokazując wynik podobny do poniższego:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -170,17 +170,17 @@ Sprawdź bieżące uprawnienia Administratora dla procesów `svchost.exe` za pom
 
 1. Wybierz proces `svchost.exe`
 2. Kliknij prawym przyciskiem --> Właściwości
-3. W zakładce "Bezpieczeństwo" kliknij w prawym dolnym rogu przycisk "Uprawnienia"
+3. W zakładce "Zabezpieczenia" kliknij w prawym dolnym rogu przycisk "Uprawnienia"
 4. Kliknij "Zaawansowane"
 5. Wybierz "Administratorzy" i kliknij "Edytuj"
 6. Kliknij "Pokaż zaawansowane uprawnienia"
 
-![](<../../.gitbook/assets/image (434).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
-Poprzednie zdjęcie zawiera wszystkie uprawnienia, jakie "Administratorzy" mają w wybranym procesie (jak widać w przypadku `svchost.exe`, posiadają tylko uprawnienia "Zapytanie")
+Poprzednie zdjęcie zawiera wszystkie uprawnienia, jakie "Administratorzy" mają wobec wybranego procesu (jak widać w przypadku `svchost.exe`, posiadają tylko uprawnienia "Zapytanie")
 
 Sprawdź uprawnienia "Administratorów" dla `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (1099).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 Wewnątrz tego procesu "Administratorzy" mogą "Odczytywać pamięć" i "Odczytywać uprawnienia", co prawdopodobnie pozwala Administratorom na podszywanie się pod token używany przez ten proces.

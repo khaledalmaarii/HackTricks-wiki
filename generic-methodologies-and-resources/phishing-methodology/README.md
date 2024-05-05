@@ -18,13 +18,13 @@ Inne sposoby wsparcia HackTricks:
 
 1. Zbieranie informacji o ofierze
 1. Wybierz **domenę ofiary**.
-2. Przeprowadź podstawową enumerację sieci w poszukiwaniu **portali logowania** używanych przez ofiarę i **zdecyduj**, którego będziesz **podawać się za**.
+2. Przeprowadź podstawową enumerację sieci w poszukiwaniu **portali logowania** używanych przez ofiarę i **zdecyduj**, który będziesz **podrabiał**.
 3. Wykorzystaj **OSINT**, aby **znaleźć adresy e-mail**.
-2. Przygotowanie środowiska
+2. Przygotuj środowisko
 1. **Kup domenę**, którą będziesz używać do oceny phishingowej
-2. **Skonfiguruj usługę e-mailową** związane z rekordami (SPF, DMARC, DKIM, rDNS)
+2. **Skonfiguruj usługę e-mail** związane z rekordami (SPF, DMARC, DKIM, rDNS)
 3. Skonfiguruj VPS z **gophish**
-3. Przygotowanie kampanii
+3. Przygotuj kampanię
 1. Przygotuj **szablon e-maila**
 2. Przygotuj **stronę internetową** do kradzieży danych uwierzytelniających
 4. Uruchom kampanię!
@@ -36,12 +36,12 @@ Inne sposoby wsparcia HackTricks:
 * **Słowo kluczowe**: Nazwa domeny **zawiera ważne** **słowo kluczowe** oryginalnej domeny (np. zelster.com-management.com).
 * **Poddomena z myślnikiem**: Zmień **kropkę na myślnik** poddomeny (np. www-zelster.com).
 * **Nowe TLD**: Ta sama domena używająca **nowego TLD** (np. zelster.org)
-* **Homoglify**: Zastępuje literę w nazwie domeny **literami, które wyglądają podobnie** (np. zelfser.com).
+* **Homoglify**: Zastępuje literę w nazwie domeny literami, które **wyglądają podobnie** (np. zelfser.com).
 * **Transpozycja:** Zamienia **miejscami dwie litery** w nazwie domeny (np. zelsetr.com).
 * **Forma pojedyncza/liczba mnoga**: Dodaje lub usuwa „s” na końcu nazwy domeny (np. zeltsers.com).
 * **Pominięcie**: Usuwa jedną z liter z nazwy domeny (np. zelser.com).
 * **Powtórzenie**: Powtarza jedną z liter w nazwie domeny (np. zeltsser.com).
-* **Zastąpienie**: Podobne do homoglify, ale mniej skryte. Zastępuje jedną z liter w nazwie domeny, być może literą w sąsiedztwie oryginalnej litery na klawiaturze (np. zektser.com).
+* **Zamiana**: Podobne do homoglify, ale mniej skryte. Zastępuje jedną z liter w nazwie domeny, być może literą w sąsiedztwie oryginalnej litery na klawiaturze (np. zektser.com).
 * **Poddomenowane**: Wprowadza **kropkę** w nazwie domeny (np. ze.lster.com).
 * **Wstawienie**: Wstawia literę do nazwy domeny (np. zerltser.com).
 * **Brak kropki**: Dołącza TLD do nazwy domeny. (np. zelstercom.com)
@@ -59,19 +59,19 @@ Inne sposoby wsparcia HackTricks:
 
 ### Bitflipping
 
-Istnieje **możliwość, że jeden z niektórych bitów przechowywanych lub przesyłanych może zostać automatycznie zmieniony** z powodu różnych czynników, takich jak rozbłyski słoneczne, promieniowanie kosmiczne lub błędy sprzętowe.
+Istnieje **możliwość, że jeden z niektórych bitów przechowywanych lub przesyłanych może zostać automatycznie odwrócony** z powodu różnych czynników, takich jak rozbłyski słoneczne, promieniowanie kosmiczne lub błędy sprzętowe.
 
 Gdy ten koncept jest **stosowany do żądań DNS**, możliwe jest, że **domena otrzymana przez serwer DNS** nie jest taka sama jak domena początkowo żądana.
 
 Na przykład pojedyncza modyfikacja bitu w domenie "windows.com" może zmienić ją na "windnws.com."
 
-Atakujący mogą **skorzystać z tego, rejestrując wiele domen z bit-flippingiem**, które są podobne do domeny ofiary. Ich intencją jest przekierowanie legalnych użytkowników do swojej własnej infrastruktury.
+Atakujący mogą **skorzystać z tego, rejestrując wiele domen z odwróconymi bitami**, które są podobne do domeny ofiary. Ich intencją jest przekierowanie legalnych użytkowników do swojej własnej infrastruktury.
 
 Aby uzyskać więcej informacji, przeczytaj [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
 ### Zakup zaufanej domeny
 
-Możesz szukać na [https://www.expireddomains.net/](https://www.expireddomains.net) po wygasłej domenie, którą możesz użyć.\
+Możesz szukać na [https://www.expireddomains.net/](https://www.expireddomains.net) po wygasłej domenie, którą możesz wykorzystać.\
 Aby upewnić się, że wygasła domena, którą zamierzasz kupić **ma już dobrą SEO**, możesz sprawdzić, jak jest sklasyfikowana w:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
@@ -86,7 +86,7 @@ Aby upewnić się, że wygasła domena, którą zamierzasz kupić **ma już dobr
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
 Aby **odkryć więcej** prawidłowych adresów e-mail lub **zweryfikować te**, które już odkryłeś, możesz sprawdzić, czy możesz przeprowadzić atak siłowy na serwery smtp ofiary. [Dowiedz się, jak zweryfikować/odkryć adres e-mail tutaj](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Ponadto, nie zapomnij, że jeśli użytkownicy korzystają z **jakiegokolwiek portalu internetowego do dostępu do swoich maili**, możesz sprawdzić, czy jest podatny na **siłowe łamanie nazwy użytkownika**, i wykorzystać tę podatność, jeśli to możliwe.
+Ponadto, nie zapomnij, że jeśli użytkownicy korzystają z **jakiegokolwiek portalu internetowego do dostępu do swoich maili**, możesz sprawdzić, czy jest podatny na **siłowe łamanie nazwy użytkownika**, i wykorzystać tę lukę, jeśli to możliwe.
 
 ## Konfigurowanie GoPhish
 
@@ -95,7 +95,7 @@ Ponadto, nie zapomnij, że jeśli użytkownicy korzystają z **jakiegokolwiek po
 Możesz pobrać go z [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Pobierz i rozpakuj go w `/opt/gophish` i uruchom `/opt/gophish/gophish`\
-Otrzymasz hasło dla użytkownika admina na porcie 3333 w wynikach. Następnie uzyskaj dostęp do tego portu i użyj tych danych uwierzytelniających, aby zmienić hasło admina. Może być konieczne przekierowanie tego portu na lokalny:
+Otrzymasz hasło dla użytkownika admina na porcie 3333 w wynikach. Następnie uzyskaj dostęp do tego portu i użyj tych danych uwierzytelniających, aby zmienić hasło admina. Możesz potrzebować tunelowania tego portu do lokalnego:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
@@ -103,7 +103,7 @@ ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 
 **Konfiguracja certyfikatu TLS**
 
-Przed tym krokiem powinieneś **już zakupić domenę**, którą zamierzasz użyć, a musi ona być **skierowana** na **adres IP VPS**, gdzie konfigurujesz **gophish**.
+Przed tym krokiem powinieneś **już zakupić domenę**, którą zamierzasz użyć, a musi ona być **skierowana** na **IP VPS**, gdzie konfigurujesz **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -173,7 +173,7 @@ Zmodyfikuj `/opt/gophish/config.json` do następującego (zwróć uwagę na uży
 ```
 **Skonfiguruj usługę gophish**
 
-Aby utworzyć usługę gophish, która może być uruchamiana automatycznie i zarządzana jako usługa, możesz utworzyć plik `/etc/init.d/gophish` o następującej zawartości:
+Aby utworzyć usługę gophish, która może być uruchamiana automatycznie i zarządzana jako usługa, możesz utworzyć plik `/etc/init.d/gophish` z następującą zawartością:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -233,9 +233,9 @@ service gophish stop
 ```
 ## Konfigurowanie serwera poczty i domeny
 
-### Poczekaj i bądź wiarygodny
+### Poczekaj i bądź legalny
 
-Im starsza jest domena, tym mniej prawdopodobne, że zostanie uznana za spam. Dlatego powinieneś poczekać jak najdłużej (przynajmniej 1 tydzień) przed przeprowadzeniem oceny phishingowej. Ponadto, jeśli umieścisz stronę dotyczącą sektora o dobrej reputacji, uzyskana reputacja będzie lepsza.
+Im starsza jest domena, tym mniej prawdopodobne jest, że zostanie uznana za spam. Dlatego powinieneś poczekać tak długo, jak to możliwe (przynajmniej 1 tydzień) przed przeprowadzeniem ataku phishingowego. Ponadto, jeśli umieścisz stronę dotyczącą sektora o dobrej reputacji, uzyskana reputacja będzie lepsza.
 
 Zauważ, że nawet jeśli musisz poczekać tydzień, możesz teraz zakończyć konfigurowanie wszystkiego.
 
@@ -247,9 +247,9 @@ Ustaw rekord rDNS (PTR), który rozwiąże adres IP VPS na nazwę domeny.
 
 Musisz **skonfigurować rekord SPF dla nowej domeny**. Jeśli nie wiesz, co to jest rekord SPF, [**przeczytaj tę stronę**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-Możesz skorzystać z [https://www.spfwizard.net/](https://www.spfwizard.net), aby wygenerować swoją politykę SPF (użyj IP maszyny VPS)
+Możesz skorzystać z [https://www.spfwizard.net/](https://www.spfwizard.net), aby wygenerować swoją politykę SPF (użyj adresu IP maszyny VPS)
 
-![](<../../.gitbook/assets/image (1034).png>)
+![](<../../.gitbook/assets/image (1037).png>)
 
 To jest treść, która musi zostać ustawiona w rekordzie TXT w domenie:
 ```bash
@@ -279,7 +279,7 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ### Sprawdź wynik konfiguracji e-mail
 
 Możesz to zrobić za pomocą [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Po prostu przejdź na stronę i wyślij e-mail na podany przez nich adres:
+Po prostu przejdź do strony i wyślij e-mail na podany adres:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
@@ -295,17 +295,17 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Możesz również wysłać **wiadomość do Gmaila pod Twoją kontrolą** i sprawdzić **nagłówki e-maila** w swojej skrzynce odbiorczej Gmaila, `dkim=pass` powinno być obecne w polu nagłówka `Authentication-Results`.
+Możesz również wysłać **wiadomość do Gmaila pod kontrolą**, a następnie sprawdzić **nagłówki e-maila** w swojej skrzynce odbiorczej Gmaila, `dkim=pass` powinno być obecne w polu nagłówka `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Usuwanie z listy Spamhouse
+### Usuwanie z listy Spamhouse Blacklist
 
 Strona [www.mail-tester.com](https://www.mail-tester.com) może wskazać, czy Twoja domena jest zablokowana przez spamhouse. Możesz poprosić o usunięcie swojej domeny/IP pod adresem: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Usuwanie z listy Microsoft
+### Usuwanie z listy czarnej Microsoftu
 
 Możesz poprosić o usunięcie swojej domeny/IP pod adresem [https://sender.office.com/](https://sender.office.com).
 
@@ -315,13 +315,13 @@ Możesz poprosić o usunięcie swojej domeny/IP pod adresem [https://sender.offi
 
 * Ustaw **nazwę identyfikującą** profil nadawcy
 * Zdecyduj, z którego konta będziesz wysyłać e-maile phishingowe. Sugestie: _noreply, support, servicedesk, salesforce..._
-* Możesz pozostawić puste pole na nazwę użytkownika i hasło, ale upewnij się, że zaznaczysz Omiń Błędy Certyfikatu
+* Możesz pozostawić puste pole nazwy użytkownika i hasła, ale upewnij się, że zaznaczysz opcję Ignoruj Błędy Certyfikatu
 
 ![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Zaleca się skorzystanie z funkcji "**Wyślij E-mail Testowy**" w celu sprawdzenia, czy wszystko działa poprawnie.\
-Zalecam **wysłanie testowych e-maili na adresy 10min mail**, aby uniknąć wpadnięcia na czarną listę podczas testów.
+Zalecam **wysłanie testowych e-maili na adresy 10minutkowe** w celu uniknięcia wpadnięcia na czarną listę podczas testów.
 {% endhint %}
 
 ### Szablon E-maila
@@ -351,47 +351,47 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 Zauważ, że **dla zwiększenia wiarygodności e-maila** zaleca się użycie jakiegoś podpisu z e-maila klienta. Sugestie:
 
 * Wyślij e-mail na **nieistniejący adres** i sprawdź, czy odpowiedź zawiera jakiś podpis.
-* Szukaj **publicznych adresów e-mail** takich jak info@ex.com lub press@ex.com lub public@ex.com i wyślij im e-mail, oczekując odpowiedzi.
-* Spróbuj skontaktować się z **jakimś odkrytym ważnym** adresem e-mail i oczekuj odpowiedzi.
+* Szukaj **publicznych adresów e-mail** takich jak info@ex.com lub press@ex.com lub public@ex.com i wyślij im e-mail, oczekując na odpowiedź.
+* Spróbuj skontaktować się z **jakimś odkrytym ważnym** adresem e-mail i poczekaj na odpowiedź
 
-![](<../../.gitbook/assets/image (77).png>)
+![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Szablon e-maila pozwala również na **dołączenie plików do wysłania**. Jeśli chcesz również ukraść wyzwania NTLM za pomocą specjalnie przygotowanych plików/dokumentów, [przeczytaj tę stronę](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Szablon e-maila pozwala również na **dołączanie plików do wysłania**. Jeśli chcesz również ukraść wyzwania NTLM, używając specjalnie przygotowanych plików/dokumentów, [przeczytaj tę stronę](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
 ### Strona docelowa
 
 * Wprowadź **nazwę**
-* **Napisz kod HTML** strony internetowej. Zauważ, że możesz **importować** strony internetowe.
+* **Wprowadź kod HTML** strony internetowej. Zauważ, że możesz **importować** strony internetowe.
 * Zaznacz **Przechwytywanie przesłanych danych** i **Przechwytywanie haseł**
 * Ustaw **przekierowanie**
 
-![](<../../.gitbook/assets/image (823).png>)
+![](<../../.gitbook/assets/image (826).png>)
 
 {% hint style="info" %}
-Zazwyczaj będziesz musiał zmodyfikować kod HTML strony i przeprowadzić testy lokalnie (może używając serwera Apache) **aż uzyskasz satysfakcjonujące wyniki**. Następnie wpisz ten kod HTML w pole.\
+Zazwyczaj będziesz musiał zmodyfikować kod HTML strony i przeprowadzić pewne testy lokalnie (może używając serwera Apache) **aż uzyskasz pożądane rezultaty**. Następnie wpisz ten kod HTML w pole.\
 Zauważ, że jeśli potrzebujesz **użyć jakichś statycznych zasobów** dla HTML (może jakieś strony CSS i JS), możesz je zapisać w _**/opt/gophish/static/endpoint**_ a następnie uzyskać do nich dostęp z _**/static/\<nazwapliku>**_
 {% endhint %}
 
 {% hint style="info" %}
-Dla przekierowania możesz **przekierować użytkowników na prawdziwą główną stronę internetową** ofiary, lub przekierować ich na _/static/migration.html_ na przykład, dodać **kręcące się koło** ([**https://loading.io/**](https://loading.io)) przez 5 sekund, a następnie wskazać, że proces zakończył się sukcesem.
+W przypadku przekierowania możesz **przekierować użytkowników na prawdziwą główną stronę internetową** ofiary, lub przekierować ich na _/static/migration.html_ na przykład, umieścić **kręcące się koło** ([**https://loading.io/**](https://loading.io)) przez 5 sekund, a następnie wskazać, że proces zakończył się sukcesem.
 {% endhint %}
 
 ### Użytkownicy i Grupy
 
 * Ustaw nazwę
-* **Zaimportuj dane** (zauważ, że aby użyć szablonu dla przykładu, potrzebujesz imienia, nazwiska i adresu e-mail każdego użytkownika)
+* **Zaimportuj dane** (zauważ, że aby użyć szablonu w przykładzie, potrzebujesz imienia, nazwiska i adresu e-mail każdego użytkownika)
 
-![](<../../.gitbook/assets/image (160).png>)
+![](<../../.gitbook/assets/image (163).png>)
 
 ### Kampania
 
-Wreszcie, stwórz kampanię wybierając nazwę, szablon e-maila, stronę docelową, URL, profil wysyłania i grupę. Zauważ, że URL będzie linkiem wysłanym do ofiar
+W końcu, stwórz kampanię wybierając nazwę, szablon e-maila, stronę docelową, URL, profil wysyłania i grupę. Zauważ, że URL będzie linkiem wysłanym do ofiar
 
 Zauważ, że **Profil Wysyłania pozwala na wysłanie testowego e-maila, aby zobaczyć, jak będzie wyglądał ostateczny e-mail phishingowy**:
 
-![](<../../.gitbook/assets/image (189).png>)
+![](<../../.gitbook/assets/image (192).png>)
 
 {% hint style="info" %}
 Zalecam **wysyłanie testowych e-maili na adresy 10minutemail**, aby uniknąć wpadnięcia na czarną listę podczas testów.
@@ -420,14 +420,14 @@ Sprawdź następującą stronę dla przykładów:
 
 ### Przez Proxy MitM
 
-Poprzedni atak jest dość sprytny, ponieważ podszywasz się pod prawdziwą stronę internetową i zbierasz informacje wprowadzone przez użytkownika. Niestety, jeśli użytkownik nie podał poprawnego hasła lub jeśli aplikacja, którą podszywasz się, jest skonfigurowana z 2FA, **te informacje nie pozwolą ci podać się za oszukanego użytkownika**.
+Poprzedni atak jest dość sprytny, ponieważ podszywasz się pod prawdziwą stronę internetową i zbierasz informacje wprowadzone przez użytkownika. Niestety, jeśli użytkownik nie wprowadził poprawnego hasła lub jeśli aplikacja, którą podszywasz się, jest skonfigurowana z 2FA, **te informacje nie pozwolą ci podać się za oszukanego użytkownika**.
 
-W takich przypadkach narzędzia takie jak [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) i [**muraena**](https://github.com/muraenateam/muraena) są przydatne. Narzędzie to pozwoli ci wygenerować atak typu MitM. W skrócie, ataki działają w następujący sposób:
+W takich przypadkach narzędzia takie jak [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) i [**muraena**](https://github.com/muraenateam/muraena) są przydatne. Narzędzie to pozwoli ci wygenerować atak typu MitM. W skrócie, atak działa w następujący sposób:
 
 1. **Podszywasz się pod formularz logowania** prawdziwej strony internetowej.
-2. Użytkownik **wysyła** swoje **dane logowania** do twojej fałszywej strony, a narzędzie przesyła je do prawdziwej strony, **sprawdzając, czy dane logowania działają**.
+2. Użytkownik **wysyła** swoje **dane uwierzytelniające** do twojej fałszywej strony, a narzędzie przesyła je do prawdziwej strony, **sprawdzając, czy dane uwierzytelniające są poprawne**.
 3. Jeśli konto jest skonfigurowane z **2FA**, strona MitM poprosi o to, a gdy **użytkownik je wprowadzi**, narzędzie prześle je do prawdziwej strony internetowej.
-4. Gdy użytkownik zostanie uwierzytelniony, ty (jako atakujący) **przechwycisz dane logowania, 2FA, ciasteczka i wszelkie informacje** z każdej interakcji, podczas gdy narzędzie wykonuje atak MitM.
+4. Gdy użytkownik zostanie uwierzytelniony, ty (jako atakujący) **przechwycisz dane uwierzytelniające, 2FA, ciasteczka i wszelkie informacje** z każdej interakcji, podczas gdy narzędzie wykonuje atak MitM.
 
 ### Przez VNC
 
@@ -436,7 +436,7 @@ Możesz to zrobić za pomocą [**EvilnVNC**](https://github.com/JoelGMSec/Evilno
 
 ## Wykrywanie wykrycia
 
-Oczywiście jednym z najlepszych sposobów, aby dowiedzieć się, czy zostałeś wykryty, jest **sprawdzenie swojej domeny na czarnych listach**. Jeśli się tam pojawi, to w jakiś sposób twoja domena została uznana za podejrzaną.\
+Oczywiście jednym z najlepszych sposobów, aby dowiedzieć się, czy zostałeś wykryty, jest **sprawdzenie swojej domeny na czarnych listach**. Jeśli się tam znajduje, to w jakiś sposób twoja domena została uznana za podejrzaną.\
 Łatwym sposobem sprawdzenia, czy twoja domena znajduje się na jakiejkolwiek czarnej liście, jest skorzystanie z [https://malwareworld.com/](https://malwareworld.com)
 
 Jednak istnieją inne sposoby, aby dowiedzieć się, czy ofiara **aktywnie szuka podejrzanej aktywności phishingowej w sieci**, jak wyjaśniono w:
@@ -445,9 +445,9 @@ Jednak istnieją inne sposoby, aby dowiedzieć się, czy ofiara **aktywnie szuka
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Możesz **kupić domenę o bardzo podobnej nazwie** do domeny ofiary **i/lub wygenerować certyfikat** dla **subdomeny** domeny kontrolowanej przez ciebie **zawierającej** słowo kluczowe z domeny ofiary. Jeśli **ofiara** wykonuje jakiekolwiek **interakcje DNS lub HTTP** z nimi, będziesz wiedział, że **aktywnie szuka** podejrzanych domen i będziesz musiał działać bardzo dyskretnie.
+Możesz **kupić domenę o bardzo podobnej nazwie** do domeny ofiary **i/lub wygenerować certyfikat** dla **poddomeny** domeny kontrolowanej przez ciebie **zawierającej** słowo kluczowe z domeny ofiary. Jeśli **ofiara** wykonuje jakiekolwiek **interakcje DNS lub HTTP** z nimi, będziesz wiedział, że **aktywnie szuka** podejrzanych domen i będziesz musiał działać bardzo dyskretnie.
 
-### Ocena phishingu
+### Ocenianie phishingu
 
 Użyj [**Phishious** ](https://github.com/Rices/Phishious), aby ocenić, czy twój e-mail trafi do folderu spamu, czy zostanie zablokowany, czy będzie udany.
 

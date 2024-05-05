@@ -7,16 +7,16 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Bus Pirate
 
-Aby przetestować działanie Bus Pirate, połącz +5V z VPU i 3.3V z ADC, a następnie uzyskaj dostęp do Bus Pirate (na przykład za pomocą Tera Term) i użyj polecenia `~`:
+Aby przetestować, czy Bus Pirate działa, połącz +5V z VPU i 3.3V z ADC, uzyskaj dostęp do Bus Pirate (na przykład za pomocą Tera Term) i użyj polecenia `~`:
 ```bash
 # Use command
 HiZ>~
@@ -55,15 +55,15 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Jak widać w poprzedniej linii poleceń, zostało powiedziane, że nie znaleziono żadnych błędów. Jest to bardzo przydatne, aby wiedzieć, że działa po zakupie lub po wgraniu oprogramowania.
+Jak widać w poprzedniej linii poleceń, zostało powiedziane, że znaleziono 0 błędów. Jest to bardzo przydatne, aby wiedzieć, że działa po zakupie lub po wgraniu oprogramowania.
 
 Aby połączyć się z bus pirate, możesz postępować zgodnie z dokumentacją:
 
-![](<../../.gitbook/assets/image (481).png>)
+![](<../../.gitbook/assets/image (484).png>)
 
 W tym przypadku zamierzam połączyć się z EPROM-em: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (961).png>)
+![](<../../.gitbook/assets/image (964).png>)
 
 Aby porozmawiać z bus pirate, użyłem Tera Term podłączonego do portu COM pirata z ustawieniami --> Port szeregowy --> Prędkość 115200.\
 W następnej komunikacji znajdziesz, jak przygotować bus pirate do rozmowy I2C oraz jak pisać i czytać z pamięci (Komentarze pojawiają się za pomocą "#", nie oczekuj, że ta część będzie w komunikacji):
@@ -169,7 +169,7 @@ NACK
 
 W tym scenariuszu zamierzamy podsłuchać komunikację I2C między arduino a poprzednim EPROM-em, wystarczy połączyć oba urządzenia, a następnie podłączyć bus pirate do pinów SCL, SDA i GND:
 
-![](<../../.gitbook/assets/image (163).png>)
+![](<../../.gitbook/assets/image (166).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -221,8 +221,8 @@ Any key to exit
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.

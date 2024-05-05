@@ -7,17 +7,17 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
-## Za pomocą zmiennej środowiskowej `PERL5OPT` i `PERL5LIB`
+## Przez zmienną środowiskową `PERL5OPT` & `PERL5LIB`
 
 Korzystając z zmiennej środowiskowej PERL5OPT, można sprawić, że perl będzie wykonywał dowolne polecenia.\
-Na przykład, utwórz ten skrypt:
+Na przykład, stwórz ten skrypt:
 
 {% code title="test.pl" %}
 ```perl
@@ -46,9 +46,9 @@ Następnie użyj zmiennych środowiskowych:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
-## Poprzez zależności
+## Przez zależności
 
-Możliwe jest wymienienie folderów zależności uruchamiania Perla:
+Możliwe jest wyświetlenie kolejności folderów zależności uruchamiania Perla:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -64,13 +64,13 @@ Który zwróci coś w stylu:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** istnieje, nie jest chroniony przez SIP i znajduje się **przed** folderami chronionymi przez SIP. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, tak aby skrypt Perl o wysokich uprawnieniach mógł je załadować.
+Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** istnieje, nie jest chroniony przez SIP i znajduje się przed folderami chronionymi przez SIP. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, tak aby skrypt Perl o wysokich uprawnieniach mógł je załadować.
 
 {% hint style="warning" %}
-Jednakże, zauważ, że **musisz być rootem, aby móc pisać w tym folderze**, a obecnie otrzymasz ten **komunikat TCC**:
+Należy jednak zauważyć, że **musisz być rootem, aby móc pisać w tym folderze**, a obecnie otrzymasz ten **komunikat TCC**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (25).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Na przykład, jeśli skrypt importuje **`use File::Basename;`**, byłoby możliwe utworzenie `/Library/Perl/5.30/File/Basename.pm`, aby wykonać arbitralny kod.
 

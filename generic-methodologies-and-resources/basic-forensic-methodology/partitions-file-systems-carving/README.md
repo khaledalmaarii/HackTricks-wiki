@@ -7,10 +7,10 @@
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
@@ -22,16 +22,16 @@ Dysk twardy lub **dysk SSD może zawierać różne partycje** w celu fizycznego 
 ### MBR (Master Boot Record)
 
 Znajduje się w **pierwszym sektorze dysku po 446B kodu rozruchowego**. Ten sektor jest niezbędny, aby wskazać komputerowi, co i skąd powinna być montowana partycja.\
-Pozwala na **maksymalnie 4 partycje** (najwyżej **tylko 1** może być aktywna/**do rozruchu**). Jeśli jednak potrzebujesz więcej partycji, możesz użyć **partycji rozszerzonych**. Ostatnim bajtem tego pierwszego sektora jest sygnatura rekordu rozruchowego **0x55AA**. Tylko jedna partycja może być oznaczona jako aktywna.\
+Pozwala na **4 partycje** (najwyżej **tylko 1** może być aktywna/**rozruchowa**). Jeśli jednak potrzebujesz więcej partycji, możesz użyć **partycji rozszerzonych**. Ostatnim bajtem tego pierwszego sektora jest sygnatura rekordu rozruchowego **0x55AA**. Tylko jedna partycja może być oznaczona jako aktywna.\
 MBR pozwala na **maks. 2,2 TB**.
 
-![](<../../../.gitbook/assets/image (347).png>)
+![](<../../../.gitbook/assets/image (350).png>)
 
-![](<../../../.gitbook/assets/image (301).png>)
+![](<../../../.gitbook/assets/image (304).png>)
 
-Od **bajtów 440 do 443** MBR można znaleźć **Sygnaturę Dysku Windows** (jeśli jest używany system Windows). Litera logiczna dysku twardego zależy od Sygnatury Dysku Windows. Zmiana tej sygnatury może uniemożliwić uruchomienie systemu Windows (narzędzie: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+Od **bajtów 440 do 443** MBR można znaleźć **Sygnaturę Dysku Windows** (jeśli używany jest Windows). Litera logiczna dysku twardego zależy od Sygnatury Dysku Windows. Zmiana tej sygnatury może uniemożliwić uruchomienie systemu Windows (narzędzie: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
 
-![](<../../../.gitbook/assets/image (306).png>)
+![](<../../../.gitbook/assets/image (310).png>)
 
 **Format**
 
@@ -46,18 +46,18 @@ Od **bajtów 440 do 443** MBR można znaleźć **Sygnaturę Dysku Windows** (je�
 
 **Format Rekordu Partycji**
 
-| Offset    | Długość   | Element                                                  |
+| Offset    | Długość   | Element                                                   |
 | --------- | -------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01) | Flaga aktywna (0x80 = do rozruchu)                          |
+| 0 (0x00)  | 1 (0x01) | Flaga aktywna (0x80 = rozruchowa)                          |
 | 1 (0x01)  | 1 (0x01) | Początkowy głowica                                             |
-| 2 (0x02)  | 1 (0x01) | Początkowy sektor (bity 0-5); starsze bity cylindra (6- 7) |
-| 3 (0x03)  | 1 (0x01) | Najmłodsze 8 bitów cylindra początkowego                     |
-| 4 (0x04)  | 1 (0x01) | Kod typu partycji (0x83 = Linux)                             |
+| 2 (0x02)  | 1 (0x01) | Początkowy sektor (bity 0-5); wyższe bity cylindra (6- 7) |
+| 3 (0x03)  | 1 (0x01) | Najmłodsze 8 bitów cylindra początkowego                           |
+| 4 (0x04)  | 1 (0x01) | Kod typu partycji (0x83 = Linux)                     |
 | 5 (0x05)  | 1 (0x01) | Końcowa głowica                                               |
-| 6 (0x06)  | 1 (0x01) | Końcowy sektor (bity 0-5); starsze bity cylindra (6- 7)       |
-| 7 (0x07)  | 1 (0x01) | Najmłodsze 8 bitów cylindra końcowego                         |
-| 8 (0x08)  | 4 (0x04) | Sektory poprzedzające partycję (little endian)                |
-| 12 (0x0C) | 4 (0x04) | Sektory w partycji                                           |
+| 6 (0x06)  | 1 (0x01) | Końcowy sektor (bity 0-5); wyższe bity cylindra (6- 7)   |
+| 7 (0x07)  | 1 (0x01) | Najmłodsze 8 bitów cylindra końcowego                             |
+| 8 (0x08)  | 4 (0x04) | Sektory poprzedzające partycję (little endian)            |
+| 12 (0x0C) | 4 (0x04) | Sektory w partycji                                   |
 
 Aby zamontować MBR w systemie Linux, najpierw musisz uzyskać przesunięcie początkowe (możesz użyć `fdisk` i polecenia `p`)
 
@@ -72,26 +72,26 @@ mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
 **LBA (Logical block addressing)**
 
-**Logical block addressing** (**LBA**) to powszechnie stosowany schemat służący do **określania lokalizacji bloków** danych przechowywanych na urządzeniach pamięci komputerowych, zazwyczaj na systemach pamięci wtórnej, takich jak dyski twarde. LBA to szczególnie prosty liniowy schemat adresowania; **bloki są zlokalizowane za pomocą indeksu całkowitego**, przy czym pierwszy blok to LBA 0, drugi LBA 1, i tak dalej.
+**Adresowanie logicznych bloków** (**LBA**) to powszechny schemat używany do **określania lokalizacji bloków** danych przechowywanych na urządzeniach pamięci komputerowych, zazwyczaj na systemach pamięci wtórnej, takich jak dyski twarde. LBA to szczególnie prosty schemat adresowania liniowego; **bloki są zlokalizowane za pomocą indeksu całkowitego**, przy czym pierwszy blok to LBA 0, drugi LBA 1, i tak dalej.
 
 ### GPT (Tabela partycji GUID)
 
-Tabela partycji GUID, znana jako GPT, cieszy się popularnością ze względu na swoje rozszerzone możliwości w porównaniu z MBR (Master Boot Record). Wyróżnia się swoim **globalnie unikalnym identyfikatorem** partycji, GPT wyróżnia się pod wieloma względami:
+Tabela partycji GUID, znana jako GPT, cieszy się popularnością ze względu na swoje ulepszone możliwości w porównaniu do MBR (Master Boot Record). Wyróżnia się ona **globalnie unikalnym identyfikatorem** partycji, a GPT wyróżnia się na kilka sposobów:
 
-* **Lokalizacja i Rozmiar**: Zarówno GPT, jak i MBR zaczynają się od **sektora 0**. Jednak GPT działa na **64 bitach**, w przeciwieństwie do 32 bitów MBR.
+* **Lokalizacja i rozmiar**: Zarówno GPT, jak i MBR zaczynają się od **sektora 0**. Jednak GPT działa na **64 bitach**, w przeciwieństwie do 32 bitów MBR.
 * **Ograniczenia partycji**: GPT obsługuje do **128 partycji** w systemach Windows i pomieści do **9,4ZB** danych.
-* **Nazwy partycji**: Oferuje możliwość nadawania partycjom nazw do 36 znaków Unicode.
+* **Nazwy partycji**: Oferuje możliwość nadawania partycjom nazw z użyciem do 36 znaków Unicode.
 
-**Odporność i Odzyskiwanie danych**:
+**Odporność danych i odzyskiwanie**:
 
-* **Redundancja**: W przeciwieństwie do MBR, GPT nie ogranicza partycjonowania i danych rozruchowych do jednego miejsca. Powiela te dane na dysku, poprawiając integralność i odporność danych.
-* **Sprawdzanie cyklicznej sumy kontrolnej (CRC)**: GPT stosuje CRC w celu zapewnienia integralności danych. Aktywnie monitoruje uszkodzenia danych, a gdy je wykryje, GPT próbuje odzyskać uszkodzone dane z innej lokalizacji na dysku.
+* **Redundancja**: W przeciwieństwie do MBR, GPT nie ogranicza partycjonowania i danych rozruchowych do jednego miejsca. Replikuje te dane na całym dysku, poprawiając integralność i odporność danych.
+* **Sprawdzanie cyklicznej sumy kontrolnej (CRC)**: GPT używa CRC do zapewnienia integralności danych. Aktywnie monitoruje uszkodzenia danych, a gdy je wykryje, GPT próbuje odzyskać uszkodzone dane z innej lokalizacji na dysku.
 
 **Ochronny MBR (LBA0)**:
 
-* GPT zachowuje kompatybilność wsteczną poprzez ochronny MBR. Ta funkcja znajduje się w przestrzeni dziedzicznej MBR, ale zaprojektowana jest tak, aby zapobiegać starszym narzędziom opartym na MBR przed błędnym nadpisywaniem dysków sformatowanych w systemie GPT, chroniąc tym samym integralność danych na dyskach sformatowanych w systemie GPT.
+* GPT utrzymuje kompatybilność wsteczną za pomocą ochronnego MBR. Ta funkcja znajduje się w przestrzeni dziedziczonego MBR, ale zaprojektowana jest tak, aby zapobiegać starszym narzędziom opartym na MBR przed błędnym nadpisywaniem dysków sformatowanych w systemie GPT, chroniąc tym samym integralność danych na dyskach sformatowanych w systemie GPT.
 
-![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1059).png>)
+![https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/GUID\_Partition\_Table\_Scheme.svg/800px-GUID\_Partition\_Table\_Scheme.svg.png](<../../../.gitbook/assets/image (1062).png>)
 
 **Hybrydowy MBR (LBA 0 + GPT)**
 
@@ -110,44 +110,44 @@ Nagłówek tabeli partycji definiuje bloki użyteczne na dysku. Określa równie
 | 0 (0x00)     | 8 bajtów | Sygnatura ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h lub 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)na małych maszynach endian) |
 | 8 (0x08)     | 4 bajty | Wersja 1.0 (00h 00h 01h 00h) dla UEFI 2.8                                                                                                                                     |
 | 12 (0x0C)    | 4 bajty | Rozmiar nagłówka w małym endianie (w bajtach, zazwyczaj 5Ch 00h 00h 00h lub 92 bajty)                                                                                                    |
-| 16 (0x10)    | 4 bajty | [CRC32](https://en.wikipedia.org/wiki/CRC32) nagłówka (przesunięcie +0 do rozmiaru nagłówka) w małym endianie, z polem tym zerowanym podczas obliczeń                                |
+| 16 (0x10)    | 4 bajty | [CRC32](https://en.wikipedia.org/wiki/CRC32) nagłówka (przesunięcie +0 do rozmiaru nagłówka) w małym endianie, przy czym to pole jest zerowane podczas obliczeń                                |
 | 20 (0x14)    | 4 bajty | Zarezerwowane; musi być zerem                                                                                                                                                          |
 | 24 (0x18)    | 8 bajtów | Bieżące LBA (lokalizacja tego kopii nagłówka)                                                                                                                                      |
 | 32 (0x20)    | 8 bajtów | LBA kopii zapasowej (lokalizacja innej kopii nagłówka)                                                                                                                                  |
 | 40 (0x28)    | 8 bajtów | Pierwsze użyteczne LBA dla partycji (ostatnie LBA tabeli partycji podstawowej + 1)                                                                                                          |
 | 48 (0x30)    | 8 bajtów | Ostatnie użyteczne LBA (pierwsze LBA tabeli partycji zapasowej − 1)                                                                                                                       |
-| 56 (0x38)    | 16 bajtów | GUID dysku w endianie mieszanych                                                                                                                                                       |
+| 56 (0x38)    | 16 bajtów | GUID dysku w mieszanym endianie                                                                                                                                                       |
 | 72 (0x48)    | 8 bajtów | Początkowe LBA tablicy wpisów partycji (zawsze 2 w kopii podstawowej)                                                                                                        |
 | 80 (0x50)    | 4 bajty | Liczba wpisów partycji w tablicy                                                                                                                                            |
 | 84 (0x54)    | 4 bajty | Rozmiar pojedynczego wpisu partycji (zazwyczaj 80h lub 128)                                                                                                                           |
 | 88 (0x58)    | 4 bajty | CRC32 tablicy wpisów partycji w małym endianie                                                                                                                               |
-| 92 (0x5C)    | \*       | Zarezerwowane; reszta bloku musi być zerami (420 bajtów dla rozmiaru sektora 512 bajtów; ale może być większa przy większych rozmiarach sektora)                                         |
+| 92 (0x5C)    | \*       | Zarezerwowane; musi być zerami dla reszty bloku (420 bajtów dla rozmiaru sektora 512 bajtów; ale może być większe przy większych rozmiarach sektora)                                         |
 
 **Wpisy partycji (LBA 2–33)**
 
 | Format wpisu partycji GUID |          |                                                                                                                   |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
 | Przesunięcie                      | Długość   | Zawartość                                                                                                          |
-| 0 (0x00)                    | 16 bajtów | [GUID typu partycji](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (endian mieszany) |
-| 16 (0x10)                   | 16 bajtów | Unikalny GUID partycji (endian mieszany)                                                                              |
-| 32 (0x20)                   | 8 bajtów  | Pierwsze LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
+| 0 (0x00)                    | 16 bajtów | [GUID typu partycji](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mieszany endian) |
+| 16 (0x10)                   | 16 bajtów | Unikalny GUID partycji (mieszany endian)                                                                              |
+| 32 (0x20)                   | 8 bajtów  | Pierwsze LBA ([mały endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
 | 40 (0x28)                   | 8 bajtów  | Ostatnie LBA (włącznie, zazwyczaj nieparzyste)                                                                                 |
 | 48 (0x30)                   | 8 bajtów  | Flagi atrybutów (np. bit 60 oznacza tylko do odczytu)                                                                   |
 | 56 (0x38)                   | 72 bajty | Nazwa partycji (36 jednostek kodu UTF-16LE)                                   |
 
 **Typy partycji**
 
-![](<../../../.gitbook/assets/image (80).png>)
+![](<../../../.gitbook/assets/image (83).png>)
 
 Więcej typów partycji w [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 
 ### Inspekcja
 
-Po zamontowaniu obrazu śledczego za pomocą [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), można zbadać pierwszy sektor za pomocą narzędzia Windows [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** Na poniższym obrazie wykryto **MBR** na **sektorze 0** i zinterpretowano:
+Po zamontowaniu obrazu śledczego za pomocą [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), można zbadać pierwszy sektor za pomocą narzędzia Windows [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** Na poniższym obrazie wykryto **MBR** w **sektorze 0** i zinterpretowano:
 
-![](<../../../.gitbook/assets/image (351).png>)
+![](<../../../.gitbook/assets/image (354).png>)
 
-Jeśli byłoby to **tabela GPT zamiast MBR**, powinna pojawić się sygnatura _EFI PART_ w **sektorze 1** (który na poprzednim obrazie jest pusty).
+Jeśli byłoby to **tabela GPT zamiast MBR**, powinna pojawić się sygnatura _EFI PART_ w **sektorze 1** (który w poprzednim obrazie jest pusty).
 ## Systemy plików
 
 ### Lista systemów plików Windows
@@ -160,13 +160,13 @@ Jeśli byłoby to **tabela GPT zamiast MBR**, powinna pojawić się sygnatura _E
 
 ### FAT
 
-System plików **FAT (File Allocation Table)** jest zaprojektowany wokół swojego głównego komponentu, tabeli alokacji plików, umieszczonej na początku woluminu. Ten system zabezpiecza dane, utrzymując **dwie kopie** tabeli, zapewniając integralność danych nawet jeśli jedna z nich zostanie uszkodzona. Tabela, razem z folderem głównym, musi znajdować się w **stałym miejscu**, kluczowym dla procesu uruchamiania systemu.
+System plików **FAT (File Allocation Table)** został zaprojektowany wokół swojego głównego komponentu, tabeli alokacji plików, umieszczonej na początku woluminu. Ten system zabezpiecza dane, utrzymując **dwie kopie** tabeli, zapewniając integralność danych nawet jeśli jedna z nich zostanie uszkodzona. Tabela, wraz z folderem głównym, musi znajdować się w **stałym miejscu**, kluczowym dla procesu uruchamiania systemu.
 
 Podstawową jednostką przechowywania systemu plików jest **klaster, zazwyczaj 512B**, składający się z wielu sektorów. FAT ewoluował poprzez różne wersje:
 
 * **FAT12**, obsługujący adresy klastrów 12-bitowe i obsługujący do 4078 klastrów (4084 z UNIX).
 * **FAT16**, rozszerzający do adresów 16-bitowych, co pozwala na pomieszczenie do 65 517 klastrów.
-* **FAT32**, dalsze zaawansowanie z adresami 32-bitowymi, umożliwiające imponujące 268 435 456 klastrów na wolumin.
+* **FAT32**, dalsze zaawansowanie z adresami 32-bitowymi, pozwalające na imponujące 268 435 456 klastrów na wolumin.
 
 Znaczącym ograniczeniem we wszystkich wersjach FAT jest **maksymalny rozmiar pliku 4GB**, narzucony przez pole 32-bitowe używane do przechowywania rozmiaru pliku.
 
@@ -190,7 +190,7 @@ Niektóre pliki zawierają metadane. Informacje te dotyczą zawartości pliku, k
 * Użyta wersja MS Office
 * Autor
 * Daty utworzenia i ostatniej modyfikacji
-* Model aparatu
+* Model aparatu fotograficznego
 * Współrzędne GPS
 * Informacje o obrazie
 
@@ -200,9 +200,9 @@ Możesz użyć narzędzi takich jak [**exiftool**](https://exiftool.org) i [**Me
 
 ### Zalogowane usunięte pliki
 
-Jak już widziano, istnieje kilka miejsc, gdzie plik jest nadal zapisany po "usunięciu". Dzieje się tak, ponieważ zazwyczaj usunięcie pliku z systemu plików oznacza go jako usunięty, ale dane nie są dotykane. Następnie można sprawdzić rejestracje plików (takie jak MFT) i odnaleźć usunięte pliki.
+Jak już było wspomniane, istnieje kilka miejsc, gdzie plik jest nadal zapisany po "usunięciu". Dzieje się tak, ponieważ zazwyczaj usunięcie pliku z systemu plików oznacza go jako usunięty, ale dane nie są dotykane. Następnie można sprawdzić rejestracje plików (takie jak MFT) i odnaleźć usunięte pliki.
 
-Ponadto, system operacyjny zazwyczaj zapisuje wiele informacji o zmianach w systemie plików i kopie zapasowe, więc można spróbować ich użyć do odzyskania pliku lub jak największej ilości informacji.
+Ponadto system operacyjny zazwyczaj zapisuje wiele informacji o zmianach w systemie plików i backupach, więc można spróbować ich użyć do odzyskania pliku lub jak największej ilości informacji.
 
 {% content-ref url="file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
@@ -212,7 +212,7 @@ Ponadto, system operacyjny zazwyczaj zapisuje wiele informacji o zmianach w syst
 
 **Wycinanie plików** to technika, która próbuje **znaleźć pliki w dużej ilości danych**. Istnieją 3 główne sposoby działania narzędzi tego typu: **Na podstawie nagłówków i stopów typów plików**, na podstawie **struktur typów plików** i na podstawie **samej zawartości**.
 
-Należy zauważyć, że ta technika **nie działa do odzyskiwania fragmentowanych plików**. Jeśli plik **nie jest przechowywany w sąsiadujących sektorach**, to ta technika nie będzie w stanie go odnaleźć lub przynajmniej częściowo.
+Należy zauważyć, że ta technika **nie działa do odzyskiwania fragmentowanych plików**. Jeśli plik **nie jest przechowywany w sąsiadujących sektorach**, to ta technika nie będzie w stanie go odnaleźć lub przynajmniej jego części.
 
 Istnieje kilka narzędzi, które można użyć do wycinania plików, wskazując typy plików, których chcesz szukać.
 
@@ -231,8 +231,8 @@ Na przykład, zamiast szukać kompletnego pliku zawierającego zarejestrowane ad
 
 ### Bezpieczne usuwanie
 
-Oczywiście istnieją sposoby **"bezpiecznego" usuwania plików i części logów o nich**. Na przykład można **nadpisać zawartość** pliku danymi bezużytecznymi kilkakrotnie, a następnie **usunąć** logi z **$MFT** i **$LOGFILE** dotyczące pliku, oraz **usunąć kopie zapasowe woluminu**.\
-Możesz zauważyć, że nawet wykonując tę czynność, mogą istnieć **inne miejsca, gdzie istnienie pliku jest nadal rejestrowane**, co jest prawdą, a częścią pracy profesjonalisty ds. informatyki śledczej jest ich odnalezienie.
+Oczywiście istnieją sposoby **"bezpiecznego" usuwania plików i części logów o nich**. Na przykład można **nadpisać zawartość** pliku danymi śmieciami kilka razy, a następnie **usunąć** logi z **$MFT** i **$LOGFILE** dotyczące pliku, oraz **usunąć kopie migawkowe woluminu**.\
+Możesz zauważyć, że nawet wykonując tę czynność, mogą istnieć **inne miejsca, gdzie istnienie pliku jest nadal rejestrowane**, i zadaniem profesjonalisty ds. informatyki śledczej jest ich znalezienie.
 
 ## Odnośniki
 

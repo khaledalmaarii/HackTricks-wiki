@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -43,7 +43,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Innym często używanym narzędziem do znajdowania ukrytych plików jest **foremost**. Konfigurację foremost można znaleźć w pliku `/etc/foremost.conf`. Jeśli chcesz wyszukać określone pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie przeszukiwał domyślnie skonfigurowane typy plików.
+Innym powszechnie stosowanym narzędziem do znajdowania ukrytych plików jest **foremost**. Konfigurację foremost można znaleźć w pliku `/etc/foremost.conf`. Jeśli chcesz wyszukać określone pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie przeszukiwał domyślnie skonfigurowane typy plików.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -60,7 +60,7 @@ scalpel file.img -o output
 
 To narzędzie znajduje się w Kali, ale można je znaleźć tutaj: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-To narzędzie może przeskanować obraz i **wydobyć pcapy** wewnątrz niego, **informacje sieciowe (adresy URL, domeny, adresy IP, adresy MAC, maile)** oraz więcej **plików**. Wystarczy tylko:
+To narzędzie może przeskanować obraz i **wydobyć pcapy** wewnątrz niego, **informacje sieciowe (adresy URL, domeny, adresy IP, adresy MAC, maile)** oraz więcej **plików**. Musisz tylko:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -70,24 +70,24 @@ Możesz go znaleźć pod adresem [https://www.cgsecurity.org/wiki/TestDisk\_Down
 
 Posiada wersje z interfejsem graficznym i wiersza poleceń. Możesz wybrać **typy plików**, które chcesz, aby PhotoRec wyszukał.
 
-![](<../../../.gitbook/assets/image (239).png>)
+![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [stronę narzędzia](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [narzędzie na stronie internetowej](https://binvis.io/#/).
 
 #### Funkcje BinVis
 
-* Wizualizator **struktury** z aktywnym widokiem
+* Wizualizator **struktury** plików
 * Wiele wykresów dla różnych punktów skupienia
 * Skupienie na fragmentach próbki
-* **Widok ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
-* Uzyskiwanie **wzorców** do kryptografii plików
+* **Wykrywanie ciągów znaków i zasobów**, w plikach wykonywalnych PE lub ELF, np.
+* Pozyskiwanie **wzorców** do kryptografii plików
 * **Wykrywanie** algorytmów pakowania lub kodowania
 * **Identyfikacja** steganografii poprzez wzorce
-* **Wizualne** porównywanie binarne
+* Wizualne porównywanie binarne
 
-BinVis to świetny **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
+BinVis to doskonały **punkt startowy do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
 
 ## Konkretne narzędzia do odzyskiwania danych
 

@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? A może chcesz uzyskać dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą ekskluzywną kolekcję [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź oficjalne [**gadżety PEASS i HackTricks**](https://peass.creator-spring.com)
+* Zdobądź oficjalny [**swag PEASS i HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) **grupy Discord** lub [**grupy telegram**](https://t.me/peass) albo **śledź mnie** na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Podziel się swoimi sztuczkami hakerskimi, wysyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podziel się swoimi sztuczkami hakowania, wysyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,11 +18,11 @@ Rozszerzenia jądra (Kexts) to **pakiety** z rozszerzeniem **`.kext`**, które s
 
 ### Wymagania
 
-Oczywiście jest to tak potężne, że **ładowanie rozszerzenia jądra** jest **skomplikowane**. Oto **wymagania**, które musi spełnić rozszerzenie jądra, aby zostało załadowane:
+Oczywiście jest to tak potężne, że **ładowanie rozszerzenia jądra jest skomplikowane**. Oto **wymagania**, które musi spełnić rozszerzenie jądra, aby zostało załadowane:
 
-* Podczas **wejścia w tryb odzyskiwania**, rozszerzenia jądra muszą być **dozwolone do załadowania**:
+* Podczas **wejścia w tryb odzyskiwania**, rozszerzenia **muszą być zezwolone** na załadowanie:
 
-<figure><img src="../../../.gitbook/assets/image (324).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
 * Rozszerzenie jądra musi być **podpisane certyfikatem podpisywania kodu jądra**, który może być **udzielony tylko przez Apple**. Firma dokładnie przeanalizuje, dlaczego jest to potrzebne.
 * Rozszerzenie jądra musi również być **znotaryzowane**, aby Apple mogło sprawdzić je pod kątem złośliwego oprogramowania.
@@ -32,17 +32,17 @@ Oczywiście jest to tak potężne, że **ładowanie rozszerzenia jądra** jest *
 
 ### Proces ładowania
 
-W przypadku systemu Catalina wyglądało to tak: Warto zauważyć, że proces **weryfikacji** zachodzi w **przestrzeni użytkownika**. Jednak tylko aplikacje z uprawnieniem **`com.apple.private.security.kext-management`** mogą **żądać od jądra załadowania rozszerzenia**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+W przypadku systemu Catalina wyglądało to tak: Warto zauważyć, że proces **weryfikacji** zachodzi w **userlandzie**. Jednak tylko aplikacje z uprawnieniem **`com.apple.private.security.kext-management`** mogą **żądać od jądra załadowania rozszerzenia**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
 1. **`kextutil`** wiersz poleceń **rozpoczyna** proces **weryfikacji** ładowania rozszerzenia
-* Nawiąże połączenie z **`kextd`**, wysyłając żądanie za pomocą **usługi Mach**.
+* Skontaktuje się z **`kextd`**, wysyłając żądanie za pomocą **usługi Mach**.
 2. **`kextd`** sprawdzi kilka rzeczy, takich jak **podpis**
-* Nawiąże połączenie z **`syspolicyd`**, aby **sprawdzić**, czy rozszerzenie może być **załadowane**.
-3. **`syspolicyd`** **poprosi** **użytkownika**, jeśli rozszerzenie nie zostało wcześniej załadowane.
+* Skontaktuje się z **`syspolicyd`**, aby **sprawdzić**, czy rozszerzenie może być **załadowane**.
+3. **`syspolicyd`** **poprosi użytkownika**, jeśli rozszerzenie nie zostało wcześniej załadowane.
 * **`syspolicyd`** przekaże wynik do **`kextd`**
 4. **`kextd`** w końcu będzie mógł **powiedzieć jądrze, aby załadowało** rozszerzenie
 
-Jeśli **`kextd`** nie jest dostępny, **`kextutil`** może wykonać te same sprawdzenia.
+Jeśli **`kextd`** nie jest dostępne, **`kextutil`** może przeprowadzić te same kontrole.
 
 ## Referencje
 
@@ -51,12 +51,12 @@ Jeśli **`kextd`** nie jest dostępny, **`kextutil`** może wykonać te same spr
 
 <details>
 
-<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 * Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? A może chcesz uzyskać dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą ekskluzywną kolekcję [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź oficjalne [**gadżety PEASS i HackTricks**](https://peass.creator-spring.com)
+* Zdobądź oficjalny [**swag PEASS i HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) **grupy Discord** lub [**grupy telegram**](https://t.me/peass) albo **śledź mnie** na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Podziel się swoimi sztuczkami hakerskimi, wysyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podziel się swoimi sztuczkami hakowania, wysyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

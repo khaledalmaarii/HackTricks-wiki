@@ -14,7 +14,7 @@ Inne sposoby wsparcia HackTricks:
 
 </details>
 
-MIG został stworzony, aby **uproszczać proces tworzenia kodu Mach IPC**. W zasadzie **generuje wymagany kod** do komunikacji serwera i klienta z daną definicją. Nawet jeśli wygenerowany kod jest brzydki, programista będzie musiał go tylko zaimportować, a jego kod będzie znacznie prostszy niż wcześniej.
+MIG został stworzony, aby **uproszczać proces tworzenia kodu Mach IPC**. W zasadzie **generuje wymagany kod** do komunikacji serwera i klienta z określoną definicją. Nawet jeśli wygenerowany kod jest brzydki, programista będzie musiał go tylko zaimportować, a jego kod będzie o wiele prostszy niż wcześniej.
 
 ### Przykład
 
@@ -66,25 +66,26 @@ myipc_server_routine,
 
 {% tab title="myipcServer.h" %}### macOS MIG (Mach Interface Generator)
 
-MIG is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code to handle messages sent between processes. By understanding and manipulating MIG interfaces, an attacker can abuse IPC mechanisms to escalate privileges or perform other malicious actions.
+MIG (Mach Interface Generator) is a tool used in macOS for defining inter-process communication (IPC) interfaces. It generates client and server-side code for message-based IPC. By using MIG, developers can define the messages that can be sent between processes and automatically generate the code needed to handle these messages.
 
-#### Example:
+#### Example of a MIG definition file:
 
 ```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
+routine my_ipc_message_handler {
+    mach_msg_header_t Head;
+    mach_msg_body_t msgh_body;
+    mach_msg_port_descriptor_t port;
+    NDR_record_t NDR;
+    int32_t my_message;
+} inband;
 
-kern_return_t myipcregister_server(mach_port_t *bootstrap_port, myipcServer *server);
-kern_return_t myipcregister_server(mach_port_t *bootstrap_port, myipcServer *server)
-{
-    return bootstrap_register(bootstrap_port, "com.example.myipc", server);
-}
 ```
 
-In this example, `myipcregister_server` registers the `myipcServer` service with the bootstrap server using the MIG-generated code.
+In the example above, `my_ipc_message_handler` is a routine defined using MIG that specifies the structure of the message that can be sent between processes. This allows for a standardized way of handling IPC in macOS applications.
 
-By analyzing and manipulating MIG interfaces, an attacker can find ways to abuse IPC mechanisms and potentially escalate privileges on a macOS system. It is crucial to secure IPC implementations to prevent such attacks.
+MIG is a powerful tool that can be used for legitimate purposes in macOS development, but it can also be abused by malicious actors to escalate privileges or perform unauthorized actions between processes. It is important for developers to follow best practices and secure coding guidelines when using MIG to prevent potential security vulnerabilities in their applications.
+
+For more information on MIG and inter-process communication in macOS, refer to the official Apple documentation. {% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -115,9 +116,9 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-W tym przykładzie zdefiniowaliśmy tylko 1 funkcję w definicjach, ale gdybyśmy zdefiniowali więcej funkcji, znalazłyby się one w tablicy **`SERVERPREFmyipc_subsystem`**, a pierwsza zostałaby przypisana do ID **500**, druga do ID **501**...
+W tym przykładzie zdefiniowaliśmy tylko 1 funkcję w definicjach, ale gdybyśmy zdefiniowali więcej funkcji, znajdowałyby się one wewnątrz tablicy **`SERVERPREFmyipc_subsystem`**, a pierwsza zostałaby przypisana do ID **500**, druga do ID **501**...
 
-Tak naprawdę możliwe jest zidentyfikowanie tej relacji w strukturze **`subsystem_to_name_map_myipc`** z pliku **`myipcServer.h`**:
+W rzeczywistości możliwe jest zidentyfikowanie tej relacji w strukturze **`subsystem_to_name_map_myipc`** z pliku **`myipcServer.h`**:
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -158,9 +159,9 @@ return FALSE;
 }
 </code></pre>
 
-Sprawdź wcześniej wyróżnione linie, które uzyskują dostęp do funkcji do wywołania według identyfikatora.
+Sprawdź wcześniej wyróżnione linie uzyskujące dostęp do funkcji do wywołania według identyfikatora.
 
-Poniżej znajduje się kod tworzący prosty **serwer** i **klient**, gdzie klient może wywołać funkcje Odejmowanie z serwera:
+Poniżej znajduje się kod tworzący prosty **serwer** i **klient**, gdzie klient może wywoływać funkcje odejmowania na serwerze:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -196,7 +197,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}W celu zainicjowania komunikacji z serwerem MIG, klient musi wykonać kilka kroków. Najpierw musi uzyskać port mach do serwera MIG, a następnie utworzyć zdalny interfejs MIG. Następnie klient może wywołać zdalne procedury MIG, przekazując odpowiednie argumenty. Po zakończeniu komunikacji klient powinien zwolnić port mach serwera MIG. W przypadku błędów klient powinien obsłużyć odpowiednie kody błędów zwracane przez procedury MIG. {% endtab %}
+{% tab title="myipc_client.c" %}{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -223,20 +224,20 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### Analiza binarna
 
-Ponieważ wiele plików binarnych teraz używa MIG do ujawniania portów mach, interesujące jest wiedzieć, jak **zidentyfikować, że został użyty MIG** oraz **funkcje, które MIG wykonuje** z każdym identyfikatorem wiadomości.
+Ponieważ wiele plików binarnych teraz używa MIG do ujawniania portów mach, interesujące jest wiedzieć, jak **zidentyfikować, że MIG został użyty** oraz **funkcje, które MIG wykonuje** z każdym identyfikatorem wiadomości.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) może analizować informacje MIG z pliku binarnego Mach-O, wskazując identyfikator wiadomości i identyfikując funkcję do wykonania:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) może analizować informacje MIG z pliku Mach-O, wskazując identyfikator wiadomości i identyfikując funkcję do wykonania:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Wcześniej wspomniano, że funkcją, która będzie **wywoływać odpowiednią funkcję w zależności od otrzymanego identyfikatora wiadomości**, będzie `myipc_server`. Jednak zazwyczaj nie będziesz mieć symboli binarnych (nazw funkcji), więc interesujące jest **sprawdzenie, jak wygląda zdekompilowany kod**, ponieważ zawsze będzie bardzo podobny (kod tej funkcji jest niezależny od funkcji wystawionych):
+Wcześniej wspomniano, że funkcją, która będzie odpowiedzialna za **wywołanie odpowiedniej funkcji w zależności od otrzymanego identyfikatora wiadomości**, będzie `myipc_server`. Jednak zazwyczaj nie będziesz mieć symboli binarnych (nazw funkcji), więc interesujące jest **sprawdzenie, jak wygląda zdekompilowany kod**, ponieważ zawsze będzie bardzo podobny (kod tej funkcji jest niezależny od funkcji wystawionych):
 
 {% tabs %}
 {% tab title="myipc_server zdekompilowany 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
-// Instrukcje początkowe do znalezienia odpowiednich wskaźników funkcji
+// Instrukcje początkowe mające na celu znalezienie odpowiednich wskaźników funkcji
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -245,8 +246,8 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Wywołanie sign_extend_64, które pomaga zidentyfikować tę funkcję
-// To przechowuje w rax wskaźnik do wywołania, które należy wykonać
+// Wywołanie sign_extend_64, które może pomóc zidentyfikować tę funkcję
+// To zapisuje w rax wskaźnik do wywołania, które trzeba wykonać
 // Sprawdź użycie adresu 0x100004040 (tablica adresów funkcji)
 // 0x1f4 = 500 (początkowe ID)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
@@ -275,7 +276,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server zdekompilowany 2" %}
-To ta sama funkcja zdekompilowana w innej wersji Hopper free:
+To ta sama funkcja zdekompilowana w innej wersji Hoppera:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -283,7 +284,7 @@ saved_fp = r29;
 stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
-// Instrukcje początkowe do znalezienia odpowiednich wskaźników funkcji
+// Instrukcje początkowe mające na celu znalezienie odpowiednich wskaźników funkcji
 *(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
@@ -350,11 +351,13 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Faktycznie, jeśli przejdziesz do funkcji **`0x100004000`**, znajdziesz tablicę struktur **`routine_descriptor`**. Pierwszy element struktury to **adres**, gdzie jest zaimplementowana **funkcja**, a **struktura zajmuje 0x28 bajtów**, więc co 0x28 bajtów (zaczynając od bajtu 0) możesz uzyskać 8 bajtów, które będą **adresem funkcji**, która zostanie wywołana:
+Faktycznie, jeśli przejdziesz do funkcji **`0x100004000`**, znajdziesz tablicę struktur **`routine_descriptor`**. Pierwszy element struktury to **adres**, gdzie jest zaimplementowana **funkcja**, a **struktura zajmuje 0x28 bajtów**, więc co 0x28 bajtów (zaczynając od bajtu 0) można uzyskać 8 bajtów, które będą **adresem funkcji**, która zostanie wywołana:
 
-<figure><img src="../../../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Te dane można wyodrębnić [**korzystając z tego skryptu Hoppera**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **na GitHubie.**
+* **Udostępnij swoje sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **na githubie.**
+
+</details>

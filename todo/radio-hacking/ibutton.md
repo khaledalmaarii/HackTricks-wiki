@@ -16,19 +16,19 @@ Inne sposoby wsparcia HackTricks:
 
 ## Wprowadzenie
 
-iButton to ogólna nazwa dla elektronicznego klucza identyfikacyjnego zapakowanego w **metalowy pojemnik w kształcie monety**. Jest również nazywany **pamięcią dotykową Dallas** lub pamięcią kontaktową. Pomimo częstego błędnego określania go jako klucz „magnetyczny”, w rzeczywistości nie zawiera **nic magnetycznego**. W rzeczywistości wewnątrz znajduje się ukryty pełnoprawny **mikroczip** działający w oparciu o protokół cyfrowy.
+iButton to ogólna nazwa dla elektronicznego klucza identyfikacyjnego zapakowanego w **metalowy pojemnik w kształcie monety**. Jest on również nazywany **pamięcią dotykową Dallas** lub pamięcią kontaktową. Pomimo częstego błędnego określania go jako "klucz magnetyczny", w rzeczywistości nie zawiera **nic magnetycznego**. W rzeczywistości wewnątrz znajduje się ukryty pełnoprawny **mikroczip** działający w oparciu o protokół cyfrowy.
 
-<figure><img src="../../.gitbook/assets/image (912).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
 ### Co to jest iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Zazwyczaj iButton oznacza fizyczną formę klucza i czytnika - okrągłą monetę z dwoma kontaktami. Dla ramki otaczającej go istnieje wiele wariantów, od najbardziej popularnego plastikowego uchwytu z otworem po pierścienie, naszyjniki itp.
+Zazwyczaj iButton oznacza fizyczną formę klucza i czytnika - okrągłą monetę z dwoma kontaktami. Dla ramki otaczającej go istnieje wiele wariantów, od najbardziej popularnego plastikowego uchwytu z otworem po pierścienie, naszyjniki, itp.
 
-<figure><img src="../../.gitbook/assets/image (1075).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-Gdy klucz dotrze do czytnika, **kontakty się stykają** i klucz jest zasilany, aby **przesłać** swoje ID. Czasami klucz **nie jest odczytywany** natychmiast, ponieważ **obszar PSD kontaktu interkomu jest większy** niż powinien być. W takim przypadku trzeba nacisnąć klucz na jednej ze ścian czytnika.
+Gdy klucz dotrze do czytnika, **kontakty się stykają** i klucz jest zasilany, aby **przesłać** swoje ID. Czasami klucz **nie jest odczytywany** natychmiast, ponieważ **obszar PSD kontaktu interkomu jest większy** niż powinien. W takim przypadku trzeba nacisnąć klucz na jedną ze ścian czytnika.
 
-<figure><img src="../../.gitbook/assets/image (287).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
 ### **Protokół 1-Wire** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
@@ -36,7 +36,7 @@ Klucze Dallas wymieniają dane za pomocą protokołu 1-Wire. Zaledwie jeden kont
 
 Gdy klucz (Slave) styka się z interkomem (Master), chip wewnątrz klucza się włącza, zasilany przez interkom, i klucz jest inicjowany. Następnie interkom żąda ID klucza. Następnie przyjrzymy się temu procesowi bardziej szczegółowo.
 
-Flipper może działać zarówno w trybie Master, jak i Slave. W trybie odczytu klucza Flipper działa jako czytnik, czyli działa jako Master. W trybie emulacji klucza, Flipper udaje, że jest kluczem, działa w trybie Slave.
+Flipper może działać zarówno w trybie Master, jak i Slave. W trybie odczytu klucza, Flipper działa jako czytnik, czyli działa jako Master. A w trybie emulacji klucza, Flipper udaje, że jest kluczem, czyli jest w trybie Slave.
 
 ### Klucze Dallas, Cyfral i Metakom
 
@@ -50,6 +50,6 @@ Klucze iButton mogą być atakowane za pomocą Flipper Zero:
 [fz-ibutton.md](flipper-zero/fz-ibutton.md)
 {% endcontent-ref %}
 
-## Referencje
+## Odnośniki
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)

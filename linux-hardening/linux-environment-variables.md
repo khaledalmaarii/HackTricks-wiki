@@ -6,10 +6,10 @@
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
@@ -39,13 +39,13 @@ unset MYGLOBAL
 ```
 ## Zmienne lokalne
 
-Zmienne lokalne mogą być dostępne tylko przez bieżącą powłokę/skrypt.
+Zmienne **lokalne** mogą być **dostępne** tylko przez **bieżącą powłokę/skrypt**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Wyświetlanie bieżących zmiennych
+## Wyświetl bieżące zmienne
 ```bash
 set
 env
@@ -57,7 +57,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 Z: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – wyświetlacz używany przez **X**. Zmienna ta zazwyczaj jest ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
+* **DISPLAY** – wyświetlacz używany przez **X**. Ta zmienna jest zazwyczaj ustawiona na **:0.0**, co oznacza pierwszy wyświetlacz na bieżącym komputerze.
 * **EDITOR** – preferowany edytor tekstu użytkownika.
 * **HISTFILESIZE** – maksymalna liczba linii zawartych w pliku historii.
 * **HISTSIZE** – Liczba linii dodanych do pliku historii po zakończeniu sesji użytkownika.
@@ -79,19 +79,19 @@ Z: [https://geek-university.com/linux/common-environment-variables/](https://gee
 
 ### **HISTFILESIZE**
 
-Zmień **wartość tej zmiennej na 0**, aby po **zakończeniu sesji** plik historii (\~/.bash\_history) **został usunięty**.
+Zmień **wartość tej zmiennej na 0**, więc gdy **zakończysz swoją sesję**, plik historii (\~/.bash\_history) **zostanie usunięty**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Zmień **wartość tej zmiennej na 0**, aby po **zakończeniu sesji** żadne polecenie nie było dodane do **pliku historii** (\~/.bash\_history).
+Zmień **wartość tej zmiennej na 0**, aby po **zakończeniu sesji** żadne polecenie nie było dodawane do **pliku historii** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem **http lub https**.
+Procesy będą korzystać z zadeklarowanego tutaj **serwera proxy** do połączenia z internetem za pośrednictwem protokołów **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -111,19 +111,19 @@ Zmień wygląd swojego wiersza poleceń.
 
 Root:
 
-![](<../.gitbook/assets/image (894).png>)
+![](<../.gitbook/assets/image (897).png>)
 
 Zwykły użytkownik:
 
-![](<../.gitbook/assets/image (737).png>)
+![](<../.gitbook/assets/image (740).png>)
 
 Jeden, dwa i trzy procesy w tle:
 
-![](<../.gitbook/assets/image (142).png>)
+![](<../.gitbook/assets/image (145).png>)
 
 Jeden proces w tle, jeden zatrzymany i ostatnie polecenie nie zakończyło się poprawnie:
 
-![](<../.gitbook/assets/image (712).png>)
+![](<../.gitbook/assets/image (715).png>)
 
 **Try Hard Security Group**
 
@@ -140,7 +140,7 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

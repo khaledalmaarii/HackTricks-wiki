@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? A może chcesz uzyskać dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) albo **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -18,7 +18,7 @@ Jeśli program używa `scanf` do pobrania **kilku wartości naraz ze standardowe
 
 Kody pochodzą z [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
-### Wejście do osiągnięcia adresu (wskazując adres)
+### Wejście do osiągnięcia adresu (wskazującego adres)
 ```python
 import angr
 import sys
@@ -212,9 +212,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-W tym scenariuszu wejście zostało pobrane za pomocą `scanf("%u %u")`, a wartość `"1 1"` została podana, więc wartości **`0x00000001`** ze stosu pochodzą od **wejścia użytkownika**. Możesz zobaczyć, jak te wartości zaczynają się w `$ebp - 8`. W związku z tym w kodzie **odjęliśmy 8 bajtów od `$esp` (ponieważ w tym momencie `$ebp` i `$esp` miały tę samą wartość)**, a następnie przesunęliśmy BVS.
+W tym scenariuszu wejście zostało pobrane za pomocą `scanf("%u %u")`, a wartość `"1 1"` została podana, więc wartości **`0x00000001`** ze stosu pochodzą od **wejścia użytkownika**. Można zobaczyć, jak te wartości zaczynają się w `$ebp - 8`. W związku z tym w kodzie **odjęliśmy 8 bajtów od `$esp` (ponieważ w tym momencie `$ebp` i `$esp` miały taką samą wartość)**, a następnie przesunęliśmy BVS.
 
-![](<../../../.gitbook/assets/image (133).png>)
+![](<../../../.gitbook/assets/image (136).png>)
 
 ### Statyczne wartości pamięci (zmienne globalne)
 ```python
@@ -498,9 +498,9 @@ W niektórych scenariuszach można aktywować **veritesting**, który połączy 
 Inną rzeczą, którą można zrobić w tych scenariuszach, jest **zahaczenie funkcji, aby angr mógł łatwiej zrozumieć**.
 {% endhint %}
 
-### Menedżerowie Symulacji
+### Menedżerowie symulacji
 
-Niektóre menedżery symulacji mogą być bardziej przydatne niż inne. W poprzednim przykładzie pojawił się problem z tworzeniem wielu przydatnych gałęzi. Tutaj technika **veritesting** połączy te gałęzie i znajdzie rozwiązanie.\
+Niektóre menedżery symulacji mogą być bardziej przydatne niż inne. W poprzednim przykładzie pojawił się problem z tworzeniem wielu przydatnych gałęzi. Tutaj technika **veritesting** pozwoli je połączyć i znaleźć rozwiązanie.\
 Ten menedżer symulacji można również aktywować za pomocą: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -753,7 +753,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Statyczne pliki wykonywalne
+### Statyczne pliki binarne
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -822,12 +822,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

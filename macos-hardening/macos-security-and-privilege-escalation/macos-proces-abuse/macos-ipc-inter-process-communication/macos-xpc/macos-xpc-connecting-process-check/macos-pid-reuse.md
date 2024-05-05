@@ -1,8 +1,8 @@
-# Ponowne wykorzystanie PID w macOS
+# macOS PID Reuse
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -10,30 +10,30 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
 ## Ponowne wykorzystanie PID
 
-Kiedy usługa **XPC w macOS** sprawdza wywołany proces na podstawie **PID** a nie na **tokenie audytu**, jest podatna na atak z wykorzystaniem ponownego wykorzystania PID. Atak ten opiera się na **warunku wyścigu**, gdzie **exploit** będzie **wysyłał wiadomości do usługi XPC**, **nadużywając** funkcjonalności i zaraz po tym, wykonując **`posix_spawn(NULL, docelowy_binarny, NULL, &attr, docelowe_argv, environ)`** z dozwolonym binarnym.
+Kiedy usługa **XPC w macOS** sprawdza wywołany proces na podstawie **PID** a nie na podstawie **tokena audytu**, jest podatna na atak polegający na ponownym wykorzystaniu PID. Atak ten opiera się na **warunku wyścigu**, w którym **exploit** będzie **wysyłał wiadomości do usługi XPC**, **nadużywając** funkcjonalności i **zaraz po tym** wykonując **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** z dozwolonym plikiem binarnym.
 
-Ta funkcja sprawi, że **dozwolony binarny przejmie PID**, ale **złośliwa wiadomość XPC została wysłana** tuż przed tym. Dlatego jeśli usługa **XPC** używa **PID** do **uwierzytelniania nadawcy** i sprawdza go **PO** wykonaniu **`posix_spawn`**, będzie myślała, że pochodzi od **autoryzowanego** procesu.
+Ta funkcja sprawi, że **dozwolony plik binarny przejmie PID**, ale **złośliwa wiadomość XPC została wysłana** tuż przed tym. Dlatego jeśli **usługa XPC** używa **PID** do **uwierzytelniania nadawcy** i sprawdza go **PO** wykonaniu **`posix_spawn`**, będzie myślała, że pochodzi od **autoryzowanego** procesu.
 
-### Przykład exploitu
+### Przykład wykorzystania
 
-Jeśli znajdziesz funkcję **`shouldAcceptNewConnection`** lub funkcję wywoływaną przez nią, która wywołuje **`processIdentifier`** i nie wywołuje **`auditToken`**, to bardzo prawdopodobne, że weryfikuje PID procesu, a nie token audytu.\
-Na przykład w tym obrazie (zaczerpniętym z odniesienia):
+Jeśli znajdziesz funkcję **`shouldAcceptNewConnection`** lub funkcję wywoływaną przez nią, która wywołuje **`processIdentifier`** i nie wywołuje **`auditToken`**, to bardzo prawdopodobne, że sprawdza **PID procesu**, a nie token audytu.\
+Na przykład na tym obrazie (zrzut z odnośnika):
 
-<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Sprawdź ten przykładowy exploit (ponownie zaczerpnięty z odniesienia), aby zobaczyć 2 części exploitu:
+Sprawdź ten przykładowy exploit (ponownie z odnośnika), aby zobaczyć 2 części exploitu:
 
 * Jedna, która **generuje kilka forków**
 * **Każdy fork** będzie **wysyłał** **ładunek** do usługi XPC, wykonując jednocześnie **`posix_spawn`** zaraz po wysłaniu wiadomości.
 
 {% hint style="danger" %}
-Aby exploit działał, ważne jest, aby ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** lub umieścić wewnątrz exploitu:
+Aby exploit działał, ważne jest ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** lub umieszczenie wewnątrz exploitu:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Pierwsza opcja korzystająca z **`NSTasks`** i argumentu do uruchomienia procesów potomnych w celu wykorzystania RC
+Pierwsza opcja korzystająca z **`NSTasks`** i argumentu do uruchomienia dzieci w celu wykorzystania RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Ten przykład używa surowego **`fork`** do uruchomienia **dzieci, które będą wykorzystywać wyścig PID** a następnie wykorzystują **inną sytuację wyścigową poprzez twardy link:**
+Ten przykład używa surowego **`fork`** do uruchomienia **dzieci, które będą wykorzystywać wyścig PID** a następnie wykorzystać **inną sytuację wyścigową za pomocą twardego dowiązania:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -285,6 +285,9 @@ pwned = true;
 return 0;
 }
 ```
+{% endtab %}
+{% endtabs %}
+
 ## Inne przykłady
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
@@ -301,9 +304,9 @@ return 0;
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

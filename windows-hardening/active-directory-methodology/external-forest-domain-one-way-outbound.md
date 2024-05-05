@@ -1,4 +1,4 @@
-# Zewnętrzna domena lasu - Jednokierunkowy (wychodzący)
+# Zewnętrzna domena lasu - Jednokierunkowe (wychodzące)
 
 <details>
 
@@ -10,13 +10,13 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 
-W tym scenariuszu **twoja domena** udziela **pewnych uprawnień** podmiotowi z **innych domen**.
+W tym scenariuszu **twoja domena** udziela pewnych **uprawnień** podmiotowi z **różnych domen**.
 
-## Wyliczanie
+## Eksploracja
 
 ### Zaufanie wychodzące
 ```powershell
@@ -48,15 +48,15 @@ Kluczowym aspektem do zrozumienia tutaj jest to, że hasło i skrót tego specja
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-To wydobycie jest możliwe, ponieważ konto, zidentyfikowane za pomocą **$** po swojej nazwie, jest aktywne i należy do grupy "Domain Users" domeny **A**, co oznacza dziedziczenie uprawnień związanych z tą grupą. Pozwala to osobom uwierzytelniać się w domenie **A** za pomocą poświadczeń tego konta.
+To wydobycie jest możliwe, ponieważ konto, zidentyfikowane za pomocą **$** po swojej nazwie, jest aktywne i należy do grupy "Domain Users" domeny **A**, co oznacza dziedziczenie uprawnień związanych z tą grupą. Pozwala to osobom uwierzytelniać się w domenie **A** przy użyciu poświadczeń tego konta.
 
-**Ostrzeżenie:** Możliwe jest wykorzystanie tej sytuacji do uzyskania punktu zaczepienia w domenie **A** jako użytkownik, chociaż z ograniczonymi uprawnieniami. Jednak ten dostęp wystarcza do przeprowadzenia enumeracji w domenie **A**.
+**Ostrzeżenie:** Wykorzystanie tej sytuacji w celu uzyskania punktu zaczepienia w domenie **A** jako użytkownik, choć z ograniczonymi uprawnieniami, jest możliwe. Jednak ten dostęp wystarcza do przeprowadzenia enumeracji w domenie **A**.
 
-W scenariuszu, gdzie `ext.local` jest domeną ufającą, a `root.local` jest domeną zaufaną, konto użytkownika o nazwie `EXT$` zostanie utworzone w `root.local`. Za pomocą konkretnych narzędzi możliwe jest wydobycie kluczy zaufania Kerberos, ujawniając poświadczenia `EXT$` w `root.local`. Polecenie do osiągnięcia tego to:
+W scenariuszu, gdzie `ext.local` jest domeną ufającą, a `root.local` jest domeną zaufaną, konto użytkownika o nazwie `EXT$` zostanie utworzone w `root.local`. Za pomocą konkretnych narzędzi możliwe jest wydumpowanie kluczy zaufania Kerberos, ujawniając poświadczenia `EXT$` w `root.local`. Polecenie do osiągnięcia tego to:
 ```bash
 lsadump::trust /patch
 ```
-Następnie można użyć wydobytego klucza RC4 do uwierzytelnienia jako `root.local\EXT$` w `root.local` za pomocą innego polecenia narzędzia:
+Następnie można użyć wyodrębnionego klucza RC4 do uwierzytelnienia jako `root.local\EXT$` w `root.local` za pomocą innego polecenia narzędzia:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
@@ -70,13 +70,13 @@ W poprzednim przepływie użyto hasha zaufania zamiast **hasła w tekście jawny
 
 Hasło w tekście jawnym można uzyskać, konwertując wynik \[ CLEAR ] z mimikatz z szesnastkowego i usuwając bajty null ' \x00 ':
 
-![](<../../.gitbook/assets/image (935).png>)
+![](<../../.gitbook/assets/image (938).png>)
 
 Czasami podczas tworzenia relacji zaufania, użytkownik musi wpisać hasło dla zaufania. W tej demonstracji kluczem jest oryginalne hasło zaufania i dlatego jest czytelne dla ludzi. Ponieważ klucz cykluje (co 30 dni), hasło w tekście jawnym nie będzie czytelne dla ludzi, ale technicznie nadal użyteczne.
 
-Hasło w tekście jawnym można użyć do wykonywania regularnej autoryzacji jako konta zaufania, alternatywnie do żądania TGT za pomocą tajnego klucza Kerberosa konta zaufania. Tutaj, zapytanie root.local z ext.local o członków Administratorów domeny:
+Hasło w tekście jawnym można użyć do wykonywania regularnej autoryzacji jako konto zaufania, jako alternatywa dla żądania TGT za pomocą tajnego klucza Kerberosa konta zaufania. Tutaj, zapytanie o root.local z ext.local dla członków Administratorów domeny:
 
-![](<../../.gitbook/assets/image (789).png>)
+![](<../../.gitbook/assets/image (792).png>)
 
 ## Referencje
 
