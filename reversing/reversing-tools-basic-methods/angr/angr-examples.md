@@ -1,22 +1,22 @@
-# Angr - 示例
+# Angr - 例子
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**吗？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中被宣传**吗？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧**。
 
 </details>
 
 {% hint style="info" %}
-如果程序使用`scanf`从stdin中**一次获取多个值**，则需要生成一个在**`scanf`**之后开始的状态。
+如果程序使用 `scanf` 从 stdin **一次获取多个值**，您需要生成一个在 **`scanf`** 之后开始的状态。
 {% endhint %}
 
-代码取自[https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
+代码取自 [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
 ### 输入以到达地址（指示地址）
 ```python
@@ -150,7 +150,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 栈值
+### 栈数值
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -212,9 +212,9 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定的值是 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推入了 BVS。
+在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定了值 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推送了 BVS。
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (136).png>)
 
 ### 静态内存值（全局变量）
 ```python
@@ -418,8 +418,8 @@ main(sys.argv)
 ### 应用约束
 
 {% hint style="info" %}
-有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于**angr**来说会**花费**很多资源，因为它需要**指数级地生成分支**，因为它会根据if语句生成1个分支：`2^16`\
-因此，更容易**要求angr回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
+有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于 **angr** 来说会**花费很多成本**，因为它需要**指数级地生成分支**，因为它会为每个 if 语句生成一个分支：`2^16`\
+因此，更容易**要求 angr 返回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -496,12 +496,12 @@ main(sys.argv)
 {% endhint %}
 
 {% hint style="info" %}
-在这些情况下，您可以做的另一件事是**hook the function giving angr something it can understand**更容易。
+在这些情况下，您可以做的另一件事是**hook函数，使angr更容易理解**。
 {% endhint %}
 
 ### 模拟管理器
 
-有些模拟管理器可能比其他的更有用。在前面的示例中，存在一个问题，因为创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
+有些模拟管理器比其他的更有用。在前面的示例中，存在一个问题，即创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
 这个模拟管理器也可以通过以下方式激活：`simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -608,9 +608,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking a function / Simprocedure
-
-### 钩住一个函数 / Simprocedure
+### Hooking一个函数 / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -694,7 +692,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 模拟带有多个参数的scanf
+### 模拟带有多个参数的 scanf
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -828,9 +826,9 @@ main(sys.argv)
 <summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 * 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

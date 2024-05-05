@@ -8,7 +8,7 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -51,7 +51,7 @@ dotPeek是一个反编译器，可以**反编译和检查多种格式**，包括
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-借助全面的插件模型和API，.NET Reflector可以节省时间并简化开发。让我们看看这个工具提供的众多逆向工程服务：
+通过全面的插件模型和API，.NET Reflector节省时间并简化开发。让我们看看这个工具提供的众多逆向工程服务：
 
 * 提供数据如何在库或组件中流动的见解
 * 提供.NET语言和框架的实现和使用见解
@@ -61,8 +61,8 @@ dotPeek是一个反编译器，可以**反编译和检查多种格式**，包括
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Visual Studio Code的ILSpy插件](https://github.com/icsharpcode/ilspy-vscode)：您可以在任何操作系统中使用它（您可以直接从VSCode安装，无需下载git。点击**Extensions**，然后搜索**ILSpy**）。\
-如果您需要**反编译**，**修改**和**重新编译**，可以使用[**dnSpy**](https://github.com/dnSpy/dnSpy/releases)或其积极维护的分支[**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)。（右键单击 -> 修改方法**来更改函数内部的内容）。
+[Visual Studio Code的ILSpy插件](https://github.com/icsharpcode/ilspy-vscode)：您可以在任何操作系统中使用它（您可以直接从VSCode安装，无需下载git。单击**扩展**，然后**搜索ILSpy**）。\
+如果您需要**反编译**，**修改**和**重新编译**，可以使用[**dnSpy**](https://github.com/dnSpy/dnSpy/releases)或其积极维护的分支[**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)。（右键单击 -> 修改方法**来更改函数内的内容）。
 
 ### DNSpy日志记录
 
@@ -78,7 +78,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 首先，更改与**调试**相关的**程序集属性**：
 
-![](<../../.gitbook/assets/image (970).png>)
+![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
@@ -95,35 +95,37 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 然后通过 _**文件 >> 保存模块...**_ 保存新文件：
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (602).png>)
 
-这是必要的，因为如果不这样做，在**运行时**会对代码应用几个**优化**，可能会导致在调试时**断点永远不会触发**或一些**变量不存在**。
+这是必要的，因为如果您不这样做，在**运行时**代码将应用几个**优化**，可能会导致在调试时**断点永远不会触发**或一些**变量不存在**。
 
 然后，如果您的.NET应用程序正在由**IIS**运行，您可以使用以下方法**重新启动**它：
 ```
 iisreset /noforce
 ```
-然后，为了开始调试，您应该关闭所有已打开的文件，并在**调试选项卡**中选择**附加到进程...**：
+## 开始调试
 
-![](<../../.gitbook/assets/image (315).png>)
+然后，为了开始调试，您应该关闭所有打开的文件，并在**调试选项卡**中选择**附加到进程...**：
 
-然后选择**w3wp.exe**以附加到**IIS服务器**，并单击**附加**：
+![](<../../.gitbook/assets/image (318).png>)
 
-![](<../../.gitbook/assets/image (110).png>)
+然后选择**w3wp.exe**以附加到**IIS服务器**，并点击**附加**：
 
-现在我们正在调试该进程，是时候停止它并加载所有模块了。首先单击 _调试 >> 中断所有_，然后单击 _**调试 >> 窗口 >> 模块**_：
+![](<../../.gitbook/assets/image (113).png>)
 
-![](<../../.gitbook/assets/image (129).png>)
+现在我们正在调试该进程，是时候停止它并加载所有模块了。首先点击_Debug >> Break All_，然后点击_Debug >> Windows >> Modules_：
 
-![](<../../.gitbook/assets/image (831).png>)
+![](<../../.gitbook/assets/image (132).png>)
 
-单击**模块**中的任何模块，然后选择**打开所有模块**：
+![](<../../.gitbook/assets/image (834).png>)
 
-![](<../../.gitbook/assets/image (919).png>)
+在**模块**中点击任何模块，然后选择**打开所有模块**：
 
-右键单击**程序集资源管理器**中的任何模块，然后单击**排序程序集**：
+![](<../../.gitbook/assets/image (922).png>)
 
-![](<../../.gitbook/assets/image (336).png>)
+右键单击**程序集资源管理器**中的任何模块，然后点击**排序程序集**：
+
+![](<../../.gitbook/assets/image (339).png>)
 
 ## Java反编译器
 
@@ -138,32 +140,32 @@ iisreset /noforce
 * 选择**Windbg**调试器
 * 选择“**在库加载/卸载时暂停**”
 
-![](<../../.gitbook/assets/image (865).png>)
+![](<../../.gitbook/assets/image (868).png>)
 
 * 配置执行的**参数**，放入**DLL的路径**和要调用的函数：
 
-![](<../../.gitbook/assets/image (701).png>)
+![](<../../.gitbook/assets/image (704).png>)
 
 然后，当您开始调试时，**每次加载DLL时执行将会停止**，然后当rundll32加载您的DLL时，执行将会停止。
 
-但是，如何查看已加载的DLL的代码呢？使用这种方法，我不知道。
+但是，您如何查看已加载的DLL的代码呢？使用这种方法，我不知道如何。
 
 ### 使用x64dbg/x32dbg
 
 * **加载rundll32**（64位位于C:\Windows\System32\rundll32.exe，32位位于C:\Windows\SysWOW64\rundll32.exe）
-* **更改命令行**（ _文件 --> 更改命令行_ ）并设置dll的路径和要调用的函数，例如：“C:\Windows\SysWOW64\rundll32.exe” “Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll”,DLLMain
-* 更改 _选项 --> 设置_ 并选择“**DLL入口**”。
-* 然后**开始执行**，调试器将在每个dll主函数处停止，最终您将**停在您的dll的dll入口**。从那里，只需搜索要设置断点的位置。
+* **更改命令行**（_文件 --> 更改命令行_）并设置dll的路径和要调用的函数，例如：“C:\Windows\SysWOW64\rundll32.exe” “Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll”,DLLMain
+* 更改_Options --> Settings_并选择“**DLL入口**”。
+* 然后**开始执行**，调试器将在每个dll主函数处停止，最终您将**停在您的dll的dll入口处**。从那里，只需搜索要设置断点的位置。
 
-请注意，当win64dbg由于任何原因停止执行时，您可以看到您正在查看的代码位于**win64dbg窗口顶部**：
+请注意，当win64dbg由于任何原因停止执行时，您可以在**win64dbg窗口顶部**看到**您所在的代码**：
 
-![](<../../.gitbook/assets/image (839).png>)
+![](<../../.gitbook/assets/image (842).png>)
 
-然后，查看此内容，您可以看到执行已在您要调试的dll中停止。
+然后，查看这个可以看到执行停在您要调试的dll中的位置。
 
 ## GUI应用程序 / 视频游戏
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php)是一个有用的程序，可用于查找运行游戏内存中保存的重要值并更改它们。更多信息请参见：
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php)是一个有用的程序，可以找到运行游戏内存中保存的重要值并更改它们。更多信息请参见：
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
@@ -171,7 +173,7 @@ iisreset /noforce
 
 [**PiNCE**](https://github.com/korcankaraokcu/PINCE)是GNU Project Debugger（GDB）的前端/逆向工程工具，专注于游戏。但是，它也可用于任何逆向工程相关的内容。
 
-[**Decompiler Explorer**](https://dogbolt.org/)是一种连接多个反编译器的Web前端。此Web服务可让您比较不同反编译器在小型可执行文件上的输出。
+[**Decompiler Explorer**](https://dogbolt.org/)是一种连接多个反编译器的Web前端。这项网络服务允许您比较不同反编译器在小型可执行文件上的输出。
 
 ## ARM和MIPS
 
@@ -181,11 +183,11 @@ iisreset /noforce
 
 ### 使用blobrunner调试shellcode
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner)将在内存空间中**分配shellcode**，并将向您指示shellcode分配的**内存地址**，然后将**停止**执行。\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner)将在内存空间中**分配shellcode**，将向您指示shellcode分配的**内存地址**，并将**停止**执行。\
 然后，您需要将调试器（Ida或x64dbg）附加到进程，并在指示的内存地址处设置断点，然后**恢复**执行。这样您就可以调试shellcode了。
 
 发布的github页面包含包含编译版本的zip文件：[https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-您可以在以下链接中找到Blobrunner的稍作修改的版本。为了编译它，只需**在Visual Studio Code中创建一个C/C++项目，复制并粘贴代码，然后构建**。
+您可以在以下链接中找到Blobrunner的略微修改版本。为了编译它，只需**在Visual Studio Code中创建一个C/C++项目，复制并粘贴代码，然后构建**。
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -193,9 +195,9 @@ iisreset /noforce
 
 ### 使用jmp2it调试shellcode
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)与blobrunner非常相似。它将在内存空间中**分配shellcode**，并启动一个**永久循环**。然后，您需要将调试器附加到进程，**开始等待2-5秒然后停止**，您将发现自己处于**永久循环**中。跳转到永久循环的下一条指令，因为它将是对shellcode的调用，最终您将发现自己正在执行shellcode。
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)与blobrunner非常相似。它将在内存空间中**分配shellcode**，并启动一个**永久循环**。然后，您需要将调试器附加到进程，**播放开始等待2-5秒，然后按停止**，您将发现自己处于**永久循环**中。跳转到永久循环的下一条指令，因为它将是对shellcode的调用，最终您将发现自己正在执行shellcode。
 
-![](<../../.gitbook/assets/image (506).png>)
+![](<../../.gitbook/assets/image (509).png>)
 
 您可以在[发布页面中下载jmp2it的编译版本](https://github.com/adamkramer/jmp2it/releases/)。
 
@@ -203,19 +205,19 @@ iisreset /noforce
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0)是radare的GUI。使用Cutter，您可以动态地模拟和检查shellcode。
 
-请注意，Cutter允许您“打开文件”和“打开Shellcode”。在我的情况下，当我将shellcode作为文件打开时，它正确反编译了，但当我将其作为shellcode打开时，它没有：
+请注意，Cutter允许您“打开文件”和“打开shellcode”。在我的情况下，当我将shellcode作为文件打开时，它正确反编译了，但当我将其作为shellcode打开时，它没有：
 
-![](<../../.gitbook/assets/image (559).png>)
+![](<../../.gitbook/assets/image (562).png>)
 
 为了从您想要的位置开始模拟，设置一个断点，显然Cutter将自动从那里开始模拟：
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (589).png>)
 
-![](<../../.gitbook/assets/image (384).png>)
+![](<../../.gitbook/assets/image (387).png>)
 
 您可以在十六进制转储中查看堆栈，例如：
 
-![](<../../.gitbook/assets/image (183).png>)
+![](<../../.gitbook/assets/image (186).png>)
 
 ### 解混淆shellcode并获取执行函数
 
@@ -231,9 +233,9 @@ scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
 scDbg还配备了一个图形启动器，您可以在其中选择所需的选项并执行shellcode
 
-![](<../../.gitbook/assets/image (255).png>)
+![](<../../.gitbook/assets/image (258).png>)
 
-**创建Dump**选项将在内存中动态更改shellcode时转储最终shellcode（可用于下载解码后的shellcode）。**起始偏移量**对于在特定偏移处启动shellcode很有用。**调试Shell**选项可用于使用scDbg终端调试shellcode（但我发现前面解释的任何选项对于这个问题都更好，因为您可以使用Ida或x64dbg）。
+**创建Dump**选项将在内存中动态更改shellcode时转储最终shellcode（可用于下载解码后的shellcode）。**起始偏移量**对于在特定偏移量处启动shellcode很有用。**调试Shell**选项可用于使用scDbg终端调试shellcode（但我发现前面解释的任何选项对于这个问题都更好，因为您可以使用Ida或x64dbg）。
 
 ### 使用CyberChef进行反汇编
 
@@ -253,26 +255,26 @@ apt-get install libz3-dev
 ```
 并[安装keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-如果你在玩一个**CTF，这个绕过方法找到flag**可能非常有用: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+如果你在玩一个**CTF，这个绕过方法来找到flag**可能会非常有用：[https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-要找到**入口点**，搜索函数`::main`，如下所示：
+要找到**入口点**，搜索函数中的`::main`，如下所示：
 
-![](<../../.gitbook/assets/image (1077).png>)
+![](<../../.gitbook/assets/image (1080).png>)
 
 在这种情况下，二进制文件被称为authenticator，所以很明显这是一个有趣的主函数。\
-有了被调用的**函数的名称**，搜索它们在**互联网**上了解它们的**输入**和**输出**。
+有了被调用的**函数的名称**，搜索它们在**互联网**上，了解它们的**输入**和**输出**。
 
 ## **Delphi**
 
-对于Delphi编译的二进制文件，你可以使用[https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+对于Delphi编译的二进制文件，可以使用[https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
 如果你需要反向一个Delphi二进制文件，我建议你使用IDA插件[https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
-只需按下**ATL+f7**（在IDA中导入Python插件）并选择Python插件。
+只需按下**ATL+f7**（在IDA中导入Python插件），然后选择Python插件。
 
-这个插件将在调试开始时执行二进制文件并动态解析函数名称。开始调试后再次按下开始按钮（绿色按钮或f9），断点将在真正代码的开头命中。
+这个插件将在调试开始时执行二进制文件，并动态解析函数名称。开始调试后再次按下开始按钮（绿色按钮或f9），将在真正代码的开头命中断点。
 
 这也非常有趣，因为如果你在图形应用程序中按下一个按钮，调试器将停在被该按钮执行的函数中。
 
@@ -280,13 +282,13 @@ apt-get install libz3-dev
 
 如果你需要反向一个Golang二进制文件，我建议你使用IDA插件[https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
-只需按下**ATL+f7**（在IDA中导入Python插件）并选择Python插件。
+只需按下**ATL+f7**（在IDA中导入Python插件），然后选择Python插件。
 
 这将解析函数的名称。
 
 ## 编译的Python
 
-在这个页面上，你可以找到如何从一个ELF/EXE Python编译的二进制文件中获取Python代码:
+在这个页面中，你可以找到如何从一个ELF/EXE Python编译的二进制文件中获取Python代码：
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -294,18 +296,18 @@ apt-get install libz3-dev
 
 ## GBA - Game Body Advance
 
-如果你得到一个GBA游戏的**二进制文件**，你可以使用不同的工具来**模拟**和**调试**它:
+如果你得到了一个GBA游戏的**二进制文件**，你可以使用不同的工具来**模拟**和**调试**它：
 
-* [**no$gba**](https://problemkaputt.de/gba.htm) (_下载调试版本_) - 包含一个带界面的调试器
+* [**no$gba**](https://problemkaputt.de/gba.htm)（_下载调试版本_）- 包含一个带界面的调试器
 * [**mgba** ](https://mgba.io)- 包含一个CLI调试器
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra插件
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra插件
 
 在[**no$gba**](https://problemkaputt.de/gba.htm)中，在_**Options --> Emulation Setup --> Controls**_\*\* \*\*你可以看到如何按下Game Boy Advance的**按钮**
 
-![](<../../.gitbook/assets/image (578).png>)
+![](<../../.gitbook/assets/image (581).png>)
 
-按下时，每个**键都有一个值**来识别它:
+按下时，每个**键都有一个值**来识别它：
 ```
 A = 1
 B = 2
@@ -318,9 +320,9 @@ DOWN = 128
 R = 256
 L = 256
 ```
-因此，在这种程序中，有趣的部分将是**程序如何处理用户输入**。在地址**0x4000130**中，您将找到常见的函数：**KEYINPUT**。
+因此，在这种程序中，有趣的部分将是**程序如何处理用户输入**。在地址**0x4000130**处，您将找到常见的函数：**KEYINPUT**。
 
-![](<../../.gitbook/assets/image (444).png>)
+![](<../../.gitbook/assets/image (447).png>)
 
 在上图中，您可以发现该函数是从**FUN\_080015a8**（地址：_0x080015fa_ 和 _0x080017ac_）调用的。
 
@@ -388,12 +390,12 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 在前面的代码中，您可以看到我们正在将**uVar1**（按下按钮的**值所在的位置**）与一些值进行比较：
 
 * 首先，它与**值4**（**SELECT**按钮）进行比较：在挑战中，此按钮清除屏幕
-* 然后，将其与**值8**（**START**按钮）进行比较：在挑战中，这检查代码是否有效以获取标志。
-* 在这种情况下，将变量**`DAT_030000d8`**与0xf3进行比较，如果值相同，则执行一些代码。
+* 然后，将其与**值8**（**START**按钮）进行比较：在挑战中，这会检查代码是否有效以获取标志。
+* 在这种情况下，将**`DAT_030000d8`**与0xf3进行比较，如果值相同，则执行一些代码。
 * 在任何其他情况下，将检查一些cont（`DAT_030000d4`）。这是一个cont，因为在输入代码后立即加1。
-* 如果小于8，则执行涉及**向\*\*`DAT_030000d8` \*\*添加值的操作（基本上是将按下的键的值添加到此变量中，只要cont小于8）。
+如果小于8，则执行涉及向**`DAT_030000d8`**添加值的操作（基本上是将按下的键的值添加到此变量中，只要cont小于8）。
 
-因此，在这个挑战中，了解按钮的值，您需要**按下长度小于8的组合，使得结果相加为0xf3**。
+因此，在这个挑战中，知道按钮的值，您需要**按下长度小于8的组合，使得结果相加为0xf3**。
 
 **本教程的参考资料：** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -418,10 +420,10 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧**。
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

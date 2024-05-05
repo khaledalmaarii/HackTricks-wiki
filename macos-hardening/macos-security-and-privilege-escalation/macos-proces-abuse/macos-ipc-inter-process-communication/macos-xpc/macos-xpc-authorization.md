@@ -1,28 +1,28 @@
-# macOS XPC授权
+# macOS XPC 授权
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+- 如果您想看到您的公司在 HackTricks 中被广告，或者**下载 PDF 格式的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+- 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 上关注我们 **@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
-## XPC授权
+## XPC 授权
 
-苹果还提出了另一种验证连接进程是否具有**调用公开XPC方法的权限**的方法。
+苹果还提出了另一种验证连接进程是否具有**调用公开 XPC 方法的权限**的方法。
 
-当应用程序需要**以特权用户身份执行操作**时，通常不会将应用程序作为特权用户运行，而是将HelperTool作为XPC服务以root身份安装，应用程序可以调用该服务执行这些操作。但是，调用服务的应用程序应具有足够的授权。
+当应用程序需要**以特权用户身份执行操作**时，通常不会将应用程序作为特权用户运行，而是安装一个 HelperTool 作为 XPC 服务，该服务可以从应用程序调用以执行这些操作。但是，调用服务的应用程序应具有足够的授权。
 
-### ShouldAcceptNewConnection始终为YES
+### ShouldAcceptNewConnection 始终为 YES
 
-可以在[EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample)中找到一个示例。在`App/AppDelegate.m`中，它尝试**连接**到**HelperTool**。在`HelperTool/HelperTool.m`中，函数**`shouldAcceptNewConnection`** **不会检查**之前指定的任何要求。它将始终返回YES：
+一个示例可以在 [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample) 中找到。在 `App/AppDelegate.m` 中，它尝试**连接**到 **HelperTool**。在 `HelperTool/HelperTool.m` 中，函数 **`shouldAcceptNewConnection`** **不会检查**之前指定的任何要求。它将始终返回 YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -106,7 +106,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-函数`enumerateRightsUsingBlock`是用来获取应用程序权限的函数，这些权限在`commandInfo`中定义：
+`enumerateRightsUsingBlock` 函数是用来获取应用程序权限的函数，这些权限在 `commandInfo` 中定义：
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -184,15 +184,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，在那里，您可以找到对于**每个需要身份验证的方法**，**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
+这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以找到每个需要身份验证的方法的权限名称和 `kCommandKeyAuthRightDefault`。后者指示谁可以获得此权限。
 
-有不同的范围来指示谁可以访问权限。其中一些在[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)中定义（您可以在[这里找到所有这些](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
 <table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
 
 ### 权限验证
 
-在 `HelperTool/HelperTool.m` 中，函数**`readLicenseKeyAuthorization`** 检查调用者是否被授权执行此方法，调用函数**`checkAuthorization`**。此函数将检查由调用进程发送的**authData**是否具有**正确的格式**，然后将检查**调用特定方法所需的权限**。如果一切顺利，**返回的`error`将为`nil`**：
+在 `HelperTool/HelperTool.m` 中，函数 **`readLicenseKeyAuthorization`** 检查调用者是否被授权执行此方法，调用函数 **`checkAuthorization`**。此函数将检查调用进程发送的 **authData** 是否具有正确的格式，然后将检查调用特定方法所需的权限。如果一切顺利，**返回的 `error` 将为 `nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -258,15 +258,15 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### 宽松的权限
 
-您可以在[这里](https://www.dssw.co.uk/reference/authorization-rights/)找到**所有权限配置**，但不需要用户交互的组合将是：
+您可以在[这里](https://www.dssw.co.uk/reference/authorization-rights/)找到**所有权限配置**，但不需要用户交互的组合是：
 
 1. **'authenticate-user': 'false'**
-* 这是最直接的键。如果设置为`false`，则指定用户无需提供身份验证即可获得此权限。
+* 这是最直接的键。如果设置为`false`，表示用户无需提供身份验证即可获得此权限。
 * 这与下面的两个之一结合使用，或指示用户必须属于的组。
 2. **'allow-root': 'true'**
-* 如果用户作为具有提升权限的根用户运行，并且此键设置为`true`，则根用户可能无需进一步身份验证即可获得此权限。但是，通常，已经需要身份验证才能获得根用户状态，因此对于大多数用户来说，这不是“无需身份验证”的情况。
+* 如果用户作为具有提升权限的根用户运行，并且此键设置为`true`，则根用户可能无需进一步身份验证即可获得此权限。但通常，已经需要身份验证才能成为根用户状态，因此对于大多数用户来说，这不是“无需身份验证”的情况。
 3. **'session-owner': 'true'**
-* 如果设置为`true`，会话所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则这可能会绕过额外的身份验证。
+* 如果设置为`true`，会话所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则可能会绕过额外的身份验证。
 4. **'shared': 'true'**
 * 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，这意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，除非与其他键（如`'authenticate-user': 'false'`）结合使用，否则仍需要身份验证来最初授予权限。
 
@@ -285,13 +285,13 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 ### 检查是否使用EvenBetterAuthorization
 
-如果找到函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用先前提到的授权模式：
+如果你找到函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用前面提到的授权模式：
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-如果此函数调用诸如`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，则正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
+如果这个函数调用了`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，它正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
-检查**`/var/db/auth.db`**以查看是否可能在无需用户交互的情况下获得调用某些特权操作的权限。
+检查**`/var/db/auth.db`**，看看是否可能在无需用户交互的情况下获得调用某些特权操作的权限。
 
 ### 协议通信
 
@@ -299,9 +299,9 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 函数**`shouldAcceptNewConnection`**指示正在导出的协议：
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**检查此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
+在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**检查这一行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
 知道所使用协议的名称后，可以使用以下命令**转储其头文件定义**：
 ```bash
@@ -317,11 +317,11 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-最后，我们只需要知道**暴露的 Mach 服务的名称**，以便与其建立通信。有几种方法可以找到这个名称：
+最后，我们只需要知道**暴露的 Mach 服务的名称**，以便与其建立通信。有几种方法可以找到它：
 
 * 在**`[HelperTool init]`**中，您可以看到正在使用的 Mach 服务：
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
 * 在 launchd plist 中：
 ```xml
@@ -427,14 +427,14 @@ NSLog(@"Finished!");
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
+* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>

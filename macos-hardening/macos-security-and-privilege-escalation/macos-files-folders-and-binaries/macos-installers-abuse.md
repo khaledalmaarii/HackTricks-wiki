@@ -9,7 +9,7 @@
 - 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 - 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -54,13 +54,13 @@ DMG文件，或苹果磁盘映像，是苹果macOS用于磁盘映像的文件格
 
 ### 层次结构
 
-<figure><img src="../../../.gitbook/assets/image (222).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (225).png" alt=""><figcaption></figcaption></figure>
 
 DMG文件的层次结构可以根据内容而异。但是，对于应用程序DMG，通常遵循以下结构：
 
 - 顶层：这是磁盘映像的根。通常包含应用程序，可能还包含到应用程序文件夹的链接。
 - 应用程序（.app）：这是实际的应用程序。在macOS中，应用程序通常是一个包，其中包含许多组成应用程序的单独文件和文件夹。
-- 应用程序链接：这是指向macOS中应用程序文件夹的快捷方式。其目的是使您能够轻松安装应用程序。您可以将.app文件拖到此快捷方式以安装应用程序。
+- 应用程序链接：这是指向macOS中应用程序文件夹的快捷方式。其目的是让您轻松安装应用程序。您可以将.app文件拖到此快捷方式以安装应用程序。
 
 ## 通过pkg滥用提权
 
@@ -72,7 +72,7 @@ DMG文件的层次结构可以根据内容而异。但是，对于应用程序DM
 
 ### AuthorizationExecuteWithPrivileges
 
-这是一个[公共函数](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)，几个安装程序和更新程序将调用它以**以root身份执行某些操作**。此函数接受要**执行的文件的路径**作为参数，但是，如果攻击者可以**修改**此文件，他将能够**滥用**其以root身份执行以**提升权限**。
+这是一个[公共函数](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)，几个安装程序和更新程序会调用它来**以root身份执行某些操作**。该函数接受要**执行的文件的路径**作为参数，但是，如果攻击者可以**修改**此文件，他将能够**滥用**其以root身份执行以**提升权限**。
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -88,13 +88,13 @@ DMG文件的层次结构可以根据内容而异。但是，对于应用程序DM
 
 ### 空载荷
 
-可以只生成一个带有**预安装和后安装脚本**但没有任何载荷的 **`.pkg`** 文件。
+可以只生成一个带有**预安装和后安装脚本**但没有任何有效载荷的 **`.pkg`** 文件。
 
 ### Distribution xml 中的 JS
 
-可以在软件包的 distribution xml 文件中添加 **`<script>`** 标签，该代码将被执行，并且可以使用 **`system.run`** 来**执行命令**：
+可以在软件包的 distribution xml 文件中添加 **`<script>`** 标签，该代码将被执行，可以使用 **`system.run`** 来**执行命令**：
 
-<figure><img src="../../../.gitbook/assets/image (1040).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1043).png" alt=""><figcaption></figcaption></figure>
 
 ## 参考资料
 

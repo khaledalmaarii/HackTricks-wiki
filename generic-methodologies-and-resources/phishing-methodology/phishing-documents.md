@@ -2,34 +2,34 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中宣传**吗？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中被宣传**吗？ 或者您想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
 
 </details>
 
 ## 办公文档
 
-Microsoft Word在打开文件之前执行文件数据验证。数据验证以数据结构识别的形式进行，针对OfficeOpenXML标准。如果在数据结构识别过程中发生任何错误，正在分析的文件将不会被打开。
+Microsoft Word 在打开文件之前执行文件数据验证。数据验证以数据结构识别的形式进行，针对 OfficeOpenXML 标准。如果在数据结构识别过程中发生任何错误，正在分析的文件将不会被打开。
 
-通常，包含宏的Word文件使用`.docm`扩展名。但是，可以通过更改文件扩展名来重命名文件，并仍然保留其执行宏的功能。\
-例如，RTF文件不支持宏，但将DOCm文件重命名为RTF将由Microsoft Word处理，并具有执行宏的能力。\
-相同的内部机制适用于Microsoft Office套件中的所有软件（Excel、PowerPoint等）。
+通常，包含宏的 Word 文件使用 `.docm` 扩展名。但是，可以通过更改文件扩展名来重命名文件，并仍然保留其执行宏的功能。\
+例如，RTF 文件不支持宏，但将 DOCM 文件重命名为 RTF 将由 Microsoft Word 处理，并能够执行宏。\
+相同的内部机制适用于 Microsoft Office 套件中的所有软件（如 Excel、PowerPoint 等）。
 
-您可以使用以下命令检查哪些扩展名将由某些Office程序执行：
+您可以使用以下命令来检查哪些扩展名将由某些 Office 程序执行：
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
 ### 外部图片加载
 
 前往：_插入 --> 快速部件 --> 字段_\
-_**类别**：链接和引用，**字段名称**：includePicture，并**文件名或URL**：_ http://\<ip>/whatever
+_**类别**：链接和引用，**字段名称**：includePicture，以及**文件名或URL**：_ http://\<ip>/whatever
 
-![](<../../.gitbook/assets/image (316).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
 ### 宏后门
 
@@ -79,7 +79,7 @@ proc.Create "powershell <beacon line generated>
 #### 文档扩展名
 
 完成后，选择 **另存为类型** 下拉菜单，将格式从 **`.docx`** 更改为 **Word 97-2003 `.doc`**。\
-这样做是因为你 **无法将宏保存在 `.docx` 中**，而且对于启用宏的 **`.docm`** 扩展名存在 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关会完全阻止它们）。因此，这个 **传统的 `.doc` 扩展名是最好的折衷方案**。
+这样做是因为你 **无法在 `.docx` 中保存宏**，而且关于启用宏的 **`.docm`** 扩展名有一些 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关完全阻止它们）。因此，这个 **传统的 `.doc` 扩展名是最好的折衷方案**。
 
 #### 恶意宏生成器
 
@@ -89,7 +89,7 @@ proc.Create "powershell <beacon line generated>
 
 ## HTA 文件
 
-HTA 是一个 **结合了 HTML 和脚本语言（如 VBScript 和 JScript）** 的 Windows 程序。它生成用户界面并作为一个“完全受信任”的应用程序执行，没有浏览器安全模型的限制。
+HTA 是一个 **结合了 HTML 和脚本语言（如 VBScript 和 JScript）** 的 Windows 程序。它生成用户界面并作为一个“完全受信任”的应用程序运行，没有浏览器安全模型的限制。
 
 HTA 使用 **`mshta.exe`** 执行，通常 **与 Internet Explorer 一起安装**，使 **`mshta` 依赖于 IE**。因此，如果 IE 被卸载，HTA 将无法执行。
 ```html
@@ -148,7 +148,7 @@ self.close
 ```
 ## 强制 NTLM 认证
 
-有几种**远程强制 NTLM 认证**的方法，例如，您可以向电子邮件或 HTML 添加**不可见图像**，用户将访问这些图像（甚至可能是 HTTP 中间人攻击？）。或者向受害者发送**文件地址**，只需**打开文件夹**就会**触发**认证。
+有几种**远程**方式可以**强制 NTLM 认证**，例如，您可以在电子邮件或用户将访问的 HTML 中添加**不可见图像**（甚至是 HTTP MitM？）。或者向受害者发送**文件地址**，这将**触发****认证**，只需**打开文件夹**。
 
 **在以下页面中查看这些想法和更多内容：**
 
@@ -171,10 +171,10 @@ self.close
 
 <summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要在**HackTricks 中宣传您的公司**？ 或者想要访问**PEASS 的最新版本或下载 PDF 版本的 HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中宣传**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
 
 </details>

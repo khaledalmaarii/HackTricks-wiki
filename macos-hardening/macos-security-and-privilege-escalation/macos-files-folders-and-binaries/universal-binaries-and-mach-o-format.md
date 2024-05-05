@@ -6,10 +6,10 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -20,11 +20,11 @@ Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二�
 
 这些二进制文件遵循**Mach-O结构**，基本上由以下部分组成：
 
-- 头部
-- 装载命令
-- 数据
+- 头部（Header）
+- 装载命令（Load Commands）
+- 数据（Data）
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (470).png>)
 
 ## Fat Header
 
@@ -35,19 +35,19 @@ Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二�
 </strong>
 struct fat_header {
 <strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* 后面跟随的结构体数量 */
+</strong><strong>	uint32_t	nfat_arch;	/* 后跟的结构体数量 */
 </strong>};
 
 struct fat_arch {
 cpu_type_t	cputype;	/* CPU指定器（int） */
 cpu_subtype_t	cpusubtype;	/* 机器指定器（int） */
-uint32_t	offset;		/* 指向该目标文件的文件偏移量 */
-uint32_t	size;		/* 该目标文件的大小 */
+uint32_t	offset;		/* 指向此目标文件的文件偏移量 */
+uint32_t	size;		/* 此目标文件的大小 */
 uint32_t	align;		/* 作为2的幂的对齐 */
 };
 </code></pre>
 
-头部包含**魔数**字节，后面是文件**包含的**架构数（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
+头部包含**魔数**后跟文件**包含的架构数**（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
 
 使用以下命令检查：
 
@@ -78,13 +78,13 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 或使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具：
 
-<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-正如您可能想到的，通常为2种架构编译的通用二进制文件**会使大小翻倍**，而为单个架构编译的二进制文件。
+正如您可能在想的那样，通常为2种架构编译的通用二进制文件**会使大小翻倍**，相比只为1种架构编译的情况。
 
 ## **Mach-O头部**
 
-头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数字节以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -134,7 +134,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 ```
 或者使用[Mach-O View](https://sourceforge.net/projects/machoview/)：
 
-<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
 ## **Mach-O 标志**
 
@@ -157,9 +157,9 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 
 ## **Mach-O 加载命令**
 
-在这里指定了**文件在内存中的布局**，详细说明了**符号表的位置**，执行开始时主线程的上下文以及所需的**共享库**。提供了有关二进制文件加载到内存中的动态加载器 **(dyld)** 的指令。
+在这里指定了**文件在内存中的布局**，详细说明了**符号表的位置**，执行开始时主线程的上下文以及所需的**共享库**。提供了有关二进制文件加载到内存中的过程的指令给动态加载器**(dyld)**。
 
-使用了在上述提到的 **`loader.h`** 中定义的 **load\_command** 结构。
+使用了在提到的**`loader.h`**中定义的**load\_command**结构。
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -176,9 +176,9 @@ uint32_t cmdsize;       /* total size of command in bytes */
 
 这些命令**定义了在执行过程中映射到进程的虚拟内存空间中的段**。
 
-有不同类型的段，比如**\_\_TEXT**段，保存程序的可执行代码，以及**\_\_DATA**段，包含进程使用的数据。这些**段位于Mach-O文件的数据部分**中。
+有**不同类型**的段，比如**\_\_TEXT**段，保存程序的可执行代码，以及**\_\_DATA**段，包含进程使用的数据。这些**段位于Mach-O文件的数据部分**中。
 
-**每个段**可以进一步**划分为多个区块**。加载命令结构包含了关于**各自段内的这些区块的信息**。
+**每个段**可以进一步**划分为多个区块**。**加载命令结构**包含了关于**各自段内的这些区块的信息**。
 
 在头部首先找到**段头**：
 
@@ -199,7 +199,7 @@ int32_t		initprot;	/* initial VM protection */
 
 段头的示例：
 
-<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
 此头部定义了**在其后出现的区块头的数量**：
 ```c
@@ -220,62 +220,60 @@ uint32_t	reserved3;	/* reserved */
 ```
 **章节标题示例**：
 
-<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
 如果您将**节偏移量**（0x37DC）与**arch开始的偏移量**相加，在本例中为`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-还可以通过**命令行**获取**头部信息**。
+还可以通过**命令行**获取**头信息**。
 ```bash
 otool -lv /bin/ls
 ```
-```markdown
-这个命令加载的常见段有：
+以下是由此命令加载的常见段：
 
-* **`__PAGEZERO`：** 它指示内核**映射**地址**零**，因此它**不能被读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示该页面上**没有读写执行权限**。
-* 这种分配对于**缓解空指针解引用漏洞**很重要。这是因为XNU强制执行一个硬页零，确保内存的第一页（仅限第一页）无法访问（除了i386）。一个二进制文件可以通过创建一个小的\_\_PAGEZERO（使用`-pagezero_size`）来满足这些要求，覆盖前4k，并使其余32位内存在用户模式和内核模式下都可访问。
-* **`__TEXT`**：包含具有**读取**和**执行**权限的**可执行代码**（不可写入）。此段的常见部分：
-* `__text`：已编译的二进制代码
-* `__const`：常量数据（只读）
-* `__[c/u/os_log]string`：C、Unicode或os日志字符串常量
-* `__stubs`和`__stubs_helper`：在动态库加载过程中涉及
-* `__unwind_info`：堆栈展开数据。
-* 请注意，所有这些内容都经过签名，但也标记为可执行（为不一定需要此特权的部分的利用提供了更多选项，如专用字符串部分）。
-* **`__DATA`**：包含**可读**和**可写**的数据（不可执行）。
-* `__got`：全局偏移表
-* `__nl_symbol_ptr`：非懒惰（加载时绑定）符号指针
-* `__la_symbol_ptr`：懒惰（使用时绑定）符号指针
-* `__const`：应为只读数据（实际上不是）
-* `__cfstring`：CoreFoundation字符串
-* `__data`：已初始化的全局变量
-* `__bss`：未初始化的静态变量
-* `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
-* **`__DATA_CONST`**：\_\_DATA.\_\_const不能保证是常量（写入权限），其他指针和GOT也不是。此部分使用`mprotect`使`__const`、一些初始化程序和GOT表（一旦解析）变为**只读**。
-* **`__LINKEDIT`**：包含链接器（dyld）的信息，如符号、字符串和重定位表条目。它是一个通用容器，用于存放既不在`__TEXT`也不在`__DATA`中的内容，其内容在其他加载命令中描述。
-* dyld信息：重定位、非懒惰/懒惰/弱绑定操作码和导出信息
-* 函数起始：函数的起始地址表
-* 代码中的数据：\_\_text中的数据岛
-* 符号表：二进制文件中的符号
-* 间接符号表：指针/存根符号
-* 字符串表
-* 代码签名
-* **`__OBJC`**：包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，在各种\_\_objc\_\*部分中。
-* **`__RESTRICT`**：一个没有内容的段，只有一个名为**`__restrict`**的部分（也为空），确保运行二进制文件时将忽略DYLD环境变量。
+- **`__PAGEZERO`：** 它指示内核**映射****地址零**，因此**无法读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
+- 此分配对于**缓解空指针解引用漏洞**很重要。这是因为XNU强制执行一个硬页零，确保内存的第一页（仅限第一页）无法访问（除了i386）。二进制文件可以通过创建一个小的\_\_PAGEZERO（使用`-pagezero_size`）来满足这些要求，以覆盖前4k，并使其余32位内存在用户模式和内核模式下均可访问。
+- **`__TEXT`**：包含具有**读取**和**执行**权限的**可执行代码**（不可写）。此段的常见部分：
+  - `__text`：已编译的二进制代码
+  - `__const`：常量数据（只读）
+  - `__[c/u/os_log]string`：C、Unicode或os日志字符串常量
+  - `__stubs`和`__stubs_helper`：在动态库加载过程中涉及
+  - `__unwind_info`：堆栈展开数据。
+- 请注意，所有这些内容都经过签名，但也标记为可执行（为不一定需要此特权的部分提供了更多利用选项，如专用字符串部分）。
+- **`__DATA`**：包含**可读**和**可写**的数据（不可执行）。
+  - `__got`：全局偏移表
+  - `__nl_symbol_ptr`：非懒惰（加载时绑定）符号指针
+  - `__la_symbol_ptr`：懒惰（使用时绑定）符号指针
+  - `__const`：应为只读数据（实际上不是）
+  - `__cfstring`：CoreFoundation字符串
+  - `__data`：已初始化的全局变量
+  - `__bss`：未初始化的静态变量
+  - `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
+- **`__DATA_CONST`**：\_\_DATA.\_\_const不能保证是常量（具有写权限），其他指针和GOT也不是。此部分使用`mprotect`使`__const`、一些初始化程序和GOT表（一旦解析）**只读**。
+- **`__LINKEDIT`**：包含链接器（dyld）的信息，如符号、字符串和重定位表条目。它是一个通用容器，用于存放既不在`__TEXT`也不在`__DATA`中的内容，其内容在其他加载命令中描述。
+- dyld信息：重定位、非懒惰/懒惰/弱绑定操作码和导出信息
+- 函数起始：函数的起始地址表
+- 代码中的数据：\_\_text中的数据岛
+- 符号表：二进制文件中的符号
+- 间接符号表：指针/存根符号
+- 字符串表
+- 代码签名
+- **`__OBJC`**：包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，但在各种\_\_objc\_\*部分中。
+- **`__RESTRICT`**：一个没有内容的段，只有一个名为**`__restrict`**的单个部分（也为空），确保在运行二进制文件时，它将忽略DYLD环境变量。
 
 正如代码中所示，**段也支持标志**（尽管它们并不经常使用）：
 
-* `SG_HIGHVM`：仅核心（未使用）
-* `SG_FVMLIB`：未使用
-* `SG_NORELOC`：段没有重定位
-* `SG_PROTECTED_VERSION_1`：加密。例如，Finder用于加密文本`__TEXT`段。
+- `SG_HIGHVM`：仅核心（未使用）
+- `SG_FVMLIB`：未使用
+- `SG_NORELOC`：段没有重定位
+- `SG_PROTECTED_VERSION_1`：加密。例如，Finder使用它来加密文本`__TEXT`段。
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** 包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值添加到（内存中的）二进制文件的基址，然后**跳转**到此指令以开始执行二进制文件的代码。
+**`LC_MAIN`**包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值添加到（内存中的）二进制文件的**基址**，然后**跳转**到此指令以开始执行二进制文件的代码。
 
-**`LC_UNIXTHREAD`** 包含启动主线程时寄存器必须具有的值。这已经被弃用，但**`dyld`**仍在使用它。可以通过以下方式查看此设置的寄存器的值：
-```
+**`LC_UNIXTHREAD`**包含启动主线程时寄存器必须具有的值。这已经被弃用，但**`dyld`**仍在使用它。可以通过以下方式查看此设置的寄存器的值：
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -301,12 +299,12 @@ cpsr 0x00000000
 ```
 ### **`LC_CODE_SIGNATURE`**
 
-包含有关 Mach-O 文件的**代码签名**的信息。它只包含一个**指向签名 blob**的**偏移量**。这通常位于文件的末尾。\
+包含有关 Mach-O 文件的**代码签名**的信息。它只包含一个**指向签名 blob 的偏移量**。这通常位于文件的末尾。\
 但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到关于此部分的一些信息。
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-支持二进制加密。但是，当然，如果攻击者设法 compromise 进程，他将能够以未加密的方式 dump 内存。
+支持二进制加密。但是，当然，如果攻击者设法 compromise 进程，他将能够 dump 内存未加密。
 
 ### **`LC_LOAD_DYLINKER`**
 
@@ -318,7 +316,7 @@ cpsr 0x00000000
 
 ### **`LC_UUID`**
 
-随机 UUID。它本身对任何直接用途都没有用，但 XNU 会将其与进程信息的其余部分一起缓存。它可用于崩溃报告。
+随机 UUID。它本身没有直接用途，但 XNU 会将其与进程信息的其余部分一起缓存。它可用于崩溃报告。
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
@@ -326,9 +324,9 @@ cpsr 0x00000000
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了**动态库**依赖项，**指示**加载器（dyld）**加载和链接该库**。Mach-O 二进制文件所需的每个库都有一个 `LC_LOAD_DYLIB` 加载命令。
+此加载命令描述了**动态库**依赖项，**指示加载器**（dyld）**加载和链接该库**。Mach-O 二进制文件所需的每个库都有一个 `LC_LOAD_DYLIB` 加载命令。
 
-* 此加载命令是**`dylib_command`**类型的结构（其中包含一个描述实际依赖动态库的 struct dylib）:
+* 此加载命令是**`dylib_command`**类型的结构（其中包含一个描述实际依赖动态库的 struct dylib）：
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -343,9 +341,9 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-![](<../../../.gitbook/assets/image (483).png>)
+![](<../../../.gitbook/assets/image (486).png>)
 
-您也可以通过以下命令行获取此信息：
+您也可以通过命令行获得此信息：
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -355,16 +353,16 @@ otool -L /bin/ls
 ```
 一些潜在的与恶意软件相关的库包括：
 
-- **DiskArbitration**：监控 USB 驱动器
+- **DiskArbitration**：监控USB驱动器
 - **AVFoundation**：捕获音频和视频
-- **CoreWLAN**：Wifi 扫描。
+- **CoreWLAN**：Wifi扫描。
 
 {% hint style="info" %}
-一个 Mach-O 二进制文件可以包含一个或**多个构造函数**，这些函数将在**LC\_MAIN** 中指定的地址**之前执行**。\
-任何构造函数的偏移量都保存在**\_\_DATA\_CONST** 段的**\_\_mod\_init\_func** 部分中。
+Mach-O二进制文件可以包含一个或**多个构造函数**，这些函数将在**LC\_MAIN**中指定的地址之前**执行**。\
+任何构造函数的偏移量都保存在**\_\_DATA\_CONST**段的**\_\_mod\_init\_func**部分中。
 {% endhint %}
 
-## **Mach-O 数据**
+## **Mach-O数据**
 
 文件的核心是数据区域，由加载命令区域中定义的几个段组成。**每个段中可以包含各种数据部分**，每个部分**包含特定类型的代码或数据**。
 
@@ -378,26 +376,34 @@ otool -L /bin/ls
 
 - **函数表**：包含有关程序函数的信息。
 - **符号表**：包含有关二进制文件使用的外部函数的信息
-- 还可以包含内部函数、变量名称等等。
+- 还可能包含内部函数、变量名称等等。
 
 要检查它，您可以使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具：
 
-<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
 或者从命令行界面：
 ```bash
 size -m /bin/ls
 ```
-<details>
+## Objective-C常见部分
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+在`__TEXT`段（r-x）中：
 
-其他支持HackTricks的方式：
+- `__objc_classname`：类名（字符串）
+- `__objc_methname`：方法名（字符串）
+- `__objc_methtype`：方法类型（字符串）
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+在`__DATA`段（rw-）中：
 
-</details>
+- `__objc_classlist`：指向所有Objective-C类的指针
+- `__objc_nlclslist`：指向非懒加载的Objective-C类的指针
+- `__objc_catlist`：指向类别的指针
+- `__objc_nlcatlist`：指向非懒加载类别的指针
+- `__objc_protolist`：协议列表
+- `__objc_const`：常量数据
+- `__objc_imageinfo`，`__objc_selrefs`，`objc__protorefs`...
+
+## Swift
+
+- `_swift_typeref`，`_swift3_capture`，`_swift3_assocty`，`_swift3_types`，`_swift3_proto`，`_swift3_fieldmd`，`_swift3_builtin`，`_swift3_reflstr`
