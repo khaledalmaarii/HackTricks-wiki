@@ -8,11 +8,11 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın(https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünleri**]'ni alın(https://peass.creator-spring.com)
+* [**PEASS Ailesi**]'ni keşfedin(https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in koleksiyonu
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek destek olun.
 
 </details>
 
@@ -26,106 +26,100 @@ Eğer bir kod **kaydırma işlemleri, XOR'lar ve çeşitli aritmetik işlemler**
 
 Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek **hangi algoritmanın kullanıldığını** bulabilirsiniz:
 
-![](<../../.gitbook/assets/image (153).png>)
+![](<../../.gitbook/assets/image (156).png>)
 
 Mümkün algoritmaların ve atanan değerlerin tablosu için buraya bakabilirsiniz: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
-Veri akışını sıkıştırır ve açar.
+Veri tamponunu sıkıştırır ve açar.
 
 **CryptAcquireContext**
 
-[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): **CryptAcquireContext** fonksiyonu, belirli bir kriptografik hizmet sağlayıcısı (CSP) içinde belirli bir anahtar konteynerine bir tutamaç almak için kullanılır. **Bu döndürülen tutamaç, seçilen CSP'yi kullanan CryptoAPI** fonksiyonlarına yapılan çağrılarda kullanılır.
+[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): **CryptAcquireContext** fonksiyonu, belirli bir kriptografik hizmet sağlayıcısı (CSP) içinde belirli bir anahtar konteynerine bir tutamaç almak için kullanılır. **Bu döndürülen tutamaç, seçilen CSP'yi kullanan CryptoAPI** fonksiyonlarında kullanılır.
 
 **CryptCreateHash**
 
 Veri akışının karma işlemini başlatır. Bu fonksiyon kullanılıyorsa, ikinci parametrenin değerini kontrol ederek **hangi algoritmanın kullanıldığını** bulabilirsiniz:
 
-![](<../../.gitbook/assets/image (546).png>)
+![](<../../.gitbook/assets/image (549).png>)
 
-\
 Mümkün algoritmaların ve atanan değerlerin tablosu için buraya bakabilirsiniz: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 ### Kod sabitleri
 
-Bazen, bir algoritmayı tanımlamak gerçekten kolay olabilir çünkü özel ve benzersiz bir değeri kullanması gerekir.
+Bazen bir algoritmayı tanımlamak gerçekten kolay olabilir çünkü özel ve benzersiz bir değeri kullanması gerekir.
 
-![](<../../.gitbook/assets/image (830).png>)
+![](<../../.gitbook/assets/image (833).png>)
 
-Google'da ilk sabit için arama yaparsanız, aşağıdakileri elde edersiniz:
+Google'da ilk sabit arandığında elde edilen sonuç:
 
-![](<../../.gitbook/assets/image (526).png>)
+![](<../../.gitbook/assets/image (529).png>)
 
-Bu nedenle, dekompilasyon işlevinin bir **sha256 hesaplayıcısı olduğunu** varsayabilirsiniz.\
-Diğer sabitlerden herhangi birini arayabilir ve (muhtemelen) aynı sonucu elde edersiniz.
+Bu nedenle, dekompilasyon işlevinin bir **sha256 hesaplayıcısı olduğunu** varsayabilirsiniz. Diğer sabitlerden herhangi birini arayabilir ve (muhtemelen) aynı sonucu elde edersiniz.
 
 ### Veri bilgisi
 
-Kodda anlamlı bir sabit yoksa, muhtemelen **.data bölümünden bilgi yükleniyor** demektir.\
-Bu veriye erişebilir, **ilk dört kelimeyi gruplayabilir** ve yukarıda yaptığımız gibi Google'da arayabilirsiniz:
+Kodda anlamlı bir sabit yoksa, muhtemelen **.veri bölümünden bilgi yükleniyor** demektir.\
+Bu veriye erişebilir, **ilk dört byt'ı gruplayabilir** ve yukarıda yaptığımız gibi Google'da arayabilirsiniz:
 
-![](<../../.gitbook/assets/image (528).png>)
+![](<../../.gitbook/assets/image (531).png>)
 
-Bu durumda, **0xA56363C6** için arama yaparsanız, bunun **AES algoritmasının tablolarıyla ilişkili olduğunu** bulabilirsiniz.
+Bu durumda, **0xA56363C6**'ya baktığınızda, bunun **AES algoritmasının tablolarıyla ilişkili olduğunu** bulabilirsiniz.
 
 ## RC4 **(Simetrik Şifreleme)**
 
 ### Özellikler
 
-Üç ana bölümden oluşur:
-
-* **Başlatma aşaması/**: 0x00 ila 0xFF arasındaki değerlerin bir **tablosunu oluşturur** (toplamda 256 bayt, 0x100). Bu tablo genellikle **Yerine Koyma Kutusu** (veya SBox) olarak adlandırılır.
-* **Karıştırma aşaması**: Önce oluşturulan tabloyu **döngü ile** (tekrar 0x100 iterasyon, tekrar) her değeri **yarı rastgele** baytlarla değiştirerek oluşturur. Bu yarı rastgele baytları oluşturmak için RC4 **anahtarı kullanılır**. RC4 **anahtarları** genellikle **1 ila 256 bayt arasında** olabilir, ancak genellikle 5 baytın üzerinde olması önerilir. Genellikle, RC4 anahtarları 16 bayt uzunluğundadır.
-* **XOR aşaması**: Son olarak, düz metin veya şifre metni, önce oluşturulan değerlerle **XOR edilir**. Şifrelemek ve şifre çözmek için aynı işlev kullanılır. Bunun için, oluşturulan 256 bayt üzerinde bir döngü **gerekli olduğu kadar** yapılır. Bu genellikle bir dekompilasyon kodunda **%256 (mod 256)** ile tanınır.
+* **Başlatma aşaması/**: 0x00 ile 0xFF arasındaki değerlerin bir **tablosunu oluşturur** (toplamda 256 byte, 0x100). Bu tablo genellikle **Yerine Koyma Kutusu** (veya SBox) olarak adlandırılır.
+* **Karıştırma aşaması**: Önceki oluşturulan tablo üzerinden **döngü yapacak** ve her değeri **yarı rastgele** byte'larla değiştirerek (tekrar 0x100 iterasyon döngüsü) karıştıracaktır. Bu yarı rastgele byte'ları oluşturmak için RC4 **anahtarı kullanılır**. RC4 **anahtarları** genellikle **1 ile 256 byte arasında olabilir**, ancak genellikle 5 bytedan fazla olması önerilir. Genellikle, RC4 anahtarları 16 byte uzunluğundadır.
+* **XOR aşaması**: Son olarak, düz metin veya şifreli metin, önceki oluşturulan değerlerle **XOR edilir**. Şifrelemek ve şifre çözmek için aynı işlev kullanılır. Bunun için, oluşturulan 256 byte üzerinde bir **döngü** gerektiği kadar çok kez yapılır. Bu genellikle bir dekompilasyon kodunda **%256 (mod 256)** ile tanınır.
 
 {% hint style="info" %}
-**RC4'ü bir dekompilasyon/derlenmiş kodda tanımlamak için 0x100 boyutunda 2 döngüye (bir anahtar kullanarak) ve ardından giriş verilerinin 2 döngüde oluşturulan 256 değerle muhtemelen %256 (mod 256) kullanılarak XOR edildiğini kontrol edebilirsiniz.**
+**RC4'ü bir dekompilasyon/derlenmiş kodda tanımlamak için anahtar kullanarak 0x100 boyutunda 2 döngü ve muhtemelen %256 (mod 256) kullanarak 2 döngüde oluşturulan 256 değerle giriş verisinin XOR'landığını kontrol edebilirsiniz.**
 {% endhint %}
 
-### **Başlatma aşaması/Yerine Koyma Kutusu:** (256 sayısı kullanılan sayacı ve 256 karakterin her yerine 0 yazıldığına dikkat edin)
+### **Başlatma aşaması/Yerine Koyma Kutusu:** (256 sayısı kullanılan sayacı ve 256 karakterin her bir yerine 0 yazıldığına dikkat edin)
 
-![](<../../.gitbook/assets/image (581).png>)
+![](<../../.gitbook/assets/image (584).png>)
 
 ### **Karıştırma Aşaması:**
 
-![](<../../.gitbook/assets/image (832).png>)
+![](<../../.gitbook/assets/image (835).png>)
 
 ### **XOR Aşaması:**
 
-![](<../../.gitbook/assets/image (901).png>)
+![](<../../.gitbook/assets/image (904).png>)
 
 ## **AES (Simetrik Şifreleme)**
 
 ### **Özellikler**
 
 * **Yerine koyma kutuları ve arama tabloları** kullanımı
-* **Belirli arama tablosu değerlerinin** (sabitlerin) kullanımı sayesinde AES'i **ayırt etmek mümkündür**. _**Sabit**in_ _**binary'de saklanabileceğine veya dinamik olarak oluşturulabileceğine**_ _**dikkat edin**._
+* **Belirli arama tablosu değerlerinin** (sabitlerin) kullanımı sayesinde AES'i **ayırt etmek mümkündür**. _**Sabit**'in ikili dosyada **saklanabileceğine veya dinamik olarak oluşturulabileceğine**_ _**dikkat edin**._
 * **Şifreleme anahtarı**, **16'ya bölünebilmelidir** (genellikle 32B) ve genellikle 16B'lik bir **IV** kullanılır.
 
 ### SBox sabitleri
 
-![](<../../.gitbook/assets/image (205).png>)
+![](<../../.gitbook/assets/image (208).png>)
 
 ## Yılan **(Simetrik Şifreleme)**
 
 ### Özellikler
 
 * Kullanan bazı kötü amaçlı yazılımların nadir olduğu ancak örneklerin bulunduğu (Ursnif gibi)
-* Bir algoritmanın Serpent olup olmadığını belirlemek oldukça basittir, uzun bir işlev olmasına dayanarak (son derece uzun işlev)
+* Bir algoritmanın Serpent olup olmadığını belirlemek oldukça basittir, uzunluğuna (son derece uzun işlev) dayanarak.
 
 ### Tanımlama
 
 Aşağıdaki resimde **0x9E3779B9** sabitinin kullanıldığına dikkat edin (bu sabitin **TEA** -Tiny Encryption Algorithm gibi diğer kripto algoritmalarında da kullanıldığını unutmayın).\
-Ayrıca **döngünün boyutunu** (**132**) ve **XOR işlemlerinin sayısını** **derleme** talimatlarında ve **örnek kodda** fark edin:
+Ayrıca **döngü boyutunu** (**132**) ve **XOR işlemlerinin sayısını** **derleme** talimatlarında ve **örnek kodda** fark edin:
 
-![](<../../.gitbook/assets/image (544).png>)
+![](<../../.gitbook/assets/image (547).png>)
 
-Daha önce belirtildiği gibi, bu kod, içinde **atlamalar olmadığı için** herhangi bir dekompilatörde **çok uzun bir işlev** olarak görülebilir. Dekompilasyon kodu aşağıdaki gibi görünebilir:
+Daha önce belirtildiği gibi, bu kod, içinde **atlamalar olmadığı için** bir dekompiler içinde **çok uzun bir işlev** olarak görülebilir. Dekompilasyon kodu aşağıdaki gibi görünebilir:
 
-![](<../../.gitbook/assets/image (510).png>)
-
-Bu nedenle, bu algoritmayı tanımlamak için **sihirli sayıyı** ve **başlangıç XOR'larını** kontrol ederek, **çok uzun bir işlevi** görerek ve **uzun işlevin bazı talimatlarını** (örneğin, 7 ile sola kaydırma ve 22 ile sola döndürme) **bir uygulama ile karşılaştırarak** mümkündür.
+![](<../../.gitbook/assets/image (513).png>)
 ## RSA **(Asimetrik Şifreleme)**
 
 ### Özellikler
@@ -134,12 +128,12 @@ Bu nedenle, bu algoritmayı tanımlamak için **sihirli sayıyı** ve **başlang
 * Sabitler yoktur! (özel uygulamaları belirlemek zordur)
 * KANAL (bir şifre analizörü) RSA hakkında ipuçları veremez çünkü sabitlere dayanır.
 
-### Karşılaştırmalarla Tanımlama
+### Karşılaştırma Yoluyla Tanımlama
 
-![](<../../.gitbook/assets/image (1110).png>)
+![](<../../.gitbook/assets/image (1113).png>)
 
 * Sol tarafta 11. satırda `+7) >> 3` sağ tarafta 35. satırda aynıdır: `+7) / 8`
-* Sol tarafta 12. satırda `modulus_len < 0x040` kontrol edilirken sağ tarafta 36. satırda `inputLen+11 > modulusLen` kontrol edilmektedir.
+* Sol tarafta 12. satır `modulus_len < 0x040`'ı kontrol ederken sağ tarafta 36. satır `inputLen+11 > modulusLen`'i kontrol eder.
 
 ## MD5 & SHA (hash)
 
@@ -154,7 +148,7 @@ Bu nedenle, bu algoritmayı tanımlamak için **sihirli sayıyı** ve **başlang
 
 Her ikisini de sabitlere bakarak tanımlayabilirsiniz. SHA\_init'in MD5'te olmayan 1 sabiti olduğunu unutmayın:
 
-![](<../../.gitbook/assets/image (403).png>)
+![](<../../.gitbook/assets/image (406).png>)
 
 **MD5 Dönüşümü**
 
@@ -171,11 +165,11 @@ Daha fazla sabit kullanımına dikkat edin
 
 **Arama tablosu sabitlerini** kontrol edin:
 
-![](<../../.gitbook/assets/image (505).png>)
+![](<../../.gitbook/assets/image (508).png>)
 
 Bir CRC hash algoritması şuna benzer:
 
-![](<../../.gitbook/assets/image (387).png>)
+![](<../../.gitbook/assets/image (391).png>)
 
 ## APLib (Sıkıştırma)
 
@@ -192,4 +186,4 @@ Grafik oldukça büyüktür:
 
 Tanımak için **3 karşılaştırmayı kontrol edin**:
 
-![](<../../.gitbook/assets/image (427).png>)
+![](<../../.gitbook/assets/image (430).png>)

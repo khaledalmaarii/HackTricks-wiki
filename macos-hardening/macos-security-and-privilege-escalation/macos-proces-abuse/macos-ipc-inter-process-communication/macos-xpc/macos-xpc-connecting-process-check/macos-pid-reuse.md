@@ -4,36 +4,36 @@
 
 <summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 ## PID Yeniden Kullanımı
 
-Bir macOS **XPC servisi** çağrılan işlemi **PID** ve **denetim belirteci** yerine denetlediğinde, PID yeniden kullanım saldırısına açık hale gelir. Bu saldırı, bir **yarış koşulu**na dayanan bir **saldırıdır**. Burada bir **sömürücü**, XPC servisine **mesajlar gönderecek** ve hemen ardından **`posix_spawn(NULL, hedef_binary, NULL, &attr, hedef_argv, environ)`** komutunu çalıştıracaktır.
+Bir macOS **XPC servisi**, **PID**'ye ve **denetim belirteci**ne dayalı olarak çağrılan işlemi kontrol ettiğinde, PID yeniden kullanım saldırısına açık hale gelir. Bu saldırı, bir **zafiyet** üzerine kuruludur, burada bir **sömürücü** işlevi **XPC** servisine **mesajlar gönderecek** ve hemen ardından **`posix_spawn(NULL, hedef_binary, NULL, &attr, hedef_argv, çevre)`**'yi **izin verilen** ikili ile çalıştıracaktır.
 
-Bu işlev, **izin verilen binary'nin PID'sini alacak** ancak **kötü niyetli XPC mesajı** gönderilmiş olacaktır. Bu nedenle, XPC servisi, göndereni **doğrulamak** için **PID'yi** kullanıyorsa ve bunu **`posix_spawn`**'ın yürütülmesinden **SONRA** kontrol ediyorsa, işlemin **yetkili** bir işlemden geldiğini düşünecektir.
+Bu işlev, **izin verilen ikiliyi PID'ye sahip yapacak**, ancak **kötü niyetli XPC mesajı** gönderilmiş olacaktır. Bu nedenle, eğer **XPC** servisi göndereni **doğrulamak** için **PID**'yi kullanıyorsa ve bunu **`posix_spawn`**'ın **yürütülmesinden SONRA** kontrol ediyorsa, bunun yetkilendirilmiş bir işlem tarafından geldiğini düşünecektir.
 
 ### Sömürü Örneği
 
-Eğer **`shouldAcceptNewConnection`** işlevini veya onun tarafından çağrılan bir işlevi **`auditToken`**'ı değil de **`processIdentifier`**'ı çağırıyorsa, büyük olasılıkla işlem PID'sini doğruluyor demektir.\
-Örneğin, bu referanstan alınan görüntüde olduğu gibi:
+Eğer **`shouldAcceptNewConnection`** işlevini veya onun tarafından çağrılan bir işlevi **`auditToken`**'ı çağırmadan **`processIdentifier`**'ı çağırıyorsa, büyük olasılıkla işlem PID'sini doğruluyor demektir.\
+Örneğin, bu referanstan alınan bu görüntüde olduğu gibi:
 
-<figure><img src="../../../../../../.gitbook/assets/image (303).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Bu örnek saldırıyı kontrol etmek için (yine, referanstan alınan) 2 kısım içeren saldırıyı görün:
+Bu örnek saldırıyı kontrol etmek için (yine, referanstan alınmıştır):
 
 * **Birçok çatal oluşturan**
 * **Her çatal**, mesajı gönderirken **`posix_spawn`**'ı gönderdikten hemen sonra çalıştırır.
 
 {% hint style="danger" %}
-Sömürünün çalışması için ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** veya sömürüye içine koymak önemlidir:
+Sömürünün çalışması için ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** veya sömürü içine koymak önemlidir:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-İlk seçenek, **`NSTasks`** kullanarak ve argümanı kullanarak çocukları başlatmak için RC'yi sömürmek.
+**`NSTasks`** kullanarak ve argüman kullanarak çocukları başlatmak için RC'yi sömürme{% endtab %}
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +152,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Bu örnek, PID yarış koşulu sömürecek çocukları başlatmak için ham **`fork`** kullanır ve ardından **Başka bir yarış koşulunu Sert bağlantı aracılığıyla sömürür:**
+Bu örnek, **PID yarışma koşulunu sömürecek çocukları başlatmak için ham bir **`fork`** kullanır ve ardından **Başka bir yarışma koşulunu bir Sert bağlantı aracılığıyla sömürür:** kullanır:
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -285,6 +285,9 @@ pwned = true;
 return 0;
 }
 ```
+{% endtab %}
+{% endtabs %}
+
 ## Diğer örnekler
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
@@ -296,14 +299,14 @@ return 0;
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* Şirketinizi **HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u takip edin.
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hackleme öğrenin</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**]'imiz koleksiyonunu keşfedin (https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**] (https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**] (https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**] (https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**] (https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
@@ -24,7 +24,7 @@ Bu ikili dosyalar genellikle **Mach-O yapısını** takip eder, bu yapının tem
 * Yükleme Komutları
 * Veri
 
-![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (467).png>)
+![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (470).png>)
 
 ## Yağlı Başlık
 
@@ -47,7 +47,7 @@ uint32_t	align;		/* 2'nin üssü olarak hizalama */
 };
 </code></pre>
 
-Başlık, **sihirli** baytları ve dosyanın içerdiği **mimari sayısını** (`nfat_arch`) takip eden her mimarinin bir `fat_arch` yapısına sahip olduğu baytları içerir.
+Başlık, **sihirli** baytları ve dosyanın içerdiği **mimari sayısını** (`nfat_arch`) takip eden her mimarinin bir `fat_arch` yapısına sahip olduğu **sayıları** içerir.
 
 Şununla kontrol edin:
 
@@ -78,13 +78,13 @@ yetenekler PTR_AUTH_VERSION USERSPACE 0
 
 veya [Mach-O View](https://sourceforge.net/projects/machoview/) aracını kullanarak:
 
-<figure><img src="../../../.gitbook/assets/image (1091).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-Genellikle 2 mimari için derlenen bir evrensel ikili dosya, yalnızca 1 mimari için derlenen bir dosyanın boyutunu **iki katına çıkarır**.
+Genellikle 2 mimari için derlenen evrensel bir ikili dosya, sadece 1 mimari için derlenen bir dosyanın boyutunu **iki katına çıkarır**.
 
 ## **Mach-O Başlık**
 
-Başlık, dosya hakkında temel bilgiler içerir, örneğin sihirli baytlarla dosyayı Mach-O dosyası olarak tanımlamak ve hedef mimari hakkında bilgi içerir. Başlığı şurada bulabilirsiniz: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+Başlık, dosya hakkında temel bilgiler içerir, örneğin sihirli baytlarla dosyayı Mach-O dosyası olarak tanımlamak ve hedef mimari hakkında bilgi içerir. Şurada bulabilirsiniz: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -115,14 +115,14 @@ uint32_t	reserved;	/* reserved */
 
 Farklı dosya türleri bulunmaktadır, bunlar [**örneğin burada tanımlanmıştır**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h). En önemlileri şunlardır:
 
-- `MH_OBJECT`: Taşınabilir nesne dosyası (derleme ara ürünleri, henüz yürütülebilir değil).
+- `MH_OBJECT`: Taşınabilir nesne dosyası (derlemenin ara ürünleri, henüz yürütülebilir değil).
 - `MH_EXECUTE`: Yürütülebilir dosyalar.
 - `MH_FVMLIB`: Sabit VM kütüphane dosyası.
 - `MH_CORE`: Kod Dökümleri
 - `MH_PRELOAD`: Önceden yüklenmiş yürütülebilir dosya (artık XNU'da desteklenmiyor)
 - `MH_DYLIB`: Dinamik Kütüphaneler
 - `MH_DYLINKER`: Dinamik Bağlayıcı
-- `MH_BUNDLE`: "Eklenti dosyaları". GCC'de -bundle kullanılarak oluşturulur ve `NSBundle` veya `dlopen` tarafından açıkça yüklenir.
+- `MH_BUNDLE`: "Eklenti dosyaları". `NSBundle` veya `dlopen` tarafından açıkça yüklenen -bundle ile oluşturulur.
 - `MH_DYSM`: Eş `.dSym` dosyası (hata ayıklama sembolleri içeren dosya).
 - `MH_KEXT_BUNDLE`: Çekirdek Uzantıları.
 ```bash
@@ -134,7 +134,7 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 ```
 Veya [Mach-O View](https://sourceforge.net/projects/machoview/) kullanarak:
 
-<figure><img src="../../../.gitbook/assets/image (1130).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
 ## **Mach-O Bayrakları**
 
@@ -153,13 +153,13 @@ Kaynak kod ayrıca kütüphaneleri yükleme için kullanışlı birkaç bayrak t
 * `MH_NO_HEAP_EXECUTION`: Yığın/veri sayfaları için yürütme yok
 * `MH_HAS_OBJC`: Bina Objective-C bölümlerine sahip
 * `MH_SIM_SUPPORT`: Simülatör desteği
-* `MH_DYLIB_IN_CACHE`: Paylaşılan kütüphane önbelleğindeki dylib/framework'lerde kullanılır.
+* `MH_DYLIB_IN_CACHE`: Paylaşılan kütüphane önbelleğindeki dylibs/frameworks üzerinde kullanılır.
 
-## **Mach-O Yükleme Komutları**
+## **Mach-O Yükleme komutları**
 
-**Dosyanın bellekteki düzeni** burada belirtilir, **sembol tablosunun konumu**, yürütme başlangıcında ana iş parçacığının bağlamı ve gerekli **paylaşılan kütüphaneler** ayrıntılı olarak açıklanır. Talimatlar, binary'nin belleğe yüklenme süreci hakkında dinamik yükleyici **(dyld)** için sağlanır.
+**Dosyanın bellekteki düzeni** burada belirtilir, **sembol tablosunun konumu**, yürütme başlangıcında ana iş parçacığının bağlamı ve gerekli **paylaşılan kütüphaneler** ayrıntılandırılır. Talimatlar, binary'nin belleğe yükleme süreci hakkında dinamik yükleyici **(dyld)** için sağlanır.
 
-Kullanılan yapı, belirtilen **`loader.h`** içinde tanımlanan **load\_command** yapısıdır:
+Kullanılan **load\_command** yapısı, bahsedilen **`loader.h`** içinde tanımlanmıştır:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -171,14 +171,14 @@ Sistem farklı şekillerde işlediği yaklaşık **50 farklı yükleme komutu t�
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Temelde, bu tür Yükleme Komutları, ikili dosya yürütüldüğünde **\_\_TEXT** (yürütülebilir kod) ve **\_\_DATA** (işlem için veri) **segmentlerini nasıl yükleyeceğini** belirler, veri bölümünde belirtilen ofsetlere göre.
+Temelde, bu tür Yükleme Komutları, ikili dosya yürütüldüğünde **\_\_TEXT** (yürütülebilir kod) ve **\_\_DATA** (işlem için veri) **segmentlerini** yüklemenin **Data bölümünde belirtilen ofsetlere** göre nasıl yapılacağını tanımlar.
 {% endhint %}
 
-Bu komutlar, bir işlemin yürütüldüğünde sanal bellek alanına **haritalanan segmentleri tanımlar**.
+Bu komutlar, bir işlem yürütüldüğünde **sanal bellek alanına eşlenen segmentleri tanımlar**.
 
-**\_\_TEXT** segmentini, bir programın yürütülebilir kodunu tutan ve işlem tarafından kullanılan verileri içeren **\_\_DATA** segmenti gibi **farklı türlerde segmentler** bulunmaktadır. Bu **segmentler**, Mach-O dosyasının veri bölümünde bulunur.
+**Farklı türlerde** segmentler bulunmaktadır, örneğin bir programın yürütülebilir kodunu tutan **\_\_TEXT** segmenti ve işlem tarafından kullanılan verileri içeren **\_\_DATA** segmenti. Bu **segmentler**, Mach-O dosyasının veri bölümünde bulunmaktadır.
 
-**Her segment**, daha fazla **bölünebilen birden fazla bölüme** ayrılabilir. **Yükleme komutu yapısı**, ilgili segment içindeki **bu bölümler hakkında bilgi** içerir.
+**Her segment**, daha fazla **bölümlere** ayrılabilir. **Yükleme komutu yapısı**, ilgili segment içindeki **bu bölümler hakkında bilgi** içerir.
 
 Başlıkta önce **segment başlığını** bulursunuz:
 
@@ -199,9 +199,9 @@ int32_t		initprot;	/* başlangıç VM koruması */
 
 Segment başlığının örneği:
 
-<figure><img src="../../../.gitbook/assets/image (1123).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
-Bu başlık, **ardından görünen başlıkların sayısını** tanımlar:
+Bu başlık, **ardından başlıkları görünen bölümlerin sayısını** tanımlar:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -220,70 +220,60 @@ uint32_t	reserved3;	/* reserved */
 ```
 Örnek **bölüm başlığı**:
 
-<figure><img src="../../../.gitbook/assets/image (1105).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
 Eğer **bölüm ofseti** (0x37DC) + **mimarinin başladığı ofset** eklenirse, bu durumda `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-Ayrıca **başlık bilgilerini** **komut satırından** almak da mümkündür:
+Ayrıca **komut satırından** **başlık bilgilerini** almak da mümkündür:
 ```bash
 otool -lv /bin/ls
 ```
-```html
-<p> Bu cmd tarafından yüklenen yaygın segmentler: </p>
+Bu komut tarafından yüklenen yaygın bölümler:
 
-<ul>
-<li> <strong> `__PAGEZERO`: </strong> Çekirdeğe **adres sıfırı**nı **haritalamayı** emreder, böylece bu sayfadan **okunamaz, yazılamaz veya yürütülemez**. Yapıdaki maxprot ve minprot değişkenleri sıfıra ayarlanır, bu da bu sayfada **okuma-yazma-yürütme haklarının olmadığını** gösterir. </li>
-<li> Bu tahsis, **NULL işaretçi sızdırmazlıklarını hafifletmek** için önemlidir. Bu, XNU'nun yalnızca belleğin ilk sayfasının (yalnızca ilk sayfa) erişilemez olduğunu sağlayan sert bir sayfa sıfırını zorunlu kılmasından kaynaklanmaktadır (yalnızca i386'da). Bir ikili dosya, ilk 4k'yi kapsayan küçük bir \_\_PAGEZERO oluşturarak ve geri kalan 32 bit belleğin hem kullanıcı hem de çekirdek modunda erişilebilir olmasını sağlayarak bu gereksinimleri karşılayabilir. </li>
-<li> <strong> `__TEXT`: </strong> **Okunabilir** ve **yürütülebilir** izinlerle **yürütülebilir** **kod** içerir (yazılabilir değil)**.** Bu segmentin yaygın bölümleri: </li>
-<ul>
-<li> `__text`: Derlenmiş ikili kod </li>
-<li> `__const`: Sabit veri (yalnızca okunabilir) </li>
-<li> `__[c/u/os_log]string`: C, Unicode veya os log dizisi sabitleri </li>
-<li> `__stubs` ve `__stubs_helper`: Dinamik kitaplık yükleme sürecinde rol oynar </li>
-<li> `__unwind_info`: Yığın açma verileri. </li>
-</ul>
-<li> Tüm bu içeriğin imzalandığını ancak aynı zamanda yürütülebilir olarak işaretlendiğini unutmayın (bu ayrıcalığa ihtiyaç duymayan bölümlerin kötüye kullanılması için daha fazla seçenek yaratır, örneğin dizeye özel bölümler). </li>
-<li> <strong> `__DATA`: </strong> **Okunabilir** ve **yazılabilir** verileri içerir (yürütülebilir değil)**.** </li>
-<ul>
-<li> `__got:` Global Offset Table </li>
-<li> `__nl_symbol_ptr`: Tembel olmayan (yükleme sırasında bağlanır) sembol işaretçisi </li>
-<li> `__la_symbol_ptr`: Tembel (kullanımda bağlanır) sembol işaretçisi </li>
-<li> `__const`: Okuma-yazma verileri olmalıdır (gerçekte değil) </li>
-<li> `__cfstring`: CoreFoundation dizeleri </li>
-<li> `__data`: Başlatılmış global değişkenler </li>
-<li> `__bss`: Başlatılmamış statik değişkenler </li>
-<li> `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, vb.): Objective-C çalışma zamanı tarafından kullanılan bilgiler </li>
-</ul>
-<li> <strong> `__DATA_CONST`: </strong> \_\_DATA.\_\_const'ın sabit olması garanti edilmez (yazma izinleri), diğer işaretçiler ve GOT de değil. Bu bölüm, `__const`, bazı başlatıcılar ve GOT tablosunu (çözümlendikten sonra) **read only** olarak kullanarak `mprotect` kullanır. </li>
-<li> <strong> `__LINKEDIT`: </strong> Bağlayıcı için (dyld) sembol, dize ve yer değiştirme tablosu girişleri gibi bilgileri içerir. Bu, `__TEXT` veya `__DATA` içinde olmayan içerikler için genel bir konteynerdir ve içeriği diğer yükleme komutlarında açıklanmıştır. </li>
-<li> dyld bilgileri: Yeniden konumlandırma, Tembel olmayan/tembel/zayıf bağlama işlemleri ve ihraç bilgileri </li>
-<li> Fonksiyon başlangıçları: Fonksiyonların başlangıç adresleri tablosu </li>
-<li> Kod İçindeki Veri: \_\_text içindeki veri adaları </li>
-<li> Sembol Tablosu: İkili dosyadaki semboller </li>
-<li> Dolaylı Sembol Tablosu: İşaretçi/stub sembolleri </li>
-<li> Dize Tablosu </li>
-<li> Kod İmzası </li>
-<li> <strong> `__OBJC`: </strong> Objective-C çalışma zamanı tarafından kullanılan bilgileri içerir. Bu bilgiler ayrıca \_\_DATA segmentinde, çeşitli \_\_objc\_\* bölümlerinde bulunabilir. </li>
-<li> <strong> `__RESTRICT`: </strong> İçeriği olmayan bir bölüm olan **`__restrict`** adında tek bir bölüm içerir (ayrıca boştur) ve ikili dosya çalıştırıldığında DYLD çevresel değişkenlerini yoksayar. </li>
-</ul>
+* **`__PAGEZERO`:** Çekirdeğe **adres sıfırı**nı **haritalamayı** emreder, böylece bu sayfadan **okunamaz, yazılamaz veya yürütülemez**. Yapıdaki maxprot ve minprot değişkenleri sıfıra ayarlanır, bu da bu sayfada **okuma-yazma-yürütme haklarının olmadığını** gösterir.
+* Bu tahsis, **NULL işaretçi sıfırlama güvenlik açıklarını hafifletmek** için önemlidir. Bu, XNU'nun yalnızca belleğin ilk sayfasının (yalnızca ilk sayfa) erişilemez olduğunu sağlayan sert bir sayfa sıfırını zorunlu kılmasından kaynaklanmaktadır (yalnızca i386'da). Bir ikili dosya, küçük bir \_\_PAGEZERO oluşturarak ( `-pagezero_size` kullanarak) ilk 4k'yi kapsayabilir ve geri kalan 32 bit belleğin hem kullanıcı hem de çekirdek modunda erişilebilir olmasını sağlayabilir.
+* **`__TEXT`**: **Okunabilir** ve **yürütülebilir** izinlere sahip **yürütülebilir** **kod** içerir (yazılabilir değil)**.** Bu segmentin yaygın bölümleri:
+* `__text`: Derlenmiş ikili kod
+* `__const`: Sabit veri (yalnızca okunabilir)
+* `__[c/u/os_log]string`: C, Unicode veya os log dizisi sabitleri
+* `__stubs` ve `__stubs_helper`: Dinamik kitaplık yükleme sürecinde rol oynar
+* `__unwind_info`: Yığın açma verileri.
+* Tüm bu içeriğin imzalandığını ancak aynı zamanda yürütülebilir olarak işaretlendiğini unutmayın (bu ayrıcalığa ihtiyaç duymayan bölümlerin söz konusu ayrıcalığı gerektirmeyen bölümlerin sömürülmesi için daha fazla seçenek yaratır).
+* **`__DATA`**: **Okunabilir** ve **yazılabilir** verileri içerir (yürütülemez)**.**
+* `__got:` Global Offset Table
+* `__nl_symbol_ptr`: Tembel olmayan (yükleme sırasında bağlanır) sembol işaretçisi
+* `__la_symbol_ptr`: Tembel (kullanımda bağlanır) sembol işaretçisi
+* `__const`: Gerçekte yalnızca okunabilir veri olmalıdır
+* `__cfstring`: CoreFoundation dizeleri
+* `__data`: Başlatılmış küresel değişkenler
+* `__bss`: Başlatılmamış statik değişkenler
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, vb.): Objective-C çalışma zamanı tarafından kullanılan bilgiler
+* **`__DATA_CONST`**: \_\_DATA.\_\_const'ın sabit olması garanti edilmez (yazma izinleri), diğer işaretçiler ve GOT de değil. Bu bölüm, `__const`, bazı başlatıcılar ve GOT tablosunu (çözümlendikten sonra) `mprotect` kullanarak **salt okunur** yapar.
+* **`__LINKEDIT`**: Bağlayıcı için (dyld gibi) sembol, dize ve yer değiştirme tablosu girişleri gibi bilgileri içerir. Bu, ne `__TEXT` ne de `__DATA` içinde olmayan içerikler için genel bir konteynerdir ve içeriği diğer yükleme komutlarında açıklanmıştır.
+* dyld bilgileri: Yeniden konumlandırma, Tembel olmayan/tembel/zayıf bağlama işlemleri ve ihraç bilgileri
+* Fonksiyon başlangıçları: Fonksiyonların başlangıç adreslerinin tablosu
+* Kod İçindeki Veriler: \_\_text içindeki veri adaları
+* Sembol Tablosu: İkili dosyadaki semboller
+* Dolaylı Sembol Tablosu: İşaretçi/stub sembolleri
+* Dize Tablosu
+* Kod İmzası
+* **`__OBJC`**: Objective-C çalışma zamanı tarafından kullanılan bilgileri içerir. Bu bilgiler, \_\_DATA segmentinde de bulunabilir, çeşitli \_\_objc\_\* bölümlerinde.
+* **`__RESTRICT`**: İçeriği olmayan bir bölüm olan **`__restrict`** adlı tek bir bölüm içerir (ayrıca boştur) ve ikili dosya çalıştırıldığında DYLD çevresel değişkenlerini yoksayar.
 
-<p> Kodda görülebileceği gibi, **segmentler ayrıca bayrakları** destekler (ancak çok fazla kullanılmazlar): </p>
+Kodda görülebileceği gibi, **bölümler ayrıca bayrakları da destekler** (ancak çok fazla kullanılmazlar):
 
-<ul>
-<li> `SG_HIGHVM`: Yalnızca çekirdek (kullanılmaz) </li>
-<li> `SG_FVMLIB`: Kullanılmaz </li>
-<li> `SG_NORELOC`: Segmentin yeniden konumlandırması yok </li>
-<li> `SG_PROTECTED_VERSION_1`: Şifreleme. Örneğin Finder tarafından metni şifrelemek için kullanılır `__TEXT` segmenti. </li>
-</ul>
+* `SG_HIGHVM`: Yalnızca çekirdek (kullanılmaz)
+* `SG_FVMLIB`: Kullanılmaz
+* `SG_NORELOC`: Bölümde yer değiştirme yok
+* `SG_PROTECTED_VERSION_1`: Şifreleme. Örneğin Finder tarafından metni şifrelemek için `__TEXT` segmentini kullanır.
 
-<h3> **`LC_UNIXTHREAD/LC_MAIN`** </h3>
+### **`LC_UNIXTHREAD/LC_MAIN`**
 
-<p> **`LC_MAIN`** içinde **entryoff özniteliğindeki** giriş noktasını içerir. Yükleme zamanında, **dyld** bu değeri (bellekteki) **ikili dosyanın tabanına** ekler, ardından bu talimata atlayarak ikili dosyanın kodunun yürütmesini başlatmak için bu konuma sıçrar. </p>
+**`LC_MAIN`**, **entryoff özniteliğindeki** giriş noktasını içerir. Yükleme zamanında, **dyld** bu değeri (bellekteki) **ikili dosyanın tabanına ekler**, ardından bu talimata atlayarak ikili dosyanın kodunun yürütmesini başlatmak için bu konuma **atlar**.
 
-<p> **`LC_UNIXTHREAD`** başlangıç ​​yapıldığında kayıtların sahip olması gereken değerleri içerir. Bu zaten kullanımdan kaldırılmış olsa da **`dyld`** hala bunu kullanır. Bu ile ayarlanan kayıtların değerlerini görmek mümkündür: </p>
-```
+**`LC_UNIXTHREAD`**, ana iş parçacığını başlatırken kayıtların sahip olması gereken değerleri içerir. Bu zaten kullanımdan kaldırılmış olsa da **`dyld`** hala bunu kullanır. Bu ile ayarlanan kayıtların değerlerini görmek mümkündür:
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -309,12 +299,12 @@ cpsr 0x00000000
 ```
 ### **`LC_CODE_SIGNATURE`**
 
-Macho-O dosyasının **kod imzası** hakkında bilgi içerir. Yalnızca **imza bloğuna işaret eden bir ofset** içerir. Genellikle dosyanın sonunda bulunur.\
+Macho-O dosyasının **kod imzası** hakkında bilgi içerir. Yalnızca bir **imza bloğuna işaret eden** bir **ofset** içerir. Genellikle dosyanın sonunda bulunur.\
 Ancak, bu bölüm hakkında bazı bilgileri [**bu blog yazısında**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) ve bu [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4) bulabilirsiniz.
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-Binary şifrelemesini destekler. Ancak, tabii ki, bir saldırganın işlemi ele geçirmeyi başarması durumunda belleği şifrelenmemiş olarak dökmesine izin verilecektir.
+Binary şifrelemesini destekler. Ancak, tabii ki, bir saldırgan süreci ele geçirmeyi başarırsa, belleği şifrelenmemiş olarak dökme yeteneğine sahip olacaktır.
 
 ### **`LC_LOAD_DYLINKER`**
 
@@ -330,13 +320,13 @@ Rastgele UUID. Doğrudan herhangi bir şey için faydalı değildir ancak XNU, i
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
-İşlem yürütülmeden önce dyld'ye çevresel değişkenleri belirtmeye izin verir. Bu, işlem içinde keyfi kodları yürütmeye izin verebileceğinden oldukça tehlikeli olabilir, bu yük komutu yalnızca `#define SUPPORT_LC_DYLD_ENVIRONMENT` ile derlenmiş dyld'de kullanılır ve yük yollarını belirleyen `DYLD_..._PATH` biçimindeki değişkenlere sadece işlem yapmayı daha da kısıtlar.
+İşlem yürütülmeden önce dyld'ye çevresel değişkenleri belirtmeye izin verir. Bu, işlem içinde keyfi kod yürütmesine izin verebileceğinden oldukça tehlikeli olabilir, bu yükleme komutu yalnızca `#define SUPPORT_LC_DYLD_ENVIRONMENT` ile derlenmiş dyld'de kullanılır ve yalnızca `DYLD_..._PATH` biçiminde yük yollarını belirleyen değişkenlerin işlenmesini daha da kısıtlar.
 
 ### **`LC_LOAD_DYLIB`**
 
-Bu yükleme komutu, **yükleme ve bağlama komutunu** (dyld) **belirten** **dinamik bir kütüphane** bağımlılığını açıklar. Mach-O ikilisinin gerektirdiği her kütüphane için bir `LC_LOAD_DYLIB` yükleme komutu bulunmaktadır.
+Bu yükleme komutu, **yükleme ve bağlama** işlemini **yapılacak kütüphaneyi belirten** **dinamik** **kütüphane** bağımlılığını açıklar. Mach-O ikili dosyanın gerektirdiği her kütüphane için bir `LC_LOAD_DYLIB` yükleme komutu bulunmaktadır.
 
-* Bu yükleme komutu, **gerçek bağımlı dinamik kütüphaneyi tanımlayan struct dylib içeren bir dylib_command** türünde bir yapıdır:
+* Bu yükleme komutu, **gerçek bağımlı dinamik kütüphaneyi tanımlayan** bir yapı olan **`dylib_command`** türünde bir yapıdır (struct dylib içeren bir dylib yapısı):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -351,9 +341,9 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
-![](<../../../.gitbook/assets/image (483).png>)
+![](<../../../.gitbook/assets/image (486).png>)
 
-Bu bilgileri ayrıca şu komutla da alabilirsiniz:
+Bu bilgiyi ayrıca şu komut satırı aracılığıyla da alabilirsiniz:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -375,7 +365,7 @@ Herhangi bir yapıcının ofsetleri, **\_\_DATA\_CONST** segmentinin **\_\_mod\_
 
 ## **Mach-O Verileri**
 
-Dosyanın çekirdeğinde, yükleme komutları bölgesinde tanımlandığı gibi birkaç segmentten oluşan veri bölgesi bulunmaktadır. **Her segmentte çeşitli veri bölümleri barındırılabilir**, her bölüm de bir türe özgü kod veya veri içerir.
+Dosyanın çekirdeğinde, yükleme komutları bölgesinde tanımlandığı gibi birkaç segmentten oluşan veri bölgesi bulunmaktadır. **Her segmentte barındırılabilecek çeşitli veri bölümleri** bulunmaktadır, her bölüm ise bir türe özgü kod veya veri içerir.
 
 {% hint style="success" %}
 Veri, temelde yükleme komutları **LC\_SEGMENTS\_64** tarafından yüklenen tüm **bilgileri** içeren kısımdır.
@@ -383,33 +373,39 @@ Veri, temelde yükleme komutları **LC\_SEGMENTS\_64** tarafından yüklenen tü
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
-Bu şunları içerir:
+Bunlar şunları içerir:
 
 * **Fonksiyon tablosu:** Program fonksiyonları hakkında bilgileri tutar.
 * **Sembol tablosu**: İkili dosya tarafından kullanılan harici fonksiyonlar hakkındaki bilgileri içerir
-* Ayrıca dahili fonksiyonları, değişken isimlerini ve daha fazlasını içerebilir.
+* Ayrıca iç fonksiyonları, değişken isimlerini ve daha fazlasını içerebilir.
 
 Bunu kontrol etmek için [**Mach-O View**](https://sourceforge.net/projects/machoview/) aracını kullanabilirsiniz:
 
-<figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
 Veya komut satırından:
 ```
 ```bash
 size -m /bin/ls
 ```
-<detaylar>
+## Objective-C Ortak Bölümler
 
-<özet>
+`__TEXT` segmentinde (r-x):
 
-<strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!
+- `__objc_classname`: Sınıf isimleri (dizeler)
+- `__objc_methname`: Metod isimleri (dizeler)
+- `__objc_methtype`: Metod tipleri (dizeler)
 
-Diğer HackTricks'i destekleme yolları:
+`__DATA` segmentinde (rw-):
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşın, PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
+- `__objc_classlist`: Tüm Objective-C sınıflarına işaretçiler
+- `__objc_nlclslist`: Tembel Olmayan Objective-C sınıflarına işaretçiler
+- `__objc_catlist`: Kategorilere işaretçi
+- `__objc_nlcatlist`: Tembel Olmayan Kategorilere işaretçi
+- `__objc_protolist`: Protokoller listesi
+- `__objc_const`: Sabit veri
+- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
 
-</detaylar>
+## Swift
+
+- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

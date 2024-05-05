@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
@@ -10,11 +10,11 @@ HackTricks'ı desteklemenin diğer yolları:
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-MIG, **Mach IPC işlemi oluşturma sürecini basitleştirmek** için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **oluşturur**. Oluşturulan kod ne kadar kötü olursa olsun, bir geliştirici sadece bunu içe aktarması ve kodu öncekinden çok daha basit hale gelir.
+MIG, **Mach IPC işlemi** kod oluşturma sürecini basitleştirmek için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli olan kodu **belirli bir tanım ile oluşturur**. Oluşturulan kod ne kadar kötü görünürse görünsün, bir geliştirici sadece bunu içe aktarması yeterli olacak ve kodu öncekinden çok daha basit olacaktır.
 
 ### Örnek
 
@@ -37,11 +37,11 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Şimdi mig'i kullanarak, birbirleriyle iletişim kurabilecek şekilde sunucu ve istemci kodunu oluşturun ve Çıkarma işlevini çağırın:
+Şimdi mig'i kullanarak birbirleriyle iletişim kurabilecek sunucu ve istemci kodunu oluşturun ve Çıkarma işlevini çağırmak için:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Mevcut dizinde birkaç yeni dosya oluşturulacak.
+Çeşitli yeni dosyalar mevcut dizinde oluşturulacaktır.
 
 **`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temel olarak alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
 
@@ -66,47 +66,392 @@ myipc_server_routine,
 
 {% tab title="myipcServer.h" %} 
 
-### macOS IPC: Inter-Process Communication
-
-#### macOS MIG: Mach Interface Generator
-
-Mach Interface Generator (MIG) is a tool used to define inter-process communication interfaces in macOS. It generates server-side and client-side code for message-based communication between processes. MIG is commonly used in macOS for system services and kernel extensions.
-
-To create an IPC server using MIG, you need to define the message formats and methods in a .defs file, then use MIG to generate the server-side code. The server code will handle incoming messages from clients and execute the defined methods accordingly.
-
-Here is an example of a simple MIG server in macOS:
+## myipcServer.h
 
 ```c
+#ifndef myipcServer_h
+#define myipcServer_h
+
 #include <stdio.h>
 #include <mach/mach.h>
 #include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
-
-int main() {
-    mach_port_t server_port;
-    kern_return_t ret = bootstrap_check_in(bootstrap_port, "com.example.myipc", &server_port);
-    if (ret != KERN_SUCCESS) {
-        printf("Failed to check in: %s\n", mach_error_string(ret));
-        return 1;
-    }
-
-    printf("Server running...\n");
-
-    while (1) {
-        mach_msg_server_once(myipc_server, 2048, server_port, MACH_MSG_TIMEOUT_NONE);
-    }
-
-    return 0;
-}
-```
-
-In this example, the `myipc_server` function is the entry point for handling incoming messages. The server registers itself with the bootstrap server using `bootstrap_check_in` and then enters a loop to wait for and process incoming messages using `mach_msg_server_once`.
-
-By using MIG for IPC in macOS, developers can easily define and implement communication interfaces between processes, enabling secure and efficient inter-process communication. 
-
-{% endtab %}
+#include <mach/mach_traps.h>
+#include <mach/mach_interface.h>
+#include <mach/mach_init.h>
+#include <mach/mach_port.h>
+#include <mach/mach_error.h>
+#include <mach/mach_types.h>
+#include <mach/mach_host.h>
+#include <mach/mach_vm.h>
+#include <mach/mach_voucher.h>
+#include <mach/mach_time.h>
+#include <mach/mach_init.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#includejson <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher_attr_control.h>
+#include <mach/mach_voucher_deallocate.h>
+#include <mach/mach_voucher_extract_attr_recipe.h>
+#include <mach/mach_voucher_notify.h>
+#include <mach/mach_voucher
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -180,7 +525,7 @@ return FALSE;
 }
 </code></pre>
 
-Önceki vurgulanan satırları kontrol ederek, kimliğe göre çağrılacak işlevlere erişin.
+Önceki vurgulanan satırları kontrol ederek, kimliğe göre çağrılacak işlevlere erişim sağlayın.
 
 Aşağıda, istemcinin sunucudan çıkarmak için işlevleri çağırabileceği basit bir **sunucu** ve **istemci** oluşturmak için kod bulunmaktadır:
 
@@ -218,7 +563,34 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}Dosya: myipc_client.c{% endtab %}
+{% tab title="myipc_client.c" %} 
+
+## myipc_client.c
+
+Bu dosya, `myipc_server` ile iletişim kuran bir IPC istemcisini uygular. İstemci, `myipc.defs` dosyasındaki MIG arayüz tanımlarını kullanır.
+
+```c
+#include <stdio.h>
+#include <servers/bootstrap.h>
+#include "myipc.h"
+
+int main() {
+    mach_port_t server_port;
+    kern_return_t ret;
+
+    ret = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    if (ret != KERN_SUCCESS) {
+        printf("Failed to look up server port\n");
+        return 1;
+    }
+
+    myipc_do_mach_msg(server_port);
+
+    return 0;
+}
+```
+
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -245,16 +617,16 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### Binary Analizi
 
-Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'yi kullandığından, **MIG'nin kullanıldığını belirlemenin** ve her mesaj kimliği ile MIG'in yürüttüğü **işlevleri** bilmek ilginçtir.
+Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'yi kullandığından, MIG'nin kullanıldığını **tanımlamanın** ve her ileti kimliği ile MIG'nin yürüttüğü **işlevleri** bilmek ilginç olabilir.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir ve mesaj kimliğini göstererek yürütülecek işlevi belirleyebilir:
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir, ileti kimliğini gösterir ve yürütülecek işlevi tanımlar:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Önceki bölümde, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **derlenmiş halinin nasıl göründüğünü kontrol etmek ilginç olacaktır**, çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
+Önceden bahsedildiği gibi, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **nasıl decompile edildiğine bakmak ilginç olacaktır** çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
 
 {% tabs %}
-{% tab title="myipc_server derlenmiş 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -267,13 +639,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Çağrılması gereken işlevin işaretçisini belirlemeye yardımcı olabilecek sign_extend_64 çağrısı
-// Bu, rax'e çağrılması gereken işlevin işaretçisini depolar
-// Kullanılan adres 0x100004040'ı kontrol edin (işlevlerin adresleri dizisi)
+// Çağrılacak işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
+// Bu, çağrılması gereken işlevin işaretçisini rax'a depolar
+// Kullanılan adres 0x100004040'ı kontrol edin (işlev adresleri dizisi)
 // 0x1f4 = 500 (başlangıç ​​ID'si)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, if yanıtı yanlış dönerken, else doğru işlevi çağırır ve doğru döner
+// If - else, if yanıtı yanlış döndürürken else doğru işlevi çağırır ve doğru döndürür
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -296,8 +668,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server derlenmiş 2" %}
-Bu, farklı bir Hopper free sürümünde derlenmiş aynı işlevdir:
+{% tab title="myipc_server decompiled 2" %}
+Bu, farklı bir Hopper free sürümünde decompile edilmiş aynı işlevdir:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -341,7 +713,7 @@ r8 = 0x1;
 }
 }
 // Önceki sürümdeki gibi aynı if else
-// Kullanılan adres 0x100004040 (işlevlerin adresleri dizisi) kontrol edilir
+// Kullanılan adres 0x100004040 (işlev adresleri dizisi) kontrol edilir
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -372,11 +744,22 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Aslında, **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının bir dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapı 0x28 bayt alır**, bu nedenle her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
+Aslında, **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının bir dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapının 0x28 bayt aldığını** göz önünde bulundurarak her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
 
-<figure><img src="../../../../.gitbook/assets/image (32).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../../../.gitbook/assets/image (33).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-Bu veriler, [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
-* **Hacking hilelerinizi paylaşarak PR'ler gönderin** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına.**
+Bu veriler [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
+
+<details>
+
+<summary><strong>Sıfırdan başlayarak AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+
+HackTricks'i desteklemenin diğer yolları:
+
+* **Şirketinizi HackTricks'te reklam görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f)** veya [telegram grubuna](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacker hilelerinizi göndererek PR'ler oluşturarak paylaşın** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.

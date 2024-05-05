@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**The PEASS Family**]'yi keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**]'de takip edin (https://twitter.com/hacktricks\_live)**.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**] (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**] (https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* [**Resmi PEASS & HackTricks ürünleri**]'ni alın (https://peass.creator-spring.com)
+* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in bulunduğu koleksiyonumuz
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**]'da takip edin (https://twitter.com/hacktricks\_live)**.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**] (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**] (https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-**Try Hard Security Group**
+**Try Hard Güvenlik Grubu**
 
 <figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -32,9 +32,9 @@ Yazılım:
 
 Çevrimiçi:
 
-* Wasm (ikili) dosyasını wat (açık metin) formatına **çözümlemek** için [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) kullanın
-* Wat dosyasını wasm formatına derlemek için [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) kullanın
-* Ayrıca çözümlemek için [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) kullanabilirsiniz
+* Wasm (ikili) dosyasını wat (açık metin) biçimine **çözümlemek** için [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) kullanın
+* Wat dosyasını wasm biçimine derlemek için [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) kullanın
+* Ayrıca [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) kullanarak çözümleme yapabilirsiniz
 
 Yazılım:
 
@@ -45,25 +45,25 @@ Yazılım:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek, **kütüphaneler** (.dll), **Windows meta veri dosyaları** (.winmd) ve **yürütülebilir dosyalar** (.exe) dahil olmak üzere **çeşitli formatları çözümleyen** bir dekompilerdir. Çözümlendikten sonra bir derleme, bir Visual Studio projesi (.csproj) olarak kaydedilebilir.
+dotPeek, **kütüphaneler** (.dll), **Windows meta veri dosyaları** (.winmd) ve **yürütülebilir dosyalar** (.exe) dahil olmak üzere **çeşitli biçimleri çözümleyen** bir dekompilerdir. Çözümlendikten sonra bir derleme, bir Visual Studio projesi (.csproj) olarak kaydedilebilir.
 
-Buradaki avantaj, kaybolmuş bir kaynak kodunun eski bir derlemeden geri yüklenmesi gerekiyorsa, bu işlemin zaman kazandırabileceğidir. Ayrıca, dotPeek, çözümlenen kod boyunca kullanışlı gezinme sağlayarak, **Xamarin algoritma analizi için mükemmel araçlardan biri** haline getirir.
+Buradaki avantaj, kaybolmuş bir kaynak kodunun eski bir derlemeden geri yüklenmesi gerekiyorsa, bu işlem zaman kazandırabilir. Ayrıca, dotPeek, çözümlenen kod boyunca kullanışlı gezinme sağlayarak, **Xamarin algoritma analizi için mükemmel araçlardan biri** haline getirir.
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
 Kapsamlı bir eklenti modeli ve aracı tam olarak ihtiyaçlarınıza uyacak şekilde genişleten bir API ile .NET Reflector, zaman kazandırır ve geliştirmeyi basitleştirir. Bu aracın sağladığı birçok tersine mühendislik hizmetine bir göz atalım:
 
 * Verilerin bir kütüphane veya bileşen üzerinden nasıl aktığına dair bir bakış açısı sağlar
-* .NET dilleri ve çerçevelerinin uygulanışı ve kullanımı hakkında bilgi sağlar
-* Kullanılan API'ler ve teknolojilerden daha fazla veri almak için belgelenmemiş ve açığa çıkarılmamış işlevsellikleri bulur
+* .NET dilleri ve çerçevelerinin uygulanışı ve kullanımı hakkında bilgi verir
+* Belgelenmemiş ve açığa çıkarılmamış işlevselliği bulur ve kullanılan API'lerden ve teknolojilerden daha fazla veri alır.
 * Bağımlılıkları ve farklı derlemeleri bulur
-* Kodunuzdaki hataların, üçüncü taraf bileşenlerin ve kütüphanelerin tam konumunu belirler
+* Kodunuzdaki hataların, üçüncü taraf bileşenlerin ve kütüphanelerin tam konumunu belirler.
 * Çalıştığınız tüm .NET kodunun kaynağına hata ayıklar.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Visual Studio Code için ILSpy eklentisi](https://github.com/icsharpcode/ilspy-vscode): Herhangi bir işletim sisteminde kullanabilirsiniz (VSCode'dan doğrudan yükleyebilirsiniz, git'i indirmenize gerek yok. **Uzantılar** üzerine tıklayın ve **ILSpy** arayın).\
-Eğer **çözümlemek**, **değiştirmek** ve **yeniden derlemek** gerekiyorsa [**dnSpy**]'ı (https://github.com/dnSpy/dnSpy/releases) veya aktif olarak bakımı yapılan bir çatalını, [**dnSpyEx**]'i (https://github.com/dnSpyEx/dnSpy/releases) kullanabilirsiniz. (Bir işlev içinde bir şey değiştirmek için **Sağ Tıkla -> Yöntemi Değiştir**).
+[Visual Studio Code için ILSpy eklentisi](https://github.com/icsharpcode/ilspy-vscode): Herhangi bir işletim sisteminde kullanabilirsiniz (doğrudan VSCode'dan yükleyebilirsiniz, git'i indirmenize gerek yok. **Uzantılar** üzerine tıklayın ve **ILSpy** arayın).\
+Eğer **çözümlemek**, **değiştirmek** ve **yeniden derlemek** gerekiyorsanız [**dnSpy**]'ı (https://github.com/dnSpy/dnSpy/releases) veya aktif olarak bakımı yapılan bir çatalını, [**dnSpyEx**]'i (https://github.com/dnSpyEx/dnSpy/releases) kullanabilirsiniz. (Bir işlev içinde bir şeyi değiştirmek için **Sağ Tıkla -> Yöntemi Değiştir**).
 
 ### DNSpy Günlüğü
 
@@ -79,15 +79,17 @@ DNSpy kullanarak kodu hata ayıklamak için şunları yapmanız gerekmektedir:
 
 İlk olarak, **hata ayıklama** ile ilgili **Derleme özniteliklerini** değiştirin:
 
-![](<../../.gitbook/assets/image (970).png>)
+![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
 To:
 
+---
+
 ## Temel Yöntemler ve Araçlar
 
-Bu bölümde, tersine mühendislik işlemlerinde kullanılan temel yöntemler ve araçlar hakkında genel bir bakış sunulmaktadır. Tersine mühendislik, bir yazılımın veya sistem bileşeninin çalışma prensiplerini anlamak için kullanılan bir tekniktir. Bu süreç genellikle bir yazılımın nasıl çalıştığını, hangi işlevlere sahip olduğunu ve nasıl korunduğunu anlamak amacıyla gerçekleştirilir. Tersine mühendislik, yazılım geliştirme, güvenlik analizi ve diğer birçok alanda yaygın olarak kullanılan önemli bir beceridir. Bu bölümde, tersine mühendislik sürecinde kullanılan temel araçlar ve yöntemler ele alınmaktadır.
+Bu bölümde, tersine mühendislik işlemlerinde kullanılan temel yöntemler ve araçlar hakkında genel bir bakış sunulmaktadır. Tersine mühendislik, bir yazılımın veya sistem bileşeninin çalışma prensiplerini anlamak için kullanılan bir tekniktir. Bu süreç genellikle bir yazılımın nasıl çalıştığını, hangi işlevlere sahip olduğunu ve nasıl korunduğunu anlamak amacıyla gerçekleştirilir. Tersine mühendislik, siber güvenlik uzmanları tarafından kötü amaçlı yazılımları analiz etmek, güvenlik açıklarını keşfetmek ve yasal olmayan yazılımların tespit edilmesine yardımcı olmak için sıkça kullanılan bir tekniktir. Bu bölümde, tersine mühendislik işlemlerinde kullanılan temel araçlar ve yöntemler hakkında bilgi edineceksiniz.
 ```
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default |
 DebuggableAttribute.DebuggingModes.DisableOptimizations |
@@ -100,35 +102,35 @@ Ve sonra **derlemeye** tıklayın:
 
 Daha sonra yeni dosyayı _**Dosya >> Modülü Kaydet...**_ yolunu izleyerek kaydedin:
 
-![](<../../.gitbook/assets/image (599).png>)
+![](<../../.gitbook/assets/image (602).png>)
 
-Bunu yapmanız gereklidir çünkü bunu yapmazsanız, **çalışma zamanında** kod üzerine birçok **optimizasyon** uygulanabilir ve **hata ayıklarken bir kesme noktasına ulaşılamayabilir** veya bazı **değişkenler mevcut olmayabilir**.
+Bunu yapmanız gerekiyor çünkü bunu yapmazsanız, **çalışma zamanında** kod üzerine birkaç **optimizasyon** uygulanacak ve **hata ayıklarken bir kesme noktasına ulaşılamayabilir** veya bazı **değişkenler mevcut olmayabilir**.
 
-Ardından, .NET uygulamanız **IIS** tarafından **çalıştırılıyorsa**, onu **yeniden başlatabilirsiniz**:
+Ardından, .NET uygulamanız **IIS** tarafından **çalıştırılıyorsa**, onu şu şekilde **yeniden başlatabilirsiniz**:
 ```
 iisreset /noforce
 ```
 Ardından, hata ayıklamaya başlamak için tüm açık dosyaları kapatmalı ve **Debug Sekmesi** içinde **Attach to Process...**'i seçmelisiniz:
 
-![](<../../.gitbook/assets/image (315).png>)
+![](<../../.gitbook/assets/image (318).png>)
 
 Daha sonra **w3wp.exe**'yi seçerek **IIS sunucusuna** bağlanın ve **attach**'e tıklayın:
 
-![](<../../.gitbook/assets/image (110).png>)
+![](<../../.gitbook/assets/image (113).png>)
 
 Şimdi işlemi hata ayıklıyoruz, durdurma ve tüm modülleri yükleme zamanı. İlk olarak _Debug >> Break All_ üzerine tıklayın ve ardından _**Debug >> Windows >> Modules**_ üzerine tıklayın:
 
-![](<../../.gitbook/assets/image (129).png>)
+![](<../../.gitbook/assets/image (132).png>)
 
-![](<../../.gitbook/assets/image (831).png>)
+![](<../../.gitbook/assets/image (834).png>)
 
-**Modüller** üzerinde herhangi bir modüle tıklayın ve **Open All Modules**'i seçin:
+**Modules** üzerinde herhangi bir modüle tıklayın ve **Open All Modules**'ı seçin:
 
-![](<../../.gitbook/assets/image (919).png>)
+![](<../../.gitbook/assets/image (922).png>)
 
 **Assembly Explorer** içinde herhangi bir modüle sağ tıklayın ve **Sort Assemblies**'i tıklayın:
 
-![](<../../.gitbook/assets/image (336).png>)
+![](<../../.gitbook/assets/image (339).png>)
 
 ## Java decompiler
 
@@ -139,46 +141,46 @@ Daha sonra **w3wp.exe**'yi seçerek **IIS sunucusuna** bağlanın ve **attach**'
 
 ### IDA Kullanarak
 
-* **rundll32**'yi yükleyin (64 bitlik sürüm C:\Windows\System32\rundll32.exe ve 32 bitlik sürüm C:\Windows\SysWOW64\rundll32.exe)
-* **Windbg** hata ayıklayıcıyı seçin
-* "**Suspend on library load/unload**" seçeneğini belirleyin
+* **rundll32**'yi yükle (64 bitlik sürüm C:\Windows\System32\rundll32.exe ve 32 bitlik sürüm C:\Windows\SysWOW64\rundll32.exe)
+* **Windbg** hata ayıklayıcıyı seç
+* "**Suspend on library load/unload**" seçeneğini işaretle
 
-![](<../../.gitbook/assets/image (865).png>)
+![](<../../.gitbook/assets/image (868).png>)
 
-* **DLL'nin yolunu** ve çağırmak istediğiniz **işlevi** belirterek **yürütme parametrelerini** yapılandırın:
+* **Yürütmenin parametrelerini** yapılandırarak **DLL'nin yolunu** ve çağırmak istediğiniz işlevi belirtin:
 
-![](<../../.gitbook/assets/image (701).png>)
+![](<../../.gitbook/assets/image (704).png>)
 
-Ardından, hata ayıklamaya başladığınızda **her DLL yüklendiğinde işlem durdurulur**, sonra, rundll32 DLL'nizi yüklediğinde işlem durdurulur.
+Ardından, hata ayıklamaya başladığınızda **her DLL yüklendiğinde yürütme durdurulur**, sonra, rundll32 DLL'nizi yüklediğinde yürütme durdurulur.
 
 Ancak, yüklenen DLL'nin koduna nasıl ulaşabilirsiniz? Bu yöntemi kullanarak, bunu bilmiyorum.
 
 ### x64dbg/x32dbg Kullanarak
 
-* **rundll32**'yi yükleyin (64 bitlik sürüm C:\Windows\System32\rundll32.exe ve 32 bitlik sürüm C:\Windows\SysWOW64\rundll32.exe)
-* **Komut Satırını Değiştirin** ( _File --> Change Command Line_ ) ve dll'nin yolunu ve çağırmak istediğiniz işlevi belirtin, örneğin: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* _Options --> Settings_'ı değiştirin ve "**DLL Entry**" seçeneğini belirleyin.
-* Ardından **yürütmeyi başlatın**, hata ayıklayıcı her dll ana noktasında duracak, bir noktada **dll'nin Girişine** duracaksınız. Oradan, sadece kırılma noktalarını koymak istediğiniz noktaları arayın.
+* **rundll32**'yi yükle (64 bitlik sürüm C:\Windows\System32\rundll32.exe ve 32 bitlik sürüm C:\Windows\SysWOW64\rundll32.exe)
+* **Komut Satırını Değiştir** (_File --> Change Command Line_) ve dll'nin yolunu ve çağırmak istediğiniz işlevi belirtin, örneğin: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* _Options --> Settings_ değiştirin ve "**DLL Entry**" seçeneğini işaretleyin.
+* Ardından **yürütmeyi başlatın**, hata ayıklayıcı her dll ana noktasında duracak, bir noktada **dll'nin Girişine** duracaksınız. Oradan, kırılma noktalarını koymak istediğiniz yerleri arayın.
 
 Yürütme herhangi bir nedenle durduğunda win64dbg'de **hangi kodda olduğunuzu** görebilirsiniz, **win64dbg penceresinin üst kısmına bakarak**:
 
-![](<../../.gitbook/assets/image (839).png>)
+![](<../../.gitbook/assets/image (842).png>)
 
-Sonra, yürütmenin durduğu dll'yi hata ayıklamak istediğinizde bu bilgiyi görebilirsiniz.
+Sonra, yürütmenin durduğu dll'yi hata ayıklamak istediğiniz yere baktığınızı görebilirsiniz.
 
 ## GUI Uygulamaları / Video Oyunları
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) çalışan bir oyunun hafızasında önemli değerlerin nerede saklandığını bulmanıza ve değiştirmenize olanak tanıyan faydalı bir programdır. Daha fazla bilgi için:
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php), çalışan bir oyunun hafızasında önemli değerlerin nerede saklandığını bulmanıza ve değiştirmenize olanak tanıyan faydalı bir programdır. Daha fazla bilgi için:
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE), oyunlara odaklanan GNU Project Debugger (GDB) için bir ön uç/tersine mühendislik aracıdır. Ancak, herhangi bir tersine mühendislikle ilgili şeyler için de kullanılabilir.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE), GNU Project Debugger (GDB) için bir ön uç/tersine mühendislik aracı olup oyunlara odaklanmaktadır. Bununla birlikte, herhangi bir tersine mühendislikle ilgili şeyler için kullanılabilir.
 
-[**Decompiler Explorer**](https://dogbolt.org/), bir dizi decompiler için bir web ön ucu sağlar. Bu web hizmeti, küçük yürütülebilir dosyalar üzerinde farklı decompiler'ların çıktılarını karşılaştırmanıza olanak tanır.
+[**Decompiler Explorer**](https://dogbolt.org/), bir dizi decompiler için bir web ön ucu sağlar. Bu web hizmeti, farklı decompiler'ların çıktılarını karşılaştırmanıza olanak tanır.
 
-## ARM & MIPS
+## ARM ve MIPS
 
 {% embed url="https://github.com/nongiach/arm_now" %}
 
@@ -186,11 +188,11 @@ Sonra, yürütmenin durduğu dll'yi hata ayıklamak istediğinizde bu bilgiyi g�
 
 ### Blobrunner ile bir shellcode'u hata ayıklama
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner), **shellcode'u** bir bellek alanına **ayıracak**, size **shellcode'un ayrıldığı bellek adresini** gösterecek ve **yürütmeyi durduracak**tır.\
+[**Blobrunner**](https://github.com/OALabs/BlobRunner), **shellcode'u** bir bellek alanına **ayıracak**, size **shellcode'un ayrıldığı bellek adresini** gösterecek ve **yürütmeyi durduracak**.\
 Daha sonra, bir hata ayıklayıcıyı (Ida veya x64dbg) işleme **bağlamanız** ve belirtilen bellek adresine bir **kırılma noktası koymanız** ve yürütmeyi **devam ettirmeniz** gerekir. Böylece shellcode'u hata ayıklıyorsunuz.
 
-Yayınlar github sayfasında derlenmiş sürümleri içeren zip dosyalarını içerir: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
-Blobrunner'ın hafif değiştirilmiş bir sürümünü aşağıdaki bağlantıda bulabilirsiniz. Derlemek için sadece **Visual Studio Code'da bir C/C++ projesi oluşturun, kodu kopyalayıp yapıştırın ve derleyin**.
+Yayınlar github sayfası, derlenmiş sürümleri içeren zip dosyalarını içerir: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+Blobrunner'ın hafif değiştirilmiş bir sürümünü aşağıdaki bağlantıda bulabilirsiniz. Derlemek için sadece **Visual Studio Code'da bir C/C++ projesi oluşturun, kodu kopyalayın ve yapıştırın ve derleyin**.
 
 {% content-ref url="blobrunner.md" %}
 [blobrunner.md](blobrunner.md)
@@ -198,33 +200,33 @@ Blobrunner'ın hafif değiştirilmiş bir sürümünü aşağıdaki bağlantıda
 
 ### jmp2it ile bir shellcode'u hata ayıklama
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4), blobrunner'a çok benzerdir. **Shellcode'u** bir bellek alanına **ayıracak** ve bir **sonsuz döngü** başlatacaktır. Daha sonra, hata ayıklayıcıyı işleme **bağlamanız**, **başlatmanız, 2-5 saniye beklemeniz ve durdurmanız** ve kendinizi **sonsuz döngü** içinde bulmanız gerekecektir. Sonsuz döngünün bir sonraki talimatına atlayın, çünkü bu shellcode'a bir çağrı olacaktır, ve nihayetinde shellcode'u yürütmeye başlayacaksınız.
+[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4), blobrunner'a çok benzerdir. **Shellcode'u** bir bellek alanına **ayıracak** ve bir **sonsuz döngü** başlatacaktır. Daha sonra, hata ayıklayıcıyı işleme **bağlamanız**, **başlatmanız, 2-5 saniye beklemeniz ve durdur tuşuna basmanız** ve kendinizi **sonsuz döngü** içinde bulacaksınız. Sonsuz döngünün bir sonraki talimatına atlayın çünkü bu shellcode'a bir çağrı olacaktır ve sonunda shellcode'u yürütürken bulacaksınız.
 
-![](<../../.gitbook/assets/image (506).png>)
+![](<../../.gitbook/assets/image (509).png>)
 
 Derlenmiş bir sürümünü [yayınlar sayfasından indirebilirsiniz](https://github.com/adamkramer/jmp2it/releases/).
 
 ### Cutter kullanarak bir shellcode'u hata ayıklama
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0), radare'ın GUI'sudur. Cutter kullanarak shellcode'u emüle edebilir ve dinamik olarak inceleyebilirsiniz.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0), radare'nin GUI'sudur. Cutter'ı kullanarak shellcode'u emüle edebilir ve dinamik olarak inceleyebilirsiniz.
 
 Cutter'ın "Dosya Aç" ve "Shellcode Aç" seçeneklerine izin verdiğini unutmayın. Benim durumumda, shellcode'u bir dosya olarak açtığımda doğru şekilde decompile etti, ancak shellcode olarak açtığımda yapamadı:
 
-![](<../../.gitbook/assets/image (559).png>)
+![](<../../.gitbook/assets/image (562).png>)
 
 Başlamak istediğiniz yerde emülasyonu başlatmak için oraya bir bp ayarlayın ve görünüşe göre cutter otomatik olarak oradan emülasyona başlayacaktır:
 
-![](<../../.gitbook/assets/image (586).png>)
+![](<../../.gitbook/assets/image (589).png>)
 
-![](<../../.gitbook/assets/image (384).png>)
+![](<../../.gitbook/assets/image (387).png>)
 
 Örneğin, bir hex dump içinde yığını görebilirsiniz:
 
-![](<../../.gitbook/assets/image (183).png>)
+![](<../../.gitbook/assets/image (186).png>)
 
 ### Shellcode'u deobfuscate etme ve yürütülen işlevleri almak
 
-[**scdbg**'yi denemelisiniz](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
+[**scdbg'yi** denemelisiniz](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Bu, shellcode'un hangi işlevleri kullandığını ve shellcode'un bellekte kendini **çözüp çözmediğini** size söyleyecektir.
 ```bash
 scdbg.exe -f shellcode # Get info
@@ -234,9 +236,9 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg ayrıca grafik arayıcıya sahiptir, burada istediğiniz seçenekleri seçebilir ve shellcode'u yürütebilirsiniz
+scDbg ayrıca grafiksel bir başlatıcıya sahiptir, burada istediğiniz seçenekleri seçebilir ve shellcode'u yürütebilirsiniz
 
-![](<../../.gitbook/assets/image (255).png>)
+![](<../../.gitbook/assets/image (258).png>)
 
 **Dump Oluştur** seçeneği, bellekte shellcode dinamik olarak değiştirilirse son shellcode'u döker (çözülmüş shellcode'u indirmek için kullanışlıdır). **Başlangıç ofseti** belirli bir ofsette shellcode'u başlatmak için kullanışlı olabilir. **Debug Shell** seçeneği, shellcode'u scDbg terminalini kullanarak hata ayıklamak için kullanışlıdır (ancak bu konuda açıklanan seçeneklerden herhangi birini daha iyi buluyorum çünkü Ida veya x64dbg kullanabileceksiniz).
 
@@ -251,20 +253,20 @@ Bu obfuscator, tüm `mov` komutları için talimatları değiştirir (evet, ger�
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Eğer şanslıysanız [demovfuscator](https://github.com/kirschju/demovfuscator) ikili dosyayı açıklayacaktır. Çeşitli bağımlılıkları vardır
+Şanslıysanız [demovfuscator](https://github.com/kirschju/demovfuscator) ikili dosyayı açıklayabilir. Birkaç bağımlılığı vardır
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
 Ve [keystone'ı yükle](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-Eğer bir **CTF oynuyorsanız, bayrağı bulmak için bu çözüm** çok faydalı olabilir: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Eğer bir **CTF oyunu oynuyorsanız, bayrağı bulmak için bu yöntem** çok faydalı olabilir: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-**Giriş noktasını** bulmak için `::main` ile fonksiyonları arayın:
+**Giriş noktasını** bulmak için `::main` gibi fonksiyonlara bakın:
 
-![](<../../.gitbook/assets/image (1077).png>)
+![](<../../.gitbook/assets/image (1080).png>)
 
 Bu durumda ikili dosya authenticator olarak adlandırıldığı için bu ilginç ana fonksiyon olduğu oldukça açıktır.\
 **Çağrılan fonksiyonların isimlerine** sahip olarak, bunları **İnternet** üzerinde arayarak **girdileri** ve **çıktıları** hakkında bilgi edinin.
@@ -301,14 +303,14 @@ Bu sayfada, bir ELF/EXE python derlenmiş ikili dosyasından python kodunu nası
 
 Bir GBA oyununun **ikili** dosyasını aldıysanız, onu **emüle etmek** ve **hata ayıklamak** için farklı araçlar kullanabilirsiniz:
 
-* [**no$gba**](https://problemkaputt.de/gba.htm) (_Hata ayıklama sürümünü indirin_) - Arayüzle birlikte bir hata ayıklayıcı içerir
+* [**no$gba**](https://problemkaputt.de/gba.htm) (_Hata ayıklama sürümünü indirin_) - Arayüz ile bir hata ayıklayıcı içerir
 * [**mgba** ](https://mgba.io)- Bir CLI hata ayıklayıcı içerir
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra eklentisi
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra eklentisi
 
-[**no$gba**](https://problemkaputt.de/gba.htm)'da _**Options --> Emulation Setup --> Controls**_\*\* \*\* altında Game Boy Advance **düğmelerini** nasıl basacağınızı görebilirsiniz
+[**no$gba**](https://problemkaputt.de/gba.htm)'da _**Options --> Emulation Setup --> Controls**_\*\* \*\* bölümünde Game Boy Advance **düğmelerine** nasıl basılacağını görebilirsiniz
 
-![](<../../.gitbook/assets/image (578).png>)
+![](<../../.gitbook/assets/image (581).png>)
 
 Basıldığında, her **tuşun bir değeri** vardır ve bunu tanımlamak için:
 ```
@@ -323,13 +325,13 @@ DOWN = 128
 R = 256
 L = 256
 ```
-Bu tür programlarda, ilginç olan kısım **programın kullanıcı girdisini nasıl işlediği** olacaktır. Adreste **0x4000130** sıkça rastlanan **KEYINPUT** fonksiyonunu bulacaksınız.
+Bu tür programlarda, ilginç olan kısım, programın kullanıcı girdisini nasıl işlediğidir. Adreste **0x4000130** sıkça rastlanan **KEYINPUT** fonksiyonunu bulacaksınız.
 
-![](<../../.gitbook/assets/image (444).png>)
+![](<../../.gitbook/assets/image (447).png>)
 
-Önceki görüntüde, fonksiyonun **FUN\_080015a8** (adresler: _0x080015fa_ ve _0x080017ac_) tarafından çağrıldığını görebilirsiniz.
+Önceki görüntüde, fonksiyonun **FUN\_080015a8**'den çağrıldığını görebilirsiniz (adresler: _0x080015fa_ ve _0x080017ac_).
 
-O fonksiyonda, bazı başlatma işlemlerinden sonra (önemli olmayan):
+O fonksiyonda, bazı başlatma işlemlerinden sonra (önemsiz olanlar):
 ```c
 void FUN_080015a8(void)
 
@@ -362,7 +364,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Son if, **`uVar4`**'ün **son tuşlar** içinde olup olmadığını kontrol ediyor ve mevcut tuş değil, yani bir düğmeye bırakılıyor (mevcut tuş **`uVar1`** içinde saklanır).
+Son if, `uVar4`'ün **son tuşlar** içinde olup olmadığını kontrol ediyor ve mevcut tuş değil, yani bir düğmeyi bırakma işlemi (mevcut tuş **`uVar1`** içinde saklanır) olarak adlandırılır.
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -394,11 +396,11 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 
 * İlk olarak, **değer 4** (**SEÇ** düğmesi) ile karşılaştırılır: Bu düğme meydan okumada ekranı temizler.
 * Ardından, **değer 8** (**BAŞLAT** düğmesi) ile karşılaştırılır: Bu meydan okumada kodun bayrağı almak için geçerli olup olmadığını kontrol eder.
-* Bu durumda, **`DAT_030000d8`** değişkeni 0xf3 ile karşılaştırılır ve değer aynıysa bazı kodlar yürütülür.
-* Diğer durumlarda, bazı `cont (DAT_030000d4)` kontrol edilir. Bu bir `cont` çünkü kod girdikten hemen sonra 1 ekler.
-* 8'den küçükse, **`DAT_030000d8`** değişkenine değerler **eklemeyi** içeren bir şey yapılır (temelde, `cont` 8'den küçük olduğu sürece bu değişkene basılan tuşların değerlerini ekler).
+* Bu durumda, **`DAT_030000d8`** değişkeni 0xf3 ile karşılaştırılır ve değer aynıysa bazı kodlar çalıştırılır.
+* Diğer durumlarda, bazı `cont (DAT_030000d4)` kontrol edilir. Bu bir `cont` çünkü kod içine girdikten hemen sonra 1 ekler.
+* 8'den azsa, **`DAT_030000d8`** değişkenine değerlerin eklenmesiyle ilgili bir şey yapılır (temelde, `cont` 8'den küçük olduğu sürece bu değişkene basılan tuşların değerlerini ekliyor).
 
-Bu meydan okumada, düğmelerin değerlerini bilerek, sonucunda eklemenin 0xf3 olduğu 8'den küçük bir uzunluktaki bir kombinasyonu **basmanız gerekiyordu**.
+Bu meydan okumada, düğmelerin değerlerini bilerek, sonucunda eklemenin 0xf3 olduğu 8'den küçük bir uzunlukta bir kombinasyonu **basmanız gerekiyordu**.
 
 **Bu öğretici için referans:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -419,14 +421,14 @@ Bu meydan okumada, düğmelerin değerlerini bilerek, sonucunda eklemenin 0xf3 o
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin!</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
 * Şirketinizi HackTricks'te **tanıtmak** veya HackTricks'i **PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* Özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) takip edin.
+* Hacking püf noktalarınızı paylaşarak [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek destek olun.
 
 </details>

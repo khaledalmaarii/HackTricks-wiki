@@ -2,25 +2,25 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te görmek ister misiniz?** **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) **kontrol edin!**
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) için özel koleksiyonumuz
+* **Bir **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi HackTricks'te** görmek ister misiniz? Ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family)
 * [**Resmi PEASS ve HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Discord** [**💬**](https://emojipedia.org/speech-balloon/) **grubuna katılın** veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live) **takip edin**.
+* **Discord** [**💬**](https://emojipedia.org/speech-balloon/) **grubuna katılın** veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live) **takip edin**.
 * **Hacking püf noktalarınızı paylaşın, PR göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile.**
 
 </details>
 
 ## Temel Bilgiler
 
-I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli **cihaz sürücüsü çerçevesi**dir, **dinamik olarak yüklenen cihaz sürücülerini** işler. Çeşitli donanımı destekleyen çekirdeğe modüler kodun anında eklenmesine izin verir.
+I/O Kit, XNU çekirdeğindeki açık kaynaklı, nesne yönelimli **aygıt sürücü çerçevesidir**, **dinamik olarak yüklenen aygıt sürücülerini** işler. Çeşitli donanımı destekleyen çekirdeğe modüler kodun anında eklenmesine izin verir.
 
-IOKit sürücüleri temelde **çekirdekten işlevleri dışa aktarır**. Bu işlev parametre **türleri önceden tanımlanmıştır** ve doğrulanır. Dahası, XPC gibi, IOKit sadece **Mach mesajlarının üstünde başka bir katmandır**.
+IOKit sürücüleri temelde **çekirdekten fonksiyonlar ihraç eder**. Bu fonksiyon parametre **türleri önceden tanımlanmıştır** ve doğrulanır. Dahası, XPC gibi, IOKit sadece **Mach mesajlarının üzerinde başka bir katmandır**.
 
-**IOKit XNU çekirdek kodu**, Apple tarafından [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit) adresinde açık kaynak olarak yayınlanmıştır. Ayrıca, kullanıcı alanı IOKit bileşenleri de açık kaynaklıdır [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+**IOKit XNU çekirdek kodu**, Apple tarafından [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit) adresinde açık kaynak olarak yayınlanmıştır. Ayrıca, kullanıcı alanı IOKit bileşenleri de açık kaynaktır [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Ancak, **hiçbir IOKit sürücüsü** açık kaynak değildir. Neyse ki, zaman zaman bir sürücünün sürümü, onu hata ayıklamayı kolaylaştıran sembollerle gelebilir. [**Firmware'den sürücü uzantılarını nasıl alacağınızı buradan kontrol edin**](./#ipsw)**.**
+Ancak, **hiçbir IOKit sürücüsü** açık kaynak değildir. Neyse ki, zaman zaman bir sürücünün sürümü, onu hata ayıklamayı kolaylaştıran sembollerle gelebilir. [**Firmware'den sürücü uzantılarını nasıl alacağınızı buradan öğrenin**](./#ipsw)**.**
 
 **C++** dilinde yazılmıştır. Demangled C++ sembollerini alabilirsiniz:
 ```bash
@@ -33,7 +33,7 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **açık fonksiyonları**, bir istemcinin bir fonksiyonu çağırmaya çalıştığında **ek güvenlik kontrolleri** gerçekleştirebilir ancak uygulamalar genellikle **IOKit fonksiyonlarıyla etkileşime girebilecekleri** **kum havuzu** tarafından sınırlanmıştır.
+IOKit **açık fonksiyonları**, bir istemcinin bir işlevi çağırmaya çalıştığında **ek güvenlik kontrolleri** gerçekleştirebilir ancak uygulamalar genellikle **IOKit fonksiyonlarıyla etkileşime girebilecekleri** **kum havuzu** tarafından **sınırlanır**.
 {% endhint %}
 
 ## Sürücüler
@@ -65,7 +65,7 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Listedeki sürücüler 9'a kadar **0 adresinde yüklenir**. Bu, bunların gerçek sürücüler olmadığı ve **çekilemeyeceği anlamına gelir**.
+Sayı 9'a kadar listelenen sürücüler **0 adresinde yüklenir**. Bu, bunların gerçek sürücüler olmadığı anlamına gelir ve **çekilemezler**.
 
 Belirli uzantıları bulmak için şunu kullanabilirsiniz:
 ```bash
@@ -79,34 +79,34 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-**IORegistry**, macOS ve iOS'taki IOKit çerçevesinin kritik bir parçasıdır ve sistem donanım konfigürasyonunu ve durumunu temsil etmek için bir veritabanı görevi görür. Tüm donanım ve sürücülerin sistemde yüklenmiş olduğu ve birbirleriyle olan ilişkilerini temsil eden **hiyerarşik nesneler koleksiyonudur**.
+**IORegistry**, macOS ve iOS'taki IOKit çerçevesinin kritik bir parçasıdır ve sistem donanım konfigürasyonunu ve durumunu temsil etmek için bir veritabanı olarak hizmet verir. Tüm donanım ve sürücüleri temsil eden nesnelerin hiyerarşik bir koleksiyonudur ve birbirleriyle olan ilişkilerini gösterir.
 
-IORegistry'ye **`ioreg`** komutunu kullanarak erişebilir ve konsoldan inceleyebilirsiniz (özellikle iOS için kullanışlıdır).
+IORegistry'yi **`ioreg`** komutunu kullanarak konsoldan inceleyebilirsiniz (özellikle iOS için kullanışlıdır).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-**IORegistryExplorer**'ı [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) adresinden **Xcode Ek Araçları**'ndan indirebilir ve **grafiksel** arayüz aracılığıyla **macOS IORegistry**'yi inceleyebilirsiniz.
+**`IORegistryExplorer`**'ı [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) adresinden **Xcode Ek Araçları**'ndan indirebilir ve **grafiksel** arayüz aracılığıyla **macOS IORegistry**'yi inceleyebilirsiniz.
 
-<figure><img src="../../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-IORegistryExplorer'da "planes" farklı nesneler arasındaki ilişkileri düzenlemek ve göstermek için kullanılır. Her plane, sistem donanımının ve sürücü yapılandırmasının belirli bir görünümünü veya ilişki türünü temsil eder. IORegistryExplorer'da karşılaşabileceğiniz bazı yaygın plane'ler şunlardır:
+IORegistryExplorer'da "planes" (düzlemler), IORegistry'deki farklı nesneler arasındaki ilişkileri düzenlemek ve göstermek için kullanılır. Her düzlem, sistem donanımının ve sürücü yapılandırmasının belirli bir görünümünü veya belirli bir ilişki türünü temsil eder. İşte IORegistryExplorer'da karşılaşabileceğiniz bazı yaygın düzlemler:
 
-1. **IOService Plane**: Bu en genel plane'dir, sürücüleri ve nub'ları (sürücüler arasındaki iletişim kanalları) temsil eden hizmet nesnelerini gösterir. Bu nesneler arasındaki sağlayıcı-müşteri ilişkilerini gösterir.
-2. **IODeviceTree Plane**: Bu plane, cihazların sistemdeki bağlantılarını temsil eder. USB veya PCI gibi otobüsler aracılığıyla bağlanan cihazların hiyerarşisini görselleştirmek için sıkça kullanılır.
-3. **IOPower Plane**: Nesneleri ve ilişkilerini güç yönetimi açısından gösterir. Diğer nesnelerin güç durumunu etkileyen nesneleri gösterebilir, güçle ilgili sorunları gidermek için faydalıdır.
-4. **IOUSB Plane**: Özellikle USB cihazlarına ve ilişkilerine odaklanır, USB hub'larının ve bağlı cihazların hiyerarşisini gösterir.
-5. **IOAudio Plane**: Bu plane, ses cihazlarını ve sistem içindeki ilişkilerini temsil etmek içindir.
+1. **IOService Düzlemi**: Bu en genel düzlemdir, sürücüleri ve nub'ları (sürücüler arasındaki iletişim kanalları) temsil eden hizmet nesnelerini gösterir. Bu nesneler arasındaki sağlayıcı-müşteri ilişkilerini gösterir.
+2. **IODeviceTree Düzlemi**: Bu düzlem, cihazların sistemdeki bağlantılarını temsil eder. USB veya PCI gibi otobüsler aracılığıyla bağlanan cihazların hiyerarşisini görselleştirmek için sıkça kullanılır.
+3. **IOPower Düzlemi**: Nesneleri ve ilişkilerini güç yönetimi açısından gösterir. Diğer nesnelerin güç durumunu etkileyen nesneleri gösterebilir, güçle ilgili sorunları gidermek için faydalıdır.
+4. **IOUSB Düzlemi**: Özellikle USB cihazlarına ve ilişkilerine odaklanır, USB hub'larının ve bağlı cihazların hiyerarşisini gösterir.
+5. **IOAudio Düzlemi**: Bu düzlem, ses cihazlarını ve sistem içindeki ilişkilerini temsil etmek içindir.
 6. ...
 
-## Sürücü İletişim Kodu Örneği
+## Sürücü İletişim Kod Örneği
 
 Aşağıdaki kod, `"YourServiceNameHere"` adlı IOKit hizmetine bağlanır ve seçici 0 içindeki işlevi çağırır. Bunun için:
 
-* öncelikle **`IOServiceMatching`** ve **`IOServiceGetMatchingServices`** çağrılarını yaparak hizmeti alır.
-* Ardından **`IOServiceOpen`** çağrısını yaparak bir bağlantı kurar.
-* Ve son olarak **`IOConnectCallScalarMethod`** ile seçici 0'ı (seçici, çağırmak istediğiniz işlevin atanmış olduğu sayıdır) belirterek bir işlevi çağırır.
+* İlk olarak **`IOServiceMatching`** ve **`IOServiceGetMatchingServices`**'i çağırarak hizmeti alır.
+* Ardından **`IOServiceOpen`** çağırarak bir bağlantı kurar.
+* Ve son olarak **`IOConnectCallScalarMethod`** ile seçici 0'ı (seçici, çağırmak istediğiniz işlevin atandığı numaradır) belirterek bir işlevi çağırır.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -161,19 +161,19 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-**IOConnectCallScalarMethod** gibi IOKit işlevlerini çağırmak için kullanılabilecek **IOConnectCallMethod**, **IOConnectCallStructMethod** gibi **diğer** işlevler bulunmaktadır...
+**IOConnectCallScalarMethod** gibi IOKit işlevlerini çağırmak için kullanılabilecek **IOConnectCallMethod**, **IOConnectCallStructMethod** gibi **diğer** işlevler bulunmaktadır.
 
 ## Sürücü giriş noktasını tersine çevirme
 
 Bunları örneğin bir [**firmware görüntüsünden (ipsw)**](./#ipsw) elde edebilirsiniz. Daha sonra, favori dekompilerinize yükleyin.
 
-**externalMethod** işlevini decompile etmeye başlayabilirsiniz çünkü bu, çağrıyı alan ve doğru işlevi çağıran sürücü işlevidir:
+Doğru işlevi çağıran çağrıyı alan ve doğru işlevi çağıran sürücü işlevi olan **externalMethod** işlevini dekompilasyona başlayabilirsiniz:
 
-<figure><img src="../../../.gitbook/assets/image (1165).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (1166).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-O korkunç çağrı demagled anlamına gelir:
+Bu korkunç çağrı, şunu ifade eder:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -195,38 +195,38 @@ IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgu
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Bu bilgi ile Ctrl+Sağ -> `Düzenle işlev imzası` yeniden yazılabilir ve bilinen türler ayarlanabilir:
+Bu bilgiyle Ctrl+Right -> `Düzenle fonksiyon imzası` yeniden yazılabilir ve bilinen tipler ayarlanabilir:
 
-<figure><img src="../../../.gitbook/assets/image (1171).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-Yeni dekompiled kod şu şekilde görünecek:
+Yeni decompile edilmiş kod şu şekilde görünecek:
 
-<figure><img src="../../../.gitbook/assets/image (1172).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Bir sonraki adım için **`IOExternalMethodDispatch2022`** yapısının tanımlanmış olması gerekmektedir. [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) adresinde açık kaynaklıdır, şu şekilde tanımlayabilirsiniz:
+Bir sonraki adım için **`IOExternalMethodDispatch2022`** yapısının tanımlanmış olması gerekiyor. [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) adresinde açık kaynaklıdır, şu şekilde tanımlayabilirsiniz:
 
-<figure><img src="../../../.gitbook/assets/image (1167).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
 Şimdi, `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` takip ederek birçok veri görebilirsiniz:
 
-<figure><img src="../../../.gitbook/assets/image (1173).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Veri Türünü **`IOExternalMethodDispatch2022:`** olarak değiştirin:
 
-<figure><img src="../../../.gitbook/assets/image (1174).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
 değişiklikten sonra:
 
-<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ve şimdi, içinde **7 elemanın bir dizisi** olduğunu biliyoruz (son dekompiled kodu kontrol edin), 7 elemanlık bir dizi oluşturmak için tıklayın:
+Ve şimdi, içinde **7 elemanın bir dizisi** olduğunu biliyoruz (son decompile edilmiş kodu kontrol edin), 7 elemanlık bir dizi oluşturmak için tıklayın:
 
-<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Dizi oluşturulduktan sonra tüm ihraç edilen işlevleri görebilirsiniz:
+Dizi oluşturulduktan sonra tüm ihraç edilen fonksiyonları görebilirsiniz:
 
-<figure><img src="../../../.gitbook/assets/image (1178).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Hatırlarsanız, kullanıcı alanından bir **ihraç edilen** işlevi **çağırmak** için işlevin adını değil, **seçici numarasını** çağırmamız gerekir. Burada, seçicinin **0** olduğu işlevin **`initializeDecoder`**, seçicinin **1** olduğu işlevin **`startDecoder`**, seçicinin **2** olduğu işlevin **`initializeEncoder`** olduğunu görebilirsiniz...
+Hatırlarsanız, kullanıcı alanından bir **ihraç edilen** fonksiyonu **çağırmak** için fonksiyonun adını değil, **seçici numarasını** çağırmamız gerekir. Burada, seçici **0**'ın **`initializeDecoder`** fonksiyonu, seçici **1**'in **`startDecoder`** fonksiyonu, seçici **2**'nin **`initializeEncoder`** fonksiyonu olduğunu görebilirsiniz...
 {% endhint %}

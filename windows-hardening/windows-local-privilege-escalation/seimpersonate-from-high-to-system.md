@@ -1,23 +1,23 @@
-# Yüksekten Sistem'e SeImpersonate
+# Yüksekten Sistem Yetkisine SeImpersonate
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks ve HackTricks Cloud** github depolarına katkıda bulunun.
 
 </details>
 
 ### Kod
 
-Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir Process ID'si belirtmenizi sağlar** ve belirtilen işlemin kullanıcısı olarak çalışan bir CMD **çalıştırılacaktır**.\
-Yüksek Bütünlük işleminde çalıştırarak **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (örneğin winlogon, wininit) ve bir cmd.exe'yi sistem olarak çalıştırabilirsiniz.
+Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir Process ID'si belirtmenizi sağlar** ve belirtilen işlemin kullanıcısı olarak çalışan bir CMD çalıştırılacaktır.\
+Yüksek Bütünlükte çalışan bir işlemde, **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (örneğin winlogon, wininit) ve cmd.exe'yi sistem olarak çalıştırabilirsiniz.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -154,7 +154,7 @@ return 0;
 ```
 ### Hata
 
-Bazı durumlarda Sistem'i taklit etmeye çalıştığınızda aşağıdaki gibi bir çıktı göstererek çalışmayabilir:
+Bazı durumlarda Sistem'i taklit etmeye çalışabilirsiniz ancak aşağıdaki gibi bir çıktı alarak çalışmayabilir:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -165,22 +165,22 @@ Bazı durumlarda Sistem'i taklit etmeye çalıştığınızda aşağıdaki gibi 
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinlere sahip olmadığınız** anlamına gelir.\
-`svchost.exe` işlemleri üzerinde mevcut Yönetici izinlerini **işlem gezgini** ile kontrol edelim (veya ayrıca işlem hacker'ı da kullanabilirsiniz):
+Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinlere sahip olmadığınızı** gösterir.\
+Mevcut Yönetici izinlerini `svchost.exe` işlemleri üzerinde **işlem gezgini** ile kontrol edelim (veya ayrıca process hacker'ı da kullanabilirsiniz):
 
 1. `svchost.exe` işlemlerinden birini seçin
-2. Sağ Tıklayın --> Özellikler
-3. "Güvenlik" sekmesine girin ve sağ alt köşede "İzinler" düğmesine tıklayın
+2. Sağ Tıkla --> Özellikler
+3. "Güvenlik" sekmesine girin ve sağ alttaki "İzinler" düğmesine tıklayın
 4. "Gelişmiş"e tıklayın
 5. "Yöneticiler"i seçin ve "Düzenle"ye tıklayın
 6. "Gelişmiş izinleri göster"e tıklayın
 
-![](<../../.gitbook/assets/image (434).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 Önceki görüntü, "Yöneticiler"in seçilen işlem üzerinde sahip olduğu tüm ayrıcalıkları içerir (`svchost.exe` için yalnızca "Sorgu" ayrıcalıklarına sahip olduklarını görebilirsiniz)
 
 `winlogon.exe` üzerinde "Yöneticiler"in sahip olduğu ayrıcalıkları görün:
 
-![](<../../.gitbook/assets/image (1099).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
-Bu işlemde "Yöneticiler", "Belleği Oku" ve "İzinleri Oku" yapabilir, bu da muhtemelen Yöneticilerin bu işlem tarafından kullanılan belirteci taklit etmelerine izin verir.
+Bu işlem içinde "Yöneticiler", "Belleği Oku" ve "İzinleri Oku" yapabilir, bu da Yöneticilerin bu işlem tarafından kullanılan belirteci taklit etmelerine izin verir.

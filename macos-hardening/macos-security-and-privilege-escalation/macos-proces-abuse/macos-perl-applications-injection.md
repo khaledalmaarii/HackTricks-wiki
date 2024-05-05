@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
-HackTricks'i desteklemenin diğer yolları:
+HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Katılın** 💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) veya [**telegram grubumuza**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
-## `PERL5OPT` ve `PERL5LIB` çevresel değişkeni Aracılığıyla
+## `PERL5OPT` ve `PERL5LIB` Çevresel Değişkeni Aracılığıyla
 
 Çevresel değişken PERL5OPT kullanılarak perl'in keyfi komutları çalıştırması mümkündür.\
 Örneğin, bu betiği oluşturun:
@@ -46,13 +46,13 @@ Ve ardından çevresel değişkenleri kullanın:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
-## Bağımlılıklar aracılığıyla
+## Bağımlılıklar Aracılığıyla
 
 Perl'in çalıştırıldığı bağımlılıkların klasör sırasını listelemek mümkündür:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
-Hangi şu şekilde bir şey döndürecektir:
+Hangisi şöyle bir şey döndürecek:
 ```bash
 /Library/Perl/5.30/darwin-thread-multi-2level
 /Library/Perl/5.30
@@ -64,13 +64,13 @@ Hangi şu şekilde bir şey döndürecektir:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Bazı dönen klasörler bile mevcut değil, ancak **`/Library/Perl/5.30`** **mevcut**, **SIP** tarafından **korunmuyor** ve **SIP** tarafından **korunan klasörlerden önce** bulunuyor. Bu nedenle, birisi o klasörü kötüye kullanarak oraya betik bağımlılıkları ekleyebilir, böylece yüksek ayrıcalıklı bir Perl betiği onu yükleyebilir.
+Bazı dönen klasörler bile mevcut değil, ancak **`/Library/Perl/5.30`** **mevcut**, **SIP** tarafından **korunmuyor** ve **SIP** tarafından **korunan klasörlerden önce** bulunuyor. Bu nedenle, birisi o klasörü kötüye kullanarak betik bağımlılıklarını ekleyebilir, böylece yüksek ayrıcalıklı Perl betiği onu yükler.
 
 {% hint style="warning" %}
-Ancak, o klasöre yazabilmek için **root olmanız gerektiğini** ve günümüzde bu **TCC uyarısı** alacağınızı unutmayın:
+Ancak, o klasöre yazabilmek için **root olmanız gerektiğini** unutmayın ve günümüzde bu **TCC uyarısı** alacaksınız:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (25).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Örneğin, bir betik **`use File::Basename;`** içe aktarıyorsa, `/Library/Perl/5.30/File/Basename.pm` oluşturularak keyfi kod yürütülmesi mümkün olacaktır.
 
@@ -80,14 +80,14 @@ Ancak, o klasöre yazabilmek için **root olmanız gerektiğini** ve günümüzd
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin</summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u takip edin.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>

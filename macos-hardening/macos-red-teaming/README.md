@@ -1,27 +1,27 @@
-# macOS Red Teaming
+# macOS Kırmızı Takım
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin!</summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+- **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+- [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
+- [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+- **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+- **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
 
 ## MDM'leri Kötüye Kullanma
 
-* JAMF Pro: `jamf checkJSSConnection`
-* Kandji
+- JAMF Pro: `jamf checkJSSConnection`
+- Kandji
 
 Yönetim platformuna erişmek için **yönetici kimlik bilgilerini ele geçirirseniz**, kötü amaçlı yazılımınızı makinelerde dağıtarak **tüm bilgisayarları potansiyel olarak tehlikeye atabilirsiniz**.
 
-MacOS ortamlarında kırmızı takım saldırıları yaparken MDM'lerin nasıl çalıştığı hakkında bir anlayışa sahip olmanız şiddetle tavsiye edilir:
+MacOS ortamlarında kırmızı takım için MDM'lerin nasıl çalıştığını anlamanız şiddetle tavsiye edilir:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -35,7 +35,7 @@ Kendi MDM'nizi çalıştırmak için [**https://mdmcert.download/**](https://mdm
 
 Ancak, bir uygulamayı kayıtlı bir cihaza yüklemek için hala bir geliştirici hesabıyla imzalanmış olması gerekmektedir... ancak, MDM kaydı sırasında **cihaz, MDM'nin SSL sertifikasını güvenilir bir CA olarak ekler**, böylece artık herhangi bir şeyi imzalayabilirsiniz.
 
-Cihazı bir MDM'ye kaydetmek için kök olarak bir **`mobileconfig`** dosyası yüklemeniz gerekmektedir, bu dosya bir **pkg** dosyası aracılığıyla teslim edilebilir (zip içinde sıkıştırabilir ve safari'den indirildiğinde açılabilir).
+Cihazı bir MDM'ye kaydetmek için kök olarak bir **`mobileconfig`** dosyası yüklemeniz gerekmektedir, bu dosya bir **pkg** dosyası aracılığıyla teslim edilebilir (zip içine sıkıştırabilir ve safari'den indirildiğinde açılabilir).
 
 **Mythic ajanı Orthrus** bu tekniği kullanır.
 
@@ -45,24 +45,24 @@ JAMF, **özel betikler** (sistem yöneticisi tarafından geliştirilen betikler)
 
 #### JAMF otomatik kayıt
 
-Öz-kayıt etkinleştirilmiş bir sayfaya gitmek için `https://<şirket-adı>.jamfcloud.com/enroll/` gibi bir sayfaya gidin. Eğer etkinleştirilmişse **erişmek için kimlik bilgileri isteyebilir**.
+`https://<şirket-adı>.jamfcloud.com/enroll/` gibi bir sayfaya giderek **otomatik kaydı etkinleştirilip etkinleştirilmediğini** kontrol edebilirsiniz. Etkinleştirilmişse **erişim için kimlik bilgileri isteyebilir**.
 
-[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) betiğini kullanarak bir şifre püskürtme saldırısı gerçekleştirebilirsiniz.
+[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) betiğini kullanarak bir şifre sıçratma saldırısı gerçekleştirebilirsiniz.
 
 Ayrıca, uygun kimlik bilgileri bulduktan sonra diğer kullanıcı adlarını kaba kuvvet saldırısı yapabilirsiniz:
 
-![](<../../.gitbook/assets/image (104).png>)
+![](<../../.gitbook/assets/image (107).png>)
 
 #### JAMF cihaz Kimlik Doğrulama
 
-<figure><img src="../../.gitbook/assets/image (164).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`** ikili dosyası, o dönemde keşfedildiğinde herkesle paylaşılan anahtarı açmak için gizliydi ve bu anahtar: **`jk23ucnq91jfu9aj`** idi.\
-Ayrıca, jamf **`/Library/LaunchAgents/com.jamf.management.agent.plist`** konumunda bir **LaunchDaemon** olarak kalıcı olarak bulunur.
+**`jamf`** ikili dosyası, zamanında **herkesle paylaşılan** anahtarı açmak için gizliydi ve o zaman keşfedildiğinde: **`jk23ucnq91jfu9aj`** idi.\
+Ayrıca, jamf **`/Library/LaunchAgents/com.jamf.management.agent.plist`** konumunda bir **LaunchDaemon** olarak kalıcıdır.
 
 #### JAMF Cihaz Devralma
 
-**`jamf`**'ın kullanacağı **JSS** (Jamf Yazılım Sunucusu) **URL'si** **`/Library/Preferences/com.jamfsoftware.jamf.plist`** konumundadır.\
+**`jamf`**'in kullanacağı **JSS** (Jamf Yazılım Sunucusu) **URL'si**, **`/Library/Preferences/com.jamfsoftware.jamf.plist`** konumundadır.\
 Bu dosya temelde URL'yi içerir:
 
 {% code overflow="wrap" %}
@@ -78,7 +78,11 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-Böylece, bir saldırgan, JAMF'ı C2 olarak kullanabilmek için Typhon ajanından Mythic C2 dinleyicisine URL'yi ayarlayarak bu dosyayı **üzerine yazan** zararlı bir paket (`pkg`) bırakabilir.
+{% endcode %}
+
+Bu nedenle, bir saldırgan, **bu dosyayı üzerine yazacak** şekilde kötü niyetli bir paket (`pkg`) bırakabilir ve yüklenirken **URL'yi bir Typhon ajanından Mythic C2 dinleyicisine ayarlayabilir** ve artık JAMF'ı C2 olarak kötüye kullanabilir. 
+
+{% code overflow="wrap" %}
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -89,26 +93,26 @@ sudo jamf policy -id 0
 
 #### JAMF Taklit
 
-Cihaz ve JMF arasındaki iletişimi **taklit etmek** için şunlara ihtiyacınız vardır:
+Bir cihaz ile JMF arasındaki iletişimi **taklit etmek** için şunlara ihtiyacınız vardır:
 
 * Cihazın **UUID**'si: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* Cihaz sertifikasını içeren **JAMF anahtar zinciri**: `/Library/Application\ Support/Jamf/JAMF.keychain`
+* Cihaz sertifikasını içeren **JAMF anahtarlığı**: `/Library/Application\ Support/Jamf/JAMF.keychain`
 
-Bu bilgilerle, **çalınan** Donanım **UUID'si** ile ve **SIP devre dışı bırakılmış** bir VM **oluşturun**, **JAMF anahtar zincirini** bırakın, Jamf **ajansını kancalayın** ve bilgilerini çalın.
+Bu bilgilerle, **çalınan** Donanım **UUID'si** ile ve **SIP devre dışı** bırakılmış bir VM **oluşturun**, **JAMF anahtarlığını** bırakın, Jamf **ajansını kancalayın** ve bilgilerini çalın.
 
 #### Sırların Çalınması
 
-<figure><img src="../../.gitbook/assets/image (1022).png" alt=""><figcaption><p>a</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Ayrıca, yöneticilerin Jamf aracılığıyla **çalıştırmak isteyebileceği** **özel betikleri** izlemek için `/Library/Application Support/Jamf/tmp/` konumunu izleyebilirsiniz, çünkü bu betikler **buraya yerleştirilir, çalıştırılır ve kaldırılır**. Bu betikler **kimlik bilgilerini içerebilir**.
+Ayrıca, **özel betiklerin** yerini izleyebilirsiniz `/Library/Application Support/Jamf/tmp/` yöneticilerin Jamf aracılığıyla çalıştırmak isteyebileceği çünkü buraya yerleştirilir, çalıştırılır ve kaldırılır. Bu betikler **kimlik bilgileri içerebilir**.
 
 Ancak, **kimlik bilgileri** bu betiklere **parametreler** olarak iletilmiş olabilir, bu nedenle `ps aux | grep -i jamf`'yi (root olmadan bile) izlemeniz gerekebilir.
 
-[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) betiği, yeni dosyaların eklenmesini ve yeni işlem argümanlarını dinleyebilir.
+[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) betiği yeni dosyaların eklenmesini ve yeni işlem argümanlarını dinleyebilir.
 
 ### macOS Uzak Erişim
 
-Ve ayrıca **MacOS**'un "özel" **ağ** **protokolleri** hakkında:
+Ve ayrıca **MacOS** "özel" **ağ** **protokolleri** hakkında:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -116,7 +120,7 @@ Ve ayrıca **MacOS**'un "özel" **ağ** **protokolleri** hakkında:
 
 ## Active Directory
 
-Bazı durumlarda **MacOS bilgisayarının bir AD'ye bağlı olduğunu** göreceksiniz. Bu senaryoda, genellikle yaptığınız gibi aktif dizini **numaralandırmaya çalışmalısınız**. Aşağıdaki sayfalarda **yardım** bulabilirsiniz:
+Bazı durumlarda **MacOS bilgisayarının bir AD'ye bağlı olduğunu** göreceksiniz. Bu senaryoda, genellikle yaptığınız gibi etkin dizini **numaralandırmaya çalışmalısınız**. Aşağıdaki sayfalarda **yardım** bulabilirsiniz:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -130,15 +134,15 @@ Bazı durumlarda **MacOS bilgisayarının bir AD'ye bağlı olduğunu** görecek
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Size yardımcı olabilecek bazı **yerel MacOS araçlarından** biri `dscl`'dir:
+Size yardımcı olabilecek bazı **yerel MacOS araçları** `dscl`'dir:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Ayrıca, MacOS için AD'yi otomatik olarak sıralamak ve kerberos ile oynamak için bazı araçlar bulunmaktadır:
+Ayrıca, MacOS için AD'yi otomatik olarak numaralandırmak ve kerberos ile oynamak için bazı araçlar hazırlanmıştır:
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound, MacOS ana bilgisayarlarında Active Directory ilişkilerini toplamak ve almak için Bloodhound denetim aracına bir uzantıdır.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost, macOS'ta Heimdal krb5 API'leri ile etkileşim sağlamak için tasarlanmış bir Objective-C projesidir. Projenin amacı, hedef üzerinde herhangi bir diğer çerçeve veya paket gerektirmeden macOS cihazlarında Kerberos etrafında daha iyi güvenlik testleri yapılmasını sağlamaktır.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) aracı olan Orchard, Active Directory sıralaması yapmak için kullanılan bir araçtır.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound, Bloodhound denetleme aracına bir uzantıdır ve MacOS ana bilgisayarlarında Active Directory ilişkilerini toplamayı ve yüklemeyi sağlar.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost, macOS'ta Heimdal krb5 API'leri ile etkileşim sağlamak üzere tasarlanmış bir Objective-C projesidir. Projenin amacı, hedef üzerinde başka bir çerçeve veya paket gerektirmeden yerel API'leri kullanarak macOS cihazlarında Kerberos etrafında daha iyi güvenlik testleri yapmayı sağlamaktır.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) aracı olan Orchard, Active Directory numaralandırması yapmak için kullanılır.
 
 ### Alan Bilgileri
 ```bash
@@ -146,11 +150,11 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
 ### Kullanıcılar
 
-MacOS kullanıcılarının üç türü vardır:
+MacOS kullanıcılarının üç türü şunlardır:
 
-- **Yerel Kullanıcılar** — Yerel OpenDirectory hizmeti tarafından yönetilen, Active Directory ile herhangi bir şekilde bağlantılı olmayan kullanıcılar.
-- **Ağ Kullanıcıları** — Geçici Active Directory kullanıcıları, kimlik doğrulamak için DC sunucusuna bağlantı gerektirir.
-- **Mobil Kullanıcılar** — Kimlik ve dosyaları için yerel bir yedekleme olan Active Directory kullanıcıları.
+- **Yerel Kullanıcılar** — Yerel OpenDirectory hizmeti tarafından yönetilir, Active Directory ile herhangi bir şekilde bağlantılı değillerdir.
+- **Ağ Kullanıcıları** — Geçici Active Directory kullanıcıları, kimlik doğrulamak için DC sunucusuna bağlantı gerektirirler.
+- **Mobil Kullanıcılar** — Yerel yedekleri olan Active Directory kullanıcıları, kimlik bilgileri ve dosyaları için yerel bir yedekleme yaparlar.
 
 Kullanıcılar ve gruplarla ilgili yerel bilgiler, _/var/db/dslocal/nodes/Default_ klasöründe saklanır.\
 Örneğin, _mark_ adlı kullanıcıyla ilgili bilgiler _/var/db/dslocal/nodes/Default/users/mark.plist_ dosyasında saklanır ve _admin_ grubuyla ilgili bilgiler _/var/db/dslocal/nodes/Default/groups/admin.plist_ dosyasında bulunur.
@@ -185,7 +189,7 @@ Daha fazla bilgi için [https://its-a-feature.github.io/posts/2018/01/Active-Dir
 
 ## Anahtarlık Erişimi
 
-Anahtarlık büyük olasılıkla erişildiğinde bir uyarı oluşturmadan hassas bilgiler içerebilir ve bu da kırmızı takım egzersizine devam etmede yardımcı olabilir:
+Anahtarlık muhtemelen hassas bilgiler içerir ve bir uyarı oluşturmadan erişilirse kırmızı takım egzersizine devam etmede yardımcı olabilir:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -193,7 +197,7 @@ Anahtarlık büyük olasılıkla erişildiğinde bir uyarı oluşturmadan hassas
 
 ## Harici Hizmetler
 
-MacOS Kırmızı Takımı, genellikle **MacOS'un doğrudan birkaç harici platformla entegre olduğu için** normal Windows Kırmızı Takımdan farklıdır. MacOS'un yaygın bir yapılandırması, **OneLogin senkronize kimlik bilgileri kullanarak bilgisayara erişim sağlamak ve OneLogin aracılığıyla birkaç harici hizmete erişmek**tir (örneğin github, aws...).
+MacOS Kırmızı Takımı, genellikle **MacOS'un doğrudan birkaç harici platformla entegre edilmiş olması nedeniyle normal Windows Kırmızı Takımdan farklıdır**. MacOS'un yaygın bir yapılandırması, **OneLogin senkronize kimlik bilgileri kullanarak bilgisayara erişim sağlamak ve OneLogin aracılığıyla birkaç harici hizmete** (github, aws gibi...) erişmektir.
 
 ## Çeşitli Kırmızı Takım teknikleri
 
@@ -201,7 +205,7 @@ MacOS Kırmızı Takımı, genellikle **MacOS'un doğrudan birkaç harici platfo
 
 Safari'de bir dosya indirildiğinde, eğer "güvenli" bir dosya ise **otomatik olarak açılacaktır**. Örneğin, bir zip dosyası indirirseniz, otomatik olarak açılacaktır:
 
-<figure><img src="../../.gitbook/assets/image (223).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
 ## Referanslar
 

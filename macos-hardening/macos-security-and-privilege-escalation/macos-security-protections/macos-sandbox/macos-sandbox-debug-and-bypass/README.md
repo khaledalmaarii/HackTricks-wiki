@@ -2,47 +2,47 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
+* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**]'imiz koleksiyonu
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
 
 ## Kum havuzu yükleme süreci
 
-<figure><img src="../../../../../.gitbook/assets/image (898).png" alt=""><figcaption><p>Resim: <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Resim: <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
 Önceki resimde, **`com.apple.security.app-sandbox`** yetkisi olan bir uygulama çalıştırıldığında **kum havuzunun nasıl yükleneceği** görülebilir.
 
 Derleyici, `/usr/lib/libSystem.B.dylib`'i ikili dosyaya bağlayacaktır.
 
-Ardından, **`libSystem.B`**, **`xpc_pipe_routine`**'dan uygulamanın yetkilerini **`securityd`**'ye gönderene kadar diğer birçok işlevi çağıracaktır. Securityd, işlemin kum havuzunda karantinaya alınıp alınmaması gerektiğini kontrol eder ve eğer gerekiyorsa karantinaya alır.\
+Ardından, **`libSystem.B`**, **`xpc_pipe_routine`**'dan uygulamanın yetkilerini **`securityd`**'ye gönderene kadar diğer birçok işlevi çağıracaktır. Securityd, işlemin Kum Havuzu içinde karantinaya alınıp alınmamasını kontrol eder ve eğer öyleyse karantinaya alınır.\
 Son olarak, kum havuzu, **`__sandbox_ms`**'yi çağıracak ve **`__mac_syscall`**'ı çağıracaktır.
 
-## Mümkün Atlatmalar
+## Olası Atlatmalar
 
 ### Karantina özniteliğini atlatma
 
-**Kum havuzlu işlemler tarafından oluşturulan dosyalara**, kum havuzundan kaçınmak için **karantina özniteliği** eklenir. Ancak, kum havuzlu bir uygulama içinde **karantina özniteliği olmayan bir `.app` klasörü oluşturmayı** başarırsanız, uygulama paketi ikilisini **`/bin/bash`**'e işaret edecek şekilde ayarlayabilir ve **plist**'e bazı çevresel değişkenler ekleyerek **`open`**'ı kötüye kullanarak **yeni uygulamayı kum havuzundan kaçınarak başlatabilirsiniz**.
+**Kum havuzlu işlemler tarafından oluşturulan dosyalara**, kum havuzundan kaçınmak için **karantina özniteliği** eklenir. Ancak, kum havuzlu bir uygulama içinde **karantina özniteliği olmayan bir `.app` klasörü oluşturmayı** başarırsanız, uygulama paketi ikilisinin **`/bin/bash`**'e işaret etmesini sağlayabilir ve **plist** içine bazı çevresel değişkenler ekleyerek **`open`**'ı kötüye kullanarak **yeni uygulamayı kum havuzundan kaçınarak başlatabilirsiniz**.
 
-Bu, [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**'de yapılan şeydir.**
+Bu, [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**'da yapılan şeydir.**
 
 {% hint style="danger" %}
-Bu nedenle, şu anda, yalnızca karantina özniteliği olmayan bir isimle biten bir klasör oluşturabilme yeteneğine sahipseniz, macOS yalnızca **`.app` klasörü** ve **ana yürütülebilir** dosyadaki **karantina** özniteliğini kontrol eder (ve ana yürütülebilir dosyayı **`/bin/bash`**'e işaret edeceğiz).
+Bu nedenle, şu anda, yalnızca karantina özniteliği olmayan bir isimle biten bir klasör oluşturabilme yeteneğine sahipseniz, macOS yalnızca **`.app` klasöründe** ve **ana yürütülebilir dosyada** karantina özniteliğini kontrol eder (ve ana yürütülebilir dosyayı **`/bin/bash`**'e işaret edeceğiz).
 
-Bir .app paketinin zaten çalıştırılmasına izin verildiyse (çalıştırılmasına izin verilen bayrakla karantina xttr'ye sahiptir), bunu da kötüye kullanabilirsiniz... ancak şimdi **.app** paketlerine yazamazsınız çünkü bazı ayrıcalıklı TCC izinlerine sahip olmadıkça (yüksek bir kum havuzunda olmayacaksınız).
+Bir .app paketinin zaten çalıştırılmasına izin verildiyse (çalıştırılmasına izin verilen bayrakla karantina xttr'ye sahiptir), bunu da kötüye kullanabilirsiniz... ancak artık **.app** paketlerine yazamazsınız çünkü bazı ayrıcalıklı TCC izinlerine sahip olmadıkça (yüksek bir kum havuzu içinde olmayacaksınız).
 
 {% endhint %}
 
 ### Open işlevini kötüye kullanma
 
-[**Word kum havuzu atlatmalarının son örneklerinde**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), **`open`** komut satırı işlevinin kum havuzunu atlamak için nasıl kötüye kullanılabileceği görülebilir.
+[**Word kum havuzu atlatmalarının son örneklerinde**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) **`open`** komut satırı işlevinin kum havuzunu atlatmak için nasıl kötüye kullanılabileceği görülebilir.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
@@ -50,14 +50,14 @@ Bir .app paketinin zaten çalıştırılmasına izin verildiyse (çalıştırıl
 
 ### Başlatma Ajanları/Hizmetleri
 
-Bir uygulamanın **kum havuzunda olması amaçlansa da** (`com.apple.security.app-sandbox`), örneğin bir **LaunchAgent** (`~/Library/LaunchAgents`) tarafından çalıştırılıyorsa kum havuzunu atlatmak mümkündür.\
-[**Bu yazıda**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818) açıklandığı gibi, kum havuzunda olan bir uygulamayla kalıcılık sağlamak istiyorsanız, uygulamanın otomatik olarak bir LaunchAgent olarak çalıştırılmasını sağlayabilir ve belki de DyLib çevresel değişkenler aracılığıyla kötü amaçlı kod enjekte edebilirsiniz.
+Bir uygulamanın **kum havuzunda olması amaçlansa da** (`com.apple.security.app-sandbox`), örneğin bir **Başlatma Ajanı**'ndan (`~/Library/LaunchAgents`) çalıştırılıyorsa kum havuzunu atlatmak mümkündür.\
+[**Bu yazıda**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818) açıklandığı gibi, kum havuzunda olan bir uygulamayla kalıcılık sağlamak istiyorsanız, uygulamanın otomatik olarak Başlatma Ajanı olarak çalıştırılmasını sağlayabilir ve belki de DyLib çevresel değişkenleri aracılığıyla kötü amaçlı kod enjekte edebilirsiniz.
 
 ### Otomatik Başlatma Konumlarını Kötüye Kullanma
 
-Bir kum havuzlu işlem, **daha sonra kum havuzundan kaçınarak çalışacak bir uygulamanın ikilisinin çalışacağı yere yazabilirse**, oraya ikilisini yerleştirerek **kaçabilir**. Bu tür konumların iyi bir örneği `~/Library/LaunchAgents` veya `/System/Library/LaunchDaemons`'tir.
+Bir kum havuzlu işlem, **daha sonra kum havuzundan kaçınarak çalışacak bir uygulamanın ikilisinin bulunacağı yere yazabiliyorsa**, oraya ikilinin yerleştirilmesiyle **kaçabilir**. Bu tür konumların iyi bir örneği `~/Library/LaunchAgents` veya `/System/Library/LaunchDaemons`'tir.
 
-Bunun için belki de **2 adıma** ihtiyacınız olabilir: **Daha geniş kum havuzlu bir işlem** (`file-read*`, `file-write*`) kodunuzu yürütecek ve aslında **kum havuzundan kaçınarak çalışacak yere yazacak**.
+Bunun için belki de **2 adıma** ihtiyacınız olabilir: **Daha geniş kum havuzlu bir işlem** (`file-read*`, `file-write*`) kodunuzu yürütecek ve aslında **kum havuzundan kaçınarak çalıştırılacak yere yazacak** bir kod.
 
 **Otomatik Başlatma konumları** hakkında bu sayfaya göz atın:
 
@@ -75,10 +75,10 @@ Kum havuzlu işlemdeyken **daha az kısıtlayıcı kum havuzlarında çalışan 
 
 ### Statik Derleme ve Dinamik Bağlama
 
-[**Bu araştırma**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) Sandbox'u atlatmanın 2 yolunu keşfetti. Sandbox, **libSystem** kütüphanesi yüklendiğinde kullanıcı alanından uygulanır. Bir ikili dosya bu kütüphaneyi yüklemeyi başarabilirse, kum havuzuna alınmaz:
+[**Bu araştırma**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) Kum Havuzunu atlatmanın 2 yolunu keşfetti. Çünkü kum havuzu, **libSystem** kütüphanesi yüklendiğinde kullanıcı alanından uygulanır. Bir ikili dosya bu kütüphaneyi yüklemeyi başarabilirse, kum havuzuna asla alınmaz:
 
-* Eğer ikili dosya **tamamen statik olarak derlenmişse**, o kütüphaneyi yüklemeyi atlayabilir.
-* Eğer **ikili dosyanın herhangi bir kütüphane yüklemesi gerekmiyorsa** (çünkü bağlayıcı da libSystem'de ise), libSystem'u yüklemesi gerekmez.
+* Eğer ikili dosya **tamamen statik olarak derlenmişse**, bu kütüphaneyi yüklemeyi atlayabilir.
+* Eğer **ikili dosyanın herhangi bir kütüphaneyi yüklemesi gerekmezse** (çünkü bağlayıcı da libSystem'de ise), libSystem'u yüklemesi gerekmez.
 
 ### Kabuk Kodları
 
@@ -89,7 +89,7 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 ```
 ### Yetkiler
 
-Belirli bir **yetkiye** sahip bir uygulamanın, bir **kum havuzu** içinde bile **izin verilen bazı işlemler** gerçekleştirebileceğini unutmayın, örneğin:
+Belirli bir **uygulamanın** belirli bir **yetkiye** sahip olması durumunda, bazı **işlemlerin** **kum havuzu** tarafından **izin verilse bile** gibi olabileceğini unutmayın:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -101,13 +101,13 @@ Belirli bir **yetkiye** sahip bir uygulamanın, bir **kum havuzu** içinde bile 
 ```
 ### Araya Girme Atlatma
 
-Daha fazla bilgi için **Araya Girme** hakkında şu adrese bakın:
+Daha fazla bilgi için **Araya Girme** hakkında kontrol edin:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Kum havuzunu önlemek için `_libsecinit_initializer` araya girin
+#### Kum havuzunu önlemek için `_libsecinit_initializer`'ı araya girin
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -131,7 +131,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-#### Sandbox'ı Engellemek İçin `__mac_syscall`'ı Araya Sok
+#### Sandbox'ı Engellemek için `__mac_syscall`'ı Araya Girin
 
 {% code title="interpose.c" %}
 ```c
@@ -179,7 +179,7 @@ Sandbox Bypassed!
 ```
 ### Sandbox'u lldb ile hata ayıklama ve atlatma
 
-Sandbox uygulanmış bir uygulamayı derleyelim:
+Sandbox uygulamasını derleyelim:
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -191,7 +191,11 @@ system("cat ~/Desktop/del.txt");
 ```
 {% endtab %}
 
-{% tab title="entitlements.xml" %}Bu dosya, uygulamanın hangi özel yetkilere sahip olduğunu belirten bir XML belgesidir. Uygulamanın sandbox içinde çalışırken erişebileceği sistem kaynaklarını ve yetkilerini tanımlar. Bu dosya, uygulamanın güvenlik ve gizlilik seviyesini belirler.{% endtab %}
+{% tab title="entitlements.xml" %} 
+
+Bu dosya, uygulamanın hangi sistem kaynaklarına erişebileceğini belirten izinlerin listesini içerir. Bu izinler, uygulamanın çalışma zamanında hangi aksiyonları gerçekleştirebileceğini sınırlamak için kullanılır. Bu dosya, macOS kum havuzu mekanizmasının bir parçası olarak kullanılır ve uygulamanın güvenliğini artırmak için önemlidir. 
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -204,9 +208,22 @@ system("cat ~/Desktop/del.txt");
 
 {% tab title="Info.plist" %} 
 
-## Info.plist
+### Info.plist
 
-Bu dosya, uygulamanın Sandbox ayarlarını tanımlar. Sandbox, uygulamanın belirli kısıtlamalara tabi olmasını sağlayan bir güvenlik önlemidir. Bu dosyayı inceleyerek uygulamanın hangi izinlere sahip olduğunu ve hangi kısıtlamalara tabi olduğunu görebilirsiniz. Bu bilgiler, Sandbox'ı atlatma veya hata ayıklama yöntemleri geliştirirken önemli olabilir. 
+Bu dosya, uygulamanın Sandbox ayarlarını tanımlar. Uygulamanın hangi kaynaklara erişebileceğini ve hangi izinlere sahip olabileceğini belirler.
+
+Örnek Info.plist dosyası:
+
+```xml
+<key>com.apple.security.app-sandbox</key>
+<true/>
+<key>com.apple.security.files.user-selected.read-write</key>
+<true/>
+<key>com.apple.security.network.client</key>
+<true/>
+```
+
+Bu örnekte, uygulamanın Sandbox içinde dosya okuma/yazma işlemleri yapabileceği, ağ istemcisi olarak çalışabileceği belirtilmiştir.
 
 {% endtab %}
 ```xml
@@ -238,7 +255,7 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 
 {% hint style="danger" %}
 Uygulama, **Sandbox'ın izin vermeyeceği** **`~/Desktop/del.txt`** dosyasını **okumaya çalışacak**.\
-Sandbox'ı atladıktan sonra okuyabileceği bir dosya oluşturun:
+Sandbox atlatıldığında okuyabileceği bir dosya oluşturun:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
@@ -322,7 +339,7 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Sandbox atlatıldığında bile TCC**, kullanıcıya masaüstünden dosya okuma izni vermek isteyip istemediğini soracaktır.
+**Sandbox atlatıldığında bile TCC**, kullanıcıya işlemin masaüstünden dosya okumasına izin verip vermek istemediğini soracaktır.
 {% endhint %}
 
 ## Referanslar
@@ -333,14 +350,14 @@ Process 2517 exited with status = 0 (0x00000000)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına katkıda bulunun.**
+* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
