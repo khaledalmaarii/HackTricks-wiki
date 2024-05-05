@@ -1,28 +1,28 @@
 # 유용한 Linux 명령어
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)를 통해 제로부터 영웅이 되는 AWS 해킹을 배우세요</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
+* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
 
-## 일반적인 Bash
+## 일반 Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -141,7 +141,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
@@ -171,7 +171,27 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-## 그렙스
+### Grep
+
+Grep is a powerful command-line tool that allows you to search for specific patterns within files or output. It is commonly used to search for keywords, IP addresses, email addresses, and more. Grep is case-sensitive by default, but you can use the `-i` flag to perform case-insensitive searches.
+
+#### Basic Usage
+
+```bash
+grep "pattern" file.txt
+```
+
+#### Case-Insensitive Search
+
+```bash
+grep -i "pattern" file.txt
+```
+
+#### Recursive Search
+
+```bash
+grep -r "pattern" /path/to/directory
+```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -288,16 +308,13 @@ locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | gre
 nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
-
-## 배시
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### iptables란 무엇인가요?
-iptables는 Linux 시스템에서 네트워크 트래픽을 제어하는 데 사용되는 유용한 도구입니다. 방화벽 규칙을 설정하고 관리하여 시스템의 보안을 강화하는 데 도움이 됩니다.
+## 아이피테이블(IPtables)
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -330,22 +347,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 영웅까지 AWS 해킹을 배우세요!</summary>
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하려면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 기여하세요.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

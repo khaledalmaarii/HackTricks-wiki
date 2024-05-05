@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로**부터 **히어로**까지 **AWS 해킹** 배우기!</summary>
+<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team 전문가)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사를 HackTricks에서 광고**하거나 **HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)**에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **해킹 트릭을 공유하려면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 기여하세요.
+* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
+* **해킹 요령을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
 
@@ -129,7 +129,7 @@ sudo killall -HUP mDNSResponder
 ```
 ### 설치된 소프트웨어 및 서비스
 
-의심스러운 응용 프로그램이 설치되었는지 및 설치된 리소스에 대한 권한을 확인하십시오:
+**의심스러운** 애플리케이션 설치 여부 및 설치된 리소스에 대한 **권한**을 확인하십시오:
 ```
 system_profiler SPApplicationsDataType #Installed Apps
 system_profiler SPFrameworksDataType #Instaled framework
@@ -151,4 +151,18 @@ launchctl print gui/<user's UID>/com.company.launchagent.label
 
 프롬프트 없이
 
-<figure><img src="../.gitbook/assets/image (13).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (79).png" alt=""><figcaption></figcaption></figure>
+
+<details>
+
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹 배우기</summary>
+
+다른 방법으로 HackTricks를 지원하는 방법:
+
+* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+
+</details>

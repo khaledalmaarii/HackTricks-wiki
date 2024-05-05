@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요**!</summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로**부터 **영웅**이 될 때까지 AWS 해킹을 배우세요!</summary>
 
-HackTricks를 지원하는 다른 방법들:
+HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
+* **회사가 HackTricks에 광고**되길 원하거나 **HackTricks를 PDF로 다운로드**하길 원한다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **해킹 요령을 공유하고 싶다면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소로 PR을 제출하세요.
+* **해킹 트릭을 공유하고 싶다면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소에 제출하세요.
 
 </details>
 
 ## XPC 권한 부여
 
-애플은 **연결된 프로세스가 노출된 XPC 메서드를 호출할 권한이 있는지 인증하는 또 다른 방법**을 제안합니다.
+Apple은 **연결된 프로세스가 노출된 XPC 메서드를 호출할 권한이 있는지 인증하는 또 다른 방법**을 제안합니다.
 
-응용 프로그램이 **특권 사용자로서 작업을 실행해야 하는 경우**, 특권 사용자로서 응용 프로그램을 실행하는 대신, 일반적으로 XPC 서비스로 HelperTool을 루트로 설치하여 응용 프로그램에서 해당 작업을 수행할 수 있습니다. 그러나 서비스를 호출하는 응용 프로그램은 충분한 권한을 가져야 합니다.
+응용 프로그램이 **특권 사용자로서 작업을 실행해야 하는 경우**, 특권 사용자로서 응용 프로그램을 실행하는 대신, 일반적으로 응용 프로그램에서 해당 작업을 수행하기 위해 호출할 수 있는 XPC 서비스로 HelperTool을 루트로 설치합니다. 그러나 서비스를 호출하는 응용 프로그램은 충분한 권한을 가져야 합니다.
 
 ### ShouldAcceptNewConnection 항상 YES
 
-[EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample)에서 예제를 찾을 수 있습니다. `App/AppDelegate.m`에서 **HelperTool**에 **연결을 시도**합니다. 그리고 `HelperTool/HelperTool.m`에서 **`shouldAcceptNewConnection`** 함수는 이전에 지정된 요구 사항을 확인하지 않습니다. 항상 YES를 반환합니다:
+[EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample)에서 예제를 찾을 수 있습니다. `App/AppDelegate.m`에서 **HelperTool**에 **연결**을 시도합니다. 그리고 `HelperTool/HelperTool.m`에서 **`shouldAcceptNewConnection`** 함수는 이전에 언급된 요구 사항을 확인하지 않습니다. 항상 YES를 반환합니다:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -39,18 +39,12 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-더 자세한 정보를 얻으려면이 확인을 올바르게 구성하는 방법에 대해 알아보세요:
-
-{% content-ref url="macos-xpc-connecting-process-check/" %}
-[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
-{% endcontent-ref %}
-
-### 어플리케이션 권한
+### 애플리케이션 권한
 
 그러나 **HelperTool에서 메소드를 호출할 때 권한이 부여**됩니다.
 
 `App/AppDelegate.m`의 **`applicationDidFinishLaunching`** 함수는 앱이 시작된 후에 빈 권한 참조를 만듭니다. 이것은 항상 작동해야 합니다.\
-그런 다음 `setupAuthorizationRights`를 호출하여 해당 권한 참조에 **일부 권한을 추가**하려고 시도할 것입니다:
+그런 다음 `setupAuthorizationRights`를 호출하여 해당 권한 참조에 **일부 권한을 추가**하려고 시도합니다:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -74,7 +68,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-함수 `setupAuthorizationRights`은 `Common/Common.m`에서 애플리케이션의 권한을 auth 데이터베이스 `/var/db/auth.db`에 저장합니다. 데이터베이스에 아직 없는 권한만 추가됨을 주의하세요:
+함수 `setupAuthorizationRights`는 `Common/Common.m`에서 애플리케이션의 권한을 auth 데이터베이스 `/var/db/auth.db`에 저장합니다. 데이터베이스에 아직 없는 권한만 추가됨을 주목하세요:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -106,7 +100,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-기능 `enumerateRightsUsingBlock`은 `commandInfo`에 정의된 애플리케이션 권한을 가져오는 데 사용됩니다:
+함수 `enumerateRightsUsingBlock`은 애플리케이션 권한을 가져오는 데 사용되며, 이는 `commandInfo`에 정의되어 있습니다:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -192,7 +186,7 @@ block(authRightName, authRightDefault, authRightDesc);
 
 ### 권한 확인
 
-`HelperTool/HelperTool.m`에서 **`readLicenseKeyAuthorization`** 함수는 호출자가 **해당 메서드를 실행할 권한이 있는지** 확인하기 위해 **`checkAuthorization`** 함수를 호출합니다. 이 함수는 호출 프로세스가 보낸 **authData**가 **올바른 형식**인지 확인한 다음 **특정 메서드를 호출할 수 있는 권한**을 확인합니다. 모든 것이 순조롭게 진행되면 **반환된 `error`는 `nil`이 될 것**입니다.
+`HelperTool/HelperTool.m`에서 **`readLicenseKeyAuthorization`** 함수는 호출자가 **해당 메서드를 실행할 권한이 있는지** 확인하기 위해 **`checkAuthorization`** 함수를 호출합니다. 이 함수는 호출 프로세스가 보낸 **authData**가 **올바른 형식**인지 확인한 다음 **특정 메서드를 호출할 권한**을 확인합니다. 모든 것이 순조롭게 진행되면 **반환된 `error`는 `nil`이 될 것**입니다.
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -240,9 +234,9 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-**해당 메서드를 호출할 수 있는 권한을 확인하려면** `authorizationRightForCommand` 함수는 이전에 주석 처리된 `commandInfo` 객체를 확인합니다. 그런 다음 함수를 호출하여 함수를 호출할 권한이 있는지 확인합니다. (`AuthorizationCopyRights` 함수를 호출하여 권한이 있는지 확인합니다. (플래그가 사용자와의 상호 작용을 허용합니다).
+**해당 메소드를 호출할 권한을 확인하려면** `authorizationRightForCommand` 함수는 이전에 주석 처리된 `commandInfo` 객체를 확인합니다. 그런 다음 함수를 호출하여 함수를 호출할 권한이 있는지 확인합니다. (`AuthorizationCopyRights`를 호출하여 권한을 확인합니다) (플래그가 사용자와의 상호 작용을 허용함에 유의하십시오).
 
-이 경우 `readLicenseKeyAuthorization` 함수를 호출하려면 `kCommandKeyAuthRightDefault`가 `@kAuthorizationRuleClassAllow`로 정의되어 있습니다. 따라서 **누구나 호출**할 수 있습니다.
+이 경우 `readLicenseKeyAuthorization` 함수를 호출하려면 `kCommandKeyAuthRightDefault`가 `@kAuthorizationRuleClassAllow`로 정의되어 있습니다. 그래서 **누구나 호출할 수 있습니다**.
 
 ### DB 정보
 
@@ -258,19 +252,19 @@ security authorizationdb read com.apple.safaridriver.allow
 ```
 ### 허용 권한
 
-**모든 권한 구성을** [**여기에서**](https://www.dssw.co.uk/reference/authorization-rights/) 찾을 수 있지만 사용자 상호 작용이 필요하지 않은 조합은 다음과 같습니다:
+**[여기](https://www.dssw.co.uk/reference/authorization-rights/)**에서 **모든 권한 구성**을 찾을 수 있지만 사용자 상호 작용이 필요하지 않은 조합은 다음과 같습니다:
 
 1. **'authenticate-user': 'false'**
 * 이것은 가장 직접적인 키입니다. `false`로 설정되면 사용자가 이 권한을 얻기 위해 인증을 제공할 필요가 없음을 지정합니다.
-* 이는 **아래 2개 중 하나와 조합하거나 사용자가 속해야 하는 그룹을 나타내는 것**과 함께 사용됩니다.
+* 이는 **아래 2개 중 하나와 조합**되거나 사용자가 속해야 하는 그룹을 나타내는 데 사용됩니다.
 2. **'allow-root': 'true'**
-* 사용자가 루트 사용자로 작동하는 경우(승격된 권한을 가지고 있는), 이 키가 `true`로 설정되어 있다면 루트 사용자는 추가 인증 없이 이 권한을 얻을 수 있습니다. 그러나 일반적으로 루트 사용자 상태에 도달하는 것은 이미 인증이 필요하기 때문에 대부분의 사용자에게는 "인증 없음" 시나리오가 아닙니다.
+* 사용자가 루트 사용자로 작동하는 경우(승격된 권한을 가진), 이 키가 `true`로 설정되어 있으면 루트 사용자는 추가 인증 없이 이 권한을 얻을 수 있습니다. 그러나 일반적으로 루트 사용자 상태에 도달하는 데는 이미 인증이 필요하므로 대부분의 사용자에게는 "인증 없음" 시나리오가 아닙니다.
 3. **'session-owner': 'true'**
-* `true`로 설정되면 세션 소유자(현재 로그인한 사용자)가 이 권한을 자동으로 받게 됩니다. 사용자가 이미 로그인되어 있는 경우 추가 인증을 우회할 수 있습니다.
+* `true`로 설정되면 세션 소유자(현재 로그인한 사용자)가 이 권한을 자동으로 받게 됩니다. 사용자가 이미 로그인한 경우 추가 인증을 우회할 수 있습니다.
 4. **'shared': 'true'**
-* 이 키는 인증 없이 권한을 부여하지 않습니다. 대신 `true`로 설정되면 권한이 인증된 후 여러 프로세스 사이에서 공유될 수 있음을 의미합니다. 그러나 권한의 초기 부여는 여전히 인증이 필요하며, `'authenticate-user': 'false'`와 같은 다른 키와 조합되지 않는 한 각각의 프로세스가 다시 인증을 받아야 합니다.
+* 이 키는 인증 없이 권한을 부여하지 않습니다. 대신 `true`로 설정되면 권한이 인증된 후 여러 프로세스 사이에서 공유될 수 있음을 의미합니다. 그러나 권한의 초기 부여는 `'authenticate-user': 'false'`와 같은 다른 키와 조합되지 않는 한 여전히 인증이 필요합니다.
 
-흥미로운 권한을 얻기 위해 [**이 스크립트를 사용**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)할 수 있습니다:
+흥미로운 권한을 얻기 위해 **[이 스크립트](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)**를 사용할 수 있습니다:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -287,23 +281,23 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 만약 **`[HelperTool checkAuthorization:command:]`** 함수를 찾는다면, 해당 프로세스가 권한에 대해 이전에 언급한 스키마를 사용하고 있을 가능성이 높습니다:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
 이 함수가 `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`와 같은 함수를 호출한다면, [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)를 사용하고 있습니다.
 
-사용자 상호작용 없이 특정 권한을 호출할 수 있는 권한을 얻을 수 있는지 확인하기 위해 **`/var/db/auth.db`**를 확인하세요.
+**`/var/db/auth.db`**를 확인하여 사용자 상호작용 없이 특정 권한 작업을 호출할 수 있는지 확인하세요.
 
 ### 프로토콜 통신
 
 그런 다음, XPC 서비스와 통신을 수립할 수 있도록 프로토콜 스키마를 찾아야 합니다.
 
-**`shouldAcceptNewConnection`** 함수는 내보내는 프로토콜을 나타냅니다:
+**`shouldAcceptNewConnection`** 함수는 내보내지는 프로토콜을 나타냅니다:
 
-<figure><img src="../../../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-이 경우, EvenBetterAuthorizationSample과 동일하게 [**이 라인**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)을 확인하세요.
+이 경우, EvenBetterAuthorizationSample과 동일한 것을 가지고 있습니다, [**이 라인을 확인하세요**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-사용된 프로토콜의 이름을 알면, **해당 헤더 정의를 덤프**할 수 있습니다:
+사용된 프로토콜의 이름을 알면, **해당 프로토콜의 헤더 정의를 덤프**할 수 있습니다:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -317,11 +311,11 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-마지막으로, 통신을 수립하기 위해 노출된 Mach 서비스의 **이름**을 알아야 합니다. 이를 찾는 여러 방법이 있습니다:
+마지막으로, 통신을 수립하기 위해 노출된 Mach 서비스의 **이름**을 알아야 합니다. 이를 찾는 여러 가지 방법이 있습니다:
 
 * **`[HelperTool init]`**에서 사용된 Mach 서비스를 볼 수 있는 곳:
 
-<figure><img src="../../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
 * launchd plist에서:
 ```xml
@@ -336,14 +330,14 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Exploit Example
+### 악용 예시
 
-다음은 생성된 예제입니다:
+다음 예시에서는 다음이 생성됩니다:
 
-* 함수를 사용하여 프로토콜의 정의
+* 함수와 함께 프로토콜의 정의
 * 액세스를 요청하기 위해 사용할 빈 auth
 * XPC 서비스에 대한 연결
-* 연결이 성공하면 함수를 호출합니다
+* 연결이 성공한 경우 함수 호출
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
@@ -431,10 +425,10 @@ NSLog(@"Finished!");
 
 HackTricks를 지원하는 다른 방법:
 
-* **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
 * [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
 * **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 요령을 공유**하세요.
 
 </details>
