@@ -8,7 +8,7 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
@@ -23,7 +23,7 @@ Definicija je specificirana u jeziku definicije interfejsa (IDL) koristeći ekst
 Ove definicije imaju 5 sekcija:
 
 * **Deklaracija podsistema**: Ključna reč podsistem se koristi da označi **ime** i **id**. Takođe je moguće označiti ga kao **`KernelServer`** ako server treba da se izvršava u jezgru.
-* **Uključivanja i importovanja**: MIG koristi C-preprocesor, tako da može koristiti importovanja. Osim toga, moguće je koristiti `uimport` i `simport` za korisnički ili serverski generisani kod.
+* **Uključivanja i uvozi**: MIG koristi C-preprocesor, tako da je moguće koristiti uvoze. Osim toga, moguće je koristiti `uimport` i `simport` za korisnički ili serverski generisani kod.
 * **Deklaracije tipova**: Moguće je definisati tipove podataka iako će obično uvesti `mach_types.defs` i `std_types.defs`. Za prilagođene se može koristiti neka sintaksa:
 * \[i`n/out]tran`: Funkcija koja treba da se prevede iz dolazne ili u odlaznu poruku
 * `c[user/server]type`: Mapiranje na drugi C tip.
@@ -56,15 +56,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Imajte na umu da je prvi **argument port za povezivanje** i MIG će **automatski upravljati odgovarajućim portom** (osim ako se poziva `mig_get_reply_port()` u klijentskom kodu). Osim toga, **ID operacija** će biti **sekvencijalni** počevši od naznačenog ID podsistema (tako da ako je operacija zastarela, ona se briše i koristi se `skip` kako bi se i dalje koristio njen ID).
+Imajte na umu da je prvi **argument port za povezivanje** i MIG će **automatski upravljati odgovarajućim portom** (osim ako se poziva `mig_get_reply_port()` u klijentskom kodu). Osim toga, **ID operacija** će biti **sekvencijalno** počevši od naznačenog ID podsistema (tako da ako je operacija zastarela, ona se briše i koristi se `skip` kako bi se i dalje koristio njen ID).
 
 Sada koristite MIG da generišete server i klijentski kod koji će moći da komuniciraju međusobno kako bi pozvali funkciju Oduzimanje:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Napraviće se nekoliko novih datoteka u trenutnom direktorijumu.
+Biće kreirano nekoliko novih datoteka u trenutnom direktorijumu.
 
-U datotekama **`myipcServer.c`** i **`myipcServer.h`** možete pronaći deklaraciju i definiciju strukture **`SERVERPREFmyipc_subsystem`**, koja u osnovi definiše funkciju koja će se pozvati na osnovu primljenog ID-ja poruke (označili smo početni broj od 500):
+{% hint style="success" %}
+Možete pronaći kompleksniji primer na vašem sistemu sa: `mdfind mach_port.defs`\
+I možete ga kompajlirati iz istog foldera kao i datoteka sa: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+{% endhint %}
+
+U datotekama **`myipcServer.c`** i **`myipcServer.h`** možete pronaći deklaraciju i definiciju strukture **`SERVERPREFmyipc_subsystem`**, koja u osnovi definiše funkciju koja će biti pozvana na osnovu primljenog ID-ja poruke (navedeno je početni broj 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -85,30 +90,29 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}  
+{% tab title="myipcServer.h" %} 
+
 ### macOS MIG (Mach Interface Generator)
 
-MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. MIG is commonly used in macOS kernel programming for defining system calls and handling IPC between user-space and kernel-space.
+MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. By using MIG, developers can define the messages that can be sent between processes, making it a powerful tool for IPC on macOS.
 
-To use MIG, you need to define an interface definition file (.defs) that specifies the messages and data structures exchanged between processes. This file is then processed by MIG to generate the necessary C code for IPC.
+To use MIG, you need to define an interface definition file (.defs) that specifies the messages and data structures for IPC. This file is then processed by MIG to generate the necessary C code for IPC communication.
 
-Here is an example of a simple MIG interface definition file:
+MIG is commonly used in macOS for system services and kernel extensions that require IPC. Understanding how MIG works can be beneficial for security researchers and developers working on macOS security and privilege escalation techniques. 
+
+### Example of a MIG Interface Definition File (.defs)
 
 ```c
-routine simple_rpc {
-    mach_msg_header_t Head;
-    mach_msg_type_t Type;
-    int Data;
-} -> {
-    mach_msg_header_t Head;
-    mach_msg_type_t Type;
-    int Result;
-};
+routine myipc_server_routine_1(
+    in int input_data,
+    out int output_data
+);
 ```
 
-In this example, the `simple_rpc` routine defines a message structure with a header, type, and data fields. The `->` symbol separates the input and output message structures.
+In this example, we define a MIG routine `myipc_server_routine_1` that takes an integer `input_data` as input and returns an integer `output_data` as output. This is a simple example to demonstrate how MIG interface definition files are structured.
 
-By using MIG, developers can easily define and implement IPC mechanisms in macOS applications, ensuring secure and efficient communication between processes.  
+By understanding MIG and how it is used for IPC in macOS, security researchers can analyze potential vulnerabilities related to inter-process communication and privilege escalation on the platform. 
+
 {% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
@@ -122,7 +126,10 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
-Na osnovu prethodne strukture, funkcija **`myipc_server_routine`** će dobiti **ID poruke** i vratiti odgovarajuću funkciju koja treba da se pozove:
+{% endtab %}
+{% endtabs %}
+
+Na osnovu prethodne strukture funkcija **`myipc_server_routine`** će dobiti **ID poruke** i vratiti odgovarajuću funkciju koja treba da se pozove:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -139,7 +146,9 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 ```
 U ovom primeru smo definisali samo 1 funkciju u definicijama, ali da smo definisali više funkcija, bile bi unutar niza **`SERVERPREFmyipc_subsystem`** i prva bi bila dodeljena ID-u **500**, druga ID-u **501**...
 
-Zapravo je moguće identifikovati ovu vezu u strukturi **`subsystem_to_name_map_myipc`** iz **`myipcServer.h`**:
+Ako se očekivalo da funkcija pošalje **odgovor**, funkcija `mig_internal kern_return_t __MIG_check__Reply__<name>` takođe bi postojala.
+
+Zapravo je moguće identifikovati ovaj odnos u strukturi **`subsystem_to_name_map_myipc`** iz **`myipcServer.h`** (**`subsystem_to_name_map_***`** u drugim datotekama):
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -180,9 +189,9 @@ return FALSE;
 }
 </code></pre>
 
-Proverite prethodno istaknute linije pristupa funkciji koju treba pozvati prema ID-u.
+Proverite prethodno istaknute linije pristupaći funkciji koju treba pozvati prema ID-u.
 
-U nastavku je kod za kreiranje jednostavnog **servera** i **klijenta** gde klijent može pozvati funkcije oduzimanja sa servera:
+Sledeći kod kreira jednostavan **server** i **klijent** gde klijent može pozvati funkcije oduzimanja sa servera:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -218,14 +227,32 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}  
-### macOS MIG (Mach Interface Generator)
+{% tab title="myipc_client.c" %} 
 
-MIG (Mach Interface Generator) is a tool used to define inter-process communication (IPC) for macOS. It generates client-side and server-side code for message-based IPC. MIG is commonly used in macOS kernel programming for tasks such as privilege escalation and sandbox escape.
+### MojIPC klijent
 
-To use MIG, you need to define the message formats in a .defs file, then run MIG to generate the necessary C code. The generated code handles the serialization and deserialization of messages between client and server processes.
+Ovaj klijent će se povezati na server i pozvati funkciju `myipc_do`. 
 
-By understanding how MIG works, you can identify potential vulnerabilities in macOS applications that use MIG for IPC. This knowledge can be valuable for security researchers and penetration testers looking to assess the security posture of macOS systems.  
+```c
+#include <stdio.h>
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipc.h"
+
+int main() {
+    mach_port_t server_port;
+    kern_return_t kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    if (kr != KERN_SUCCESS) {
+        printf("Nemoguće pronaći server port\n");
+        return 1;
+    }
+
+    myipc_do(server_port);
+
+    return 0;
+}
+```
+
 {% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
@@ -251,18 +278,39 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-### Analiza binarnih fajlova
+{% endtab %}
+{% endtabs %}
 
-Kako mnogi binarni fajlovi sada koriste MIG za izlaganje mach portova, zanimljivo je znati kako **identifikovati da je korišćen MIG** i **funkcije koje MIG izvršava** sa svakim ID-jem poruke.
+### NDR\_record
+
+NDR\_record je izvezen od strane `libsystem_kernel.dylib`, i to je struktura koja omogućava MIG-u da **transformiše podatke tako da bude agnostik sistema** na kojem se koristi, pošto je MIG osmišljen da se koristi između različitih sistema (a ne samo na istom računaru).
+
+Ovo je interesantno jer ako se `_NDR_record` pronađe u binarnom fajlu kao zavisnost (`jtool2 -S <binary> | grep NDR` ili `nm`), to znači da je binarni fajl MIG klijent ili server.
+
+Štaviše, **MIG serveri** imaju tabelu dispečera u `__DATA.__const` (ili u `__CONST.__constdata` u macOS kernelu i `__DATA_CONST.__const` u drugim \*OS kernelima). Ovo se može izlistati sa **`jtool2`**.
+
+A **MIG klijenti** će koristiti `__NDR_record` da pošalju sa `__mach_msg` serverima.
+
+## Analiza Binarnog Fajla
+
+### jtool
+
+Pošto mnogi binarni fajlovi sada koriste MIG da izlože mach portove, interesantno je znati kako **identifikovati da je MIG korišćen** i **funkcije koje MIG izvršava** sa svakim ID-em poruke.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) može parsirati MIG informacije iz Mach-O binarnog fajla, pokazujući ID poruke i identifikujući funkciju za izvršavanje:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Ranije je pomenuto da će funkcija koja će se brinuti o **pozivanju odgovarajuće funkcije u zavisnosti od primljenog ID-ja poruke** biti `myipc_server`. Međutim, obično nećete imati simbole binarnog koda (imenovanje funkcija), pa je zanimljivo **proveriti kako izgleda dekompilirano** jer će uvek biti vrlo slično (kod ove funkcije je nezavisan od izloženih funkcija):
+Osim toga, MIG funkcije su samo omotači stvarne funkcije koja se poziva, što znači da biste mogli pronaći stvarnu funkciju koja se poziva tako što ćete dobiti njen disasembli i pretražiti BL.
+```bash
+jtool2 -d __DATA.__const myipc_server | grep BL
+```
+### Skupština
+
+Ranije je pomenuto da će funkcija koja će se brinuti o **pozivanju odgovarajuće funkcije u zavisnosti od primljenog ID poruke** biti `myipc_server`. Međutim, obično nećete imati simbole binarnog koda (bez imena funkcija), pa je interesantno **proveriti kako izgleda dekompilirano** jer će uvek biti vrlo slično (kod ove funkcije je nezavisan od izloženih funkcija):
 
 {% tabs %}
-{% tab title="dekompilacija myipc_server 1" %}
+{% tab title="mojaipc_server dekompilirano 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -276,7 +324,7 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Poziv funkciji sign_extend_64 koja može pomoći u identifikaciji ove funkcije
-// Ovde se čuva u rax pokazivač na poziv koji treba pozvati
+// Ovo čuva u rax pokazivač na poziv koji treba pozvati
 // Proverite upotrebu adrese 0x100004040 (niz adresa funkcija)
 // 0x1f4 = 500 (početni ID)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
@@ -304,8 +352,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="dekompilacija myipc_server 2" %}
-Ovo je ista funkcija dekompilirana u drugoj verziji Hopper besplatnog softvera:
+{% tab title="mojaipc_server dekompilirano 2" %}
+Ovo je ista funkcija dekompilirana u drugoj besplatnoj verziji Hopper-a:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -348,7 +396,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Ista if else struktura kao u prethodnoj verziji
+// Isto if else kao u prethodnoj verziji
 // Proverite upotrebu adrese 0x100004040 (niz adresa funkcija)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -356,7 +404,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// Poziv izračunate adrese gde bi trebalo da se nalazi funkcija
+// Poziv izračunate adrese gde bi trebala biti funkcija
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -380,13 +428,31 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Zapravo, ako odete na funkciju **`0x100004000`** pronaći ćete niz struktura **`routine_descriptor`**. Prvi element strukture je **adresa** gde je **funkcija** implementirana, a **struktura zauzima 0x28 bajtova**, tako da svakih 0x28 bajtova (počevši od bajta 0) možete dobiti 8 bajtova i to će biti **adresa funkcije** koja će biti pozvana:
+Zapravo, ako odete na funkciju **`0x100004000`** pronaći ćete niz struktura **`routine_descriptor`**. Prvi element strukture je **adresa** gde je **funkcija** implementirana, a **struktura zauzima 0x28 bajta**, tako da svakih 0x28 bajta (počevši od bajta 0) možete dobiti 8 bajtova i to će biti **adresa funkcije** koja će biti pozvana:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Ovi podaci mogu biti izvađeni [**korišćenjem ovog Hopper skripta**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+### Debug
+
+Kod generisan od strane MIG takođe poziva `kernel_debug` kako bi generisao logove o operacijama prilikom ulaska i izlaska. Moguće ih je proveriti koristeći **`trace`** ili **`kdv`**: `kdv all | grep MIG`
+
+## Reference
+
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+<details>
+
+<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Drugi načini podrške HackTricks-u:
+
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
