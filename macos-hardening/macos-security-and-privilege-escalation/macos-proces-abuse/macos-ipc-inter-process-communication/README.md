@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
@@ -18,9 +18,11 @@ Njia nyingine za kusaidia HackTricks:
 
 ### Taarifa Msingi
 
-Mach hutumia **kazi** kama **kitengo kidogo** cha kugawana rasilimali, na kila kazi inaweza kuwa na **vijiti vingi**. Hizi **kazi na vijiti zimepangwa 1:1 kwa michakato na vijiti vya POSIX**.
+Mach hutumia **kazi** kama **kitengo kidogo** cha kugawana rasilimali, na kila kazi inaweza kuwa na **vijiti vingi**. Hizi **kazi na vijiti vinahusishwa 1:1 na michakato na vijiti vya POSIX**.
 
-Mawasiliano kati ya kazi hufanyika kupitia Mawasiliano ya Michakato ya Mach (IPC), kwa kutumia njia za mawasiliano ya njia moja. **Ujumbe hupitishwa kati ya bandari**, ambazo hufanya kama **safu za ujumbe** zinazosimamiwa na kernel.
+Mawasiliano kati ya kazi hufanyika kupitia Mawasiliano ya Michakato ya Mach (IPC), kwa kutumia njia za mawasiliano za njia moja. **Ujumbe hupitishwa kati ya bandari**, ambazo hufanya kama aina ya **fifirisho la ujumbe** linalosimamiwa na kernel.
+
+**Bandari** ni **elementi msingi** ya Mach IPC. Inaweza kutumika kutuma ujumbe na kupokea.
 
 Kila mchakato una **jedwali la IPC**, ambapo inawezekana kupata **bandari za mach za mchakato**. Jina la bandari ya mach ni kweli nambari (kielekezi kwa kitu cha kernel).
 
@@ -28,54 +30,63 @@ Mchakato pia unaweza kutuma jina la bandari na baadhi ya haki **kwa kazi tofauti
 
 ### Haki za Bandari
 
-Haki za bandari, ambazo hufafanua ni operesheni gani kazi inaweza kutekeleza, ni muhimu katika mawasiliano haya. **Haki za bandari** zinaweza kuwa ([maelezo kutoka hapa](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+Haki za bandari, ambazo hufafanua ni operesheni gani kazi inaweza kufanya, ni muhimu katika mawasiliano haya. **Haki za bandari** zinaweza kuwa ([maelezo kutoka hapa](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Haki ya Kupokea**, ambayo inaruhusu kupokea ujumbe uliotumwa kwa bandari. Bandari za Mach ni safu za MPSC (wazalishaji wengi, mtumiaji mmoja) safu, ambayo inamaanisha kwamba inaweza kuwepo **haki moja ya kupokea kwa kila bandari** katika mfumo mzima (tofauti na mabomba, ambapo michakato mingi inaweza kushikilia viashiria vya faili kwa mwisho wa kusoma wa bomba moja).
+* **Haki ya Kupokea**, ambayo inaruhusu kupokea ujumbe uliotumwa kwa bandari. Bandari za Mach ni foleni za MPSC (wazalishaji wengi, mtumiaji mmoja), ambayo inamaanisha kwamba inaweza kuwepo **haki moja ya kupokea kwa kila bandari** katika mfumo mzima (tofauti na mabomba, ambapo michakato mingi inaweza kushikilia viambatisho vya faili kwa mwisho wa kusoma wa bomba moja).
 * **Kazi yenye Haki ya Kupokea** inaweza kupokea ujumbe na **kuunda Haki za Kutuma**, kuruhusu kutuma ujumbe. Awali tu **kazi yenyewe ina Haki ya Kupokea juu ya bandari yake**.
-* **Haki ya Kutuma**, ambayo inaruhusu kutuma ujumbe kwa bandari.
-* Haki ya Kutuma inaweza **kufanyiwa nakala** ili kazi inayomiliki Haki ya Kutuma iweze kufanya nakala ya haki hiyo na **kuipatia kazi ya tatu**.
-* **Haki ya Kutuma mara moja**, ambayo inaruhusu kutuma ujumbe moja kwa bandari na kisha kutoweka.
-* **Haki ya seti ya bandari**, ambayo inaashiria _seti ya bandari_ badala ya bandari moja. Kutoa ujumbe kutoka kwa seti ya bandari kunatoa ujumbe kutoka kwa moja ya bandari inayojumuisha. Seti za bandari zinaweza kutumika kusikiliza bandari kadhaa kwa wakati mmoja, kama `chagua`/`piga kura`/`epoll`/`kqueue` katika Unix.
-* **Jina la kufa**, ambalo sio haki halisi ya bandari, bali ni nafasi tu. Wakati bandari inaharibiwa, haki zote za bandari zilizopo kwa bandari hiyo zinageuka kuwa majina ya kufa.
+* Ikiwa mmiliki wa Haki ya Kupokea **anakufa** au kuifunga, **haki ya kutuma inakuwa bure (jina lililokufa).**
+* **Haki ya Kutuma**, inayoruhusu kutuma ujumbe kwa bandari.
+* Haki ya Kutuma inaweza **kufananishwa** ili kazi ikiwa na Haki ya Kutuma iweze kufananisha haki hiyo na **kuipatia kazi ya tatu**.
+* Tafadhali kumbuka kwamba **haki za bandari** pia zinaweza **kupitishwa** kupitia ujumbe wa Mac.
+* **Haki ya Kutuma mara moja**, inayoruhusu kutuma ujumbe moja kwa bandari na kisha kutoweka.
+* Haki hii **haiwezi** kufananishwa, lakini inaweza **kuhamishwa**.
+* **Haki ya Seti ya Bandari**, inayotambulisha _seti ya bandari_ badala ya bandari moja. Kutoa ujumbe kutoka kwa seti ya bandari kunatoa ujumbe kutoka kwa moja ya bandari inayojumuisha. Seti za bandari zinaweza kutumika kusikiliza bandari kadhaa kwa wakati mmoja, kama `chagua`/`piga kura`/`epoll`/`kqueue` katika Unix.
+* **Jina lililokufa**, ambalo sio haki halisi ya bandari, lakini ni nafasi tupu. Linapobomolewa bandari, haki zote za bandari zilizopo kwa bandari hiyo zinageuka kuwa majina yaliyokufa.
 
-**Kazi zinaweza kusafirisha HAKI ZA KUTUMA kwa wengine**, kuwaruhusu kutuma ujumbe nyuma. **HAKI ZA KUTUMA pia zinaweza kunakiliwa, hivyo kazi inaweza kuzidisha na kumpa haki ya tatu**. Hii, pamoja na mchakato wa kati unaojulikana kama **seva ya bootstrap**, inaruhusu mawasiliano yenye ufanisi kati ya kazi.
+**Kazi zinaweza kusafirisha HAKI za KUTUMA kwa wengine**, kuwaruhusu kutuma ujumbe nyuma. **HAKI za KUTUMA pia zinaweza kufananishwa, hivyo kazi inaweza kuiga na kumpa haki ya tatu**. Hii, pamoja na mchakato wa kati unaojulikana kama **seva ya bootstrap**, inaruhusu mawasiliano yenye ufanisi kati ya kazi.
 
 ### Bandari za Faili
 
-Bandari za faili huruhusu kufunga viashiria vya faili katika bandari za Mac (kwa kutumia Haki za Bandari za Mach). Inawezekana kuunda `fileport` kutoka kwa FD iliyotolewa kwa kutumia `fileport_makeport` na kuunda FD kutoka kwa fileport kwa kutumia `fileport_makefd`.
+Bandari za faili huruhusu kufunga viambatisho vya faili katika bandari za Mac (kwa kutumia Haki za Bandari za Mach). Inawezekana kuunda `fileport` kutoka kwa FD iliyopewa kutumia `fileport_makeport` na kuunda FD kutoka kwa fileport kwa kutumia `fileport_makefd`.
 
 ### Kuweka Mawasiliano
 
-#### Hatua:
+Kama ilivyotajwa hapo awali, inawezekana kutuma haki kutumia ujumbe wa Mach, hata hivyo, **hauwezi kutuma haki bila kuwa na haki ya kutuma ujumbe wa Mach**. Kwa hivyo, mawasiliano ya kwanza yanathibitishwaje?
 
-Kama ilivyotajwa, ili kuweka njia ya mawasiliano, **seva ya bootstrap** (**launchd** kwenye mac) inahusika.
+Kwa hili, **seva ya bootstrap** (**launchd** kwenye mac) inahusika, kwani **kila mtu anaweza kupata HAKI ya KUTUMA kwa seva ya bootstrap**, inawezekana kuomba haki ya kutuma ujumbe kwa mchakato mwingine:
 
-1. Kazi **A** inaanzisha **bandari mpya**, ikipata **HAKI YA KUPOKEA** katika mchakato.
-2. Kazi **A**, ikiwa mmiliki wa HAKI YA KUPOKEA, **inazalisha HAKI YA KUTUMA kwa bandari**.
-3. Kazi **A** inaweka **mawasiliano** na **seva ya bootstrap**, ikitoa **jina la huduma ya bandari** na **HAKI YA KUTUMA** kupitia mchakato unaojulikana kama usajili wa bootstrap.
-4. Kazi **B** inashirikiana na **seva ya bootstrap** kutekeleza utaftaji wa bootstrap **kwa jina la huduma**. Ikiwa mafanikio, **seva inanakili HAKI YA KUTUMA** iliyopokelewa kutoka kwa Kazi A na **kuhamisha kwa Kazi B**.
-5. Baada ya kupata HAKI YA KUTUMA, Kazi **B** inaweza **kutunga** **ujumbe** na kuutuma **kwa Kazi A**.
-6. Kwa mawasiliano ya pande zote kawaida kazi **B** inazalisha bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
+1. Kazi **A** inaunda **bandari mpya**, ikipata **HAKI ya KUPOKEA** juu yake.
+2. Kazi **A**, ikiwa mmiliki wa HAKI ya KUPOKEA, **inazalisha HAKI ya KUTUMA kwa bandari**.
+3. Kazi **A** inathibitisha **mawasiliano** na **seva ya bootstrap**, na **kuituma HAKI ya KUTUMA** kwa bandari iliyozalishwa mwanzoni.
+* Kumbuka kwamba mtu yeyote anaweza kupata HAKI ya KUTUMA kwa seva ya bootstrap.
+4. Kazi A inatuma ujumbe wa `bootstrap_register` kwa seva ya bootstrap ili **kuhusisha bandari iliyotolewa na jina** kama `com.apple.taska`
+5. Kazi **B** inashirikiana na **seva ya bootstrap** kutekeleza utaftaji wa bootstrap kwa jina la huduma (`bootstrap_lookup`). Kwa hivyo seva ya bootstrap inaweza kujibu, kazi B itatuma **HAKI ya KUTUMA kwa bandari iliyoundwa hapo awali** ndani ya ujumbe wa utaftaji. Ikiwa utaftaji unafanikiwa, **seva inadua HAKI ya KUTUMA** iliyopokelewa kutoka kwa Kazi A na **kuhamisha kwa Kazi B**.
+* Kumbuka kwamba mtu yeyote anaweza kupata HAKI ya KUTUMA kwa seva ya bootstrap.
+6. Kwa HAKI hii ya KUTUMA, **Kazi B** inaweza **kutuma** **ujumbe** **kwa Kazi A**.
+7. Kwa mawasiliano ya pande zote kawaida kazi **B** inazalisha bandari mpya na **HAKI ya KUPOKEA** na **HAKI ya KUTUMA**, na kumpa **HAKI ya KUTUMA kwa Kazi A** ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
 
-Seva ya bootstrap **haiwezi kuthibitisha** jina la huduma lililodaiwa na kazi. Hii inamaanisha **kazi** inaweza kwa uwezekano **kujifanya kuwa kazi yoyote ya mfumo**, kama vile **kudai jina la huduma ya idhini** na kisha kuidhinisha kila ombi.
+Seva ya bootstrap **haiwezi kuthibitisha** jina la huduma lililodaiwa na kazi. Hii inamaanisha kwamba **kazi** inaweza kwa uwezekano **kujifanya kuwa kazi yoyote ya mfumo**, kama vile **kudai jina la huduma ya idhini** na kisha kuidhinisha kila ombi.
 
-Kisha, Apple inahifadhi **majina ya huduma zilizotolewa na mfumo** katika faili za usanidi salama, zilizoko katika saraka zilizolindwa na SIP: `/System/Library/LaunchDaemons` na `/System/Library/LaunchAgents`. Pamoja na kila jina la huduma, **binary inayohusishwa pia imehifadhiwa**. Seva ya bootstrap, itaunda na kushikilia **HAKI YA KUPOKEA kwa kila moja ya majina haya ya huduma**.
+Kisha, Apple huhifadhi **majina ya huduma zilizotolewa na mfumo** katika faili za usanidi salama, zilizoko katika saraka zilizolindwa na SIP: `/System/Library/LaunchDaemons` na `/System/Library/LaunchAgents`. Pamoja na kila jina la huduma, **binary inayohusiana pia imehifadhiwa**. Seva ya bootstrap, itaunda na kushikilia **HAKI ya KUPOKEA kwa kila moja ya majina haya ya huduma**.
 
-Kwa huduma hizi zilizopangwa mapema, **mchakato wa utaftaji unatofautiana kidogo**. Wakati jina la huduma linatafutwa, launchd huanzisha huduma hiyo kwa kudumu. Mchakato mpya ni kama ifuatavyo:
+Kwa huduma hizi zilizopangwa mapema, **mchakato wa utaftaji unatofautiana kidogo**. Wakati jina la huduma linatafutwa, launchd huanzisha huduma hiyo kwa muda. Mchakato mpya ni kama ifuatavyo:
 
-* Kazi **B** inaanzisha utaftaji wa bootstrap **kwa jina la huduma**.
+* Kazi **B** inaanzisha utaftaji wa bootstrap kwa jina la huduma.
 * **launchd** inachunguza ikiwa kazi inaendeshwa na ikiwa haiko, **inaianzisha**.
-* Kazi **A** (huduma) inatekeleza **kuangalia bootstrap**. Hapa, **seva ya bootstrap inaunda HAKI YA KUTUMA, inaishikilia, na inahamisha HAKI YA KUPOKEA kwa Kazi A**.
-* launchd inanakili **HAKI YA KUTUMA na kuituma kwa Kazi B**.
-* Kazi **B** inazalisha bandari mpya na **HAKI YA KUPOKEA** na **HAKI YA KUTUMA**, na kumpa **HAKI YA KUTUMA kwa Kazi A** (huduma) ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
+* Kazi **A** (huduma) inatekeleza **kuangalia bootstrap** (`bootstrap_check_in()`). Hapa, **seva ya bootstrap inaunda HAKI ya KUTUMA, inaishikilia, na **inahamisha HAKI ya KUPOKEA kwa Kazi A**.
+* launchd inafananisha **HAKI ya KUTUMA na kuituma kwa Kazi B**.
+* Kazi **B** inazalisha bandari mpya na **HAKI ya KUPOKEA** na **HAKI ya KUTUMA**, na kumpa **HAKI ya KUTUMA kwa Kazi A** (huduma) ili iweze kutuma ujumbe kwa KAZI B (mawasiliano ya pande zote).
 
-Hata hivyo, mchakato huu unatumika tu kwa kazi za mfumo zilizopangwa mapema. Kazi zisizo za mfumo bado zinaendesha kama ilivyoelezwa awali, ambayo inaweza kwa uwezekano kuruhusu udanganyifu. 
+Walakini, mchakato huu unatumika tu kwa kazi za mfumo zilizopangwa mapema. Kazi zisizo za mfumo bado zinaendesha kama ilivyoelezwa awali, ambayo inaweza kwa uwezekano kuruhusu udanganyifu.
 
+{% hint style="hatari" %}
+Kwa hivyo, launchd kamwe haipaswi kugonga au mfumo mzima utaanguka.
+{% endhint %}
 ### Ujumbe wa Mach
 
 [Pata habari zaidi hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-Kazi ya `mach_msg`, kimsingi wito wa mfumo, hutumiwa kutuma na kupokea ujumbe wa Mach. Kazi inahitaji ujumbe utumwe kama hoja ya awali. Ujumbe huu lazima uanze na muundo wa `mach_msg_header_t`, ukifuatiwa na maudhui ya ujumbe halisi. Muundo unafafanuliwa kama ifuatavyo:
+Kazi ya `mach_msg`, kimsingi ni wito wa mfumo, hutumiwa kutuma na kupokea ujumbe wa Mach. Kazi inahitaji ujumbe utumwe kama hoja ya awali. Ujumbe huu lazima uanze na muundo wa `mach_msg_header_t`, ukifuatiwa na maudhui ya ujumbe halisi. Muundo huo umedefiniwa kama ifuatavyo:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -86,28 +97,192 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Mchakato unaomiliki _**haki ya kupokea**_ unaweza kupokea ujumbe kwenye mlango wa Mach. Kinyume chake, **wapelekaji** wanapewa _**haki ya kutuma**_ au _**haki ya kutuma mara moja**_. Haki ya kutuma mara moja ni kwa ajili ya kutuma ujumbe mmoja tu, baada ya hapo inakuwa batili.
+Mchakato unaomiliki _**haki ya kupokea**_ inaweza kupokea ujumbe kwenye mlango wa Mach. Kinyume chake, **wapelekaji** hupewa _**haki ya kutuma**_ au _**haki ya kutuma mara moja**_. Haki ya kutuma mara moja ni kwa ajili ya kutuma ujumbe mmoja tu, baada ya hapo inakuwa batili.
 
-Kwa lengo la kufanikisha **mawasiliano ya pande zote** kwa urahisi, mchakato unaweza kutaja **mlango wa mach** katika **kichwa cha ujumbe cha mach** kinachoitwa _mlango wa jibu_ (**`msgh_local_port`**) ambapo **mpokeaji** wa ujumbe unaweza **kutuma jibu** kwa ujumbe huu. Bitflags katika **`msgh_bits`** zinaweza kutumika kuonyesha kwamba **haki ya kutuma mara moja** inapaswa kuletwa na kuhamishiwa kwa mlango huu (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Uga wa awali **`msgh_bits`** ni ramani ya biti:
+
+- Biti ya kwanza (yenye maana zaidi) hutumika kuonyesha kuwa ujumbe ni mgumu (zaidi kuhusu hili hapa chini)
+- Ya 3 na 4 hutumiwa na kernel
+- **Biti 5 zisizo na maana zaidi za byte ya 2** zinaweza kutumika kwa **voucher**: aina nyingine ya mlango kutuma jozi za funguo/thamani.
+- **Biti 5 zisizo na maana zaidi za byte ya 3** zinaweza kutumika kwa **mlango wa ndani**
+- **Biti 5 zisizo na maana zaidi za byte ya 4** zinaweza kutumika kwa **mlango wa mbali**
+
+Aina zinazoweza kutajwa katika voucher, milango ya ndani na ya mbali ni (kutoka [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+```c
+#define MACH_MSG_TYPE_MOVE_RECEIVE      16      /* Must hold receive right */
+#define MACH_MSG_TYPE_MOVE_SEND         17      /* Must hold send right(s) */
+#define MACH_MSG_TYPE_MOVE_SEND_ONCE    18      /* Must hold sendonce right */
+#define MACH_MSG_TYPE_COPY_SEND         19      /* Must hold send right(s) */
+#define MACH_MSG_TYPE_MAKE_SEND         20      /* Must hold receive right */
+#define MACH_MSG_TYPE_MAKE_SEND_ONCE    21      /* Must hold receive right */
+#define MACH_MSG_TYPE_COPY_RECEIVE      22      /* NOT VALID */
+#define MACH_MSG_TYPE_DISPOSE_RECEIVE   24      /* must hold receive right */
+#define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
+#define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
+```
+Kwa mfano, `MACH_MSG_TYPE_MAKE_SEND_ONCE` inaweza kutumika **kuashiria** kwamba **haki ya kutuma mara moja** inapaswa kuletwa na kuhamishiwa kwa ajili ya bandari hii. Inaweza pia kutajwa `MACH_PORT_NULL` ili kuzuia mpokeaji kuweza kujibu.
+
+Ili kufanikisha **mawasiliano ya pande zote** kwa urahisi, mchakato unaweza kutaja **bandari ya mach** katika **kichwa cha ujumbe wa mach** inayoitwa _bandari ya jibu_ (**`msgh_local_port`**) ambapo **mpokeaji** wa ujumbe anaweza **kutuma jibu** kwa ujumbe huu.
 
 {% hint style="success" %}
-Tambua kwamba aina hii ya mawasiliano ya pande zote hutumiwa katika ujumbe wa XPC unaotarajia jibu (`xpc_connection_send_message_with_reply` na `xpc_connection_send_message_with_reply_sync`). Lakini **kawaida milango tofauti hujengwa** kama ilivyoelezwa hapo awali ili kuunda mawasiliano ya pande zote.
+Tafadhali elewa kwamba aina hii ya mawasiliano ya pande zote hutumiwa katika ujumbe wa XPC ambao unatarajia jibu (`xpc_connection_send_message_with_reply` na `xpc_connection_send_message_with_reply_sync`). Lakini **kawaida bandari tofauti huanzishwa** kama ilivyoelezwa hapo awali ili kuunda mawasiliano ya pande zote.
 {% endhint %}
 
 Vitengo vingine vya kichwa cha ujumbe ni:
 
 - `msgh_size`: ukubwa wa pakiti nzima.
-- `msgh_remote_port`: mlango ambao ujumbe huu unatumwa.
+- `msgh_remote_port`: bandari ambayo ujumbe huu unatumwa.
 - `msgh_voucher_port`: [vifungo vya mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
 - `msgh_id`: kitambulisho cha ujumbe huu, ambacho huchambuliwa na mpokeaji.
 
 {% hint style="danger" %}
-Tambua kwamba **ujumbe wa mach hutumwa kupitia mlango wa mach**, ambao ni njia ya mawasiliano ya **mpokeaji mmoja**, **wapeleka wengi** iliyojengwa ndani ya kiini cha mach. **Mchakato mwingi** unaweza **kutuma ujumbe** kwa mlango wa mach, lakini wakati wowote ni **mchakato mmoja tu unaweza kusoma** kutoka kwake.
+Tafadhali elewa kwamba **ujumbe wa mach hutumwa kupitia `bandari ya mach`**, ambayo ni njia ya mawasiliano ya **mpokeaji mmoja**, **watumaji wengi** iliyojengwa ndani ya kernel ya mach. **Michakato mingi** inaweza **kutuma ujumbe** kwa bandari ya mach, lakini wakati wowote ni **mchakato mmoja tu unaweza kusoma** kutoka humo.
 {% endhint %}
 
-### Panga milango
+Ujumbe kisha hufanywa na kichwa cha **`mach_msg_header_t`** kifuatiwa na **mwili** na na **trailer** (ikiwa ipo) na inaweza kutoa idhini ya kujibu. Katika kesi hizi, kernel inahitaji tu kusafirisha ujumbe kutoka kazi moja hadi nyingine.
+
+**Trailer** ni **taarifa zilizoongezwa kwenye ujumbe na kernel** (haiwezi kuwekwa na mtumiaji) ambayo inaweza kuhitajika wakati wa kupokea ujumbe kwa kutumia bendera `MACH_RCV_TRAILER_<trailer_opt>` (kuna taarifa tofauti zinazoweza kuombwa).
+
+#### Ujumbe Wenye Utata
+
+Hata hivyo, kuna ujumbe mwingine zaidi **wenye utata**, kama vile wale wanaopitisha haki za bandari za ziada au kugawana kumbukumbu, ambapo kernel pia unahitaji kutuma vitu hivi kwa mpokeaji. Katika kesi hizi, biti muhimu zaidi ya kichwa `msgh_bits` inawekwa.
+
+Maelezo yanayowezekana ya kupitisha yanatambuliwa katika [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html):
+```c
+#define MACH_MSG_PORT_DESCRIPTOR                0
+#define MACH_MSG_OOL_DESCRIPTOR                 1
+#define MACH_MSG_OOL_PORTS_DESCRIPTOR           2
+#define MACH_MSG_OOL_VOLATILE_DESCRIPTOR        3
+#define MACH_MSG_GUARDED_PORT_DESCRIPTOR        4
+
+#pragma pack(push, 4)
+
+typedef struct{
+natural_t                     pad1;
+mach_msg_size_t               pad2;
+unsigned int                  pad3 : 24;
+mach_msg_descriptor_type_t    type : 8;
+} mach_msg_type_descriptor_t;
+```
+### Mac Ports APIs
+
+Tafadhali kumbuka kuwa bandari zinaunganishwa na jina la kazi, kwa hivyo ili kuunda au kutafuta bandari, jina la kazi pia linahitajika (zaidi katika `mach/mach_port.h`):
+
+- **`mach_port_allocate` | `mach_port_construct`**: **Unda** bandari.
+- `mach_port_allocate` inaweza pia kuunda **seti ya bandari**: haki ya kupokea juu ya kikundi cha bandari. Kila wakati ujumbe unapopokelewa inaonyeshwa bandari kutoka ambapo ulitumwa.
+- `mach_port_allocate_name`: Badilisha jina la bandari (kwa msingi wa nambari ya 32bit)
+- `mach_port_names`: Pata majina ya bandari kutoka kwa lengo
+- `mach_port_type`: Pata haki za kazi juu ya jina
+- `mach_port_rename`: Badilisha jina la bandari (kama dup2 kwa FDs)
+- `mach_port_allocate`: Tenga kupokea mpya, PORT\_SET au DEAD\_NAME
+- `mach_port_insert_right`: Unda haki mpya katika bandari ambapo una PATA
+- `mach_port_...`
+- **`mach_msg`** | **`mach_msg_overwrite`**: Vipengele vinavyotumiwa kutuma na kupokea ujumbe wa mach. Toleo la kubadilisha linaruhusu kutaja buffer tofauti kwa kupokea ujumbe (toleo lingine litaitumia tena).
+
+### Debug mach\_msg
+
+Kwa kuwa kazi **`mach_msg`** na **`mach_msg_overwrite`** ndizo hutumiwa kutuma na kupokea ujumbe, kuweka kizuizi kwao kunaweza kuruhusu kupekua ujumbe uliotumwa na uliopokelewa.
+
+Kwa mfano, anza kudebugi programu yoyote unayoweza kudebugi kwani itapakia **`libSystem.B` ambayo itatumia kazi hii**.
+
+<pre class="language-armasm"><code class="lang-armasm"><strong>(lldb) b mach_msg
+</strong>Breakpoint 1: where = libsystem_kernel.dylib`mach_msg, address = 0x00000001803f6c20
+<strong>(lldb) r
+</strong>Process 71019 launched: '/Users/carlospolop/Desktop/sandboxedapp/SandboxedShellAppDown.app/Contents/MacOS/SandboxedShellApp' (arm64)
+Process 71019 stopped
+* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
+frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+libsystem_kernel.dylib`mach_msg:
+->  0x181d3ac20 &#x3C;+0>:  pacibsp
+0x181d3ac24 &#x3C;+4>:  sub    sp, sp, #0x20
+0x181d3ac28 &#x3C;+8>:  stp    x29, x30, [sp, #0x10]
+0x181d3ac2c &#x3C;+12>: add    x29, sp, #0x10
+Target 0: (SandboxedShellApp) stopped.
+<strong>(lldb) bt
+</strong>* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
+* frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
+frame #1: 0x0000000181ac3454 libxpc.dylib`_xpc_pipe_mach_msg + 56
+frame #2: 0x0000000181ac2c8c libxpc.dylib`_xpc_pipe_routine + 388
+frame #3: 0x0000000181a9a710 libxpc.dylib`_xpc_interface_routine + 208
+frame #4: 0x0000000181abbe24 libxpc.dylib`_xpc_init_pid_domain + 348
+frame #5: 0x0000000181abb398 libxpc.dylib`_xpc_uncork_pid_domain_locked + 76
+frame #6: 0x0000000181abbbfc libxpc.dylib`_xpc_early_init + 92
+frame #7: 0x0000000181a9583c libxpc.dylib`_libxpc_initializer + 1104
+frame #8: 0x000000018e59e6ac libSystem.B.dylib`libSystem_initializer + 236
+frame #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
+</code></pre>
+
+Ili kupata hoja za **`mach_msg`** angalia rejista. Hizi ndizo hoja (kutoka [mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
+```c
+__WATCHOS_PROHIBITED __TVOS_PROHIBITED
+extern mach_msg_return_t        mach_msg(
+mach_msg_header_t *msg,
+mach_msg_option_t option,
+mach_msg_size_t send_size,
+mach_msg_size_t rcv_size,
+mach_port_name_t rcv_name,
+mach_msg_timeout_t timeout,
+mach_port_name_t notify);
+```
+Pata thamani kutoka kwenye rejisti:
+```armasm
+reg read $x0 $x1 $x2 $x3 $x4 $x5 $x6
+x0 = 0x0000000124e04ce8 ;mach_msg_header_t (*msg)
+x1 = 0x0000000003114207 ;mach_msg_option_t (option)
+x2 = 0x0000000000000388 ;mach_msg_size_t (send_size)
+x3 = 0x0000000000000388 ;mach_msg_size_t (rcv_size)
+x4 = 0x0000000000001f03 ;mach_port_name_t (rcv_name)
+x5 = 0x0000000000000000 ;mach_msg_timeout_t (timeout)
+x6 = 0x0000000000000000 ;mach_port_name_t (notify)
+```
+Chunguza kichwa cha ujumbe ukichunguza hoja ya kwanza:
+```armasm
+(lldb) x/6w $x0
+0x124e04ce8: 0x00131513 0x00000388 0x00000807 0x00001f03
+0x124e04cf8: 0x00000b07 0x40000322
+
+; 0x00131513 -> mach_msg_bits_t (msgh_bits) = 0x13 (MACH_MSG_TYPE_COPY_SEND) in local | 0x1500 (MACH_MSG_TYPE_MAKE_SEND_ONCE) in remote | 0x130000 (MACH_MSG_TYPE_COPY_SEND) in voucher
+; 0x00000388 -> mach_msg_size_t (msgh_size)
+; 0x00000807 -> mach_port_t (msgh_remote_port)
+; 0x00001f03 -> mach_port_t (msgh_local_port)
+; 0x00000b07 -> mach_port_name_t (msgh_voucher_port)
+; 0x40000322 -> mach_msg_id_t (msgh_id)
+```
+Aina hiyo ya `mach_msg_bits_t` ni ya kawaida sana kuruhusu jibu.
+
+
+
+### Piga namba za bandari
 ```bash
 lsmp -p <pid>
+
+sudo lsmp -p 1
+Process (1) : launchd
+name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  qlimit  msgcount  context            identifier  type
+---------   ----------  ----------  -------- -----  ---- ----- ----- ----- ----  ------  --------  ------------------ ----------- ------------
+0x00000203  0x181c4e1d  send        --------        ---            2                                                  0x00000000  TASK-CONTROL SELF (1) launchd
+0x00000303  0x183f1f8d  recv        --------     0  ---      1               N        5         0  0x0000000000000000
+0x00000403  0x183eb9dd  recv        --------     0  ---      1               N        5         0  0x0000000000000000
+0x0000051b  0x1840cf3d  send        --------        ---            2        ->        6         0  0x0000000000000000 0x00011817  (380) WindowServer
+0x00000603  0x183f698d  recv        --------     0  ---      1               N        5         0  0x0000000000000000
+0x0000070b  0x175915fd  recv,send   ---GS---     0  ---      1     2         Y        5         0  0x0000000000000000
+0x00000803  0x1758794d  send        --------        ---            1                                                  0x00000000  CLOCK
+0x0000091b  0x192c71fd  send        --------        D--            1        ->        1         0  0x0000000000000000 0x00028da7  (418) runningboardd
+0x00000a6b  0x1d4a18cd  send        --------        ---            2        ->       16         0  0x0000000000000000 0x00006a03  (92247) Dock
+0x00000b03  0x175a5d4d  send        --------        ---            2        ->       16         0  0x0000000000000000 0x00001803  (310) logd
+[...]
+0x000016a7  0x192c743d  recv,send   --TGSI--     0  ---      1     1         Y       16         0  0x0000000000000000
++     send        --------        ---            1         <-                                       0x00002d03  (81948) seserviced
++     send        --------        ---            1         <-                                       0x00002603  (74295) passd
+[...]
+```
+**Jina** ni jina la chaguo-msingi lililotolewa kwa bandari (angalia jinsi inavyo **ongezeka** katika bytes 3 za kwanza). **`ipc-object`** ni **kitambulisho** cha kipekee kilichofichwa cha bandari.\
+Pia kumbuka jinsi bandari zenye haki za kutuma pekee zinavyo **tambulisha mmiliki** wake (jina la bandari + pid).\
+Pia kumbuka matumizi ya **`+`** kuonyesha **kazi nyingine zilizounganishwa kwenye bandari hiyo hiyo**.
+
+Pia ni rahisi kutumia [**procesxp**](https://www.newosxbook.com/tools/procexp.html) kuona pia **majina ya huduma zilizosajiliwa** (ikiwa SIP imelemazwa kutokana na hitaji la `com.apple.system-task-port`):
+```
+procesp 1 ports
 ```
 Unaweza kusakinisha zana hii kwenye iOS kwa kuipakua kutoka [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
 
@@ -184,29 +359,8 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %} 
-
-### Mawasiliano ya Mchakato wa macOS
-
-Mawasiliano ya mchakato wa macOS inaweza kusababisha ukiukaji wa haki za mchakato. Kwa mfano, kutumia mbinu za kuvunja usalama kama vile kuingilia kati mawasiliano ya mchakato (IPC) inaweza kusababisha upandishaji wa mamlaka.
-
-Kwa kuzingatia hilo, ni muhimu kutekeleza hatua za kutosha za kuhakikisha usalama wa mawasiliano ya mchakato kwenye mfumo wa macOS. 
-
-Katika faili hii, tutajifunza jinsi ya kuzuia unyakuzi wa mawasiliano ya mchakato kwa kufanya maboresho sahihi kwenye mchakato wa macOS. 
-
-### Hatua za Kuchukua
-
-1. Tumia njia za kuthibitisha mawasiliano ya mchakato.
-2. Epuka kutuma data nyeti kupitia mawasiliano ya mchakato yasiyo salama.
-3. Fanya uhakiki wa kina wa mchakato wa mawasiliano ya mchakato kwa kugundua na kurekebisha mapungufu yoyote ya usalama.
-
-Kwa kufuata hatua hizi, unaweza kuzuia ukiukaji wa haki za mchakato kupitia mawasiliano ya mchakato kwenye mfumo wa macOS. 
-
-### Hitimisho
-
-Kwa kufahamu hatari za mawasiliano ya mchakato na kutekeleza hatua sahihi za usalama, unaweza kuzuia upandishaji wa mamlaka kupitia njia hii ya ukiukaji wa usalama kwenye macOS. 
-
-{% endtab %}
+{% tab title="sender.c" %}### Swahili Translation
+### Tuma.c
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -258,29 +412,29 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-### Bandari za Haki
+{% endtab %}
+{% endtabs %}
+
+### Bandari za Kipekee
 
 * **Bandari ya Mwenyeji**: Ikiwa mchakato una **ruhusa ya Kutuma** juu ya bandari hii anaweza kupata **taarifa** kuhusu **mfumo** (k.m. `host_processor_info`).
-* **Bandari ya Mwenyeji wa Haki**: Mchakato wenye **Haki ya Kutuma** juu ya bandari hii anaweza kutekeleza **vitendo vya haki** kama vile kupakia kifurushi cha kernel. **Mchakato unahitaji kuwa na mizizi** kupata idhini hii.
+* **Bandari ya Mwenyeji wa Privilege**: Mchakato wenye **Haki ya Kutuma** juu ya bandari hii anaweza kutekeleza **vitendo vya kipekee** kama vile kupakia ugani wa kernel. **Mchakato lazima awe na ruhusa ya mizizi** kupata idhini hii.
 * Zaidi ya hayo, ili kuita API ya **`kext_request`** ni lazima kuwa na ruhusa nyingine za **`com.apple.private.kext*`** ambazo hupewa tu programu za Apple.
-* **Bandari ya Jina la Kazi:** Toleo lisiloruhusiwa la _bandari ya kazi_. Inahusisha kazi, lakini haimruhusu kuidhibiti. Kitu pekee kinachopatikana kupitia hii ni `task_info()`.
-* **Bandari ya Kazi** (inayoitwa pia bandari ya kernel)**:** Ikiwa una ruhusa ya Kutuma juu ya bandari hii ni rahisi kudhibiti kazi (kusoma/kuandika kumbukumbu, kuunda nyuzi...).
-* Piga `mach_task_self()` ili **kupata jina** la bandari hii kwa kazi ya mwito. Bandari hii inarithiwa tu wakati wa **`exec()`**; kazi mpya iliyoanzishwa na `fork()` inapata bandari mpya ya kazi (kama kesi maalum, kazi pia inapata bandari mpya ya kazi baada ya `exec()` katika binary ya suid). Njia pekee ya kuzindua kazi na kupata bandari yake ni kufanya ["ngoma ya kubadilisha bandari"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) wakati wa kufanya `fork()`.
-* Hizi ni vizuizi vya kupata bandari (kutoka `macos_task_policy` kutoka kwa binary ya `AppleMobileFileIntegrity`):
-* Ikiwa programu ina **ruhusa ya `com.apple.security.get-task-allow`** mchakato kutoka kwa **mtumiaji huyo unaweza kupata bandari ya kazi** (kawaida huongezwa na Xcode kwa ajili ya kurekebisha makosa). Mchakato wa **kuidhinisha** hautaruhusu hii kwa matoleo ya uzalishaji.
-* Programu zenye **ruhusa ya `com.apple.system-task-ports`** inaweza kupata **bandari ya kazi kwa mchakato wowote**, isipokuwa kernel. Katika toleo za zamani ilikuwa inaitwa **`task_for_pid-allow`**. Hii inatolewa tu kwa programu za Apple.
-* **Mizizi inaweza kupata bandari za kazi** za programu **zisizotengenezwa** na **muda wa kukimbia ulioimarishwa** (na sio kutoka Apple).
+* **Bandari ya Jina la Kazi:** Toleo lisiloruhusiwa la _bandari ya kazi_. Inahusisha kazi, lakini haimruhusu kuidhibiti. Kitu pekee kinachoonekana kupatikana kupitia hii ni `task_info()`.
+* **Bandari ya Kazi** (inayoitwa pia bandari ya kernel)**:** Kwa ruhusa ya Kutuma juu ya bandari hii ni rahisi kudhibiti kazi (kusoma/kuandika kumbukumbu, kuunda nyuzi...).
+* Piga `mach_task_self()` ili **kupata jina** la bandari hii kwa kazi ya mwito. Bandari hii inarithiwa tu wakati wa **`exec()`**; kazi mpya iliyoanzishwa na `fork()` hupata bandari mpya ya kazi (kama kesi maalum, kazi pia hupata bandari mpya ya kazi baada ya `exec()` katika faili ya suid). Njia pekee ya kuzalisha kazi na kupata bandari yake ni kufanya ["michezo ya kubadilishana bandari"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) wakati wa kufanya `fork()`.
+* Hizi ni vizuizi vya kupata bandari (kutoka `macos_task_policy` kutoka kwa programu ya binary `AppleMobileFileIntegrity`):
+* Ikiwa programu ina **ruhusa ya `com.apple.security.get-task-allow`** mchakato kutoka kwa **mtumiaji huyo anaweza kupata bandari ya kazi** (kawaida huongezwa na Xcode kwa madhumuni ya kurekebisha makosa). Mchakato wa **kuidhinisha** hautaruhusu hii kwa matoleo ya uzalishaji.
+* Programu zenye **ruhusa ya `com.apple.system-task-ports`** zinaweza kupata **bandari ya kazi kwa mchakato wowote**, isipokuwa kernel. Katika toleo za zamani ilikuwa inaitwa **`task_for_pid-allow`**. Hii inatolewa tu kwa programu za Apple.
+* **Mizizi inaweza kupata bandari za kazi** za programu **zisizotengenezwa** na kukimbia kwa **wakati** (na sio kutoka kwa Apple).
 
-### Uingizaji wa Shellcode katika nyuzi kupitia Bandari ya Kazi
+### Uingizaji wa Shellcode kwenye mnyororo kupitia Bandari ya Kazi
 
 Unaweza kupata shellcode kutoka:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
 {% endcontent-ref %}
-
-{% tabs %}
-{% tab title="mysleep.m" %}
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
@@ -313,31 +467,11 @@ return 0;
 {% endtab %}
 
 {% tab title="entitlements.plist" %} 
-### Maelezo
+### Mafunzo ya Kujifunza
 
-Faili hii inaonyesha mifumo ya ruhusa zilizowekwa kwa programu. Inaweza kusaidia kubaini upungufu wa usalama au fursa za kuboresha usalama wa programu.
+Hii ni hati ya XML inayotumiwa kuelezea ruhusa zinazohitajika na programu ya macOS. Entitlements hizi zinaweza kubadilishwa ili kudanganya mfumo na kutoa ruhusa zisizostahili kwa programu. Kwa mfano, unaweza kubadilisha entitlements ili kuruhusu ufikiaji wa faili ambazo programu haipaswi kuwa na ruhusa ya kusoma au kuandika.
 
-### Jinsi ya Kutumia
-
-1. Fungua faili `entitlements.plist` kwenye mhariri wa maandishi.
-2. Angalia ruhusa zilizowekwa kwa programu.
-3. Hakikisha ruhusa zote zinazohitajika zimewekwa na hakuna ruhusa zisizohitajika.
-4. Fanya marekebisho kulingana na mahitaji ya usalama.
-
-### Mifano
-
-```xml
-<key>com.apple.security.app-sandbox</key>
-<true/>
-<key>com.apple.security.cs.allow-jit</key>
-<true/>
-<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
-<true/>
-```
-
-### Tahadhari
-
-Hakikisha kufanya marekebisho kwa uangalifu ili kuepuka kuharibu utendaji au usalama wa programu.
+Kwa kawaida, entitlements.plist inaweza kupatikana ndani ya mfuko wa programu ya macOS na inaweza kuhaririwa kwa uangalifu ili kuzuia uwezekano wa unyanyasaji wa mchakato. 
 {% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -348,6 +482,9 @@ Hakikisha kufanya marekebisho kwa uangalifu ili kuepuka kuharibu utendaji au usa
 </dict>
 </plist>
 ```
+{% endtab %}
+{% endtabs %}
+
 **Kusanya** programu iliyopita na ongeza **haki** ili uweze kuingiza msimbo na mtumiaji huyo huyo (ikiwa sivyo utahitaji kutumia **sudo**).
 
 <details>
@@ -558,11 +695,11 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 
 Katika macOS **threads** inaweza kudhibitiwa kupitia **Mach** au kutumia **posix `pthread` api**. Thread tuliyounda katika kuingiza ya awali, iliumbwa kutumia Mach api, hivyo **siyo inalingana na posix**.
 
-Ilikuwa inawezekana **kuingiza shellcode rahisi** ili kutekeleza amri kwa sababu **haikuwa inahitaji kufanya kazi na posix** apis inalingana na Mach tu. **Kuingizaji za ngumu zaidi** zingehitaji **thread** kuwa pia **inalingana na posix**.
+Ilikuwa inawezekana **kuingiza shellcode rahisi** ili kutekeleza amri kwa sababu **haikuwa inahitaji kufanya kazi na posix** apis zinazolingana, bali na Mach. **Kuingizaji za kina zaidi** zingehitaji **thread** kuwa pia **inayolingana na posix**.
 
-Hivyo, ili **kuboresha thread** ni vyema kuita **`pthread_create_from_mach_thread`** ambayo ita **umba pthread halali**. Kisha, pthread mpya hii inaweza **kuita dlopen** ili **kupakia dylib** kutoka kwenye mfumo, hivyo badala ya kuandika shellcode mpya kutekeleza hatua tofauti ni vyema kupakia maktaba za desturi.
+Hivyo basi, ili **kuboresha thread** ni vyema iitwe **`pthread_create_from_mach_thread`** ambayo itaunda pthread halali. Kisha, pthread mpya hii inaweza **kuita dlopen** ili **kupakia dylib** kutoka kwenye mfumo, hivyo badala ya kuandika shellcode mpya kufanya vitendo tofauti ni vyema kupakia maktaba za desturi.
 
-Unaweza kupata **mfano wa dylibs** katika (kwa mfano moja inayozalisha logi na kisha unaweza kusikiliza):
+Unaweza kupata **dylibs mfano** katika (kwa mfano ile inayozalisha logi kisha unaweza kuisikiliza):
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
@@ -770,7 +907,7 @@ return (-3);
 
 
 // Set the permissions on the allocated code memory
-```sw
+```markdown
 kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EXECUTE);
 
 if (kr != KERN_SUCCESS)
@@ -842,7 +979,10 @@ fprintf(stderr,"Dylib not found\n");
 
 }
 ```
-</details>
+</details>  
+### Maelezo ya Mchakato wa IPC wa macOS
+
+Kwenye mifumo ya macOS, mchakato wa IPC (Mawasiliano kati ya Michakato) unaweza kutumiwa kwa njia mbalimbali za kufanya uharibifu. Kwa mfano, mchakato mmoja unaweza kutuma ujumbe wa uongo kwa mchakato mwingine ili kudanganya au kusababisha makosa. Kwa kuzingatia hatari hii, ni muhimu kutekeleza hatua za usalama ili kuzuia unyanyasaji wa mchakato wa IPC kwenye mifumo ya macOS.
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -859,9 +999,9 @@ Katika mbinu hii, wimbi la mchakato linatekwa:
 
 ### Taarifa Msingi
 
-XPC, ambayo inasimama kwa Mawasiliano ya Mchakato wa XNU (jopo la kimsingi linalotumiwa na macOS), ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC hutoa njia ya kufanya **wito salama, usio na mpangilio kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mfumo wa usalama wa Apple, kuruhusu **ujenzi wa programu zilizotenganishwa kwa ruhusa** ambapo kila **sehemu** inaendeshwa na **ruhusa inayohitajika tu** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato uliokumbwa na shida.
+XPC, ambayo inasimama kwa Mawasiliano ya Mchakato wa XNU (jopo la msingi linalotumiwa na macOS), ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC hutoa njia ya kufanya **wito salama, usio wa moja kwa moja kati ya njia tofauti** kwenye mfumo. Ni sehemu ya mfumo wa usalama wa Apple, kuruhusu **ujenzi wa programu zilizotenganishwa kwa ruhusa** ambapo kila **sehemu** inaendeshwa na **ruhusa inayohitajika tu** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato ulioghushiwa.
 
-Kwa maelezo zaidi kuhusu jinsi hii **mawasiliano inavyofanya kazi** au jinsi inavyoweza kuwa **dhaifu**, angalia:
+Kwa maelezo zaidi kuhusu jinsi hii **mawasiliano inavyofanya kazi** au jinsi inavyoweza kuwa **dhaifu** angalia:
 
 {% content-ref url="macos-xpc/" %}
 [macos-xpc](macos-xpc/)
@@ -869,7 +1009,7 @@ Kwa maelezo zaidi kuhusu jinsi hii **mawasiliano inavyofanya kazi** au jinsi ina
 
 ## MIG - Mjenzi wa Kiolesura cha Mach
 
-MIG ilianzishwa ili **kurahisisha mchakato wa uundaji wa nambari za Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa seva na mteja kuwasiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza hiyo na nambari yake itakuwa rahisi sana kuliko hapo awali.
+MIG iliundwa ili **kurahisisha mchakato wa uundaji wa nambari za Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa seva na mteja kuwasiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza na nambari yake itakuwa rahisi sana kuliko hapo awali.
 
 Kwa maelezo zaidi angalia:
 
@@ -887,14 +1027,14 @@ Kwa maelezo zaidi angalia:
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuteka AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuteketeza AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuteka kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
