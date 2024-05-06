@@ -2,37 +2,37 @@
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary><strong>Sıfırdan başlayarak AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR gönderin.
 
 </details>
 
 ## Temel Bilgiler
 
-MIG, **Mach IPC işlemi oluşturma sürecini basitleştirmek** için oluşturulmuştur. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **oluşturur**. Oluşturulan kodun çirkin olması durumunda bile, bir geliştiricinin sadece bunu içe aktarması ve kodunun öncekinden çok daha basit olması yeterlidir.
+MIG, Mach IPC kod oluşturma sürecini **basitleştirmek için oluşturulmuştur**. Temelde, sunucu ve istemcinin iletişim kurması için gerekli kodu **oluşturur**. Oluşturulan kodun kötü görünmesine rağmen, bir geliştiricinin bunu içe aktarması yeterli olacak ve kodu öncekinden çok daha basit olacaktır.
 
 Tanım, `.defs` uzantısını kullanarak Arayüz Tanım Dili (IDL) ile belirtilir.
 
 Bu tanımlar 5 bölüme sahiptir:
 
-* **Alt sistem bildirimi**: Alt sistem anahtar kelimesi, **adı** ve **kimliği**ni belirtmek için kullanılır. Sunucunun çekirdekte çalışması gerekiyorsa **`KernelServer`** olarak işaretlenebilir.
-* **Dahil etmeler ve içe aktarmalar**: MIG, C ön işleyiciyi kullanır, bu nedenle içe aktarmaları kullanabilir. Ayrıca, kullanıcı veya sunucu tarafından oluşturulan kodlar için `uimport` ve `simport` kullanmak mümkündür.
-* **Tür bildirimleri**: Veri tiplerini tanımlamak mümkündür, genellikle `mach_types.defs` ve `std_types.defs` dosyalarını içe aktarır. Özel olanlar için bazı sözdizimi kullanılabilir:
+* **Alt sistem bildirimi**: Alt sistem anahtar kelimesi, **adı** ve **kimliği** belirtmek için kullanılır. Sunucunun çekirdekte çalışması gerekiyorsa **`KernelServer`** olarak işaretlenebilir.
+* **Dahil ve içe aktarımlar**: MIG, C ön işlemciyi kullanır, bu nedenle içe aktarımları kullanabilir. Ayrıca, kullanıcı veya sunucu tarafından oluşturulan kodlar için `uimport` ve `simport` kullanmak mümkündür.
+* **Tür bildirimleri**: Veri tipleri tanımlanabilir, genellikle `mach_types.defs` ve `std_types.defs` içe aktarılır. Özel olanlar için bazı sözdizimi kullanılabilir:
 * \[i`n/out]tran`: Gelen veya giden bir iletiyi çevirmesi gereken işlev
 * `c[user/server]type`: Başka bir C türüne eşleme.
 * `destructor`: Tür serbest bırakıldığında bu işlevi çağırın.
-* **İşlemler**: Bunlar RPC yöntemlerinin tanımlarıdır. 5 farklı tür bulunmaktadır:
+* **İşlemler**: Bunlar RPC yöntemlerinin tanımlarıdır. 5 farklı tür vardır:
 * `routine`: Yanıt bekler
-* `simpleroutine`: Yanıt beklemeyen
+* `simpleroutine`: Yanıt beklemiyor
 * `procedure`: Yanıt bekler
-* `simpleprocedure`: Yanıt beklemeyen
+* `simpleprocedure`: Yanıt beklemiyor
 * `function`: Yanıt bekler
 
 ### Örnek
@@ -56,15 +56,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-İlk **argümanın bağlanacak bağlantı noktası** olduğunu unutmayın ve MIG, yanıt bağlantı noktasını **otomatik olarak işleyecektir** (istemci kodunda `mig_get_reply_port()` çağrılmadıkça). Dahası, **işlemlerin kimliği** belirtilen alt sistem kimliği ile başlayarak **ardışık** olacaktır (bu nedenle bir işlem kullanımdan kaldırıldığında silinir ve hala ID'sini kullanmak için `skip` kullanılır).
+İlk **argümanın bağlanacak bağlantı noktası** olduğunu unutmayın ve MIG, istemci kodunda `mig_get_reply_port()` çağrılmadıkça yanıt bağlantı noktasını **otomatik olarak ele alacaktır**. Ayrıca, işlemlerin **ID'si**, belirtilen alt sistem ID'si ile başlayarak **ardışık** olacaktır (bu nedenle bir işlem kullanımdan kaldırıldığında silinir ve ID'sini hala kullanmak için `skip` kullanılır).
 
-Şimdi, birbirleriyle iletişim kurabilecek sunucu ve istemci kodunu oluşturmak için MIG'i kullanın ve Çıkarma işlevini çağırmak için:
+Şimdi, birbirleriyle iletişim kurabilecek şekilde sunucu ve istemci kodunu oluşturmak için MIG'i kullanın ve Çıkarma işlevini çağırmak için:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Çeşitli yeni dosyalar mevcut dizinde oluşturulacaktır.
+Şu anda mevcut dizinde birkaç yeni dosya oluşturulacak.
 
-**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temel olarak alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
+{% hint style="success" %}
+Sisteminizde daha karmaşık bir örnek bulabilirsiniz: `mdfind mach_port.defs`\
+Ve aynı klasörden derleyebilirsiniz: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+{% endhint %}
+
+**`myipcServer.c`** ve **`myipcServer.h`** dosyalarında **`SERVERPREFmyipc_subsystem`** yapısının bildirimi ve tanımını bulabilirsiniz, bu yapı temelde alınan mesaj kimliğine göre çağrılacak işlevi tanımlar (başlangıç numarasını 500 olarak belirttik):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -85,7 +90,33 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %}Dosya: myipcServer.h{% endtab %}
+{% tab title="myipcServer.h" %} 
+
+## myipcServer.h
+
+```c
+#ifndef myipcServer_h
+#define myipcServer_h
+
+#include <stdio.h>
+#include <mach/mach.h>
+#include <mach/mach_error.h>
+#include <servers/bootstrap.h>
+#include <mach/mach_traps.h>
+#include <mach/mach_init.h>
+#include <mach/mach_port.h>
+#include <mach/mach_interface.h>
+#include <mach/mach_types.h>
+#include myipcServerServer.h
+
+#define MACH_PORT_NAME "com.example.myipc"
+
+kern_return_t myipc_server(mach_port_t server_port);
+
+#endif /* myipcServer_h */
+```
+
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -116,9 +147,11 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Bu örnekte tanımlamalar içinde sadece 1 fonksiyon tanımladık, ancak daha fazla fonksiyon tanımlasaydık, bunlar **`SERVERPREFmyipc_subsystem`** dizisinin içinde olacaktı ve ilk fonksiyon **500** ID'sine, ikinci fonksiyon **501** ID'sine atanacaktı...
+Bu örnekte tanımlamalarda yalnızca 1 işlev belirledik, ancak daha fazla işlev tanımlasaydık, bunlar **`SERVERPREFmyipc_subsystem`** dizisinin içinde olacaktı ve ilk işlev **500** kimliğine, ikinci işlev ise **501** kimliğine atanmış olacaktı...
 
-Aslında bu ilişkiyi **`myipcServer.h`** dosyasındaki **`subsystem_to_name_map_myipc`** yapısında tanımlayabiliriz:
+Eğer işlevin bir **yanıt** göndermesi bekleniyorsa, `mig_internal kern_return_t __MIG_check__Reply__<name>` işlevi de mevcut olacaktı.
+
+Aslında bu ilişkiyi **`myipcServer.h`** dosyasındaki **`subsystem_to_name_map_myipc`** yapısında (**diğer dosyalardaki **`subsystem_to_name_map_***`**):
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -159,9 +192,9 @@ return FALSE;
 }
 </code></pre>
 
-Önceki vurgulanan satırları kontrol ederek, kimliğe göre çağrılacak işlevlere erişim sağlayın.
+Önceki vurgulanan satırları kontrol ederek, kimliğe göre çağrılacak işlevlere erişin.
 
-Aşağıda, istemcinin sunucudan çıkarmak için işlevleri çağırabileceği basit bir **sunucu** ve **istemci** oluşturmak için kod bulunmaktadır:
+Aşağıdaki kod, istemcinin sunucudan çıkarmak için işlevleri çağırabileceği basit bir **sunucu** ve **istemci** oluşturmak için kullanılan koddur:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -201,24 +234,31 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 ## myipc_client.c
 
-Bu dosya, `myipc_server` ile iletişim kuran bir IPC istemcisini uygular. İstemci, `myipc.defs` dosyasındaki MIG arayüz tanımlarını kullanır.
+Bu dosya, `myipc_server` ile iletişim kurmak için kullanılan bir örnek IPC istemcisini içerir.
 
 ```c
 #include <stdio.h>
+#include <mach/mach.h>
 #include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main() {
-    mach_port_t server_port;
-    kern_return_t ret;
+    mach_port_t bootstrap_port;
+    kern_return_t err;
 
-    ret = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
-    if (ret != KERN_SUCCESS) {
-        printf("Failed to look up server port\n");
+    err = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
+    if (err != KERN_SUCCESS) {
+        printf("task_get_bootstrap_port: %s\n", mach_error_string(err));
         return 1;
     }
 
-    myipc_server_routine(server_port);
+    err = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    if (err != KERN_SUCCESS) {
+        printf("bootstrap_look_up: %s\n", mach_error_string(err));
+        return 1;
+    }
+
+    myipc_client(server_port);
 
     return 0;
 }
@@ -249,18 +289,39 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-### Binary Analizi
+{% endtab %}
+{% endtabs %}
 
-Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'yi kullandığından, MIG'nin kullanıldığını **tanımanın** ve her mesaj kimliği ile MIG'nin yürüttüğü **işlevleri** bilmek ilginçtir.
+### NDR\_record
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir, mesaj kimliğini gösterir ve yürütülecek işlevi tanımlar:
+NDR\_record, `libsystem_kernel.dylib` tarafından ihraç edilir ve MIG'in farklı sistemler arasında kullanılması düşünüldüğü için verileri dönüştürmesine olanak tanıyan bir yapıdır.
+
+Bu ilginç çünkü bir ikili dosyada `_NDR_record` bağımlılık olarak bulunursa (`jtool2 -S <binary> | grep NDR` veya `nm`), bu, ikili dosyanın bir MIG istemcisi veya Sunucusu olduğu anlamına gelir.
+
+Ayrıca **MIG sunucularının** dağıtım tablosu `__DATA.__const` içinde bulunur (veya macOS çekirdeğinde `__CONST.__constdata` ve diğer \*OS çekirdeklerinde `__DATA_CONST.__const`). Bu, **`jtool2`** ile dökülebilir.
+
+Ve **MIG istemcileri**, sunuculara `__mach_msg` ile göndermek için `__NDR_record`'ı kullanacaktır.
+
+## İkili Analiz
+
+### jtool
+
+Birçok ikili dosya artık mach bağlantı noktalarını açığa çıkarmak için MIG'i kullandığından, MIG'nin kullanıldığını **tanımlamanın** ve her mesaj kimliği ile **çalıştırılacak işlevleri** **belirlemenin** nasıl olduğunu bilmek ilginçtir.
+
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2), bir Mach-O ikili dosyasından MIG bilgilerini ayrıştırabilir ve mesaj kimliğini göstererek hangi işlevin yürütüleceğini belirleyebilir:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Önceden bahsedildiği gibi, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun** `myipc_server` olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **nasıl decompile edildiğine bakmak ilginç olacaktır** çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
+Ayrıca, MIG işlevleri, çağrılan gerçek işlevin sadece kılıfıdır, bu da onun ayrıştırılmasını alıp BL için grep yaparak çağrılan gerçek işlevi bulabilirsiniz:
+```bash
+jtool2 -d __DATA.__const myipc_server | grep BL
+```
+### Montaj
+
+Daha önce, **alınan mesaj kimliğine bağlı olarak doğru işlevi çağıracak olan fonksiyonun `myipc_server`** olduğu belirtilmişti. Ancak genellikle ikili dosyanın sembolleri olmayacaktır (işlev adları yok), bu yüzden **derlenmiş halinin nasıl göründüğünü kontrol etmek ilginç olacaktır**, çünkü her zaman çok benzer olacaktır (bu işlevin kodu, sunulan işlevlerden bağımsızdır):
 
 {% tabs %}
-{% tab title="myipc_server decompiled 1" %}
+{% tab title="myipc_server derlenmiş 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -273,9 +334,9 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Bu işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
+// Çağrılacak işlevi tanımlamaya yardımcı olabilecek sign_extend_64 çağrısı
 // Bu, çağrılması gereken işlevin işaretçisini rax'a depolar
-// Kullanılan adres 0x100004040'ı kontrol edin (işlev adresleri dizisi)
+// Kullanılan adresi kontrol et 0x100004040 (işlev adresleri dizisi)
 // 0x1f4 = 500 (başlangıç ​​ID'si)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
@@ -302,8 +363,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server decompiled 2" %}
-Bu, farklı bir Hopper free sürümünde decompile edilmiş aynı işlevdir:
+{% tab title="myipc_server derlenmiş 2" %}
+Bu, farklı bir Hopper ücretsiz sürümünde derlenmiş aynı işlevdir:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -347,7 +408,7 @@ r8 = 0x1;
 }
 }
 // Önceki sürümdeki gibi aynı if else
-// Kullanılan adres 0x100004040 (işlev adresleri dizisi) kontrol edilir
+// Kullanılan adresi kontrol et 0x100004040 (işlev adresleri dizisi)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -378,22 +439,17 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Aslında **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının dizisini bulacaksınız. Yapının ilk elemanı **işlevin uygulandığı adres** olup, **yapı 0x28 bayt alır**, bu yüzden her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
+Aslında **`0x100004000`** işlevine giderseniz, **`routine_descriptor`** yapılarının bir dizisini bulacaksınız. Yapının ilk öğesi, **işlevin uygulandığı adres** ve **yapı 0x28 bayt alır**, bu nedenle her 0x28 baytta (bayt 0'dan başlayarak) 8 bayt alabilir ve bu, **çağrılacak işlevin adresi** olacaktır:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-Bu veriler [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
+Bu veriler, [**bu Hopper betiği kullanılarak**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py) çıkarılabilir.
+### Hata Ayıklama
 
-<details>
+MIG tarafından oluşturulan kod ayrıca işlemler hakkında günlükler oluşturmak için `kernel_debug`'ı da çağırır. Bunları **`trace`** veya **`kdv`** kullanarak kontrol etmek mümkündür: `kdv all | grep MIG`
 
-<summary><strong>Sıfırdan başlayarak AWS hacklemeyi</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
+## Referanslar
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f)** veya [telegram grubuna](https://t.me/peass)** katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacker hilelerinizi paylaşarak PR'ler gönderin** [**HackTricks**](https://github.com/carlospolop/hacktricks) **ve** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına.**
+* [\*OS Internals, Cilt I, Kullanıcı Modu, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
