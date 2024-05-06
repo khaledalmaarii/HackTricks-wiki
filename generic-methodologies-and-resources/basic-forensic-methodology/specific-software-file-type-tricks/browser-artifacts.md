@@ -7,20 +7,20 @@
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 ## Artefatos dos Navegadores <a href="#id-3def" id="id-3def"></a>
 
@@ -37,7 +37,7 @@ Aqui está um resumo dos artefatos de navegador mais comuns:
 * **Favicons**: Ícones associados a sites, aparecendo em abas e favoritos, úteis para obter informações adicionais sobre as visitas do usuário.
 * **Sessões do Navegador**: Dados relacionados a sessões de navegador abertas.
 * **Downloads**: Registros de arquivos baixados pelo navegador.
-* **Dados de Formulário**: Informações inseridas em formulários da web, salvos para sugestões de preenchimento automático futuras.
+* **Dados de Formulário**: Informações inseridas em formulários da web, salvas para sugestões de preenchimento automático no futuro.
 * **Miniaturas**: Imagens de visualização de sites.
 * **Dicionário Personalizado.txt**: Palavras adicionadas pelo usuário ao dicionário do navegador.
 
@@ -49,7 +49,7 @@ O Firefox organiza os dados do usuário em perfis, armazenados em locais especí
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Um arquivo `profiles.ini` dentro desses diretórios lista os perfis de usuário. Os dados de cada perfil são armazenados em uma pasta nomeada com a variável `Path` dentro do `profiles.ini`, localizada no mesmo diretório que o `profiles.ini` em si. Se a pasta de um perfil estiver ausente, ela pode ter sido excluída.
+Um arquivo `profiles.ini` dentro desses diretórios lista os perfis de usuário. Os dados de cada perfil são armazenados em uma pasta nomeada com a variável `Path` dentro do `profiles.ini`, localizada no mesmo diretório que o próprio `profiles.ini`. Se a pasta de um perfil estiver ausente, ela pode ter sido excluída.
 
 Dentro de cada pasta de perfil, você pode encontrar vários arquivos importantes:
 
@@ -65,14 +65,14 @@ Dentro de cada pasta de perfil, você pode encontrar vários arquivos importante
 * **favicons.sqlite**: Armazena favicons.
 * **prefs.js**: Configurações e preferências do usuário.
 * **downloads.sqlite**: Banco de dados de downloads antigos, agora integrado ao places.sqlite.
-* **miniaturas**: Miniaturas de sites.
+* **thumbnails**: Miniaturas de sites.
 * **logins.json**: Informações de login criptografadas.
 * **key4.db** ou **key3.db**: Armazena chaves de criptografia para proteger informações sensíveis.
 
-Além disso, verificar as configurações de antiphishing do navegador pode ser feito pesquisando por entradas `browser.safebrowsing` em `prefs.js`, indicando se os recursos de navegação segura estão ativados ou desativados.
+Além disso, verificar as configurações anti-phishing do navegador pode ser feito pesquisando por entradas `browser.safebrowsing` em `prefs.js`, indicando se os recursos de navegação segura estão ativados ou desativados.
 
 Para tentar descriptografar a senha mestra, você pode usar [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Com o script a seguir e a chamada, você pode especificar um arquivo de senha para força bruta:
+Com o script e chamada a seguir, você pode especificar um arquivo de senha para força bruta:
 
 {% code title="brute.sh" %}
 ```bash
@@ -115,11 +115,11 @@ Dentro desses diretórios, a maioria dos dados do usuário pode ser encontrada n
 
 ## **Recuperação de Dados do Banco de Dados SQLite**
 
-Como pode ser observado nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Como observado nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-O Internet Explorer 11 gerencia seus dados e metadados em vários locais, auxiliando na separação das informações armazenadas e seus detalhes correspondentes para fácil acesso e gerenciamento.
+O Internet Explorer 11 gerencia seus dados e metadados em várias localizações, auxiliando na separação das informações armazenadas e seus detalhes correspondentes para fácil acesso e gerenciamento.
 
 ### Armazenamento de Metadados
 
@@ -161,7 +161,7 @@ Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Arquivos-c
 
 - **History.db**: Contém tabelas `history_visits` e `history_items` com URLs e horários de visita. Use `sqlite3` para consultar.
 - **Downloads.plist**: Informações sobre arquivos baixados.
-- **Bookmarks.plist**: Armazena URLs marcados.
+- **Bookmarks.plist**: Armazena URLs marcadas como favoritas.
 - **TopSites.plist**: Sites mais visitados.
 - **Extensions.plist**: Lista de extensões do navegador Safari. Use `plutil` ou `pluginkit` para recuperar.
 - **UserNotificationPermissions.plist**: Domínios permitidos para enviar notificações. Use `plutil` para analisar.
@@ -170,7 +170,7 @@ Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Arquivos-c
 
 ## Opera
 
-Os dados do Opera estão localizados em `/Users/$USER/Library/Application Support/com.operasoftware.Opera` e compartilham o formato de histórico e downloads do Chrome.
+Os dados do Opera estão em `/Users/$USER/Library/Application Support/com.operasoftware.Opera` e compartilham o formato de histórico e downloads do Chrome.
 
 - **Anti-phishing integrado do navegador**: Verifique se `fraud_protection_enabled` no arquivo Preferences está definido como `true` usando `grep`.
 
@@ -186,10 +186,10 @@ Esses caminhos e comandos são cruciais para acessar e entender os dados de nave
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 <details>
 
@@ -199,5 +199,7 @@ Outras formas de apoiar o HackTricks:
 * Se deseja ver a **sua empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+
+</details>
