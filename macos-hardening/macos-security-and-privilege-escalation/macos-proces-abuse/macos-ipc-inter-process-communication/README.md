@@ -20,9 +20,9 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 Mach verwendet **Tasks** als die **kleinste Einheit** zum Teilen von Ressourcen, und jeder Task kann **mehrere Threads** enthalten. Diese **Tasks und Threads sind 1:1 auf POSIX-Prozesse und Threads abgebildet**.
 
-Die Kommunikation zwischen Tasks erfolgt über die Mach Inter-Process Communication (IPC), wobei Einweg-Kommunikationskanäle genutzt werden. **Nachrichten werden zwischen Ports übertragen**, die eine Art von **Nachrichtenwarteschlangen** darstellen, die vom Kernel verwaltet werden.
+Die Kommunikation zwischen Tasks erfolgt über die Mach Inter-Process Communication (IPC), wobei einseitige Kommunikationskanäle genutzt werden. **Nachrichten werden zwischen Ports übertragen**, die eine Art von **Nachrichtenwarteschlangen** darstellen, die vom Kernel verwaltet werden.
 
-Ein **Port** ist das **Grundelement** der Mach-IPC. Es kann verwendet werden, um **Nachrichten zu senden und zu empfangen**.
+Ein **Port** ist das **grundlegende** Element der Mach-IPC. Es kann verwendet werden, um **Nachrichten zu senden und zu empfangen**.
 
 Jeder Prozess hat eine **IPC-Tabelle**, in der es möglich ist, die **Mach-Ports des Prozesses** zu finden. Der Name eines Mach-Ports ist tatsächlich eine Nummer (ein Zeiger auf das Kernelobjekt).
 
@@ -32,16 +32,16 @@ Ein Prozess kann auch einen Portnamen mit bestimmten Rechten **an einen anderen 
 
 Portrechte, die definieren, welche Operationen ein Task ausführen kann, sind entscheidend für diese Kommunikation. Die möglichen **Portrechte** sind ([Definitionen von hier](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Empfangsrecht**, das das Empfangen von an den Port gesendeten Nachrichten ermöglicht. Mach-Ports sind MPSC (multiple-producer, single-consumer) Warteschlangen, was bedeutet, dass es nur **ein Empfangsrecht für jeden Port** im gesamten System geben kann (im Gegensatz zu Pipes, bei denen mehrere Prozesse alle Dateideskriptoren zum Lesenende einer Pipe halten können).
+* **Empfangsrecht**, das das Empfangen von an den Port gesendeten Nachrichten ermöglicht. Mach-Ports sind MPSC (multiple-producer, single-consumer) Warteschlangen, was bedeutet, dass es im gesamten System möglicherweise nur **ein Empfangsrecht für jeden Port** gibt (im Gegensatz zu Pipes, bei denen mehrere Prozesse alle Dateideskriptoren zum Lesenende einer Pipe halten können).
 * Ein **Task mit dem Empfangsrecht** kann Nachrichten empfangen und **Senderechte erstellen**, die es ihm ermöglichen, Nachrichten zu senden. Ursprünglich hatte nur der **eigene Task das Empfangsrecht über seinen Port**.
 * Wenn der Besitzer des Empfangsrechts **stirbt** oder es beendet, wird das **Senderecht nutzlos (toter Name)**.
 * **Senderecht**, das das Senden von Nachrichten an den Port ermöglicht.
 * Das Senderecht kann **geklont** werden, sodass ein Task, der ein Senderecht besitzt, das Recht klonen und es einem dritten Task **gewähren kann**.
 * Beachten Sie, dass **Portrechte** auch **durch Mac-Nachrichten übergeben** werden können.
 * **Einmal-Senderecht**, das das Senden einer Nachricht an den Port und dann das Verschwinden ermöglicht.
-* Dieses Recht **kann nicht geklont** werden, aber es kann **verschoben** werden.
-* **Portset-Recht**, das ein _Portset_ anstelle eines einzelnen Ports kennzeichnet. Das Dequeuing einer Nachricht aus einem Portset dequeues eine Nachricht von einem der enthaltenen Ports. Portsets können verwendet werden, um gleichzeitig auf mehreren Ports zu lauschen, ähnlich wie `select`/`poll`/`epoll`/`kqueue` in Unix.
-* **Toter Name**, der kein tatsächliches Portrecht ist, sondern nur ein Platzhalter. Wenn ein Port zerstört wird, werden alle bestehenden Portrechte für den Port zu toten Namen.
+* Dieses Recht **kann nicht** geklont werden, aber es kann **verschoben** werden.
+* **Portset-Recht**, das ein _Portset_ anstelle eines einzelnen Ports kennzeichnet. Das Dequeuing einer Nachricht aus einem Portset dequeues eine Nachricht aus einem der enthaltenen Ports. Portsets können verwendet werden, um gleichzeitig auf mehreren Ports zu lauschen, ähnlich wie `select`/`poll`/`epoll`/`kqueue` in Unix.
+* **Toter Name**, der kein tatsächliches Portrecht ist, sondern nur ein Platzhalter. Wenn ein Port zerstört wird, werden alle vorhandenen Portrechte für den Port zu toten Namen.
 
 **Tasks können SEND-Rechte an andere übertragen**, sodass sie Nachrichten zurückschicken können. **SEND-Rechte können auch geklont werden, sodass ein Task das Recht duplizieren und einem dritten Task geben kann**. Dies ermöglicht in Verbindung mit einem Zwischenprozess, der als **Bootstrap-Server** bekannt ist, eine effektive Kommunikation zwischen Tasks.
 
@@ -53,7 +53,7 @@ Datei-Ports ermöglichen es, Dateideskriptoren in Mac-Ports zu kapseln (unter Ve
 
 Wie bereits erwähnt, ist es möglich, Rechte über Mach-Nachrichten zu senden, jedoch **kann man kein Recht senden, ohne bereits ein Recht** zum Senden einer Mach-Nachricht zu haben. Wie wird also die erste Kommunikation hergestellt?
 
-Dafür ist der **Bootstrap-Server** (**launchd** in Mac) beteiligt, da **jeder ein SEND-Recht zum Bootstrap-Server erhalten kann**, ist es möglich, ihn um ein Recht zu bitten, eine Nachricht an einen anderen Prozess zu senden:
+Dafür ist der **Bootstrap-Server** (**launchd** in Mac) beteiligt, da **jeder ein SEND-Recht zum Bootstrap-Server** erhalten kann, ist es möglich, ihn um ein Recht zu bitten, eine Nachricht an einen anderen Prozess zu senden:
 
 1. Task **A** erstellt einen **neuen Port** und erhält das **Empfangsrecht** darüber.
 2. Task **A**, als Inhaber des Empfangsrechts, **erzeugt ein SEND-Recht für den Port**.
@@ -63,28 +63,28 @@ Dafür ist der **Bootstrap-Server** (**launchd** in Mac) beteiligt, da **jeder e
 5. Task **B** interagiert mit dem **Bootstrap-Server**, um eine Bootstrap-**Suche nach dem Dienstnamen** (`bootstrap_lookup`) auszuführen. Damit der Bootstrap-Server antworten kann, sendet Task B ihm ein **SEND-Recht zu einem Port, den es zuvor erstellt hat**, innerhalb der Suchnachricht. Wenn die Suche erfolgreich ist, **dupliziert der Server das SEND-Recht**, das von Task A erhalten wurde, und **überträgt es an Task B**.
 * Denken Sie daran, dass jeder ein SEND-Recht zum Bootstrap-Server erhalten kann.
 6. Mit diesem SEND-Recht ist **Task B** in der Lage, eine **Nachricht an Task A zu senden**.
-7. Für eine bidirektionale Kommunikation erstellt Task **B** normalerweise einen neuen Port mit einem **Empfangsrecht** und einem **Senderecht** und gibt das **Senderecht an Task A**, damit es Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
+7. Für eine bidirektionale Kommunikation erstellt Task **B** normalerweise einen neuen Port mit einem **Empfangsrecht** und einem **Senderecht** und gibt das **Senderecht an Task A** weiter, damit es Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
 
-Der Bootstrap-Server **kann den** vom Task beanspruchten Dienstnamen **nicht authentifizieren**. Dies bedeutet, dass ein **Task potenziell jeden Systemtask impersonieren** könnte, beispielsweise einen Autorisierungsdienstnamen falsch zu **beanspruchen** und dann jede Anfrage zu genehmigen.
+Der Bootstrap-Server **kann den** vom Task beanspruchten **Dienstnamen nicht authentifizieren**. Dies bedeutet, dass ein **Task** potenziell **jeden Systemtask imitieren** könnte, z. B. indem er fälschlicherweise **einen Autorisierungsdienstnamen beansprucht** und dann jede Anfrage genehmigt.
 
 Apple speichert die **Namen der systembereitgestellten Dienste** in sicheren Konfigurationsdateien, die sich in **SIP-geschützten** Verzeichnissen befinden: `/System/Library/LaunchDaemons` und `/System/Library/LaunchAgents`. Neben jedem Dienstnamen wird auch die **zugehörige Binärdatei gespeichert**. Der Bootstrap-Server erstellt und hält ein **Empfangsrecht für jeden dieser Dienstenamen**.
 
 Für diese vordefinierten Dienste **unterscheidet sich der Suchprozess leicht**. Wenn ein Dienstname gesucht wird, startet launchd den Dienst dynamisch. Der neue Ablauf ist wie folgt:
 
 * Task **B** initiiert eine Bootstrap-**Suche** nach einem Dienstnamen.
-* **launchd** überprüft, ob der Task läuft, und wenn nicht, **startet** er ihn.
-* Task **A** (der Dienst) führt einen **Bootstrap-Check-in** (`bootstrap_check_in()`) durch. Hier erstellt der **Bootstrap**-Server ein SEND-Recht, behält es und **überträgt das Empfangsrecht an Task A**.
+* **launchd** überprüft, ob der Task ausgeführt wird, und wenn nicht, **startet** er ihn.
+* Task **A** (der Dienst) führt einen **Bootstrap-Check-in** durch (`bootstrap_check_in()`). Hier erstellt der **Bootstrap**-Server ein SEND-Recht, behält es und **überträgt das Empfangsrecht an Task A**.
 * Launchd dupliziert das **SEND-Recht und sendet es an Task B**.
-* Task **B** erstellt einen neuen Port mit einem **Empfangsrecht** und einem **Senderecht** und gibt das **Senderecht an Task A** (den Dienst), damit er Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
+* Task **B** erstellt einen neuen Port mit einem **Empfangsrecht** und einem **Senderecht** und gibt das **Senderecht an Task A** (den Dienst) weiter, damit er Nachrichten an TASK B senden kann (bidirektionale Kommunikation).
 
-Dieser Prozess gilt jedoch nur für vordefinierte Systemaufgaben. Nichtsystemaufgaben funktionieren weiterhin wie ursprünglich beschrieben, was potenziell eine Impersonation ermöglichen könnte.
+Dieser Prozess gilt jedoch nur für vordefinierte Systemaufgaben. Nichtsystemaufgaben funktionieren weiterhin wie ursprünglich beschrieben, was potenziell eine Imitation ermöglichen könnte.
 
 {% hint style="danger" %}
 Daher sollte launchd niemals abstürzen, da sonst das gesamte System abstürzt.
 {% endhint %}
 ### Eine Mach-Nachricht
 
-[Hier finden Sie weitere Informationen](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+[Weitere Informationen finden Sie hier](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
 Die `mach_msg`-Funktion, im Wesentlichen ein Systemaufruf, wird zum Senden und Empfangen von Mach-Nachrichten verwendet. Die Funktion erfordert, dass die Nachricht als erstes Argument gesendet wird. Diese Nachricht muss mit einer `mach_msg_header_t`-Struktur beginnen, gefolgt vom eigentlichen Nachrichteninhalt. Die Struktur ist wie folgt definiert:
 ```c
@@ -104,8 +104,8 @@ Das anfängliche Feld **`msgh_bits`** ist eine Bitmap:
 - Das erste Bit (am signifikantesten) wird verwendet, um anzuzeigen, dass eine Nachricht komplex ist (mehr dazu unten).
 - Das 3. und 4. Bit werden vom Kernel verwendet.
 - Die **5 am wenigsten signifikanten Bits des 2. Bytes** können für **Gutschein** verwendet werden: ein weiterer Typ von Port zum Senden von Schlüssel/Wert-Kombinationen.
-- Die **5 am wenigsten signifikanten Bits des 3. Bytes** können für **lokale Ports** verwendet werden.
-- Die **5 am wenigsten signifikanten Bits des 4. Bytes** können für **entfernte Ports** verwendet werden.
+- Die **5 am wenigsten signifikanten Bits des 3. Bytes** können für **lokalen Port** verwendet werden.
+- Die **5 am wenigsten signifikanten Bits des 4. Bytes** können für **entfernten Port** verwendet werden.
 
 Die Typen, die im Gutschein, lokalen und entfernten Ports angegeben werden können, sind (aus [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)):
 ```c
@@ -139,13 +139,13 @@ Die anderen Felder des Nachrichtenkopfs sind:
 Beachten Sie, dass **Mach-Nachrichten über einen `Mach-Port` gesendet werden**, der ein **Kommunikationskanal mit einem einzelnen Empfänger und mehreren Sendern** ist, der in den Mach-Kernel integriert ist. **Mehrere Prozesse** können **Nachrichten an einen Mach-Port senden**, aber zu jedem Zeitpunkt kann nur **ein einzelner Prozess daraus lesen**.
 {% endhint %}
 
-Nachrichten werden dann durch den **`mach_msg_header_t`**-Kopf gefolgt vom **Körper** und vom **Trailer** (falls vorhanden) gebildet und können die Berechtigung erteilen, darauf zu antworten. In diesen Fällen muss der Kernel die Nachricht einfach von einer Aufgabe an die andere weitergeben.
+Nachrichten werden dann durch den **`mach_msg_header_t`**-Kopf gefolgt vom **Körper** und vom **Trailer** (falls vorhanden) gebildet und können die Berechtigung erteilen, darauf zu antworten. In diesen Fällen muss der Kernel die Nachricht nur von einer Aufgabe an die andere weiterleiten.
 
 Ein **Trailer** ist **eine vom Kernel zur Nachricht hinzugefügte Information** (kann nicht vom Benutzer festgelegt werden), die bei der Nachrichtenempfang mit den Flags `MACH_RCV_TRAILER_<trailer_opt>` angefordert werden kann (es gibt verschiedene Informationen, die angefordert werden können).
 
 #### Komplexe Nachrichten
 
-Es gibt jedoch auch andere **komplexere** Nachrichten, wie diejenigen, die zusätzliche Portrechte übergeben oder Speicher teilen, bei denen der Kernel auch diese Objekte an den Empfänger senden muss. In diesen Fällen wird das bedeutendste Bit des Kopfs `msgh_bits` gesetzt.
+Es gibt jedoch auch andere **komplexere** Nachrichten, wie diejenigen, die zusätzliche Portrechte übergeben oder Speicher teilen, bei denen der Kernel auch diese Objekte an den Empfänger senden muss. In diesen Fällen wird das höchstwertige Bit des Kopfs `msgh_bits` gesetzt.
 
 Die möglichen Deskriptoren zum Übergeben sind in [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) definiert:
 ```c
@@ -167,9 +167,9 @@ mach_msg_descriptor_type_t    type : 8;
 In 32-Bit sind alle Deskriptoren 12B groß und der Deskriptortyp befindet sich im 11. Deskriptor. In 64-Bit variieren die Größen.
 
 {% hint style="danger" %}
-Der Kernel kopiert die Deskriptoren von einer Aufgabe zur anderen, erstellt jedoch zuerst eine Kopie im Kernel-Speicher. Diese Technik, bekannt als "Feng Shui", wurde in mehreren Exploits missbraucht, um den Kernel dazu zu bringen, Daten in seinem Speicher zu kopieren, sodass ein Prozess Deskriptoren an sich selbst senden kann. Dann kann der Prozess die Nachrichten empfangen (der Kernel wird sie freigeben).
+Der Kernel kopiert die Deskriptoren von einer Aufgabe zur anderen, erstellt jedoch zuerst eine Kopie im Kernel-Speicher. Diese Technik, bekannt als "Feng Shui", wurde in mehreren Exploits missbraucht, um den Kernel dazu zu bringen, Daten in seinem Speicher zu kopieren und einem Prozess Deskriptoren an sich selbst zu senden. Dann kann der Prozess die Nachrichten empfangen (der Kernel wird sie freigeben).
 
-Es ist auch möglich, Portrechte an einen anfälligen Prozess zu senden, und die Portrechte erscheinen einfach im Prozess (auch wenn er sie nicht verarbeitet).
+Es ist auch möglich, Portrechte an einen anfälligen Prozess zu senden, und die Portrechte werden einfach im Prozess erscheinen (auch wenn er sie nicht verarbeitet).
 {% endhint %}
 
 ### Mac Ports APIs
@@ -177,21 +177,21 @@ Es ist auch möglich, Portrechte an einen anfälligen Prozess zu senden, und die
 Beachten Sie, dass Ports dem Aufgaben-Namespace zugeordnet sind. Um einen Port zu erstellen oder nach einem Port zu suchen, wird auch der Aufgaben-Namespace abgefragt (mehr in `mach/mach_port.h`):
 
 * **`mach_port_allocate` | `mach_port_construct`**: **Erstellt** einen Port.
-* `mach_port_allocate` kann auch ein **Port-Set** erstellen: Empfangsrecht über eine Gruppe von Ports. Immer wenn eine Nachricht empfangen wird, wird der Port angezeigt, von dem sie stammt.
+* `mach_port_allocate` kann auch einen **Port-Satz** erstellen: Empfangsrecht über eine Gruppe von Ports. Immer wenn eine Nachricht empfangen wird, wird der Port angezeigt, von dem sie stammt.
 * `mach_port_allocate_name`: Ändert den Namen des Ports (standardmäßig 32-Bit-Ganzzahl)
 * `mach_port_names`: Portnamen von einem Ziel abrufen
 * `mach_port_type`: Rechte einer Aufgabe über einen Namen abrufen
-* `mach_port_rename`: Einen Port umbenennen (wie dup2 für FDs)
-* `mach_port_allocate`: Einen neuen EMPFANG, PORT_SET oder DEAD_NAME zuweisen
-* `mach_port_insert_right`: Erstellt ein neues Recht in einem Port, in dem Sie EMPFANG haben
+* `mach_port_rename`: Benennt einen Port um (wie dup2 für FDs)
+* `mach_port_allocate`: Einen neuen EMPFANGENEN, PORT_SET oder DEAD_NAME zuweisen
+* `mach_port_insert_right`: Erstellt ein neues Recht in einem Port, in dem Sie EMPFANGEN haben
 * `mach_port_...`
-* **`mach_msg`** | **`mach_msg_overwrite`**: Funktionen zum **Senden und Empfangen von Mach-Nachrichten**. Die Überschreibversion ermöglicht die Angabe eines anderen Puffers für den Nachrichtenempfang (die andere Version wird ihn einfach wiederverwenden).
+* **`mach_msg`** | **`mach_msg_overwrite`**: Funktionen zum **Senden und Empfangen von Mach-Nachrichten**. Die Überschreibversion ermöglicht es, einen anderen Puffer für den Nachrichtenempfang anzugeben (die andere Version wird ihn einfach wiederverwenden).
 
 ### Debug mach\_msg
 
 Da die Funktionen **`mach_msg`** und **`mach_msg_overwrite`** diejenigen sind, die zum Senden und Empfangen von Nachrichten verwendet werden, würde das Setzen eines Haltepunkts auf sie ermöglichen, die gesendeten und empfangenen Nachrichten zu inspizieren.
 
-Starten Sie beispielsweise das Debuggen einer beliebigen Anwendung, die Sie debuggen können, da sie `libSystem.B` laden wird, die diese Funktion verwendet.
+Starten Sie beispielsweise das Debuggen einer beliebigen Anwendung, die Sie debuggen können, da sie `libSystem.B` laden wird, die diese Funktion verwenden wird.
 
 <pre class="language-armasm"><code class="lang-armasm"><strong>(lldb) b mach_msg
 </strong>Haltepunkt 1: wo = libsystem_kernel.dylib`mach_msg, Adresse = 0x00000001803f6c20
@@ -232,7 +232,7 @@ mach_port_name_t rcv_name,
 mach_msg_timeout_t timeout,
 mach_port_name_t notify);
 ```
-Holen Sie die Werte aus den Registern:
+Hole die Werte aus den Registern:
 ```armasm
 reg read $x0 $x1 $x2 $x3 $x4 $x5 $x6
 x0 = 0x0000000124e04ce8 ;mach_msg_header_t (*msg)
@@ -284,9 +284,9 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 +     send        --------        ---            1         <-                                       0x00002603  (74295) passd
 [...]
 ```
-Der **Name** ist der Standardname, der dem Port zugewiesen wird (überprüfen Sie, wie er in den ersten 3 Bytes **ansteigt**). Das **`ipc-object`** ist der **verschleierte** eindeutige **Bezeichner** des Ports.\
-Beachten Sie auch, wie die Ports mit nur dem Recht **`send`** den **Besitzer** davon identifizieren (Portname + PID).\
-Beachten Sie auch die Verwendung von **`+`**, um **andere Aufgaben zu kennzeichnen, die mit demselben Port verbunden sind**.
+Der **Name** ist der Standardname des Ports (überprüfen Sie, wie er in den ersten 3 Bytes **ansteigt**). Das **`ipc-object`** ist der **verschleierte** eindeutige **Bezeichner** des Ports.\
+Beachten Sie auch, wie die Ports mit nur dem Recht zum **Senden** den **Besitzer** identifizieren (Portname + PID).\
+Beachten Sie auch die Verwendung von **`+`**, um **andere mit demselben Port verbundene Aufgaben** anzuzeigen.
 
 Es ist auch möglich, [**procesxp**](https://www.newosxbook.com/tools/procexp.html) zu verwenden, um auch die **registrierten Dienstnamen** anzuzeigen (bei deaktiviertem SIP aufgrund der Notwendigkeit von `com.apple.system-task-port`):
 ```
@@ -296,7 +296,7 @@ Du kannst dieses Tool in iOS installieren, indem du es von [http://newosxbook.co
 
 ### Codebeispiel
 
-Beachte, wie der **Sender** einen Port zuweist, ein **Senderecht** für den Namen `org.darlinghq.example` erstellt und es an den **Bootstrap-Server** sendet, während der Sender nach dem **Senderecht** dieses Namens fragte und es verwendete, um eine **Nachricht zu senden**.
+Beachte, wie der **Sender** einen Port zuweist, ein **Senderecht** für den Namen `org.darlinghq.example` erstellt und es an den **Bootstrap-Server** sendet, während der Sender nach dem **Senderecht** dieses Namens fragte und es verwendete, um **eine Nachricht zu senden**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -367,26 +367,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %} 
-## macOS IPC: Inter-Process Communication
-
-### Introduction
-
-Inter-Process Communication (IPC) is a mechanism that allows processes to communicate and share data with each other. In macOS, IPC can be achieved using various techniques such as Mach ports, XPC services, and shared memory.
-
-### Objective
-
-The objective of this project is to demonstrate how IPC can be abused to escalate privileges on macOS systems.
-
-### Methodology
-
-1. **Mach Ports**: Exploiting vulnerabilities in Mach ports to gain elevated privileges.
-2. **XPC Services**: Abusing XPC services to execute arbitrary code and escalate privileges.
-3. **Shared Memory**: Leveraging shared memory to communicate between processes and potentially escalate privileges.
-
-### Disclaimer
-
-This project is for educational purposes only. Do not attempt to use these techniques for illegal activities.
+{% tab title="sender.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -445,13 +426,13 @@ printf("Sent a message\n");
 
 * **Host-Port**: Wenn ein Prozess das **Senderecht** über diesen Port hat, kann er **Informationen** über das **System** abrufen (z. B. `host_processor_info`).
 * **Host-Privilegien-Port**: Ein Prozess mit dem **Senderecht** über diesen Port kann **privilegierte Aktionen** wie das Laden einer Kernelerweiterung durchführen. Der **Prozess muss root sein**, um diese Berechtigung zu erhalten.
-* Darüber hinaus sind für den Aufruf der **`kext_request`** API weitere Berechtigungen erforderlich, nämlich **`com.apple.private.kext*`**, die nur Apple-Binärdateien erhalten.
-* **Task-Name-Port:** Eine nicht privilegierte Version des _Task-Ports_. Es verweist auf den Task, erlaubt jedoch nicht dessen Steuerung. Das Einzige, was darüber verfügbar zu sein scheint, ist `task_info()`.
+* Darüber hinaus sind für den Aufruf der **`kext_request`**-API weitere Berechtigungen erforderlich, nämlich **`com.apple.private.kext*`**, die nur Apple-Binärdateien erhalten.
+* **Task-Name-Port**: Eine unprivilegierte Version des _Task-Ports_. Er verweist auf den Task, erlaubt jedoch nicht dessen Steuerung. Das Einzige, was darüber verfügbar zu sein scheint, ist `task_info()`.
 * **Task-Port** (auch Kernel-Port)**:** Mit dem Senderecht über diesen Port ist es möglich, den Task zu steuern (Speicher lesen/schreiben, Threads erstellen...).
 * Rufen Sie `mach_task_self()` auf, um den Namen für diesen Port für den Aufrufer-Task zu **erhalten**. Dieser Port wird nur beim **`exec()`** vererbt; ein neuer Task, der mit `fork()` erstellt wird, erhält einen neuen Task-Port (als Sonderfall erhält ein Task auch nach `exec()` in einer suid-Binärdatei einen neuen Task-Port). Der einzige Weg, einen Task zu erstellen und seinen Port zu erhalten, besteht darin, den ["Port-Tausch-Tanz"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) während eines `fork()` durchzuführen.
 * Dies sind die Einschränkungen für den Zugriff auf den Port (aus `macos_task_policy` von der Binärdatei `AppleMobileFileIntegrity`):
-* Wenn die App die **`com.apple.security.get-task-allow`-Berechtigung** hat, können Prozesse desselben Benutzers auf den Task-Port zugreifen (üblicherweise von Xcode für Debugging hinzugefügt). Der **Notarisierungsprozess** erlaubt dies nicht für Produktversionen.
-* Apps mit der Berechtigung **`com.apple.system-task-ports`** können den **Task-Port für jeden** Prozess aufrufen, außer dem Kernel. In älteren Versionen wurde dies **`task_for_pid-allow`** genannt. Dies wird nur Apple-Anwendungen gewährt.
+* Wenn die App die **`com.apple.security.get-task-allow`-Berechtigung** hat, können Prozesse desselben Benutzers auf den Task-Port zugreifen (üblicherweise von Xcode für das Debuggen hinzugefügt). Der **Notarisierungsprozess** erlaubt dies nicht für Produktversionen.
+* Apps mit der Berechtigung **`com.apple.system-task-ports`** können den Task-Port für jeden Prozess außer dem Kernel erhalten. In älteren Versionen wurde dies **`task_for_pid-allow`** genannt. Dies wird nur Apple-Anwendungen gewährt.
 * **Root kann auf Task-Ports** von Anwendungen zugreifen, die nicht mit einer **gehärteten** Laufzeitumgebung kompiliert wurden (und nicht von Apple stammen).
 
 ### Shellcode-Injektion in Thread über Task-Port
@@ -492,39 +473,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="entitlements.plist" %} 
-
-## macOS IPC (Inter-Process Communication)
-
-### macOS IPC Mechanisms
-
-macOS provides several mechanisms for inter-process communication (IPC), including:
-
-- **Mach Messages**: Low-level messaging system used by macOS for IPC.
-- **XPC Services**: Lightweight inter-process communication mechanism.
-- **Distributed Objects**: Allows objects to be used across process boundaries.
-- **NSDistributedNotificationCenter**: For sending notifications between processes.
-- **Apple Events**: Used for scripting and automation.
-
-### IPC Abuse
-
-- **Privilege Escalation**: Attackers can abuse IPC mechanisms to escalate privileges.
-- **Data Exfiltration**: IPC can be used to exfiltrate sensitive data between processes.
-- **Persistence**: Malware can use IPC for establishing persistence on the system.
-
-### Mitigations
-
-To secure macOS IPC mechanisms, consider the following mitigations:
-
-- **Use Code Signing**: Ensure that only trusted code can communicate using IPC.
-- **Implement Sandboxing**: Restrict the capabilities of processes using IPC.
-- **Monitor IPC Calls**: Watch for suspicious IPC activity on the system.
-- **Limit Entitlements**: Only grant necessary entitlements to processes.
-- **Apply Principle of Least Privilege**: Limit processes to the minimum privileges required.
-
-By implementing these mitigations, you can enhance the security of inter-process communication on macOS. 
-
-{% endtab %}
+{% tab title="entitlements.plist" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -747,14 +696,14 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 
 In macOS können **Threads** über **Mach** oder unter Verwendung der **posix `pthread` API** manipuliert werden. Der Thread, den wir bei der vorherigen Injektion generiert haben, wurde mit der Mach-API generiert, daher **ist er nicht posix-konform**.
 
-Es war möglich, einen einfachen Shellcode einzuspeisen, um einen Befehl auszuführen, weil er **nicht mit posix-konformen APIs arbeiten musste**, sondern nur mit Mach. **Komplexere Injektionen** würden erfordern, dass der **Thread** auch **posix-konform** ist.
+Es war möglich, **einen einfachen Shellcode einzuspritzen**, um einen Befehl auszuführen, weil er **nicht mit posix-konformen APIs arbeiten musste**, sondern nur mit Mach. **Komplexere Injektionen** würden benötigen, dass der **Thread** auch **posix-konform** ist.
 
 Daher sollte zur **Verbesserung des Threads** `pthread_create_from_mach_thread` aufgerufen werden, um einen gültigen pthread zu erstellen. Dann könnte dieser neue pthread `dlopen` aufrufen, um eine dylib aus dem System zu laden. Anstatt neuen Shellcode zu schreiben, um verschiedene Aktionen auszuführen, ist es möglich, benutzerdefinierte Bibliotheken zu laden.
 
-Sie können **Beispiel-Dylibs** finden (zum Beispiel eine, die ein Protokoll generiert, dem Sie dann zuhören können):
+Sie können **Beispiel-Dylibs** finden (zum Beispiel diejenige, die ein Protokoll generiert, dem Sie dann zuhören können):
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
 {% endcontent-ref %}
 
 <details>
@@ -994,7 +943,7 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-printf ("Entfernter Stack 64  0x%llx, Entfernter Code ist %p\n", remoteStack64, p );
+printf ("Remote Stack 64  0x%llx, Remote code is %p\n", remoteStack64, p );
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
@@ -1058,7 +1007,9 @@ Für weitere Informationen darüber, wie diese **Kommunikation funktioniert** un
 
 ## MIG - Mach Interface Generator
 
-MIG wurde erstellt, um den **Prozess der Mach IPC**-Codeerstellung zu **vereinfachen**. Es generiert im Grunde den benötigten Code, damit Server und Client gemäß einer bestimmten Definition kommunizieren können. Selbst wenn der generierte Code hässlich ist, muss ein Entwickler ihn nur importieren und sein Code wird viel einfacher sein als zuvor.
+MIG wurde erstellt, um den **Prozess der Mach IPC**-Codeerstellung zu **vereinfachen**. Dies liegt daran, dass bei der Programmierung von RPC viel Arbeit die gleichen Aktionen umfasst (Argumente verpacken, die Nachricht senden, die Daten im Server entpacken...).
+
+MIC generiert im Wesentlichen den benötigten Code, damit Server und Client gemäß einer bestimmten Definition (in IDL - Interface Definition Language) kommunizieren können. Auch wenn der generierte Code hässlich ist, muss ein Entwickler ihn nur importieren und sein Code wird viel einfacher sein als zuvor.
 
 Für weitere Informationen siehe:
 
@@ -1076,11 +1027,11 @@ Für weitere Informationen siehe:
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
