@@ -6,25 +6,25 @@
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
 Αποκτήστε Πρόσβαση Σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
-Στα Windows, μπορείτε να βρείτε το φάκελο του OneDrive στο `\Users\<username>\AppData\Local\Microsoft\OneDrive`. Και μέσα στο `logs\Personal` είναι δυνατόν να βρείτε το αρχείο `SyncDiagnostics.log` το οποίο περιέχει μερικά ενδιαφέροντα δεδομένα σχετικά με τα συγχρονισμένα αρχεία:
+Στα Windows, μπορείτε να βρείτε το φάκελο του OneDrive στο `\Users\<username>\AppData\Local\Microsoft\OneDrive`. Και μέσα στον φάκελο `logs\Personal` είναι δυνατόν να βρείτε το αρχείο `SyncDiagnostics.log` το οποίο περιέχει μερικά ενδιαφέροντα δεδομένα σχετικά με τα συγχρονισμένα αρχεία:
 
 * Μέγεθος σε bytes
 * Ημερομηνία δημιουργίας
@@ -40,15 +40,15 @@
 ## Google Drive
 
 Στα Windows, μπορείτε να βρείτε τον κύριο φάκελο του Google Drive στο `\Users\<username>\AppData\Local\Google\Drive\user_default`\
-Αυτός ο φάκελος περιέχει ένα αρχείο με το όνομα Sync\_log.log με πληροφορίες όπως η διεύθυνση email του λογαριασμού, ονόματα αρχείων, χρονικές σφραγίδες, MD5 hashes των αρχείων, κλπ. Ακόμη, τα διαγραμμένα αρχεία εμφανίζονται σε αυτό το αρχείο καταγραφής με το αντίστοιχο MD5 τους.
+Αυτός ο φάκελος περιέχει ένα αρχείο με το όνομα Sync\_log.log με πληροφορίες όπως η διεύθυνση email του λογαριασμού, ονόματα αρχείων, χρονικά σημεία, MD5 hashes των αρχείων, κλπ. Ακόμα και τα διαγραμμένα αρχεία εμφανίζονται σε αυτό το αρχείο καταγραφής με το αντίστοιχο MD5 τους.
 
-Το αρχείο **`Cloud_graph\Cloud_graph.db`** είναι μια βάση δεδομένων sqlite που περιέχει τον πίνακα **`cloud_graph_entry`**. Σε αυτόν τον πίνακα μπορείτε να βρείτε το **όνομα** των **συγχρονισμένων** **αρχείων**, την τροποποιημένη ώρα, το μέγεθος και το MD5 checksum των αρχείων.
+Το αρχείο **`Cloud_graph\Cloud_graph.db`** είναι μια βάση δεδομένων sqlite που περιέχει τον πίνακα **`cloud_graph_entry`**. Σε αυτόν τον πίνακα μπορείτε να βρείτε το **όνομα** των **συγχρονισμένων** **αρχείων**, την τροποποίηση του χρόνου, το μέγεθος και το MD5 checksum των αρχείων.
 
 Τα δεδομένα του πίνακα της βάσης δεδομένων **`Sync_config.db`** περιέχουν τη διεύθυνση email του λογαριασμού, τη διαδρομή των κοινόχρηστων φακέλων και την έκδοση του Google Drive.
 
 ## Dropbox
 
-Η Dropbox χρησιμοποιεί **SQLite βάσεις δεδομένων** για τη διαχείριση των αρχείων. Σε αυτές\
+Η Dropbox χρησιμοποιεί **βάσεις δεδομένων SQLite** για τη διαχείριση των αρχείων. Σε αυτήν\
 Μπορείτε να βρείτε τις βάσεις δεδομένων στους φακέλους:
 
 * `\Users\<username>\AppData\Local\Dropbox`
@@ -82,9 +82,9 @@
 
 Στη συνέχεια μπορείτε να χρησιμοποιήσετε το εργαλείο [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
-![](<../../../.gitbook/assets/image (448).png>)
+![](<../../../.gitbook/assets/image (443).png>)
 
-Αν όλα πάνε όπως αναμένεται, το εργαλείο θα υποδείξει το **κύριο κλειδί** που χρειάζεστε για να **ανακτήσετε τον αρχικό**. Για να ανακτήσετε τον αρχικό, απλά χρησιμοποιήστε αυτό το [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) βάζοντας το κύριο κλειδί ως "passphrase" μέσα στο receipt.
+Αν όλα πάνε όπως αναμένεται, το εργαλείο θα υποδείξει το **κύριο κλειδί** που χρειάζεστε για να **χρησιμοποιήσετε για την ανάκτηση του αρχικού**. Για να ανακτήσετε τον αρχικό, απλά χρησιμοποιήστε αυτό το [cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) βάζοντας το κύριο κλειδί ως "passphrase" μέσα στο receipt.
 
 Το αποτέλεσμα σε hex είναι το τελικό κλειδί που χρησιμοποιείται για την κρυπτογράφηση των βάσεων δεδομένων τα οποία μπορούν να αποκρυπτογραφηθούν με:
 ```bash
@@ -94,8 +94,8 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 
 * **Email**: Το email του χρήστη
 * **usernamedisplayname**: Το όνομα του χρήστη
-* **dropbox\_path**: Διαδρομή όπου βρίσκεται ο φάκελος του Dropbox
-* **Host\_id: Hash** που χρησιμοποιείται για την ταυτοποίηση στο cloud. Αυτό μπορεί να ανακληθεί μόνο από το web.
+* **dropbox\_path**: Διαδρομή όπου βρίσκεται ο φάκελος του dropbox
+* **Host\_id: Hash** που χρησιμοποιείται για πιστοποίηση στο cloud. Αυτό μπορεί να ανακληθεί μόνο από το web.
 * **Root\_ns**: Αναγνωριστικό χρήστη
 
 Η βάση δεδομένων **`filecache.db`** περιέχει πληροφορίες για όλα τα αρχεία και φακέλους που συγχρονίζονται με το Dropbox. Ο πίνακας `File_journal` είναι αυτός που περιέχει τις περισσότερες χρήσιμες πληροφορίες:
@@ -105,21 +105,21 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 * **local\_mtime**: Ημερομηνία τροποποίησης
 * **local\_ctime**: Ημερομηνία δημιουργίας
 
-Άλλοι πίνακες μέσα σε αυτήν τη βάση δεδομένων περιέχουν περισσότερες ενδιαφέρουσες πληροφορίες:
+Άλλοι πίνακες μέσα σε αυτή τη βάση δεδομένων περιέχουν περισσότερες ενδιαφέρουσες πληροφορίες:
 
 * **block\_cache**: hash όλων των αρχείων και φακέλων του Dropbox
-* **block\_ref**: Σχετίζει το αναγνωριστικό hash του πίνακα `block_cache` με το αναγνωριστικό αρχείου στον πίνακα `file_journal`
-* **mount\_table**: Κοινόχρηστοι φάκελοι του Dropbox
+* **block\_ref**: Σχετίζει το hash ID του πίνακα `block_cache` με το αναγνωριστικό αρχείου στον πίνακα `file_journal`
+* **mount\_table**: Κοινοποιημένοι φάκελοι του Dropbox
 * **deleted\_fields**: Διαγραμμένα αρχεία του Dropbox
 * **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 <details>
 
@@ -130,7 +130,7 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 * Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

