@@ -3,10 +3,10 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilizza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
+Utilizza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della community più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 <details>
 
@@ -18,13 +18,13 @@ Altri modi per supportare HackTricks:
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Kerberoast
 
-Il Kerberoasting si concentra sull'acquisizione di **biglietti TGS**, in particolare quelli relativi ai servizi che operano sotto **account utente** in **Active Directory (AD)**, escludendo gli **account computer**. La crittografia di questi biglietti utilizza chiavi che derivano dalle **password degli utenti**, consentendo la possibilità di **craccare le credenziali offline**. L'uso di un account utente come servizio è indicato da una proprietà non vuota di **"ServicePrincipalName"**.
+Il Kerberoasting si concentra sull'acquisizione di **biglietti TGS**, in particolare quelli relativi ai servizi che operano sotto **account utente** in **Active Directory (AD)**, escludendo gli **account computer**. La crittografia di questi biglietti utilizza chiavi che derivano dalle **password degli utenti**, consentendo la possibilità di **craccare le credenziali offline**. L'uso di un account utente come servizio è indicato da una proprietà **"ServicePrincipalName"** non vuota.
 
 Per eseguire il **Kerberoasting**, è essenziale un account di dominio in grado di richiedere i **biglietti TGS**; tuttavia, questo processo non richiede **privilegi speciali**, rendendolo accessibile a chiunque abbia **credenziali di dominio valide**.
 
@@ -67,7 +67,7 @@ setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Tecnica 1: Richiedi il TGS e scaricalo dalla memoria**
+* **Tecnica 1: Richiedere il TGS e scaricarlo dalla memoria**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -110,10 +110,10 @@ Quando viene richiesto un TGS, viene generato l'evento di Windows `4769 - È sta
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità **più avanzati al mondo**.\
+Utilizza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) per creare facilmente e **automatizzare flussi di lavoro** supportati dagli strumenti della comunità più avanzati al mondo.\
 Ottieni l'accesso oggi:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 ### Cracking
 ```bash
@@ -127,7 +127,7 @@ Se hai **abbastanza autorizzazioni** su un utente, puoi **renderlo kerberoastabl
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-Puoi trovare **strumenti** utili per gli attacchi di **kerberoast** qui: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+Puoi trovare **strumenti** utili per gli attacchi **kerberoast** qui: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
 Se riscontri questo **errore** da Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** è a causa dell'ora locale, è necessario sincronizzare l'host con il DC. Ci sono alcune opzioni:
 
@@ -136,7 +136,7 @@ Se riscontri questo **errore** da Linux: **`Kerberos SessionError: KRB_AP_ERR_SK
 
 ### Mitigazione
 
-Il Kerberoasting può essere condotto con un alto grado di furtività se è sfruttabile. Per rilevare questa attività, è necessario prestare attenzione all'**Evento di Sicurezza ID 4769**, che indica che è stata richiesta un ticket Kerberos. Tuttavia, a causa dell'alta frequenza di questo evento, devono essere applicati filtri specifici per isolare attività sospette:
+Il Kerberoasting può essere condotto con un alto grado di furtività se è sfruttabile. Per rilevare questa attività, è necessario prestare attenzione all'**ID evento di sicurezza 4769**, che indica che è stata richiesta un ticket Kerberos. Tuttavia, a causa dell'alta frequenza di questo evento, è necessario applicare filtri specifici per isolare attività sospette:
 
 * Il nome del servizio non dovrebbe essere **krbtgt**, poiché si tratta di una richiesta normale.
 * I nomi dei servizi che terminano con **$** dovrebbero essere esclusi per evitare di includere account macchina utilizzati per i servizi.
@@ -183,12 +183,12 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
 * Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
+* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
@@ -198,7 +198,7 @@ Altri modi per supportare HackTricks:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli **strumenti comunitari più avanzati** al mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) per creare e **automatizzare facilmente flussi di lavoro** supportati dagli **strumenti della community più avanzati al mondo**.\
 Ottieni l'accesso oggi:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
