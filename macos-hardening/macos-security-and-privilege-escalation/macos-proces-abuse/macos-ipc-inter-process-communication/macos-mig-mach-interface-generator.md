@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
 * Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -22,11 +22,11 @@ La definizione è specificata nel Linguaggio di Definizione dell'Interfaccia (ID
 
 Queste definizioni hanno 5 sezioni:
 
-* **Dichiarazione del sottosistema**: La parola chiave sottosistema viene utilizzata per indicare il **nome** e l'**id**. È anche possibile contrassegnarlo come **`KernelServer`** se il server deve essere eseguito nel kernel.
+* **Dichiarazione del sottosistema**: La parola chiave sottosistema viene utilizzata per indicare il **nome** e l'**ID**. È anche possibile contrassegnarlo come **`KernelServer`** se il server deve essere eseguito nel kernel.
 * **Inclusioni e importazioni**: MIG utilizza il C-preprocessore, quindi è in grado di utilizzare le importazioni. Inoltre, è possibile utilizzare `uimport` e `simport` per il codice generato dall'utente o dal server.
-* **Dichiarazioni di tipo**: È possibile definire tipi di dati anche se di solito importerà `mach_types.defs` e `std_types.defs`. Per quelli personalizzati si può utilizzare una sintassi come:
-* \[i`n/out]tran`: Funzione che deve essere tradotta da un messaggio in ingresso o in un messaggio in uscita
-* `c[user/server]type`: Mappatura ad un altro tipo C.
+* **Dichiarazioni di tipo**: È possibile definire tipi di dati anche se di solito importerà `mach_types.defs` e `std_types.defs`. Per quelli personalizzati si può utilizzare una certa sintassi:
+* \[i`n/out]tran`: Funzione che deve essere tradotta da un messaggio in ingresso o verso un messaggio in uscita
+* `c[user/server]type`: Mappatura verso un altro tipo C.
 * `destructor`: Chiama questa funzione quando il tipo viene rilasciato.
 * **Operazioni**: Queste sono le definizioni dei metodi RPC. Ci sono 5 tipi diversi:
 * `routine`: Si aspetta una risposta
@@ -64,7 +64,12 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Saranno creati diversi nuovi file nella directory corrente.
 
-Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che fondamentalmente definisce la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
+{% hint style="success" %}
+Puoi trovare un esempio più complesso nel tuo sistema con: `mdfind mach_port.defs`\
+E puoi compilarlo dalla stessa cartella del file con: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+{% endhint %}
+
+Nei file **`myipcServer.c`** e **`myipcServer.h`** puoi trovare la dichiarazione e la definizione della struttura **`SERVERPREFmyipc_subsystem`**, che definisce essenzialmente la funzione da chiamare in base all'ID del messaggio ricevuto (abbiamo indicato un numero iniziale di 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -87,31 +92,17 @@ myipc_server_routine,
 
 {% tab title="myipcServer.h" %} 
 
-### macOS MIG (Mach Interface Generator)
+### macOS IPC: Generatore di Interfacce MIG (Mach Interface Generator)
 
-Il Generatore di Interfacce Mach (MIG) è uno strumento utilizzato per semplificare la comunicazione tra processi in macOS. Viene utilizzato per generare codice C per la comunicazione tra processi utilizzando le interfacce definite in un file .defs.
+Il Generatore di Interfacce MIG (Mach Interface Generator) è uno strumento utilizzato per semplificare lo sviluppo di applicazioni che utilizzano la comunicazione tramite IPC (Inter-Process Communication) su macOS. Con MIG, è possibile definire interfacce di messaggi in un file di specifica e generare automaticamente il codice sorgente necessario per la comunicazione tra processi.
 
-Ecco un esempio di file .defs per un server MIG:
+#### Vantaggi di MIG:
 
-```c
-#include <mach/mach_types.h>
+- **Riduzione degli errori**: MIG gestisce la serializzazione e la deserializzazione dei messaggi, riducendo il rischio di errori di programmazione.
+- **Efficienza**: MIG genera codice ottimizzato per la comunicazione tra processi, garantendo prestazioni elevate.
+- **Facilità di sviluppo**: Definire interfacce di messaggi tramite MIG semplifica lo sviluppo di applicazioni complesse che richiedono IPC.
 
-routine my_ipc_routine {
-    mach_msg_header_t Head;
-    mach_msg_type_t Type;
-    int Data;
-} -> {
-    mach_msg_header_t Head;
-    mach_msg_type_t Type;
-    int Data;
-};
-```
-
-In questo esempio, `my_ipc_routine` è una routine definita che specifica la struttura dei messaggi scambiati tra i processi. Quando si compila il file .defs con MIG, verrà generato del codice C che può essere utilizzato per implementare la comunicazione tra processi utilizzando le routine definite.
-
-Il codice generato da MIG semplifica notevolmente l'implementazione della comunicazione tra processi in macOS, consentendo ai programmatori di concentrarsi sulla logica dell'applicazione anziché sulla gestione dei dettagli di basso livello della comunicazione tra processi. 
-
-Utilizzando MIG in modo corretto, è possibile migliorare la sicurezza e prevenire potenziali vulnerabilità legate alla comunicazione tra processi. 
+Utilizzando il Generatore di Interfacce MIG, è possibile migliorare la sicurezza e l'affidabilità delle applicazioni che dipendono dalla comunicazione tra processi su macOS. 
 
 {% endtab %}
 ```c
@@ -144,9 +135,11 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Nell'esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
+In questo esempio abbiamo definito solo 1 funzione nelle definizioni, ma se avessimo definito più funzioni, sarebbero state all'interno dell'array di **`SERVERPREFmyipc_subsystem`** e la prima sarebbe stata assegnata all'ID **500**, la seconda all'ID **501**...
 
-In realtà è possibile identificare questa relazione nella struttura **`subsystem_to_name_map_myipc`** da **`myipcServer.h`**:
+Se ci si aspettasse che la funzione inviasse una **risposta**, esisterebbe anche la funzione `mig_internal kern_return_t __MIG_check__Reply__<name>`.
+
+Attualmente è possibile identificare questa relazione nella struttura **`subsystem_to_name_map_myipc`** da **`myipcServer.h`** (**`subsystem_to_name_map_***`** in altri file):
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -187,9 +180,9 @@ return FALSE;
 }
 </code></pre>
 
-Controlla le righe precedentemente evidenziate accedendo alla funzione da chiamare tramite ID.
+Controlla le linee precedentemente evidenziate accedendo alla funzione da chiamare tramite ID.
 
-Di seguito è riportato il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
+Il seguente è il codice per creare un semplice **server** e **client** in cui il client può chiamare le funzioni Sottrai dal server:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -225,7 +218,21 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}
+{% tab title="myipc_client.c" %} 
+
+### macOS IPC: Inter-Process Communication
+
+#### macOS MIG (Mach Interface Generator)
+
+Il Generatore di Interfacce Mach (MIG) è uno strumento utilizzato per semplificare lo sviluppo di IPC su macOS. Con MIG, è possibile definire interfacce di messaggistica tra processi e generare automaticamente il codice necessario per la comunicazione tra di essi. Questo semplifica notevolmente lo sviluppo di applicazioni che richiedono la comunicazione tra processi su macOS. 
+
+MIG traduce le dichiarazioni di funzioni in file di intestazione in codice sorgente C che gestisce la comunicazione IPC tra i processi. Questo processo di generazione di codice consente agli sviluppatori di concentrarsi sulla logica dell'applicazione senza doversi preoccupare dei dettagli di basso livello dell'IPC su macOS. 
+
+Utilizzando MIG, è possibile definire le interfacce IPC in un file di specifica e generare automaticamente il coddi sorgente C necessario per implementare tali interfacce. Questo rende più efficiente lo sviluppo di applicazioni che sfruttano l'IPC su macOS, consentendo agli sviluppatori di concentrarsi sulla funzionalità dell'applicazione piuttosto che sulla gestione della comunicazione tra processi. 
+
+In sintesi, macOS MIG è uno strumento potente per semplificare lo sviluppo di IPC su macOS, consentendo agli sviluppatori di creare applicazioni più complesse e funzionali che richiedono la comunicazione tra processi. 
+
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -253,15 +260,33 @@ USERPREFSubtract(port, 40, 2);
 {% endtab %}
 {% endtabs %}
 
-### Analisi Binaria
+### Il record NDR
 
-Poiché molti binari utilizzano ora MIG per esporre le porte mach, è interessante sapere come **identificare che è stato utilizzato MIG** e le **funzioni che MIG esegue** con ciascun ID messaggio.
+Il record NDR è esportato da `libsystem_kernel.dylib` ed è una struttura che consente a MIG di **trasformare i dati in modo che siano agnostici del sistema** in cui vengono utilizzati poiché MIG è stato pensato per essere utilizzato tra sistemi diversi (e non solo sulla stessa macchina).
+
+Questo è interessante perché se `_NDR_record` viene trovato in un binario come dipendenza (`jtool2 -S <binary> | grep NDR` o `nm`), significa che il binario è un cliente o un server MIG.
+
+Inoltre, i **server MIG** hanno la tabella di dispatch in `__DATA.__const` (o in `__CONST.__constdata` nel kernel macOS e `__DATA_CONST.__const` in altri kernel \*OS). Questo può essere dumpato con **`jtool2`**.
+
+E i **client MIG** utilizzeranno il `__NDR_record` per inviare con `__mach_msg` ai server.
+
+## Analisi del Binario
+
+### jtool
+
+Poiché molti binari ora utilizzano MIG per esporre le porte mach, è interessante sapere come **identificare l'uso di MIG** e le **funzioni che MIG esegue** con ciascun ID del messaggio.
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) può analizzare le informazioni MIG da un binario Mach-O indicando l'ID del messaggio e identificando la funzione da eseguire:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si hanno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato** poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
+Inoltre, le funzioni MIG sono solo wrapper della funzione effettiva che viene chiamata, il che significa che ottenendo il suo disassemblaggio e cercando BL potresti essere in grado di trovare la funzione effettivamente chiamata:
+```bash
+jtool2 -d __DATA.__const myipc_server | grep BL
+```
+### Assembly
+
+È stato precedentemente menzionato che la funzione che si occuperà di **chiamare la funzione corretta a seconda dell'ID del messaggio ricevuto** era `myipc_server`. Tuttavia, di solito non si avranno i simboli del binario (nessun nome di funzione), quindi è interessante **controllare come appare decompilato** poiché sarà sempre molto simile (il codice di questa funzione è indipendente dalle funzioni esposte):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
@@ -382,24 +407,31 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Attualmente, se si accede alla funzione **`0x100004000`**, si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui la **funzione** è implementata, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamato:
+Attualmente, se si accede alla funzione **`0x100004000`**, si troverà l'array di strutture **`routine_descriptor`**. Il primo elemento della struttura è l'**indirizzo** in cui la **funzione** è implementata, e la **struttura occupa 0x28 byte**, quindi ogni 0x28 byte (a partire dal byte 0) è possibile ottenere 8 byte e quello sarà l'**indirizzo della funzione** che verrà chiamata:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Questi dati possono essere estratti [**utilizzando questo script di Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+### Debug
+
+Il codice generato da MIG chiama anche `kernel_debug` per generare log sulle operazioni in ingresso e in uscita. È possibile controllarli usando **`trace`** o **`kdv`**: `kdv all | grep MIG`
+
+## References
+
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
 
 Altri modi per supportare HackTricks:
 
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
+* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
 * Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) **e a** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repository di Github.**
+* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
