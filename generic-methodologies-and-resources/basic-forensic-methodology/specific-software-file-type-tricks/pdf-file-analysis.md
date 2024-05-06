@@ -7,7 +7,7 @@
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
@@ -17,10 +17,10 @@
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进**的社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=pdf-file-analysis)可以轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pdf-file-analysis" %}
 
 **有关更多详细信息，请查看：** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
@@ -35,7 +35,7 @@ PDF格式以其复杂性和隐藏数据的潜力而闻名，因此成为CTF取�
 * 图像后面的文本或重叠的图像
 * 未显示的注释
 
-对于自定义PDF分析，可以使用Python库如[PeepDF](https://github.com/jesparza/peepdf)来编写定制的解析脚本。此外，PDF隐藏数据存储的潜力是如此巨大，以至于像NSA关于PDF风险和对策的指南等资源，尽管不再托管在原始位置，仍然提供有价值的见解。[指南的副本](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)和Ange Albertini的[PDF格式技巧](https://github.com/corkami/docs/blob/master/PDF/PDF.md)收集可以提供更多关于这一主题的阅读。 
+对于自定义PDF分析，可以使用Python库如[PeepDF](https://github.com/jesparza/peepdf)来编写定制的解析脚本。此外，PDF隐藏数据存储的潜力是如此巨大，以至于像NSA关于PDF风险和对策的指南等资源，尽管不再托管在原始位置，仍然提供有价值的见解。[指南的副本](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)和Ange Albertini的[PDF格式技巧](https://github.com/corkami/docs/blob/master/PDF/PDF.md)收集可以进一步阅读有关该主题的内容。
 
 <details>
 
@@ -44,7 +44,7 @@ PDF格式以其复杂性和隐藏数据的潜力而闻名，因此成为CTF取�
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。

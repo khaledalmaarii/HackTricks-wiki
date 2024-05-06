@@ -3,18 +3,18 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建和 **自动化工作流程**，利用世界上 **最先进** 的社区工具。\
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) 来轻松构建和 **自动化工作流程**，利用世界上 **最先进** 的社区工具。\
 立即获取访问权限：
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的公司广告或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想看到您的 **公司在 HackTricks 中做广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
@@ -24,7 +24,7 @@
 
 ## **访问控制列表（ACL）**
 
-访问控制列表（ACL）由一组有序的访问控制条目（ACE）组成，规定了对象及其属性的保护措施。实质上，ACL 定义了哪些安全主体（用户或组）在给定对象上被允许或拒绝执行哪些操作。
+访问控制列表（ACL）由一组有序的访问控制条目（ACEs）组成，规定了对象及其属性的保护措施。实质上，ACL 定义了哪些安全主体（用户或组）对给定对象具有允许或拒绝的操作权限。
 
 有两种类型的 ACL：
 
@@ -42,17 +42,17 @@
 
 每个用户会话都与包含与该会话相关的安全信息的访问令牌相关联，包括用户、组标识和特权。此令牌还包括一个登录 SID，用于唯一标识会话。
 
-本地安全性机构（LSASS）通过检查 DACL 中与试图访问的安全主体匹配的 ACE 来处理对对象的访问请求。如果未找到相关 ACE，则立即授予访问权限。否则，LSASS 将 ACE 与访问令牌中的安全主体 SID 进行比较，以确定访问资格。
+本地安全性机构（LSASS）通过检查 DACL 中与尝试访问的安全主体匹配的 ACE 来处理对对象的访问请求。如果未找到相关 ACE，则立即授予访问权限。否则，LSASS 将 ACE 与访问令牌中的安全主体 SID 进行比较，以确定访问资格。
 
 ### **总结的过程**
 
 * **ACL：** 通过 DACL 定义访问权限，通过 SACL 定义审计规则。
 * **访问令牌：** 包含会话的用户、组和特权信息。
-* **访问决策：** 通过将 DACL ACE 与访问令牌进行比较来进行；SACL 用于审计。
+* **访问决策：** 通过将 DACL ACE 与访问令牌进行比较来做出决策；SACL 用于审计。
 
 ### ACEs
 
-有 **三种主要类型的访问控制条目（ACE）**：
+有 **三种主要类型的访问控制条目（ACEs）**：
 
 * **拒绝访问 ACE：** 此 ACE 明确拒绝指定用户或组对对象的访问（在 DACL 中）。
 * **允许访问 ACE：** 此 ACE 明确授予指定用户或组对对象的访问权限（在 DACL 中）。
@@ -60,20 +60,20 @@
 
 每个 ACE 都有 **四个关键组件**：
 
-1. 用户或组的 **安全标识符（SID）**（或其主体名称在图形表示中）。
-2. 识别 ACE 类型的 **标志**（拒绝访问、允许访问或系统审计）。
-3. 确定子对象是否可以从其父对象继承 ACE 的 **继承标志**。
+1. 用户或组的 **安全标识符（SID）**（或在图形表示中的主体名称）。
+2. 一个标识 ACE 类型的 **标志**（拒绝访问、允许访问或系统审计）。
+3. 决定子对象是否可以从其父对象继承 ACE 的 **继承标志**。
 4. 一个 [**访问掩码**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，指定对象授予的权限。
 
 访问决策是通过顺序检查每个 ACE 进行的，直到：
 
 * **拒绝访问 ACE** 明确拒绝访问令牌中的受托人请求的权限。
-* **允许访问 ACE** 明确授予访问令牌中的受托人所有请求的权限。
+* **允许访问 ACE** 明确向访问令牌中的受托人授予所有请求的权限。
 * 在检查所有 ACE 后，如果任何请求的权限 **未被明确允许**，则将隐式 **拒绝** 访问。
 
 ### ACE 的顺序
 
-将 **ACE**（规定谁可以访问或不能访问某物的规则）放在称为 **DACL** 的列表中的方式非常重要。这是因为一旦系统根据这些规则给予或拒绝访问权限，它就会停止查看其余内容。
+将 **ACEs**（规定谁可以访问或不能访问某物的规则）放在称为 **DACL** 的列表中的方式非常重要。这是因为一旦系统基于这些规则给予或拒绝访问权限，它就不再查看其余部分。
 
 有一种最佳组织这些 ACE 的方法，称为 **“规范顺序”**。这种方法有助于确保一切运行顺畅和公平。对于像 **Windows 2000** 和 **Windows Server 2003** 这样的系统，操作如下：
 
@@ -84,7 +84,7 @@
 这种设置有两个重要作用：
 
 * 确保如果有一个特定的 **“不”**，它将被尊重，无论其他 **“是”** 规则如何。
-* 在任何来自父文件夹或更远处的规则生效之前，让项目的所有者有 **最终决定权**。
+* 在任何来自父文件夹或更远处的规则生效之前，让项目的所有者有最终决定权，确保谁可以进入。
 
 通过这种方式，文件或文件夹的所有者可以非常精确地确定谁可以访问，确保正确的人可以进入，错误的人则不能。
 
@@ -115,7 +115,7 @@
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/editseprincipalpointers1.jpg](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-最后我们在审核选项卡中有SACL：
+最后，我们在审核选项卡中有SACL：
 
 ![http://secureidentity.se/wp-content/uploads/2014/04/audit-tab.jpg](../../.gitbook/assets/audit-tab.jpg)
 
@@ -125,7 +125,7 @@
 
 #### 拒绝特定组的访问
 
-假设您有一个名为Cost的文件夹，并且希望所有人都可以访问它，除了市场团队。通过正确设置规则，我们可以确保在允许其他人访问之前，明确拒绝市场团队的访问。这是通过在允许所有人访问的规则之前放置拒绝市场团队访问的规则来实现的。
+想象一下您有一个名为Cost的文件夹，您希望所有人都可以访问它，除了市场团队。通过正确设置规则，我们可以确保在允许其他人访问之前，明确拒绝市场团队的访问。这是通过在允许所有人访问的规则之前放置拒绝市场团队访问的规则来实现的。
 
 #### 允许拒绝组的特定成员访问
 
@@ -135,17 +135,17 @@
 
 ACE是ACL中的个别规则。它们标识用户或组，指定允许或拒绝的访问权限，并确定这些规则如何应用于子项（继承）。有两种主要类型的ACE：
 
-* **通用ACE**：这些广泛适用，影响所有类型的对象或仅区分容器（如文件夹）和非容器（如文件）。例如，允许用户查看文件夹内容但不允许访问其中的文件的规则。
-* **特定对象ACE**：这些提供更精确的控制，允许为特定类型的对象或甚至对象内的个别属性设置规则。例如，在用户目录中，一条规则可能允许用户更新其电话号码但不允许更新登录时间。
+- **通用ACE**：这些广泛适用，影响所有类型的对象或仅区分容器（如文件夹）和非容器（如文件）。例如，允许用户查看文件夹内容但不允许访问其中文件的规则。
+- **特定对象ACE**：这些提供更精确的控制，允许为特定类型的对象或甚至对象内的个别属性设置规则。例如，在用户目录中，规则可能允许用户更新其电话号码但不允许更改登录时间。
 
 每个ACE包含重要信息，如规则适用于谁（使用安全标识符或SID）、规则允许或拒绝什么（使用访问掩码）以及如何被其他对象继承。
 
 #### ACE类型之间的关键区别
 
-* **通用ACE**适用于简单的访问控制场景，其中相同规则适用于对象的所有方面或容器内的所有对象。
-* **特定对象ACE**用于更复杂的场景，特别是在像Active Directory这样的环境中，您可能需要以不同方式控制对对象特定属性的访问。
+- **通用ACE**适用于简单的访问控制场景，其中相同规则适用于对象的所有方面或容器内的所有对象。
+- **特定对象ACE**用于更复杂的场景，特别是在像Active Directory这样的环境中，您可能需要以不同方式控制对对象特定属性的访问。
 
-总之，ACL和ACE有助于定义精确的访问控制，确保只有正确的个人或组可以访问敏感信息或资源，并且可以将访问权限调整到个别属性或对象类型的级别。
+总之，ACL和ACE有助于定义精确的访问控制，确保只有正确的个人或组可以访问敏感信息或资源，并能够将访问权限调整到个别属性或对象类型的级别。
 
 ### 访问控制条目布局
 
@@ -154,7 +154,7 @@ ACE是ACL中的个别规则。它们标识用户或组，指定允许或拒绝�
 | 类型        | 指示ACE类型的标志。Windows 2000和Windows Server 2003支持六种ACE类型：附加到所有可保护对象的三种通用ACE类型。可能出现在Active Directory对象中的三种特定对象ACE类型。                                                                                                                                                                                                                                                            |
 | 标志       | 控制继承和审核的一组位标志。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | 大小        | 为ACE分配的内存字节数。                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 访问掩码 | 32位值，其位对应于对象的访问权限。位可以设置为开或关，但设置的含义取决于ACE类型。例如，如果对应于读取权限的位被打开，并且ACE类型为拒绝，则ACE拒绝读取对象的权限。如果相同位被设置为打开，但ACE类型为允许，则ACE授予读取对象权限。访问掩码的更多细节见下表。 |
+| 访问掩码 | 32位值，其位对应于对象的访问权限。位可以设置为开或关，但设置的含义取决于ACE类型。例如，如果对应于读取权限的位被打开，并且ACE类型为拒绝，则ACE拒绝读取对象权限。如果相同位被设置为开，但ACE类型为允许，则ACE授予读取对象权限。访问掩码的更多细节见下表。 |
 | SID         | 标识由此ACE控制或监视其访问的用户或组。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### 访问掩码布局
