@@ -6,7 +6,7 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,18 +16,18 @@ Njia nyingine za kusaidia HackTricks:
 
 ## Taarifa Msingi
 
-MIG iliundwa ili **kurahisisha mchakato wa uundaji wa nambari ya Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa seva na mteja ili kuwasiliana na ufafanuzi uliotolewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza na nambari yake itakuwa rahisi sana kuliko hapo awali.
+MIG iliundwa ili **kurahisisha mchakato wa uundaji wa nambari ya Mach IPC**. Kimsingi **inazalisha nambari inayohitajika** kwa server na mteja kuingiliana na ufafanuzi uliopewa. Hata kama nambari iliyozalishwa ni mbaya, mwandishi wa programu atahitaji tu kuagiza na nambari yake itakuwa rahisi sana kuliko hapo awali.
 
 Ufafanuzi unatajwa katika Lugha ya Ufafanuzi wa Interface (IDL) kwa kutumia kielelezo cha `.defs`.
 
 Ufafanuzi huu una sehemu 5:
 
-* **Tangazo la Subsystem**: Neno kuu la mfumo hutumiwa kuonyesha **jina** na **id**. Pia inawezekana kuashiria kama **`KernelServer`** ikiwa seva inapaswa kukimbia katika kernel.
-* **Unganisho na uagizaji**: MIG hutumia C-prepocessor, hivyo inaweza kutumia uagizaji. Zaidi ya hayo, inawezekana kutumia `uimport` na `simport` kwa nambari iliyoundwa na mtumiaji au seva.
+* **Tangazo la Subsystem**: Neno kuu la mfumo hutumiwa kuonyesha **jina** na **id**. Pia inawezekana kuashiria kama **`KernelServer`** ikiwa server inapaswa kukimbia katika kernel.
+* **Unganisho na uagizaji**: MIG hutumia C-prepocessor, hivyo inaweza kutumia uagizaji. Zaidi ya hayo, inawezekana kutumia `uimport` na `simport` kwa nambari iliyoundwa na mtumiaji au server.
 * **Tangazo la Aina**: Inawezekana kufafanua aina za data ingawa kawaida itaagiza `mach_types.defs` na `std_types.defs`. Kwa zile za desturi, sintaksia fulani inaweza kutumika:
 * \[i`n/out]tran`: Kazi inayohitaji kutafsiriwa kutoka ujumbe unaokuja au kwenda
 * `c[user/server]type`: Kufanana na aina nyingine ya C.
-* `destructor`: Italeta kazi hii wakati aina inapotolewa.
+* `destructor`: Italeta kazi hii wakati aina inaachiliwa.
 * **Operesheni**: Hizi ni ufafanuzi wa njia za RPC. Kuna aina 5 tofauti:
 * `routine`: Inatarajia jibu
 * `simpleroutine`: Haina kutarajia jibu
@@ -56,15 +56,20 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Tambua kwamba **hoja ya kwanza ni bandari ya kufunga** na MIG ita **kushughulikia bandari ya majibu kiotomatiki** (isipokuwa kuita `mig_get_reply_port()` katika msimbo wa mteja). Zaidi ya hayo, **Kitambulisho cha shughuli** itakuwa **ya mfululizo** ikitoka kwa Kitambulisho cha mfumo ulioonyeshwa (kwa hivyo ikiwa shughuli imepitwa na wakati inafutwa na `skip` hutumiwa bado kutumia Kitambulisho chake).
+Tafadhali kumbuka kwamba **hoja ya kwanza ni bandari ya kufunga** na MIG ita **kushughulikia bandari ya majibu kiotomatiki** (isipokuwa kuita `mig_get_reply_port()` katika msimbo wa mteja). Zaidi ya hayo, **Kitambulisho cha shughuli** itakuwa **ya mfululizo** ikitoka kwa Kitambulisho cha mfumo ulioonyeshwa (kwa hivyo ikiwa shughuli imepitwa na wakati inafutwa na `skip` hutumiwa bado kutumia Kitambulisho chake).
 
-Sasa tumia MIG kuzalisha msimbo wa seva na mteja ambao utaweza kuwasiliana ndani yao wenyewe ili kuita kazi ya Kutoa:
+Sasa tumia MIG kuzalisha msimbo wa seva na mteja ambao utaweza kuingiliana kati yao kuita kazi ya Kutoa:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Kadhaa za faili mpya zitaundwa kwenye saraka ya sasa.
+Zitafunguliwa faili kadhaa mpya katika saraka ya sasa.
 
-Katika faili **`myipcServer.c`** na **`myipcServer.h`** unaweza kupata tamko na ufafanuzi wa muundo **`SERVERPREFmyipc_subsystem`**, ambao kimsingi unafafanua kazi ya kuita kulingana na kitambulisho cha ujumbe uliopokelewa (tulitaja nambari ya kuanzia 500):
+{% hint style="success" %}
+Unaweza kupata mfano wenye utata zaidi kwenye mfumo wako kwa: `mdfind mach_port.defs`\
+Na unaweza kuikusanya kutoka kwenye saraka ile ile kama faili na: `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+{% endhint %}
+
+Katika faili za **`myipcServer.c`** na **`myipcServer.h`** unaweza kupata tangazo na ufafanuzi wa muundo wa **`SERVERPREFmyipc_subsystem`**, ambao kimsingi unafafanua kazi ya kuita kulingana na kitambulisho cha ujumbe uliopokelewa (tulitaja nambari ya kuanzia 500):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -89,7 +94,7 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-MIG is a tool used to define inter-process communication on macOS systems. It generates client-server communication code based on the interfaces defined in a .defs file. This allows processes to communicate with each other using messages.
+MIG is a tool used to define inter-process communication on macOS systems. It generates client-server code for message-based communication between processes. By defining interfaces in a .defs file, MIG creates the necessary code for message handling, allowing processes to communicate with each other.
 
 #### Example:
 
@@ -101,9 +106,9 @@ MIG is a tool used to define inter-process communication on macOS systems. It ge
 kern_return_t myipc_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
 ```
 
-In this example, `myipc_server` is the function that will be called when a message is received by the server. The `InHeadP` parameter contains the incoming message, and the `OutHeadP` parameter is used to construct the outgoing message.
+In this example, `myipc_server` is the function that handles incoming messages from clients. It processes the messages and generates appropriate responses.
 
-MIG simplifies the task of implementing inter-process communication and is commonly used in macOS security research and development. 
+MIG simplifies the development of inter-process communication mechanisms on macOS, making it easier to implement secure and efficient communication between processes. 
 
 {% endtab %}
 ```c
@@ -136,16 +141,18 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Katika mfano huu tumetaja tu kazi 1 katika ufafanuzi, lakini ikiwa tungesema kazi zaidi, zingekuwa ndani ya safu ya **`SERVERPREFmyipc_subsystem`** na ya kwanza ingepewa kitambulisho cha **500**, ya pili kitambulisho cha **501**...
+Katika mfano huu tumetaja tu kazi 1 katika ufafanuzi, lakini kama tungelitaja kazi zaidi, zingelikuwa ndani ya safu ya **`SERVERPREFmyipc_subsystem`** na ya kwanza ingelipewa ID **500**, ya pili ID **501**...
 
-Kwa kweli ni rahisi kutambua uhusiano huu katika muundo wa **`subsystem_to_name_map_myipc`** kutoka **`myipcServer.h`**:
+Ikiwa kazi ilikuwa inatarajiwa kutuma **jibu** kazi `mig_internal kern_return_t __MIG_check__Reply__<jina>` pia ingekuwepo.
+
+Kwa kweli ni rahisi kutambua uhusiano huu katika muundo wa **`subsystem_to_name_map_myipc`** kutoka **`myipcServer.h`** (**`subsystem_to_name_map_***`** katika faili nyingine):
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Hatimaye, kazi nyingine muhimu ya kufanya server ifanye kazi itakuwa **`myipc_server`**, ambayo ndiyo itakayoitisha **function** inayohusiana na id iliyopokelewa:
+Hatimaye, kazi nyingine muhimu ya kufanya server ifanye kazi itakuwa **`myipc_server`**, ambayo ndiyo itakayoitisha **kazi inayohusiana** na kitambulisho kilichopokelewa:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -179,9 +186,9 @@ return FALSE;
 }
 </code></pre>
 
-Angalia mistari iliyotangazwa hapo awali ikifikia function ya kuita kwa ID.
+Angalia mistari iliyotangazwa hapo awali inayofikia kazi ya kuita kwa kutumia kitambulisho.
 
-Katika sehemu ifuatayo ni nambari ya kuunda **server** na **client** rahisi ambapo client anaweza kuita functions Subtract kutoka kwa server:
+Msimu ufuatao ni nambari ya kuunda **server** na **mteja** ambapo mteja anaweza kuita kazi ya kutoa kutoka kwa server:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -218,9 +225,32 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 {% endtab %}
 
 {% tab title="myipc_client.c" %} 
+
 ### Mteja wa IPC yangu
 
-Hii ni programu ya mteja ambayo inatumia MIG kufanya mawasiliano na mchakato wa mwenyeji. Inaweza kutumika kama mfano wa jinsi ya kutumia MIG kwenye programu yako ya MacOS. 
+Hii ni programu ndogo ya mteja ambayo inatumia interface ya MIG kufanya mawasiliano na mchakato wa mwenyeji. 
+
+```c
+#include <stdio.h>
+#include <servers/bootstrap.h>
+#include "myipc.h"
+
+int main() {
+    ipc_port_t port;
+    kern_return_t kr;
+
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc", &port);
+    if (kr != KERN_SUCCESS) {
+        printf("Hitilafu wakati wa kutafuta mchakato wa mwenyeji: %s\n", mach_error_string(kr));
+        return 1;
+    }
+
+    myipc_ping(port);
+
+    return 0;
+}
+```
+
 {% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
@@ -246,18 +276,39 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-### Uchambuzi wa Binary
+{% endtab %}
+{% endtabs %}
 
-Kwa kuwa binaries nyingi sasa hutumia MIG kuonyesha mach ports, ni muhimu kujua jinsi ya **kutambua kwamba MIG ilitumika** na **kazi ambazo MIG inatekeleza** kwa kila kitambulisho cha ujumbe.
+### Rekodi ya NDR
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) inaweza kuchambua habari za MIG kutoka kwa binary ya Mach-O ikionyesha kitambulisho cha ujumbe na kutambua kazi ya kutekeleza:
+Rekodi ya NDR inaagizwa na `libsystem_kernel.dylib`, na ni muundo wa data ambao huruhusu MIG **kubadilisha data ili iwe haina upendeleo kwa mfumo** inayotumiwa kwani MIG ilikusudiwa kutumiwa kati ya mifumo tofauti (na siyo tu kwenye mashine moja).
+
+Hii ni ya kuvutia kwa sababu ikiwa `_NDR_record` inapatikana kwenye binary kama tegemezi (`jtool2 -S <binary> | grep NDR` au `nm`), inamaanisha kuwa binary ni mteja au Seva wa MIG.
+
+Zaidi ya hayo **Seva za MIG** zina meza ya kutuma katika `__DATA.__const` (au katika `__CONST.__constdata` kwenye kernel ya macOS na `__DATA_CONST.__const` kwenye kernel nyingine za \*OS). Hii inaweza kudakuliwa na **`jtool2`**.
+
+Na **Wateja wa MIG** watatumia `__NDR_record` kutuma kwa kutumia `__mach_msg` kwa seva.
+
+## Uchambuzi wa Binary
+
+### jtool
+
+Kwa kuwa binaries nyingi sasa hutumia MIG kuweka wazi bandari za mach, ni ya kuvutia kujua jinsi ya **kutambua kuwa MIG ilitumika** na **kazi ambazo MIG inatekeleza** na kila kitambulisho cha ujumbe.
+
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) inaweza kuchambua habari ya MIG kutoka kwa binary ya Mach-O ikionyesha kitambulisho cha ujumbe na kutambua kazi ya kutekelezwa:
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Ilitajwa hapo awali kwamba kazi itakayoshughulikia **wito wa kazi sahihi kulingana na kitambulisho cha ujumbe uliopokelewa** ilikuwa `myipc_server`. Walakini, kwa kawaida hautakuwa na alama za binary (majina ya kazi), kwa hivyo ni muhimu **kuangalia jinsi inavyoonekana baada ya kudecompile** kwani itakuwa sawa sana (msimbo wa kazi hii ni huru kutoka kwa kazi zilizofunuliwa):
+Zaidi ya hayo, kazi za MIG ni tu vifungashio vya kazi halisi inayoitwa, maana yake ni kwamba kupata uchambuzi wake na kutafuta BL unaweza kupata kazi halisi inayoitwa:
+```bash
+jtool2 -d __DATA.__const myipc_server | grep BL
+```
+### Utoaji wa Pamoja
+
+Ilitajwa hapo awali kwamba kazi itakayoshughulikia **wito wa kazi sahihi kulingana na kitambulisho cha ujumbe uliopokelewa** ilikuwa `myipc_server`. Walakini, kawaida hautakuwa na alama za binary (hakuna majina ya kazi), kwa hivyo ni muhimu kuchunguza jinsi inavyoonekana baada ya kudecompile kwani itakuwa sawa sana (msimbo wa kazi hii ni huru kutoka kwa kazi zilizofunuliwa):
 
 {% tabs %}
-{% tab title="myipc_server decompiled 1" %}
+{% tab title="myipc_server kudecompile 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -270,13 +321,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Wito wa sign_extend_64 ambao unaweza kusaidia kutambua kazi hii
-// Hii inahifadhi katika rax pointer kwa wito unahitaji kuitwa
+// Wito kwa sign_extend_64 inayoweza kusaidia kutambua kazi hii
+// Hii inahifadhi rax kwa pointer kwa wito unahitaji kuitwa
 // Angalia matumizi ya anwani 0x100004040 (array ya anwani za kazi)
 // 0x1f4 = 500 (ID ya kuanzia)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, ikiwa if inarudi uongo, wakati else inaita kazi sahihi na kurudi kweli
+// Ikiwa - vinginevyo, ikiwa inarudi uwongo, wakati vinginevyo inaita kazi sahihi na inarudi kweli
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -299,8 +350,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server decompiled 2" %}
-Hii ni kazi sawa iliyodecompilewa kwenye toleo tofauti la Hopper bure:
+{% tab title="myipc_server kudecompile 2" %}
+Hii ni kazi sawa iliyodecompile kwenye toleo tofauti la Hopper bure:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -343,7 +394,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// If else sawa na toleo lililopita
+// Ile ile if else kama katika toleo lililopita
 // Angalia matumizi ya anwani 0x100004040 (array ya anwani za kazi)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -351,7 +402,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// Wito kwenye anwani iliyohesabiwa ambapo kazi inapaswa kuwa
+// Wito kwa anwani iliyohesabiwa ambapo kazi inapaswa kuwa
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -375,13 +426,31 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Kwa kweli ikiwa unakwenda kwenye kazi **`0x100004000`** utapata safu ya **muundo wa maelekezo** ya kazi. Elementi ya kwanza ya muundo ni **anwani** ambapo **kazi** imefanywa, na **muundo unachukua 0x28 bytes**, kwa hivyo kila 0x28 bytes (kuanzia byte 0) unaweza kupata 8 bytes na hiyo itakuwa **anwani ya kazi** itakayoitwa:
+Kwa kweli ikiwa unakwenda kwenye kazi **`0x100004000`** utapata safu ya **muundo wa maelezo ya kazi**. Elementi ya kwanza ya muundo ni **anwani** ambapo **kazi** imefanywa, na **muundo unachukua bytes 0x28**, kwa hivyo kila 0x28 bytes (kuanzia byte 0) unaweza kupata bytes 8 na hiyo itakuwa **anwani ya kazi** itakayoitwa:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
-Data hii inaweza kuchimbuliwa [**kwa kutumia script ya Hopper hii**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+Data hii inaweza kuchimbuliwa [**kwa kutumia skripti hii ya Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
+### Kurekebisha
+
+Msimbo uliotengenezwa na MIG pia huita `kernel_debug` ili kuzalisha machapisho kuhusu shughuli za kuingia na kutoka. Inawezekana kuzikagua kwa kutumia **`trace`** au **`kdv`**: `kdv all | grep MIG`
+
+## Marejeo
+
+* [\*OS Internals, Kijitabu cha Kwanza, Mode ya Mtumiaji, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+<details>
+
+<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+
+Njia nyingine za kusaidia HackTricks:
+
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
