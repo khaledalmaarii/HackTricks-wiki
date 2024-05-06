@@ -3,18 +3,18 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiese werksvloei** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Vandag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) om maklik en **outomatiese werksvloei** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Toegang Vandag:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking van niks tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -51,11 +51,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Verdagte inligting
 
-Terwyl jy die basiese inligting verkry, moet jy vir vreemde dinge soos die volgende nagaan:
+Terwyl jy die basiese inligting verkry, moet jy vir vreemde dinge soos die volgende ondersoek:
 
-- **Rootprosesse** hardloop gewoonlik met lae PIDS, so as jy 'n rootproses met 'n groot PID vind, kan jy dit verdenk
-- Kyk na **geregistreerde aanmeldings** van gebruikers sonder 'n skaal binne `/etc/passwd`
-- Kyk vir **wagwoordhasings** binne `/etc/shadow` vir gebruikers sonder 'n skaal
+- **Rootprosesse** hardloop gewoonlik met lae PIDS, so as jy 'n rootproses met 'n groot PID vind, kan jy vermoed
+- Kontroleer **geregistreerde aanmeldings** van gebruikers sonder 'n skaal binne `/etc/passwd`
+- Kontroleer vir **wagwoordhasies** binne `/etc/shadow` vir gebruikers sonder 'n skaal
 
 ### Geheue-afvoer
 
@@ -67,7 +67,7 @@ Onthou dat jy **LiME of enige ander ding nie kan installeer** op die slagoffer s
 {% endhint %}
 
 Dus, as jy 'n identiese weergawe van Ubuntu het, kan jy `apt-get install lime-forensics-dkms` gebruik\
-In ander gevalle moet jy [**LiME**](https://github.com/504ensicsLabs/LiME) van github aflaai en dit kompileer met die regte kernelkoppe. Om die **presiese kernelkoppe** van die slagoffer se masjien te verkry, kan jy net die gids `/lib/modules/<kernel weergawe>` na jou masjien kopieer, en dan LiME daarmee **kompileer**:
+In ander gevalle moet jy [**LiME**](https://github.com/504ensicsLabs/LiME) van github aflaai en dit kompileer met die korrekte kernelkoppe. Om die **presiese kernelkoppe** van die slagoffer se masjien te verkry, kan jy net die gids `/lib/modules/<kernel weergawe>` na jou masjien kopieer, en dan LiME daarmee **kompileer**:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -85,11 +85,11 @@ LiME kan ook gebruik word om die storting via die netwerk te **stuur** in plaas 
 #### Afskakel
 
 Eerstens, sal jy die stelsel moet **afskakel**. Dit is nie altyd 'n opsie nie aangesien die stelsel soms 'n produksieserver sal wees wat die maatskappy nie kan bekostig om af te skakel nie.\
-Daar is **2 maniere** om die stelsel af te skakel, 'n **normale afskakeling** en 'n **"trek die prop" afskakeling**. Die eerste een sal die **prosesse toelaat om soos gewoonlik te beëindig** en die **lêersisteem** om **gesinkroniseer** te word, maar dit sal ook die moontlike **malware** toelaat om **bewyse te vernietig**. Die "trek die prop" benadering mag 'n **bietjie inligtingsverlies** meebring (nie baie van die inligting gaan verlore gaan aangesien ons reeds 'n beeld van die geheue geneem het nie) en die **malware sal nie enige geleentheid hê** om iets daaraan te doen nie. Daarom, as jy **vermoed** dat daar 'n **malware** mag wees, voer net die **`sync`** **bevel** op die stelsel uit en trek die prop uit.
+Daar is **2 maniere** om die stelsel af te skakel, 'n **normale afskakeling** en 'n **"trek die prop" afskakeling**. Die eerste een sal die **prosesse toelaat om soos gewoonlik te beëindig** en die **lêersisteem** om **gesinkroniseer** te word, maar dit sal ook die moontlike **malware** toelaat om **bewyse te vernietig**. Die "trek die prop" benadering mag 'n bietjie **inligtingverlies** meebring (nie baie van die inligting gaan verlore gaan aangesien ons reeds 'n beeld van die geheue geneem het nie) en die **malware sal nie enige geleentheid hê** om iets daaraan te doen nie. Daarom, as jy **vermoed** dat daar 'n **malware** mag wees, voer net die **`sync`** **bevel** op die stelsel uit en trek die prop uit.
 
-#### Neem 'n beeld van die skyf
+#### 'n Beeld van die skyf neem
 
-Dit is belangrik om te let dat **voordat jy jou rekenaar aan iets wat met die saak verband hou, koppel**, moet jy seker maak dat dit as **alleen lees** gemonteer gaan word om te verhoed dat enige inligting gewysig word.
+Dit is belangrik om te let dat **voordat jy jou rekenaar aan iets wat met die saak verband hou, koppel**, moet jy seker maak dat dit as slegs lees **gekoppel** gaan word om te verhoed dat enige inligting gewysig word.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -100,7 +100,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Skijfafbeelding voor-ontleding
 
-Beeld 'n skijfafbeelding met geen verdere data nie.
+Beeldvorming van 'n skyfafbeelding met geen verdere data nie.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -156,10 +156,10 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Toegang Vandag:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Soek na bekende Malware
 
@@ -180,12 +180,12 @@ Lees die volgende bladsy om meer te leer oor gereedskap wat nuttig kan wees om m
 
 ## Soek geïnstalleerde programme
 
-Om doeltreffend te soek na geïnstalleerde programme op beide Debian- en RedHat-stelsels, oorweeg om stelsellogboeke en databasisse saam met handmatige kontroles in algemene gids te gebruik.
+Om doeltreffend te soek na geïnstalleerde programme op beide Debian- en RedHat-stelsels, oorweeg om stelsellogs en databasisse te benut saam met handmatige kontroles in algemene gidsies.
 
 * Vir Debian, ondersoek _**`/var/lib/dpkg/status`**_ en _**`/var/log/dpkg.log`**_ om besonderhede oor pakketaanvullings te kry, gebruik `grep` om te filter vir spesifieke inligting.
 * RedHat-gebruikers kan die RPM-databasis ondersoek met `rpm -qa --root=/mntpath/var/lib/rpm` om geïnstalleerde pakkette te lys.
 
-Om sagteware wat handmatig geïnstalleer is of buite hierdie pakketbestuurders geïnstalleer is, te ontdek, ondersoek gids soos _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, en _**`/sbin`**_. Kombineer gidslêers met stelselspesifieke opdragte om uitvoerbare lêers te identifiseer wat nie met bekende pakkette geassosieer word nie, wat jou soektog na alle geïnstalleerde programme verbeter.
+Om sagteware wat handmatig geïnstalleer is of buite hierdie pakketsbestuurders geïnstalleer is, te ontdek, verken gidsies soos _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, en _**`/sbin`**_. Kombineer gidslysings met stelselspesifieke opdragte om uitvoerbare lêers te identifiseer wat nie verband hou met bekende pakkette nie, wat jou soektog na alle geïnstalleerde programme verbeter.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,12 +204,12 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik werkstrome te bou en te outomatiseer wat aangedryf word deur die wêreld se mees gevorderde gemeenskapsinstrumente.\
-Kry Vandag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) om maklik en **outomatiseer werkafvloei** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Herstel Verwyderde Uitgevoerde Binêre Lêers
+## Herstel Verwyderde Lopende Binêre Lêers
 
 Stel jou voor 'n proses wat uitgevoer is vanaf /tmp/exec en toe verwyder is. Dit is moontlik om dit te onttrek
 ```bash
@@ -271,7 +271,7 @@ Linux-stelsels hou gebruikersaktiwiteite en stelselgebeure dop deur verskeie log
 - **/var/log/auth.log** (Debian) of **/var/log/secure** (RedHat): Neem outentiseringspogings, suksesvolle en mislukte aanmeldings op.
 - Gebruik `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` om relevante outentiseringsgebeure te filter.
 - **/var/log/boot.log**: Bevat stelselbeginboodskappe.
-- **/var/log/maillog** of **/var/log/mail.log**: Log e-posdiensaktiwiteite, nuttig vir die opsporing van e-posverwante dienste.
+- **/var/log/maillog** of **/var/log/mail.log**: Log e-posbedieneraktiwiteite, nuttig vir die opsporing van e-posverwante dienste.
 - **/var/log/kern.log**: Berg kernelboodskappe op, insluitend foute en waarskuwings.
 - **/var/log/dmesg**: Hou toestelbestuurderboodskappe vas.
 - **/var/log/faillog**: Neem mislukte aanmeldingspogings op, wat help met veiligheidskrisisondersoeke.
@@ -301,8 +301,8 @@ Kontroleer lêers wat ekstra regte kan verleen:
 
 - Ondersoek `/etc/sudoers` vir onverwagte gebruikersregte wat moontlik toegeken is.
 - Ondersoek `/etc/sudoers.d/` vir onverwagte gebruikersregte wat moontlik toegeken is.
-- Ondersoek `/etc/groups` om enige ongewone groepslidmaatskappe of -toestemmings te identifiseer.
-- Ondersoek `/etc/passwd` om enige ongewone groepslidmaatskappe of -toestemmings te identifiseer.
+- Ondersoek `/etc/groups` om enige ongewone groeplidmaatskappe of -regte te identifiseer.
+- Ondersoek `/etc/passwd` om enige ongewone groeplidmaatskappe of -regte te identifiseer.
 
 Sommige programme genereer ook hul eie logboeke:
 
@@ -310,7 +310,7 @@ Sommige programme genereer ook hul eie logboeke:
 - **Gnome Desktop**: Kyk na _\~/.recently-used.xbel_ vir onlangs benaderde lêers via Gnome-toepassings.
 - **Firefox/Chrome**: Kontroleer blaaiergeskiedenis en aflaaie in _\~/.mozilla/firefox_ of _\~/.config/google-chrome_ vir verdagte aktiwiteite.
 - **VIM**: Ondersoek _\~/.viminfo_ vir gebruiksdetails, soos benaderde lêerpaadjies en soekgeskiedenis.
-- **Open Office**: Kontroleer vir onlangse dokumenttoegang wat gekompromitteerde lêers kan aandui.
+- **Open Office**: Kontroleer vir onlangse dokumenttoegang wat dui op gekompromitteerde lêers.
 - **FTP/SFTP**: Ondersoek logboeke in _\~/.ftp\_history_ of _\~/.sftp\_history_ vir lêeroordragte wat moontlik ongemagtig is.
 - **MySQL**: Ondersoek _\~/.mysql\_history_ vir uitgevoerde MySQL-navrae, wat moontlik ongemagtigde databasisaktiwiteite kan onthul.
 - **Less**: Analiseer _\~/.lesshst_ vir gebruiksgeskiedenis, insluitend besigtigde lêers en uitgevoerde opdragte.
@@ -340,10 +340,10 @@ Meer voorbeelde en inligting binne die github: [https://github.com/snovvcrash/us
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** aangedryf deur die wêreld se **mees gevorderde** gemeenskaplike gereedskap.\
-Kry Toegang Vandag:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskaplike gereedskap.\
+Kry Vandaag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Oorsig van Gebruikersrekeninge en Aanmeldaktiwiteite
 
@@ -355,18 +355,18 @@ Laastens, soek na rekeninge met **geen wagwoorde** of **maklik gerade** wagwoord
 
 ### Analise van Lêersisteemstrukture in Malware-ondersoek
 
-Wanneer malware-voorvalle ondersoek word, is die struktuur van die lêersisteem 'n belangrike bron van inligting, wat beide die volgorde van gebeure en die inhoud van die malware onthul. Tog ontwikkel malware-skrywers tegnieke om hierdie analise te bemoeilik, soos die wysiging van lêer-timestamps of die vermyding van die lêersisteem vir data-opberging.
+Wanneer malware-voorvalle ondersoek word, is die struktuur van die lêersisteem 'n belangrike bron van inligting, wat beide die volgorde van gebeure en die inhoud van die malware onthul. Tog ontwikkel malware-skrywers tegnieke om hierdie analise te bemoeilik, soos die wysiging van lêer tydstempels of die vermyding van die lêersisteem vir data berging.
 
 Om hierdie teen-forensiese metodes te teenwerk, is dit noodsaaklik om:
 
-* **Voer 'n deeglike tydlyn-analise uit** met behulp van gereedskap soos **Autopsy** om gebeurtenistydraamwerke te visualiseer of **Sleuth Kit's** `mactime` vir gedetailleerde tydlyn-data.
+* **Voer 'n deeglike tydlyn-analise uit** met behulp van gereedskap soos **Autopsy** om gebeurtenis tydlyne te visualiseer of **Sleuth Kit's** `mactime` vir gedetailleerde tydlyn data.
 * **Ondersoek onverwagte skripte** in die stelsel se $PATH, wat dalk skul of PHP-skripte insluit wat deur aanvallers gebruik word.
-* **Ondersoek `/dev` vir atipiese lêers**, aangesien dit tradisioneel spesiale lêers bevat, maar moontlik malware-verwante lêers kan huisves.
+* **Ondersoek `/dev` vir atipiese lêers**, aangesien dit tradisioneel spesiale lêers bevat, maar moontlik malware-verwante lêers kan bevat.
 * **Soek na verskuilde lêers of gidsname** met name soos ".. " (dot dot spatie) of "..^G" (dot dot control-G), wat skadelike inhoud kan verberg.
-* **Identifiseer setuid-root-lêers** met die opdrag: `find / -user root -perm -04000 -print` Dit vind lêers met verhoogde regte wat deur aanvallers misbruik kan word.
-* **Ondersoek verwyderingstimestamps** in inode-tabelle om massiewe lêerverwyderings op te spoor, moontlik duiend op die teenwoordigheid van rootkits of trojane.
-* **Inspekteer opeenvolgende inodes** vir nabygeleë skadelike lêers nadat een geïdentifiseer is, aangesien hulle saam geplaas kon wees.
-* **Kontroleer algemene binêre gids** (_/bin_, _/sbin_) vir onlangs gewysigde lêers, aangesien hierdie deur malware verander kan word.
+* **Identifiseer setuid-root lêers** deur die opdrag te gebruik: `find / -user root -perm -04000 -print` Dit vind lêers met verhoogde regte wat deur aanvallers misbruik kan word.
+* **Ondersoek verwyderingstydstempels** in inode-tabelle om massiewe lêerverwyderings op te spoor, moontlik duiend op die teenwoordigheid van rootkits of trojane.
+* **Inspekteer aaneenlopende inodes** vir nabygeleë skadelike lêers nadat een geïdentifiseer is, aangesien hulle saam geplaas kon wees.
+* **Kontroleer algemene binêre gidsname** (_/bin_, _/sbin_) vir onlangs gewysigde lêers, aangesien hierdie deur malware verander kan word.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -375,7 +375,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Let daarop dat 'n **aanvaller** die **tyd** kan **verander** om **lêers te laat voorkom** asof hulle **wettig** is, maar hy **kan nie** die **inode** verander nie. As jy vind dat 'n **lêer** aandui dat dit geskep en verander is op dieselfde **tyd** as die res van die lêers in dieselfde vouer, maar die **inode** is **onverwags groter**, dan is die **tydmerke van daardie lêer verander**.
+Let daarop dat 'n **aanvaller** die **tyd** kan **verander** om **lêers te laat voorkom** asof hulle **wettig** is, maar hy kan nie die **inode** verander nie. As jy vind dat 'n **lêer** aandui dat dit geskep en verander is op dieselfde **tyd** as die res van die lêers in dieselfde vouer, maar die **inode** is **onverwags groter**, dan is die **tydmerke van daardie lêer verander**.
 {% endhint %}
 
 ## Vergelyk lêers van verskillende lêersisteemweergawes
@@ -392,7 +392,7 @@ git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-* **Om uitgevee lêers op te spoor**:
+* **Om uitgeveërde lêers op te spoor**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
@@ -416,11 +416,11 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+Werk jy in 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
@@ -431,7 +431,7 @@ Werk jy by 'n **cybersekerheidsmaatskappy**? Wil jy jou **maatskappy geadverteer
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou en outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) om maklik te bou en **outomatiseer werkstrome** aangedryf deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
 Kry Vandag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

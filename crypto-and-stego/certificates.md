@@ -8,7 +8,7 @@ Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
@@ -17,10 +17,10 @@ Ander maniere om HackTricks te ondersteun:
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomaties** te laat hardloop met die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
+Kry Vandaag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 ## Wat is 'n Sertifikaat
 
@@ -35,13 +35,13 @@ Sertifikate word meestal uitgereik deur [sertifikaatowerhede](https://en.wikiped
 In x509 sertifikate speel verskeie **velde** kritieke rolle om die sertifikaat se geldigheid en sekuriteit te verseker. Hier is 'n uiteensetting van hierdie velde:
 
 * Die **Weergawe Nommer** dui die weergawe van die x509-formaat aan.
-* Die **Serienommer** identifiseer die sertifikaat uniek binne 'n Sertifikaatowerheid se (CA) stelsel, hoofsaaklik vir herroepingopsporing.
+* Die **Serienommer** identifiseer die sertifikaat uniek binne 'n Sertifikaatowerheid se (CA) stelsel, hoofsaaklik vir herroepingstracking.
 * Die **Onderwerp** veld verteenwoordig die sertifikaat se eienaar, wat 'n masjien, 'n individu, of 'n organisasie kan wees. Dit sluit gedetailleerde identifikasie in soos:
 * **Gemeenskaplike Naam (CN)**: Domeine wat deur die sertifikaat gedek word.
 * **Land (C)**, **Lokaliteit (L)**, **Staat of Provinsie (ST, S, of P)**, **Organisasie (O)**, en **Organisasie-eenheid (OU)** verskaf geografiese en organisatoriese besonderhede.
 * **Onderskeidingsnaam (DN)** omvat die volledige onderwerpidentifikasie.
-* **Uitreiker** besonderhede van wie die sertifikaat geverifieer en onderteken het, insluitend soortgelyke subvelde as die Onderwerp vir die CA.
-* **Geldigheidsperiode** word gemerk deur **Nie Voor Nie** en **Nie Na Nie** tydmerke, wat verseker dat die sertifikaat nie voor of na 'n sekere datum gebruik word nie.
+* Die **Uitreiker** besonderhede van wie die sertifikaat geverifieer en onderteken het, insluitend soortgelyke subvelde as die Onderwerp vir die CA.
+* Die **Geldigheidsperiode** word gemerk deur **Nie Voor Nie** en **Nie Na Nie** tydstempels, wat verseker dat die sertifikaat nie voor of na 'n sekere datum gebruik word nie.
 * Die **Openbare Sleutel** afdeling, krities vir die sertifikaat se sekuriteit, spesifiseer die algoritme, grootte, en ander tegniese besonderhede van die openbare sleutel.
 * **x509v3-uitbreidings** verbeter die sertifikaat se funksionaliteit, spesifiseer **Sleutelgebruik**, **Uitgebreide Sleutelgebruik**, **Onderwerp Alternatiewe Naam**, en ander eienskappe om die sertifikaat se toepassing fynaf te stem.
 
@@ -51,8 +51,8 @@ In x509 sertifikate speel verskeie **velde** kritieke rolle om die sertifikaat s
 * **Uitgebreide Sleutelgebruik** versmalle verder die sertifikaat se gebruike, bv. vir TLS-bedienerverifikasie.
 * **Onderwerp Alternatiewe Naam** en **Basiese Beperking** definieer addisionele gasheernaam wat deur die sertifikaat gedek word en of dit 'n CA- of eindentiteit-sertifikaat is, onderskeidelik.
 * Identifiseerders soos **Onderwerp Sleutelidentifiseerder** en **Uitreiker Sleutelidentifiseerder** verseker uniekheid en naspeurbaarheid van sleutels.
-* **Uitreikerinligtings Toegang** en **CRL Verspreidingspunte** bied paaie om die uitreikende CA te verifieer en sertifikaat-herroepingsstatus te kontroleer.
-* **CT Voor-sertifikaat SCT's** bied deursigtigheidslogs, krities vir openbare vertroue in die sertifikaat.
+* **Uitreikerinligtings Toegang** en **CRL Verspreidingspunte** bied paaie om die uitreikende CA te verifieer en sertifikaatherroepingsstatus te kontroleer.
+* **CT Voor-sertifikaat SCT's** bied deursigtigheidslêers, krities vir openbare vertroue in die sertifikaat.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -76,7 +76,7 @@ print(f"Public Key: {public_key}")
 ```
 ### **Verskil tussen OCSP en CRL-verspreidingspunte**
 
-**OCSP** (**RFC 2560**) behels 'n kliënt en 'n reageerder wat saamwerk om te kontroleer of 'n digitale openbare sleutel-sertifikaat herroep is, sonder om die volle **CRL** af te laai. Hierdie metode is doeltreffender as die tradisionele **CRL**, wat 'n lys van herroepingsertifikaat serienommers verskaf, maar vereis die aflaai van 'n moontlik groot lêer. CRL's kan tot 512 inskrywings insluit. Meer besonderhede is beskikbaar [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) behels 'n kliënt en 'n reageerder wat saamwerk om te kontroleer of 'n digitale openbare-sleutel sertifikaat herroep is, sonder om die volle **CRL** af te laai. Hierdie metode is doeltreffender as die tradisionele **CRL**, wat 'n lys van herroepingsertifikaat serienommers verskaf, maar vereis die aflaai van 'n moontlik groot lêer. CRL's kan tot 512 inskrywings insluit. Meer besonderhede is beskikbaar [hier](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **Wat is Sertifikaatdeursigtigheid**
 
@@ -84,11 +84,11 @@ Sertifikaatdeursigtigheid help om sertifikaatverwante bedreigings te bekamp deur
 
 * Voorkoming dat CA's SSL-sertifikate vir 'n domein uitreik sonder die domeineienaar se wete.
 * Daarstel van 'n oop ouditeringstelsel vir die opsporing van per abuis of booswillig uitgereikte sertifikate.
-* Beskerming van gebruikers teen bedrieglike sertifikate.
+* Beskerming van gebruikers teen valse sertifikate.
 
 #### **Sertifikaatlogs**
 
-Sertifikaatlogs is openlik ouditeerbare, net byvoegbare rekords van sertifikate, onderhou deur netwerkdienste. Hierdie logs verskaf kriptografiese bewyse vir ouditeringsdoeleindes. Uitreikingsowerhede en die publiek kan sertifikate na hierdie logs indien of dit vir verifikasie ondervra. Alhoewel die presiese aantal logbedieners nie vas is nie, word verwag dat dit wêreldwyd minder as duisend sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belanghebbende entiteit.
+Sertifikaatlogs is openlik ouditeerbare, net-byvoegbare rekords van sertifikate, onderhou deur netwerkdienste. Hierdie logs verskaf kriptografiese bewyse vir ouditeringsdoeleindes. Uitreikingsowerhede en die publiek kan sertifikate na hierdie logs indien of dit vir verifikasie ondervra. Alhoewel die presiese aantal logbedieners nie vas is nie, word verwag dat dit wêreldwyd minder as duisend sal wees. Hierdie bedieners kan onafhanklik bestuur word deur CA's, ISP's, of enige belanghebbende entiteit.
 
 #### **Ondersoek**
 
@@ -150,7 +150,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
 **PFX-omskakelings** is noodsaaklik vir die bestuur van sertifikate op Windows:
 
-- **PFX na PEM**
+* **PFX na PEM**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
@@ -177,21 +177,21 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Toegang Vandag:
+Gebruik [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) om maklik en **outomatiese werksvloei** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandaag Toegang:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
 * As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
