@@ -14,7 +14,26 @@ Ander maniere om HackTricks te ondersteun:
 
 </details>
 
-MIG is geskep om die proses van Mach IPC-kode-skepping te **vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en klient om met 'n gegewe definisie te kommunikeer. Selfs al is die gegenereerde kode lelik, 'n ontwikkelaar sal dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+## Basiese Inligting
+
+MIG is geskep om die proses van Mach IPC-kode-skepping te **vereenvoudig**. Dit genereer basies die benodigde kode vir die bediener en klient om met 'n gegewe definisie te kommunikeer. Selfs as die gegenereerde kode lelik is, sal 'n ontwikkelaar dit net hoef in te voer en sy kode sal baie eenvoudiger wees as voorheen.
+
+Die definisie word gespesifiseer in die Interface Definisie Taal (IDL) deur die gebruik van die `.defs`-uitbreiding.
+
+Hierdie definisies het 5 afdelings:
+
+* **Onderstelselverklaring**: Die sleutelwoord onderstelsel word gebruik om die **naam** en die **id** aan te dui. Dit is ook moontlik om dit as **`KernelServer`** te merk as die bediener in die kernel moet loop.
+* **Insleepsels en invoere**: MIG gebruik die C-preprosessor, sodat dit invoere kan gebruik. Daarbenewens is dit moontlik om `uimport` en `simport` te gebruik vir gebruiker- of bediener gegenereerde kode.
+* **Tipeverklarings**: Dit is moontlik om datatipes te definieer, alhoewel dit gewoonlik `mach_types.defs` en `std_types.defs` sal invoer. Vir aangepaste tipes kan 'n paar sintaks gebruik word:
+* \[i`n/out]tran`: Funksie wat van 'n inkomende of na 'n uitgaande boodskap vertaal moet word
+* `c[user/server]type`: Koppeling na 'n ander C-tipe.
+* `destructor`: Roep hierdie funksie aan wanneer die tipe vrygestel word.
+* **Operasies**: Dit is die definisies van die RPC-metodes. Daar is 5 verskillende tipes:
+* `routine`: Verwag antwoord
+* `simpleroutine`: Verwag nie antwoord nie
+* `procedure`: Verwag antwoord
+* `simpleprocedure`: Verwag nie antwoord nie
+* `function`: Verwag antwoord
 
 ### Voorbeeld
 
@@ -37,13 +56,15 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Gebruik nou mig om die bediener- en klientkode te genereer wat binne mekaar kan kommunikeer om die Aftrek-funksie aan te roep:
+Merk op dat die eerste **argument die poort is om te bind** en MIG sal **outomaties die antwoordpoort hanteer** (tensy `mig_get_reply_port()` geroep word in die kliëntkode). Verder sal die **ID van die operasies** **opeenvolgend** wees beginnende by die aangeduide subsisteem-ID (so as 'n operasie verouderd is, word dit verwyder en `skip` word gebruik om steeds sy ID te gebruik).
+
+Gebruik MIG nou om die bediener- en kliëntkode te genereer wat binne mekaar kan kommunikeer om die Aftrek-funksie te roep:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Verskeie nuwe lêers sal geskep word in die huidige gids.
 
-In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die deklarasie en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangende boodskap-ID (ons het 'n beginnommer van 500 aangedui):
+In die lêers **`myipcServer.c`** en **`myipcServer.h`** kan jy die deklarasie en definisie van die struktuur **`SERVERPREFmyipc_subsystem`** vind, wat basies die funksie definieer om te roep gebaseer op die ontvangsboodskap-ID (ons het 'n beginnommer van 500 aangedui):
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -67,35 +88,25 @@ myipc_server_routine,
 {% tab title="myipcServer.h" %}  
 ### macOS MIG (Mach Interface Generator)
 
-Mach Interface Generator (MIG) is a tool used to define inter-process communication (IPC) for macOS. It generates client-server communication code based on the definitions provided in .defs files.
+Mach Interface Generator (MIG) is a tool used to define inter-process communication (IPC) for macOS. It generates client and server-side code for message-based IPC. MIG is commonly used in macOS kernel programming for defining system calls and handling IPC between user-space and kernel-space.
 
-#### Example:
-
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_port_t server_port);
-```
-
-In the example above, `myipcServer.h` is the header file that contains the MIG-generated server code for the IPC communication.
-
-### macOS MIG (Mach Interface Generator)
-
-Mach Interface Generator (MIG) is 'n instrument wat gebruik word om interproseskommunikasie (IPC) vir macOS te definieer. Dit genereer kliënt-bediener kommunikasiekode gebaseer op die definisies wat verskaf word in .defs lêers.
-
-#### Voorbeeld:
+#### Example of a MIG definition file:
 
 ```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipcServer.h"
-
-kern_return_t myipc_server(mach_port_t server_port);
+routine my_ipc_server_routine {
+    mach_msg_header_t Head;
+    mach_msg_type_t Type;
+    int my_data;
+} -> {
+    mach_msg_header_t Head;
+    mach_msg_type_t Type;
+    int my_result;
+};
 ```
 
-In die voorbeeld hierbo, is `myipcServer.h` die kopteksleutel wat die MIG-gegenereerde bedienerskode vir die IPC-kommunikasie bevat.  
+In the example above, `my_ipc_server_routine` is defined with input data `my_data` and output data `my_result`. This MIG definition specifies the format of the message that will be sent between the client and server processes.
+
+MIG simplifies the process of defining IPC interfaces and handling message passing between processes in macOS. It enforces a strict protocol for communication, making it easier to manage and secure IPC mechanisms.  
 {% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
@@ -112,7 +123,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Gebaseer op die vorige struktuur sal die funksie **`myipc_server_routine`** die **boodskap ID** kry en die korrekte funksie teruggee om te roep:
+Gebaseer op die vorige struktuur sal die funksie **`myipc_server_routine`** die **boodskap ID** ontvang en die korrekte funksie teruggee om te roep:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -127,7 +138,7 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies gedefinieer het, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou toegewys gewees het aan die ID **500**, die tweede een aan die ID **501**...
+In hierdie voorbeeld het ons slegs 1 funksie in die definisies gedefinieer, maar as ons meer funksies gedefinieer het, sou hulle binne die array van **`SERVERPREFmyipc_subsystem`** gewees het en die eerste een sou toegewys gewees het aan die ID **500**, die tweede aan die ID **501**...
 
 Eintlik is dit moontlik om hierdie verhouding te identifiseer in die struktuur **`subsystem_to_name_map_myipc`** vanaf **`myipcServer.h`**:
 ```c
@@ -208,7 +219,8 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}
+{% tab title="myipc_client.c" %}  
+### Afrikaans Translation:
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -241,10 +253,10 @@ Aangesien baie binêre lêers nou MIG gebruik om mach-poorte bloot te stel, is d
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Dit is voorheen genoem dat die funksie wat sal sorg vir **die aanroep van die korrekte funksie afhangende van die ontvangsboodskap-ID** `myipc_server` was. Gewoonlik sal jy egter nie die simbole van die binêre lêer hê (geen funksienames nie), dus is dit interessant om **te kyk hoe dit gedeaktiveer lyk** aangesien dit altyd baie soortgelyk sal wees (die kode van hierdie funksie is onafhanklik van die blootgestelde funksies):
+Dit is voorheen genoem dat die funksie wat sal sorg vir **die aanroep van die korrekte funksie afhangende van die ontvangsboodskap-ID** `myipc_server` was. Gewoonlik sal jy egter nie die simbole van die binêre lêer hê (geen funksienames nie), dus is dit interessant om **te kyk hoe dit gede-kompilieer lyk** aangesien dit altyd baie soortgelyk sal wees (die kode van hierdie funksie is onafhanklik van die blootgestelde funksies):
 
 {% tabs %}
-{% tab title="myipc_server gedeaktiveer 1" %}
+{% tab title="myipc_server gede-kompilieer 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -270,7 +282,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 var_4 = 0x0;
 }
 else {
-// Gekalibreerde adres wat die regte funksie met 2 argumente aanroep
+// Bereken die adres wat die regte funksie met 2 argumente aanroep
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -286,8 +298,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server gedeaktiveer 2" %}
-Hierdie is dieselfde funksie gedeaktiveer in 'n ander Hopper gratis weergawe:
+{% tab title="myipc_server gede-kompilieer 2" %}
+Hierdie is dieselfde funksie gede-kompilieer in 'n ander Hopper gratis weergawe:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -338,7 +350,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// Oproep na die gekalibreerde adres waar die funksie moet wees
+// Oproep na die berekende adres waar die funksie moet wees
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -369,6 +381,6 @@ Eintlik, as jy na die funksie **`0x100004000`** gaan, sal jy die reeks van **`ro
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Hierdie data kan onttrek word [**deur hierdie Hopper-skrip te gebruik**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Deel jou hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel jou hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **en** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos.** 
 
 </details>
