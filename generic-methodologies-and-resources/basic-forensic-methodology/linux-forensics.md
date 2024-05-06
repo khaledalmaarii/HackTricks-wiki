@@ -3,21 +3,21 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatikleştirilmiş iş akışları** oluşturun.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
 Bugün Erişim Alın:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
 * [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
@@ -26,7 +26,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ### Temel Bilgiler
 
-Öncelikle, **iyi bilinen ikili dosyalar ve kütüphanelere sahip bir USB**'ye sahip olmanız önerilir (sadece ubuntu alabilir ve _/bin_, _/sbin_, _/lib_ ve _/lib64_ klasörlerini kopyalayabilirsiniz), ardından USB'yi bağlayın ve çevresel değişkenleri değiştirerek bu ikili dosyaları kullanın:
+Öncelikle, **iyi bilinen ikili ve kütüphanelere sahip bir USB**'ye sahip olmanız önerilir (sadece ubuntu alabilir ve _/bin_, _/sbin_, _/lib_ ve _/lib64_ klasörlerini kopyalayabilirsiniz), ardından USB'yi bağlayın ve çevresel değişkenleri değiştirerek bu ikilileri kullanın:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -51,11 +51,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Şüpheli bilgiler
 
-Temel bilgileri elde ederken şu gibi garip şeyleri kontrol etmelisiniz:
+Temel bilgileri elde ederken şunlar gibi garip şeyleri kontrol etmelisiniz:
 
 - **Root işlemleri** genellikle düşük PIDS ile çalışır, bu yüzden büyük bir PID'ye sahip bir root işlemi bulursanız şüphelenebilirsiniz
-- `/etc/passwd` içinde kabuksuz kullanıcıların **kayıtlı girişlerini** kontrol edin
-- `/etc/shadow` içinde kabuksuz kullanıcılar için **şifre hash'lerini** kontrol edin
+- `/etc/passwd` içinde kabuğu olmayan kullanıcıların **kayıtlı girişlerini** kontrol edin
+- `/etc/shadow` içinde kabuğu olmayan kullanıcılar için **şifre hash'lerini** kontrol edin
 
 ### Bellek Dökümü
 
@@ -63,11 +63,11 @@ Temel bilgileri elde ederken şu gibi garip şeyleri kontrol etmelisiniz:
 Bunu **derlemek** için, kurban makinenin kullandığı **aynı çekirdeği** kullanmanız gerekmektedir.
 
 {% hint style="info" %}
-Kurban makineye **LiME veya başka bir şey kuramayacağınızı** unutmayın, çünkü bu makineye çeşitli değişiklikler yapacaktır
+Unutmayın ki kurban makineye **LiME veya başka bir şey kuramazsınız** çünkü bu makinede birçok değişiklik yapacaktır
 {% endhint %}
 
-Bu yüzden, Ubuntu'nun aynı sürümüne sahipseniz `apt-get install lime-forensics-dkms` komutunu kullanabilirsiniz.\
-Diğer durumlarda, [**LiME**](https://github.com/504ensicsLabs/LiME)'ı github'dan indirip doğru çekirdek başlıklarıyla derlemeniz gerekmektedir. Kurban makinenin **tam çekirdek başlıklarını elde etmek** için sadece `/lib/modules/<çekirdek sürümü>` dizinini kopyalayıp kendi makinenize yapıştırabilir ve ardından bunları kullanarak LiME'ı **derleyebilirsiniz**:
+Bu yüzden Ubuntu'nun aynı sürümüne sahipseniz `apt-get install lime-forensics-dkms` komutunu kullanabilirsiniz.\
+Diğer durumlarda, [**LiME**](https://github.com/504ensicsLabs/LiME)'ı github'dan indirip doğru çekirdek başlıklarıyla derlemeniz gerekmektedir. Kurban makinenin **tam çekirdek başlıklarını elde etmek** için sadece `/lib/modules/<çekirdek sürümü>` dizinini kopyalayarak, ardından bunları kullanarak LiME'ı **derleyebilirsiniz**:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -84,12 +84,12 @@ LiME ayrıca, dump'ı **sistemde depolamak yerine ağ üzerinden göndermek** i�
 
 #### Kapatma
 
-Öncelikle, **sistemi kapatmanız gerekecek**. Bu her zaman bir seçenek olmayabilir çünkü bazen sistem, şirketin kapatmaya kıyamadığı bir üretim sunucusu olabilir.\
-Sistemi kapatmanın **2 yolu** vardır, **normal kapatma** ve **"fişi çekme" kapatma**. İlk seçenek, **işlemlerin normal şekilde sonlandırılmasına** ve **dosya sisteminin senkronize edilmesine** izin verecektir, ancak aynı zamanda olası **zararlı yazılımın delilleri yok etmesine** de izin verecektir. "fişi çekme" yaklaşımı, **bazı bilgi kaybı** taşıyabilir (belleğin bir görüntüsünü zaten aldığımız için çok fazla bilgi kaybolmayacak) ve **zararlı yazılımın buna karşı bir şey yapma fırsatı olmayacak**. Bu nedenle, eğer bir **zararlı yazılım olabileceğinden şüpheleniyorsanız**, sadece sistemde **`sync`** **komutunu** çalıştırın ve fişi çekin.
+Öncelikle, **sistemi kapatmanız gerekecek**. Bu her zaman bir seçenek olmayabilir çünkü sistem bazen kapatılamayacak bir üretim sunucusu olabilir.\
+Sistemi kapatmanın **2 yolu** vardır, **normal kapatma** ve **"fişi çekme" kapatma**. İlk yöntem, **işlemlerin normal şekilde sonlandırılmasına** ve **dosya sisteminin senkronize edilmesine** izin verecektir, ancak aynı zamanda olası **zararlı yazılımın delilleri yok etmesine** de izin verecektir. "fişi çekme" yaklaşımı, **bazı bilgi kaybı** taşıyabilir (belleğin bir görüntüsünü zaten aldığımız için çok fazla bilgi kaybolmayacak) ve **zararlı yazılımın buna karşı bir şey yapma fırsatı olmayacak**. Bu nedenle, eğer bir **zararlı yazılım olabileceğinden şüpheleniyorsanız**, sadece sistemde **`sync`** **komutunu** çalıştırın ve fişi çekin.
 
 #### Diskten bir görüntü almak
 
-Bilgisayarınızı dava ile ilgili herhangi bir şeye bağlamadan önce, onunla **salt okunur olarak bağlanacağınızdan** ve herhangi bir bilgiyi değiştirmeyeceğinizden emin olmanız önemlidir.
+Bilgisayarınızı dava ile ilgili herhangi bir şeye bağlamadan önce, bilginin değiştirilmesini önlemek için **salt okunur olarak bağlanacağınızdan emin olmanız önemlidir**.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -100,7 +100,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Disk Görüntüsü Ön Analizi
 
-Daha fazla veri olmadan bir disk görüntüsünü oluşturma.
+Daha fazla veri olmadan bir disk görüntüsü oluşturma.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -156,36 +156,36 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatikleştirilmiş iş akışları** oluşturun ve yönetin.\
 Bugün Erişim Alın:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Bilinen Kötü Amaçlı Yazılım Ara
+## Bilinen Kötü Amaçlı Yazılımları Arayın
 
 ### Değiştirilmiş Sistem Dosyaları
 
-Linux, potansiyel sorunlu dosyaları tespit etmek için sistem bileşenlerinin bütünlüğünü sağlama konusunda önemli olan araçlar sunar.
+Linux, potansiyel sorunlu dosyaları tespit etmek için kritik sistem bileşenlerinin bütünlüğünü sağlama konusunda araçlar sunar.
 
 * **RedHat tabanlı sistemler**: Kapsamlı bir kontrol için `rpm -Va` kullanın.
 * **Debian tabanlı sistemler**: İlk doğrulama için `dpkg --verify` kullanın, ardından `debsums | grep -v "OK$"` ( `apt-get install debsums` ile `debsums`'ı yükledikten sonra) ile herhangi bir sorunu belirlemek için kullanın.
 
 ### Kötü Amaçlı Yazılım/Rootkit Tespitçileri
 
-Kötü amaçlı yazılım bulmak için yararlı olabilecek araçlar hakkında bilgi edinmek için aşağıdaki sayfayı okuyun:
+Kötü amaçlı yazılımları bulmada faydalı olabilecek araçlar hakkında bilgi edinmek için aşağıdaki sayfayı okuyun:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Yüklenen Programları Ara
+## Yüklenen Programları Arayın
 
-Debian ve RedHat sistemlerinde yüklenen programları etkili bir şekilde aramak için sistem günlüklerini ve veritabanlarını, yaygın dizinlerde manuel kontrolle birlikte kullanmayı düşünün.
+Debian ve RedHat sistemlerinde yüklenen programları etkili bir şekilde aramak için sistem günlüklerini ve veritabanlarını, yaygın dizinlerde manuel kontrollerle birlikte kullanmayı düşünün.
 
 * Debian için, paket yüklemeleri hakkında ayrıntıları almak için _**`/var/lib/dpkg/status`**_ ve _**`/var/log/dpkg.log`**_ dosyalarını inceleyin, belirli bilgileri filtrelemek için `grep` kullanın.
 * RedHat kullanıcıları, yüklü paketleri listelemek için `rpm -qa --root=/mntpath/var/lib/rpm` ile RPM veritabanını sorgulayabilir.
 
-Bu paket yöneticileri dışında veya manuel olarak yüklenen yazılımları bulmak için _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ ve _**`/sbin`**_ gibi dizinleri keşfedin. Dizin listelerini sistem özel komutlarla birleştirerek, bilinen paketlerle ilişkilendirilmemiş yürütülebilir dosyaları tanımlamak için aramanızı geliştirin.
+Bu paket yöneticileri dışında manuel olarak veya bunların dışında yüklenen yazılımları bulmak için _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ ve _**`/sbin`**_ gibi dizinleri keşfedin. Dizin listelerini sistem özel komutlarla birleştirerek, bilinen paketlerle ilişkilendirilmemiş yürütülebilir dosyaları belirleyerek tüm yüklenen programları arama sürecinizi geliştirin.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,12 +204,12 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
-Bugün Erişim Alın:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
+Bugün Erişim Edinin:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Silinmiş Çalışan İkili Dosyaları Kurtarın
+## Silinen Çalışan İkili Dosyaları Kurtarın
 
 /tmp/exec dizininden çalıştırılan ve daha sonra silinen bir işlemi hayal edin. Onu çıkarmak mümkündür
 ```bash
@@ -217,7 +217,7 @@ cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Otomatik Başlatma Konumlarını İnceleyin
+## Otomatik başlatma konumlarını inceleyin
 
 ### Zamanlanmış Görevler
 ```bash
@@ -237,14 +237,14 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 Bir kötü amaçlı yazılımın hizmet olarak kurulabileceği yollar:
 
-- **/etc/inittab**: rc.sysinit gibi başlatma betiklerini çağırır, daha sonra başlangıç betiklerine yönlendirir.
+- **/etc/inittab**: rc.sysinit gibi başlangıç betiklerini çağırır, daha sonra başlangıç betiklerine yönlendirir.
 - **/etc/rc.d/** ve **/etc/rc.boot/**: Hizmet başlatma betiklerini içerir, ikincisi eski Linux sürümlerinde bulunur.
 - **/etc/init.d/**: Debian gibi belirli Linux sürümlerinde başlangıç betiklerini depolamak için kullanılır.
 - Hizmetler ayrıca **/etc/inetd.conf** veya **/etc/xinetd/** üzerinden etkinleştirilebilir, Linux varyantına bağlı olarak değişir.
 - **/etc/systemd/system**: Sistem ve hizmet yöneticisi betikleri için bir dizin.
 - **/etc/systemd/system/multi-user.target.wants/**: Çoklu kullanıcı çalışma düzeyinde başlatılması gereken hizmetlere bağlantıları içerir.
 - **/usr/local/etc/rc.d/**: Özel veya üçüncü taraf hizmetleri için.
-- **\~/.config/autostart/**: Kullanıcıya özgü otomatik başlatma uygulamaları için, kullanıcı odaklı kötü amaçlı yazılımların gizlenme noktası olabilir.
+- **\~/.config/autostart/**: Kullanıcıya özgü otomatik başlatma uygulamaları için, kullanıcı odaklı kötü amaçlı yazılımların gizlenmesi için bir saklanma noktası olabilir.
 - **/lib/systemd/system/**: Kurulu paketler tarafından sağlanan sistem genelinde varsayılan birim dosyaları.
 
 ### Çekirdek Modülleri
@@ -257,13 +257,13 @@ Kötü amaçlı yazılımlar tarafından kök kiti bileşeni olarak sıkça kull
 
 ### Diğer Otomatik Başlatma Konumları
 
-Linux, kullanıcı oturum açılışında otomatik olarak programları çalıştırmak için çeşitli dosyalar kullanır ve potansiyel olarak kötü amaçlı yazılımları barındırabilir:
+Linux, kullanıcı oturum açtığında otomatik olarak programları çalıştırmak için çeşitli dosyalar kullanır ve potansiyel olarak kötü amaçlı yazılım barındırabilir:
 
 - **/etc/profile.d/**\*, **/etc/profile** ve **/etc/bash.bashrc**: Herhangi bir kullanıcı oturumu için çalıştırılır.
 - **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile** ve **\~/.config/autostart**: Kullanıcıya özgü dosyalar, kullanıcı oturum açtığında çalıştırılır.
 - **/etc/rc.local**: Tüm sistem hizmetleri başladıktan sonra çalışır, çoklu kullanıcı ortamına geçişin sonunu işaretler.
 
-## Günlükleri İnceleme
+## Günlükleri İncele
 
 Linux sistemleri, çeşitli günlük dosyaları aracılığıyla kullanıcı etkinliklerini ve sistem olaylarını izler. Bu günlükler, yetkisiz erişimi, kötü amaçlı yazılım bulaşmalarını ve diğer güvenlik olaylarını tanımlamak için hayati öneme sahiptir. Önemli günlük dosyaları şunları içerir:
 
@@ -284,7 +284,7 @@ Linux sistemleri, çeşitli günlük dosyaları aracılığıyla kullanıcı etk
 - **/var/log/**: Burada beklenmeyen günlükleri kontrol etmek her zaman önemlidir.
 
 {% hint style="info" %}
-Linux sistem günlükleri ve denetim alt sistemleri, bir sızma veya kötü amaçlı yazılım olayında devre dışı bırakılabilir veya silinebilir. Linux sistemlerinde günlükler genellikle kötü amaçlı etkinlikler hakkında en kullanışlı bilgileri içerdiğinden, sızanlar genellikle bunları siler. Bu nedenle, mevcut günlük dosyalarını incelemek önemlidir ve silme veya oynama belirtileri aramak önemlidir.
+Linux sistem günlükleri ve denetim alt sistemleri, bir ihlal veya kötü amaçlı yazılım olayında devre dışı bırakılabilir veya silinebilir. Linux sistemlerinde günlükler genellikle kötü amaçlı faaliyetler hakkında en kullanışlı bilgileri içerdiğinden, saldırganlar genellikle bunları siler. Bu nedenle, mevcut günlük dosyalarını inceleyerek, silinme veya oynama belirtisi olabilecek boşlukları veya sırasız girişleri aramak önemlidir.
 {% endhint %}
 
 **Linux, her kullanıcı için bir komut geçmişini saklar**, şurada depolanır:
@@ -295,19 +295,19 @@ Linux sistem günlükleri ve denetim alt sistemleri, bir sızma veya kötü ama�
 - \~/.python\_history
 - \~/.\*\_history
 
-Ayrıca, `last -Faiwx` komutu bir kullanıcı oturum listesi sağlar. Bilinmeyen veya beklenmeyen oturum açmaları için kontrol edin.
+Ayrıca, `last -Faiwx` komutu bir kullanıcı oturumunu listeler. Bilinmeyen veya beklenmeyen oturum açmaları için kontrol edin.
 
 Ek ayrıcalıklar sağlayabilecek dosyaları kontrol edin:
 
-- Verilmemiş kullanıcı ayrıcalıklarını belirlemek için `/etc/sudoers` dosyasını inceleyin.
-- Verilmemiş kullanıcı ayrıcalıklarını belirlemek için `/etc/sudoers.d/` dosyasını inceleyin.
+- Beklenmeyen kullanıcı ayrıcalıklarını belirlemek için `/etc/sudoers` dosyasını inceleyin.
+- Beklenmeyen kullanıcı ayrıcalıklarını belirlemek için `/etc/sudoers.d/` dizinini inceleyin.
 - Olağandışı grup üyeliklerini veya izinleri belirlemek için `/etc/groups` dosyasını inceleyin.
 - Olağandışı grup üyeliklerini veya izinleri belirlemek için `/etc/passwd` dosyasını inceleyin.
 
 Bazı uygulamalar kendi günlüklerini oluşturur:
 
 - **SSH**: Yetkisiz uzak bağlantılar için _\~/.ssh/authorized\_keys_ ve _\~/.ssh/known\_hosts_ dosyalarını inceleyin.
-- **Gnome Masaüstü**: Gnome uygulamaları aracılığıyla son erişilen dosyaları bulmak için _\~/.recently-used.xbel_ dosyasına bakın.
+- **Gnome Masaüstü**: Gnome uygulamaları aracılığıyla son erişilen dosyalar için _\~/.recently-used.xbel_ dosyasına bakın.
 - **Firefox/Chrome**: Şüpheli etkinlikler için _\~/.mozilla/firefox_ veya _\~/.config/google-chrome_ dizinlerinde tarayıcı geçmişini ve indirmeleri kontrol edin.
 - **VIM**: Erişilen dosya yolları ve arama geçmişi gibi kullanım detayları için _\~/.viminfo_ dosyasını inceleyin.
 - **Open Office**: Kompromize uğramış dosyaları gösterebilecek son belge erişimlerini kontrol edin.
@@ -318,11 +318,9 @@ Bazı uygulamalar kendi günlüklerini oluşturur:
 
 ### USB Günlükleri
 
-[**usbrip**](https://github.com/snovvcrash/usbrip), USB olay geçmiş tablolarını oluşturmak için Linux günlük dosyalarını (`/var/log/syslog*` veya dağıtıma bağlı olarak `/var/log/messages*`) ayrıştıran saf Python 3 dilinde yazılmış küçük bir yazılımdır.
+[**usbrip**](https://github.com/snovvcrash/usbrip), USB olay geçmişi tabloları oluşturmak için Linux günlük dosyalarını (`/var/log/syslog*` veya dağıtıma bağlı olarak `/var/log/messages*`) ayrıştıran saf Python 3 dilinde yazılmış küçük bir yazılımdır.
 
-**Kullanılan tüm USB'leri bilmek ilginç olacaktır** ve "ihlal olaylarını" bulmak için yetkilendirilmiş bir USB listesine sahipseniz daha da faydalı olacaktır (bu listede olmayan USB'lerin kullanımı). 
-
-### Kurulum
+**Kullanılan tüm USB'leri bilmek** ilginç olacaktır ve "ihlal olaylarını" bulmak için yetkilendirilmiş USB'lerin bir listesine sahipseniz daha da faydalı olacaktır.
 ```bash
 pip3 install usbrip
 usbrip ids download #Download USB ID database
@@ -340,33 +338,33 @@ Daha fazla örnek ve bilgi için github içine bakın: [https://github.com/snovv
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen **otomatikleştirilmiş iş akışları** oluşturun ve yönetin.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen **otomatikleştirilmiş iş akışları** oluşturun ve yönetin.\
 Bugün Erişim Alın:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Kullanıcı Hesaplarını ve Oturum Etkinliklerini İnceleme
 
-Bilinen yetkisiz olaylara yakın zamanda oluşturulan veya kullanılan sıradışı isimleri veya hesapları aramak için _**/etc/passwd**_, _**/etc/shadow**_ ve **güvenlik günlüklerini** inceleyin. Ayrıca, olası sudo kaba kuvvet saldırılarını kontrol edin.\
-Ayrıca, kullanıcılara verilen beklenmeyen ayrıcalıkları aramak için _**/etc/sudoers**_ ve _**/etc/groups**_ gibi dosyaları kontrol edin.\
+Bilinen yetkisiz olaylara yakın zamanda oluşturulan veya kullanılan sıradışı isimleri veya hesapları incelemek için _**/etc/passwd**_, _**/etc/shadow**_ ve **güvenlik günlüklerini** kontrol edin. Ayrıca, olası sudo kaba kuvvet saldırılarını kontrol edin.\
+Ayrıca, kullanıcılara verilen beklenmeyen ayrıcalıkları kontrol etmek için _**/etc/sudoers**_ ve _**/etc/groups**_ gibi dosyaları kontrol edin.\
 Son olarak, **şifresiz hesapları** veya **kolayca tahmin edilebilen** şifreleri olan hesapları arayın.
 
 ## Dosya Sistemi İnceleme
 
 ### Kötü Amaçlı Yazılım İncelemesinde Dosya Sistemi Yapılarını Analiz Etme
 
-Kötü amaçlı yazılım olaylarını araştırırken, dosya sistemi yapısı bilgi kaynağıdır ve olayların sıralamasını ve kötü amaçlı yazılımın içeriğini ortaya çıkarır. Bununla birlikte, kötü amaçlı yazılım yazarları, dosya zaman damgalarını değiştirme veya veri depolama için dosya sisteminden kaçınma gibi analizi engellemek için teknikler geliştirmektedir.
+Kötü amaçlı yazılım olaylarını araştırırken, dosya sistemi yapısı bilgi kaynağı olarak hayati öneme sahiptir, olayların sırasını ve kötü amaçlı yazılımın içeriğini ortaya çıkarır. Bununla birlikte, kötü amaçlı yazılım yazarları, dosya zaman damgalarını değiştirme veya veri depolamak için dosya sisteminden kaçınma gibi analizi engellemek için teknikler geliştirmektedir.
 
 Bu anti-forensik yöntemlere karşı koymak için şunlar önemlidir:
 
-* **Olay zaman çizelgesi analizi** yapmak için **Autopsy** gibi araçları kullanarak olay zaman çizelgelerini görselleştirmek veya ayrıntılı zaman çizelgesi verileri için **Sleuth Kit's** `mactime`'ı kullanmak.
-* Saldırganlar tarafından kullanılan kabuk veya PHP betiklerini içerebilecek **sistem $PATH'indeki beklenmedik betikleri incelemek**.
-* **/dev içindeki** atipik dosyaları incelemek, genellikle özel dosyalar içerir, ancak kötü amaçlı yazılımla ilişkili dosyaları içerebilir.
-* ".. " (nokta nokta boşluk) veya "..^G" (nokta nokta kontrol-G) gibi adlara sahip **gizli dosyaları veya dizinleri aramak**, kötü amaçlı içeriği gizleyebilir.
-* `find / -user root -perm -04000 -print` komutunu kullanarak **setuid root dosyalarını tanımlamak**. Bu, saldırganlar tarafından kötüye kullanılabilecek yüksek izinlere sahip dosyaları bulur.
-* İşaret tablolarındaki **silme zaman damgalarını inceleyerek** kök kiti veya truva atları varlığını gösterebilecek toplu dosya silmelerini tespit etmek.
-* Bir tane tanımladıktan sonra **yakındaki kötü amaçlı dosyaları belirlemek için ardışık inode'ları incelemek**, birlikte yerleştirilmiş olabilirler.
-* **Son zamanlarda değiştirilmiş dosyaları aramak için ortak ikili dizinleri** (_/bin_, _/sbin_) kontrol etmek, bu dosyalar kötü amaçlı yazılım tarafından değiştirilmiş olabilir.
+* **Olay zaman çizelgesi analizi** yapmak için **Autopsy** gibi araçları kullanarak olay zaman çizelgelerini görselleştirmek veya ayrıntılı zaman çizelgesi verileri için **Sleuth Kit's** `mactime` kullanmak.
+* Saldırganlar tarafından kullanılan kabuk veya PHP betiklerini içerebilecek **sistem $PATH'indeki beklenmedik betikleri inceleyin**.
+* **/dev** içindeki tipik olmayan dosyaları inceleyin**, genellikle özel dosyalar içerir, ancak kötü amaçlı yazılımla ilişkili dosyaları barındırabilir.
+* ".. " (nokta nokta boşluk) veya "..^G" (nokta nokta kontrol-G) gibi adlara sahip **gizli dosyaları veya dizinleri arayın**, kötü amaçlı içeriği gizleyebilirler.
+* `find / -user root -perm -04000 -print` komutunu kullanarak **setuid root dosyalarını tanımlayın**. Bu, saldırganlar tarafından kötüye kullanılabilecek yükseltilmiş izinlere sahip dosyaları bulur.
+* İşlem tablolarındaki **silme zaman damgalarını inceleyin**, kök kiti veya truva atları varlığını gösterebilecek toplu dosya silmelerini belirlemek için.
+* Bir tane tanımladıktan sonra **yakındaki kötü amaçlı dosyaları belirlemek için ardışık inode'leri inceleyin**.
+* **Son zamanlarda değiştirilmiş dosyaları kontrol etmek için yaygın ikili dizinleri** (_/bin_, _/sbin_) inceleyin, çünkü bunlar kötü amaçlı yazılım tarafından değiştirilmiş olabilir.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -375,10 +373,10 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-**Saldırganın** dosyaları **görünüşte meşru** hale getirmek için **zamanı değiştirebileceğini**, ancak **inode**'u değiştiremeyeceğini unutmayın. Eğer bir **dosyanın** aynı klasördeki diğer dosyalarla aynı **zamanda oluşturulduğunu ve değiştirildiğini** gösterdiğini, ancak **inode**'un **beklenmedik şekilde daha büyük** olduğunu fark ederseniz, o dosyanın **zaman damgalarının değiştirildiğini** belirlemiş olursunuz.
+**Saldırganın** **dosyaları** **görünüşte meşru** hale getirmek için **zamanı değiştirebileceğini**, ancak **inode**'u değiştiremeyeceğini unutmayın. Eğer bir **dosyanın**, aynı klasördeki diğer dosyalarla aynı zamanda oluşturulduğunu ve değiştirildiğini gösterdiğini fakat **inode**'un **beklenmedik şekilde daha büyük** olduğunu fark ederseniz, o dosyanın **zaman damgalarının değiştirildiğini** anlarsınız.
 {% endhint %}
 
-## Farklı dosya sistem sürümlerinin dosyalarını karşılaştırın
+## Farklı dosya sistem sürümlerini karşılaştırın
 
 ### Dosya Sürümü Karşılaştırma Özeti
 
@@ -412,26 +410,26 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Kitap: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
+* **Kitap: Malware Forensics Field Guide for Linux Systems: Dijital Adli Bilişim Alan Kılavuzları**
 
 <details>
 
 <summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-**Bir **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi HackTricks'te** görmek ister misiniz? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+**Bir ** **cybersecurity şirketinde mi çalışıyorsunuz? Şirketinizi ** **HackTricks'te ** **tanıtmak ister misiniz? veya ** **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
 
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* [**Resmi PEASS & HackTricks swag**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.** takip edin.
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
+* [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
 
-**Hacking püf noktalarınızı göndererek HackTricks** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **üzerinden PR'lar gönderin.**
+**Hacking püf noktalarınızı göndererek HackTricks** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **aracılığıyla paylaşın.**
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
