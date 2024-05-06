@@ -3,21 +3,21 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -42,12 +42,12 @@ Le processus d'accès à un fichier implique que le système vérifie le descrip
 
 Chaque session utilisateur est associée à un jeton d'accès contenant des informations de sécurité pertinentes pour cette session, y compris l'utilisateur, les identités de groupe et les privilèges. Ce jeton inclut également un SID de connexion qui identifie de manière unique la session.
 
-L'Autorité de sécurité locale (LSASS) traite les demandes d'accès aux objets en examinant le DACL pour les ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé s'il n'y a pas d'ACE pertinents. Sinon, LSASS compare les ACE aux SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
+L'Autorité de sécurité locale (LSASS) traite les demandes d'accès aux objets en examinant le DACL pour les ACE qui correspondent au principal de sécurité tentant d'accéder. L'accès est immédiatement accordé s'il n'y a pas d'ACE pertinents trouvés. Sinon, LSASS compare les ACE par rapport au SID du principal de sécurité dans le jeton d'accès pour déterminer l'éligibilité à l'accès.
 
 ### **Processus résumé**
 
 * **ACLs :** Définissent les autorisations d'accès via les DACL et les règles d'audit via les SACL.
-* **Jeton d'accès :** Contient des informations sur l'utilisateur, le groupe et les privilèges pour une session.
+* **Jeton d'accès :** Contient des informations utilisateur, de groupe et de privilège pour une session.
 * **Décision d'accès :** Faite en comparant les ACE DACL avec le jeton d'accès ; les SACL sont utilisés pour l'audit.
 
 ### ACEs
@@ -63,13 +63,13 @@ Chaque ACE a **quatre composants critiques** :
 1. L'**Identifiant de sécurité (SID)** de l'utilisateur ou du groupe (ou leur nom principal dans une représentation graphique).
 2. Un **drapeau** qui identifie le type d'ACE (accès refusé, autorisé ou audit système).
 3. Des **drapeaux d'héritage** qui déterminent si les objets enfants peuvent hériter de l'ACE de leur parent.
-4. Un [**masque d'accès**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), une valeur de 32 bits spécifiant les droits accordés à l'objet.
+4. Un [**masque d'accès**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN), une valeur de 32 bits spécifiant les droits accordés à l'objet.
 
 La détermination de l'accès est effectuée en examinant séquentiellement chaque ACE jusqu'à ce que :
 
 * Un **ACE de refus d'accès** refuse explicitement les droits demandés à un bénéficiaire identifié dans le jeton d'accès.
 * Les **ACE d'autorisation d'accès** accordent explicitement tous les droits demandés à un bénéficiaire dans le jeton d'accès.
-* Après avoir vérifié tous les ACE, si un droit demandé n'a pas été explicitement autorisé, l'accès est implicitement **refusé**.
+* Après avoir vérifié tous les ACE, si un droit demandé n'a **pas été explicitement autorisé**, l'accès est implicitement **refusé**.
 
 ### Ordre des ACEs
 
@@ -77,16 +77,16 @@ La manière dont les **ACE** (règles qui disent qui peut ou ne peut pas accéde
 
 Il y a une meilleure façon d'organiser ces ACE, appelée **"ordre canonique"**. Cette méthode aide à s'assurer que tout fonctionne correctement et équitablement. Voici comment cela se passe pour les systèmes comme **Windows 2000** et **Windows Server 2003** :
 
-* Tout d'abord, placez toutes les règles faites **spécifiquement pour cet élément** avant celles qui proviennent d'ailleurs, comme d'un dossier parent.
+* Tout d'abord, placez toutes les règles faites **spécifiquement pour cet élément** avant celles qui proviennent d'ailleurs, comme un dossier parent.
 * Dans ces règles spécifiques, placez d'abord celles qui disent **"non" (refuser)** avant celles qui disent **"oui" (autoriser)**.
 * Pour les règles qui proviennent d'ailleurs, commencez par celles de la **source la plus proche**, comme le parent, puis remontez à partir de là. Encore une fois, placez **"non"** avant **"oui"**.
 
-Cette configuration aide de deux manières importantes :
+Cette configuration aide de deux grandes manières :
 
 * Elle garantit que si il y a un **"non"** spécifique, il est respecté, peu importe les autres règles **"oui"** qui sont là.
 * Elle permet au propriétaire d'un élément d'avoir le **dernier mot** sur qui peut y accéder, avant que les règles des dossiers parents ou plus éloignés entrent en jeu.
 
-En procédant de cette manière, le propriétaire d'un fichier ou dossier peut être très précis sur qui peut y accéder, en s'assurant que les bonnes personnes peuvent entrer et que les mauvaises ne le peuvent pas.
+En procédant de cette manière, le propriétaire d'un fichier ou d'un dossier peut être très précis sur qui peut y accéder, en s'assurant que les bonnes personnes peuvent entrer et que les mauvaises ne le peuvent pas.
 
 ![](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
@@ -95,7 +95,7 @@ Ainsi, cet **"ordre canonique"** vise à garantir que les règles d'accès sont 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -125,15 +125,15 @@ Lors de la gestion de l'accès aux ressources, comme un dossier, nous utilisons 
 
 #### Refuser l'Accès à un Groupe Spécifique
 
-Imaginez que vous ayez un dossier nommé Coût, et que vous vouliez que tout le monde y accède sauf une équipe marketing. En configurant correctement les règles, nous pouvons nous assurer que l'équipe marketing se voit explicitement refuser l'accès avant de permettre à tout le monde d'y accéder. Cela se fait en plaçant la règle de refus d'accès à l'équipe marketing avant la règle qui autorise l'accès à tout le monde.
+Imaginez que vous avez un dossier nommé Coût, et vous voulez que tout le monde y accède sauf une équipe marketing. En configurant correctement les règles, nous pouvons nous assurer que l'équipe marketing se voit explicitement refuser l'accès avant de permettre à tout le monde d'y accéder.
 
 #### Autoriser l'Accès à un Membre Spécifique d'un Groupe Refusé
 
-Disons que Bob, le directeur marketing, a besoin d'accéder au dossier Coût, même si l'équipe marketing ne devrait généralement pas y avoir accès. Nous pouvons ajouter une règle spécifique (ACE) pour Bob qui lui accorde l'accès, et la placer avant la règle qui refuse l'accès à l'équipe marketing. Ainsi, Bob obtient l'accès malgré la restriction générale imposée à son équipe.
+Disons que Bob, le directeur marketing, a besoin d'accéder au dossier Coût, même si l'équipe marketing ne devrait généralement pas y avoir accès. Nous pouvons ajouter une règle spécifique (ACE) pour Bob qui lui accorde l'accès, et la placer avant la règle qui refuse l'accès à l'équipe marketing. Ainsi, Bob obtient l'accès malgré la restriction générale de son équipe.
 
 #### Compréhension des Entrées de Contrôle d'Accès
 
-Les ACE sont les règles individuelles dans une ACL. Elles identifient les utilisateurs ou groupes, spécifient les accès autorisés ou refusés, et déterminent comment ces règles s'appliquent aux sous-éléments (héritage). Il existe deux principaux types d'ACE :
+Les ACE sont les règles individuelles dans une ACL. Elles identifient les utilisateurs ou groupes, spécifient quel accès est autorisé ou refusé, et déterminent comment ces règles s'appliquent aux sous-éléments (héritage). Il existe deux principaux types d'ACE :
 
 * **ACE Génériques** : Ils s'appliquent largement, affectant soit tous les types d'objets, soit distinguant uniquement entre les conteneurs (comme les dossiers) et les non-conteneurs (comme les fichiers). Par exemple, une règle qui permet aux utilisateurs de voir le contenu d'un dossier mais pas d'accéder aux fichiers à l'intérieur.
 * **ACE Spécifiques à l'Objet** : Ils offrent un contrôle plus précis, permettant de définir des règles pour des types d'objets spécifiques ou même des propriétés individuelles au sein d'un objet. Par exemple, dans un répertoire d'utilisateurs, une règle pourrait autoriser un utilisateur à mettre à jour son numéro de téléphone mais pas ses heures de connexion.
@@ -145,14 +145,14 @@ Chaque ACE contient des informations importantes telles que à qui s'applique la
 * Les **ACE Génériques** conviennent aux scénarios simples de contrôle d'accès, où la même règle s'applique à tous les aspects d'un objet ou à tous les objets à l'intérieur d'un conteneur.
 * Les **ACE Spécifiques à l'Objet** sont utilisés pour des scénarios plus complexes, notamment dans des environnements comme Active Directory, où vous pourriez avoir besoin de contrôler l'accès à des propriétés spécifiques d'un objet de manière différente.
 
-En résumé, les ACL et les ACE permettent de définir des contrôles d'accès précis, garantissant que seules les bonnes personnes ou groupes ont accès à des informations ou ressources sensibles, avec la possibilité d'adapter les droits d'accès jusqu'au niveau des propriétés individuelles ou des types d'objets.
+En résumé, les ACL et les ACE aident à définir des contrôles d'accès précis, garantissant que seules les bonnes personnes ou groupes ont accès à des informations ou ressources sensibles, avec la possibilité d'adapter les droits d'accès jusqu'au niveau des propriétés individuelles ou des types d'objets.
 
 ### Mise en Page de l'Entrée de Contrôle d'Accès
 
 | Champ ACE  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Type        | Drapeau indiquant le type d'ACE. Windows 2000 et Windows Server 2003 prennent en charge six types d'ACE : Trois types d'ACE génériques attachés à tous les objets sécurisables. Trois types d'ACE spécifiques à l'objet qui peuvent se produire pour les objets Active Directory.                                                                                                                                                                                                                                                            |
-| Drapeaux       | Ensemble de drapeaux de bits qui contrôlent l'héritage et l'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Drapeaux       | Ensemble de bits de contrôle d'héritage et d'audit.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Taille        | Nombre d'octets de mémoire alloués pour l'ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | Masque d'accès | Valeur sur 32 bits dont les bits correspondent aux droits d'accès pour l'objet. Les bits peuvent être activés ou désactivés, mais la signification du réglage dépend du type d'ACE. Par exemple, si le bit correspondant au droit de lire les autorisations est activé, et que le type d'ACE est Refuser, l'ACE refuse le droit de lire les autorisations de l'objet. Si le même bit est activé mais que le type d'ACE est Autoriser, l'ACE accorde le droit de lire les autorisations de l'objet. Plus de détails sur le Masque d'accès apparaissent dans le tableau suivant. |
 | SID         | Identifie un utilisateur ou un groupe dont l'accès est contrôlé ou surveillé par cette ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -182,10 +182,10 @@ En résumé, les ACL et les ACE permettent de définir des contrôles d'accès p
 
 Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 [**le groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez** 💬 [**le groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
@@ -193,7 +193,7 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Obtenez l'Accès Aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=acls-dacls-sacls-aces" %}

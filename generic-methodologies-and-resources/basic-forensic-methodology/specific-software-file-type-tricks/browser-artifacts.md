@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -17,14 +17,14 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 ## Artéfacts des navigateurs <a href="#id-3def" id="id-3def"></a>
 
-Les artéfacts des navigateurs incluent divers types de données stockées par les navigateurs Web, tels que l'historique de navigation, les favoris et les données de cache. Ces artéfacts sont conservés dans des dossiers spécifiques du système d'exploitation, différant en termes d'emplacement et de nom selon les navigateurs, mais stockant généralement des types de données similaires.
+Les artéfacts des navigateurs incluent divers types de données stockées par les navigateurs Web, tels que l'historique de navigation, les favoris et les données de cache. Ces artéfacts sont conservés dans des dossiers spécifiques du système d'exploitation, différant en emplacement et en nom selon les navigateurs, mais stockant généralement des types de données similaires.
 
 Voici un résumé des artéfacts de navigateur les plus courants :
 
@@ -32,7 +32,7 @@ Voici un résumé des artéfacts de navigateur les plus courants :
 * **Données d'autocomplétion** : Suggestions basées sur des recherches fréquentes, offrant des informations lorsqu'elles sont combinées avec l'historique de navigation.
 * **Favoris** : Sites enregistrés par l'utilisateur pour un accès rapide.
 * **Extensions et modules complémentaires** : Extensions de navigateur ou modules complémentaires installés par l'utilisateur.
-* **Cache** : Stocke le contenu Web (par exemple, images, fichiers JavaScript) pour améliorer les temps de chargement des sites Web, précieux pour l'analyse forensique.
+* **Cache** : Stocke le contenu Web (par exemple, images, fichiers JavaScript) pour améliorer les temps de chargement du site, précieux pour l'analyse forensique.
 * **Connexions** : Identifiants de connexion enregistrés.
 * **Favicons** : Icônes associées aux sites Web, apparaissant dans les onglets et les favoris, utiles pour obtenir des informations supplémentaires sur les visites des utilisateurs.
 * **Sessions de navigateur** : Données relatives aux sessions de navigateur ouvertes.
@@ -72,7 +72,7 @@ Dans chaque dossier de profil, vous pouvez trouver plusieurs fichiers importants
 De plus, vérifier les paramètres anti-hameçonnage du navigateur peut se faire en recherchant les entrées `browser.safebrowsing` dans `prefs.js`, indiquant si les fonctionnalités de navigation sécurisée sont activées ou désactivées.
 
 Pour essayer de décrypter le mot de passe principal, vous pouvez utiliser [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mot de passe à brute force :
+Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mot de passe pour la force brute :
 
 {% code title="brute.sh" %}
 ```bash
@@ -101,7 +101,7 @@ Dans ces répertoires, la plupart des données utilisateur peuvent être trouvé
 
 * **Historique** : Contient des URL, des téléchargements et des mots-clés de recherche. Sur Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) peut être utilisé pour lire l'historique. La colonne "Type de transition" a diverses significations, y compris les clics des utilisateurs sur des liens, les URL saisies, les soumissions de formulaires et les rechargements de pages.
 * **Cookies** : Stocke les cookies. Pour l'inspection, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) est disponible.
-* **Cache** : Contient des données mises en cache. Pour l'inspection, les utilisateurs Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+* **Cache** : Contient des données mises en cache. Pour l'inspection, les utilisateurs de Windows peuvent utiliser [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
 * **Signets** : Signets de l'utilisateur.
 * **Données Web** : Contient l'historique des formulaires.
 * **Favicons** : Stocke les favicons des sites web.
@@ -109,8 +109,8 @@ Dans ces répertoires, la plupart des données utilisateur peuvent être trouvé
 * **Session actuelle**/**Onglets actuels** : Données sur la session de navigation actuelle et les onglets ouverts.
 * **Dernière session**/**Derniers onglets** : Informations sur les sites actifs lors de la dernière session avant la fermeture de Chrome.
 * **Extensions** : Répertoires pour les extensions et les modules complémentaires du navigateur.
-* **Vignettes** : Stocke les vignettes des sites web.
-* **Préférences** : Un fichier riche en informations, y compris les paramètres pour les plugins, les extensions, les pop-ups, les notifications, et plus encore.
+* **Miniatures** : Stocke les miniatures des sites web.
+* **Préférences** : Un fichier riche en informations, comprenant des paramètres pour les plugins, les extensions, les pop-ups, les notifications, et plus encore.
 * **Anti-hameçonnage intégré du navigateur** : Pour vérifier si la protection contre le hameçonnage et les logiciels malveillants est activée, exécutez `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Recherchez `{"enabled: true,"}` dans la sortie.
 
 ## **Récupération de données de base de données SQLite**
@@ -123,11 +123,11 @@ Internet Explorer 11 gère ses données et métadonnées à travers différents 
 
 ### Stockage des métadonnées
 
-Les métadonnées d'Internet Explorer sont stockées dans `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (avec VX étant V01, V16 ou V24). En complément, le fichier `V01.log` peut montrer des divergences de temps de modification avec `WebcacheVX.data`, indiquant un besoin de réparation en utilisant `esentutl /r V01 /d`. Ces métadonnées, logées dans une base de données ESE, peuvent être récupérées et inspectées à l'aide d'outils tels que photorec et [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivement. Dans la table **Containers**, on peut discerner les tables ou conteneurs spécifiques où chaque segment de données est stocké, y compris les détails du cache pour d'autres outils Microsoft tels que Skype.
+Les métadonnées d'Internet Explorer sont stockées dans `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (avec VX étant V01, V16 ou V24). En complément, le fichier `V01.log` peut montrer des divergences de temps de modification avec `WebcacheVX.data`, indiquant un besoin de réparation en utilisant `esentutl /r V01 /d`. Ces métadonnées, hébergées dans une base de données ESE, peuvent être récupérées et inspectées à l'aide d'outils tels que photorec et [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), respectivement. Dans la table **Containers**, on peut discerner les tables ou conteneurs spécifiques où chaque segment de données est stocké, y compris les détails du cache pour d'autres outils Microsoft tels que Skype.
 
 ### Inspection du cache
 
-L'outil [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permet d'inspecter le cache, nécessitant l'emplacement du dossier d'extraction des données de cache. Les métadonnées du cache incluent le nom de fichier, le répertoire, le nombre d'accès, l'origine de l'URL, et les horodatages indiquant les temps de création, d'accès, de modification et d'expiration du cache.
+L'outil [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) permet d'inspecter le cache, en nécessitant l'emplacement du dossier d'extraction des données de cache. Les métadonnées du cache incluent le nom de fichier, le répertoire, le nombre d'accès, l'origine de l'URL, et les horodatages indiquant les temps de création, d'accès, de modification et d'expiration du cache.
 
 ### Gestion des cookies
 
@@ -135,11 +135,11 @@ Les cookies peuvent être explorés en utilisant [IECookiesView](https://www.nir
 
 ### Détails des téléchargements
 
-Les métadonnées des téléchargements sont accessibles via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), avec des conteneurs spécifiques contenant des données telles que l'URL, le type de fichier et l'emplacement du téléchargement. Les fichiers physiques peuvent être trouvés sous `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Les métadonnées des téléchargements sont accessibles via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), avec des conteneurs spécifiques contenant des données telles que l'URL, le type de fichier, et l'emplacement de téléchargement. Les fichiers physiques peuvent être trouvés sous `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Historique de navigation
 
-Pour examiner l'historique de navigation, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) peut être utilisé, nécessitant l'emplacement des fichiers d'historique extraits et la configuration pour Internet Explorer. Les métadonnées ici incluent les temps de modification et d'accès, ainsi que les comptes d'accès. Les fichiers d'historique sont situés dans `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Pour examiner l'historique de navigation, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) peut être utilisé, nécessitant l'emplacement des fichiers d'historique extraits et la configuration pour Internet Explorer. Les métadonnées incluent ici les temps de modification et d'accès, ainsi que les comptes d'accès. Les fichiers d'historique sont situés dans `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### URLs saisies
 
@@ -172,7 +172,7 @@ Les données de Safari sont stockées à `/Users/$User/Library/Safari`. Les fich
 
 Les données d'Opera résident dans `/Users/$USER/Library/Application Support/com.operasoftware.Opera` et partagent le format de Chrome pour l'historique et les téléchargements.
 
-* **Anti-hameçonnage intégré du navigateur** : Vérifiez en vérifiant si `fraud_protection_enabled` dans le fichier Preferences est défini sur `true` en utilisant `grep`.
+* **Anti-hameçonnage intégré du navigateur** : Vérifiez si `fraud_protection_enabled` dans le fichier Preferences est défini sur `true` en utilisant `grep`.
 
 Ces chemins et commandes sont cruciaux pour accéder et comprendre les données de navigation stockées par différents navigateurs web.
 
@@ -186,10 +186,10 @@ Ces chemins et commandes sont cruciaux pour accéder et comprendre les données 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 <details>
 

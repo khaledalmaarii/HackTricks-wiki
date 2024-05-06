@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -17,10 +17,10 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 ## Énumération et Évasion Automatiques
 
@@ -32,8 +32,8 @@ Accédez dès aujourd'hui :
 
 ## Évasion du Socket Docker Monté
 
-Si vous trouvez que le **socket docker est monté** à l'intérieur du conteneur Docker, vous pourrez vous en échapper.\
-Cela se produit généralement dans les conteneurs Docker qui, pour une raison quelconque, ont besoin de se connecter au démon Docker pour effectuer des actions.
+Si vous trouvez que le **socket docker est monté** à l'intérieur du conteneur Docker, vous pourrez vous échapper.\
+Cela se produit généralement dans les conteneurs Docker qui, pour une raison quelconque, doivent se connecter au démon Docker pour effectuer des actions.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -60,7 +60,7 @@ Au cas où le **socket docker est à un emplacement inattendu**, vous pouvez tou
 Le démon Docker peut également être [en écoute sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
 
 {% hint style="info" %}
-De plus, faites attention aux sockets d'exécution des autres runtimes de haut niveau :
+De plus, faites attention aux sockets d'exécution d'autres runtimes de haut niveau :
 
 * dockershim : `unix:///var/run/dockershim.sock`
 * containerd : `unix:///run/containerd/containerd.sock`
@@ -70,7 +70,7 @@ De plus, faites attention aux sockets d'exécution des autres runtimes de haut n
 * ...
 {% endhint %}
 
-## Évasion de l'abus des capacités
+## Évasion de l'abus de capacités
 
 Vous devriez vérifier les capacités du conteneur, s'il possède l'une des suivantes, vous pourriez être en mesure de vous échapper : **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
@@ -135,7 +135,7 @@ Et voilà ! Vous pouvez désormais accéder au système de fichiers de l'hôte c
 
 #### Montage du disque - Poc2
 
-À l'intérieur du conteneur, un attaquant peut tenter d'obtenir un accès supplémentaire au système d'exploitation hôte sous-jacent via un volume hostPath inscriptible créé par le cluster. Voici quelques éléments courants que vous pouvez vérifier à l'intérieur du conteneur pour voir si vous pouvez exploiter ce vecteur d'attaque :
+Au sein du conteneur, un attaquant peut tenter d'obtenir un accès supplémentaire au système d'exploitation hôte sous-jacent via un volume hostPath inscriptible créé par le cluster. Voici quelques éléments courants que vous pouvez vérifier dans le conteneur pour voir si vous pouvez exploiter ce vecteur d'attaque :
 ```bash
 ### Check if You Can Write to a File-system
 echo 1 > /proc/sysrq-trigger
@@ -342,7 +342,7 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Évasion de privilèges en abusant des montages sensibles
 
-Il existe plusieurs fichiers qui pourraient être montés et donner des **informations sur l'hôte sous-jacent**. Certains d'entre eux peuvent même indiquer **quelque chose à exécuter par l'hôte lorsqu'un événement se produit** (ce qui permettrait à un attaquant de s'échapper du conteneur).\
+Il existe plusieurs fichiers qui pourraient être montés et qui donnent des **informations sur l'hôte sous-jacent**. Certains d'entre eux peuvent même indiquer **quelque chose à exécuter par l'hôte lorsqu'un événement se produit** (ce qui permettrait à un attaquant de s'échapper du conteneur).\
 L'abus de ces fichiers peut permettre :
 
 * release\_agent (déjà abordé précédemment)
@@ -419,7 +419,7 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Si vous pouvez accéder aux processus de l'hôte, vous pourrez accéder à de nombreuses informations sensibles stockées dans ces processus. Exécutez le laboratoire de test:
+Si vous pouvez accéder aux processus de l'hôte, vous pourrez accéder à de nombreuses informations sensibles stockées dans ces processus. Exécutez le laboratoire de test :
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
@@ -454,7 +454,7 @@ Si vous avez d'une manière ou d'une autre un **accès privilégié sur un proce
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-Si un conteneur est configuré avec le pilote de réseau hôte Docker (`--network=host`), la pile réseau de ce conteneur n'est pas isolée de l'hôte Docker (le conteneur partage l'espace de nom réseau de l'hôte) et le conteneur ne reçoit pas d'adresse IP propre. En d'autres termes, le **conteneur lie tous les services directement à l'IP de l'hôte**. De plus, le conteneur peut **intercepter TOUT le trafic réseau que l'hôte** envoie et reçoit sur l'interface partagée `tcpdump -i eth0`.
+Si un conteneur est configuré avec le pilote de réseau hôte Docker (`--network=host`), la pile réseau de ce conteneur n'est pas isolée de l'hôte Docker (le conteneur partage l'espace de nom réseau de l'hôte) et le conteneur ne reçoit pas d'adresse IP propre. En d'autres termes, **le conteneur lie tous les services directement à l'IP de l'hôte**. De plus, le conteneur peut **intercepter TOUT le trafic réseau que l'hôte** envoie et reçoit sur l'interface partagée `tcpdump -i eth0`.
 
 Par exemple, vous pouvez utiliser cela pour **sniffer et même falsifier le trafic** entre l'hôte et l'instance de métadonnées.
 
@@ -469,10 +469,10 @@ Vous pourrez également accéder aux **services réseau liés à localhost** à 
 ```bash
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Avec `hostIPC=true`, vous avez accès aux ressources de communication inter-processus (IPC) de l'hôte, telles que la **mémoire partagée** dans `/dev/shm`. Cela permet de lire/écrire là où les mêmes ressources IPC sont utilisées par d'autres processus de l'hôte ou du pod. Utilisez `ipcs` pour inspecter ces mécanismes IPC plus en détail.
+Avec `hostIPC=true`, vous accédez aux ressources de communication inter-processus (IPC) de l'hôte, telles que la **mémoire partagée** dans `/dev/shm`. Cela permet de lire/écrire là où les mêmes ressources IPC sont utilisées par d'autres processus de l'hôte ou du pod. Utilisez `ipcs` pour inspecter ces mécanismes IPC plus en détail.
 
 * **Inspecter /dev/shm** - Recherchez des fichiers dans cet emplacement de mémoire partagée : `ls -la /dev/shm`
-* **Inspecter les installations IPC existantes** - Vous pouvez vérifier si des installations IPC sont utilisées avec `/usr/bin/ipcs`. Vérifiez-le avec : `ipcs -a`
+* **Inspecter les installations IPC existantes** - Vous pouvez vérifier si des installations IPC sont utilisées avec `/usr/bin/ipcs`. Vérifiez avec : `ipcs -a`
 
 ### Récupérer les capacités
 
@@ -488,10 +488,10 @@ La deuxième technique expliquée dans l'article [https://labs.withsecure.com/bl
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Obtenez l'accès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 ## CVEs
 
@@ -545,7 +545,7 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ```
 {% endtab %}
 
-{% onglet title = "appels système arm64" %}
+{% tab title="appels système arm64" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -565,7 +565,15 @@ Il existe d'autres CVE auxquelles le conteneur peut être vulnérable, vous pouv
 ```
 {% endtab %}
 
-{% tab title="syscall_bf.c" %}
+{% tab title="syscall_bf.c" %} 
+
+## Évasion de Docker - Escalade de privilèges
+
+Ce script en langage C permet d'exécuter des appels système arbitraires dans un conteneur Docker en exploitant une vulnérabilité de Docker. Cette technique peut être utilisée pour escalader les privilèges et obtenir un accès plus élevé dans un environnement Docker. 
+
+### Utilisation
+
+Compilez le script `syscall_bf.c` et exécutez-le dans un conteneur Docker pour tester l'escalade de privilèges. Assurez-vous de comprendre les risques associés à cette technique avant de l'utiliser.
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -631,10 +639,10 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 
 <figure><img src="../../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=docker-breakout-privilege-escalation) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=docker-breakout-privilege-escalation" %}
 
 <details>
 

@@ -3,10 +3,10 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui à :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 <details>
 
@@ -53,11 +53,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 
 Lors de l'obtention des informations de base, vous devriez vérifier des choses étranges comme :
 
-- Les **processus root** ont généralement des PIDS bas, donc si vous trouvez un processus root avec un PID élevé, vous pouvez suspecter
+- Les **processus root** ont généralement des PIDs bas, donc si vous trouvez un processus root avec un PID élevé, vous pouvez suspecter
 - Vérifiez les **connexions enregistrées** des utilisateurs sans shell dans `/etc/passwd`
 - Vérifiez les **hachages de mots de passe** dans `/etc/shadow` pour les utilisateurs sans shell
 
-### Dump de mémoire
+### Capture de mémoire
 
 Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d'utiliser [**LiME**](https://github.com/504ensicsLabs/LiME).\
 Pour le **compiler**, vous devez utiliser le **même noyau** que celui utilisé par la machine victime.
@@ -85,7 +85,7 @@ LiME peut également être utilisé pour **envoyer le vidage via le réseau** au
 #### Arrêt
 
 Tout d'abord, vous devrez **arrêter le système**. Ce n'est pas toujours une option car parfois le système sera un serveur de production que l'entreprise ne peut pas se permettre d'arrêter.\
-Il y a **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également à un éventuel **logiciel malveillant** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'intervenir. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
+Il existe **2 façons** d'arrêter le système, un **arrêt normal** et un **arrêt "débrancher la prise"**. Le premier permettra aux **processus de se terminer comme d'habitude** et au **système de fichiers** d'être **synchronisé**, mais il permettra également à un éventuel **logiciel malveillant** de **détruire des preuves**. L'approche "débrancher la prise" peut entraîner **une perte d'informations** (pas beaucoup d'informations seront perdues car nous avons déjà pris une image de la mémoire) et le **logiciel malveillant n'aura aucune opportunité** d'intervenir. Par conséquent, si vous **soupçonnez** la présence d'un **logiciel malveillant**, exécutez simplement la commande **`sync`** sur le système et débranchez la prise.
 
 #### Prendre une image du disque
 
@@ -156,10 +156,10 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez-y aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Recherche de logiciels malveillants connus
 
@@ -172,7 +172,7 @@ Linux propose des outils pour garantir l'intégrité des composants système, es
 
 ### Détecteurs de logiciels malveillants/rootkits
 
-Consultez la page suivante pour découvrir des outils pouvant être utiles pour trouver des logiciels malveillants :
+Consultez la page suivante pour découvrir des outils utiles pour trouver des logiciels malveillants :
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -180,12 +180,12 @@ Consultez la page suivante pour découvrir des outils pouvant être utiles pour 
 
 ## Recherche de programmes installés
 
-Pour rechercher efficacement des programmes installés sur les systèmes Debian et RedHat, envisagez d'utiliser les journaux système et les bases de données en complément des vérifications manuelles dans les répertoires courants.
+Pour rechercher efficacement des programmes installés sur les systèmes Debian et RedHat, envisagez d'utiliser les journaux système et les bases de données en plus des vérifications manuelles dans les répertoires courants.
 
 * Pour Debian, inspectez _**`/var/lib/dpkg/status`**_ et _**`/var/log/dpkg.log`**_ pour obtenir des détails sur les installations de packages, en utilisant `grep` pour filtrer des informations spécifiques.
 * Les utilisateurs de RedHat peuvent interroger la base de données RPM avec `rpm -qa --root=/mntpath/var/lib/rpm` pour lister les packages installés.
 
-Pour découvrir les logiciels installés manuellement ou en dehors de ces gestionnaires de packages, explorez des répertoires tels que _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, et _**`/sbin`**_. Combiner les listes de répertoires avec des commandes spécifiques au système permet d'identifier les exécutables non associés à des packages connus, améliorant ainsi votre recherche de tous les programmes installés.
+Pour découvrir les logiciels installés manuellement ou en dehors de ces gestionnaires de packages, explorez des répertoires tels que _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, et _**`/sbin`**_. Combiner les listes de répertoires avec des commandes spécifiques au système pour identifier les exécutables non associés à des packages connus, améliorant ainsi votre recherche de tous les programmes installés.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,10 +204,10 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Récupérer les binaires en cours d'exécution supprimés
 
@@ -217,7 +217,7 @@ cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Examiner les emplacements de démarrage automatique
+## Inspecter les emplacements de démarrage automatique
 
 ### Tâches planifiées
 ```bash
@@ -244,8 +244,8 @@ Chemins où un logiciel malveillant pourrait être installé en tant que service
 * **/etc/systemd/system** : Un répertoire pour les scripts du système et du gestionnaire de services.
 * **/etc/systemd/system/multi-user.target.wants/** : Contient des liens vers des services qui doivent être démarrés dans un niveau d'exécution multi-utilisateurs.
 * **/usr/local/etc/rc.d/** : Pour des services personnalisés ou tiers.
-* **\~/.config/autostart/** : Pour des applications de démarrage automatique spécifiques à l'utilisateur, qui peuvent être un endroit de dissimulation pour les logiciels malveillants ciblant l'utilisateur.
-* **/lib/systemd/system/** : Fichiers d'unités par défaut à l'échelle du système fournis par les packages installés.
+* **\~/.config/autostart/** : Pour des applications de démarrage automatique spécifiques à l'utilisateur, qui peuvent être un endroit de dissimulation pour les logiciels malveillants ciblant les utilisateurs.
+* **/lib/systemd/system/** : Fichiers d'unités par défaut à l'échelle du système fournis par les paquets installés.
 
 ### Modules du Noyau
 
@@ -274,7 +274,7 @@ Les systèmes Linux suivent les activités des utilisateurs et les événements 
 * **/var/log/maillog** ou **/var/log/mail.log** : Enregistre les activités du serveur de messagerie, utile pour suivre les services liés aux e-mails.
 * **/var/log/kern.log** : Stocke les messages du noyau, y compris les erreurs et les avertissements.
 * **/var/log/dmesg** : Contient les messages des pilotes de périphériques.
-* **/var/log/faillog** : Enregistre les tentatives de connexion échouées, aidant dans les enquêtes sur les violations de sécurité.
+* **/var/log/faillog** : Enregistre les tentatives de connexion échouées, aidant aux enquêtes sur les violations de sécurité.
 * **/var/log/cron** : Enregistre les exécutions des tâches cron.
 * **/var/log/daemon.log** : Trace les activités des services en arrière-plan.
 * **/var/log/btmp** : Documente les tentatives de connexion échouées.
@@ -310,7 +310,7 @@ Certaines applications génèrent également leurs propres journaux :
 * **Bureau Gnome** : Consultez _\~/.recently-used.xbel_ pour les fichiers récemment consultés via les applications Gnome.
 * **Firefox/Chrome** : Vérifiez l'historique du navigateur et les téléchargements dans _\~/.mozilla/firefox_ ou _\~/.config/google-chrome_ pour des activités suspectes.
 * **VIM** : Consultez _\~/.viminfo_ pour des détails d'utilisation, tels que les chemins d'accès aux fichiers consultés et l'historique des recherches.
-* **Open Office** : Recherchez les accès récents aux documents qui peuvent indiquer des fichiers compromis.
+* **Open Office** : Vérifiez les accès récents aux documents qui peuvent indiquer des fichiers compromis.
 * **FTP/SFTP** : Consultez les journaux dans _\~/.ftp\_history_ ou _\~/.sftp\_history_ pour les transferts de fichiers qui pourraient être non autorisés.
 * **MySQL** : Enquêtez sur _\~/.mysql\_history_ pour les requêtes MySQL exécutées, révélant potentiellement des activités de base de données non autorisées.
 * **Less** : Analysez _\~/.lesshst_ pour l'historique d'utilisation, y compris les fichiers consultés et les commandes exécutées.
@@ -320,7 +320,7 @@ Certaines applications génèrent également leurs propres journaux :
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) est un petit logiciel écrit en Python 3 pur qui analyse les fichiers journaux Linux (`/var/log/syslog*` ou `/var/log/messages*` selon la distribution) pour construire des tables d'historique des événements USB.
 
-Il est intéressant de **connaître tous les périphériques USB qui ont été utilisés** et cela sera plus utile si vous avez une liste autorisée de périphériques USB pour trouver des "événements de violation" (l'utilisation de périphériques USB qui ne sont pas dans cette liste).
+Il est intéressant de **connaître tous les USB qui ont été utilisés** et cela sera plus utile si vous avez une liste autorisée d'USB pour trouver des "événements de violation" (l'utilisation d'USB qui ne sont pas dans cette liste).
 
 ### Installation
 ```bash
@@ -340,15 +340,15 @@ Plus d'exemples et d'informations sur le github : [https://github.com/snovvcrash
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire facilement et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Examiner les comptes d'utilisateur et les activités de connexion
 
 Examinez les fichiers _**/etc/passwd**_, _**/etc/shadow**_ et les **logs de sécurité** à la recherche de noms ou de comptes inhabituels créés et/ou utilisés à proximité d'événements non autorisés connus. Vérifiez également les possibles attaques de force brute sudo.\
-De plus, vérifiez des fichiers comme _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
+De plus, vérifiez des fichiers tels que _**/etc/sudoers**_ et _**/etc/groups**_ pour des privilèges inattendus accordés aux utilisateurs.\
 Enfin, recherchez des comptes sans **mot de passe** ou avec des mots de passe **facilement devinables**.
 
 ## Examiner le système de fichiers
@@ -363,7 +363,7 @@ Pour contrer ces méthodes anti-forensiques, il est essentiel de :
 * **Enquêter sur des scripts inattendus** dans le $PATH du système, qui pourraient inclure des scripts shell ou PHP utilisés par des attaquants.
 * **Examiner `/dev` pour des fichiers atypiques**, car il contient traditionnellement des fichiers spéciaux, mais peut contenir des fichiers liés aux logiciels malveillants.
 * **Rechercher des fichiers ou répertoires cachés** avec des noms comme ".. " (point point espace) ou "..^G" (point point contrôle-G), qui pourraient dissimuler un contenu malveillant.
-* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être exploités par des attaquants.
+* **Identifier les fichiers setuid root** en utilisant la commande : `find / -user root -perm -04000 -print` Cela permet de trouver des fichiers avec des permissions élevées, qui pourraient être utilisés de manière abusive par des attaquants.
 * **Vérifier les horodatages de suppression** dans les tables d'inodes pour repérer des suppressions massives de fichiers, indiquant éventuellement la présence de rootkits ou de chevaux de Troie.
 * **Inspecter les inodes consécutifs** pour repérer des fichiers malveillants à proximité après en avoir identifié un, car ils peuvent avoir été placés ensemble.
 * **Vérifier les répertoires binaires courants** (_/bin_, _/sbin_) pour des fichiers récemment modifiés, car ils pourraient avoir été altérés par des logiciels malveillants.
@@ -405,7 +405,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `T`: Changements de type (par exemple, fichier vers lien symbolique)
 * `U`: Fichiers non fusionnés
 * `X`: Fichiers inconnus
-* `B`: Fichiers cassés
+* `B`: Fichiers corrompus
 
 ## Références
 
@@ -431,7 +431,7 @@ Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir vo
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

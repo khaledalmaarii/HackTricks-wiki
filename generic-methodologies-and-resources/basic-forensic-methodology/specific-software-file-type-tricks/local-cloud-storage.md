@@ -17,10 +17,10 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) pour construire et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
@@ -35,7 +35,7 @@ Sous Windows, vous pouvez trouver le dossier OneDrive dans `\Users\<username>\Ap
 * Heure de génération du rapport
 * Taille du disque dur du système d'exploitation
 
-Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet identifiant**. Vous pourriez être en mesure de trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes comme les noms des fichiers synchronisés avec OneDrive.
+Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet identifiant**. Vous pourriez trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes comme les noms des fichiers synchronisés avec OneDrive.
 
 ## Google Drive
 
@@ -86,19 +86,19 @@ Ensuite, vous pouvez utiliser l'outil [**DataProtectionDecryptor**](https://nirs
 
 Si tout se passe comme prévu, l'outil indiquera la **clé principale** dont vous avez besoin pour **récupérer l'originale**. Pour récupérer l'originale, utilisez simplement cette [recette cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) en mettant la clé principale comme "passphrase" à l'intérieur de la recette.
 
-Le hex résultant est la clé finale utilisée pour chiffrer les bases de données qui peuvent être déchiffrées avec :
+L'hexadécimal résultant est la clé finale utilisée pour chiffrer les bases de données qui peuvent être déchiffrées avec :
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
-La base de données **`config.dbx`** contient :
+Le fichier de base de données **`config.dbx`** contient :
 
-- **Email** : L'e-mail de l'utilisateur
+- **Email** : L'email de l'utilisateur
 - **usernamedisplayname** : Le nom de l'utilisateur
 - **dropbox\_path** : Chemin où se trouve le dossier Dropbox
 - **Host\_id** : Hash utilisé pour s'authentifier sur le cloud. Cela ne peut être révoqué que depuis le web.
 - **Root\_ns** : Identifiant de l'utilisateur
 
-La base de données **`filecache.db`** contient des informations sur tous les fichiers et dossiers synchronisés avec Dropbox. La table `File_journal` est celle qui contient le plus d'informations utiles :
+Le fichier de base de données **`filecache.db`** contient des informations sur tous les fichiers et dossiers synchronisés avec Dropbox. La table `File_journal` est celle qui contient le plus d'informations utiles :
 
 - **Server\_path** : Chemin où se trouve le fichier sur le serveur (ce chemin est précédé par l'`host_id` du client).
 - **local\_sjid** : Version du fichier
@@ -116,10 +116,10 @@ D'autres tables à l'intérieur de cette base de données contiennent des inform
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 <details>
 

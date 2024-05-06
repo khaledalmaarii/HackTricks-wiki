@@ -17,10 +17,10 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=pdf-file-analysis) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pdf-file-analysis" %}
 
 **Pour plus de détails, consultez :** [**https://trailofbits.github.io/ctf/forensics/**](https://trailofbits.github.io/ctf/forensics/)
 
@@ -32,7 +32,7 @@ Pour une exploration approfondie ou une manipulation des PDF, des outils comme [
 * Le format de métadonnées XMP par Adobe
 * Des générations incrémentielles
 * Du texte de la même couleur que l'arrière-plan
-* Du texte derrière des images ou chevauchant des images
+* Du texte derrière des images ou des images superposées
 * Des commentaires non affichés
 
 Pour une analyse personnalisée des PDF, des bibliothèques Python comme [PeepDF](https://github.com/jesparza/peepdf) peuvent être utilisées pour créer des scripts d'analyse sur mesure. De plus, le potentiel des PDF pour le stockage de données cachées est si vaste que des ressources comme le guide de la NSA sur les risques et les contre-mesures des PDF, bien qu'il ne soit plus hébergé à son emplacement d'origine, offrent toujours des informations précieuses. Une [copie du guide](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) et une collection de [astuces sur le format PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md) par Ange Albertini peuvent fournir des lectures complémentaires sur le sujet.

