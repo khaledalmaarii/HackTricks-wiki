@@ -17,14 +17,14 @@ Inne sposoby wsparcia HackTricks:
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj Dostęp Dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 ## OneDrive
 
-W systemie Windows można znaleźć folder OneDrive w `\Users\<nazwa_użytkownika>\AppData\Local\Microsoft\OneDrive`. Wewnątrz folderu `logs\Personal` można znaleźć plik `SyncDiagnostics.log`, który zawiera pewne interesujące dane dotyczące zsynchronizowanych plików:
+W systemie Windows, folder OneDrive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Microsoft\OneDrive`. Wewnątrz folderu `logs\Personal` można znaleźć plik `SyncDiagnostics.log`, który zawiera pewne interesujące dane dotyczące zsynchronizowanych plików:
 
 * Rozmiar w bajtach
 * Data utworzenia
@@ -39,17 +39,17 @@ Gdy już znajdziesz CID, zaleca się **wyszukiwanie plików zawierających to ID
 
 ## Google Drive
 
-W systemie Windows główny folder Google Drive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Google\Drive\user_default`\
+W systemie Windows, główny folder Google Drive znajduje się w `\Users\<nazwa_użytkownika>\AppData\Local\Google\Drive\user_default`\
 Ten folder zawiera plik o nazwie Sync\_log.log z informacjami, takimi jak adres e-mail konta, nazwy plików, znaczniki czasu, skróty MD5 plików, itp. Nawet usunięte pliki pojawiają się w tym pliku dziennika z odpowiadającymi im skrótami MD5.
 
-Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli można znaleźć **nazwę** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
+Plik **`Cloud_graph\Cloud_graph.db`** to baza danych sqlite, która zawiera tabelę **`cloud_graph_entry`**. W tej tabeli znajdziesz **nazwę** **zsynchronizowanych** **plików**, czas modyfikacji, rozmiar i sumę kontrolną MD5 plików.
 
 Dane tabeli bazy danych **`Sync_config.db`** zawierają adres e-mail konta, ścieżkę folderów udostępnionych i wersję Google Drive.
 
 ## Dropbox
 
 Dropbox używa **baz danych SQLite** do zarządzania plikami. W tym\
-Można znaleźć bazy danych w folderach:
+Możesz znaleźć bazy danych w folderach:
 
 * `\Users\<nazwa_użytkownika>\AppData\Local\Dropbox`
 * `\Users\<nazwa_użytkownika>\AppData\Local\Dropbox\Instance1`
@@ -62,9 +62,9 @@ A główne bazy danych to:
 * Deleted.dbx
 * Config.dbx
 
-Rozszerzenie ".dbx" oznacza, że **bazy danych są zaszyfrowane**. Dropbox używa **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
+Rozszerzenie ".dbx" oznacza, że **bazy danych** są **zaszyfrowane**. Dropbox używa **DPAPI** ([https://docs.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/previous-versions/ms995355\(v=msdn.10\)?redirectedfrom=MSDN))
 
-Aby lepiej zrozumieć szyfrowanie używane przez Dropbox, można przeczytać [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
+Aby lepiej zrozumieć szyfrowanie używane przez Dropbox, możesz przeczytać [https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html](https://blog.digital-forensics.it/2017/04/brush-up-on-dropbox-dbx-decryption.html).
 
 Jednak główne informacje to:
 
@@ -75,17 +75,17 @@ Jednak główne informacje to:
 
 Oprócz tych informacji, aby odszyfrować bazy danych, potrzebujesz:
 
-* **Zaszyfrowany klucz DPAPI**: Możesz go znaleźć w rejestrze w `NTUSER.DAT\Software\Dropbox\ks\client` (wyeksportuj te dane jako binarne)
+* **Zaszyfrowany klucz DPAPI**: Możesz go znaleźć w rejestrze wewnątrz `NTUSER.DAT\Software\Dropbox\ks\client` (wyeksportuj te dane jako binarne)
 * Szyfrowane klucze główne DPAPI: Które można znaleźć w `\Users\<nazwa_użytkownika>\AppData\Roaming\Microsoft\Protect`
 * **Nazwę użytkownika** i **hasło** użytkownika systemu Windows
 
-Następnie można użyć narzędzia [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
+Następnie możesz użyć narzędzia [**DataProtectionDecryptor**](https://nirsoft.net/utils/dpapi\_data\_decryptor.html)**:**
 
 ![](<../../../.gitbook/assets/image (443).png>)
 
-Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który należy **użyć do odzyskania oryginalnego klucza**. Aby odzyskać oryginalny klucz, wystarczy użyć tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\) wpisując klucz główny jako "hasło" w przepisie.
+Jeśli wszystko pójdzie zgodnie z oczekiwaniami, narzędzie wskaże **klucz główny**, który musisz **użyć do odzyskania oryginalnego**. Aby odzyskać oryginalny, po prostu użyj tego [przepisu cyber\_chef](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\)) wpisując klucz główny jako "hasło" wewnątrz przepisu.
 
-Wynikowy szesnastkowy kod to ostateczny klucz używany do szyfrowania baz danych, które można odszyfrować za pomocą:
+Otrzymany wynikowy szesnastkowy kod to ostateczny klucz używany do szyfrowania baz danych, które można odszyfrować za pomocą:
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
@@ -93,13 +93,13 @@ Baza danych **`config.dbx`** zawiera:
 
 - **Email**: Adres e-mail użytkownika
 - **usernamedisplayname**: Nazwa użytkownika
-- **dropbox\_path**: Ścieżka, gdzie znajduje się folder Dropbox
+- **dropbox\_path**: Ścieżka, w której znajduje się folder Dropbox
 - **Host\_id: Hash** używany do uwierzytelniania w chmurze. Można go wycofać tylko z poziomu sieci.
 - **Root\_ns**: Identyfikator użytkownika
 
 Baza danych **`filecache.db`** zawiera informacje o wszystkich plikach i folderach zsynchronizowanych z Dropbox. Tabela `File_journal` zawiera najbardziej przydatne informacje:
 
-- **Server\_path**: Ścieżka, gdzie znajduje się plik na serwerze (ścieżka ta poprzedzona jest przez `host_id` klienta).
+- **Server\_path**: Ścieżka, w której znajduje się plik na serwerze (ścieżka ta poprzedzona jest przez `host_id` klienta).
 - **local\_sjid**: Wersja pliku
 - **local\_mtime**: Data modyfikacji
 - **local\_ctime**: Data utworzenia
@@ -108,21 +108,21 @@ Inne tabele w tej bazie danych zawierają bardziej interesujące informacje:
 
 - **block\_cache**: skrót wszystkich plików i folderów Dropbox
 - **block\_ref**: Powiązanie identyfikatora skrótu z tabeli `block_cache` z identyfikatorem pliku w tabeli `file_journal`
-- **mount\_table**: Dzielenie folderów Dropbox
+- **mount\_table**: Dzielone foldery Dropbox
 - **deleted\_fields**: Usunięte pliki Dropbox
 - **date\_added**
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=local-cloud-storage), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=local-cloud-storage" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 

@@ -3,14 +3,14 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań mistrzem hakowania AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
@@ -24,15 +24,15 @@ Inne sposoby wsparcia HackTricks:
 
 ## Kerberoast
 
-Kerberoasting koncentruje się na pozyskiwaniu **biletów TGS**, szczególnie tych związanych z usługami działającymi na **kontach użytkowników** w **Active Directory (AD)**, wyłączając **konta komputerowe**. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **hasła użytkownika**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi jest wskazane przez niepusty atrybut **"ServicePrincipalName"**.
+Kerberoasting koncentruje się na pozyskiwaniu biletów **TGS**, szczególnie tych związanych z usługami działającymi na kontach **użytkowników** w **Active Directory (AD)**, wyłączając konta **komputerowe**. Szyfrowanie tych biletów wykorzystuje klucze pochodzące z **hasła użytkownika**, co umożliwia **offlineowe łamanie poświadczeń**. Użycie konta użytkownika jako usługi jest wskazane przez niepustą właściwość **"ServicePrincipalName"**.
 
-Aby wykonać **Kerberoasting**, niezbędne jest konto domeny zdolne do żądania **biletów TGS**; jednakże ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego z **ważnymi poświadczeniami domeny**.
+Do wykonania **Kerberoastingu** niezbędne jest konto domeny zdolne do żądania biletów **TGS**; jednakże ten proces nie wymaga **specjalnych uprawnień**, co czyni go dostępnym dla każdego z **ważnymi poświadczeniami domeny**.
 
 ### Kluczowe punkty:
 
-* **Kerberoasting** celuje w **bilety TGS** dla **usług kont użytkowników** w **AD**.
+* **Kerberoasting** celuje w bilet **TGS** dla usług na kontach **użytkowników** w **AD**.
 * Bilety szyfrowane kluczami z **haseł użytkowników** mogą być **łamane offline**.
-* Usługa jest identyfikowana przez niepusty atrybut **ServicePrincipalName**.
+* Usługa jest identyfikowana przez niepustą właściwość **ServicePrincipalName**.
 * Nie są wymagane **specjalne uprawnienia**, wystarczą **ważne poświadczenia domeny**.
 
 ### **Atak**
@@ -110,10 +110,10 @@ Podczas żądania TGS generowany jest Windows event `4769 - A Kerberos service t
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo tworzyć i **automatyzować workflows** oparte na najbardziej zaawansowanych narzędziach społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast), aby łatwo tworzyć i **automatyzować workflows** oparte na najbardziej zaawansowanych narzędziach społeczności na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 ### Cracking
 ```bash
@@ -123,44 +123,44 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 ### Trwałość
 
-Jeśli masz **wystarczające uprawnienia** dla użytkownika, możesz go uczynić **podatnym na atak Kerberoast**:
+Jeśli masz **wystarczające uprawnienia** dla użytkownika, możesz go **zrobić kerberoastable**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Możesz znaleźć przydatne **narzędzia** do ataków **kerberoast** tutaj: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Zbyt duże odchylenie zegara)`**, oznacza to problem z czasem lokalnym, który należy zsynchronizować z kontrolerem domeny. Istnieje kilka opcji:
+Jeśli napotkasz ten **błąd** z systemu Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Zbyt duży błąd zegara)`**, oznacza to problem z lokalnym czasem, który należy zsynchronizować z kontrolerem domeny. Istnieje kilka opcji:
 
 * `ntpdate <IP kontrolera domeny>` - Przestarzałe od wersji Ubuntu 16.04
 * `rdate -n <IP kontrolera domeny>`
 
-### Zmniejszenie ryzyka
+### Złagodzenie
 
-Atak **kerberoast** może być przeprowadzany z dużym stopniem skrytości, jeśli jest podatny na eksploatację. Aby wykryć tę aktywność, należy zwrócić uwagę na **Zdarzenie zabezpieczeń ID 4769**, które wskazuje, że żądany został bilet Kerberos. Jednak ze względu na wysoką częstotliwość tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
+Ataki typu Kerberoasting mogą być przeprowadzane z dużym stopniem skrytości, jeśli są wykonalne. Aby wykryć tę aktywność, należy zwrócić uwagę na **ID zdarzenia zabezpieczeń 4769**, które wskazuje, że żądano biletu Kerberos. Jednak ze względu na wysoką częstotliwość tego zdarzenia, należy zastosować konkretne filtry, aby wyodrębnić podejrzane działania:
 
 * Nazwa usługi nie powinna być **krbtgt**, ponieważ jest to normalne żądanie.
 * Nazwy usług kończące się na **$** powinny być wykluczone, aby uniknąć uwzględniania kont komputerowych używanych do usług.
 * Żądania z maszyn powinny być odfiltrowane poprzez wykluczenie nazw kont sformatowanych jako **maszyna@domena**.
 * Należy rozważyć jedynie udane żądania biletów, zidentyfikowane przez kod błędu **'0x0'**.
-* **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest wykorzystywane w atakach typu Kerberoasting.
+* **Najważniejsze**, typ szyfrowania biletu powinien być **0x17**, co często jest używane w atakach typu Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
 Aby zmniejszyć ryzyko Kerberoastingu:
 
 * Upewnij się, że **Hasła kont usług** są trudne do odgadnięcia, zalecając długość powyżej **25 znaków**.
-* Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwami usługowych principalnych (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
+* Wykorzystaj **Zarządzane konta usług**, które oferują korzyści takie jak **automatyczne zmiany hasła** i **delegowane zarządzanie nazwami usługodawców (SPN)**, zwiększając bezpieczeństwo przed tego rodzaju atakami.
 
 Poprzez wdrożenie tych środków organizacje mogą znacząco zmniejszyć ryzyko związane z Kerberoastingiem.
 
 ## Kerberoast bez konta domeny
 
-We **wrześniu 2022**, nowy sposób eksploatacji systemu został ujawniony przez badacza o nazwie Charlie Clark, udostępniony poprzez jego platformę [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usługi (ST)** poprzez żądanie **KRB\_AS\_REQ**, co nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do znanego w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest zmylany do wydania **ST** zamiast standardowego zaszyfrowanego Biletu Granting Ticket (TGT).
+We **wrześniu 2022**, nowy sposób eksploatacji systemu został ujawniony przez badacza o nazwie Charlie Clark, udostępniony poprzez jego platformę [exploit.ph](https://exploit.ph/). Ta metoda umożliwia pozyskanie **Biletów Usługi (ST)** poprzez żądanie **KRB\_AS\_REQ**, co nie wymaga kontroli nad żadnym kontem Active Directory. W zasadzie, jeśli podmiot jest skonfigurowany w taki sposób, że nie wymaga wstępnej autoryzacji - scenariusz podobny do znanego w świecie cyberbezpieczeństwa jako atak **AS-REP Roasting** - ta cecha może być wykorzystana do manipulacji procesem żądania. Konkretnie, poprzez zmianę atrybutu **sname** w ciele żądania, system jest zmylany do wydania **ST** zamiast standardowego zaszyfrowanego Biletu Przyznawania Biletów (TGT).
 
 Technika jest w pełni wyjaśniona w tym artykule: [wpis na blogu Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-Musisz dostarczyć listę użytkowników, ponieważ nie mamy ważnego konta do zapytania LDAP przy użyciu tej techniki.
+Musisz podać listę użytkowników, ponieważ nie mamy ważnego konta do zapytania LDAP za pomocą tej techniki.
 {% endhint %}
 
 #### Linux
@@ -198,7 +198,7 @@ Inne sposoby wsparcia HackTricks:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji workflowów** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast), aby łatwo budować i **automatyzować workflowy** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}

@@ -2,22 +2,23 @@
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
-Otrzymaj dostęp już dziś:
+\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
+Zdobądź dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
+* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
 
@@ -25,12 +26,12 @@ Inne sposoby wsparcia HackTricks:
 
 ### Podstawowe informacje
 
-Po pierwsze, zaleca się posiadanie **pendrive'a** z **znanymi dobrymi binarkami i bibliotekami** (możesz po prostu skopiować foldery _/bin_, _/sbin_, _/lib_ i _/lib64_ z Ubuntu), następnie zamontuj pendrive i zmodyfikuj zmienne środowiskowe, aby używać tych binarek:
+Po pierwsze, zaleca się posiadanie **pendrive'a** z **znanymi dobrymi binarkami i bibliotekami** (możesz po prostu pobrać Ubuntu i skopiować foldery _/bin_, _/sbin_, _/lib_ i _/lib64_), następnie zamontuj pendrive i zmodyfikuj zmienne środowiskowe, aby używać tych binarek:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Gdy już skonfigurowano system do korzystania z dobrych i znanych binariów, można zacząć **wydobywać podstawowe informacje**:
+Kiedy skonfigurowano system do użycia dobrych i znanych binariów, można rozpocząć **wydobywanie podstawowych informacji**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -62,19 +63,19 @@ Aby uzyskać pamięć działającego systemu, zaleca się użycie [**LiME**](htt
 Aby go **skompilować**, musisz użyć **tego samego jądra**, którego używa maszyna ofiary.
 
 {% hint style="info" %}
-Pamiętaj, że **nie możesz zainstalować LiME ani niczego innego** na maszynie ofiary, ponieważ spowoduje to kilka zmian w niej
+Pamiętaj, że **nie możesz zainstalować LiME ani niczego innego** na maszynie ofiary, ponieważ spowoduje to kilka zmian
 {% endhint %}
 
 Więc jeśli masz identyczną wersję Ubuntu, możesz użyć `apt-get install lime-forensics-dkms`\
-W innych przypadkach musisz pobrać [**LiME**](https://github.com/504ensicsLabs/LiME) z githuba i skompilować go z odpowiednimi nagłówkami jądra. Aby **uzyskać dokładne nagłówki jądra** maszyny ofiary, możesz po prostu **skopiować katalog** `/lib/modules/<wersja jądra>` na swoją maszynę, a następnie **skompilować** LiME używając ich:
+W innych przypadkach musisz pobrać [**LiME**](https://github.com/504ensicsLabs/LiME) z githuba i skompilować go z odpowiednimi nagłówkami jądra. Aby **uzyskać dokładne nagłówki jądra** maszyny ofiary, możesz po prostu **skopiować katalog** `/lib/modules/<wersja jądra>` na swoją maszynę, a następnie **skompilować** LiME, korzystając z nich:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
 LiME obsługuje 3 **formaty**:
 
-* Surowy (każdy segment sklejony razem)
-* Wyściełany (to samo co surowy, ale z zerami na prawym końcu)
+* Surowy (każdy segment połączony razem)
+* Wyściełany (to samo co surowy, ale z zerami na prawej stronie)
 * Lime (zalecany format z metadanymi)
 
 LiME można również użyć do **wysłania zrzutu przez sieć** zamiast przechowywania go w systemie, używając czegoś takiego jak: `path=tcp:4444`
@@ -84,11 +85,11 @@ LiME można również użyć do **wysłania zrzutu przez sieć** zamiast przecho
 #### Wyłączenie
 
 Po pierwsze, będziesz musiał **wyłączyć system**. Nie zawsze jest to opcja, ponieważ czasami system będzie serwerem produkcyjnym, którego firma nie może sobie pozwolić na wyłączenie.\
-Istnieją **2 sposoby** wyłączenia systemu, **normalne wyłączenie** i **wyłączenie "wyciągnij wtyczkę"**. Pierwsze pozwoli **procesom zakończyć działanie jak zwykle** i **zsynchronizować system plików**, ale pozwoli również ewentualnemu **malware'owi zniszczyć dowody**. Podejście "wyciągnij wtyczkę" może wiązać się z **pewną utratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **malware nie będzie miał szansy** na cokolwiek. Dlatego jeśli **podejrzewasz**, że może być **malware**, po prostu wykonaj polecenie **`sync`** na systemie i wyciągnij wtyczkę.
+Istnieją **2 sposoby** wyłączenia systemu, **normalne wyłączenie** i **wyłączenie "wyciągnij wtyczkę"**. Pierwsze pozwoli **procesom zakończyć działanie jak zwykle** i **zsynchronizować system plików**, ale pozwoli również ewentualnemu **malware** na **zniszczenie dowodów**. Podejście "wyciągnij wtyczkę" może wiązać się z **pewną stratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **malware nie będzie miał szansy** na cokolwiek. Dlatego jeśli **podejrzewasz**, że może być **malware**, po prostu wykonaj polecenie **`sync`** na systemie i wyciągnij wtyczkę.
 
 #### Tworzenie obrazu dysku
 
-Ważne jest zauważenie, że **przed podłączeniem komputera do czegokolwiek związanego z przypadkiem**, musisz upewnić się, że będzie on **zamontowany jako tylko do odczytu**, aby uniknąć modyfikowania jakichkolwiek informacji.
+Ważne jest zauważenie, że **przed podłączeniem komputera do czegokolwiek związanego z sprawą**, musisz upewnić się, że będzie on **zamontowany jako tylko do odczytu**, aby uniknąć modyfikowania jakichkolwiek informacji.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -155,10 +156,10 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Korzystaj z [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo tworzyć i **automatyzować** przepływy pracy zasilane przez najbardziej zaawansowane narzędzia społecznościowe na świecie.\
-Otrzymaj dostęp już dziś:
+Korzystaj z [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo tworzyć i **automatyzować przepływy pracy** oparte na najbardziej zaawansowanych narzędziach społeczności na świecie.\
+Otrzymaj Dostęp Dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Wyszukiwanie znanego oprogramowania złośliwego
 
@@ -181,10 +182,10 @@ Przeczytaj następną stronę, aby dowiedzieć się o narzędziach, które mogą
 
 Aby skutecznie wyszukiwać zainstalowane programy zarówno w systemach Debian, jak i RedHat, rozważ wykorzystanie dzienników systemowych i baz danych w połączeniu z ręcznymi sprawdzeniami w powszechnych katalogach.
 
-* Dla Debiana, sprawdź _**`/var/lib/dpkg/status`**_ i _**`/var/log/dpkg.log`**_ w celu uzyskania szczegółów dotyczących instalacji pakietów, używając `grep` do filtrowania konkretnych informacji.
+* Dla Debiana, sprawdź _**`/var/lib/dpkg/status`**_ i _**`/var/log/dpkg.log`**_, aby uzyskać szczegóły dotyczące instalacji pakietów, używając `grep` do filtrowania konkretnych informacji.
 * Użytkownicy RedHat mogą zapytać bazę danych RPM za pomocą `rpm -qa --root=/mntpath/var/lib/rpm`, aby wyświetlić zainstalowane pakiety.
 
-Aby odkryć oprogramowanie zainstalowane ręcznie lub poza tymi menedżerami pakietów, przejrzyj katalogi takie jak _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ i _**`/sbin`**_. Połącz listy katalogów z poleceniami specyficznymi dla systemu, aby zidentyfikować pliki wykonywalne niepowiązane z znanymi pakietami, zwiększając tym samym swoje poszukiwania wszystkich zainstalowanych programów.
+Aby odkryć oprogramowanie zainstalowane ręcznie lub poza tymi menedżerami pakietów, przejrzyj katalogi takie jak _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ i _**`/sbin`**_. Połącz listy katalogów z poleceniami specyficznymi dla systemu, aby zidentyfikować pliki wykonywalne niepowiązane z znanymi pakietami, zwiększając tym samym skuteczność wyszukiwania wszystkich zainstalowanych programów.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -203,14 +204,14 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks), aby łatwo tworzyć i **automatyzować** przepływy pracy z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo tworzyć i **automatyzować** zadania przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Odzyskiwanie Usuniętych Uruchamianych Binaries
 
-Wyobraź sobie proces, który został uruchomiony z /tmp/exec, a następnie usunięty. Możliwe jest jego odzyskanie.
+Wyobraź sobie proces, który został uruchomiony z /tmp/exec, a następnie usunięty. Możliwe jest jego wydobycie
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -237,18 +238,18 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 Ścieżki, w których złośliwe oprogramowanie może zostać zainstalowane jako usługa:
 
 - **/etc/inittab**: Wywołuje skrypty inicjalizacyjne, takie jak rc.sysinit, kierując dalej do skryptów uruchamiania.
-- **/etc/rc.d/** i **/etc/rc.boot/**: Zawierają skrypty do uruchamiania usług, przy czym te drugie można znaleźć w starszych wersjach systemu Linux.
+- **/etc/rc.d/** i **/etc/rc.boot/**: Zawierają skrypty do uruchamiania usług, przy czym te drugie znajdują się w starszych wersjach systemu Linux.
 - **/etc/init.d/**: Używane w niektórych wersjach Linuxa, takich jak Debian, do przechowywania skryptów uruchamiania.
-- Usługi mogą być również aktywowane za pomocą **/etc/inetd.conf** lub **/etc/xinetd/**, w zależności od wariantu systemu Linux.
+- Usługi mogą również być aktywowane za pomocą **/etc/inetd.conf** lub **/etc/xinetd/**, w zależności od wariantu systemu Linux.
 - **/etc/systemd/system**: Katalog dla skryptów systemowych i menedżera usług.
-- **/etc/systemd/system/multi-user.target.wants/**: Zawiera odnośniki do usług, które powinny zostać uruchomione w wielu poziomach uruchamiania.
+- **/etc/systemd/system/multi-user.target.wants/**: Zawiera odnośniki do usług, które powinny być uruchamiane w wieloużytkownikowym poziomie uruchamiania.
 - **/usr/local/etc/rc.d/**: Dla niestandardowych lub zewnętrznych usług.
 - **\~/.config/autostart/**: Dla aplikacji uruchamianych automatycznie dla konkretnego użytkownika, co może być miejscem ukrycia dla złośliwego oprogramowania ukierunkowanego na użytkownika.
 - **/lib/systemd/system/**: Pliki jednostek domyślnych dla całego systemu dostarczane przez zainstalowane pakiety.
 
 ### Moduły jądra
 
-Moduły jądra Linux, często wykorzystywane przez złośliwe oprogramowanie jako składniki rootkitów, są ładowane podczas uruchamiania systemu. Istotne katalogi i pliki dla tych modułów to:
+Moduły jądra Linux, często wykorzystywane przez złośliwe oprogramowanie jako komponenty rootkitów, są ładowane podczas uruchamiania systemu. Istotne katalogi i pliki dla tych modułów to:
 
 - **/lib/modules/$(uname -r)**: Zawiera moduły dla działającej wersji jądra.
 - **/etc/modprobe.d**: Zawiera pliki konfiguracyjne do kontrolowania ładowania modułów.
@@ -260,7 +261,7 @@ Linux wykorzystuje różne pliki do automatycznego uruchamiania programów po za
 
 - **/etc/profile.d/**\*, **/etc/profile** i **/etc/bash.bashrc**: Wykonywane dla każdego logowania użytkownika.
 - **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile** i **\~/.config/autostart**: Pliki specyficzne dla użytkownika, które są uruchamiane po ich zalogowaniu.
-- **/etc/rc.local**: Uruchamiany po uruchomieniu wszystkich usług systemowych, oznaczając zakończenie przejścia do środowiska wieloużytkownika.
+- **/etc/rc.local**: Uruchamiany po uruchomieniu wszystkich usług systemowych, oznaczając zakończenie przejścia do środowiska wieloużytkownikowego.
 
 ## Sprawdzanie logów
 
@@ -272,7 +273,7 @@ Systemy Linux śledzą aktywności użytkowników i zdarzenia systemowe za pomoc
 - **/var/log/boot.log**: Zawiera komunikaty uruchamiania systemu.
 - **/var/log/maillog** lub **/var/log/mail.log**: Rejestrują aktywności serwera poczty e-mail, przydatne do śledzenia usług związanych z e-mailem.
 - **/var/log/kern.log**: Przechowuje komunikaty jądra, w tym błędy i ostrzeżenia.
-- **/var/log/dmesg**: Zawiera komunikaty sterowników urządzeń.
+- **/var/log/dmesg**: Zawiera komunikaty sterownika urządzenia.
 - **/var/log/faillog**: Rejestruje nieudane próby logowania, pomagając w dochodzeniach dotyczących naruszeń bezpieczeństwa.
 - **/var/log/cron**: Rejestruje wykonania zadań cron.
 - **/var/log/daemon.log**: Śledzi aktywności usług w tle.
@@ -283,10 +284,10 @@ Systemy Linux śledzą aktywności użytkowników i zdarzenia systemowe za pomoc
 - **/var/log/**: Zawsze sprawdzaj tutaj nieoczekiwane dzienniki.
 
 {% hint style="info" %}
-Dzienniki systemowe i podsystemy audytu Linux mogą zostać wyłączone lub usunięte podczas incydentu związanego z włamaniem lub złośliwym oprogramowaniem. Ponieważ dzienniki w systemach Linux zazwyczaj zawierają najbardziej przydatne informacje o działaniach złośliwych, intruzi rutynowo je usuwają. Dlatego podczas analizowania dostępnych plików dziennika ważne jest sprawdzenie luk lub nieuporządkowanych wpisów, które mogą wskazywać na usunięcie lub manipulację.
+Dzienniki systemowe i podsystemy audytu Linux mogą być wyłączone lub usunięte w przypadku włamania lub incydentu związanego z złośliwym oprogramowaniem. Ponieważ dzienniki w systemach Linux zazwyczaj zawierają najbardziej przydatne informacje o działaniach złośliwych, intruzi rutynowo je usuwają. Dlatego podczas analizy dostępnych plików dziennika ważne jest sprawdzenie luk lub nieuporządkowanych wpisów, które mogą wskazywać na usunięcie lub manipulację.
 {% endhint %}
 
-**Linux przechowuje historię poleceń dla każdego użytkownika**, przechowywaną w:
+**Linux przechowuje historię poleceń dla każdego użytkownika**, zapisaną w:
 
 - \~/.bash\_history
 - \~/.zsh\_history
@@ -306,14 +307,14 @@ Sprawdź pliki, które mogą przyznać dodatkowe uprawnienia:
 Niektóre aplikacje generują również swoje własne dzienniki:
 
 - **SSH**: Sprawdź _\~/.ssh/authorized\_keys_ i _\~/.ssh/known\_hosts_ w poszukiwaniu nieautoryzowanych połączeń zdalnych.
-- **Gnome Desktop**: Sprawdź _\~/.recently-used.xbel_ w poszukiwaniu niedawno używanych plików za pomocą aplikacji Gnome.
+- **Pulpit Gnome**: Sprawdź _\~/.recently-used.xbel_ w poszukiwaniu niedawno używanych plików za pomocą aplikacji Gnome.
 - **Firefox/Chrome**: Sprawdź historię przeglądarki i pobierane pliki w _\~/.mozilla/firefox_ lub _\~/.config/google-chrome_ w poszukiwaniu podejrzanych aktywności.
 - **VIM**: Przejrzyj _\~/.viminfo_ w poszukiwaniu szczegółów dotyczących użytkowania, takich jak ścieżki dostępu do plików i historia wyszukiwania.
-- **Open Office**: Sprawdź niedawne dostępy do dokumentów, które mogą wskazywać na skompromitowane pliki.
+- **Open Office**: Sprawdź ostatni dostęp do dokumentów, który może wskazywać na skompromitowane pliki.
 - **FTP/SFTP**: Przejrzyj dzienniki w _\~/.ftp\_history_ lub _\~/.sftp\_history_ w poszukiwaniu transferów plików, które mogą być nieautoryzowane.
-- **MySQL**: Zbadaj _\~/.mysql\_history_ w poszukiwaniu wykonanych zapytań MySQL, potencjalnie ujawniających nieautoryzowane działania na bazie danych.
+- **MySQL**: Zbadaj _\~/.mysql\_history_ w poszukiwaniu wykonanych zapytań MySQL, potencjalnie ujawniających nieautoryzowane działania w bazie danych.
 - **Less**: Analizuj _\~/.lesshst_ w poszukiwaniu historii użytkowania, w tym przeglądanych plików i wykonanych poleceń.
-- **Git**: Przejrzyj _\~/.gitconfig_ i projekt _.git/logs_ w poszukiwaniu zmian w repozytoriach.
+- **Git**: Sprawdź _\~/.gitconfig_ i projekt _.git/logs_ w poszukiwaniu zmian w repozytoriach.
 
 ### Dzienniki USB
 
@@ -339,33 +340,33 @@ Więcej przykładów i informacji znajdziesz na githubie: [https://github.com/sn
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** przy użyciu najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Korzystaj z [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Przegląd Kont Użytkowników i Aktywności Logowania
+## Przejrzyj Konta Użytkowników i Aktywności Logowania
 
-Sprawdź pliki _**/etc/passwd**_, _**/etc/shadow**_ oraz **dzienniki bezpieczeństwa** w poszukiwaniu nietypowych nazw kont lub kont utworzonych i/lub używanych w pobliżu znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki typu sudo brute-force.\
-Dodatkowo, sprawdź pliki takie jak _**/etc/sudoers**_ i _**/etc/groups**_ w poszukiwaniu nieoczekiwanych uprawnień nadanych użytkownikom.\
-Na koniec, poszukaj kont bez **hasła** lub z łatwo odgadnionymi hasłami.
+Sprawdź pliki _**/etc/passwd**_, _**/etc/shadow**_ oraz **dzienniki bezpieczeństwa** pod kątem nietypowych nazw lub kont utworzonych i/lub używanych w pobliżu znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki brute-force na sudo.\
+Dodatkowo, sprawdź pliki takie jak _**/etc/sudoers**_ i _**/etc/groups**_ pod kątem nieoczekiwanych uprawnień nadanych użytkownikom.\
+Na koniec, poszukaj kont bez **hasła** lub z łatwo **odgadnialnymi** hasłami.
 
-## Analiza Systemu Plików
+## Zbadaj System Plików
 
 ### Analiza Struktur Systemu Plików w Śledztwie w Sprawie Malware
 
-Podczas dochodzenia w sprawach związanych z malware, struktura systemu plików jest kluczowym źródłem informacji, ujawniając zarówno sekwencję zdarzeń, jak i zawartość malware. Autorzy malware rozwijają jednak techniki utrudniające tę analizę, takie jak modyfikowanie znaczników czasowych plików lub unikanie systemu plików do przechowywania danych.
+Podczas dochodzenia w sprawie incydentów związanych z malware, struktura systemu plików jest kluczowym źródłem informacji, ujawniającym zarówno sekwencję zdarzeń, jak i zawartość malware. Autorzy malware rozwijają jednak techniki utrudniające tę analizę, takie jak modyfikowanie znaczników czasowych plików lub unikanie systemu plików do przechowywania danych.
 
 Aby przeciwdziałać tym antyforensycznym metodom, istotne jest:
 
 * **Przeprowadzenie dokładnej analizy chronologicznej** za pomocą narzędzi takich jak **Autopsy** do wizualizacji chronologii zdarzeń lub `mactime` z **Sleuth Kit** do uzyskania szczegółowych danych chronologicznych.
-* **Badanie nieoczekiwanych skryptów** w $PATH systemu, które mogą zawierać skrypty powłoki lub PHP używane przez atakujących.
+* **Zbadanie nieoczekiwanych skryptów** w $PATH systemu, które mogą zawierać skrypty powłoki lub PHP używane przez atakujących.
 * **Sprawdzenie `/dev` pod kątem nietypowych plików**, ponieważ tradycyjnie zawiera on pliki specjalne, ale może zawierać pliki związane z malware.
 * **Wyszukiwanie ukrytych plików lub katalogów** o nazwach takich jak ".. " (kropka kropka spacja) lub "..^G" (kropka kropka control-G), które mogą ukrywać złośliwe treści.
-* **Identyfikacja plików setuid root** za pomocą polecenia: `find / -user root -perm -04000 -print` Znajduje pliki z podwyższonymi uprawnieniami, które mogą być wykorzystane przez atakujących.
-* **Sprawdzenie znaczników czasu usuwania** w tabelach inode w celu wykrycia masowych usunięć plików, co może wskazywać na obecność rootkitów lub trojanów.
+* **Identyfikacja plików ustawionych jako setuid root** za pomocą polecenia: `find / -user root -perm -04000 -print` Znajduje pliki z podwyższonymi uprawnieniami, które mogą być wykorzystane przez atakujących.
+* **Przejrzenie znaczników czasu usuwania** w tabelach inode, aby wykryć masowe usunięcia plików, co może wskazywać na obecność rootkitów lub trojanów.
 * **Sprawdzenie kolejnych inode'ów** w poszukiwaniu pobliskich złośliwych plików po zidentyfikowaniu jednego, ponieważ mogły zostać umieszczone razem.
-* **Sprawdzenie powszechnych katalogów binarnych** (_/bin_, _/sbin_) pod kątem niedawno zmodyfikowanych plików, ponieważ mogły zostać zmienione przez malware.
+* **Sprawdzenie wspólnych katalogów binarnych** (_/bin_, _/sbin_) pod kątem niedawno zmodyfikowanych plików, ponieważ mogły zostać zmienione przez malware.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -374,7 +375,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wydawały się** **legitymacyjne**, ale nie może zmienić **inode**. Jeśli zauważysz, że **plik** wskazuje, że został utworzony i zmodyfikowany o **tej samej porze** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **znaczy, że znaczniki czasu tego pliku zostały zmodyfikowane**.
+Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wydawały się** **legitymacyjne**, ale nie może zmienić **inode**. Jeśli zauważysz, że **plik** wskazuje, że został utworzony i zmodyfikowany o **tej samej godzinie** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **znaczy, że znaczniki czasu tego pliku zostały zmodyfikowane**.
 {% endhint %}
 
 ## Porównywanie plików różnych wersji systemu plików
@@ -411,17 +412,17 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Książka: Przewodnik po śledzeniu złośliwego oprogramowania dla systemów Linux: Przewodniki po śledzeniu cyfrowym**
+* **Książka: Przewodnik po śledzeniu malware dla systemów Linux: Przewodniki po śledzeniu cyfrowym**
 
 <details>
 
 <summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
+Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) albo **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
 **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -430,7 +431,7 @@ Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobacz
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

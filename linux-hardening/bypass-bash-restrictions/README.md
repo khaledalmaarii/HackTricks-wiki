@@ -17,10 +17,10 @@ Inne sposoby wsparcia HackTricks:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności.\
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions), aby łatwo tworzyć i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
 Otrzymaj Dostęp Dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 ## Ominięcia Powszechnych Ograniczeń
 
@@ -150,7 +150,7 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### Wyciek danych oparty na czasie
+### Czasowa ekstrakcja danych
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
@@ -159,13 +159,13 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### Przechwytywanie danych DNS
+### Wyciek danych DNS
 
-Możesz użyć **burpcollab** lub [**pingb**](http://pingb.in) na przykład.
+Możesz na przykład użyć **burpcollab** lub [**pingb**](http://pingb.in).
 
 ### Wbudowane funkcje
 
-W przypadku gdy nie możesz wykonywać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz w stanie użyć wszystkich** wbudowanych funkcji, dlatego powinieneś **znać wszystkie dostępne opcje**, aby spróbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
+W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz w stanie użyć wszystkich** wbudowanych funkcji, dlatego powinieneś **znać wszystkie dostępne opcje**, aby próbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
 Po pierwsze sprawdź wszystkie [**wbudowane funkcje powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Następnie oto kilka **zaleceń**:
 ```bash
 # Get list of builtins
@@ -317,7 +317,7 @@ ln /f*
 ```
 ## Bypass ochrony tylko do odczytu/Noexec/Distroless
 
-Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonanie dowolnych binarnych plików, nawet powłoki!:**
+Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonywanie dowolnych binarnych plików, nawet powłoki!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
@@ -339,14 +339,14 @@ Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
-Zdobądź Dostęp Dziś:
+Użyj [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
+Otrzymaj Dostęp Dziś:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Zacznij od zera i zostań ekspertem AWS w dziedzinie hakerskiej z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
