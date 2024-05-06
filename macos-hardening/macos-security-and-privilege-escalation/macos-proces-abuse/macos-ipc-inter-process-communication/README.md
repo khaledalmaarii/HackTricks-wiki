@@ -8,7 +8,7 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
+* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的[NFTs](https://opensea.io/collection/the-peass-family)系列
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
@@ -24,26 +24,26 @@ Mach使用**任务**作为共享资源的**最小单位**，每个任务可以�
 
 **端口**是Mach IPC的**基本**元素。它可用于**发送消息和接收**消息。
 
-每个进程都有一个**IPC表**，可以在其中找到**进程的mach端口**。mach端口的名称实际上是一个数字（指向内核对象的指针）。
+每个进程都有一个**IPC表**，在其中可以找到**进程的mach端口**。mach端口的名称实际上是一个数字（指向内核对象的指针）。
 
-进程还可以将带有某些权限的端口名称**发送给另一个任务**，内核将在另一个任务的**IPC表中创建此条目**。
+进程还可以将一个带有一些权限的端口名称**发送给另一个任务**，内核将在**其他任务的IPC表中创建此条目**。
 
 ### 端口权限
 
 端口权限定义了任务可以执行的操作，对于这种通信至关重要。可能的**端口权限**包括（[此处的定义](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)）：
 
-* **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中可能只有**一个接收权限**用于每个端口（与管道不同，在管道的读端可以有多个进程持有文件描述符）。
-* 具有**接收权限**的任务可以接收消息并**创建发送权限**，从而允许其发送消息。最初，只有**自己的任务**对其端口具有接收权限。
+* **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中可能只有**一个接收权限**与每个端口相关联（与管道不同，在管道的读端可以有多个进程持有文件描述符）。
+* 拥有**接收权限**的任务可以接收消息并**创建发送权限**，从而允许发送消息。最初，只有**自己的任务**对其端口具有接收权限。
 * 如果拥有接收权限的所有者**死亡**或终止它，**发送权限将变得无效（死命名）。**
 * **发送权限**，允许向端口发送消息。
 * 发送权限可以**克隆**，因此拥有发送权限的任务可以克隆权限并将其授予第三个任务。
-* 注意，**端口权限**也可以通过Mac消息**传递**。
+* 注意**端口权限**也可以通过Mac消息**传递**。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
 * 此权限**无法**克隆，但可以**移动**。
-* **端口集权限**，表示一个_端口集_而不是单个端口。从端口集中出列消息会从其中一个端口中出列消息。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
-* **死命名**，不是实际的端口权限，而仅是一个占位符。当端口被销毁时，所有现有的端口权限将变成死命名。
+* **端口集权限**，表示一个_端口集_而不是单个端口。从端口集中出列一条消息会从其中一个端口中出列一条消息。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
+* **死命名**，不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死命名。
 
-**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以被克隆**，因此任务可以复制并将权限授予第三个任务。这与称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
+**任务可以将发送权限传递给其他任务**，使其能够发送消息回来。**发送权限也可以被克隆**，因此一个任务可以复制并将权限授予第三个任务。结合一个称为**引导服务器**的中间进程，可以实现任务之间的有效通信。
 
 ### 文件端口
 
@@ -51,23 +51,23 @@ Mach使用**任务**作为共享资源的**最小单位**，每个任务可以�
 
 ### 建立通信
 
-如前所述，可以使用Mach消息发送权限，但是，您**不能发送权限而没有发送Mach消息的权限**。那么，如何建立第一次通信呢？
+如前所述，可以使用Mach消息发送权限，但是，您**不能在没有发送Mach消息的权限的情况下发送权限**。那么，如何建立第一次通信呢？
 
 为此，涉及**引导服务器**（在mac中为**launchd**），因为**每个人都可以获得发送权限到引导服务器**，因此可以要求它为发送消息到另一个进程的权限：
 
-1. 任务**A**创建一个**新端口**，获得其**接收权限**。
-2. 作为接收权限持有者的任务**A**，**生成端口的发送权限**。
-3. 任务**A**与**引导服务器**建立**连接**，并**将一开始生成的端口的发送权限发送给它**。
+1. 任务**A**创建一个**新端口**，获得其上的**接收权限**。
+2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
+3. 任务**A**与**引导服务器**建立**连接**，并**将其在一开始生成的端口的发送权限发送给它**。
 * 请记住，任何人都可以获得发送权限到引导服务器。
 4. 任务A向引导服务器发送`bootstrap_register`消息，以将给定端口与名称（如`com.apple.taska`）**关联**。
-5. 任务**B**与**引导服务器**交互，执行服务名称的引导**查找**（`bootstrap_lookup`）。因此，引导服务器可以响应，任务B将在查找消息中向其发送**先前创建的端口的发送权限**。如果查找成功，**服务器会复制从任务A接收的发送权限**，并**传输给任务B**。
+5. 任务**B**与**引导服务器**交互以执行服务名称的引导**查找**（`bootstrap_lookup`）。因此，引导服务器可以响应，任务B将在查找消息中向其发送**先前创建的端口的发送权限**。如果查找成功，**服务器会复制从任务A接收的发送权限**并**传输给任务B**。
 * 请记住，任何人都可以获得发送权限到引导服务器。
 6. 有了这个发送权限，**任务B**能够向**任务A**发送**消息**。
-7. 对于双向通信，通常任务**B**生成一个具有**接收权限**和**发送权限**的新端口，并将**发送权限提供给任务A**，以便其可以向任务B发送消息（双向通信）。
+7. 对于双向通信，通常任务**B**生成一个具有**接收**权限和**发送**权限的新端口，并将**发送权限提供给任务A**，以便它可以向任务B发送消息（双向通信）。
 
-引导服务器**无法验证**任务声明的服务名称。这意味着**任务**可能潜在地**冒充任何系统任务**，例如虚假**声明授权服务名称**，然后批准每个请求。
+引导服务器**无法验证**任务声称的服务名称。这意味着一个**任务**可能潜在地**冒充任何系统任务**，例如虚假**声明授权服务名称**，然后批准每个请求。
 
-然后，Apple将**系统提供的服务名称**存储在安全配置文件中，位于受SIP保护的目录中：`/System/Library/LaunchDaemons`和`/System/Library/LaunchAgents`。引导服务器将为这些服务名称中的每一个创建并持有**接收权限**。
+然后，Apple将**系统提供的服务名称**存储在安全配置文件中，位于**SIP受保护**的目录中：`/System/Library/LaunchDaemons`和`/System/Library/LaunchAgents`。引导服务器将为这些服务名称创建并持有**每个的接收权限**。
 
 对于这些预定义服务，**查找过程略有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
 
@@ -75,18 +75,18 @@ Mach使用**任务**作为共享资源的**最小单位**，每个任务可以�
 * **launchd**检查任务是否正在运行，如果没有，则**启动**它。
 * 任务**A**（服务）执行**引导签入**（`bootstrap_check_in()`）。在这里，**引导**服务器创建一个发送权限，保留它，并**将接收权限传输给任务A**。
 * launchd复制**发送权限并将其发送给任务B**。
-* 任务**B**生成一个具有**接收权限**和**发送权限**的新端口，并将**发送权限提供给任务A**（服务），以便其可以向任务B发送消息（双向通信）。
+* 任务**B**生成一个具有**接收**权限和**发送**权限的新端口，并将**发送权限提供给任务A**（服务），以便它可以向任务B发送消息（双向通信）。
 
-但是，此过程仅适用于预定义的系统任务。非系统任务仍按最初描述的方式运行，这可能导致潜在的冒充。
+然而，此过程仅适用于预定义的系统任务。非系统任务仍按最初描述的方式运行，这可能导致潜在的冒充。
 
 {% hint style="danger" %}
-因此，launchd绝不能崩溃，否则整个系统将崩溃。
+因此，launchd不应该崩溃，否则整个系统将崩溃。
 {% endhint %}
 ### 一个 Mach 消息
 
-[在这里查找更多信息](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+[在此处查找更多信息](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-`mach_msg` 函数，本质上是一个系统调用，用于发送和接收 Mach 消息。该函数要求将消息作为初始参数发送。这条消息必须以 `mach_msg_header_t` 结构开头，后跟实际的消息内容。该结构定义如下：
+`mach_msg` 函数，本质上是一个系统调用，用于发送和接收 Mach 消息。该函数要求将消息作为初始参数发送。该消息必须以 `mach_msg_header_t` 结构开头，后跟实际的消息内容。该结构定义如下：
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -97,17 +97,17 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-进程拥有 _**接收权限**_ 可以在 Mach 端口上接收消息。相反，**发送者** 被授予 _**发送权限**_ 或 _**一次性发送权限**_。一次性发送权限专门用于发送一条消息，之后将变为无效。
+具有_**接收权限**_的进程可以在 Mach 端口上接收消息。相反，**发送方**被授予_**发送权限**_或_**一次性发送权限**_。一次性发送权限专门用于发送一条消息，之后将变为无效。
 
-初始字段 **`msgh_bits`** 是一个位图：
+初始字段**`msgh_bits`**是一个位图：
 
-* 第一个位（最重要的）用于指示消息是否复杂（稍后详细介绍）
-* 第 3 和第 4 位由内核使用
-* 第 2 字节的 **最不重要的 5 位** 可用于 **凭证**：另一种发送键/值组合的端口。
-* 第 3 字节的 **最不重要的 5 位** 可用于 **本地端口**
-* 第 4 字节的 **最不重要的 5 位** 可用于 **远程端口**
+- 第一个位（最重要的位）用于指示消息是否复杂（稍后详细介绍）
+- 第3和第4位由内核使用
+- 第2字节的**最不重要的5位**可用于**凭证**：另一种发送键/值组合的端口类型。
+- 第3字节的**最不重要的5位**可用于**本地端口**
+- 第4字节的**最不重要的5位**可用于**远程端口**
 
-可以在凭证、本地端口和远程端口中指定的类型为（来自 [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)）:
+可以在凭证、本地和远程端口中指定的类型为（来自[**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)）:
 ```c
 #define MACH_MSG_TYPE_MOVE_RECEIVE      16      /* Must hold receive right */
 #define MACH_MSG_TYPE_MOVE_SEND         17      /* Must hold send right(s) */
@@ -120,34 +120,34 @@ mach_msg_id_t                 msgh_id;
 #define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
 #define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
 ```
-例如，`MACH_MSG_TYPE_MAKE_SEND_ONCE` 可用于指示应为此端口派生并传输一个**发送一次**权限。也可以指定 `MACH_PORT_NULL` 以防止接收方能够回复。
+例如，`MACH_MSG_TYPE_MAKE_SEND_ONCE` 可用于**指示**应为此端口派生并传输**一次性发送权**。也可以指定 `MACH_PORT_NULL` 以防止接收方能够回复。
 
-为了实现简单的**双向通信**，进程可以在名为 _reply port_（**`msgh_local_port`**）的 mach **消息头**中指定一个**mach端口**，接收方可以通过该端口向此消息发送回复。
+为了实现简单的**双向通信**，进程可以在名为 _reply port_（**`msgh_local_port`**）的 mach **消息头**中指定一个**mach端口**，接收消息的人可以向此消息**发送回复**。
 
 {% hint style="success" %}
-请注意，这种双向通信在期望回复的 XPC 消息中使用（`xpc_connection_send_message_with_reply` 和 `xpc_connection_send_message_with_reply_sync`）。但通常会创建不同的端口，如前面所述，以创建双向通信。
+请注意，这种双向通信在期望回复的 XPC 消息中使用（`xpc_connection_send_message_with_reply` 和 `xpc_connection_send_message_with_reply_sync`）。但通常会像之前解释的那样创建不同的端口来创建双向通信。
 {% endhint %}
 
 消息头的其他字段包括：
 
 - `msgh_size`：整个数据包的大小。
 - `msgh_remote_port`：发送此消息的端口。
-- `msgh_voucher_port`：[mach 优惠券](https://robert.sesek.com/2023/6/mach\_vouchers.html)。
-- `msgh_id`：此消息的 ID，由接收方解释。
+- `msgh_voucher_port`：[mach凭证](https://robert.sesek.com/2023/6/mach\_vouchers.html)。
+- `msgh_id`：此消息的ID，由接收方解释。
 
 {% hint style="danger" %}
-请注意，**mach 消息通过 `mach 端口`发送**，这是内置于 mach 内核中的**单接收方**、**多发送方**通信通道。**多个进程**可以向 mach 端口发送消息，但在任何时候只有**一个进程可以从中读取**。
+请注意，**mach消息通过 `mach端口` 发送**，这是内置于 mach 内核中的**单接收方**、**多发送方**通信通道。**多个进程**可以向 mach 端口**发送消息**，但在任何时候只有**一个进程可以从中读取**。
 {% endhint %}
 
 然后，消息由**`mach_msg_header_t`**头部、**主体**和**尾部**（如果有）组成，并且可以授予回复权限。在这些情况下，内核只需将消息从一个任务传递到另一个任务。
 
-**尾部**是由内核添加到消息中的**信息**（用户无法设置），可以通过标志 `MACH_RCV_TRAILER_<trailer_opt>`（可以请求不同信息）在消息接收时请求。
+**尾部**是由内核添加到消息中的**信息**（用户无法设置），可以在消息接收时使用标志 `MACH_RCV_TRAILER_<trailer_opt>`（可以请求不同的信息）。
 
 #### 复杂消息
 
-然而，还有其他更**复杂**的消息，比如传递附加端口权限或共享内存的消息，在这种情况下，内核还需要将这些对象发送给接收方。在这些情况下，消息头 `msgh_bits` 的最高位被设置。
+然而，还有其他更**复杂**的消息，比如传递附加端口权限或共享内存的消息，内核还需要将这些对象发送给接收方。在这种情况下，头部 `msgh_bits` 的最高位被设置。
 
-可传递的描述符在 [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) 中定义：
+可以传递的可能描述符在 [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) 中定义：
 ```c
 #define MACH_MSG_PORT_DESCRIPTOR                0
 #define MACH_MSG_OOL_DESCRIPTOR                 1
@@ -164,22 +164,30 @@ unsigned int                  pad3 : 24;
 mach_msg_descriptor_type_t    type : 8;
 } mach_msg_type_descriptor_t;
 ```
-### Mac 端口 API
+在32位系统中，所有描述符都是12字节，描述符类型位于第11个位置。在64位系统中，大小会有所不同。
 
-请注意，端口与任务命名空间相关联，因此要创建或搜索端口，还需要查询任务命名空间（更多信息请参见 `mach/mach_port.h`）：
+{% hint style="danger" %}
+内核会将一个任务的描述符复制到另一个任务，但首先会在内核内存中**创建一个副本**。这种技术被称为“风水”，已被多次利用于利用漏洞，使内核在其内存中**复制数据**，从而使一个进程向自身发送描述符。然后该进程可以接收消息（内核会释放它们）。
 
-- **`mach_port_allocate` | `mach_port_construct`**：**创建**一个端口。
-- `mach_port_allocate` 还可以创建一个**端口集**：接收一组端口的接收权。每当接收到消息时，都会指示消息来自哪个端口。
-- `mach_port_allocate_name`：更改端口的名称（默认为32位整数）。
-- `mach_port_names`：从目标获取端口名称。
-- `mach_port_type`：获取任务对名称的权限。
-- `mach_port_rename`：重命名端口（类似于 FD 的 dup2）。
-- `mach_port_allocate`：分配新的接收、端口集或死端口。
-- `mach_port_insert_right`：在具有接收权的端口中创建新的权限。
-- `mach_port_...`
-- **`mach_msg`** | **`mach_msg_overwrite`**：用于**发送和接收 mach 消息**的函数。覆盖版本允许指定不同的缓冲区用于消息接收（另一个版本将仅重用它）。
+还可以**向一个易受攻击的进程发送端口权限**，端口权限将出现在该进程中（即使它没有处理它们）。
+{% endhint %}
 
-### 调试 mach_msg
+### Mac Ports APIs
+
+请注意，端口与任务命名空间相关联，因此要创建或搜索端口，还需要查询任务命名空间（在`mach/mach_port.h`中有更多信息）：
+
+* **`mach_port_allocate` | `mach_port_construct`**：**创建**一个端口。
+* `mach_port_allocate`还可以创建一个**端口集**：接收一组端口的接收权限。每当接收到消息时，都会指示消息来自哪个端口。
+* `mach_port_allocate_name`：更改端口的名称（默认为32位整数）。
+* `mach_port_names`：从目标获取端口名称。
+* `mach_port_type`：获取任务对名称的权限。
+* `mach_port_rename`：重命名端口（类似于FD的dup2）。
+* `mach_port_allocate`：分配新的接收、端口集或死端口。
+* `mach_port_insert_right`：在具有接收权限的端口中创建新权限。
+* `mach_port_...`
+* **`mach_msg`** | **`mach_msg_overwrite`**：用于**发送和接收mach消息**的函数。覆盖版本允许指定不同的缓冲区用于消息接收（另一个版本将仅重用它）。
+
+### 调试 mach\_msg
 
 由于函数**`mach_msg`**和**`mach_msg_overwrite`**是用于发送和接收消息的函数，设置在它们上的断点将允许检查发送和接收的消息。
 
@@ -192,7 +200,7 @@ mach_msg_descriptor_type_t    type : 8;
 进程 71019 已停止
 * 线程 #1，队列 = 'com.apple.main-thread'，停止原因 = 断点 1.1
 帧 #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
-libsystem_kernel.dylib`mach_msg：
+libsystem_kernel.dylib`mach_msg:
 ->  0x181d3ac20 &#x3C;+0>:  pacibsp
 0x181d3ac24 &#x3C;+4>:  sub    sp, sp, #0x20
 0x181d3ac28 &#x3C;+8>:  stp    x29, x30, [sp, #0x10]
@@ -212,7 +220,7 @@ libsystem_kernel.dylib`mach_msg：
 帧 #9: 0x0000000181a1d5c8 dyld`invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&#x26;) const::$_0::operator()() const + 168
 </code></pre>
 
-要获取**`mach_msg`**的参数，请检查寄存器。这些是参数（来自 [mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)）：
+要获取**`mach_msg`**的参数，请检查寄存器。这些是参数（来自[mach/message.h](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html)）：
 ```c
 __WATCHOS_PROHIBITED __TVOS_PROHIBITED
 extern mach_msg_return_t        mach_msg(
@@ -248,7 +256,7 @@ x6 = 0x0000000000000000 ;mach_port_name_t (notify)
 ; 0x00000b07 -> mach_port_name_t (msgh_voucher_port)
 ; 0x40000322 -> mach_msg_id_t (msgh_id)
 ```
-那种`mach_msg_bits_t`类型非常常见，用于允许回复。
+那种 `mach_msg_bits_t` 类型非常常见，用于允许回复。
 
 
 
@@ -277,14 +285,14 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 [...]
 ```
 **名称** 是给端口的默认名称（检查前3个字节如何**递增**）。**`ipc-object`** 是端口的**混淆**唯一**标识符**。\
-还要注意，只有**`send`** 权限的端口是用来**标识其所有者**（端口名称 + pid）。\
-还要注意使用 **`+`** 表示**连接到同一端口的其他任务**。
+还要注意只有**`send`**权限的端口如何**标识其所有者**（端口名称 + pid）。\
+还要注意使用**`+`**来指示**连接到同一端口的其他任务**。
 
-也可以使用 [**procesxp**](https://www.newosxbook.com/tools/procexp.html) 来查看**注册的服务名称**（由于需要 `com.apple.system-task-port`，需要禁用 SIP）:
+还可以使用[**procesxp**](https://www.newosxbook.com/tools/procexp.html)来查看还有**注册的服务名称**（由于需要`com.apple.system-task-port`，需要禁用SIP）:
 ```
 procesp 1 ports
 ```
-您可以从[http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)下载iOS上的工具进行安装。
+您可以从[http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)下载iOS上的工具。
 
 ### 代码示例
 
@@ -359,34 +367,45 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}  
-## sender.c
+{% tab title="sender.c" %} 
+
+## macOS Inter-Process Communication (IPC)
+
+### Introduction
+
+Inter-Process Communication (IPC) is a mechanism that allows processes to communicate and share data with each other. In macOS, IPC can be achieved using various techniques such as Mach ports, XPC services, and UNIX domain sockets.
+
+### Mach Ports
+
+Mach ports are a fundamental IPC mechanism in macOS that allows processes to send messages and data between each other. By abusing Mach ports, an attacker can potentially escalate privileges or perform other malicious activities.
+
+### XPC Services
+
+XPC services are a type of IPC mechanism in macOS that allows processes to communicate with each other securely. However, if not implemented correctly, XPC services can be vulnerable to attacks such as privilege escalation.
+
+### UNIX Domain Sockets
+
+UNIX domain sockets are another IPC mechanism in macOS that allows communication between processes on the same system. Like other IPC techniques, UNIX domain sockets can be abused by attackers to gain unauthorized access or escalate privileges.
+
+### Conclusion
+
+Understanding macOS IPC mechanisms is crucial for both developers and security professionals to prevent abuse and protect system integrity. By being aware of the potential security risks associated with IPC, it is possible to implement proper security measures and mitigate the risk of privilege escalation and other attacks.
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-
-#define SHM_SIZE 1024
+#include <mach/mach.h>
 
 int main() {
-    key_t key;
-    int shmid;
-    char *data;
-    
-    key = ftok("/tmp", 'A');
-    shmid = shmget(key, SHjson_SHM_SIZE, IPC_CREAT | 0666);
-    data = shmat(shmid, NULL, 0);
-    
-    strcpy(data, "Hello, receiver!");
-    
-    while(1) {
-        sleep(1);
+    mach_port_t port;
+    kern_return_t kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &port);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to allocate port\n");
+        exit(1);
     }
-    
+    printf("Port: %d\n", port);
+    sleep(10);
     return 0;
 }
 ```
@@ -447,18 +466,18 @@ printf("Sent a message\n");
 
 - **主机端口**：如果一个进程对这个端口有**发送**权限，他可以获取关于**系统**的**信息**（例如`host_processor_info`）。
 - **主机特权端口**：拥有对这个端口的**发送**权限的进程可以执行像加载内核扩展这样的**特权操作**。**进程需要是root**才能获得这个权限。
-- 此外，为了调用**`kext_request`** API，需要具有其他授权**`com.apple.private.kext*`**，这些授权仅分配给苹果二进制文件。
-- **任务名称端口**：_任务端口_的非特权版本。它引用任务，但不允许控制它。通过它似乎只能使用`task_info()`。
+- 此外，为了调用**`kext_request`** API，需要具有其他授权**`com.apple.private.kext*`**，这些授权仅提供给苹果二进制文件。
+- **任务名称端口**：_任务端口_的非特权版本。它引用了任务，但不允许控制它。通过它似乎只能访问`task_info()`。
 - **任务端口**（又名内核端口）**：**拥有对此端口的发送权限，可以控制任务（读/写内存，创建线程等）。
-- 调用`mach_task_self()`为调用方任务**获取名称**。此端口仅在**`exec()`**中**继承**；使用`fork()`创建的新任务会获得一个新的任务端口（作为一个特例，在suid二进制文件中的`exec()`后，任务也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
+- 调用`mach_task_self()`来为调用者任务获取此端口的**名称**。此端口仅在**`exec()`**跨进程传递；使用`fork()`创建的新任务会获得一个新的任务端口（作为一个特例，在suid二进制文件中的`exec()`后，任务也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
 - 访问端口的限制（来自二进制文件`AppleMobileFileIntegrity`的`macos_task_policy`）：
-  - 如果应用程序具有**`com.apple.security.get-task-allow`授权**，来自**相同用户**的进程可以访问任务端口（通常由Xcode用于调试）。**未经过验证**的进程不允许将其用于生产发布。
+  - 如果应用程序具有**`com.apple.security.get-task-allow`授权**，来自**相同用户**的进程可以访问任务端口（通常由Xcode添加用于调试）。**未经过验证**的进程不允许将其用于生产发布。
   - 具有**`com.apple.system-task-ports`授权**的应用程序可以获取任何进程的**任务端口**，除了内核。在旧版本中，它被称为**`task_for_pid-allow`**。这仅授予给苹果应用程序。
   - **Root可以访问**未使用**强化**运行时编译的应用程序的任务端口（且不是来自苹果）。
 
 ### 通过任务端口在线程中注入Shellcode
 
-您可以从以下位置获取一个shellcode：
+您可以从以下位置获取shellcode：
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -499,27 +518,36 @@ return 0;
 
 {% tab title="entitlements.plist" %} 
 
-## macOS进程滥用 - macOS IPC（进程间通信）
+## entitlements.plist
 
-### 简介
+### Description
 
-在macOS系统中，进程间通信（IPC）是不同进程之间进行数据交换和通信的关键机制。攻击者可以利用IPC来实现特权升级和绕过安全控制。本文将介绍macOS系统中的IPC机制以及如何利用它进行进程滥用。
+The `entitlements.plist` file contains a list of entitlements that define the capabilities and permissions of a macOS application. These entitlements determine what actions the application is allowed to perform on the system.
 
-### IPC机制
+### Usage
 
-macOS系统中常用的IPC机制包括XPC服务、Mach消息传递和Unix域套接字。这些机制允许进程在不同的安全上下文中进行通信，但同时也为攻击者提供了潜在的攻击面。
+Developers can specify entitlements in the `entitlements.plist` file to request additional privileges for their application, such as access to specific system resources or the ability to perform privileged operations.
 
-### 进程滥用
+### Example
 
-攻击者可以利用IPC机制来实现进程滥用，例如通过篡改进程间通信的数据来执行恶意代码、利用未授权的XPC服务来获取特权访问等。了解这些攻击技术对于加强macOS系统的安全性至关重要。
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+</dict>
+</plist>
+```
 
-### 防御措施
+In this example, the entitlements.plist file specifies that the application has the entitlements to act as a network client and read/write access to user-selected files.
 
-为了防止进程滥用，建议开发人员在设计应用程序时遵循最佳安全实践，如限制XPC服务的权限、验证IPC消息的完整性、避免使用不安全的Unix域套接字等。此外，定期审查和更新应用程序的安全策略也是保护系统免受IPC攻击的重要步骤。
+### Impact
 
-### 结论
-
-通过深入了解macOS系统中的IPC机制以及潜在的进程滥用风险，可以帮助开发人员和安全专家更好地保护系统免受恶意攻击。加强对IPC安全性的认识，并采取相应的防御措施，是确保macOS系统安全的关键一步。
+Improperly configured entitlements can lead to privilege escalation and security vulnerabilities in macOS applications. It is important to carefully review and restrict entitlements to minimize the attack surface of an application. 
 
 {% endtab %}
 ```xml
@@ -534,7 +562,7 @@ macOS系统中常用的IPC机制包括XPC服务、Mach消息传递和Unix域套�
 {% endtab %}
 {% endtabs %}
 
-**编译**前面的程序并添加**权限**以能够使用相同用户注入代码（如果不行，则需要使用**sudo**）。
+**编译**前面的程序并添加**权限**以能够使用相同用户注入代码（如果不是，则需要使用**sudo**）。
 
 <details>
 
@@ -735,20 +763,45 @@ inject(pid);
 return 0;
 }
 ```
-</details>
+</details>  
+
+### macOS Inter-Process Communication (IPC)  
+
+#### Introduction  
+
+Inter-Process Communication (IPC) is a mechanism that allows processes to communicate and share data with each other. On macOS, IPC can be used for legitimate purposes, but it can also be abused by malicious actors to escalate privileges or perform other malicious activities. Understanding how IPC works on macOS is crucial for both defenders and attackers.  
+
+#### Types of IPC on macOS  
+
+There are several types of IPC mechanisms available on macOS, including:  
+
+- **Mach Messages**: Low-level messaging system used by macOS for inter-process communication.  
+- **XPC Services**: Lightweight, secure inter-process communication mechanism introduced in macOS 10.7.  
+- **Distributed Objects**: Apple's legacy IPC mechanism, now deprecated in favor of XPC Services.  
+- **Apple Events**: High-level inter-process communication mechanism used for automation and scripting.  
+
+#### Risks and Mitigations  
+
+When analyzing macOS applications for security vulnerabilities, it is important to consider the potential risks associated with IPC mechanisms. Some common risks include:  
+
+- **Insecure Communication**: Lack of encryption or authentication in IPC messages can lead to data leakage or unauthorized access.  
+- **Privilege Escalation**: Insecure use of IPC can allow an attacker to escalate privileges and execute arbitrary code.  
+- **Denial of Service**: Malicious actors can abuse IPC mechanisms to cause denial of service by overwhelming system resources.  
+
+To mitigate these risks, developers should follow secure coding practices when implementing IPC in their applications. This includes using encryption, authentication, and proper error handling to prevent abuse of IPC mechanisms. Additionally, defenders should monitor IPC activity on macOS systems for signs of malicious behavior.
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
 ### 通过任务端口在线程中进行 Dylib 注入
 
-在 macOS 中，**线程** 可能通过 **Mach** 或使用 **posix `pthread` api** 进行操作。我们在之前的注入中生成的线程是使用 Mach api 生成的，因此 **它不符合 posix 标准**。
+在 macOS 中，**线程** 可能通过 **Mach** 或使用 **posix `pthread` api** 进行操作。我们在之前注入中生成的线程是使用 Mach api 生成的，因此**不符合 posix 标准**。
 
-可以 **注入简单的 shellcode** 来执行命令，因为它 **不需要使用 posix** 兼容的 api，只需要使用 Mach。**更复杂的注入** 需要 **线程** 也符合 **posix 标准**。
+可以**注入一个简单的 shellcode** 来执行命令，因为它**不需要使用 posix** 兼容的 api，只需要使用 Mach。**更复杂的注入** 需要**线程** 也符合 **posix 标准**。
 
-因此，为了 **改进线程**，应该调用 **`pthread_create_from_mach_thread`**，这将 **创建一个有效的 pthread**。然后，这个新的 pthread 可以 **调用 dlopen** 来 **从系统加载 dylib**，因此，不需要编写新的 shellcode 来执行不同的操作，可以加载自定义库。
+因此，为了**改进线程**，应该调用 **`pthread_create_from_mach_thread`**，这将**创建一个有效的 pthread**。然后，这个新的 pthread 可以**调用 dlopen** 来**从系统加载 dylib**，因此，不需要编写新的 shellcode 来执行不同的操作，可以加载自定义库。
 
-您可以在这里找到 **示例 dylibs**（例如生成日志然后您可以监听它的示例）：
+您可以在这里找到**示例 dylibs**（例如生成日志然后您可以监听它的示例）：
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
@@ -1034,7 +1087,7 @@ fprintf(stderr,"未找到Dylib\n");
 
 #### macOS IPC（进程间通信）
 
-在macOS系统中，进程间通信（IPC）是一种允许不同进程之间相互交换数据的机制。这种通信方式可以被恶意用户或恶意软件利用来实现特权升级或执行其他攻击。在进行macOS系统硬化时，需要特别注意防范IPC滥用的风险。
+在macOS系统中，进程间通信（IPC）是一种允许不同进程之间相互交换数据的机制。这种通信方式可以被恶意用户或恶意软件利用来实现特权升级或其他攻击。
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -1051,7 +1104,7 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 ### 基本信息
 
-XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种机制，用于在系统上不同进程之间进行安全的异步方法调用。它是Apple安全范例的一部分，允许创建特权分离的应用程序，其中每个组件仅以执行其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
+XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种机制，用于在系统上不同进程之间进行安全的异步方法调用。这是Apple安全范式的一部分，允许创建特权分离的应用程序，其中每个组件仅以执行其工作所需的权限运行，从而限制受损进程可能造成的潜在损害。
 
 有关此通信工作方式及其可能存在的漏洞的更多信息，请查看：
 
@@ -1061,7 +1114,7 @@ XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程�
 
 ## MIG - Mach接口生成器
 
-MIG被创建用于简化Mach IPC代码的创建过程。这是因为编程RPC涉及相同的操作（打包参数，发送消息，服务器端解包数据等）。
+MIG被创建用于简化Mach IPC代码的创建过程。这是因为编程RPC需要执行相同的操作（打包参数，发送消息，服务器端解包数据等）。
 
 MIG基本上为服务器和客户端生成所需的代码，以便根据给定的定义（在IDL -接口定义语言-中）进行通信。即使生成的代码很丑陋，开发人员只需导入它，他的代码将比以前简单得多。
 
@@ -1078,6 +1131,7 @@ MIG基本上为服务器和客户端生成所需的代码，以便根据给定�
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 <details>
 
@@ -1085,9 +1139,9 @@ MIG基本上为服务器和客户端生成所需的代码，以便根据给定�
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的公司广告或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的公司广告或**下载PDF版HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 发现[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的[NFTs](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
