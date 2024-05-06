@@ -1,4 +1,4 @@
-# macOS MIG - Générateur d'interface Mach
+# macOS MIG - Générateur d'Interface Mach
 
 <details>
 
@@ -6,34 +6,34 @@
 
 Autres façons de soutenir HackTricks :
 
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ## Informations de base
 
-MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Il **génère essentiellement le code nécessaire** pour que le serveur et le client communiquent avec une définition donnée. Même si le code généré est laid, un développeur n'aura qu'à l'importer et son code sera beaucoup plus simple qu'auparavant.
+MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Il **génère essentiellement le code nécessaire** pour que le serveur et le client communiquent avec une définition donnée. Même si le code généré est moche, un développeur n'aura qu'à l'importer et son code sera beaucoup plus simple qu'auparavant.
 
 La définition est spécifiée dans le langage de définition d'interface (IDL) en utilisant l'extension `.defs`.
 
 Ces définitions ont 5 sections :
 
-- **Déclaration du sous-système** : Le mot-clé sous-système est utilisé pour indiquer le **nom** et l'**identifiant**. Il est également possible de le marquer comme **`KernelServer`** si le serveur doit s'exécuter dans le noyau.
-- **Inclusions et imports** : MIG utilise le préprocesseur C, il est donc capable d'utiliser des imports. De plus, il est possible d'utiliser `uimport` et `simport` pour le code généré par l'utilisateur ou le serveur.
-- **Déclarations de type** : Il est possible de définir des types de données bien qu'en général, il importera `mach_types.defs` et `std_types.defs`. Pour les types personnalisés, une certaine syntaxe peut être utilisée :
-  - \[i`n/out]tran` : Fonction qui doit être traduite à partir d'un message entrant ou vers un message sortant
-  - `c[user/server]type` : Mappage vers un autre type C.
-  - `destructor` : Appeler cette fonction lorsque le type est libéré.
-- **Opérations** : Ce sont les définitions des méthodes RPC. Il existe 5 types différents :
-  - `routine` : Attend une réponse
-  - `simpleroutine` : N'attend pas de réponse
-  - `procedure` : Attend une réponse
-  - `simpleprocedure` : N'attend pas de réponse
-  - `function` : Attend une réponse
+* **Déclaration du sous-système** : Le mot-clé sous-système est utilisé pour indiquer le **nom** et l'**identifiant**. Il est également possible de le marquer comme **`KernelServer`** si le serveur doit s'exécuter dans le noyau.
+* **Inclusions et imports** : MIG utilise le préprocesseur C, il est donc capable d'utiliser des imports. De plus, il est possible d'utiliser `uimport` et `simport` pour le code généré par l'utilisateur ou le serveur.
+* **Déclarations de type** : Il est possible de définir des types de données bien qu'en général, il importera `mach_types.defs` et `std_types.defs`. Pour des types personnalisés, une certaine syntaxe peut être utilisée :
+* \[i`n/out]tran` : Fonction qui doit être traduite à partir d'un message entrant ou vers un message sortant
+* `c[user/server]type` : Mappage vers un autre type C.
+* `destructor` : Appeler cette fonction lorsque le type est libéré.
+* **Opérations** : Ce sont les définitions des méthodes RPC. Il existe 5 types différents :
+* `routine` : Attend une réponse
+* `simpleroutine` : N'attend pas de réponse
+* `procedure` : Attend une réponse
+* `simpleprocedure` : N'attend pas de réponse
+* `function` : Attend une réponse
 
 ### Exemple
 
@@ -64,6 +64,11 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
 
+{% hint style="success" %}
+Vous pouvez trouver un exemple plus complexe dans votre système avec : `mdfind mach_port.defs`\
+Et vous pouvez le compiler depuis le même dossier que le fichier avec : `mig -DLIBSYSCALL_INTERFACE mach_ports.defs`
+{% endhint %}
+
 Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500) :
 
 {% tabs %}
@@ -89,16 +94,7 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-Le MIG (Mach Interface Generator) est un outil fourni par Apple pour simplifier le processus de communication entre les processus sur macOS. Il génère du code source C à partir de spécifications d'interface MIG, ce qui facilite la création de services système personnalisés. Voici un exemple de fichier d'en-tête pour un serveur MIG sur macOS.
-
-```c
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-
-kern_return_t my_server(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP);
-```
-
-Dans cet exemple, `my_server` est la fonction qui sera appelée pour traiter les messages provenant d'autres processus via MIG. Il est essentiel de comprendre comment MIG fonctionne pour éviter les abus potentiels du processus sur macOS.
+Le générateur d'interface Mach (MIG) est un outil fourni par Apple pour simplifier la communication entre les processus sur macOS. Il génère des interfaces de programmation pour les services système basés sur Mach. L'utilisation de MIG peut présenter des risques de sécurité en raison de la manière dont il gère les appels système et les messages entre les processus. Il est important de comprendre ces risques lors du développement d'applications macOS sécurisées.
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -131,7 +127,9 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 ```
 Dans cet exemple, nous n'avons défini qu'une seule fonction dans les définitions, mais si nous avions défini plus de fonctions, elles auraient été à l'intérieur du tableau de **`SERVERPREFmyipc_subsystem`** et la première aurait été assignée à l'ID **500**, la deuxième à l'ID **501**...
 
-En fait, il est possible d'identifier cette relation dans la structure **`subsystem_to_name_map_myipc`** de **`myipcServer.h`**:
+Si la fonction devait envoyer une **réponse**, la fonction `mig_internal kern_return_t __MIG_check__Reply__<nom>` existerait également.
+
+En fait, il est possible d'identifier cette relation dans la structure **`subsystem_to_name_map_myipc`** de **`myipcServer.h`** (**`subsystem_to_name_map_***`** dans d'autres fichiers) :
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -172,9 +170,9 @@ return FALSE;
 }
 </code></pre>
 
-Vérifiez les lignes précédemment mises en évidence en accédant à la fonction à appeler par ID.
+Vérifiez les lignes précédemment surlignées accédant à la fonction à appeler par ID.
 
-Dans ce qui suit est le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Soustraire du serveur :
+Le code suivant permet de créer un **serveur** et un **client** simples où le client peut appeler les fonctions Subtract du serveur :
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -214,23 +212,30 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 
 ```c
 #include <stdio.h>
-#include <servers/bootstrap.h>
 #include <mach/mach.h>
-#include <mach/message.h>
-#include <mach/mig.h>
+#include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main() {
-    mach_port_t server_port;
-    kern_return_t kr;
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    mach_port_t bootstrap_port;
+    kern_return_t kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
     if (kr != KERN_SUCCESS) {
-        printf("Error looking up server port: %s\n", mach_error_string(kr));
+        printf("Failed to get bootstrap port\n");
         return 1;
     }
 
-    myipc_do_mach_msg(server_port);
+    myipc_args_t args = {
+        .arg1 = 123,
+        .arg2 = 456
+    };
+
+    kr = myipc_call(bootstrap_port, &args);
+    if (kr != KjsonERN_SUCCESS) {
+        printf("myipc_call failed: %s\n", mach_error_string(kr));
+        return 1;
+    }
+
+    printf("myipc_call succeeded\n");
 
     return 0;
 }
@@ -261,14 +266,35 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
-### Analyse Binaire
+{% endtab %}
+{% endtabs %}
 
-Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach, il est intéressant de savoir comment **identifier que MIG a été utilisé** et les **fonctions que MIG exécute** avec chaque identifiant de message.
+### L'enregistrement NDR
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) peut analyser les informations MIG d'un binaire Mach-O en indiquant l'identifiant de message et en identifiant la fonction à exécuter :
+L'enregistrement NDR est exporté par `libsystem_kernel.dylib`, et c'est une structure qui permet à MIG de **transformer les données de manière à ce qu'elles soient agnostiques du système** sur lequel MIG est utilisé, car MIG a été conçu pour être utilisé entre différents systèmes (et pas seulement sur la même machine).
+
+C'est intéressant car si `_NDR_record` est trouvé dans un binaire en tant que dépendance (`jtool2 -S <binaire> | grep NDR` ou `nm`), cela signifie que le binaire est un client ou un serveur MIG.
+
+De plus, les **serveurs MIG** ont la table de dispatch dans `__DATA.__const` (ou dans `__CONST.__constdata` dans le noyau macOS et `__DATA_CONST.__const` dans d'autres noyaux \*OS). Cela peut être extrait avec **`jtool2`**.
+
+Et les **clients MIG** utiliseront l'enregistrement `__NDR` pour envoyer avec `__mach_msg` aux serveurs.
+
+## Analyse Binaire
+
+### jtool
+
+Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach, il est intéressant de savoir comment **identifier l'utilisation de MIG** et les **fonctions que MIG exécute** avec chaque ID de message.
+
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) peut analyser les informations MIG d'un binaire Mach-O en indiquant l'ID de message et en identifiant la fonction à exécuter :
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
+De plus, les fonctions MIG ne sont que des enveloppes de la fonction réelle qui est appelée, ce qui signifie qu'en obtenant sa désassemblée et en recherchant BL, vous pourriez être en mesure de trouver la fonction réelle appelée :
+```bash
+jtool2 -d __DATA.__const myipc_server | grep BL
+```
+### Assemblée
+
 Il a été mentionné précédemment que la fonction qui se chargera de **appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi cela ressemble décompilé** car cela sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
 
 {% tabs %}
@@ -277,13 +303,13 @@ Il a été mentionné précédemment que la fonction qui se chargera de **appele
 var_10 = arg0;
 var_18 = arg1;
 // Instructions initiales pour trouver les bons pointeurs de fonction
-*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
+*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
 *(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
 *(int32_t *)(var_18 + 0x10) = 0x0;
-if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+if (*(int32_t *)(var_10 + 0x14) <= 0x1f4 && *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Appel à sign_extend_64 qui peut aider à identifier cette fonction
 // Cela stocke dans rax le pointeur de l'appel qui doit être effectué
@@ -315,7 +341,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server décompilé 2" %}
-Il s'agit de la même fonction décompilée dans une version Hopper gratuite différente :
+C'est la même fonction décompilée dans une version Hopper gratuite différente :
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -324,7 +350,7 @@ stack[-8] = r30;
 var_10 = arg0;
 var_18 = arg1;
 // Instructions initiales pour trouver les bons pointeurs de fonction
-*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
+*(int32_t *)var_18 = *(int32_t *)var_10 & 0x1f | 0x0;
 *(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
 *(int32_t *)(var_18 + 0x4) = 0x24;
 *(int32_t *)(var_18 + 0xc) = 0x0;
@@ -333,19 +359,19 @@ var_18 = arg1;
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
 if (r8 > 0x0) {
-if (CPU_FLAGS &#x26; G) {
+if (CPU_FLAGS & G) {
 r8 = 0x1;
 }
 }
-if ((r8 &#x26; 0x1) == 0x0) {
+if ((r8 & 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 r8 = r8 - 0x1f4;
-if (r8 &#x3C; 0x0) {
-if (CPU_FLAGS &#x26; L) {
+if (r8 < 0x0) {
+if (CPU_FLAGS & L) {
 r8 = 0x1;
 }
 }
-if ((r8 &#x26; 0x1) == 0x0) {
+if ((r8 & 0x1) == 0x0) {
 r8 = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (l'ID de départ)
 <strong>                    r8 = r8 - 0x1f4;
@@ -354,13 +380,13 @@ r8 = *(r8 + 0x8);
 var_20 = r8;
 r8 = r8 - 0x0;
 if (r8 != 0x0) {
-if (CPU_FLAGS &#x26; NE) {
+if (CPU_FLAGS & NE) {
 r8 = 0x1;
 }
 }
 // Même si sinon que dans la version précédente
 // Vérifiez l'utilisation de l'adresse 0x100004040 (tableau d'adresses de fonctions)
-<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
+<strong>                    if ((r8 & 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
 var_4 = 0x0;
@@ -397,6 +423,24 @@ En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le table
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) **et** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **dépôts GitHub.**
+### Débogage
+
+Le code généré par MIG appelle également `kernel_debug` pour générer des journaux sur les opérations à l'entrée et à la sortie. Il est possible de les vérifier en utilisant **`trace`** ou **`kdv`**: `kdv all | grep MIG`
+
+## Références
+
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+
+Autres façons de soutenir HackTricks:
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

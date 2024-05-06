@@ -9,7 +9,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -18,9 +18,9 @@ Autres façons de soutenir HackTricks :
 
 ### Informations de base
 
-Mach utilise des **tâches** comme **unité la plus petite** pour le partage de ressources, et chaque tâche peut contenir **plusieurs threads**. Ces **tâches et threads sont mappés 1:1 sur des processus et threads POSIX**.
+Mach utilise des **tâches** comme **unité la plus petite** pour le partage de ressources, et chaque tâche peut contenir **plusieurs threads**. Ces **tâches et threads sont mappés 1:1 sur les processus et threads POSIX**.
 
-La communication entre les tâches se fait via la Communication Inter-Processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. **Les messages sont transférés entre des ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
+La communication entre les tâches se fait via la Communication Inter-Processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. **Les messages sont transférés entre les ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
 
 Un **port** est l'**élément de base** de l'IPC de Mach. Il peut être utilisé pour **envoyer des messages et les recevoir**.
 
@@ -36,7 +36,7 @@ Les droits de port, qui définissent les opérations qu'une tâche peut effectue
 * Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, lui permettant d'envoyer des messages. À l'origine, seule la **propre tâche a le droit de réception sur son port**.
 * Si le propriétaire du droit de réception **meurt** ou le tue, le **droit d'envoi devient inutile (nom mort)**.
 * Le **droit d'envoi**, qui permet d'envoyer des messages au port.
-* Le droit d'envoi peut être **cloné** afin qu'une tâche possédant un droit d'envoi puisse cloner le droit et **l'accorder à une troisième tâche**.
+* Le droit d'envoi peut être **cloné** afin qu'une tâche possédant un droit d'envoi puisse cloner le droit et **le donner à une troisième tâche**.
 * Notez que les **droits de port** peuvent également être **transmis** via des messages Mac.
 * Le **droit d'envoi unique**, qui permet d'envoyer un message au port puis disparaît.
 * Ce droit ne peut pas être **cloné**, mais il peut être **déplacé**.
@@ -51,16 +51,16 @@ Les ports de fichiers permettent d'encapsuler des descripteurs de fichiers dans 
 
 ### Établir une communication
 
-Comme mentionné précédemment, il est possible d'envoyer des droits en utilisant des messages Mach, cependant, vous **ne pouvez pas envoyer un droit sans déjà avoir un droit** d'envoyer un message Mach. Alors, comment la première communication est-elle établie ?
+Comme mentionné précédemment, il est possible d'envoyer des droits en utilisant des messages Mach, cependant, vous **ne pouvez pas envoyer un droit sans déjà avoir un droit** pour envoyer un message Mach. Alors, comment est établie la première communication ?
 
-Pour cela, le **serveur d'amorçage** (**launchd** sur Mac) est impliqué, car **tout le monde peut obtenir un droit d'ENVOI vers le serveur d'amorçage**, il est possible de lui demander un droit d'envoyer un message à un autre processus :
+Pour cela, le **serveur d'amorçage** (**launchd** sur Mac) est impliqué, car **tout le monde peut obtenir un droit d'ENVOI vers le serveur d'amorçage**, il est possible de lui demander un droit pour envoyer un message à un autre processus :
 
 1. La tâche **A** crée un **nouveau port**, obtenant le **droit de RÉCEPTION** dessus.
 2. La tâche **A**, étant le détenteur du droit de RÉCEPTION, **génère un droit d'ENVOI pour le port**.
 3. La tâche **A** établit une **connexion** avec le **serveur d'amorçage**, et **lui envoie le droit d'ENVOI** pour le port qu'elle a généré au début.
 * N'oubliez pas que tout le monde peut obtenir un droit d'ENVOI vers le serveur d'amorçage.
 4. La tâche A envoie un message `bootstrap_register` au serveur d'amorçage pour **associer le port donné à un nom** comme `com.apple.taska`.
-5. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le nom du service** (`bootstrap_lookup`). Ainsi, le serveur d'amorçage peut répondre, la tâche B lui enverra un **droit d'ENVOI vers un port qu'elle a créé précédemment** dans le message de recherche. Si la recherche est réussie, le **serveur duplique le droit d'ENVOI** reçu de la tâche A et le **transmet à la tâche B**.
+5. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le nom du service** (`bootstrap_lookup`). Ainsi, le serveur d'amorçage peut répondre, la tâche B lui enverra un **droit d'ENVOI vers un port qu'elle a précédemment créé** à l'intérieur du message de recherche. Si la recherche est réussie, le **serveur duplique le droit d'ENVOI** reçu de la tâche A et le **transmet à la tâche B**.
 * N'oubliez pas que tout le monde peut obtenir un droit d'ENVOI vers le serveur d'amorçage.
 6. Avec ce droit d'ENVOI, la **tâche B** est capable d'**envoyer** un **message** **à la tâche A**.
 7. Pour une communication bidirectionnelle, généralement la tâche **B** génère un nouveau port avec un droit de **RÉCEPTION** et un droit d'**ENVOI**, et donne le **droit d'ENVOI à la tâche A** pour qu'elle puisse envoyer des messages à la TÂCHE B (communication bidirectionnelle).
@@ -73,7 +73,7 @@ Pour ces services prédéfinis, le **processus de recherche diffère légèremen
 
 * La tâche **B** initie une **recherche d'amorçage** pour un nom de service.
 * **launchd** vérifie si la tâche est en cours d'exécution et si ce n'est pas le cas, la **démarre**.
-* La tâche **A** (le service) effectue un **enregistrement d'amorçage** (`bootstrap_check_in()`). Ici, le **serveur d'amorçage** crée un droit d'ENVOI, le conserve, et **transfère le droit de RÉCEPTION à la tâche A**.
+* La tâche **A** (le service) effectue un **enregistrement d'amorçage** (`bootstrap_check_in()`). Ici, le **serveur d'amorçage** crée un droit d'ENVOI, le retient, et **transfère le droit de RÉCEPTION à la tâche A**.
 * launchd duplique le **droit d'ENVOI et l'envoie à la tâche B**.
 * La tâche **B** génère un nouveau port avec un droit de **RÉCEPTION** et un droit d'**ENVOI**, et donne le **droit d'ENVOI à la tâche A** (le svc) pour qu'elle puisse envoyer des messages à la TÂCHE B (communication bidirectionnelle).
 
@@ -139,15 +139,15 @@ Les autres champs de l'en-tête du message sont :
 Notez que les **messages mach sont envoyés sur un `port mach`**, qui est un canal de communication **un seul destinataire**, **plusieurs expéditeurs** intégré dans le noyau mach. **Plusieurs processus** peuvent **envoyer des messages** à un port mach, mais à tout moment, seul **un processus peut le lire**.
 {% endhint %}
 
-Les messages sont ensuite formés par l'en-tête **`mach_msg_header_t`** suivi du **corps** et de la **trailer** (le cas échéant) et peuvent autoriser une réponse. Dans ces cas, le noyau doit simplement transmettre le message d'une tâche à l'autre.
+Les messages sont ensuite formés par l'en-tête **`mach_msg_header_t`** suivi du **corps** et de la **trailer** (le cas échéant) et peuvent accorder l'autorisation de répondre. Dans ces cas, le noyau doit simplement passer le message d'une tâche à l'autre.
 
-Un **trailer** est une **information ajoutée au message par le noyau** (ne peut pas être définie par l'utilisateur) qui peut être demandée lors de la réception du message avec les indicateurs `MACH_RCV_TRAILER_<trailer_opt>` (différentes informations peuvent être demandées).
+Un **trailer** est une **information ajoutée au message par le noyau** (ne peut pas être définie par l'utilisateur) qui peut être demandée lors de la réception du message avec les indicateurs `MACH_RCV_TRAILER_<trailer_opt>` (il existe différentes informations qui peuvent être demandées).
 
 #### Messages complexes
 
-Cependant, il existe d'autres messages plus **complexes**, comme ceux transmettant des droits de port supplémentaires ou partageant de la mémoire, où le noyau doit également envoyer ces objets au destinataire. Dans ces cas, le bit le plus significatif de l'en-tête `msgh_bits` est défini.
+Cependant, il existe d'autres messages plus **complexes**, comme ceux qui passent des droits de port supplémentaires ou partagent de la mémoire, où le noyau doit également envoyer ces objets au destinataire. Dans ces cas, le bit le plus significatif de l'en-tête `msgh_bits` est défini.
 
-Les descripteurs possibles à transmettre sont définis dans [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) :
+Les descripteurs possibles à passer sont définis dans [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html):
 ```c
 #define MACH_MSG_PORT_DESCRIPTOR                0
 #define MACH_MSG_OOL_DESCRIPTOR                 1
@@ -181,7 +181,7 @@ Notez que les ports sont associés à l'espace de noms de la tâche, donc pour c
 * `mach_port_allocate_name`: Changer le nom du port (par défaut un entier sur 32 bits)
 * `mach_port_names`: Obtenir les noms de port d'une cible
 * `mach_port_type`: Obtenir les droits d'une tâche sur un nom
-* `mach_port_rename`: Renommer un port (comme dup2 pour les descripteurs de fichier)
+* `mach_port_rename`: Renommer un port (comme dup2 pour les descripteurs de fichiers)
 * `mach_port_allocate`: Allouer un nouveau RECEIVE, PORT\_SET ou DEAD\_NAME
 * `mach_port_insert_right`: Créer un nouveau droit dans un port où vous avez RECEIVE
 * `mach_port_...`
@@ -200,12 +200,12 @@ Par exemple, commencez à déboguer n'importe quelle application que vous pouvez
 Processus 71019 arrêté
 * thread #1, file d'attente = 'com.apple.main-thread', raison d'arrêt = point d'arrêt 1.1
 frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
-libsystem_kernel.dylib`mach_msg:
+libsystem_kernel.dylib`mach_msg :
 ->  0x181d3ac20 &#x3C;+0>:  pacibsp
 0x181d3ac24 &#x3C;+4>:  sub    sp, sp, #0x20
 0x181d3ac28 &#x3C;+8>:  stp    x29, x30, [sp, #0x10]
 0x181d3ac2c &#x3C;+12>: add    x29, sp, #0x10
-Cible 0: (SandboxedShellApp) arrêtée.
+Cible 0 : (SandboxedShellApp) arrêtée.
 <strong>(lldb) bt
 </strong>* thread #1, file d'attente = 'com.apple.main-thread', raison d'arrêt = point d'arrêt 1.1
 * frame #0: 0x0000000181d3ac20 libsystem_kernel.dylib`mach_msg
@@ -285,8 +285,8 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 [...]
 ```
 Le **nom** est le nom par défaut donné au port (vérifiez comment il **augmente** dans les 3 premiers octets). L'**`ipc-object`** est l'**identifiant** unique **obfusqué** du port.\
-Notez également comment les ports avec seulement le droit **`send`** permettent d'**identifier le propriétaire** (nom du port + pid).\
-Notez également l'utilisation du **`+`** pour indiquer **d'autres tâches connectées au même port**.
+Notez également comment les ports avec seulement le droit **`send`** **identifient le propriétaire** (nom du port + pid).\
+Notez également l'utilisation de **`+`** pour indiquer **d'autres tâches connectées au même port**.
 
 Il est également possible d'utiliser [**procesxp**](https://www.newosxbook.com/tools/procexp.html) pour voir également les **noms de service enregistrés** (avec SIP désactivé en raison du besoin de `com.apple.system-task-port`) :
 ```
@@ -430,7 +430,7 @@ printf("Sent a message\n");
 * **Port de nom de tâche**: Une version non privilégiée du _port de tâche_. Il fait référence à la tâche, mais ne permet pas de la contrôler. La seule chose qui semble être disponible à travers lui est `task_info()`.
 * **Port de tâche** (alias port de noyau)**:** Avec la permission d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture en mémoire, création de threads...).
 * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse d'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en faisant un `fork()`.
-* Voici les restrictions d'accès au port (de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
+* Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
 * Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus du **même utilisateur peuvent accéder au port de tâche** (communément ajouté par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
 * Les applications avec l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
 * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
@@ -474,9 +474,10 @@ return 0;
 {% endtab %}
 
 {% tab title="entitlements.plist" %} 
+
 ### Fichier `entitlements.plist`
 
-Le fichier `entitlements.plist` contient les autorisations spéciales accordées à une application macOS. Ces autorisations définissent les capacités supplémentaires dont une application peut disposer, telles que l'accès à des ressources sensibles ou des fonctionnalités système. Il est essentiel de gérer correctement les autorisations dans ce fichier pour garantir la sécurité et la confidentialité des données sur un système macOS.
+Le fichier `entitlements.plist` contient les autorisations spéciales accordées à une application macOS. Ces autorisations définissent les capacités supplémentaires dont une application peut disposer, telles que l'accès à des ressources sensibles ou des fonctionnalités système. Il est essentiel de comprendre et de gérer correctement les autorisations définies dans ce fichier pour garantir la sécurité et la protection des données sur un système macOS.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -489,7 +490,7 @@ Le fichier `entitlements.plist` contient les autorisations spéciales accordées
 {% endtab %}
 {% endtabs %}
 
-**Compiler** le programme précédent et ajoutez les **droits** nécessaires pour pouvoir injecter du code avec le même utilisateur (sinon vous devrez utiliser **sudo**).
+**Compilez** le programme précédent et ajoutez les **droits** nécessaires pour pouvoir injecter du code avec le même utilisateur (sinon vous devrez utiliser **sudo**).
 
 <details>
 
@@ -697,7 +698,7 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ```
 ### Injection de dylib dans un thread via le port de tâche
 
-Sur macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant l'API **posix `pthread`**. Le thread que nous avons généré dans l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
+Sur macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant **l'API posix `pthread`**. Le thread que nous avons généré dans l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
 
 Il était possible d'**injecter un simple shellcode** pour exécuter une commande car cela **n'avait pas besoin de fonctionner avec des APIs conformes à posix**, seulement avec Mach. Les **injections plus complexes** nécessiteraient que le **thread** soit également **conforme à posix**.
 
@@ -706,7 +707,7 @@ Par conséquent, pour **améliorer le thread**, il devrait appeler **`pthread_cr
 Vous pouvez trouver des **dylibs d'exemple** dans (par exemple celui qui génère un journal que vous pouvez ensuite écouter) :
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
-[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
+[macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
 <details>
@@ -1000,7 +1001,7 @@ Dans cette technique, un thread du processus est détourné :
 
 ### Informations de base
 
-XPC, qui signifie XNU (le noyau utilisé par macOS) Inter-Process Communication, est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode sûrs et asynchrones entre différents processus** sur le système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications à privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
+XPC, qui signifie XNU (le noyau utilisé par macOS) Inter-Process Communication, est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** sur le système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
 
 Pour plus d'informations sur le fonctionnement de cette **communication** et sur la façon dont elle **pourrait être vulnérable**, consultez :
 
@@ -1010,7 +1011,7 @@ Pour plus d'informations sur le fonctionnement de cette **communication** et sur
 
 ## MIG - Générateur d'interface Mach
 
-MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Cela est dû au fait qu'une grande partie du travail pour programmer RPC implique les mêmes actions (empaqueter les arguments, envoyer le message, déballer les données dans le serveur...).
+MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Cela est dû au fait que beaucoup de travail pour programmer RPC implique les mêmes actions (empaqueter les arguments, envoyer le message, déballer les données dans le serveur...).
 
 MIC génère essentiellement le code nécessaire pour que le serveur et le client communiquent avec une définition donnée (en IDL - Interface Definition Language -). Même si le code généré est moche, un développeur n'aura qu'à l'importer et son code sera beaucoup plus simple qu'auparavant.
 
@@ -1027,6 +1028,7 @@ Pour plus d'informations, consultez :
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
 <details>
 
@@ -1037,7 +1039,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
