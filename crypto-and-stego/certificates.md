@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -17,14 +17,14 @@ Drugi načini podrške HackTricks-u:
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali tokove rada** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 ## Šta je Sertifikat
 
-**Javni ključni sertifikat** je digitalni ID koji se koristi u kriptografiji kako bi se dokazalo da neko poseduje javni ključ. Uključuje detalje ključa, identitet vlasnika (subjekta) i digitalni potpis od pouzdane autoritete (izdavaoca). Ako softver veruje izdavaocu i potpis je validan, moguća je sigurna komunikacija sa vlasnikom ključa.
+**Javni ključni sertifikat** je digitalni ID koji se koristi u kriptografiji da bi se dokazalo da neko poseduje javni ključ. Uključuje detalje ključa, identitet vlasnika (subjekta) i digitalni potpis od pouzdane autoritete (izdavaoca). Ako softver veruje izdavaocu i potpis je validan, sigurna komunikacija sa vlasnikom ključa je moguća.
 
 Sertifikati se uglavnom izdaju od strane [sertifikacionih autoriteta](https://en.wikipedia.org/wiki/Certificate\_authority) (CA) u postavci [infrastrukture javnih ključeva](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Drugi metod je [mreža poverenja](https://en.wikipedia.org/wiki/Web\_of\_trust), gde korisnici direktno verifikuju ključeve jedni drugih. Uobičajeni format za sertifikate je [X.509](https://en.wikipedia.org/wiki/X.509), koji se može prilagoditi za specifične potrebe kako je opisano u RFC 5280.
 
@@ -32,20 +32,20 @@ Sertifikati se uglavnom izdaju od strane [sertifikacionih autoriteta](https://en
 
 ### **Uobičajena Polja u x509 Sertifikatima**
 
-U x509 sertifikatima, nekoliko **polja** igra ključne uloge u osiguravanju validnosti i sigurnosti sertifikata. Evo razbijanja ovih polja:
+U x509 sertifikatima, nekoliko **polja** igraju ključne uloge u osiguravanju validnosti i sigurnosti sertifikata. Evo razbijanja ovih polja:
 
 * **Broj Verzije** označava verziju formata x509.
-* **Seriski Broj** jedinstveno identifikuje sertifikat unutar sistema Sertifikacione Autoritete (CA), uglavnom za praćenje opoziva.
+* **Seriski Broj** jedinstveno identifikuje sertifikat unutar sistema Sertifikacionog Autoriteta (CA), uglavnom za praćenje opoziva.
 * Polje **Subjekat** predstavlja vlasnika sertifikata, koji može biti mašina, pojedinac ili organizacija. Uključuje detaljne identifikacije kao što su:
 * **Uobičajeno Ime (CN)**: Domeni obuhvaćeni sertifikatom.
 * **Država (C)**, **Lokalitet (L)**, **Država ili Pokrajina (ST, S, ili P)**, **Organizacija (O)** i **Organizaciona Jedinica (OU)** pružaju geografske i organizacione detalje.
 * **Distingovano Ime (DN)** obuhvata punu identifikaciju subjekta.
 * **Izdavaoc** detalji ko je verifikovao i potpisao sertifikat, uključujući slična podpolja kao Subjekat za CA.
-* **Period Važenja** obeležen je vremenskim oznakama **Nije Pre** i **Nije Posle**, osiguravajući da sertifikat nije korišćen pre ili posle određenog datuma.
+* **Period Važenja** obeležen je vremenima **Nije Pre** i **Nije Posle**, osiguravajući da sertifikat nije korišćen pre ili posle određenog datuma.
 * Odeljak **Javni Ključ**, ključan za sigurnost sertifikata, specificira algoritam, veličinu i druge tehničke detalje javnog ključa.
-* **x509v3 proširenja** poboljšavaju funkcionalnost sertifikata, specificirajući **Upotrebu Ključa**, **Proširenu Upotrebu Ključa**, **Alternativno Ime Subjekta** i druge osobine za fino podešavanje primene sertifikata.
+* **x509v3 ekstenzije** poboljšavaju funkcionalnost sertifikata, specificirajući **Upotrebu Ključa**, **Proširenu Upotrebu Ključa**, **Alternativno Ime Subjekta** i druge osobine za fino podešavanje primene sertifikata.
 
-#### **Upotreba Ključa i Proširenja**
+#### **Upotreba Ključa i Ekstenzije**
 
 * **Upotreba Ključa** identifikuje kriptografske primene javnog ključa, poput digitalnog potpisa ili šifrovanja ključa.
 * **Proširena Upotreba Ključa** dodatno sužava slučajeve upotrebe sertifikata, npr. za autentikaciju TLS servera.
@@ -80,19 +80,19 @@ print(f"Public Key: {public_key}")
 
 ### **Šta je Transparentnost sertifikata**
 
-Transparentnost sertifikata pomaže u borbi protiv pretnji povezanih sa sertifikatima osiguravajući da izdavanje i postojanje SSL sertifikata budu vidljivi vlasnicima domena, CA-ovima i korisnicima. Njeni ciljevi su:
+Transparentnost sertifikata pomaže u borbi protiv pretnji povezanih sa sertifikatima osiguravajući da izdavanje i postojanje SSL sertifikata budu vidljivi vlasnicima domena, CA-ima i korisnicima. Njeni ciljevi su:
 
-* Sprječavanje CA-ova da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
+* Sprječavanje CA da izdaju SSL sertifikate za domen bez znanja vlasnika domena.
 * Uspostavljanje otvorenog sistema revizije za praćenje greškom ili zlonamerno izdatih sertifikata.
 * Zaštita korisnika od lažnih sertifikata.
 
 #### **Sertifikatni zapisi**
 
-Sertifikatni zapisi su javno proverljivi, samo za dodavanje zapisi sertifikata, održavani od strane mrežnih servisa. Ovi zapisi pružaju kriptografske dokaze u svrhe revizije. Izdavači i javnost mogu podnositi sertifikate ovim zapisima ili ih upitati radi verifikacije. Iako tačan broj serverskih zapisa nije fiksan, očekuje se da ih globalno bude manje od hiljadu. Ovi serveri mogu biti nezavisno upravljani od strane CA-ova, ISP-ova ili bilo koje zainteresovane strane.
+Sertifikatni zapisi su javno proverljivi, samo za dodavanje zapisi sertifikata, održavani od strane mrežnih servisa. Ovi zapisi pružaju kriptografske dokaze u svrhe revizije. Izdavači i javnost mogu podnositi sertifikate ovim zapisima ili ih upitati radi verifikacije. Iako tačan broj serverskih zapisa nije fiksan, očekuje se da ih globalno bude manje od hiljadu. Ovi serveri mogu biti nezavisno upravljani od strane CA, ISP-ova ili bilo koje zainteresovane strane.
 
 #### **Upit**
 
-Za istraživanje sertifikatnih zapisa Transparentnosti sertifikata za bilo koji domen, posetite [https://crt.sh/](https://crt.sh).
+Za istraživanje zapisa Transparentnosti sertifikata za bilo koji domen, posetite [https://crt.sh/](https://crt.sh).
 
 Različiti formati postoje za čuvanje sertifikata, svaki sa svojim slučajevima upotrebe i kompatibilnošću. Ovaj sažetak obuhvata glavne formate i pruža smernice o konvertovanju između njih.
 
@@ -102,27 +102,27 @@ Različiti formati postoje za čuvanje sertifikata, svaki sa svojim slučajevima
 
 * Najčešće korišćen format za sertifikate.
 * Zahteva odvojene datoteke za sertifikate i privatne ključeve, kodirane u Base64 ASCII.
-* Česte ekstenzije: .cer, .crt, .pem, .key.
+* Uobičajene ekstenzije: .cer, .crt, .pem, .key.
 * Prvenstveno korišćen od strane Apache i sličnih servera.
 
 ### **DER Format**
 
 * Binarni format sertifikata.
 * Nedostaje "BEGIN/END CERTIFICATE" izjave koje se nalaze u PEM datotekama.
-* Česte ekstenzije: .cer, .der.
+* Uobičajene ekstenzije: .cer, .der.
 * Često korišćen sa Java platformama.
 
 ### **P7B/PKCS#7 Format**
 
 * Čuvaju se u Base64 ASCII, sa ekstenzijama .p7b ili .p7c.
 * Sadrže samo sertifikate i lanac sertifikata, isključujući privatni ključ.
-* Podržano od strane Microsoft Windows-a i Java Tomcat-a.
+* Podržano od strane Microsoft Windows i Java Tomcat.
 
 ### **PFX/P12/PKCS#12 Format**
 
 * Binarni format koji uključuje serverske sertifikate, posredne sertifikate i privatne ključeve u jednoj datoteci.
 * Ekstenzije: .pfx, .p12.
-* Glavno korišćen na Windows-u za uvoz i izvoz sertifikata.
+* Glavno korišćen na Windows platformi za uvoz i izvoz sertifikata.
 
 ### **Konvertovanje formata**
 
@@ -177,10 +177,10 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Dobijte pristup danas:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 <details>
 
