@@ -4,17 +4,36 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-MIG foi criado para **simplificar o processo de criação de código Mach IPC**. Basicamente, ele **gera o código necessário** para o servidor e o cliente se comunicarem com uma definição fornecida. Mesmo que o código gerado seja feio, um desenvolvedor só precisará importá-lo e seu código será muito mais simples do que antes.
+## Informações Básicas
+
+O MIG foi criado para **simplificar o processo de criação de código Mach IPC**. Basicamente, ele **gera o código necessário** para o servidor e o cliente se comunicarem com uma definição fornecida. Mesmo que o código gerado seja feio, um desenvolvedor só precisará importá-lo e seu código será muito mais simples do que antes.
+
+A definição é especificada na Linguagem de Definição de Interface (IDL) usando a extensão `.defs`.
+
+Essas definições têm 5 seções:
+
+* **Declaração de subsistema**: A palavra-chave subsistema é usada para indicar o **nome** e o **id**. Também é possível marcá-lo como **`KernelServer`** se o servidor deve ser executado no kernel.
+* **Inclusões e importações**: O MIG usa o pré-processador C, então é capaz de usar importações. Além disso, é possível usar `uimport` e `simport` para código gerado pelo usuário ou servidor.
+* **Declarações de tipo**: É possível definir tipos de dados, embora geralmente importe `mach_types.defs` e `std_types.defs`. Para tipos personalizados, pode ser usada alguma sintaxe:
+* \[i`n/out]tran`: Função que precisa ser traduzida de uma mensagem de entrada ou para uma mensagem de saída
+* `c[user/server]type`: Mapeamento para outro tipo C.
+* `destructor`: Chama esta função quando o tipo é liberado.
+* **Operações**: Estas são as definições dos métodos RPC. Existem 5 tipos diferentes:
+* `routine`: Espera resposta
+* `simpleroutine`: Não espera resposta
+* `procedure`: Espera resposta
+* `simpleprocedure`: Não espera resposta
+* `function`: Espera resposta
 
 ### Exemplo
 
@@ -37,7 +56,9 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Agora use o mig para gerar o código do servidor e do cliente que serão capazes de se comunicar entre si para chamar a função Subtract:
+Observe que o primeiro **argumento é a porta a ser vinculada** e o MIG irá **lidar automaticamente com a porta de resposta** (a menos que seja chamado `mig_get_reply_port()` no código do cliente). Além disso, o **ID das operações** será **sequencial** começando pelo ID do subsistema indicado (então, se uma operação for descontinuada, ela é excluída e `skip` é usado para ainda usar seu ID).
+
+Agora use o MIG para gerar o código do servidor e do cliente que serão capazes de se comunicar entre si para chamar a função Subtrair:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
@@ -64,19 +85,7 @@ myipc_server_routine,
 ```
 {% endtab %}
 
-{% tab title="myipcServer.h" %} 
-
-### macOS MIG (Mach Interface Generator)
-
-O macOS MIG (Mach Interface Generator) é uma ferramenta usada para gerar interfaces de comunicação entre processos em sistemas baseados em Mach. Ele simplifica a comunicação entre processos e fornece uma maneira eficiente de passar mensagens entre processos. O MIG é amplamente utilizado em sistemas macOS para comunicação entre processos e é uma parte essencial da arquitetura de comunicação do kernel do macOS.
-
-#### Vantagens do macOS MIG:
-
-- Facilita a comunicação entre processos
-- Eficiente na passagem de mensagens entre processos
-- Parte integrante da arquitetura de comunicação do kernel do macOS
-
-Ao explorar vulnerabilidades de segurança em sistemas macOS, entender o funcionamento do MIG pode ser útil para identificar possíveis vetores de ataque e entender como os processos se comunicam no sistema.
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -109,7 +118,7 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 ```
 Neste exemplo, apenas definimos 1 função nas definições, mas se tivéssemos definido mais funções, elas estariam dentro do array de **`SERVERPREFmyipc_subsystem`** e a primeira teria sido atribuída ao ID **500**, a segunda ao ID **501**...
 
-Na verdade, é possível identificar essa relação na struct **`subsystem_to_name_map_myipc`** do arquivo **`myipcServer.h`**:
+Na verdade, é possível identificar essa relação na struct **`subsystem_to_name_map_myipc`** de **`myipcServer.h`**:
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
@@ -141,17 +150,17 @@ OutHeadP->msgh_id = InHeadP->msgh_id + 100;
 OutHeadP->msgh_reserved = 0;
 
 if ((InHeadP->msgh_id > 500) || (InHeadP->msgh_id < 500) ||
-	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
-		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
+<strong>	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
+</strong>		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
 ((mig_reply_error_t *)OutHeadP)->RetCode = MIG_BAD_ID;
 return FALSE;
 }
-	(*routine) (InHeadP, OutHeadP);
-	return TRUE;
+<strong>	(*routine) (InHeadP, OutHeadP);
+</strong>	return TRUE;
 }
 ```
 
-Verifique as linhas anteriormente destacadas acessando a função a ser chamada por ID.
+Verifique as linhas anteriormente destacadas acessando a função a ser chamada pelo ID.
 
 A seguir está o código para criar um **servidor** e um **cliente** simples onde o cliente pode chamar as funções Subtrair do servidor:
 
@@ -189,35 +198,7 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %} 
-
-## Cliente myipc
-
-Este é um exemplo de código de cliente para se comunicar com o servidor myipc.
-
-```c
-#include <stdio.h>
-#include <mach/mach.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main() {
-    mach_port_t server_port;
-    kern_return_t ret;
-
-    ret = bootstrap_look_up(bootstrap_port, "com.example.myipc", &server_port);
-    if (ret != KERN_SUCCESS) {
-        printf("Erro ao procurar o serviço myipc: %s\n", mach_error_string(ret));
-        return 1;
-    }
-
-    myipc_hello(server_port);
-
-    return 0;
-}
-```
-
-{% endtab %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -253,7 +234,7 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 Foi mencionado anteriormente que a função que irá **chamar a função correta dependendo do ID da mensagem recebida** era `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (nomes de funções), então é interessante **ver como ela se parece decompilada**, pois sempre será muito semelhante (o código desta função é independente das funções expostas):
 
 {% tabs %}
-{% tab title="myipc_server decompilada 1" %}
+{% tab title="myipc_server decompiled 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -272,7 +253,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (o ID de início)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Se - senão, se o se retornar falso, enquanto o senão chama a função correta e retorna verdadeiro
+// Se - senão, o se retorna falso, enquanto o senão chama a função correta e retorna verdadeiro
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -295,7 +276,7 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server decompilada 2" %}
+{% tab title="myipc_server decompiled 2" %}
 Esta é a mesma função decompilada em uma versão gratuita diferente do Hopper:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
@@ -371,13 +352,24 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**. O primeiro elemento da struct é o **endereço** onde a **função** é implementada, e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
+Na verdade, se você for para a função **`0x100004000`**, você encontrará o array de structs **`routine_descriptor`**. O primeiro elemento da struct é o **endereço** onde a **função** é implementada, e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
 <figure><img src="../../../../.gitbook/assets/image (35).png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../../../.gitbook/assets/image (36).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no GitHub.
+
+<details>
+
+<summary><strong>Aprenda hacking na AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do GitHub.
 
 </details>
