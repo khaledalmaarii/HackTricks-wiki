@@ -17,26 +17,26 @@ Njia nyingine za kusaidia HackTricks:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** inayotumia zana za **jamii za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=python) kujenga na **kutumia mifumo ya kazi** iliyosukumwa na zana za **jamii za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=python" %}
 
 **Kurasa za kuvutia za kuangalia:**
 
-* [**Mbinu za kudukua za Pyscript**](pyscript.md)
-* [**Ubadilishaji wa Python deserializations**](../../pentesting-web/deserialization/#python)
-* [**Mbinu za kuepuka sanduku la mchanga la Python**](bypass-python-sandboxes/)
+* [**Mbinu za kudukua Pyscript**](pyscript.md)
+* [**Ubadilishaji wa Python**](../../pentesting-web/deserialization/#python)
+* [**Mbinu za kukiuka sanduku la mchanga la Python**](bypass-python-sandboxes/)
 * [**Muundo wa msingi wa maombi ya wavuti ya Python**](web-requests.md)
 * [**Muundo wa msingi wa Python na maktaba**](basic-python.md)
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** inayotumia zana za **jamii za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=python) kujenga na **kutumia mifumo ya kazi** iliyosukumwa na zana za **jamii za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=python" %}
 
 <details>
 

