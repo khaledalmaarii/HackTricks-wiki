@@ -5,10 +5,10 @@
 _Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich von CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
+**Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
 {% endhint %}
 
-Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du befolgen solltest, wenn du** ein oder mehrere **Maschinen pentestest:**
+Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, dem du folgen solltest, wenn du **eine oder mehrere Maschinen pentesten** möchtest:
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -20,7 +20,7 @@ Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, 
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentests, Red Teams und Schulungen anzubieten.
+[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** anzubieten, wie Pentesting, Red Teams und Schulungen.
 
 Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) überprüfen.
 
@@ -44,7 +44,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker** erstellt wurde! Trete uns noch heute bei [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
+**Bug-Bounty-Tipp**: **Registriere dich** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -79,9 +79,9 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 
 ### [Pentest-Tools.com](https://pentest-tools.com/) - Das essentielle Penetrationstest-Toolkit
 
-<figure><img src=".gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu geben, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
+**Sofort einsatzbereite Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Penetrationstest von überall aus mit 20+ Tools & Funktionen durch, die von der Aufklärung bis zum Bericht reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- & Exploit-Module, um ihnen etwas Zeit zu sparen, tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -89,16 +89,16 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 
 ### [SerpApi](https://serpapi.com/)
 
-<figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
 SerpApi bietet schnelle und einfache Echtzeit-APIs zum **Zugriff auf Suchmaschinenergebnisse**. Sie durchsuchen Suchmaschinen, handhaben Proxies, lösen Captchas und analysieren alle strukturierten Daten für dich.
 
-Ein Abonnement für einen der Pläne von SerpApi umfasst den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
-Im Gegensatz zu anderen Anbietern **schabt SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
+Ein Abonnement eines der SerpApi-Pläne beinhaltet den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
+Im Gegensatz zu anderen Anbietern **scraped SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
 Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
 Für weitere Informationen besuche ihren [**Blog**](https://serpapi.com/blog/)**,** oder probiere ein Beispiel in ihrem [**Spielplatz**](https://serpapi.com/playground)**.**\
-Du kannst ein **kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign\_up)**.**
+Du kannst **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.com/users/sign\_up)**.**
 
 ***
 
@@ -116,9 +116,9 @@ Du kannst ein **kostenloses Konto erstellen** [**hier**](https://serpapi.com/use
 
 [**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das Unternehmen auf der ganzen Welt vor den neuesten Cybersicherheitsbedrohungen schützt, indem es **offensive Sicherheitsdienste** mit einem **modernen** Ansatz bietet.
 
-WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
+WebSec ist ein **All-in-One-Sicherheitsunternehmen**, das bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
 
-Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, es steht auf ihrer Website "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
+Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
 
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
@@ -129,9 +129,9 @@ Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstütze
 
 [**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die kostenlose Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
+Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren unter:
+Sie können ihre Website besuchen und ihre Suchmaschine kostenlos ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
