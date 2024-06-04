@@ -4,11 +4,11 @@
 
 <summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中宣传**吗？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中做广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧**。
 
 </details>
 
@@ -34,7 +34,7 @@
 
 ### 完整性级别
 
-**如果您不知道 Windows 中的完整性级别是什么，您应该在继续之前阅读以下页面：**
+**如果您不知道 Windows 中的完整性级别是什么，应在继续之前阅读以下页面：**
 
 {% content-ref url="integrity-levels.md" %}
 [integrity-levels.md](integrity-levels.md)
@@ -42,7 +42,7 @@
 
 ## Windows 安全控制
 
-在 Windows 中有不同的事物可能**阻止您枚举系统**，运行可执行文件，甚至**检测您的活动**。您应该在开始权限提升枚举之前**阅读**以下**页面**并**枚举**所有这些**防御机制**：
+Windows 中有不同的事物可能**阻止您枚举系统**，运行可执行文件，甚至**检测您的活动**。 在开始权限提升枚举之前，您应该**阅读**以下**页面**并**枚举**所有这些**防御机制**：
 
 {% content-ref url="../authentication-credentials-uac-and-efs/" %}
 [authentication-credentials-uac-and-efs](../authentication-credentials-uac-and-efs/)
@@ -67,7 +67,7 @@ Get-Hotfix -description "Security update" #List only "Security Update" patches
 ```
 ### 版本漏洞
 
-这个[网站](https://msrc.microsoft.com/update-guide/vulnerability)很方便，可以搜索到有关微软安全漏洞的详细信息。这个数据库中有超过4,700个安全漏洞，显示了 Windows 环境呈现的**庞大攻击面**。
+这个[网站](https://msrc.microsoft.com/update-guide/vulnerability)很方便，可以搜索到有关微软安全漏洞的详细信息。这个数据库中有超过4,700个安全漏洞，展示了Windows环境所面临的**巨大攻击面**。
 
 **在系统上**
 
@@ -93,7 +93,7 @@ Get-Hotfix -description "Security update" #List only "Security Update" patches
 ```bash
 set
 dir env:
-Get-ChildItem Env: | ft Key,Value
+Get-ChildItem Env: | ft Key,Value -AutoSize
 ```
 ### PowerShell 历史
 ```bash
@@ -107,7 +107,7 @@ cat (Get-PSReadlineOption).HistorySavePath | sls passw
 ```
 ### PowerShell 传输文件
 
-您可以在[https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/](https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/)了解如何打开此功能。
+您可以在 [https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/](https://sid-500.com/2017/11/07/powershell-enabling-transcription-logging-by-using-group-policy/) 中了解如何打开此功能。
 ```bash
 #Check is enable in the registry
 reg query HKCU\Software\Policies\Microsoft\Windows\PowerShell\Transcription
@@ -162,13 +162,13 @@ Get-PSDrive | where {$_.Provider -like "Microsoft.PowerShell.Core\FileSystem"}| 
 ```
 ## WSUS
 
-如果更新不是使用 http**S** 而是 http 请求的话，您可以妥协系统。
+如果更新不是通过 http**S** 而是 http 请求的话，您可以妥协系统。
 
 您可以通过运行以下命令来检查网络是否使用非 SSL 的 WSUS 更新：
 ```
 reg query HKLM\Software\Policies\Microsoft\Windows\WindowsUpdate /v WUServer
 ```
-如果您收到如下回复：
+如果您收到类似以下回复：
 ```bash
 HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate
 WUServer    REG_SZ    http://xxxx-updxx.corp.internal.com:8535
@@ -188,15 +188,15 @@ WUServer    REG_SZ    http://xxxx-updxx.corp.internal.com:8535
 [**阅读完整报告**](https://www.gosecure.net/blog/2020/09/08/wsus-attacks-part-2-cve-2020-1013-a-windows-10-local-privilege-escalation-1-day/)。\
 基本上，这个漏洞利用的是这个缺陷：
 
-> 如果我们有权修改本地用户代理，并且 Windows 更新使用 Internet Explorer 设置中配置的代理，因此我们有权在我们的资产上以提升的用户身份运行 [PyWSUS](https://github.com/GoSecure/pywsus) 以拦截我们自己的流量并作为提升的用户运行代码。
+> 如果我们有权修改本地用户代理，并且 Windows 更新使用 Internet Explorer 设置中配置的代理，因此我们有权在我们的资产上以提升的用户身份运行 [PyWSUS](https://github.com/GoSecure/pywsus) 以拦截我们自己的流量并以提升的用户身份运行代码。
 >
-> 此外，由于 WSUS 服务使用当前用户的设置，它还将使用其证书存储。如果我们为 WSUS 主机名生成自签名证书并将此证书添加到当前用户的证书存储中，我们将能够拦截 HTTP 和 HTTPS WSUS 流量。WSUS 不使用类似 HSTS 的机制来在证书上实现首次使用时的信任验证。如果用户信任呈现的证书并且具有正确的主机名，则服务将接受该证书。
+> 此外，由于 WSUS 服务使用当前用户的设置，它还将使用其证书存储。如果我们为 WSUS 主机名生成自签名证书并将此证书添加到当前用户的证书存储中，我们将能够拦截 HTTP 和 HTTPS WSUS 流量。WSUS 不使用类似 HSTS 的机制来对证书进行首次使用时的信任验证。如果用户信任并且具有正确主机名的证书被呈现，服务将接受该证书。
 
-您可以使用工具 [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) 来利用此漏洞（一旦它被释放）。
+您可以使用工具 [**WSUSpicious**](https://github.com/GoSecure/wsuspicious) 来利用此漏洞（一旦被释放）。
 
 ## KrbRelayUp
 
-在特定条件下，Windows **域** 环境中存在**本地权限提升**漏洞。这些条件包括**未强制执行 LDAP 签名**的环境，用户拥有允许他们配置**基于资源的受限委派（RBCD）**的自身权限，并且用户有能力在域内创建计算机。重要的是要注意，这些**要求**是使用**默认设置**满足的。
+在特定条件下，Windows **域** 环境中存在**本地权限提升**漏洞。这些条件包括**未强制执行 LDAP 签名**的环境，用户拥有允许他们配置**基于资源的受限委派 (RBCD)** 的自身权限，并且用户有能力在域内创建计算机。重要的是要注意，这些**要求**是使用**默认设置**满足的。
 
 在 [**https://github.com/Dec0ne/KrbRelayUp**](https://github.com/Dec0ne/KrbRelayUp) 中找到**利用**。
 
@@ -214,11 +214,11 @@ reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallEle
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi-nouac -o alwe.msi #No uac format
 msfvenom -p windows/adduser USER=rottenadmin PASS=P@ssword123! -f msi -o alwe.msi #Using the msiexec the uac wont be prompted
 ```
-如果您拥有一个 meterpreter 会话，您可以使用模块 **`exploit/windows/local/always_install_elevated`** 来自动化这个技术。
+如果您拥有一个 Meterpreter 会话，您可以使用模块 **`exploit/windows/local/always_install_elevated`** 来自动化这个技术。
 
 ### PowerUP
 
-使用 power-up 中的 `Write-UserAddMSI` 命令，在当前目录中创建一个 Windows MSI 二进制文件以提升权限。该脚本会编写一个预编译的 MSI 安装程序，提示添加用户/组（因此您需要 GUI 访问）：
+使用 power-up 中的 `Write-UserAddMSI` 命令，在当前目录中创建一个 Windows MSI 二进制文件以提升权限。此脚本会编写一个预编译的 MSI 安装程序，提示添加用户/组（因此您需要 GUI 访问）：
 ```
 Write-UserAddMSI
 ```
@@ -226,7 +226,7 @@ Write-UserAddMSI
 
 ### MSI包装器
 
-阅读此教程以了解如何使用此工具创建MSI包装器。请注意，如果您只想执行命令行，可以包装一个 "**.bat**" 文件
+阅读此教程，了解如何使用这些工具创建MSI包装器。请注意，如果您只想执行命令行，可以包装一个 "**.bat**" 文件
 
 {% content-ref url="msi-wrapper.md" %}
 [msi-wrapper.md](msi-wrapper.md)
@@ -240,9 +240,9 @@ Write-UserAddMSI
 
 ### 使用Visual Studio创建MSI
 
-* 使用 Cobalt Strike 或 Metasploit 生成一个新的 **Windows EXE TCP payload**，保存在 `C:\privesc\beacon.exe`
-* 打开 **Visual Studio**，选择 **创建新项目**，在搜索框中键入 "installer"。选择 **设置向导** 项目，然后点击 **下一步**。
-* 给项目命名，如 **AlwaysPrivesc**，使用 **`C:\privesc`** 作为位置，选择 **将解决方案和项目放在同一目录中**，然后点击 **创建**。
+* 使用 Cobalt Strike 或 Metasploit 生成一个新的 Windows EXE TCP payload，保存在 `C:\privesc\beacon.exe`
+* 打开 **Visual Studio**，选择 **创建新项目**，在搜索框中输入 "installer"。选择 **Setup Wizard** 项目，然后点击 **下一步**。
+* 给项目命名，比如 **AlwaysPrivesc**，使用 **`C:\privesc`** 作为位置，选择 **将解决方案和项目放在同一目录中**，然后点击 **创建**。
 * 一直点击 **下一步**，直到到达第 3 步（选择要包含的文件）。点击 **添加**，选择刚刚生成的 Beacon payload。然后点击 **完成**。
 * 在 **解决方案资源管理器** 中突出显示 **AlwaysPrivesc** 项目，在 **属性** 中，将 **TargetPlatform** 从 **x86** 更改为 **x64**。
 * 您可以更改其他属性，例如 **Author** 和 **Manufacturer**，这可以使安装的应用程序看起来更合法。
@@ -277,7 +277,7 @@ reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\Subs
 ```
 ### LAPS
 
-**LAPS**旨在用于**管理本地管理员密码**，确保每个密码在加入域的计算机上是**唯一的、随机的和定期更新的**。这些密码安全地存储在Active Directory中，只有通过ACLs被授予足够权限的用户才能访问，允许他们在获得授权时查看本地管理员密码。
+**LAPS**旨在用于**管理本地管理员密码**，确保每个密码在加入域的计算机上是**唯一的、随机的和定期更新的**。这些密码安全地存储在Active Directory中，只有通过ACLs被授予足够权限的用户才能访问，允许他们在获得授权的情况下查看本地管理员密码。
 
 {% content-ref url="../active-directory-methodology/laps.md" %}
 [laps.md](../active-directory-methodology/laps.md)
@@ -292,8 +292,8 @@ reg query 'HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest' /v U
 ```
 ### LSA 保护
 
-从 **Windows 8.1** 开始，微软引入了增强的本地安全机构（LSA）保护，以**阻止**不受信任的进程尝试**读取其内存**或注入代码，进一步加固系统。\
-[**有关 LSA 保护的更多信息，请点击这里**](../stealing-credentials/credentials-protections.md#lsa-protection)。
+从 **Windows 8.1** 开始，微软引入了增强保护本地安全机构（LSA）的功能，以**阻止**不受信任的进程尝试**读取其内存**或注入代码，进一步加固系统。\
+[**有关 LSA 保护的更多信息请点击这里**](../stealing-credentials/credentials-protections.md#lsa-protection)。
 ```bash
 reg query 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA' /v RunAsPPL
 ```
@@ -339,19 +339,19 @@ Get-LocalGroupMember Administrators | ft Name, PrincipalSource
 
 ### 令牌操作
 
-在这个页面了解更多关于**令牌**是什么：[**Windows 令牌**](../authentication-credentials-uac-and-efs/#access-tokens).\
+在这个页面了解更多关于**令牌**的信息：[**Windows 令牌**](../authentication-credentials-uac-and-efs/#access-tokens).\
 查看以下页面以了解有关有趣令牌以及如何滥用它们的信息：
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-### 登录用户 / 会话
+### 记录的用户 / 会话
 ```bash
 qwinsta
 klist sessions
 ```
-### 用户文件夹
+### 主目录
 ```powershell
 dir C:\Users
 Get-ChildItem C:\Users
@@ -380,7 +380,7 @@ Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "sv
 #Without usernames
 Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
 ```
-始终检查可能正在运行的[**electron/cef/chromium调试器**，您可以滥用它来提升权限](../../linux-hardening/privilege-escalation/electron-cef-chromium-debugger-abuse.md)。
+始终检查可能正在运行的**electron/cef/chromium调试器**，您可以滥用它来提升权限。
 
 **检查进程二进制文件的权限**
 ```bash
@@ -409,7 +409,7 @@ procdump.exe -accepteula -ma <proc_name_tasklist>
 
 **以 SYSTEM 身份运行的应用程序可能允许用户生成一个 CMD，或浏览目录。**
 
-示例："Windows 帮助和支持"（Windows + F1），搜索"命令提示符"，点击"单击以打开命令提示符"
+示例："Windows 帮助和支持"（Windows + F1），搜索 "命令提示符"，点击 "单击以打开命令提示符"
 
 ## 服务
 
@@ -443,10 +443,10 @@ accesschk.exe -uwcqv "Todos" * /accepteula ::Spanish version
 
 如果您遇到此错误（例如与SSDPSRV有关）：
 
-_System error 1058 has occurred._\
-_The service cannot be started, either because it is disabled or because it has no enabled devices associated with it._
+_系统错误 1058 已发生。_\
+_无法启动服务，因为该服务已禁用或没有与其关联的已启用设备。_
 
-您可以使用以下方法启用它
+您可以使用以下方法启用它:
 ```bash
 sc config SSDPSRV start= demand
 sc config SSDPSRV obj= ".\LocalSystem" password= ""
@@ -475,14 +475,14 @@ net stop [service name] && net start [service name]
 特权可以通过各种权限进行提升：
 
 - **SERVICE\_CHANGE\_CONFIG**：允许重新配置服务二进制文件。
-- **WRITE\_DAC**：启用权限重新配置，从而可以更改服务配置。
+- **WRITE\_DAC**：启用权限重新配置，从而能够更改服务配置。
 - **WRITE\_OWNER**：允许获取所有权并重新配置权限。
 - **GENERIC\_WRITE**：继承更改服务配置的能力。
 - **GENERIC\_ALL**：也继承更改服务配置的能力。
 
 要检测和利用此漏洞，可以使用_exploit/windows/local/service\_permissions_。
 
-### 服务二进制文件权限不足
+### 服务二进制文件权限弱
 
 **检查是否可以修改由服务执行的二进制文件**，或者是否具有**二进制文件所在文件夹的写入权限**（[**DLL 劫持**](dll-hijacking/)）。\
 您可以使用**wmic**（不在system32中）获取由服务执行的每个二进制文件，并使用**icacls**检查您的权限：
@@ -517,7 +517,7 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t RE
 ```
 ### Services registry AppendData/AddSubdirectory permissions
 
-如果您对注册表具有此权限，则意味着**您可以从此注册表创建子注册表**。在Windows服务的情况下，这已经**足以执行任意代码:**
+如果您对注册表具有此权限，则意味着**您可以从此注册表创建子注册表**。在Windows服务的情况下，这已经**足以执行任意代码**：
 
 {% content-ref url="appenddata-addsubdirectory-permission-over-service-registry.md" %}
 [appenddata-addsubdirectory-permission-over-service-registry.md](appenddata-addsubdirectory-permission-over-service-registry.md)
@@ -527,7 +527,7 @@ reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t RE
 
 如果可执行文件的路径没有在引号内，Windows 将尝试执行空格之前的每个结尾。
 
-例如，对于路径 _C:\Program Files\Some Folder\Service.exe_ Windows 将尝试执行:
+例如，对于路径 _C:\Program Files\Some Folder\Service.exe_，Windows 将尝试执行：
 ```powershell
 C:\Program.exe
 C:\Program Files\Some.exe
@@ -559,9 +559,9 @@ Windows允许用户指定在服务失败时要执行的操作。可以配置此�
 
 ## 应用程序
 
-### 已安装的应用程序
+### 已安装应用程序
 
-检查**二进制文件的权限**（也许您可以覆盖其中一个并提升权限）以及**文件夹**的权限（[DLL劫持](dll-hijacking/)）。
+检查**二进制文件的权限**（也许您可以覆盖其中一个并提升权限），以及**文件夹**的权限（[DLL劫持](dll-hijacking/)）。
 ```bash
 dir /a "C:\Program Files"
 dir /a "C:\Program Files (x86)"
@@ -570,7 +570,7 @@ reg query HKEY_LOCAL_MACHINE\SOFTWARE
 Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' | ft Parent,Name,LastWriteTime
 Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE | ft Name
 ```
-### 写权限
+### 写入权限
 
 检查是否可以修改某些配置文件以读取某些特殊文件，或者是否可以修改某个将由管理员帐户执行的二进制文件（schedtasks）。
 
@@ -597,10 +597,10 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 
 Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'BUILTIN\Users'} } catch {}}
 ```
-### 开机启动
+### 开机自启
 
-**检查是否可以覆盖一些将由不同用户执行的注册表或二进制文件。**\
-**阅读**以下页面以了解更多关于提升权限的有趣**自启动位置**：
+**检查是否可以覆盖将由不同用户执行的某些注册表或二进制文件。**\
+**阅读**以下页面**以了解更多关于提升权限的有趣**自动运行位置：
 
 {% content-ref url="privilege-escalation-with-autorun-binaries.md" %}
 [privilege-escalation-with-autorun-binaries.md](privilege-escalation-with-autorun-binaries.md)
@@ -608,7 +608,7 @@ Get-ChildItem 'C:\Program Files\*','C:\Program Files (x86)\*' | % { try { Get-Ac
 
 ### 驱动程序
 
-寻找可能存在的**第三方奇怪/易受攻击**的驱动程序
+寻找可能的**第三方奇怪/易受攻击**的驱动程序
 ```bash
 driverquery
 driverquery.exe /fo table
@@ -616,7 +616,7 @@ driverquery /SI
 ```
 ## PATH DLL 劫持
 
-如果您在 PATH 中具有**写入权限的文件夹**，您可能能够劫持进程加载的 DLL 文件，并**提升权限**。
+如果您在 PATH 中的某个文件夹中具有**写入权限**，您可能能够劫持进程加载的 DLL 并**提升权限**。
 
 检查 PATH 中所有文件夹的权限：
 ```bash
@@ -640,7 +640,7 @@ net share #Check current shares
 ```
 ### hosts文件
 
-检查hosts文件中是否有硬编码的其他已知计算机。
+检查hosts文件中是否有硬编码的其他已知计算机
 ```
 type C:\Windows\System32\drivers\etc\hosts
 ```
@@ -668,7 +668,7 @@ Get-NetNeighbor -AddressFamily IPv4 | ft ifIndex,IPAddress,L
 ```
 ### 防火墙规则
 
-[**查看此页面以获取与防火墙相关的命令**](../basic-cmd-for-pentesters.md#firewall) **（列出规则，创建规则，关闭，关闭...）**
+[**查看此页面以获取与防火墙相关的命令**](../basic-cmd-for-pentesters.md#firewall) **(列出规则，创建规则，关闭，关闭...)**
 
 更多[此处的网络枚举命令](../basic-cmd-for-pentesters.md#network)
 
@@ -679,7 +679,7 @@ C:\Windows\System32\wsl.exe
 ```
 二进制文件 `bash.exe` 也可以在 `C:\Windows\WinSxS\amd64_microsoft-windows-lxssbash_[...]\bash.exe` 中找到。
 
-如果您获得 root 用户权限，您可以监听任何端口（第一次使用 `nc.exe` 监听端口时，它会通过 GUI 询问是否应允许防火墙通过 `nc`）。
+如果您获得 root 用户权限，您可以监听任何端口（第一次使用 `nc.exe` 监听端口时，它会通过 GUI 询问防火墙是否允许 `nc`）。
 ```bash
 wsl whoami
 ./ubuntun1604.exe config --default-user root
@@ -707,11 +707,11 @@ reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AltDef
 ### 凭据管理器 / Windows Vault
 
 来自[https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault](https://www.neowin.net/news/windows-7-exploring-credential-manager-and-windows-vault)\
-Windows Vault 存储用户的服务器、网站和其他程序的凭据，使得 **Windows** 可以 **自动登录用户**。乍一看，这似乎意味着用户可以存储他们的 Facebook 凭据、Twitter 凭据、Gmail 凭据等，以便通过浏览器自动登录。但实际情况并非如此。
+Windows Vault 存储用户凭据，用于服务器、网站和其他程序，**Windows** 可以**自动登录用户**。乍一看，这似乎意味着用户可以存储他们的 Facebook 凭据、Twitter 凭据、Gmail 凭据等，以便通过浏览器自动登录。但实际情况并非如此。
 
-Windows Vault 存储 Windows 可以用来自动登录用户的凭据，这意味着任何 **需要凭据访问资源**（服务器或网站）的 **Windows 应用程序** 都可以利用此凭据管理器和 Windows Vault，并使用提供的凭据，而无需用户一直输入用户名和密码。
+Windows Vault 存储 Windows 可以自动登录用户的凭据，这意味着任何**需要凭据访问资源**（服务器或网站）的**Windows 应用程序**都可以利用此凭据管理器和 Windows Vault，并使用提供的凭据，而无需用户一直输入用户名和密码。
 
-除非应用程序与凭据管理器交互，否则我认为它们无法使用给定资源的凭据。因此，如果您的应用程序希望利用这个保险库，它应该以某种方式 **与凭据管理器通信，并请求默认存储库中该资源的凭据**。
+除非应用程序与凭据管理器交互，否则我认为它们无法使用给定资源的凭据。因此，如果您的应用程序希望利用 Vault，它应该以某种方式**与凭据管理器通信，并请求默认存储库中该资源的凭据**。
 
 使用 `cmdkey` 列出计算机上存储的凭据。
 ```bash
@@ -735,14 +735,14 @@ C:\Windows\System32\runas.exe /env /noprofile /user:<username> <password> "c:\us
 
 **数据保护API（DPAPI）**提供了一种对数据进行对称加密的方法，主要用于Windows操作系统中对非对称私钥进行对称加密。这种加密利用用户或系统秘密来显著增加熵。
 
-**DPAPI通过从用户的登录秘密派生的对称密钥来加密密钥**。在涉及系统加密的情况下，它利用系统的域认证秘密。
+**DPAPI通过从用户的登录秘密派生的对称密钥来实现密钥的加密**。在涉及系统加密的情况下，它利用系统的域认证秘密。
 
-通过使用DPAPI，加密的用户RSA密钥存储在`%APPDATA%\Microsoft\Protect\{SID}`目录中，其中`{SID}`代表用户的[安全标识符](https://en.wikipedia.org/wiki/Security\_Identifier)。**DPAPI密钥与同一文件中保护用户私钥的主密钥共存**，通常由64字节的随机数据组成。（重要的是要注意，访问此目录受限，阻止通过CMD中的`dir`命令列出其内容，尽管可以通过PowerShell列出）。
+通过使用DPAPI，加密的用户RSA密钥存储在`%APPDATA%\Microsoft\Protect\{SID}`目录中，其中`{SID}`代表用户的[安全标识符](https://en.wikipedia.org/wiki/Security\_Identifier)。**DPAPI密钥与同一文件中保护用户私钥的主密钥共存**，通常由64字节的随机数据组成。（值得注意的是，访问此目录受限，阻止通过CMD中的`dir`命令列出其内容，但可以通过PowerShell列出）。
 ```powershell
 Get-ChildItem  C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem  C:\Users\USER\AppData\Local\Microsoft\Protect\
 ```
-您可以使用**mimikatz模块** `dpapi::masterkey` 与适当的参数 (`/pvk` 或 `/rpc`) 来解密它。
+您可以使用**mimikatz模块** `dpapi::masterkey` 与适当的参数 (`/pvk` 或 `/rpc`) 进行解密。
 
 **由主密码保护的凭据文件**通常位于：
 ```powershell
@@ -751,8 +751,8 @@ dir C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
-您可以使用**mimikatz模块** `dpapi::cred` 与适当的 `/masterkey` 进行解密。\
-您可以使用 `sekurlsa::dpapi` 模块（如果您是root用户）从**内存**中提取许多**DPAPI主密钥**。
+你可以使用**mimikatz模块** `dpapi::cred` 和适当的 `/masterkey` 来解密。\
+你可以使用 `sekurlsa::dpapi` 模块（如果你是root用户）从**内存**中提取**许多DPAPI主密钥**。
 
 {% content-ref url="dpapi-extracting-passwords.md" %}
 [dpapi-extracting-passwords.md](dpapi-extracting-passwords.md)
@@ -760,9 +760,9 @@ Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 
 ### PowerShell凭据
 
-**PowerShell凭据**通常用于**脚本编写**和自动化任务，作为一种便捷存储加密凭据的方式。这些凭据受**DPAPI**保护，通常意味着它们只能被在创建它们的同一台计算机上的同一用户解密。
+**PowerShell凭据**经常用于**脚本编写**和自动化任务，作为一种方便存储加密凭据的方式。这些凭据受**DPAPI**保护，通常意味着它们只能被在创建它们的同一台计算机上的同一用户解密。
 
-要从包含凭据的文件中**解密**PS凭据，您可以执行以下操作：
+要从包含PS凭据的文件中**解密**凭据，你可以执行：
 ```powershell
 PS C:\> $credential = Import-Clixml -Path 'C:\pass.xml'
 PS C:\> $credential.GetNetworkCredential().username
@@ -788,6 +788,8 @@ cls & echo. & for /f "tokens=3,* delims=: " %a in ('netsh wlan show profiles ^| 
 
 您可以在 `HKEY_USERS\<SID>\Software\Microsoft\Terminal Server Client\Servers\` 中找到它们\
 以及在 `HKCU\Software\Microsoft\Terminal Server Client\Servers\` 中找到。
+
+### 最近运行的命令
 ```
 HCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 HKCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
@@ -796,20 +798,20 @@ HKCU\<SID>\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU
 ```
 %localappdata%\Microsoft\Remote Desktop Connection Manager\RDCMan.settings
 ```
-使用**Mimikatz** `dpapi::rdg` 模块，并使用适当的 `/masterkey` 来**解密任何 .rdg 文件**。\
-您可以使用 Mimikatz `sekurlsa::dpapi` 模块**从内存中提取许多 DPAPI 主密钥**。
+使用**Mimikatz**的`dpapi::rdg`模块，并使用适当的`/masterkey`来**解密任何 .rdg 文件**。\
+您可以使用Mimikatz的`sekurlsa::dpapi`模块从内存中**提取许多DPAPI主密钥**。
 
 ### 便签
 
-人们经常在 Windows 工作站上使用 StickyNotes 应用程序来**保存密码**和其他信息，却没有意识到它是一个数据库文件。该文件位于 `C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite`，值得搜索和检查。
+人们经常在Windows工作站上使用StickyNotes应用程序来**保存密码**和其他信息，却没有意识到它是一个数据库文件。该文件位于`C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite`，值得搜索和检查。
 
 ### AppCmd.exe
 
-**请注意，要从 AppCmd.exe 恢复密码，您需要是管理员并在高完整性级别下运行。**\
-**AppCmd.exe** 位于 `%systemroot%\system32\inetsrv\` 目录中。\
-如果该文件存在，则可能已配置了一些**凭据**，可以**恢复**。
+**请注意，要从AppCmd.exe中恢复密码，您需要是管理员并在高完整性级别下运行。**\
+**AppCmd.exe**位于`%systemroot%\system32\inetsrv\`目录中。\
+如果该文件存在，则可能已配置了一些**凭据**，可以进行**恢复**。
 
-此代码摘自 [**PowerUP**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1):
+此代码摘自[**PowerUP**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1)：
 ```bash
 function Get-ApplicationHost {
 $OrigError = $ErrorActionPreference
@@ -890,7 +892,7 @@ $ErrorActionPreference = $OrigError
 ### SCClient / SCCM
 
 检查 `C:\Windows\CCM\SCClient.exe` 是否存在。\
-安装程序以 **SYSTEM 权限运行**，许多容易受到 **DLL 侧加载** 攻击（信息来自 [https://github.com/enjoiz/Privesc](https://github.com/enjoiz/Privesc)）。
+安装程序以**SYSTEM权限运行**，许多容易受到**DLL侧加载**攻击（信息来自[https://github.com/enjoiz/Privesc](https://github.com/enjoiz/Privesc)）。
 ```bash
 $result = Get-WmiObject -Namespace "root\ccm\clientSDK" -Class CCM_Application -Property * | select Name,SoftwareVersion
 if ($result) { $result }
@@ -915,7 +917,7 @@ reg query 'HKEY_CURRENT_USER\Software\OpenSSH\Agent\Keys'
 如果您在该路径中找到任何条目，那么很可能是一个已保存的SSH密钥。它以加密形式存储，但可以使用[https://github.com/ropnop/windows_sshagent_extract](https://github.com/ropnop/windows_sshagent_extract)轻松解密。\
 有关此技术的更多信息，请参阅：[https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
-如果`ssh-agent`服务未运行，并且您希望它在启动时自动启动，请运行：
+如果`ssh-agent`服务未在运行，并且您希望它在启动时自动启动，请运行：
 ```bash
 Get-Service ssh-agent | Set-Service -StartupType Automatic -PassThru | Start-Service
 ```
@@ -985,7 +987,7 @@ AppData\Roaming\gcloud\access_tokens.db
 
 ### Cached GPP Pasword
 
-以前有一个功能，允许通过组策略首选项（GPP）在一组计算机上部署自定义本地管理员帐户。然而，这种方法存在重大安全缺陷。首先，存储在SYSVOL中的组策略对象（GPO）可以被任何域用户访问。其次，这些GPP中的密码使用公开记录的默认密钥进行AES256加密，可以被任何经过身份验证的用户解密。这构成了严重风险，因为它可能允许用户获得提升的特权。
+以前有一个功能，允许通过组策略首选项（GPP）在一组计算机上部署自定义本地管理员帐户。然而，这种方法存在重大安全缺陷。首先，存储在SYSVOL中的组策略对象（GPO）可以被任何域用户访问。其次，这些GPP中的密码使用公开记录的默认密钥进行AES256加密，任何经过身份验证的用户都可以解密这些密码。这构成了严重风险，因为这可能允许用户获得提升的特权。
 
 为了减轻这一风险，开发了一个功能，用于扫描包含非空“cpassword”字段的本地缓存的GPP文件。在找到这样的文件时，该功能会解密密码并返回一个自定义的PowerShell对象。此对象包括有关GPP和文件位置的详细信息，有助于识别和修复此安全漏洞。
 
@@ -1021,7 +1023,7 @@ C:\inetpub\wwwroot\web.config
 Get-Childitem –Path C:\inetpub\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 Get-Childitem –Path C:\xampp\ -Include web.config -File -Recurse -ErrorAction SilentlyContinue
 ```
-Web.config中包含凭据的示例：
+Web.config文件中包含凭据的示例：
 ```xml
 <authentication mode="Forms">
 <forms name="login" loginUrl="/admin">
@@ -1031,7 +1033,7 @@ Web.config中包含凭据的示例：
 </forms>
 </authentication>
 ```
-### OpenVPN凭据
+### OpenVPN凭证
 ```csharp
 Add-Type -AssemblyName System.Security
 $keys = Get-ChildItem "HKCU:\Software\OpenVPN-GUI\configs"
@@ -1071,7 +1073,7 @@ $cred.GetNetworkCredential() | fl
 ```
 ### **可能包含凭据的文件名**
 
-已知一些文件曾经包含**明文密码**或**Base64**编码的凭据
+已知一些文件曾经包含**明文**或**Base64**格式的**密码**
 ```bash
 $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history
 vnc.ini, ultravnc.ini, *vnc*
@@ -1144,15 +1146,15 @@ dir /s/b /A:-D RDCMan.settings == *.rdg == *_history* == httpd.conf == .htpasswd
 ```
 Get-Childitem –Path C:\ -Include *unattend*,*sysprep* -File -Recurse -ErrorAction SilentlyContinue | where {($_.Name -like "*.xml" -or $_.Name -like "*.txt" -or $_.Name -like "*.ini")}
 ```
-### 在回收站中的凭据
+### 回收站中的凭证
 
-您还应该检查回收站，查找其中是否有凭据
+您还应该检查回收站，查找其中是否有凭证
 
 要**恢复**多个程序保存的密码，您可以使用：[http://www.nirsoft.net/password\_recovery\_tools.html](http://www.nirsoft.net/password\_recovery\_tools.html)
 
 ### 注册表内部
 
-**其他可能包含凭据的注册表键**
+**其他可能包含凭证的注册表键**
 ```bash
 reg query "HKCU\Software\ORL\WinVNC3\Password"
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\SNMP" /s
@@ -1175,7 +1177,7 @@ reg query "HKCU\Software\OpenSSH\Agent\Key"
 
 ### **COM DLL 覆盖**
 
-**组件对象模型 (COM)** 是 Windows 操作系统内置的一种技术，允许不同语言的软件组件之间进行 **互联**。每个 COM 组件通过类 ID (CLSID) 进行 **标识**，每个组件通过一个或多个接口暴露功能，这些接口通过接口 ID (IID) 进行 **标识**。
+**组件对象模型 (COM)** 是 Windows 操作系统内置的一种技术，允许不同语言的软件组件之间进行 **互联**。每个 COM 组件通过类 ID (CLSID) 进行 **标识**，每个组件通过一个或多个接口暴露功能，通过接口 ID (IID) 进行 **标识**。
 
 COM 类和接口在注册表中定义在 **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** 和 **HKEY\_**_**CLASSES\_**_**ROOT\Interface** 下。此注册表是通过合并 **HKEY\_**_**LOCAL\_**_**MACHINE\Software\Classes** + **HKEY\_**_**CURRENT\_**_**USER\Software\Classes** = **HKEY\_**_**CLASSES\_**_**ROOT** 创建的。
 
@@ -1183,7 +1185,7 @@ COM 类和接口在注册表中定义在 **HKEY\_**_**CLASSES\_**_**ROOT\CLSID**
 
 ![](<../../.gitbook/assets/image (729).png>)
 
-基本上，如果您可以 **覆盖将要执行的任何 DLL**，则如果该 DLL 将由不同用户执行，则可以 **提升权限**。
+基本上，如果您可以 **覆盖将要执行的任何 DLL**，则可以在由不同用户执行的情况下 **提升权限**。
 
 要了解攻击者如何使用 COM 劫持作为持久性机制，请查看：
 
@@ -1214,9 +1216,9 @@ REG QUERY HKCU /F "password" /t REG_SZ /S /d
 ```
 ### 搜索密码的工具
 
-[**MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **是我创建的一个 msf 插件**，用于**自动执行每个搜索受害者内部凭据的 metasploit POST 模块**。\
+[**MSF-Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **是我创建的一个 msf 插件**，用于**自动执行每个搜索受害者内凭据的 metasploit POST 模块**。\
 [**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) 自动搜索包含在此页面中提到的所有密码的文件。\
-[**Lazagne**](https://github.com/AlessandroZ/LaZagne) 是另一个从系统中提取密码的好工具。
+[**Lazagne**](https://github.com/AlessandroZ/LaZagne) 是另一个从系统中提取密码的强大工具。
 
 该工具 [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) 搜索**会话**、**用户名**和**密码**，这些数据以明文形式保存在多个工具中（PuTTY、WinSCP、FileZilla、SuperPuTTY 和 RDP）。
 ```bash
@@ -1227,10 +1229,10 @@ Invoke-SessionGopher -AllDomain -u domain.com\adm-arvanaghi -p s3cr3tP@ss
 ```
 ## 泄漏的处理程序
 
-想象一下，**一个以SYSTEM权限运行的进程打开一个新进程**（`OpenProcess()`）并具有**完全访问权限**。同一个进程**还创建一个新进程**（`CreateProcess()`）**权限较低，但继承了主进程的所有打开处理程序**。\
-然后，如果你对**权限较低的进程有完全访问权限**，你可以获取使用`OpenProcess()`创建的**特权进程的打开处理程序**并**注入shellcode**。\
+想象一下，**一个以SYSTEM权限运行的进程打开一个新进程**（`OpenProcess()`）并具有**完全访问权限**。同一个进程**还创建一个新进程**（`CreateProcess()`），**权限较低但继承了主进程的所有打开处理程序**。\
+然后，如果你对**权限较低的进程有完全访问权限**，你可以获取通过`OpenProcess()`创建的**特权进程的打开处理程序**并**注入shellcode**。\
 [阅读此示例以获取有关**如何检测和利用此漏洞**的更多信息。](leaked-handle-exploitation.md)\
-[阅读此**其他文章以获取有关如何测试和滥用继承了不同权限级别（不仅仅是完全访问权限）的进程和线程的更全面解释**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/)。
+[阅读此**其他帖子以获取有关如何测试和滥用继承了不同权限级别（不仅仅是完全访问权限）的进程和线程的更全面解释**](http://dronesec.pw/blog/2019/08/22/exploiting-leaked-process-and-thread-handles/)。
 
 ## 命名管道客户端模拟
 
@@ -1238,15 +1240,15 @@ Invoke-SessionGopher -AllDomain -u domain.com\adm-arvanaghi -p s3cr3tP@ss
 
 Windows提供了一个名为**命名管道**的功能，允许不相关的进程共享数据，甚至跨不同网络。这类似于客户端/服务器架构，角色被定义为**命名管道服务器**和**命名管道客户端**。
 
-当**客户端**通过管道发送数据时，设置管道的**服务器**有能力**承担** **客户端**的**身份**，前提是具有必要的**SeImpersonate**权限。识别通过管道进行通信的**特权进程**，并模仿其行为，一旦其与您建立的管道进行交互，便有机会通过采用该进程的身份来**获得更高的权限**。有关执行此类攻击的说明，请查看这些有用的指南[**这里**](named-pipe-client-impersonation.md)和[**这里**](./#from-high-integrity-to-system)。
+当**客户端**通过管道发送数据时，设置管道的**服务器**有能力**扮演**该**客户端**的**身份**，假设它具有必要的**SeImpersonate**权限。识别通过管道进行通信的**特权进程**，并模仿其提供的机会，一旦它与您建立的管道互动，就可以通过采用该进程的身份来**获得更高的权限**。有关执行此类攻击的说明，请查看[**此处**](named-pipe-client-impersonation.md)和[**此处**](./#from-high-integrity-to-system)的有用指南。
 
-此外，以下工具允许**拦截使用类似burp的工具进行命名管道通信：** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **而此工具允许列出并查看所有管道以查找权限提升** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
+此外，以下工具允许**拦截通过类似burp的工具进行命名管道通信：** [**https://github.com/gabriel-sztejnworcel/pipe-intercept**](https://github.com/gabriel-sztejnworcel/pipe-intercept) **而此工具允许列出并查看所有管道以查找权限提升** [**https://github.com/cyberark/PipeViewer**](https://github.com/cyberark/PipeViewer)
 
 ## 其他
 
 ### **监视命令行以获取密码**
 
-当以用户身份获取shell时，可能会执行计划任务或其他进程，这些进程会**在命令行上传递凭据**。下面的脚本每两秒捕获进程命令行，并将当前状态与先前状态进行比较，输出任何差异。
+当以用户身份获取shell时，可能正在执行计划任务或其他进程，这些进程会**在命令行上传递凭据**。下面的脚本每两秒捕获进程命令行，并将当前状态与先前状态进行比较，输出任何差异。
 ```powershell
 while($true)
 {
@@ -1308,7 +1310,7 @@ Windows 10 1709	16299	link NOT opened
 
 https://github.com/jas502n/CVE-2019-1388
 
-## 从管理员中权限升级到高权限级别 / UAC绕过
+## 从管理员中权限提升到高权限级别 / UAC绕过
 
 阅读此内容以**了解完整性级别**：
 
@@ -1322,46 +1324,46 @@ https://github.com/jas502n/CVE-2019-1388
 [uac-user-account-control.md](../authentication-credentials-uac-and-efs/uac-user-account-control.md)
 {% endcontent-ref %}
 
-## **从高权限级别到System**
+## **从高权限级别提升到System**
 
 ### **新服务**
 
-如果您已在高权限进程上运行，则**升级到SYSTEM**可能很容易，只需**创建和执行一个新服务**：
+如果您已在高权限进程上运行，则**通过创建和执行新服务**可以轻松实现**提升到SYSTEM**：
 ```
 sc create newservicename binPath= "C:\windows\system32\notepad.exe"
 sc start newservicename
 ```
 ### AlwaysInstallElevated
 
-从高完整性进程中，您可以尝试**启用 AlwaysInstallElevated 注册表项**并使用 _.msi_ 封装器**安装**一个反向 shell。\
+从高完整性进程中，您可以尝试**启用 AlwaysInstallElevated 注册表项**，并使用 _.msi_ 封装器**安装**一个反向 shell。\
 [有关涉及的注册表键以及如何安装 _.msi_ 包的更多信息在这里。](./#alwaysinstallelevated)
 
-### High + SeImpersonate 权限提升至 System
+### 高 + SeImpersonate 特权到 System
 
 **您可以** [**在这里找到代码**](seimpersonate-from-high-to-system.md)**。**
 
-### 从 SeDebug + SeImpersonate 到完整令牌权限
+### 从 SeDebug + SeImpersonate 到完整令牌特权
 
-如果您拥有这些令牌权限（很可能会在已经具有高完整性的进程中找到），您将能够使用 SeDebug 权限**打开几乎任何进程**（非受保护的进程），**复制进程的令牌**，并使用该令牌创建**任意进程**。\
-使用这种技术通常会**选择以 SYSTEM 身份运行且具有所有令牌权限的任何进程**（是的，您可以找到没有所有令牌权限的 SYSTEM 进程）。\
+如果您拥有这些令牌特权（很可能您会在已经具有高完整性的进程中找到），您将能够使用 SeDebug 特权**打开几乎任何进程**（非受保护进程），**复制**进程的令牌，并使用该令牌创建**任意进程**。\
+使用这种技术通常会**选择任何以 SYSTEM 身份运行且具有所有令牌特权的进程**（是的，您可以找到没有所有令牌特权的 SYSTEM 进程）。\
 **您可以在** [**这里找到执行所提出技术的代码示例**](sedebug-+-seimpersonate-copy-token.md)**。**
 
 ### **命名管道**
 
-这种技术被 Meterpreter 用于在 `getsystem` 中升级。该技术包括**创建一个管道，然后创建/滥用一个服务来写入该管道**。然后，使用**`SeImpersonate`** 权限创建管道的**服务器**将能够**模拟管道客户端（服务）的令牌**，获取 SYSTEM 权限。\
+这种技术被 Meterpreter 用于在 `getsystem` 中升级。该技术包括**创建一个管道，然后创建/滥用一个服务来写入该管道**。然后，使用**`SeImpersonate`**特权创建管道的**服务器**将能够**模拟管道客户端（服务）的令牌**，获取 SYSTEM 特权。\
 如果您想要[**了解更多关于命名管道的信息，您应该阅读这篇文章**](./#named-pipe-client-impersonation)。\
-如果您想阅读一个[**如何从高完整性升级到 System 使用命名管道的示例，您应该阅读这篇文章**](from-high-integrity-to-system-with-name-pipes.md)。
+如果您想阅读一个[**如何从高完整性到 System 使用命名管道的示例，您应该阅读这篇文章**](from-high-integrity-to-system-with-name-pipes.md)。
 
 ### Dll 劫持
 
-如果您设法**劫持一个由** **SYSTEM** **运行的进程加载的 dll**，您将能够以这些权限执行任意代码。因此，Dll 劫持对于这种特权升级也很有用，而且，从高完整性进程中更容易实现，因为它将具有用于加载 dll 的文件夹的**写入权限**。\
+如果您设法**劫持**由**SYSTEM**身份运行的**进程**加载的**dll**，您将能够以这些权限执行任意代码。因此，Dll 劫持对于这种特权升级也很有用，而且，从高完整性进程中更容易实现，因为它将具有用于加载 dll 的文件夹的**写入权限**。\
 **您可以** [**在这里了解更多关于 Dll 劫持的信息**](dll-hijacking/)**。**
 
-### **从管理员或网络服务升级到 System**
+### **从管理员或网络服务到 System**
 
 {% embed url="https://github.com/sailay1996/RpcSsImpersonator" %}
 
-### 从 LOCAL SERVICE 或 NETWORK SERVICE 升级到完整权限
+### 从 LOCAL SERVICE 或 NETWORK SERVICE 到完整特权
 
 **阅读：** [**https://github.com/itm4n/FullPowers**](https://github.com/itm4n/FullPowers)
 
@@ -1371,7 +1373,7 @@ sc start newservicename
 
 ## 有用工具
 
-**查找 Windows 本地权限提升向量的最佳工具：** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+**查找 Windows 本地特权升级向量的最佳工具：** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 **PS**
 
@@ -1381,16 +1383,16 @@ sc start newservicename
 [**privesc** ](https://github.com/enjoiz/Privesc)**-- 检查配置错误**\
 [**SessionGopher**](https://github.com/Arvanaghi/SessionGopher) **-- 提取 PuTTY、WinSCP、SuperPuTTY、FileZilla 和 RDP 保存的会话信息。在本地使用 -Thorough。**\
 [**Invoke-WCMDump**](https://github.com/peewpw/Invoke-WCMDump) **-- 从凭据管理器中提取凭据。已检测到。**\
-[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **-- 在域中扫描收集的密码**\
+[**DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray) **-- 在域中分布收集的密码**\
 [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **-- Inveigh 是一个 PowerShell ADIDNS/LLMNR/mDNS/NBNS 欺骗和中间人工具。**\
-[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **-- 基本的权限提升 Windows 枚举**\
-[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ -- 搜索已知的权限提升漏洞（Watson 已弃用）\
+[**WindowsEnum**](https://github.com/absolomb/WindowsEnum/blob/master/WindowsEnum.ps1) **-- 基本的本地特权升级 Windows 枚举**\
+[~~**Sherlock**~~](https://github.com/rasta-mouse/Sherlock) **\~\~**\~\~ -- 搜索已知的特权升级漏洞（Watson 已弃用）\
 [~~**WINspect**~~](https://github.com/A-mIn3/WINspect) -- 本地检查 **（需要管理员权限）**
 
 **Exe**
 
-[**Watson**](https://github.com/rasta-mouse/Watson) -- 搜索已知的权限提升漏洞（需要使用 VisualStudio 编译）（[**预编译**](https://github.com/carlospolop/winPE/tree/master/binaries/watson))\
-[**SeatBelt**](https://github.com/GhostPack/Seatbelt) -- 枚举主机以搜索配置错误（更多是信息收集工具而不是权限提升）（需要编译） **（**[**预编译**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
+[**Watson**](https://github.com/rasta-mouse/Watson) -- 搜索已知的特权升级漏洞（需要使用 VisualStudio 编译）（[**预编译**](https://github.com/carlospolop/winPE/tree/master/binaries/watson)）\
+[**SeatBelt**](https://github.com/GhostPack/Seatbelt) -- 枚举主机以搜索配置错误（更多是收集信息工具而不是特权升级）（需要编译） **（**[**预编译**](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)**)**\
 [**LaZagne**](https://github.com/AlessandroZ/LaZagne) **-- 从许多软件中提取凭据（github 中有预编译的 exe）**\
 [**SharpUP**](https://github.com/GhostPack/SharpUp) **-- 将 PowerUp 移植到 C#**\
 [~~**Beroot**~~](https://github.com/AlessandroZ/BeRoot) **\~\~**\~\~ -- 检查配置错误（github 中有预编译的可执行文件）。不建议使用。在 Win10 中效果不佳。\
@@ -1398,7 +1400,7 @@ sc start newservicename
 
 **Bat**
 
-[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)-- 基于此帖子创建的工具（不需要 accesschk 即可正常工作，但可以使用它）。
+[**winPEASbat** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)-- 基于此帖子创建的工具（它不需要 accesschk 来正常工作，但可以使用它）。
 
 **Local**
 
@@ -1409,7 +1411,7 @@ sc start newservicename
 
 _multi/recon/local\_exploit\_suggestor_
 
-您必须使用正确版本的 .NET 编译项目（参见此处）。要查看受害主机上安装的 .NET 版本，您可以执行：
+您必须使用正确版本的 .NET 编译项目（[参见此处](https://rastamouse.me/2018/09/a-lesson-in-.net-framework-versions/)）。要查看受害主机上安装的 .NET 版本，您可以执行：
 ```
 C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the code with the version given in "Build Engine version" line
 ```
@@ -1419,7 +1421,7 @@ C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the 
 * [http://www.greyhathacker.net/?p=738](http://www.greyhathacker.net/?p=738)\\
 * [http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html](http://it-ovid.blogspot.com/2012/02/windows-privilege-escalation.html)\\
 * [https://github.com/sagishahar/lpeworkshop](https://github.com/sagishahar/lpeworkshop)\\
-* [https://www.youtube.com/watch?v=\_8xJaaQlpBo](https://www.youtube.com/watch?v=\_8xJaaQlpBo)\\
+* [https://www.youtube.com/watch?v=_8xJaaQlpBo](https://www.youtube.com/watch?v=_8xJaaQlpBo)\\
 * [https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html](https://sushant747.gitbooks.io/total-oscp-guide/privilege\_escalation\_windows.html)\\
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)\\
 * [https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/](https://www.absolomb.com/2018-01-26-Windows-Privilege-Escalation-Guide/)\\
@@ -1434,10 +1436,10 @@ C:\Windows\microsoft.net\framework\v4.0.30319\MSBuild.exe -version #Compile the 
 
 <summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 您在**网络安全公司**工作吗？ 想要在**HackTricks中宣传您的公司**吗？ 或者您想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群组**](https://discord.gg/hRep4RUj7f) 或 **电报群组**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* 通过向**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向**hacktricks repo**和**hacktricks-cloud repo**提交PR来分享您的黑客技巧。
 
 </details>
