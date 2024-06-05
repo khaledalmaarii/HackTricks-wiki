@@ -6,10 +6,10 @@
 
 支持 HackTricks 的其他方式：
 
-- 如果您想看到您的**公司在 HackTricks 中被广告**或**下载 PDF 格式的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-- 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏
-- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) 上 **关注**我们。
+- 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 - 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
@@ -37,7 +37,7 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
-{% 代码 溢出="换行" %}
+{% 代码 溢出="wrap" %}
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -114,7 +114,7 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 #### 元数据
 
 {% hint style="danger" %}
-请注意，用 Objective-C 编写的程序在编译为 [Mach-O 二进制文件](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) 时会**保留**它们的类声明。这些类声明包括以下内容的名称和类型：
+请注意，用 Objective-C 编写的程序在编译为 [Mach-O 二进制文件](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) 时会保留它们的类声明。这些类声明包括以下内容的名称和类型：
 {% endhint %}
 
 * 类
@@ -131,11 +131,11 @@ class-dump Kindle.app
 
 ![](<../../../.gitbook/assets/image (305).png>)
 
-此函数期望的参数包括：
+此函数期望的参数为：
 
-- 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，这将是类对象的一个实例（整体），而对于实例方法，self将指向作为对象的类的实例化实例。
-- 第二个参数（**op**）是“处理消息的方法的选择器”。更简单地说，这只是**方法的名称**。
-- 剩余的参数是方法所需的任何**值**（op）。
+- 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，则这将是类对象的一个实例（整体），而对于实例方法，self将指向作为对象的类的已实例化实例。
+- 第二个参数（**op**）是“处理消息的方法的选择器”。再简单点说，这只是**方法的名称**。
+- 其余参数是方法所需的任何**值**（op）。
 
 查看如何**使用 `lldb` 在 ARM64 中轻松获取此信息**：
 
@@ -146,14 +146,18 @@ class-dump Kindle.app
 x64:
 
 | **参数**          | **寄存器**                                                     | **(对于) objc\_msgSend**                              |
-| ----------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
-| **第1个参数**     | **rdi**                                                         | **self：方法被调用的对象**                           |
-| **第2个参数**     | **rsi**                                                         | **op：方法的名称**                                   |
-| **第3个参数**     | **rdx**                                                         | **方法的第一个参数**                                 |
-| **第4个参数**     | **rcx**                                                         | **方法的第二个参数**                                 |
-| **第5个参数**     | **r8**                                                          | **方法的第三个参数**                                 |
-| **第6个参数**     | **r9**                                                          | **方法的第四个参数**                                 |
-| **第7个+ 参数**   | <p><strong>rsp+</strong><br><strong>(在堆栈上)</strong></p>   | **方法的第五个+ 参数**                               |
+| ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
+| **第1个参数**     | **rdi**                                                         | **self：方法被调用的对象**                            |
+| **第2个参数**     | **rsi**                                                         | **op：方法的名称**                                    |
+| **第3个参数**     | **rdx**                                                         | **方法的第一个参数**                                  |
+| **第4个参数**     | **rcx**                                                         | **方法的第二个参数**                                  |
+| **第5个参数**     | **r8**                                                          | **方法的第三个参数**                                  |
+| **第6个参数**     | **r9**                                                          | **方法的第四个参数**                                  |
+| **第7个+ 参数**   | <p><strong>rsp+</strong><br><strong>(在堆栈上)</strong></p>   | **方法的第五个+ 参数**                                |
+
+### Dynadump
+
+[**Dynadump**](https://github.com/DerekSelander/dynadump) 是一个从 dylibs 获取 Objc-Classes 的工具。
 
 ### Swift
 
@@ -173,7 +177,7 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ```
 您可以在[**此博客文章中找到有关这些部分存储的信息**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
 
-此外，**Swift 二进制文件可能具有符号**（例如，库需要存储符号以便调用其函数）。**这些符号通常以一种难以理解的方式包含有关函数名称和属性的信息，因此它们非常有用，而且有“**解码器”**可以获取原始名称：
+此外，**Swift 二进制文件可能具有符号**（例如库需要存储符号以便调用其函数）。**符号通常包含有关函数名称和属性的信息，以一种不太直观的方式呈现，因此它们非常有用，而且有**“解码器”**可以获取原始名称：
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -181,63 +185,86 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
-### 打包的二进制文件
+### Packed binaries
 
 * 检查高熵
 * 检查字符串（如果几乎没有可理解的字符串，则为打包）
-* MacOS的UPX打包程序会生成一个名为"\_\_XHDR"的部分
+* MacOS 的 UPX 打包程序会生成一个名为 "\_\_XHDR" 的部分
 
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，**需要禁用SIP**（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹并使用`codesign --remove-signature <binary-path>`来**移除签名**，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
+请注意，为了调试二进制文件，**需要禁用 SIP**（`csrutil disable` 或 `csrutil enable --without debug`），或者将二进制文件复制到临时文件夹并使用 `codesign --remove-signature <binary-path>` 去除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了**对macOS上的系统二进制文件**（如`cloudconfigurationd`）进行**插桩**，**必须禁用SIP**（仅仅移除签名是不够的）。
+请注意，为了**检测系统二进制文件**（如 `cloudconfigurationd`）在 macOS 上，**必须禁用 SIP**（仅删除签名不起作用）。
 {% endhint %}
 
-### 统一日志
+### APIs
 
-MacOS生成了大量日志，在运行应用程序时，尝试理解**其正在执行的操作**时，这些日志非常有用。
+macOS 提供了一些有趣的 API，可提供有关进程的信息：
 
-此外，有一些日志将包含标签`<private>`，用于**隐藏**一些**用户**或**计算机**的**可识别**信息。但是，可以**安装证书来披露这些信息**。请参考[**这里**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)中的说明。
+* `proc_info`：这是主要的 API，提供有关每个进程的大量信息。您需要是 root 用户才能获取其他进程的信息，但不需要特殊的授权或 mach 端口。
+* `libsysmon.dylib`：它允许通过 XPC 公开的函数获取有关进程的信息，但需要具有 `com.apple.sysmond.client` 授权。
+
+### Stackshot & microstackshots
+
+**Stackshotting** 是一种用于捕获进程状态的技术，包括所有运行线程的调用堆栈。这对于调试、性能分析和了解系统在特定时间点的行为特别有用。在 iOS 和 macOS 上，可以使用多种工具和方法执行 stackshotting，如工具 **`sample`** 和 **`spindump`**。
+
+### Sysdiagnose
+
+这个工具（`/usr/bini/ysdiagnose`）基本上会从您的计算机收集大量信息，执行诸如 `ps`、`zprint` 等几十个不同的命令。
+
+它必须以 **root** 用户身份运行，守护进程 `/usr/libexec/sysdiagnosed` 具有非常有趣的授权，如 `com.apple.system-task-ports` 和 `get-task-allow`。
+
+其 plist 文件位于 `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist`，声明了 3 个 MachServices：
+
+* `com.apple.sysdiagnose.CacheDelete`：删除 /var/rmp 中的旧存档
+* `com.apple.sysdiagnose.kernel.ipc`：特殊端口 23（内核）
+* `com.apple.sysdiagnose.service.xpc`：通过 `Libsysdiagnose` Obj-C 类进行用户模式接口。可以传递三个参数字典（`compress`、`display`、`run`）
+
+### Unified Logs
+
+MacOS 生成了大量日志，当运行应用程序并尝试了解其**操作**时，这些日志非常有用。
+
+此外，有些日志将包含标签 `<private>` 以**隐藏**一些**用户**或**计算机**的**可识别**信息。但是，可以**安装证书**来披露这些信息。请参考[**此处**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明。
 
 ### Hopper
 
 #### 左侧面板
 
-在hopper的左侧面板中，可以看到二进制文件的符号（**标签**），过程和函数的列表（**Proc**）以及字符串（**Str**）。这些不是所有字符串，而是在Mac-O文件的几个部分中定义的字符串（如_cstring或`objc_methname`）。
+在 hopper 的左侧面板中，可以看到二进制文件的符号（**Labels**）、过程和函数列表（**Proc**）以及字符串（**Str**）。这些不是所有字符串，而是在 Mac-O 文件的几个部分中定义的字符串（如 _cstring 或 `objc_methname`）。
 
 #### 中间面板
 
-在中间面板中，您可以看到**反汇编代码**。您可以看到**原始**反汇编，**图形**，**反编译**和**二进制**，通过单击相应的图标：
+在中间面板中，您可以看到**反汇编代码**。您可以通过单击相应的图标查看**原始**反汇编、**图形**、**反编译**和**二进制**：
 
 <figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
-右键单击代码对象，可以查看**对该对象的引用/来自该对象的引用**，甚至更改其名称（在反编译伪代码中不起作用）：
+右键单击代码对象，可以查看与该对象的**引用/来自**或甚至更改其名称（在反编译伪代码中不起作用）：
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
-此外，在**中间下方，您可以编写Python命令**。
+此外，在**中间下方**可以编写 Python 命令。
 
 #### 右侧面板
 
-在右侧面板中，您可以查看一些有趣的信息，例如**导航历史记录**（以便了解如何到达当前情况），**调用图**，您可以看到所有**调用此函数的函数**以及**此函数调用的所有函数**，以及**本地变量**信息。
+在右侧面板中，您可以查看有趣的信息，如**导航历史记录**（以便了解如何到达当前情况）、**调用图**（您可以看到调用此函数的所有函数以及此函数调用的所有函数）和**本地变量**信息。
 
 ### dtrace
 
-它允许用户以极其**低级别**访问应用程序，并为用户提供了一种**跟踪程序**甚至更改其执行流的方法。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，如系统调用的开始和结束。
+它允许用户以极其**低级别**访问应用程序，并为用户提供一种**跟踪** **程序** 甚至更改其执行流的方法。Dtrace 使用**探针**，这些探针**分布在内核的各个位置**，如系统调用的开始和结束处。
 
-DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在**每个系统调用的入口和出口点触发**。与DTrace的交互通过/dev/dtrace进行，这仅对root用户可用。
+DTrace 使用 **`dtrace_probe_create`** 函数为每个系统调用创建一个探针。这些探针可以在**每个系统调用的入口和出口点触发**。与 DTrace 的交互通过 /dev/dtrace 进行，该设备仅供 root 用户使用。
 
 {% hint style="success" %}
-要在不完全禁用SIP保护的情况下启用Dtrace，您可以在恢复模式下执行：`csrutil enable --without dtrace`
+要在不完全禁用 SIP 保护的情况下启用 Dtrace，您可以在恢复模式下执行：`csrutil enable --without dtrace`
 
-您还可以**`dtrace`**或**`dtruss`**您已编译的二进制文件。
+您还可以**`dtrace`** 或**`dtruss`** 您已编译的二进制文件。
 {% endhint %}
 
-可以使用以下命令获取dtrace的可用探针：
+可以使用以下命令获取 dtrace 的可用探针：
 ```bash
 dtrace -l | head
 ID   PROVIDER            MODULE                          FUNCTION NAME
@@ -249,9 +276,9 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 ```
 探针名称由四个部分组成：提供者、模块、函数和名称（`fbt:mach_kernel:ptrace:entry`）。如果未指定名称的某些部分，Dtrace 将将该部分视为通配符。
 
-要配置 DTrace 以激活探针并指定触发时要执行的操作，我们需要使用 D 语言。
+要配置 DTrace 以激活探针并指定它们触发时要执行的操作，我们需要使用 D 语言。
 
-更详细的解释和更多示例可在[https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)找到
+更详细的解释和更多示例可以在[https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)中找到
 
 #### 示例
 
@@ -305,12 +332,50 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
 ```
+### kdebug
+
+这是一个内核跟踪工具。文档中的代码可以在**`/usr/share/misc/trace.codes`**中找到。
+
+类似`latency`、`sc_usage`、`fs_usage`和`trace`这样的工具在内部使用它。
+
+要与`kdebug`进行交互，通常会使用`sysctl`在`kern.kdebug`命名空间上，并且要使用的MIB可以在`sys/sysctl.h`中找到，这些函数在`bsd/kern/kdebug.c`中实现。
+
+要使用自定义客户端与kdebug进行交互，通常需要执行以下步骤：
+
+* 使用KERN\_KDSETREMOVE删除现有设置
+* 使用KERN\_KDSETBUF和KERN\_KDSETUP设置跟踪
+* 使用KERN\_KDGETBUF获取缓冲区条目数
+* 使用KERN\_KDPINDEX从跟踪中获取自己的客户端
+* 使用KERN\_KDENABLE启用跟踪
+* 调用KERN\_KDREADTR读取缓冲区
+* 调用KERN\_KDTHRMAP将每个线程与其进程匹配。
+
+要获取这些信息，可以使用苹果工具**`trace`**或自定义工具[kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**。**
+
+**请注意，Kdebug一次只能为一个客户提供服务。**因此，一次只能执行一个基于k-debug的工具。
+
 ### ktrace
 
-即使**启用了SIP**，您也可以使用此命令
+`ktrace_*` API来自`libktrace.dylib`，它们封装了`Kdebug`的API。然后，客户端只需调用`ktrace_session_create`和`ktrace_events_[single/class]`来设置特定代码的回调，然后使用`ktrace_start`启动它。
+
+即使**SIP已激活**，也可以使用此工具。
+
+您可以使用实用程序`ktrace`作为客户端：
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
+或者`tailspin`。
+
+### kperf
+
+这是用于进行内核级别分析的工具，使用`Kdebug`调用构建。
+
+基本上，会检查全局变量`kernel_debug_active`，如果设置了，就会调用`kperf_kdebug_handler`，传入`Kdebug`代码和调用内核帧的地址。如果`Kdebug`代码匹配所选代码之一，则会获取配置为位图的“操作”（请查看`osfmk/kperf/action.h`以获取选项）。
+
+Kperf还有一个sysctl MIB表：（作为root）`sysctl kperf`。这些代码可以在`osfmk/kperf/kperfbsd.c`中找到。
+
+此外，Kperf功能的一个子集位于`kpc`中，提供有关机器性能计数器的信息。
+
 ### ProcessMonitor
 
 [**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) 是一个非常有用的工具，用于检查进程执行的与进程相关的操作（例如，监视进程创建的新进程）。
@@ -318,7 +383,7 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 ### SpriteTree
 
 [**SpriteTree**](https://themittenmac.com/tools/) 是一个工具，用于显示进程之间的关系。\
-您需要使用类似 **`sudo eslogger fork exec rename create > cap.json`** 这样的命令监视您的 macOS（启动此命令需要 FDA）。然后您可以在此工具中加载 json 文件以查看所有关系：
+您需要使用类似 **`sudo eslogger fork exec rename create > cap.json`** 的命令来监视您的mac（启动此终端需要FDA）。然后，您可以在此工具中加载json以查看所有关系：
 
 <figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -328,11 +393,11 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) 是一个具有类似于 Microsoft Sysinternal 的 _Procmon_ 的外观和感觉的 GUI 工具。该工具允许启动和停止各种事件类型的记录，允许通过文件、进程、网络等类别对这些事件进行过滤，并提供将记录的事件保存为 json 格式的功能。
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) 是一个具有类似于微软Sysinternal的_Procmon_的外观和感觉的GUI工具。该工具允许启动和停止各种事件类型的记录，允许按文件、进程、网络等类别对这些事件进行过滤，并提供将记录的事件保存为json格式的功能。
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) 是 Xcode 的开发工具的一部分，用于监视应用程序性能，识别内存泄漏和跟踪文件系统活动。
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) 是Xcode的开发工具的一部分，用于监视应用程序性能，识别内存泄漏和跟踪文件系统活动。
 
 ![](<../../../.gitbook/assets/image (1138).png>)
 
@@ -350,7 +415,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-在[**这篇博文**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)中，您可以找到一个示例，说明如何**调试正在运行的守护程序**，该守护程序使用**`PT_DENY_ATTACH`**来防止调试，即使 SIP 已禁用。
+在[**这篇博文**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)中，您可以找到一个示例，说明如何**调试正在运行的守护程序**，该守护程序使用**`PT_DENY_ATTACH`**来防止调试，即使SIP已禁用。
 
 ### lldb
 
@@ -369,7 +434,7 @@ settings set target.x86-disassembly-flavor intel
 在 lldb 中，使用 `process save-core` 命令来转储一个进程
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 命令</strong></td><td><strong>描述</strong></td></tr><tr><td><strong>run (r)</strong></td><td>开始执行，直到触发断点或进程终止。</td></tr><tr><td><strong>continue (c)</strong></td><td>继续调试进程的执行。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>执行下一条指令。该命令会跳过函数调用。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>执行下一条指令。与 nexti 命令不同，该命令会进入函数调用。</td></tr><tr><td><strong>finish (f)</strong></td><td>执行当前函数中剩余的指令，返回并停止。</td></tr><tr><td><strong>control + c</strong></td><td>暂停执行。如果进程已经运行（r）或继续（c），这会导致进程停止在当前执行位置。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #调用名为 main 的任何函数</p><p>b <binname>`main #二进制文件的主函数</p><p>b set -n main --shlib <lib_name> #指定二进制文件的主函数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis <num> #启用/禁用断点</p><p>breakpoint delete <num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format <a href="https://lldb.llvm.org/use/variable.html#type-format">format</a></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s <reg/memory address></strong></td><td>将内存显示为以空字符结尾的字符串。</td></tr><tr><td><strong>x/i <reg/memory address></strong></td><td>将内存显示为汇编指令。</td></tr><tr><td><strong>x/b <reg/memory address></strong></td><td>将内存显示为字节。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数 Apple 的 Objective-C API 或方法返回对象，因此应通过“print object”（po）命令显示。如果 po 不产生有意义的输出，请使用 <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入 AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在地址写入 AAAA</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #反汇编当前函数</p><p>dis -n <funcname> #反汇编函数</p><p>dis -n <funcname> -b <basename> #反汇编函数</p><p>dis -c 6 #反汇编 6 行</p><p>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址</p><p>dis -p -c 4 #从当前地址开始反汇编</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # 检查 x1 寄存器中的 3 个组件的数组</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 命令</strong></td><td><strong>描述</strong></td></tr><tr><td><strong>run (r)</strong></td><td>开始执行，直到触发断点或进程终止。</td></tr><tr><td><strong>continue (c)</strong></td><td>继续调试进程的执行。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>执行下一条指令。该命令会跳过函数调用。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>执行下一条指令。与 nexti 命令不同，该命令会进入函数调用。</td></tr><tr><td><strong>finish (f)</strong></td><td>执行当前函数中剩余的指令，返回并停止。</td></tr><tr><td><strong>control + c</strong></td><td>暂停执行。如果进程已经运行（r）或继续（c），这会导致进程停止在当前执行位置。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #调用名为 main 的任何函数</p><p>b <binname>`main #二进制文件的主函数</p><p>b set -n main --shlib <lib_name> #指定二进制文件的主函数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis <num> #启用/禁用断点</p><p>breakpoint delete <num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format <a href="https://lldb.llvm.org/use/variable.html#type-format">format</a></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s <reg/memory address></strong></td><td>将内存显示为以空字符结尾的字符串。</td></tr><tr><td><strong>x/i <reg/memory address></strong></td><td>将内存显示为汇编指令。</td></tr><tr><td><strong>x/b <reg/memory address></strong></td><td>将内存显示为字节。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数 Apple 的 Objective-C API 或方法返回对象，因此应通过“print object”（po）命令显示。如果 po 不产生有意义的输出，请使用 <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入 AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在地址写入 AAAA</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #反汇编当前函数</p><p>dis -n <funcname> #反汇编函数</p><p>dis -n <funcname> -b <basename> #反汇编函数<br>dis -c 6 #反汇编 6 行<br>dis -c 0x100003764 -e 0x100003768 # 从一个地址到另一个地址<br>dis -p -c 4 # 从当前地址开始反汇编</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # 检查 x1 寄存器中的 3 个组件的数组</td></tr></tbody></table>
 
 {% hint style="info" %}
 在调用 **`objc_sendMsg`** 函数时，**rsi** 寄存器保存方法的名称，作为以空字符结尾的（“C”）字符串。要通过 lldb 打印名称，执行以下命令：
@@ -384,26 +449,36 @@ settings set target.x86-disassembly-flavor intel
 
 ### 反动态分析
 
-#### VM 检测
+#### 虚拟机检测
 
-* 命令 **`sysctl hw.model`** 在 **主机为 MacOS** 时返回 "Mac"，在虚拟机上返回其他内容。
-* 通过调整 **`hw.logicalcpu`** 和 **`hw.physicalcpu`** 的值，一些恶意软件尝试检测是否为虚拟机。
-* 一些恶意软件还可以根据 MAC 地址（00:50:56）判断主机是否为 VMware。
+* 命令 **`sysctl hw.model`** 在 **主机为 MacOS** 时返回 "Mac"，但在虚拟机上返回其他内容。
+* 一些恶意软件尝试通过调整 **`hw.logicalcpu`** 和 **`hw.physicalcpu`** 的值来检测是否为虚拟机。
+* 一些恶意软件还可以根据 MAC 地址（00:50:56）来判断主机是否为 VMware。
 * 也可以通过简单的代码来判断进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* 还可以使用 **`ptrace`** 系统调用以 **`PT_DENY_ATTACH`** 标志。这会**阻止**调试器附加和跟踪。
-* 可以检查是否正在**导入** **`sysctl`** 或 **`ptrace`** 函数（但恶意软件可能会动态导入）。
-* 如在这篇文章中所述，“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
-“_消息“进程 # 以状态 = 45 (0x0000002d) 退出”通常是调试目标正在使用 **PT\_DENY\_ATTACH** 的明显迹象_”
-## 模糊测试
+* 还可以使用 **`ptrace`** 系统调用以 **`PT_DENY_ATTACH`** 标志。这会阻止调试器附加和跟踪。
+* 可以检查是否正在 **导入 sysctl** 或 **`ptrace`** 函数（但恶意软件可能会动态导入）。
+* 如在此文中所述，"[击败反调试技术：macOS ptrace 变种](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
+“_消息“进程 # 退出，状态 = 45 (0x0000002d)”通常是调试目标正在使用 **PT\_DENY\_ATTACH** 的明显迹象_”
+## Core Dumps
+
+核心转储在以下情况下创建：
+
+- `kern.coredump` sysctl 设置为 1（默认值）
+- 如果进程不是 suid/sgid，或者 `kern.sugid_coredump` 为 1（默认值为 0）
+- `AS_CORE` 限制允许该操作。可以通过调用 `ulimit -c 0` 来抑制代码转储的创建，并使用 `ulimit -c unlimited` 重新启用它们。
+
+在这些情况下，核心转储是根据 `kern.corefile` sysctl 生成的，并通常存储在 `/cores/core/.%P` 中。
+
+## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
 ReportCrash **分析崩溃进程并将崩溃报告保存到磁盘**。崩溃报告包含的信息可以**帮助开发人员诊断**崩溃的原因。\
-对于在**每个用户的launchd上下文中运行的应用程序和其他进程**，ReportCrash 作为一个 LaunchAgent 运行，并将崩溃报告保存在用户的 `~/Library/Logs/DiagnosticReports/` 目录中。\
-对于守护进程、在**系统launchd上下文中运行的其他进程**和其他特权进程，ReportCrash 作为一个 LaunchDaemon 运行，并将崩溃报告保存在系统的 `/Library/Logs/DiagnosticReports` 目录中。
+对于在**每个用户 launchd 上下文中运行的应用程序和其他进程**，ReportCrash 作为 LaunchAgent 运行，并将崩溃报告保存在用户的 `~/Library/Logs/DiagnosticReports/` 中。\
+对于守护程序、在**系统 launchd 上下文中运行的其他进程**和其他特权进程，ReportCrash 作为 LaunchDaemon 运行，并将崩溃报告保存在系统的 `/Library/Logs/DiagnosticReports` 中。
 
-如果您担心崩溃报告**被发送到苹果**，您可以禁用它们。如果不担心，崩溃报告可以帮助**找出服务器崩溃的原因**。
+如果您担心崩溃报告**被发送到 Apple**，您可以禁用它们。如果不担心，崩溃报告可以帮助**找出服务器崩溃的原因**。
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -423,7 +498,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.
 
 #### SSH 断开连接
 
-如果您通过 SSH 连接进行模糊测试，重要的是确保会话不会断开。因此，请更改 sshd\_config 文件如下：
+如果通过 SSH 连接进行模糊测试，重要的是确保会话不会断开。因此，请更改 sshd\_config 文件如下：
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
@@ -469,9 +544,11 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-它可以与 macOS GUI 工具一起使用。请注意，一些 macOS 应用程序具有特定要求，如唯一文件名、正确的扩展名，需要从沙盒中读取文件 (`~/Library/Containers/com.apple.Safari/Data`)...
+它可以与 macOS GUI 工具一起使用。请注意，一些 macOS 应用程序具有一些特定要求，如唯一文件名、正确的扩展名，需要从沙盒 (`~/Library/Containers/com.apple.Safari/Data`) 读取文件...
 
 一些示例：
+
+{% code overflow="wrap" %}
 ```bash
 # iBooks
 litefuzz -l -c "/System/Applications/Books.app/Contents/MacOS/Books FUZZ" -i files/epub -o crashes/ibooks -t /Users/test/Library/Containers/com.apple.iBooksX/Data/tmp -x 10 -n 100000 -ez
@@ -515,7 +592,7 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 提供支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到 **窃取恶意软件** 的 **威胁**。
+[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 提供支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到 **窃取恶意软件** 的 **侵害**。
 
 WhiteIntel 的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
 
@@ -525,7 +602,7 @@ WhiteIntel 的主要目标是打击由信息窃取恶意软件导致的账户劫
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
