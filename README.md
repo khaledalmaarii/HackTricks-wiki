@@ -20,9 +20,9 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com)은 **해킹 불가능한 것을 해킹하라**는 슬로건을 가진 훌륭한 사이버 보안 회사입니다. 자체 연구를 수행하고 해킹 도구를 개발하여 펜테스팅, 레드팀 및 교육과 같은 여러 유용한 사이버 보안 서비스를 제공합니다.
+[**STM Cyber**](https://www.stmcyber.com)은 **해킹 불가능한 것을 해킹하라**는 슬로건을 가진 훌륭한 사이버 보안 회사입니다. 자체 연구를 수행하고 해킹 도구를 개발하여 펜테스팅, 레드팀 및 교육과 같은 여러 가치 있는 사이버 보안 서비스를 제공합니다.
 
-[**https://blog.stmcyber.com**](https://blog.stmcyber.com)에서 **블로그**를 확인할 수 있습니다.
+[**https://blog.stmcyber.com**](https://blog.stmcyber.com)에서 그들의 **블로그**를 확인할 수 있습니다.
 
 **STM Cyber**는 HackTricks와 같은 사이버 보안 오픈 소스 프로젝트를 지원합니다 :)
 
@@ -32,7 +32,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com)은 **스페인**에서 가장 중요한 사이버 보안 이벤트 중 하나이자 **유럽**에서 가장 중요한 이벤트 중 하나입니다. **기술 지식을 증진**하는 데 미션을 가지고 있는 이 컨퍼런스는 모든 분야의 기술 및 사이버 보안 전문가들을 위한 뜨거운 만남의 장입니다.
+[**RootedCON**](https://www.rootedcon.com)은 **스페인**에서 가장 중요한 사이버 보안 이벤트 중 하나이자 **유럽**에서 가장 중요한 이벤트 중 하나입니다. 기술 지식을 증진하는 것을 임무로 한 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들을 위한 뜨거운 만남의 장입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -44,7 +44,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 
 **Intigriti**는 **유럽 최고의** 윤리적 해킹 및 **버그 바운티 플랫폼**입니다.
 
-**버그 바운티 팁**: **Intigriti**에 가입하여 해커들이 만든 프리미엄 **버그 바운티 플랫폼**에 참여하세요! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 가입하고 최대 **$100,000**의 바운티를 획득하세요!
+**버그 바운티 팁**: **해커들에 의해 만들어진 프리미엄 버그 바운티 플랫폼**인 **Intigriti**에 가입하세요! 오늘 [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks)에서 가입하고 최대 **$100,000**까지 보상을 받으세요!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,7 +55,7 @@ _해킹트릭 로고 및 모션 디자인은_ [_@ppiernacho_](https://www.instag
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 자동화하세요.
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 고급** 커뮤니티 도구를 활용한 **워크플로우를 쉽게 구축**하고 **자동화**할 수 있습니다.
 
 오늘 바로 액세스하세요:
 
@@ -96,8 +96,8 @@ SerpApi는 빠르고 쉬운 실시간 API를 제공하여 **검색 엔진 결과
 SerpApi의 요금제에는 Google, Bing, Baidu, Yahoo, Yandex 등 다양한 검색 엔진을 스크래핑하는 데 사용할 수 있는 50가지 이상의 API에 액세스할 수 있습니다.\
 다른 제공업체와 달리 **SerpApi는 유기적 결과만 스크래핑하지 않습니다**. SerpApi 응답에는 항상 모든 광고, 인라인 이미지 및 비디오, 지식 그래프 및 검색 결과에 포함된 기타 요소 및 기능이 포함됩니다.
 
-현재 SerpApi 고객으로는 **Apple, Shopify 및 GrubHub**이 포함되어 있습니다.\
-자세한 정보는 [**블로그**](https://serpapi.com/blog/)를 확인하거나 [**플레이그라운드**](https://serpapi.com/playground)에서 예제를 시도해보세요.\
+현재 SerpApi 고객으로는 **Apple, Shopify 및 GrubHub**이 포함됩니다.\
+자세한 정보는 [**블로그**](https://serpapi.com/blog/)를 확인하거나 [**플레이그라운드**](https://serpapi.com/playground)에서 예제를 시도해 보세요.\
 [**여기**](https://serpapi.com/users/sign_up)에서 **무료 계정**을 만들 수 있습니다.
 
 ***
@@ -114,26 +114,28 @@ SerpApi의 요금제에는 Google, Bing, Baidu, Yahoo, Yandex 등 다양한 검�
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl)은 **암스테르담**에 기반을 둔 전문적인 사이버 보안 회사로, **현대적인** 방식으로 비즈니스를 **전 세계적으로 보호**하도록 돕습니다.
+[**WebSec**](https://websec.nl)은 **암스테르담**에 본사를 둔 전문적인 사이버 보안 회사로, **현대적인** 접근 방식으로 세계 각지의 비즈니스를 **최신 사이버 보안 위협으로부터 보호**합니다. 
 
 WebSec는 **모든 것을 다 하는 보안 회사**로, 펜테스팅, **보안** 감사, 인식 훈련, 피싱 캠페인, 코드 리뷰, 익스플로잇 개발, 보안 전문가 아웃소싱 등을 제공합니다.
 
-위에서 언급한 것 외에도 WebSec는 **HackTricks의 열렬한 지지자**입니다.
+WebSec의 또 다른 멋진 점은 업계 평균과 달리 WebSec가 **자신들의 기술에 대해 매우 자신 있다는 것**입니다. 그들의 웹사이트에는 "**만약 우리가 해킹할 수 없다면, 지불하지 않습니다!**"라고 명시되어 있습니다. 자세한 정보는 [**웹사이트**](https://websec.nl/en/) 및 [**블로그**](https://websec.nl/blog/)를 확인하세요!
+
+위에 언급된 것 외에도 WebSec는 HackTricks의 **열렬한 지지자**입니다.
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 그 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
+[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 그 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**되었는지 무료로 확인할 수 있는 기능을 제공합니다.
 
 WhiteIntel의 주요 목표는 정보를 도난하는 악성 소프트웨어로 인한 계정 탈취와 랜섬웨어 공격을 막는 것입니다.
 
-그들의 웹사이트를 방문하여 **무료**로 엔진을 시험해 볼 수 있습니다:
+그들의 웹사이트를 방문하여 엔진을 무료로 사용해 볼 수 있습니다:
 
 {% embed url="https://whiteintel.io" %}
 
-## 라이센스 및 면책사항
+## 라이선스 및 면책사항
 
 다음에서 확인하세요:
 
@@ -141,9 +143,14 @@ WhiteIntel의 주요 목표는 정보를 도난하는 악성 소프트웨어로 
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
 {% endcontent-ref %}
 
+## Github 통계
+
+![HackTricks Github 통계](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Repobeats analytics image")
+
+
 <details>
 
-<summary><strong>**htARTE (HackTricks AWS Red Team Expert)**로부터 AWS 해킹을 제로부터 전문가까지 배우세요!</strong></summary>
+<summary><strong>제로부터 영월까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks를 지원하는 다른 방법:
 
@@ -151,6 +158,6 @@ HackTricks를 지원하는 다른 방법:
 * [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
 * **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
 
 </details>
