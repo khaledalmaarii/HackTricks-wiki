@@ -6,10 +6,10 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
@@ -29,6 +29,7 @@ Ander maniere om HackTricks te ondersteun:
 * As die kop van jou pcap **beskadig** is, moet jy probeer om dit te **herstel** met: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
 * Ontgin **inligting** en soek vir **malware** binne 'n pcap in [**PacketTotal**](https://packettotal.com)
 * Soek na **skadelike aktiwiteit** deur gebruik te maak van [**www.virustotal.com**](https://www.virustotal.com) en [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* **Volledige pcap-ontleding vanaf die blaaier by** [**https://apackets.com/**](https://apackets.com/)
 
 ## Ontgin Inligting
 
@@ -46,6 +47,10 @@ Jy kan 'n paar Wireshark-truuks vind in:
 [wireshark-tricks.md](wireshark-tricks.md)
 {% endcontent-ref %}
 
+### [**https://apackets.com/**](https://apackets.com/)
+
+Pcap-ontleding vanaf die blaaier.
+
 ### Xplico Framework
 
 [**Xplico** ](https://github.com/xplico/xplico)_(slegs linux)_ kan 'n **pcap** analiseer en inligting daaruit onttrek. Byvoorbeeld, van 'n pcap-lêer onttrek Xplico elke e-pos (POP, IMAP, en SMTP-protokolle), alle HTTP-inhoud, elke VoIP-oproep (SIP), FTP, TFTP, ensovoorts.
@@ -62,7 +67,7 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-Toegang tot _**127.0.0.1:9876**_ met geloofsbriewe _**xplico:xplico**_
+Kry toegang tot _**127.0.0.1:9876**_ met geloofsbriewe _**xplico:xplico**_
 
 Skep dan 'n **nuwe saak**, skep 'n **nuwe sessie** binne die saak en **laai die pcap-lêer op**.
 
@@ -105,7 +110,7 @@ Die gebruik van algemene uithol tegnieke kan nuttig wees om lêers en inligting 
 
 ### Vang van geloofsbriewe
 
-Jy kan gereedskap soos [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) gebruik om geloofsbriewe uit 'n pcap of 'n lewende koppelvlak te ontled.
+Jy kan gereedskap soos [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) gebruik om geloofsbriewe van 'n pcap of 'n lewende koppelvlak te ontled.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
@@ -133,12 +138,12 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 [**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) is 'n gereedskap wat
 
 * 'n PCAP-lêer lees en HTTP-strome onttrek.
-* gzip-deflate enige saamgedrukte strome
+* gzip deflates enige saamgedrukte strome
 * Skandeer elke lêer met yara
 * Skryf 'n report.txt
 * Opsioneel stoor ooreenstemmende lêers na 'n Dir
 
-### Malware-analise
+### Malware Analise
 
 Kyk of jy enige vingerafdruk van 'n bekende malware kan vind:
 
@@ -148,7 +153,7 @@ Kyk of jy enige vingerafdruk van 'n bekende malware kan vind:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) is 'n passiewe, oopbron-netwerkverkeerontleder. Baie operateurs gebruik Zeek as 'n Netwerksekuriteitsmonitor (NSM) om ondersoeke van verdagte of skadelike aktiwiteit te ondersteun. Zeek ondersteun ook 'n wye reeks verkeersontledingstake buite die sekuriteitsdomein, insluitend prestasiemetings en foutoplossing.
+> [Zeek](https://docs.zeek.org/en/master/about.html) is 'n passiewe, oopbron-netwerkverkeerontleder. Baie operateurs gebruik Zeek as 'n Netwerksekuriteitsmonitor (NSM) om ondersoeke van verdagte of skadelike aktiwiteit te ondersteun. Zeek ondersteun ook 'n wye reeks verkeersontledingstake buite die veiligheidsdomein, insluitend prestasiemetings en foutoplossing.
 
 Basies geskep deur `zeek` se logboeke is nie **pcaps** nie. Daarom sal jy **ander gereedskap** moet gebruik om die logboeke te analiseer waar die **inligting** oor die pcaps is.
 
@@ -237,20 +242,20 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekuriteitgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekuriteitsprofessionals in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com/) is die mees relevante sibersekuriteit geleentheid in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie en sibersekuriteit professionele in elke dissipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel jou hak truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
