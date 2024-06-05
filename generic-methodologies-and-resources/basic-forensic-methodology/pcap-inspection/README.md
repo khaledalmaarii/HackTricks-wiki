@@ -1,34 +1,35 @@
-# Επιθεώρηση Pcap
+# Έλεγχος Pcap
 
 <details>
 
 <summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωηρός συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σημαντικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωντανός χώρος συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε πεδίο.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-Μια σημείωση σχετικά με το **PCAP** έναντι του **PCAPNG**: υπάρχουν δύο εκδόσεις της μορφής αρχείου PCAP. Το **PCAPNG είναι πιο πρόσφατο και δεν υποστηρίζεται από όλα τα εργαλεία**. Ίσως χρειαστεί να μετατρέψετε ένα αρχείο από PCAPNG σε PCAP χρησιμοποιώντας το Wireshark ή ένα άλλο συμβατό εργαλείο, για να μπορέσετε να το χρησιμοποιήσετε σε άλλα εργαλεία.
+Σημείωση για το **PCAP** έναντι του **PCAPNG**: υπάρχουν δύο εκδόσεις του μορφής αρχείου PCAP. Το **PCAPNG είναι πιο πρόσφατο και δεν υποστηρίζεται από όλα τα εργαλεία**. Μπορεί να χρειαστεί να μετατρέψετε ένα αρχείο από PCAPNG σε PCAP χρησιμοποιώντας το Wireshark ή ένα άλλο συμβατό εργαλείο, προκειμένου να το χρησιμοποιήσετε με άλλα εργαλεία.
 {% endhint %}
 
 ## Online εργαλεία για pcaps
 
-* Εάν η κεφαλίδα του pcap σας είναι **κατεστραμμένη** θα πρέπει να προσπαθήσετε να την **επιδιορθώσετε** χρησιμοποιώντας: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Εξαγάγετε **πληροφορίες** και αναζητήστε **κακόβουλο λογισμικό** μέσα σε ένα pcap στο [**PacketTotal**](https://packettotal.com)
-* Αναζητήστε **κακόβουλη δραστηριότητα** χρησιμοποιώντας το [**www.virustotal.com**](https://www.virustotal.com) και το [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* Αν η κεφαλίδα του pcap σας είναι **κατεστραμμένη** πρέπει να προσπαθήσετε να την **επισκευάσετε** χρησιμοποιώντας: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Εξαγωγή **πληροφοριών** και αναζήτηση για **κακόβουλο λογισμικό** μέσα σε ένα pcap στο [**PacketTotal**](https://packettotal.com)
+* Αναζήτηση για **κακόβουλη δραστηριότητα** χρησιμοποιώντας το [**www.virustotal.com**](https://www.virustotal.com) και το [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* **Πλήρης ανάλυση pcap από τον περιηγητή στο** [**https://apackets.com/**](https://apackets.com/)
 
 ## Εξαγωγή Πληροφοριών
 
@@ -37,7 +38,7 @@
 ### Wireshark
 
 {% hint style="info" %}
-**Εάν πρόκειται να αναλύσετε ένα PCAP, πρέπει ουσιαστικά να ξέρετε πώς να χρησιμοποιήσετε το Wireshark**
+**Αν πρόκειται να αναλύσετε ένα PCAP, πρέπει ουσιαστικά να ξέρετε πώς να χρησιμοποιήσετε το Wireshark**
 {% endhint %}
 
 Μπορείτε να βρείτε μερικά κόλπα του Wireshark στο:
@@ -46,9 +47,13 @@
 [wireshark-tricks.md](wireshark-tricks.md)
 {% endcontent-ref %}
 
+### [**https://apackets.com/**](https://apackets.com/)
+
+Ανάλυση pcap από τον περιηγητή.
+
 ### Πλαίσιο Xplico
 
-[**Xplico** ](https://github.com/xplico/xplico)_(μόνο για linux)_ μπορεί να **αναλύσει** ένα **pcap** και να εξάγει πληροφορίες από αυτό. Για παράδειγμα, από ένα αρχείο pcap, το Xplico εξάγει κάθε email (πρωτόκολλα POP, IMAP και SMTP), όλο το περιεχόμενο HTTP, κάθε κλήση VoIP (πρωτόκολλο SIP), FTP, TFTP και άλλα.
+Το [**Xplico** ](https://github.com/xplico/xplico)_(μόνο σε Linux)_ μπορεί να **αναλύσει** ένα **pcap** και να εξάγει πληροφορίες από αυτό. Για παράδειγμα, από ένα αρχείο pcap το Xplico εξάγει κάθε email (πρωτόκολλα POP, IMAP και SMTP), όλο το περιεχόμενο HTTP, κάθε κλήση VoIP (SIP), FTP, TFTP, κ.λπ.
 
 **Εγκατάσταση**
 ```bash
@@ -62,25 +67,25 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-Αποκτήστε πρόσβαση στο _**127.0.0.1:9876**_ με διαπιστευτήρια _**xplico:xplico**_
+Πρόσβαση στο _**127.0.0.1:9876**_ με διαπιστευτήρια _**xplico:xplico**_
 
-Στη συνέχεια, δημιουργήστε ένα **νέο περιστατικό**, δημιουργήστε μια **νέα συνεδρία** μέσα στο περιστατικό και **ανεβάστε το αρχείο pcap**.
+Στη συνέχεια δημιουργήστε ένα **νέο περιστατικό**, δημιουργήστε μια **νέα συνεδρία** μέσα στο περιστατικό και **ανεβάστε το αρχείο pcap**.
 
 ### NetworkMiner
 
-Όπως και το Xplico, είναι ένα εργαλείο για **ανάλυση και εξαγωγή αντικειμένων από pcaps**. Διαθέτει μια δωρεάν έκδοση που μπορείτε να **κατεβάσετε** [**εδώ**](https://www.netresec.com/?page=NetworkMiner). Λειτουργεί με **Windows**.\
-Αυτό το εργαλείο είναι επίσης χρήσιμο για να ανακτήσετε **άλλες πληροφορίες από τα πακέτα** προκειμένου να μπορείτε να γνωρίζετε τι συνέβαινε με έναν **ταχύτερο** τρόπο.
+Όπως το Xplico, είναι ένα εργαλείο για **ανάλυση και εξαγωγή αντικειμένων από pcaps**. Διαθέτει μια δωρεάν έκδοση που μπορείτε να **κατεβάσετε** [**εδώ**](https://www.netresec.com/?page=NetworkMiner). Λειτουργεί με **Windows**.\
+Αυτό το εργαλείο είναι επίσης χρήσιμο για να ανακτήσετε **άλλες πληροφορίες που έχουν αναλυθεί** από τα πακέτα, ώστε να μπορείτε να γνωρίζετε τι συνέβαινε με **ταχύτερο** τρόπο.
 
 ### NetWitness Investigator
 
 Μπορείτε να κατεβάσετε το [**NetWitness Investigator από εδώ**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Λειτουργεί σε Windows)**.\
-Αυτό είναι ένα άλλο χρήσιμο εργαλείο που **αναλύει τα πακέτα** και ταξινομεί τις πληροφορίες με τρόπο που είναι χρήσιμος για να **γνωρίζετε τι συμβαίνει μέσα**.
+Αυτό είναι ένα άλλο χρήσιμο εργαλείο που **αναλύει τα πακέτα** και τα ταξινομεί με έναν χρήσιμο τρόπο για να **γνωρίζετε τι συμβαίνει μέσα**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Εξαγωγή και κωδικοποίηση ονοματεπώνυμων και κωδικών πρόσβασης (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Εξαγωγή κατακεκριμένων καταλόγων ταυτοποίησης και αποκωδικοποίησή τους χρησιμοποιώντας το Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Δημιουργία οπτικού διαγράμματος δικτύου (Κόμβοι δικτύου και χρήστες)
+* Εξαγωγή και κωδικοποίηση ονομάτων χρηστών και κωδικών πρόσβασης (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Εξαγωγή καταλόγων ταυτοποίησης και αποκωδικοποίησή τους χρησιμοποιώντας το Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Δημιουργία οπτικού διαγράμματος δικτύου (Κόμβοι δικτύου & χρήστες)
 * Εξαγωγή ερωτήσεων DNS
 * Ανακατασκευή όλων των συνεδριών TCP & UDP
 * Ανάκτηση αρχείων
@@ -91,29 +96,29 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-Αν ψάχνετε για κάτι μέσα στο pcap, μπορείτε να χρησιμοποιήσετε το **ngrep**. Εδώ υπάρχει ένα παράδειγμα χρησιμοποιώντας τα κύρια φίλτρα:
+Αν **ψάχνετε** για **κάτι** μέσα στο pcap μπορείτε να χρησιμοποιήσετε το **ngrep**. Εδώ υπάρχει ένα παράδειγμα χρησιμοποιώντας τα κύρια φίλτρα:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Ανάκτηση
+### Σκαλισμός
 
-Η χρήση κοινών τεχνικών ανάκτησης μπορεί να είναι χρήσιμη για την εξαγωγή αρχείων και πληροφοριών από το pcap:
+Η χρήση κοινών τεχνικών σκαλίσματος μπορεί να είναι χρήσιμη για την εξαγωγή αρχείων και πληροφοριών από το αρχείο pcap:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Καταγραφή διαπιστευτηρίων
+### Καταγραφή διαπιστευτήριων
 
-Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) για να αναλύσετε διαπιστευτήρια από ένα pcap ή ένα ζωντανό διεπαφή.
+Μπορείτε να χρησιμοποιήσετε εργαλεία όπως το [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) για την ανάλυση διαπιστευτηρίων από ένα αρχείο pcap ή μια ζωντανή διεπαφή.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση τεχνικών γνώσεων**, αυτό το συνέδριο είναι ένας ζωντανός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο αποτελεί έναν ζωντανό χώρο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε πεδίο.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Έλεγχος Εκμεταλλεύσεων/Κακόβουλου Λογισμικού
+## Έλεγχος Εκμετάλλευσης/Κακόβουλου Λογισμικού
 
 ### Suricata
 
@@ -125,20 +130,6 @@ echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
 **Έλεγχος pcap**
-
-Για να εξετάσετε ένα αρχείο pcap, μπορείτε να χρησιμοποιήσετε το εργαλείο `tcpdump` ή το `Wireshark`. Αυτά τα εργαλεία σάς επιτρέπουν να αναλύσετε την κίνηση του δικτύου και να εξάγετε πληροφορίες από το αρχείο pcap.
-
-Για να ελέγξετε ένα αρχείο pcap με το `tcpdump`, μπορείτε να χρησιμοποιήσετε την ακόλουθη εντολή:
-
-```bash
-tcpdump -r file.pcap
-```
-
-Αυτή η εντολή θα εμφανίσει όλη την κίνηση του δικτύου που καταγράφηκε στο αρχείο pcap.
-
-Για να ελέγξετε ένα αρχείο pcap με το `Wireshark`, απλά ανοίξτε το αρχείο pcap με το πρόγραμμα. Στη συνέχεια, μπορείτε να περιηγηθείτε στην κίνηση του δικτύου, να εφαρμόσετε φίλτρα και να αναλύσετε τα πακέτα που καταγράφηκαν.
-
-Και τα δύο εργαλεία σάς παρέχουν τη δυνατότητα να εξετάσετε την κίνηση του δικτύου και να ανακαλύψετε πιθανές ασφαλείας προβλήματα ή ανωμαλίες.
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
@@ -148,11 +139,11 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 * Διαβάζει ένα αρχείο PCAP και εξάγει ροές Http.
 * Αποσυμπιέζει gzip οποιεσδήποτε συμπιεσμένες ροές
-* Σαρώνει κάθε αρχείο με το yara
-* Γράφει ένα αρχείο αναφοράς (report.txt)
-* Προαιρετικά αποθηκεύει τα αντιστοιχισμένα αρχεία σε έναν φάκελο (Dir)
+* Σαρώνει κάθε αρχείο με yara
+* Γράφει ένα report.txt
+* Αποθηκεύει προαιρετικά τα ταιριαστά αρχεία σε ένα φάκελο
 
-### Ανάλυση κακόβουλου λογισμικού
+### Ανάλυση Κακόβουλου Λογισμικού
 
 Ελέγξτε αν μπορείτε να βρείτε οποιοδήποτε αποτύπωμα γνωστού κακόβουλου λογισμικού:
 
@@ -162,11 +153,9 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) είναι ένα παθητικό, ανοικτού κώδικα αναλυτής κίνησης δικτύου. Πολλοί χειριστές χρησιμοποιούν το Zeek ως έναν Επιτήρητη Ασφάλειας Δικτύου (NSM) για να υποστηρίξουν έρευνες ύποπτων ή κακόβουλων δραστηριοτήτων. Το Zeek υποστηρίζει επίσης μια ευρεία γκάμα από εργασίες ανάλυσης κίνησης πέρα ​​από τον τομέα της ασφάλειας, συμπεριλαμβανομένης της μέτρησης της απόδοσης και της επίλυσης προβλημάτων.
+> [Zeek](https://docs.zeek.org/en/master/about.html) είναι ένα παθητικό, ανοικτού κώδικα αναλυτής κίνησης δικτύου. Πολλοί χειριστές χρησιμοποιούν το Zeek ως Έλεγχο Ασφαλείας Δικτύου (NSM) για να υποστηρίξουν έρευνες επί ύποπτης ή κακόβουλης δραστηριότητας. Το Zeek υποστηρίζει επίσης μια ευρεία γκάμα εργασιών ανάλυσης κίνησης πέρα ​​από τον τομέα της ασφάλειας, συμπεριλαμβανομένης της μέτρησης απόδοσης και της επίλυσης προβλημάτων.
 
-Βασικά, τα αρχεία καταγραφής που δημιουργούνται από το `zeek` δεν είναι **pcaps**. Επομένως, θα χρειαστείτε να χρησιμοποιήσετε **άλλα εργαλεία** για να αναλύσετε τις καταγραφές όπου βρίσκονται οι **πληροφορίες** για τα pcaps.
-
-### Πληροφορίες συνδέσεων
+Βασικά, τα αρχεία καταγραφής που δημιουργούνται από το `zeek` δεν είναι **pcaps**. Συνεπώς, θα χρειαστείτε να χρησιμοποιήσετε **άλλα εργαλεία** για να αναλύσετε τα αρχεία καταγραφής όπου οι **πληροφορίες** σχετικά με τα pcaps βρίσκονται.
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -217,16 +206,6 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
 ### Πληροφορίες DNS
-
-Οι πληροφορίες DNS (Domain Name System) αποτελούν σημαντικό μέρος της ανάλυσης κίνησης δικτύου. Ο DNS είναι ένα πρωτόκολλο που μετατρέπει τα ονόματα τομέων σε διευθύνσεις IP, επιτρέποντας έτσι την αναζήτηση και την πρόσβαση σε ιστοσελίδες.
-
-Κατά την επιθετική ανάλυση, η εξέταση των πακέτων DNS μπορεί να παράσχει πολύτιμες πληροφορίες. Μπορείτε να εξετάσετε τα πακέτα DNS για να ανιχνεύσετε ενδείξεις κακόβουλης δραστηριότητας, όπως παραποίηση DNS, επιθέσεις DDoS ή ανεπιθύμητης αλληλογραφίας.
-
-Για να εξετάσετε τα πακέτα DNS, μπορείτε να χρησιμοποιήσετε εργαλεία όπως το Wireshark για να αναλύσετε την κίνηση δικτύου και να εξάγετε πληροφορίες σχετικά με τα ονόματα τομέων, τις διευθύνσεις IP και τις αντίστοιχες αναζητήσεις DNS.
-
-Αναλύοντας τα πακέτα DNS, μπορείτε να ανακαλύψετε πιθανές ευπάθειες στο σύστημα, να εντοπίσετε κακόβουλο λογισμικό ή να αναγνωρίσετε ανεπιθύμητες επικοινωνίες με εξωτερικούς διακομιστές.
-
-Συνοψίζοντας, η εξέταση των πακέτων DNS μπορεί να παράσχει σημαντικές πληροφορίες για την ανάλυση κίνησης δικτύου και την ανίχνευση κακόβουλων δραστηριοτήτων.
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -261,20 +240,20 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή να προωθήσει την τεχνική γνώση**, αυτό το συνέδριο είναι ένας ζωντανός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο αποτελεί έναν ζωντανό χώρο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε πεδίο.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε το χάκινγκ AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι υποστήριξης του HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**Την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
