@@ -8,7 +8,7 @@ _Hacktricks Logos & Motion Design von_ [_@ppiernacho_](https://www.instagram.com
 **Willkommen im Wiki, wo du jeden Hack-Trick/Technik/was auch immer finden wirst, den ich aus CTFs, realen Apps, Forschungsarbeiten und Nachrichten gelernt habe.**
 {% endhint %}
 
-Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, dem du folgen solltest, wenn du **eine oder mehrere Maschinen pentesten** möchtest:
+Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, den **du befolgen solltest, wenn du ein oder mehrere** **Maschinen pentesten möchtest:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -20,11 +20,11 @@ Um loszulegen, folge dieser Seite, auf der du den **typischen Ablauf** findest, 
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** anzubieten, wie Pentesting, Red Teams und Schulungen.
+[**STM Cyber**](https://www.stmcyber.com) ist ein großartiges Cybersicherheitsunternehmen, dessen Slogan **HACK THE UNHACKABLE** lautet. Sie führen ihre eigenen Forschungen durch und entwickeln ihre eigenen Hacking-Tools, um **mehrere wertvolle Cybersicherheitsdienste** wie Pentesting, Red Teams und Schulungen anzubieten.
 
 Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmcyber.com) überprüfen.
 
-**STM Cyber** unterstützt auch Cybersicherheitsprojekte im Open Source-Bereich wie HackTricks :)
+**STM Cyber** unterstützt auch Cybersicherheitsprojekte mit Open Source wie HackTricks :)
 
 ***
 
@@ -44,7 +44,7 @@ Du kannst ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.stmc
 
 **Intigriti** ist die **Nummer 1 in Europa** für ethisches Hacken und **Bug-Bounty-Plattform**.
 
-**Bug-Bounty-Tipp**: **Registriere dich** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
+**Bug-Bounty-Tipp**: **Melde dich an** bei **Intigriti**, einer Premium-**Bug-Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Trete uns noch heute unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) bei und beginne, Prämien von bis zu **100.000 $** zu verdienen!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -73,7 +73,7 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 * **Echtzeit-Hack-News:** Bleibe mit der schnelllebigen Hacking-Welt durch Echtzeitnachrichten und Einblicke auf dem Laufenden
 * **Neueste Ankündigungen:** Bleibe über die neuesten Bug-Bounties und wichtigen Plattformupdates informiert
 
-**Trete uns bei** auf [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
+**Trete uns bei auf** [**Discord**](https://discord.com/invite/N3FrSbmwdy) und beginne noch heute mit Top-Hackern zusammenzuarbeiten!
 
 ***
 
@@ -94,7 +94,7 @@ Trete dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) Serve
 SerpApi bietet schnelle und einfache Echtzeit-APIs zum **Zugriff auf Suchmaschinenergebnisse**. Sie durchsuchen Suchmaschinen, handhaben Proxies, lösen Captchas und analysieren alle strukturierten Daten für dich.
 
 Ein Abonnement eines der SerpApi-Pläne beinhaltet den Zugriff auf über 50 verschiedene APIs zum Scraping verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
-Im Gegensatz zu anderen Anbietern **scraped SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
+Im Gegensatz zu anderen Anbietern **kratzt SerpApi nicht nur organische Ergebnisse ab**. SerpApi-Antworten enthalten konsistent alle Anzeigen, Inline-Bilder und -Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
 Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
 Für weitere Informationen besuche ihren [**Blog**](https://serpapi.com/blog/)**,** oder probiere ein Beispiel in ihrem [**Spielplatz**](https://serpapi.com/playground)**.**\
@@ -116,9 +116,9 @@ Du kannst **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.co
 
 [**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das Unternehmen auf der ganzen Welt vor den neuesten Cybersicherheitsbedrohungen schützt, indem es **offensive Sicherheitsdienste** mit einem **modernen** Ansatz bietet.
 
-WebSec ist ein **All-in-One-Sicherheitsunternehmen**, das bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
+WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Schulungen, Phishing-Kampagnen, Code-Reviews, Exploit-Entwicklung, Sicherheitsexperten-Outsourcing und vieles mehr.
 
-Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, wie es auf ihrer Website heißt "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
+Eine weitere coole Sache an WebSec ist, dass sie im Gegensatz zum Branchendurchschnitt sehr zuversichtlich in ihren Fähigkeiten sind, so sehr, dass sie die besten Qualitätsresultate garantieren, es steht auf ihrer Website "**Wenn wir es nicht hacken können, zahlst du nicht!**". Für weitere Informationen schau dir ihre [**Website**](https://websec.nl/en/) und ihren [**Blog**](https://websec.nl/blog/) an!
 
 Zusätzlich zu dem oben Genannten ist WebSec auch ein **engagierter Unterstützer von HackTricks.**
 
@@ -143,13 +143,18 @@ Besuchen Sie sie unter:
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
 {% endcontent-ref %}
 
+## Github Statistiken
+
+![HackTricks Github Statistiken](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Repobeats Analysebild")
+
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks als PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
