@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -20,7 +20,7 @@ Outras maneiras de apoiar o HackTricks:
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares stealers**.
 
-O principal objetivo do WhiteIntel é combater invasões de contas e ataques de ransomware resultantes de malwares que roubam informações.
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
 
 Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
@@ -155,13 +155,17 @@ x64:
 | **4º argumento**   | **rcx**                                                        | **2º argumento para o método**                       |
 | **5º argumento**   | **r8**                                                         | **3º argumento para o método**                       |
 | **6º argumento**   | **r9**                                                         | **4º argumento para o método**                       |
-| **7º+ argumento**  | <p><strong>rsp+</strong><br><strong>(na pilha)</strong></p>   | **5º+ argumento para o método**                      |
+| **7º+ argumento**  | <p><strong>rsp+</strong><br><strong>(na pilha)</strong></p> | **5º+ argumento para o método**                      |
+
+### Dynadump
+
+[**Dynadump**](https://github.com/DerekSelander/dynadump) é uma ferramenta para obter Objc-Classes de dylibs.
 
 ### Swift
 
 Com binários Swift, como há compatibilidade com Objective-C, às vezes é possível extrair declarações usando [class-dump](https://github.com/nygard/class-dump/), mas nem sempre.
 
-Com os comandos de linha **`jtool -l`** ou **`otool -l`** é possível encontrar várias seções que começam com o prefixo **`__swift5`**:
+Com os comandos **`jtool -l`** ou **`otool -l`** é possível encontrar várias seções que começam com o prefixo **`__swift5`**:
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -186,7 +190,7 @@ swift demangle
 ### Binários compactados
 
 * Verificar alta entropia
-* Verificar as strings (se há quase nenhuma string compreensível, compactado)
+* Verificar as strings (se houver quase nenhuma string compreensível, está compactado)
 * O empacotador UPX para MacOS gera uma seção chamada "\_\_XHDR"
 
 ## Análise Dinâmica
@@ -199,9 +203,32 @@ Note que, para depurar binários, **o SIP precisa estar desativado** (`csrutil d
 Note que, para **instrumentar binários do sistema** (como `cloudconfigurationd`) no macOS, **o SIP deve estar desativado** (apenas remover a assinatura não funcionará).
 {% endhint %}
 
+### APIs
+
+O macOS expõe algumas APIs interessantes que fornecem informações sobre os processos:
+
+* `proc_info`: Esta é a principal que fornece muitas informações sobre cada processo. Você precisa ser root para obter informações de outros processos, mas não precisa de privilégios especiais ou portas mach.
+* `libsysmon.dylib`: Permite obter informações sobre processos por meio de funções expostas via XPC, no entanto, é necessário ter a permissão `com.apple.sysmond.client`.
+
+### Stackshot & microstackshots
+
+**Stackshotting** é uma técnica usada para capturar o estado dos processos, incluindo as pilhas de chamadas de todos os threads em execução. Isso é particularmente útil para depuração, análise de desempenho e compreensão do comportamento do sistema em um ponto específico no tempo. No iOS e macOS, o stackshotting pode ser realizado usando várias ferramentas e métodos como as ferramentas **`sample`** e **`spindump`**.
+
+### Sysdiagnose
+
+Esta ferramenta (`/usr/bini/ysdiagnose`) basicamente coleta muitas informações do seu computador executando dezenas de comandos diferentes, como `ps`, `zprint`...
+
+Deve ser executada como **root** e o daemon `/usr/libexec/sysdiagnosed` possui permissões muito interessantes, como `com.apple.system-task-ports` e `get-task-allow`.
+
+Seu plist está localizado em `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist`, que declara 3 MachServices:
+
+* `com.apple.sysdiagnose.CacheDelete`: Exclui arquivos antigos em /var/rmp
+* `com.apple.sysdiagnose.kernel.ipc`: Porta especial 23 (kernel)
+* `com.apple.sysdiagnose.service.xpc`: Interface de modo usuário por meio da classe `Libsysdiagnose` Obj-C. Três argumentos em um dict podem ser passados (`compress`, `display`, `run`)
+
 ### Logs Unificados
 
-O MacOS gera muitos logs que podem ser muito úteis ao executar um aplicativo tentando entender **o que ele está fazendo**.
+O macOS gera muitos logs que podem ser muito úteis ao executar um aplicativo tentando entender **o que ele está fazendo**.
 
 Além disso, existem alguns logs que conterão a tag `<private>` para **ocultar** algumas informações **identificáveis do usuário** ou do **computador**. No entanto, é possível **instalar um certificado para divulgar essas informações**. Siga as explicações de [**aqui**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
@@ -209,7 +236,7 @@ Além disso, existem alguns logs que conterão a tag `<private>` para **ocultar*
 
 #### Painel esquerdo
 
-No painel esquerdo do Hopper, é possível ver os símbolos (**Labels**) do binário, a lista de procedimentos e funções (**Proc**) e as strings (**Str**). Essas não são todas as strings, mas as definidas em várias partes do arquivo Mac-O (como _cstring ou_ `objc_methname`).
+No painel esquerdo do hopper é possível ver os símbolos (**Labels**) do binário, a lista de procedimentos e funções (**Proc**) e as strings (**Str**). Essas não são todas as strings, mas as definidas em várias partes do arquivo Mac-O (como _cstring ou_ `objc_methname`).
 
 #### Painel central
 
@@ -229,12 +256,12 @@ No painel direito, você pode ver informações interessantes, como o **históri
 
 ### dtrace
 
-Ele permite aos usuários acessar aplicativos em um nível extremamente **baixo** e fornece uma maneira para os usuários **rastrearem** **programas** e até mesmo alterarem seu fluxo de execução. O Dtrace usa **sondas** que são **colocadas em todo o kernel** e estão em locais como o início e o fim das chamadas de sistema.
+Ele permite que os usuários acessem aplicativos em um nível extremamente **baixo** e fornece uma maneira para os usuários **rastrearem** **programas** e até mesmo alterarem seu fluxo de execução. O Dtrace usa **sondas** que são **colocadas em todo o kernel** e estão em locais como o início e o fim das chamadas de sistema.
 
-O DTrace usa a função **`dtrace_probe_create`** para criar uma sonda para cada chamada de sistema. Essas sondas podem ser acionadas no **ponto de entrada e saída de cada chamada de sistema**. A interação com o DTrace ocorre através do /dev/dtrace, que está disponível apenas para o usuário root.
+O DTrace usa a função **`dtrace_probe_create`** para criar uma sonda para cada chamada de sistema. Essas sondas podem ser acionadas no **ponto de entrada e saída de cada chamada de sistema**. A interação com o DTrace ocorre por meio de /dev/dtrace, que está disponível apenas para o usuário root.
 
 {% hint style="success" %}
-Para habilitar o Dtrace sem desativar completamente a proteção do SIP, você pode executar no modo de recuperação: `csrutil enable --without dtrace`
+Para habilitar o Dtrace sem desativar completamente a proteção SIP, você pode executar no modo de recuperação: `csrutil enable --without dtrace`
 
 Você também pode **`dtrace`** ou **`dtruss`** binários que **você compilou**.
 {% endhint %}
@@ -257,7 +284,7 @@ Uma explicação mais detalhada e mais exemplos podem ser encontrados em [https:
 
 #### Exemplos
 
-Execute `man -k dtrace` para listar os **scripts DTrace disponíveis**. Exemplo: `sudo dtruss -n binary`
+Execute `man -k dtrace` para listar os **scripts do DTrace disponíveis**. Exemplo: `sudo dtruss -n binary`
 
 * Em linha
 ```bash
@@ -307,12 +334,50 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
 ```
+### kdebug
+
+É uma facilidade de rastreamento do kernel. Os códigos documentados podem ser encontrados em **`/usr/share/misc/trace.codes`**.
+
+Ferramentas como `latency`, `sc_usage`, `fs_usage` e `trace` o utilizam internamente.
+
+Para interagir com `kdebug`, `sysctl` é usado sobre o namespace `kern.kdebug` e os MIBs a serem usados podem ser encontrados em `sys/sysctl.h`, tendo as funções implementadas em `bsd/kern/kdebug.c`.
+
+Para interagir com kdebug com um cliente personalizado, geralmente são seguidos os seguintes passos:
+
+* Remover as configurações existentes com KERN\_KDSETREMOVE
+* Definir o rastreamento com KERN\_KDSETBUF e KERN\_KDSETUP
+* Usar KERN\_KDGETBUF para obter o número de entradas de buffer
+* Obter o próprio cliente fora do rastreamento com KERN\_KDPINDEX
+* Habilitar o rastreamento com KERN\_KDENABLE
+* Ler o buffer chamando KERN\_KDREADTR
+* Para associar cada thread ao seu processo, chame KERN\_KDTHRMAP.
+
+Para obter essas informações, é possível usar a ferramenta da Apple **`trace`** ou a ferramenta personalizada [kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**.**
+
+**Observe que o Kdebug está disponível apenas para 1 cliente por vez.** Portanto, apenas uma ferramenta com suporte a k-debug pode ser executada ao mesmo tempo.
+
 ### ktrace
 
-Você pode usar este mesmo com o **SIP ativado**
+As APIs `ktrace_*` vêm de `libktrace.dylib`, que envolvem as do `Kdebug`. Assim, um cliente pode simplesmente chamar `ktrace_session_create` e `ktrace_events_[single/class]` para definir callbacks em códigos específicos e então iniciá-lo com `ktrace_start`.
+
+Você pode usar este mesmo com **SIP ativado**.
+
+Você pode usar como clientes a utilidade `ktrace`:
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
+Ou `tailspin`.
+
+### kperf
+
+Isso é usado para fazer um perfil de nível de kernel e é construído usando chamadas `Kdebug`.
+
+Basicamente, a variável global `kernel_debug_active` é verificada e, se estiver definida, chama `kperf_kdebug_handler` com o código `Kdebug` e o endereço do quadro do kernel chamando. Se o código `Kdebug` corresponder a um selecionado, ele obtém as "ações" configuradas como um bitmap (verifique `osfmk/kperf/action.h` para as opções).
+
+Kperf também possui uma tabela MIB sysctl: (como root) `sysctl kperf`. Esses códigos podem ser encontrados em `osfmk/kperf/kperfbsd.c`.
+
+Além disso, um subconjunto da funcionalidade do Kperf reside em `kpc`, que fornece informações sobre contadores de desempenho da máquina.
+
 ### ProcessMonitor
 
 [**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) é uma ferramenta muito útil para verificar as ações relacionadas a processos que um processo está realizando (por exemplo, monitorar quais novos processos um processo está criando).
@@ -330,7 +395,7 @@ Você precisa monitorar seu Mac com um comando como **`sudo eslogger fork exec r
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) é uma ferramenta GUI com a aparência e sensação que os usuários do Windows podem conhecer do _Procmon_ da Microsoft Sysinternal. Esta ferramenta permite iniciar e parar a gravação de vários tipos de eventos, permite filtrar esses eventos por categorias como arquivo, processo, rede, etc., e fornece a funcionalidade de salvar os eventos gravados em um formato json.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) é uma ferramenta GUI com a aparência que os usuários do Windows podem conhecer do _Procmon_ da Microsoft Sysinternal. Esta ferramenta permite iniciar e parar a gravação de vários tipos de eventos, permite filtrar esses eventos por categorias como arquivo, processo, rede, etc., e fornece a funcionalidade de salvar os eventos gravados em um formato json.
 
 ### Apple Instruments
 
@@ -363,7 +428,7 @@ lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-Você pode definir o sabor intel ao usar o lldb criando um arquivo chamado **`.lldbinit`** em sua pasta pessoal com a seguinte linha:
+Você pode definir o sabor da Intel ao usar o lldb criando um arquivo chamado **`.lldbinit`** em sua pasta pessoal com a seguinte linha:
 ```bash
 settings set target.x86-disassembly-flavor intel
 ```
@@ -371,7 +436,7 @@ settings set target.x86-disassembly-flavor intel
 Dentro do lldb, faça dump de um processo com `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Iniciar a execução, que continuará sem interrupções até atingir um ponto de interrupção ou o processo terminar.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuar a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executar a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executar a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executar o restante das instruções na função atual ("frame") e parar.</td></tr><tr><td><strong>control + c</strong></td><td>Pausar a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ... onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função principal do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função principal do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativar/Desativar ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda do comando de ponto de interrupção</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;endereço_do_reg/memória</strong></td><td>Exibir a memória como uma string terminada por nulo.</td></tr><tr><td><strong>x/i &#x3C;endereço_do_reg/memória</strong></td><td>Exibir a memória como instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C;endereço_do_reg/memória</strong></td><td>Exibir a memória como byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isto irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos através do comando "print object" (po). Se po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escrever AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escrever AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmontar a função atual</p><p>dis -n &#x3C;nome_da_função> #Desmontar função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_base> #Desmontar função<br>dis -c 6 #Desmontar 6 linhas<br>dis -c 0x100003764 -e 0x100003768 # De um endereço até o outro<br>dis -p -c 4 # Iniciar no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Verificar array de 3 componentes no registro x1</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Iniciar a execução, que continuará sem interrupções até atingir um ponto de interrupção ou o processo terminar.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuar a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executar a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executar a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executar o restante das instruções na função atual ("frame") e parar.</td></tr><tr><td><strong>control + c</strong></td><td>Pausar a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ...onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função principal do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função principal do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativar/Desativar ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda do comando de ponto de interrupção</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C>endereço_do_reg/memória</strong></td><td>Exibir a memória como uma string terminada por nulo.</td></tr><tr><td><strong>x/i &#x3C>endereço_do_reg/memória</strong></td><td>Exibir a memória como instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C>endereço_do_reg/memória</strong></td><td>Exibir a memória como byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isto irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos através do comando "print object" (po). Se po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escrever AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escrever AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmontar função atual</p><p>dis -n &#x3C;nome_da_função> #Desmontar função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_base> #Desmontar função<br>dis -c 6 #Desmontar 6 linhas<br>dis -c 0x100003764 -e 0x100003768 # De um endereço até o outro<br>dis -p -c 4 # Iniciar no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Verificar array de 3 componentes no registro x1</td></tr></tbody></table>
 
 {% hint style="info" %}
 Ao chamar a função **`objc_sendMsg`**, o registro **rsi** contém o **nome do método** como uma string terminada por nulo ("C"). Para imprimir o nome via lldb faça:
@@ -384,28 +449,38 @@ Ao chamar a função **`objc_sendMsg`**, o registro **rsi** contém o **nome do 
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Anti-Análise Dinâmica
+### Análise Anti-Dinâmica
 
 #### Detecção de VM
 
-* O comando **`sysctl hw.model`** retorna "Mac" quando o **host é um MacOS** mas algo diferente quando é uma VM.
-* Manipulando os valores de **`hw.logicalcpu`** e **`hw.physicalcpu`** alguns malwares tentam detectar se é uma VM.
-* Alguns malwares também podem **detectar** se a máquina é baseada em **VMware** com base no endereço MAC (00:50:56).
+* O comando **`sysctl hw.model`** retorna "Mac" quando o **host é um MacOS**, mas algo diferente quando é uma VM.
+* Manipulando os valores de **`hw.logicalcpu`** e **`hw.physicalcpu`**, alguns malwares tentam detectar se é uma VM.
+* Alguns malwares também podem **detectar** se a máquina é baseada no **VMware** com base no endereço MAC (00:50:56).
 * Também é possível descobrir se um processo está sendo depurado com um código simples como:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processo sendo depurado }`
-* Também pode invocar a chamada de sistema **`ptrace`** com a flag **`PT_DENY_ATTACH`**. Isso **impede** um deb**u**gger de anexar e rastrear.
-* Você pode verificar se a função **`sysctl`** ou **`ptrace`** está sendo **importada** (mas o malware poderia importá-la dinamicamente)
+* Também pode-se invocar a chamada de sistema **`ptrace`** com a flag **`PT_DENY_ATTACH`**. Isso **impede** que um deb**u**gger se conecte e rastreie.
+* Pode-se verificar se a função **`sysctl`** ou **`ptrace`** está sendo **importada** (mas o malware poderia importá-la dinamicamente)
 * Conforme observado neste artigo, “[Derrotando Técnicas Anti-Depuração: variantes de ptrace no macOS](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
 “_A mensagem Processo # saiu com **status = 45 (0x0000002d)** geralmente é um sinal revelador de que o alvo de depuração está usando **PT\_DENY\_ATTACH**_”
+## Despejos de Núcleo
+
+Os despejos de núcleo são criados se:
+
+- `kern.coredump` sysctl estiver definido como 1 (por padrão)
+- Se o processo não era suid/sgid ou `kern.sugid_coredump` for 1 (por padrão é 0)
+- O limite `AS_CORE` permite a operação. É possível suprimir a criação de despejos de código chamando `ulimit -c 0` e reativá-los com `ulimit -c unlimited`.
+
+Nesses casos, os despejos de núcleo são gerados de acordo com `kern.corefile` sysctl e geralmente armazenados em `/cores/core/.%P`.
+
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-O ReportCrash **analisa processos que estão a falhar e guarda um relatório de falha no disco**. Um relatório de falha contém informações que podem **ajudar um programador a diagnosticar** a causa de uma falha.\
-Para aplicações e outros processos **a correr no contexto de lançamento por utilizador**, o ReportCrash é executado como um LaunchAgent e guarda os relatórios de falha na pasta `~/Library/Logs/DiagnosticReports/` do utilizador.\
-Para daemons, outros processos **a correr no contexto de lançamento do sistema** e outros processos privilegiados, o ReportCrash é executado como um LaunchDaemon e guarda os relatórios de falha na pasta `/Library/Logs/DiagnosticReports` do sistema.
+O ReportCrash **analisa processos que estão travando e salva um relatório de travamento no disco**. Um relatório de travamento contém informações que podem **ajudar um desenvolvedor a diagnosticar** a causa de um travamento.\
+Para aplicativos e outros processos **em execução no contexto de lançamento por usuário**, o ReportCrash é executado como um LaunchAgent e salva relatórios de travamento em `~/Library/Logs/DiagnosticReports/` do usuário.\
+Para daemons, outros processos **em execução no contexto de lançamento do sistema** e outros processos privilegiados, o ReportCrash é executado como um LaunchDaemon e salva relatórios de travamento em `/Library/Logs/DiagnosticReports` do sistema.
 
-Se estiver preocupado com os relatórios de falha **a serem enviados para a Apple**, pode desativá-los. Caso contrário, os relatórios de falha podem ser úteis para **descobrir como um servidor falhou**.
+Se você está preocupado com os relatórios de travamento **sendo enviados para a Apple**, você pode desativá-los. Caso contrário, os relatórios de travamento podem ser úteis para **descobrir como um servidor travou**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -419,7 +494,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.
 
 Durante o fuzzing em um MacOS, é importante não permitir que o Mac entre em modo de sono:
 
-* systemsetup -setsleep Never
+* systemsetup -setsleep Nunca
 * pmset, Preferências do Sistema
 * [KeepingYouAwake](https://github.com/newmarcel/KeepingYouAwake)
 
@@ -427,7 +502,7 @@ Durante o fuzzing em um MacOS, é importante não permitir que o Mac entre em mo
 
 Se estiver fazendo fuzzing via uma conexão SSH, é importante garantir que a sessão não seja encerrada. Portanto, altere o arquivo sshd\_config com:
 
-* TCPKeepAlive Yes
+* TCPKeepAlive Sim
 * ClientAliveInterval 0
 * ClientAliveCountMax 0
 ```bash
@@ -443,8 +518,6 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 {% endcontent-ref %}
 
 ### Enumerando Processos de Rede
-
-Isso é interessante para encontrar processos que estão gerenciando dados de rede:
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
@@ -467,15 +540,13 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-Funciona para ferramentas de linha de comando
+Funciona para ferramentas de linha de comando.
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Ele "**simplesmente funciona"** com ferramentas GUI do macOS. Note que alguns aplicativos do macOS têm requisitos específicos como nomes de arquivos únicos, a extensão correta, precisam ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Ele "**simplesmente funciona"** com ferramentas GUI do macOS. Observe que alguns aplicativos do macOS têm requisitos específicos, como nomes de arquivos exclusivos, a extensão correta, a necessidade de ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Alguns exemplos:
-
-{% code overflow="wrap" %}
 ```bash
 # iBooks
 litefuzz -l -c "/System/Applications/Books.app/Contents/MacOS/Books FUZZ" -i files/epub -o crashes/ibooks -t /Users/test/Library/Containers/com.apple.iBooksX/Data/tmp -x 10 -n 100000 -ez
@@ -521,9 +592,9 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo de informações**.
 
-O principal objetivo do WhiteIntel é combater tomadas de contas e ataques de ransomware resultantes de malwares que roubam informações.
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
 
-Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -535,7 +606,7 @@ Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
