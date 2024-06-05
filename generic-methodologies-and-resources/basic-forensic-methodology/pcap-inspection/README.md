@@ -1,4 +1,4 @@
-# Pregled Pcap fajlova
+# Pregled Pcap datoteka
 
 <details>
 
@@ -8,36 +8,37 @@ Drugi načini podrške HackTricks-u:
 
 * Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti u Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i bezbednosnih stručnjaka u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti u Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i kibernetičkih profesionalaca u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-Napomena o **PCAP** vs **PCAPNG**: postoje dve verzije PCAP formata; **PCAPNG je noviji i nije podržan od svih alata**. Možda ćete morati da konvertujete fajl iz PCAPNG u PCAP koristeći Wireshark ili neki drugi kompatibilni alat, kako biste radili sa njim u nekim drugim alatima.
+Napomena o **PCAP** vs **PCAPNG**: postoje dve verzije PCAP formata datoteka; **PCAPNG je noviji i nije podržan od svih alata**. Možda ćete morati da konvertujete datoteku iz PCAPNG u PCAP koristeći Wireshark ili neki drugi kompatibilni alat, kako biste mogli da radite sa njom u nekim drugim alatima.
 {% endhint %}
 
-## Online alati za pcap fajlove
+## Online alati za pcap datoteke
 
-* Ako je zaglavlje vašeg pcap fajla **oštećeno**, trebalo bi da pokušate da ga **popravite** koristeći: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Izvucite **informacije** i tražite **malver** unutar pcap fajla na [**PacketTotal**](https://packettotal.com)
-* Tražite **zlonamerne aktivnosti** koristeći [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* Ako je zaglavlje vaše pcap datoteke **oštećeno**, trebalo bi da pokušate da ga **popravite** koristeći: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Izvucite **informacije** i pretražujte **malver** unutar pcap datoteke na [**PacketTotal**](https://packettotal.com)
+* Pretražite **zlonamerne aktivnosti** koristeći [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* **Potpuna analiza pcap datoteke iz pretraživača na** [**https://apackets.com/**](https://apackets.com/)
 
 ## Izdvajanje informacija
 
-Sledeći alati su korisni za izdvajanje statistika, fajlova, itd.
+Sledeći alati su korisni za izdvajanje statistika, datoteka, itd.
 
 ### Wireshark
 
 {% hint style="info" %}
-**Ako ćete analizirati PCAP fajl, osnovno je da znate kako koristiti Wireshark**
+**Ako ćete analizirati PCAP datoteku, osnovno je da znate kako koristiti Wireshark**
 {% endhint %}
 
 Možete pronaći neke trikove za Wireshark u:
@@ -46,9 +47,13 @@ Možete pronaći neke trikove za Wireshark u:
 [wireshark-tricks.md](wireshark-tricks.md)
 {% endcontent-ref %}
 
+### [**https://apackets.com/**](https://apackets.com/)
+
+Analiza pcap datoteke iz pretraživača.
+
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(samo za linux)_ može **analizirati** pcap fajl i izvući informacije iz njega. Na primer, iz pcap fajla Xplico izvlači svaki email (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, i tako dalje.
+[**Xplico** ](https://github.com/xplico/xplico)_(samo za linux)_ može **analizirati** pcap datoteku i izvući informacije iz nje. Na primer, iz pcap datoteke Xplico izvlači svaki email (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, i tako dalje.
 
 **Instalacija**
 ```bash
@@ -62,9 +67,9 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-Pristupite _**127.0.0.1:9876**_ sa pristupnim podacima _**xplico:xplico**_
+Prisup _**127.0.0.1:9876**_ sa pristupnim podacima _**xplico:xplico**_
 
-Zatim kreirajte **novi slučaj**, napravite **novu sesiju** unutar slučaja i **učitajte pcap** datoteku.
+Zatim kreiraj **novi slučaj**, napravi **novu sesiju** unutar slučaja i **učitaj pcap** datoteku.
 
 ### NetworkMiner
 
@@ -83,7 +88,7 @@ Ovo je još jedan koristan alat koji **analizira pakete** i sortira informacije 
 * Izgradnja vizuelnog dijagrama mreže (Mrežni čvorovi & korisnici)
 * Izdvajanje DNS upita
 * Rekonstrukcija svih TCP & UDP sesija
-* Rezanje datoteka
+* Rezanje fajlova
 
 ### Capinfos
 ```
@@ -109,13 +114,13 @@ Možete koristiti alate poput [https://github.com/lgandx/PCredz](https://github.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i stručnjaka za kibernetičku bezbednost u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **cybersecurity** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i cybersecurity profesionalaca u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Provera Eksploatacija/Malvera
+## Provera Exploita/Malvera
 
-### Surikata
+### Suricata
 
 **Instalacija i podešavanje**
 ```
@@ -130,7 +135,7 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) je alatka koja
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) je alat koji
 
 * Čita PCAP datoteku i izvlači HTTP tokove.
 * gzip dekompresuje bilo koje kompresovane tokove
@@ -150,7 +155,7 @@ Proverite da li možete pronaći bilo kakav otisak poznatog malvera:
 
 > [Zeek](https://docs.zeek.org/en/master/about.html) je pasivni, open-source analizator saobraćaja na mreži. Mnogi operateri koriste Zeek kao Monitor za bezbednost mreže (NSM) kako bi podržali istrage sumnjive ili zlonamerne aktivnosti. Zeek takođe podržava širok spektar zadataka analize saobraćaja izvan domena bezbednosti, uključujući merenje performansi i rešavanje problema.
 
-U osnovi, zapisi kreirani pomoću `zeek` nisu **pcap** datoteke. Stoga će vam biti potrebni **drugi alati** za analizu zapisa gde se nalaze **informacije** o pcap datotekama.
+U osnovi, zapisi kreirani od strane `zeek` nisu **pcap** datoteke. Stoga će vam biti potrebni **drugi alati** za analizu zapisa gde se nalaze **informacije** o pcap datotekama.
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -245,10 +250,10 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 Drugi načini podrške HackTricks-u:
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
