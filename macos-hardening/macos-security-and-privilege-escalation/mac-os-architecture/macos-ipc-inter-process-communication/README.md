@@ -7,10 +7,10 @@
 HackTricks를 지원하는 다른 방법:
 
 * **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
+* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 얻으세요
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소로 **PR 제출**하여 해킹 트릭을 공유하세요.
+* 💬 **Discord 그룹**에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
+* **HackTricks** 및 **HackTricks Cloud** github 저장소로 **PR 제출**을 통해 해킹 요령을 공유하세요.
 
 </details>
 
@@ -18,64 +18,64 @@ HackTricks를 지원하는 다른 방법:
 
 ### 기본 정보
 
-Mach는 **작업**을 **리소스 공유의 가장 작은 단위**로 사용하며, 각 작업에는 **여러 스레드**가 포함될 수 있습니다. 이러한 **작업과 스레드는 POSIX 프로세스와 스레드에 1:1로 매핑**됩니다.
+Mach는 **리소스 공유를 위한 가장 작은 단위로 작업**을 사용하며, 각 작업에는 **여러 스레드**가 포함될 수 있습니다. 이러한 **작업과 스레드는 1:1로 POSIX 프로세스와 스레드에 매핑**됩니다.
 
 작업 간 통신은 Mach 프로세스 간 통신 (IPC)을 통해 이루어지며, **커널이 관리하는 메시지 큐처럼 작동하는 포트 간에 메시지가 전송**됩니다.
 
 각 프로세스에는 **IPC 테이블**이 있어 **프로세스의 mach 포트**를 찾을 수 있습니다. Mach 포트의 이름은 실제로 숫자(커널 객체를 가리키는 포인터)입니다.
 
-프로세스는 또한 **일부 권한을 가진 포트 이름을 다른 작업에게 보낼 수 있으며**, 커널은 이를 다른 작업의 **IPC 테이블에 등록**합니다.
+프로세스는 또한 **다른 작업에게 일부 권한을 가진 포트 이름을 보낼 수 있으며, 커널은 다른 작업의 IPC 테이블에 이 항목을 표시**합니다.
 
 ### 포트 권한
 
-작업이 수행할 수 있는 작업을 정의하는 포트 권한은 이 통신에 중요합니다. 가능한 **포트 권한**은 ([여기에서 정의된 내용](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+작업이 수행할 수 있는 작업을 정의하는 포트 권한은 이 통신에 중요합니다. 가능한 **포트 권한**은 ([여기에서 정의됨](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **수신 권한**은 포트로 전송된 메시지를 수신할 수 있게 합니다. Mach 포트는 MPSC (다중 생산자, 단일 소비자) 큐이므로 전체 시스템에서 각 포트에 대해 **하나의 수신 권한만** 있을 수 있습니다 (여러 프로세스가 하나의 파이프의 읽기 끝에 대한 파일 디스크립터를 모두 보유할 수 있는 파이프와는 달리).
-* **수신 권한을 가진 작업**은 메시지를 수신하고 **송신 권한을 생성**할 수 있어 메시지를 보낼 수 있습니다. 처음에는 **자체 작업이 자체 포트에 대한 수신 권한**만 가지고 있습니다.
+* **수신 권한**은 포트로 전송된 메시지를 수신할 수 있게 합니다. Mach 포트는 MPSC (다중 생산자, 단일 소비자) 큐이므로 전체 시스템에서 각 포트에 대해 **하나의 수신 권한만 있을 수** 있습니다 (여러 프로세스가 하나의 파이프의 읽기 끝에 대한 파일 기술자를 모두 보유할 수 있는 파이프와는 달리).
+* **수신 권한을 가진 작업**은 메시지를 수신하고 **송신 권한을 생성**할 수 있으며, 처음에는 **자체 작업이 자신의 포트에 대한 수신 권한**만 가지고 있습니다.
 * **송신 권한**은 포트로 메시지를 보낼 수 있게 합니다.
-* 송신 권한은 복제될 수 있어 송신 권한을 소유한 작업이 권한을 복제하고 **세 번째 작업에게 부여**할 수 있습니다.
-* **한 번 송신 권한**은 포트로 한 번의 메시지를 보낼 수 있고 그 후 사라집니다.
+* 송신 권한은 복제될 수 있어 송신 권한을 소유한 작업이 권한을 복제하고 **제3의 작업에게 부여**할 수 있습니다.
+* **한 번 송신 권한**은 포트로 한 번 메시지를 보낼 수 있고 그 후 사라집니다.
 * **포트 세트 권한**은 단일 포트가 아닌 _포트 세트_를 나타냅니다. 포트 세트에서 메시지를 디큐하는 것은 해당 포트 중 하나에서 메시지를 디큐합니다. 포트 세트는 Unix의 `select`/`poll`/`epoll`/`kqueue`와 매우 유사하게 여러 포트에서 동시에 수신할 수 있습니다.
-* **데드 네임**은 실제 포트 권한이 아니라 단순히 자리 표시자입니다. 포트가 파괴되면 포트에 대한 모든 기존 포트 권한이 데드 네임으로 변합니다.
+* **데드 네임**은 실제 포트 권한이 아니라 단순히 자리 표시자입니다. 포트가 파괴되면 포트에 대한 모든 기존 포트 권한이 데드 네임으로 변환됩니다.
 
-**작업은 다른 작업에게 송신 권한을 전달**하여 메시지를 다시 보낼 수 있습니다. **송신 권한은 복제될 수 있어 작업이 권한을 복제하고 세 번째 작업에게 권한을 부여**할 수 있습니다. 이는 **부트스트랩 서버**라는 중간 프로세스와 결합되어 작업 간 효과적인 통신을 가능하게 합니다.
+**작업은 송신 권한을 다른 작업에게 전달**하여 메시지를 다시 보낼 수 있습니다. **송신 권한은 복제될 수 있어 작업이 권한을 복제하고 제3의 작업에게 권한을 부여**할 수 있습니다. 이는 **부트스트랩 서버**라는 중간 프로세스와 결합되어 작업 간 효과적인 통신을 가능케 합니다.
 
 ### 파일 포트
 
-파일 포트를 사용하면 Mac 포트(맥 포트 권한을 사용)에 파일 디스크립터를 캡슐화할 수 있습니다. 주어진 FD에서 `fileport_makeport`를 사용하여 `fileport`를 만들고 `fileport_makefd`를 사용하여 fileport에서 FD를 만들 수 있습니다.
+파일 포트를 사용하면 Mac 포트(맥 포트 권한 사용)에 파일 기술자를 캡슐화할 수 있습니다. 주어진 FD를 사용하여 `fileport_makeport`를 사용하여 `fileport`를 만들고 `fileport_makefd`를 사용하여 fileport에서 FD를 만들 수 있습니다.
 
 ### 통신 설정
 
 #### 단계:
 
-통신 채널을 설정하려면 **부트스트랩 서버**(mac의 **launchd**)가 관여합니다.
+통신 채널을 설정하려면 **부트스트랩 서버**(mac의 **launchd**)가 관여됩니다.
 
 1. 작업 **A**는 **새 포트**를 시작하여 프로세스에서 **수신 권한**을 획득합니다.
-2. 수신 권한을 보유한 작업 **A**는 포트에 대한 **송신 권한을 생성**합니다.
+2. **수신 권한을 보유한** 작업 **A**는 포트에 대한 **송신 권한을 생성**합니다.
 3. 작업 **A**는 **부트스트랩 서버**와 **포트의 서비스 이름** 및 **송신 권한**을 제공하여 **부트스트랩 등록**이라는 절차를 통해 **연결**을 설정합니다.
-4. 작업 **B**는 **부트스트랩 서버**와 **서비스** 이름에 대한 부트스트랩 **조회**를 실행합니다. 성공하면 **서버가 작업 A로부터 받은 송신 권한을 복제**하고 **작업 B로 전송**합니다.
+4. 작업 **B**는 **부트스트랩 서버**와 상호 작용하여 서비스 이름에 대한 부트스트랩 **조회**를 실행합니다. 성공하면 **서버는 작업 A로부터 받은 송신 권한을 복제**하고 **작업 B로 전송**합니다.
 5. 송신 권한을 획들한 작업 **B**는 **메시지를 작성**하고 **작업 A로 전송**할 수 있습니다.
-6. 양방향 통신을 위해 일반적으로 작업 **B**는 **수신** 권한과 **송신** 권한이 있는 새 포트를 생성하고 **송신 권한을 작업 A에게 제공**하여 작업 B로 메시지를 보낼 수 있습니다(양방향 통신).
+6. 양방향 통신을 위해 일반적으로 작업 **B**는 **수신 권한**과 **송신 권한을 가진 새 포트를 생성**하고 **송신 권한을 작업 A에게 제공**하여 작업 B에게 메시지를 보낼 수 있게 합니다(양방향 통신).
 
-부트스트랩 서버는 **서비스 이름을 인증할 수 없습니다**. 이는 **작업**이 잠재적으로 **시스템 작업을 가장할 수 있으며**, 예를 들어 **인가 서비스 이름을 가장하여 모든 요청을 승인**할 수 있습니다.
+부트스트랩 서버는 작업이 주장한 서비스 이름을 인증할 수 없습니다. 이는 **작업**이 잠재적으로 **시스템 작업을 가장할 수 있으며**, 예를 들어 **인가 서비스 이름을 가장하고 모든 요청을 승인**할 수 있습니다.
 
-그런 다음, Apple은 **시스템 제공 서비스의 이름**을 안전한 구성 파일에 저장합니다. 이 파일은 **SIP로 보호된** 디렉토리인 `/System/Library/LaunchDaemons` 및 `/System/Library/LaunchAgents`에 있습니다. 각 서비스 이름 옆에는 **관련된 이진 파일도 저장**됩니다. 부트스트랩 서버는 이러한 서비스 이름 각각에 대한 **수신 권한을 생성**하고 보유합니다.
+그런 다음, Apple은 **시스템 제공 서비스의 이름**을 안전한 구성 파일에 저장합니다. 이 파일은 **SIP로 보호된** 디렉터리인 `/System/Library/LaunchDaemons` 및 `/System/Library/LaunchAgents`에 있습니다. 각 서비스 이름 옆에는 **관련된 이진 파일도 저장**됩니다. 부트스트랩 서버는 이러한 서비스 이름 각각에 대한 **수신 권한을 생성하고 보유**합니다.
 
-이러한 사전 정의된 서비스에 대해서는 **조회 프로세스가 약간 다릅니다**. 서비스 이름을 조회할 때, launchd는 서비스를 동적으로 시작합니다. 새로운 워크플로우는 다음과 같습니다:
+이러한 사전 정의된 서비스에 대해서는 **조회 프로세스가 약간 다릅니다**. 서비스 이름을 조회할 때, launchd는 작업이 실행 중인지 확인하고 실행 중이 아니면 **시작**합니다. 그 후 새로운 워크플로우는 다음과 같습니다:
 
 * 작업 **B**는 서비스 이름에 대한 부트스트랩 **조회**를 시작합니다.
 * **launchd**는 작업이 실행 중인지 확인하고 실행 중이 아니면 **시작**합니다.
 * 작업 **A**(서비스)는 **부트스트랩 체크인**을 수행합니다. 여기서 **부트스트랩** 서버는 송신 권한을 생성하고 보유하며 **수신 권한을 작업 A로 전송**합니다.
 * launchd는 **송신 권한을 복제하고 작업 B로 전송**합니다.
-* 작업 **B**는 **수신** 권한과 **송신** 권한이 있는 새 포트를 생성하고 **송신 권한을 작업 A**(svc)에게 제공하여 작업 B로 메시지를 보낼 수 있습니다(양방향 통신).
+* 작업 **B**는 **수신 권한**과 **송신 권한**을 가진 새 포트를 생성하고 **송신 권한을 작업 A**(svc)에게 제공하여 작업 B에게 메시지를 보낼 수 있게 합니다(양방향 통신).
 
-그러나 이 프로세스는 사전 정의된 시스템 작업에만 적용됩니다. 비시스템 작업은 여전히 처음에 설명된대로 작동하며, 이는 가장할 수 있는 가능성을 열어둘 수 있습니다.
+그러나 이 프로세스는 사전 정의된 시스템 작업에만 적용됩니다. 비시스템 작업은 여전히 처음에 설명된대로 작동하여 가장할 수 있는 가능성이 있습니다.
 
 ### Mach 메시지
 
-[더 많은 정보는 여기에서 찾을 수 있습니다](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+[여기에서 자세한 정보를 찾을 수 있습니다](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-`mach_msg` 함수는 사실상 시스템 호출로, Mach 메시지를 보내고 받기 위해 사용됩니다. 이 함수는 보내려는 메시지를 초기 인수로 필요로 합니다. 이 메시지는 `mach_msg_header_t` 구조로 시작해야 하며 실제 메시지 내용이 뒤따라야 합니다. 이 구조는 다음과 같이 정의됩니다:
+`mach_msg` 함수는 사실상 시스템 호출로, Mach 메시지를 보내고 받기 위해 사용됩니다. 이 함수는 보내려는 메시지를 초기 인수로 필요로 합니다. 이 메시지는 `mach_msg_header_t` 구조로 시작해야 하며 실제 메시지 내용이 뒤를 따라야 합니다. 이 구조는 다음과 같이 정의됩니다:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -86,12 +86,12 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-_**수신 권한**_을 가진 프로세스는 Mach 포트에서 메시지를 수신할 수 있습니다. 반대로 **보내는 쪽**은 _**send**_ 또는 _**send-once right**_를 부여받습니다. send-once right는 한 번의 메시지를 보낸 후에는 무효화됩니다.
+프로세스가 _**수신 권한**_을 가지고 있으면 Mach 포트에서 메시지를 수신할 수 있습니다. 반대로 **보내는 쪽**은 _**보내기**_ 또는 _**한 번 보내기 권한**_을 부여받습니다. 한 번 보내기 권한은 한 번의 메시지를 보낸 후에 무효화됩니다.
 
-쉬운 **양방향 통신**을 위해 프로세스는 mach **메시지 헤더**에서 _응답 포트_ (**`msgh_local_port`**)라고 불리는 mach 포트를 지정할 수 있습니다. 메시지의 **수신자**는 이 메시지에 대한 응답을 이 포트로 보낼 수 있습니다. **`msgh_bits`**의 비트 플래그는 이 포트에 대해 **send-once right**가 파생되고 전송되어야 함을 나타내는 데 사용될 수 있습니다 (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+쉬운 **양방향 통신**을 위해 프로세스는 mach **메시지 헤더**에서 _응답 포트_ (**`msgh_local_port`**)라고 불리는 mach 포트를 지정할 수 있습니다. 메시지의 **수신자**는 이 메시지에 대한 응답을 보낼 수 있습니다. **`msgh_bits`**의 비트 플래그는 이 포트에 대해 **한 번 보내기 권한**이 파생되고 전송되어야 함을 나타내는 데 사용될 수 있습니다 (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
-XPC 메시지에서 사용되는 이러한 종류의 양방향 통신은 응답을 기대하는 XPC 메시지에서 사용됩니다 (`xpc_connection_send_message_with_reply` 및 `xpc_connection_send_message_with_reply_sync`). 그러나 **일반적으로 서로 다른 포트가 생성**되어 양방향 통신을 생성하는 방법에 대해 이전에 설명한 대로 사용됩니다.
+XPC 메시지에서 사용되는 이러한 종류의 양방향 통신은 응답을 기대하는 XPC 메시지에서 사용됩니다 (`xpc_connection_send_message_with_reply` 및 `xpc_connection_send_message_with_reply_sync`). 그러나 **일반적으로 서로 다른 포트가 생성**되어 양방향 통신을 생성하는 방법은 이전에 설명한 대로입니다.
 {% endhint %}
 
 메시지 헤더의 다른 필드는 다음과 같습니다:
@@ -102,18 +102,16 @@ XPC 메시지에서 사용되는 이러한 종류의 양방향 통신은 응답�
 - `msgh_id`: 수신자가 해석하는 이 메시지의 ID.
 
 {% hint style="danger" %}
-**mach 메시지는 \_mach 포트**를 통해 전송되며, 이는 mach 커널에 내장된 **단일 수신자**, **다중 송신자** 통신 채널입니다. **여러 프로세스**가 mach 포트로 메시지를 **보낼 수 있지만**, 언제든지 **단일 프로세스만**이 그것을 읽을 수 있습니다.
+**mach 메시지는 \_mach 포트를 통해 전송**되며, 이는 mach 커널에 내장된 **단일 수신자**, **다중 송신자** 통신 채널입니다. **여러 프로세스**가 mach 포트로 **메시지를 보낼** 수 있지만 언제든지 **단일 프로세스만** 읽을 수 있습니다.
 {% endhint %}
 
 ### 포트 나열하기
 ```bash
 lsmp -p <pid>
 ```
-iOS에서 이 도구를 설치하려면 [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)에서 다운로드할 수 있습니다.
-
 ### 코드 예시
 
-**sender**가 포트를 할당하고 `org.darlinghq.example` 이름에 대한 **send right**를 생성하여 **부트스트랩 서버**로 보내는 방법에 주목하십시오. 수신자는 그 이름에 대한 **send right**를 요청하고 이를 사용하여 **메시지를 보내는** 방법을 사용했습니다.
+**sender**가 포트를 할당하고 `org.darlinghq.example`라는 이름에 대한 **send right**를 생성하여 이를 **부트스트랩 서버**에 보내는 방법을 주목하십시오. 수신자는 해당 이름에 대한 **send right**를 요청하고 이를 사용하여 **메시지를 보내는** 방법을 사용했습니다.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -184,7 +182,48 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}번역된 텍스트가 여기에 들어갑니다.{% endtab %}
+{% tab title="sender.c" %} 
+
+## macOS IPC (Inter-Process Communication)
+
+### Introduction
+
+macOS provides several mechanisms for inter-process communication (IPC) between applications. Understanding these mechanisms is crucial for both legitimate software development and security research.
+
+### Mach Ports
+
+Mach ports are at the core of IPC on macOS. They are used for communication between processes and are essential for various system functions.
+
+### XPC Services
+
+XPC Services are a high-level API for implementing inter-process communication in macOS applications. They provide a secure and efficient way for processes to communicate with each other.
+
+### Distributed Objects
+
+Distributed Objects is another IPC mechanism in macOS that allows objects to be passed between processes. It is a powerful feature but requires careful implementation to avoid security vulnerabilities.
+
+### Conclusion
+
+Understanding macOS IPC mechanisms is essential for developers and security professionals to build secure applications and conduct thorough security assessments. By knowing how processes communicate with each other, potential security risks can be identified and mitigated effectively.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <mach/mach.h>
+
+int main() {
+    mach_port_t port;
+    kern_return_t kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &port);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to allocate port\n");
+        exit(1);
+    }
+    printf("Port allocated: %d\n", port);
+    return 0;
+}
+```
+
+{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -238,20 +277,20 @@ printf("Sent a message\n");
 ```
 ### 특권 포트
 
-- **호스트 포트**: 프로세스가 이 포트에 대한 **Send** 권한을 가지고 있다면 시스템에 대한 **정보**를 얻을 수 있습니다 (예: `host_processor_info`).
-- **호스트 특권 포트**: 이 포트에 대한 **Send** 권한을 가진 프로세스는 커널 익스텐션을 로드하는 등 **특권 작업**을 수행할 수 있습니다. 이 권한을 얻으려면 **프로세스가 루트여야** 합니다.
-- 또한 **`kext_request`** API를 호출하려면 다른 엔타이틀먼트 **`com.apple.private.kext*`**가 필요하며, 이는 Apple 이진 파일에만 부여됩니다.
-- **태스크 이름 포트**: _태스크 포트_의 권한이 없는 버전입니다. 태스크를 참조하지만 제어할 수는 없습니다. 이를 통해 사용 가능한 것은 `task_info()`뿐입니다.
+- **호스트 포트**: 프로세스가 이 포트에 대한 **Send** 권한을 가지면 **시스템에 대한 정보**를 얻을 수 있습니다 (예: `host_processor_info`).
+- **호스트 특권 포트**: 이 포트에 대한 **Send** 권한을 가진 프로세스는 커널 익스텐션을 로드하는 등 **특권 작업**을 수행할 수 있습니다. 이 권한을 얻으려면 **루트여야** 합니다.
+- 또한 **`kext_request`** API를 호출하려면 다른 엔타이틀먼트 **`com.apple.private.kext*`**이 필요하며, 이는 Apple 이진 파일에만 부여됩니다.
+- **태스크 이름 포트**: _태스크 포트_의 권한이 없는 버전입니다. 태스크를 참조하지만 제어할 수는 없습니다. 이를 통해 사용할 수 있는 것은 `task_info()`뿐입니다.
 - **태스크 포트** (또는 커널 포트)**:** 이 포트에 대한 Send 권한이 있으면 태스크를 제어할 수 있습니다 (메모리 읽기/쓰기, 스레드 생성 등).
-- 호출 `mach_task_self()`를 사용하여 호출자 태스크에 대한 이 포트의 **이름을 가져올** 수 있습니다. 이 포트는 **`exec()`**를 통해만 **상속**됩니다. `fork()`로 생성된 새로운 태스크는 새로운 태스크 포트를 받습니다 (`exec()` 이후 suid 이진 파일에서도 특별한 경우로 태스크는 `exec()` 이후 새로운 태스크 포트를 받습니다). 태스크를 생성하고 해당 포트를 얻는 유일한 방법은 `fork()`를 수행하면서 ["포트 스왑 댄스"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)를 수행하는 것입니다.
+- 호출 `mach_task_self()`하여 호출자 태스크에 대한 이 포트의 **이름을 가져옵니다**. 이 포트는 **`exec()`를 통해만 상속**됩니다. `fork()`로 생성된 새로운 태스크는 새로운 태스크 포트를 받습니다 (`exec()` 후에 suid 이진 파일에서도 특별한 경우로 태스크는 새로운 태스크 포트를 받습니다). 태스크를 생성하고 해당 포트를 가져오는 유일한 방법은 `fork()`를 수행하는 동안 ["포트 스왑 댄스"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)를 수행하는 것입니다.
 - 이 포트에 액세스하기 위한 제한 사항 (바이너리 `AppleMobileFileIntegrity`의 `macos_task_policy`에서):
-  - 앱이 **`com.apple.security.get-task-allow` 엔타이틀먼트**를 가지고 있다면 **동일한 사용자의 프로세스가 태스크 포트에 액세스**할 수 있습니다 (주로 디버깅을 위해 Xcode에서 추가됨). **노타리제이션** 프로세스는 프로덕션 릴리스에서 이를 허용하지 않습니다.
-  - **`com.apple.system-task-ports`** 엔타이틀먼트가 있는 앱은 커널을 제외한 **모든** 프로세스의 **태스크 포트를 얻을 수** 있습니다. 이전 버전에서는 **`task_for_pid-allow`**로 불렸습니다. 이 권한은 Apple 애플리케이션에만 부여됩니다.
-  - **루트는** **하드닝된** 런타임으로 컴파일되지 않은 애플리케이션의 태스크 포트에 **액세스할 수 있습니다** (Apple에서 제공되지 않은 경우).
+  - 앱이 **`com.apple.security.get-task-allow` 엔타이틀먼트**를 가지고 있으면 **동일한 사용자의 프로세스가 태스크 포트에 액세스**할 수 있습니다 (주로 디버깅을 위해 Xcode에서 추가됨). **노타리제이션** 프로세스는 프로덕션 릴리스에서 이를 허용하지 않습니다.
+  - **`com.apple.system-task-ports`** 엔타이틀먼트가 있는 앱은 커널을 제외한 **모든** 프로세스의 **태스크 포트를 얻을 수 있습니다**. 이전 버전에서는 **`task_for_pid-allow`**로 불렸습니다. 이 권한은 Apple 애플리케이션에만 부여됩니다.
+  - **루트는** **하드닝된** 런타임으로 컴파일되지 않은 애플리케이션의 태스크 포트에 **액세스할 수 있습니다** (Apple에서 제공하지 않음).
 
 ### 태스크 포트를 통한 스렬코드 삽입
 
-다음에서 스렬코드를 가져올 수 있습니다:
+다음에서 쉘코드를 얻을 수 있습니다:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -290,38 +329,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="entitlements.plist" %} 
-
-## macOS IPC (Inter-Process Communication)
-
-### Introduction
-
-Inter-Process Communication (IPC) is a mechanism that allows processes to communicate and share data with each other. macOS provides several IPC mechanisms, including Mach ports, XPC services, and Distributed Objects. These mechanisms are used by applications to communicate with system services and other applications.
-
-### Security Implications
-
-Improperly configured IPC mechanisms can introduce security vulnerabilities, such as privilege escalation and information disclosure. It is important to properly configure IPC mechanisms and validate the data exchanged between processes to prevent these vulnerabilities.
-
-### Privilege Escalation
-
-Some IPC mechanisms may be used by malicious actors to escalate their privileges on the system. By exploiting vulnerabilities in IPC mechanisms, an attacker may be able to execute code with elevated privileges and perform unauthorized actions on the system.
-
-### Best Practices
-
-To secure IPC mechanisms on macOS, follow these best practices:
-
-1. **Use Secure Communication Channels**: Encrypt data exchanged between processes to prevent eavesdropping and tampering.
-2. **Validate Input Data**: Always validate input data received from other processes to prevent injection attacks and data manipulation.
-3. **Limit Privileges**: Restrict the privileges of processes using IPC mechanisms to minimize the impact of potential security vulnerabilities.
-4. **Monitor IPC Activity**: Monitor IPC activity on the system to detect any suspicious behavior or unauthorized access attempts.
-
-By following these best practices, you can enhance the security of IPC mechanisms on macOS and reduce the risk of privilege escalation and other security threats.
-
-### Conclusion
-
-IPC mechanisms are essential for inter-process communication on macOS, but they can also introduce security risks if not properly configured and secured. By understanding the security implications of IPC mechanisms and following best practices for securing them, you can mitigate the risks associated with IPC and protect your system from potential attacks.
-
-{% endtab %}
+{% tab title="entitlements.plist" %}엔터틀먼트.plist{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -334,7 +342,7 @@ IPC mechanisms are essential for inter-process communication on macOS, but they 
 {% endtab %}
 {% endtabs %}
 
-이전 프로그램을 **컴파일**하고 동일한 사용자로 코드를 주입할 수 있도록 **엔터티먼트**를 추가하십시오 (그렇지 않으면 **sudo**를 사용해야 합니다).
+이전 프로그램을 **컴파일**하고 동일한 사용자로 코드를 주입할 수 있도록 **엔타이틀먼트**를 추가하십시오 (그렇지 않으면 **sudo**를 사용해야 합니다).
 
 <details>
 
@@ -544,11 +552,11 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 
 macOS에서 **스레드**는 **Mach**를 통해 조작되거나 **posix `pthread` api**를 사용하여 조작될 수 있습니다. 이전 인젝션에서 생성된 스레드는 Mach api를 사용하여 생성되었기 때문에 **posix 호환성이 없습니다**.
 
-**단순한 쉘코드를 인젝션**하여 명령을 실행하는 것이 가능했던 이유는 **posix 호환성이 필요하지 않았기 때문**이며, Mach와만 작동해도 충분했습니다. **더 복잡한 인젝션**을 하려면 **스레드**가 **posix 호환성**을 갖추어야 합니다.
+**간단한 쉘코드를 인젝트**하여 명령을 실행하는 것이 가능했던 이유는 **posix 호환성이 필요하지 않았기 때문**이며, Mach와만 작동해야 했기 때문입니다. **더 복잡한 인젝션**은 **스레드**가 또한 **posix 호환성**을 가져야 합니다.
 
-따라서 **스레드를 개선**하기 위해 **`pthread_create_from_mach_thread`**를 호출하여 **유효한 pthread를 생성**해야 합니다. 그런 다음, 이 새로운 pthread는 시스템에서 **dylib를 로드**하기 위해 **dlopen을 호출**할 수 있으므로, 다른 작업을 수행하기 위해 새로운 쉘코드를 작성하는 대신 사용자 정의 라이브러리를 로드할 수 있습니다.
+따라서 **스레드를 개선**하기 위해 **`pthread_create_from_mach_thread`**를 호출하여 **유효한 pthread를 생성**해야 합니다. 그런 다음, 이 새로운 pthread는 시스템에서 **dylib를 로드**하기 위해 **dlopen을 호출**할 수 있으므로 다른 작업을 수행하기 위해 새로운 쉘코드를 작성하는 대신 사용자 지정 라이브러리를 로드할 수 있습니다.
 
-예를 들어, (로그를 생성하고 해당 로그를 수신할 수 있는) **예제 dylibs**를 다음에서 찾을 수 있습니다:
+예를 들어 **다음과 같은 예제 dylibs**를 찾을 수 있습니다 (예를 들어 로그를 생성하고 그 후에 들을 수 있는 것):
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -761,7 +769,7 @@ kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_E
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"원격 스레드 코드의 메모리 권한을 설정할 수 없음: 오류 %s\n", mach_error_string(kr));
+fprintf(stderr,"원격 스레드의 코드에 대한 메모리 권한 설정 실패: 오류 %s\n", mach_error_string(kr));
 return (-4);
 }
 
@@ -770,7 +778,7 @@ kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"원격 스레드 스택의 메모리 권한을 설정할 수 없음: 오류 %s\n", mach_error_string(kr));
+fprintf(stderr,"원격 스레드의 스택에 대한 메모리 권한 설정 실패: 오류 %s\n", mach_error_string(kr));
 return (-4);
 }
 
@@ -782,7 +790,7 @@ thread_act_t         remoteThread;
 memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64) );
 
 remoteStack64 += (STACK_SIZE / 2); // 실제 스택
-//remoteStack64 -= 8;  // 16의 정렬이 필요함
+//remoteStack64 -= 8;  // 16의 배수로 정렬 필요
 
 const char* p = (const char*) remoteCode64;
 
@@ -797,7 +805,7 @@ kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"원격 스레드를 생성할 수 없음: 오류 %s", mach_error_string (kr));
+fprintf(stderr,"원격 스레드 생성 실패: 오류 %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -828,12 +836,18 @@ fprintf(stderr,"Dylib를 찾을 수 없음\n");
 
 }
 ```
-</details>
+</details>  
+
+## macOS IPC (Inter-Process Communication)
+
+### macOS IPC Overview
+
+macOS provides several mechanisms for inter-process communication (IPC) between applications and processes. Understanding these mechanisms is crucial for both developers and security professionals to assess the attack surface and potential security risks associated with IPC on macOS. This document provides an overview of the different IPC mechanisms available on macOS and their security implications.
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### Task port를 통한 스레드 하이재킹 <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### 태스크 포트를 통한 스레드 하이재킹 <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
 
 이 기술에서는 프로세스의 스레드가 하이재킹됩니다:
 
@@ -845,9 +859,9 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 ### 기본 정보
 
-XPC는 macOS 및 iOS에서 사용되는 XNU(커널) Inter-Process Communication의 약자로, macOS 및 iOS에서 프로세스 간 통신을 위한 프레임워크입니다. XPC는 시스템 내에서 다른 프로세스 간에 안전하고 비동기적인 메소드 호출을 할 수 있는 메커니즘을 제공합니다. 이는 Apple의 보안 패러다임의 일부로, 각 구성 요소가 작업을 수행하는 데 필요한 권한만 갖고 있는 권한 분리 애플리케이션의 생성을 허용하여, 침해된 프로세스로부터의 잠재적인 피해를 제한합니다.
+XPC는 macOS 및 iOS에서 **프로세스 간 통신**을 위한 XNU( macOS에서 사용되는 커널) 인터프로세스 통신을 나타냅니다. XPC는 시스템 내의 **다른 프로세스 간에 안전한 비동기 메소드 호출을 수행하는 메커니즘**을 제공합니다. 이는 Apple의 보안 패러다임의 일부로, **특권 분리 애플리케이션의 생성**을 허용하여 각 **구성 요소**가 **필요한 권한만으로** 작업을 수행하도록 하여, 침해된 프로세스로부터의 잠재적인 피해를 제한합니다.
 
-이 **통신이 작동하는 방식** 및 **취약할 수 있는 방법**에 대한 자세한 정보는 확인하세요:
+이 **통신이 작동하는 방식** 및 **취약할 수 있는 방법**에 대한 자세한 정보는 다음을 확인하십시오:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/" %}
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)
@@ -855,9 +869,9 @@ XPC는 macOS 및 iOS에서 사용되는 XNU(커널) Inter-Process Communication�
 
 ## MIG - Mach Interface Generator
 
-MIG는 Mach IPC 코드 생성 과정을 간소화하기 위해 만들어졌습니다. 주어진 정의에 따라 서버와 클라이언트가 통신할 수 있도록 필요한 코드를 생성합니다. 생성된 코드가 어색하더라도, 개발자는 그것을 가져와서 이전보다 훨씬 간단한 코드를 작성할 수 있습니다.
+MIG는 Mach IPC 코드 생성 과정을 **간소화**하기 위해 만들어졌습니다. 기본적으로 주어진 정의로 서버와 클라이언트가 통신할 수 있도록 **필요한 코드를 생성**합니다. 생성된 코드가 어색하더라도, 개발자는 그것을 가져와서 그 코드가 이전보다 훨씬 간단해질 것입니다.
 
-자세한 정보는 확인하세요:
+자세한 정보는 다음을 확인하십시오:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-mig-mach-interface-generator.md" %}
 [macos-mig-mach-interface-generator.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-mig-mach-interface-generator.md)
@@ -870,17 +884,3 @@ MIG는 Mach IPC 코드 생성 과정을 간소화하기 위해 만들어졌습�
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
-
-<details>
-
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배우세요</summary>
-
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 요령을 공유**하세요.
-
-</details>
