@@ -24,11 +24,11 @@ Imaginez un serveur qui **signe** des **données** en **ajoutant** un **secret**
 * Habituellement, un padding par défaut est utilisé, donc si les 3 autres conditions sont remplies, celui-ci l'est également
 * Le padding varie en fonction de la longueur du secret+des données, c'est pourquoi la longueur du secret est nécessaire
 
-Alors, il est possible pour un **attaquant** d'**ajouter** des **données** et de **générer** une **signature** valide pour les **données précédentes + données ajoutées**.
+Alors, il est possible pour un **attaquant** d'**ajouter** des **données** et de **générer** une **signature** valide pour les **données précédentes + les données ajoutées**.
 
 ## Comment ?
 
-Essentiellement, les algorithmes vulnérables génèrent les hachages en hachant d'abord un bloc de données, puis, à partir du **hachage précédemment** créé (état), ils **ajoutent le bloc de données suivant** et le **hachent**.
+Essentiellement, les algorithmes vulnérables génèrent les hachages en hachant d'abord un bloc de données, puis, à partir du hachage précédemment créé (état), ils ajoutent le bloc de données suivant et le hachent.
 
 Ensuite, imaginez que le secret est "secret" et les données sont "data", le MD5 de "secretdata" est 6036708eba0d11f6ef52ad44e8b74d5b.\
 Si un attaquant souhaite ajouter la chaîne "append", il peut :
@@ -42,7 +42,7 @@ Si un attaquant souhaite ajouter la chaîne "append", il peut :
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-# Références
+## Références
 
 Vous pouvez trouver cette attaque bien expliquée dans [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 

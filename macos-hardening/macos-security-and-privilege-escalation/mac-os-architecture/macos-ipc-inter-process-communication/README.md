@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
 - Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 - Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 - Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 - **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
@@ -22,7 +22,7 @@ Mach utilise des **tâches** comme **unité la plus petite** pour le partage de 
 
 La communication entre les tâches se fait via la Communication Inter-Processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. **Les messages sont transférés entre les ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
 
-Chaque processus a une **table IPC**, où il est possible de trouver les **ports Mach du processus**. Le nom d'un port Mach est en réalité un nombre (un pointeur vers l'objet du noyau).
+Chaque processus a une **table IPC**, où il est possible de trouver les **ports Mach du processus**. Le nom d'un port Mach est en fait un nombre (un pointeur vers l'objet du noyau).
 
 Un processus peut également envoyer un nom de port avec certains droits **à une tâche différente** et le noyau fera apparaître cette entrée dans la **table IPC de l'autre tâche**.
 
@@ -30,15 +30,15 @@ Un processus peut également envoyer un nom de port avec certains droits **à un
 
 Les droits de port, qui définissent les opérations qu'une tâche peut effectuer, sont essentiels pour cette communication. Les **droits de port possibles** sont ([définitions d'ici](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)) :
 
-- Le **droit de réception**, qui permet de recevoir des messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiproducteur, monoclient), ce qui signifie qu'il ne peut y avoir qu'**un seul droit de réception pour chaque port** dans tout le système (contrairement aux tubes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un tube).
+- Le **droit de réception**, qui permet de recevoir des messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiproducteur, monocommunicateur), ce qui signifie qu'il ne peut y avoir qu'**un seul droit de réception pour chaque port** dans tout le système (contrairement aux tubes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un tube).
 - Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, lui permettant d'envoyer des messages. À l'origine, seule la **tâche elle-même a le droit de réception sur son port**.
 - Le **droit d'envoi**, qui permet d'envoyer des messages au port.
 - Le droit d'envoi peut être **cloné** afin qu'une tâche possédant un droit d'envoi puisse cloner le droit et **le donner à une troisième tâche**.
 - Le **droit d'envoi unique**, qui permet d'envoyer un message au port puis disparaît.
-- Le **droit de jeu de ports**, qui indique un _jeu de ports_ plutôt qu'un seul port. Défiler un message d'un jeu de ports défile un message d'un des ports qu'il contient. Les jeux de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
-- **Nom mort**, qui n'est pas un droit de port réel, mais simplement un espace réservé. Lorsqu'un port est détruit, tous les droits de port existants sur le port deviennent des noms morts.
+- Le **droit de jeu de ports**, qui indique un _jeu de ports_ plutôt qu'un seul port. Défiler un message d'un jeu de ports défile un message de l'un des ports qu'il contient. Les jeux de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
+- **Nom mort**, qui n'est pas un droit de port réel, mais simplement un espace réservé. Lorsqu'un port est détruit, tous les droits de port existants sur le port se transforment en noms morts.
 
-**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche puisse dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire appelé le **serveur d'amorçage**, permet une communication efficace entre les tâches.
+**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche puisse dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire connu sous le nom de **serveur d'amorçage**, permet une communication efficace entre les tâches.
 
 ### Ports de fichiers
 
@@ -61,7 +61,7 @@ Le serveur d'amorçage **ne peut pas authentifier** le nom de service revendiqu�
 
 Ensuite, Apple stocke les **noms des services fournis par le système** dans des fichiers de configuration sécurisés, situés dans des répertoires protégés par SIP : `/System/Library/LaunchDaemons` et `/System/Library/LaunchAgents`. Aux côtés de chaque nom de service, le **binaire associé est également stocké**. Le serveur d'amorçage, créera et détiendra un **droit de RÉCEPTION pour chacun de ces noms de service**.
 
-Pour ces services prédéfinis, le **processus de recherche diffère légèrement**. Lorsqu'un nom de service est recherché, launchd démarre le service de manière dynamique. Le nouveau flux de travail est le suivant :
+Pour ces services prédéfinis, le **processus de recherche diffère légèrement**. Lorsqu'un nom de service est recherché, launchd démarre le service dynamiquement. Le nouveau flux de travail est le suivant :
 
 - La tâche **B** initie une **recherche d'amorçage** pour un nom de service.
 - **launchd** vérifie si la tâche est en cours d'exécution et si ce n'est pas le cas, la **démarre**.
@@ -113,7 +113,7 @@ Vous pouvez installer cet outil sur iOS en le téléchargeant depuis [http://new
 
 ### Exemple de code
 
-Notez comment l'**expéditeur** alloue un port, crée un **droit d'envoi** pour le nom `org.darlinghq.example` et l'envoie au **serveur de démarrage** tandis que l'expéditeur demande le **droit d'envoi** de ce nom et l'utilise pour **envoyer un message**.
+Notez comment l'**expéditeur** **alloue** un port, crée un **droit d'envoi** pour le nom `org.darlinghq.example` et l'envoie au **serveur de démarrage** tandis que l'expéditeur demande le **droit d'envoi** de ce nom et l'utilise pour **envoyer un message**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -184,7 +184,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% onglet title = "sender.c" %}
+{% onglet title="sender.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -242,15 +242,15 @@ printf("Sent a message\n");
 ### Ports Privilégiés
 
 * **Port hôte**: Si un processus a le privilège **Envoyer** sur ce port, il peut obtenir des **informations** sur le **système** (par exemple, `host_processor_info`).
-* **Port de privilège hôte**: Un processus avec le droit **Envoyer** sur ce port peut effectuer des **actions privilégiées** comme charger une extension de noyau. Le **processus doit être root** pour obtenir cette permission.
+* **Port hôte privilégié**: Un processus avec le droit d'**Envoyer** sur ce port peut effectuer des **actions privilégiées** comme charger une extension de noyau. Le **processus doit être root** pour obtenir cette permission.
 * De plus, pour appeler l'API **`kext_request`**, il est nécessaire d'avoir d'autres autorisations **`com.apple.private.kext*`** qui ne sont données qu'aux binaires Apple.
 * **Port de nom de tâche**: Une version non privilégiée du _port de tâche_. Il fait référence à la tâche, mais ne permet pas de la contrôler. La seule chose qui semble être disponible à travers lui est `task_info()`.
-* **Port de tâche** (alias port noyau)**:** Avec la permission d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture en mémoire, création de threads...).
+* **Port de tâche** (alias port de noyau)**:** Avec la permission d'Envoyer sur ce port, il est possible de contrôler la tâche (lecture/écriture en mémoire, création de threads...).
 * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse d'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en faisant un `fork()`.
-* Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
+* Voici les restrictions d'accès au port (de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
 * Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus du **même utilisateur peuvent accéder au port de tâche** (communément ajouté par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
 * Les applications avec l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
-* **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non d'Apple).
+* **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
 
 ### Injection de code shell dans un thread via le port de tâche
 
@@ -292,29 +292,9 @@ return 0;
 
 {% tab title="entitlements.plist" %} 
 
-### macOS IPC (Inter-Process Communication)
+### Autorisations
 
-#### Mach Messages
-
-Mach messages are the fundamental inter-process communication (IPC) mechanism in macOS. Processes can send messages to each other using Mach ports. Understanding how Mach messages work is crucial for privilege escalation and persistence techniques on macOS.
-
-#### XPC Services
-
-XPC Services are a type of service that allows you to create separate processes for performing specific tasks. They are commonly used for privilege separation and sandboxing in macOS applications. Understanding how XPC Services work is essential for macOS security research and exploitation.
-
-#### Distributed Objects
-
-Distributed Objects is another IPC mechanism in macOS that allows objects to be passed between processes. It is commonly used in macOS applications for communication between different components. Understanding how Distributed Objects work is important for analyzing and exploiting macOS applications.
-
-#### NSXPCConnection
-
-NSXPCConnection is a high-level API in macOS that simplifies the use of XPC Services for inter-process communication. It provides a convenient way to establish connections between processes and exchange messages securely. Understanding how NSXPCConnection works is crucial for developing secure macOS applications.
-
-#### Conclusion
-
-macOS provides various IPC mechanisms for inter-process communication, each with its own characteristics and use cases. Understanding these mechanisms is essential for macOS security researchers, developers, and hackers to analyze and exploit macOS applications effectively. 
-
-{% endtab %}
+Les autorisations sont des mécanismes de sécurité utilisés par macOS pour déterminer les actions qu'une application est autorisée à effectuer. Les autorisations sont définies dans le fichier `entitlements.plist` d'une application et contrôlent les privilèges de l'application pour accéder à certaines ressources système ou effectuer des opérations sensibles. Il est essentiel de comprendre et de gérer correctement les autorisations pour renforcer la sécurité de macOS.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -327,7 +307,7 @@ macOS provides various IPC mechanisms for inter-process communication, each with
 {% endtab %}
 {% endtabs %}
 
-**Compilez** le programme précédent et ajoutez les **droits** nécessaires pour pouvoir injecter du code avec le même utilisateur (sinon vous devrez utiliser **sudo**).
+**Compiler** le programme précédent et ajoutez les **autorisations** nécessaires pour pouvoir injecter du code avec le même utilisateur (sinon vous devrez utiliser **sudo**).
 
 <details>
 
@@ -535,7 +515,7 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ```
 ### Injection de dylib dans un thread via le port de tâche
 
-Sur macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant l'API **posix `pthread`**. Le thread que nous avons généré dans l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
+Sur macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant **l'API posix `pthread`**. Le thread que nous avons généré dans l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
 
 Il était possible d'**injecter un simple shellcode** pour exécuter une commande car cela **n'avait pas besoin de fonctionner avec des APIs conformes à posix**, seulement avec Mach. Les **injections plus complexes** nécessiteraient que le **thread** soit également **conforme à posix**.
 
@@ -838,9 +818,9 @@ Dans cette technique, un thread du processus est détourné :
 
 ### Informations de base
 
-XPC, qui signifie XNU (le noyau utilisé par macOS) Inter-Process Communication, est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** sur le système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
+XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** sur le système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications à privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
 
-Pour plus d'informations sur le fonctionnement de cette **communication** et sur la manière dont elle **pourrait être vulnérable**, consultez :
+Pour plus d'informations sur le fonctionnement de cette **communication** et sur la façon dont elle **pourrait être vulnérable**, consultez :
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/" %}
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -32,18 +32,18 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 Imaginez un serveur qui **signe** des **données** en **ajoutant** un **secret** à des données en clair connues, puis en hachant ces données. Si vous connaissez :
 
-* **La longueur du secret** (cela peut également être obtenu par force brute dans une plage de longueurs donnée)
+* **La longueur du secret** (cela peut également être obtenu par force brute dans une plage de longueurs données)
 * **Les données en clair**
 * **L'algorithme (et s'il est vulnérable à cette attaque)**
 * **Le padding est connu**
 * Habituellement, un padding par défaut est utilisé, donc si les 3 autres conditions sont remplies, celui-ci l'est aussi
-* Le padding varie en fonction de la longueur du secret + des données, c'est pourquoi la longueur du secret est nécessaire
+* Le padding varie en fonction de la longueur du secret+des données, c'est pourquoi la longueur du secret est nécessaire
 
-Alors, il est possible pour un **attaquant** d'**ajouter** des **données** et de **générer** une signature valide pour les **données précédentes + les données ajoutées**.
+Alors, il est possible pour un **attaquant** d'**ajouter** des **données** et de **générer** une **signature** valide pour les **données précédentes + données ajoutées**.
 
 ### Comment ?
 
-Essentiellement, les algorithmes vulnérables génèrent les hachages en hachant d'abord un bloc de données, puis, à partir du **hash** créé **précédemment** (état), ils **ajoutent le bloc de données suivant** et le **hachent**.
+Essentiellement, les algorithmes vulnérables génèrent les hachages en hachant d'abord un bloc de données, puis, à partir du **hash** précédemment créé (état), ils **ajoutent le bloc de données suivant** et le **hachent**.
 
 Ensuite, imaginez que le secret est "secret" et les données sont "data", le MD5 de "secretdata" est 6036708eba0d11f6ef52ad44e8b74d5b.\
 Si un attaquant souhaite ajouter la chaîne "append", il peut :
@@ -75,7 +75,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
