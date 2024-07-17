@@ -22,13 +22,13 @@
 * **算法（及其容易受到此攻击）**
 * **填充是已知的**
 * 通常会使用默认填充，因此如果满足其他3个要求，这也是可以的
-* 填充取决于秘密+数据的长度，因此需要知道秘密的长度
+* 填充取决于秘密+数据的长度，这就是为什么需要秘密的长度
 
 那么，攻击者可以**附加** **数据**并为**先前数据+附加数据**生成有效的**签名**。
 
 ## 如何实现？
 
-基本上，易受攻击的算法首先通过**对数据块进行哈希处理**生成哈希，然后，**从**先前创建的**哈希**（状态）开始，它们**添加下一个数据块**并**对其进行哈希处理**。
+基本上，易受攻击的算法首先通过**哈希一个数据块**生成哈希，然后，**从**先前创建的**哈希**（状态）开始，它们**添加下一个数据块**并**对其进行哈希**。
 
 然后，想象秘密是"secret"，数据是"data"，"secretdata"的MD5是6036708eba0d11f6ef52ad44e8b74d5b。\
 如果攻击者想要附加字符串"append"，他可以：
@@ -36,15 +36,16 @@
 * 生成64个"A"的MD5
 * 将先前初始化的哈希状态更改为6036708eba0d11f6ef52ad44e8b74d5b
 * 附加字符串"append"
-* 完成哈希处理，生成的哈希将是**对"secret" + "data" + "填充" + "append"**的有效哈希**
+* 完成哈希，生成的哈希将是**对"secret" + "data" + "填充" + "append"**的有效哈希
 
 ## **工具**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-# 参考资料
+## 参考资料
 
-您可以在[https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)中找到对此攻击的很好解释。
+您可以在[https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)中找到对这种攻击的很好解释
+
 
 <details>
 
