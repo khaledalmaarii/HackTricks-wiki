@@ -6,7 +6,7 @@
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -30,7 +30,7 @@ Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
 ## Opsomming van die aanval
 
-Stel jou voor 'n bediener wat **data** **onderteken** deur 'n **geheim** by 'n bekende teksdata te **voeg** en dan daardie data te has. As jy weet:
+Stel jou 'n bediener voor wat **data** **onderteken** deur 'n **geheim** by 'n bekende teksdata te **voeg** en dan daardie data te has. As jy weet:
 
 * **Die lengte van die geheim** (dit kan ook afgedwing word vanaf 'n gegewe lengte-reeks)
 * **Die teksdata**
@@ -46,7 +46,7 @@ Dan is dit moontlik vir 'n **aanvaller** om **data** by te **voeg** en 'n geldig
 Basies genereer die vatbare algoritmes die hasse deur eerstens 'n blok data te has, en dan, **van** die **voorheen** geskepte **has** (toestand), voeg hulle die volgende blok data by en has dit.
 
 Stel jou voor dat die geheim "geheim" is en die data "data" is, die MD5 van "geheimdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-As 'n aanvaller die string "byvoeg" wil byvoeg kan hy:
+As 'n aanvaller die string "byvoeg" wil byvoeg, kan hy:
 
 * Genereer 'n MD5 van 64 "A"s
 * Verander die toestand van die voorheen geïnisialiseerde has na 6036708eba0d11f6ef52ad44e8b74d5b
@@ -79,7 +79,7 @@ Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
 Ander maniere om HackTricks te ondersteun:
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
+* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
 * Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
