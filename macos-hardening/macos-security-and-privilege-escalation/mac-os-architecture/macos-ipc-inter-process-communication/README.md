@@ -4,10 +4,10 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
@@ -18,7 +18,7 @@ Outras formas de apoiar o HackTricks:
 
 ### Informações Básicas
 
-O Mach utiliza **tarefas** como a **unidade mais pequena** para compartilhar recursos, e cada tarefa pode conter **múltiplas threads**. Essas **tarefas e threads são mapeadas em uma relação 1:1 com processos e threads POSIX**.
+O Mach usa **tarefas** como a **unidade mais pequena** para compartilhar recursos, e cada tarefa pode conter **múltiplas threads**. Essas **tarefas e threads são mapeadas em um para um com processos e threads POSIX**.
 
 A comunicação entre tarefas ocorre via Comunicação entre Processos Mach (IPC), utilizando canais de comunicação unidirecional. **As mensagens são transferidas entre portas**, que funcionam como **filas de mensagens** gerenciadas pelo kernel.
 
@@ -30,7 +30,7 @@ Um processo também pode enviar um nome de porta com alguns direitos **para uma 
 
 Os direitos de porta, que definem quais operações uma tarefa pode realizar, são essenciais para essa comunicação. Os possíveis **direitos de porta** são ([definições daqui](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Direito de Receber**, que permite receber mensagens enviadas para a porta. As portas Mach são filas MPSC (múltiplos produtores, um consumidor), o que significa que pode haver apenas **um direito de receber para cada porta** em todo o sistema (ao contrário de pipes, onde vários processos podem ter descritores de arquivo para a extremidade de leitura de um pipe).
+* **Direito de Receber**, que permite receber mensagens enviadas para a porta. As portas Mach são filas MPSC (múltiplos produtores, único consumidor), o que significa que pode haver apenas **um direito de receber para cada porta** em todo o sistema (ao contrário de pipes, onde vários processos podem todos ter descritores de arquivo para a extremidade de leitura de um pipe).
 * Uma **tarefa com o Direito de Receber** pode receber mensagens e **criar Direitos de Envio**, permitindo enviar mensagens. Originalmente, apenas a **própria tarefa tem o Direito de Receber sobre sua porta**.
 * **Direito de Envio**, que permite enviar mensagens para a porta.
 * O Direito de Envio pode ser **clonado** para que uma tarefa que possui um Direito de Envio possa clonar o direito e **concedê-lo a uma terceira tarefa**.
@@ -38,7 +38,7 @@ Os direitos de porta, que definem quais operações uma tarefa pode realizar, s�
 * **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Os conjuntos de portas podem ser usados para escutar várias portas simultaneamente, muito parecido com `select`/`poll`/`epoll`/`kqueue` no Unix.
 * **Nome morto**, que não é um direito de porta real, mas apenas um espaço reservado. Quando uma porta é destruída, todos os direitos de porta existentes para a porta se tornam nomes mortos.
 
-**As tarefas podem transferir DIREITOS DE ENVIO para outras**, permitindo que elas enviem mensagens de volta. **Os DIREITOS DE ENVIO também podem ser clonados, para que uma tarefa possa duplicar e dar o direito a uma terceira tarefa**. Isso, combinado com um processo intermediário conhecido como **servidor de inicialização**, permite uma comunicação eficaz entre tarefas.
+**As tarefas podem transferir DIREITOS DE ENVIO para outros**, permitindo-lhes enviar mensagens de volta. **Os DIREITOS DE ENVIO também podem ser clonados, para que uma tarefa possa duplicar e dar o direito a uma terceira tarefa**. Isso, combinado com um processo intermediário conhecido como o **servidor de inicialização**, permite uma comunicação eficaz entre tarefas.
 
 ### Portas de Arquivo
 
@@ -48,34 +48,34 @@ Portas de arquivo permitem encapsular descritores de arquivo em portas Mac (usan
 
 #### Etapas:
 
-Como mencionado, para estabelecer o canal de comunicação, o **servidor de inicialização** (**launchd** no Mac) está envolvido.
+Como mencionado, para estabelecer o canal de comunicação, o **servidor de inicialização** (**launchd** no mac) está envolvido.
 
 1. A Tarefa **A** inicia uma **nova porta**, obtendo um **direito de RECEBER** no processo.
 2. A Tarefa **A**, sendo a detentora do direito de RECEBER, **gera um direito de ENVIO para a porta**.
 3. A Tarefa **A** estabelece uma **conexão** com o **servidor de inicialização**, fornecendo o **nome do serviço da porta** e o **direito de ENVIO** por meio de um procedimento conhecido como registro de inicialização.
 4. A Tarefa **B** interage com o **servidor de inicialização** para executar uma **busca de inicialização para o nome do serviço**. Se bem-sucedido, o **servidor duplica o direito de ENVIO** recebido da Tarefa A e **transmite para a Tarefa B**.
 5. Ao adquirir um direito de ENVIO, a Tarefa **B** é capaz de **formular** uma **mensagem** e enviá-la **para a Tarefa A**.
-6. Para uma comunicação bidirecional, geralmente a tarefa **B** gera uma nova porta com um **direito de RECEBER** e um **direito de ENVIO**, e dá o **direito de ENVIO para a Tarefa A** para que ela possa enviar mensagens para a Tarefa B (comunicação bidirecional).
+6. Para uma comunicação bidirecional, geralmente a tarefa **B** gera uma nova porta com um **direito de RECEBER** e um **direito de ENVIO**, e dá o **direito de ENVIO para a Tarefa A** para que ela possa enviar mensagens para a TAREFA B (comunicação bidirecional).
 
 O servidor de inicialização **não pode autenticar** o nome do serviço reivindicado por uma tarefa. Isso significa que uma **tarefa** poderia potencialmente **fingir ser qualquer tarefa do sistema**, como reivindicar falsamente um nome de serviço de autorização e então aprovar cada solicitação.
 
-Então, a Apple armazena os **nomes dos serviços fornecidos pelo sistema** em arquivos de configuração seguros, localizados em diretórios protegidos pelo SIP: `/System/Library/LaunchDaemons` e `/System/Library/LaunchAgents`. Ao lado de cada nome de serviço, o **binário associado também é armazenado**. O servidor de inicialização criará e manterá um **direito de RECEBER para cada um desses nomes de serviço**.
+Então, a Apple armazena os **nomes dos serviços fornecidos pelo sistema** em arquivos de configuração seguros, localizados em diretórios protegidos pelo SIP: `/System/Library/LaunchDaemons` e `/System/Library/LaunchAgents`. Ao lado de cada nome de serviço, o **binário associado também é armazenado**. O servidor de inicialização, criará e manterá um **direito de RECEBER para cada um desses nomes de serviço**.
 
 Para esses serviços predefinidos, o **processo de busca difere ligeiramente**. Quando um nome de serviço está sendo procurado, o launchd inicia o serviço dinamicamente. O novo fluxo de trabalho é o seguinte:
 
 * A Tarefa **B** inicia uma **busca de inicialização** para um nome de serviço.
-* O **launchd** verifica se a tarefa está em execução e, se não estiver, a **inicia**.
-* A Tarefa **A** (o serviço) executa um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o retém e **transfere o direito de RECEBER para a Tarefa A**.
-* O launchd duplica o **direito de ENVIO e envia para a Tarefa B**.
-* A Tarefa **B** gera uma nova porta com um **direito de RECEBER** e um **direito de ENVIO**, e dá o **direito de ENVIO para a Tarefa A** (o svc) para que ela possa enviar mensagens para a Tarefa B (comunicação bidirecional).
+* **launchd** verifica se a tarefa está em execução e, se não estiver, a **inicia**.
+* A Tarefa **A** (o serviço) realiza um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o mantém e **transfere o direito de RECEBER para a Tarefa A**.
+* launchd duplica o **direito de ENVIO e envia para a Tarefa B**.
+* A Tarefa **B** gera uma nova porta com um **direito de RECEBER** e um **direito de ENVIO**, e dá o **direito de ENVIO para a Tarefa A** (o svc) para que ela possa enviar mensagens para a TAREFA B (comunicação bidirecional).
 
-No entanto, esse processo se aplica apenas a tarefas de sistema predefinidas. Tarefas não pertencentes ao sistema ainda operam conforme descrito originalmente, o que poderia potencialmente permitir a falsificação.
+No entanto, esse processo se aplica apenas a tarefas de sistema predefinidas. Tarefas não do sistema ainda operam conforme descrito originalmente, o que poderia potencialmente permitir a falsificação.
 
 ### Uma Mensagem Mach
 
 [Encontre mais informações aqui](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-A função `mach_msg`, essencialmente uma chamada de sistema, é utilizada para enviar e receber mensagens Mach. A função requer que a mensagem seja enviada como argumento inicial. Esta mensagem deve começar com uma estrutura `mach_msg_header_t`, seguida pelo conteúdo da mensagem real. A estrutura é definida da seguinte forma:
+A função `mach_msg`, essencialmente uma chamada de sistema, é utilizada para enviar e receber mensagens Mach. A função requer que a mensagem seja enviada como argumento inicial. Esta mensagem deve começar com uma estrutura `mach_msg_header_t`, seguida pelo conteúdo da mensagem. A estrutura é definida da seguinte forma:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -88,10 +88,10 @@ mach_msg_id_t                 msgh_id;
 ```
 Os processos que possuem um _**direito de recebimento**_ podem receber mensagens em uma porta Mach. Por outro lado, os **remetentes** recebem um _**direito de envio**_ ou um _**direito de envio único**_. O direito de envio único é exclusivamente para enviar uma única mensagem, após o que se torna inválido.
 
-Para alcançar uma **comunicação bidirecional** fácil, um processo pode especificar uma **porta mach** no cabeçalho da mensagem mach chamada _porta de resposta_ (**`msgh_local_port`**) onde o **receptor** da mensagem pode **enviar uma resposta** a essa mensagem. Os bits de sinalização em **`msgh_bits`** podem ser usados para **indicar** que um **direito de envio único** deve ser derivado e transferido para esta porta (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+Para alcançar uma **comunicação bidirecional** fácil, um processo pode especificar uma **porta mach** no **cabeçalho da mensagem** mach chamada _porta de resposta_ (**`msgh_local_port`**) onde o **receptor** da mensagem pode **enviar uma resposta** a essa mensagem. Os bits de sinalização em **`msgh_bits`** podem ser usados para **indicar** que um **direito de envio único** deve ser derivado e transferido para esta porta (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
 
 {% hint style="success" %}
-Observe que esse tipo de comunicação bidirecional é usado em mensagens XPC que esperam uma resposta (`xpc_connection_send_message_with_reply` e `xpc_connection_send_message_with_reply_sync`). Mas **geralmente são criadas portas diferentes** como explicado anteriormente para criar a comunicação bidirecional.
+Note que esse tipo de comunicação bidirecional é usado em mensagens XPC que esperam uma resposta (`xpc_connection_send_message_with_reply` e `xpc_connection_send_message_with_reply_sync`). Mas **geralmente são criadas portas diferentes** como explicado anteriormente para criar a comunicação bidirecional.
 {% endhint %}
 
 Os outros campos do cabeçalho da mensagem são:
@@ -102,7 +102,7 @@ Os outros campos do cabeçalho da mensagem são:
 - `msgh_id`: o ID desta mensagem, que é interpretado pelo receptor.
 
 {% hint style="danger" %}
-Observe que **as mensagens mach são enviadas por uma porta mach**, que é um canal de comunicação de **um único receptor**, **múltiplos remetentes** integrado ao kernel mach. **Múltiplos processos** podem **enviar mensagens** para uma porta mach, mas em qualquer momento apenas **um único processo pode ler** dela.
+Note que **mensagens mach são enviadas por uma porta mach**, que é um canal de comunicação de **um único receptor**, **múltiplos remetentes** integrado ao kernel mach. **Múltiplos processos** podem **enviar mensagens** para uma porta mach, mas em qualquer momento apenas **um único processo pode ler** dela.
 {% endhint %}
 
 ### Enumerar portas
@@ -185,30 +185,6 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 {% endtab %}
 
 {% tab title="sender.c" %}
-
-## macOS IPC - Comunicação entre Processos
-
-### Introdução
-
-A Comunicação entre Processos (IPC) é um mecanismo essencial para que os processos possam trocar informações e coordenar suas atividades em um sistema operacional. No macOS, existem várias formas de IPC disponíveis, como notificações por push, Apple Events, XPC e IPC baseado em porta.
-
-### Apple Events
-
-Os Apple Events são uma forma de IPC usada para automatizar aplicativos no macOS. Eles permitem que um aplicativo envie comandos e dados para outro aplicativo, possibilitando a automação de tarefas e a integração entre diferentes aplicativos.
-
-### XPC
-
-O XPC é um framework de IPC leve e seguro fornecido pela Apple. Ele permite que os aplicativos dividam tarefas em processos separados, melhorando a estabilidade e segurança do sistema.
-
-### IPC baseado em porta
-
-O IPC baseado em porta é uma forma de comunicação entre processos que utiliza portas para enviar mensagens entre processos. No macOS, o IPC baseado em porta é implementado pelo Mach IPC, que é a base para muitos outros mecanismos de IPC no sistema.
-
-### Conclusão
-
-Compreender os diferentes mecanismos de IPC disponíveis no macOS é essencial para desenvolver aplicativos seguros e eficientes. Cada forma de IPC tem suas próprias vantagens e limitações, e a escolha do mecanismo adequado depende dos requisitos específicos de cada aplicativo.
-
-{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -260,20 +236,17 @@ return 1;
 printf("Sent a message\n");
 }
 ```
-{% endtab %}
-{% endtabs %}
-
 ### Portas Privilegiadas
 
-- **Porta do host**: Se um processo tem **privilégio de Envio** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
-- **Porta de privilégio do host**: Um processo com direito de **Envio** sobre esta porta pode realizar **ações privilegiadas** como carregar uma extensão de kernel. O **processo precisa ser root** para obter essa permissão.
-- Além disso, para chamar a API **`kext_request`**, é necessário ter outros privilégios **`com.apple.private.kext*`**, que são concedidos apenas a binários da Apple.
-- **Porta do nome da tarefa**: Uma versão não privilegiada da _porta da tarefa_. Ela faz referência à tarefa, mas não permite controlá-la. A única coisa aparentemente disponível por meio dela é `task_info()`.
+- **Porta do host**: Se um processo tem o privilégio de **Enviar** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
+- **Porta de privilégio do host**: Um processo com direito de **Enviar** sobre esta porta pode realizar **ações privilegiadas** como carregar uma extensão de kernel. O **processo precisa ser root** para obter essa permissão.
+- Além disso, para chamar a API **`kext_request`**, é necessário ter outras autorizações **`com.apple.private.kext*`** que são concedidas apenas a binários da Apple.
+- **Porta do nome da tarefa**: Uma versão não privilegiada da _porta da tarefa_. Ela faz referência à tarefa, mas não permite controlá-la. A única coisa que parece estar disponível por meio dela é `task_info()`.
 - **Porta da tarefa** (também conhecida como porta do kernel)**:** Com permissão de Envio sobre esta porta, é possível controlar a tarefa (ler/escrever memória, criar threads...).
-- Chame `mach_task_self()` para **obter o nome** desta porta para a tarefa do chamador. Esta porta é apenas **herdada** através de **`exec()`**; uma nova tarefa criada com `fork()` obtém uma nova porta de tarefa (como caso especial, uma tarefa também obtém uma nova porta de tarefa após `exec()` em um binário suid). A única maneira de iniciar uma tarefa e obter sua porta é realizar a ["dança de troca de porta"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) enquanto faz um `fork()`.
+- Chame `mach_task_self()` para **obter o nome** desta porta para a tarefa chamadora. Esta porta é apenas **herdada** através do **`exec()`**; uma nova tarefa criada com `fork()` obtém uma nova porta de tarefa (como caso especial, uma tarefa também obtém uma nova porta de tarefa após `exec()` em um binário suid). A única maneira de iniciar uma tarefa e obter sua porta é realizar a ["dança de troca de portas"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) enquanto faz um `fork()`.
 - Estas são as restrições para acessar a porta (do `macos_task_policy` do binário `AppleMobileFileIntegrity`):
-  - Se o aplicativo tiver o privilégio **`com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
-  - Aplicativos com o privilégio **`com.apple.system-task-ports`** podem obter a **porta da tarefa de qualquer** processo, exceto o kernel. Em versões mais antigas, era chamado de **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
+  - Se o aplicativo tiver a **autorização `com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
+  - Aplicativos com a autorização **`com.apple.system-task-ports`** podem obter a **porta da tarefa de qualquer** processo, exceto o kernel. Em versões mais antigas, era chamado de **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
   - **Root pode acessar portas de tarefas** de aplicativos **não** compilados com um tempo de execução **fortificado** (e não da Apple).
 
 ### Injeção de Shellcode em thread via Porta da Tarefa
@@ -283,6 +256,9 @@ Você pode obter um shellcode em:
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
 {% endcontent-ref %}
+
+{% tabs %}
+{% tab title="mysleep.m" %}
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
@@ -320,27 +296,27 @@ return 0;
 
 ### Introdução
 
-A Comunicação entre Processos (IPC) é um mecanismo essencial para que os processos em um sistema operacional possam interagir entre si. No macOS, existem várias formas de IPC, como notificações por push, Apple Events, XPC e IPC baseado em porta.
+A Comunicação entre Processos (IPC) é um mecanismo essencial para que os processos em um sistema operacional possam interagir entre si. No macOS, existem várias formas de IPC, como notificações distribuídas, Apple Events, XPC e IPC baseado em porta.
 
-### Notificações por Push
+### Notificações Distribuídas
 
-As notificações por push são usadas para enviar informações entre processos de forma assíncrona. Isso é comumente usado em aplicativos para notificar sobre eventos ou atualizações.
+As Notificações Distribuídas permitem que os processos enviem e recebam notificações assíncronas. Isso pode ser útil para comunicação entre aplicativos ou mesmo entre diferentes partes de um mesmo aplicativo.
 
 ### Apple Events
 
-Os Apple Events são uma forma de IPC usada para automatizar tarefas entre aplicativos. Eles permitem que um aplicativo envie comandos para outro aplicativo para que ele execute ações específicas.
+Os Apple Events são uma forma de IPC que permite que os aplicativos controlem outros aplicativos e automatizem tarefas. Isso é amplamente utilizado em automação e integração de aplicativos no macOS.
 
 ### XPC
 
-O XPC (XPC Services) é um mecanismo de IPC mais seguro e eficiente introduzido no macOS. Ele permite que os aplicativos dividam tarefas em processos separados, melhorando a segurança e estabilidade do sistema.
+O XPC (XPC Services) é um mecanismo de IPC mais seguro e eficiente introduzido no macOS. Ele permite que os aplicativos dividam tarefas em processos separados, melhorando a estabilidade e segurança do sistema.
 
-### IPC baseado em porta
+### IPC baseado em Porta
 
-O IPC baseado em porta é usado para comunicação entre processos em um sistema. Cada porta tem um nome único e os processos podem enviar mensagens um para o outro através dessas portas.
+O IPC baseado em porta é outra forma de comunicação entre processos no macOS. Ele envolve a criação de portas de comunicação que os processos podem usar para trocar mensagens de forma segura e controlada.
 
 ### Conclusão
 
-Compreender os diferentes métodos de IPC no macOS é essencial para desenvolver aplicativos seguros e estáveis. Cada método tem suas próprias vantagens e casos de uso específicos, e escolher o método certo depende dos requisitos do aplicativo e do nível de segurança desejado. 
+Compreender os diferentes mecanismos de IPC no macOS é essencial para desenvolver aplicativos seguros e eficientes. Cada forma de IPC tem suas próprias vantagens e considerações de segurança, e escolher a abordagem correta é fundamental para garantir a integridade do sistema. 
 
 {% endtab %}
 ```xml
@@ -355,7 +331,7 @@ Compreender os diferentes métodos de IPC no macOS é essencial para desenvolver
 {% endtab %}
 {% endtabs %}
 
-**Compile** o programa anterior e adicione as **permissões** necessárias para poder injetar código com o mesmo usuário (caso contrário, será necessário usar **sudo**).
+**Compile** o programa anterior e adicione os **privilégios** para poder injetar código com o mesmo usuário (caso contrário, será necessário usar **sudo**).
 
 <details>
 
@@ -556,16 +532,20 @@ inject(pid);
 return 0;
 }
 ```
-</details>
+</details>  
+
+## macOS IPC (Comunicação entre Processos)
+
+A Comunicação entre Processos (IPC) é um mecanismo essencial para que os processos em um sistema operacional possam trocar informações e coordenar suas atividades. No macOS, existem várias formas de IPC, incluindo notificações por push, Apple Events, XPC e IPC baseado em porta. Cada método possui suas próprias características e casos de uso específicos. É importante entender como esses mecanismos funcionam e como podem ser utilizados de forma segura para evitar possíveis vulnerabilidades de segurança e escalonamento de privilégios.
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
 ### Injeção de Dylib em thread via porta de Tarefa
 
-No macOS, as **threads** podem ser manipuladas via **Mach** ou usando a **API posix `pthread`**. A thread gerada na injeção anterior foi gerada usando a api Mach, então **não é compatível com posix**.
+No macOS, **threads** podem ser manipulados via **Mach** ou usando **api posix `pthread`**. A thread que geramos na injeção anterior foi gerada usando a api Mach, então **não é compatível com posix**.
 
-Foi possível **injetar um shellcode simples** para executar um comando porque **não era necessário trabalhar com apis compatíveis com posix**, apenas com Mach. **Injeções mais complexas** precisariam que a **thread** também fosse **compatível com posix**.
+Foi possível **injetar um shellcode simples** para executar um comando porque **não precisava trabalhar com apis compatíveis com posix**, apenas com Mach. **Injeções mais complexas** precisariam que a **thread** também fosse **compatível com posix**.
 
 Portanto, para **melhorar a thread**, ela deve chamar **`pthread_create_from_mach_thread`** que irá **criar um pthread válido**. Em seguida, este novo pthread poderia **chamar dlopen** para **carregar uma dylib** do sistema, então em vez de escrever novo shellcode para realizar ações diferentes, é possível carregar bibliotecas personalizadas.
 
@@ -849,7 +829,11 @@ fprintf(stderr,"Dylib não encontrado\n");
 
 }
 ```
-</details>
+</details>  
+
+## macOS IPC (Comunicação entre Processos)
+
+A comunicação entre processos no macOS é facilitada por meio de vários mecanismos, como notificações por push, Apple Events, XPC e IPC baseado em porta. Esses mecanismos são usados para permitir a comunicação entre aplicativos e processos em um sistema macOS. É importante entender como esses mecanismos funcionam e como podem ser explorados por atacantes em potencial.
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
@@ -864,11 +848,11 @@ Nesta técnica, uma thread do processo é sequestrada:
 
 ## XPC
 
-### Informações Básicas
+### Informação Básica
 
-XPC, que significa Comunicação entre Processos XNU (o kernel usado pelo macOS), é um framework para **comunicação entre processos** no macOS e iOS. XPC fornece um mecanismo para fazer **chamadas de método seguras e assíncronas entre diferentes processos** no sistema. É parte do paradigma de segurança da Apple, permitindo a **criação de aplicativos com separação de privilégios** onde cada **componente** é executado com **apenas as permissões necessárias** para realizar seu trabalho, limitando assim os danos potenciais de um processo comprometido.
+XPC, que significa Comunicação entre Processos XNU (o kernel usado pelo macOS), é um framework para **comunicação entre processos** no macOS e iOS. XPC fornece um mecanismo para fazer **chamadas de método seguras e assíncronas entre diferentes processos** no sistema. É parte do paradigma de segurança da Apple, permitindo a **criação de aplicativos com separação de privilégios** onde cada **componente** é executado com **apenas as permissões necessárias** para realizar seu trabalho, limitando assim o dano potencial de um processo comprometido.
 
-Para obter mais informações sobre como essa **comunicação funciona** e como ela **pode ser vulnerável**, confira:
+Para mais informações sobre como essa **comunicação funciona** e como ela **pode ser vulnerável**, confira:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/" %}
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)
@@ -894,14 +878,14 @@ Para mais informações, confira:
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

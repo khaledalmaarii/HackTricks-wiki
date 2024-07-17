@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para** os repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -20,9 +20,9 @@ Outras maneiras de apoiar o HackTricks:
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O objetivo principal do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo de busca gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -34,7 +34,7 @@ Imagine um servidor que está **assinando** alguns **dados** ao **anexar** um **
 
 * **O comprimento do segredo** (isso também pode ser forçado por força bruta a partir de uma faixa de comprimento fornecida)
 * **Os dados de texto claro**
-* **O algoritmo (e é vulnerável a esse ataque)**
+* **O algoritmo (e que é vulnerável a esse ataque)**
 * **O preenchimento é conhecido**
 * Geralmente um padrão é usado, então se os outros 3 requisitos forem atendidos, este também é
 * O preenchimento varia dependendo do comprimento do segredo+dados, por isso o comprimento do segredo é necessário
@@ -67,9 +67,9 @@ Você pode encontrar este ataque bem explicado em [https://blog.skullsecurity.or
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O objetivo principal do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
+O principal objetivo do WhiteIntel é combater tomadas de conta e ataques de ransomware resultantes de malwares que roubam informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode verificar o site deles e experimentar o mecanismo de busca gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -79,10 +79,10 @@ Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para** os repositórios [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
