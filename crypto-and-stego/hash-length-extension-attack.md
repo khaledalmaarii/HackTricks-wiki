@@ -6,11 +6,11 @@
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys einreichen.
 
 </details>
 
@@ -22,7 +22,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
 
-Sie können ihre Website besuchen und ihren Service kostenlos ausprobieren unter:
+Sie können ihre Website besuchen und ihren Dienst **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -43,9 +43,9 @@ Dann ist es für einen **Angreifer** möglich, **Daten anzuhängen** und eine g�
 
 ### Wie?
 
-Grundsätzlich generieren die anfälligen Algorithmen die Hashes, indem sie zunächst einen Block von Daten hashen und dann **aus** dem **zuvor** erstellten **Hash** (Zustand) den **nächsten Block von Daten hinzufügen** und **diesen hashen**.
+Grundsätzlich generieren die anfälligen Algorithmen die Hashes, indem sie zunächst einen Block von Daten hashen und dann **aus** dem **zuvor** erstellten **Hash** (Zustand) den nächsten Datenblock hinzufügen und diesen hashen.
 
-Stellen Sie sich vor, das Geheimnis lautet "Geheimnis" und die Daten sind "Daten", der MD5 von "GeheimnisDaten" ist 6036708eba0d11f6ef52ad44e8b74d5b.\
+Stellen Sie sich vor, das Geheimnis lautet "Geheimnis" und die Daten sind "Daten", das MD5 von "GeheimnisDaten" ist 6036708eba0d11f6ef52ad44e8b74d5b.\
 Wenn ein Angreifer den String "anhängen" anhängen möchte, kann er:
 
 * Einen MD5 von 64 "A"s generieren
@@ -53,7 +53,7 @@ Wenn ein Angreifer den String "anhängen" anhängen möchte, kann er:
 * Den String "anhängen" anhängen
 * Den Hash abschließen und der resultierende Hash wird ein **gültiger Hash für "Geheimnis" + "Daten" + "Padding" + "anhängen"** sein
 
-### **Tool**
+### **Werkzeug**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
@@ -69,7 +69,7 @@ Sie können diesen Angriff gut erklärt finden unter [https://blog.skullsecurity
 
 Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
 
-Sie können ihre Website besuchen und ihren Service kostenlos ausprobieren unter:
+Sie können ihre Website besuchen und ihren Dienst **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -79,10 +79,10 @@ Sie können ihre Website besuchen und ihren Service kostenlos ausprobieren unter
 
 Andere Möglichkeiten, HackTricks zu unterstützen:
 
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
+* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
 * Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
 * Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys einreichen.
 
 </details>
