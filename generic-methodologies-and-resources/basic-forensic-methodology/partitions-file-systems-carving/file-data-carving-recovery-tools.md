@@ -1,18 +1,19 @@
-# ファイル/データの彫刻と回復ツール
+# ファイル/データカービングと回復ツール
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝**したい場合や **HackTricks をPDFでダウンロード**したい場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**telegramグループ**](https://t.me/peass) に **参加** または **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) を **フォロー** してください。
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリに PR を提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,19 +23,19 @@ HackTricks をサポートする他の方法:
 
 ***
 
-## 彫刻と回復ツール
+## カービングと回復ツール
 
-[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にさらに多くのツールがあります。
+さらに多くのツールは[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にあります。
 
 ### Autopsy
 
-画像からファイルを抽出するために最も一般的に使用されるツールは [**Autopsy**](https://www.autopsy.com/download/) です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけるようにします。Autopsy はディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルはサポートしていません。
+画像からファイルを抽出するためにフォレンジックで最も一般的に使用されるツールは[**Autopsy**](https://www.autopsy.com/download/)です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけます。Autopsyはディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルには対応していません。
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** はバイナリファイルを分析して埋め込まれたコンテンツを見つけるためのツールです。`apt` を介してインストール可能で、そのソースは [GitHub](https://github.com/ReFirmLabs/binwalk) にあります。
+**Binwalk**は、埋め込まれたコンテンツを見つけるためにバイナリファイルを分析するツールです。`apt`を介してインストール可能で、そのソースは[GitHub](https://github.com/ReFirmLabs/binwalk)にあります。
 
-**便利なコマンド**:
+**便利なコマンド**：
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -43,7 +44,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-もう1つの一般的な隠しファイルを見つけるためのツールは **foremost** です。 foremost の設定ファイルは `/etc/foremost.conf` にあります。特定のファイルを検索したい場合は、それらのコメントを外してください。何もコメントアウトしない場合、foremost はデフォルトで構成されたファイルタイプを検索します。
+もう一つの一般的なツールは**foremost**です。foremostの設定ファイルは`/etc/foremost.conf`にあります。特定のファイルを検索したい場合は、それらのコメントを外してください。何もコメントを外さなければ、foremostはデフォルトで設定されたファイルタイプを検索します。
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,53 +52,76 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel**は、ファイルに埋め込まれたファイルを見つけて抽出するために使用できる別のツールです。この場合、抽出したいファイルタイプを構成ファイル（_/etc/scalpel/scalpel.conf_）からコメントアウトする必要があります。
+**Scalpel**は、**ファイルに埋め込まれたファイル**を見つけて抽出するために使用できる別のツールです。この場合、抽出したいファイルタイプを設定ファイル(_/etc/scalpel/scalpel.conf_)からコメント解除する必要があります。
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-このツールはKaliに含まれていますが、こちらで見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+このツールはkaliに含まれていますが、ここで見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-このツールは画像をスキャンし、その中に含まれる**pcapsを抽出**し、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**や他の**ファイル**を取得することができます。以下の手順のみを実行する必要があります:
+このツールはイメージをスキャンし、その中にある**pcaps**を**抽出**し、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**やその他の**ファイル**を取得します。あなたがする必要があるのは:
 ```
 bulk_extractor memory.img -o out_folder
 ```
+すべての情報をナビゲートします（パスワード？）、パケットを分析します（[**Pcaps分析**](../pcap-inspection/)を読む）、奇妙なドメインを検索します（**マルウェア**や**存在しない**ドメインに関連する）。
+
 ### PhotoRec
 
-[https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download) で見つけることができます。
+[https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)で見つけることができます。
 
-GUI と CLI のバージョンがあります。PhotoRec が検索する**ファイルタイプ**を選択できます。
+GUIとCLIのバージョンがあります。PhotoRecが検索する**ファイルタイプ**を選択できます。
 
 ![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-[コード](https://code.google.com/archive/p/binvis/) と [web ページツール](https://binvis.io/#/) をチェックしてください。
+[コード](https://code.google.com/archive/p/binvis/)と[ウェブページツール](https://binvis.io/#/)を確認してください。
 
-#### BinVis の特徴
+#### BinVisの特徴
 
-- ビジュアルでアクティブな**構造ビューア**
-- 異なる焦点点のための複数のプロット
-- サンプルの一部に焦点を当てる
-- PE や ELF 実行可能ファイル内の**文字列やリソース**を見る
-- ファイルの暗号解読のための**パターン**を取得
-- パッカーやエンコーダーアルゴリズムを**見つける**
-- パターンによるステガノグラフィを**特定する**
-- **ビジュアル**バイナリ差分
+* 視覚的でアクティブな**構造ビューワー**
+* 異なる焦点のための複数のプロット
+* サンプルの一部に焦点を当てる
+* PEまたはELF実行可能ファイルの**文字列とリソース**を見る
+* ファイルの暗号解析のための**パターン**を取得
+* パッカーまたはエンコーダアルゴリズムを**特定**
+* パターンによるステガノグラフィの**識別**
+* **視覚的**なバイナリ差分
 
-BinVis は、ブラックボックスシナリオで未知のターゲットに慣れるための素晴らしい**スタートポイント**です。
+BinVisは、ブラックボックスシナリオで未知のターゲットに慣れるための素晴らしい**出発点**です。
 
 ## 特定のデータカービングツール
 
 ### FindAES
 
-TrueCrypt や BitLocker で使用されるような 128、192、256 ビットの鍵を見つけるために、鍵スケジュールを検索することで AES 鍵を検索します。
+キーのスケジュールを検索することによってAESキーを検索します。TrueCryptやBitLockerで使用される128、192、256ビットのキーを見つけることができます。
 
-[こちらからダウンロード](https://sourceforge.net/projects/findaes/)できます。
+[こちらからダウンロード](https://sourceforge.net/projects/findaes/)。
 
-## 補足ツール
+## 補完ツール
 
-画像を端末から見るために [**viu** ](https://github.com/atanunq/viu)を使用できます。\
-Linux コマンドラインツール **pdftotext** を使用して、pdf をテキストに変換して読むことができます。
+[**viu**](https://github.com/atanunq/viu)を使用してターミナルから画像を見ることができます。\
+Linuxコマンドラインツール**pdftotext**を使用してPDFをテキストに変換し、読むことができます。
+
+**Try Hard Security Group**
+
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローしてください。
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
+
+</details>
+{% endhint %}

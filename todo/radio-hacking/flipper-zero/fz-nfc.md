@@ -1,98 +1,106 @@
 # FZ - NFC
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見しましょう。独占的な[**NFT**](https://opensea.io/collection/the-peass-family)のコレクションです。
-* [**公式PEASS＆HackTricksスウェグ**](https://peass.creator-spring.com)を手に入れましょう。
-* **💬** [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter**で私をフォローしてください 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **ハッキングトリックを共有するために** [**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください**。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
 
-## イントロ <a href="#id-9wrzi" id="id-9wrzi"></a>
+## はじめに <a href="#id-9wrzi" id="id-9wrzi"></a>
 
-RFIDとNFCに関する情報は次のページをチェックしてください：
+RFIDおよびNFCに関する情報は、以下のページを確認してください：
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
 {% endcontent-ref %}
 
-## サポートされているNFCカード <a href="#id-9wrzi" id="id-9wrzi"></a>
+## 対応するNFCカード <a href="#id-9wrzi" id="id-9wrzi"></a>
 
 {% hint style="danger" %}
-NFCカード以外にも、Flipper Zeroはいくつかの**Mifare** ClassicやUltralight、**NTAG**などの**他の種類の高周波カード**をサポートしています。
+NFCカードの他に、Flipper Zeroは**他のタイプの高周波カード**、例えばいくつかの**Mifare** ClassicおよびUltralight、**NTAG**をサポートしています。
 {% endhint %}
 
-新しい種類のNFCカードがサポートされる予定です。Flipper Zeroは以下の**NFCカードタイプA**（ISO 14443A）をサポートしています：
+新しいタイプのNFCカードがサポートカードのリストに追加されます。Flipper Zeroは以下の**NFCカードタイプA**（ISO 14443A）をサポートしています：
 
 * ﻿**銀行カード（EMV）** — UID、SAK、ATQAのみを読み取り、保存しません。
-* ﻿**不明なカード** — （UID、SAK、ATQA）を読み取り、UIDをエミュレートします。
+* ﻿**不明なカード** — UID、SAK、ATQAを読み取り、UIDをエミュレートします。
 
-**NFCカードタイプB、タイプF、およびタイプV**について、Flipper ZeroはUIDを保存せずに読み取ることができます。
+**NFCカードタイプB、タイプF、タイプV**については、Flipper ZeroはUIDを読み取ることができますが、保存はできません。
 
 ### NFCカードタイプA <a href="#uvusf" id="uvusf"></a>
 
 #### 銀行カード（EMV） <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zeroは、銀行カードのデータを**保存せずに**UID、SAK、ATQA、および保存されたデータを読み取ることができます。
+Flipper Zeroは銀行カードのUID、SAK、ATQA、および保存されたデータを**保存せずに**読み取ることができます。
 
-銀行カード読み取り画面Flipper Zeroは、銀行カードのデータを**保存およびエミュレートせずに**読み取ることができます。
+銀行カード読み取り画面銀行カードについて、Flipper Zeroはデータを**保存せずにエミュレートすることなく**読み取ることができます。
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
 #### 不明なカード <a href="#id-37eo8" id="id-37eo8"></a>
 
-Flipper Zeroが**NFCカードのタイプを特定できない**場合、UID、SAK、ATQAのみを**読み取り、保存**することができます。
+Flipper Zeroが**NFCカードのタイプを特定できない場合**、UID、SAK、ATQAのみを**読み取り、保存**できます。
 
-不明なカード読み取り画面不明なNFCカードの場合、Flipper ZeroはUIDのみをエミュレートできます。
+不明なカード読み取り画面不明なNFCカードについて、Flipper ZeroはUIDのみをエミュレートできます。
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
-### NFCカードタイプB、F、およびV <a href="#wyg51" id="wyg51"></a>
+### NFCカードタイプB、F、V <a href="#wyg51" id="wyg51"></a>
 
-**NFCカードタイプB、F、およびV**について、Flipper ZeroはUIDを保存せずに読み取ることができます。
+**NFCカードタイプB、F、V**について、Flipper ZeroはUIDを**読み取り、表示することができますが、保存はできません**。
 
 <figure><img src="https://archbee.imgix.net/3StCFqarJkJQZV-7N79yY/zBU55Fyj50TFO4U7S-OXH_screenshot-2022-08-12-at-182540.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=1080&#x26;w=2704" alt=""><figcaption></figcaption></figure>
 
 ## アクション
 
-NFCに関するイントロについては、[**このページ**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz)を参照してください。
+NFCについてのイントロは[**このページを読んでください**](../pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz)。
 
 ### 読み取り
 
-Flipper Zeroは**NFCカードを読み取る**ことができますが、ISO 14443に基づく**すべてのプロトコルを理解しているわけではありません**。ただし、**UIDは低レベルの属性**であるため、**UIDが既に読み取られているが、高レベルのデータ転送プロトコルがまだ不明**な状況に陥ることがあります。UIDを使用してプリミティブリーダーのためにFlipperを使用してUIDを読み取り、エミュレート、手動で入力することができます。
+Flipper Zeroは**NFCカードを読み取ることができますが、ISO 14443に基づくすべてのプロトコルを理解しているわけではありません**。ただし、**UIDは低レベルの属性であるため、**UIDがすでに読み取られているが、高レベルのデータ転送プロトコルがまだ不明な状況に遭遇することがあります。Flipperを使用して、UIDを読み取り、エミュレートし、手動で入力することができます。
 
-#### UIDの読み取りと内部データの読み取りの比較 <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
+#### UIDの読み取りと内部データの読み取りの違い <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
 <figure><img src="../../../.gitbook/assets/image (217).png" alt=""><figcaption></figcaption></figure>
 
-Flipperでは、13.56 MHzタグの読み取りを2つの部分に分けることができます：
+Flipperでは、13.56 MHzタグの読み取りは2つの部分に分けられます：
 
-* **低レベルの読み取り** — UID、SAK、ATQAのみを読み取ります。Flipperは、カードから読み取ったこのデータに基づいて高レベルのプロトコルを推測しようとします。これは、特定の要因に基づく推測に過ぎないため、100％確実ではありません。
-* **高レベルの読み取り** — 特定の高レベルプロトコルを使用してカードのメモリからデータを読み取ります。これは、Mifare Ultralightのデータの読み取り、Mifare Classicからセクターの読み取り、PayPass/Apple Payからカードの属性の読み取りになります。
+* **低レベルの読み取り** — UID、SAK、ATQAのみを読み取ります。Flipperは、カードから読み取ったこのデータに基づいて高レベルのプロトコルを推測しようとします。これは特定の要因に基づく仮定に過ぎないため、100%確実ではありません。
+* **高レベルの読み取り** — 特定の高レベルプロトコルを使用してカードのメモリからデータを読み取ります。これは、Mifare Ultralightのデータを読み取ったり、Mifare Classicのセクターを読み取ったり、PayPass/Apple Payからカードの属性を読み取ったりすることです。
 
 ### 特定の読み取り
 
-Flipper Zeroが低レベルデータからカードのタイプを特定できない場合、`Extra Actions`で`Read Specific Card Type`を選択し、**読み取りたいカードのタイプを手動で指定**できます。
+Flipper Zeroが低レベルデータからカードのタイプを見つけられない場合、`Extra Actions`で`Read Specific Card Type`を選択し、**手動で読み取りたいカードのタイプを指定**できます。
 
 #### EMV銀行カード（PayPass、payWave、Apple Pay、Google Pay） <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-UIDを単に読み取るだけでなく、銀行カードから多くのデータを抽出することができます。銀行カードのフロントにある16桁の**完全なカード番号**、**有効期限**、場合によっては**所有者の名前**と**最近の取引のリスト**さらに、**この方法ではCVVは読み取れません**（カードの裏面にある3桁の番号）。また、**銀行カードはリプレイ攻撃から保護**されているため、Flipperでコピーしてから何かを支払うためにエミュレートしようとしても機能しません。
+UIDを単に読み取るだけでなく、銀行カードからはさらに多くのデータを抽出できます。**カード番号全体**（カードの前面にある16桁）、**有効期限**、場合によっては**所有者の名前**や**最近の取引のリスト**さえ取得できます。\
+ただし、この方法では**CVVを読み取ることはできません**（カードの裏面にある3桁の数字）。また、**銀行カードはリプレイ攻撃から保護されているため**、Flipperでコピーしてからエミュレートして支払いに使用することはできません。
+
 ## 参考文献
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**したいですか？または**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* [**公式PEASS＆HackTricksスウェグ**](https://peass.creator-spring.com)を手に入れましょう
-* **💬** [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter**で私をフォローしてください 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **ハッキングトリックを共有するためにPRを** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **に提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}

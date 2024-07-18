@@ -1,18 +1,19 @@
-# Linux環境変数
+# Linux 環境変数
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)で**フォロー**する。
-- **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出する。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -26,20 +27,20 @@ HackTricksをサポートする他の方法：
 
 グローバル変数は**子プロセス**によって**継承されます**。
 
-現在のセッション用にグローバル変数を作成するには、次のようにします：
+現在のセッションのためにグローバル変数を作成するには、次のようにします:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-この変数は、現在のセッションとその子プロセスからアクセスできます。
+この変数は、現在のセッションとその子プロセスからアクセス可能です。
 
-次のようにして変数を**削除**できます：
+変数を**削除**するには、次のようにします:
 ```bash
 unset MYGLOBAL
 ```
 ## ローカル変数
 
-**ローカル変数** は **現在のシェル/スクリプト** からのみ **アクセス** できます。
+**ローカル変数**は**現在のシェル/スクリプト**によってのみ**アクセス**できます。
 ```bash
 LOCAL="my local"
 echo $LOCAL
@@ -53,63 +54,63 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## 一般的な変数
+## Common variables
 
 From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – **X** で使用されるディスプレイ。通常、この変数は **:0.0** に設定されます。これは現在のコンピューター上の最初のディスプレイを意味します。
-* **EDITOR** – ユーザーの選好するテキストエディター。
+* **DISPLAY** – **X**によって使用されるディスプレイ。この変数は通常**:0.0**に設定されており、これは現在のコンピュータの最初のディスプレイを意味します。
+* **EDITOR** – ユーザーの好みのテキストエディタ。
 * **HISTFILESIZE** – 履歴ファイルに含まれる最大行数。
-* **HISTSIZE** – ユーザーがセッションを終了するときに履歴ファイルに追加される行数。
-* **HOME** – ホームディレクトリ。
-* **HOSTNAME** – コンピューターのホスト名。
-* **LANG** – 現在の言語。
-* **MAIL** – ユーザーのメールスプールの場所。通常は **/var/spool/mail/USER** です。
-* **MANPATH** – マニュアルページを検索するディレクトリのリスト。
-* **OSTYPE** – オペレーティングシステムのタイプ。
-* **PS1** – bash のデフォルトプロンプト。
-* **PATH** – 実行したいバイナリファイルを保持するすべてのディレクトリのパス。ファイル名を指定するだけで相対パスや絶対パスを使用せずに実行できます。
+* **HISTSIZE** – ユーザーがセッションを終了したときに履歴ファイルに追加される行数。
+* **HOME** – あなたのホームディレクトリ。
+* **HOSTNAME** – コンピュータのホスト名。
+* **LANG** – あなたの現在の言語。
+* **MAIL** – ユーザーのメールスプールの場所。通常は**/var/spool/mail/USER**。
+* **MANPATH** – マニュアルページを検索するためのディレクトリのリスト。
+* **OSTYPE** – オペレーティングシステムの種類。
+* **PS1** – bashのデフォルトプロンプト。
+* **PATH** – バイナリファイルを実行するためにファイル名を指定するだけで済むすべてのディレクトリのパスを格納します。
 * **PWD** – 現在の作業ディレクトリ。
-* **SHELL** – 現在のコマンドシェルへのパス (例: **/bin/bash**)。
-* **TERM** – 現在の端末タイプ (例: **xterm**)。
-* **TZ** – 自分のタイムゾーン。
-* **USER** – 現在のユーザー名。
+* **SHELL** – 現在のコマンドシェルへのパス（例：**/bin/bash**）。
+* **TERM** – 現在の端末タイプ（例：**xterm**）。
+* **TZ** – あなたのタイムゾーン。
+* **USER** – あなたの現在のユーザー名。
 
-## ハッキングに関連する興味深い変数
+## Interesting variables for hacking
 
 ### **HISTFILESIZE**
 
-この変数の **値を 0 に変更** してください。これにより、セッションを **終了** するときに **履歴ファイル** (\~/.bash\_history) が **削除** されます。
+この変数の**値を0に変更**すると、**セッションを終了**したときに**履歴ファイル**（\~/.bash\_history）が**削除されます**。
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-この変数の値を0に変更して、セッションを終了するときにはどんなコマンドも履歴ファイル (\~/.bash\_history) に追加されません。
+この**変数の値を0に変更**してください。そうすれば、**セッションを終了**すると、任意のコマンドが**履歴ファイル**（\~/.bash\_history）に追加されます。
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-プロセスは、ここで宣言された **proxy** を使用して、**httpまたはhttps** を介してインターネットに接続します。
+プロセスは、**http または https** を通じてインターネットに接続するために、ここで宣言された **proxy** を使用します。
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-プロセスは、**これらの環境変数**で指定された証明書を信頼します。
+プロセスは**これらの環境変数**で示された証明書を信頼します。
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-プロンプトの表示を変更します。
+プロンプトの見た目を変更します。
 
 [**これは例です**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
-Root:
+ルート:
 
 ![](<../.gitbook/assets/image (897).png>)
 
@@ -117,11 +118,11 @@ Root:
 
 ![](<../.gitbook/assets/image (740).png>)
 
-バックグラウンドで実行中のジョブが1つ、2つ、3つ:
+バックグラウンドジョブが1つ、2つ、3つ:
 
 ![](<../.gitbook/assets/image (145).png>)
 
-バックグラウンドで実行中のジョブが1つ、停止中のジョブが1つ、最後のコマンドが正常に終了しなかった場合:
+バックグラウンドジョブが1つ、停止したジョブが1つ、最後のコマンドが正しく終了しなかった:
 
 ![](<../.gitbook/assets/image (715).png>)
 
@@ -131,16 +132,17 @@ Root:
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を使って、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい場合は** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) または [**telegram グループ**](https://t.me/peass) に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** をフォローする**
-* **HackTricks** と **HackTricks Cloud** の github リポジトリに PR を提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}

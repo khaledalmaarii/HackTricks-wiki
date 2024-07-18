@@ -1,37 +1,38 @@
-# Linuxフォレンジクス
+# Linux Forensics
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**します。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>**htARTE（HackTricks AWS Red Team Expert）**で**ゼロからヒーローまでのAWSハッキング**を学びましょう！</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手してください
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つけてください
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 ## 初期情報収集
 
 ### 基本情報
 
-まず最初に、**USB**に**良く知られたバイナリとライブラリ**が含まれていることが推奨されます（単にUbuntuを取得して、_ /bin_、_ /sbin_、_ /lib_、および_ /lib64_のフォルダをコピーできます）。次にUSBをマウントし、環境変数を変更してこれらのバイナリを使用します：
+まず、**良く知られたバイナリとライブラリが入ったUSB**を用意することをお勧めします（Ubuntuを取得して、_ /bin_、_ /sbin_、_ /lib_、および_ /lib64_フォルダーをコピーするだけで済みます）。次に、USBをマウントし、これらのバイナリを使用するように環境変数を変更します：
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-一度システムを良いものや既知のバイナリを使用するように設定したら、**基本情報を抽出**することができます：
+システムを良好で既知のバイナリを使用するように設定したら、**基本的な情報を抽出し始める**ことができます：
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -51,45 +52,45 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### 疑わしい情報
 
-基本情報を取得する際に、次のような奇妙な点をチェックする必要があります:
+基本情報を取得する際には、以下のような奇妙な事柄を確認する必要があります：
 
-- **Rootプロセス** は通常、低いPIDで実行されます。そのため、大きなPIDで実行されているRootプロセスが見つかった場合は疑うべきです
-- `/etc/passwd` 内にシェルを持たないユーザーの**登録されたログイン** を確認する
-- `/etc/shadow` 内にシェルを持たないユーザーの**パスワードハッシュ** を確認する
+* **ルートプロセス**は通常低いPIDで実行されるため、大きなPIDを持つルートプロセスを見つけた場合は疑うべきです
+* `/etc/passwd`内のシェルを持たないユーザーの**登録されたログイン**を確認します
+* シェルを持たないユーザーのために、`/etc/shadow`内の**パスワードハッシュ**を確認します
 
-### メモリーダンプ
+### メモリダンプ
 
-実行中のシステムのメモリを取得するには、[**LiME**](https://github.com/504ensicsLabs/LiME) を使用することをお勧めします。\
-**コンパイル** するには、被害者マシンが使用している**同じカーネル** を使用する必要があります。
+実行中のシステムのメモリを取得するには、[**LiME**](https://github.com/504ensicsLabs/LiME)を使用することをお勧めします。\
+**コンパイル**するには、被害者のマシンが使用している**同じカーネル**を使用する必要があります。
 
 {% hint style="info" %}
-被害者マシンに **LiME やその他の何かをインストールすることはできない** ことを覚えておいてください。それにより、複数の変更が加えられます
+被害者のマシンに**LiMEやその他のものをインストールすることはできない**ことを覚えておいてください。そうすると、いくつかの変更が加わります
 {% endhint %}
 
-したがって、Ubuntuの同一バージョンがある場合は、`apt-get install lime-forensics-dkms` を使用できます\
-それ以外の場合は、[**LiME**](https://github.com/504ensicsLabs/LiME) をgithub からダウンロードし、正しいカーネルヘッダーを使用してコンパイルする必要があります。被害者マシンの正確なカーネルヘッダーを**取得する** には、単に`/lib/modules/<kernel version>` ディレクトリをあなたのマシンに**コピー** し、それを使用して LiME を**コンパイル** します:
+したがって、同一のUbuntuバージョンがある場合は、`apt-get install lime-forensics-dkms`を使用できます。\
+他の場合は、githubから[**LiME**](https://github.com/504ensicsLabs/LiME)をダウンロードし、正しいカーネルヘッダーでコンパイルする必要があります。被害者のマシンの**正確なカーネルヘッダー**を取得するには、単に`/lib/modules/<kernel version>`ディレクトリを自分のマシンに**コピー**し、それを使用してLiMEを**コンパイル**します：
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
 LiMEは3つの**フォーマット**をサポートしています：
 
-- Raw（すべてのセグメントが連結されたもの）
-- Padded（Rawと同じですが、右ビットにゼロが入っています）
-- Lime（メタデータを含む推奨フォーマット）
+* Raw（すべてのセグメントが連結されたもの）
+* Padded（Rawと同じですが、右側のビットにゼロが追加されています）
+* Lime（メタデータ付きの推奨フォーマット）
 
-LiMEは、`path=tcp:4444`のような方法を使用して、**ダンプをネットワーク経由で送信**することもできます。
+LiMEは、`path=tcp:4444`のようなもので、システムに保存する代わりに**ネットワーク経由でダンプを送信する**こともできます。
 
 ### ディスクイメージング
 
 #### シャットダウン
 
-まず、**システムをシャットダウンする**必要があります。これは常に選択肢とは限りません。なぜなら、システムが企業がシャットダウンする余裕のない本番サーバーである場合があるからです。\
-システムをシャットダウンする方法には、**通常のシャットダウン**と**「プラグを抜く」シャットダウン**の2つがあります。前者は**プロセスが通常通り終了**し、**ファイルシステムが同期**されることを可能にしますが、**悪意のあるソフトウェア**が**証拠を破壊**する可能性もあります。後者の「プラグを抜く」アプローチは、**一部の情報が失われる**可能性があります（メモリのイメージをすでに取得しているため、失われる情報はほとんどありません）し、**悪意のあるソフトウェア**が何もできなくなります。したがって、**悪意のあるソフトウェア**が疑われる場合は、システムで**`sync`** **コマンド**を実行してプラグを抜いてください。
+まず最初に、**システムをシャットダウンする**必要があります。これは常に選択肢ではなく、時にはシステムが会社がシャットダウンできないプロダクションサーバーであることがあります。\
+システムをシャットダウンするには**2つの方法**があります。**通常のシャットダウン**と**「プラグを抜く」シャットダウン**です。最初の方法では、**プロセスが通常通り終了する**ことを許可し、**ファイルシステム**が**同期される**ことを可能にしますが、同時に**マルウェア**が**証拠を破壊する**可能性もあります。「プラグを抜く」アプローチは**情報の損失**を伴う可能性があります（メモリのイメージをすでに取得しているため、失われる情報はあまりありません）し、**マルウェアは何もできる機会がありません**。したがって、**マルウェアの可能性がある**と**疑う**場合は、システムで**`sync`** **コマンド**を実行し、プラグを抜いてください。
 
 #### ディスクのイメージを取得する
 
-**ケースに関連する何かにコンピュータを接続する前に**、情報を変更しないように**読み取り専用でマウント**されることを確認する必要があります。
+**ケースに関連する何かにコンピュータを接続する前に**、情報を変更しないように**読み取り専用でマウントされる**ことを確認することが重要です。
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -100,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### ディスクイメージの事前分析
 
-データがない状態でディスクイメージを作成します。
+データがこれ以上ないディスクイメージをイメージングする。
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -156,23 +157,23 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)を使用して、世界で最も先進的なコミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**します。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 既知のマルウェアを検索
 
-### 変更されたシステムファイル
+### 修正されたシステムファイル
 
-Linuxには、潜在的に問題のあるファイルを見つけるために重要なシステムコンポーネントの整合性を確認するためのツールが用意されています。
+Linuxは、システムコンポーネントの整合性を確保するためのツールを提供しており、潜在的に問題のあるファイルを特定するために重要です。
 
-* **RedHatベースのシステム**：包括的なチェックには`rpm -Va`を使用します。
-* **Debianベースのシステム**：初期検証には`dpkg --verify`を使用し、その後`debsums | grep -v "OK$"`（`apt-get install debsums`を使用して`debsums`をインストールした後）を使用して問題を特定します。
+* **RedHatベースのシステム**: `rpm -Va`を使用して包括的なチェックを行います。
+* **Debianベースのシステム**: 初期検証には`dpkg --verify`を使用し、その後`debsums | grep -v "OK$"`（`apt-get install debsums`で`debsums`をインストールした後）を実行して問題を特定します。
 
 ### マルウェア/ルートキット検出ツール
 
-マルウェアを見つけるのに役立つツールについては、次のページを参照してください：
+マルウェアを見つけるのに役立つツールについて学ぶには、以下のページをお読みください：
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -180,12 +181,12 @@ Linuxには、潜在的に問題のあるファイルを見つけるために重
 
 ## インストールされたプログラムを検索
 
-DebianとRedHatの両方のシステムでインストールされたプログラムを効果的に検索するには、システムログやデータベースを活用し、一般的なディレクトリでの手動チェックを検討してください。
+DebianおよびRedHatシステムでインストールされたプログラムを効果的に検索するには、システムログやデータベースを活用し、一般的なディレクトリでの手動チェックを併用することを検討してください。
 
-* Debianの場合、パッケージのインストールに関する詳細を取得するために、_**`/var/lib/dpkg/status`**_と_**`/var/log/dpkg.log`**_を調査し、`grep`を使用して特定の情報をフィルタリングします。
-* RedHatユーザーは、`rpm -qa --root=/mntpath/var/lib/rpm`を使用してRPMデータベースをクエリし、インストールされたパッケージをリストします。
+* Debianの場合、_**`/var/lib/dpkg/status`**_および_**`/var/log/dpkg.log`**_を確認してパッケージインストールの詳細を取得し、`grep`を使用して特定の情報をフィルタリングします。
+* RedHatユーザーは、`rpm -qa --root=/mntpath/var/lib/rpm`を使用してインストールされたパッケージのリストを取得できます。
 
-これらのパッケージマネージャーの外で手動でインストールされたソフトウェアを特定するには、_**`/usr/local`**_、_**`/opt`**_、_**`/usr/sbin`**_、_**`/usr/bin`**_、_**`/bin`**_、_**`/sbin`**_などのディレクトリを調査します。ディレクトリリストをシステム固有のコマンドと組み合わせて使用し、既知のパッケージに関連付けられていない実行可能ファイルを特定することで、すべてのインストールされたプログラムを検索を強化します。
+これらのパッケージマネージャーの外部で手動でインストールされたソフトウェアを明らかにするために、_**`/usr/local`**_、_**`/opt`**_、_**`/usr/sbin`**_、_**`/usr/bin`**_、_**`/bin`**_、および_**`/sbin`**_のようなディレクトリを探索します。ディレクトリリストとシステム固有のコマンドを組み合わせて、既知のパッケージに関連付けられていない実行可能ファイルを特定し、インストールされたすべてのプログラムの検索を強化します。
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,20 +205,20 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**します。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって駆動される**ワークフローを簡単に構築し、**自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 削除された実行中のバイナリの回復
+## 削除された実行中のバイナリを復元する
 
-/tmp/exec から実行され、その後削除されたプロセスを想像してください。それを抽出することが可能です
+/tmp/execから実行され、その後削除されたプロセスを想像してみてください。それを抽出することが可能です。
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## オートスタートの場所を調査する
+## 自動起動場所の検査
 
 ### スケジュールされたタスク
 ```bash
@@ -235,92 +236,92 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 ```
 ### サービス
 
-マルウェアがインストールされている可能性のあるサービスのパス：
+マルウェアがサービスとしてインストールされる可能性のあるパス：
 
-- **/etc/inittab**：rc.sysinitなどの初期化スクリプトを呼び出し、さらに起動スクリプトに誘導します。
-- **/etc/rc.d/** および **/etc/rc.boot/**：サービスの起動スクリプトが含まれており、後者は古いLinuxバージョンに見られます。
-- **/etc/init.d/**：Debianなどの特定のLinuxバージョンで起動スクリプトを保存するために使用されます。
-- サービスは、Linuxのバリアントに応じて **/etc/inetd.conf** または **/etc/xinetd/** からも起動される可能性があります。
-- **/etc/systemd/system**：システムおよびサービスマネージャースクリプト用のディレクトリ。
-- **/etc/systemd/system/multi-user.target.wants/**：マルチユーザーランレベルで起動する必要があるサービスへのリンクが含まれています。
-- **/usr/local/etc/rc.d/**：カスタムまたはサードパーティのサービス用。
-- **\~/.config/autostart/**：ユーザー固有の自動起動アプリケーション用であり、ユーザー向けのマルウェアの隠れた場所となる可能性があります。
-- **/lib/systemd/system/**：インストールされたパッケージによって提供されるシステム全体のデフォルトユニットファイル。
+* **/etc/inittab**: rc.sysinitのような初期化スクリプトを呼び出し、さらに起動スクリプトに指示します。
+* **/etc/rc.d/** および **/etc/rc.boot/**: サービス起動用のスクリプトを含み、後者は古いLinuxバージョンで見られます。
+* **/etc/init.d/**: Debianのような特定のLinuxバージョンで起動スクリプトを保存するために使用されます。
+* サービスは、Linuxのバリアントに応じて **/etc/inetd.conf** または **/etc/xinetd/** を介しても有効化されることがあります。
+* **/etc/systemd/system**: システムおよびサービスマネージャースクリプト用のディレクトリ。
+* **/etc/systemd/system/multi-user.target.wants/**: マルチユーザーランレベルで起動すべきサービスへのリンクを含みます。
+* **/usr/local/etc/rc.d/**: カスタムまたはサードパーティのサービス用。
+* **\~/.config/autostart/**: ユーザー固有の自動起動アプリケーション用で、ユーザーをターゲットにしたマルウェアの隠れ場所になる可能性があります。
+* **/lib/systemd/system/**: インストールされたパッケージによって提供されるシステム全体のデフォルトユニットファイル。
 
 ### カーネルモジュール
 
-マルウェアによってルートキットコンポーネントとして利用されるLinuxカーネルモジュールは、システム起動時にロードされます。これらのモジュールにとって重要なディレクトリとファイルは次のとおりです：
+Linuxカーネルモジュールは、マルウェアがルートキットコンポーネントとして利用することが多く、システム起動時にロードされます。これらのモジュールにとって重要なディレクトリとファイルは以下の通りです：
 
-- **/lib/modules/$(uname -r)**：実行中のカーネルバージョン用のモジュールを保持します。
-- **/etc/modprobe.d**：モジュールのロードを制御する構成ファイルが含まれています。
-- **/etc/modprobe** および **/etc/modprobe.conf**：グローバルモジュール設定用のファイル。
+* **/lib/modules/$(uname -r)**: 実行中のカーネルバージョンのモジュールを保持します。
+* **/etc/modprobe.d**: モジュールのロードを制御するための設定ファイルを含みます。
+* **/etc/modprobe** および **/etc/modprobe.conf**: グローバルモジュール設定用のファイル。
 
 ### その他の自動起動場所
 
-Linuxは、ユーザーログイン時に自動的にプログラムを実行するためのさまざまなファイルを使用しており、これらは潜在的にマルウェアを隠す可能性があります：
+Linuxは、ユーザーログイン時にプログラムを自動的に実行するためのさまざまなファイルを使用し、マルウェアを隠す可能性があります：
 
-- **/etc/profile.d/**\*、**/etc/profile**、および **/etc/bash.bashrc**：すべてのユーザーログイン時に実行されます。
-- **\~/.bashrc**、**\~/.bash\_profile**、**\~/.profile**、および **\~/.config/autostart**：ユーザー固有のファイルで、ユーザーのログイン時に実行されます。
-- **/etc/rc.local**：すべてのシステムサービスが起動した後に実行され、マルチユーザー環境への移行の終了を示します。
+* **/etc/profile.d/**\*, **/etc/profile**、および **/etc/bash.bashrc**: すべてのユーザーログイン時に実行されます。
+* **\~/.bashrc**、**\~/.bash\_profile**、**\~/.profile**、および **\~/.config/autostart**: ユーザー固有のファイルで、ログイン時に実行されます。
+* **/etc/rc.local**: すべてのシステムサービスが起動した後に実行され、マルチユーザー環境への移行の終了を示します。
 
 ## ログの調査
 
-Linuxシステムは、さまざまなログファイルを介してユーザーのアクティビティやシステムイベントを追跡します。これらのログは、不正アクセス、マルウェア感染、およびその他のセキュリティインシデントを特定するために重要です。主要なログファイルには次のものがあります：
+Linuxシステムは、さまざまなログファイルを通じてユーザーの活動やシステムイベントを追跡します。これらのログは、不正アクセス、マルウェア感染、その他のセキュリティインシデントを特定するために重要です。主要なログファイルには以下が含まれます：
 
-- **/var/log/syslog**（Debian）または **/var/log/messages**（RedHat）：システム全体のメッセージとアクティビティをキャプチャします。
-- **/var/log/auth.log**（Debian）または **/var/log/secure**（RedHat）：認証試行、成功および失敗したログインを記録します。
-- `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` を使用して関連する認証イベントをフィルタリングします。
-- **/var/log/boot.log**：システムの起動メッセージが含まれています。
-- **/var/log/maillog** または **/var/log/mail.log**：メールサーバーのアクティビティを記録し、メール関連サービスの追跡に役立ちます。
-- **/var/log/kern.log**：エラーや警告を含むカーネルメッセージを保存します。
-- **/var/log/dmesg**：デバイスドライバーメッセージを保持します。
-- **/var/log/faillog**：失敗したログイン試行を記録し、セキュリティ侵害の調査を支援します。
-- **/var/log/cron**：cronジョブの実行を記録します。
-- **/var/log/daemon.log**：バックグラウンドサービスのアクティビティを追跡します。
-- **/var/log/btmp**：失敗したログイン試行を文書化します。
-- **/var/log/httpd/**：Apache HTTPDのエラーおよびアクセスログが含まれています。
-- **/var/log/mysqld.log** または **/var/log/mysql.log**：MySQLデータベースのアクティビティを記録します。
-- **/var/log/xferlog**：FTPファイル転送を記録します。
-- **/var/log/**：ここで予期しないログを常にチェックしてください。
+* **/var/log/syslog** (Debian) または **/var/log/messages** (RedHat): システム全体のメッセージや活動をキャプチャします。
+* **/var/log/auth.log** (Debian) または **/var/log/secure** (RedHat): 認証試行、成功したログインおよび失敗したログインを記録します。
+* `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` を使用して関連する認証イベントをフィルタリングします。
+* **/var/log/boot.log**: システム起動メッセージを含みます。
+* **/var/log/maillog** または **/var/log/mail.log**: メールサーバーの活動をログに記録し、メール関連サービスの追跡に役立ちます。
+* **/var/log/kern.log**: カーネルメッセージを保存し、エラーや警告を含みます。
+* **/var/log/dmesg**: デバイスドライバーメッセージを保持します。
+* **/var/log/faillog**: 失敗したログイン試行を記録し、セキュリティ侵害の調査に役立ちます。
+* **/var/log/cron**: cronジョブの実行をログに記録します。
+* **/var/log/daemon.log**: バックグラウンドサービスの活動を追跡します。
+* **/var/log/btmp**: 失敗したログイン試行を文書化します。
+* **/var/log/httpd/**: Apache HTTPDのエラーログとアクセスログを含みます。
+* **/var/log/mysqld.log** または **/var/log/mysql.log**: MySQLデータベースの活動をログに記録します。
+* **/var/log/xferlog**: FTPファイル転送を記録します。
+* **/var/log/**: ここで予期しないログを常に確認してください。
 
 {% hint style="info" %}
-Linuxシステムのログと監査サブシステムは、侵入やマルウェアのインシデントで無効化または削除される可能性があります。Linuxシステムのログは一般的に悪意のある活動に関する最も有用な情報のいくつかを含んでいるため、侵入者は定期的にそれらを削除します。したがって、利用可能なログファイルを調査する際には、削除や改ざんの兆候となる欠落や順序の乱れを探すことが重要です。
+Linuxシステムのログと監査サブシステムは、侵入やマルウェアインシデントの際に無効化または削除されることがあります。Linuxシステムのログは、悪意のある活動に関する最も有用な情報を含むことが一般的であるため、侵入者はそれらを定期的に削除します。したがって、利用可能なログファイルを調査する際には、削除や改ざんの兆候である可能性のあるギャップや順序が乱れたエントリを探すことが重要です。
 {% endhint %}
 
-**Linuxは各ユーザーのコマンド履歴を維持**しており、以下に保存されています：
+**Linuxは各ユーザーのコマンド履歴を保持します**。保存先は以下の通りです：
 
-- \~/.bash\_history
-- \~/.zsh\_history
-- \~/.zsh\_sessions/\*
-- \~/.python\_history
-- \~/.\*\_history
+* \~/.bash\_history
+* \~/.zsh\_history
+* \~/.zsh\_sessions/\*
+* \~/.python\_history
+* \~/.\*\_history
 
-さらに、`last -Faiwx` コマンドを使用してユーザーログインのリストを取得できます。未知または予期しないログインがあるかどうかを確認してください。
+さらに、`last -Faiwx` コマンドはユーザーログインのリストを提供します。未知または予期しないログインがないか確認してください。
 
-追加の特権を付与できるファイルをチェックしてください：
+追加の権限を付与できるファイルを確認します：
 
-- 予期しないユーザー特権が付与されている可能性があるかどうかを確認するために、`/etc/sudoers` を確認してください。
-- 予期しないユーザー特権が付与されている可能性があるかどうかを確認するために、`/etc/sudoers.d/` を確認してください。
-- 異常なグループメンバーシップや権限を特定するために、`/etc/groups` を調べてください。
-- 異常なグループメンバーシップや権限を特定するために、`/etc/passwd` を調べてください。
+* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers` を確認します。
+* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers.d/` を確認します。
+* 異常なグループメンバーシップや権限を特定するために、`/etc/groups` を調査します。
+* 異常なグループメンバーシップや権限を特定するために、`/etc/passwd` を調査します。
 
-一部のアプリケーションは独自のログを生成することがあります：
+一部のアプリも独自のログを生成します：
 
-- **SSH**：_\~/.ssh/authorized\_keys_ および _\~/.ssh/known\_hosts_ を調べて、許可されていないリモート接続を見つけます。
-- **Gnomeデスクトップ**：Gnomeアプリケーションを介して最近アクセスされたファイルを示す _\~/.recently-used.xbel_ を調べてください。
-- **Firefox/Chrome**：怪しい活動を示すために、_\~/.mozilla/firefox_ または _\~/.config/google-chrome_ でブラウザの履歴とダウンロードをチェックしてください。
-- **VIM**：アクセスされたファイルパスや検索履歴などの使用詳細を示す _\~/.viminfo_ を確認してください。
-- **Open Office**：侵害されたファイルを示す可能性のある最近のドキュメントアクセスをチェックしてください。
-- **FTP/SFTP**：許可されていないファイル転送を示す _\~/.ftp\_history_ または _\~/.sftp\_history_ のログを確認してください。
-- **MySQL**：実行されたMySQLクエリを示す _\~/.mysql\_history_ を調査して、許可されていないデータベースアクティビティを明らかにすることができます。
-- **Less**：表示されたファイルや実行されたコマンドなどの使用履歴を分析する _\~/.lesshst_ を確認してください。
-- **Git**：リポジトリへの変更を示す _\~/.gitconfig_ およびプロジェクト _.git/logs_ を調べてください。
+* **SSH**: 不正なリモート接続のために _\~/.ssh/authorized\_keys_ と _\~/.ssh/known\_hosts_ を調査します。
+* **Gnomeデスクトップ**: Gnomeアプリケーションを介して最近アクセスされたファイルのために _\~/.recently-used.xbel_ を確認します。
+* **Firefox/Chrome**: 疑わしい活動のために _\~/.mozilla/firefox_ または _\~/.config/google-chrome_ でブラウザの履歴とダウンロードを確認します。
+* **VIM**: アクセスされたファイルパスや検索履歴などの使用詳細のために _\~/.viminfo_ を確認します。
+* **Open Office**: 侵害されたファイルを示す可能性のある最近の文書アクセスを確認します。
+* **FTP/SFTP**: 不正なファイル転送の可能性があるため、_ \~/.ftp\_history_ または _\~/.sftp\_history_ のログを確認します。
+* **MySQL**: 不正なデータベース活動を明らかにする可能性のある実行されたMySQLクエリのために _\~/.mysql\_history_ を調査します。
+* **Less**: 表示されたファイルや実行されたコマンドを含む使用履歴のために _\~/.lesshst_ を分析します。
+* **Git**: リポジトリの変更のために _\~/.gitconfig_ とプロジェクトの _.git/logs_ を調査します。
 
 ### USBログ
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) は、Linuxログファイル（ディストリビューションに応じて `/var/log/syslog*` または `/var/log/messages*`）を解析してUSBイベント履歴テーブルを作成する、Python 3で書かれた小さなソフトウェアです。
+[**usbrip**](https://github.com/snovvcrash/usbrip) は、Linuxのログファイル（ディストリビューションに応じて `/var/log/syslog*` または `/var/log/messages*`）を解析してUSBイベント履歴テーブルを構築するために純粋なPython 3で書かれた小さなソフトウェアです。
 
-**使用されたすべてのUSBデバイスを把握することは重要**であり、許可されたUSBデバイスのリストを持っていると、そのリストに含まれていないUSBデバイスの使用を見つけるのに役立ちます。
+**使用されたすべてのUSBを知ることは興味深い**ことであり、"違反イベント"（そのリストに含まれていないUSBの使用）を見つけるために、承認されたUSBのリストがあるとさらに有用です。
 
 ### インストール
 ```bash
@@ -335,37 +336,38 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-更多示例和信息请查看github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+More examples and info inside the github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
-立即获取访问权限:
+\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 检查用户帐户和登录活动
+## ユーザーアカウントとログオン活動のレビュー
 
-检查 _**/etc/passwd**_、_**/etc/shadow**_ 和**安全日志**，查找异常名称或在已知未经授权事件附近创建或使用的帐户。还要检查可能的sudo暴力攻击。\
-此外，检查文件如 _**/etc/sudoers**_ 和 _**/etc/groups**_，查看是否给用户授予了意外的特权。\
-最后，查找没有密码或**易于猜测**密码的帐户。
+_**/etc/passwd**_、_**/etc/shadow**_、および **セキュリティログ** を調べて、異常な名前や、既知の不正イベントに近い位置で作成または使用されたアカウントを確認します。また、sudoのブルートフォース攻撃の可能性もチェックしてください。\
+さらに、_**/etc/sudoers**_ や _**/etc/groups**_ のようなファイルを確認し、ユーザーに与えられた予期しない特権を探します。\
+最後に、**パスワードなし**または**簡単に推測できる**パスワードを持つアカウントを探します。
 
-## 检查文件系统
+## ファイルシステムの調査
 
-### 在恶意软件调查中分析文件系统结构
+### マルウェア調査におけるファイルシステム構造の分析
 
-在调查恶意软件事件时，文件系统的结构是信息的重要来源，可以揭示事件序列和恶意软件的内容。然而，恶意软件作者正在开发技术来阻碍此分析，例如修改文件时间戳或避免使用文件系统进行数据存储。
+マルウェアインシデントを調査する際、ファイルシステムの構造は重要な情報源であり、イベントの順序やマルウェアの内容を明らかにします。しかし、マルウェアの作者は、ファイルのタイムスタンプを変更したり、データストレージのためにファイルシステムを回避したりするなど、この分析を妨げる技術を開発しています。
 
-为了对抗这些反取证方法，重要的是：
+これらのアンチフォレンジック手法に対抗するためには、以下が重要です：
 
-* 使用工具如**Autopsy**进行彻底的时间线分析，可视化事件时间线，或使用**Sleuth Kit**的`mactime`获取详细的时间线数据。
-* 检查系统的$PATH中的意外脚本，可能包括攻击者使用的shell或PHP脚本。
-* 检查`/dev`中的非典型文件，通常包含特殊文件，但可能包含与恶意软件相关的文件。
-* 搜索具有像".. "（点 点 空格）或"..^G"（点 点 控制-G）等名称的隐藏文件或目录，可能隐藏恶意内容。
-* 使用命令查找具有root权限的setuid文件: `find / -user root -perm -04000 -print`，这会找到具有提升权限的文件，可能会被攻击者滥用。
-* 检查inode表中的删除时间戳，以发现大量文件删除，可能表明存在rootkit或特洛伊木马。
-* 在识别一个恶意文件后，检查相邻的inode，因为它们可能被放在一起。
-* 检查常见的二进制目录（_/bin_、_/sbin_）中最近修改的文件，因为这些文件可能被恶意软件更改。
+* **Autopsy** のようなツールを使用して、イベントのタイムラインを視覚化するために**徹底的なタイムライン分析を行う**か、**Sleuth Kit** の `mactime` を使用して詳細なタイムラインデータを取得します。
+* 攻撃者によって使用されるシェルやPHPスクリプトを含む可能性のある、システムの $PATH にある**予期しないスクリプトを調査する**。
+* **/dev** で異常なファイルを調べる。通常は特別なファイルが含まれていますが、マルウェア関連のファイルが存在する可能性があります。
+* **隠しファイルやディレクトリを探す**。名前が ".. " (ドットドットスペース) や "..^G" (ドットドットコントロール-G) のようなものは、悪意のあるコンテンツを隠している可能性があります。
+* コマンド `find / -user root -perm -04000 -print` を使用して**setuid rootファイルを特定する**。これにより、攻撃者によって悪用される可能性のある権限の高いファイルが見つかります。
+* **inodeテーブルの削除タイムスタンプをレビューし**、大量のファイル削除を特定します。これは、rootkitやトロイの木馬の存在を示す可能性があります。
+* 1つの悪意のあるファイルを特定した後、**隣接するinodeを調査し**、近くに配置されている悪意のあるファイルを探します。
+* **一般的なバイナリディレクトリ** (_/bin_、_/sbin_) で最近変更されたファイルを確認します。これらはマルウェアによって変更されている可能性があります。
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -374,20 +376,20 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-**攻撃者**は**時間を変更**して**ファイルを正規**に見せることができますが、**inode**を変更することはできません。同じフォルダ内の他のファイルと**同じ時間に作成および変更**されたことを示す**ファイル**が見つかった場合、**inode**が**予期しないほど大きい**場合、そのファイルの**タイムスタンプが変更された**ことになります。
+注意してください、**攻撃者**は**ファイルを正当なものに見せるために** **時間**を**変更**することができますが、**inode**を**変更**することは**できません**。もし、**ファイル**が同じフォルダ内の他のファイルと**同じ時間**に作成および変更されたことを示しているが、**inode**が**予期せず大きい**場合、その**ファイルのタイムスタンプは変更された**ことになります。
 {% endhint %}
 
-## 異なるファイルシステムバージョンのファイルを比較
+## 異なるファイルシステムバージョンの比較
 
-### ファイルシステムバージョン比較の要約
+### ファイルシステムバージョン比較の概要
 
-ファイルシステムバージョンを比較し変更点を特定するために、簡略化された`git diff`コマンドを使用します：
+ファイルシステムのバージョンを比較し、変更点を特定するために、簡略化された`git diff`コマンドを使用します：
 
-* **新しいファイルを見つける**には、2つのディレクトリを比較します：
+* **新しいファイルを見つけるために**、2つのディレクトリを比較します：
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **変更されたコンテンツ**については、特定の行を無視して変更点をリストアップします。
+* **変更された内容**、特定の行を無視しながら変更をリストします：
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -395,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **フィルターオプション** (`--diff-filter`) は、追加された (`A`)、削除された (`D`)、または変更された (`M`) ファイルなど、特定の変更を絞り込むのに役立ちます。
+* **フィルターオプション** (`--diff-filter`) は、追加された (`A`)、削除された (`D`)、または変更された (`M`) ファイルなど、特定の変更に絞り込むのに役立ちます。
 * `A`: 追加されたファイル
 * `C`: コピーされたファイル
 * `D`: 削除されたファイル
@@ -404,33 +406,33 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `T`: タイプの変更（例：ファイルからシンボリックリンクへ）
 * `U`: マージされていないファイル
 * `X`: 不明なファイル
-* `B`: 破損したファイル
+* `B`: 壊れたファイル
 
 ## 参考文献
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **書籍: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
+* **書籍: Linuxシステムのマルウェアフォレンジックフィールドガイド: デジタルフォレンジックフィールドガイド**
 
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-**サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または、**PEASSの最新バージョンにアクセス**したり、HackTricksを**PDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
+あなたは**サイバーセキュリティ会社**で働いていますか？あなたの**会社をHackTricksで宣伝したいですか**？それとも**最新のPEASSにアクセスしたり、HackTricksをPDFでダウンロードしたいですか**？[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
 
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)のコレクションを入手
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を手に入れる
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter**で私をフォローする 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* [**PEASSファミリー**](https://opensea.io/collection/the-peass-family)を発見し、私たちの独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションを見てください
+* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を手に入れましょう
+* **参加して** [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**私を** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**でフォローしてください。**
 
-**ハッキングトリックを共有するには、**[**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **および**[**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください。**
+**あなたのハッキングトリックを共有するために、** [**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを送信してください。**
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**できます。\
-今すぐアクセスしてください：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で**最も先進的な**コミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

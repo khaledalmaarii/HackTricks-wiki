@@ -1,156 +1,158 @@
-# Wiresharkのトリック
+# Wireshark tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong>！</summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFT**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローする
-- **ハッキングトリックを共有するには、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかをチェックする**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io) は、企業やその顧客が **stealer malwares** によって **compromised** されているかどうかを確認するための **無料** 機能を提供する **ダークウェブ** に基づいた検索エンジンです。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
+WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックして、**無料**でエンジンを試すことができます：
+彼らのウェブサイトをチェックして、**無料** でエンジンを試すことができます:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Wiresharkスキルの向上
+## Improve your Wireshark skills
 
-### チュートリアル
+### Tutorials
 
-次のチュートリアルは、いくつかのクールな基本的なトリックを学ぶのに素晴らしいです：
+以下のチュートリアルは、いくつかのクールな基本的なトリックを学ぶのに素晴らしいです：
 
-- [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
+* [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### 分析情報
+### Analysed Information
 
-**専門家情報**
+**Expert Information**
 
-_Analyze_ --> **Expert Information**をクリックすると、**分析された**パケットで何が起こっているかの**概要**が表示されます：
+_**Analyze** --> **Expert Information**_ をクリックすると、パケットの **analyzed** 状態の **overview** が表示されます：
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
-**解決済みアドレス**
+**Resolved Addresses**
 
-_Statistics --> Resolved Addresses_の下には、wiresharkによって**解決された**ポート/トランスポートからプロトコル、MACから製造業者など、いくつかの**情報**が表示されます。通信に関わるものを知ることは興味深いです。
+_**Statistics --> Resolved Addresses**_ の下には、wireshark によって "**resolved**" されたポート/トランスポートからプロトコル、MACから製造元などのいくつかの **information** を見つけることができます。通信に関与しているものを知るのは興味深いです。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
-**プロトコル階層**
+**Protocol Hierarchy**
 
-_Statistics --> Protocol Hierarchy_の下には、通信に関与する**プロトコル**とそれに関するデータが表示されます。
+_**Statistics --> Protocol Hierarchy**_ の下には、通信に関与する **protocols** とそれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
-**会話**
+**Conversations**
 
-_Statistics --> Conversations_の下には、通信中の**会話の要約**とそれに関するデータが表示されます。
+_**Statistics --> Conversations**_ の下には、通信の **summary of the conversations** とそれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
-**エンドポイント**
+**Endpoints**
 
-_Statistics --> Endpoints_の下には、通信中の**エンドポイントの要約**とそれぞれに関するデータが表示されます。
+_**Statistics --> Endpoints**_ の下には、通信の **summary of the endpoints** とそれぞれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS情報**
+**DNS info**
 
-_Statistics --> DNS_の下には、キャプチャされたDNSリクエストに関する統計が表示されます。
+_**Statistics --> DNS**_ の下には、キャプチャされた DNS リクエストに関する統計があります。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**I/Oグラフ**
+**I/O Graph**
 
-_Statistics --> I/O Graph_の下には、通信の**グラフ**が表示されます。
+_**Statistics --> I/O Graph**_ の下には、通信の **graph** があります。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
-### フィルター
+### Filters
 
-ここでは、プロトコルに応じたWiresharkフィルターを見つけることができます：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+ここでは、プロトコルに応じた wireshark フィルターを見つけることができます: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 他の興味深いフィルター：
 
-- `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-- HTTPおよび初期HTTPSトラフィック
-- `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-- HTTPおよび初期HTTPSトラフィック + TCP SYN
-- `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-- HTTPおよび初期HTTPSトラフィック + TCP SYN + DNSリクエスト
+* `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
+* HTTP と初期 HTTPS トラフィック
+* `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
+* HTTP と初期 HTTPS トラフィック + TCP SYN
+* `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
+* HTTP と初期 HTTPS トラフィック + TCP SYN + DNS リクエスト
 
-### 検索
+### Search
 
-セッションのパケット内の**コンテンツ**を**検索**したい場合は、_CTRL+f_を押します。右ボタンを押してから列を編集して、メイン情報バーに新しいレイヤーを追加できます（番号、時間、ソースなど）。
+セッションの **packets** 内の **content** を **search** したい場合は、_CTRL+f_ を押します。メイン情報バー (No., Time, Source など) に新しいレイヤーを追加するには、右ボタンを押してから列を編集します。
 
-### 無料のpcapラボ
+### Free pcap labs
 
-**無料のチャレンジで練習:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**無料のチャレンジで練習する:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## ドメインの識別
+## Identifying Domains
 
-Host HTTPヘッダーを表示する列を追加できます：
+Host HTTP ヘッダーを表示する列を追加できます：
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-そして、初期化HTTPS接続からサーバー名を追加する列を追加できます（**ssl.handshake.type == 1**）：
+HTTPS 接続を開始する際のサーバー名を追加する列も追加できます (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## ローカルホスト名の識別
+## Identifying local hostnames
 
-### DHCPから
+### From DHCP
 
-現在のWiresharkでは、`bootp`の代わりに`DHCP`を検索する必要があります
+現在の Wireshark では `bootp` の代わりに `DHCP` を検索する必要があります。
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
-### NBNSから
+### From NBNS
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## TLSの復号化
+## Decrypting TLS
 
-### サーバーの秘密鍵を使用してhttpsトラフィックを復号化する
+### Decrypting https traffic with server private key
 
 _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-_Edit_を押して、サーバーとプライベートキーのすべてのデータ（_IP、ポート、プロトコル、キーファイル、パスワード_）を追加します
+サーバーとプライベートキーのすべてのデータ (_IP, Port, Protocol, Key file and password_) を追加するには、_Edit_ を押します。
 
-### 対称セッションキーを使用してhttpsトラフィックを復号化する
+### Decrypting https traffic with symmetric session keys
 
-FirefoxとChromeの両方には、TLSセッションキーを記録できる機能があり、これをWiresharkで使用してTLSトラフィックを復号化できます。これにより、セキュアな通信の詳細な分析が可能になります。この復号化を実行する方法の詳細については、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)のガイドで見つけることができます。
+Firefox と Chrome の両方には、TLS セッションキーをログに記録する機能があり、これを使用して Wireshark で TLS トラフィックを復号化できます。これにより、安全な通信の詳細な分析が可能になります。この復号化を実行する方法の詳細は、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) のガイドにあります。
 
-これを検出するには、環境内で`SSLKEYLOGFILE`変数を検索します
+これを検出するには、環境内で変数 `SSLKEYLOGFILE` を検索します。
 
 共有キーのファイルは次のようになります：
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-これをWiresharkにインポートするには、\_edit > preference > protocol > ssl > に移動し、（Pre）-Master-Secretログファイル名にインポートします：
+これを wireshark にインポートするには、_edit > preference > protocol > ssl > そして (Pre)-Master-Secret log filename にインポートします：
 
 ![](<../../../.gitbook/assets/image (989).png>)
-## ADB通信
 
-APKが送信されたADB通信からAPKを抽出します：
+## ADB communication
+
+APK が送信された ADB 通信から APK を抽出します：
 ```python
 from scapy.all import *
 
@@ -181,24 +183,25 @@ f.close()
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業や顧客が**スティーラーマルウェア**によって**侵害**されていないかをチェックするための**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io) は、**ダークウェブ** によって駆動される検索エンジンで、企業やその顧客が **スティーラーマルウェア** によって **侵害** されているかどうかを確認するための **無料** 機能を提供しています。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
+WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックして、**無料**でエンジンを試すことができます：
+彼らのウェブサイトをチェックして、**無料** でエンジンを試すことができます：
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWS ハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP ハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>**htARTE (HackTricks AWS Red Team Expert)**を使用して、ゼロからヒーローまでAWSハッキングを学ぶ</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したり、HackTricksをPDFでダウンロードしたり**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks)のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **参加する** 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**テレグラムグループ**](https://t.me/peass) に、または **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の GitHub リポジトリに PR を提出してください。
 
 </details>
+{% endhint %}

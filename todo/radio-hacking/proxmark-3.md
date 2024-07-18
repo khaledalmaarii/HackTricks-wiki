@@ -1,16 +1,19 @@
 # Proxmark 3
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**したいですか？または、**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFT](https://opensea.io/collection/the-peass-family)コレクションを見つけます
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を手に入れます
-* **[💬](https://emojipedia.org/speech-balloon/) [Discordグループ](https://discord.gg/hRep4RUj7f)に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で**私をフォロー**する🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **ハッキングトリックを共有するには、**[**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -20,17 +23,17 @@
 
 ***
 
-## Proxmark3を使用したRFIDシステムへの攻撃
+## Proxmark3を使用したRFIDシステムの攻撃
 
-最初に必要なのは、[**Proxmark3**](https://proxmark.com)を持っていることと、[**ソフトウェアとその依存関係をインストール**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**する**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)ことです。
+最初に必要なのは[**Proxmark3**](https://proxmark.com)を持っていて、[**ソフトウェアとその依存関係をインストールすること**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)です。
 
 ### MIFARE Classic 1KBの攻撃
 
-**16のセクター**があり、それぞれに**4つのブロック**があり、各ブロックには**16B**が含まれています。UIDはセクター0のブロック0にあります（変更できません）。\
-各セクターにアクセスするには、**2つのキー**（**A**と**B**）が必要で、これらは各セクターの**ブロック3に保存**されています（セクタートレーラー）。セクタートレーラーには、各ブロックの**読み取りおよび書き込み**権限を与える**アクセスビット**も保存されています。\
-2つのキーは、最初のキーを知っている場合に読み取り権限を与え、2番目のキーを知っている場合に書き込み権限を与えるために役立ちます（例えば）。
+それは**16セクター**を持ち、各セクターには**4ブロック**があり、各ブロックには**16B**が含まれています。UIDはセクター0のブロック0にあります（変更できません）。\
+各セクターにアクセスするには、**2つのキー**（**A**と**B**）が必要で、これらは**各セクターのブロック3**（セクタートレーラー）に保存されています。セクタートレーラーは、**各ブロック**の**読み取りおよび書き込み**権限を与える**アクセスビット**も保存しています。\
+2つのキーは、最初のキーを知っていれば読み取り権限を与え、2番目のキーを知っていれば書き込み権限を与えるのに役立ちます（例えば）。
 
-複数の攻撃が実行できます。
+いくつかの攻撃が実行できます。
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -49,11 +52,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3は、**盗聴**や**Tag to Reader通信**などの他のアクションを実行することができます。機密データを見つけるために。このカードでは、通信をスニッフィングして使用されるキーを計算することができます。**暗号操作が弱い**ため、平文と暗号文を知っていれば計算できます（`mfkey64`ツール）。
+Proxmark3は、**タグとリーダー間の通信を傍受**して機密データを探すなど、他のアクションを実行することができます。このカードでは、通信をスニッフィングし、使用されているキーを計算することができます。なぜなら、**使用される暗号操作が弱いため**、平文と暗号文を知っていれば計算できるからです（`mfkey64`ツール）。
 
-### 生のコマンド
+### Raw Commands
 
-IoTシステムでは、**ブランドのないタグ**が使用されることがあります。この場合、Proxmark3を使用してタグにカスタム**生のコマンドを送信**することができます。
+IoTシステムは時々**ブランドなしまたは商業用でないタグ**を使用します。この場合、Proxmark3を使用してタグにカスタム**生のコマンドを送信**することができます。
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,15 +66,15 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-この情報を使用して、カードに関する情報やそれとの通信方法について調査できます。Proxmark3を使用すると、`hf 14a raw -p -b 7 26`のような生のコマンドを送信できます。
+この情報を使って、カードに関する情報や通信方法を検索することができます。Proxmark3は、次のような生のコマンドを送信することを可能にします: `hf 14a raw -p -b 7 26`
 
 ### スクリプト
 
-Proxmark3ソフトウェアには、簡単なタスクを実行するために使用できる**自動化スクリプト**の事前にロードされたリストが付属しています。完全なリストを取得するには、`script list`コマンドを使用します。次に、スクリプト名を指定して`script run`コマンドを使用します。
+Proxmark3ソフトウェアには、簡単なタスクを実行するために使用できる**自動化スクリプト**のプリロードされたリストが付属しています。完全なリストを取得するには、`script list`コマンドを使用します。次に、`script run`コマンドを使用し、スクリプトの名前を続けて入力します:
 ```
 proxmark3> script run mfkeys
 ```
-あなたは、**有効なカード**のデータをコピーして、1つ以上のランダムな**バイト**を**ランダム化**し、**リーダーがクラッシュ**するかどうかを確認する**Luaスクリプト**を作成できます。
+あなたは**タグリーダーをファズ**するためのスクリプトを作成できます。**有効なカード**のデータをコピーするために、**Luaスクリプト**を書いて、1つ以上のランダムな**バイト**を**ランダム化**し、どのイテレーションで**リーダーがクラッシュ**するかを確認します。
 
 **Try Hard Security Group**
 
@@ -80,14 +83,17 @@ proxmark3> script run mfkeys
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
+{% hint style="success" %}
+AWSハッキングを学び、練習する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>で**ゼロからヒーローまでのAWSハッキング**を学びましょう！</summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または、**PEASSの最新バージョンにアクセス**したり、HackTricksを**PDFでダウンロード**したりしたいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)のコレクションを見つけてください
-* [**公式PEASS＆HackTricks swag**](https://peass.creator-spring.com)を手に入れましょう
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **ハッキングトリックを共有するために、**[**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **および** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出**してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

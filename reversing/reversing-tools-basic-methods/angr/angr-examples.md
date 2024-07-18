@@ -1,22 +1,25 @@
 # Angr - 例
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**したいですか？または**最新バージョンのPEASSにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)、当社の独占的な[NFTコレクション](https://opensea.io/collection/the-peass-family)を発見
-* [**公式PEASS＆HackTricksスウェグ**](https://peass.creator-spring.com)を手に入れる
-* **[💬](https://emojipedia.org/speech-balloon/) [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で私をフォローする 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **ハッキングトリックを共有するために、**[**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
-
-{% hint style="info" %}
-プログラムが`scanf`を使用して**stdinから一度に複数の値を取得**している場合、**`scanf`**の後から開始する状態を生成する必要があります。
 {% endhint %}
 
-コードは[https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)から取得されました。
+{% hint style="info" %}
+プログラムが`scanf`を使用して**標準入力から複数の値を一度に取得する**場合、**`scanf`**の後から始まる状態を生成する必要があります。
+{% endhint %}
+
+コードは[https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)から取得されています。
 
 ### アドレスに到達するための入力（アドレスを示す）
 ```python
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### アドレスに到達する入力（プリントを示す）
+### アドレスに到達するための入力（印刷を示す）
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -150,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### スタックの値
+### スタック値
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -212,9 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Static Memory values (Global variables)
+このシナリオでは、入力は `scanf("%u %u")` で取得され、値 `"1 1"` が与えられたため、スタックの値 **`0x00000001`** は **ユーザー入力** から来ています。これらの値は `$ebp - 8` から始まることがわかります。したがって、コードでは **`$esp` に 8 バイトを引いています（その時 `$ebp` と `$esp` は同じ値を持っていました）** そして BVS をプッシュしました。
 
-このシナリオでは、入力は `scanf("%u %u")` で受け取られ、値 `"1 1"` が与えられたため、スタックの値 **`0x00000001`** は**ユーザー入力**から来ています。これらの値が `$ebp - 8` で始まるのを見ることができます。したがって、コードでは **`$ebp` と `$esp` が同じ値を持っていた時点で、`$esp` から 8 バイトを減算**し、その後 BVS をプッシュしました。
+![](<../../../.gitbook/assets/image (136).png>)
+
+### 静的メモリ値 (グローバル変数)
 ```python
 import angr
 import claripy
@@ -275,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 動的メモリ値（Malloc）
+### 動的メモリ値 (Malloc)
 ```python
 import angr
 import claripy
@@ -390,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-シンボリックファイルには、シンボリックデータと結合された定数データが含まれている可能性があることに注意してください：
+シンボリックファイルには、シンボリックデータとマージされた定数データも含まれている可能性があることに注意してください:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -416,7 +421,8 @@ main(sys.argv)
 ### 制約の適用
 
 {% hint style="info" %}
-時には、16文字の単語を1文字ずつ比較するような単純な人間の操作は、**angr**にとってコストがかかります。なぜなら、それは`2^16`のように、1つのifごとにブランチを生成する必要があるため、**指数的に**ブランチを生成する必要があるからです。そのため、**angrに前のポイントに戻ってもらい**（実際に難しい部分がすでに完了している場所）**手動でその制約を設定する**方が簡単です。
+時には、長さ16の2つの単語を**文字ごとに**比較するような単純な人間の操作が、**angr**にとっては非常にコストがかかります。なぜなら、それは1つのifごとに1つの分岐を生成するため、**指数関数的に**分岐を生成する必要があるからです: `2^16`\
+したがって、**angrに以前のポイントに戻るように依頼し**（実際の難しい部分はすでに完了している場所）、**これらの制約を手動で設定する**方が簡単です。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -489,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-いくつかのシナリオでは、**veritesting**をアクティブにすることができます。これにより、類似した状態がマージされ、無駄なブランチを保存して解決策を見つけることができます：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+いくつかのシナリオでは、**veritesting**を有効にすることができ、類似の状態を統合して無駄な分岐を削減し、解決策を見つけます: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-これらのシナリオでは、**angrが理解しやすいように関数をフックする**こともできます。
+これらのシナリオでできるもう一つのことは、**angrがより簡単に理解できるものを与えるために関数をフックする**ことです。
 {% endhint %}
 
-### シミュレーションマネージャ
+### シミュレーションマネージャー
 
-一部のシミュレーションマネージャは、他のものよりも有用な場合があります。前述の例では、多くの有用なブランチが作成された問題がありました。ここでは、**veritesting**テクニックを使用してこれらをマージし、解決策を見つけます。\
-このシミュレーションマネージャは、次のようにしてアクティブ化することもできます：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+いくつかのシミュレーションマネージャーは他のものよりも便利です。前の例では、多くの有用な分岐が作成されたため問題がありました。ここでは、**veritesting**技術がそれらを統合し、解決策を見つけます。\
+このシミュレーションマネージャーは、次のようにしても有効にできます: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -537,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 関数への1つの呼び出しをフック/バイパスする
+### フック/関数への1回の呼び出しをバイパスする
 ```python
 # This level performs the following computations:
 #
@@ -605,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 関数のフック / シムプロシージャ
+### 関数のフック / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -818,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または、**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つけてください
-* [**公式PEASS＆HackTricksスウェグ**](https://peass.creator-spring.com)を手に入れましょう
-* **[💬](https://emojipedia.org/speech-balloon/) Discordグループ**に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter**で私をフォローしてください 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **ハッキングトリックを共有するために、PRを** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **に提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
