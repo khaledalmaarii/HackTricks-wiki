@@ -2,19 +2,20 @@
 
 ## Windows取证物
 
+{% hint style="success" %}
+学习并练习AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP Hacking：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -24,19 +25,19 @@
 
 ### Windows 10通知
 
-在路径`\Users\<用户名>\AppData\Local\Microsoft\Windows\Notifications`中，您可以找到数据库`appdb.dat`（Windows周年更新前）或`wpndatabase.db`（Windows周年更新后）。
+在路径`\Users\<username>\AppData\Local\Microsoft\Windows\Notifications`中，您可以找到数据库`appdb.dat`（Windows周年纪念版之前）或`wpndatabase.db`（Windows周年纪念版之后）。
 
-在这个SQLite数据库中，您可以找到包含有趣数据的所有通知（以XML格式）的`Notification`表。
+在这个SQLite数据库中，您可以找到包含所有通知（以XML格式）的`Notification`表，其中可能包含有趣的数据。
 
 ### 时间轴
 
 时间轴是Windows的一个特性，提供了访问的网页、编辑的文档和执行的应用程序的**时间顺序历史记录**。
 
-数据库位于路径`\Users\<用户名>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`。可以使用SQLite工具或工具[**WxTCmd**](https://github.com/EricZimmerman/WxTCmd)打开此数据库，**该工具生成2个文件，可以使用工具**[**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md) **打开**。
+数据库位于路径`\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`。可以使用SQLite工具或工具[**WxTCmd**](https://github.com/EricZimmerman/WxTCmd)打开此数据库，**该工具生成2个文件，可以使用工具**[**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md) **打开**。
 
 ### ADS（备用数据流）
 
-下载的文件可能包含**ADS Zone.Identifier**，指示它是如何从内部网络、互联网等下载的。一些软件（如浏览器）通常会放置**更多**的**信息**，如文件下载的**URL**。
+下载的文件可能包含**ADS Zone.Identifier**，指示它是如何从内部网络、互联网等下载的。一些软件（如浏览器）通常会放置**更多信息**，如文件下载的**URL**。
 
 ## **文件备份**
 
@@ -60,7 +61,7 @@
 
 阴影副本是包含在 Microsoft Windows 中的技术，可以在计算机文件或卷正在使用时创建**备份副本**或快照。
 
-这些备份通常位于文件系统根目录下的 `\System Volume Information` 中，名称由以下图片中显示的**UIDs**组成：
+这些备份通常位于文件系统根目录下的 `\System Volume Information` 中，名称由以下图像中显示的**UIDs**组成：
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
@@ -89,9 +90,9 @@ Shell 项目是包含有关如何访问另一个文件的信息的项目。
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-创建文件夹时，还会创建指向文件夹、父文件夹和祖父文件夹的链接。
+创建文件夹时，还会创建到文件夹、父文件夹和祖父文件夹的链接。
 
-这些自动创建的链接文件**包含有关源文件**是**文件**还是**文件夹**、该文件的**MAC时间**、文件存储位置的**卷信息**和**目标文件夹**的信息。这些信息可用于在文件被删除时恢复这些文件。
+这些自动创建的链接文件**包含有关源文件的信息**，例如它是**文件**还是**文件夹**，该文件的**MAC时间**，文件存储位置的**卷信息**和**目标文件夹**。这些信息可用于在文件被删除时恢复这些文件。
 
 此外，链接文件的**创建日期**是原始文件**首次使用的时间**，链接文件的**修改日期**是原始文件**最后使用的时间**。
 
@@ -100,17 +101,17 @@ Shell 项目是包含有关如何访问另一个文件的信息的项目。
 在此工具中，您将找到**2组**时间戳：
 
 * **第一组：**
-1. FileModifiedDate
-2. FileAccessDate
-3. FileCreationDate
+1. 文件修改日期
+2. 文件访问日期
+3. 文件创建日期
 * **第二组：**
-1. LinkModifiedDate
-2. LinkAccessDate
-3. LinkCreationDate。
+1. 链接修改日期
+2. 链接访问日期
+3. 链接创建日期。
 
 第一组时间戳引用**文件本身的时间戳**。第二组引用**链接文件的时间戳**。
 
-您可以使用 Windows CLI 工具获取相同的信息：[**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
+您可以使用 Windows CLI 工具获取相同信息：[**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
@@ -118,9 +119,9 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 
 这些是每个应用程序指示的最近文件。这是您可以在每个应用程序上访问的**最近使用的文件列表**。它们可以**自动创建或自定义**。
 
-自动创建的**跳转列表**存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`。跳转列表的命名遵循格式 `{id}.autmaticDestinations-ms`，其中初始ID是应用程序的ID。
+自动生成的**跳转列表**存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`。跳转列表的命名遵循格式 `{id}.autmaticDestinations-ms`，其中初始ID是应用程序的ID。
 
-自定义跳转列表存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\`，通常是由应用程序创建的，因为文件发生了**重要**事件（可能标记为收藏夹）。
+自定义跳转列表存储在 `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\`，它们通常是由应用程序创建的，因为文件发生了**重要**事件（可能标记为收藏夹）。
 
 任何跳转列表的**创建时间**表示**文件首次访问的时间**，**修改时间表示最后一次访问的时间**。
 
@@ -136,13 +137,13 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 
 ## Windows USB的使用
 
-通过以下内容的创建，可以确定是否使用了USB设备：
+通过以下内容的创建，可以确定已使用USB设备：
 
 * Windows最近文件夹
 * Microsoft Office最近文件夹
 * 跳转列表
 
-请注意，有些LNK文件指向WPDNSE文件夹而不是原始路径：
+请注意，某些LNK文件指向WPDNSE文件夹而不是原始路径：
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
@@ -156,17 +157,17 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 
 检查文件 `C:\Windows\inf\setupapi.dev.log` 可以获取有关USB连接产生的时间戳（搜索 `Section start`）。
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
-[**USBDetective**](https://usbdetective.com) 可用于获取连接到图像的USB设备的信息。
+[**USBDetective**](https://usbdetective.com) 可用于获取已连接到图像的USB设备的信息。
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
 ### 插拔清理
 
-名为“插拔清理”的计划任务主要用于删除过时的驱动程序版本。与保留最新驱动程序包版本的指定目的相反，在线资源表明它还针对过去30天未活动的驱动程序。因此，过去30天未连接的可移动设备的驱动程序可能会被删除。
+名为“插拔清理”的计划任务主要用于删除过时的驱动程序版本。与保留最新驱动程序包版本的指定目的相反，在线资源表明它还针对在过去30天内未连接的驱动程序。因此，未连接在过去30天内的可移动设备的驱动程序可能会被删除。
 
 该任务位于以下路径：
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`。
@@ -181,9 +182,9 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 - **Period（'P1M'）**：指示任务计划程序在常规自动维护期间每月启动清理任务。
 - **Deadline（'P2M'）**：如果任务连续两个月失败，则指示任务计划程序在紧急自动维护期间执行任务。
 
-此配置确保定期维护和清理驱动程序，并在连续失败的情况下重新尝试任务。
+此配置确保定期维护和清理驱动程序，并提供在连续失败的情况下重新尝试任务的规定。
 
-**更多信息请查看：** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**更多信息，请查看：** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## 电子邮件
 
@@ -206,14 +207,14 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 
 ### Microsoft Outlook
 
-当使用Exchange服务器或Outlook客户端时，将会有一些MAPI标题：
+当使用Exchange服务器或Outlook客户端时，将会有一些MAPI头：
 
-* `Mapi-Client-Submit-Time`：发送电子邮件时的系统时间
-* `Mapi-Conversation-Index`：线程的子消息数量和每个线程消息的时间戳
+* `Mapi-Client-Submit-Time`：发送电子邮件时系统的时间
+* `Mapi-Conversation-Index`：线程的子消息数量以及线程的每条消息的时间戳
 * `Mapi-Entry-ID`：消息标识符。
-* `Mappi-Message-Flags` 和 `Pr_last_Verb-Executed`：有关MAPI客户端的信息（消息已读？未读？已回复？已重定向？已设置为离开办公室？）
+* `Mappi-Message-Flags`和`Pr_last_Verb-Executed`：有关MAPI客户端的信息（消息已读？未读？已回复？已重定向？已设置为离开办公室？）
 
-在Microsoft Outlook客户端中，所有已发送/接收的消息、联系人数据和日历数据都存储在PST文件中：
+在Microsoft Outlook客户端中，所有已发送/接收的消息、联系人数据和日历数据都存储在以下PST文件中：
 
 * `%USERPROFILE%\Local Settings\Application Data\Microsoft\Outlook`（WinXP）
 * `%USERPROFILE%\AppData\Local\Microsoft\Outlook`
@@ -225,7 +226,7 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ![](<../../../.gitbook/assets/image (485).png>)
 ### Microsoft Outlook OST Files
 
-**OST文件**是由Microsoft Outlook在配置了**IMAP**或**Exchange**服务器时生成的，存储类似于PST文件的信息。该文件与服务器同步，保留**最近12个月**的数据，最大大小为**50GB**，位于与PST文件相同的目录中。要查看OST文件，可以使用[**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html)。
+**OST文件**是Microsoft Outlook在配置**IMAP**或**Exchange**服务器时生成的，存储类似于PST文件的信息。该文件与服务器同步，保留**最近12个月**的数据，最大大小为**50GB**，位于与PST文件相同的目录中。要查看OST文件，可以使用[**Kernel OST viewer**](https://www.nucleustechnologies.com/ost-viewer.html)。
 
 ### 检索附件
 
@@ -248,9 +249,9 @@ LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 
 Windows注册表存储广泛的系统和用户活动数据，包含在以下文件中：
 
-- 对于各种`HKEY_LOCAL_MACHINE`子键，位于`%windir%\System32\Config`。
-- 对于`HKEY_CURRENT_USER`，位于`%UserProfile%{User}\NTUSER.DAT`。
-- Windows Vista及更高版本会在`%Windir%\System32\Config\RegBack\`中备份`HKEY_LOCAL_MACHINE`注册表文件。
+- 各种`HKEY_LOCAL_MACHINE`子键位于`%windir%\System32\Config`。
+- `HKEY_CURRENT_USER`位于`%UserProfile%{User}\NTUSER.DAT`。
+- Windows Vista及更高版本在`%Windir%\System32\Config\RegBack\`中备份`HKEY_LOCAL_MACHINE`注册表文件。
 - 此外，程序执行信息存储在从Windows Vista和Windows 2008 Server开始的`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`中。
 
 ### 工具
@@ -258,13 +259,13 @@ Windows注册表存储广泛的系统和用户活动数据，包含在以下文�
 一些工具可用于分析注册表文件：
 
 * **注册表编辑器**：已安装在Windows中。它是一个GUI，可用于浏览当前会话的Windows注册表。
-* [**注册表浏览器**](https://ericzimmerman.github.io/#!index.md)：允许加载注册表文件并通过GUI浏览它们。还包含突出显示具有有趣信息的键的书签。
-* [**RegRipper**](https://github.com/keydet89/RegRipper3.0)：同样，它有一个GUI，允许浏览加载的注册表，并包含突出显示加载的注册表中有趣信息的插件。
+* [**注册表浏览器**](https://ericzimmerman.github.io/#!index.md)：允许加载注册表文件并通过GUI浏览。还包含突出显示具有有趣信息的键的书签。
+* [**RegRipper**](https://github.com/keydet89/RegRipper3.0)：同样具有GUI，可浏览加载的注册表，并包含突出显示加载的注册表中有趣信息的插件。
 * [**Windows注册表恢复**](https://www.mitec.cz/wrr.html)：另一个能够提取注册表中重要信息的GUI应用程序。
 
 ### 恢复已删除元素
 
-当键被删除时，会标记为已删除，但直到需要占用的空间时才会被删除。因此，使用诸如**注册表浏览器**之类的工具可以恢复这些已删除的键。
+删除键时会标记为已删除，但在需要占用其空间之前不会被删除。因此，使用诸如**注册表浏览器**之类的工具可以恢复这些已删除的键。
 
 ### 最后写入时间
 
@@ -272,9 +273,9 @@ Windows注册表存储广泛的系统和用户活动数据，包含在以下文�
 
 ### SAM
 
-文件/注册表**SAM**包含系统的**用户、组和用户密码**哈希。
+文件/数据库**SAM**包含系统的**用户、组和用户密码**哈希。
 
-在`SAM\Domains\Account\Users`中，您可以获取用户名、RID、上次登录、上次登录失败、登录计数器、密码策略以及帐户创建时间。要获取**哈希值**，还需要文件/注册表**SYSTEM**。
+在`SAM\Domains\Account\Users`中，您可以获取用户名、RID、上次登录、上次登录失败、登录计数器、密码策略以及帐户创建时间。要获取**哈希值**，还需要文件/数据库**SYSTEM**。
 
 ### Windows注册表中的有趣条目
 
@@ -288,23 +289,23 @@ Windows注册表存储广泛的系统和用户活动数据，包含在以下文�
 
 在[此文章](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d)中，您可以了解常见的Windows进程，以便检测可疑行为。
 
-### Windows最近的应用程序
+### Windows最近使用的应用程序
 
 在注册表`NTUSER.DAT`的路径`Software\Microsoft\Current Version\Search\RecentApps`中，您可以找到有关**执行的应用程序**、**上次执行时间**以及**启动次数**的信息。
 
 ### BAM（后台活动调节器）
 
-您可以使用注册表编辑器打开`SYSTEM`文件，在路径`SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`中，您可以找到有关每个用户执行的**应用程序**的信息（注意路径中的`{SID}`），以及它们执行的**时间**（时间在注册表的数据值中）。
+您可以使用注册表编辑器打开`SYSTEM`文件，在路径`SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`中，您可以找到有关每个用户执行的**应用程序**的信息（注意路径中的`{SID}`），以及它们执行的**时间**（时间位于注册表的数据值中）。
 
 ### Windows预取
 
 预取是一种技术，允许计算机默默地**获取显示内容所需的资源**，用户**可能在不久的将来访问**，以便更快地访问资源。
 
-Windows预取包括创建**已执行程序的缓存**，以便更快地加载它们。这些缓存以`.pf`文件的形式创建在路径：`C:\Windows\Prefetch`。在XP/VISTA/WIN7中限制为128个文件，在Win8/Win10中为1024个文件。
+Windows预取包括创建**已执行程序的缓存**，以便更快地加载它们。这些缓存以`.pf`文件的形式创建在路径：`C:\Windows\Prefetch`中。在XP/VISTA/WIN7中限制为128个文件，在Win8/Win10中为1024个文件。
 
 文件名创建为`{program_name}-{hash}.pf`（哈希基于可执行文件的路径和参数）。在W10中，这些文件是压缩的。请注意，文件的存在仅表示**该程序曾被执行**。
 
-文件`C:\Windows\Prefetch\Layout.ini`包含**预取文件夹的名称**。该文件包含有关执行次数的信息，执行的**日期**以及程序打开的**文件**。
+文件`C:\Windows\Prefetch\Layout.ini`包含**预取文件夹的名称**。该文件包含有关执行次数的信息，执行日期以及程序**打开的文件**。
 
 要检查这些文件，可以使用工具[**PEcmd.exe**](https://github.com/EricZimmerman/PECmd)：
 ```bash
@@ -314,30 +315,30 @@ Windows预取包括创建**已执行程序的缓存**，以便更快地加载它
 
 ### Superprefetch
 
-**Superprefetch**的目标与prefetch相同，通过预测下一个加载的内容来**加快程序加载速度**。但是，它并不取代prefetch服务。\
-该服务会在`C:\Windows\Prefetch\Ag*.db`中生成数据库文件。
+**Superprefetch** 的目标与 prefetch 相同，通过预测下一个加载的内容来**更快地加载程序**。但是，它并不取代 prefetch 服务。\
+该服务会在 `C:\Windows\Prefetch\Ag*.db` 中生成数据库文件。
 
 在这些数据库中，您可以找到**程序的名称**、**执行次数**、**打开的文件**、**访问的卷**、**完整路径**、**时间范围**和**时间戳**。
 
-您可以使用工具[**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/)访问这些信息。
+您可以使用工具 [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/) 访问这些信息。
 
 ### SRUM
 
-**系统资源使用监视器**（SRUM）**监视**进程**消耗的资源**。它出现在W8中，并将数据存储在位于`C:\Windows\System32\sru\SRUDB.dat`的ESE数据库中。
+**系统资源使用监视器**（SRUM）**监视**进程**消耗的资源**。它出现在 W8 中，并将数据存储在位于 `C:\Windows\System32\sru\SRUDB.dat` 中的 ESE 数据库中。
 
 它提供以下信息：
 
-* 应用程序ID和路径
+* 应用程序 ID 和路径
 * 执行该进程的用户
-* 发送字节数
-* 接收字节数
+* 发送字节
+* 接收字节
 * 网络接口
 * 连接持续时间
 * 进程持续时间
 
-此信息每60分钟更新一次。
+此信息每 60 分钟更新一次。
 
-您可以使用工具[**srum\_dump**](https://github.com/MarkBaggett/srum-dump)从此文件中获取日期。
+您可以使用工具 [**srum\_dump**](https://github.com/MarkBaggett/srum-dump) 从此文件中获取日期。
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
@@ -391,7 +392,7 @@ AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\gen
 ### **Windows商店**
 
 安装的应用程序可以在`\ProgramData\Microsoft\Windows\AppRepository\`中找到。\
-此存储库中有一个**日志**，其中包含系统中安装的**每个应用程序**的信息，存储在数据库**`StateRepository-Machine.srd`**中。
+此存储库中有一个**日志**，其中包含系统中安装的**每个应用程序**的信息，存储在名为**`StateRepository-Machine.srd`**的数据库中。
 
 在此数据库的Application表中，可以找到列："Application ID"、"PackageNumber"和"Display Name"。这些列包含有关预安装和已安装应用程序的信息，可以查看某些应用程序是否已被卸载，因为已安装应用程序的ID应该是连续的。
 
@@ -408,9 +409,9 @@ Windows事件中显示的信息包括：
 * 涉及的主机（主机名，IP）
 * 访问的资产（文件，文件夹，打印机，服务）
 
-日志位于Windows Vista之前的`C:\Windows\System32\config`中，在Windows Vista之后位于`C:\Windows\System32\winevt\Logs`中。在Windows Vista之前，事件日志以二进制格式存储，在Windows Vista之后，它们以**XML格式**存储，并使用**.evtx**扩展名。
+日志位于Windows Vista之前的`C:\Windows\System32\config`中，之后位于`C:\Windows\System32\winevt\Logs`中。在Windows Vista之前，事件日志以二进制格式存储，之后以**XML格式**存储，并使用**.evtx**扩展名。
 
-事件文件的位置可以在SYSTEM注册表中的**`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**中找到
+事件文件的位置可以在SYSTEM注册表中的**`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**中找到。
 
 可以使用Windows事件查看器（**`eventvwr.msc`**）或其他工具如[**Event Log Explorer**](https://eventlogxp.com) **或** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**来可视化这些事件。**
 
@@ -429,7 +430,7 @@ Windows事件中显示的信息包括：
 
 - **Interactive (2)**：直接用户登录。
 - **Network (3)**：访问共享文件夹。
-- **Batch (4)**：批处理进程的执行。
+- **Batch (4)**：执行批处理过程。
 - **Service (5)**：服务启动。
 - **Proxy (6)**：代理身份验证。
 - **Unlock (7)**：使用密码解锁屏幕。
@@ -446,18 +447,18 @@ Windows事件中显示的信息包括：
 - **0xC000006A**：正确的用户名但密码错误 - 可能是密码猜测或暴力破解尝试。
 - **0xC0000234**：用户帐户被锁定 - 可能是多次登录失败导致的暴力破解攻击。
 - **0xC0000072**：帐户已禁用 - 未经授权的尝试访问已禁用的帐户。
-- **0xC000006F**：在允许的时间之外登录 - 表示尝试在设置的登录时间之外访问，可能是未经授权访问的迹象。
+- **0xC000006F**：在允许的时间外登录 - 表示尝试在设置的登录时间之外访问，可能是未经授权访问的迹象。
 - **0xC0000070**：违反工作站限制 - 可能是尝试从未经授权的位置登录。
 - **0xC0000193**：帐户过期 - 使用已过期用户帐户的访问尝试。
-- **0xC0000071**：密码已过期 - 使用过时密码的登录尝试。
+- **0xC0000071**：密码过期 - 使用过时密码的登录尝试。
 - **0xC0000133**：时间同步问题 - 客户端和服务器之间存在较大的时间差异，可能表明更复杂的攻击，如票据传递攻击。
-- **0xC0000224**：需要强制更改密码 - 频繁的强制更改可能表明试图破坏帐户安全性。
+- **0xC0000224**：需要强制更改密码 - 频繁强制更改可能表明试图破坏帐户安全性。
 - **0xC0000225**：表示系统错误而不是安全问题。
 - **0xC000015b**：拒绝的登录类型 - 使用未经授权的登录类型进行访问尝试，例如用户尝试执行服务登录。
 
 #### EventID 4616：
 
-- **时间更改**：修改系统时间，可能混淆事件时间轴。
+- **时间更改**：修改系统时间，可能掩盖事件时间线。
 
 #### EventID 6005和6006：
 
@@ -467,15 +468,15 @@ Windows事件中显示的信息包括：
 
 - **日志删除**：清除安全日志，通常是掩盖非法活动的红旗。
 
-#### 用于USB设备跟踪的EventID：
+#### 用于USB设备跟踪的事件ID：
 
 - **20001 / 20003 / 10000**：USB设备首次连接。
 - **10100**：USB驱动程序更新。
 - **EventID 112**：USB设备插入时间。
 
-要了解有关模拟这些登录类型和凭据转储机会的实际示例，请参阅[Altered Security的详细指南](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them)。
+有关模拟这些登录类型和凭据转储机会的实际示例，请参阅[Altered Security的详细指南](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them)。
 
-事件详细信息，包括状态和子状态代码，可进一步了解事件原因，特别是在Event ID 4625中。
+事件详细信息，包括状态和子状态代码，可进一步了解事件原因，特别是在事件ID 4625中。
 
 ### 恢复Windows事件
 
@@ -483,7 +484,7 @@ Windows事件中显示的信息包括：
 
 ### 通过Windows事件识别常见攻击
 
-要全面了解如何使用Windows事件ID识别常见网络攻击，请访问[Red Team Recipe](https://redteamrecipe.com/event-codes/)。
+有关使用Windows事件ID识别常见网络攻击的全面指南，请访问[Red Team Recipe](https://redteamrecipe.com/event-codes/)。
 
 #### 暴力破解攻击
 
@@ -495,30 +496,31 @@ Windows事件中显示的信息包括：
 
 #### USB设备跟踪
 
-用于USB设备跟踪的有用的系统EventID包括用于初始使用的20001/20003/10000，用于驱动程序更新的10100，以及来自DeviceSetupManager的插入时间戳的EventID 112。
+用于USB设备跟踪的有用的系统事件ID包括用于初始使用的20001/20003/10000，用于驱动程序更新的10100，以及来自DeviceSetupManager的插入时间戳的EventID 112。
 #### 系统电源事件
 
 EventID 6005 表示系统启动，而 EventID 6006 表示关机。
 
 #### 日志删除
 
-安全事件 EventID 1102 表示日志删除，这是进行取证分析的关键事件。
+安全事件ID 1102 表示日志删除，这是进行取证分析的关键事件。
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技术: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

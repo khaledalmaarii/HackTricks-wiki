@@ -1,30 +1,31 @@
 # 基础 Python
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技能：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技能：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 检查 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## Python 基础
 
 ### 有用信息
 
-list(xrange()) == range() --> 在 Python3 中，range 是 Python2 的 xrange（它不是列表而是生成器）\
-元组和列表的区别在于元组中值的位置赋予其含义，而列表只是有序值。元组具有结构，而列表具有顺序。
+list(xrange()) == range() --> 在 Python3 中，range 是 Python2 的 xrange (它不是一个列表而是一个生成器)\
+元组和列表的区别在于元组中值的位置赋予其含义，而列表只是有序值。元组有结构，而列表有顺序。
 
 ### 主要操作
 
-要求一个数的幂，使用：3\*\*2（不是 3^2）\
-如果执行 2/3，会返回 1，因为您在将两个整数（integers）相除。如果要小数，应该除以浮点数（2.0/3.0）。\
+要求一个数的幂，使用：3\*\*2 (不是 3^2)\
+如果执行 2/3，会返回 1，因为你在除两个整数 (integers)。如果想要小数，应该除以浮点数 (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
@@ -123,30 +124,30 @@ keys = \[k for k in monthNumbers]\
 a={'9':9}\
 monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
 mN = monthNumbers.copy() #独立复制\
-monthNumbers.get('key',0) #检查键是否存在，如果存在则返回monthNumbers\["key"]的值，否则返回0
+monthNumbers.get('key',0) #检查键是否存在，如果存在则返回 monthNumbers\["key"] 的值，否则返回 0
 
 ### 集合
 
-集合中没有重复项\
+集合中没有重复元素\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
-myset.add('a') = {'a', 'b', 'c'} #无重复项\
+myset.add('a') = {'a', 'b', 'c'} #没有重复\
 myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
-myset.discard(10) #如果存在，则移除，否则不做任何操作\
+myset.discard(10) #如果存在则移除，否则不做任何操作\
 myset.remove(10) #如果存在则移除，否则引发异常\
 myset2 = set(\[1, 2, 3, 4])\
-myset.union(myset2) #myset和myset2的值\
-myset.intersection(myset2) #myset和myset2中的值\
-myset.difference(myset2) #myset中但不在myset2中的值\
-myset.symmetric\_difference(myset2) #不在myset和myset2中的值（两者都不在）\
+myset.union(myset2) #myset 或 myset2 中的值\
+myset.intersection(myset2) #myset 和 myset2 中的值\
+myset.difference(myset2) #myset 中但不在 myset2 中的值\
+myset.symmetric\_difference(myset2) #不在 myset 和 myset2 中的值（两者都不在）\
 myset.pop() #获取集合的第一个元素并将其移除\
-myset.intersection\_update(myset2) #myset = myset和myset2中的元素\
-myset.difference\_update(myset2) #myset = myset中但不在myset2中的元素\
+myset.intersection\_update(myset2) #myset = myset 和 myset2 中的元素\
+myset.difference\_update(myset2) #myset = myset 中但不在 myset2 中的元素\
 myset.symmetric\_difference\_update(myset2) #myset = 两者都不在的元素
 
 ### 类
 
-\_\_It\_\_中的方法将用于排序，以比较此类的对象是否大于其他对象
+\_\_It\_\_ 中的方法将用于排序，以比较此类对象是否大于其他对象
 ```python
 class Person(name):
 def __init__(self,name):
@@ -199,11 +200,13 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```python
-mult1 = [x for x in [1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
+```html
+<h2>异常</h2>
 ```
 
-### 异常
+```markdown
+mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
+```
 ```
 def divide(x,y):
 try:
@@ -219,7 +222,7 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-如果条件为假，则会在屏幕上打印字符串
+如果条件为假，则字符串将被打印在屏幕上
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
@@ -227,7 +230,7 @@ assert len(grades) == 'wrong number grades'
 ```
 ### 生成器，yield
 
-生成器不是返回某个东西，而是"产出"某个东西。当你访问它时，它会"返回"生成的第一个值，然后，你可以再次访问它，它将返回生成的下一个值。因此，所有的值不是同时生成的，使用这种方法而不是包含所有值的列表可以节省大量内存。
+一个生成器，不是返回某个东西，而是"产出"某个东西。当你访问它时，它会"返回"第一个生成的值，然后，你可以再次访问它，它将返回下一个生成的值。因此，所有的值不是同时生成的，使用这种方法而不是包含所有值的列表可以节省大量内存。
 ```
 def myGen(n):
 yield n
@@ -312,16 +315,17 @@ Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
+{% hint style="success" %}
+学习并练习AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

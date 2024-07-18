@@ -1,130 +1,84 @@
 # Crypto CTFs 技巧
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技巧：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技巧：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-- 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-- 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 上关注我们 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## 在线哈希数据库
 
-- _**谷歌搜索**_
-- [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
-- [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
-- [https://crackstation.net/](https://crackstation.net)
-- [https://md5decrypt.net/](https://md5decrypt.net)
-- [https://www.onlinehashcrack.com](https://www.onlinehashcrack.com)
-- [https://gpuhash.me/](https://gpuhash.me)
-- [https://hashes.org/search.php](https://hashes.org/search.php)
-- [https://www.cmd5.org/](https://www.cmd5.org)
-- [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
-- [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
+* _**谷歌搜索**_
+* [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
+* [https://crackstation.net/](https://crackstation.net)
+* [https://md5decrypt.net/](https://md5decrypt.net)
+* [https://www.onlinehashcrack.com](https://www.onlinehashcrack.com)
+* [https://gpuhash.me/](https://gpuhash.me)
+* [https://hashes.org/search.php](https://hashes.org/search.php)
+* [https://www.cmd5.org/](https://www.cmd5.org)
+* [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
+* [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
 ## 魔术自动解密器
 
-- [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-- [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)（魔术模块）
-- [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
-- [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
+* [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (魔术模块)
+* [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+* [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
 ## 编码器
 
-大多数编码数据可以使用以下两个资源解码：
+大多数编码数据可以使用以下两个资源进行解码：
 
-- [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
-- [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### 替换自动解密器
 
-- [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-- [https://quipqiup.com/](https://quipqiup.com) - 非常好！
+* [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
+* [https://quipqiup.com/](https://quipqiup.com) - 非常好！
 
 #### 凯撒密码 - ROTx 自动解密器
 
-- [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
+* [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
 #### 阿特巴什密码
 
-- [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
+* [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
 ### 基础编码自动解密器
 
-使用以下链接检查所有这些基础：[https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
-
-- **Ascii85**
-- `BQ%]q@psCd@rH0l`
-- **Base26** \[_A-Z_]
-- `BQEKGAHRJKHQMVZGKUXNT`
-- **Base32** \[_A-Z2-7=_]
-- `NBXWYYLDMFZGCY3PNRQQ====`
-- **Zbase32** \[_ybndrfg8ejkmcpqxot1uwisza345h769_]
-- `pbzsaamdcf3gna5xptoo====`
-- **Base32 Geohash** \[_0-9b-hjkmnp-z_]
-- `e1rqssc3d5t62svgejhh====`
-- **Base32 Crockford** \[_0-9A-HJKMNP-TV-Z_]
-- `D1QPRRB3C5S62RVFDHGG====`
-- **Base32 Extended Hexadecimal** \[_0-9A-V_]
-- `D1NMOOB3C5P62ORFDHGG====`
-- **Base45** \[_0-9A-Z $%\*+-./:_]
-- `59DPVDGPCVKEUPCPVD`
-- **Base58 (bitcoin)** \[_1-9A-HJ-NP-Za-km-z_]
-- `2yJiRg5BF9gmsU6AC`
-- **Base58 (flickr)** \[_1-9a-km-zA-HJ-NP-Z_]
-- `2YiHqF5bf9FLSt6ac`
-- **Base58 (ripple)** \[_rpshnaf39wBUDNEGHJKLM4PQ-T7V-Z2b-eCg65jkm8oFqi1tuvAxyz_]
-- `pyJ5RgnBE9gm17awU`
-- **Base62** \[_0-9A-Za-z_]
-- `g2AextRZpBKRBzQ9`
-- **Base64** \[_A-Za-z0-9+/=_]
-- `aG9sYWNhcmFjb2xh`
-- **Base67** \[_A-Za-z0-9-_.!\~\_]
-- `NI9JKX0cSUdqhr!p`
-- **Base85 (Ascii85)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
-- `BQ%]q@psCd@rH0l`
-- **Base85 (Adobe)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
-- `<~BQ%]q@psCd@rH0l~>`
-- **Base85 (IPv6 or RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
-- `Xm4y`V\_|Y(V{dF>\`
-- **Base85 (xbtoa)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
-- `xbtoa Begin\nBQ%]q@psCd@rH0l\nxbtoa End N 12 c E 1a S 4e6 R 6991d`
-- **Base85 (XML)** \[_0-9A-Za-y!#$()\*+,-./:;=?@^\`{|}\~z\__]
-- `Xm4y|V{~Y+V}dF?`
-- **Base91** \[_A-Za-z0-9!#$%&()\*+,./:;<=>?@\[]^\_\`{|}\~"_]
-- `frDg[*jNN!7&BQM`
-- **Base100** \[]
-- `👟👦👣👘👚👘👩👘👚👦👣👘`
-- **Base122** \[]
-- `4F ˂r0Xmvc`
-- **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
-- `MIc3KiXa+Ihz+lrXMIc3KbCC`
-- **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
-- `DmPsv8J7qrlKEoY7`
-- **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
-- `kLD8iwKsigSalLJ5`
-- **ZONG22** \[_ZKj9n+yf0wDVX1s/5YbdxSo=ILaUpPBCHg8uvNO4klm6iJGhQ7eFrWczAMEq3RTt2_]
-- `ayRiIo1gpO+uUc7g`
-- **ESAB46** \[]
-- `3sHcL2NR8WrT7mhR`
-- **MEGAN45** \[]
-- `kLD8igSXm2KZlwrX`
-- **TIGO3FX** \[]
-- `7AP9mIzdmltYmIP9mWXX`
-- **TRIPO5** \[]
-- `UE9vSbnBW6psVzxB`
-- **FERON74** \[]
-- `PbGkNudxCzaKBm0x`
-- **GILA7** \[]
-- `D+nkv8C1qIKMErY1`
-- **Citrix CTX1** \[]
-- `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
+使用以下链接检查所有这些基础编码：[https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
+* `DmPsv8J7qrlKEoY7`
+* **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
+* `kLD8iwKsigSalLJ5`
+* **ZONG22** \[_ZKj9n+yf0wDVX1s/5YbdxSo=ILaUpPBCHg8uvNO4klm6iJGhQ7eFrWczAMEq3RTt2_]
+* `ayRiIo1gpO+uUc7g`
+* **ESAB46** \[]
+* `3sHcL2NR8WrT7mhR`
+* **MEGAN45** \[]
+* `kLD8igSXm2KZlwrX`
+* **TIGO3FX** \[]
+* `7AP9mIzdmltYmIP9mWXX`
+* **TRIPO5** \[]
+* `UE9vSbnBW6psVzxB`
+* **FERON74** \[]
+* `PbGkNudxCzaKBm0x`
+* **GILA7** \[]
+* `D+nkv8C1qIKMErY1`
+* **Citrix CTX1** \[]
+* `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
 [http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
@@ -136,17 +90,13 @@
 
 ### Morse
 
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
-
-### 摩尔斯
+### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dead: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 页面不存在: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### UUencoder
-
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 死链: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+### UU编码器
 ```
 begin 644 webutils_pl
 M2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(3TQ!2$],04A/3$%(
@@ -157,7 +107,7 @@ end
 ```
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
-### XXEncoder
+### XX编码器
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -184,10 +134,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
 -38K26%'d9J!!:
 ```
-* [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
-
-### ASCII85
-
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
@@ -235,7 +181,7 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ## 压缩
 
-**原始压缩** 和 **原始解压**（您可以在 Cyberchef 中找到）可以在没有标头的情况下压缩和解压数据。
+**原始压缩** 和 **原始解压**（你可以在 Cyberchef 中找到）可以压缩和解压数据而不包含头部信息。
 
 ## 简单加密
 
@@ -263,7 +209,7 @@ wodsyoidrods
 
 ### Fernet
 
-2个base64字符串（令牌和密钥）
+2个base64字符串（token和key）
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -294,16 +240,17 @@ Key:
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+学习并练习AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}

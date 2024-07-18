@@ -1,28 +1,29 @@
+{% hint style="success" %}
+学习并练习AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-- 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享黑客技巧。**
 
 </details>
+{% endhint %}
 
 
 # 数据碎片重组工具
 
 ## Autopsy
 
-在取证中最常用的用于从图像中提取文件的工具是[**Autopsy**](https://www.autopsy.com/download/)。下载、安装并让其摄取文件以查找“隐藏”文件。请注意，Autopsy专为支持磁盘映像和其他类型的映像构建，而不是简单文件。
+在取证中用于从图像中提取文件的最常用工具是[**Autopsy**](https://www.autopsy.com/download/)。下载、安装并让其摄取文件以查找“隐藏”文件。请注意，Autopsy 专为支持磁盘映像和其他类型的映像构建，而不是简单文件。
 
 ## Binwalk <a id="binwalk"></a>
 
-**Binwalk**是一种用于搜索二进制文件（如图像和音频文件）中嵌入文件和数据的工具。
-可以使用`apt`安装，但是[源代码](https://github.com/ReFirmLabs/binwalk)可以在github上找到。
+**Binwalk** 是一种用于搜索二进制文件（如图像和音频文件）中嵌入文件和数据的工具。
+可以使用 `apt` 安装，但[源代码](https://github.com/ReFirmLabs/binwalk)可在 github 上找到。
 **有用的命令**：
 ```bash
 sudo apt install binwalk #Insllation
@@ -32,7 +33,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ## Foremost
 
-另一个常用的查找隐藏文件的工具是**foremost**。您可以在`/etc/foremost.conf`中找到foremost的配置文件。如果您只想搜索一些特定文件，请取消注释。如果您不取消注释任何内容，foremost将搜索其默认配置的文件类型。
+另一个常用的查找隐藏文件的工具是 **foremost**。您可以在 `/etc/foremost.conf` 中找到 foremost 的配置文件。如果您只想搜索一些特定文件，请取消注释。如果您不取消任何注释，foremost 将搜索其默认配置的文件类型。
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -47,19 +48,19 @@ scalpel file.img -o output
 ```
 ## Bulk Extractor
 
-这个工具包含在kali中，但你也可以在这里找到它: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk_extractor)
+这个工具包含在kali中，但你也可以在这里找到它：[https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk_extractor)
 
-这个工具可以扫描一个镜像，并且会**提取其中的pcaps**，**网络信息（URLs, domains, IPs, MACs, mails）**以及更多**文件**。你只需要执行以下操作：
+这个工具可以扫描一个镜像，并且会**提取其中的pcaps**，**网络信息（URLs、域名、IP地址、MAC地址、邮件）**以及更多**文件**。你只需要执行以下操作：
 ```text
 bulk_extractor memory.img -o out_folder
 ```
-浏览工具收集的**所有信息**（密码？），**分析**数据包（阅读[**Pcaps分析**](../pcap-inspection/)），搜索**奇怪的域名**（与**恶意软件**或**不存在**相关的域名）。
+浏览工具收集的**所有信息**（密码？），分析**数据包**（阅读[**Pcaps分析**](../pcap-inspection/)），搜索**奇怪的域名**（与**恶意软件**或**不存在**相关的域名）。
 
 ## PhotoRec
 
 您可以在[https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk_Download)找到它。
 
-它带有GUI和CLI版本。您可以选择要让PhotoRec搜索的**文件类型**。
+它带有GUI和CLI版本。您可以选择要PhotoRec搜索的**文件类型**。
 
 ![](../../../.gitbook/assets/image%20%28524%29.png)
 
@@ -74,4 +75,4 @@ bulk_extractor memory.img -o out_folder
 # 附加工具
 
 您可以使用[**viu**](https://github.com/atanunq/viu)在终端中查看图像。
-您可以使用Linux命令行工具**pdftotext**将PDF转换为文本并阅读它。
+您可以使用Linux命令行工具**pdftotext**将pdf转换为文本并阅读它。
