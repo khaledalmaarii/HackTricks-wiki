@@ -1,18 +1,19 @@
 # Хитрощі Crypto CTFs
 
+{% hint style="success" %}
+Вивчайте та практикуйте взлом AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
+{% endhint %}
 
 ## Онлайн бази даних хешів
 
@@ -55,7 +56,7 @@
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Авторозв'язувачі кодування на основі баз
+### Авторозв'язувачі кодування на базі
 
 Перевірте всі ці бази за допомогою: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
@@ -91,7 +92,7 @@
 * `BQ%]q@psCd@rH0l`
 * **Base85 (Adobe)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
 * `<~BQ%]q@psCd@rH0l~>`
-* **Base85 (IPv6 or RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
+* **Base85 (IPv6 або RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
 * `Xm4y`V\_|Y(V{dF>\`
 * **Base85 (xbtoa)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
 * `xbtoa Begin\nBQ%]q@psCd@rH0l\nxbtoa End N 12 c E 1a S 4e6 R 6991d`
@@ -132,13 +133,13 @@
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Мертвий: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
-### Morse
+### Морзе
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Мертвий: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dead: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -162,7 +163,7 @@ end
 
 ### YEncoder
 
-### Український переклад
+### Український переклад:
 ```
 =ybegin line=128 size=28 name=webutils_pl
 ryvkryvkryvkryvkryvkryvkryvk
@@ -179,6 +180,8 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
+
+### ASCII85
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
@@ -188,17 +191,17 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=uk\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=uk\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
-Букви до їх числового значення
+Літери до їх числового значення
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
 ### Шифр Афіничного Шифрування
 
-Перетворення літер у числа `(ax+b)%26` (_a_ та _b_ - ключі, _x_ - літера) та повернення результату у вигляді літери
+Перетворення літер у числа `(ax+b)%26` (_a_ та _b_ - ключі, _x_ - літера), та результат знову у літеру
 ```
 krodfdudfrod
 ```
@@ -206,7 +209,7 @@ krodfdudfrod
 
 **Multitap** [замінює літеру](https://www.dcode.fr/word-letter-change) на повторювані цифри, визначені відповідним кодом клавіатури мобільного [телефону](https://www.dcode.fr/phone-keypad-cipher) (Цей режим використовується при написанні SMS).\
 Наприклад: 2=A, 22=B, 222=C, 3=D...\
-Ви можете впізнати цей код, оскільки побачите\*\* кілька повторюваних чисел\*\*.
+Ви можете ідентифікувати цей код, оскільки побачите\*\* кілька повторюваних чисел\*\*.
 
 Ви можете розкодувати цей код за посиланням: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
@@ -233,7 +236,7 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ### Bifid
 
-Потрібно ключове слово
+Потрібен ключове слово
 ```
 fgaargaamnlunesuneoa
 ```
@@ -261,7 +264,7 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Розподіл секрету Саміра
+### Схема секретного ділення Саміра
 
 Секрет розбивається на X частин, і для його відновлення потрібно Y частин (_Y <=X_).
 ```
@@ -271,7 +274,7 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Перебір паролів з використанням OpenSSL
+### OpenSSL brute-force
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -282,16 +285,17 @@ Key:
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Вивчайте та практикуйте хакінг AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
 
 </details>
+{% endhint %}
