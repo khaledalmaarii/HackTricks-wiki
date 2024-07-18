@@ -2,19 +2,20 @@
 
 ## Kryptografische/Kompressionsalgorithmen
 
+{% hint style="success" %}
+Lernen und üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen und üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
+{% endhint %}
 
 ## Identifizierung von Algorithmen
 
@@ -36,7 +37,7 @@ Komprimiert und dekomprimiert einen gegebenen Datenpuffer.
 
 **CryptAcquireContext**
 
-Aus [den Dokumenten](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Die Funktion **CryptAcquireContext** wird verwendet, um einen Handle auf einen bestimmten Schlüsselcontainer innerhalb eines bestimmten kryptografischen Dienstanbieters (CSP) zu erhalten. **Dieses zurückgegebene Handle wird in Aufrufen von CryptoAPI-Funktionen verwendet**, die den ausgewählten CSP verwenden.
+Aus [den Dokumenten](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Die **CryptAcquireContext**-Funktion wird verwendet, um einen Handle auf einen bestimmten Schlüsselcontainer innerhalb eines bestimmten kryptografischen Dienstanbieters (CSP) zu erhalten. **Dieses zurückgegebene Handle wird in Aufrufen von CryptoAPI-Funktionen verwendet**, die den ausgewählten CSP verwenden.
 
 **CryptCreateHash**
 
@@ -62,11 +63,11 @@ Sie können eine beliebige der anderen Konstanten suchen und wahrscheinlich dass
 ### Dateninformationen
 
 Wenn der Code keine signifikante Konstante enthält, lädt er möglicherweise **Informationen aus dem .data-Abschnitt**.\
-Sie können auf diese Daten zugreifen, **das erste Dword gruppieren** und danach in Google suchen, wie wir es im vorherigen Abschnitt getan haben:
+Sie können auf diese Daten zugreifen, **das erste Dword gruppieren** und danach suchen, wie wir es im vorherigen Abschnitt getan haben:
 
 ![](<../../.gitbook/assets/image (531).png>)
 
-In diesem Fall, wenn Sie nach **0xA56363C6** suchen, können Sie feststellen, dass es mit den **Tabellen des AES-Algorithmus** zusammenhängt.
+In diesem Fall können Sie feststellen, dass, wenn Sie nach **0xA56363C6** suchen, Sie feststellen können, dass es sich auf die **Tabellen des AES-Algorithmus** bezieht.
 
 ## RC4 **(Symmetrische Verschlüsselung)**
 
@@ -74,9 +75,9 @@ In diesem Fall, wenn Sie nach **0xA56363C6** suchen, können Sie feststellen, da
 
 Er besteht aus 3 Hauptteilen:
 
-* **Initialisierungsphase/**: Erstellt eine **Tabelle von Werten von 0x00 bis 0xFF** (insgesamt 256 Bytes, 0x100). Diese Tabelle wird normalerweise als **Substitutionsbox** (oder SBox) bezeichnet.
+* **Initialisierungsphase/**: Erstellt eine **Tabelle von Werten von 0x00 bis 0xFF** (insgesamt 256 Bytes, 0x100). Diese Tabelle wird üblicherweise als **Substitutionsbox** (oder SBox) bezeichnet.
 * **Verwürfelungsphase**: Wird durch die zuvor erstellte Tabelle durchlaufen (Schleife von 0x100 Iterationen, erneut) und modifiziert jeden Wert mit **halbzufälligen** Bytes. Um diese halbzufälligen Bytes zu erstellen, wird der RC4-**Schlüssel verwendet**. RC4-**Schlüssel** können **zwischen 1 und 256 Bytes lang sein**, es wird jedoch in der Regel empfohlen, dass er über 5 Bytes liegt. Üblicherweise sind RC4-Schlüssel 16 Bytes lang.
-* **XOR-Phase**: Schließlich wird der Klartext oder der Geheimtext mit den zuvor erstellten Werten **XOR-verknüpft**. Die Funktion zum Verschlüsseln und Entschlüsseln ist dieselbe. Dafür wird eine **Schleife durch die erstellten 256 Bytes** so oft wie nötig durchgeführt. Dies wird in einem dekompilierten Code normalerweise mit einem **%256 (mod 256)** erkannt.
+* **XOR-Phase**: Schließlich wird der Klartext oder der Geheimtext mit den zuvor erstellten Werten **XOR-verknüpft**. Die Funktion zum Verschlüsseln und Entschlüsseln ist dieselbe. Dafür wird eine **Schleife durch die erstellten 256 Bytes** so oft wie nötig durchgeführt. Dies wird in einem dekompilierten Code normalerweise durch ein **%256 (mod 256)** erkannt.
 
 {% hint style="info" %}
 **Um einen RC4 in einem Disassemblierungs-/dekompilierten Code zu identifizieren, können Sie nach 2 Schleifen der Größe 0x100 (mit Verwendung eines Schlüssels) suchen und dann ein XOR der Eingabedaten mit den 256 zuvor erstellten Werten in den 2 Schleifen wahrscheinlich unter Verwendung eines %256 (mod 256)**
@@ -100,7 +101,7 @@ Er besteht aus 3 Hauptteilen:
 
 * Verwendung von **Substitutionsboxen und Lookup-Tabellen**
 * Es ist möglich, AES anhand der Verwendung spezifischer Lookup-Tabellenwerte (Konstanten) zu **unterscheiden**. _Beachten Sie, dass die **Konstante** im Binärformat **gespeichert** oder **dynamisch erstellt** werden kann._
-* Der **Verschlüsselungsschlüssel** muss durch **16 teilbar** sein (normalerweise 32 Byte) und normalerweise wird ein **IV** von 16 Byte verwendet.
+* Der **Verschlüsselungsschlüssel** muss durch **16 teilbar** sein (normalerweise 32B) und normalerweise wird ein **IV** von 16B verwendet.
 
 ### SBox-Konstanten
 
@@ -120,24 +121,24 @@ Beachten Sie auch die **Größe der Schleife** (**132**) und die **Anzahl der XO
 
 ![](<../../.gitbook/assets/image (547).png>)
 
-Wie bereits erwähnt, kann dieser Code in einem Dekompiler als **sehr lange Funktion** dargestellt werden, da es darin **keine Sprünge** gibt. Der dekompilierte Code kann wie folgt aussehen:
+Wie bereits erwähnt, kann dieser Code in einem Dekompiler als **sehr lange Funktion** dargestellt werden, da es **keine Sprünge** darin gibt. Der dekompilierte Code kann wie folgt aussehen:
 
 ![](<../../.gitbook/assets/image (513).png>)
 
-Daher ist es möglich, diesen Algorithmus zu identifizieren, indem Sie die **Magische Zahl** und die **anfänglichen XORs** überprüfen, eine **sehr lange Funktion** sehen und einige **Anweisungen** der langen Funktion **mit einer Implementierung vergleichen** (wie dem Linksschieben um 7 und dem Linksrotieren um 22).
+Daher ist es möglich, diesen Algorithmus zu identifizieren, indem Sie die **magische Zahl** und die **anfänglichen XORs** überprüfen, eine **sehr lange Funktion** sehen und einige **Anweisungen** der langen Funktion **mit einer Implementierung vergleichen** (wie dem Linksschieben um 7 und dem Linksrotieren um 22).
 ## RSA **(Asymmetrische Verschlüsselung)**
 
 ### Eigenschaften
 
 * Komplexer als symmetrische Algorithmen
 * Es gibt keine Konstanten! (Benutzerdefinierte Implementierungen sind schwer zu bestimmen)
-* KANAL (ein Kryptoanalysator) zeigt keine Hinweise auf RSA, da es auf Konstanten angewiesen ist.
+* KANAL (ein Kryptoanalysator) kann keine Hinweise auf RSA anzeigen, da es auf Konstanten angewiesen ist.
 
 ### Identifizierung durch Vergleiche
 
 ![](<../../.gitbook/assets/image (1113).png>)
 
-* In Zeile 11 (links) gibt es ein `+7) >> 3`, das dem in Zeile 35 (rechts) entspricht: `+7) / 8`
+* In Zeile 11 (links) gibt es ein `+7) >> 3`, das dasselbe ist wie in Zeile 35 (rechts): `+7) / 8`
 * Zeile 12 (links) überprüft, ob `modulus_len < 0x040` ist, und in Zeile 36 (rechts) wird überprüft, ob `inputLen+11 > modulusLen`
 
 ## MD5 & SHA (Hash)
@@ -155,7 +156,7 @@ Sie können beide identifizieren, indem Sie die Konstanten überprüfen. Beachte
 
 ![](<../../.gitbook/assets/image (406).png>)
 
-**MD5 Transformieren**
+**MD5 Transform**
 
 Beachten Sie die Verwendung von mehr Konstanten
 
@@ -164,11 +165,11 @@ Beachten Sie die Verwendung von mehr Konstanten
 ## CRC (Hash)
 
 * Kleiner und effizienter, da seine Funktion darin besteht, zufällige Änderungen in Daten zu finden
-* Verwendet Suchtabellen (damit Sie Konstanten identifizieren können)
+* Verwendet Lookup-Tabellen (damit Sie Konstanten identifizieren können)
 
 ### Identifizieren
 
-Überprüfen Sie **Suchtabellenkonstanten**:
+Überprüfen Sie **Lookup-Tabellenkonstanten**:
 
 ![](<../../.gitbook/assets/image (508).png>)
 
@@ -192,17 +193,3 @@ Der Graph ist ziemlich groß:
 Überprüfen Sie **3 Vergleiche, um es zu erkennen**:
 
 ![](<../../.gitbook/assets/image (430).png>)
-
-<details>
-
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
-
-</details>

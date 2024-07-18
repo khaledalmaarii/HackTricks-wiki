@@ -1,28 +1,29 @@
 # macOS XPC Autorisierung
 
+{% hint style="success" %}
+Lernen Sie und üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie und üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
+{% endhint %}
 
 ## XPC Autorisierung
 
-Apple schlägt auch einen anderen Weg vor, um zu authentifizieren, ob der verbindende Prozess **Berechtigungen zum Aufrufen der freigegebenen XPC-Methode** hat.
+Apple schlägt auch einen anderen Weg vor, um zu authentifizieren, ob der verbindende Prozess **Berechtigungen hat, um die freigegebene XPC-Methode aufzurufen**.
 
-Wenn eine Anwendung **Aktionen als privilegierter Benutzer ausführen muss**, installiert sie normalerweise anstelle des Ausführens der App als privilegierter Benutzer als Root ein HelperTool als XPC-Dienst, der von der App aufgerufen werden kann, um diese Aktionen auszuführen. Die App, die den Dienst aufruft, sollte jedoch über ausreichende Autorisierung verfügen.
+Wenn eine Anwendung **Aktionen als privilegierter Benutzer ausführen muss**, installiert sie normalerweise anstelle der Ausführung der App als privilegierter Benutzer als Root ein HelperTool als XPC-Dienst, der von der App aufgerufen werden kann, um diese Aktionen auszuführen. Die App, die den Dienst aufruft, sollte jedoch über ausreichende Autorisierung verfügen.
 
 ### ShouldAcceptNewConnection immer YES
 
-Ein Beispiel hierfür findet sich in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` versucht es, eine Verbindung zum **HelperTool** herzustellen. Und in `HelperTool/HelperTool.m` wird die Funktion **`shouldAcceptNewConnection`** **keine** der zuvor angegebenen Anforderungen überprüfen. Sie gibt immer YES zurück:
+Ein Beispiel hierfür findet sich in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` versucht es, eine Verbindung zum **HelperTool** herzustellen. Und in `HelperTool/HelperTool.m` überprüft die Funktion **`shouldAcceptNewConnection`** **nicht** die zuvor angegebenen Anforderungen. Sie gibt immer YES zurück:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -39,7 +40,7 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Für weitere Informationen zur ordnungsgemäßen Konfiguration dieses Checks:
+Für weitere Informationen darüber, wie Sie diese Überprüfung ordnungsgemäß konfigurieren können:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
@@ -50,7 +51,7 @@ Für weitere Informationen zur ordnungsgemäßen Konfiguration dieses Checks:
 Es findet jedoch eine **Autorisierung statt, wenn eine Methode aus dem HelperTool aufgerufen wird**.
 
 Die Funktion **`applicationDidFinishLaunching`** aus `App/AppDelegate.m` erstellt nach dem Start der App eine leere Autorisierungsreferenz. Dies sollte immer funktionieren.\
-Anschließend wird versucht, **einige Rechte hinzuzufügen**, indem `setupAuthorizationRights` aufgerufen wird:
+Anschließend wird versucht, **einige Rechte hinzuzufügen** zu dieser Autorisierungsreferenz, indem `setupAuthorizationRights` aufgerufen wird:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -184,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Das bedeutet, dass am Ende dieses Prozesses die in `commandInfo` deklarierten Berechtigungen in `/var/db/auth.db` gespeichert werden. Beachten Sie, dass dort für **jede Methode**, die **Authentifizierung erfordert**, der **Berechtigungsname** und der **`kCommandKeyAuthRightDefault`** zu finden sind. Letzterer **zeigt an, wer dieses Recht erhalten kann**.
+Das bedeutet, dass am Ende dieses Prozesses die in `commandInfo` deklarierten Berechtigungen in `/var/db/auth.db` gespeichert werden. Beachten Sie, wie dort für **jede Methode**, die **Authentifizierung erfordert**, der **Berechtigungsname** und der **`kCommandKeyAuthRightDefault`** zu finden sind. Letzterer **zeigt an, wer dieses Recht erhalten kann**.
 
 Es gibt verschiedene Bereiche, um anzuzeigen, wer ein Recht erhalten kann. Einige von ihnen sind in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) definiert (Sie können [alle von ihnen hier finden](https://www.dssw.co.uk/reference/authorization-rights/)), aber zusammengefasst:
 
@@ -240,11 +241,11 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Beachten Sie, dass zur Überprüfung der Anforderungen, um das Recht zu erhalten, diese Methode aufzurufen, die Funktion `authorizationRightForCommand` einfach das zuvor kommentierte Objekt `commandInfo` überprüfen wird. Anschließend wird sie `AuthorizationCopyRights` aufrufen, um zu überprüfen, ob sie das Recht hat, die Funktion aufzurufen (beachten Sie, dass die Flags die Interaktion mit dem Benutzer ermöglichen).
+Beachten Sie, dass die Funktion `authorizationRightForCommand` lediglich das zuvor kommentierte Objekt `commandInfo` überprüft, um die Anforderungen für den Aufruf dieser Methode zu überprüfen. Anschließend wird `AuthorizationCopyRights` aufgerufen, um zu überprüfen, ob die Berechtigungen zum Aufruf der Funktion vorliegen (beachten Sie, dass die Flags die Interaktion mit dem Benutzer ermöglichen).
 
 In diesem Fall ist für den Aufruf der Funktion `readLicenseKeyAuthorization` das `kCommandKeyAuthRightDefault` auf `@kAuthorizationRuleClassAllow` festgelegt. Daher kann es von jedem aufgerufen werden.
 
-### DB-Informationen
+### Datenbankinformationen
 
 Es wurde erwähnt, dass diese Informationen in `/var/db/auth.db` gespeichert sind. Sie können alle gespeicherten Regeln auflisten mit:
 ```sql
@@ -261,10 +262,10 @@ security authorizationdb read com.apple.safaridriver.allow
 Sie können **alle Berechtigungskonfigurationen** [**hier**](https://www.dssw.co.uk/reference/authorization-rights/) finden, aber die Kombinationen, die keine Benutzerinteraktion erfordern, wären:
 
 1. **'authenticate-user': 'false'**
-* Dies ist der direkteste Schlüssel. Wenn er auf `false` gesetzt ist, wird angegeben, dass ein Benutzer keine Authentifizierung benötigt, um dieses Recht zu erhalten.
+* Dies ist der direkteste Schlüssel. Wenn er auf `false` gesetzt ist, wird angegeben, dass ein Benutzer keine Authentifizierung benötigt, um dieses Recht zu erlangen.
 * Dies wird in **Kombination mit einem der beiden unten stehenden oder der Angabe einer Gruppe** verwendet, der der Benutzer angehören muss.
 2. **'allow-root': 'true'**
-* Wenn ein Benutzer als Root-Benutzer (der über erhöhte Berechtigungen verfügt) arbeitet und dieser Schlüssel auf `true` gesetzt ist, könnte der Root-Benutzer dieses Recht potenziell ohne weitere Authentifizierung erhalten. In der Regel erfordert jedoch bereits das Erreichen des Root-Benutzerstatus eine Authentifizierung, sodass dies für die meisten Benutzer kein Szenario ohne Authentifizierung ist.
+* Wenn ein Benutzer als Root-Benutzer (der über erhöhte Berechtigungen verfügt) arbeitet und dieser Schlüssel auf `true` gesetzt ist, könnte der Root-Benutzer dieses Recht potenziell ohne weitere Authentifizierung erlangen. In der Regel erfordert das Erreichen des Root-Benutzerstatus jedoch bereits eine Authentifizierung, sodass dies für die meisten Benutzer kein Szenario ohne Authentifizierung ist.
 3. **'session-owner': 'true'**
 * Wenn auf `true` gesetzt, würde der Besitzer der Sitzung (der aktuell angemeldete Benutzer) automatisch dieses Recht erhalten. Dies könnte zusätzliche Authentifizierung umgehen, wenn der Benutzer bereits angemeldet ist.
 4. **'shared': 'true'**
@@ -425,16 +426,17 @@ NSLog(@"Finished!");
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys senden.
 
 </details>
+{% endhint %}

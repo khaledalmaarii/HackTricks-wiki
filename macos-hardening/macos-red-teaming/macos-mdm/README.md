@@ -1,18 +1,19 @@
 # macOS MDM
 
+{% hint style="success" %}
+Lernen Sie und üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie und üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erfahren Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+{% endhint %}
 
 **Um mehr über macOS MDMs zu erfahren, überprüfen Sie:**
 
@@ -23,23 +24,23 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ### **MDM (Mobile Device Management) Überblick**
 
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) wird zur Verwaltung verschiedener Endbenutzergeräte wie Smartphones, Laptops und Tablets eingesetzt. Insbesondere für Apples Plattformen (iOS, macOS, tvOS) umfasst es eine Reihe spezialisierter Funktionen, APIs und Praktiken. Der Betrieb von MDM hängt von einem kompatiblen MDM-Server ab, der entweder kommerziell verfügbar oder Open Source ist und das [MDM-Protokoll](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) unterstützen muss. Zu den Schlüsselpunkten gehören:
+[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) wird zur Verwaltung verschiedener Endbenutzergeräte wie Smartphones, Laptops und Tablets eingesetzt. Insbesondere für Apples Plattformen (iOS, macOS, tvOS) umfasst es eine Reihe spezialisierter Funktionen, APIs und Praktiken. Der Betrieb von MDM hängt von einem kompatiblen MDM-Server ab, der entweder kommerziell verfügbar oder Open Source ist und das [MDM-Protokoll](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) unterstützen muss. Zu den wichtigsten Punkten gehören:
 
 * Zentrale Kontrolle über Geräte.
 * Abhängigkeit von einem MDM-Server, der dem MDM-Protokoll entspricht.
-* Fähigkeit des MDM-Servers, verschiedene Befehle an Geräte zu senden, z. B. Remote-Datenerfassung oder Konfigurationsinstallation.
+* Fähigkeit des MDM-Servers, verschiedene Befehle an Geräte zu senden, z. B. Fernlöschung von Daten oder Konfigurationsinstallation.
 
 ### **Grundlagen des DEP (Device Enrollment Program)**
 
-Das [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) von Apple vereinfacht die Integration des Mobile Device Management (MDM), indem es eine Konfiguration ohne Berührung für iOS-, macOS- und tvOS-Geräte ermöglicht. DEP automatisiert den Anmeldeprozess, sodass Geräte sofort einsatzbereit sind, mit minimalem Benutzer- oder administrativem Eingriff. Wesentliche Aspekte sind:
+Das von Apple angebotene [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) vereinfacht die Integration des Mobile Device Management (MDM), indem es eine Konfiguration ohne Berührung für iOS-, macOS- und tvOS-Geräte ermöglicht. DEP automatisiert den Anmeldevorgang, sodass Geräte direkt einsatzbereit sind, mit minimalem Benutzer- oder Administratoreingriff. Wesentliche Aspekte sind:
 
 * Ermöglicht es Geräten, sich bei der erstmaligen Aktivierung automatisch bei einem vordefinierten MDM-Server zu registrieren.
 * Hauptsächlich für brandneue Geräte vorteilhaft, aber auch für Geräte, die neu konfiguriert werden.
-* Ermöglicht eine unkomplizierte Einrichtung, sodass Geräte schnell für den organisatorischen Einsatz bereit sind.
+* Ermöglicht eine einfache Einrichtung, sodass Geräte schnell für den organisatorischen Einsatz bereit sind.
 
 ### **Sicherheitsüberlegungen**
 
-Es ist wichtig zu beachten, dass die vereinfachte Anmeldung durch DEP, obwohl vorteilhaft, auch Sicherheitsrisiken bergen kann. Wenn Schutzmaßnahmen für die MDM-Anmeldung nicht angemessen durchgesetzt werden, könnten Angreifer diesen vereinfachten Prozess ausnutzen, um ihr Gerät auf dem MDM-Server der Organisation zu registrieren und sich als Unternehmensgerät auszugeben.
+Es ist wichtig zu beachten, dass die vereinfachte Anmeldung durch DEP, obwohl vorteilhaft, auch Sicherheitsrisiken bergen kann. Wenn für die MDM-Anmeldung keine ausreichenden Schutzmaßnahmen durchgesetzt werden, könnten Angreifer diesen vereinfachten Prozess ausnutzen, um ihr Gerät auf dem MDM-Server der Organisation zu registrieren und sich als Unternehmensgerät auszugeben.
 
 {% hint style="danger" %}
 **Sicherheitswarnung**: Die vereinfachte DEP-Anmeldung könnte es unbefugten Geräten ermöglichen, sich auf dem MDM-Server der Organisation zu registrieren, wenn angemessene Sicherheitsvorkehrungen nicht getroffen werden.
@@ -52,18 +53,18 @@ Es ist wichtig zu beachten, dass die vereinfachte Anmeldung durch DEP, obwohl vo
 
 ### Was sind Konfigurationsprofile (auch mobileconfigs genannt)?
 
-* Apples offizielle Methode zum **Festlegen/Durchsetzen von Systemkonfigurationen**.
+* Apples offizielle Methode zum **Festlegen/Durchsetzen von Systemkonfigurationen.**
 * Dateiformat, das mehrere Nutzlasten enthalten kann.
 * Basierend auf Property Lists (der XML-Art).
-* „kann signiert und verschlüsselt werden, um ihre Herkunft zu validieren, ihre Integrität sicherzustellen und ihren Inhalt zu schützen.“ Grundlagen — Seite 70, iOS Security Guide, Januar 2018.
+* "können signiert und verschlüsselt werden, um ihre Herkunft zu validieren, ihre Integrität sicherzustellen und ihren Inhalt zu schützen." Grundlagen - Seite 70, iOS Security Guide, Januar 2018.
 
 ## Protokolle
 
 ### MDM
 
-* Kombination aus APNs (**Apple-Servern**) + RESTful-API (**MDM-Servern von Anbietern**)
-* **Kommunikation** erfolgt zwischen einem **Gerät** und einem Server, der mit einem **Geräteverwaltungsprodukt** verbunden ist
-* **Befehle** werden vom MDM an das Gerät in **plist-codierten Wörterbüchern** übermittelt
+* Kombination aus APNs (**Apple-Servern**) + RESTful-API (**MDM-Anbieter-Server**)
+* Die **Kommunikation** erfolgt zwischen einem **Gerät** und einem Server, der mit einem **Geräteverwaltungsprodukt** verbunden ist.
+* **Befehle** werden vom MDM an das Gerät in **plist-codierten Wörterbüchern** übermittelt.
 * Alles über **HTTPS**. MDM-Server können (und werden in der Regel) gepinnt.
 * Apple gewährt dem MDM-Anbieter ein **APNs-Zertifikat** zur Authentifizierung
 
@@ -80,26 +81,26 @@ Es ist wichtig zu beachten, dass die vereinfachte Anmeldung durch DEP, obwohl vo
 
 * RESTful
 * synchronisiert Gerätedatensätze von Apple zum MDM-Server
-* synchronisiert „DEP-Profile“ von MDM-Servern zu Apple (die später vom Gerät empfangen werden)
+* synchronisiert "DEP-Profile" von MDM-Servern zu Apple (die später vom Gerät empfangen werden)
 * Ein DEP-"Profil" enthält:
-* MDM-Server-URL
+* MDM-Anbieter-Server-URL
 * Zusätzliche vertrauenswürdige Zertifikate für Server-URL (optionales Pinning)
 * Zusätzliche Einstellungen (z. B. welche Bildschirme im Setup-Assistenten übersprungen werden sollen)
 
 ## Seriennummer
 
-Apple-Geräte, die nach 2010 hergestellt wurden, haben im Allgemeinen **12-stellige alphanumerische** Seriennummern, wobei die **ersten drei Ziffern den Herstellungsort**, die folgenden **zwei** das **Jahr** und die **Woche** der Herstellung, die nächsten **drei** eine **eindeutige Kennung** und die **letzten** **vier** die **Modellnummer** darstellen.
+Apple-Geräte, die nach 2010 hergestellt wurden, haben im Allgemeinen **12-stellige alphanumerische** Seriennummern, wobei die **ersten drei Ziffern den Herstellungsort**, die folgenden **zwei** das **Jahr** und die **Woche** der Herstellung, die nächsten **drei** eine **eindeutige** **Kennung** und die **letzten** **vier** die **Modellnummer** darstellen.
 
 {% content-ref url="macos-serial-number.md" %}
 [macos-serial-number.md](macos-serial-number.md)
 {% endcontent-ref %}
 
-## Schritte zur Anmeldung und Verwaltung
+## Schritte für Anmeldung und Verwaltung
 
 1. Erstellung des Gerätedatensatzes (Wiederverkäufer, Apple): Der Datensatz für das neue Gerät wird erstellt
 2. Zuweisung des Gerätedatensatzes (Kunde): Das Gerät wird einem MDM-Server zugewiesen
 3. Synchronisierung des Gerätedatensatzes (MDM-Anbieter): MDM synchronisiert die Gerätedatensätze und sendet die DEP-Profile an Apple
-4. DEP-Check-in (Gerät): Gerät erhält sein DEP-Profil
+4. DEP-Check-in (Gerät): Das Gerät erhält sein DEP-Profil
 5. Profilabruf (Gerät)
 6. Profilinstallation (Gerät) a. inkl. MDM-, SCEP- und Root-CA-Nutzlasten
 7. Ausgabe von MDM-Befehlen (Gerät)
@@ -107,7 +108,7 @@ Apple-Geräte, die nach 2010 hergestellt wurden, haben im Allgemeinen **12-stell
 ![](<../../../.gitbook/assets/image (694).png>)
 
 Die Datei `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exportiert Funktionen, die als **hochrangige "Schritte"** des Anmeldevorgangs betrachtet werden können.
-### Schritt 4: DEP-Check-in - Abrufen des Aktivierungsdatensatzes
+### Schritt 4: DEP-Check-in - Abrufen des Aktivierungseintrags
 
 Dieser Teil des Prozesses tritt auf, wenn ein **Benutzer einen Mac zum ersten Mal startet** (oder nach einem vollständigen Löschen)
 
@@ -115,14 +116,14 @@ Dieser Teil des Prozesses tritt auf, wenn ein **Benutzer einen Mac zum ersten Ma
 
 oder beim Ausführen von `sudo profiles show -type enrollment`
 
-* Feststellen, ob das Gerät DEP-fähig ist
-* Aktivierungsdatensatz ist der interne Name für das **DEP-"Profil"**
+* Bestimmen Sie, ob das Gerät DEP-fähig ist
+* Aktivierungseintrag ist der interne Name für das **DEP-"Profil"**
 * Beginnt, sobald das Gerät mit dem Internet verbunden ist
 * Gesteuert durch **`CPFetchActivationRecord`**
-* Implementiert durch **`cloudconfigurationd`** über XPC. Der **"Setup-Assistent**" (wenn das Gerät zum ersten Mal gestartet wird) oder der **`profiles`**-Befehl wird diesen Daemon kontaktieren, um den Aktivierungsdatensatz abzurufen.
-* LaunchDaemon (läuft immer als Root)
+* Implementiert durch **`cloudconfigurationd`** über XPC. Der **"Setup-Assistent**" (wenn das Gerät zum ersten Mal gestartet wird) oder der **`profiles`**-Befehl wird diesen Daemon kontaktieren, um den Aktivierungseintrag abzurufen.
+* LaunchDaemon (läuft immer als root)
 
-Es folgen einige Schritte zur Abrufung des Aktivierungsdatensatzes durch **`MCTeslaConfigurationFetcher`**. Dieser Prozess verwendet eine Verschlüsselung namens **Absinthe**
+Es folgen einige Schritte zur Abrufung des Aktivierungseintrags durch **`MCTeslaConfigurationFetcher`**. Dieser Prozess verwendet eine Verschlüsselung namens **Absinthe**
 
 1. Zertifikat abrufen
 1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
@@ -134,7 +135,7 @@ Es folgen einige Schritte zur Abrufung des Aktivierungsdatensatzes durch **`MCTe
 5. Anfrage senden
 1. POST an [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) und sende die Daten `{ "action": "RequestProfileConfiguration", "sn": "" }`
 2. Die JSON-Payload wird mit Absinthe verschlüsselt (**`NACSign`**)
-3. Alle Anfragen über HTTPS, integrierte Stammzertifikate werden verwendet
+3. Alle Anfragen über HTTPs, eingebaute Stammzertifikate werden verwendet
 
 ![](<../../../.gitbook/assets/image (566) (1).png>)
 
@@ -148,7 +149,7 @@ Die Antwort ist ein JSON-Dictionary mit einigen wichtigen Daten wie:
 ![](<../../../.gitbook/assets/image (444).png>)
 
 * Anfrage an **URL im DEP-Profil bereitgestellt**.
-* **Ankerzertifikate** werden verwendet, um das Vertrauen zu **bewerten**, wenn bereitgestellt.
+* **Ankerzertifikate** werden verwendet, um das **Vertrauen zu bewerten**, wenn bereitgestellt.
 * Erinnerung: die **anchor\_certs**-Eigenschaft des DEP-Profils
 * **Anfrage ist ein einfaches .plist** mit Gerätekennung
 * Beispiele: **UDID, Betriebssystemversion**.
@@ -156,7 +157,7 @@ Die Antwort ist ein JSON-Dictionary mit einigen wichtigen Daten wie:
 * Signiert mit dem **Geräteidentitätszertifikat (von APNS)**
 * **Zertifikatskette** enthält abgelaufenes **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
 
 ### Schritt 6: Profilinstallation
 
@@ -164,7 +165,7 @@ Die Antwort ist ein JSON-Dictionary mit einigen wichtigen Daten wie:
 * Dieser Schritt beginnt automatisch (wenn im **Setup-Assistent**)
 * Gesteuert durch **`CPInstallActivationProfile`**
 * Implementiert durch mdmclient über XPC
-* LaunchDaemon (als Root) oder LaunchAgent (als Benutzer), abhängig vom Kontext
+* LaunchDaemon (als root) oder LaunchAgent (als Benutzer), abhängig vom Kontext
 * Konfigurationsprofile haben mehrere Nutlasten zur Installation
 * Framework hat eine Plugin-basierte Architektur zur Installation von Profilen
 * Jeder Nutlasttyp ist mit einem Plugin verbunden
@@ -172,7 +173,7 @@ Die Antwort ist ein JSON-Dictionary mit einigen wichtigen Daten wie:
 * Beispiel:
 * Zertifikat-Nutlasten verwenden CertificateService.xpc
 
-Typischerweise wird das **Aktivierungsprofil**, das von einem MDM-Anbieter bereitgestellt wird, die folgenden Nutlasten enthalten:
+Typischerweise wird das **Aktivierungsprofil** eines MDM-Anbieters die folgenden Nutlasten enthalten:
 
 * `com.apple.mdm`: um das Gerät in MDM **einzuschreiben**
 * `com.apple.security.scep`: um dem Gerät ein **Client-Zertifikat** sicher bereitzustellen.
@@ -180,9 +181,9 @@ Typischerweise wird das **Aktivierungsprofil**, das von einem MDM-Anbieter berei
 * Installation der MDM-Nutlast entspricht dem **MDM-Check-in in der Dokumentation**
 * Nutlast enthält Schlüsseleigenschaften:
 *
-* MDM Check-In-URL (**`CheckInURL`**)
+* MDM-Check-In-URL (**`CheckInURL`**)
 * MDM-Befehlsabfrage-URL (**`ServerURL`**) + APNs-Thema, um es auszulösen
-* Um die MDM-Nutlast zu installieren, wird die Anfrage an **`CheckInURL`** gesendet
+* Um die MDM-Nutlast zu installieren, wird eine Anfrage an die **`CheckInURL`** gesendet
 * Implementiert in **`mdmclient`**
 * MDM-Nutlast kann von anderen Nutlasten abhängen
 * Ermöglicht es, **Anfragen an bestimmte Zertifikate zu binden**:
@@ -196,8 +197,34 @@ Typischerweise wird das **Aktivierungsprofil**, das von einem MDM-Anbieter berei
 ### **Schritt 7: Auf MDM-Befehle lauschen**
 
 * Nach Abschluss des MDM-Check-ins kann der Anbieter **Push-Benachrichtigungen über APNs senden**
-* Bei Empfang wird dies von **`mdmclient`** behandelt
-* Um nach MDM-Befehlen zu suchen, wird die Anfrage an ServerURL gesendet
+* Bei Empfang, behandelt von **`mdmclient`**
+* Um nach MDM-Befehlen zu suchen, wird eine Anfrage an ServerURL gesendet
 * Nutzt zuvor installierte MDM-Nutlast:
-* **`ServerURLPinningCertificateUUIDs`** für die Anforderungspinnung
+* **`ServerURLPinningCertificateUUIDs`** für Anfragebindung
 * **`IdentityCertificateUUID`** für TLS-Clientzertifikat
+
+## Angriffe
+
+### Geräte in anderen Organisationen einschreiben
+
+Wie bereits erwähnt, ist es zur Einschreibung eines Geräts in eine Organisation nur erforderlich, eine Seriennummer dieser Organisation zu haben. Sobald das Gerät eingeschrieben ist, werden mehrere Organisationen sensible Daten auf dem neuen Gerät installieren: Zertifikate, Anwendungen, WLAN-Passwörter, VPN-Konfigurationen [und so weiter](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Daher könnte dies ein gefährlicher Einstiegspunkt für Angreifer sein, wenn der Einschreibungsprozess nicht korrekt geschützt ist:
+
+{% content-ref url="enrolling-devices-in-other-organisations.md" %}
+[enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
+{% endcontent-ref %}
+
+{% hint style="success" %}
+Lernen & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+
+</details>
+{% endhint %}

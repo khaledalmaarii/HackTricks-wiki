@@ -1,18 +1,19 @@
 # macOS Systemerweiterungen
 
+{% hint style="success" %}
+Lernen & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
+{% endhint %}
 
 ## Systemerweiterungen / Endpoint-Sicherheitsframework
 
@@ -24,7 +25,7 @@ Es gibt drei Arten von Systemerweiterungen: **DriverKit**-Erweiterungen, **Netzw
 
 ### **DriverKit-Erweiterungen**
 
-DriverKit ist ein Ersatz für Kernelerweiterungen, der **Hardwareunterstützung bereitstellt**. Es ermöglicht, dass Gerätetreiber (wie USB-, Seriell-, NIC- und HID-Treiber) im Benutzerbereich anstelle des Kernelbereichs ausgeführt werden. Das DriverKit-Framework enthält **Benutzerbereichsversionen bestimmter I/O Kit-Klassen**, und der Kernel leitet normale I/O Kit-Ereignisse an den Benutzerbereich weiter, was eine sicherere Umgebung für diese Treiber bietet.
+DriverKit ist ein Ersatz für Kernelerweiterungen, der **Hardwareunterstützung bereitstellt**. Es ermöglicht Gerätetreibern (wie USB-, Seriell-, NIC- und HID-Treibern), im Benutzerbereich anstelle des Kernelbereichs ausgeführt zu werden. Das DriverKit-Framework enthält **Benutzerbereichsversionen bestimmter I/O-Kit-Klassen**, und der Kernel leitet normale I/O-Kit-Ereignisse an den Benutzerbereich weiter, was eine sicherere Umgebung für diese Treiber bietet.
 
 ### **Netzwerk-Erweiterungen**
 
@@ -38,7 +39,7 @@ Netzwerk-Erweiterungen bieten die Möglichkeit, Netzwerkverhalten anzupassen. Es
 
 ## Endpoint-Sicherheitsframework
 
-Endpoint Security ist ein von Apple in macOS bereitgestelltes Framework, das eine Reihe von APIs für die Systemsicherheit bietet. Es ist für die Verwendung durch **Sicherheitsanbieter und Entwickler konzipiert, um Produkte zu erstellen, die die Systemaktivität überwachen und steuern** und so bösartige Aktivitäten erkennen und schützen können.
+Endpoint Security ist ein von Apple in macOS bereitgestelltes Framework, das eine Reihe von APIs für die Systemsicherheit bietet. Es ist für die Verwendung durch **Sicherheitsanbieter und Entwickler gedacht, um Produkte zu erstellen, die die Systemaktivität überwachen und steuern** und so bösartige Aktivitäten erkennen und schützen können.
 
 Dieses Framework bietet eine **Sammlung von APIs zur Überwachung und Steuerung der Systemaktivität**, wie z. B. Prozessausführungen, Dateisystemereignisse, Netzwerk- und Kernelereignisse.
 
@@ -54,7 +55,7 @@ Die Ereignisse, die das Endpoint-Sicherheitsframework überwachen kann, sind in 
 * Dateiereignisse
 * Prozessereignisse
 * Socketereignisse
-* Kernelereignisse (wie Laden/Entladen einer Kernelerweiterung oder Öffnen eines I/O Kit-Geräts)
+* Kernelereignisse (wie Laden/Entladen einer Kernelerweiterung oder Öffnen eines I/O-Kit-Geräts)
 
 ### Architektur des Endpoint-Sicherheitsframeworks
 
@@ -65,9 +66,9 @@ Die **Kommunikation im Benutzerbereich** mit dem Endpoint-Sicherheitsframework e
 * **EndpointSecurityDriverClient**: Dies erfordert die Berechtigung `com.apple.private.endpoint-security.manager`, die nur vom Systemprozess `endpointsecurityd` gehalten wird.
 * **EndpointSecurityExternalClient**: Dies erfordert die Berechtigung `com.apple.developer.endpoint-security.client`. Dies wird in der Regel von Sicherheitssoftware von Drittanbietern verwendet, die mit dem Endpoint-Sicherheitsframework interagieren muss.
 
-Die Endpoint-Sicherheitserweiterungen:**`libEndpointSecurity.dylib`** ist die C-Bibliothek, die Systemerweiterungen zur Kommunikation mit dem Kernel verwenden. Diese Bibliothek verwendet das I/O Kit (`IOKit`), um mit der Endpoint-Sicherheits-KEXT zu kommunizieren.
+Die Endpoint-Sicherheitserweiterungen:**`libEndpointSecurity.dylib`** ist die C-Bibliothek, die Systemerweiterungen zur Kommunikation mit dem Kernel verwenden. Diese Bibliothek verwendet das I/O-Kit (`IOKit`), um mit der Endpoint-Sicherheits-KEXT zu kommunizieren.
 
-**`endpointsecurityd`** ist ein wichtiger Systemdaemon, der an der Verwaltung und dem Starten von Endpoint-Sicherheitssystemerweiterungen beteiligt ist, insbesondere während des frühen Bootvorgangs. **Nur Systemerweiterungen**, die in ihrer `Info.plist`-Datei mit **`NSEndpointSecurityEarlyBoot`** markiert sind, erhalten diese frühe Bootbehandlung.
+**`endpointsecurityd`** ist ein wichtiger Systemdaemon, der bei der Verwaltung und dem Starten von Endpoint-Sicherheitssystemerweiterungen, insbesondere während des frühen Bootvorgangs, beteiligt ist. **Nur Systemerweiterungen**, die in ihrer `Info.plist`-Datei mit **`NSEndpointSecurityEarlyBoot`** markiert sind, erhalten diese frühe Bootbehandlung.
 
 Ein weiterer Systemdaemon, **`sysextd`**, **validiert Systemerweiterungen** und verschiebt sie an die richtigen Systempositionen. Anschließend fordert er den relevanten Daemon auf, die Erweiterung zu laden. Das **`SystemExtensions.framework`** ist für das Aktivieren und Deaktivieren von Systemerweiterungen verantwortlich.
 
@@ -81,25 +82,26 @@ Die Sache ist, dass die Sicherheitsanwendung **Vollzugriff auf das Laufwerk ben�
 ```bash
 tccutil reset All
 ```
-Für **weitere Informationen** zu diesem Umgehungstrick und verwandten Themen, schauen Sie sich den Vortrag [#OBTS v5.0: "Die Achillesferse der Endpunktsicherheit" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI) an.
+Für **weitere Informationen** zu diesem Umgehungstrick und verwandten Themen, überprüfen Sie den Vortrag [#OBTS v5.0: "Die Achillesferse der Endpunktsicherheit" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
-Am Ende wurde dies behoben, indem der neuen Berechtigung **`kTCCServiceEndpointSecurityClient`** für die Sicherheits-App, die von **`tccd`** verwaltet wird, gegeben wurde, damit `tccutil` ihre Berechtigungen nicht löscht und sie somit nicht ausgeführt werden kann.
+Am Ende wurde dies behoben, indem die neue Berechtigung **`kTCCServiceEndpointSecurityClient`** der Sicherheits-App, die von **`tccd`** verwaltet wird, zugewiesen wurde, damit `tccutil` ihre Berechtigungen nicht löscht und sie somit ausgeführt werden kann.
 
 ## Referenzen
 
 * [**OBTS v3.0: "Endpunktsicherheit & Unsicherheit" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
 * [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+{% endhint %}

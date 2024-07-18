@@ -1,24 +1,25 @@
 # Sensible Mounts
 
+{% hint style="success" %}
+Lernen & Üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & Üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-Die Offenlegung von `/proc` und `/sys` ohne ordnungsgemäße Namespace-Isolierung birgt erhebliche Sicherheitsrisiken, einschließlich einer Vergrößerung der Angriffsfläche und der Offenlegung von Informationen. Diese Verzeichnisse enthalten sensible Dateien, die bei falscher Konfiguration oder Zugriff durch einen nicht autorisierten Benutzer zu einem Container-Ausbruch, einer Host-Modifikation oder zur Bereitstellung von Informationen führen können, die weitere Angriffe unterstützen. Beispielsweise kann das falsche Einhängen von `-v /proc:/host/proc` den AppArmor-Schutz aufgrund seiner pfadbasierten Natur umgehen und `/host/proc` ungeschützt lassen.
+Die Offenlegung von `/proc` und `/sys` ohne angemessene Namespace-Isolierung birgt erhebliche Sicherheitsrisiken, einschließlich einer Vergrößerung der Angriffsfläche und der Offenlegung von Informationen. Diese Verzeichnisse enthalten sensible Dateien, die bei falscher Konfiguration oder Zugriff durch einen nicht autorisierten Benutzer zu einem Container-Ausbruch, einer Änderung des Hosts oder zur Bereitstellung von Informationen führen können, die weitere Angriffe unterstützen. Beispielsweise kann das falsche Einhängen von `-v /proc:/host/proc` den AppArmor-Schutz aufgrund seiner pfadbasierten Natur umgehen und `/host/proc` ungeschützt lassen.
 
 **Weitere Details zu jeder potenziellen Schwachstelle finden Sie unter** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
@@ -31,7 +32,7 @@ Dieses Verzeichnis ermöglicht den Zugriff auf die Änderung von Kernelvariablen
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Beschrieben in [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Ermöglicht die Definition eines Programms, das bei der Generierung von Core-Dateien mit den ersten 128 Bytes als Argumenten ausgeführt werden soll. Dies kann zu einer Codeausführung führen, wenn die Datei mit einem Pipe-Zeichen `|` beginnt.
+* Ermöglicht die Definition eines Programms, das bei der Generierung von Core-Dateien mit den ersten 128 Bytes als Argumenten ausgeführt wird. Dies kann zu einer Codeausführung führen, wenn die Datei mit einem Pipe-Zeichen `|` beginnt.
 *   **Beispiel für Test und Ausnutzung**:
 
 ```bash
@@ -43,7 +44,7 @@ sleep 5 && ./crash & # Handler auslösen
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Ausführlich beschrieben in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Detailliert in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Enthält den Pfad zum Kernelmodullader, der zum Laden von Kernelmodulen aufgerufen wird.
 *   **Beispiel zur Überprüfung des Zugriffs**:
 
@@ -53,8 +54,8 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Zugriff auf modprobe überprüfen
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Bezugnahme auf [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
-* Ein globaler Schalter, der steuert, ob der Kernel bei einem OOM-Zustand in den Panikmodus wechselt oder den OOM-Killer aufruft.
+* Referenziert in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Ein globaler Schalter, der steuert, ob der Kernel bei einem OOM-Zustand in Panik gerät oder den OOM-Killer aufruft.
 
 #### **`/proc/sys/fs`**
 
@@ -63,10 +64,10 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Zugriff auf modprobe überprüfen
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Ermöglicht die Registrierung von Interpretern für nicht native Binärformate anhand ihrer Magiezahl.
+* Ermöglicht die Registrierung von Interpretern für nicht native Binärformate basierend auf ihrer Magiezahl.
 * Kann zu Privilegieneskalation oder Root-Shell-Zugriff führen, wenn `/proc/sys/fs/binfmt_misc/register` beschreibbar ist.
-* Relevantes Exploit und Erklärung:
-* [Rootkit auf einfache Art über binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Relevanter Exploit und Erklärung:
+* [Poor man's rootkit via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Ausführliches Tutorial: [Video-Link](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Andere in `/proc`
@@ -78,7 +79,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Zugriff auf modprobe überprüfen
 
 #### **`/proc/sysrq-trigger`**
 
-* Ermöglicht das Auslösen von Sysrq-Befehlen, die potenziell sofortige Systemneustarts oder andere kritische Aktionen verursachen können.
+* Ermöglicht das Auslösen von Sysrq-Befehlen, die möglicherweise sofortige Systemneustarts oder andere kritische Aktionen verursachen.
 *   **Beispiel zum Neustart des Hosts**:
 
 ```bash
@@ -99,14 +100,14 @@ echo b > /proc/sysrq-trigger # Startet den Host neu
 
 #### **`/proc/[pid]/mem`**
 
-* Kommuniziert mit dem Kernel-Speichergerät `/dev/mem`.
+* Interagiert mit dem Kernel-Speichergerät `/dev/mem`.
 * Historisch anfällig für Privilegieneskalationsangriffe.
-* Mehr dazu in [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Mehr unter [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 #### **`/proc/kcore`**
 
 * Stellt den physischen Speicher des Systems im ELF-Core-Format dar.
-* Das Lesen kann den Speicherinhalt des Hostsystems und anderer Container preisgeben.
+* Das Lesen kann den Speicherinhalt des Host-Systems und anderer Container preisgeben.
 * Eine große Dateigröße kann zu Leseproblemen oder Softwareabstürzen führen.
 * Detaillierte Verwendung in [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
@@ -122,13 +123,13 @@ echo b > /proc/sysrq-trigger # Startet den Host neu
 
 #### **`/proc/sched_debug`**
 
-* Gibt Informationen zur Prozessplanung aus, um die PID-Namensraumschutzmaßnahmen zu umgehen.
-* Zeigt Prozessnamen, IDs und cgroup-Bezeichner an.
+* Gibt Informationen zur Prozessplanung zurück und umgeht PID-Namensraumschutzmaßnahmen.
+* Offenbart Prozessnamen, IDs und cgroup-Bezeichner.
 
 #### **`/proc/[pid]/mountinfo`**
 
 * Bietet Informationen über Einhängepunkte im Einhängepunkt-Namensraum des Prozesses.
-* Zeigt den Speicherort des Container-`rootfs` oder des Images an.
+* Offenbart den Speicherort des Container-`rootfs` oder des Images.
 
 ### sys-Schwachstellen
 
@@ -150,7 +151,7 @@ host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-#### Löst ein uevent aus
+#### Löst einen uevent aus
 
 echo change > /sys/class/mem/null/uevent
 
@@ -159,11 +160,11 @@ echo change > /sys/class/mem/null/uevent
 cat /output %%%
 #### **`/sys/class/thermal`**
 
-* Steuert Temperatureinstellungen, die potenziell DoS-Angriffe oder physische Schäden verursachen können.
+* Steuert Temperatureinstellungen, was potenziell DoS-Angriffe oder physische Schäden verursachen kann.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Gibt Kernel-Adressen preis, was potenziell die KASLR gefährden kann.
+* Gibt Kernel-Adressen preis, was potenziell KASLR gefährden kann.
 
 #### **`/sys/kernel/security`**
 
@@ -173,7 +174,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` und `/sys/firmware/efi/efivars`**
 
 * Bietet Schnittstellen zur Interaktion mit EFI-Variablen im NVRAM.
-* Falsche Konfiguration oder Ausnutzung kann zu unbrauchbaren Laptops oder nicht bootfähigen Host-Maschinen führen.
+* Fehlkonfiguration oder Ausnutzung kann zu unbrauchbaren Laptops oder nicht bootfähigen Host-Maschinen führen.
 
 #### **`/sys/kernel/debug`**
 
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Lerne & übe AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichst.
 
 </details>
+{% endhint %}

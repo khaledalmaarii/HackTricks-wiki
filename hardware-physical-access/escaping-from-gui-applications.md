@@ -1,18 +1,19 @@
 # Entkommen aus KIOSKs
 
+{% hint style="success" %}
+Lernen & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) bei oder der [**Telegram-Gruppe**](https://t.me/peass) oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
@@ -20,27 +21,27 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 [**WhiteIntel**](https://whiteintel.io) ist eine von **Dark Web** angetriebene Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder seine Kunden von **Stealer-Malware** **kompromittiert** wurden.
 
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
+Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe aufgrund von informationsstehlender Malware zu bekämpfen.
 
-Sie können ihre Website besuchen und ihr Tool kostenlos ausprobieren unter:
+Sie können ihre Website besuchen und ihren Motor **kostenlos** ausprobieren unter:
 
 {% embed url="https://whiteintel.io" %}
 
 ---
 
-## Überprüfen des physischen Geräts
+## Überprüfen Sie das physische Gerät
 
 |   Komponente   | Aktion                                                               |
 | ------------- | -------------------------------------------------------------------- |
-| Ein-/Aus-Taste  | Das Ein- und Ausschalten des Geräts kann den Startbildschirm freilegen      |
-| Netzkabel   | Überprüfen, ob das Gerät neu startet, wenn die Stromzufuhr kurzzeitig unterbrochen wird   |
+| Ein-/Aus-Taste  | Durch das Ein- und Ausschalten des Geräts kann der Startbildschirm angezeigt werden      |
+| Netzkabel   | Überprüfen Sie, ob das Gerät neu startet, wenn der Strom kurzzeitig unterbrochen wird   |
 | USB-Anschlüsse     | Verbinden Sie eine physische Tastatur mit mehr Tastenkombinationen                        |
 | Ethernet      | Netzwerkscan oder Sniffing kann weitere Ausbeutung ermöglichen             |
 
 
-## Überprüfen möglicher Aktionen innerhalb der GUI-Anwendung
+## Überprüfen Sie mögliche Aktionen innerhalb der GUI-Anwendung
 
-**Gängige Dialogfelder** sind Optionen zum **Speichern einer Datei**, **Öffnen einer Datei**, Auswahl einer Schriftart, einer Farbe... Die meisten von ihnen bieten eine vollständige Explorer-Funktionalität an. Das bedeutet, dass Sie auf Explorer-Funktionalitäten zugreifen können, wenn Sie auf diese Optionen zugreifen können:
+**Gängige Dialogfelder** sind Optionen zum **Speichern einer Datei**, **Öffnen einer Datei**, Auswahl einer Schriftart, einer Farbe... Die meisten von ihnen werden eine vollständige Explorer-Funktionalität anbieten. Das bedeutet, dass Sie auf Explorer-Funktionalitäten zugreifen können, wenn Sie auf diese Optionen zugreifen können:
 
 * Schließen/Schließen als
 * Öffnen/Öffnen mit
@@ -75,7 +76,7 @@ _bash, sh, zsh..._ Mehr hier: [https://gtfobins.github.io/](https://gtfobins.git
 * **Umgebungsvariablen**: Es gibt viele Umgebungsvariablen, die auf einen bestimmten Pfad verweisen
 * **Andere Protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Symbolische Links**
-* **Verknüpfungen**: STRG+N (neue Sitzung öffnen), STRG+R (Befehle ausführen), STRG+UMSCHALT+ESC (Task-Manager), Windows+E (Explorer öffnen), STRG-B, STRG-I (Favoriten), STRG-H (Verlauf), STRG-L, STRG-O (Datei/Öffnen-Dialog), STRG-P (Druck-Dialog), STRG-S (Speichern unter)
+* **Verknüpfungen**: STRG+N (neue Sitzung öffnen), STRG+R (Befehle ausführen), STRG+UMSCHALT+ESC (Task-Manager), Windows+E (Explorer öffnen), STRG-B, STRG-I (Favoriten), STRG-H (Verlauf), STRG-L, STRG-O (Datei/Öffnen-Dialog), STRG-P (Druckdialog), STRG-S (Speichern unter)
 * Verstecktes Administrationsmenü: STRG-ALT-F8, STRG-ESC-F9
 * **Shell-URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **UNC-Pfade**: Pfade zum Verbinden mit freigegebenen Ordnern. Sie sollten versuchen, sich mit dem C$ des lokalen Computers zu verbinden ("\\\127.0.0.1\c$\Windows\System32")
@@ -92,31 +93,13 @@ _bash, sh, zsh..._ Mehr hier: [https://gtfobins.github.io/](https://gtfobins.git
 | %SYSTEMDRIVE%             | %SYSTEMROOT%   | %TEMP%               |
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
-
-### Laden Sie Ihre Binärdateien herunter
-
-Konsole: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
-
-### Auf das Dateisystem vom Browser aus zugreifen
-
-| PFAD                | PFAD              | PFAD               | PFAD                |
-| ------------------- | ----------------- | ------------------ | ------------------- |
-| File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
-| File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
-| File://C:/windows\\ | File://C:\windows | File://C:\windows/ | File://C:\windows\\ |
-| C:/windows          | C:/windows/       | C:/windows\\       | C:\windows          |
-| C:\windows\\        | C:\windows/       | %WINDIR%           | %TMP%               |
-| %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
-| %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 ### Tastenkombinationen
 
 * Sticky Keys – Drücken Sie 5 Mal UMSCHALT
 * Mouse Keys – UMSCHALT+ALT+NUM-Taste
 * Hoher Kontrast – UMSCHALT+ALT+DRUCK
 * Umschalttasten – Halten Sie NUM-Taste 5 Sekunden lang gedrückt
-* Filtertasten – Halten Sie die rechte UMSCHALT-Taste 12 Sekunden lang gedrückt
+* Filtertasten – Halten Sie rechte UMSCHALT 12 Sekunden lang gedrückt
 * WINDOWS+F1 – Windows-Suche
 * WINDOWS+D – Desktop anzeigen
 * WINDOWS+E – Windows Explorer starten
@@ -125,11 +108,11 @@ Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://so
 * WINDOWS+F – Suche
 * UMSCHALT+F10 – Kontextmenü
 * STRG+UMSCHALT+ESC – Task-Manager
-* STRG+ALT+ENTF – Startbildschirm in neueren Windows-Versionen
+* STRG+ALT+ENTF – Startbildschirm bei neueren Windows-Versionen
 * F1 – Hilfe F3 – Suche
 * F6 – Adressleiste
 * F11 – Vollbildmodus in Internet Explorer umschalten
-* STRG+H – Internet Explorer-Verlauf
+* STRG+H – Internet Explorer Verlauf
 * STRG+T – Internet Explorer – Neuer Tab
 * STRG+N – Internet Explorer – Neue Seite
 * STRG+O – Datei öffnen
@@ -146,7 +129,7 @@ Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://so
 
 #### 'Bildsymbolleiste'
 
-Es handelt sich um eine Symbolleiste, die oben links auf dem Bild erscheint, wenn darauf geklickt wird. Sie können Speichern, Drucken, Mailto, "Meine Bilder" im Explorer öffnen. Der Kiosk muss Internet Explorer verwenden.
+Es handelt sich um eine Symbolleiste, die oben links auf dem Bild erscheint, wenn darauf geklickt wird. Sie können Speichern, Drucken, Mailto, "Meine Bilder" im Explorer öffnen. Der Kiosk muss den Internet Explorer verwenden.
 
 #### Shell-Protokoll
 
@@ -170,8 +153,8 @@ Geben Sie diese URLs ein, um eine Explorer-Ansicht zu erhalten:
 * `Shell:ControlPanelFolder`
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Systemsteuerung
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Dieser PC
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Netzwerkumgebung
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mein Computer
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Meine Netzwerkumgebung
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
 ### Dateierweiterungen anzeigen
@@ -192,21 +175,21 @@ Quelle: https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de1981
 
 ### Gesten und Tasten
 
-* Wischen Sie mit vier (oder fünf) Fingern nach oben / Doppeltippen Sie auf die Home-Taste: Um die Multitasking-Ansicht anzuzeigen und die App zu wechseln
+* Wischen Sie mit vier (oder fünf) Fingern nach oben / Doppelklicken Sie auf die Home-Taste: Um die Multitasking-Ansicht anzuzeigen und die App zu wechseln
 * Wischen Sie mit vier oder fünf Fingern in eine Richtung: Um zur nächsten/vorherigen App zu wechseln
-* Zoomen Sie mit fünf Fingern auf dem Bildschirm / Berühren Sie die Home-Taste / Wischen Sie mit einem Finger von unten schnell nach oben: Um auf den Startbildschirm zuzugreifen
-* Wischen Sie mit einem Finger von unten auf dem Bildschirm etwa 1-2 Zoll (langsam): Das Dock wird angezeigt
+* Zoomen Sie mit fünf Fingern auf den Bildschirm / Berühren Sie die Home-Taste / Wischen Sie mit einem Finger von unten schnell nach oben: Um auf den Startbildschirm zuzugreifen
+* Wischen Sie mit einem Finger von unten etwa 1-2 Zoll nach oben (langsam): Das Dock wird angezeigt
 * Wischen Sie mit einem Finger von oben auf dem Display nach unten: Um Ihre Benachrichtigungen anzuzeigen
-* Wischen Sie mit einem Finger von der oberen rechten Ecke des Bildschirms nach unten: Um das Steuerzentrum des iPad Pro anzuzeigen
-* Wischen Sie mit einem Finger von der linken Seite des Bildschirms 1-2 Zoll: Um die Ansicht für heute anzuzeigen
+* Wischen Sie mit einem Finger von oben rechts auf dem Bildschirm nach unten: Um das Steuerzentrum des iPad Pro anzuzeigen
+* Wischen Sie mit einem Finger von links auf dem Bildschirm 1-2 Zoll nach rechts: Um die Ansicht für heute anzuzeigen
 * Wischen Sie schnell mit einem Finger von der Mitte des Bildschirms nach rechts oder links: Um zur nächsten/vorherigen App zu wechseln
-* Halten Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad +** Bewegen Sie den Schieberegler zum **Ausschalten** ganz nach rechts: Zum Ausschalten
-* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste einige Sekunden lang**: Zum erzwungenen Ausschalten
-* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste schnell**: Um einen Screenshot aufzunehmen, der unten links auf dem Display angezeigt wird. Drücken Sie beide Tasten gleichzeitig sehr kurz, als ob Sie sie einige Sekunden lang gedrückt halten würden, um ein erzwungenes Ausschalten durchzuführen.
+* Drücken und halten Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad +** Bewegen Sie den Schieberegler zum **Ausschalten** ganz nach rechts: Zum Ausschalten
+* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste für einige Sekunden**: Zum erzwingen eines harten Ausschaltens
+* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste schnell**: Um einen Screenshot zu machen, der unten links auf dem Display angezeigt wird. Drücken Sie beide Tasten gleichzeitig sehr kurz, als ob Sie sie einige Sekunden lang gedrückt halten würden, um einen harten Neustart durchzuführen.
 
-### Tastenkombinationen
+### Verknüpfungen
 
-Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Hier werden nur Tastenkombinationen gezeigt, die beim Verlassen der Anwendung helfen könnten.
+Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Hier werden nur Verknüpfungen gezeigt, die beim Verlassen der Anwendung helfen könnten.
 
 | Taste | Name         |
 | --- | ------------ |
@@ -218,14 +201,14 @@ Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Hier werden
 | ^   | Steuerung      |
 | ←   | Linke Pfeiltaste   |
 | →   | Rechte Pfeiltaste  |
-| ↑   | Oben-Pfeiltaste     |
-| ↓   | Unten-Pfeiltaste   |
+| ↑   | Obere Pfeiltaste     |
+| ↓   | Untere Pfeiltaste   |
 
-#### Systemtastenkombinationen
+#### Systemverknüpfungen
 
-Diese Tastenkombinationen sind für die visuellen Einstellungen und Soundeinstellungen, abhängig von der Verwendung des iPads.
+Diese Verknüpfungen sind für die visuellen Einstellungen und Soundeinstellungen, abhängig von der Verwendung des iPads.
 
-| Tastenkombination | Aktion                                                                         |
+| Verknüpfung | Aktion                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | Bildschirm verdunkeln                                                                    |
 | F2       | Bildschirm erhellen                                                                |
@@ -239,7 +222,7 @@ Diese Tastenkombinationen sind für die visuellen Einstellungen und Soundeinstel
 
 #### iPad-Navigation
 
-| Tastenkombination                                           | Aktion                                                  |
+| Verknüpfung                                           | Aktion                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | ⌘H                                                 | Zum Startbildschirm gehen                                              |
 | ⌘⇧H (Befehl-Umschalt-H)                              | Zum Startbildschirm gehen                                              |
@@ -247,20 +230,20 @@ Diese Tastenkombinationen sind für die visuellen Einstellungen und Soundeinstel
 | ⌘⇥ (Befehl-Tabulatortaste)                                   | Liste der zuletzt verwendeten Apps anzeigen                                 |
 | ⌘\~                                                | Zur letzten App gehen                                       |
 | ⌘⇧3 (Befehl-Umschalt-3)                              | Screenshot (erscheint unten links zum Speichern oder Bearbeiten) |
-| ⌘⇧4                                                | Screenshot aufnehmen und im Editor öffnen                    |
-| ⌘ gedrückt halten                                   | Liste der verfügbaren Verknüpfungen für die App                 |
-| ⌘⌥D (Befehl-Option/Alt-D)                         | Dock aufrufen                                      |
-| ^⌥H (Strg-Option-H)                             | Home-Taste                                             |
-| ^⌥H H (Strg-Option-H-H)                         | Multitasking-Leiste anzeigen                                      |
-| ^⌥I (Strg-Option-i)                             | Elementauswahl                                            |
+| ⌘⇧4                                                | Screenshot machen und im Editor öffnen                    |
+| ⌘ gedrückt halten                                   | Liste der für die App verfügbaren Verknüpfungen anzeigen                 |
+| ⌘⌥D (Befehl-Option/Alt-D)                         | Dock anzeigen                                      |
+| ^⌥H (Steuerung-Option-H)                             | Home-Taste                                             |
+| ^⌥H H (Steuerung-Option-H-H)                         | Multitasking-Leiste anzeigen                                      |
+| ^⌥I (Steuerung-Option-i)                             | Elementauswahl                                            |
 | Escape                                             | Zurück-Taste                                             |
 | → (Rechte Pfeiltaste)                                    | Nächstes Element                                               |
 | ← (Linke Pfeiltaste)                                     | Vorheriges Element                                           |
-| ↑↓ (Oben-Pfeiltaste, Unten-Pfeiltaste)                          | Gleichzeitig auf das ausgewählte Element tippen                        |
-| ⌥ ↓ (Option-Unten-Pfeiltaste)                            | Nach unten scrollen                                             |
-| ⌥↑ (Option-Oben-Pfeiltaste)                               | Nach oben scrollen                                               |
-| ⌥← oder ⌥→ (Option-Links-Pfeiltaste oder Option-Rechts-Pfeiltaste) | Nach links oder rechts scrollen                                    |
-| ^⌥S (Strg-Option-S)                             | VoiceOver-Sprache ein- oder ausschalten                         |
+| ↑↓ (Obere Pfeiltaste, Untere Pfeiltaste)                          | Gleichzeitig auf das ausgewählte Element tippen                        |
+| ⌥ ↓ (Option-Untere Pfeiltaste)                            | Nach unten scrollen                                             |
+| ⌥↑ (Option-Obere Pfeiltaste)                               | Nach oben scrollen                                               |
+| ⌥← oder ⌥→ (Option-Linke Pfeiltaste oder Option-Rechte Pfeiltaste) | Nach links oder rechts scrollen                                    |
+| ^⌥S (Steuerung-Option-S)                             | VoiceOver-Sprache ein- oder ausschalten                         |
 | ⌘⇧⇥ (Befehl-Umschalt-Tabulatortaste)                            | Zur vorherigen App wechseln                              |
 | ⌘⇥ (Befehl-Tabulatortaste)                                   | Zur ursprünglichen App zurückwechseln                         |
 | ←+→, dann Option + ← oder Option+→                   | Durch das Dock navigieren                                   |
@@ -271,26 +254,26 @@ Diese Tastenkombinationen sind für die visuellen Einstellungen und Soundeinstel
 | ⌘L (Befehl-L)           | Ort öffnen                                       |
 | ⌘T                      | Neuen Tab öffnen                                 |
 | ⌘W                      | Aktuellen Tab schließen                          |
-| ⌘R                      | Aktuellen Tab aktualisieren                      |
+| ⌘R                      | Aktuellen Tab aktualisieren                     |
 | ⌘.                      | Laden des aktuellen Tabs stoppen                 |
 | ^⇥                      | Zum nächsten Tab wechseln                        |
 | ^⇧⇥ (Strg-Umschalt-Tab) | Zum vorherigen Tab wechseln                      |
 | ⌘L                      | Texteingabe/URL-Feld auswählen, um es zu ändern  |
 | ⌘⇧T (Befehl-Umschalt-T) | Zuletzt geschlossenen Tab öffnen (kann mehrmals verwendet werden) |
 | ⌘\[                     | Geht eine Seite zurück in deinem Browserverlauf |
-| ⌘]                      | Geht eine Seite vorwärts in deinem Browserverlauf |
-| ⌘⇧R                    | Leseansicht aktivieren                            |
+| ⌘]                      | Geht eine Seite vor in deinem Browserverlauf    |
+| ⌘⇧R                    | Leseansicht aktivieren                           |
 
 #### Mail-Verknüpfungen
 
-| Verknüpfung                   | Aktion                       |
-| -------------------------- | ---------------------------- |
-| ⌘L                         | Ort öffnen                   |
-| ⌘T                         | Neuen Tab öffnen             |
-| ⌘W                         | Aktuellen Tab schließen      |
-| ⌘R                         | Aktuellen Tab aktualisieren  |
-| ⌘.                         | Laden des aktuellen Tabs stoppen |
-| ⌘⌥F (Befehl-Option/Alt-F) | In deinem Postfach suchen    |
+| Verknüpfung              | Aktion                       |
+| ----------------------- | ---------------------------- |
+| ⌘L                      | Ort öffnen                   |
+| ⌘T                      | Neuen Tab öffnen             |
+| ⌘W                      | Aktuellen Tab schließen      |
+| ⌘R                      | Aktuellen Tab aktualisieren  |
+| ⌘.                      | Laden des aktuellen Tabs stoppen |
+| ⌘⌥F (Befehl-Option/Alt-F) | Suche in deinem Postfach     |
 
 ## Referenzen
 
@@ -311,16 +294,17 @@ Du kannst ihre Website besuchen und ihre Suchmaschine **kostenlos** ausprobieren
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Lerne & übe AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lerne AWS-Hacking von Null zum Profi mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn du dein **Unternehmen in HackTricks bewerben möchtest** oder **HackTricks als PDF herunterladen möchtest**, sieh dir die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop) an!
-* Hol dir das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecke [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teile deine Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichst.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichst.
 
 </details>
+{% endhint %}

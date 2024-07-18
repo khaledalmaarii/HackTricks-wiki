@@ -1,30 +1,33 @@
 # macOS GCD - Grand Central Dispatch
 
+{% hint style="success" %}
+Lernen Sie und üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie und üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositorys senden.
 
 </details>
+{% endhint %}
 
 ## Grundlegende Informationen
 
 **Grand Central Dispatch (GCD)**, auch bekannt als **libdispatch** (`libdispatch.dyld`), ist sowohl in macOS als auch in iOS verfügbar. Es handelt sich um eine von Apple entwickelte Technologie zur Optimierung der Anwendungsunterstützung für die gleichzeitige (mehrfädige) Ausführung auf Mehrkern-Hardware.
 
-**GCD** stellt und verwaltet **FIFO-Warteschlangen**, an die Ihre Anwendung **Aufgaben in Form von Blockobjekten übergeben** kann. Blöcke, die an Dispatch-Warteschlangen übergeben werden, werden auf einem vom System vollständig verwalteten Thread-Pool ausgeführt. GCD erstellt automatisch Threads zur Ausführung der Aufgaben in den Dispatch-Warteschlangen und plant diese Aufgaben so, dass sie auf den verfügbaren Kernen ausgeführt werden.
+**GCD** stellt **FIFO-Warteschlangen** bereit, an die Ihre Anwendung **Aufgaben** in Form von **Blockobjekten** übergeben kann.
+
+Die Blöcke, die an Dispatch-Warteschlangen übergeben werden, werden auf einem vom System vollständig verwalteten Thread-Pool ausgeführt. GCD erstellt automatisch Threads zur Ausführung der Aufgaben in den Dispatch-Warteschlangen und plant diese Aufgaben so, dass sie auf den verfügbaren Kernen ausgeführt werden.
 
 {% hint style="success" %}
 Zusammenfassend können Prozesse zur Ausführung von Code **parallel** **Codeblöcke an GCD senden**, die sich um deren Ausführung kümmern. Daher erstellen Prozesse keine neuen Threads; **GCD führt den übergebenen Code mit seinem eigenen Thread-Pool aus** (der bei Bedarf erhöht oder verringert werden kann).
 {% endhint %}
 
-Dies ist sehr hilfreich, um die parallele Ausführung erfolgreich zu verwalten, indem die Anzahl der Threads, die Prozesse erstellen, erheblich reduziert und die parallele Ausführung optimiert wird. Dies ist ideal für Aufgaben, die eine **große Parallelität** erfordern (Brute-Forcing?) oder für Aufgaben, die den Hauptthread nicht blockieren sollten: Beispielsweise behandelt der Hauptthread auf iOS UI-Interaktionen, sodass alle anderen Funktionen, die die App zum Stillstand bringen könnten (Suchen, auf eine Website zugreifen, eine Datei lesen...), auf diese Weise verwaltet werden.
+Dies ist sehr hilfreich, um die parallele Ausführung erfolgreich zu verwalten, da die Anzahl der Threads, die Prozesse erstellen, erheblich reduziert wird und die parallele Ausführung optimiert wird. Dies ist ideal für Aufgaben, die eine **große Parallelität** erfordern (Brute-Forcing?) oder für Aufgaben, die den Hauptthread nicht blockieren sollten: Beispielsweise behandelt der Hauptthread auf iOS UI-Interaktionen, sodass alle anderen Funktionen, die die App zum Stillstand bringen könnten (Suchen, auf eine Website zugreifen, eine Datei lesen...), auf diese Weise verwaltet werden.
 
 ### Blöcke
 
@@ -50,7 +53,7 @@ Auf Compiler-Ebene existieren Blöcke jedoch nicht, sie sind `os_object`s. Jedes
 
 Eine Dispatch-Warteschlange ist ein benanntes Objekt, das die FIFO-Reihenfolge von Blöcken für die Ausführung bereitstellt.
 
-Blöcke werden in Warteschlangen eingestellt, um ausgeführt zu werden, und diese unterstützen 2 Modi: `DISPATCH_QUEUE_SERIAL` und `DISPATCH_QUEUE_CONCURRENT`. Natürlich wird die **serielle** Warteschlange **keine Probleme mit Rennbedingungen haben**, da ein Block erst ausgeführt wird, wenn der vorherige beendet ist. Aber **der andere Typ der Warteschlange könnte es haben**.
+Blöcke werden in Warteschlangen eingestellt, um ausgeführt zu werden, und diese unterstützen 2 Modi: `DISPATCH_QUEUE_SERIAL` und `DISPATCH_QUEUE_CONCURRENT`. Natürlich wird die **serielle** Warteschlange **keine Probleme mit Rennbedingungen** haben, da ein Block erst ausgeführt wird, wenn der vorherige beendet ist. Aber **der andere Typ der Warteschlange könnte sie haben**.
 
 Standardwarteschlangen:
 
@@ -70,7 +73,7 @@ Standardwarteschlangen:
 * `.root.user-interactive-qos`: Höchste Priorität
 * `.root.background-qos.overcommit`
 
-Beachten Sie, dass das System entscheidet, **welche Threads welche Warteschlangen zu einem bestimmten Zeitpunkt bearbeiten** (mehrere Threads können in derselben Warteschlange arbeiten oder derselbe Thread kann zu einem bestimmten Zeitpunkt in verschiedenen Warteschlangen arbeiten).
+Beachten Sie, dass das System entscheidet, **welche Threads zu welchen Warteschlangen zu einem bestimmten Zeitpunkt gehören** (mehrere Threads können in derselben Warteschlange arbeiten oder derselbe Thread kann zu einem bestimmten Zeitpunkt in verschiedenen Warteschlangen arbeiten).
 
 #### Attribute
 
@@ -96,9 +99,9 @@ Es gibt mehrere Objekte, die libdispatch verwendet, und Warteschlangen und Blöc
 In Objective-C gibt es verschiedene Funktionen, um einen Block zur parallelen Ausführung zu senden:
 
 * [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Sendet einen Block zur asynchronen Ausführung an eine Dispatch-Warteschlange und kehrt sofort zurück.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Sendet ein Blockobjekt zur Ausführung und kehrt zurück, nachdem dieser Block die Ausführung beendet hat.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Sendet ein Blockobjekt zur Ausführung und kehrt zurück, nachdem dieser Block ausgeführt wurde.
 * [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Führt ein Blockobjekt nur einmal während der Lebensdauer einer Anwendung aus.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Sendet ein Arbeitsobjekt zur Ausführung und kehrt erst zurück, nachdem es die Ausführung beendet hat. Im Gegensatz zu [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) respektiert diese Funktion alle Attribute der Warteschlange, wenn sie den Block ausführt.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Sendet ein Arbeitsobjekt zur Ausführung und kehrt erst zurück, nachdem es ausgeführt wurde. Im Gegensatz zu [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) respektiert diese Funktion alle Attribute der Warteschlange, wenn sie den Block ausführt.
 
 Diese Funktionen erwarten diese Parameter: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
@@ -146,7 +149,7 @@ return 0;
 ## Swift
 
 **`libswiftDispatch`** ist eine Bibliothek, die **Swift-Bindungen** zum Grand Central Dispatch (GCD)-Framework bereitstellt, das ursprünglich in C geschrieben wurde.\
-Die Bibliothek **`libswiftDispatch`** kapselt die C GCD-APIs in eine benutzerfreundlichere Schnittstelle für Swift, was es für Swift-Entwickler einfacher und intuitiver macht, mit GCD zu arbeiten.
+Die Bibliothek **`libswiftDispatch`** kapselt die C GCD-APIs in eine benutzerfreundlichere Schnittstelle für Swift, was es einfacher und intuitiver für Swift-Entwickler macht, mit GCD zu arbeiten.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -198,9 +201,9 @@ Backtrace:
 ```
 ## Ghidra
 
-Aktuell versteht Ghidra weder die Struktur **`dispatch_block_t`** in ObjectiveC noch die Struktur **`swift_dispatch_block`**.
+Aktuell versteht Ghidra weder die ObjectiveC-Struktur **`dispatch_block_t`** noch die **`swift_dispatch_block`**.
 
-Wenn du möchtest, dass es sie versteht, könntest du sie einfach **deklarieren**:
+Wenn Sie möchten, dass es sie versteht, könnten Sie sie einfach **deklarieren**:
 
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -208,15 +211,15 @@ Wenn du möchtest, dass es sie versteht, könntest du sie einfach **deklarieren*
 
 <figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Finde dann eine Stelle im Code, wo sie **verwendet** werden:
+Dann finden Sie eine Stelle im Code, wo sie **verwendet** werden:
 
 {% hint style="success" %}
-Beachte alle Verweise auf "block", um herauszufinden, wie du feststellen kannst, dass die Struktur verwendet wird.
+Beachten Sie alle Verweise auf "block", um herauszufinden, wie Sie feststellen können, dass die Struktur verwendet wird.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Klicke mit der rechten Maustaste auf die Variable -> Ändere den Typ der Variable und wähle in diesem Fall **`swift_dispatch_block`** aus:
+Klicken Sie mit der rechten Maustaste auf die Variable -> Variablentyp ändern und wählen Sie in diesem Fall **`swift_dispatch_block`**:
 
 <figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -227,3 +230,18 @@ Ghidra wird automatisch alles neu schreiben:
 ## Referenzen
 
 * [**\*OS Internals, Band I: Benutzermodus. Von Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+
+</details>
+{% endhint %}

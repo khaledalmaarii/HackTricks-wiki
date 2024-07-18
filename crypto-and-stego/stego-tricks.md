@@ -1,18 +1,19 @@
-# Stego Tricks
+# Stego-Tricks
+
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) **und** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories senden.**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -32,7 +33,7 @@ binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Vordergründig**
+### **Vornehmste**
 
 Stellt Dateien basierend auf ihren Headern und Footern wieder her, nützlich für PNG-Bilder. Installiert über `apt` mit der Quelle auf [GitHub](https://github.com/korczis/foremost).
 ```bash
@@ -40,7 +41,7 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Hilft dabei, Dateimetadaten anzuzeigen, hier verfügbar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Hilft dabei, Dateimetadaten anzuzeigen, verfügbar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
@@ -52,7 +53,7 @@ exiv2 file # Shows the metadata
 ```
 ### **Datei**
 
-Identifiziere den Dateityp, mit dem du es zu tun hast.
+Identifizieren Sie den Dateityp, mit dem Sie es zu tun haben.
 
 ### **Zeichenfolgen**
 
@@ -74,7 +75,7 @@ Nützlich zum Vergleichen einer modifizierten Datei mit ihrer Originalversion, d
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Extrahieren von versteckten Daten in Texten**
+## **Extrahieren von versteckten Daten in Text**
 
 ### **Versteckte Daten in Leerzeichen**
 
@@ -84,15 +85,15 @@ Unsichtbare Zeichen in scheinbar leeren Leerzeichen können Informationen verber
 
 ### **Identifizieren von Bilddetails mit GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Beschädigungen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu inspizieren:
+[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Korruptionen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu inspizieren:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Um eine Reparatur an einem beschädigten Bild zu versuchen, könnte das Hinzufügen eines Metadatenkommentars hilfreich sein:
+Um eine beschädigte Abbildung zu reparieren, könnte das Hinzufügen eines Metadatenkommentars hilfreich sein:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide zur Datenverheimlichung**
+### **Steghide zur Datenverdeckung**
 
 Steghide erleichtert das Verstecken von Daten in `JPEG, BMP, WAV und AU` Dateien und kann verschlüsselte Daten einbetten und extrahieren. Die Installation ist einfach mit `apt` und der [Quellcode ist auf GitHub verfügbar](https://github.com/StefanoDeVuono/steghide).
 
@@ -101,7 +102,7 @@ Steghide erleichtert das Verstecken von Daten in `JPEG, BMP, WAV und AU` Dateien
 * `steghide info Datei` zeigt an, ob eine Datei versteckte Daten enthält.
 * `steghide extract -sf Datei [--Passwort Passwort]` extrahiert die versteckten Daten, Passwort ist optional.
 
-Für die webbasierte Extraktion besuchen Sie [diese Website](https://futureboy.us/stegano/decinput.html).
+Für eine webbasierte Extraktion besuchen Sie [diese Website](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce-Angriff mit Stegcracker:**
 
@@ -173,7 +174,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg zeichnet sich durch die Fähigkeit aus, Daten in WAV-Dateien mithilfe der Least Significant Bit-Strategie zu verbergen und extrahieren. Es ist auf [GitHub](https://github.com/ragibson/Steganography#WavSteg) verfügbar. Befehle sind:
+WavSteg zeichnet sich durch das Verbergen und Extrahieren von Daten in WAV-Dateien mithilfe der Strategie des am wenigsten signifikanten Bits aus. Es ist auf [GitHub](https://github.com/ragibson/Steganography#WavSteg) verfügbar. Die Befehle umfassen:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -185,7 +186,7 @@ Deepsound ermöglicht die Verschlüsselung und Erkennung von Informationen in So
 
 ### **Sonic Visualizer**
 
-Ein unverzichtbares Werkzeug zur visuellen und analytischen Inspektion von Audiodateien, Sonic Visualizer kann verborgene Elemente aufdecken, die auf andere Weise nicht erkennbar sind. Besuchen Sie die [offizielle Website](https://www.sonicvisualiser.org/) für mehr Informationen.
+Ein unschätzbares Werkzeug zur visuellen und analytischen Inspektion von Audiodateien, Sonic Visualizer kann verborgene Elemente aufdecken, die auf andere Weise nicht erkennbar sind. Besuchen Sie die [offizielle Website](https://www.sonicvisualiser.org/) für mehr Informationen.
 
 ### **DTMF Töne - Wähltöne**
 
@@ -193,16 +194,16 @@ Die Erkennung von DTMF-Tönen in Audiodateien kann mithilfe von Online-Tools wie
 
 ## **Andere Techniken**
 
-### **Binäre Länge SQRT - QR-Code**
+### **Binäre Längenwurzel - QR-Code**
 
-Binäre Daten, die zu einer ganzen Zahl quadrieren, könnten einen QR-Code darstellen. Verwenden Sie diesen Code-Schnipsel, um zu überprüfen:
+Binäre Daten, die zu einer ganzen Zahl quadrieren, könnten einen QR-Code darstellen. Verwenden Sie diesen Code-Schnipsel zur Überprüfung:
 ```python
 import math
 math.sqrt(2500) #50
 ```
 ### **Braille Übersetzung**
 
-Für die Übersetzung von Braille ist der [Branah Braille Translator](https://www.branah.com/braille-translator) eine ausgezeichnete Ressource.
+Für die Übersetzung von Brailleschrift ist der [Branah Braille Übersetzer](https://www.branah.com/braille-translator) eine ausgezeichnete Ressource.
 
 ## **Referenzen**
 
@@ -215,16 +216,17 @@ Für die Übersetzung von Braille ist der [Branah Braille Translator](https://ww
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **GitHub-Repositories einreichst.**
 
 </details>
+{% endhint %}
