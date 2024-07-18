@@ -1,63 +1,64 @@
-# Napad produžetka dužine heša
+# Hash Length Extension Attack
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
 
-Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Rezime napada
+## Summary of the attack
 
-Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** neki **tajni ključ** na neke poznate čiste tekstualne podatke, a zatim hešira te podatke. Ako znate:
+Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** **tajnu** nekim poznatim čistim tekstualnim podacima i zatim hešira te podatke. Ako znate:
 
-* **Dužinu tajnog ključa** (ovo takođe može biti probijeno iz datog opsega dužine)
+* **Dužinu tajne** (to se može takođe bruteforce-ovati iz datog opsega dužine)
 * **Čiste tekstualne podatke**
-* **Algoritam (i ranjiv je na ovaj napad)**
+* **Algoritam (i on je ranjiv na ovaj napad)**
 * **Padding je poznat**
-* Obično se koristi podrazumevani, pa ako su ispunjeni i ostali zahtevi, i ovaj je
-* Padding varira u zavisnosti od dužine tajnog ključa+podataka, zbog čega je potrebna dužina tajnog ključa
+* Obično se koristi podrazumevani, tako da ako su ispunjena ostala 3 zahteva, ovo takođe jeste
+* Padding varira u zavisnosti od dužine tajne + podataka, zato je potrebna dužina tajne
 
-Onda je moguće da **napadač** **doda** **podatke** i **generiše** validan **potpis** za **prethodne podatke + dodate podatke**.
+Tada je moguće da **napadač** **doda** **podatke** i **generiše** važeći **potpis** za **prethodne podatke + dodate podatke**.
 
-### Kako?
+### How?
 
-Osnovno, ranjivi algoritmi generišu hešove tako što prvo **heširaju blok podataka**, a zatim, **iz** prethodno kreiranog **heša** (stanja), dodaju **sledeći blok podataka** i **heširaju ga**.
+U suštini, ranjivi algoritmi generišu heševe tako što prvo **heširaju blok podataka**, a zatim, **iz** **prethodno** kreiranog **heša** (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
 
-Zamislite da je tajni ključ "tajna" i podaci su "podaci", MD5 od "tajnapodaci" je 6036708eba0d11f6ef52ad44e8b74d5b.\
-Ako napadač želi da doda string "dodatak" može:
+Zamislite da je tajna "secret" a podaci su "data", MD5 od "secretdata" je 6036708eba0d11f6ef52ad44e8b74d5b.\
+Ako napadač želi da doda string "append" može:
 
 * Generisati MD5 od 64 "A"
-* Promeniti stanje prethodno inicijalizovanog heša u 6036708eba0d11f6ef52ad44e8b74d5b
-* Dodati string "dodatak"
-* Završiti heš i rezultujući heš će biti **validan za "tajna" + "podaci" + "padding" + "dodatak"**
+* Promeniti stanje prethodno inicijalizovanog heša na 6036708eba0d11f6ef52ad44e8b74d5b
+* Dodati string "append"
+* Završiti heš i rezultantni heš će biti **važeći za "secret" + "data" + "padding" + "append"**
 
-### **Alat**
+### **Tool**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### Reference
+### References
 
 Možete pronaći ovaj napad dobro objašnjen na [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
@@ -65,24 +66,25 @@ Možete pronaći ovaj napad dobro objašnjen na [https://blog.skullsecurity.org/
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
 
-Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomware-a koji proizilaze iz malvera za krađu informacija.
+Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks suvenir**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

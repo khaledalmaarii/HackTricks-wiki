@@ -1,16 +1,19 @@
 # Proxmark 3
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repozitorijumu**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijumu**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -20,15 +23,15 @@
 
 ***
 
-## Napadi na RFID sisteme sa Proxmark3
+## Napad na RFID sisteme sa Proxmark3
 
-Prvo što trebate uraditi je imati [**Proxmark3**](https://proxmark.com) i [**instalirati softver i njegove zavisnosti**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Prva stvar koju treba da uradite je da imate [**Proxmark3**](https://proxmark.com) i [**instalirate softver i njegove zavisnosti**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### Napadi na MIFARE Classic 1KB
+### Napad na MIFARE Classic 1KB
 
 Ima **16 sektora**, svaki od njih ima **4 bloka** i svaki blok sadrži **16B**. UID se nalazi u sektoru 0 bloku 0 (i ne može se menjati).\
-Da biste pristupili svakom sektoru, potrebne su vam **2 ključa** (**A** i **B**) koji se čuvaju u **bloku 3 svakog sektora** (sektorski blok). Sektor blok takođe čuva **pristupne bitove** koji daju dozvole za **čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
-2 ključa su korisna za davanje dozvola za čitanje ako znate prvi ključ i pisanje ako znate drugi ključ (na primer).
+Da biste pristupili svakom sektoru, potrebna su vam **2 ključa** (**A** i **B**) koji su smešteni u **bloku 3 svakog sektora** (sektorski trailer). Sektorski trailer takođe čuva **bitove pristupa** koji daju **dozvole za čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
+2 ključa su korisna za davanje dozvola za čitanje ako znate prvi i pisanje ako znate drugi (na primer).
 
 Mogu se izvesti nekoliko napada
 ```bash
@@ -49,11 +52,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 omogućava obavljanje drugih radnji poput **prisluškivanja** komunikacije **Oznaka ka čitaču** kako bi se pokušalo pronaći osetljive podatke. Na ovom uređaju možete samo špijunirati komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije koje se koriste slabe** i znajući običan i šifrovan tekst možete ga izračunati (`mfkey64` alat).
+Proxmark3 omogućava izvođenje drugih radnji kao što je **prisluškivanje** komunikacije između **Tag-a i čitača** kako bi se pokušalo pronaći osetljive podatke. Na ovoj kartici možete jednostavno presresti komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije slabe** i poznavajući običan i šifrovani tekst možete ga izračunati (`mfkey64` alat).
 
-### Sirove Komande
+### Raw Commands
 
-Sistemi IoT-a ponekad koriste **nebrendirane ili nekomercijalne oznake**. U tom slučaju, možete koristiti Proxmark3 da biste poslali prilagođene **sirove komande oznakama**.
+IoT sistemi ponekad koriste **nebrendirane ili nekomercijalne tagove**. U ovom slučaju, možete koristiti Proxmark3 za slanje prilagođenih **raw komandi tagovima**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,15 +66,15 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Sa ovim informacijama možete pokušati da pronađete informacije o kartici i načinu komunikacije s njom. Proxmark3 omogućava slanje sirovih komandi poput: `hf 14a raw -p -b 7 26`
+Sa ovim informacijama možete pokušati da potražite informacije o kartici i o načinu komunikacije sa njom. Proxmark3 omogućava slanje sirovih komandi kao što su: `hf 14a raw -p -b 7 26`
 
 ### Skripte
 
-Proxmark3 softver dolazi sa prednapunjenim listom **automatizovanih skripti** koje možete koristiti za obavljanje jednostavnih zadataka. Da biste dobili punu listu, koristite komandu `script list`. Zatim koristite komandu `script run`, praćenu imenom skripte:
+Proxmark3 softver dolazi sa unapred učitanom listom **automatskih skripti** koje možete koristiti za obavljanje jednostavnih zadataka. Da biste dobili punu listu, koristite komandu `script list`. Zatim, koristite komandu `script run`, praćenu imenom skripte:
 ```
 proxmark3> script run mfkeys
 ```
-Možete kreirati skriptu za **fuzziranje čitača oznaka**, tako što ćete kopirati podatke sa **validne kartice** i napisati **Lua skriptu** koja **randomizuje** jedan ili više **slučajnih bajtova** i proverava da li se **čitač ruši** sa bilo kojom iteracijom.
+Možete kreirati skriptu za **fuzz tag čitače**, tako što ćete kopirati podatke sa **validne kartice**, jednostavno napišite **Lua skriptu** koja **randomizuje** jedan ili više nasumičnih **bajtova** i proverite da li **čitač pada** sa bilo kojom iteracijom.
 
 **Try Hard Security Group**
 
@@ -80,14 +83,17 @@ Možete kreirati skriptu za **fuzziranje čitača oznaka**, tako što ćete kopi
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi** ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

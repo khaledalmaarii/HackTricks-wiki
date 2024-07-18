@@ -1,135 +1,137 @@
-# Lista za proveru eskalacije privilegija na Linuxu
+# Checklist - Linux Privilege Escalation
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 <figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na greške!
 
 **Hakerski uvidi**\
-Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
+Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
 
 **Vesti o hakovanju u realnom vremenu**\
-Budite informisani o brzom svetu hakovanja kroz vesti i uvide u realnom vremenu
+Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Poslednje najave**\
-Ostanite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platformi
+**Najnovija obaveštenja**\
+Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
-**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
-### **Najbolji alat za traženje vektora eskalacije privilegija na lokalnom Linux sistemu:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Najbolji alat za traženje Linux lokalnih vektora eskalacije privilegija:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 ### [Informacije o sistemu](privilege-escalation/#system-information)
 
-* [ ] Dobiti **informacije o OS-u**
-* [ ] Proveriti [**PATH**](privilege-escalation/#path), da li postoji **pisiva fascikla**?
-* [ ] Proveriti [**env promenljive**](privilege-escalation/#env-info), da li postoji osetljiv detalj?
-* [ ] Tražiti [**eksploate kernela**](privilege-escalation/#kernel-exploits) **korišćenjem skripti** (DirtyCow?)
-* [ ] **Proveriti** da li je [**verzija sudo-a ranjiva**](privilege-escalation/#sudo-version)
-* [ ] [**Dmesg** provera neuspešne verifikacije potpisa](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Više sistema enumeracija ([datum, statistika sistema, informacije o CPU-u, štampači](privilege-escalation/#more-system-enumeration))
-* [ ] [Enumeracija više odbrana](privilege-escalation/#enumerate-possible-defenses)
+* [ ] Dobijte **informacije o OS-u**
+* [ ] Proverite [**PATH**](privilege-escalation/#path), da li postoji **pisivačka fascikla**?
+* [ ] Proverite [**env promenljive**](privilege-escalation/#env-info), da li postoji neka osetljiva informacija?
+* [ ] Pretražite [**kernel exploite**](privilege-escalation/#kernel-exploits) **koristeći skripte** (DirtyCow?)
+* [ ] **Proverite** da li je [**sudo verzija** ranjiva](privilege-escalation/#sudo-version)
+* [ ] [**Dmesg** verifikacija potpisa nije uspela](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] Više sistemskih informacija ([datum, sistemske statistike, cpu informacije, štampači](privilege-escalation/#more-system-enumeration))
+* [ ] [**Enumerisanje više odbrana**](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Diskovi](privilege-escalation/#drives)
 
-* [ ] **Izlistati montirane** diskove
-* [ ] **Postoji li neki nemonitrani disk?**
-* [ ] **Postoje li kredencijali u fstab-u?**
+* [ ] **Lista montiranih** diskova
+* [ ] **Da li postoji neki nemontirani disk?**
+* [ ] **Da li postoje kredencijali u fstab?**
 
-### [**Instalirani softveri**](privilege-escalation/#installed-software)
+### [**Instalirani softver**](privilege-escalation/#installed-software)
 
-* [ ] **Proveriti da li su** [**korisni softveri**](privilege-escalation/#useful-software) **instalirani**
-* [ ] **Proveriti da li su** [**ranjivi softveri**](privilege-escalation/#vulnerable-software-installed) **instalirani**
+* [ ] **Proverite za** [**koristan softver**](privilege-escalation/#useful-software) **instaliran**
+* [ ] **Proverite za** [**ranjiv softver**](privilege-escalation/#vulnerable-software-installed) **instaliran**
 
 ### [Procesi](privilege-escalation/#processes)
 
-* [ ] Da li se izvršava **nepoznat softver**?
-* [ ] Da li se neki softver izvršava sa **više privilegija nego što bi trebalo**?
-* [ ] Tražiti **eksploate pokrenutih procesa** (posebno verziju koja se izvršava).
-* [ ] Da li možete **modifikovati binarni fajl** nekog pokrenutog procesa?
-* [ ] **Pratiti procese** i proveriti da li se neki zanimljiv proces često izvršava.
-* [ ] Da li možete **čitati** neku zanimljivu **memoriju procesa** (gde bi lozinke mogle biti sačuvane)?
+* [ ] Da li se neki **nepoznati softver pokreće**?
+* [ ] Da li se neki softver pokreće sa **više privilegija nego što bi trebao**?
+* [ ] Pretražite **exploite pokrenutih procesa** (posebno verziju koja se pokreće).
+* [ ] Možete li **modifikovati binarni** fajl nekog pokrenutog procesa?
+* [ ] **Pratite procese** i proverite da li se neki zanimljiv proces često pokreće.
+* [ ] Možete li **pročitati** neku zanimljivu **memoriju procesa** (gde bi lozinke mogle biti sačuvane)?
 
 ### [Zakazani/Cron poslovi?](privilege-escalation/#scheduled-jobs)
 
-* [ ] Da li je [**PATH** ](privilege-escalation/#cron-path)modifikovan od strane nekog cron-a i možete u njega **pisati**?
-* [ ] Da li postoji [**zvezdica** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)u cron poslu?
-* [ ] Da li se neki [**modifikovani skript** ](privilege-escalation/#cron-script-overwriting-and-symlink)izvršava ili se nalazi u **modifikovanoj fascikli**?
-* [ ] Da li ste primetili da se neki **skript** može ili se često [**izvršava** veoma **često**](privilege-escalation/#frequent-cron-jobs)? (svakih 1, 2 ili 5 minuta)
+* [ ] Da li se [**PATH**](privilege-escalation/#cron-path) menja od strane nekog crona i možete li **pisati** u njega?
+* [ ] Da li postoji neki [**wildcard**](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) u cron poslu?
+* [ ] Da li se neki [**modifikovani skript**](privilege-escalation/#cron-script-overwriting-and-symlink) izvršava ili se nalazi u **modifikovanoj fascikli**?
+* [ ] Da li ste otkrili da se neki **skript** može ili se izvršava [**veoma često**](privilege-escalation/#frequent-cron-jobs)? (svakih 1, 2 ili 5 minuta)
 
 ### [Servisi](privilege-escalation/#services)
 
-* [ ] Postoji li **pisiv .service** fajl?
-* [ ] Da li se izvršava neki **pisiv binarni fajl** putem **servisa**?
-* [ ] Postoji li **pisiva fascikla u systemd PATH-u**?
+* [ ] Da li postoji neki **pisiv .service** fajl?
+* [ ] Da li postoji neki **pisiv binarni** fajl koji izvršava **servis**?
+* [ ] Da li postoji neka **pisiva fascikla u systemd PATH**?
 
 ### [Tajmeri](privilege-escalation/#timers)
 
-* [ ] Postoji li **pisiv tajmer**?
+* [ ] Da li postoji neki **pisiv tajmer**?
 
 ### [Soketi](privilege-escalation/#sockets)
 
-* [ ] Postoji li **pisiv .socket** fajl?
-* [ ] Da li možete **komunicirati sa nekim socket-om**?
+* [ ] Da li postoji neki **pisiv .socket** fajl?
+* [ ] Možete li **komunicirati sa nekim soketom**?
 * [ ] **HTTP soketi** sa zanimljivim informacijama?
 
 ### [D-Bus](privilege-escalation/#d-bus)
 
-* [ ] Da li možete **komunicirati sa nekim D-Bus-om**?
+* [ ] Možete li **komunicirati sa nekim D-Bus**?
 
 ### [Mreža](privilege-escalation/#network)
 
-* [ ] Enumerisati mrežu da biste znali gde se nalazite
-* [ ] **Otvoriti portove kojima niste mogli pristupiti pre** dobijanja shell-a unutar mašine?
-* [ ] Da li možete **snifovati saobraćaj** koristeći `tcpdump`?
+* [ ] Enumerisanje mreže da znate gde se nalazite
+* [ ] **Otvoreni portovi koje niste mogli da pristupite pre** nego što ste dobili shell unutar mašine?
+* [ ] Možete li **sniff-ovati saobraćaj** koristeći `tcpdump`?
 
 ### [Korisnici](privilege-escalation/#users)
 
-* [ ] Opšta enumeracija korisnika/grupa
+* [ ] Generička **enumeracija korisnika/grupa**
 * [ ] Da li imate **veoma veliki UID**? Da li je **mašina** **ranjiva**?
-* [ ] Da li možete [**eskalarirati privilegije zahvaljujući grupi**](privilege-escalation/interesting-groups-linux-pe/) kojoj pripadate?
+* [ ] Možete li [**eskalirati privilegije zahvaljujući grupi**](privilege-escalation/interesting-groups-linux-pe/) kojoj pripadate?
 * [ ] **Podaci iz clipboard-a**?
-* [ ] Politika lozinke?
-* [ ] Pokušajte da **koristite** svaku **poznatu lozinku** koju ste prethodno otkrili da biste se prijavili **sa svakim** mogućim **korisnikom**. Pokušajte se takođe prijaviti i bez lozinke.
+* [ ] Politika lozinki?
+* [ ] Pokušajte da **koristite** svaku **poznatu lozinku** koju ste prethodno otkrili da se prijavite **sa svakim** mogućim **korisnikom**. Pokušajte da se prijavite i bez lozinke.
 
-### [Pisiva putanja](privilege-escalation/#writable-path-abuses)
+### [Pisivi PATH](privilege-escalation/#writable-path-abuses)
 
-* [ ] Ako imate **prava za pisanje nad nekom fasciklom u PATH-u** možda ćete moći da eskalirate privilegije
+* [ ] Ako imate **privilegije pisanja nad nekom fasciklom u PATH-u** možda ćete moći da eskalirate privilegije
 
 ### [SUDO i SUID komande](privilege-escalation/#sudo-and-suid)
 
-* [ ] Da li možete izvršiti **bilo koju komandu sa sudo-om**? Možete li je koristiti da **ČITATE, PIŠETE ili IZVRŠITE** bilo šta kao root? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Da li postoji **eksploatabilna SUID binarna datoteka**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Da li su [**sudo komande ograničene** putanjom? možete li **zaobići** ograničenja](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Sudo/SUID binarna datoteka bez navedene putanje**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
-* [ ] [**SUID binarna datoteka sa navedenom putanjom**](privilege-escalation/#suid-binary-with-command-path)? Zaobilaženje
+* [ ] Možete li izvršiti **bilo koju komandu sa sudo**? Možete li je koristiti da ČITATE, PIŠETE ili IZVRŠAVATE bilo šta kao root? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Da li postoji neki **eksploatabilni SUID binarni**? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Da li su [**sudo** komande **ograničene** po **putanji**? Možete li **obići** ograničenja](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] [**Sudo/SUID binarni bez naznačene putanje**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**SUID binarni koji naznačava putanju**](privilege-escalation/#suid-binary-with-command-path)? Obilaženje
 * [ ] [**LD\_PRELOAD ranjivost**](privilege-escalation/#ld\_preload)
-* [ ] [**Nedostatak .so biblioteke u SUID binarnoj datoteci**](privilege-escalation/#suid-binary-so-injection) iz pisive fascikle?
+* [ ] [**Nedostatak .so biblioteke u SUID binarnom**](privilege-escalation/#suid-binary-so-injection) iz pisive fascikle?
 * [ ] [**SUDO tokeni dostupni**](privilege-escalation/#reusing-sudo-tokens)? [**Možete li kreirati SUDO token**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
-* [ ] Da li možete [**čitati ili modifikovati sudoers fajlove**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
-* [ ] Da li možete [**modifikovati /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
+* [ ] Možete li [**pročitati ili modifikovati sudoers fajlove**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
+* [ ] Možete li [**modifikovati /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
 * [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) komanda
-### [Mogućnosti](privilege-escalation/#capabilities)
 
-* [ ] Ima li bilo koji binarni fajl **neočekivanu mogućnost**?
+### [Kapaciteti](privilege-escalation/#capabilities)
 
-### [ACLs](privilege-escalation/#acls)
+* [ ] Da li neki binarni fajl ima neku **neočekivanu sposobnost**?
 
-* [ ] Ima li bilo koji fajl **neočekivani ACL**?
+### [ACL-ovi](privilege-escalation/#acls)
 
-### [Otvorene sesije komandne linije](privilege-escalation/#open-shell-sessions)
+* [ ] Da li neki fajl ima neki **neočekivani ACL**?
+
+### [Otvorene Shell sesije](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
@@ -137,60 +139,61 @@ Ostanite informisani o najnovijim nagradama za pronalaženje bagova i važnim a�
 ### [SSH](privilege-escalation/#ssh)
 
 * [ ] **Debian** [**OpenSSL Predvidljiv PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**SSH Interesantne vrednosti konfiguracije**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] [**SSH Zanimljive konfiguracione vrednosti**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [Interesantni fajlovi](privilege-escalation/#interesting-files)
+### [Zanimljivi fajlovi](privilege-escalation/#interesting-files)
 
-* [ ] **Profil fajlovi** - Čitanje osetljivih podataka? Pisanje za privesc?
-* [ ] **passwd/shadow fajlovi** - Čitanje osetljivih podataka? Pisanje za privesc?
-* [ ] **Provera često interesantnih foldera** za osetljive podatke
-* [ ] **Čudna lokacija/vlasnički fajlovi,** do kojih možete pristupiti ili izmeniti izvršne fajlove
-* [ ] **Izmenjeni** u poslednjih nekoliko minuta
+* [ ] **Profilni fajlovi** - Pročitajte osetljive podatke? Pišite za privesc?
+* [ ] **passwd/shadow fajlovi** - Pročitajte osetljive podatke? Pišite za privesc?
+* [ ] **Proverite uobičajene zanimljive fascikle** za osetljive podatke
+* [ ] **Čudne lokacije/Owned fajlovi,** možda imate pristup ili možete da menjate izvršne fajlove
+* [ ] **Modifikovani** u poslednjim minutima
 * [ ] **Sqlite DB fajlovi**
 * [ ] **Skriveni fajlovi**
-* [ ] **Skripte/Binarni fajlovi u PATH-u**
-* [ ] **Web fajlovi** (šifre?)
-* [ ] **Backup-ovi**?
-* [ ] **Poznati fajlovi koji sadrže šifre**: Koristite **Linpeas** i **LaZagne**
+* [ ] **Skripte/Binari u PATH-u**
+* [ ] **Web fajlovi** (lozinke?)
+* [ ] **Backup-i**?
+* [ ] **Poznati fajlovi koji sadrže lozinke**: Koristite **Linpeas** i **LaZagne**
 * [ ] **Generička pretraga**
 
-### [**Fajlovi za pisanje**](privilege-escalation/#writable-files)
+### [**Pisivi fajlovi**](privilege-escalation/#writable-files)
 
-* [ ] **Izmena Python biblioteke** za izvršavanje proizvoljnih komandi?
-* [ ] Možete li **izmeniti log fajlove**? Eksploatacija **Logtotten**
-* [ ] Možete li **izmeniti /etc/sysconfig/network-scripts/**? Eksploatacija za Centos/Redhat
+* [ ] **Modifikujte python biblioteku** da izvršite proizvoljne komande?
+* [ ] Možete li **modifikovati log fajlove**? **Logtotten** exploit
+* [ ] Možete li **modifikovati /etc/sysconfig/network-scripts/**? Centos/Redhat exploit
 * [ ] Možete li [**pisati u ini, int.d, systemd ili rc.d fajlove**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
-### [**Drugi trikovi**](privilege-escalation/#other-tricks)
+### [**Ostali trikovi**](privilege-escalation/#other-tricks)
 
-* [ ] Možete li [**zloupotrebiti NFS za eskalaciju privilegija**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Da li treba da [**pobegnete iz restriktivne ljuske**](privilege-escalation/#escaping-from-restricted-shells)?
+* [ ] Možete li [**zloupotrebiti NFS da eskalirate privilegije**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] Da li treba da [**pobegnete iz restriktivnog shell-a**](privilege-escalation/#escaping-from-restricted-shells)?
 
 <figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na greške!
 
 **Hakerski uvidi**\
-Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
+Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
 
 **Vesti o hakovanju u realnom vremenu**\
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Poslednje najave**\
-Budite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platforme
+**Najnovija obaveštenja**\
+Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platforme
 
-Pridružite nam se na [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

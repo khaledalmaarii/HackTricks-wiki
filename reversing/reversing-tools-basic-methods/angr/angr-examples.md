@@ -1,24 +1,27 @@
 # Angr - Primeri
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 {% hint style="info" %}
-Ako program koristi `scanf` za dobijanje **više vrednosti odjednom sa standardnog ulaza** morate generisati stanje koje počinje posle **`scanf`**.
+Ako program koristi `scanf` da dobije **several values at once from stdin** potrebno je generisati stanje koje počinje nakon **`scanf`**.
 {% endhint %}
 
 Kodovi preuzeti sa [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
-### Unos za dostizanje adrese (navođenje adrese)
+### Ulaz za dostizanje adrese (ukazuje na adresu)
 ```python
 import angr
 import sys
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Ulaz za dostizanje adrese (ukazujući ispis)
+### Ulaz za dostizanje adrese (ukazuje na ispise)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Vrednosti registra
+### Registry vrednosti
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -212,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-U ovom scenariju, unos je uzet pomoću `scanf("%u %u")` i vrednost `"1 1"` je data, tako da vrednosti **`0x00000001`** sa steka dolaze od **korisničkog unosa**. Možete videti kako ove vrednosti počinju na `$ebp - 8`. Stoga, u kodu smo **oduzeli 8 bajtova od `$esp` (kako su u tom trenutku `$ebp` i `$esp` imali istu vrednost)** a zatim smo gurnuli BVS.
+U ovom scenariju, ulaz je uzet sa `scanf("%u %u")` i vrednost `"1 1"` je data, tako da vrednosti **`0x00000001`** na steku dolaze od **korisničkog unosa**. Možete videti kako ove vrednosti počinju u `$ebp - 8`. Stoga, u kodu smo **oduzeli 8 bajtova od `$esp` (jer su u tom trenutku `$ebp` i `$esp` imale istu vrednost)** i zatim smo stavili BVS.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Staticne vrednosti memorije (Globalne promenljive)
+### Statičke vrednosti memorije (Globalne promenljive)
 ```python
 import angr
 import claripy
@@ -277,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Dinamičke vrednosti memorije (Malloc)
+### Dinamičke Vrednosti Memorije (Malloc)
 ```python
 import angr
 import claripy
@@ -336,7 +339,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Simulacija fajlova
+### Simulacija Fajla
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Imajte na umu da simbolička datoteka takođe može sadržati konstantne podatke spojene sa simboličkim podacima:
+Napomena da simbolička datoteka može takođe sadržati konstantne podatke pomešane sa simboličkim podacima:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -415,11 +418,11 @@ Imajte na umu da simbolička datoteka takođe može sadržati konstantne podatke
 ```
 {% endhint %}
 
-### Primenjivanje ograničenja
+### Primena Ograničenja
 
 {% hint style="info" %}
-Ponekad jednostavne ljudske operacije poput poređenja 2 reči dužine 16 **karaktera po karakter** (petlja), **mnogo koštaju** **angr** jer mora generisati grane **eksponencijalno** jer generiše 1 granu po if-u: `2^16`\
-Stoga je lakše **zatražiti od angr-a da se vrati na prethodnu tačku** (gde je već obavljen stvarno težak deo) i **postaviti ta ograničenja ručno**.
+Ponekad jednostavne ljudske operacije kao što je upoređivanje 2 reči dužine 16 **karakter po karakter** (petlja), **koštaju** mnogo **angr**-u jer mora da generiše grane **eksponencijalno** jer generiše 1 granu po if: `2^16`\
+Zato je lakše **zamoliti angr da se vrati na prethodnu tačku** (gde je stvarno teži deo već urađen) i **postaviti ta ograničenja ručno**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-U nekim scenarijima možete aktivirati **veritesting**, što će spojiti slične status, kako biste sačuvali beskorisne grane i pronašli rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+U nekim scenarijima možete aktivirati **veritesting**, koji će spojiti slične statuse, kako bi sačuvao beskorisne grane i pronašao rešenje: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Još nešto što možete uraditi u ovim scenarijima je **hookovanje funkcije dajući angr-u nešto što može lakše da razume**.
+Još jedna stvar koju možete uraditi u ovim scenarijima je da **hook-ujete funkciju dajući angr nešto što može lakše da razume**.
 {% endhint %}
 
 ### Menadžeri simulacije
 
-Neki menadžeri simulacije mogu biti korisniji od drugih. U prethodnom primeru postojao je problem jer je bilo mnogo korisnih grana koje su kreirane. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
-Ovaj menadžer simulacije takođe može biti aktiviran sa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Neki menadžeri simulacije mogu biti korisniji od drugih. U prethodnom primeru došlo je do problema jer je stvoreno mnogo korisnih grana. Ovde će **veritesting** tehnika spojiti te grane i pronaći rešenje.\
+Ovaj menadžer simulacije može se takođe aktivirati sa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hakovanje/Bajpasovanje jednog poziva funkcije
+### Hooking/Bypassing jedan poziv funkciji
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hakovanje funkcije / Simprocedura
+### Hooking a function / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Simulirajte scanf sa više parametara
+### Simulirati scanf sa više parametara
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -754,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Statički binarni fajlovi
+### Staticki Binarni Fajlovi
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Red Team Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Red Team Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za sajber bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova u** [**hacktricks repozitorijum**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repozitorijum**](https://github.com/carlospolop/hacktricks-cloud).
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
