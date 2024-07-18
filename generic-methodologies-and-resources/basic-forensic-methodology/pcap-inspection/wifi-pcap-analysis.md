@@ -1,50 +1,67 @@
+# Wifi Pcap Analysis
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
+## Check BSSIDs
 
-# Перевірка BSSIDs
+Коли ви отримуєте захоплення, основний трафік якого - Wifi, використовуючи WireShark, ви можете почати досліджувати всі SSID захоплення з _Wireless --> WLAN Traffic_:
 
-Коли ви отримуєте захоплення, головний трафік якого є Wifi, використовуючи WireShark, ви можете почати досліджувати всі SSID захоплення за допомогою _Wireless --> WLAN Traffic_:
+![](<../../../.gitbook/assets/image (106).png>)
 
-![](<../../../.gitbook/assets/image (424).png>)
+![](<../../../.gitbook/assets/image (492).png>)
 
-![](<../../../.gitbook/assets/image (425).png>)
+### Brute Force
 
-## Brute Force
-
-Один з стовпців на екрані показує, чи **була знайдена будь-яка аутентифікація всередині pcap**. Якщо це так, ви можете спробувати використати Brute force за допомогою `aircrack-ng`:
+Одна з колонок цього екрану вказує, чи **була знайдена будь-яка аутентифікація всередині pcap**. Якщо це так, ви можете спробувати зламати її за допомогою `aircrack-ng`:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-Наприклад, він витягне пароль WPA, що захищає PSK (попередньо встановлений ключ), який буде потрібно розшифрувати трафік пізніше.
+Наприклад, він отримає WPA пароль, що захищає PSK (попередньо поділений ключ), який буде потрібен для розшифровки трафіку пізніше.
 
-# Дані в маяках / Бічний канал
+## Дані в Beacon'ах / Бічний канал
 
-Якщо ви підозрюєте, що **дані витікають всередині маяків мережі Wifi**, ви можете перевірити маяки мережі, використовуючи фільтр, подібний до наступного: `wlan містить <ІМЯмережі>`, або `wlan.ssid == "ІМЯмережі"` шукати підозрілі рядки всередині відфільтрованих пакетів.
+Якщо ви підозрюєте, що **дані витікають у beacon'ах Wifi мережі**, ви можете перевірити beacon'и мережі, використовуючи фільтр, подібний до наступного: `wlan contains <NAMEofNETWORK>`, або `wlan.ssid == "NAMEofNETWORK"` шукайте в відфільтрованих пакетах підозрілі рядки.
 
-# Знайдіть невідомі MAC-адреси в мережі Wifi
+## Знайти невідомі MAC-адреси в Wifi мережі
 
-Наступне посилання буде корисним для пошуку **машин, що відправляють дані всередині мережі Wifi**:
+Наступне посилання буде корисним для знаходження **машин, що надсилають дані в Wifi мережі**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-Якщо ви вже знаєте **MAC-адреси, ви можете видалити їх з виводу**, додавши перевірки, подібні до цієї: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
+Якщо ви вже знаєте **MAC-адреси, ви можете видалити їх з виходу**, додавши перевірки, подібні до цієї: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Після виявлення **невідомих MAC-адрес, що спілкуються всередині мережі**, ви можете використовувати **фільтри**, подібні до наступного: `wlan.addr==<MAC-адрес> && (ftp || http || ssh || telnet)` для фільтрації його трафіку. Зверніть увагу, що фільтри ftp/http/ssh/telnet корисні, якщо ви розшифрували трафік.
+Якщо ви виявили **невідомі MAC** адреси, що спілкуються в мережі, ви можете використовувати **фільтри**, подібні до наступного: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)`, щоб відфільтрувати їх трафік. Зверніть увагу, що фільтри ftp/http/ssh/telnet корисні, якщо ви розшифрували трафік.
 
-# Розшифрувати трафік
+## Розшифрувати трафік
 
-Редагувати --> Налаштування --> Протоколи --> IEEE 802.11--> Редагувати
+Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
-![](<../../../.gitbook/assets/image (426).png>)
+![](<../../../.gitbook/assets/image (499).png>)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,58 +1,60 @@
 # Аналіз офісних файлів
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів** за допомогою найбільш **продвинутих** інструментів спільноти у світі.\
+Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
 Отримайте доступ сьогодні:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=office-file-analysis" %}
 
-Для отримання додаткової інформації перегляньте [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Це лише короткий огляд:
+Для отримання додаткової інформації перевірте [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Це лише короткий виклад:
 
-Microsoft створив багато форматів офісних документів, з двома основними типами: **формати OLE** (наприклад, RTF, DOC, XLS, PPT) та **формати Office Open XML (OOXML)** (такі як DOCX, XLSX, PPTX). Ці формати можуть містити макроси, що робить їх цілями для розсилання спаму та шкідливих програм. Файли OOXML структуровані як контейнери zip, що дозволяє їхню інспекцію шляхом розпакування, розкриваючи файл та ієрархію папок та вміст файлів XML.
+Microsoft створила багато форматів офісних документів, з яких два основні типи - це **OLE формати** (такі як RTF, DOC, XLS, PPT) та **Office Open XML (OOXML) формати** (такі як DOCX, XLSX, PPTX). Ці формати можуть містити макроси, що робить їх цілями для фішингу та шкідливого ПЗ. Файли OOXML структуровані як zip-контейнери, що дозволяє їх перевірку шляхом розпакування, виявляючи ієрархію файлів і папок та вміст XML-файлів.
 
-Для дослідження структур файлів OOXML наведено команду для розпакування документа та структуру виводу. Документовано техніки приховування даних у цих файлах, що свідчить про постійні інновації у приховуванні даних у завданнях CTF.
+Щоб дослідити структури файлів OOXML, наведено команду для розпакування документа та структуру виходу. Техніки приховування даних у цих файлах були задокументовані, що вказує на постійні інновації в приховуванні даних у CTF викликах.
 
-Для аналізу **oletools** та **OfficeDissector** пропонують комплексні набори інструментів для дослідження як OLE, так і OOXML документів. Ці інструменти допомагають в ідентифікації та аналізі вбудованих макросів, які часто служать векторами для доставки шкідливих програм, зазвичай завантажуючи та виконуючи додаткові зловмисні навантаження. Аналіз макросів VBA може бути проведений без Microsoft Office за допомогою Libre Office, що дозволяє відлагодження з точками зупинки та змінними перегляду.
+Для аналізу **oletools** та **OfficeDissector** пропонують комплексні набори інструментів для вивчення як OLE, так і OOXML документів. Ці інструменти допомагають у виявленні та аналізі вбудованих макросів, які часто слугують векторами для доставки шкідливого ПЗ, зазвичай завантажуючи та виконуючи додаткові шкідливі вантажі. Аналіз VBA макросів можна проводити без Microsoft Office, використовуючи Libre Office, що дозволяє налагоджувати з точками зупинки та змінними спостереження.
 
-Встановлення та використання **oletools** прості, з наданими командами для встановлення через pip та вилучення макросів з документів. Автоматичне виконання макросів спрацьовує за допомогою функцій, таких як `AutoOpen`, `AutoExec` або `Document_Open`.
+Встановлення та використання **oletools** є простими, з командами для встановлення через pip та витягування макросів з документів. Автоматичне виконання макросів викликається такими функціями, як `AutoOpen`, `AutoExec` або `Document_Open`.
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
 ```
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) для легкої побудови та **автоматизації робочих процесів**, які працюють на найбільш **продвинутих** інструментах спільноти у світі.\
+Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis), щоб легко створювати та **автоматизувати робочі процеси**, які підтримуються **найсучаснішими** інструментами спільноти.\
 Отримайте доступ сьогодні:
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=office-file-analysis" %}
+
+{% hint style="success" %}
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчіть хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану на HackTricks** або **завантажити HackTricks у PDF-форматі**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **та** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}

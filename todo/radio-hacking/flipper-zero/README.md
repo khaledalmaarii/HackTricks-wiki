@@ -1,18 +1,21 @@
 # Flipper Zero
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Ви працюєте в **кібербезпеці компанії**? Хочете побачити свою **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Група Try Hard Security**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,31 +25,34 @@
 
 З [**Flipper Zero**](https://flipperzero.one/) ви можете:
 
-* **Слухати/Захоплювати/Повторювати радіочастоти:** [**Sub-GHz**](fz-sub-ghz.md)
-* **Читати/Захоплювати/Емулювати NFC картки:** [**NFC**](fz-nfc.md)
-* **Читати/Захоплювати/Емулювати теги 125kHz:** [**125kHz RFID**](fz-125khz-rfid.md)
-* **Читати/Захоплювати/Надсилати інфрачервоні сигнали:** [**Інфрачервоне**](fz-infrared.md)
-* **Читати/Захоплювати/Емулювати iButtons:** [**iButton**](../ibutton.md)
+* **Слухати/Захоплювати/Відтворювати радіочастоти:** [**Sub-GHz**](fz-sub-ghz.md)
+* **Читати/Захоплювати/Емілювати NFC картки:** [**NFC**](fz-nfc.md)
+* **Читати/Захоплювати/Емілювати 125kHz мітки:** [**125kHz RFID**](fz-125khz-rfid.md)
+* **Читати/Захоплювати/Відправляти інфрачервоні сигнали:** [**Infrared**](fz-infrared.md)
+* **Читати/Захоплювати/Емілювати iButtons:** [**iButton**](../ibutton.md)
 * **Використовувати як Bad USB**
 * **Використовувати як ключ безпеки (U2F)**
-* **Грати у гру Snake**
+* **Грати в змійку**
 
-**Інші ресурси Flipper Zero в** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
+**Інші ресурси Flipper Zero на** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
 
-**Try Hard Security Group**
+**Група Try Hard Security**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Ви працюєте в **кібербезпеці компанії**? Хочете побачити свою **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**репозиторію hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репозиторію hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
