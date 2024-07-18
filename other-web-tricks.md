@@ -1,44 +1,63 @@
-# Άλλα Κόλπα για τον Ιστό
+# Άλλα Κόλπα στον Ιστό
+
+{% hint style="success" %}
+Μάθε & εξάσκησε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθε & εξάσκησε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξε το HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ### Κεφαλίδα Κεντρικού Σέρβερ
 
-Πολλές φορές το πίσω μέρος εμπιστεύεται την **κεφαλίδα κεντρικού σέρβερ** για να εκτελέσει κάποιες ενέργειες. Για παράδειγμα, μπορεί να χρησιμοποιήσει την τιμή της ως το **τομέα για να στείλει έναν κωδικό επαναφοράς κωδικού πρόσβασης**. Έτσι, όταν λαμβάνετε ένα email με ένα σύνδεσμο για επαναφορά κωδικού πρόσβασης, ο τομέας που χρησιμοποιείται είναι αυτός που έχετε βάλει στην κεφαλίδα κεντρικού σέρβερ. Έπειτα, μπορείτε να ζητήσετε την επαναφορά κωδικού πρόσβασης άλλων χρηστών και να αλλάξετε τον τομέα σε έναν που ελέγχετε εσείς για να κλέψετε τους κωδικούς επαναφοράς τους. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
+Πολλές φορές το back-end εμπιστεύεται την **κεφαλίδα Host** για να εκτελέσει κάποιες ενέργειες. Για παράδειγμα, θα μπορούσε να χρησιμοποιήσει την τιμή της ως το **domain για να στείλει επαναφορά κωδικού πρόσβασης**. Έτσι, όταν λάβετε ένα email με ένα σύνδεσμο για επαναφορά κωδικού πρόσβασης, το domain που χρησιμοποιείται είναι αυτό που έχετε βάλει στην κεφαλίδα Host. Έπειτα, μπορείτε να ζητήσετε την επαναφορά κωδικού πρόσβασης άλλων χρηστών και να αλλάξετε το domain σε ένα που ελέγχετε εσείς για να κλέψετε τους κωδικούς επαναφοράς τους. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
-Σημειώστε ότι είναι δυνατόν να μην χρειάζεται καν να περιμένετε να κάνει κλικ ο χρήστης στον σύνδεσμο επαναφοράς κωδικού για να λάβετε το διακριτικό, καθώς ίσως ακόμα και **φίλτρα ανεπιθύμητων μηνυμάτων ή άλλες μεσολαβητικές συσκευές/ρομπότ να κάνουν κλικ για να το αναλύσουν**.
+Σημειώστε ότι είναι δυνατόν να μην χρειάζεται καν να περιμένετε τον χρήστη να κάνει κλικ στον σύνδεσμο επαναφοράς κωδικού για να λάβετε το τεκμήριο, καθώς ίσως ακόμα και **φίλτρα ανεπιθύμητων μηνυμάτων ή άλλες μεσολαβητικές συσκευές/ρομπότ θα κάνουν κλικ για να το αναλύσουν**.
 {% endhint %}
 
 ### Λογικές Τιμές Συνεδρίας
 
-Μερικές φορές, όταν ολοκληρώνετε μια επαλήθευση σωστά, το πίσω μέρος θα **προσθέσει απλώς μια λογική τιμή "True" σε ένα ασφαλές γνώρισμα της συνεδρίας σας**. Έπειτα, ένας διαφορετικός τερματικός σημείο θα γνωρίζει εάν περάσατε με επιτυχία αυτόν τον έλεγχο.\
-Ωστόσο, εάν **περάσετε τον έλεγχο** και η συνεδρία σας έχει αποκτήσει αυτήν την τιμή "True" στο ασφαλές γνώρισμα, μπορείτε να δοκιμάσετε να **αποκτήσετε πρόσβαση σε άλλους πόρους** που **εξαρτώνται από το ίδιο γνώρισμα** αλλά που **δεν θα έπρεπε να έχετε δικαιώματα** να αποκτήσετε πρόσβαση. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+Κάποιες φορές, όταν ολοκληρώνετε κάποια επαλήθευση σωστά, το back-end θα **προσθέσει απλώς μια λογική τιμή "True" σε ένα ασφαλείας γνώρισμα της συνεδρίας σας**. Έπειτα, ένα διαφορετικό σημείο θα γνωρίζει αν περάσατε με επιτυχία αυτόν τον έλεγχο.\
+Ωστόσο, αν **περάσετε τον έλεγχο** και η συνεδρία σας είναι εξοπλισμένη με την τιμή "True" στο ασφαλές γνώρισμα, μπορείτε να προσπαθήσετε να **έχετε πρόσβαση σε άλλους πόρους** που **εξαρτώνται από το ίδιο γνώρισμα** αλλά που **δεν θα έπρεπε να έχετε άδειες** για πρόσβαση. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
-### Λειτουργία Εγγραφής
+### Λειτουργικότητα Εγγραφής
 
-Προσπαθήστε να εγγραφείτε ως ήδη υπάρχων χρήστης. Δοκιμάστε επίσης να χρησιμοποιήσετε ισοδύναμους χαρακτήρες (τελείες, πολλά κενά και Unicode).
+Δοκιμάστε να εγγραφείτε ως ήδη υπάρχων χρήστης. Δοκιμάστε επίσης να χρησιμοποιήσετε ισοδύναμους χαρακτήρες (τελείες, πολλά κενά και Unicode).
 
-### Κατάληψη Emails
+### Πάρτε τον Έλεγχο των Emails
 
-Εγγραφείτε με ένα email, πριν το επιβεβαιώσετε αλλάξτε το email. Στη συνέχεια, εάν το νέο email επιβεβαίωσης σταλεί στο πρώτο εγγεγραμμένο email, μπορείτε να καταλάβετε οποιοδήποτε email. Ή εάν μπορείτε να ενεργοποιήσετε το δεύτερο email επιβεβαίωσης του πρώτου, μπορείτε επίσης να καταλάβετε οποιοδήποτε λογαριασμό.
+Εγγραφείτε σε ένα email, πριν το επιβεβαιώσετε αλλάξτε το email, έπειτα, αν το νέο email επιβεβαίωσης σταλεί στο πρώτο εγγεγραμμένο email, μπορείτε να πάρετε τον έλεγχο οποιουδήποτε email. Ή αν μπορείτε να ενεργοποιήσετε το δεύτερο email επιβεβαίωσης του πρώτου, μπορείτε επίσης να πάρετε τον έλεγχο οποιουδήποτε λογαριασμού.
 
-### Πρόσβαση στον Εσωτερικό Πάγκο Υπηρεσιών Εταιρειών που χρησιμοποιούν το Atlassian
+### Πρόσβαση στο Εσωτερικό servicedesk εταιρειών που χρησιμοποιούν το atlassian
 
 {% embed url="https://yourcompanyname.atlassian.net/servicedesk/customer/user/login" %}
 
 ### Μέθοδος TRACE
 
-Οι προγραμματιστές μπορεί να ξεχάσουν να απενεργοποιήσουν διάφορες επιλογές αποσφαλμάτωσης στο περιβάλλον παραγωγής. Για παράδειγμα,
+Οι προγραμματιστές μπορεί να ξεχάσουν να απενεργοποιήσουν διάφορες επιλογές αποσφαλμάτωσης στο περιβάλλον παραγωγής. Για παράδειγμα, η μέθοδος HTTP `TRACE` σχεδιάστηκε για διαγνωστικούς σκοπούς. Εάν είναι ενεργοποιημένη, ο web server θα ανταποκρίνεται σε αιτήσεις που χρησιμοποιούν τη μέθοδο `TRACE` αντηχώντας στην απάντηση την ακριβή αίτηση που λήφθηκε. Αυτή η συμπεριφορά συνήθως είναι αβλαβής, αλλά περιστασιακά οδηγεί σε αποκάλυψη πληροφοριών, όπως το όνομα εσωτερικών κεφαλίδων πιστοποίησης που μπορεί να προστεθούν σε αιτήσεις από αντίστροφους διακομιστές.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+
+![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
+
+
+{% hint style="success" %}
+Μάθε & εξάσκησε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθε & εξάσκησε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξε το HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}

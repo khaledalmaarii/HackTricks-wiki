@@ -1,22 +1,23 @@
-# Κόλπα για Crypto CTFs
+# Κόλπα Crypto CTFs
+
+{% hint style="success" %}
+Μάθε & εξάσκησε το Hacking στο AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθε & εξάσκησε το Hacking στο GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξε το HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
+{% endhint %}
 
-## Βάσεις Δεδομένων Online Hashes
+## Online Βάσεις Δεδομένων Hash
 
-* _**Ψάξτε στο Google**_
+* _**Κάντε αναζήτηση στο Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)
 * [https://crackstation.net/](https://crackstation.net)
@@ -31,7 +32,7 @@
 ## Μαγικοί Αυτόματοι Λύτες
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Μαγική ενότητα)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Μαγική μονάδα)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
@@ -47,15 +48,15 @@
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - Πολύ καλό !
 
-#### Caesar - ROTx Αυτόματοι Λύτες
+#### Αυτόματοι Λύτες Caesar - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Κρυπτογράφημα Atbash
+#### Κρυπτογράφηση Atbash
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Αυτόματοι Λύτες Βάσεων Κωδικοποίησης
+### Αυτόματοι Λύτες Κωδικοποίησης Βάσης
 
 Ελέγξτε όλες αυτές τις βάσεις με: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
@@ -81,7 +82,31 @@
 * `2YiHqF5bf9FLSt6ac`
 * **Base58 (ripple)** \[_rpshnaf39wBUDNEGHJKLM4PQ-T7V-Z2b-eCg65jkm8oFqi1tuvAxyz_]
 * `pyJ5RgnBE9gm17awU`
-* **Base62** \[_0-
+* **Base62** \[_0-9A-Za-z_]
+* `g2AextRZpBKRBzQ9`
+* **Base64** \[_A-Za-z0-9+/=_]
+* `aG9sYWNhcmFjb2xh`
+* **Base67** \[_A-Za-z0-9-_.!\~\_]
+* `NI9JKX0cSUdqhr!p`
+* **Base85 (Ascii85)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `BQ%]q@psCd@rH0l`
+* **Base85 (Adobe)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `<~BQ%]q@psCd@rH0l~>`
+* **Base85 (IPv6 or RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
+* `Xm4y`V\_|Y(V{dF>\`
+* **Base85 (xbtoa)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `xbtoa Begin\nBQ%]q@psCd@rH0l\nxbtoa End N 12 c E 1a S 4e6 R 6991d`
+* **Base85 (XML)** \[_0-9A-Za-y!#$()\*+,-./:;=?@^\`{|}\~z\__]
+* `Xm4y|V{~Y+V}dF?`
+* **Base91** \[_A-Za-z0-9!#$%&()\*+,./:;<=>?@\[]^\_\`{|}\~"_]
+* `frDg[*jNN!7&BQM`
+* **Base100** \[]
+* `👟👦👣👘👚👘👩👘👚👦👣👘`
+* **Base122** \[]
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -110,11 +135,11 @@
 ```
 * [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
-### Μωρς
+### Morse
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Νεκρός: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dead: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -127,7 +152,7 @@ end
 ```
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
-### Κωδικοποιητής XX
+### XXΚωδικοποιητής
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -137,28 +162,6 @@ end
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
 
 ### YEncoder
-
-Ο YEncoder είναι ένας αλγόριθμος κωδικοποίησης που χρησιμοποιείται για τη μετατροπή δεδομένων σε μορφή ASCII. Αυτός ο αλγόριθμος είναι συνήθως χρήσιμος σε περιπτώσεις όπου οι μηχανές αναζήτησης ή άλλα εργαλεία δεν μπορούν να αναγνωρίσουν ή να επεξεργαστούν ορισμένους τύπους δεδομένων. Ο YEncoder μετατρέπει τα δεδομένα σε μια μορφή που μπορεί να αναγνωριστεί από αυτά τα εργαλεία.
-
-Για να κωδικοποιήσετε δεδομένα χρησιμοποιώντας τον YEncoder, ακολουθήστε τα παρακάτω βήματα:
-
-1. Χωρίστε τα δεδομένα σε γκρουπ των 3 bytes.
-2. Μετατρέψτε κάθε γκρουπ 3 bytes σε έναν ακέραιο αριθμό.
-3. Μετατρέψτε τον ακέραιο αριθμό σε μια δυαδική ακολουθία 24 bits.
-4. Χωρίστε τη δυαδική ακολουθία 24 bits σε 4 γκρουπ των 6 bits.
-5. Προσθέστε τον αριθμό 33 σε κάθε γκρουπ 6 bits.
-6. Μετατρέψτε τον αριθμό σε έναν χαρακτήρα ASCII χρησιμοποιώντας τον πίνακα μετατροπής.
-
-Για να αποκωδικοποιήσετε δεδομένα που έχουν κωδικοποιηθεί με τον YEncoder, ακολουθήστε τα παρακάτω βήματα:
-
-1. Μετατρέψτε τον χαρακτήρα ASCII σε έναν αριθμό χρησιμοποιώντας τον πίνακα μετατροπής.
-2. Αφαιρέστε τον αριθμό 33 από τον αριθμό.
-3. Μετατρέψτε τον αριθμό σε μια δυαδική ακολουθία 6 bits.
-4. Συνδυάστε τις δυαδικές ακολουθίες 6 bits για να δημιουργήσετε μια δυαδική ακολουθία 24 bits.
-5. Μετατρέψτε τη δυαδική ακολουθία 24 bits σε έναν ακέραιο αριθμό.
-6. Μετατρέψτε τον ακέραιο αριθμό σε τρία bytes δεδομένων.
-
-Ο YEncoder είναι ένα χρήσιμο εργαλείο για την κωδικοποίηση και αποκωδικοποίηση δεδομένων σε μορφή ASCII. Μπορεί να χρησιμοποιηθεί σε πολλά σενάρια, όπως στην ανάλυση και επεξεργασία δεδομένων που δεν αναγνωρίζονται από μηχανές αναζήτησης ή άλλα εργαλεία.
 ```
 =ybegin line=128 size=28 name=webutils_pl
 ryvkryvkryvkryvkryvkryvkryvk
@@ -175,8 +178,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
-
-ASCII85 είναι μια μέθοδος κωδικοποίησης που χρησιμοποιείται για τη μετατροπή δεδομένων σε αναπαράσταση ASCII. Αυτή η μέθοδος κωδικοποίησης είναι παρόμοια με την Base64, αλλά παρέχει μεγαλύτερη απόδοση σε χώρο. Χρησιμοποιείται συχνά σε διάφορα πρωτόκολλα και μορφές αρχείων για την αποστολή και αποθήκευση δεδομένων.
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
@@ -186,31 +187,31 @@ ASCII85 είναι μια μέθοδος κωδικοποίησης που χρ�
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=el\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=el\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
-Γράμματα στην αριθμητική τους τιμή
+Γράμματα στην αριθμητική τους αξία
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Κρυπτογράφηση με Ανακλαστικό Κρυπτοσύστημα
+### Κρυπτοσύστημα Αφίνιου Κρυπτογράφηση
 
-Μετατροπή γράμματος σε αριθμό `(ax+b)%26` (_a_ και _b_ είναι οι κλειδιοί και _x_ είναι το γράμμα) και επιστροφή του αποτελέσματος πίσω σε γράμμα
+Μετατροπή γράμματος σε αριθμό `(ax+b)%26` (_a_ και _b_ είναι τα κλειδιά και _x_ το γράμμα) και επιστροφή του αποτελέσματος σε γράμμα.
 ```
 krodfdudfrod
 ```
 ### Κωδικός SMS
 
-Ο **Multitap** [αντικαθιστά ένα γράμμα](https://www.dcode.fr/word-letter-change) με επαναλαμβανόμενα ψηφία που καθορίζονται από τον αντίστοιχο κωδικό πλήκτρου σε ένα κινητό [τηλεφωνικό πληκτρολόγιο](https://www.dcode.fr/phone-keypad-cipher) (Αυτή η λειτουργία χρησιμοποιείται κατά τη σύνταξη SMS).\
+**Το Multitap** [αντικαθιστά ένα γράμμα](https://www.dcode.fr/word-letter-change) με επαναλαμβανόμενα ψηφία που ορίζονται από τον αντίστοιχο κωδικό πλήκτρου σε ένα κινητό [τηλέφωνο πληκτρολογίου](https://www.dcode.fr/phone-keypad-cipher) (Αυτή η λειτουργία χρησιμοποιείται κατά τη σύνταξη SMS).\
 Για παράδειγμα: 2=A, 22=B, 222=C, 3=D...\
-Μπορείτε να αναγνωρίσετε αυτόν τον κωδικό επειδή θα δείτε **πολλούς επαναλαμβανόμενους αριθμούς**.
+Μπορείτε να αναγνωρίσετε αυτόν τον κωδικό επειδή θα δείτε\*\* αρκετούς επαναλαμβανόμενους αριθμούς\*\*.
 
 Μπορείτε να αποκωδικοποιήσετε αυτόν τον κωδικό στο: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Κωδικός Bacon
 
-Αντικαθιστάτε κάθε γράμμα με 4 Α ή Β (ή 1 και 0)
+Αντικαταστήστε κάθε γράμμα με 4 Α ή Β (ή 1 και 0)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
@@ -221,7 +222,7 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ## Συμπίεση
 
-Ο **Raw Deflate** και ο **Raw Inflate** (μπορείτε να τα βρείτε και τα δύο στο Cyberchef) μπορούν να συμπιέσουν και να αποσυμπιέσουν δεδομένα χωρίς κεφαλίδες.
+**Raw Deflate** και **Raw Inflate** (μπορείτε να βρείτε και τα δύο στο Cyberchef) μπορούν να συμπιέσουν και να αποσυμπιέσουν δεδομένα χωρίς κεφαλίδες.
 
 ## Εύκολη Κρυπτογραφία
 
@@ -245,11 +246,11 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Ισχυρή Κρυπτογραφία
+## Δυνατή Κρυπτογραφία
 
 ### Fernet
 
-2 συμβολοσειρές base64 (token και κλειδί)
+2 συμβολοσειρές base64 (διακριτικό και κλειδί)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -259,9 +260,9 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Κοινή χρήση μυστικού του Σαμίρ
+### Κοινοποίηση Μυστικού του Samir
 
-Ένα μυστικό χωρίζεται σε X μέρη και για να το ανακτήσετε χρειάζεστε Y μέρη (_Y <=X_).
+Ένα μυστικό χωρίζεται σε X μέρη και για να ανακτηθεί χρειάζεστε Y μέρη (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -269,27 +270,28 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Βίαιη επίθεση OpenSSL
+### OpenSSL brute-force
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
 
-## Εργαλεία
+## Tools
 
 * [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool)
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τεχνικές χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
