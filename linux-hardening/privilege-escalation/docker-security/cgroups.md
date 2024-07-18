@@ -1,18 +1,19 @@
 # CGroups
 
+{% hint style="success" %}
+Impara e pratica l'hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
 
 ## Informazioni di Base
 
@@ -22,9 +23,9 @@ Ci sono **due versioni di cgroups**: versione 1 e versione 2. Entrambe possono e
 
 Oltre alla nuova organizzazione gerarchica, cgroups versione 2 ha introdotto **diverse altre modifiche e miglioramenti**, come il supporto per **nuovi controller di risorse**, un miglior supporto per le applicazioni legacy e prestazioni migliorate.
 
-Complessivamente, cgroups **versione 2 offre più funzionalità e migliori prestazioni** rispetto alla versione 1, ma quest'ultima potrebbe essere ancora utilizzata in determinati scenari in cui la compatibilità con sistemi più vecchi è una preoccupazione.
+Complessivamente, cgroups **versione 2 offre più funzionalità e migliori prestazioni** rispetto alla versione 1, ma quest'ultima potrebbe essere comunque utilizzata in determinati scenari in cui è importante la compatibilità con sistemi più vecchi.
 
-Puoi elencare i cgroups v1 e v2 per qualsiasi processo guardando il suo file cgroup in /proc/\<pid>. Puoi iniziare guardando i cgroups della tua shell con questo comando:
+È possibile elencare i cgroups v1 e v2 per qualsiasi processo guardando il suo file cgroup in /proc/\<pid>. Si può iniziare guardando i cgroups della tua shell con questo comando:
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -49,7 +50,7 @@ La struttura dell'output è la seguente:
 
 ### Visualizzazione dei cgroups
 
-Il filesystem è tipicamente utilizzato per accedere ai **cgroups**, divergendo dall'interfaccia di chiamata di sistema Unix tradizionalmente utilizzata per le interazioni con il kernel. Per indagare sulla configurazione di un cgroup di shell, si dovrebbe esaminare il file **/proc/self/cgroup**, che rivela il cgroup della shell. Quindi, navigando nella directory **/sys/fs/cgroup** (o **`/sys/fs/cgroup/unified`**) e individuando una directory che condivide il nome del cgroup, si possono osservare varie impostazioni e informazioni sull'utilizzo delle risorse pertinenti al cgroup.
+Il filesystem è tipicamente utilizzato per accedere ai **cgroups**, divergendo dall'interfaccia di chiamata di sistema Unix tradizionalmente utilizzata per le interazioni con il kernel. Per investigare la configurazione di un cgroup di una shell, si dovrebbe esaminare il file **/proc/self/cgroup**, che rivela il cgroup della shell. Quindi, navigando nella directory **/sys/fs/cgroup** (o **`/sys/fs/cgroup/unified`**) e individuando una directory che condivide il nome del cgroup, si possono osservare varie impostazioni e informazioni sull'utilizzo delle risorse pertinenti al cgroup.
 
 ![Filesystem Cgroup](<../../../.gitbook/assets/image (1128).png>)
 
@@ -57,7 +58,7 @@ I file di interfaccia chiave per i cgroups sono prefissati con **cgroup**. Il fi
 
 ![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
 
-I cgroups che gestiscono le shell di solito comprendono due controller che regolano l'uso della memoria e il conteggio dei processi. Per interagire con un controller, si dovrebbero consultare i file che portano il prefisso del controller. Ad esempio, **pids.current** sarebbe consultato per accertare il conteggio dei thread nel cgroup.
+I cgroups che gestiscono le shell di solito comprendono due controller che regolano l'uso della memoria e il conteggio dei processi. Per interagire con un controller, si dovrebbero consultare i file che portano il prefisso del controller. Ad esempio, **pids.current** sarebbe consultato per verificare il conteggio dei thread nel cgroup.
 
 ![Memoria Cgroup](<../../../.gitbook/assets/image (677).png>)
 
@@ -65,7 +66,7 @@ L'indicazione di **max** in un valore suggerisce l'assenza di un limite specific
 
 ### Manipolazione e Creazione dei cgroups
 
-I processi vengono assegnati ai cgroups scrivendo il loro ID processo (PID) nel file `cgroup.procs`. Questo richiede privilegi di root. Ad esempio, per aggiungere un processo:
+I processi vengono assegnati ai cgroups scrivendo il loro ID di processo (PID) nel file `cgroup.procs`. Questo richiede privilegi di root. Ad esempio, per aggiungere un processo:
 ```bash
 echo [pid] > cgroup.procs
 ```
@@ -83,7 +84,7 @@ echo "+cpu +pids" > cgroup.subtree_control
 ```
 Il **cgroup radice** è un'eccezione a queste regole, che consente il posizionamento diretto dei processi. Questo può essere utilizzato per rimuovere i processi dalla gestione di systemd.
 
-Il **monitoraggio dell'utilizzo della CPU** all'interno di un cgroup è possibile tramite il file `cpu.stat`, che visualizza il tempo totale di CPU consumato, utile per tracciare l'utilizzo attraverso i sotto-processi di un servizio:
+**Monitorare l'utilizzo della CPU** all'interno di un cgroup è possibile tramite il file `cpu.stat`, che mostra il tempo totale di CPU consumato, utile per tracciare l'utilizzo tra i sotto-processi di un servizio:
 
 <figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>Statistiche sull'utilizzo della CPU come mostrato nel file cpu.stat</p></figcaption></figure>
 

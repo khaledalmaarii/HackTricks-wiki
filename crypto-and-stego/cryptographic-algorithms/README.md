@@ -2,23 +2,24 @@
 
 ## Algoritmi crittografici/Compressione
 
+{% hint style="success" %}
+Impara e pratica l'Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
 
 </details>
+{% endhint %}
 
 ## Identificazione degli Algoritmi
 
-Se ti trovi in un codice **che utilizza shift a destra e sinistra, xor e diverse operazioni aritmetiche** è molto probabile che si tratti dell'implementazione di un **algoritmo crittografico**. Qui verranno mostrati alcuni modi per **identificare l'algoritmo utilizzato senza dover invertire ogni passaggio**.
+Se ti trovi in un codice **che utilizza shift a destra e a sinistra, xor e diverse operazioni aritmetiche**, è molto probabile che si tratti dell'implementazione di un **algoritmo crittografico**. Qui verranno mostrati alcuni modi per **identificare l'algoritmo utilizzato senza dover invertire ogni passaggio**.
 
 ### Funzioni API
 
@@ -75,11 +76,11 @@ In questo caso, se cerchi **0xA56363C6** puoi scoprire che è correlato alle **t
 È composto da 3 parti principali:
 
 * **Fase di inizializzazione/**: Crea una **tabella di valori da 0x00 a 0xFF** (256 byte in totale, 0x100). Questa tabella è comunemente chiamata **Substitution Box** (o SBox).
-* **Fase di scrambling**: **Scorrerà la tabella** creata prima (ciclo di 0x100 iterazioni, di nuovo) modificando ogni valore con byte **semi-random**. Per creare questi byte semi-random, viene utilizzata la **chiave RC4**. Le **chiavi RC4** possono essere **lunghe da 1 a 256 byte**, ma di solito è consigliabile che siano superiori a 5 byte. Comunemente, le chiavi RC4 sono lunghe 16 byte.
-* **Fase XOR**: Infine, il testo in chiaro o cifrato viene **XORato con i valori creati prima**. La funzione per crittografare e decrittografare è la stessa. Per questo, verrà eseguito un **ciclo attraverso i 256 byte creati** tante volte quante necessario. Questo è di solito riconosciuto in un codice decompilato con un **%256 (mod 256)**.
+* **Fase di scrambling**: Scorrerà la tabella creata prima (ciclo di 0x100 iterazioni, di nuovo) modificando ogni valore con byte **semi-random**. Per creare questi byte semi-random, viene utilizzata la **chiave RC4**. Le **chiavi RC4** possono essere **lunghe da 1 a 256 byte**, tuttavia di solito è consigliabile che siano superiori a 5 byte. Comunemente, le chiavi RC4 sono lunghe 16 byte.
+* **Fase XOR**: Infine, il testo in chiaro o il cifrato è **XORato con i valori creati prima**. La funzione per crittografare e decrittografare è la stessa. Per questo, verrà eseguito un **ciclo attraverso i 256 byte creati** tante volte quante necessario. Questo è di solito riconosciuto in un codice decompilato con un **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Per identificare un RC4 in un codice di disassemblaggio/decompilato, controlla la presenza di 2 cicli di dimensione 0x100 (con l'uso di una chiave) e poi un XOR dei dati di input con i 256 valori creati prima nei 2 cicli probabilmente usando un %256 (mod 256)**
+**Per identificare un RC4 in un codice di disassemblaggio/decompilato, controlla la presenza di 2 cicli di dimensione 0x100 (con l'uso di una chiave) e poi un XOR dei dati di input con i 256 valori creati prima nei 2 cicli probabilmente utilizzando un %256 (mod 256)**
 {% endhint %}
 
 ### **Fase di inizializzazione/Substitution Box:** (Nota il numero 256 usato come contatore e come un 0 è scritto in ogni posizione dei 256 caratteri)
@@ -115,7 +116,7 @@ In questo caso, se cerchi **0xA56363C6** puoi scoprire che è correlato alle **t
 
 ### Identificazione
 
-Nell'immagine seguente nota come viene utilizzata la costante **0x9E3779B9** (nota che questa costante è utilizzata anche da altri algoritmi crittografici come **TEA** -Tiny Encryption Algorithm).\
+Nell'immagine seguente, nota come viene utilizzata la costante **0x9E3779B9** (nota che questa costante è utilizzata anche da altri algoritmi crittografici come **TEA** -Tiny Encryption Algorithm).\
 Nota anche la **dimensione del ciclo** (**132**) e il **numero di operazioni XOR** nelle istruzioni di **disassemblaggio** e nell'esempio di **codice**:
 
 ![](<../../.gitbook/assets/image (547).png>)
@@ -130,7 +131,7 @@ Pertanto, è possibile identificare questo algoritmo controllando il **numero ma
 ### Caratteristiche
 
 * Più complesso rispetto agli algoritmi simmetrici
-* Non ci sono costanti! (difficile determinare implementazioni personalizzate)
+* Non ci sono costanti! (difficili da determinare le implementazioni personalizzate)
 * KANAL (un analizzatore crittografico) non fornisce suggerimenti su RSA in quanto si basa su costanti.
 
 ### Identificazione tramite confronti

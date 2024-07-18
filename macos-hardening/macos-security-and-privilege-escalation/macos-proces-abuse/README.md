@@ -1,52 +1,53 @@
 # Abuso dei Processi su macOS
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS: [**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)\
+Impara e pratica l'Hacking su GCP: [**HackTricks Training GCP Red Team Expert (GRTE)**](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+- **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live).
+- **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Informazioni di Base sui Processi
 
-Un processo è un'istanza di un eseguibile in esecuzione, tuttavia i processi non eseguono codice, questi sono thread. Quindi **i processi sono solo contenitori per l'esecuzione dei thread** fornendo la memoria, i descrittori, le porte, le autorizzazioni...
+Un processo è un'istanza di un eseguibile in esecuzione, tuttavia i processi non eseguono codice, sono i thread a farlo. Quindi **i processi sono solo contenitori per l'esecuzione dei thread** fornendo la memoria, i descrittori, le porte, le autorizzazioni...
 
-Tradizionalmente, i processi venivano avviati all'interno di altri processi (tranne il PID 1) chiamando **`fork`** che avrebbe creato una copia esatta del processo corrente e poi il **processo figlio** avrebbe generalmente chiamato **`execve`** per caricare il nuovo eseguibile ed eseguirlo. Successivamente è stato introdotto **`vfork`** per rendere questo processo più veloce senza alcuna copia di memoria.\
-Successivamente è stata introdotta **`posix_spawn`** che combina **`vfork`** e **`execve`** in una chiamata e accetta flag:
+Tradizionalmente, i processi venivano avviati all'interno di altri processi (tranne il PID 1) chiamando **`fork`** che creava una copia esatta del processo corrente e poi il **processo figlio** generalmente chiamava **`execve`** per caricare il nuovo eseguibile ed eseguirlo. Successivamente è stato introdotto **`vfork`** per rendere questo processo più veloce senza alcuna copia di memoria.\
+Successivamente è stata introdotta **`posix_spawn`** che combina **`vfork`** e **`execve`** in una sola chiamata e accetta flag:
 
-* `POSIX_SPAWN_RESETIDS`: Reimposta gli id effettivi agli id reali
-* `POSIX_SPAWN_SETPGROUP`: Imposta l'affiliazione al gruppo di processo
-* `POSUX_SPAWN_SETSIGDEF`: Imposta il comportamento predefinito del segnale
-* `POSIX_SPAWN_SETSIGMASK`: Imposta la maschera del segnale
-* `POSIX_SPAWN_SETEXEC`: Esegui nello stesso processo (come `execve` con più opzioni)
-* `POSIX_SPAWN_START_SUSPENDED`: Avvia sospeso
-* `_POSIX_SPAWN_DISABLE_ASLR`: Avvia senza ASLR
-* `_POSIX_SPAWN_NANO_ALLOCATOR:` Usa l'allocatore Nano di libmalloc
-* `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Consenti `rwx` sui segmenti di dati
-* `POSIX_SPAWN_CLOEXEC_DEFAULT`: Chiudi tutte le descrizioni dei file su exec(2) per impostazione predefinita
-* `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomizza i bit alti dello slide ASLR
+- `POSIX_SPAWN_RESETIDS`: Reimposta gli id effettivi agli id reali
+- `POSIX_SPAWN_SETPGROUP`: Imposta l'affiliazione al gruppo di processo
+- `POSUX_SPAWN_SETSIGDEF`: Imposta il comportamento predefinito del segnale
+- `POSIX_SPAWN_SETSIGMASK`: Imposta la maschera del segnale
+- `POSIX_SPAWN_SETEXEC`: Esegue nello stesso processo (come `execve` con più opzioni)
+- `POSIX_SPAWN_START_SUSPENDED`: Avvia sospeso
+- `_POSIX_SPAWN_DISABLE_ASLR`: Avvia senza ASLR
+- `_POSIX_SPAWN_NANO_ALLOCATOR:` Utilizza l'allocatore Nano di libmalloc
+- `_POSIX_SPAWN_ALLOW_DATA_EXEC:` Consente `rwx` sui segmenti di dati
+- `POSIX_SPAWN_CLOEXEC_DEFAULT`: Chiude tutte le descrizioni dei file su exec(2) per impostazione predefinita
+- `_POSIX_SPAWN_HIGH_BITS_ASLR:` Randomizza i bit alti dello slide ASLR
 
 Inoltre, `posix_spawn` consente di specificare un array di **`posix_spawnattr`** che controlla alcuni aspetti del processo generato e **`posix_spawn_file_actions`** per modificare lo stato dei descrittori.
 
-Quando un processo muore invia il **codice di ritorno al processo genitore** (se il genitore è morto, il nuovo genitore è il PID 1) con il segnale `SIGCHLD`. Il genitore deve ottenere questo valore chiamando `wait4()` o `waitid()` e finché ciò non accade il figlio rimane in uno stato zombie in cui è ancora elencato ma non consuma risorse.
+Quando un processo muore invia il **codice di ritorno al processo genitore** (se il genitore è morto, il nuovo genitore è il PID 1) con il segnale `SIGCHLD`. Il genitore deve ottenere questo valore chiamando `wait4()` o `waitid()` e finché ciò non avviene, il figlio rimane in uno stato zombie in cui è ancora elencato ma non consuma risorse.
 
 ### PID
 
-I PID, identificatori di processo, identificano un processo univoco. In XNU i **PID** sono di **64 bit** che aumentano in modo monotonico e **non si avvolgono mai** (per evitare abusi).
+I PID, identificatori di processo, identificano un processo univoco. In XNU i **PID** sono su **64 bit** che aumentano in modo monotonico e **non si avvolgono mai** (per evitare abusi).
 
 ### Gruppi di Processi, Sessioni e Coalizioni
 
-**I processi** possono essere inseriti in **gruppi** per renderne più facile la gestione. Ad esempio, i comandi in uno script della shell saranno nello stesso gruppo di processi in modo da poterli **segnalare insieme** utilizzando ad esempio kill.\
+I **processi** possono essere inseriti in **gruppi** per renderne più facile la gestione. Ad esempio, i comandi in uno script shell saranno nello stesso gruppo di processi, quindi è possibile **segnalarli insieme** utilizzando ad esempio kill.\
 È anche possibile **raggruppare i processi in sessioni**. Quando un processo avvia una sessione (`setsid(2)`), i processi figli vengono inseriti nella sessione, a meno che non avviino la propria sessione.
 
-La coalizione è un altro modo per raggruppare i processi in Darwin. Un processo che si unisce a una coalizione gli consente di accedere alle risorse del pool, condividere un registro o affrontare Jetsam. Le coalizioni hanno ruoli diversi: Leader, servizio XPC, Estensione.
+La coalizione è un altro modo per raggruppare i processi in Darwin. Un processo che si unisce a una coalizione consente di accedere alle risorse del pool, condividendo un registro o affrontando Jetsam. Le coalizioni hanno ruoli diversi: Leader, servizio XPC, Estensione.
 
 ### Credenziali e Personaggi
 
@@ -85,17 +86,17 @@ char     persona_name[MAXLOGNAME + 1];
 Per gestire l'accesso alle risorse condivise ed evitare le race condition, macOS fornisce diversi primitivi di sincronizzazione. Questi sono fondamentali negli ambienti multithreading per garantire l'integrità dei dati e la stabilità del sistema:
 
 1. **Mutex:**
-* **Mutex Standard (Firma: 0x4D555458):** Mutex standard con una dimensione di memoria di 60 byte (56 byte per il mutex e 4 byte per la firma).
-* **Mutex Veloce (Firma: 0x4d55545A):** Simile a un mutex standard ma ottimizzato per operazioni più veloci, anch'esso di 60 byte.
+* **Mutex Regolare (Firma: 0x4D555458):** Mutex standard con una dimensione di memoria di 60 byte (56 byte per il mutex e 4 byte per la firma).
+* **Mutex Veloce (Firma: 0x4d55545A):** Simile a un mutex regolare ma ottimizzato per operazioni più veloci, anch'esso di dimensioni 60 byte.
 2. **Variabili di Condizione:**
 * Utilizzate per attendere che si verifichino determinate condizioni, con una dimensione di 44 byte (40 byte più una firma di 4 byte).
-* **Attributi delle Variabili di Condizione (Firma: 0x434e4441):** Attributi di configurazione per le variabili di condizione, di dimensione 12 byte.
+* **Attributi delle Variabili di Condizione (Firma: 0x434e4441):** Attributi di configurazione per le variabili di condizione, di dimensioni 12 byte.
 3. **Variabile Once (Firma: 0x4f4e4345):**
 * Garantisce che un pezzo di codice di inizializzazione venga eseguito solo una volta. La sua dimensione è di 12 byte.
-4. **Lock di Lettura-Scrittura:**
+4. **Blocco di Lettura-Scrittura:**
 * Consente a più lettori o a un solo scrittore alla volta, facilitando l'accesso efficiente ai dati condivisi.
-* **Lock di Lettura-Scrittura (Firma: 0x52574c4b):** Di dimensione 196 byte.
-* **Attributi del Lock di Lettura-Scrittura (Firma: 0x52574c41):** Attributi per i lock di lettura-scrittura, di dimensione 20 byte.
+* **Blocco di Lettura-Scrittura (Firma: 0x52574c4b):** Di dimensioni 196 byte.
+* **Attributi del Blocco di Lettura-Scrittura (Firma: 0x52574c41):** Attributi per i blocchi di lettura-scrittura, di dimensioni 20 byte.
 
 {% hint style="success" %}
 Gli ultimi 4 byte di questi oggetti vengono utilizzati per rilevare gli overflow.
@@ -117,36 +118,36 @@ Questo frammento definisce `tlv_var` come una variabile locale al thread. Ogni t
 
 Nel binario Mach-O, i dati relativi alle variabili locali al thread sono organizzati in sezioni specifiche:
 
-- **`__DATA.__thread_vars`**: Questa sezione contiene i metadati sulle variabili locali al thread, come i loro tipi e lo stato di inizializzazione.
-- **`__DATA.__thread_bss`**: Questa sezione è utilizzata per le variabili locali al thread che non sono esplicitamente inizializzate. Fa parte della memoria riservata per i dati inizializzati a zero.
+* **`__DATA.__thread_vars`**: Questa sezione contiene i metadati sulle variabili locali al thread, come i loro tipi e lo stato di inizializzazione.
+* **`__DATA.__thread_bss`**: Questa sezione è utilizzata per le variabili locali al thread che non sono esplicitamente inizializzate. Fa parte della memoria riservata per i dati inizializzati a zero.
 
 Mach-O fornisce anche una specifica API chiamata **`tlv_atexit`** per gestire le variabili locali al thread quando un thread termina. Questa API consente di **registrare distruttori** - funzioni speciali che puliscono i dati locali al thread quando un thread termina.
 
 ### Priorità dei Thread
 
-Comprendere le priorità dei thread implica guardare a come il sistema operativo decide quali thread eseguire e quando. Questa decisione è influenzata dal livello di priorità assegnato a ciascun thread. In macOS e nei sistemi simili a Unix, ciò è gestito utilizzando concetti come `nice`, `renice` e classi di Quality of Service (QoS).
+Comprendere le priorità dei thread implica guardare a come il sistema operativo decide quali thread eseguire e quando. Questa decisione è influenzata dal livello di priorità assegnato a ciascun thread. In macOS e nei sistemi simili a Unix, ciò è gestito utilizzando concetti come `nice`, `renice` e classi di Qualità del Servizio (QoS).
 
 #### Nice e Renice
 
 1. **Nice:**
-   - Il valore `nice` di un processo è un numero che influenza la sua priorità. Ogni processo ha un valore `nice` che va da -20 (la priorità più alta) a 19 (la priorità più bassa). Il valore `nice` predefinito quando un processo viene creato è tipicamente 0.
-   - Un valore `nice` più basso (più vicino a -20) rende un processo più "egoista", dandogli più tempo CPU rispetto ad altri processi con valori `nice` più alti.
+* Il valore `nice` di un processo è un numero che influenza la sua priorità. Ogni processo ha un valore `nice` che va da -20 (la priorità più alta) a 19 (la priorità più bassa). Il valore `nice` predefinito quando un processo viene creato è tipicamente 0.
+* Un valore `nice` più basso (più vicino a -20) rende un processo più "egoista", dandogli più tempo CPU rispetto ad altri processi con valori `nice` più alti.
 2. **Renice:**
-   - `renice` è un comando utilizzato per cambiare il valore `nice` di un processo già in esecuzione. Questo può essere utilizzato per regolare dinamicamente la priorità dei processi, aumentando o diminuendo la loro allocazione di tempo CPU in base ai nuovi valori `nice`.
-   - Ad esempio, se un processo ha bisogno temporaneamente di più risorse CPU, potresti abbassare il suo valore `nice` usando `renice`.
+* `renice` è un comando utilizzato per cambiare il valore `nice` di un processo già in esecuzione. Questo può essere utilizzato per regolare dinamicamente la priorità dei processi, aumentando o diminuendo la loro allocazione di tempo CPU in base ai nuovi valori `nice`.
+* Ad esempio, se un processo ha bisogno di più risorse CPU temporaneamente, potresti abbassare il suo valore `nice` usando `renice`.
 
-#### Classi di Quality of Service (QoS)
+#### Classi di Qualità del Servizio (QoS)
 
 Le classi di QoS sono un approccio più moderno per gestire le priorità dei thread, in particolare nei sistemi come macOS che supportano **Grand Central Dispatch (GCD)**. Le classi di QoS consentono agli sviluppatori di **categorizzare** il lavoro in diversi livelli in base all'importanza o all'urgenza. macOS gestisce automaticamente la prioritizzazione dei thread in base a queste classi di QoS:
 
-1. **Interattivo con l'utente:**
-   - Questa classe è per attività che interagiscono attualmente con l'utente o richiedono risultati immediati per fornire un'esperienza utente ottimale. Queste attività hanno la priorità più alta per mantenere l'interfaccia reattiva (ad esempio, animazioni o gestione eventi).
-2. **Inizializzato dall'utente:**
-   - Attività che l'utente avvia e si aspetta risultati immediati, come aprire un documento o fare clic su un pulsante che richiede calcoli. Queste attività hanno una priorità elevata ma inferiore a quella interattiva con l'utente.
-3. **Utility:**
-   - Queste attività sono a lungo termine e mostrano tipicamente un indicatore di avanzamento (ad esempio, scaricare file, importare dati). Sono di priorità inferiore rispetto alle attività inizializzate dall'utente e non è necessario che finiscano immediatamente.
+1. **Interattivo Utente:**
+* Questa classe è per attività che interagiscono attualmente con l'utente o richiedono risultati immediati per fornire un'esperienza utente ottimale. Queste attività hanno la priorità più alta per mantenere l'interfaccia reattiva (ad esempio, animazioni o gestione eventi).
+2. **Iniziativa Utente:**
+* Attività che l'utente avvia e si aspetta risultati immediati, come aprire un documento o fare clic su un pulsante che richiede calcoli. Queste attività hanno una priorità elevata ma inferiore a quella interattiva utente.
+3. **Utilità:**
+* Queste attività sono a lungo termine e mostrano tipicamente un indicatore di avanzamento (ad esempio, scaricare file, importare dati). Hanno una priorità inferiore rispetto alle attività avviate dall'utente e non devono essere completate immediatamente.
 4. **Background:**
-   - Questa classe è per attività che operano in background e non sono visibili all'utente. Possono essere attività come indicizzazione, sincronizzazione o backup. Hanno la priorità più bassa e un impatto minimo sulle prestazioni del sistema.
+* Questa classe è per attività che operano in background e non sono visibili all'utente. Possono essere attività come indicizzazione, sincronizzazione o backup. Hanno la priorità più bassa e un impatto minimo sulle prestazioni del sistema.
 
 Utilizzando le classi di QoS, gli sviluppatori non devono gestire i numeri di priorità esatti, ma piuttosto concentrarsi sulla natura del compito e il sistema ottimizza di conseguenza le risorse CPU.
 
@@ -158,18 +159,18 @@ MacOS, come qualsiasi altro sistema operativo, fornisce una varietà di metodi e
 
 ### Iniezione di Libreria
 
-L'Iniezione di Libreria è una tecnica in cui un attaccante **costringe un processo a caricare una libreria dannosa**. Una volta iniettata, la libreria viene eseguita nel contesto del processo target, fornendo all'attaccante gli stessi permessi e accesso del processo.
+L'iniezione di libreria è una tecnica in cui un attaccante **costringe un processo a caricare una libreria dannosa**. Una volta iniettata, la libreria viene eseguita nel contesto del processo target, fornendo all'attaccante gli stessi permessi e accessi del processo.
 
 {% content-ref url="macos-library-injection/" %}
-[macos-library-injection](macos-library-injection/)
+[macos-library-injection/]
 {% endcontent-ref %}
 
 ### Hooking di Funzioni
 
-Il Hooking di Funzioni coinvolge **intercettare chiamate di funzioni** o messaggi all'interno di un codice software. Mediante l'hooking delle funzioni, un attaccante può **modificare il comportamento** di un processo, osservare dati sensibili o persino ottenere il controllo sul flusso di esecuzione.
+Il Hooking di Funzioni coinvolge **intercettare chiamate di funzioni** o messaggi all'interno di un codice software. Mediante l'hacking delle funzioni, un attaccante può **modificare il comportamento** di un processo, osservare dati sensibili o addirittura ottenere il controllo sul flusso di esecuzione.
 
 {% content-ref url="macos-function-hooking.md" %}
-[macos-function-hooking.md](macos-function-hooking.md)
+[macos-function-hooking.md]
 {% endcontent-ref %}
 
 ### Comunicazione tra Processi
@@ -177,7 +178,7 @@ Il Hooking di Funzioni coinvolge **intercettare chiamate di funzioni** o messagg
 La Comunicazione tra Processi (IPC) si riferisce a diversi metodi con cui processi separati **condividono e scambiano dati**. Sebbene l'IPC sia fondamentale per molte applicazioni legittime, può anche essere abusato per eludere l'isolamento dei processi, divulgare informazioni sensibili o eseguire azioni non autorizzate.
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
+[macos-ipc-inter-process-communication]
 {% endcontent-ref %}
 
 ### Iniezione di Applicazioni Electron
@@ -185,7 +186,7 @@ La Comunicazione tra Processi (IPC) si riferisce a diversi metodi con cui proces
 Le applicazioni Electron eseguite con specifiche variabili d'ambiente potrebbero essere vulnerabili all'iniezione di processi:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
-[macos-electron-applications-injection.md](macos-electron-applications-injection.md)
+[macos-electron-applications-injection.md]
 {% endcontent-ref %}
 
 ### Iniezione di Chromium
@@ -193,15 +194,15 @@ Le applicazioni Electron eseguite con specifiche variabili d'ambiente potrebbero
 È possibile utilizzare i flag `--load-extension` e `--use-fake-ui-for-media-stream` per eseguire un **attacco man in the browser** che consente di rubare tasti premuti, traffico, cookie, iniettare script nelle pagine...:
 
 {% content-ref url="macos-chromium-injection.md" %}
-[macos-chromium-injection.md](macos-chromium-injection.md)
+[macos-chromium-injection.md]
 {% endcontent-ref %}
 
 ### NIB Sporco
 
-I file NIB **definiscono gli elementi dell'interfaccia utente (UI)** e le loro interazioni all'interno di un'applicazione. Tuttavia, possono **eseguire comandi arbitrari** e **Gatekeeper non impedisce** l'esecuzione di un'applicazione già eseguita se un **file NIB è modificato**. Pertanto, potrebbero essere utilizzati per far eseguire programmi arbitrari comandi arbitrari:
+I file NIB **definiscono elementi dell'interfaccia utente (UI)** e le loro interazioni all'interno di un'applicazione. Tuttavia, possono **eseguire comandi arbitrari** e **Gatekeeper non impedisce** l'esecuzione di un'applicazione già eseguita se un **file NIB è modificato**. Pertanto, potrebbero essere utilizzati per far eseguire programmi arbitrari comandi arbitrari:
 
 {% content-ref url="macos-dirty-nib.md" %}
-[macos-dirty-nib.md](macos-dirty-nib.md)
+[macos-dirty-nib.md]
 {% endcontent-ref %}
 
 ### Iniezione di Applicazioni Java
@@ -209,7 +210,7 @@ I file NIB **definiscono gli elementi dell'interfaccia utente (UI)** e le loro i
 È possibile abusare di determinate capacità di Java (come la variabile d'ambiente **`_JAVA_OPTS`**) per fare in modo che un'applicazione Java esegua **codice/comandi arbitrari**.
 
 {% content-ref url="macos-java-apps-injection.md" %}
-[macos-java-apps-injection.md](macos-java-apps-injection.md)
+[macos-java-apps-injection.md]
 {% endcontent-ref %}
 
 ### Iniezione di Applicazioni .Net
@@ -217,7 +218,7 @@ I file NIB **definiscono gli elementi dell'interfaccia utente (UI)** e le loro i
 È possibile iniettare codice nelle applicazioni .Net **abusando della funzionalità di debug di .Net** (non protetta dalle protezioni macOS come il rafforzamento in fase di esecuzione).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
-[macos-.net-applications-injection.md](macos-.net-applications-injection.md)
+[macos-.net-applications-injection.md]
 {% endcontent-ref %}
 
 ### Iniezione di Perl
@@ -225,7 +226,7 @@ I file NIB **definiscono gli elementi dell'interfaccia utente (UI)** e le loro i
 Controlla diverse opzioni per fare in modo che uno script Perl esegua codice arbitrario in:
 
 {% content-ref url="macos-perl-applications-injection.md" %}
-[macos-perl-applications-injection.md](macos-perl-applications-injection.md)
+[macos-perl-applications-injection.md]
 {% endcontent-ref %}
 
 ### Iniezione di Ruby
@@ -233,7 +234,7 @@ Controlla diverse opzioni per fare in modo che uno script Perl esegua codice arb
 È anche possibile abusare delle variabili d'ambiente di Ruby per fare in modo che script arbitrari eseguano codice arbitrario:
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
-[macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
+[macos-ruby-applications-injection.md]
 {% endcontent-ref %}
 ### Iniezione di Python
 
@@ -242,10 +243,10 @@ Tuttavia, nota che lo script **`PYTHONSTARTUP`** non verrà eseguito quando **`P
 
 Altre variabili di ambiente come **`PYTHONPATH`** e **`PYTHONHOME`** potrebbero essere utili per eseguire codice arbitrario con un comando python.
 
-Nota che gli eseguibili compilati con **`pyinstaller`** non utilizzeranno queste variabili di ambiente anche se vengono eseguiti utilizzando un python integrato.
+Tieni presente che gli eseguibili compilati con **`pyinstaller`** non utilizzeranno queste variabili di ambiente anche se vengono eseguiti utilizzando un python integrato.
 
 {% hint style="danger" %}
-Nel complesso non sono riuscito a trovare un modo per far eseguire a python codice arbitrario abusando delle variabili di ambiente.\
+Nel complesso, non sono riuscito a trovare un modo per far eseguire a python codice arbitrario abusando delle variabili di ambiente.\
 Tuttavia, la maggior parte delle persone installa python utilizzando **Hombrew**, che installerà python in una **posizione scrivibile** per l'utente amministratore predefinito. Puoi dirottarlo con qualcosa del genere:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
@@ -256,23 +257,23 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-Anche **root** eseguirà questo codice quando si esegue python.
+Persino **root** eseguirà questo codice quando si esegue python.
 {% endhint %}
 
 ## Rilevamento
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) è un'applicazione open source che può **rilevare e bloccare azioni di injection di processi**:
+[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) è un'applicazione open source che può **rilevare e bloccare azioni di iniezione di processo**:
 
 * Utilizzando le **Variabili Ambientali**: Monitorerà la presenza di una qualsiasi delle seguenti variabili ambientali: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** e **`ELECTRON_RUN_AS_NODE`**
-* Utilizzando chiamate a **`task_for_pid`**: Per individuare quando un processo desidera ottenere la **porta del task di un altro** che consente di iniettare codice nel processo.
-* **Parametri delle app Electron**: Qualcuno può utilizzare gli argomenti della riga di comando **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`** per avviare un'app Electron in modalità di debug e quindi iniettarvi del codice.
-* Utilizzando **symlink** o **hardlink**: Tipicamente l'abuso più comune è **collocare un link con i privilegi del nostro utente** e **farlo puntare a una posizione con privilegi superiori**. Il rilevamento è molto semplice sia per i symlink che per gli hardlink. Se il processo che crea il link ha un **livello di privilegio diverso** rispetto al file di destinazione, creiamo un **avviso**. Purtroppo nel caso dei symlink, il blocco non è possibile, poiché non abbiamo informazioni sulla destinazione del link prima della creazione. Questa è una limitazione del framework EndpointSecuriy di Apple.
+* Utilizzando chiamate a **`task_for_pid`**: Per individuare quando un processo vuole ottenere la **porta del task di un altro** che consente di iniettare codice nel processo.
+* **Parametri delle app Electron**: Qualcuno può utilizzare gli argomenti della riga di comando **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`** per avviare un'app Electron in modalità di debug, e quindi iniettare codice in essa.
+* Utilizzando **symlink** o **hardlink**: Tipicamente l'abuso più comune è **collocare un link con i privilegi del nostro utente**, e **farlo puntare a una posizione con privilegi superiori**. Il rilevamento è molto semplice sia per i symlink che per gli hardlink. Se il processo che crea il link ha un **livello di privilegio diverso** rispetto al file di destinazione, creiamo un **avviso**. Purtroppo nel caso dei symlink non è possibile bloccare, poiché non abbiamo informazioni sulla destinazione del link prima della creazione. Questa è una limitazione del framework EndpointSecuriy di Apple.
 
 ### Chiamate effettuate da altri processi
 
-In [**questo post sul blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) puoi trovare come è possibile utilizzare la funzione **`task_name_for_pid`** per ottenere informazioni su altri **processi che iniettano codice in un processo** e quindi ottenere informazioni su quel altro processo.
+In [**questo post sul blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) puoi trovare come è possibile utilizzare la funzione **`task_name_for_pid`** per ottenere informazioni su altri **processi che iniettano codice in un processo** e quindi ottenere informazioni su quell'altro processo.
 
 Nota che per chiamare quella funzione devi essere **lo stesso uid** di chi esegue il processo o **root** (e restituisce informazioni sul processo, non un modo per iniettare codice).
 
@@ -281,16 +282,17 @@ Nota che per chiamare quella funzione devi essere **lo stesso uid** di chi esegu
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
+{% endhint %}

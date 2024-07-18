@@ -1,31 +1,32 @@
 # Iniezione nelle Applicazioni Electron di macOS
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
 
 ## Informazioni di Base
 
-Se non sai cos'è Electron puoi trovare [**molte informazioni qui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Ma per ora sappi solo che Electron esegue **node**.\
+Se non sai cos'è Electron, puoi trovare [**molte informazioni qui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Ma per ora sappi che Electron esegue **node**.\
 E node ha alcuni **parametri** e **variabili d'ambiente** che possono essere usati per **farlo eseguire altro codice** oltre al file indicato.
 
 ### Fusibili di Electron
 
-Queste tecniche saranno discusse in seguito, ma di recente Electron ha aggiunto diversi **flag di sicurezza per prevenirle**. Questi sono i [**Fusibili di Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) e questi sono quelli utilizzati per **prevenire** alle app Electron in macOS di **caricare codice arbitrario**:
+Queste tecniche saranno discusse in seguito, ma di recente Electron ha aggiunto diversi **flag di sicurezza per prevenirle**. Questi sono i [**Fusibili di Electron**](https://www.electronjs.org/docs/latest/tutorial/fuses) e questi sono quelli utilizzati per **prevenire** alle app Electron su macOS di **caricare codice arbitrario**:
 
 * **`RunAsNode`**: Se disabilitato, impedisce l'uso della variabile d'ambiente **`ELECTRON_RUN_AS_NODE`** per iniettare codice.
 * **`EnableNodeCliInspectArguments`**: Se disabilitato, parametri come `--inspect`, `--inspect-brk` non saranno rispettati. Evitando in questo modo l'iniezione di codice.
-* **`EnableEmbeddedAsarIntegrityValidation`**: Se abilitato, il file **`asar`** caricato verrà **validato** da macOS. **Prevenendo** in questo modo l'iniezione di codice modificando i contenuti di questo file.
+* **`EnableEmbeddedAsarIntegrityValidation`**: Se abilitato, il file **`asar`** caricato verrà **validato** da macOS. **Prevenendo** in questo modo l'**iniezione di codice** modificando i contenuti di questo file.
 * **`OnlyLoadAppFromAsar`**: Se abilitato, anziché cercare di caricare nell'ordine seguente: **`app.asar`**, **`app`** e infine **`default_app.asar`**. Controlla e utilizza solo app.asar, garantendo così che quando **combinato** con il fusibile **`embeddedAsarIntegrityValidation`** sia **impossibile** **caricare codice non convalidato**.
 * **`LoadBrowserProcessSpecificV8Snapshot`**: Se abilitato, il processo del browser utilizza il file chiamato `browser_v8_context_snapshot.bin` per il suo snapshot V8.
 
@@ -77,7 +78,7 @@ Tuttavia, al momento ci sono 2 limitazioni:
 Rendendo questo percorso di attacco più complicato (o impossibile).
 {% endhint %}
 
-Nota che è possibile aggirare il requisito di **`kTCCServiceSystemPolicyAppBundles`** copiando l'applicazione in un'altra directory (come **`/tmp`**), rinominando la cartella **`app.app/Contents`** in **`app.app/NotCon`**, **modificando** il file **asar** con il tuo codice **malizioso**, rinominandolo di nuovo in **`app.app/Contents`** ed eseguendolo.
+Nota che è possibile aggirare il requisito di **`kTCCServiceSystemPolicyAppBundles`** copiando l'applicazione in un'altra directory (come **`/tmp`**), rinominando la cartella **`app.app/Contents`** in **`app.app/NotCon`**, **modificando** il file **asar** con il tuo codice **malizioso**, rinominandolo nuovamente in **`app.app/Contents`** ed eseguendolo.
 
 Puoi estrarre il codice dal file asar con:
 ```bash
@@ -89,7 +90,9 @@ npx asar pack app-decomp app-new.asar
 ```
 ## RCE con `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-Secondo [**la documentazione**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se questa variabile di ambiente è impostata, avvierà il processo come un normale processo Node.js.
+Secondo [**la documentazione**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se questa variabile di ambiente è impostata, avvierà il processo come un normale processo Node.js. 
+
+{% code overflow="wrap" %}
 ```bash
 # Run this
 ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -143,7 +146,7 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-Se il fusibile **`EnableNodeOptionsEnvironmentVariable`** è **disabilitato**, l'app **ignorerà** la variabile di ambiente **NODE_OPTIONS** quando viene avviata a meno che la variabile di ambiente **`ELECTRON_RUN_AS_NODE`** sia impostata, la quale verrà **ignorata** se il fusibile **`RunAsNode`** è disabilitato.
+Se il fusibile **`EnableNodeOptionsEnvironmentVariable`** è **disabilitato**, l'app **ignorerà** la variabile di ambiente **NODE_OPTIONS** all'avvio a meno che la variabile di ambiente **`ELECTRON_RUN_AS_NODE`** sia impostata, la quale verrà **ignorata** se il fusibile **`RunAsNode`** è disabilitato.
 
 Se non si imposta **`ELECTRON_RUN_AS_NODE`**, verrà visualizzato l'**errore**: `La maggior parte delle NODE_OPTION non è supportata nelle app confezionate. Consultare la documentazione per ulteriori dettagli.`
 {% endhint %}
@@ -166,9 +169,9 @@ Potresti abusare di questa variabile di ambiente in un plist per mantenere la pe
 <true/>
 </dict>
 ```
-## RCE con l'ispezione
+## RCE con ispezione
 
-Secondo [**questo**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), se esegui un'applicazione Electron con flag come **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`**, verrà aperta una **porta di debug** a cui puoi connetterti (ad esempio da Chrome in `chrome://inspect`) e sarai in grado di **iniettare codice al suo interno** o addirittura avviare nuovi processi.\
+Secondo [**questo**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), se esegui un'applicazione Electron con flag come **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`**, verrà aperta una **porta di debug** a cui potrai connetterti (ad esempio da Chrome in `chrome://inspect`) e sarai in grado di **iniettare codice al suo interno** o addirittura avviare nuovi processi.\
 Per esempio:
 
 {% code overflow="wrap" %}
@@ -195,7 +198,7 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-In [**questo post sul blog**](https://hackerone.com/reports/1274695), questo debug viene abusato per fare in modo che un headless chrome **scarichi file arbitrari in posizioni arbitrarie**.
+Nel [**questo post sul blog**](https://hackerone.com/reports/1274695), questo debug viene abusato per fare in modo che un chrome headless **scarichi file arbitrari in posizioni arbitrarie**.
 
 ### Iniezione dal Plist dell'App
 
@@ -222,7 +225,7 @@ Il demone TCC di macOS non controlla la versione eseguita dell'applicazione. Qui
 ## Esegui codice non JS
 
 Le tecniche precedenti ti permetteranno di eseguire **codice JS all'interno del processo dell'applicazione Electron**. Tuttavia, ricorda che i **processi figlio vengono eseguiti sotto lo stesso profilo sandbox** dell'applicazione genitore e **ereditano i loro permessi TCC**.\
-Pertanto, se desideri abusare dei diritti per accedere alla fotocamera o al microfono, ad esempio, potresti semplicemente **eseguire un altro binario dal processo**.
+Pertanto, se desideri abusare dei diritti per accedere alla fotocamera o al microfono ad esempio, potresti semplicemente **eseguire un altro binario dal processo**.
 
 ## Iniezione automatica
 
@@ -270,16 +273,17 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 * [https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks)
 * [https://m.youtube.com/watch?v=VWQY5R2A6X8](https://m.youtube.com/watch?v=VWQY5R2A6X8)
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
+{% endhint %}

@@ -1,18 +1,19 @@
-# Autorizzazione XPC su macOS
+# Autorizzazione XPC di macOS
+
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) nei repository di Github.
 
 </details>
+{% endhint %}
 
 ## Autorizzazione XPC
 
@@ -50,7 +51,7 @@ Per ulteriori informazioni su come configurare correttamente questo controllo:
 Tuttavia, vi è un **processo di autorizzazione in corso quando viene chiamato un metodo da HelperTool**.
 
 La funzione **`applicationDidFinishLaunching`** da `App/AppDelegate.m` creerà un riferimento di autorizzazione vuoto dopo che l'app è stata avviata. Questo dovrebbe sempre funzionare.\
-Successivamente, cercherà di **aggiungere alcuni diritti** a tale riferimento di autorizzazione chiamando `setupAuthorizationRights`:
+Successivamente, cercherà di **aggiungere alcuni diritti** a quel riferimento di autorizzazione chiamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -184,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Questo significa che alla fine di questo processo, le autorizzazioni dichiarate all'interno di `commandInfo` verranno memorizzate in `/var/db/auth.db`. Nota come puoi trovare per **ogni metodo** che richiederà autenticazione, il **nome dell'autorizzazione** e il **`kCommandKeyAuthRightDefault`**. Quest'ultimo **indica chi può ottenere questo diritto**.
+Questo significa che alla fine di questo processo, le autorizzazioni dichiarate all'interno di `commandInfo` saranno memorizzate in `/var/db/auth.db`. Nota come lì puoi trovare per **ogni metodo** che richiederà autenticazione, il **nome dell'autorizzazione** e il **`kCommandKeyAuthRightDefault`**. Quest'ultimo **indica chi può ottenere questo diritto**.
 
 Ci sono diversi ambiti per indicare chi può accedere a un diritto. Alcuni di essi sono definiti in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (puoi trovarli [tutti qui](https://www.dssw.co.uk/reference/authorization-rights/)), ma in sintesi:
 
@@ -240,7 +241,7 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Nota che per **verificare i requisiti per ottenere il diritto** di chiamare quel metodo, la funzione `authorizationRightForCommand` controllerà semplicemente l'oggetto precedentemente commentato **`commandInfo`**. Successivamente, chiamerà **`AuthorizationCopyRights`** per verificare **se ha i diritti** per chiamare la funzione (nota che i flag consentono l'interazione con l'utente).
+Nota che per **verificare i requisiti per ottenere il diritto** di chiamare quel metodo, la funzione `authorizationRightForCommand` verificherà semplicemente l'oggetto precedentemente commentato **`commandInfo`**. Successivamente, chiamerà **`AuthorizationCopyRights`** per verificare **se ha i diritti** per chiamare la funzione (nota che i flag consentono l'interazione con l'utente).
 
 In questo caso, per chiamare la funzione `readLicenseKeyAuthorization`, il `kCommandKeyAuthRightDefault` è definito come `@kAuthorizationRuleClassAllow`. Quindi **chiunque può chiamarlo**.
 
@@ -261,16 +262,14 @@ security authorizationdb read com.apple.safaridriver.allow
 Puoi trovare **tutte le configurazioni dei permessi** [**qui**](https://www.dssw.co.uk/reference/authorization-rights/), ma le combinazioni che non richiedono interazione dell'utente sarebbero:
 
 1. **'authenticate-user': 'false'**
-* Questo è il campo più diretto. Se impostato su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
-* Viene utilizzato in **combinazione con uno dei 2 seguenti o indicando un gruppo** a cui l'utente deve appartenere.
+* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
+* Questo viene utilizzato in **combinazione con uno dei 2 seguenti o indicando un gruppo** a cui l'utente deve appartenere.
 2. **'allow-root': 'true'**
-* Se un utente sta operando come utente root (che ha permessi elevati) e questo campo è impostato su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, raggiungere lo stato di utente root richiede già un'autenticazione, quindi non si tratta di uno scenario "senza autenticazione" per la maggior parte degli utenti.
+* Se un utente sta operando come utente root (che ha permessi elevati) e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, raggiungere lo stato di utente root richiede già un'autenticazione, quindi non si tratta di uno scenario "senza autenticazione" per la maggior parte degli utenti.
 3. **'session-owner': 'true'**
 * Se impostato su `true`, il proprietario della sessione (l'utente attualmente loggato) otterrebbe automaticamente questo diritto. Ciò potrebbe bypassare ulteriori autenticazioni se l'utente è già loggato.
 4. **'shared': 'true'**
-* Questo campo non concede diritti senza autenticazione. Invece, se impostato su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ognuno debba ri-autenticarsi. Tuttavia, il conferimento iniziale del diritto richiederebbe comunque l'autenticazione a meno che non sia combinato con altri campi come `'authenticate-user': 'false'`.
-
-Puoi [**utilizzare questo script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) per ottenere i diritti interessanti:
+* Questa chiave non concede diritti senza autenticazione. Invece, se impostata su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ognuno debba ri-autenticarsi. Ma il conferimento iniziale del diritto richiederebbe comunque un'autenticazione a meno che non sia combinato con altre chiavi come `'authenticate-user': 'false'`.
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -281,7 +280,7 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Reversing Autorizzazione
+## Reversing Authorization
 
 ### Verifica dell'utilizzo di EvenBetterAuthorization
 
@@ -303,7 +302,7 @@ La funzione **`shouldAcceptNewConnection`** indica il protocollo in fase di espo
 
 In questo caso, abbiamo lo stesso di EvenBetterAuthorizationSample, [**controlla questa linea**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Conoscendo il nome del protocollo utilizzato, è possibile **scaricare la definizione dell'header** con:
+Conoscendo il nome del protocollo utilizzato, è possibile **scaricare la definizione dell'intestazione** con:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -425,16 +424,17 @@ NSLog(@"Finished!");
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

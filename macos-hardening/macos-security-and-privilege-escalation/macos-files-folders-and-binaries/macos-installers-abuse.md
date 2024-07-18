@@ -1,24 +1,25 @@
 # Abuso degli Installatori macOS
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
 
 </details>
+{% endhint %}
 
-## Informazioni di Base su Pkg
+## Informazioni di Base sui Pkg
 
 Un **pacchetto di installazione macOS** (noto anche come file `.pkg`) è un formato di file utilizzato da macOS per **distribuire software**. Questi file sono come una **scatola che contiene tutto ciò di cui un software** ha bisogno per installarsi ed eseguirsi correttamente.
 
-Il file del pacchetto stesso è un archivio che contiene una **gerarchia di file e directory che verranno installati sul computer di destinazione**. Può anche includere **script** per eseguire attività prima e dopo l'installazione, come configurare file di configurazione o pulire vecchie versioni del software.
+Il file del pacchetto stesso è un archivio che contiene una **gerarchia di file e directory che verranno installati sul computer di destinazione**. Può anche includere **script** per eseguire attività prima e dopo l'installazione, come la configurazione dei file di configurazione o la pulizia delle vecchie versioni del software.
 
 ### Gerarchia
 
@@ -46,12 +47,12 @@ cpio -i < Scripts
 ```
 Per visualizzare i contenuti dell'installer senza decomprimerlo manualmente, è possibile utilizzare il tool gratuito [**Suspicious Package**](https://mothersruin.com/software/SuspiciousPackage/).
 
-## Informazioni di Base sui DMG
+## Informazioni di Base sui File DMG
 
 I file DMG, o Apple Disk Images, sono un formato di file utilizzato da macOS di Apple per le immagini disco. Un file DMG è essenzialmente un **immagine disco montabile** (contiene il proprio filesystem) che contiene dati di blocco grezzi tipicamente compressi e talvolta criptati. Quando apri un file DMG, macOS lo **monta come se fosse un disco fisico**, consentendoti di accedere ai suoi contenuti.
 
 {% hint style="danger" %}
-Nota che gli installer **`.dmg`** supportano **così tanti formati** che in passato alcuni di essi contenenti vulnerabilità sono stati abusati per ottenere **esecuzione di codice kernel**.
+Nota che gli installer in formato **`.dmg`** supportano **così tanti formati** che in passato alcuni di essi contenenti vulnerabilità sono stati abusati per ottenere **esecuzione di codice kernel**.
 {% endhint %}
 
 ### Gerarchia
@@ -60,9 +61,9 @@ Nota che gli installer **`.dmg`** supportano **così tanti formati** che in pass
 
 La gerarchia di un file DMG può essere diversa in base al contenuto. Tuttavia, per i DMG delle applicazioni, di solito segue questa struttura:
 
-- Livello Superiore: Questo è la radice dell'immagine disco. Contiene spesso l'applicazione e eventualmente un collegamento alla cartella Applicazioni.
-- Applicazione (.app): Questa è l'applicazione effettiva. In macOS, un'applicazione è tipicamente un pacchetto che contiene molti file e cartelle individuali che compongono l'applicazione.
-- Collegamento alle Applicazioni: Questo è un collegamento rapido alla cartella Applicazioni in macOS. Lo scopo di questo è rendere facile l'installazione dell'applicazione. Puoi trascinare il file .app su questo collegamento per installare l'app.
+* Livello Superiore: Questo è la radice dell'immagine disco. Contiene spesso l'applicazione e eventualmente un collegamento alla cartella Applicazioni.
+* Applicazione (.app): Questa è l'applicazione effettiva. In macOS, un'applicazione è tipicamente un pacchetto che contiene molti file e cartelle individuali che compongono l'applicazione.
+* Collegamento alle Applicazioni: Questo è un collegamento rapido alla cartella Applicazioni in macOS. Lo scopo di questo è rendere facile l'installazione dell'applicazione. Puoi trascinare il file .app su questo collegamento per installare l'app.
 
 ## Privesc tramite abuso di pkg
 
@@ -74,7 +75,7 @@ Se uno script di pre o post installazione ad esempio viene eseguito da **`/var/t
 
 ### AuthorizationExecuteWithPrivileges
 
-Questa è una [funzione pubblica](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) che diversi installer e aggiornatori chiameranno per **eseguire qualcosa come root**. Questa funzione accetta il **percorso** del **file** da **eseguire** come parametro, tuttavia, se un attaccante potesse **modificare** questo file, sarà in grado di **abusare** della sua esecuzione con privilegi di root per **escalare i privilegi**.
+Si tratta di una [funzione pubblica](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) che diversi installer e aggiornatori chiameranno per **eseguire qualcosa come root**. Questa funzione accetta il **percorso** del **file** da **eseguire** come parametro, tuttavia, se un attaccante potesse **modificare** questo file, sarà in grado di **abusarne** l'esecuzione con privilegi di root per **escalare i privilegi**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -84,7 +85,7 @@ Questa è una [funzione pubblica](https://developer.apple.com/documentation/secu
 
 Se un programma di installazione scrive in `/tmp/fixedname/bla/bla`, è possibile **creare un mount** su `/tmp/fixedname` senza proprietari in modo da poter **modificare qualsiasi file durante l'installazione** per abusare del processo di installazione.
 
-Un esempio di ciò è **CVE-2021-26089** che è riuscito a **sovrascrivere uno script periodico** per ottenere l'esecuzione come root. Per ulteriori informazioni, guarda il talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Un esempio di ciò è **CVE-2021-26089** che è riuscito a **sovrascrivere uno script periodico** per ottenere l'esecuzione come root. Per ulteriori informazioni guarda il talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg come malware
 

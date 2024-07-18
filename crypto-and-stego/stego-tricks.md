@@ -1,18 +1,19 @@
 # Trucchi di Stego
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di GitHub.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -34,7 +35,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Principale**
 
-Recupera file in base all'intestazione e al piè di pagina, utile per le immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
+Recupera file in base all'intestazione e al piè di pagina, utile per immagini png. Installato tramite `apt` con la sua sorgente su [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -92,26 +93,26 @@ Per tentare di riparare un'immagine danneggiata, potrebbe essere utile aggiunger
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide per la Nascita dei Dati**
+### **Steghide per il Nascondimento dei Dati**
 
-Steghide facilita la nascita dei dati all'interno dei file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide facilita il nascondimento dei dati all'interno dei file `JPEG, BMP, WAV e AU`, in grado di incorporare ed estrarre dati criptati. L'installazione è semplice utilizzando `apt`, e il [codice sorgente è disponibile su GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Comandi:**
 
 * `steghide info file` rivela se un file contiene dati nascosti.
-* `steghide extract -sf file [--passphrase password]` estrae i dati nascosti, password facoltativa.
+* `steghide extract -sf file [--passphrase password]` estrae i dati nascosti, password opzionale.
 
 Per l'estrazione basata sul web, visita [questo sito web](https://futureboy.us/stegano/decinput.html).
 
 **Attacco di Forza Bruta con Stegcracker:**
 
-* Per tentare la violazione della password su Steghide, utilizza [stegcracker](https://github.com/Paradoxis/StegCracker.git) nel seguente modo:
+* Per tentare il cracking della password su Steghide, utilizza [stegcracker](https://github.com/Paradoxis/StegCracker.git) nel seguente modo:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
 ### **zsteg per file PNG e BMP**
 
-zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la sua [fonte su GitHub](https://github.com/zed-0xff/zsteg).
+zsteg si specializza nel rivelare dati nascosti nei file PNG e BMP. L'installazione avviene tramite `gem install zsteg`, con la sua [fonte su GitHub](https://github.com/zed-0xff/zsteg).
 
 **Comandi:**
 
@@ -120,7 +121,7 @@ zsteg è specializzato nel rivelare dati nascosti nei file PNG e BMP. L'installa
 
 ### **StegoVeritas e Stegsolve**
 
-**stegoVeritas** controlla i metadati, esegue trasformazioni delle immagini, e applica la forza bruta LSB tra le altre funzionalità. Utilizza `stegoveritas.py -h` per un elenco completo delle opzioni e `stegoveritas.py stego.jpg` per eseguire tutti i controlli.
+**stegoVeritas** controlla i metadati, esegue trasformazioni dell'immagine e applica la forza bruta LSB tra le altre funzionalità. Utilizza `stegoveritas.py -h` per un elenco completo delle opzioni e `stegoveritas.py stego.jpg` per eseguire tutti i controlli.
 
 **Stegsolve** applica vari filtri di colore per rivelare testi o messaggi nascosti nelle immagini. È disponibile su [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
@@ -141,23 +142,23 @@ Stegpy consente di incorporare informazioni nei file audio e immagine, supportan
 apt-get install pngcheck
 pngcheck stego.png
 ```
-### **Strumenti Aggiuntivi per l'Analisi delle Immagini**
+### **Strumenti aggiuntivi per l'analisi delle immagini**
 
 Per ulteriori esplorazioni, considera di visitare:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analisi del Livello di Errore dell'Immagine](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analisi del livello di errore dell'immagine](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Estrarre Dati dagli Audio**
+## **Estrarre dati dagli audio**
 
-La **steganografia audio** offre un metodo unico per nascondere informazioni all'interno dei file audio. Diversi strumenti sono utilizzati per incorporare o recuperare contenuti nascosti.
+La **steganografia audio** offre un metodo unico per nascondere informazioni nei file audio. Diversi strumenti sono utilizzati per incorporare o recuperare contenuti nascosti.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide è uno strumento versatile progettato per nascondere dati nei file JPEG, BMP, WAV e AU. Istruzioni dettagliate sono fornite nella [documentazione dei trucchi stego](stego-tricks.md#steghide).
+Steghide è uno strumento versatile progettato per nascondere dati nei file JPEG, BMP, WAV e AU. Istruzioni dettagliate sono fornite nella [documentazione dei trucchi di stego](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -183,7 +184,7 @@ Deepsound consente la crittografia e il rilevamento di informazioni all'interno 
 
 ### **Sonic Visualizer**
 
-Uno strumento prezioso per l'ispezione visiva e analitica dei file audio, Sonic Visualizer può rivelare elementi nascosti non rilevabili in altri modi. Visita il [sito ufficiale](https://www.sonicvisualiser.org/) per ulteriori informazioni.
+Uno strumento prezioso per l'ispezione visiva e analitica dei file audio, Sonic Visualizer può rivelare elementi nascosti non rilevabili con altri mezzi. Visita il [sito ufficiale](https://www.sonicvisualiser.org/) per ulteriori informazioni.
 
 ### **Toni DTMF - Toni di Selezione**
 
@@ -198,31 +199,32 @@ I dati binari che danno un numero intero potrebbero rappresentare un codice QR. 
 import math
 math.sqrt(2500) #50
 ```
-### **Traduzione Braille**
+### **Traduzione in Braille**
 
-Per tradurre il Braille, il [Branah Braille Translator](https://www.branah.com/braille-translator) è una risorsa eccellente.
+Per tradurre in Braille, il [Traduttore Braille di Branah](https://www.branah.com/braille-translator) è una risorsa eccellente.
 
 ## **Riferimenti**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
+**Gruppo di Sicurezza Try Hard**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

