@@ -2,87 +2,132 @@
 
 ### Interessanti Chiavi di Registro di Windows
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**repository di HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
+{% endhint %}
 
-
-### **Versione di Windows e Informazioni sul Proprietario**
+### **Windows Version e Informazioni sul Proprietario**
 - Situato in **`Software\Microsoft\Windows NT\CurrentVersion`**, troverai la versione di Windows, il Service Pack, l'ora di installazione e il nome del proprietario registrato in modo diretto.
 
 ### **Nome del Computer**
-- L'hostname si trova in **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+- Il nome host si trova sotto **`System\ControlSet001\Control\ComputerName\ComputerName`**.
 
 ### **Impostazione del Fuso Orario**
 - Il fuso orario del sistema è memorizzato in **`System\ControlSet001\Control\TimeZoneInformation`**.
 
 ### **Tracciamento dell'Ora di Accesso**
-- Di default, il tracciamento dell'ora di accesso dell'ultimo accesso è disattivato (**`NtfsDisableLastAccessUpdate=1`**). Per abilitarlo, utilizza:
+- Di default, il tracciamento dell'ultima ora di accesso è disattivato (**`NtfsDisableLastAccessUpdate=1`**). Per abilitarlo, utilizza:
 `fsutil behavior set disablelastaccess 0`
 
-### Versioni di Windows e Service Pack
-- La **versione di Windows** indica l'edizione (ad esempio, Home, Pro) e la sua release (ad esempio, Windows 10, Windows 11), mentre i **Service Pack** sono aggiornamenti che includono correzioni e, talvolta, nuove funzionalità.
+### Versioni di Windows e Service Packs
+- La **versione di Windowse Windows** indica l'edizione (es. Home, Pro) e il suo rilascio (es. Windows 10, Windows 11), mentre i **Service Packs** sono aggiornamenti che includono correzioni e, talvolta, nuove funzionalità.
 
-### Abilitazione dell'Ora di Accesso dell'Ultimo Accesso
-- L'abilitazione del tracciamento dell'ora di accesso dell'ultimo accesso consente di vedere quando i file sono stati aperti per l'ultima volta, il che può essere fondamentale per l'analisi forense o il monitoraggio del sistema.
+### Abilitazione dell'Ora di Ultimo Accesso
+- Abilitare il tracciamento dell'ora di ultimo accesso ti permette di vedere quando i file sono stati aperti per l'ultima volta, il che può essere fondamentale per l'analisi forense o il monitoraggio del sistema.
 
-### Dettagli sulle Informazioni di Rete
-- Il registro contiene dati estesi sulle configurazioni di rete, inclusi **tipi di reti (wireless, cavo, 3G)** e **categorie di rete (Pubblica, Privata/Casa, Dominio/Lavoro)**, che sono fondamentali per la comprensione delle impostazioni di sicurezza e delle autorizzazioni di rete.
+### Dettagli sull'Informazione di Rete
+- Il registro contiene dati estesi sulle configurazioni di rete, inclusi i **tipi di reti (wireless, via cavo, 3G)** e le **categorie Famei **pecific 
+es**chi re
+es**ar di for
 
-### Caching del Lato Client (CSC)
-- **CSC** migliora l'accesso ai file offline memorizzando copie di file condivisi. Diverse impostazioni di **CSCFlags** controllano come e quali file vengono memorizzati nella cache, influenzando le prestazioni e l'esperienza dell'utente, specialmente in ambienti con connettività intermittente.
+es**io- details **erver Global
+es**ino
 
-### Programmi di Avvio Automatico
-- I programmi elencati in varie chiavi di registro `Run` e `RunOnce` vengono avviati automaticamente all'avvio, influenzando il tempo di avvio del sistema e potenzialmente rappresentando punti di interesse per l'individuazione di malware o software indesiderato.
+es**ino**eRE
+es**eRE
+es**e **01s**enet
+ess**e **es**e **01s**enet
+ess**e **01s**e **01s**e **01s**e **01s**e **01sssa **es the **01s**e **rg .IUsad ad byr
+es the/appstal ones the, Int ed ** the Windows ext. 
+
+### **Windows Version and Owner Info**
+- Located at **`Software\Microsoft\Windows NT\CurrentVersion`**, you'll find the Windows version, Service Pack, installation time, and the registered owner's name in a straightforward manner.
+
+### **Computer Name**
+- The hostname is found under **`System\ControlSet001\Control\ComputerName\ComputerName`**.
+
+### **Time Zone Setting**
+- The system's time zone is stored in **`System\ControlSet001\Control\TimeZoneInformation`**.
+
+### **Access Time Tracking**
+- By default, the last access time tracking is turned off (**`NtfsDisableLastAccessUpdate=1`**). To enable it, use:
+`fsutil behavior set disablelastaccess 0`
+
+### Windows Versions and Service Packs
+- The **Windows version** indicates the edition (e.g., Home, Pro) and its release (e.g., Windows 10, Windows 11), while **Service Packs** are updates that include fixes and, sometimes, new features.
+
+### En abling Last Access Time
+- Enabling last access time tracking allows you to see when files were last opened, which can be critical for forensic analysis or system monitoring.
+
+### Network Information Details
+- The registry holds extensive data on network configurations, including **types of networks (wireless, cable, 3G)** and **network categories (Public, Private/Home, Domain/Work)**** and **network categories (Public, Private/Home, Domain/Work)**, which are vital for understanding network security settings and permissions.
+
+### Client Side Caching (CSC)
+- **CSC** enhances offline file access by caching copies of shared files. Different **CSCFlags** settings control how and what files are cached, affecting performance and user experience, especially in environments with intermittent connectivity.
+
+### AutoStart Programs
+- Programs listed in various `Run` and `RunOnce` registry keys are automatically launched at startup, affecting system boot time and potentially being points of interest for identifying malware or unwanted software.
 
 ### Shellbags
-- Le **Shellbags** non solo memorizzano le preferenze per le visualizzazioni delle cartelle, ma forniscono anche prove forensi dell'accesso alle cartelle anche se la cartella non esiste più. Sono preziose per le indagini, rivelando l'attività dell'utente che non è evidente attraverso altri mezzi.
+- **Shellbags** not only store preferences for folder views but also provide forensic evidence of folder access even if the folder no longer exists. They are invaluable for investigations, revealing user activity that isn't obvious through other means.
 
-### Informazioni e Forensic sulle Periferiche USB
-- I dettagli memorizzati nel registro sulle periferiche USB possono aiutare a tracciare quali periferiche sono state collegate a un computer, collegando potenzialmente una periferica a trasferimenti di file sensibili o incidenti di accesso non autorizzato.
+### USB Information and Forensics
+- The details stored in the registry about USB devices can help trace which devices were connected to a computer, potentially linking a device to sensitive file transfers or unauthorized access incidents.
 
-### Numero di Serie del Volume
-- Il **Numero di Serie del Volume** può essere cruciale per tracciare l'istanza specifica di un sistema di file, utile in scenari forensi in cui è necessario stabilire l'origine del file su diversi dispositivi.
+### Volume Serial Number
+- The **Volume Serial Number** can be crucial for tracking the specific instance of a file system, useful in forensic scenarios where file origin needs to be established across different devices.
 
-### **Dettagli di Spegnimento**
-- L'ora di spegnimento e il conteggio (solo per XP) vengono conservati in **`System\ControlSet001\Control\Windows`** e **`System\ControlSet001\Control\Watchdog\Display`**.
+### **Shutdown Details**
+- Shutdown time and count (the latter only for XP) are kept in **`System\ControlSet001\Control\Windows`**Particolari sulleControl\Watchdog\Display`**.
 
-### **Configurazione di Rete**
-- Per informazioni dettagliate sull'interfaccia di rete, fare riferimento a **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
-- I tempi di prima e ultima connessione di rete, inclusa la connessione VPN, vengono registrati in vari percorsi in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
+### **Network Configuration**
+- For detailed network interface info, refer to **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- First and last network connection times, including VPN connections, are logged under various paths in **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-### **Cartelle Condivise**
-- Le cartelle condivise e le impostazioni si trovano in **`System\ControlSet001\Services\lanmanserver\Shares`**. Le impostazioni di Caching del Lato Client (CSC) determinano la disponibilità dei file offline.
+### **Shared Folders**
+- Shared folders and settings are under **`System\ControlSet001\Services\lanmanserver\Shares`**. The Client Side Caching (CSC) settings dictate offline file availability.
 
-### **Programmi che si Avviano Automaticamente**
-- Percorsi come **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** e voci simili in `Software\Microsoft\Windows\CurrentVersion` dettagliano i programmi impostati per l'avvio automatico.
+### **Programs that Start Automatically**
+- Paths like **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** and similar entries under `Software\Microsoft\Windows\CurrentVersion` detail programs set to run at startup.
 
-### **Ricerche e Percorsi Digitati**
-- Le ricerche dell'Esplora risorse e i percorsi digitati vengono tracciati nel registro in **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** per WordwheelQuery e TypedPaths, rispettivamente.
+### **Searches and Typed Paths**
+- Explorer searches and typed paths are tracked in the registry under **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** for WordwheelQuery and TypedPaths, respectively.
 
-### **Documenti Recenti e File di Office**
-- I documenti recenti e i file di Office a cui si è acceduto vengono registrati in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` e in percorsi specifici delle versioni di Office.
+### **Recent Documents and Office Files**
+- Recent documents and Office files accessed are noted in `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` and specific Office version paths.
 
-### **Elementi Utilizzati Più di Recente (MRU)**
-- Le liste MRU, che indicano i percorsi e i comandi dei file recenti, vengono memorizzate in varie sottochiavi `ComDlg32` e `Explorer` in `NTUSER.DAT`.
+### **Most Recently Used (MRU) Items**
+- MRU lists, indicating recent file paths and commands, are stored in various `ComDlg32` and `Explorer` subkeys under `NTUSER.DAT`.
 
-### **Tracciamento dell'Attività dell'Utente**
-- La funzionalità User Assist registra statistiche dettagliate sull'utilizzo delle applicazioni, inclusi il conteggio di esecuzione e l'ultima ora di esecuzione, in **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
+### **User Activity Tracking**
+- The User Assist feature logs detailed application usage stats, including run count and last run time, at **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
 
-### **Analisi delle Shellbags**
-- Le Shellbags, che rivelano i dettagli dell'accesso alle cartelle, sono memorizzate in `USRCLASS.DAT` e `NTUSER.DAT` in `Software\Microsoft\Windows\Shell`. Utilizza **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** per l'analisi.
+### **Shellbags Analysis**
+- Shellbags, revealing folder access details, are stored in `USRCLASS.DAT` and `NTUSER.DAT` under `Software\Microsoft\Windows\Shell`. Use **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** for analysis.
 
-### **Cronologia delle Periferiche USB**
-- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** e **`HKLM\SYSTEM\ControlSet001\Enum\USB`** contengono dettagli completi sulle periferiche USB collegate, inclusi il produttore, il nome del prodotto e i timestamp di connessione.
-- L'utente associato a una specifica periferica USB può essere individuato cercando nelle chiavi di registro `NTUSER.DAT` il **{GUID}** della periferica.
-- L'ultima periferica montata e il suo numero di serie del volume possono essere tracciati tramite `System\MountedDevices` e `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, rispettivamente
+### **USB Device History**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** and **`HKLM\SYSTEM\`** contain rich details on connected USB devices, including manufacturer, product name, and connection timestamps.
+- The user associated with a specific USB device can be pinpointed by searching `NTUSER.DAT` hives for the device's **{GUID}**.
+- The last mounted device and its volume serial number can be traced through `System\MountedDevices` and `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectively.
+
+This guide condenses the crucial paths and methods for accessing detailed system, network, and user activity information on Windows systems, aiming for clarity and usability.
+
+
+
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img^src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Hack in Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img^src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img^src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+
+</details>
+{% endhint %}

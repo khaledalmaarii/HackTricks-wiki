@@ -1,20 +1,21 @@
-# Trucchi per Crypto CTFs
+# Trucchi Crypto CTFs
+
+{% hint style="success" %}
+Impara e pratica l'Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) su GitHub.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di Github.
 
 </details>
+{% endhint %}
 
-## Database di Hash Online
+## Database Hash Online
 
 * _**Cercalo su Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
@@ -28,34 +29,34 @@ Altri modi per supportare HackTricks:
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Autosolver Magici
+## Magici Risolutori Automatici
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Modulo Magico)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Encoder
+## Codificatori
 
 La maggior parte dei dati codificati può essere decodificata con queste 2 risorse:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Autosolver di Sostituzione
+### Risolutori Automatici di Sostituzione
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - Molto buono!
+* [https://quipqiup.com/](https://quipqiup.com) - Molto buono !
 
-#### Autosolver di Caesar - ROTx
+#### Risolutori Automatici di Caesar - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Cifrario Atbash
+#### Cifratura Atbash
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Autosolver di Base Encodings
+### Risolutore Automatico di Codifiche Base
 
 Controlla tutte queste basi con: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
@@ -102,7 +103,10 @@ Controlla tutte queste basi con: [https://github.com/dhondta/python-codext](http
 * **Base100** \[]
 * `👟👦👣👘👚👘👩👘👚👦👣👘`
 * **Base122** \[]
-* `4F ˂r0Xmvc
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -149,8 +153,6 @@ end
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
 ### XXEncoder
-
-XXEncoder è uno strumento che può essere utilizzato per codificare e decodificare dati utilizzando la codifica XX. Questa codifica è spesso utilizzata per nascondere informazioni sensibili all'interno di testo normale. Per utilizzare XXEncoder, è sufficiente inserire il testo da codificare o decodificare nel campo di input e fare clic sul pulsante corrispondente. Il risultato verrà visualizzato nel campo di output. Questo strumento può essere utile durante le CTF o altre attività di hacking per risolvere enigmi o trovare informazioni nascoste.
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
@@ -160,14 +162,6 @@ end
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
 
 ### YEncoder
-
-YEncoder è un algoritmo di codifica utilizzato per convertire dati binari in una forma leggibile e trasferibile tramite testo. È spesso utilizzato per codificare file binari come immagini o file eseguibili in modo che possano essere inviati tramite canali di comunicazione che supportano solo testo, come e-mail o chat.
-
-L'algoritmo YEncoder utilizza una combinazione di caratteri ASCII per rappresentare i dati binari. Ogni byte del dato binario viene convertito in una sequenza di caratteri ASCII, che vengono quindi concatenati per formare il testo codificato.
-
-Per decodificare un testo codificato con YEncoder, è necessario invertire il processo. I caratteri ASCII vengono analizzati e convertiti in byte binari, che vengono quindi concatenati per formare il dato binario originale.
-
-YEncoder è spesso utilizzato in contesti di CTF (Capture The Flag) per nascondere informazioni all'interno di testo codificato. La decodifica di un testo YEncoded può rivelare indizi o password nascoste che possono essere utilizzate per risolvere una sfida o ottenere l'accesso a un sistema.
 ```
 =ybegin line=128 size=28 name=webutils_pl
 ryvkryvkryvkryvkryvkryvkryvk
@@ -176,8 +170,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
 ### BinHex
-
-BinHex è un formato di codifica utilizzato per convertire dati binari in testo ASCII. È comunemente utilizzato per trasferire file binari tramite email o su Internet. Il formato BinHex utilizza una combinazione di caratteri ASCII per rappresentare i dati binari, consentendo loro di essere facilmente letti e trasferiti su sistemi che supportano solo testo ASCII. Questo formato è particolarmente utile quando si desidera trasferire file binari su sistemi che non supportano direttamente il formato binario.
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -186,8 +178,6 @@ BinHex è un formato di codifica utilizzato per convertire dati binari in testo 
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
-
-ASCII85 è un algoritmo di codifica utilizzato per convertire dati binari in testo ASCII. È spesso utilizzato per rappresentare dati binari in modo sicuro in contesti come la trasmissione di dati su reti non sicure o la memorizzazione di dati in formato testo. L'algoritmo converte gruppi di 4 byte in sequenze di 5 caratteri ASCII, consentendo di rappresentare un maggior numero di valori rispetto alla codifica Base64. La decodifica di un testo ASCII85 restituisce i dati binari originali.
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
@@ -197,7 +187,7 @@ ASCII85 è un algoritmo di codifica utilizzato per convertire dati binari in tes
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=it\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=it\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -205,23 +195,23 @@ Lettere al loro valore numerico
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Codifica del Cifrario Affine
+### Codifica Cifrario Affine
 
-Lettera in numero `(ax+b)%26` (_a_ e _b_ sono le chiavi e _x_ è la lettera) e il risultato torna alla lettera
+Lettera a numero `(ax+b)%26` (_a_ e _b_ sono le chiavi e _x_ è la lettera) e il risultato ritorna a lettera
 ```
 krodfdudfrod
 ```
 ### Codice SMS
 
-**Multitap** [sostituisce una lettera](https://www.dcode.fr/word-letter-change) con cifre ripetute definite dal codice corrispondente sulla tastiera di un [telefono cellulare](https://www.dcode.fr/phone-keypad-cipher) (questa modalità viene utilizzata nella scrittura degli SMS).\
-Ad esempio: 2=A, 22=B, 222=C, 3=D...\
+**Multitap** [sostituisce una lettera](https://www.dcode.fr/word-letter-change) con cifre ripetute definite dal codice chiave corrispondente su una tastiera di un [telefono cellulare](https://www.dcode.fr/phone-keypad-cipher) (Questo modo è utilizzato nella scrittura di SMS).\
+Per esempio: 2=A, 22=B, 222=C, 3=D...\
 Puoi identificare questo codice perché vedrai\*\* diversi numeri ripetuti\*\*.
 
 Puoi decodificare questo codice su: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Codice Bacon
 
-Sostituisci ogni lettera con 4 As o Bs (o 1 e 0)
+Sostituisci ogni lettera con 4 A o B (o 1 e 0)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
@@ -234,9 +224,9 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 **Raw Deflate** e **Raw Inflate** (puoi trovarli entrambi in Cyberchef) possono comprimere e decomprimere dati senza intestazioni.
 
-## Crypto Semplice
+## Crittografia Semplice
 
-### XOR - Autosolver
+### XOR - Risolutore automatico
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
@@ -291,16 +281,17 @@ Un segreto viene diviso in X parti e per recuperarlo sono necessarie Y parti (_Y
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Impara e pratica l'hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
+{% endhint %}

