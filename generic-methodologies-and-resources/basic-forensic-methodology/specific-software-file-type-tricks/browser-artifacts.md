@@ -1,77 +1,81 @@
-# Αποτυπώματα Περιηγητή
+# Browser Artifacts
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
-Αποκτήστε πρόσβαση σήμερα:
+Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
-## Αποτυπώματα Περιηγητών <a href="#id-3def" id="id-3def"></a>
+## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
 
-Τα αποτυπώματα των περιηγητών περιλαμβάνουν διάφορους τύπους δεδομένων που αποθηκεύονται από τους περιηγητές ιστού, όπως ιστορικό πλοήγησης, σελιδοδείκτες και δεδομένα cache. Αυτά τα αποτυπώματα αποθηκεύονται σε συγκεκριμένους φακέλους εντός του λειτουργικού συστήματος, διαφέροντας σε τοποθεσία και όνομα ανάμεσα στους περιηγητές, αλλά γενικά αποθηκεύοντας παρόμοιους τύπους δεδομένων.
+Τα αρχεία του προγράμματος περιήγησης περιλαμβάνουν διάφορους τύπους δεδομένων που αποθηκεύονται από τους προγράμματα περιήγησης ιστού, όπως το ιστορικό πλοήγησης, τα σελιδοδείκτες και τα δεδομένα cache. Αυτά τα αρχεία διατηρούνται σε συγκεκριμένους φακέλους εντός του λειτουργικού συστήματος, διαφέροντας σε τοποθεσία και όνομα μεταξύ των προγραμμάτων περιήγησης, αλλά γενικά αποθηκεύουν παρόμοιους τύπους δεδομένων.
 
-Εδώ υπάρχει ένα σύνοψη των πιο κοινών αποτυπωμάτων περιηγητών:
+Ακολουθεί μια περίληψη των πιο κοινών αρχείων του προγράμματος περιήγησης:
 
-* **Ιστορικό Πλοήγησης**: Καταγράφει τις επισκέψεις του χρήστη σε ιστότοπους, χρήσιμο για την αναγνώριση επισκέψεων σε κακόβουλους ιστότοπους.
-* **Δεδομένα Αυτόματης Συμπλήρωσης**: Προτάσεις βασισμένες σε συχνές αναζητήσεις, προσφέροντας εισαγωγές όταν συνδυαστούν με το ιστορικό πλοήγησης.
-* **Σελιδοδείκτες**: Ιστότοποι που έχουν αποθηκευτεί από τον χρήστη για γρήγορη πρόσβαση.
-* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις περιηγητή ή πρόσθετα που έχουν εγκατασταθεί από τον χρήστη.
-* **Cache**: Αποθηκεύει περιεχόμενο ιστού (π.χ. εικόνες, αρχεία JavaScript) για βελτίωση των χρόνων φόρτωσης του ιστότοπου, πολύτιμο για ανάλυση ψηφιακών αποτυπωμάτων.
-* **Συνδρομές**: Αποθηκευμένα διαπιστευτήρια σύνδεσης.
-* **Εικονίδια Αγαπημένων**: Εικονίδια που σχετίζονται με ιστότοπους, εμφανίζονται σε καρτέλες και σελιδοδείκτες, χρήσιμα για επιπλέον πληροφορίες σχετικά με τις επισκέψεις του χρήστη.
-* **Συνεδρίες Περιηγητή**: Δεδομένα που σχετίζονται με ανοιχτές συνεδρίες περιηγητή.
-* **Λήψεις**: Εγγραφές αρχείων που κατέβηκαν μέσω του περιηγητή.
-* **Δεδομένα Φόρμας**: Πληροφορίες που εισήχθησαν σε φόρμες ιστού, αποθηκευμένες για μελλοντικές προτάσεις αυτόματης συμπλήρωσης.
-* **Εικόνες Προεπισκόπησης**: Προεπισκόπηση ιστοτόπων.
-* **Custom Dictionary.txt**: Λέξεις που προστέθηκαν από τον χρήστη στο λεξικό του περιηγητή.
+* **Ιστορικό Πλοήγησης**: Παρακολουθεί τις επισκέψεις του χρήστη σε ιστότοπους, χρήσιμο για την αναγνώριση επισκέψεων σε κακόβουλους ιστότοπους.
+* **Δεδομένα Αυτόματης Συμπλήρωσης**: Προτάσεις βασισμένες σε συχνές αναζητήσεις, προσφέροντας πληροφορίες όταν συνδυάζονται με το ιστορικό πλοήγησης.
+* **Σελιδοδείκτες**: Ιστότοποι που αποθηκεύει ο χρήστης για γρήγορη πρόσβαση.
+* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις ή πρόσθετα του προγράμματος περιήγησης που εγκαθιστά ο χρήστης.
+* **Cache**: Αποθηκεύει περιεχόμενο ιστού (π.χ., εικόνες, αρχεία JavaScript) για να βελτιώσει τους χρόνους φόρτωσης των ιστότοπων, πολύτιμο για την εγκληματολογική ανάλυση.
+* **Συνδέσεις**: Αποθηκευμένα διαπιστευτήρια σύνδεσης.
+* **Favicons**: Εικονίδια που σχετίζονται με ιστότοπους, που εμφανίζονται σε καρτέλες και σελιδοδείκτες, χρήσιμα για επιπλέον πληροφορίες σχετικά με τις επισκέψεις του χρήστη.
+* **Συνεδρίες Προγράμματος Περιήγησης**: Δεδομένα που σχετίζονται με ανοιχτές συνεδρίες προγράμματος περιήγησης.
+* **Λήψεις**: Καταγραφές αρχείων που έχουν ληφθεί μέσω του προγράμματος περιήγησης.
+* **Δεδομένα Φόρμας**: Πληροφορίες που εισάγονται σε φόρμες ιστού, αποθηκευμένες για μελλοντικές προτάσεις αυτόματης συμπλήρωσης.
+* **Μικρογραφίες**: Εικόνες προεπισκόπησης ιστότοπων.
+* **Custom Dictionary.txt**: Λέξεις που προστίθενται από τον χρήστη στο λεξικό του προγράμματος περιήγησης.
 
 ## Firefox
 
-Ο Firefox οργανώνει τα δεδομένα του χρήστη μέσα σε προφίλ, τα οποία αποθηκεύονται σε συγκεκριμένες τοποθεσίες ανάλογα με το λειτουργικό σύστημα:
+Ο Firefox οργανώνει τα δεδομένα του χρήστη εντός προφίλ, που αποθηκεύονται σε συγκεκριμένες τοποθεσίες ανάλογα με το λειτουργικό σύστημα:
 
 * **Linux**: `~/.mozilla/firefox/`
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Ένα αρχείο `profiles.ini` μέσα σε αυτούς τους καταλόγους καταχωρεί τα προφίλ του χρήστη. Τα δεδομένα κάθε προφίλ αποθηκεύονται σε ένα φάκελο με το όνομα που αναφέρεται στη μεταβλητή `Path` μέσα στο `profiles.ini`, το οποίο βρίσκεται στον ίδιο κατάλογο με το `profiles.ini` ίδιο του. Αν ένας φάκελος προφίλ είναι απουσιάζει, μπορεί να έχει διαγραφεί.
+Ένα αρχείο `profiles.ini` εντός αυτών των καταλόγων καταγράφει τα προφίλ χρηστών. Τα δεδομένα κάθε προφίλ αποθηκεύονται σε έναν φάκελο που ονομάζεται στη μεταβλητή `Path` εντός του `profiles.ini`, που βρίσκεται στον ίδιο κατάλογο με το `profiles.ini` αυτό καθαυτό. Εάν λείπει ο φάκελος ενός προφίλ, μπορεί να έχει διαγραφεί.
 
 Μέσα σε κάθε φάκελο προφίλ, μπορείτε να βρείτε αρκετά σημαντικά αρχεία:
 
 * **places.sqlite**: Αποθηκεύει ιστορικό, σελιδοδείκτες και λήψεις. Εργαλεία όπως το [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) στα Windows μπορούν να έχουν πρόσβαση στα δεδομένα ιστορικού.
-* Χρησιμοποιήστε συγκεκριμένες ερωτήσεις SQL για να εξάγετε πληροφορίες ιστορικού και λήψεων.
+* Χρησιμοποιήστε συγκεκριμένα SQL queries για να εξαγάγετε πληροφορίες ιστορικού και λήψεων.
 * **bookmarkbackups**: Περιέχει αντίγραφα ασφαλείας των σελιδοδεικτών.
-* **formhistory.sqlite**: Αποθηκεύει δεδομένα φορμών ιστού.
+* **formhistory.sqlite**: Αποθηκεύει δεδομένα φόρμας ιστού.
 * **handlers.json**: Διαχειρίζεται τους χειριστές πρωτοκόλλων.
-* **persdict.dat**: Λέξεις προσαρμοσμένου λεξικού.
-* **addons.json** και **extensions.sqlite**: Πληροφορίες για εγκατεστημένα πρόσθετα και επεκτάσεις.
-* **cookies.sqlite**: Αποθήκευση cookie, με το [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) διαθέσιμο για επιθεώρηση στα Windows.
+* **persdict.dat**: Λέξεις του προσαρμοσμένου λεξικού.
+* **addons.json** και **extensions.sqlite**: Πληροφορίες σχετικά με τα εγκατεστημένα πρόσθετα και επεκτάσεις.
+* **cookies.sqlite**: Αποθήκευση cookies, με το [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) διαθέσιμο για επιθεώρηση στα Windows.
 * **cache2/entries** ή **startupCache**: Δεδομένα cache, προσβάσιμα μέσω εργαλείων όπως το [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
-* **favicons.sqlite**: Αποθηκεύει εικονίδια αγαπημένων.
+* **favicons.sqlite**: Αποθηκεύει favicons.
 * **prefs.js**: Ρυθμίσεις και προτιμήσεις χρήστη.
-* **downloads.sqlite**: Παλαιότερη βάση δεδομένων λήψεων, πλέον ενσωματωμένη στο places.sqlite.
-* **thumbnails**: Εικόνες προεπισκόπησης ιστοτόπων.
+* **downloads.sqlite**: Παλιότερη βάση δεδομένων λήψεων, τώρα ενσωματωμένη στο places.sqlite.
+* **thumbnails**: Μικρογραφίες ιστότοπων.
 * **logins.json**: Κρυπτογραφημένες πληροφορίες σύνδεσης.
-* **key4.db** ή **key3.db**: Αποθηκεύει κλειδιά κρυπτογράφησης για την προστασία ευαίσθητων πληροφοριών.
+* **key4.db** ή **key3.db**: Αποθηκεύει κλειδιά κρυπτογράφησης για την ασφάλεια ευαίσθητων πληροφοριών.
 
-Επιπλέον, η έλεγχος των ρυθμίσεων αντι-φισικών του περιηγητή μπορεί να γίνει αναζητώντας τις καταχωρήσεις `browser.safebrowsing` στο `prefs.js`, που υποδηλώνουν εάν οι λειτουργίες ασφαλούς περιήγησης είναι ενεργοποιημένες ή απενεργοποιημένες.
+Επιπλέον, η έρευνα για τις ρυθμίσεις κατά της απάτης του προγράμματος περιήγησης μπορεί να γίνει αναζητώντας τις εγγραφές `browser.safebrowsing` στο `prefs.js`, υποδεικνύοντας εάν οι δυνατότητες ασφαλούς πλοήγησης είναι ενεργοποιημένες ή απενεργοποιημένες.
 
-Για να δοκ
+Για να προσπαθήσετε να αποκρυπτογραφήσετε τον κύριο κωδικό πρόσβασης, μπορείτε να χρησιμοποιήσετε [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Με το παρακάτω σενάριο και κλήση μπορείτε να καθορίσετε ένα αρχείο κωδικών πρόσβασης για brute force:
+
+{% code title="brute.sh" %}
 ```bash
 #!/bin/bash
 
@@ -88,67 +92,116 @@ done < $passfile
 
 ## Google Chrome
 
-Ο Google Chrome αποθηκεύει τα προφίλ χρηστών σε συγκεκριμένες τοποθεσίες βάσει του λειτουργικού συστήματος:
+Ο Google Chrome αποθηκεύει τα προφίλ χρηστών σε συγκεκριμένες τοποθεσίες ανάλογα με το λειτουργικό σύστημα:
 
-- **Linux**: `~/.config/google-chrome/`
-- **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
-- **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
+* **Linux**: `~/.config/google-chrome/`
+* **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
+* **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-Μέσα σε αυτούς τους καταλόγους, η πλειονότητα των δεδομένων του χρήστη μπορεί να βρεθεί στους φακέλους **Default/** ή **ChromeDefaultData/**. Τα ακόλουθα αρχεία περιέχουν σημαντικά δεδομένα:
+Μέσα σε αυτούς τους καταλόγους, τα περισσότερα δεδομένα χρηστών μπορούν να βρεθούν στους φακέλους **Default/** ή **ChromeDefaultData/**. Τα παρακάτω αρχεία περιέχουν σημαντικά δεδομένα:
 
-- **History**: Περιέχει διευθύνσεις URL, λήψεις και λέξεις-κλειδιά αναζήτησης. Στα Windows, μπορεί να χρησιμοποιηθεί το [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) για την ανάγνωση του ιστορικού. Η στήλη "Transition Type" έχει διάφορες σημασίες, συμπεριλαμβανομένων των κλικ του χρήστη σε συνδέσμους, την πληκτρολόγηση διευθύνσεων URL, τις υποβολές φόρμας και τις ανανεώσεις σελίδων.
-- **Cookies**: Αποθηκεύει τα cookies. Για επιθεώρηση, είναι διαθέσιμο το [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
-- **Cache**: Κρατά τα αποθηκευμένα δεδομένα. Για επιθεώρηση, οι χρήστες των Windows μπορούν να χρησιμοποιήσουν το [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
-- **Bookmarks**: Σελιδοδείκτες του χρήστη.
-- **Web Data**: Περιέχει το ιστορικό φόρμας.
-- **Favicons**: Αποθηκεύει τα εικονίδια ιστότοπων.
-- **Login Data**: Περιλαμβάνει διαπιστευτήρια σύνδεσης όπως ονόματα χρηστών και κωδικούς πρόσβασης.
-- **Current Session**/**Current Tabs**: Δεδομένα σχετικά με την τρέχουσα συνεδρία περιήγησης και τις ανοιχτές καρτέλες.
-- **Last Session**/**Last Tabs**: Πληροφορίες σχετικά με τις ιστοσελίδες που ήταν ενεργές κατά την τελευταία συνεδρία πριν το κλείσιμο του Chrome.
-- **Extensions**: Κατάλογοι για πρόσθετα και επεκτάσεις περιήγησης.
-- **Thumbnails**: Αποθηκεύει μικρογραφίες ιστοσελίδων.
-- **Preferences**: Ένα αρχείο πλούσιο σε πληροφορίες, συμπεριλαμβανομένων ρυθμίσεων για πρόσθετα, επεκτάσεις, αναδυόμενα παράθυρα, ειδοποιήσεις και άλλα.
-- **Ενσωματωμένο αντι-φισικά του προγράμματος περιήγησης**: Για να ελέγξετε αν η αντι-φισικά και η προστασία από κακόβουλο λογισμικό είναι ενεργοποιημένες, εκτελέστε `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Αναζητήστε το `{"enabled: true,"}` στην έξοδο.
+* **History**: Περιέχει URLs, λήψεις και λέξεις-κλειδιά αναζήτησης. Στα Windows, μπορεί να χρησιμοποιηθεί το [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) για να διαβαστεί το ιστορικό. Η στήλη "Transition Type" έχει διάφορες σημασίες, συμπεριλαμβανομένων των κλικ χρηστών σε συνδέσμους, πληκτρολογημένων URLs, υποβολών φορμών και ανανεώσεων σελίδων.
+* **Cookies**: Αποθηκεύει cookies. Για επιθεώρηση, είναι διαθέσιμο το [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
+* **Cache**: Περιέχει δεδομένα cache. Για επιθεώρηση, οι χρήστες Windows μπορούν να χρησιμοποιήσουν το [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+* **Bookmarks**: Σελιδοδείκτες χρηστών.
+* **Web Data**: Περιέχει ιστορικό φορμών.
+* **Favicons**: Αποθηκεύει τα favicons ιστοσελίδων.
+* **Login Data**: Περιλαμβάνει διαπιστευτήρια σύνδεσης όπως ονόματα χρηστών και κωδικούς πρόσβασης.
+* **Current Session**/**Current Tabs**: Δεδομένα σχετικά με την τρέχουσα συνεδρία περιήγησης και τις ανοιχτές καρτέλες.
+* **Last Session**/**Last Tabs**: Πληροφορίες σχετικά με τους ιστότοπους που ήταν ενεργοί κατά την τελευταία συνεδρία πριν κλείσει ο Chrome.
+* **Extensions**: Κατάλογοι για επεκτάσεις και addons του προγράμματος περιήγησης.
+* **Thumbnails**: Αποθηκεύει μικρογραφίες ιστοσελίδων.
+* **Preferences**: Ένα αρχείο πλούσιο σε πληροφορίες, συμπεριλαμβανομένων ρυθμίσεων για plugins, επεκτάσεις, αναδυόμενα παράθυρα, ειδοποιήσεις και άλλα.
+* **Browser’s built-in anti-phishing**: Για να ελέγξετε αν είναι ενεργοποιημένη η προστασία κατά του phishing και του κακόβουλου λογισμικού, εκτελέστε `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Αναζητήστε `{"enabled: true,"}` στην έξοδο.
 
-## **Ανάκτηση Δεδομένων Βάσης Δεδομένων SQLite**
+## **SQLite DB Data Recovery**
 
-Όπως μπορείτε να παρατηρήσετε στις προηγούμενες ενότητες, τόσο ο Chrome όσο και ο Firefox χρησιμοποιούν βάσεις δεδομένων **SQLite** για την αποθήκευση των δεδομένων. Είναι δυνατή η **ανάκτηση διαγραμμένων καταχωρήσεων χρησιμοποιώντας το εργαλείο** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ή** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Όπως μπορείτε να παρατηρήσετε στις προηγούμενες ενότητες, τόσο ο Chrome όσο και ο Firefox χρησιμοποιούν βάσεις δεδομένων **SQLite** για να αποθηκεύσουν τα δεδομένα. Είναι δυνατή η **ανάκτηση διαγραμμένων εγγραφών χρησιμοποιώντας το εργαλείο** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ή** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-Ο Internet Explorer 11 διαχειρίζεται τα δεδομένα και τα μεταδεδομένα του σε διάφορες τοποθεσίες, βοηθώντας στον διαχωρισμό των αποθηκευμένων πληροφοριών και των αντίστοιχων λεπτομερειών για εύκολη πρόσβαση και διαχείριση.
+Ο Internet Explorer 11 διαχειρίζεται τα δεδομένα και τα μεταδεδομένα του σε διάφορες τοποθεσίες, διευκολύνοντας τη διαχωριστική αποθήκευση πληροφοριών και των αντίστοιχων λεπτομερειών για εύκολη πρόσβαση και διαχείριση.
 
-### Αποθήκευση Μεταδεδομένων
+### Metadata Storage
 
-Τα μεταδεδομένα για τον Internet Explorer αποθηκεύονται στο `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (όπου το VX είναι V01, V16 ή V24). Συνοδευόμενο από αυτό, το αρχείο `V01.log` μπορεί να εμφανίσει αντιφάσεις στον χρόνο τροποποίησης με το `WebcacheVX.data`, υποδεικνύοντας την ανάγκη επισκευής χρησιμοποιώντας το `esentutl /r V01 /d`. Αυτά τα μεταδεδομένα, που φιλοξενούνται σε μια βάση δεδομένων ESE, μπορούν να ανακτηθούν και να επιθεωρηθούν χρησιμοποιώντας εργαλεία όπως το photorec και το [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), αντίστοιχα. Μέσα στον πίνακα **Containers**, μπορεί κανείς να διακρίνει τους συγκεκριμένους πίνακες ή δοχεία όπου αποθηκεύεται κάθε τμήμα δεδομένων, συμπεριλαμβανομένων λεπτομερειών cache για άλλα εργαλεία της Microsoft, όπως το Skype.
+Τα μεταδεδομένα για τον Internet Explorer αποθηκεύονται στο `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (με το VX να είναι V01, V16 ή V24). Μαζί με αυτό, το αρχείο `V01.log` μπορεί να δείξει διαφορές χρόνου τροποποίησης με το `WebcacheVX.data`, υποδεικνύοντας την ανάγκη επισκευής χρησιμοποιώντας `esentutl /r V01 /d`. Αυτά τα μεταδεδομένα, που φιλοξενούνται σε μια βάση δεδομένων ESE, μπορούν να ανακτηθούν και να επιθεωρηθούν χρησιμοποιώντας εργαλεία όπως το photorec και το [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), αντίστοιχα. Μέσα στον πίνακα **Containers**, μπορεί κανείς να διακρίνει τους συγκεκριμένους πίνακες ή κοντέινερ όπου αποθηκεύεται κάθε τμήμα δεδομένων, συμπεριλαμβανομένων των λεπτομερειών cache για άλλα εργαλεία της Microsoft όπως το Skype.
 
-### Επιθεώρηση Cache
+### Cache Inspection
 
-Το εργαλείο [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) επιτρέπει την επιθεώρηση της μνήμης cache, απαιτώντας την τοποθεσία φακέλου εξαγωγής δεδομένων cache. Τα μεταδεδομένα για την cache περιλαμβάνουν όνομα αρχείου, κατάλογο, αριθμό πρόσβασης, προέλευση URL και χρονικά σημεία που υποδεικνύουν τη δημιουργία, την πρόσβαση, την τροποποίηση και τους χρόνους λήξης της cache.
+Το εργαλείο [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) επιτρέπει την επιθεώρηση της cache, απαιτώντας την τοποθεσία του φακέλου εξαγωγής δεδομένων cache. Τα μεταδεδομένα για την cache περιλαμβάνουν το όνομα αρχείου, τον κατάλογο, τον αριθμό πρόσβασης, την προέλευση URL και χρονικές σφραγίδες που υποδεικνύουν τους χρόνους δημιουργίας, πρόσβασης, τροποποίησης και λήξης της cache.
 
-### Διαχείριση Cookies
+### Cookies Management
 
-Τα cookies μπορούν να εξερευνηθούν χρησιμοποιώντας το [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), με μεταδεδομένα που περιλαμβάνουν ονόματα, διευθύνσεις URL, αριθμούς πρόσβασης και διάφορες λεπτομέρειες σχετικές με το χρόνο. Τα μόνιμα cookies αποθηκεύονται στο `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, με τα session cookies να βρίσκονται στη μνήμη.
+Τα cookies μπορούν να εξερευνηθούν χρησιμοποιώντας το [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), με τα μεταδεδομένα να περιλαμβάνουν ονόματα, URLs, αριθμούς πρόσβασης και διάφορες λεπτομέρειες σχετικές με τον χρόνο. Τα μόνιμα cookies αποθηκεύονται στο `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, με τα session cookies να βρίσκονται στη μνήμη.
 
-### Λεπτομέρειες Λήψης
+### Download Details
 
-Τα μεταδεδομένα λήψης είναι προσβάσιμα μέσω του [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), με συγκεκριμένα δοχεία που κρατούν δεδομένα όπως URL, τύπο αρχείου και τοποθεσία λήψης. Τα φυσικά αρχεία μπορούν να βρεθούν στο `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Τα μεταδεδομένα λήψεων είναι προσβάσιμα μέσω του [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), με συγκεκριμένα κοντέινερ να περιέχουν δεδομένα όπως URL, τύπο αρχείου και τοποθεσία λήψης. Τα φυσικά αρχεία μπορούν να βρεθούν κάτω από το `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
-### Ιστορικό Περιήγησης
+### Browsing History
 
-Για να ελέγξετε το ιστορικό περιήγησης, μπορεί να χρησιμοποιηθεί το [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), απαιτώντας την τοποθεσία των εξαγόμενων αρχείων ιστορικού και τη διαμόρφωση για τον Internet Explorer. Τα μεταδεδομένα εδώ περιλαμβάνουν χρόνους τροποποίησης και πρόσβασης, μαζί με αριθμούς πρόσβασης. Τα αρχεία ιστορικού βρίσκονται στο `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Για να αναθεωρήσετε το ιστορικό περιήγησης, μπορεί να χρησιμοποιηθεί το [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), απαιτώντας την τοποθεσία των εξαγόμενων αρχείων ιστορικού και τη ρύθμιση για τον Internet Explorer. Τα μεταδεδομένα εδώ περιλαμβάνουν χρόνους τροποποίησης και πρόσβασης, μαζί με αριθμούς πρόσβασης. Τα αρχεία ιστορικού βρίσκονται στο `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### Καταχωρημένες Διευθύνσεις URL
+### Typed URLs
 
-Οι καταχωρημένες διευθύνσεις URL και οι χρόνοι χρήσης τους αποθηκεύονται στο μητρώο στο `NTUSER.DAT` στις διαδρομές `Software\Microsoft\InternetExplorer\TypedURLs` και `Software\Microsoft\InternetExplorer\TypedURLsTime`, παρακολουθώντας τις τελευταίες 50 διευθύνσεις URL που εισήγαγε ο χρήστης και τους τελευταίους χρόνους εισαγωγής τους.
+Τα πληκτρολογημένα URLs και οι χρόνοι χρήσης τους αποθηκεύονται στο μητρώο κάτω από το `NTUSER.DAT` στο `Software\Microsoft\InternetExplorer\TypedURLs` και `Software\Microsoft\InternetExplorer\TypedURLsTime`, παρακολουθώντας τα τελευταία 50 URLs που εισήγαγε ο χρήστης και τους τελευταίους χρόνους εισόδου τους.
 
 ## Microsoft Edge
 
-Τα δεδομένα του χρήστη στο Microsoft Edge αποθηκεύονται στο `%userprofile%\Appdata\Local\Packages`. Οι διαδρομές για διάφορους τύπους δεδομένων είναι:
+Ο Microsoft Edge αποθηκεύει τα δεδομένα χρηστών στο `%userprofile%\Appdata\Local\Packages`. Οι διαδρομές για διάφορους τύπους δεδομένων είναι:
 
-- **Διαδρομή Προφίλ**: `C:\Users\XX
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
+* **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+* **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+* **Settings, Bookmarks, and Reading List**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
+* **Cache**: `C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
+* **Last Active Sessions**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
+
+## Safari
+
+Τα δεδομένα του Safari αποθηκεύονται στο `/Users/$User/Library/Safari`. Τα κύρια αρχεία περιλαμβάνουν:
+
+* **History.db**: Περιέχει τους πίνακες `history_visits` και `history_items` με URLs και χρονικές σφραγίδες επισκέψεων. Χρησιμοποιήστε το `sqlite3` για να κάνετε ερωτήσεις.
+* **Downloads.plist**: Πληροφορίες σχετικά με τα ληφθέντα αρχεία.
+* **Bookmarks.plist**: Αποθηκεύει τα URLs που έχουν προστεθεί στους σελιδοδείκτες.
+* **TopSites.plist**: Οι πιο συχνά επισκεπτόμενοι ιστότοποι.
+* **Extensions.plist**: Λίστα με τις επεκτάσεις του προγράμματος περιήγησης Safari. Χρησιμοποιήστε το `plutil` ή το `pluginkit` για να τις ανακτήσετε.
+* **UserNotificationPermissions.plist**: Τομείς που επιτρέπεται να στέλνουν ειδοποιήσεις. Χρησιμοποιήστε το `plutil` για να αναλύσετε.
+* **LastSession.plist**: Καρτέλες από την τελευταία συνεδρία. Χρησιμοποιήστε το `plutil` για να αναλύσετε.
+* **Browser’s built-in anti-phishing**: Ελέγξτε χρησιμοποιώντας `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Μια απάντηση 1 υποδεικνύει ότι η δυνατότητα είναι ενεργή.
+
+## Opera
+
+Τα δεδομένα του Opera βρίσκονται στο `/Users/$USER/Library/Application Support/com.operasoftware.Opera` και μοιράζεται τη μορφή του Chrome για ιστορικό και λήψεις.
+
+* **Browser’s built-in anti-phishing**: Επαληθεύστε ελέγχοντας αν το `fraud_protection_enabled` στο αρχείο Preferences είναι ρυθμισμένο σε `true` χρησιμοποιώντας `grep`.
+
+Αυτές οι διαδρομές και οι εντολές είναι κρίσιμες για την πρόσβαση και την κατανόηση των δεδομένων περιήγησης που αποθηκεύονται από διάφορους ιστότοπους.
+
+## References
+
+* [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
+* [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
+* [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
+* **Βιβλίο: OS X Incident Response: Scripting and Analysis By Jaron Bradley σελίδα 123**
+
+<figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
+
+\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
+Αποκτήστε πρόσβαση σήμερα:
+
+{% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
+
+<details>
+
+<summary><strong>Μάθετε hacking AWS από το μηδέν έως τον ήρωα με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Άλλοι τρόποι υποστήριξης του HackTricks:
+
+* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
 * Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**Την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο χάκινγκ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε τα κόλπα hacking σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>

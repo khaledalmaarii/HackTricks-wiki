@@ -1,36 +1,37 @@
-# Ανάλυση αρχείων γραφείου
+# Ανάλυση αρχείων Office
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της κοινότητας.\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τη βοήθεια των **πιο προηγμένων** εργαλείων της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=office-file-analysis" %}
 
-Για περαιτέρω πληροφορίες ελέγξτε το [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Αυτό είναι απλώς ένα σύνοψη:
+Για περισσότερες πληροφορίες ελέγξτε [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Αυτό είναι απλώς μια περίληψη:
 
-Η Microsoft έχει δημιουργήσει πολλές μορφές εγγράφων γραφείου, με δύο κύριους τύπους να είναι τα **μορφότυπα OLE** (όπως RTF, DOC, XLS, PPT) και τα **μορφότυπα Office Open XML (OOXML)** (όπως DOCX, XLSX, PPTX). Αυτά τα μορφότυπα μπορούν να περιλαμβάνουν μακρό, καθιστώντας τα στόχους για phishing και κακόβουλο λογισμικό. Τα αρχεία OOXML είναι δομημένα ως αρχεία zip, επιτρέποντας την επιθεώρηση μέσω αποσυμπίεσης, αποκαλύπτοντας τη δομή του αρχείου και του φακέλου και τα περιεχόμενα του αρχείου XML.
+Η Microsoft έχει δημιουργήσει πολλούς τύπους εγγράφων office, με τους δύο κύριους τύπους να είναι οι **μορφές OLE** (όπως RTF, DOC, XLS, PPT) και οι **μορφές Office Open XML (OOXML)** (όπως DOCX, XLSX, PPTX). Αυτές οι μορφές μπορούν να περιλαμβάνουν μακροεντολές, καθιστώντας τις στόχους για phishing και κακόβουλο λογισμικό. Τα αρχεία OOXML είναι δομημένα ως zip containers, επιτρέποντας την επιθεώρηση μέσω αποσυμπίεσης, αποκαλύπτοντας τη δομή αρχείων και φακέλων και το περιεχόμενο αρχείων XML.
 
-Για να εξερευνήσετε τις δομές αρχείων OOXML, δίνεται η εντολή για αποσυμπίεση ενός εγγράφου και η δομή εξόδου. Έχουν καταγραφεί τεχνικές για την κρυψίνευση δεδομένων σε αυτά τα αρχεία, υποδεικνύοντας συνεχή καινοτομία στην κρυψίνευση δεδομένων στις προκλήσεις CTF.
+Για να εξερευνήσετε τις δομές αρχείων OOXML, παρέχονται η εντολή για την αποσυμπίεση ενός εγγράφου και η δομή εξόδου. Τεχνικές για την απόκρυψη δεδομένων σε αυτά τα αρχεία έχουν τεκμηριωθεί, υποδεικνύοντας συνεχιζόμενη καινοτομία στην απόκρυψη δεδομένων εντός προκλήσεων CTF.
 
-Για ανάλυση, τα **oletools** και το **OfficeDissector** προσφέρουν πλήρεις συλλογές εργαλείων για την εξέταση τόσο των εγγράφων OLE όσο και των εγγράφων OOXML. Αυτά τα εργαλεία βοηθούν στην αναγνώριση και ανάλυση ενσωματωμένων μακρών, τα οποία συχνά λειτουργούν ως διανομείς κακόβουλου λογισμικού, κατά κανόνα λήψη και εκτέλεση επιπλέον κακόβουλων φορτίων. Η ανάλυση των μακρών VBA μπορεί να πραγματοποιηθεί χωρίς το Microsoft Office χρησιμοποιώντας το Libre Office, το οποίο επιτρέπει την αποσφαλμάτωση με διακοπτές και μεταβλητές παρακολούθησης.
+Για ανάλυση, τα **oletools** και **OfficeDissector** προσφέρουν ολοκληρωμένα σύνολα εργαλείων για την εξέταση τόσο των εγγράφων OLE όσο και των OOXML. Αυτά τα εργαλεία βοηθούν στην αναγνώριση και ανάλυση ενσωματωμένων μακροεντολών, οι οποίες συχνά χρησιμεύουν ως διαδρομές για την παράδοση κακόβουλου λογισμικού, συνήθως κατεβάζοντας και εκτελώντας επιπλέον κακόβουλα φορτία. Η ανάλυση των VBA μακροεντολών μπορεί να πραγματοποιηθεί χωρίς Microsoft Office χρησιμοποιώντας το Libre Office, το οποίο επιτρέπει την αποσφαλμάτωση με σημεία διακοπής και παρακολουθούμενες μεταβλητές.
 
-Η εγκατάσταση και η χρήση των **oletools** είναι απλές, με εντολές που παρέχονται για την εγκατάσταση μέσω pip και την εξαγωγή μακρών από εγγράφα. Η αυτόματη εκτέλεση των μακρών προκαλείται από λειτουργίες όπως `AutoOpen`, `AutoExec`, ή `Document_Open`.
+Η εγκατάσταση και η χρήση των **oletools** είναι απλή, με εντολές που παρέχονται για την εγκατάσταση μέσω pip και την εξαγωγή μακροεντολών από έγγραφα. Η αυτόματη εκτέλεση μακροεντολών ενεργοποιείται από συναρτήσεις όπως `AutoOpen`, `AutoExec` ή `Document_Open`.
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
@@ -38,21 +39,22 @@ olevba -c /path/to/document #Extract macros
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=office-file-analysis) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=office-file-analysis" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

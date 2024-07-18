@@ -1,88 +1,90 @@
-# Επίθεση με Επέκταση Μήκους Hash
+# Hash Length Extension Attack
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
+[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
 
-Ο βασικός στόχος του WhiteIntel είναι η καταπολέμηση των αποκλεισμών λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
-Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
+Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Σύνοψη της επίθεσης
+## Summary of the attack
 
-Φανταστείτε ένα διακομιστή που **υπογράφει** κάποια **δεδομένα** με το **προσάρτημα** ενός **μυστικού** σε κάποια γνωστά δεδομένα και στη συνέχεια κατακερματίζει αυτά τα δεδομένα. Αν γνωρίζετε:
+Φανταστείτε έναν διακομιστή που **υπογράφει** κάποια **δεδομένα** προσθέτοντας ένα **μυστικό** σε κάποια γνωστά δεδομένα καθαρού κειμένου και στη συνέχεια κατακερματίζοντας αυτά τα δεδομένα. Αν γνωρίζετε:
 
-* **Το μήκος του μυστικού** (αυτό μπορεί επίσης να αναζητηθεί με βρόχο από ένα δεδομένο εύρος μήκους)
-* **Τα καθαρά δεδομένα**
-* **Τον αλγόριθμο (και την ευπάθειά του σε αυτήν την επίθεση)**
-* **Η γέμιση είναι γνωστή**
-* Συνήθως χρησιμοποιείται μια προεπιλεγμένη, οπότε αν πληρούνται τα άλλα 3 απαιτήσεις, αυτή επίσης είναι
-* Η γέμιση ποικίλλει ανάλογα με το μήκος του μυστικού+δεδομένων, γι' αυτό χρειάζεται το μήκος του μυστικού
+* **Το μήκος του μυστικού** (αυτό μπορεί επίσης να βρεθεί με brute force από μια δεδομένη περιοχή μήκους)
+* **Τα δεδομένα καθαρού κειμένου**
+* **Ο αλγόριθμος (και είναι ευάλωτος σε αυτή την επίθεση)**
+* **Η προσθήκη είναι γνωστή**
+* Συνήθως χρησιμοποιείται μια προεπιλεγμένη, οπότε αν πληρούνται οι άλλες 3 απαιτήσεις, αυτό ισχύει επίσης
+* Η προσθήκη ποικίλλει ανάλογα με το μήκος του μυστικού + δεδομένα, γι' αυτό χρειάζεται το μήκος του μυστικού
 
-Τότε, είναι δυνατό για έναν **εισβολέα** να **προσαρτήσει** **δεδομένα** και να **δημιουργήσει** μια έγκυρη **υπογραφή** για τα **προηγούμενα δεδομένα + τα προσαρτημένα δεδομένα**.
+Τότε, είναι δυνατό για έναν **επιτιθέμενο** να **προσθέσει** **δεδομένα** και να **δημιουργήσει** μια έγκυρη **υπογραφή** για τα **προηγούμενα δεδομένα + προστιθέμενα δεδομένα**.
 
-### Πώς;
+### How?
 
-Βασικά, οι ευάλωτοι αλγόριθμοι δημιουργούν τα κατακερματισμένα δεδομένα αρχικά με το **κατακερματισμό ενός τμήματος δεδομένων**, και στη συνέχεια, **από** το **προηγουμένως** δημιουργημένο **κατακερματισμένο δεδομένο** (κατάσταση), **προσθέτουν το επόμενο τμήμα δεδομένων** και το **κατακερματίζουν**.
+Βασικά, οι ευάλωτοι αλγόριθμοι δημιουργούν τους κατακερματισμούς πρώτα **κατακερματίζοντας ένα μπλοκ δεδομένων**, και στη συνέχεια, **από** τον **προηγουμένως** δημιουργημένο **κατακερματισμό** (κατάσταση), **προσθέτουν το επόμενο μπλοκ δεδομένων** και **το κατακερματίζουν**.
 
-Στη συνέχεια, φανταστείτε ότι το μυστικό είναι "μυστικό" και τα δεδομένα είναι "δεδομένα", το MD5 του "μυστικόδεδομένα" είναι 6036708eba0d11f6ef52ad44e8b74d5b.\
-Αν ένας εισβολέας θέλει να προσαρτήσει τη συμβολοσειρά "προσάρτηση" μπορεί:
+Τότε, φανταστείτε ότι το μυστικό είναι "secret" και τα δεδομένα είναι "data", το MD5 του "secretdata" είναι 6036708eba0d11f6ef52ad44e8b74d5b.\
+Αν ένας επιτιθέμενος θέλει να προσθέσει τη συμβολοσειρά "append" μπορεί να:
 
-* Να δημιουργήσει ένα MD5 από 64 "Α"
-* Να αλλάξει την κατάσταση του προηγουμένως αρχικοποιημένου κατακερματισμένου σε 6036708eba0d11f6ef52ad44e8b74d5b
-* Να προσαρτήσει τη συμβολοσειρά "προσάρτηση"
-* Να ολοκληρώσει τον κατακερματισμό και το τελικό κατακερματισμένο θα είναι ένα **έγκυρο για το "μυστικό" + "δεδομένα" + "γέμισμα" + "προσάρτηση"**
+* Δημιουργήσει ένα MD5 από 64 "A"s
+* Αλλάξει την κατάσταση του προηγουμένως αρχικοποιημένου κατακερματισμού σε 6036708eba0d11f6ef52ad44e8b74d5b
+* Προσθέσει τη συμβολοσειρά "append"
+* Ολοκληρώσει τον κατακερματισμό και ο προκύπτων κατακερματισμός θα είναι **έγκυρος για "secret" + "data" + "padding" + "append"**
 
-### **Εργαλείο**
+### **Tool**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### Αναφορές
+### References
 
-Μπορείτε να βρείτε αυτήν την επίθεση καλά εξηγημένη στο [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+Μπορείτε να βρείτε αυτή την επίθεση καλά εξηγημένη στο [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
+[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
 
-Ο βασικός στόχος του WhiteIntel είναι η καταπολέμηση των αποκλεισμών λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
-Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
+Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

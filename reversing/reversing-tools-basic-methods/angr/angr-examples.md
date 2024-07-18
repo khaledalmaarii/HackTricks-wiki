@@ -1,24 +1,27 @@
 # Angr - Παραδείγματα
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-{% hint style="info" %}
-Αν το πρόγραμμα χρησιμοποιεί το `scanf` για να λάβει **πολλές τιμές ταυτόχρονα από την είσοδο** χρειάζεται να δημιουργήσετε ένα κατάσταση που ξεκινά μετά το **`scanf`**.
 {% endhint %}
 
-Κώδικες που έχουν ληφθεί από [https://github.com/jakespringer/angr_ctf](https://github.com/jakespringer/angr_ctf)
+{% hint style="info" %}
+Αν το πρόγραμμα χρησιμοποιεί `scanf` για να πάρει **πολλές τιμές ταυτόχρονα από stdin** πρέπει να δημιουργήσετε μια κατάσταση που ξεκινά μετά το **`scanf`**.
+{% endhint %}
 
-### Είσοδος για να φτάσετε στη διεύθυνση (δείχνοντας τη διεύθυνση)
+Codes taken from [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+
+### Είσοδος για να φτάσετε στη διεύθυνση (υποδεικνύοντας τη διεύθυνση)
 ```python
 import angr
 import sys
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Είσοδος για να φτάσετε στη διεύθυνση (ενδεικτικά εκτυπώσεις)
+### Είσοδος για να φτάσετε στη διεύθυνση (υποδεικνύοντας εκτυπώσεις)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Τιμές Καταχωρίσεων
+### Τιμές μητρώου
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -150,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Τιμές στη στοίβα
+### Τιμές Στοίβας
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -212,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Σε αυτό το σενάριο, η είσοδος πήρε με τη χρήση της `scanf("%u %u")` και δόθηκε η τιμή `"1 1"`, έτσι οι τιμές **`0x00000001`** του stack προέρχονται από τη **είσοδο του χρήστη**. Μπορείτε να δείτε πως αυτές οι τιμές ξεκινούν στο `$ebp - 8`. Συνεπώς, στον κώδικα έχουμε **αφαιρέσει 8 bytes από το `$esp` (καθώς εκείνη τη στιγμή το `$ebp` και το `$esp` είχαν την ίδια τιμή)** και στη συνέχεια έχουμε πιέσει το BVS.
+Σε αυτό το σενάριο, η είσοδος ελήφθη με `scanf("%u %u")` και η τιμή `"1 1"` δόθηκε, οπότε οι τιμές **`0x00000001`** της στοίβας προέρχονται από την **είσοδο του χρήστη**. Μπορείτε να δείτε πώς αυτές οι τιμές ξεκινούν από `$ebp - 8`. Επομένως, στον κώδικα έχουμε **αφαιρέσει 8 bytes από το `$esp` (καθώς εκείνη τη στιγμή το `$ebp` και το `$esp` είχαν την ίδια τιμή)** και στη συνέχεια έχουμε πιέσει το BVS.
 
-![](<../../../.gitbook/assets/image (614).png>)
+![](<../../../.gitbook/assets/image (136).png>)
 
-### Στατικές τιμές μνήμης (Καθολικές μεταβλητές)
+### Στατικές τιμές μνήμης (Παγκόσμιες μεταβλητές)
 ```python
 import angr
 import claripy
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Σημειώστε ότι το συμβολικό αρχείο μπορεί επίσης να περιέχει σταθερά δεδομένα συγχωνευμένα με συμβολικά δεδομένα:
+Σημειώστε ότι το συμβολικό αρχείο θα μπορούσε επίσης να περιέχει σταθερά δεδομένα συγχωνευμένα με συμβολικά δεδομένα:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,8 +421,8 @@ main(sys.argv)
 ### Εφαρμογή Περιορισμών
 
 {% hint style="info" %}
-Μερικές φορές απλές ανθρώπινες λειτουργίες όπως η σύγκριση 2 λέξεων μήκους 16 **χαρακτήρα προς χαρακτήρ** (βρόχος), **κοστίζουν πολύ σε ένα **angr** επειδή χρειάζεται να δημιουργήσει κλαδιά **εκθετικά** καθώς δημιουργεί 1 κλάδο ανά if: `2^16`\
-Επομένως, είναι πιο εύκολο να **ζητήσετε από το angr να φτάσει σε ένα προηγούμενο σημείο** (όπου η πραγματικά δύσκολη μέρα έχει ήδη γίνει) και **να ορίσετε αυτούς τους περιορισμούς χειροκίνητα**.
+Μερικές φορές απλές ανθρώπινες ενέργειες όπως η σύγκριση 2 λέξεων μήκους 16 **χαρακτήρα ανά χαρακτήρα** (βρόχος), **κοστίζουν** πολύ σε ένα **angr** επειδή χρειάζεται να δημιουργήσει κλάδους **εκθετικά** επειδή δημιουργεί 1 κλάδο ανά if: `2^16`\
+Επομένως, είναι πιο εύκολο να **ζητήσουμε από το angr να επιστρέψει σε ένα προηγούμενο σημείο** (όπου το πραγματικά δύσκολο μέρος έχει ήδη γίνει) και **να ορίσουμε αυτούς τους περιορισμούς χειροκίνητα**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,16 +495,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Σε ορισμένα σενάρια μπορείτε να ενεργοποιήσετε το **veritesting**, το οποίο θα συγχωνεύσει παρόμοια καταστάσεις, προκειμένου να εξοικονομήσετε άχρηστα κλαδιά και να βρείτε τη λύση: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Σε ορισμένα σενάρια μπορείτε να ενεργοποιήσετε το **veritesting**, το οποίο θα συγχωνεύσει παρόμοιες καταστάσεις, προκειμένου να εξοικονομήσει άχρηστες διακλαδώσεις και να βρει τη λύση: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Κάτι άλλο που μπορείτε να κάνετε σε αυτά τα σενάρια είναι να **συνδέσετε τη λειτουργία δίνοντας στο angr κάτι που μπορεί να κατανοήσει** πιο εύκολα.
+Ένα άλλο πράγμα που μπορείτε να κάνετε σε αυτά τα σενάρια είναι να **συνδέσετε τη συνάρτηση δίνοντας στο angr κάτι που μπορεί να κατανοήσει** πιο εύκολα.
 {% endhint %}
 
-### Διαχειριστές Προσομοίωσης
+### Simulation Managers
 
-Ορισμένοι διαχειριστές προσομοίωσης μπορεί να είναι πιο χρήσιμοι από άλλους. Στο προηγούμενο παράδειγμα υπήρχε ένα πρόβλημα με τη δημιουργία πολλών χρήσιμων κλαδιών. Εδώ, η τεχνική **veritesting** θα συγχωνεύσει αυτά τα κλαδιά και θα βρει μια λύση.\
+Ορισμένοι διαχειριστές προσομοίωσης μπορεί να είναι πιο χρήσιμοι από άλλους. Στο προηγούμενο παράδειγμα υπήρχε ένα πρόβλημα καθώς δημιουργήθηκαν πολλές χρήσιμες διακλαδώσεις. Εδώ, η τεχνική **veritesting** θα συγχωνεύσει αυτές και θα βρει μια λύση.\
 Αυτός ο διαχειριστής προσομοίωσης μπορεί επίσης να ενεργοποιηθεί με: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Σύνδεση/Παράκαμψη μιας κλήσης σε μια συνάρτηση
+### Hooking/Bypassing one call to a function
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Σύνδεση μιας συνάρτησης / Συμδιαδικασία
+### Hooking a function / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Προσομοίωση της σάρωσης με πολλά ορίσματα
+### Προσομοίωση scanf με αρκετές παραμέτρους
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας διαφημισμένη στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στη** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

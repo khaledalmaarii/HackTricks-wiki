@@ -1,18 +1,19 @@
-# Μεταβλητές Περιβάλλοντος του Linux
+# Linux Environment Variables
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,30 +23,30 @@
 
 ***
 
-## Παγκόσμιες μεταβλητές
+## Global variables
 
-Οι παγκόσμιες μεταβλητές **θα κληρονομηθούν** από τις **υποδιεργασίες**.
+Οι παγκόσμιες μεταβλητές **θα κληρονομηθούν** από **διεργασίες παιδιών**.
 
 Μπορείτε να δημιουργήσετε μια παγκόσμια μεταβλητή για την τρέχουσα συνεδρία σας κάνοντας:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Αυτή η μεταβλητή θα είναι προσβάσιμη από τις τρέχουσες συνεδρίες σας και τις παιδικές διεργασίες τους.
+Αυτή η μεταβλητή θα είναι προσβάσιμη από τις τρέχουσες συνεδρίες σας και τις διεργασίες παιδιών της.
 
-Μπορείτε **να αφαιρέσετε** μια μεταβλητή κάνοντας:
+Μπορείτε να **αφαιρέσετε** μια μεταβλητή κάνοντας:
 ```bash
 unset MYGLOBAL
 ```
 ## Τοπικές μεταβλητές
 
-Οι **τοπικές μεταβλητές** μπορούν να **προσπελαστούν** μόνο από το **τρέχον κέλυφος/σενάριο**.
+Οι **τοπικές μεταβλητές** μπορούν να **προσεγγιστούν** μόνο από το **τρέχον shell/script**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Κατάλογος τρέχουσων μεταβλητών
+## Λίστα τρεχουσών μεταβλητών
 ```bash
 set
 env
@@ -53,77 +54,77 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Κοινές μεταβλητές
+## Common variables
 
-Από: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – το display που χρησιμοποιείται από το **X**. Αυτή η μεταβλητή συνήθως ορίζεται σε **:0.0**, που σημαίνει την πρώτη εμφάνιση στον τρέχοντα υπολογιστή.
+* **DISPLAY** – η οθόνη που χρησιμοποιείται από **X**. Αυτή η μεταβλητή συνήθως ορίζεται σε **:0.0**, που σημαίνει την πρώτη οθόνη στον τρέχοντα υπολογιστή.
 * **EDITOR** – ο προτιμώμενος επεξεργαστής κειμένου του χρήστη.
-* **HISTFILESIZE** – το μέγιστο αριθμό γραμμών που περιέχονται στο αρχείο ιστορικού.
-* **HISTSIZE** – Ο αριθμός των γραμμών που προστίθενται στο αρχείο ιστορικού όταν ο χρήστης ολοκληρώνει τη συνεδρία του.
-* **HOME** – ο κατάλογος του χρήστη.
+* **HISTFILESIZE** – ο μέγιστος αριθμός γραμμών που περιέχονται στο αρχείο ιστορικού.
+* **HISTSIZE** – Αριθμός γραμμών που προστίθενται στο αρχείο ιστορικού όταν ο χρήστης ολοκληρώνει τη συνεδρία του.
+* **HOME** – ο κατάλογος του σπιτιού σας.
 * **HOSTNAME** – το όνομα του υπολογιστή.
 * **LANG** – η τρέχουσα γλώσσα σας.
-* **MAIL** – η τοποθεσία του spool αλληλογραφίας του χρήστη. Συνήθως **/var/spool/mail/USER**.
-* **MANPATH** – η λίστα των καταλόγων που αναζητούνται για εγχειρίδια.
+* **MAIL** – η τοποθεσία του ταχυδρομικού σπιτιού του χρήστη. Συνήθως **/var/spool/mail/USER**.
+* **MANPATH** – η λίστα των καταλόγων για αναζήτηση σε σελίδες εγχειριδίων.
 * **OSTYPE** – ο τύπος του λειτουργικού συστήματος.
 * **PS1** – η προεπιλεγμένη προτροπή στο bash.
-* **PATH** – αποθηκεύει τη διαδρομή όλων των καταλόγων που περιέχουν δυαδικά αρχεία που θέλετε να εκτελέσετε απλώς αναφέροντας το όνομα του αρχείου και όχι με σχετική ή απόλυτη διαδρομή.
+* **PATH** – αποθηκεύει τη διαδρομή όλων των καταλόγων που περιέχουν δυαδικά αρχεία που θέλετε να εκτελέσετε απλά καθορίζοντας το όνομα του αρχείου και όχι με σχετική ή απόλυτη διαδρομή.
 * **PWD** – ο τρέχων κατάλογος εργασίας.
-* **SHELL** – η διαδρομή προς το τρέχον κέλυφος εντολών (για παράδειγμα, **/bin/bash**).
+* **SHELL** – η διαδρομή προς την τρέχουσα εντολή shell (για παράδειγμα, **/bin/bash**).
 * **TERM** – ο τρέχων τύπος τερματικού (για παράδειγμα, **xterm**).
 * **TZ** – η ζώνη ώρας σας.
 * **USER** – το τρέχον όνομα χρήστη σας.
 
-## Ενδιαφέρουσες μεταβλητές για χακινγκ
+## Interesting variables for hacking
 
 ### **HISTFILESIZE**
 
-Αλλάξτε τη **τιμή αυτής της μεταβλητής σε 0**, έτσι όταν **τερματίσετε τη συνεδρία σας** το **αρχείο ιστορικού** (\~/.bash\_history) **θα διαγραφεί**.
+Αλλάξτε την **τιμή αυτής της μεταβλητής σε 0**, ώστε όταν **τερματίσετε τη συνεδρία σας** το **αρχείο ιστορικού** (\~/.bash\_history) **να διαγραφεί**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Αλλάξτε τη **τιμή αυτής της μεταβλητής σε 0**, έτσι ώστε όταν **τερματίσετε τη συνεδρία σας** καμία εντολή δεν θα προστεθεί στο **αρχείο ιστορικού** (\~/.bash\_history).
+Αλλάξτε την **τιμή αυτής της μεταβλητής σε 0**, έτσι ώστε όταν **τερματίσετε τη συνεδρία σας** οποιαδήποτε εντολή να προστεθεί στο **αρχείο ιστορικού** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Οι διεργασίες θα χρησιμοποιήσουν το **proxy** που δηλώνεται εδώ για να συνδεθούν στο internet μέσω **http ή https**.
+Οι διαδικασίες θα χρησιμοποιήσουν τον **proxy** που δηλώνεται εδώ για να συνδεθούν στο διαδίκτυο μέσω **http ή https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Οι διεργασίες θα εμπιστεύονται τα πιστοποιητικά που υποδεικνύονται σε **αυτές τις μεταβλητές περιβάλλοντος**.
+Οι διαδικασίες θα εμπιστεύονται τα πιστοποιητικά που υποδεικνύονται σε **αυτές τις μεταβλητές περιβάλλοντος**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Αλλάξτε τον τρόπο με τον οποίο εμφανίζεται το προτροπή σας.
+Αλλάξτε την εμφάνιση του προτροπής σας.
 
 [**Αυτό είναι ένα παράδειγμα**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
-Ρίζα:
+Root:
 
-![](<../.gitbook/assets/image (87).png>)
+![](<../.gitbook/assets/image (897).png>)
 
 Κανονικός χρήστης:
 
-![](<../.gitbook/assets/image (88).png>)
+![](<../.gitbook/assets/image (740).png>)
 
-Ένα, δύο και τρία φόνταρα jobs:
+Ένας, δύο και τρία παρασκηνιακά έργα:
 
-![](<../.gitbook/assets/image (89).png>)
+![](<../.gitbook/assets/image (145).png>)
 
-Ένα φόνταρο job, ένα που έχει σταματήσει και η τελευταία εντολή δεν ολοκληρώθηκε σωστά:
+Ένα παρασκηνιακό έργο, ένα σταματημένο και η τελευταία εντολή δεν ολοκληρώθηκε σωστά:
 
-![](<../.gitbook/assets/image (90).png>)
+![](<../.gitbook/assets/image (715).png>)
 
 **Try Hard Security Group**
 
@@ -131,16 +132,17 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

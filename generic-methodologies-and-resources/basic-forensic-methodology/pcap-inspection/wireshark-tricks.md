@@ -1,148 +1,158 @@
-# Κόλπα Wireshark
+# Wireshark tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
+[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
 
-Ο βασικός στόχος του WhiteIntel είναι η καταπολέμηση των αναλήψεων λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κλοπή πληροφοριών.
+Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
-Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
+Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
-## Βελτιώστε τις δεξιότητές σας στο Wireshark
+## Improve your Wireshark skills
 
-### Οδηγοί
+### Tutorials
 
-Οι ακόλουθοι οδηγοί είναι εκπληκτικοί για να μάθετε μερικά ψυχαγωγικά βασικά κόλπα:
+Τα παρακάτω tutorials είναι καταπληκτικά για να μάθετε μερικά ωραία βασικά κόλπα:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
-### Αναλυμένες Πληροφορίες
+### Analysed Information
 
-**Ειδικές Πληροφορίες**
+**Expert Information**
 
-Κάνοντας κλικ σε _**Ανάλυση** --> **Ειδικές Πληροφορίες**_ θα έχετε μια **επισκόπηση** του τι συμβαίνει στα **αναλυμένα** πακέτα:
+Κάνοντας κλικ στο _**Analyze** --> **Expert Information**_ θα έχετε μια **επισκόπηση** του τι συμβαίνει στα πακέτα που έχουν **αναλυθεί**:
 
-![](<../../../.gitbook/assets/image (253).png>)
+![](<../../../.gitbook/assets/image (256).png>)
 
-**Επιλυμένες Διευθύνσεις**
+**Resolved Addresses**
 
-Κάτω από _**Στατιστικά --> Επιλυμένες Διευθύνσεις**_ μπορείτε να βρείτε πολλές **πληροφορίες** που έχουν "**επιλυθεί**" από το wireshark όπως θύρα/μεταφορά σε πρωτόκολλο, MAC στον κατασκευαστή, κλπ. Είναι ενδιαφέρον να γνωρίζετε τι εμπλέκεται στην επικοινωνία.
-
-![](<../../../.gitbook/assets/image (890).png>)
-
-**Ιεραρχία Πρωτοκόλλου**
-
-Κάτω από _**Στατιστικά --> Ιεραρχία Πρωτοκόλλου**_ μπορείτε να βρείτε τα **πρωτόκολλα** που **εμπλέκονται** στην επικοινωνία και δεδομένα σχετικά με αυτά.
-
-![](<../../../.gitbook/assets/image (583).png>)
-
-**Συνομιλίες**
-
-Κάτω από _**Στατιστικά --> Συνομιλίες**_ μπορείτε να βρείτε ένα **σύνολο των συνομιλιών** στην επικοινωνία και δεδομένα σχετικά με αυτές.
-
-![](<../../../.gitbook/assets/image (450).png>)
-
-**Ακραίες Σημεία**
-
-Κάτω από _**Στατιστικά --> Ακραία Σημεία**_ μπορείτε να βρείτε ένα **σύνολο των ακραίων σημείων** στην επικοινωνία και δεδομένα για καθένα από αυτά.
+Κάτω από _**Statistics --> Resolved Addresses**_ μπορείτε να βρείτε πολλές **πληροφορίες** που έχουν "**επιλυθεί**" από το wireshark όπως θύρα/μεταφορά σε πρωτόκολλο, MAC στον κατασκευαστή, κ.λπ. Είναι ενδιαφέρον να γνωρίζετε τι εμπλέκεται στην επικοινωνία.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
-**Πληροφορίες DNS**
+**Protocol Hierarchy**
 
-Κάτω από _**Στατιστικά --> DNS**_ μπορείτε να βρείτε στατιστικά σχετικά με τα καταγεγραμμένα αιτήματα DNS.
+Κάτω από _**Statistics --> Protocol Hierarchy**_ μπορείτε να βρείτε τα **πρωτόκολλα** που είναι **εμπλεκόμενα** στην επικοινωνία και δεδομένα σχετικά με αυτά.
 
-![](<../../../.gitbook/assets/image (1060).png>)
+![](<../../../.gitbook/assets/image (586).png>)
 
-**Γράφημα I/O**
+**Conversations**
 
-Κάτω από _**Στατιστικά --> Γράφημα I/O**_ μπορείτε να βρείτε ένα **γράφημα της επικοινωνίας.**
+Κάτω από _**Statistics --> Conversations**_ μπορείτε να βρείτε μια **σύνοψη των συνομιλιών** στην επικοινωνία και δεδομένα σχετικά με αυτές.
 
-![](<../../../.gitbook/assets/image (989).png>)
+![](<../../../.gitbook/assets/image (453).png>)
 
-### Φίλτρα
+**Endpoints**
+
+Κάτω από _**Statistics --> Endpoints**_ μπορείτε να βρείτε μια **σύνοψη των endpoints** στην επικοινωνία και δεδομένα σχετικά με το καθένα από αυτά.
+
+![](<../../../.gitbook/assets/image (896).png>)
+
+**DNS info**
+
+Κάτω από _**Statistics --> DNS**_ μπορείτε να βρείτε στατιστικά σχετικά με το DNS αίτημα που καταγράφηκε.
+
+![](<../../../.gitbook/assets/image (1063).png>)
+
+**I/O Graph**
+
+Κάτω από _**Statistics --> I/O Graph**_ μπορείτε να βρείτε ένα **γράφημα της επικοινωνίας.**
+
+![](<../../../.gitbook/assets/image (992).png>)
+
+### Filters
 
 Εδώ μπορείτε να βρείτε φίλτρα wireshark ανάλογα με το πρωτόκολλο: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 Άλλα ενδιαφέροντα φίλτρα:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* Κίνηση HTTP και αρχική κίνηση HTTPS
+* HTTP και αρχική κίνηση HTTPS
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* Κίνηση HTTP και αρχική κίνηση HTTPS + TCP SYN
+* HTTP και αρχική κίνηση HTTPS + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* Κίνηση HTTP και αρχική κίνηση HTTPS + TCP SYN + αιτήσεις DNS
+* HTTP και αρχική κίνηση HTTPS + TCP SYN + DNS αιτήματα
 
-### Αναζήτηση
+### Search
 
-Αν θέλετε να **αναζητήσετε** **περιεχόμενο** μέσα στα **πακέτα** των συνεδριών πατήστε _CTRL+f_. Μπορείτε να προσθέσετε νέα επίπεδα στην κύρια γραμμή πληροφοριών (Αρ., Χρόνος, Πηγή, κλπ.) πατώντας το δεξί κουμπί και στη συνέχεια την επεξεργασία στήλης.
+Αν θέλετε να **αναζητήσετε** **περιεχόμενο** μέσα στα **πακέτα** των συνεδριών πατήστε _CTRL+f_. Μπορείτε να προσθέσετε νέα επίπεδα στη βασική γραμμή πληροφοριών (No., Χρόνος, Πηγή, κ.λπ.) πατώντας το δεξί κουμπί και στη συνέχεια την επεξεργασία στήλης.
 
-### Δωρεάν εργαστήρια pcap
+### Free pcap labs
 
-**Εξάσκηση με τις δωρεάν προκλήσεις του:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Practice with the free challenges of:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Αναγνώριση Domain
+## Identifying Domains
 
-Μπορείτε να προσθέσετε μια στήλη που εμφανίζει τον Κεφαλίδα Κεφαλίδας HTTP:
+Μπορείτε να προσθέσετε μια στήλη που δείχνει την κεφαλίδα Host HTTP:
 
-![](<../../../.gitbook/assets/image (635).png>)
+![](<../../../.gitbook/assets/image (639).png>)
 
-Και μια στήλη που προσθέτει το όνομα Διακομιστή από μια αρχική σύνδεση HTTPS (**ssl.handshake.type == 1**):
+Και μια στήλη που προσθέτει το όνομα του διακομιστή από μια αρχική σύνδεση HTTPS (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Αναγνώριση τοπικών ονομάτων υπολογιστή
+## Identifying local hostnames
 
-### Από DHCP
+### From DHCP
 
-Στο τρέχον Wireshark αντί για `bootp` πρέπει να αναζητήσετε το `DHCP`
+Στην τρέχουσα έκδοση του Wireshark αντί για `bootp` πρέπει να αναζητήσετε `DHCP`
 
-![](<../../../.gitbook/assets/image (1010).png>)
+![](<../../../.gitbook/assets/image (1013).png>)
 
-### Από NBNS
+### From NBNS
 
-![](<../../../.gitbook/assets/image (1000).png>)
+![](<../../../.gitbook/assets/image (1003).png>)
 
-## Αποκρυπτογράφηση TLS
+## Decrypting TLS
 
-### Αποκρυπτογράφηση κίνησης https με ιδιωτικό κλειδί διακομιστή
+### Decrypting https traffic with server private key
 
-_επεξεργασία>προτίμηση>πρωτόκολλο>ssl>_
+_edit>preference>protocol>ssl>_
 
-![](<../../../.gitbook/assets/image (1100).png>)
+![](<../../../.gitbook/assets/image (1103).png>)
 
-Πατήστε _Επεξεργασία_ και προσθέστε όλα τα δεδομένα του διακομιστή και το ιδιωτικό κλειδί (_IP, Θύρα, Πρωτόκολλο, Αρχείο κλειδιού και κωδικό πρόσβασης_)
+Πατήστε _Edit_ και προσθέστε όλα τα δεδομένα του διακομιστή και το ιδιωτικό κλειδί (_IP, Θύρα, Πρωτόκολλο, Αρχείο κλειδιού και κωδικό πρόσβασης_)
 
-### Αποκρυπτογράφηση κίνησης https με συμμετρικά κλειδιά συνεδρίας
+### Decrypting https traffic with symmetric session keys
 
-Τόσο ο Firefox όσο και ο Chrome έχουν τη δυνατότητα να καταγράφουν τα κλειδιά συνεδρίας TLS, τα οποία μπορούν να χρησιμοποιηθούν με το Wireshark για την αποκρυπτογράφηση της κίνησης TLS. Αυτό επιτρέπει την ανάλυση των ασφαλών επικοινωνιών. Περισσότερες λεπτομέρειες για το πώς να εκτελέσετε αυτήν την αποκρυπτογράφηση μπορείτε να βρείτε σε οδηγό στο [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Και οι δύο Firefox και Chrome έχουν τη δυνατότητα να καταγράφουν τα κλειδιά συνεδρίας TLS, τα οποία μπορούν να χρησιμοποιηθούν με το Wireshark για να αποκρυπτογραφήσουν την κίνηση TLS. Αυτό επιτρέπει σε βάθος ανάλυση των ασφαλών επικοινωνιών. Περισσότερες λεπτομέρειες σχετικά με το πώς να εκτελέσετε αυτήν την αποκρυπτογράφηση μπορείτε να βρείτε σε έναν οδηγό στο [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Για να ανιχνεύσετε αυτό αναζητήστε μέ
-## ADB επικοινωνία
+Για να το ανιχνεύσετε αναζητήστε μέσα στο περιβάλλον τη μεταβλητή `SSLKEYLOGFILE`
 
-Εξαγωγή ενός APK από μια ADB επικοινωνία όπου το APK στάλθηκε:
+Ένα αρχείο κοινών κλειδιών θα φαίνεται έτσι:
+
+![](<../../../.gitbook/assets/image (820).png>)
+
+Για να το εισάγετε στο wireshark πηγαίνετε στο _edit > preference > protocol > ssl > και εισάγετε το στο (Pre)-Master-Secret log filename:
+
+![](<../../../.gitbook/assets/image (989).png>)
+
+## ADB communication
+
+Εξαγάγετε ένα APK από μια επικοινωνία ADB όπου το APK στάλθηκε:
 ```python
 from scapy.all import *
 
@@ -171,27 +181,27 @@ f.close()
 ```
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) είναι ένας μηχανισμός αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει δωρεάν λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
+[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
 
-Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των αναλήψεων λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τον μηχανισμό τους δωρεάν στο:
+Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

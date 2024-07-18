@@ -1,61 +1,137 @@
-# Έλεγχος Προνομίων Ανόδου - Linux
+# Λίστα Ελέγχου - Ανύψωση Δικαιωμάτων Linux
+
+{% hint style="success" %}
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετέχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Συμμετάσχετε στον [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) διακομιστή για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς αμοιβών ευρημάτων!
+Εγγραφείτε στον [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server για να επικοινωνήσετε με έμπειρους hackers και κυνηγούς bug bounty!
 
-**Εισαγωγή στο Χάκινγκ**\
-Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ
+**Ενημερώσεις Hacking**\
+Ασχοληθείτε με περιεχόμενο που εμβαθύνει στην αδρεναλίνη και τις προκλήσεις του hacking
 
-**Ειδήσεις Χάκινγκ σε Πραγματικό Χρόνο**\
-Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο
+**Ειδήσεις Hack σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον ταχύτατο κόσμο του hacking μέσω ειδήσεων και πληροφοριών σε πραγματικό χρόνο
 
 **Τελευταίες Ανακοινώσεις**\
-Μείνετε ενημερωμένοι με τις νεότερες αμοιβές ευρημάτων που ξεκινούν και τις κρίσιμες ενημερώσεις των πλατφορμών
+Μείνετε ενημερωμένοι με τις πιο πρόσφατες bug bounties που ξεκινούν και κρίσιμες ενημερώσεις πλατφόρμας
 
-**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
+**Εγγραφείτε μαζί μας στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) και ξεκινήστε να συνεργάζεστε με κορυφαίους hackers σήμερα!
 
-### **Καλύτερο εργαλείο για την αναζήτηση διανομών εκμετάλλευσης προνομίων σε Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Καλύτερο εργαλείο για αναζήτηση τοπικών διαδρομών ανύψωσης δικαιωμάτων Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 ### [Πληροφορίες Συστήματος](privilege-escalation/#system-information)
 
-* [ ] Λάβετε τις **πληροφορίες του ΛΣ**
-* [ ] Ελέγξτε το [**PATH**](privilege-escalation/#path), οποιοδήποτε **εγγράψιμο φάκελο**;
-* [ ] Ελέγξτε τις [**μεταβλητές περιβάλλοντος**](privilege-escalation/#env-info), οποιαδήποτε ευαίσθητη λεπτομέρεια;
-* [ ] Αναζήτηση για [**εκμεταλλεύσεις πυρήνα**](privilege-escalation/#kernel-exploits) **χρησιμοποιώντας σενάρια** (DirtyCow;)
-* [ ] **Ελέγξτε** αν η [**έκδοση του sudo είναι ευάλωτη**](privilege-escalation/#sudo-version)
-* [ ] [**Αποτυχία επαλήθευσης υπογραφής Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Περισσότερη αναγνώριση του συστήματος ([ημερομηνία, στατιστικά συστήματος, πληροφορίες CPU, εκτυπωτές](privilege-escalation/#more-system-enumeration))
-* [ ] [Αναγνωρίστε περισσότερες αμύνες](privilege-escalation/#enumerate-possible-defenses)
+* [ ] Λάβετε **πληροφορίες OS**
+* [ ] Ελέγξτε το [**PATH**](privilege-escalation/#path), υπάρχει **γραφείο που μπορεί να γραφτεί**;
+* [ ] Ελέγξτε [**μεταβλητές περιβάλλοντος**](privilege-escalation/#env-info), υπάρχει κάποια ευαίσθητη λεπτομέρεια;
+* [ ] Αναζητήστε [**εκμεταλλεύσεις πυρήνα**](privilege-escalation/#kernel-exploits) **χρησιμοποιώντας scripts** (DirtyCow?)
+* [ ] **Ελέγξτε** αν η [**έκδοση sudo** είναι ευάλωτη](privilege-escalation/#sudo-version)
+* [ ] [**Η επαλήθευση υπογραφής Dmesg απέτυχε**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] Περισσότερη αναγνώριση συστήματος ([ημερομηνία, στατιστικά συστήματος, πληροφορίες CPU, εκτυπωτές](privilege-escalation/#more-system-enumeration))
+* [ ] [**Αναγνωρίστε περισσότερες άμυνες**](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Δίσκοι](privilege-escalation/#drives)
 
-* [ ] Λίστα με τους **προσαρτημένους** δίσκους
-* [ ] **Οποιοσδήποτε μη προσαρτημένος δίσκος;**
-* [ ] **Ο
+* [ ] **Λίστα των προσαρτημένων** δίσκων
+* [ ] **Κάποιος μη προσαρτημένος δίσκος;**
+* [ ] **Κάποια διαπιστευτήρια στο fstab;**
+
+### [**Εγκατεστημένο Λογισμικό**](privilege-escalation/#installed-software)
+
+* [ ] **Ελέγξτε για**[ **χρήσιμο λογισμικό**](privilege-escalation/#useful-software) **που είναι εγκατεστημένο**
+* [ ] **Ελέγξτε για** [**ευάλωτο λογισμικό**](privilege-escalation/#vulnerable-software-installed) **που είναι εγκατεστημένο**
+
+### [Διεργασίες](privilege-escalation/#processes)
+
+* [ ] Τρέχει κάποιο **άγνωστο λογισμικό**;
+* [ ] Τρέχει κάποιο λογισμικό με **περισσότερα δικαιώματα από όσα θα έπρεπε**;
+* [ ] Αναζητήστε **εκμεταλλεύσεις τρεχουσών διεργασιών** (ιδιαίτερα την έκδοση που τρέχει).
+* [ ] Μπορείτε να **τροποποιήσετε το δυαδικό** οποιασδήποτε τρέχουσας διεργασίας;
+* [ ] **Παρακολουθήστε διεργασίες** και ελέγξτε αν τρέχει κάποια ενδιαφέρουσα διεργασία συχνά.
+* [ ] Μπορείτε να **διαβάσετε** κάποια ενδιαφέρουσα **μνήμη διεργασίας** (όπου θα μπορούσαν να αποθηκευτούν κωδικοί);
+
+### [Προγραμματισμένα/Cron jobs;](privilege-escalation/#scheduled-jobs)
+
+* [ ] Επηρεάζεται το [**PATH** ](privilege-escalation/#cron-path) από κάποιο cron και μπορείτε να **γράψετε** σε αυτό;
+* [ ] Κάποιο [**wildcard** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) σε ένα cron job;
+* [ ] Κάποιο [**τροποποιήσιμο script** ](privilege-escalation/#cron-script-overwriting-and-symlink) εκτελείται ή είναι μέσα σε **τροποποιήσιμο φάκελο**;
+* [ ] Έχετε ανιχνεύσει ότι κάποιο **script** θα μπορούσε να είναι ή είναι [**εκτελούμενο** πολύ **συχνά**](privilege-escalation/#frequent-cron-jobs); (κάθε 1, 2 ή 5 λεπτά)
+
+### [Υπηρεσίες](privilege-escalation/#services)
+
+* [ ] Κάποιο **γραφείο .service** που μπορεί να γραφτεί;
+* [ ] Κάποιο **δυαδικό αρχείο** που εκτελείται από μια **υπηρεσία**;
+* [ ] Κάποιο **γραφείο που μπορεί να γραφτεί στο systemd PATH**;
+
+### [Χρονοδιακόπτες](privilege-escalation/#timers)
+
+* [ ] Κάποιο **γραμμένο χρονοδιακόπτη**;
+
+### [Sockets](privilege-escalation/#sockets)
+
+* [ ] Κάποιο **γραφείο .socket** που μπορεί να γραφτεί;
+* [ ] Μπορείτε να **επικοινωνήσετε με κάποιο socket**;
+* [ ] **HTTP sockets** με ενδιαφέρουσες πληροφορίες;
+
+### [D-Bus](privilege-escalation/#d-bus)
+
+* [ ] Μπορείτε να **επικοινωνήσετε με κάποιο D-Bus**;
+
+### [Δίκτυο](privilege-escalation/#network)
+
+* [ ] Αναγνωρίστε το δίκτυο για να ξέρετε πού βρίσκεστε
+* [ ] **Ανοιχτές θύρες που δεν μπορούσατε να αποκτήσετε πρόσβαση πριν** αποκτήσετε shell μέσα στη μηχανή;
+* [ ] Μπορείτε να **καταγράψετε την κίνηση** χρησιμοποιώντας `tcpdump`;
+
+### [Χρήστες](privilege-escalation/#users)
+
+* [ ] Γενική **αναγνώριση χρηστών/ομάδων**
+* [ ] Έχετε **πολύ μεγάλο UID**; Είναι η **μηχανή** **ευάλωτη**;
+* [ ] Μπορείτε να [**ανυψώσετε δικαιώματα χάρη σε μια ομάδα**](privilege-escalation/interesting-groups-linux-pe/) στην οποία ανήκετε;
+* [ ] Δεδομένα **Clipboard**;
+* [ ] Πολιτική Κωδικών Πρόσβασης;
+* [ ] Δοκιμάστε να **χρησιμοποιήσετε** κάθε **γνωστό κωδικό** που έχετε ανακαλύψει προηγουμένως για να συνδεθείτε **με κάθε** δυνατό **χρήστη**. Δοκιμάστε να συνδεθείτε επίσης χωρίς κωδικό.
+
+### [Γραφείο PATH που μπορεί να γραφτεί](privilege-escalation/#writable-path-abuses)
+
+* [ ] Αν έχετε **δικαιώματα εγγραφής σε κάποιο φάκελο στο PATH** μπορεί να μπορείτε να ανυψώσετε δικαιώματα
+
+### [Εντολές SUDO και SUID](privilege-escalation/#sudo-and-suid)
+
+* [ ] Μπορείτε να εκτελέσετε **οποιαδήποτε εντολή με sudo**; Μπορείτε να το χρησιμοποιήσετε για να ΔΙΑΒΑΣΕΤΕ, ΓΡΑΨΕΤΕ ή ΕΚΤΕΛΕΣΕΤΕ οτιδήποτε ως root; ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Υπάρχει κάποιο **εκμεταλλεύσιμο SUID δυαδικό**; ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Είναι οι [**εντολές sudo** **περιορισμένες** από **path**; μπορείτε να **παρακάμψετε** τους περιορισμούς](privilege-escalation/#sudo-execution-bypassing-paths);
+* [ ] [**Εντολή Sudo/SUID χωρίς καθορισμένο path**](privilege-escalation/#sudo-command-suid-binary-without-command-path);
+* [ ] [**SUID δυαδικό που καθορίζει path**](privilege-escalation/#suid-binary-with-command-path); Παράκαμψη
+* [ ] [**LD\_PRELOAD vuln**](privilege-escalation/#ld\_preload)
+* [ ] [**Έλλειψη .so βιβλιοθήκης σε SUID δυαδικό**](privilege-escalation/#suid-binary-so-injection) από έναν φάκελο που μπορεί να γραφτεί;
+* [ ] [**Διαθέσιμα SUDO tokens**](privilege-escalation/#reusing-sudo-tokens); [**Μπορείτε να δημιουργήσετε ένα SUDO token**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than);
+* [ ] Μπορείτε να [**διαβάσετε ή να τροποποιήσετε τα αρχεία sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d);
+* [ ] Μπορείτε να [**τροποποιήσετε το /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d);
+* [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) εντολή
+
 ### [Δυνατότητες](privilege-escalation/#capabilities)
 
-* [ ] Έχει οποιοδήποτε εκτελέσιμο οποιαδήποτε **απροσδόκητη δυνατότητα**;
+* [ ] Έχει κάποιο δυαδικό **αναπάντεχη δυνατότητα**;
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Έχει οποιοδήποτε αρχείο οποιαδήποτε **απροσδόκητη ACL**;
+* [ ] Έχει κάποιο αρχείο **αναπάντεχη ACL**;
 
-### [Ανοιχτές συνεδρίες κέλυφους](privilege-escalation/#open-shell-sessions)
+### [Ανοιχτές συνεδρίες shell](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
@@ -63,60 +139,61 @@
 ### [SSH](privilege-escalation/#ssh)
 
 * [ ] **Debian** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**Ενδιαφέρουσες τιμές ρυθμίσεων SSH**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] [**Ενδιαφέροντα τιμές ρυθμίσεων SSH**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [Ενδιαφέροντα αρχεία](privilege-escalation/#interesting-files)
+### [Ενδιαφέροντα Αρχεία](privilege-escalation/#interesting-files)
 
-* [ ] **Αρχεία προφίλ** - Διαβάζουν ευαίσθητα δεδομένα; Γράφουν για προνομιούχο ανέβασμα;
-* [ ] **Αρχεία passwd/shadow** - Διαβάζουν ευαίσθητα δεδομένα; Γράφουν για προνομιούχο ανέβασμα;
-* [ ] **Έλεγξε συνήθως ενδιαφέρουσες φακέλους** για ευαίσθητα δεδομένα
-* [ ] **Παράξενη τοποθεσία/Αρχεία που ανήκουν,** μπορεί να έχετε πρόσβαση ή να αλλάξετε εκτελέσιμα αρχεία
-* [ ] **Τροποποιήθηκαν** τις τελευταίες λεπτές
-* [ ] **Αρχεία βάσης δεδομένων Sqlite**
+* [ ] **Αρχεία προφίλ** - Διαβάστε ευαίσθητα δεδομένα; Γράψτε σε privesc;
+* [ ] **αρχεία passwd/shadow** - Διαβάστε ευαίσθητα δεδομένα; Γράψτε σε privesc;
+* [ ] **Ελέγξτε κοινά ενδιαφέροντα φακέλους** για ευαίσθητα δεδομένα
+* [ ] **Περίεργη τοποθεσία/ιδιοκτησία αρχείων,** μπορεί να έχετε πρόσβαση ή να τροποποιήσετε εκτελέσιμα αρχεία
+* [ ] **Τροποποιημένα** στα τελευταία λεπτά
+* [ ] **Sqlite DB αρχεία**
 * [ ] **Κρυφά αρχεία**
-* [ ] **Σενάρια/Δυαδικά στην PATH**
-* [ ] **Αρχεία ιστού** (κωδικοί πρόσβασης;)
+* [ ] **Script/Δυαδικά αρχεία στο PATH**
+* [ ] **Web αρχεία** (κωδικοί;)
 * [ ] **Αντίγραφα ασφαλείας**;
-* [ ] **Γνωστά αρχεία που περιέχουν κωδικούς πρόσβασης**: Χρησιμοποιήστε **Linpeas** και **LaZagne**
+* [ ] **Γνωστά αρχεία που περιέχουν κωδικούς**: Χρησιμοποιήστε **Linpeas** και **LaZagne**
 * [ ] **Γενική αναζήτηση**
 
-### [**Εγγράψιμα αρχεία**](privilege-escalation/#writable-files)
+### [**Αρχεία που μπορούν να γραφτούν**](privilege-escalation/#writable-files)
 
-* [ ] **Τροποποίηση βιβλιοθήκης python** για εκτέλεση αυθαίρετων εντολών;
-* [ ] Μπορείτε να **τροποποιήσετε αρχεία καταγραφής**; Εκμετάλλευση Logtotten
-* [ ] Μπορείτε να **τροποποιήσετε το /etc/sysconfig/network-scripts/**; Εκμετάλλευση Centos/Redhat
+* [ ] **Τροποποιήστε τη βιβλιοθήκη python** για να εκτελέσετε αυθαίρετες εντολές;
+* [ ] Μπορείτε να **τροποποιήσετε αρχεία καταγραφής**; **Logtotten** exploit
+* [ ] Μπορείτε να **τροποποιήσετε το /etc/sysconfig/network-scripts/**; Centos/Redhat exploit
 * [ ] Μπορείτε να [**γράψετε σε αρχεία ini, int.d, systemd ή rc.d**](privilege-escalation/#init-init-d-systemd-and-rc-d);
 
 ### [**Άλλα κόλπα**](privilege-escalation/#other-tricks)
 
-* [ ] Μπορείτε να [**καταχραστείτε το NFS για επέκταση προνομιών**](privilege-escalation/#nfs-privilege-escalation);
-* [ ] Χρειάζεστε να [**δραπετεύσετε από έναν περιοριστικό κέλυφος**](privilege-escalation/#escaping-from-restricted-shells);
+* [ ] Μπορείτε να [**καταχραστείτε το NFS για να ανυψώσετε δικαιώματα**](privilege-escalation/#nfs-privilege-escalation);
+* [ ] Χρειάζεστε να [**ξεφύγετε από μια περιοριστική shell**](privilege-escalation/#escaping-from-restricted-shells);
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Συμμετέχετε στον διακομιστή [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) για να επικοινωνήσετε με έμπειρους χάκερ και κυνηγούς ευρημάτων ασφαλείας!
+Εγγραφείτε στον [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server για να επικοινωνήσετε με έμπειρους hackers και κυνηγούς bug bounty!
 
-**Εισαγωγή στο Hacking**\
-Ασχοληθείτε με περιεχόμενο που εξερευνά τον ενθουσιασμό και τις προκλήσεις του χάκινγκ
+**Ενημερώσεις Hacking**\
+Ασχοληθείτε με περιεχόμενο που εμβαθύνει στην αδρεναλίνη και τις προκλήσεις του hacking
 
-**Ειδήσεις Hack σε πραγματικό χρόνο**\
-Μείνετε ενημερωμένοι με τον γρήγορο ρυθμό του κόσμου του χάκινγκ μέσω ειδήσεων και αναλύσεων σε πραγματικό χρόνο
+**Ειδήσεις Hack σε Πραγματικό Χρόνο**\
+Μείνετε ενημερωμένοι με τον ταχύτατο κόσμο του hacking μέσω ειδήσεων και πληροφοριών σε πραγματικό χρόνο
 
-**Τελευταίες ανακοινώσεις**\
-Μείνετε ενημερωμένοι με τις νεότερες ανακοινώσεις για τις νέες ανταμοιβές ευρετηρίου σφαλμάτων και τις κρίσιμες ενημερώσεις της πλατφόρμας
+**Τελευταίες Ανακοινώσεις**\
+Μείνετε ενημερωμένοι με τις πιο πρόσφατες bug bounties που ξεκινούν και κρίσιμες ενημερώσεις πλατφόρμας
 
-**Συμμετέχετε στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **και αρχίστε να συνεργάζεστε με τους κορυφαίους χάκερ σήμερα!**
+**Εγγραφείτε μαζί μας στο** [**Discord**](https://discord.com/invite/N3FrSbmwdy) και ξεκινήστε να συνεργάζεστε με κορυφαίους hackers σήμερα!
+
+{% hint style="success" %}
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετέχετε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

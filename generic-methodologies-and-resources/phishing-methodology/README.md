@@ -1,57 +1,58 @@
-# Μεθοδολογία Phishing
+# Phishing Methodology
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Μεθοδολογία
+## Methodology
 
-1. Αναγνωρίστε το θύμα
+1. Recon the victim
 1. Επιλέξτε το **domain του θύματος**.
-2. Εκτελέστε κάποια βασική απαρίθμηση ιστοσελίδων **ψάχνοντας για πύλες σύνδεσης** που χρησιμοποιεί το θύμα και **αποφασίστε** ποια θα **παριστάνετε**.
-3. Χρησιμοποιήστε κάποιο **OSINT** για να **βρείτε emails**.
-2. Προετοιμάστε το περιβάλλον
+2. Εκτελέστε κάποια βασική διαδικτυακή καταμέτρηση **αναζητώντας πύλες σύνδεσης** που χρησιμοποιούνται από το θύμα και **αποφασίστε** ποια θα **παραστήσετε**.
+3. Χρησιμοποιήστε κάποια **OSINT** για να **βρείτε emails**.
+2. Prepare the environment
 1. **Αγοράστε το domain** που θα χρησιμοποιήσετε για την αξιολόγηση phishing
-2. **Διαμορφώστε τις εγγραφές** σχετικά με την υπηρεσία email (SPF, DMARC, DKIM, rDNS)
-3. Διαμορφώστε το VPS με το **gophish**
-3. Προετοιμάστε την εκστρατεία
-1. Προετοιμάστε το **πρότυπο email**
-2. Προετοιμάστε τη **σελίδα web** για την κλοπή διαπιστεύσεων
-4. Ξεκινήστε την εκστρατεία!
+2. **Ρυθμίστε την υπηρεσία email** σχετικές εγγραφές (SPF, DMARC, DKIM, rDNS)
+3. Ρυθμίστε το VPS με **gophish**
+3. Prepare the campaign
+1. Ετοιμάστε το **πρότυπο email**
+2. Ετοιμάστε την **ιστοσελίδα** για να κλέψετε τα διαπιστευτήρια
+4. Εκκινήστε την καμπάνια!
 
-## Δημιουργία παρόμοιων ονομάτων domain ή αγορά ενός αξιόπιστου domain
+## Generate similar domain names or buy a trusted domain
 
-### Τεχνικές Παραλλαγής Ονομάτων Domain
+### Domain Name Variation Techniques
 
-* **Λέξη-Κλειδί**: Το domain περιέχει ένα σημαντικό **λέξη-κλειδί** του αρχικού domain (π.χ., zelster.com-management.com).
-* **Υπο-Διακεκομμένο**: Αλλάξτε το **τελεία με παύλα** ενός υπο-τομέα (π.χ., www-zelster.com).
-* **Νέο TLD**: Ίδιο domain χρησιμοποιώντας ένα **νέο TLD** (π.χ., zelster.org)
-* **Ομογλυφικό**: Αντικαθιστά μια γράμματος στο όνομα domain με γράμματα που μοιάζουν παρόμοια (π.χ., zelfser.com).
-* **Αντιστροφή**: Ανταλλάσσει δύο γράμματα μέσα στο όνομα domain (π.χ., zelsetr.com).
-* **Ενικός/Πληθυντικός**: Προσθέτει ή αφαιρεί το "s" στο τέλος του ονόματος domain (π.χ., zeltsers.com).
-* **Παράλειψη**: Αφαιρεί ένα από τα γράμματα από το όνομα domain (π.χ., zelser.com).
-* **Επανάληψη**: Επαναλαμβάνει ένα από τα γράμματα στο όνομα domain (π.χ., zeltsser.com).
-* **Αντικατάσταση**: Όπως το ομογλυφικό αλλά λιγότερο αόρατο. Αντικαθιστά ένα από τα γράμματα στο όνομα domain, ίσως με ένα γράμμα κοντά στο αρχικό γράμμα στο πληκτρολόγιο (π.χ., zektser.com).
-* **Υπο-Διακεκομμένο**: Εισάγει μια **τελεία** μέσα στο όνομα domain (π.χ., ze.lster.com).
-* **Εισαγωγή**: Εισάγει ένα γράμμα στο όνομα domain (π.χ., zerltser.com).
-* **Λείπουσα τελεία**: Προσθέτει το TLD στο όνομα domain. (π.χ., zelstercom.com)
+* **Keyword**: Το domain name **περιέχει** μια σημαντική **λέξη-κλειδί** του αρχικού domain (π.χ., zelster.com-management.com).
+* **hypened subdomain**: Αλλάξτε την **τελεία σε παύλα** ενός υποτομέα (π.χ., www-zelster.com).
+* **New TLD**: Ίδιο domain χρησιμοποιώντας ένα **νέο TLD** (π.χ., zelster.org)
+* **Homoglyph**: **Αντικαθιστά** ένα γράμμα στο domain name με **γράμματα που μοιάζουν** (π.χ., zelfser.com).
+* **Transposition:** **Ανταλλάσσει δύο γράμματα** μέσα στο domain name (π.χ., zelsetr.com).
+* **Singularization/Pluralization**: Προσθέτει ή αφαιρεί “s” στο τέλος του domain name (π.χ., zeltsers.com).
+* **Omission**: **Αφαιρεί ένα** από τα γράμματα του domain name (π.χ., zelser.com).
+* **Repetition:** **Επαναλαμβάνει ένα** από τα γράμματα στο domain name (π.χ., zeltsser.com).
+* **Replacement**: Όπως το homoglyph αλλά λιγότερο διακριτικό. Αντικαθιστά ένα από τα γράμματα στο domain name, ίσως με ένα γράμμα κοντά στο αρχικό γράμμα στο πληκτρολόγιο (π.χ., zektser.com).
+* **Subdomained**: Εισάγετε μια **τελεία** μέσα στο domain name (π.χ., ze.lster.com).
+* **Insertion**: **Εισάγει ένα γράμμα** στο domain name (π.χ., zerltser.com).
+* **Missing dot**: Προσθέστε το TLD στο domain name. (π.χ., zelstercom.com)
 
-**Αυτόματα Εργαλεία**
+**Automatic Tools**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-**Ιστοσελίδες**
+**Websites**
 
 * [https://dnstwist.it/](https://dnstwist.it)
 * [https://dnstwister.report/](https://dnstwister.report)
@@ -59,25 +60,25 @@
 
 ### Bitflipping
 
-Υπάρχει η **πιθανότητα** ένα από μερικά bits που αποθηκεύονται ή μεταδίδονται να αναστραφεί αυτόματα λόγω διάφορων παραγόντων όπως ηλιακές εκλάμψεις, κοσμικές ακτίνες ή σφάλματα υλικού.
+Υπάρχει μια **πιθανότητα ότι ένα από τα bits που αποθηκεύονται ή σε επικοινωνία μπορεί να αλλάξει αυτόματα** λόγω διαφόρων παραγόντων όπως ηλιακές εκρήξεις, κοσμικές ακτίνες ή σφάλματα υλικού.
 
-Όταν αυτό το **συγκεκριμένο έννοια εφαρμόζεται σε αιτήσεις DNS**, είναι δυνατόν το **domain που λαμβάνεται από τον DNS server** να μην είναι το ίδιο με το domain που ζητήθηκε αρχικά.
+Όταν αυτή η έννοια είναι **εφαρμοσμένη σε DNS αιτήματα**, είναι πιθανό ότι το **domain που λαμβάνεται από τον DNS server** δεν είναι το ίδιο με το domain που ζητήθηκε αρχικά.
 
-Για παράδειγμα, μια μετατροπή ενός μόνο bit στο domain "windows.com" μπορεί να το μετατρέψει σε "windnws.com."
+Για παράδειγμα, μια μόνο τροποποίηση bit στο domain "windows.com" μπορεί να το αλλάξει σε "windnws.com."
 
-Οι επιτιθέμενοι μπορεί **να εκμεταλλευτούν αυτό καταχωρώντας πολλά domains με αναστροφή bit** που είναι παρόμοια με το domain του θύματος. Η πρόθεσή τους είναι να ανακατευθύνουν τους νόμιμους χρήστες στη δική τους υποδομή.
+Οι επιτιθέμενοι μπορεί να **εκμεταλλευτούν αυτό καταχωρώντας πολλαπλά domains bit-flipping** που είναι παρόμοια με το domain του θύματος. Η πρόθεσή τους είναι να ανακατευθύνουν τους νόμιμους χρήστες στην υποδομή τους.
 
 Για περισσότερες πληροφορίες διαβάστε [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Αγορά ενός αξιόπιστου domain
+### Buy a trusted domain
 
 Μπορείτε να αναζητήσετε στο [https://www.expireddomains.net/](https://www.expireddomains.net) για ένα ληγμένο domain που θα μπορούσατε να χρησιμοποιήσετε.\
-Για να βεβαιωθείτε ότι το ληγμένο domain που πρόκειται να αγοράσετε **έχει ήδη καλό SEO** μπορείτε να ελέγξετε πώς κατηγοριοποιείται στα:
+Για να βεβαιωθείτε ότι το ληγμένο domain που πρόκειται να αγοράσετε **έχει ήδη καλή SEO** μπορείτε να ελέγξετε πώς είναι κατηγοριοποιημένο σε:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Ανακάλυψη Emails
+## Discovering Emails
 
 * [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% δωρεάν)
 * [https://phonebook.cz/](https://phonebook.cz) (100% δωρεάν)
@@ -85,25 +86,25 @@
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Για να **ανακαλύψετε περισσότερες** έγκυρες διευθύνσεις email ή να **επιβεβαιώσετε αυτές** που έχετε ήδη ανακαλύψει μπορείτε να ελέγξετε αν μπορείτε να τις επιτεθείτε με brute-force στους smtp servers του θύματος. [Μάθετε πώς να επιβεβαιώσετε/ανακαλύψετε διεύθυνση email εδώ](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Επιπλέον, μην ξεχνάτε ότι αν οι χρήστες χρησιμοποιούν **κάποια web πύλη για να έχουν πρόσβαση στα emails τους**, μπορείτε να ελέγξετε αν είναι ευάλωτη σε **brute force του ονόματος χρήστη**, και να εκμεταλλευτείτε την ευπάθεια αν είναι δυνατόν.
+Για να **ανακαλύψετε περισσότερες** έγκυρες διευθύνσεις email ή **να επιβεβαιώσετε αυτές που έχετε ήδη ανακαλύψει** μπορείτε να ελέγξετε αν μπορείτε να κάνετε brute-force στους smtp servers του θύματος. [Μάθετε πώς να επιβεβαιώσετε/ανακαλύψετε διεύθυνση email εδώ](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Επιπλέον, μην ξεχνάτε ότι αν οι χρήστες χρησιμοποιούν **οποιαδήποτε διαδικτυακή πύλη για να αποκτήσουν πρόσβαση στα emails τους**, μπορείτε να ελέγξετε αν είναι ευάλωτη σε **brute force username**, και να εκμεταλλευτείτε την ευπάθεια αν είναι δυνατόν.
 
-## Διαμόρφωση του GoPhish
+## Configuring GoPhish
 
-### Εγκατάσταση
+### Installation
 
 Μπορείτε να το κατεβάσετε από [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Κατεβάστε και αποσυμπιέστε το μέσα στο `/opt/gophish` και εκτελέστε το `/opt/gophish/gophish`\
-Θα σας δοθεί ένας κωδικός πρόσβασης για τον διαχειριστή στη θύρα 3333 στην έξοδο. Συνεπώς, μεταβείτε σε αυτήν τη θύρα και χρησιμοποιήστε αυτές τις διαπιστεύσεις γι
+Θα σας δοθεί ένας κωδικός για τον χρήστη διαχειριστή στην πόρτα 3333 στην έξοδο. Επομένως, αποκτήστε πρόσβαση σε αυτήν την πόρτα και χρησιμοποιήστε αυτά τα διαπιστευτήρια για να αλλάξετε τον κωδικό διαχειριστή. Μπορεί να χρειαστεί να στήσετε αυτήν την πόρτα σε τοπικό:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
-### Διαμόρφωση
+### Configuration
 
 **Διαμόρφωση πιστοποιητικού TLS**
 
-Πριν από αυτό το βήμα πρέπει **ήδη να έχετε αγοράσει το domain** που θα χρησιμοποιήσετε και πρέπει να **δείχνει** προς τη **IP του VPS** όπου διαμορφώνετε το **gophish**.
+Πριν από αυτό το βήμα θα πρέπει να έχετε **αγοράσει ήδη το domain** που πρόκειται να χρησιμοποιήσετε και πρέπει να **δείχνει** στη **διεύθυνση IP του VPS** όπου διαμορφώνετε το **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -119,34 +120,34 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Διαμόρφωση email**
+**Ρύθμιση αλληλογραφίας**
 
-Ξεκινήστε την εγκατάσταση: `apt-get install postfix`
+Αρχίστε την εγκατάσταση: `apt-get install postfix`
 
-Στη συνέχεια προσθέστε το domain στα ακόλουθα αρχεία:
+Στη συνέχεια, προσθέστε το domain στα παρακάτω αρχεία:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Αλλάξτε επίσης τις τιμές των ακόλουθων μεταβλητών μέσα στο /etc/postfix/main.cf**
+**Αλλάξτε επίσης τις τιμές των παρακάτω μεταβλητών μέσα στο /etc/postfix/main.cf**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Τέλος τροποποιήστε τα αρχεία **`/etc/hostname`** και **`/etc/mailname`** με το όνομα του domain σας και **επανεκκινήστε το VPS σας.**
+Τέλος, τροποποιήστε τα αρχεία **`/etc/hostname`** και **`/etc/mailname`** με το όνομα του domain σας και **επανεκκινήστε το VPS σας.**
 
-Τώρα, δημιουργήστε ένα **DNS A record** του `mail.<domain>` που να δείχνει στη **διεύθυνση ip** του VPS και ένα **DNS MX** record που να δείχνει στο `mail.<domain>`
+Τώρα, δημιουργήστε μια **DNS A record** του `mail.<domain>` που να δείχνει στη **διεύθυνση ip** του VPS και μια **DNS MX** record που να δείχνει στο `mail.<domain>`
 
 Τώρα ας δοκιμάσουμε να στείλουμε ένα email:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
-**Διαμόρφωση του Gophish**
+**Διαμόρφωση Gophish**
 
 Σταματήστε την εκτέλεση του gophish και ας το διαμορφώσουμε.\
-Τροποποιήστε το `/opt/gophish/config.json` στο ακόλουθο (σημειώστε τη χρήση του https):
+Τροποποιήστε το `/opt/gophish/config.json` ως εξής (σημειώστε τη χρήση του https):
 ```bash
 {
 "admin_server": {
@@ -173,7 +174,7 @@ echo "This is the body of the email" | mail -s "This is the subject line" test@e
 ```
 **Διαμόρφωση υπηρεσίας gophish**
 
-Για να δημιουργήσετε την υπηρεσία gophish έτσι ώστε να μπορεί να ξεκινά αυτόματα και να διαχειρίζεται ως υπηρεσία, μπορείτε να δημιουργήσετε το αρχείο `/etc/init.d/gophish` με το παρακάτω περιεχόμενο:
+Για να δημιουργήσετε την υπηρεσία gophish ώστε να μπορεί να ξεκινά αυτόματα και να διαχειρίζεται ως υπηρεσία, μπορείτε να δημιουργήσετε το αρχείο `/etc/init.d/gophish` με το παρακάτω περιεχόμενο:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -220,7 +221,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Ολοκληρώστε τη ρύθμιση της υπηρεσίας και ελέγξτε την εκτελώντας:
+Ολοκληρώστε τη διαμόρφωση της υπηρεσίας και ελέγξτε την κάνοντας:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -231,60 +232,60 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Ρύθμιση διακομιστή αλληλογραφίας και domain
+## Ρύθμιση διακομιστή αλληλογραφίας και τομέα
 
-### Αναμονή & να είστε νόμιμοι
+### Περίμενε & να είσαι νόμιμος
 
-Όσο πιο παλιό είναι ένα domain, τόσο λιγότερο πιθανό είναι να πιαστεί ως ανεπιθύμητη αλληλογραφία. Συνεπώς, θα πρέπει να περιμένετε όσο το δυνατόν περισσότερο χρόνο (τουλάχιστον 1 εβδομάδα) πριν από την αξιολόγηση phishing. Επιπλέον, αν δημιουργήσετε μια σελίδα σχετική με έναν τομέα με καλή φήμη, η φήμη που θα αποκτήσετε θα είναι καλύτερη.
+Όσο παλαιότερος είναι ένας τομέας, τόσο λιγότερο πιθανό είναι να πιαστεί ως spam. Έτσι, θα πρέπει να περιμένετε όσο το δυνατόν περισσότερο (τουλάχιστον 1 εβδομάδα) πριν από την αξιολόγηση phishing. Επιπλέον, αν δημιουργήσετε μια σελίδα σχετικά με έναν τομέα φήμης, η φήμη που θα αποκτηθεί θα είναι καλύτερη.
 
-Σημειώστε ότι ακόμα κι αν πρέπει να περιμένετε μια εβδομάδα, μπορείτε να ολοκληρώσετε τη ρύθμιση όλων των στοιχείων τώρα.
+Σημειώστε ότι ακόμη και αν πρέπει να περιμένετε μια εβδομάδα, μπορείτε να ολοκληρώσετε τη ρύθμιση όλων τώρα.
 
-### Ρύθμιση αντίστροφης εγγραφής DNS (rDNS)
+### Ρύθμιση εγγραφής Αντίστροφης DNS (rDNS)
 
-Ορίστε μια αντίστροφη εγγραφή DNS (PTR) που αντιστοιχεί τη διεύθυνση IP του VPS στο όνομα domain.
+Ορίστε μια εγγραφή rDNS (PTR) που επιλύει τη διεύθυνση IP του VPS στο όνομα τομέα.
 
-### Εγγραφή πλαισίου πολιτικής αποστολέα (SPF)
+### Εγγραφή Πολιτικής Αποστολέα (SPF)
 
-Πρέπει **να ρυθμίσετε μια εγγραφή SPF για το νέο domain**. Αν δεν ξέρετε τι είναι μια εγγραφή SPF, [**διαβάστε αυτήν τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#spf).
+Πρέπει να **ρυθμίσετε μια εγγραφή SPF για τον νέο τομέα**. Αν δεν ξέρετε τι είναι μια εγγραφή SPF [**διαβάστε αυτή τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-Μπορείτε να χρησιμοποιήσετε το [https://www.spfwizard.net/](https://www.spfwizard.net) για να δημιουργήσετε την πολιτική SPF σας (χρησιμοποιήστε τη διεύθυνση IP της μηχανής VPS)
+Μπορείτε να χρησιμοποιήσετε [https://www.spfwizard.net/](https://www.spfwizard.net) για να δημιουργήσετε την πολιτική SPF σας (χρησιμοποιήστε τη διεύθυνση IP της μηχανής VPS)
 
-![](<../../.gitbook/assets/image (388).png>)
+![](<../../.gitbook/assets/image (1037).png>)
 
-Αυτό είναι το περιεχόμενο που πρέπει να οριστεί μέσα σε μια εγγραφή TXT μέσα στο domain:
+Αυτό είναι το περιεχόμενο που πρέπει να οριστεί μέσα σε μια εγγραφή TXT στον τομέα:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Εγγραφή Ελέγχου, Αναφοράς και Συμμόρφωσης Μηνυμάτων Βασισμένη στο Domain (DMARC)
+### Domain-based Message Authentication, Reporting & Conformance (DMARC) Record
 
-Πρέπει **να διαμορφώσετε μια εγγραφή DMARC για το νέο domain**. Αν δεν γνωρίζετε τι είναι μια εγγραφή DMARC, [**διαβάστε αυτήν τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#dmarc).
+Πρέπει να **ρυθμίσετε ένα DMARC record για το νέο domain**. Αν δεν ξέρετε τι είναι ένα DMARC record [**διαβάστε αυτή τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-Πρέπει να δημιουργήσετε μια νέα εγγραφή DNS TXT που να δείχνει στο όνομα κεντρικού υπολογιστή `_dmarc.<domain>` με τον παρακάτω περιεχόμενο:
+Πρέπει να δημιουργήσετε ένα νέο DNS TXT record που να δείχνει το hostname `_dmarc.<domain>` με το εξής περιεχόμενο:
 ```bash
 v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Πρέπει **να διαμορφώσετε ένα DKIM για το νέο domain**. Αν δεν ξέρετε τι είναι ένα DMARC record [**διαβάστε αυτή τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Πρέπει να **ρυθμίσετε ένα DKIM για το νέο τομέα**. Αν δεν ξέρετε τι είναι ένα DMARC record [**διαβάστε αυτή τη σελίδα**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-Αυτό το εγχειρίδιο βασίζεται στο: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Αυτό το tutorial βασίζεται σε: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-Πρέπει να συνενώσετε και τις δύο τιμές B64 που δημιουργεί το κλειδί DKIM:
+Πρέπει να συνδυάσετε και τις δύο τιμές B64 που παράγει το DKIM key:
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Δοκιμάστε το σκορ ρύθμισης του email σας
+### Δοκιμάστε το σκορ διαμόρφωσης email σας
 
-Μπορείτε να το κάνετε χρησιμοποιώντας [https://www.mail-tester.com/](https://www.mail-tester.com)\
+Μπορείτε να το κάνετε αυτό χρησιμοποιώντας [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Απλά επισκεφθείτε τη σελίδα και στείλτε ένα email στη διεύθυνση που σας δίνουν:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Μπορείτε επίσης **να ελέγξετε τη διαμόρφωση του email σας** στέλνοντας ένα email στο `check-auth@verifier.port25.com` και **διαβάζοντας την απάντηση** (για αυτό θα πρέπει **να ανοίξετε** τη θύρα **25** και να δείτε την απάντηση στο αρχείο _/var/mail/root_ αν στείλετε το email ως root).\
-Βεβαιωθείτε ότι περνάτε όλα τα τεστ:
+Μπορείτε επίσης να **ελέγξετε τη διαμόρφωση του email σας** στέλνοντας ένα email στο `check-auth@verifier.port25.com` και **διαβάζοντας την απάντηση** (για αυτό θα χρειαστεί να **ανοίξετε** την πόρτα **25** και να δείτε την απάντηση στο αρχείο _/var/mail/root_ αν στείλετε το email ως root).\
+Ελέγξτε ότι περνάτε όλους τους ελέγχους:
 ```bash
 ==========================================================
 Summary of Results
@@ -295,40 +296,40 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Μπορείτε επίσης να στείλετε **μήνυμα σε ένα Gmail υπό τον έλεγχό σας**, και να ελέγξετε τα **headers του email** στο inbox του Gmail σας, το `dkim=pass` πρέπει να υπάρχει στο πεδίο header `Authentication-Results`.
+Μπορείτε επίσης να στείλετε **μήνυμα σε ένα Gmail υπό τον έλεγχό σας** και να ελέγξετε τα **κεφαλίδες του email** στο Gmail inbox σας, το `dkim=pass` θα πρέπει να είναι παρόν στο πεδίο κεφαλίδας `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Αφαίρεση από τη Μαύρη Λίστα του Spamhouse
+### ​Αφαίρεση από τη Μαύρη Λίστα του Spamhouse
 
-Η σελίδα [www.mail-tester.com](www.mail-tester.com) μπορεί να σας ενημερώσει εάν το domain σας έχει μπει στη μαύρη λίστα του spamhouse. Μπορείτε να ζητήσετε την αφαίρεση του domain/IP σας στο: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+Η σελίδα [www.mail-tester.com](https://www.mail-tester.com) μπορεί να σας υποδείξει αν το domain σας μπλοκάρεται από το spamhouse. Μπορείτε να ζητήσετε την αφαίρεση του domain/IP σας στο: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
 ### Αφαίρεση από τη Μαύρη Λίστα της Microsoft
 
-Μπορείτε να ζητήσετε την αφαίρεση του domain/IP σας στο [https://sender.office.com/](https://sender.office.com).
+​​Μπορείτε να ζητήσετε την αφαίρεση του domain/IP σας στο [https://sender.office.com/](https://sender.office.com).
 
-## Δημιουργία & Εκκίνηση Εκστρατείας GoPhish
+## Δημιουργία & Εκκίνηση Καμπάνιας GoPhish
 
 ### Προφίλ Αποστολής
 
-* Ορίστε ένα **όνομα για αναγνώριση** του προφίλ αποστολής
-* Αποφασίστε από ποιο λογαριασμό θα στείλετε τα phishing emails. Προτάσεις: _noreply, support, servicedesk, salesforce..._
-* Μπορείτε να αφήσετε κενά το όνομα χρήστη και τον κωδικό, αλλά βεβαιωθείτε ότι έχετε επιλέξει το Αγνόηση Σφαλμάτων Πιστοποιητικού
+* Ορίστε κάποιο **όνομα για να αναγνωρίσετε** το προφίλ αποστολέα
+* Αποφασίστε από ποιον λογαριασμό θα στείλετε τα phishing emails. Προτάσεις: _noreply, support, servicedesk, salesforce..._
+* Μπορείτε να αφήσετε κενό το όνομα χρήστη και τον κωδικό πρόσβασης, αλλά βεβαιωθείτε ότι έχετε ελέγξει την επιλογή Αγνόηση Σφαλμάτων Πιστοποιητικού
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
-Συνιστάται να χρησιμοποιήσετε τη λειτουργία "**Αποστολή Δοκιμαστικού Email**" για να δοκιμάσετε ότι όλα λειτουργούν.\
-Θα σας πρότεινα να **στείλετε τα δοκιμαστικά emails σε διευθύνσεις email 10 λεπτών** προκειμένου να αποφύγετε τη μαύρη λίστα κατά τις δοκιμές.
+Συνιστάται να χρησιμοποιήσετε τη λειτουργία "**Αποστολή Δοκιμαστικού Email**" για να ελέγξετε ότι όλα λειτουργούν.\
+Θα πρότεινα να **στείλετε τα δοκιμαστικά emails σε διευθύνσεις 10min** προκειμένου να αποφύγετε την προσθήκη στη μαύρη λίστα κατά τη διάρκεια των δοκιμών.
 {% endhint %}
 
 ### Πρότυπο Email
 
-* Ορίστε ένα **όνομα για αναγνώριση** του προτύπου
-* Στη συνέχεια γράψτε ένα **θέμα** (κάτι συνηθισμένο, απλά κάτι που θα περιμένατε να διαβάσετε σε ένα κανονικό email)
-* Βεβαιωθείτε ότι έχετε επιλέξει το "**Προσθήκη Εικόνας Παρακολούθησης**"
+* Ορίστε κάποιο **όνομα για να αναγνωρίσετε** το πρότυπο
+* Στη συνέχεια, γράψτε ένα **θέμα** (τίποτα παράξενο, απλώς κάτι που θα περιμένατε να διαβάσετε σε ένα κανονικό email)
+* Βεβαιωθείτε ότι έχετε ελέγξει την επιλογή "**Προσθήκη Εικόνας Παρακολούθησης**"
 * Γράψτε το **πρότυπο email** (μπορείτε να χρησιμοποιήσετε μεταβλητές όπως στο παρακάτω παράδειγμα):
 ```markup
 <html>
@@ -348,69 +349,69 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Σημείωση ότι **για να αυξήσετε την αξιοπιστία του email**, συνιστάται να χρησιμοποιήσετε κάποια υπογραφή από ένα email του πελάτη. Προτάσεις:
+Note that **για να αυξήσετε την αξιοπιστία του email**, συνιστάται να χρησιμοποιήσετε κάποια υπογραφή από ένα email του πελάτη. Προτάσεις:
 
 * Στείλτε ένα email σε μια **μη υπάρχουσα διεύθυνση** και ελέγξτε αν η απάντηση έχει κάποια υπογραφή.
-* Αναζητήστε **δημόσια emails** όπως info@ex.com ή press@ex.com ή public@ex.com και στείλτε τους ένα email και περιμένετε για απάντηση.
-* Δοκιμάστε να επικοινωνήσετε με **κάποιο έγκυρο ανακαλυφθέν** email και περιμένετε για απάντηση
+* Αναζητήστε **δημόσια emails** όπως info@ex.com ή press@ex.com ή public@ex.com και στείλτε τους ένα email και περιμένετε την απάντηση.
+* Προσπαθήστε να επικοινωνήσετε με **κάποιο έγκυρο ανακαλυφθέν** email και περιμένετε την απάντηση.
 
-![](<../../.gitbook/assets/image (393).png>)
+![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-Το Πρότυπο Email επιτρέπει επίσης την **επισύναψη αρχείων για αποστολή**. Αν θέλετε επίσης να κλέψετε προκλήσεις NTLM χρησιμοποιώντας κάποια ειδικά δημιουργημένα αρχεία/έγγραφα [διαβάστε αυτή τη σελίδα](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Το Email Template επιτρέπει επίσης να **επισυνάπτετε αρχεία για αποστολή**. Αν θέλετε επίσης να κλέψετε NTLM challenges χρησιμοποιώντας κάποια ειδικά κατασκευασμένα αρχεία/έγγραφα [διαβάστε αυτή τη σελίδα](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Σελίδα Προσγείωσης
+### Landing Page
 
 * Γράψτε ένα **όνομα**
-* **Γράψτε τον κώδικα HTML** της ιστοσελίδας. Σημειώστε ότι μπορείτε να **εισάγετε** ιστοσελίδες.
-* Σημειώστε **Καταγραφή Υποβληθέντων Δεδομένων** και **Καταγραφή Κωδικών**
+* **Γράψτε τον HTML κώδικα** της ιστοσελίδας. Σημειώστε ότι μπορείτε να **εισάγετε** ιστοσελίδες.
+* Σημειώστε **Capture Submitted Data** και **Capture Passwords**
 * Ορίστε μια **ανακατεύθυνση**
 
-![](<../../.gitbook/assets/image (394).png>)
+![](<../../.gitbook/assets/image (826).png>)
 
 {% hint style="info" %}
-Συνήθως θα χρειαστεί να τροποποιήσετε τον κώδικα HTML της σελίδας και να κάνετε κάποιες δοκιμές τοπικά (ίσως χρησιμοποιώντας κάποιον διακομιστή Apache) **μέχρι να σας αρέσουν τα αποτελέσματα**. Στη συνέχεια, γράψτε αυτόν τον κώδικα HTML στο πλαίσιο.\
-Σημειώστε ότι αν χρειάζεστε να **χρησιμοποιήσετε κάποιους στατικούς πόρους** για το HTML (ίσως κάποιες σελίδες CSS και JS) μπορείτε να τα αποθηκεύσετε στο _**/opt/gophish/static/endpoint**_ και στη συνέχεια να τα προσπελάσετε από το _**/static/\<όνομα αρχείου>**_
+Συνήθως θα χρειαστεί να τροποποιήσετε τον HTML κώδικα της σελίδας και να κάνετε κάποιες δοκιμές τοπικά (ίσως χρησιμοποιώντας κάποιον Apache server) **μέχρι να σας αρέσουν τα αποτελέσματα.** Στη συνέχεια, γράψτε αυτόν τον HTML κώδικα στο κουτί.\
+Σημειώστε ότι αν χρειαστεί να **χρησιμοποιήσετε κάποιους στατικούς πόρους** για τον HTML (ίσως κάποιες σελίδες CSS και JS) μπορείτε να τους αποθηκεύσετε στο _**/opt/gophish/static/endpoint**_ και στη συνέχεια να τους αποκτήσετε από _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
-Για την ανακατεύθυνση μπορείτε να **ανακατευθύνετε τους χρήστες στην πραγματική κύρια ιστοσελίδα** του θύματος, ή να τους ανακατευθύνετε σε _/static/migration.html_ για παράδειγμα, να βάλετε κάποιο **περιστρεφόμενο τροχό** ([**https://loading.io/**](https://loading.io)) για 5 δευτερόλεπτα και στη συνέχεια να υποδείξετε ότι η διαδικασία ήταν επιτυχής**.
+Για την ανακατεύθυνση μπορείτε να **ανακατευθύνετε τους χρήστες στην κανονική κύρια ιστοσελίδα** του θύματος, ή να τους ανακατευθύνετε στο _/static/migration.html_ για παράδειγμα, να βάλετε κάποιο **spinning wheel (**[**https://loading.io/**](https://loading.io)**) για 5 δευτερόλεπτα και στη συνέχεια να υποδείξετε ότι η διαδικασία ήταν επιτυχής**.
 {% endhint %}
 
-### Χρήστες & Ομάδες
+### Users & Groups
 
 * Ορίστε ένα όνομα
-* **Εισαγάγετε τα δεδομένα** (σημειώστε ότι για να χρησιμοποιήσετε το πρότυπο για το παράδειγμα χρειάζεστε το όνομα, το επώνυμο και τη διεύθυνση email κάθε χρήστη)
+* **Εισάγετε τα δεδομένα** (σημειώστε ότι για να χρησιμοποιήσετε το template για το παράδειγμα χρειάζεστε το όνομα, το επώνυμο και τη διεύθυνση email κάθε χρήστη)
 
-![](<../../.gitbook/assets/image (395).png>)
+![](<../../.gitbook/assets/image (163).png>)
 
-### Εκστρατεία
+### Campaign
 
-Τέλος, δημιουργήστε μια εκστρατεία επιλέγοντας ένα όνομα, το πρότυπο email, τη σελίδα προσγείωσης, το URL, το προφίλ αποστολής και την ομάδα. Σημειώστε ότι το URL θα είναι το σύνδεσμος που στέλνετε στα θύματα
+Τέλος, δημιουργήστε μια καμπάνια επιλέγοντας ένα όνομα, το email template, τη landing page, το URL, το sending profile και την ομάδα. Σημειώστε ότι το URL θα είναι ο σύνδεσμος που θα σταλεί στα θύματα.
 
-Σημείωστε ότι το **Προφίλ Αποστολής επιτρέπει να στείλετε ένα δοκιμαστικό email για να δείτε πώς θα φαίνεται το τελικό email phishing**:
+Σημειώστε ότι το **Sending Profile επιτρέπει να στείλετε ένα δοκιμαστικό email για να δείτε πώς θα φαίνεται το τελικό phishing email**:
 
-![](<../../.gitbook/assets/image (396).png>)
+![](<../../.gitbook/assets/image (192).png>)
 
 {% hint style="info" %}
-Θα συνιστούσα να **στείλετε τα δοκιμαστικά emails σε διευθύνσεις email 10 λεπτών** για να αποφύγετε τη μαύρη λίστα κατά τη διάρκεια των δοκιμών.
+Θα συνιστούσα να **στείλετε τα δοκιμαστικά emails σε διευθύνσεις 10min mails** προκειμένου να αποφύγετε να μπείτε σε μαύρη λίστα κάνοντας δοκιμές.
 {% endhint %}
 
-Μόλις είναι έτοιμα όλα, απλά εκκινήστε την εκστρατεία!
+Μόλις είναι όλα έτοιμα, απλά ξεκινήστε την καμπάνια!
 
-## Κλωνοποίηση Ιστότοπου
+## Website Cloning
 
-Αν για οποιονδήποτε λόγο θέλετε να κλωνοποιήσετε τον ιστότοπο, ελέγξτε την ακόλουθη σελίδα:
+Αν για οποιονδήποτε λόγο θέλετε να κλωνοποιήσετε την ιστοσελίδα ελέγξτε την παρακάτω σελίδα:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Επισφαλή Έγγραφα & Αρχεία
+## Backdoored Documents & Files
 
-Σε μερικές αξιολογήσεις phishing (κυρίως για Κόκκινες Ομάδες) θα θέλετε επίσης **να στείλετε αρχεία που περιέχουν κάποιο είδος παρασκηνίου** (ίσως ένα C2 ή ίσως απλά κάτι που θα ενεργοποιήσει μια πιστοποίηση).\
-Ελέγξτε την ακόλουθη σελίδα για μερικά παραδείγματα:
+Σε ορισμένες αξιολογήσεις phishing (κυρίως για Red Teams) θα θέλετε επίσης να **στείλετε αρχεία που περιέχουν κάποιο είδος backdoor** (ίσως ένα C2 ή ίσως απλώς κάτι που θα ενεργοποιήσει μια αυθεντικοποίηση).\
+Δείτε την παρακάτω σελίδα για μερικά παραδείγματα:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -418,22 +419,57 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 
 ## Phishing MFA
 
-### Μέσω Proxy MitM
+### Via Proxy MitM
 
-Η προηγούμενη επίθεση είναι αρκετά έξυπνη καθώς προσποιείστε μια πραγματική ιστοσελίδα και συλλέγετε τις πληροφορίες που έχει ορίσει ο χρήστης. Δυστυχώς, αν ο χρήστης δεν έχει βάλει τον σωστό κωδικό ή αν η εφαρμογή που προσποιείστε είναι ρυθμισμένη με 2FA, **αυτές οι πληροφορίες δεν θα σας επιτρέψουν να προσωποποιήσετε τον απατημένο χρήστη**.
+Η προηγούμενη επίθεση είναι αρκετά έξυπνη καθώς προσποιείστε μια πραγματική ιστοσελίδα και συγκεντρώνετε τις πληροφορίες που εισάγει ο χρήστης. Δυστυχώς, αν ο χρήστης δεν εισάγει τον σωστό κωδικό ή αν η εφαρμογή που προσποιείστε είναι ρυθμισμένη με 2FA, **αυτές οι πληροφορίες δεν θα σας επιτρέψουν να προσποιηθείτε τον παραπλανημένο χρήστη**.
 
-Εδώ είναι όπου εργαλεία όπως το [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) και [**muraena**](https://github.com/muraenateam/muraena) είναι χρήσιμα. Αυτό το εργαλείο θα σας επιτρέψει να δημιουργήσετε μια επίθεση τύπου MitM. Βασικά, οι επιθέσεις λειτουργούν με τον ακόλουθο τρόπο:
+Εδώ είναι που εργαλεία όπως [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) και [**muraena**](https://github.com/muraenateam/muraena) είναι χρήσιμα. Αυτό το εργαλείο θα σας επιτρέψει να δημιουργήσετε μια επίθεση τύπου MitM. Βασικά, οι επιθέσεις λειτουργούν ως εξής:
 
 1. Εσείς **προσποιείστε τη φόρμα σύνδεσης** της πραγματικής ιστοσελίδας.
-2. Ο χρήστης **στέλνει** τα **διαπιστευτήριά του** στην ψεύτικη σας σελίδα και το εργαλείο τα στέλνει στην πραγματική ιστοσελίδα, **ελέγχοντας αν τα διαπιστευτήρια λειτουργούν**.
-3. Αν ο λογαριασμός είναι ρυθμισμένος με **2FA**, η σελίδα MitM θα ζητήσει αυτό και μόλις ο χρήστης το **εισάγει**, το εργαλείο θα το στείλει στην πραγματική ιστοσελίδα.
-4. Μόλις ο χρήστης ελεγχθεί, εσείς (ως επιτιθέμενος) θα έχετε **καταγράψει τα διαπιστευτήρια, το 2FA, το cookie και οποιαδήποτε πληροφορία** από κάθε αλληλεπίδραση σας ενώ το εργαλείο εκτελεί μια επίθεση MitM.
+2. Ο χρήστης **στέλνει** τα **διαπιστευτήριά** του στη ψεύτικη σελίδα σας και το εργαλείο στέλνει αυτά στη πραγματική ιστοσελίδα, **ελέγχοντας αν τα διαπιστευτήρια λειτουργούν**.
+3. Αν ο λογαριασμός είναι ρυθμισμένος με **2FA**, η σελίδα MitM θα ζητήσει αυτό και μόλις ο **χρήστης το εισάγει** το εργαλείο θα το στείλει στη πραγματική ιστοσελίδα.
+4. Μόλις ο χρήστης αυθεντικοποιηθεί εσείς (ως επιτιθέμενος) θα έχετε **καταγράψει τα διαπιστευτήρια, το 2FA, το cookie και οποιαδήποτε πληροφορία** από κάθε αλληλεπίδραση σας ενώ το εργαλείο εκτελεί μια MitM.
 
-### Μέσω VNC
+### Via VNC
 
-Τι θα γινόταν αν αντί να **στείλετε το θύμα σε μια κακόβουλη σελίδα** με την ίδια εμφάνιση με την πραγματική, τον στείλετε σε μια **συνεδρία VNC με έναν περιηγητή συνδεδεμένο στην πραγματική ιστοσελίδα**; Θα μπορείτε να δείτε τι κάνει, να κλέψετε τον κωδικό, το MFA που χρησιμοποιείται, τα cookies...\
-Μπορείτε να το κάνετε αυτό με το [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+Τι θα γινόταν αν αντί να **στείλετε το θύμα σε μια κακόβουλη σελίδα** με την ίδια εμφάνιση όπως η αρχική, το στείλετε σε μια **συνεδρία VNC με έναν περιηγητή συνδεδεμένο στην πραγματική ιστοσελίδα**; Θα μπορείτε να δείτε τι κάνει, να κλέψετε τον κωδικό, το MFA που χρησιμοποιείται, τα cookies...\
+Μπορείτε να το κάνετε αυτό με [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
-## Ανίχνευση της ανίχνευσης
+## Detecting the detection
 
-Φυσικά, ένας από τους καλύτερους τρόπους για να μάθετε αν έχετε αποκαλυφθεί εί
+Προφανώς ένας από τους καλύτερους τρόπους για να ξέρετε αν έχετε ανακαλυφθεί είναι να **αναζητήσετε το domain σας μέσα σε μαύρες λίστες**. Αν εμφανίζεται καταχωρημένο, με κάποιο τρόπο το domain σας ανιχνεύθηκε ως ύποπτο.\
+Ένας εύκολος τρόπος για να ελέγξετε αν το domain σας εμφανίζεται σε οποιαδήποτε μαύρη λίστα είναι να χρησιμοποιήσετε [https://malwareworld.com/](https://malwareworld.com)
+
+Ωστόσο, υπάρχουν και άλλοι τρόποι για να ξέρετε αν το θύμα **αναζητά ενεργά ύποπτη phishing δραστηριότητα στον κόσμο** όπως εξηγείται σε:
+
+{% content-ref url="detecting-phising.md" %}
+[detecting-phising.md](detecting-phising.md)
+{% endcontent-ref %}
+
+Μπορείτε να **αγοράσετε ένα domain με πολύ παρόμοιο όνομα** με το domain του θύματος **και/ή να δημιουργήσετε ένα πιστοποιητικό** για ένα **subdomain** ενός domain που ελέγχετε **περιέχοντας** τη **λέξη-κλειδί** του domain του θύματος. Αν το **θύμα** εκτελέσει οποιαδήποτε μορφή **DNS ή HTTP αλληλεπίδρασης** με αυτά, θα ξέρετε ότι **αναζητά ενεργά** ύποπτα domains και θα χρειαστεί να είστε πολύ διακριτικοί.
+
+### Evaluate the phishing
+
+Χρησιμοποιήστε [**Phishious** ](https://github.com/Rices/Phishious) για να αξιολογήσετε αν το email σας θα καταλήξει στο φάκελο spam ή αν θα μπλοκαριστεί ή θα είναι επιτυχές.
+
+## References
+
+* [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
+* [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
+* [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
+* [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
