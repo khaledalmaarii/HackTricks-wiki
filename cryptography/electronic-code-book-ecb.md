@@ -1,25 +1,26 @@
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Treinamento AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Treinamento GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) do github.
 
 </details>
+{% endhint %}
 
 
 # ECB
 
-(ECB) Electronic Code Book - esquema de criptografia simétrica que **substitui cada bloco do texto claro** pelo **bloco de texto cifrado**. É o esquema de criptografia **mais simples**. A ideia principal é **dividir** o texto claro em **blocos de N bits** (depende do tamanho do bloco de dados de entrada, algoritmo de criptografia) e então criptografar (descriptografar) cada bloco de texto claro usando a única chave.
+(ECB) Electronic Code Book - esquema de criptografia simétrica que **substitui cada bloco do texto claro** pelo **bloco de texto cifrado**. É o esquema de criptografia **mais simples**. A ideia principal é **dividir** o texto claro em **blocos de N bits** (dependendo do tamanho do bloco de dados de entrada, algoritmo de criptografia) e então criptografar (descriptografar) cada bloco de texto claro usando a única chave.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Usar ECB tem múltiplas implicações de segurança:
+O uso do ECB tem múltiplas implicações de segurança:
 
 * **Blocos da mensagem criptografada podem ser removidos**
 * **Blocos da mensagem criptografada podem ser movidos**
@@ -28,7 +29,7 @@ Usar ECB tem múltiplas implicações de segurança:
 
 Imagine que você faz login em um aplicativo várias vezes e **sempre recebe o mesmo cookie**. Isso ocorre porque o cookie do aplicativo é **`<nome de usuário>|<senha>`**.\
 Então, você gera dois novos usuários, ambos com a **mesma senha longa** e **quase** o **mesmo** **nome de usuário**.\
-Você descobre que os **blocos de 8B** onde a **informação de ambos os usuários** é a mesma são **iguais**. Então, você imagina que isso pode ser porque **ECB está sendo usado**.
+Você descobre que os **blocos de 8B** onde a **informação de ambos os usuários** é a mesma são **iguais**. Então, você imagina que isso pode ser porque está sendo usado o **ECB**.
 
 Como no exemplo a seguir. Observe como esses **2 cookies decodificados** têm várias vezes o bloco **`\x23U\xE45K\xCB\x21\xC8`**.
 ```
@@ -52,7 +53,7 @@ Agora, o atacante só precisa descobrir se o formato é `<nome de usuário><deli
 
 ## Removendo blocos inteiros
 
-Conhecendo o formato do cookie (`<nome de usuário>|<senha>`), para se passar pelo nome de usuário `admin`, crie um novo usuário chamado `aaaaaaaaadmin` e obtenha o cookie e decodifique-o:
+Sabendo o formato do cookie (`<nome de usuário>|<senha>`), para se passar pelo nome de usuário `admin`, crie um novo usuário chamado `aaaaaaaaadmin` e obtenha o cookie e decodifique-o:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
@@ -63,9 +64,9 @@ Em seguida, você pode remover o primeiro bloco de 8B e obter um cookie válido 
 ```
 ## Movendo blocos
 
-Em muitos bancos de dados, é o mesmo procurar por `WHERE username='admin';` ou por `WHERE username='admin    ';` _(Note os espaços extras)_
+Em muitos bancos de dados, é a mesma coisa procurar por `WHERE username='admin';` ou por `WHERE username='admin    ';` _(Note os espaços extras)_
 
-Assim, outra maneira de se passar pelo usuário `admin` seria:
+Portanto, outra maneira de se passar pelo usuário `admin` seria:
 
 * Gerar um nome de usuário que: `len(<username>) + len(<delimiter) % len(block)`. Com um tamanho de bloco de `8B`, você pode gerar um nome de usuário chamado: `username       `, com o delimitador `|` o pedaço `<username><delimiter>` irá gerar 2 blocos de 8Bs.
 * Em seguida, gerar uma senha que preencherá um número exato de blocos contendo o nome de usuário que queremos nos passar e espaços, como: `admin   `
@@ -74,6 +75,6 @@ O cookie deste usuário será composto por 3 blocos: os 2 primeiros são os bloc
 
 **Então, basta substituir o primeiro bloco pelo último e estaremos nos passando pelo usuário `admin`: `admin          |username`**
 
-# Referências
+## Referências
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))

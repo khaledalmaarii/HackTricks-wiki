@@ -1,21 +1,21 @@
+{% hint style="success" %}
+Aprenda e pratique AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
 
 # Carimbos de Data e Hora
 
@@ -32,15 +32,15 @@ Esta ferramenta **modifica** as informações de carimbo de data e hora dentro d
 
 ## Usnjrnl
 
-O **Diário USN** (Update Sequence Number Journal) é um recurso do NTFS (sistema de arquivos do Windows NT) que mantém o controle das alterações no volume. A ferramenta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite a análise dessas alterações.
+O **USN Journal** (Update Sequence Number Journal) é um recurso do NTFS (sistema de arquivos do Windows NT) que mantém o controle das alterações no volume. A ferramenta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite a análise dessas alterações.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-A imagem anterior é a **saída** mostrada pela **ferramenta** onde pode ser observado que algumas **alterações foram realizadas** no arquivo.
+A imagem anterior é a **saída** mostrada pela **ferramenta** onde é possível observar que algumas **alterações foram realizadas** no arquivo.
 
 ## $LogFile
 
-**Todas as alterações de metadados em um sistema de arquivos são registradas** em um processo conhecido como [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Os metadados registrados são mantidos em um arquivo chamado `**$LogFile**`, localizado no diretório raiz de um sistema de arquivos NTFS. Ferramentas como [LogFileParser](https://github.com/jschicht/LogFileParser) podem ser usadas para analisar este arquivo e identificar alterações.
+**Todas as alterações de metadados em um sistema de arquivos são registradas** em um processo conhecido como [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Os metadados registrados são mantidos em um arquivo chamado `**$LogFile**`, localizado no diretório raiz de um sistema de arquivos NTFS. Ferramentas como [LogFileParser](https://github.com/jschicht/LogFileParser) podem ser usadas para analisar esse arquivo e identificar alterações.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
@@ -59,13 +59,13 @@ Usando a mesma ferramenta, é possível identificar a **que horas os carimbos de
 
 Outra maneira de identificar arquivos modificados suspeitos seria comparar a hora em ambos os atributos em busca de **inconsistências**.
 
-## Nanosegundos
+## Nanossegundos
 
-Os carimbos de data e hora do **NTFS** têm uma **precisão** de **100 nanosegundos**. Portanto, encontrar arquivos com carimbos de data e hora como 2010-10-10 10:10:**00.000:0000 é muito suspeito**.
+Os carimbos de data e hora do **NTFS** têm uma **precisão** de **100 nanossegundos**. Portanto, encontrar arquivos com carimbos de data e hora como 2010-10-10 10:10:**00.000:0000 é muito suspeito**.
 
 ## SetMace - Ferramenta Anti-forense
 
-Esta ferramenta pode modificar ambos os atributos `$STARNDAR_INFORMATION` e `$FILE_NAME`. No entanto, a partir do Windows Vista, é necessário um sistema operacional ao vivo para modificar essas informações.
+Esta ferramenta pode modificar ambos os atributos `$STARNDAR_INFORMATION` e `$FILE_NAME`. No entanto, a partir do Windows Vista, é necessário um sistema operacional ativo para modificar essas informações.
 
 # Ocultação de Dados
 
@@ -75,7 +75,7 @@ Existem ferramentas como slacker que permitem ocultar dados neste espaço "ocult
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Então, é possível recuperar o espaço ocioso usando ferramentas como FTK Imager. Note que esse tipo de ferramenta pode salvar o conteúdo obfuscado ou até mesmo criptografado.
+Assim, é possível recuperar o espaço ocioso usando ferramentas como FTK Imager. Note que esse tipo de ferramenta pode salvar o conteúdo obfuscado ou até mesmo criptografado.
 
 # UsbKill
 
@@ -100,7 +100,7 @@ Esta é uma chave de registro que mantém datas e horas quando cada executável 
 
 Desativar o UserAssist requer dois passos:
 
-1. Definir duas chaves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambos como zero para sinalizar que queremos o UserAssist desativado.
+1. Definir duas chaves de registro, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` e `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, ambos como zero para sinalizar que queremos desativar o UserAssist.
 2. Limpar os subárvores do registro que se parecem com `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
 ## Desativar Carimbos de Data e Hora - Prefetch
@@ -123,10 +123,10 @@ Sempre que uma pasta é aberta de um volume NTFS em um servidor Windows NT, o si
 4. Feche o Editor de Registro e reinicie o servidor.
 ## Apagar Histórico USB
 
-Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave do registro **USBSTOR** que contém subchaves criadas sempre que você conecta um Dispositivo USB ao seu PC ou Laptop. Você pode encontrar essa chave aqui `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Apagando isso** você apagará o histórico USB.\
-Você também pode usar a ferramenta [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) para ter certeza de que os apagou (e para apagá-los).
+Todas as **Entradas de Dispositivos USB** são armazenadas no Registro do Windows sob a chave de registro **USBSTOR** que contém subchaves criadas sempre que você conecta um Dispositivo USB ao seu PC ou Laptop. Você pode encontrar esta chave em `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Apagando isso** você apagará o histórico USB.\
+Você também pode usar a ferramenta [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) para garantir que os tenha apagado (e para apagá-los).
 
-Outro arquivo que salva informações sobre os USBs é o arquivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Isso também deve ser apagado.
+Outro arquivo que salva informações sobre os USBs é o arquivo `setupapi.dev.log` dentro de `C:\Windows\INF`. Este arquivo também deve ser apagado.
 
 ## Desativar Cópias de Sombra
 
@@ -137,7 +137,7 @@ Você também pode apagá-las via GUI seguindo as etapas propostas em [https://w
 
 Para desativar cópias de sombra [passos daqui](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Abra o programa Serviços digitando "services" na caixa de pesquisa de texto após clicar no botão Iniciar do Windows.
+1. Abra o programa Serviços digitando "services" na caixa de pesquisa de texto após clicar no botão iniciar do Windows.
 2. Na lista, encontre "Cópia de Sombra de Volume", selecione-a e acesse Propriedades clicando com o botão direito.
 3. Escolha Desativado no menu suspenso "Tipo de inicialização" e confirme a alteração clicando em Aplicar e OK.
 
@@ -145,7 +145,7 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 
 ## Sobrescrever arquivos apagados
 
-* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover quaisquer dados do espaço de disco não utilizado disponível dentro da unidade C.
+* Você pode usar uma **ferramenta do Windows**: `cipher /w:C` Isso indicará ao cipher para remover quaisquer dados do espaço de disco não utilizado disponível na unidade C.
 * Você também pode usar ferramentas como [**Eraser**](https://eraser.heidi.ie)
 
 ## Apagar logs de eventos do Windows
@@ -169,16 +169,17 @@ Também é possível modificar a configuração de quais arquivos serão copiado
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

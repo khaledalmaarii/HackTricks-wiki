@@ -2,19 +2,20 @@
 
 ## Artefatos do Windows
 
+{% hint style="success" %}
+Aprenda e pratique Hacking na AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking no GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -24,7 +25,7 @@ Outras maneiras de apoiar o HackTricks:
 
 ### Notificações do Windows 10
 
-No caminho `\Users\<nome de usuário>\AppData\Local\Microsoft\Windows\Notifications` você pode encontrar o banco de dados `appdb.dat` (antes do aniversário do Windows) ou `wpndatabase.db` (após o Aniversário do Windows).
+No caminho `\Users\<nome de usuário>\AppData\Local\Microsoft\Windows\Notifications`, você pode encontrar o banco de dados `appdb.dat` (antes do aniversário do Windows) ou `wpndatabase.db` (após o aniversário do Windows).
 
 Dentro deste banco de dados SQLite, você pode encontrar a tabela `Notification` com todas as notificações (em formato XML) que podem conter dados interessantes.
 
@@ -42,15 +43,15 @@ Arquivos baixados podem conter a **ADS Zone.Identifier** indicando **como** foi 
 
 ### Lixeira
 
-No Vista/Win7/Win8/Win10 a **Lixeira** pode ser encontrada na pasta **`$Recycle.bin`** na raiz da unidade (`C:\$Recycle.bin`).\
+No Vista/Win7/Win8/Win10, a **Lixeira** pode ser encontrada na pasta **`$Recycle.bin`** na raiz da unidade (`C:\$Recycle.bin`).\
 Quando um arquivo é excluído nesta pasta, 2 arquivos específicos são criados:
 
-* `$I{id}`: Informações do arquivo (data em que foi excluído}
+* `$I{id}`: Informações do arquivo (data em que foi excluído)
 * `$R{id}`: Conteúdo do arquivo
 
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Tendo esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.com/abelcheung/rifiuti2) para obter o endereço original dos arquivos excluídos e a data em que foram excluídos (use `rifiuti-vista.exe` para Vista – Win10).
+Com esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.com/abelcheung/rifiuti2) para obter o endereço original dos arquivos excluídos e a data em que foram excluídos (use `rifiuti-vista.exe` para Vista – Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -84,16 +85,16 @@ Um item de shell é um item que contém informações sobre como acessar outro a
 
 ### Documentos Recentes (LNK)
 
-O Windows **cria automaticamente** esses **atalhos** quando o usuário **abre, usa ou cria um arquivo** em:
+O Windows **automaticamente** **cria** esses **atalhos** quando o usuário **abre, usa ou cria um arquivo** em:
 
 * Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
 Quando uma pasta é criada, um link para a pasta, para a pasta pai e para a pasta avó também é criado.
 
-Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** **ou** uma **pasta**, **horários MAC** desse arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo de destino**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
+Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** **ou** uma **pasta**, **tempos MAC** desse arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo de destino**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
 
-Além disso, a **data de criação do arquivo de link** é a primeira **vez** que o arquivo original foi **usado** e a **data** **modificada** do arquivo de link é a **última** **vez** que o arquivo de origem foi usado.
+Além disso, a **data de criação do link** é a primeira **vez** que o arquivo original foi **usado** e a **data** **modificada** do arquivo de link é a **última** **vez** que o arquivo de origem foi usado.
 
 Para inspecionar esses arquivos, você pode usar [**LinkParser**](http://4discovery.com/our-tools/).
 
@@ -114,21 +115,21 @@ Você pode obter as mesmas informações executando a ferramenta de linha de com
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
-### Jumplists
+### Listas de Saltos
 
-Estes são os arquivos recentes indicados por aplicativo. É a lista de **arquivos recentes usados por um aplicativo** que você pode acessar em cada aplicativo. Eles podem ser criados **automaticamente ou personalizados**.
+Estes são os arquivos recentes indicados por aplicação. É a lista de **arquivos recentes usados por uma aplicação** que você pode acessar em cada aplicação. Eles podem ser criados **automaticamente ou personalizados**.
 
-Os **jumplists** criados automaticamente são armazenados em `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Os jumplists são nomeados seguindo o formato `{id}.autmaticDestinations-ms` onde o ID inicial é o ID do aplicativo.
+As **listas de saltos** criadas automaticamente são armazenadas em `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. As listas de saltos são nomeadas seguindo o formato `{id}.autmaticDestinations-ms` onde o ID inicial é o ID da aplicação.
 
-Os jumplists personalizados são armazenados em `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` e são criados pelo aplicativo geralmente porque algo **importante** aconteceu com o arquivo (talvez marcado como favorito)
+As listas de saltos personalizadas são armazenadas em `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` e são criadas pela aplicação geralmente porque algo **importante** aconteceu com o arquivo (talvez marcado como favorito).
 
-O **tempo de criação** de qualquer jumplist indica **a primeira vez que o arquivo foi acessado** e o **tempo de modificação a última vez**.
+O **tempo de criação** de qualquer lista de saltos indica **a primeira vez que o arquivo foi acessado** e o **tempo de modificação a última vez**.
 
-Você pode inspecionar os jumplists usando [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
+Você pode inspecionar as listas de saltos usando [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
 
 ![](<../../../.gitbook/assets/image (474).png>)
 
-(_Observe que os carimbos de data e hora fornecidos pelo JumplistExplorer estão relacionados ao próprio arquivo de jumplist_)
+(_Observe que os carimbos de data e hora fornecidos pelo JumplistExplorer estão relacionados ao arquivo de lista de saltos em si_)
 
 ### Shellbags
 
@@ -140,7 +141,7 @@ Você pode inspecionar os jumplists usando [**JumplistExplorer**](https://ericzi
 
 * Pasta Recente do Windows
 * Pasta Recente do Microsoft Office
-* Jumplists
+* Listas de Saltos
 
 Observe que alguns arquivos LNK, em vez de apontar para o caminho original, apontam para a pasta WPDNSE:
 
@@ -158,7 +159,7 @@ Verifique o arquivo `C:\Windows\inf\setupapi.dev.log` para obter os carimbos de 
 
 ![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
-### USB Detective
+### Detetive USB
 
 [**USBDetective**](https://usbdetective.com) pode ser usado para obter informações sobre os dispositivos USB que foram conectados a uma imagem.
 
@@ -181,9 +182,9 @@ Uma captura de tela que mostra o conteúdo da tarefa é fornecida:
 - **Período ('P1M')**: Direciona o Agendador de Tarefas para iniciar a tarefa de limpeza mensalmente durante a manutenção automática regular.
 - **Prazo ('P2M')**: Instrui o Agendador de Tarefas, se a tarefa falhar por dois meses consecutivos, a executar a tarefa durante a manutenção automática de emergência.
 
-Essa configuração garante a manutenção regular e a limpeza de drivers, com disposições para tentar novamente a tarefa em caso de falhas consecutivas.
+Esta configuração garante a manutenção regular e a limpeza de drivers, com disposições para tentar novamente a tarefa em caso de falhas consecutivas.
 
-**Para mais informações, confira:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
+**Para mais informações, consulte:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## Emails
 
@@ -209,7 +210,7 @@ Os **metadados** dos emails e os **contatos** podem ser encontrados dentro do **
 Quando servidores Exchange ou clientes Outlook são usados, haverá alguns cabeçalhos MAPI:
 
 * `Mapi-Client-Submit-Time`: Hora do sistema quando o email foi enviado
-* `Mapi-Conversation-Index`: Número de mensagens filhas do thread e carimbo de data e hora de cada mensagem do thread
+* `Mapi-Conversation-Index`: Número de mensagens filhas do tópico e carimbo de data e hora de cada mensagem do tópico
 * `Mapi-Entry-ID`: Identificador da mensagem.
 * `Mappi-Message-Flags` e `Pr_last_Verb-Executed`: Informações sobre o cliente MAPI (mensagem lida? não lida? respondida? redirecionada? fora do escritório?)
 
@@ -225,7 +226,7 @@ Você pode abrir o arquivo PST usando a ferramenta [**Kernel PST Viewer**](https
 ![](<../../../.gitbook/assets/image (485).png>)
 ### Arquivos OST do Microsoft Outlook
 
-Um **arquivo OST** é gerado pelo Microsoft Outlook quando está configurado com um servidor **IMAP** ou **Exchange**, armazenando informações semelhantes a um arquivo PST. Este arquivo é sincronizado com o servidor, retendo dados dos **últimos 12 meses** até um **tamanho máximo de 50GB**, e está localizado no mesmo diretório do arquivo PST. Para visualizar um arquivo OST, o [**Visualizador OST Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) pode ser utilizado.
+Um **arquivo OST** é gerado pelo Microsoft Outlook quando configurado com um servidor **IMAP** ou **Exchange**, armazenando informações semelhantes a um arquivo PST. Este arquivo é sincronizado com o servidor, retendo dados dos **últimos 12 meses** até um **tamanho máximo de 50GB**, e está localizado no mesmo diretório do arquivo PST. Para visualizar um arquivo OST, o [**Visualizador OST Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) pode ser utilizado.
 
 ### Recuperando Anexos
 
@@ -251,7 +252,7 @@ O Registro do Windows, armazenando extensos dados de atividades do sistema e do 
 - `%windir%\System32\Config` para várias subchaves `HKEY_LOCAL_MACHINE`.
 - `%UserProfile%{User}\NTUSER.DAT` para `HKEY_CURRENT_USER`.
 - O Windows Vista e versões posteriores fazem backup dos arquivos de registro `HKEY_LOCAL_MACHINE` em `%Windir%\System32\Config\RegBack\`.
-- Além disso, as informações de execução de programas são armazenadas em `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` a partir do Windows Vista e Windows 2008 Server em diante.
+- Além disso, informações de execução de programas são armazenadas em `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` a partir do Windows Vista e Windows 2008 Server em diante.
 
 ### Ferramentas
 
@@ -268,7 +269,7 @@ Quando uma chave é deletada, ela é marcada como tal, mas até que o espaço qu
 
 ### Última Hora de Escrita
 
-Cada Chave-Valor contém um **timestamp** indicando a última vez que foi modificado.
+Cada Chave-Valor contém um **timestamp** indicando a última vez que foi modificada.
 
 ### SAM
 
@@ -298,7 +299,7 @@ Você pode abrir o arquivo `SYSTEM` com um editor de registro e dentro do caminh
 
 ### Prefetch do Windows
 
-O prefetching é uma técnica que permite a um computador **buscar silenciosamente os recursos necessários para exibir conteúdo** que um usuário **pode acessar no futuro próximo** para que os recursos possam ser acessados mais rapidamente.
+O Prefetch é uma técnica que permite a um computador **buscar silenciosamente os recursos necessários para exibir conteúdo** que um usuário **pode acessar em um futuro próximo** para que os recursos possam ser acessados mais rapidamente.
 
 O prefetch do Windows consiste em criar **caches dos programas executados** para poder carregá-los mais rapidamente. Esses caches são criados como arquivos `.pf` no caminho: `C:\Windows\Prefetch`. Há um limite de 128 arquivos no XP/VISTA/WIN7 e 1024 arquivos no Win8/Win10.
 
@@ -314,10 +315,10 @@ Para inspecionar esses arquivos, você pode usar a ferramenta [**PEcmd.exe**](ht
 
 ### Superprefetch
 
-**Superprefetch** tem o mesmo objetivo que o prefetch, **carregar programas mais rapidamente** ao prever o que será carregado em seguida. No entanto, não substitui o serviço de prefetch.\
+**Superprefetch** tem o mesmo objetivo que o prefetch, **carregar programas mais rápido** ao prever o que será carregado em seguida. No entanto, não substitui o serviço de prefetch.\
 Este serviço irá gerar arquivos de banco de dados em `C:\Windows\Prefetch\Ag*.db`.
 
-Nesses bancos de dados, você pode encontrar o **nome** do **programa**, **número** de **execuções**, **arquivos** **abertos**, **volume** **acessado**, **caminho** **completo**, **intervalos de tempo** e **carimbos de data e hora**.
+Nesses bancos de dados, você pode encontrar o **nome** do **programa**, **número** de **execuções**, **arquivos** **abertos**, **volume** **acessado**, **caminho** **completo**, **intervalos de tempo** e **timestamps**.
 
 Você pode acessar essas informações usando a ferramenta [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
@@ -418,7 +419,7 @@ Eles podem ser visualizados a partir do Visualizador de Eventos do Windows (**`e
 
 Eventos de acesso são registrados no arquivo de configuração de segurança localizado em `C:\Windows\System32\winevt\Security.evtx`. O tamanho deste arquivo é ajustável e, quando atinge sua capacidade, eventos mais antigos são sobrescritos. Os eventos registrados incluem logins e logoffs de usuários, ações de usuários e alterações nas configurações de segurança, bem como acesso a arquivos, pastas e ativos compartilhados.
 
-### Principais IDs de Eventos para Autenticação de Usuário:
+### IDs de Eventos Principais para Autenticação de Usuário:
 
 - **EventID 4624**: Indica que um usuário foi autenticado com sucesso.
 - **EventID 4625**: Sinaliza uma falha na autenticação.
@@ -432,31 +433,31 @@ Eventos de acesso são registrados no arquivo de configuração de segurança lo
 - **Lote (4)**: Execução de processos em lote.
 - **Serviço (5)**: Inicializações de serviço.
 - **Proxy (6)**: Autenticação de proxy.
-- **Desbloqueio (7)**: Tela desbloqueada com senha.
+- **Desbloquear (7)**: Tela desbloqueada com senha.
 - **Rede de Texto sem Formatação (8)**: Transmissão de senha em texto sem formatação, frequentemente do IIS.
 - **Novas Credenciais (9)**: Uso de credenciais diferentes para acesso.
 - **Interativo Remoto (10)**: Login de desktop remoto ou serviços de terminal.
-- **Cache Interativo (11)**: Login com credenciais em cache sem contato com o controlador de domínio.
-- **Cache Remoto Interativo (12)**: Login remoto com credenciais em cache.
+- **Interativo em Cache (11)**: Login com credenciais em cache sem contato com o controlador de domínio.
+- **Interativo Remoto em Cache (12)**: Login remoto com credenciais em cache.
 - **Desbloqueio em Cache (13)**: Desbloqueio com credenciais em cache.
 
 #### Códigos de Status e Substatus para EventID 4625:
 
 - **0xC0000064**: Nome de usuário não existe - Pode indicar um ataque de enumeração de nomes de usuário.
-- **0xC000006A**: Nome de usuário correto, mas senha errada - Possível tentativa de adivinhação ou força bruta de senha.
-- **0xC0000234**: Conta de usuário bloqueada - Pode seguir um ataque de força bruta resultando em vários logins falhos.
+- **0xC000006A**: Nome de usuário correto, mas senha errada - Possível tentativa de adivinhação de senha ou força bruta.
+- **0xC0000234**: Conta de usuário bloqueada - Pode seguir um ataque de força bruta resultando em múltiplos logins falhados.
 - **0xC0000072**: Conta desativada - Tentativas não autorizadas de acessar contas desativadas.
 - **0xC000006F**: Logon fora do horário permitido - Indica tentativas de acesso fora do horário de login definido, um possível sinal de acesso não autorizado.
 - **0xC0000070**: Violação de restrições de estação de trabalho - Pode ser uma tentativa de login a partir de um local não autorizado.
 - **0xC0000193**: Expiração da conta - Tentativas de acesso com contas de usuário expiradas.
 - **0xC0000071**: Senha expirada - Tentativas de login com senhas desatualizadas.
-- **0xC0000133**: Problemas de sincronização de horário - Grandes discrepâncias de tempo entre cliente e servidor podem ser indicativas de ataques mais sofisticados como pass-the-ticket.
+- **0xC0000133**: Problemas de sincronização de tempo - Grandes discrepâncias de tempo entre cliente e servidor podem ser indicativas de ataques mais sofisticados como pass-the-ticket.
 - **0xC0000224**: Mudança obrigatória de senha - Mudanças obrigatórias frequentes podem sugerir uma tentativa de desestabilizar a segurança da conta.
 - **0xC0000225**: Indica um bug do sistema em vez de um problema de segurança.
 - **0xC000015b**: Tipo de logon negado - Tentativa de acesso com tipo de logon não autorizado, como um usuário tentando executar um logon de serviço.
 
 #### EventID 4616:
-- **Mudança de Horário**: Modificação do horário do sistema, pode obscurecer a linha do tempo dos eventos.
+- **Mudança de Hora**: Modificação do horário do sistema, pode obscurecer a linha do tempo dos eventos.
 
 #### EventID 6005 e 6006:
 - **Inicialização e Desligamento do Sistema**: O EventID 6005 indica a inicialização do sistema, enquanto o EventID 6006 marca o desligamento.
@@ -471,7 +472,7 @@ Eventos de acesso são registrados no arquivo de configuração de segurança lo
 
 Para exemplos práticos sobre simular esses tipos de login e oportunidades de despejo de credenciais, consulte o [guia detalhado da Altered Security](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them).
 
-Detalhes do evento, incluindo códigos de status e substatus, fornecem mais insights sobre as causas do evento, especialmente notáveis no Event ID 4625.
+Detalhes do evento, incluindo códigos de status e substatus, fornecem mais insights sobre as causas do evento, especialmente notáveis no Evento ID 4625.
 
 ### Recuperando Eventos do Windows
 
@@ -479,13 +480,13 @@ Para aumentar as chances de recuperar eventos do Windows excluídos, é aconselh
 
 ### Identificando Ataques Comuns via Eventos do Windows
 
-Para um guia abrangente sobre a utilização de IDs de Eventos do Windows na identificação de ataques cibernéticos comuns, visite [Red Team Recipe](https://redteamrecipe.com/event-codes/).
+Para um guia abrangente sobre a utilização dos IDs de Eventos do Windows na identificação de ataques cibernéticos comuns, visite [Red Team Recipe](https://redteamrecipe.com/event-codes/).
 
 #### Ataques de Força Bruta
 
 Identificáveis por múltiplos registros de EventID 4625, seguidos por um EventID 4624 se o ataque for bem-sucedido.
 
-#### Mudança de Horário
+#### Mudança de Hora
 
 Registrada pelo EventID 4616, alterações no horário do sistema podem complicar a análise forense.
 
@@ -505,16 +506,17 @@ O EventID 1102 de Segurança sinaliza a exclusão de logs, um evento crítico pa
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 
 # CBC
@@ -19,11 +20,11 @@ Se o **cookie** é **apenas** o **nome de usuário** (ou a primeira parte do coo
 
 # CBC-MAC
 
-Na criptografia, um **código de autenticação de mensagem de cadeia de blocos de cifra** (**CBC-MAC**) é uma técnica para construir um código de autenticação de mensagem a partir de um cifrador de blocos. A mensagem é criptografada com algum algoritmo de cifra de blocos no modo CBC para criar uma **cadeia de blocos de forma que cada bloco dependa da correta criptografia do bloco anterior**. Essa interdependência garante que uma **alteração** em **qualquer** dos **bits** do texto simples fará com que o **último bloco criptografado** mude de uma maneira que não pode ser prevista ou neutralizada sem conhecer a chave do cifrador de blocos.
+**Código de autenticação de mensagem de encadeamento de bloco de cifra** (**CBC-MAC**) é um método usado em criptografia. Funciona pegando uma mensagem e a criptografando bloco por bloco, onde a criptografia de cada bloco está vinculada ao anterior. Esse processo cria uma **cadeia de blocos**, garantindo que a alteração de até mesmo um único bit da mensagem original levará a uma mudança imprevisível no último bloco de dados criptografados. Para fazer ou reverter tal mudança, a chave de criptografia é necessária, garantindo segurança.
 
-Para calcular o CBC-MAC da mensagem m, criptografa-se m no modo CBC com vetor de inicialização zero e mantém o último bloco. A figura a seguir esboça o cálculo do CBC-MAC de uma mensagem composta por blocos ![m\_{1}\\|m\_{2}\\|\cdots \\|m\_{x}](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) usando uma chave secreta k e um cifrador de blocos E:
+Para calcular o CBC-MAC da mensagem m, criptografa-se m no modo CBC com vetor de inicialização zero e mantém o último bloco. A figura a seguir esboça o cálculo do CBC-MAC de uma mensagem composta por blocos![https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5](https://wikimedia.org/api/rest\_v1/media/math/render/svg/bbafe7330a5e40a04f01cc776c9d94fe914b17f5) usando uma chave secreta k e um cifrador de bloco E:
 
-![CBC-MAC structure (en).svg](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
+![https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png](https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/CBC-MAC\_structure\_\(en\).svg/570px-CBC-MAC\_structure\_\(en\).svg.png)
 
 # Vulnerabilidade
 
@@ -46,8 +47,8 @@ Imagine que você está criptografando o nome **Administrador** em blocos de **8
 * `rator\00\00\00`
 
 Você pode criar um nome de usuário chamado **Administ** (m1) e recuperar a assinatura (s1).\
-Em seguida, você pode criar um nome de usuário chamado o resultado de `rator\00\00\00 XOR s1`. Isso gerará `E(m2 XOR s1 XOR 0)` que é s32.\
-agora, você pode usar s32 como a assinatura do nome completo **Administrador**.
+Então, você pode criar um nome de usuário chamado o resultado de `rator\00\00\00 XOR s1`. Isso gerará `E(m2 XOR s1 XOR 0)` que é s32.\
+Agora, você pode usar s32 como a assinatura do nome completo **Administrador**.
 
 ### Resumo
 
@@ -55,27 +56,28 @@ agora, você pode usar s32 como a assinatura do nome completo **Administrador**.
 2. Obtenha a assinatura do nome de usuário **rator\x00\x00\x00 XOR s1 XOR 0** é s32**.**
 3. Defina o cookie como s32 e ele será um cookie válido para o usuário **Administrador**.
 
-# Ataque Controlando IV
+# Ataque Controlando o IV
 
 Se você puder controlar o IV usado, o ataque pode ser muito fácil.\
 Se os cookies forem apenas o nome de usuário criptografado, para se passar pelo usuário "**administrador**" você pode criar o usuário "**Administrator**" e obterá seu cookie.\
 Agora, se você puder controlar o IV, poderá alterar o primeiro byte do IV para que **IV\[0] XOR "A" == IV'\[0] XOR "a"** e regenerar o cookie para o usuário **Administrator**. Este cookie será válido para **se passar** pelo usuário **administrador** com o IV inicial.
 
-# Referências
+## Referências
 
 Mais informações em [https://en.wikipedia.org/wiki/CBC-MAC](https://en.wikipedia.org/wiki/CBC-MAC)
 
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

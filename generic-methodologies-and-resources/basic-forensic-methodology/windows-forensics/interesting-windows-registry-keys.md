@@ -2,20 +2,20 @@
 
 ### Chaves de Registro do Windows Interessantes
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Especialista em Equipe Vermelha AWS do HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
+{% endhint %}
 
 ### **Versão do Windows e Informações do Proprietário**
 - Localizado em **`Software\Microsoft\Windows NT\CurrentVersion`**, você encontrará a versão do Windows, Service Pack, horário de instalação e o nome do proprietário registrado de forma direta.
@@ -34,13 +34,13 @@ Outras maneiras de apoiar o HackTricks:
 - A **versão do Windows** indica a edição (por exemplo, Home, Pro) e sua versão (por exemplo, Windows 10, Windows 11), enquanto os **Service Packs** são atualizações que incluem correções e, às vezes, novos recursos.
 
 ### Habilitando a Última Hora de Acesso
-- Habilitar o rastreamento da última hora de acesso permite ver quando os arquivos foram abertos pela última vez, o que pode ser crítico para análise forense ou monitoramento do sistema.
+- Habilitar o rastreamento da última hora de acesso permite ver quando os arquivos foram abertos pela última vez, o que pode ser crucial para análises forenses ou monitoramento do sistema.
 
 ### Detalhes de Informações de Rede
 - O registro contém dados extensos sobre configurações de rede, incluindo **tipos de redes (sem fio, cabo, 3G)** e **categorias de rede (Pública, Privada/Doméstica, Domínio/Trabalho)**, que são vitais para entender as configurações de segurança de rede e permissões.
 
 ### Cache do Lado do Cliente (CSC)
-- **CSC** melhora o acesso a arquivos offline armazenando cópias de arquivos compartilhados. Diferentes configurações de **CSCFlags** controlam como e quais arquivos são armazenados em cache, afetando o desempenho e a experiência do usuário, especialmente em ambientes com conectividade intermitente.
+- O **CSC** melhora o acesso a arquivos offline armazenando cópias de arquivos compartilhados. Diferentes configurações de **CSCFlags** controlam como e quais arquivos são armazenados em cache, afetando o desempenho e a experiência do usuário, especialmente em ambientes com conectividade intermitente.
 
 ### Programas de Inicialização Automática
 - Programas listados em várias chaves de registro `Run` e `RunOnce` são lançados automaticamente na inicialização, afetando o tempo de inicialização do sistema e potencialmente sendo pontos de interesse para identificar malware ou software indesejado.
@@ -48,7 +48,7 @@ Outras maneiras de apoiar o HackTricks:
 ### Shellbags
 - **Shellbags** não apenas armazenam preferências para visualizações de pastas, mas também fornecem evidências forenses de acesso a pastas mesmo que a pasta não exista mais. São inestimáveis para investigações, revelando atividades do usuário que não são óbvias por outros meios.
 
-### Informações e Forense de USB
+### Informações e Forense de Dispositivos USB
 - Os detalhes armazenados no registro sobre dispositivos USB podem ajudar a rastrear quais dispositivos foram conectados a um computador, potencialmente vinculando um dispositivo a transferências de arquivos sensíveis ou incidentes de acesso não autorizado.
 
 ### Número de Série do Volume
@@ -71,9 +71,9 @@ Outras maneiras de apoiar o HackTricks:
 - As pesquisas do Explorador e os caminhos digitados são rastreados no registro em **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** para WordwheelQuery e TypedPaths, respectivamente.
 
 ### **Documentos Recentes e Arquivos do Office**
-- Documentos recentes e arquivos do Office acessados são registrados em `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` e caminhos específicos de versões do Office.
+- Documentos recentes e arquivos do Office acessados são registrados em `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` e caminhos específicos da versão do Office.
 
-### **Itens Mais Recentes Usados (MRU)**
+### **Itens Mais Recentes Utilizados (MRU)**
 - Listas MRU, indicando caminhos e comandos de arquivos recentes, são armazenadas em várias subchaves `ComDlg32` e `Explorer` em `NTUSER.DAT`.
 
 ### **Rastreamento de Atividade do Usuário**
@@ -87,4 +87,19 @@ Outras maneiras de apoiar o HackTricks:
 - O usuário associado a um dispositivo USB específico pode ser identificado pesquisando as colmeias `NTUSER.DAT` para o **{GUID}** do dispositivo.
 - O último dispositivo montado e seu número de série de volume podem ser rastreados por meio de `System\MountedDevices` e `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectivamente.
 
-Este guia condensa os caminhos e métodos cruciais para acessar informações detalhadas do sistema, rede e atividade do usuário em sistemas Windows, visando clareza e usabilidade.
+Este guia condensa os caminhos e métodos cruciais para acessar informações detalhadas de sistema, rede e atividade do usuário em sistemas Windows, visando clareza e usabilidade.
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Apoie o HackTricks</summary>
+
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}
