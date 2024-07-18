@@ -1,135 +1,137 @@
-# Kontrolelys - Linux Voorregskalering
+# Checklist - Linux Privilege Escalation
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
+Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en bug bounty jagters te kommunikeer!
 
-**Hakinsigte**\
-Betrokkenheid by inhoud wat die opwinding en uitdagings van hak bevat
+**Hacking Inligting**\
+Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Nuutste Haknuus**\
-Bly op hoogte van die snelveranderende hakwêreld deur middel van nuus en insigte in werklikheid
+**Regte Tyd Hack Nuus**\
+Bly op hoogte van die vinnig bewegende hacking wêreld deur regte tyd nuus en insigte
 
-**Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
+**Laaste Aankondigings**\
+Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
-### **Beste hulpmiddel om te soek na Linux plaaslike voorregskalering vektore:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Beste hulpmiddel om na Linux plaaslike privilige eskalasie vektore te soek:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 ### [Stelselinligting](privilege-escalation/#system-information)
 
-* [ ] Kry **OS-inligting**
-* [ ] Kontroleer die [**PAD**](privilege-escalation/#path), enige **skryfbare vouer**?
-* [ ] Kontroleer [**omgewingsveranderlikes**](privilege-escalation/#env-info), enige sensitiewe besonderhede?
-* [ ] Soek na [**kernel-uitbuitings**](privilege-escalation/#kernel-exploits) **deur skripte te gebruik** (DirtyCow?)
-* [ ] **Kontroleer** of die [**sudo-weergawe** kwesbaar is](privilege-escalation/#sudo-version)
-* [ ] [**Dmesg** handtekeningverifikasie het misluk](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] Meer stelselenum ([datum, stelselstatistieke, CPU-inligting, drukkers](privilege-escalation/#more-system-enumeration))
-* [ ] [Enumerate meer verdedigings](privilege-escalation/#enumerate-possible-defenses)
+* [ ] Kry **OS inligting**
+* [ ] Kyk na die [**PATH**](privilege-escalation/#path), enige **skryfbare vouer**?
+* [ ] Kyk [**omgewing veranderlikes**](privilege-escalation/#env-info), enige sensitiewe besonderhede?
+* [ ] Soek na [**kernel exploits**](privilege-escalation/#kernel-exploits) **met behulp van skripte** (DirtyCow?)
+* [ ] **Kyk** of die [**sudo weergawe** kwesbaar is](privilege-escalation/#sudo-version)
+* [ ] [**Dmesg** handtekening verifikasie het misluk](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] Meer stelsel enum ([datum, stelsel statistieke, cpu inligting, drukkers](privilege-escalation/#more-system-enumeration))
+* [ ] [**Enumereer meer verdediging**](privilege-escalation/#enumerate-possible-defenses)
 
-### [Skywe](privilege-escalation/#drives)
+### [Aandrywe](privilege-escalation/#drives)
 
-* [ ] **Lys aangeheg** skrywe
-* [ ] **Enige onaangehegde skyf?**
-* [ ] **Enige geloofsbriewe in fstab?**
+* [ ] **Lys gemonteerde** aandrywe
+* [ ] **Enige ongemonteerde aandrywe?**
+* [ ] **Enige krediete in fstab?**
 
-### [**Geïnstalleerde sagteware**](privilege-escalation/#installed-software)
+### [**Gemonteerde Sagteware**](privilege-escalation/#installed-software)
 
-* [ ] **Kontroleer vir** [**nuttige sagteware**](privilege-escalation/#useful-software) **geïnstalleer**
-* [ ] **Kontroleer vir** [**kwesbare sagteware**](privilege-escalation/#vulnerable-software-installed) **geïnstalleer**
+* [ ] **Kyk vir**[ **nuttige sagteware**](privilege-escalation/#useful-software) **geïnstalleer**
+* [ ] **Kyk vir** [**kwesbare sagteware**](privilege-escalation/#vulnerable-software-installed) **geïnstalleer**
 
 ### [Prosesse](privilege-escalation/#processes)
 
-* [ ] Is enige **onbekende sagteware aan die hardloop**?
-* [ ] Word enige sagteware aan die hardloop met **meer voorregte as wat dit behoort te hê**?
-* [ ] Soek na **uitbuitings van aan die hardloop prosesse** (veral die weergawe wat aan die hardloop is).
-* [ ] Kan jy die binêre kode van enige aan die hardloop proses **verander**?
-* [ ] **Monitor prosesse** en kontroleer of enige interessante proses gereeld aan die hardloop is.
-* [ ] Kan jy van enige interessante **prosesgeheue** lees (waar wagwoorde gestoor kan word)?
+* [ ] Is enige **onbekende sagteware aan die gang**?
+* [ ] Is enige sagteware aan die gang met **meer privilige as wat dit behoort te hê**?
+* [ ] Soek na **exploits van lopende prosesse** (veral die weergawe wat aan die gang is).
+* [ ] Kan jy die **binaire** van enige lopende proses **wysig**?
+* [ ] **Monitor prosesse** en kyk of enige interessante proses gereeld aan die gang is.
+* [ ] Kan jy **lees** van sommige interessante **proses geheue** (waar wagwoorde gestoor kan word)?
 
-### [Geskeduleerde/Cron-take?](privilege-escalation/#scheduled-jobs)
+### [Geskeduleerde/Cron werke?](privilege-escalation/#scheduled-jobs)
 
-* [ ] Word die [**PAD** ](privilege-escalation/#cron-path)gewysig deur 'n cron en kan jy daarin **skryf**?
-* [ ] Enige [**wildkaart** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)in 'n cron-taak?
-* [ ] Word 'n [**veranderbare skripsie** ](privilege-escalation/#cron-script-overwriting-and-symlink)uitgevoer of is binne 'n **veranderbare vouer**?
-* [ ] Het jy opgemerk dat 'n sekere **skripsie** dalk of gereeld [**uitgevoer word**](privilege-escalation/#frequent-cron-jobs)? (elke 1, 2 of 5 minute)
+* [ ] Word die [**PATH** ](privilege-escalation/#cron-path) deur 'n cron gewysig en kan jy daarin **skryf**?
+* [ ] Enige [**wildcard** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection) in 'n cron werk?
+* [ ] Sommige [**wysigbare skrip** ](privilege-escalation/#cron-script-overwriting-and-symlink) word **uitgevoer** of is binne **wysigbare vouer**?
+* [ ] Het jy opgemerk dat sommige **skrip** of **uitgevoer** word [**baie **gereeld**](privilege-escalation/#frequent-cron-jobs)? (elke 1, 2 of 5 minute)
 
 ### [Dienste](privilege-escalation/#services)
 
-* [ ] Enige **skryfbare .diens** lêer?
-* [ ] Enige **skryfbare binêre** wat deur 'n **diens** uitgevoer word?
-* [ ] Enige **skryfbare vouer in systemd PAD**?
+* [ ] Enige **skryfbare .service** lêer?
+* [ ] Enige **skryfbare binaire** wat deur 'n **diens** uitgevoer word?
+* [ ] Enige **skryfbare vouer in systemd PATH**?
 
-### [Tydskakelaars](privilege-escalation/#timers)
+### [Timers](privilege-escalation/#timers)
 
-* [ ] Enige **skryfbare tydskakelaar**?
+* [ ] Enige **skryfbare timer**?
 
 ### [Sockets](privilege-escalation/#sockets)
 
 * [ ] Enige **skryfbare .socket** lêer?
-* [ ] Kan jy met enige socket **kommunikeer**?
-* [ ] **HTTP-sockets** met interessante inligting?
+* [ ] Kan jy **kommunikeer met enige socket**?
+* [ ] **HTTP sockets** met interessante inligting?
 
 ### [D-Bus](privilege-escalation/#d-bus)
 
-* [ ] Kan jy met enige D-Bus **kommunikeer**?
+* [ ] Kan jy **kommunikeer met enige D-Bus**?
 
 ### [Netwerk](privilege-escalation/#network)
 
 * [ ] Enumereer die netwerk om te weet waar jy is
-* [ ] **Oop poorte wat jy nie voorheen kon bereik nie** nadat jy 'n skaal binne die masjien gekry het?
-* [ ] Kan jy verkeer **sniff** met behulp van `tcpdump`?
+* [ ] **Oop poorte wat jy nie voorheen kon toegang nie** om 'n shell binne die masjien te kry?
+* [ ] Kan jy **verkeer afluister** met `tcpdump`?
 
 ### [Gebruikers](privilege-escalation/#users)
 
-* [ ] Generiese gebruikers/groepe **opsomming**
+* [ ] Generiese gebruikers/groepe **enumering**
 * [ ] Het jy 'n **baie groot UID**? Is die **masjien** **kwesbaar**?
-* [ ] Kan jy [**voorregte opskerp**](privilege-escalation/interesting-groups-linux-pe/) danksy 'n groep waarvan jy deel is?
-* [ ] **Knipbord** data?
+* [ ] Kan jy [**privilege eskalasie danksy 'n groep**](privilege-escalation/interesting-groups-linux-pe/) waartoe jy behoort?
+* [ ] **Clipboard** data?
 * [ ] Wagwoordbeleid?
-* [ ] Probeer om elke **bekende wagwoord** wat jy vantevore ontdek het te **gebruik** om in te teken **met elke** moontlike **gebruiker**. Probeer ook om sonder 'n wagwoord in te teken.
+* [ ] Probeer om **elke bekende wagwoord** wat jy voorheen ontdek het te gebruik om in te log met **elke** moontlike **gebruiker**. Probeer ook om sonder 'n wagwoord in te log.
 
-### [Skryfbare PAD](privilege-escalation/#writable-path-abuses)
+### [Skryfbare PATH](privilege-escalation/#writable-path-abuses)
 
-* [ ] As jy **skryfregte oor 'n vouer in PAD** het, kan jy voorregte opskerp
+* [ ] As jy **skryfregte oor 'n vouer in PATH** het, kan jy dalk privilige eskalasie doen
 
-### [SUDO en SUID-opdragte](privilege-escalation/#sudo-and-suid)
+### [SUDO en SUID opdragte](privilege-escalation/#sudo-and-suid)
 
-* [ ] Kan jy **enige opdrag met sudo uitvoer**? Kan jy dit gebruik om AS ROOT te LEES, SKRYF of UIT TE VOER? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Is enige **uitbuitbare SUID-binêre**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Is [**sudo** opdragte **beperk** deur **pad**? kan jy die beperkings **verbygaan**](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Sudo/SUID-binêre sonder aangeduide pad**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
-* [ ] [**SUID-binêre wat pad aandui**](privilege-escalation/#suid-binary-with-command-path)? Verbygaan
+* [ ] Kan jy **enige opdrag met sudo uitvoer**? Kan jy dit gebruik om IES, SKRYF of UITVOER enigiets as root? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Is enige **exploitable SUID binaire**? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Is [**sudo** opdragte **beperk** deur **pad**? kan jy die beperkings **omseil**](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] [**Sudo/SUID binaire sonder pad aangedui**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**SUID binaire wat pad spesifiseer**](privilege-escalation/#suid-binary-with-command-path)? Omseil
 * [ ] [**LD\_PRELOAD kwesbaarheid**](privilege-escalation/#ld\_preload)
-* [ ] [**Gebrek aan .so-biblioteek in SUID-binêre**](privilege-escalation/#suid-binary-so-injection) vanaf 'n skryfbare vouer?
-* [ ] [**SUDO-tokens beskikbaar**](privilege-escalation/#reusing-sudo-tokens)? [**Kan jy 'n SUDO-token skep**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
-* [ ] Kan jy [**sudoers-lêers lees of wysig**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
-* [ ] Kan jy [**/etc/ld.so.conf.d/** wysig](privilege-escalation/#etc-ld-so-conf-d)?
+* [ ] [**Gebrek aan .so biblioteek in SUID binaire**](privilege-escalation/#suid-binary-so-injection) van 'n skryfbare vouer?
+* [ ] [**SUDO tokens beskikbaar**](privilege-escalation/#reusing-sudo-tokens)? [**Kan jy 'n SUDO token skep**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
+* [ ] Kan jy [**lees of wysig sudoers lêers**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
+* [ ] Kan jy [**wysig /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
 * [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) opdrag
+
 ### [Vermoeëns](privilege-escalation/#capabilities)
 
-* [ ] Het enige binêre enige **onverwagte vermoëns**?
+* [ ] Het enige binaire enige **onverwagte vermoë**?
 
-### [ACL's](privilege-escalation/#acls)
+### [ACLs](privilege-escalation/#acls)
 
 * [ ] Het enige lêer enige **onverwagte ACL**?
 
-### [Oop Skel-sessies](privilege-escalation/#open-shell-sessions)
+### [Oop Shell sessies](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
@@ -141,27 +143,57 @@ Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke plat
 
 ### [Interessante Lêers](privilege-escalation/#interesting-files)
 
-* [ ] **Profiellêers** - Lees sensitiewe data? Skryf na privesc?
-* [ ] **passwd/shadow lêers** - Lees sensitiewe data? Skryf na privesc?
-* [ ] **Kyk algemeen interessante vouers** vir sensitiewe data
-* [ ] **Vreemde Ligging/Eienaarslêers,** jy mag toegang hê tot of uitvoerbare lêers verander
+* [ ] **Profiel lêers** - Lees sensitiewe data? Skryf na privesk?
+* [ ] **passwd/shadow lêers** - Lees sensitiewe data? Skryf na privesk?
+* [ ] **Kyk na algemeen interessante vouers** vir sensitiewe data
+* [ ] **Vreemde Ligging/Eienaars lêers,** jy mag toegang hê tot of uitvoerbare lêers verander
 * [ ] **Gewysig** in laaste minute
 * [ ] **Sqlite DB lêers**
 * [ ] **Versteekte lêers**
-* [ ] **Skripsie/Binêre lêers in PATH**
+* [ ] **Skrip/Binaries in PATH**
 * [ ] **Web lêers** (wagwoorde?)
-* [ ] **Rugsteun**?
+* [ ] **Backups**?
 * [ ] **Bekende lêers wat wagwoorde bevat**: Gebruik **Linpeas** en **LaZagne**
 * [ ] **Generiese soektog**
 
 ### [**Skryfbare Lêers**](privilege-escalation/#writable-files)
 
-* [ ] **Wysig python-biblioteek** om arbitrêre opdragte uit te voer?
-* [ ] Kan jy **loglêers wysig**? **Logtotten** uitbuiting
-* [ ] Kan jy **/etc/sysconfig/network-scripts/** wysig? Centos/Redhat uitbuiting
+* [ ] **Wysig python biblioteek** om arbitrêre opdragte uit te voer?
+* [ ] Kan jy **log lêers wysig**? **Logtotten** kwesbaarheid
+* [ ] Kan jy **wysig /etc/sysconfig/network-scripts/**? Centos/Redhat kwesbaarheid
 * [ ] Kan jy [**skryf in ini, int.d, systemd of rc.d lêers**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
 
 ### [**Ander truuks**](privilege-escalation/#other-tricks)
 
-* [ ] Kan jy [**NFS misbruik om voorregte te eskaleer**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Het jy nodig om te [**ontsnap uit 'n beperkende dop**](privilege-escalation/#escaping-from-restricted-shells)?
+* [ ] Kan jy [**NFS misbruik om privilige te eskaleer**](privilege-escalation/#nfs-privilege-escalation)?
+* [ ] Moet jy [**ontsnap uit 'n beperkende shell**](privilege-escalation/#escaping-from-restricted-shells)?
+
+<figure><img src="../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
+
+Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en bug bounty jagters te kommunikeer!
+
+**Hacking Inligting**\
+Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
+
+**Regte Tyd Hack Nuus**\
+Bly op hoogte van die vinnig bewegende hacking wêreld deur regte tyd nuus en insigte
+
+**Laaste Aankondigings**\
+Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
+
+**Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Ondersteun HackTricks</summary>
+
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

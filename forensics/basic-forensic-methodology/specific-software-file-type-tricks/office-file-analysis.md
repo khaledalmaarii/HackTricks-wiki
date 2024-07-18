@@ -1,58 +1,60 @@
-# Kantoorlêerontleding
+# Office-lêeranalise
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandag Toegang:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-Vir verdere inligting, besoek [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Dit is net 'n opsomming:
-
-Microsoft het baie kantoorlêerformate geskep, met twee hooftipes wat **OLE-formate** (soos RTF, DOC, XLS, PPT) en **Office Open XML (OOXML) formate** (soos DOCX, XLSX, PPTX) insluit. Hierdie formate kan makros insluit, wat hulle teikens maak vir hengel en kwaadwillige sagteware. OOXML-lêers is gestruktureer as zip-houers, wat inspeksie deur middel van ontzip toelaat, wat die lêer- en vouerhiërargie en XML-lêerinhoud onthul.
-
-Om OOXML-lêerstrukture te verken, word die opdrag om 'n dokument te ontzip en die uitvoerstruktuur gegee. Tegnieke vir die versteek van data in hierdie lêers is gedokumenteer, wat dui op voortdurende innovasie in data-versteek binne CTF-uitdagings.
-
-Vir ontleding bied **oletools** en **OfficeDissector** omvattende gereedskapstelle vir die ondersoek van beide OLE- en OOXML-dokumente. Hierdie gereedskappe help om ingeslote makros te identifiseer en te analiseer, wat dikwels as vektore vir kwaadwillige sagteware-aflewering dien, wat tipies aanvullende kwaadwillige vragte aflaai en uitvoer. Analise van VBA-makros kan uitgevoer word sonder Microsoft Office deur gebruik te maak van Libre Office, wat foutopsporing met breekpunte en kykveranderlikes moontlik maak.
-
-Die installasie en gebruik van **oletools** is maklik, met opdragte wat voorsien word vir installering via pip en die onttrekking van makros uit dokumente. Outomatiese uitvoering van makros word geaktiveer deur funksies soos `AutoOpen`, `AutoExec`, of `Document_Open`.
-```bash
-sudo pip3 install -U oletools
-olevba -c /path/to/document #Extract macros
-```
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik en **outomatiseer werkstrome** te bou wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkvloei te outomatiseer** wat deur die wêreld se **mees gevorderde** gemeenskapstoestelle aangedryf word.\
 Kry Toegang Vandag:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+Vir verdere inligting, kyk [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/). Dit is net 'n opsomming:
+
+Microsoft het baie kantoor dokumentformate geskep, met twee hoof tipes wat **OLE-formate** (soos RTF, DOC, XLS, PPT) en **Office Open XML (OOXML) formate** (soos DOCX, XLSX, PPTX) is. Hierdie formate kan makros insluit, wat hulle teikens vir phishing en malware maak. OOXML-lêers is gestruktureer as zip-kontainers, wat inspeksie deur ontrafel moontlik maak, wat die lêer- en vouerhiërargie en XML-lêerinhoud onthul.
+
+Om OOXML-lêerstrukture te verken, word die opdrag om 'n dokument te ontrafel en die uitvoerstruktuur gegee. Tegnieke om data in hierdie lêers te verberg is gedokumenteer, wat daarop dui dat daar voortgesette innovasie in dataverborge binne CTF-uitdagings is.
+
+Vir analise bied **oletools** en **OfficeDissector** omvattende gereedskapstelle vir die ondersoek van beide OLE en OOXML dokumente. Hierdie gereedskap help om ingebedde makros te identifiseer en te analiseer, wat dikwels as vektore vir malware-aflewering dien, wat tipies addisionele kwaadwillige payloads aflaai en uitvoer. Analise van VBA-makros kan sonder Microsoft Office gedoen word deur Libre Office te gebruik, wat debuggings met breekpunte en kykveranderlikes toelaat.
+
+Installasie en gebruik van **oletools** is eenvoudig, met opdragte wat verskaf word vir installasie via pip en die onttrekking van makros uit dokumente. Outomatiese uitvoering van makros word geaktiveer deur funksies soos `AutoOpen`, `AutoExec`, of `Document_Open`.
+```bash
+sudo pip3 install -U oletools
+olevba -c /path/to/document #Extract macros
+```
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkvloei** te bou en te **automate** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapstools.\
+Kry Toegang Vandag:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hak van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

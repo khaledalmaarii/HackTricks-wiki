@@ -1,22 +1,23 @@
 # Wifi Pcap Analise
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Kontroleer BSSIDs
 
-Wanneer jy 'n vangs ontvang waarvan die hoofverkeer Wifi gebruik met WireShark, kan jy begin om al die SSIDs van die vangs te ondersoek met _Wireless --> WLAN Traffic_:
+Wanneer jy 'n opname ontvang waarvan die hoofverkeer Wifi is, kan jy begin om al die SSIDs van die opname te ondersoek met _Wireless --> WLAN Traffic_:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -24,40 +25,43 @@ Wanneer jy 'n vangs ontvang waarvan die hoofverkeer Wifi gebruik met WireShark, 
 
 ### Brute Force
 
-Een van die kolomme van daardie skerm dui aan of **enige verifikasie binne die pcap gevind is**. As dit die geval is, kan jy probeer om dit te Brute force met behulp van `aircrack-ng`:
+Een van die kolomme van daardie skerm dui aan of **enige outentisering binne die pcap gevind is**. As dit die geval is, kan jy probeer om dit te Brute force met `aircrack-ng`:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
+For example it will retrieve the WPA passphrase protecting a PSK (pre shared-key), that will be required to decrypt the trafic later.
+
 ## Data in Beacons / Side Channel
 
-Indien jy vermoed dat **data uitlek binne die beacons van 'n Wifi-netwerk**, kan jy die beacons van die netwerk ondersoek deur 'n filter soos die volgende te gebruik: `wlan contains <NAMEofNETWORK>`, of `wlan.ssid == "NAMEofNETWORK"` soek binne die gefiltreerde pakkette vir verdagte strings.
+If you suspect that **data is being leaked inside beacons of a Wifi network** you can check the beacons of the network using a filter like the following one: `wlan contains <NAMEofNETWORK>`, or `wlan.ssid == "NAMEofNETWORK"` search inside the filtered packets for suspicious strings.
 
-## Vind Onbekende MAC-adresse in 'n Wifi-netwerk
+## Find Unknown MAC Addresses in A Wifi Network
 
-Die volgende skakel sal nuttig wees om die **toestelle wat data stuur binne 'n Wifi-netwerk** te vind:
+The following link will be useful to find the **machines sending data inside a Wifi Network**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-As jy reeds die **MAC-adresse ken, kan jy hulle uit die uitset verwyder** deur kontroles by te voeg soos hierdie: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
+If you already know **MAC addresses you can remove them from the output** adding checks like this one: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Sodra jy **onbekende MAC-adresse** wat binne die netwerk kommunikeer, opgespoor het, kan jy **filters** gebruik soos die volgende: `wlan.addr==<MAC-adres> && (ftp || http || ssh || telnet)` om sy verkeer te filtreer. Let daarop dat ftp/http/ssh/telnet-filters nuttig is as jy die verkeer ontsluit het.
+Once you have detected **unknown MAC** addresses communicating inside the network you can use **filters** like the following one: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` to filter its traffic. Note that ftp/http/ssh/telnet filters are useful if you have decrypted the traffic.
 
-## Ontsleutel Verkeer
+## Decrypt Traffic
 
-Edit --> Voorkeure --> Protokolle --> IEEE 802.11--> Edit
+Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
 ![](<../../../.gitbook/assets/image (499).png>)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,24 +1,27 @@
 # Toegangstokens
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Werk jy by 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **donkerweb**-aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** gekompromitteer is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
 
-Die primêre doel van WhiteIntel is om rekeningoorneemname en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteelmalware.
+Hul primêre doel van WhiteIntel is om rekeningoorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -28,9 +31,9 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 ## Toegangstokens
 
-Elke **gebruiker wat ingeteken** is op die stelsel **beskik oor 'n toegangstoken met sekuriteitsinligting** vir daardie intekensessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker inteken. **Elke proses wat uitgevoer word** namens die gebruiker **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n intekensid (Sekuriteitsidentifiseerder) wat die huidige intekensessie identifiseer.
+Elke **gebruiker wat op die stelsel aangemeld is**, **besit 'n toegangstoken met sekuriteitsinligting** vir daardie aanmeldsessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker aanmeld. **Elke proses wat namens die gebruiker uitgevoer word**, **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n aanmeld SID (Security Identifier) wat die huidige aanmeldsessie identifiseer.
 
-Jy kan hierdie inligting sien deur `whoami /all` uit te voer
+Jy kan hierdie inligting sien deur `whoami /all` uit te voer.
 ```
 whoami /all
 
@@ -74,77 +77,80 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-of deur _Process Explorer_ van Sysinternals te gebruik (kies proses en toegang "Sekuriteit" lappie):
+or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
 
 ![](<../../.gitbook/assets/image (772).png>)
 
 ### Plaaslike administrateur
 
-Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateursregte en die ander met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word dié met **gewone** (nie-administrateur) **regte gebruik**. Wanneer hierdie gebruiker iets probeer **uitvoer as administrateur** ("Uitvoer as Administrateur" byvoorbeeld) sal die **UAC** gebruik word om vir toestemming te vra.\
-As jy meer wil leer oor die UAC, [**lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
+Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateurregte en die ander een met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word die een met **reguliere** (nie-administrateur) **regte gebruik**. Wanneer hierdie gebruiker probeer om **enige iets** **as administrateur** uit te voer ("Run as Administrator" byvoorbeeld), sal die **UAC** gebruik word om toestemming te vra.\
+As jy wil [**meer oor die UAC leer, lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Geldeenhede gebruiker impersonation
+### Kredensiële gebruikersverpersoonliking
 
-As jy **geldige geldeenhede van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie skep** met daardie geldeenhede:
+As jy **geldige kredensiale van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie** met daardie kredensiale **skep**:
 ```
 runas /user:domain\username cmd.exe
 ```
-Die **toegangstoken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere netwerkobjekte benodig.\
-Jy kan 'n proses begin wat **verskillende geloofsbriewe gebruik vir die toegang tot netwerkdienste** met behulp van:
+Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere voorwerpe van die netwerk moet verkry.\
+Jy kan 'n proses begin wat **verskillende akrediteerbesonderhede gebruik om toegang tot netwerkdienste te verkry** deur:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Hierdie is nuttig as jy nuttige geloofsbriewe het om voorwerpe in die netwerk te benader, maar daardie geloofsbriewe is nie geldig binne die huidige gasheer nie, aangesien hulle slegs in die netwerk gebruik sal word (in die huidige gasheer sal jou huidige gebruikersregte gebruik word).
+This is useful if you have useful credentials to access objects in the network but those credentials aren't valid inside the current host as they are only going to be used in the network (in the current host your current user privileges will be used).
 
-### Tipes tokens
+### Types of tokens
 
-Daar is twee tipes tokens beskikbaar:
+There are two types of tokens available:
 
-* **Primêre Token**: Dit dien as 'n verteenwoordiging van 'n proses se sekuriteitsgelde. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde regte vereis, wat die beginsel van regverdige skeiding beklemtoon. Tipies is 'n verifikasiediens verantwoordelik vir token-skepping, terwyl 'n aanmeldingsdiens dit hanteer met die gebruiker se bedryfstelselshell. Dit is die moeite werd om te let daarop dat prosesse die primêre token van hul ouerproses by skepping erf.
-* **Impersonation Token**: Gee 'n bediener-toepassing die vermoë om tydelik die identiteit van die klient aan te neem vir die benadering van veilige voorwerpe. Hierdie meganisme is verdeel in vier vlakke van werking:
-  * **Anoniem**: Verleen bediener-toegang soortgelyk aan dié van 'n ongeïdentifiseerde gebruiker.
-  * **Identifikasie**: Laat die bediener toe om die klient se identiteit te verifieer sonder om dit vir voorwerpstoegang te gebruik.
-  * **Impersonation**: Stel die bediener in staat om onder die klient se identiteit te werk.
-  * **Delegasie**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteitsaannames na afgeleë stelsels uit te brei waarmee die bediener interaksie het, om geloofsbriewe te behou.
+* **Primary Token**: Dit dien as 'n voorstelling van 'n proses se sekuriteitsakkrediteer. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde voorregte vereis, wat die beginsel van voorregskeiding beklemtoon. Gewoonlik is 'n verifikasiediens verantwoordelik vir token skepping, terwyl 'n aanmelddiens dit hanteer met die gebruiker se bedryfstelsel-skal. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouer proses by skepping erf.
+* **Impersonation Token**: Bemagtig 'n bedienertoepassing om die kliënt se identiteit tydelik aan te neem om toegang tot veilige voorwerpe te verkry. Hierdie meganisme is gelaag in vier vlakke van werking:
+* **Anonymous**: Gee bediener toegang soortgelyk aan dié van 'n onbekende gebruiker.
+* **Identification**: Laat die bediener toe om die kliënt se identiteit te verifieer sonder om dit te gebruik vir voorwerp toegang.
+* **Impersonation**: Stel die bediener in staat om onder die kliënt se identiteit te werk.
+* **Delegation**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteit aanneming na afgeleë stelsels wat die bediener mee werk, uit te brei, wat akkrediteer behoud verseker.
 
 #### Impersonate Tokens
 
-Deur die _**incognito**_ module van metasploit te gebruik as jy genoeg regte het, kan jy maklik **lys** en **impersonate** ander **tokens**. Dit kan nuttig wees om **aksies uit te voer asof jy die ander gebruiker was**. Jy kan ook **regte eskaleer** met hierdie tegniek.
+Using the _**incognito**_ module of metasploit if you have enough privileges you can easily **list** and **impersonate** other **tokens**. This could be useful to perform **actions as if you where the other user**. You could also **escalate privileges** with this technique.
 
-### Token Regte
+### Token Privileges
 
-Leer watter **token regte misbruik kan word om regte te eskaleer:**
+Learn which **token privileges can be abused to escalate privileges:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Neem 'n kykie na [**al die moontlike token regte en 'n paar definisies op hierdie eksterne bladsy**](https://github.com/gtworek/Priv2Admin).
+Take a look to [**all the possible token privileges and some definitions on this external page**](https://github.com/gtworek/Priv2Admin).
 
-## Verwysings
+## References
 
-Leer meer oor tokens in hierdie tutoriale: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) en [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **donker-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware gekompromitteer** is.
+[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
 
-Die primêre doel van WhiteIntel is om rekening-oorneem te bekamp en losgeldware-aanvalle te voorkom wat voortspruit uit inligtingsteelmalware.
+Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
 
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
+You can check their website and try their engine for **free** at:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Werk jy in 'n **cybersekuriteitsmaatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? of wil jy toegang hê tot die **nuutste weergawe van die PEASS of HackTricks aflaai in PDF-formaat**? Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**hacktricks-opslag**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud-opslag**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
