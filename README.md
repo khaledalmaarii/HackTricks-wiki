@@ -8,23 +8,23 @@ _Hacktricks logo's & bewegingsontwerp deur_ [_@ppiernacho_](https://www.instagra
 **Welkom by die wiki waar jy elke haktruc/tegniek/enigiets sal vind wat ek geleer het van CTF's, werklike toepassings, navorsing en nuus.**
 {% endhint %}
 
-Om te begin, volg hierdie bladsy waar jy die **tipiese vloei** sal vind wat **jy moet volg wanneer jy pentesting** op een of meer **masjiene:**
+Om te begin, volg hierdie bladsy waar jy die **tipiese vloei** sal vind wat **jy moet volg wanneer jy pentesting** op een of meer **toestelle uitvoer:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Korporatiewe Borgsponsors
+## Korporatiewe Borgskappe
 
 ### [STM Cyber](https://www.stmcyber.com)
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) is 'n uitstekende siberbeveiligingsmaatskappy wie se leuse is **HACK THE UNHACKABLE**. Hulle doen hul eie navorsing en ontwikkel hul eie hakgereedskap om **verskeie waardevolle siberbeveiligingsdienste** aan te bied soos pentesting, Rooi spanne en opleiding.
+[**STM Cyber**](https://www.stmcyber.com) is 'n uitstekende sibersekuriteitsmaatskappy waarvan die leuse is **HACK THE UNHACKABLE**. Hulle doen hul eie navorsing en ontwikkel hul eie hakgereedskap om **verskeie waardevolle sibersekuriteitsdienste** aan te bied soos pentesting, Rooi spanne en opleiding.
 
 Jy kan hul **blog** besoek by [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** ondersteun ook siberbeveiliging oopbronprojekte soos HackTricks :)
+**STM Cyber** ondersteun ook sibersekuriteit oopbronprojekte soos HackTricks :)
 
 ***
 
@@ -32,7 +32,7 @@ Jy kan hul **blog** besoek by [**https://blog.stmcyber.com**](https://blog.stmcy
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) is die mees relevante siberbeveiliginggebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en siberbeveiligingsprofessionals in elke dissipline.
+[**RootedCON**](https://www.rootedcon.com) is die mees relevante sibersekuriteitsgebeurtenis in **Spanje** en een van die belangrikste in **Europa**. Met **die missie om tegniese kennis te bevorder**, is hierdie kongres 'n kookpunt vir tegnologie- en sibersekuriteitsprofessionals in elke dissipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,7 +42,7 @@ Jy kan hul **blog** besoek by [**https://blog.stmcyber.com**](https://blog.stmcy
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** is die **#1** etiese hak- en **foutbeloningsplatform van Europa.**
+**Intigriti** is die **#1** etiese hak- en **foutbeloningsplatform in Europa.**
 
 **Foutbeloningswenk**: **teken aan** by **Intigriti**, 'n premium **foutbeloningsplatform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin om belonings tot **$100,000** te verdien!
 
@@ -55,7 +55,7 @@ Jy kan hul **blog** besoek by [**https://blog.stmcyber.com**](https://blog.stmcy
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik werkstrome te bou en te **outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik werkstrome te bou en te **outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.
 
 Kry Vandag Toegang:
 
@@ -69,9 +69,9 @@ Kry Vandag Toegang:
 
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
-* **Hakinsigte:** Skakel in met inhoud wat die opwinding en uitdagings van hak in detail ondersoek
-* **Realtydse Haknuus:** Bly op hoogte van die vinnige hakwêreld deur middel van realtydse nuus en insigte
-* **Nuutste Aankondigings:** Bly ingelig met die nuutste foutbelonings wat bekendgestel word en belangrike platformopdaterings
+* **Hakinsigte:** Raak betrokke by inhoud wat in die opwinding en uitdagings van hakken duik
+* **Nuus oor Hack in Werklikheid:** Bly op hoogte van die vinnige tempo van die hakwêreld deur werklike nuus en insigte
+* **Nuutste Aankondigings:** Bly ingelig met die nuutste foutbelonings wat bekendgestel word en noodsaaklike platformopdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
@@ -81,7 +81,7 @@ Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 
 <figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Onmiddellik beskikbare opstelling vir kwetsbaarheidsevaluering & penetrasietoetsing**. Voer 'n volledige pentest uit van enige plek met 20+ gereedskap & kenmerke wat strek van rekognisering tot verslagdoening. Ons vervang nie pentesters nie - ons ontwikkel aangepaste gereedskap, opsporing & uitbuitingsmodules om hulle 'n bietjie tyd te gee om dieper te graaf, doppe te skiet, en pret te hê.
+**Onmiddellik beskikbare opstelling vir kwesbaarheidsassessering en penetrasietoetsing**. Voer 'n volledige pentest uit van enige plek met 20+ gereedskap en kenmerke wat gaan van rekognisering tot verslagdoening. Ons vervang nie pentesters nie - ons ontwikkel aangepaste gereedskap, opsporing- en uitbuitingsmodules om hulle tyd te gee om dieper te graaf, skulpe te laat pop en pret te hê.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -91,9 +91,9 @@ Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) be
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi bied vinnige en maklike regstreekse API's aan om **toegang tot soekmasjienresultate** te verkry. Hulle skraap soekmasjiene, hanteer proksi's, los captcha's op, en ontled al die ryk gestruktureerde data vir jou.
+SerpApi bied vinnige en maklike regstreekse API's aan om toegang te verkry tot soekengineresultate. Hulle skraap soekengines, hanteer proksi's, los captchas op, en ontled al die ryk gestruktureerde data vir jou.
 
-'n Subskripsie op een van SerpApi se planne sluit toegang tot meer as 50 verskillende API's in vir skraping van verskillende soekmasjiene, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
+'n Subskripsie op een van SerpApi se planne sluit toegang tot meer as 50 verskillende API's in vir skraping van verskillende soekengines, insluitend Google, Bing, Baidu, Yahoo, Yandex, en meer.\
 In teenstelling met ander verskaffers, skraap SerpApi nie net organiese resultate nie. SerpApi-respons sluit konsekwent alle advertensies, inline beelde en video's, kennisgrafieke, en ander elemente en kenmerke wat teenwoordig is in die soekresultate.
 
 Huidige SerpApi-klante sluit **Apple, Shopify, en GrubHub** in.\
@@ -114,11 +114,11 @@ Jy kan **'n gratis rekening skep** [**hier**](https://serpapi.com/users/sign\_up
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) is 'n professionele siberbeveiligingsmaatskappy gebaseer in **Amsterdam** wat help om besighede **oor die hele wêreld** teen die nuutste siberbeveiligingsdreigings te beskerm deur **aanvallende-siberdienste** met 'n **moderne** benadering te bied.
+[**WebSec**](https://websec.nl) is 'n professionele sibersekuriteitsmaatskappy gebaseer in **Amsterdam** wat help om besighede **oor die hele wêreld** teen die nuutste sibersekuriteitsdreigings te beskerm deur **aanvallende-sikuriteitsdienste** met 'n **moderne** benadering te bied.
 
-WebSec is 'n **alles-in-een siberbeveiligingsmaatskappy** wat beteken dat hulle alles doen; Pentesting, **Siber** Ouditse, Bewustheidsopleiding, Hengelkampanjes, Kodeoordrag, Uitbuitontwikkeling, Uitgesourste Sekerheidkundiges en baie meer.
+WebSec is 'n **alles-in-een sekuriteitsmaatskappy** wat beteken dat hulle alles doen; Pentesting, **Sikuriteits** Oudit, Bewustheidsopleiding, Hengelkampanjes, Kodeoordrag, Uitbuitontwikkeling, Sikuriteitskundiges Uitbesteding en baie meer.
 
-'n Ander koel ding oor WebSec is dat in teenstelling met die bedryfsgemiddelde WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle die beste kwaliteitsresultate waarborg, dit staan op hul webwerf "**As ons dit nie kan hak nie, betaal jy dit nie!**". Vir meer inligting kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog**!**
+'n Ander koel ding oor WebSec is dat anders as die bedryfsgemiddelde WebSec **baie selfversekerd is in hul vaardighede**, tot so 'n mate dat hulle die beste kwaliteitsresultate waarborg, dit staan op hul webwerf "**As ons dit nie kan hak nie, betaal jy dit nie!**". Vir meer inligting kyk na hul [**webwerf**](https://websec.nl/en/) en [**blog**](https://websec.nl/blog/)!
 
 Bo en behalwe die bogenoemde is WebSec ook 'n **toegewyde ondersteuner van HackTricks.**
 
@@ -127,17 +127,17 @@ Bo en behalwe die bogenoemde is WebSec ook 'n **toegewyde ondersteuner van HackT
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **steelmalware** **gekompromiteer** is.
 
-Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Hul primêre doel van WhiteIntel is om rekening-oorneemings en lospryse-aanvalle te beveg wat voortspruit uit inligtingsteelmalware.
 
-Jy kan hul webwerf besoek en hul enjin gratis probeer by:
+Jy kan hul webwerf besoek en hul enjin vir **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
 ## Lisensie & Vrywaring
 
-Kyk na hulle op:
+Kyk na hulle in:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -148,16 +148,17 @@ Kyk na hulle op:
 ![HackTricks Github Statistieke](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Repobeats analitika beeld")
 
 
+{% hint style="success" %}
+Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

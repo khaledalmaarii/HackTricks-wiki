@@ -1,24 +1,25 @@
-# macOS Funksie Hooking
+# macOS Funksie Hak
+
+{% hint style="success" %}
+Leer & oefen AWS Hakwerk:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Rooi Span Kenner (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hakwerk: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Rooi Span Kenner (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Funksie Interposing
 
-Skep 'n **dylib** met 'n **`__interpose` (`__DATA___interpose`)** afdeling (of 'n afdeling gemerk met **`S_INTERPOSING`**) wat tuples van **funksieaanwysers** bevat wat na die **oorspronklike** en die **vervangings**-funksies verwys.
+Skep 'n **dylib** met 'n **`__interpose` (`__DATA___interpose`)** afdeling (of 'n afdeling gemerk met **`S_INTERPOSING`**) wat tuples van **funksieaanwysers** bevat wat na die **oorspronklike** en die **vervangings** funksies verwys.
 
-Vervolgens, **inspuit** die dylib met **`DYLD_INSERT_LIBRARIES`** (die interposing moet plaasvind voordat die hoofprogram laai). Uiteraard geld die [**beperkings** wat op die gebruik van **`DYLD_INSERT_LIBRARIES`** van toepassing is, ook hier](macos-library-injection/#check-restrictions).
+Vervolgens, **inspuit** die dylib met **`DYLD_INSERT_LIBRARIES`** (die interposing moet plaasvind voordat die hoofprogram laai). Duidelik die [**beperkings** wat op die gebruik van **`DYLD_INSERT_LIBRARIES`** van toepassing is, geld ook hier](macos-library-injection/#check-restrictions).
 
 ### Interpose printf
 
@@ -94,14 +95,14 @@ DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
 {% hint style="warning" %}
-Die **`DYLD_PRINT_INTERPOSTING`** omgewingsveranderlike kan gebruik word om interposing te foutsoek en sal die interposeproses druk.
+Die **`DYLD_PRINT_INTERPOSTING`** omgewingsveranderlike kan gebruik word om interposing te foutsoek en sal die interpose-proses druk.
 {% endhint %}
 
-Merk ook op dat **interposing plaasvind tussen die proses en die gelaai biblioteke**, dit werk nie met die gedeelde biblioteekkas nie.
+Merk ook op dat interposing plaasvind tussen die proses en die gelaai biblioteke, dit werk nie met die gedeelde biblioteek-cache nie.
 
 ### Dinamiese Interposing
 
-Dit is nou ook moontlik om dinamies 'n funksie te interposeer deur die funksie **`dyld_dynamic_interpose`** te gebruik. Dit maak dit moontlik om programmaties 'n funksie in tyd lopend te interposeer in plaas daarvan om dit net van die begin af te doen.
+Dit is nou ook moontlik om dinamies 'n funksie te interposeer deur die funksie **`dyld_dynamic_interpose`** te gebruik. Dit maak dit moontlik om programmaties 'n funksie in run time te interposeer in plaas van dit net van die begin af te doen.
 
 Dit is net nodig om die **tuples** van die **funksie om te vervang en die vervangings** funksie aan te dui.
 ```c
@@ -123,7 +124,7 @@ Die objek is **`someObject`**, die metode is **`@selector(method1p1:p2:)`** en d
 Deur die objekstrukture te volg, is dit moontlik om 'n **reeks metodes** te bereik waar die **name** en **pointers** na die metode-kode **geleë** is.
 
 {% hint style="danger" %}
-Let daarop dat omdat metodes en klasse op grond van hul name benader word, hierdie inligting in die binêre lêer gestoor word, sodat dit moontlik is om dit te herwin met `otool -ov </path/bin>` of [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
+Let daarop dat omdat metodes en klasse gebaseer word op hul name, hierdie inligting in die binêre lêer gestoor word, sodat dit moontlik is om dit te herwin met `otool -ov </path/bin>` of [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
 ### Toegang tot die rou metodes
@@ -253,16 +254,16 @@ return 0;
 {% endcode %}
 
 {% hint style="warning" %}
-In hierdie geval, as die **implementeringskode van die regmatige** metode die **metode naam verifieer**, kan dit hierdie swizzling **opspoor** en voorkom dat dit uitgevoer word.
+In hierdie geval, as die **implementeringskode van die regmatige** metode die **metode naam** **verifieer**, kan dit hierdie swizzling **opspoor** en voorkom dat dit uitgevoer word.
 
 Die volgende tegniek het nie hierdie beperking nie.
 {% endhint %}
 
 ### Metode Swizzling met method\_setImplementation
 
-Die vorige formaat is vreemd omdat jy die implementering van 2 metodes van mekaar verander. Deur die funksie **`method_setImplementation`** te gebruik, kan jy die **implementering** van 'n **metode vir die ander een verander**.
+Die vorige formaat is vreemd omdat jy die implementering van 2 metodes van mekaar verander. Deur die funksie **`method_setImplementation`** te gebruik, kan jy die **implementering** van 'n **metode vir die ander een** verander.
 
-Onthou net om **die adres van die implementering van die oorspronklike een te stoor** as jy dit van die nuwe implementering gaan oproep voordat jy dit oorskryf, omdat dit later baie moeilik sal wees om daardie adres te vind.
+Onthou net om **die adres van die implementering van die oorspronklike een** te stoor as jy dit van die nuwe implementering gaan aanroep voordat jy dit oorskryf, omdat dit later baie moeilik sal wees om daardie adres te vind.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -320,15 +321,15 @@ return 0;
 
 ## Hooking Aanval Metodologie
 
-Op hierdie bladsy is verskillende maniere bespreek om funksies te hengel. Tog het hulle **hardloop kode binne die proses om aan te val**.
+Op hierdie bladsy is verskillende maniere bespreek om funksies te hak. Tog het hulle **hardloop kode binne die proses om aan te val**.
 
-Om dit te doen, is die maklikste tegniek om te gebruik om 'n [Dyld via omgewingsveranderlikes of kaping](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md) in te spuit. Ek vermoed egter dat dit ook gedoen kan word deur [Dylib prosesinspuiting](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
+Om dit te doen, is die maklikste tegniek om te gebruik om 'n [Dyld via omgewingsveranderlikes of kaping in te spuit](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Ek vermoed egter dat dit ook gedoen kan word deur [Dylib prosesinspuiting](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port).
 
 Nietemin is beide opsies **beperk** tot **onbeskermde** bineê/prosesse. Kyk na elke tegniek om meer oor die beperkings te leer.
 
-Nietemin is 'n funksie hengel aanval baie spesifiek, 'n aanvaller sal dit doen om **sensitiewe inligting binne 'n proses te steel** (as jy nie sou net 'n prosesinspuitingsaanval doen nie). En hierdie sensitiewe inligting kan in gebruikers afgelaaide Programme soos MacPass wees.
+Nietemin is 'n funksie hak aanval baie spesifiek, 'n aanvaller sal dit doen om **sensitiewe inligting binne 'n proses te steel** (as jy nie sou net 'n prosesinspuitingsaanval doen nie). En hierdie sensitiewe inligting kan geleë wees in gebruikers afgelaaide Programme soos MacPass.
 
-Dus sal die aanvaller vektor wees om óf 'n kwesbaarheid te vind óf die handtekening van die aansoek te verwyder, die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike in te spuit deur die Info.plist van die aansoek deur iets soos by te voeg:
+Dus sal die aanvaller vektor wees om óf 'n kwesbaarheid te vind óf die handtekening van die aansoek te verwyder, die **`DYLD_INSERT_LIBRARIES`** omgewingsveranderlike deur die Info.plist van die aansoek in te spuit deur iets soos by te voeg:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -336,7 +337,7 @@ Dus sal die aanvaller vektor wees om óf 'n kwesbaarheid te vind óf die handtek
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-en registreer dan **die aansoek weer**:
+en dan **herregistreer** die aansoek:
 
 {% code overflow="wrap" %}
 ```bash
@@ -344,13 +345,13 @@ en registreer dan **die aansoek weer**:
 ```
 {% endcode %}
 
-Voeg in daardie biblioteek die hakkode by om die inligting uit te sif: Wagwoorde, boodskappe...
+Voeg in daardie biblioteek die hooking kode by om die inligting uit te sif: Wagwoorde, boodskappe...
 
 {% hint style="danger" %}
-Let daarop dat in nuwer weergawes van macOS as jy die handtekening van die aansoek binêre lêer **verwyder** en dit voorheen uitgevoer is, sal macOS die aansoek **nie meer uitvoer** nie.
+Let daarop dat in nuwer weergawes van macOS as jy die handtekening van die aansoek binêre lêer **verwyder** en dit voorheen uitgevoer is, sal macOS die aansoek nie meer uitvoer nie.
 {% endhint %}
 
-#### Biblioteekvoorbeeld
+#### Biblioteek voorbeeld
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -394,16 +395,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

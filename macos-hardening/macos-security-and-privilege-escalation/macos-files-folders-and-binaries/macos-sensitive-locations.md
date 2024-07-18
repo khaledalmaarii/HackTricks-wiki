@@ -1,24 +1,25 @@
 # macOS Sensitiewe Liggings & Interessante Daemons
 
+{% hint style="success" %}
+Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Wagwoorde
 
 ### Skadu-wagwoorde
 
-Skadu-wagwoord word saam met die gebruiker se konfigurasie gestoor in pliste wat geleë is in **`/var/db/dslocal/nodes/Default/users/`**.\
+Skadu-wagwoord word saam met die gebruiker se opset gestoor in pliste wat geleë is in **`/var/db/dslocal/nodes/Default/users/`**.\
 Die volgende eenlynige kode kan gebruik word om **alle inligting oor die gebruikers** (insluitend hasinligting) te dump:
 
 {% code overflow="wrap" %}
@@ -29,7 +30,7 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 
 [**Skripte soos hierdie een**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) of [**hierdie een**](https://github.com/octomagon/davegrohl.git) kan gebruik word om die hash na **hashcat-formaat** te omskep.
 
-'n Alternatiewe een-liner wat geloofsbriewe van alle nie-diensrekeninge in hashcat-formaat `-m 7100` (macOS PBKDF2-SHA512) sal dump: 
+'n Alternatiewe een-liner wat geloofsbriewe van alle nie-diensrekeninge in hashcat-formaat sal dump `-m 7100` (macOS PBKDF2-SHA512):
 
 {% code overflow="wrap" %}
 ```bash
@@ -56,9 +57,9 @@ Gebaseer op hierdie kommentaar [juuso/keychaindump#10 (comment)](https://github.
 
 ### Sleutelkettingdump Oorsig
 
-'n Gereedskap genaamd **keychaindump** is ontwikkel om wagwoorde uit macOS-sleutelkettings te onttrek, maar dit het beperkings op nuwer macOS-weergawes soos Big Sur, soos aangedui in 'n [bespreking](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Die gebruik van **keychaindump** vereis dat die aanvaller toegang verkry en voorregte na **root** eskaleer. Die gereedskap maak gebruik van die feit dat die sleutelketting standaard oopgemaak word by gebruikersaanmelding vir gerief, wat toepassings in staat stel om dit te benader sonder om die gebruiker se wagwoord herhaaldelik te vereis. As 'n gebruiker egter kies om hul sleutelketting na elke gebruik te sluit, word **keychaindump** ondoeltreffend.
+'n Gereedskap genaamd **keychaindump** is ontwikkel om wagwoorde uit macOS-sleutelkettings te onttrek, maar dit ondervind beperkings op nuwer macOS-weergawes soos Big Sur, soos aangedui in 'n [bespreking](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Die gebruik van **keychaindump** vereis dat die aanvaller toegang verkry en voorregte na **root** eskaleer. Die gereedskap maak gebruik van die feit dat die sleutelketting standaard oopgemaak word by gebruikersaanmelding vir gerief, wat toepassings in staat stel om dit te benader sonder om die gebruiker se wagwoord herhaaldelik te vereis. Tog, as 'n gebruiker kies om hul sleutelketting na elke gebruik te sluit, word **keychaindump** ondoeltreffend.
 
-**Keychaindump** werk deur 'n spesifieke proses genaamd **securityd** te teiken, soos deur Apple beskryf as 'n daemon vir magtiging en kriptografiese operasies, wat noodsaaklik is vir die benadering van die sleutelketting. Die onttrekkingsproses behels die identifisering van 'n **Meester Sleutel** wat afgelei is van die gebruiker se aanmeldingswagwoord. Hierdie sleutel is noodsaaklik vir die lees van die sleutelketting lêer. Om die **Meester Sleutel** te vind, skandeer **keychaindump** die geheuehoop van **securityd** deur die `vmmap` bevel te gebruik, op soek na potensiële sleutels binne areas wat as `MALLOC_TINY` geïdentifiseer is. Die volgende bevel word gebruik om hierdie geheue-areas te ondersoek:
+**Keychaindump** werk deur 'n spesifieke proses genaamd **securityd** te teiken, soos deur Apple beskryf as 'n daemon vir magtiging en kriptografiese operasies, wat noodsaaklik is vir die benadering van die sleutelketting. Die onttrekkingsproses behels die identifisering van 'n **Meestersleutel** afgelei van die gebruiker se aanmeldwagwoord. Hierdie sleutel is noodsaaklik vir die lees van die sleutelketting lêer. Om die **Meestersleutel** te vind, skandeer **keychaindump** die geheuehoop van **securityd** deur die `vmmap` bevel te gebruik, op soek na potensiële sleutels binne areas wat as `MALLOC_TINY` geïdentifiseer is. Die volgende bevel word gebruik om hierdie geheue-areas te ondersoek:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
@@ -68,18 +69,18 @@ sudo ./keychaindump
 ```
 ### kettingbreek
 
-[**Kettingbreek**](https://github.com/n0fate/chainbreaker) kan gebruik word om die volgende tipes inligting op 'n OSX-sleutelbord op 'n forensies-klank manier te onttrek:
+[**Kettingbreek**](https://github.com/n0fate/chainbreaker) kan gebruik word om die volgende tipes inligting uit 'n OSX-sleutelbord op 'n forensies-klank manier te onttrek:
 
-* Gehashde Sleutelbord wagwoord, geskik vir kraak met [hashcat](https://hashcat.net/hashcat/) of [John the Ripper](https://www.openwall.com/john/)
-* Internetwagwoorde
+* Gehashte Sleutelbord wagwoord, geskik vir kraak met [hashcat](https://hashcat.net/hashcat/) of [John the Ripper](https://www.openwall.com/john/)
+* Internet Wagwoorde
 * Generiese Wagwoorde
 * Privaatsleutels
 * Openbare Sleutels
-* X509-sertifikate
+* X509 Sertifikate
 * Veilige Notas
 * Appleshare Wagwoorde
 
-Met die sleutelbordontgrendelwagwoord, 'n meestersleutel verkry deur [volafox](https://github.com/n0fate/volafox) of [volatility](https://github.com/volatilityfoundation/volatility), of 'n ontgrendelingslêer soos SystemKey, sal Kettingbreek ook platte teks wagwoorde voorsien.
+Met die sleutelbord ontgrendel wagwoord, 'n meestersleutel verkry deur [volafox](https://github.com/n0fate/volafox) of [volatility](https://github.com/volatilityfoundation/volatility), of 'n ontgrendelingslêer soos SystemKey, sal Kettingbreek ook platte teks wagwoorde voorsien.
 
 Sonner een van hierdie metodes om die Sleutelbord te ontsluit, sal Kettingbreek alle ander beskikbare inligting vertoon.
 
@@ -88,7 +89,7 @@ Sonner een van hierdie metodes om die Sleutelbord te ontsluit, sal Kettingbreek 
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-#### **Stort sleutelbundel sleutels (met wagwoorde) met SystemKey**
+#### **Stort sleutelhanger sleutels (met wagwoorde) met SystemKey**
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -118,7 +119,7 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **Dump sleutelbos sleutels (met wagwoorde) deur die gebruikers wagwoord te gebruik**
 
-As jy die gebruikers wagwoord ken, kan jy dit gebruik om **sleutelbose wat aan die gebruiker behoort te dump en te dekripteer**.
+As jy die gebruikers wagwoord weet, kan jy dit gebruik om **sleutelbose wat aan die gebruiker behoort te dump en te dekripteer**.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
@@ -144,7 +145,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Jy kan die Kennisgewingsdata vind in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-Die meeste van die interessante inligting sal in die **blob** wees. Jy sal dus die inhoud moet **ontgin** en dit na **mensleesbare** formaat moet **omskep** of **`strings`** gebruik. Om toegang daartoe te kry, kan jy doen:
+Die meeste van die interessante inligting sal in die **blob** wees. Jy sal dus die inhoud moet **ontgin** en dit na **mensleesbare** vorm **transformeer** of **`strings`** gebruik. Om toegang daartoe te verkry, kan jy die volgende doen:
 
 {% code overflow="wrap" %}
 ```bash
@@ -170,17 +171,17 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 In macOS-toepassingsvoorkeure is geleë in **`$HOME/Library/Preferences`** en in iOS is hulle in `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.&#x20;
 
-In macOS kan die opdraggereelwerktuig **`defaults`** gebruik word om die Voorkeure-lêer te **wijzig**.
+In macOS kan die `defaults`-cli-hulpmiddel gebruik word om die Voorkeure-lêer te wysig.
 
-**`/usr/sbin/cfprefsd`** eis die XPC-diens `com.apple.cfprefsd.daemon` en `com.apple.cfprefsd.agent` op en kan geroep word om aksies soos die wysiging van voorkeure uit te voer.
+**`/usr/sbin/cfprefsd`** eis die XPC-diens `com.apple.cfprefsd.daemon` en `com.apple.cfprefsd.agent` en kan genoem word om aksies soos die wysiging van voorkeure uit te voer.
 
 ## Stelselkennisgewings
 
 ### Darwin Kennisgewings
 
-Die hoofdaemon vir kennisgewings is **`/usr/sbin/notifyd`**. Om kennisgewings te ontvang, moet kliënte registreer deur die `com.apple.system.notification_center` Mach-poort (kontroleer hulle met `sudo lsmp -p <pid notifyd>`). Die daemon is konfigureerbaar met die lêer `/etc/notify.conf`.
+Die hoofdemon vir kennisgewings is **`/usr/sbin/notifyd`**. Om kennisgewings te ontvang, moet kliënte registreer deur die `com.apple.system.notification_center` Mach-poort (kontroleer hulle met `sudo lsmp -p <pid notifyd>`). Die demon is konfigureerbaar met die lêer `/etc/notify.conf`.
 
-Die name wat vir kennisgewings gebruik word, is unieke omgekeerde DNS-notasies en wanneer 'n kennisgewing na een van hulle gestuur word, sal die kliënt(e) wat aangedui het dat hulle dit kan hanteer, dit ontvang.
+Die name wat vir kennisgewings gebruik word, is unieke omgekeerde DNS-notasies en wanneer 'n kennisgewing na een van hulle gestuur word, sal die kliënte wat aangedui het dat hulle dit kan hanteer, dit ontvang.
 
 Dit is moontlik om die huidige status te dump (en al die name te sien) deur die sein SIGUSR2 na die notifyd-proses te stuur en die gegenereerde lêer te lees: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -221,6 +222,6 @@ Dit is ook moontlik om inligting oor die duiwel en verbindings te kry deur die v
 
 Dit is kennisgewings wat die gebruiker op die skerm moet sien:
 
-- **`CFUserNotification`**: Hierdie API bied 'n manier om 'n pop-up met 'n boodskap op die skerm te wys.
-- **Die Bulletinbord**: Dit wys in iOS 'n banier wat verdwyn en in die Kennisgewingsentrum gestoor sal word.
-- **`NSUserNotificationCenter`**: Dit is die iOS-bulletinbord in MacOS. Die databasis met die kennisgewings is geleë in `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+* **`CFUserNotification`**: Hierdie API bied 'n manier om 'n pop-up met 'n boodskap op die skerm te wys.
+* **Die Bulletinbord**: Dit wys in iOS 'n banier wat verdwyn en in die Kennisgewingsentrum gestoor sal word.
+* **`NSUserNotificationCenter`**: Dit is die iOS-bulletinbord in MacOS. Die databasis met die kennisgewings is geleë in `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`

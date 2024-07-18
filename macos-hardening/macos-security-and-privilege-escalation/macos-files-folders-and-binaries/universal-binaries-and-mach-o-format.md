@@ -1,18 +1,19 @@
 # macOS Universele bineêre & Mach-O-formaat
 
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Basiese Inligting
 
@@ -39,9 +40,9 @@ struct fat_header {
 </strong>};
 
 struct fat_arch {
-cpu_type_t	cputype;	/* cpu-aanwyser (int) */
-cpu_subtype_t	cpusubtype;	/* masjien-aanwyser (int) */
-uint32_t	offset;		/* lêeroffset na hierdie objeklêer */
+cpu_type_t	cputype;	/* cpu spesifiseerder (int) */
+cpu_subtype_t	cpusubtype;	/* masjien spesifiseerder (int) */
+uint32_t	offset;		/* lêer-offset na hierdie objeklêer */
 uint32_t	size;		/* grootte van hierdie objeklêer */
 uint32_t	align;		/* uitlyn as 'n mag van 2 */
 };
@@ -80,11 +81,11 @@ of deur die [Mach-O View](https://sourceforge.net/projects/machoview/) gereedska
 
 <figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is, gewoonlik die grootte van een wat net vir 1 argitektuur saamgestel is.
+Soos jy dalk dink, verdubbel 'n universele bineêre wat vir 2 argitekture saamgestel is die grootte van een wat net vir 1 argitektuur saamgestel is.
 
 ## **Mach-O Kop**
 
-Die kop bevat basiese inligting oor die lêer, soos magic bytes om dit as 'n Mach-O-lêer te identifiseer en inligting oor die teikenargitektuur. Jy kan dit vind in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+Die kop bevat basiese inligting oor die lêer, soos die magiese byte om dit as 'n Mach-O-lêer te identifiseer en inligting oor die teikenargitektuur. Jy kan dit vind in: `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -117,8 +118,8 @@ Daar is verskillende lêertipes, jy kan hulle gedefinieer vind in die [**bronkod
 
 - `MH_OBJECT`: Herplaasbare objeklêer (tussenproduk van samestelling, nog nie uitvoerbare lêers nie).
 - `MH_EXECUTE`: Uitvoerbare lêers.
-- `MH_FVMLIB`: Vas VM-biblioteeklêer.
-- `MH_CORE`: Kode-aflewerings
+- `MH_FVMLIB`: Vasgehegte VM-biblioteeklêer.
+- `MH_CORE`: Kode-afsettings
 - `MH_PRELOAD`: Voorafgelaai uitvoerbare lêer (nie meer ondersteun in XNU nie)
 - `MH_DYLIB`: Dinamiese Biblioteke
 - `MH_DYLINKER`: Dinamiese Skakelaar
@@ -132,7 +133,7 @@ Mach header
 magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-Of gebruik [Mach-O View](https://sourceforge.net/projects/machoview/):
+Of deur [Mach-O View](https://sourceforge.net/projects/machoview/) te gebruik:
 
 <figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
@@ -142,7 +143,7 @@ Die bronkode definieer ook verskeie vlae wat nuttig is vir die laai van bibliote
 
 * `MH_NOUNDEFS`: Geen ongedefinieerde verwysings (volledig gekoppel)
 * `MH_DYLDLINK`: Dyld koppeling
-* `MH_PREBOUND`: Dinamiese verwysings prebound.
+* `MH_PREBOUND`: Dinamiese verwysings vooraf gebind.
 * `MH_SPLIT_SEGS`: Lêer verdeel r/o en r/w segmente.
 * `MH_WEAK_DEFINES`: Binêre het swak gedefinieerde simbole
 * `MH_BINDS_TO_WEAK`: Binêre gebruik swak simbole
@@ -150,14 +151,14 @@ Die bronkode definieer ook verskeie vlae wat nuttig is vir die laai van bibliote
 * `MH_NO_REEXPORTED_DYLIBS`: Biblioteek nie LC\_REEXPORT-opdragte nie
 * `MH_PIE`: Posisioneel Onafhanklike Uitvoerbare lêer
 * `MH_HAS_TLV_DESCRIPTORS`: Daar is 'n afdeling met draadlokale veranderlikes
-* `MH_NO_HEAP_EXECUTION`: Geen uitvoering vir hoop/data-bladsye
+* `MH_NO_HEAP_EXECUTION`: Geen uitvoering vir heap/data-bladsye
 * `MH_HAS_OBJC`: Binêre het oBject-C afdelings
 * `MH_SIM_SUPPORT`: Simulator-ondersteuning
 * `MH_DYLIB_IN_CACHE`: Gebruik op dylibs/frameworks in gedeelde biblioteekkas.
 
 ## **Mach-O Laai-opdragte**
 
-Die **lêer se uitleg in geheue** word hier gespesifiseer, met inligting oor die **simbooltabel se ligging**, die konteks van die hoofdraad by uitvoerbegin, en die vereiste **gedeelde biblioteke**. Instruksies word verskaf aan die dinamiese laaier **(dyld)** oor die binêre se laaiproses in geheue.
+Die **lêer se uitleg in geheue** word hier gespesifiseer, met inligting oor die **simbooltabel se ligging**, die konteks van die hoofdraad by uitvoerbegin, en die vereiste **gedeelde biblioteke**. Instruksies word aan die dinamiese laaier **(dyld)** verskaf oor die binêre se laaiproses in geheue.
 
 Dit maak gebruik van die **load\_command** struktuur, gedefinieer in die genoemde **`loader.h`**:
 ```objectivec
@@ -171,14 +172,14 @@ Daar is ongeveer **50 verskillende tipes laai-opdragte** wat die stelsel anders 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Basies definieer hierdie tipe Laai-opdrag **hoe om die \_\_TEXT** (uitvoerbare kode) **en \_\_DATA** (data vir die proses) **segmente te laai** volgens die **offsets aangedui in die Data-afdeling** wanneer die binêre lêer uitgevoer word.
+Basies definieer hierdie tipe Laai-opdrag **hoe om die \_\_TEXT** (uitvoerbare kode) **en \_\_DATA** (data vir die proses) **segmente te laai** volgens die **offsets aangedui in die Data-seksie** wanneer die binêre lêer uitgevoer word.
 {% endhint %}
 
 Hierdie opdragte **definieer segmente** wat in die **virtuele geheue-ruimte** van 'n proses ingevoeg word wanneer dit uitgevoer word.
 
-Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die uitvoerbare kode van 'n program bevat, en die **\_\_DATA** segment, wat data bevat wat deur die proses gebruik word. Hierdie **segmente is geleë in die data-afdeling** van die Mach-O lêer.
+Daar is **verskillende tipes** segmente, soos die **\_\_TEXT** segment, wat die uitvoerbare kode van 'n program bevat, en die **\_\_DATA** segment, wat data bevat wat deur die proses gebruik word. Hierdie **segmente is geleë in die data-seksie** van die Mach-O lêer.
 
-**Elke segment** kan verder verdeel word in verskeie **afdelings**. Die **laai-opdragstruktuur** bevat **inligting** oor **hierdie afdelings** binne die betrokke segment.
+**Elke segment** kan verder verdeel word in verskeie **seksies**. Die **laai-opdragstruktuur** bevat **inligting** oor **hierdie seksies** binne die betrokke segment.
 
 In die kop vind jy die **segmentkop**:
 
@@ -192,7 +193,7 @@ uint64_t	fileoff;	/* lêer-offset van hierdie segment */
 uint64_t	filesize;	/* hoeveelheid om van die lêer af te beeld */
 int32_t		maxprot;	/* maksimum VM-beskerming */
 int32_t		initprot;	/* aanvanklike VM-beskerming */
-<strong>	uint32_t	nsects;		/* aantal afdelings in segment */
+<strong>	uint32_t	nsects;		/* aantal seksies in segment */
 </strong>	uint32_t	flags;		/* vlae */
 };
 </code></pre>
@@ -201,7 +202,7 @@ Voorbeeld van segmentkop:
 
 <figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
-Hierdie kop definieer die **aantal afdelings waarvan die koppe daarna verskyn**:
+Hierdie kop definieer die **aantal seksies waarvan die koppe daarna verskyn**:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -218,11 +219,11 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Voorbeeld van **seksie kop**:
+Voorbeeld van **seksie-kop**:
 
 <figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
-As jy die **seksie offset** (0x37DC) + die **offset** waar die **arg begin**, in hierdie geval `0x18000` bymekaar **tel**, --> `0x37DC + 0x18000 = 0x1B7DC`
+As jy die **seksie-offset** (0x37DC) + die **offset** waar die **arg begin**, in hierdie geval `0x18000` byvoeg --> `0x37DC + 0x18000 = 0x1B7DC`
 
 <figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
@@ -233,25 +234,25 @@ otool -lv /bin/ls
 Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 
 * **`__PAGEZERO`:** Dit instrueer die kernel om die **adres nul** te **kaart** sodat dit **nie gelees, geskryf of uitgevoer kan word nie**. Die maxprot en minprot veranderlikes in die struktuur word na nul ingestel om aan te dui dat daar **geen lees-skuif-uitvoer regte op hierdie bladsy** is nie.
-* Hierdie toewysing is belangrik om **NULL-aanwyservolgordekwesbaarhede te versag**. Dit is omdat XNU 'n harde bladsy nul afdwing wat verseker dat die eerste bladsy (slegs die eerste) van geheue ontoeganklik is (behalwe in i386). 'n Binêre kan aan hierdie vereistes voldoen deur 'n klein \_\_PAGEZERO (deur die `-pagezero_size` te gebruik) te skep om die eerste 4k te dek en die res van die 32-bis geheue toeganklik te hê in beide gebruiker- en kernmodus.
+* Hierdie toewysing is belangrik om **NULL-aanwyservulnerabiliteite te verminder**. Dit is omdat XNU 'n harde bladsy nul afdwing wat verseker dat die eerste bladsy (slegs die eerste) van geheue onbereikbaar is (behalwe in i386). 'n Binêre kan aan hierdie vereistes voldoen deur 'n klein \_\_PAGEZERO (met die `-pagezero_size`) te skep om die eerste 4k te dek en die res van die 32-bis geheue toeganklik te hê in beide gebruiker- en kernelmodus.
 * **`__TEXT`**: Bevat **uitvoerbare** **kode** met **lees** en **uitvoer** regte (nie skryfbare)**.** Gewone afdelings van hierdie segment:
 * `__text`: Opgestelde binêre kode
 * `__const`: Konstante data (slegs leesbaar)
-* `__[c/u/os_log]string`: C, Unicode of os-logstringkonstantes
+* `__[c/u/os_log]string`: C, Unicode of os-logstring konstantes
 * `__stubs` en `__stubs_helper`: Betrokke tydens die dinamiese biblioteeklaaiproses
 * `__unwind_info`: Stok ontwar data.
-* Let daarop dat al hierdie inhoud onderteken is maar ook as uitvoerbaar gemerk is (wat meer opsies skep vir uitbuiting van afdelings wat nie noodwendig hierdie voorreg nodig het nie, soos string-toegewyde afdelings).
+* Let daarop dat al hierdie inhoud onderteken is maar ook as uitvoerbaar gemerk is (skep meer opsies vir uitbuiting van afdelings wat nie noodwendig hierdie voorreg nodig het nie, soos string-toegewyde afdelings).
 * **`__DATA`**: Bevat data wat **leesbaar** en **skryfbaar** is (nie uitvoerbaar)**.**
 * `__got:` Globale Verskuiwingstabel
 * `__nl_symbol_ptr`: Nie lui (bind by laai) simboolaanduider
 * `__la_symbol_ptr`: Lui (bind by gebruik) simboolaanduider
-* `__const`: Behoort aan lees-slegs data (nie regtig)
-* `__cfstring`: CoreFoundation-strings
+* `__const`: Behoort lees-slegs data te wees (nie regtig)
+* `__cfstring`: CoreFoundation strings
 * `__data`: Globale veranderlikes (wat geïnisialiseer is)
 * `__bss`: Statiese veranderlikes (wat nie geïnisialiseer is nie)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, ens.): Inligting wat deur die Objective-C-uitvoertyd gebruik word
 * **`__DATA_CONST`**: \_\_DATA.\_\_const is nie gewaarborg om konstant te wees (skryfregte nie), en ook nie ander aanwysers en die GOT nie. Hierdie afdeling maak `__const`, sommige inisialiseerders en die GOT-tabel (eenmaal opgelos) **leesbaar slegs** deur `mprotect` te gebruik.
-* **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos simbool, string en herlokasie tabelleë. Dit is 'n generiese houer vir inhoud wat nie in `__TEXT` of `__DATA` is nie en die inhoud daarvan word in ander laai-opdragte beskryf.
+* **`__LINKEDIT`**: Bevat inligting vir die koppelaar (dyld) soos simbool-, string- en herlokasie-tabelinskrywings. Dit is 'n generiese houer vir inhoud wat nie in `__TEXT` of `__DATA` is nie en sy inhoud word in ander laaibefehle beskryf.
 * dyld-inligting: Herbasis, Nie-luie/lui/swak bindopkode en uitvoer inligting
 * Funksies begin: Tabel van beginadresse van funksies
 * Data In Kode: Data-eilande in \_\_text
@@ -260,9 +261,9 @@ Gemeenskaplike segmente wat deur hierdie cmd gelaai word:
 * Stringtabel
 * Kodehandtekening
 * **`__OBJC`**: Bevat inligting wat deur die Objective-C-uitvoertyd gebruik word. Alhoewel hierdie inligting ook in die \_\_DATA-segment gevind kan word, binne verskeie in \_\_objc\_\* afdelings.
-* **`__RESTRICT`**: 'N segment sonder inhoud met 'n enkele afdeling genaamd **`__restrict`** (ook leeg) wat verseker dat wanneer die binêre lê, dit DYLD-omgewingsveranderlikes ignoreer.
+* **`__RESTRICT`**: 'n Segment sonder inhoud met 'n enkele afdeling genaamd **`__restrict`** (ook leeg) wat verseker dat wanneer die binêre lopende is, dit DYLD-omgewingsveranderlikes ignoreer.
 
-Soos in die kode gesien kon word, ondersteun **segmente ook vlae** (al word hulle nie baie gebruik nie):
+Soos in die kode gesien kon word, **ondersteun segmente ook vlae** (al word hulle nie baie gebruik nie):
 
 * `SG_HIGHVM`: Slegs kern (nie gebruik nie)
 * `SG_FVMLIB`: Nie gebruik nie
@@ -271,9 +272,9 @@ Soos in die kode gesien kon word, ondersteun **segmente ook vlae** (al word hull
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** bevat die ingangspunt in die **entryoff-eienskap.** By laai-tyd **voeg dyld** eenvoudig hierdie waarde by die (in-geheue) **basis van die binêre**, spring dan na hierdie instruksie om die uitvoering van die binêre se kode te begin.
+**`LC_MAIN`** bevat die ingangspunt in die **entryoff-eienskap.** Met laai-tyd voeg **dyld** eenvoudig hierdie waarde by die (in-geheue) **basis van die binêre**, spring dan na hierdie instruksie om die uitvoering van die binêre se kode te begin.
 
-**`LC_UNIXTHREAD`** bevat die waardes wat die register moet hê wanneer die hoofdraad begin. Dit is reeds verouderd maar **`dyld`** gebruik dit nog steeds. Dit is moontlik om die waardes van die registers wat deur hierdie ingestel word, te sien met:
+**`LC_UNIXTHREAD`** bevat die waardes wat die register moet hê wanneer die hoofdraad begin. Dit is reeds verouderd maar **`dyld`** gebruik dit nog steeds. Dit is moontlik om die waardes van die register wat deur hierdie ingestel is, te sien met:
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -300,11 +301,11 @@ cpsr 0x00000000
 ### **`LC_CODE_SIGNATURE`**
 
 Bevat inligting oor die **kodesignatuur van die Macho-O-lêer**. Dit bevat slegs 'n **offset** wat na die **handtekeningblob** wys. Dit is tipies aan die einde van die lêer.\
-Nietemin kan jy enige inligting oor hierdie afdeling vind in [**hierdie blogpos**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) en hierdie [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Jy kan egter inligting oor hierdie afdeling vind in [**hierdie blogpos**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) en hierdie [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-Ondersteuning vir binêre versleuteling. Indien 'n aanvaller egter die proses kan kompromitteer, sal hy die geheue onversleuteld kan aflaai.
+Ondersteuning vir binêre versleuteling. Indien 'n aanvaller egter die proses kan kompromiteer, sal hy die geheue onversleuteld kan aflaai.
 
 ### **`LC_LOAD_DYLINKER`**
 
@@ -312,11 +313,11 @@ Bevat die **pad na die dinamiese skakeluitvoerbare lêer** wat gedeelde bibliote
 
 ### **`LC_IDENT`**
 
-Verouderd, maar wanneer dit ingestel is om damps by paniek te genereer, word 'n Mach-O-kern-damp geskep en word die kerwe-weergawe in die `LC_IDENT`-bevel ingestel.
+Verouderd, maar wanneer dit ingestel is om damps by paniek te genereer, word 'n Mach-O-kern-damp geskep en die kernweergawe word in die `LC_IDENT`-bevel ingestel.
 
 ### **`LC_UUID`**
 
-Willekeurige UUID. Dit is nuttig vir niks direk nie, maar XNU stoor dit saam met die res van die prosesinligting. Dit kan in botsingsverslae gebruik word.
+Willekeurige UUID. Dit is nie direk nuttig vir enigiets nie, maar XNU stoor dit saam met die res van die prosesinligting. Dit kan in botsingsverslae gebruik word.
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
@@ -343,7 +344,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (486).png>)
 
-Jy kan ook hierdie inligting kry van die opdraggelynbalk met:
+Jy kan ook hierdie inligting kry van die opdraggelynpunt met:
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -351,24 +352,23 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-```markdown
-Sommige potensiële kwaadwillige biblioteke is:
+Some potensiële kwaadwillige biblioteke is:
 
-* **DiskArbitration**: Monitor USB-aandrywings
+* **DiskArbitration**: Monitering van USB-aandrywings
 * **AVFoundation:** Vang klank en video
 * **CoreWLAN**: Wifi-skanderings.
 
 {% hint style="info" %}
-'n Mach-O binêre lêer kan een of **meer** **konstruksies** bevat, wat **uitgevoer sal word** **voor** die adres gespesifiseer in **LC\_MAIN**.\
-Die offsette van enige konstruksies word gehou in die **\_\_mod\_init\_func** afdeling van die **\_\_DATA\_CONST** segment.
+'n Mach-O binêre lêer kan een of **meer konstrukteurs** bevat, wat **uitgevoer sal word voor** die adres gespesifiseer in **LC\_MAIN**.\
+Die offsette van enige konstrukteurs word gehou in die **\_\_mod\_init\_func** afdeling van die **\_\_DATA\_CONST** segment.
 {% endhint %}
 
 ## **Mach-O Data**
 
-In die kern van die lêer lê die data-gebied, wat bestaan uit verskeie segmente soos gedefinieer in die laai-opdragte-gebied. **'n Verskeidenheid data-afdelings kan binne elke segment gehuisves word**, met elke afdeling wat kode of data **spesifiek vir 'n tipe** bevat.
+In die kern van die lêer lê die data-gebied, wat bestaan uit verskeie segmente soos gedefinieer in die laai-opdragte-gebied. **'n Verskeidenheid data-afdelings kan binne elke segment gehuisves word**, met elke afdeling wat kode of data bevat wat spesifiek is vir 'n tipe.
 
 {% hint style="success" %}
-Die data is basies die gedeelte wat al die **inligting** bevat wat deur die laai-opdragte **LC\_SEGMENTS\_64** gelaai word
+Die data is basies die gedeelte wat al die **inligting** bevat wat deur die laai-opdragte **LC\_SEGMENTS\_64** gelaai word.
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
@@ -379,33 +379,32 @@ Dit sluit in:
 * **Simbooltabel**: Wat inligting oor die eksterne funksie bevat wat deur die binêre gebruik word
 * Dit kan ook interne funksie, veranderlike name en meer bevat.
 
-Om dit te kontroleer kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
+Om dit te kontroleer, kan jy die [**Mach-O View**](https://sourceforge.net/projects/machoview/) gereedskap gebruik:
 
 <figure><img src="../../../.gitbook/assets/image (1120).png" alt=""><figcaption></figcaption></figure>
 
 Of vanaf die opdraglyn:
-```
 ```bash
 size -m /bin/ls
 ```
 ## Objective-C Algemene Afdelings
 
-In `__TEXT` segment (r-x):
+In die `__TEXT` segment (r-x):
 
-* `__objc_classname`: Klasname (strings)
-* `__objc_methname`: Metode name (strings)
-* `__objc_methtype`: Metode tipes (strings)
+- `__objc_classname`: Klasname (strings)
+- `__objc_methname`: Metode name (strings)
+- `__objc_methtype`: Metode tipes (strings)
 
-In `__DATA` segment (rw-):
+In die `__DATA` segment (rw-):
 
-* `__objc_classlist`: Aanwysers na alle Objective-C klasse
-* `__objc_nlclslist`: Aanwysers na Nie-Luie Objective-C klasse
-* `__objc_catlist`: Aanwyser na Kategorieë
-* `__objc_nlcatlist`: Aanwyser na Nie-Luie Kategorieë
-* `__objc_protolist`: Protokolle lys
-* `__objc_const`: Konstante data
-* `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+- `__objc_classlist`: Aanwysers na alle Objective-C klasse
+- `__objc_nlclslist`: Aanwysers na Nie-Luie Objective-C klasse
+- `__objc_catlist`: Aanwyser na Kategorieë
+- `__objc_nlcatlist`: Aanwyser na Nie-Luie Kategorieë
+- `__objc_protolist`: Protokolle lys
+- `__objc_const`: Konstante data
+- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
 
 ## Swift
 
-* `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`
+- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

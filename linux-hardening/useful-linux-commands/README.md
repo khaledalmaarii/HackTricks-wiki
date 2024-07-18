@@ -1,27 +1,29 @@
 # Nuttige Linux-opdragte
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou** en te **outomatiseer** met behulp van die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+\
+Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomaties** te dryf deur die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
 Kry Vandaag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
-## Algemene Bash
+## Gewone Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -143,8 +145,8 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik **werkstrome te bou** en te **outomatiseer** met behulp van die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
-Kry Vandaag Toegang:
+Gebruik [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) om maklik **werkstrome te bou** en outomatiseer met die wêreld se **mees gevorderde** gemeenskapsinstrumente.\
+Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -172,25 +174,37 @@ i686-mingw32msvc-gcc -o executable useradd.c
 
 ### Soek
 
-`grep` is 'n kragtige soekhulpmiddel wat gebruik word om te soek deur teks of binêre lêers vir patrone wat ooreenstem met spesifieke soekkriteria.
+Greps is 'n kragtige soekhulpmiddel wat gebruik kan word om spesifieke patrone binne lêers te soek. Dit kan ook gebruik word om te soek deur die uitset van ander opdragte deur pyplyn te gebruik. Hier is 'n paar nuttige voorbeelde van die gebruik van greps:
 
-### Basiese Gebruik
+- Soek vir 'n spesifieke woord in 'n lêer:
+  ```bash
+  grep "woord" lêernaam
+  ```
 
-```bash
-grep "patroon" lêernaam
-```
+- Soek vir 'n woord in alle lêers in 'n gegewe gids:
+  ```bash
+  grep -r "woord" /pad/na/gids/
+  ```
 
-### Soek in alle lêers in 'n gids
+- Soek vir 'n woord in alle lêers in die huidige gids en subgidse:
+  ```bash
+  grep -r "woord" .
+  ```
 
-```bash
-grep -r "patroon" gidsnaam
-```
+- Soek vir 'n woord en ignoreer hooflettergebruik:
+  ```bash
+  grep -i "woord" lêernaam
+  ```
 
-### Soek na 'n patroon in alle lêers wat ooreenstem met 'n spesifieke patroon
+- Soek vir 'n woord en wys die lynnommers waar dit voorkom:
+  ```bash
+  grep -n "woord" lêernaam
+  ```
 
-```bash
-grep -r "patroon" * .uitbreiding
-```
+- Soek vir 'n woord en wys die aantal kere wat dit voorkom in elke lêer:
+  ```bash
+  grep -c "woord" lêernaam
+  ```
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -308,16 +322,25 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash is 'n kragskellingsinterpreter wat algemeen in Linux-stelsels gebruik word. Dit bied 'n kragtige omgewing vir die uitvoering van opdragte en skryf van skrips.
+### Nuttige Linux-opdragte
+
+Hier is 'n lys van nuttige Linux-opdragte wat gebruik kan word vir die hardmaak van Linux-stelsels:
+
+1. `sudo apt update` - Werk die lys van beskikbare pakkette op.
+2. `sudo apt upgrade` - Opgradeer al die geïnstalleerde pakkette na die nuutste weergawe.
+3. `sudo apt dist-upgrade` - Voer 'n volledige opgradering van die stelsel uit.
+4. `sudo apt autoremove` - Verwyder outomaties alle ongebruikte pakkette.
+5. `sudo apt install [package]` - Installeer 'n spesifieke pakkets.
+6. `sudo systemctl status [service]` - Kontroleer die status van 'n diens.
+7. `sudo systemctl start [service]` - Begin 'n spesifieke diens.
+8. `sudo systemctl stop [service]` - Stop 'n spesifieke diens.
+9. `sudo systemctl enable [service]` - Stel 'n diens in om by stelselbegin te hardloop.
+10. `sudo systemctl disable [service]` - Voorkom dat 'n diens by stelselbegin hardloop.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
-
-### Inleiding
-
-Iptables is 'n kragtige firewall wat ingebou is in Linux-stelsels. Dit kan gebruik word om netwerkverkeer te bestuur deur reëls te definieer wat bepaal watter tipe verkeer toegelaat of geblokkeer word. Hierdie gids bevat nuttige Iptables-opdragte wat gebruik kan word vir die harding van Linux-stelsels.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -348,24 +371,25 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Gebruik [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) om maklik te bou en **werkstrome outomatiseer** wat aangedryf word deur die wêreld se **mees gevorderde** gemeenskapshulpmiddels.\
-Kry Vandaag Toegang:
+Kry Vandag Toegang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

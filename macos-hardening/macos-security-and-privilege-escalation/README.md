@@ -1,37 +1,38 @@
 # macOS Sekuriteit & Voorregverhoging
 
+{% hint style="success" %}
+Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
-**Hakinsigte**\
-Gaan in gesprek met inhoud wat die opwinding en uitdagings van hak bevat
+**Hack-insigte**\
+Betrokkenheid by inhoud wat die opwinding en uitdagings van hack weergee
 
-**Nuutste Haknuus**\
-Bly op hoogte van die vinnige hakwêreld deur middel van nuus en insigte in werklikheid
+**Nuutste Hack-nuus**\
+Bly op hoogte van die snelveranderende hackwêreld deur middel van nuus en insigte in werklikheid
 
 **Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
+Bly ingelig met die nuutste foutbelonings wat bekendgestel word en noodsaaklike platformopdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
 ## Basiese MacOS
 
-As jy nie vertroud is met macOS nie, moet jy begin om die basiese beginsels van macOS te leer:
+As jy nie vertroud is met macOS nie, moet jy begin om die basiese van macOS te leer:
 
 * Spesiale macOS **lêers & toestemmings:**
 
@@ -68,7 +69,7 @@ As jy nie vertroud is met macOS nie, moet jy begin om die basiese beginsels van 
 
 ### MacOS MDM
 
-In maatskappye is dit baie waarskynlik dat **macOS-stelsels met 'n MDM bestuur** word. Daarom is dit vir 'n aanvaller interessant om te weet **hoe dit werk**:
+In maatskappye is **macOS**-stelsels hoogs waarskynlik om **bestuur te word met 'n MDM**. Daarom is dit vir 'n aanvaller interessant om te weet **hoe dit werk**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
@@ -94,13 +95,13 @@ As 'n **proses wat as root loop 'n lêer skryf** wat deur 'n gebruiker beheer ka
 Dit kan in die volgende situasies gebeur:
 
 * Lêer wat reeds deur 'n gebruiker geskep is (behoort aan die gebruiker)
-* Lêer wat deur die gebruiker geskryf kan word weens 'n groep
+* Lêer wat deur die gebruiker skryfbaar is weens 'n groep
 * Lêer wat binne 'n gids behoort aan die gebruiker is (die gebruiker kan die lêer skep)
 * Lêer wat binne 'n gids behoort aan root is, maar die gebruiker het skryftoegang daaroor weens 'n groep (die gebruiker kan die lêer skep)
 
-Om 'n **lêer te skep** wat deur root gaan **gebruik word**, stel 'n gebruiker in staat om **voordeel te trek uit die inhoud** daarvan of selfs **simboleer/harde skakels** te skep om dit na 'n ander plek te verwys.
+Om 'n **lêer te skep** wat deur root gaan word **gebruik**, laat 'n gebruiker toe om van die inhoud daarvan te **profiteer** of selfs **simbole/harde skakels** te skep om dit na 'n ander plek te verwys.
 
-Vir hierdie soort kwesbaarhede, moenie vergeet om kwesbare `.pkg` installeerders te **ondersoek** nie:
+Vir hierdie soort kwesbaarhede, moenie vergeet om kwesbare `.pkg`-installeerders te **kontroleer**:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
@@ -108,7 +109,7 @@ Vir hierdie soort kwesbaarhede, moenie vergeet om kwesbare `.pkg` installeerders
 
 ### Lêeruitbreiding & URL-skema-toepassingshanteraars
 
-Vreemde programme wat geregistreer is deur lêeruitbreidings kan misbruik word en verskillende toepassings kan geregistreer word om spesifieke protokolle oop te maak
+Vreemde toepassings wat geregistreer is deur lêeruitbreidings kan misbruik word en verskillende toepassings kan geregistreer word om spesifieke protokolle te open
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
@@ -116,7 +117,7 @@ Vreemde programme wat geregistreer is deur lêeruitbreidings kan misbruik word e
 
 ## macOS TCC / SIP Voorregverhoging
 
-In macOS **kan programme en bineêre lêers toestemmings hê** om toegang tot lêers of instellings te verkry wat hulle bevoorregter maak as ander.
+In macOS **kan aansoeke en bineêre lêers toestemmings** hê om toegang tot lêers of instellings te verkry wat hulle bevoorregter maak as ander.
 
 Daarom sal 'n aanvaller wat 'n macOS-rekenaar suksesvol wil kompromiteer, sy TCC-voorregte moet **verhoog** (of selfs **SIP omseil**, afhangende van sy behoeftes).
 
@@ -126,7 +127,7 @@ Volg hierdie skakels om verskillende maniere te vind om [**voorregte in TCC te v
 
 ## macOS Tradisionele Voorregverhoging
 
-Natuurlik moet jy as 'n rooi span ook belangstel om na root te verhoog. Kyk na die volgende pos vir 'n paar wenke:
+Natuurlik moet jy as 'n rooi span ook belangstel om na root te verhoog. Kontroleer die volgende pos vir 'n paar wenke:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
@@ -141,29 +142,30 @@ Natuurlik moet jy as 'n rooi span ook belangstel om na root te verhoog. Kyk na d
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en foutbeloningsjagters!
+Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
 
-**Hacken-insigte**\
-Gaan in gesprek met inhoud wat die opwinding en uitdagings van hacken ondersoek
+**Hack-insigte**\
+Gaan in gesprek met inhoud wat die opwinding en uitdagings van hack bekyk
 
 **Hack Nuus in Werklikheid**\
-Bly op hoogte van die snelveranderende hackwêreld deur middel van nuus en insigte in werklikheid
+Bly op hoogte van die snelveranderende hackwêreld deur werklikheidsnuus en insigte
 
 **Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en noodsaaklike platformopdaterings
+Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

