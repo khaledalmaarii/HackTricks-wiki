@@ -1,18 +1,19 @@
 # macOS GCD - Grand Central Dispatch
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του GitHub.
 
 </details>
+{% endhint %}
 
 ## Βασικές Πληροφορίες
 
@@ -21,15 +22,15 @@
 Το **GCD** παρέχει και διαχειρίζεται **ουρές FIFO** στις οποίες η εφαρμογή σας μπορεί να **υποβάλει εργασίες** σε μορφή **block objects**. Τα blocks που υποβάλλονται στις ουρές αποστολής εκτελούνται σε ένα pool νημάτων πλήρως διαχειριζόμενο από το σύστημα. Το GCD δημιουργεί αυτόματα νήματα για την εκτέλεση των εργασιών στις ουρές αποστολής και προγραμματίζει αυτές τις εργασίες να τρέχουν στους διαθέσιμους πυρήνες.
 
 {% hint style="success" %}
-Συνοπτικά, για να εκτελέσετε κώδικα **παράλληλα**, οι διεργασίες μπορούν να στείλουν **blocks κώδικα στο GCD**, το οποίο θα φροντίσει για την εκτέλεσή τους. Συνεπώς, οι διεργασίες δεν δημιουργούν νέα νήματα. **Το GCD εκτελεί τον δοθέντα κώδικα με το δικό του pool νημάτων** (το οποίο μπορεί να αυξηθεί ή να μειωθεί ανάλογα με τις ανάγκες).
+Συνοπτικά, για να εκτελέσετε κώδικα **παράλληλα**, οι διεργασίες μπορούν να στείλουν **blocks κώδικα στο GCD**, το οποίο θα φροντίσει για την εκτέλεσή τους. Συνεπώς, οι διεργασίες δεν δημιουργούν νέα νήματα. Το **GCD εκτελεί τον δοσμένο κώδικα με το δικό του pool νημάτων** (το οποίο μπορεί να αυξηθεί ή να μειωθεί ανάλογα με τις ανάγκες).
 {% endhint %}
 
-Αυτό είναι πολύ χρήσιμο για τη διαχείριση της παράλληλης εκτέλεσης με επιτυχία, μειώνοντας σημαντικά τον αριθμό των νημάτων που δημιουργούν οι διεργασίες και βελτιστοποιώντας την παράλληλη εκτέλεση. Αυτό είναι ιδανικό για εργασίες που απαιτούν **μεγάλη παράλληλη διαδικασία** (brute-forcing;) ή για εργασίες που δεν πρέπει να μπλοκάρουν το κύριο νήμα: Για παράδειγμα, το κύριο νήμα στο iOS χειρίζεται τις αλληλεπιδράσεις με το UI, οπότε οποιαδήποτε άλλη λειτουργικότητα που θα μπορούσε να κάνει την εφαρμογή να κολλήσει (αναζήτηση, πρόσβαση σε ιστοσελίδα, ανάγνωση αρχείου...) διαχειρίζεται με αυτόν τον τρόπο.
+Αυτό είναι πολύ χρήσιμο για τη διαχείριση της παράλληλης εκτέλεσης με επιτυχία, μειώνοντας σημαντικά τον αριθμό των νημάτων που δημιουργούν οι διεργασίες και βελτιστοποιώντας την παράλληλη εκτέλεση. Αυτό είναι ιδανικό για εργασίες που απαιτούν **μεγάλη παράλληλη εκτέλεση** (brute-forcing;) ή για εργασίες που δεν πρέπει να αποκλείουν το κύριο νήμα: Για παράδειγμα, το κύριο νήμα στο iOS χειρίζεται τις αλληλεπιδράσεις με το UI, οπότε οποιαδήποτε άλλη λειτουργικότητα που θα μπορούσε να κάνει την εφαρμογή να κολλήσει (αναζήτηση, πρόσβαση σε ιστοσελίδα, ανάγνωση αρχείου...) διαχειρίζεται με αυτόν τον τρόπο.
 
 ### Blocks
 
-Ένα block είναι μια **αυτόνομη ενότητα κώδικα** (όπως μια συνάρτηση με ορίσματα που επιστρέφει μια τιμή) και μπορεί επίσης να καθορίσει δεσμευμένες μεταβλητές.\
-Ωστόσο, σε επίπεδο μεταγλωττιστή τα blocks δεν υπάρχουν, είναι `os_object`s. Κάθε ένα από αυτά τα αντικείμενα αποτελείται από δύο δομές:
+Ένα block είναι ένα **αυτόνομο τμήμα κώδικα** (όπως μια συνάρτηση με ορίσματα που επιστρέφει μια τιμή) και μπορεί επίσης να καθορίσει δεσμευμένες μεταβλητές.\
+Ωστόσο, στο επίπεδο του μεταγλωττιστή τα blocks δεν υπάρχουν, είναι `os_object`s. Κάθε ένα από αυτά τα αντικείμενα αποτελείται από δύο δομές:
 
 * **block literal**:&#x20;
 * Ξεκινά με το πεδίο **`isa`**, που δείχνει στην κλάση του block:
@@ -39,18 +40,18 @@
 * Έχει **`flags`** (που υποδεικνύουν τα πεδία που υπάρχουν στην περιγραφή του block) και μερικά δεσμευμένα bytes
 * Ο δείκτης συνάρτησης για κλήση
 * Ένας δείκτης στην περιγραφή του block
-* Εισαγόμενες μεταβλητές block (αν υπάρχουν)
+* Δεσμευμένες μεταβλητές block (αν υπάρχουν)
 * **block descriptor**: Το μέγεθός του εξαρτάται από τα δεδομένα που υπάρχουν (όπως υποδεικνύεται στα προηγούμενα flags)
 * Έχει μερικά δεσμευμένα bytes
 * Το μέγεθός του
 * Συνήθως θα έχει ένα δείκτη σε μια υπογραφή στυλ Objective-C για να γνωρίζει πόσο χώρο χρειάζεται για τις παραμέτρους (σημαία `BLOCK_HAS_SIGNATURE`)
-* Αν υπάρχουν αναφερόμενες μεταβλητές, αυτό το block θα έχει επίσης δείκτες σε ένα βοηθό αντιγραφής (αντιγράφοντας την τιμή στην αρχή) και βοηθό διάθεσης (απελευθέρωσή του).
+* Αν υπάρχουν αναφερόμενες μεταβλητές, αυτό το block θα έχει επίσης δείκτες σε ένα βοηθό αντιγραφής (αντιγραφή της τιμής στην αρχή) και βοηθό διάθεσης (απελευθέρωσή της).
 
 ### Ουρές
 
 Μια ουρά αποστολής είναι ένα αντικείμενο με όνομα που παρέχει ταξινόμηση FIFO των blocks για εκτέλεση.
 
-Τα blocks τοποθετούνται σε ουρές για να εκτελεστούν, και αυτές υποστηρίζουν 2 λειτουργίες: `DISPATCH_QUEUE_SERIAL` και `DISPATCH_QUEUE_CONCURRENT`. Φυσικά η **σειριακή** δεν θα έχει προβλήματα race condition καθώς ένα block δεν θα εκτελεστεί μέχρι να ολοκληρωθεί το προηγούμενο. Αλλά **ο άλλος τύπος ουράς μπορεί να το έχει**.
+Τα blocks τοποθετούνται σε ουρές για να εκτελεστούν, και αυτές υποστηρίζουν 2 λειτουργίες: `DISPATCH_QUEUE_SERIAL` και `DISPATCH_QUEUE_CONCURRENT`. Φυσικά η **σειριακή** δεν θα έχει προβλήματα συνθήκης αγώνα καθώς ένα block δεν θα εκτελεστεί μέχρι να ολοκληρωθεί το προηγούμενο. Αλλά **ο άλλος τύπος ουράς μπορεί να το έχει**.
 
 Προεπιλεγμένες ουρές:
 
@@ -78,7 +79,13 @@
 
 ### Αντικείμενα αποστολής
 
-Υπάρχουν αρκετά αντικείμενα που χρησιμοποιεί το libdispatch
+Υπάρχουν αρκετά αντικείμενα που χρησιμοποιεί το libdispatch και οι ουρές και τα blocks είναι μόνο 2 από αυτά. Είναι δυνατόν να δημιουργήσετε αυτά τα αντικείμενα με το `dispatch_object_create`:
+
+* `block`
+* `data`: Μπλοκ δεδομένων
+* `group`: Ομάδα blocks
+* `io`: Ασύγχρονα αιτήματα I/O
+* `mach
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -121,8 +128,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** είναι μια βιβλιοθήκη που παρέχει **δεσμεύσεις Swift** στο πλαίσιο Grand Central Dispatch (GCD) το οποίο αρχικά γράφτηκε σε C.\
-Η βιβλιοθήκη **`libswiftDispatch`** τυλίγει τα C GCD APIs σε ένα πιο φιλικό προς τη γλώσσα Swift περιβάλλον, κάνοντας ευκολότερη και πιο ευανάγνωστη την εργασία με το GCD για τους προγραμματιστές Swift.
+**`libswiftDispatch`** είναι μια βιβλιοθήκη που παρέχει **δεσμεύσεις Swift** στο πλαίσιο Grand Central Dispatch (GCD) το οποίο αρχικά έχει γραφτεί σε C.\
+Η βιβλιοθήκη **`libswiftDispatch`** τυλίγει τα APIs του C GCD σε μια διεπαφή που είναι πιο φιλική προς τη γλώσσα Swift, κάνοντας το πιο εύκολο και πιο ευανάγνωστο για τους προγραμματιστές Swift να εργαστούν με το GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -159,7 +166,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-Το παρακάτω script του Frida μπορεί να χρησιμοποιηθεί για **ενσωμάτωση σε αρκετές λειτουργίες `dispatch`** και εξαγωγή του ονόματος της ουράς, του backtrace και του block: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+Το παρακάτω σενάριο του Frida μπορεί να χρησιμοποιηθεί για **ενσωμάτωση σε αρκετές λειτουργίες `dispatch`** και εξαγωγή του ονόματος της ουράς, του αναστροφής και του block: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -174,15 +181,15 @@ Backtrace:
 ```
 ## Ghidra
 
-Προς το παρόν το Ghidra δεν κατανοεί ούτε τη δομή **`dispatch_block_t`** της ObjectiveC, ούτε αυτήν της **`swift_dispatch_block`**.
+Προς το παρόν το Ghidra δεν κατανοεί ούτε τη δομή ObjectiveC **`dispatch_block_t`**, ούτε αυτή της **`swift_dispatch_block`**.
 
 Έτσι, αν θέλετε να τις κατανοήσει, μπορείτε απλά να τις **δηλώσετε**:
 
-<figure><img src="../../.gitbook/assets/image (1157).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<figure><img src="../../.gitbook/assets/image (1159).png" alt="" width="563"><figcaption></figcaption></figure>
-
 <figure><img src="../../.gitbook/assets/image (1160).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Στη συνέχεια, βρείτε ένα σημείο στον κώδικα όπου χρησιμοποιούνται:
 
@@ -190,15 +197,15 @@ Backtrace:
 Σημειώστε όλες τις αναφορές που γίνονται στο "block" για να καταλάβετε πώς μπορείτε να καταλάβετε ότι η δομή χρησιμοποιείται.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (1161).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Κάντε δεξί κλικ στη μεταβλητή -> Αλλαγή τύπου μεταβλητής και επιλέξτε σε αυτήν την περίπτωση **`swift_dispatch_block`**:
 
-<figure><img src="../../.gitbook/assets/image (1162).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1165).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Το Ghidra θα επαναγράψει αυτόματα τα πάντα:
 
-<figure><img src="../../.gitbook/assets/image (1163).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Αναφορές
 

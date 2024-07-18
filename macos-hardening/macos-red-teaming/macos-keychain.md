@@ -1,41 +1,42 @@
 # macOS Keychain
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα χάκερ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλων λογισμικών**.
+[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλου λογισμικού**.
 
-Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των αναλήψεων λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλα λογισμικά που κλέβουν πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των αποκλεισμών λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
 Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
 
 {% embed url="https://whiteintel.io" %}
 
----
+***
 
 ## Κύρια Keychains
 
 * Το **Keychain του Χρήστη** (`~/Library/Keychains/login.keycahin-db`), το οποίο χρησιμοποιείται για την αποθήκευση **συγκεκριμένων διαπιστευτηρίων χρήστη** όπως κωδικοί εφαρμογών, κωδικοί internet, πιστοποιητικά που δημιουργήθηκαν από τον χρήστη, κωδικοί δικτύου και δημιουργημένα δημόσια/ιδιωτικά κλειδιά χρήστη.
-* Το **Keychain του Συστήματος** (`/Library/Keychains/System.keychain`), το οποίο αποθηκεύει **διαπιστευτήρια που ισχύουν για ολόκληρο το σύστημα** όπως κωδικοί WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικά κλειδιά συστήματος και κωδικοί εφαρμογών συστήματος.
+* Το **Keychain του Συστήματος** (`/Library/Keychains/System.keychain`), το οποίο αποθηκεύει **διαπιστεύσεις σε επίπεδο συστήματος** όπως κωδικοί WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικά κλειδιά συστήματος και κωδικοί εφαρμογών συστήματος.
 
 ### Πρόσβαση στο Keychain Κωδικών
 
-Αυτά τα αρχεία, παρόλο που δεν έχουν ενσωματωμένη προστασία και μπορούν να **κατεβάστε**, είναι κρυπτογραφημένα και απαιτούν τον **καθαρό κείμενο του κωδικού του χρήστη για να αποκρυπτογραφηθούν**. Ένα εργαλείο όπως το [**Chainbreaker**](https://github.com/n0fate/chainbreaker) μπορεί να χρησιμοποιηθεί για την αποκρυπτογράφηση.
+Αυτά τα αρχεία, παρόλο που δεν έχουν ενσωματωμένη προστασία και μπορούν να **κατεβάστε**, είναι κρυπτογραφημένα και απαιτούν τον **καθαρό κείμενο του χρήστη για να αποκρυπτογραφηθούν**. Ένα εργαλείο όπως το [**Chainbreaker**](https://github.com/n0fate/chainbreaker) μπορεί να χρησιμοποιηθεί για την αποκρυπτογράφηση.
 
 ## Προστασίες Καταχωρήσεων Keychain
 
@@ -47,15 +48,15 @@
 * **ACLAuhtorizationExportWrapped**: Επιτρέπει στον κάτοχο να λάβει το καθαρό κείμενο κρυπτογραφημένο με έναν άλλο καθορισμένο κωδικό.
 * **ACLAuhtorizationAny**: Επιτρέπει στον κάτοχο να εκτελέσει οποιαδήποτε ενέργεια.
 
-Οι ACLs συνοδεύονται επίσης από μια **λίστα αξιόπιστων εφαρμογών** που μπορούν να εκτελέσουν αυτές τις ενέργειες χωρίς προτροπή. Αυτό μπορεί να είναι:
+Οι ACLs συνοδεύονται επιπλέον από μια **λίστα αξιόπιστων εφαρμογών** που μπορούν να εκτελέσουν αυτές τις ενέργειες χωρίς προτροπή. Αυτό μπορεί να είναι:
 
-* &#x20;**N`il`** (δεν απαιτείται άδεια, **όλοι είναι αξιόπιστοι**)
+* **N`il`** (δεν απαιτείται άδεια, **όλοι είναι αξιόπιστοι**)
 * Μια **κενή** λίστα (**κανείς δεν είναι αξιόπιστος**)
 * **Λίστα** συγκεκριμένων **εφαρμογών**.
 
 Επίσης, η καταχώρηση μπορεί να περιέχει το κλειδί **`ACLAuthorizationPartitionID`,** το οποίο χρησιμοποιείται για την ταυτοποίηση του **teamid, apple,** και **cdhash.**
 
-* Εάν το **teamid** είναι καθορισμένο, τότε για να **έχει πρόσβαση στην τιμή της καταχώρησης χωρίς** προτροπή η χρησιμοποιούμενη εφαρμογή πρέπει να έχει το **ίδιο teamid**.
+* Εάν το **teamid** είναι καθορισμένο, τότε για να **έχει πρόσβαση στην τιμή της καταχώρησης** χωρίς **προτροπή** η χρησιμοποιούμενη εφαρμογή πρέπει να έχει το **ίδιο teamid**.
 * Εάν το **apple** είναι καθορισμένο, τότε η εφαρμογή πρέπει να είναι **υπογεγραμμένη** από την **Apple**.
 * Εάν το **cdhash** είναι υποδειγμένο, τότε η εφαρμογή πρέπει να έχει το συγκεκριμένο **cdhash**.
 
@@ -72,7 +73,7 @@
 Όταν μια **εφαρμογή δημιουργεί μια καταχώρηση στο keychain**, οι κανόνες είναι ελαφρώς διαφορετικοί:
 
 * Όλες οι εφαρμογές μπορούν να κρυπτογραφήσουν.
-* Μόνο η **δημιουργούσα εφαρμογή** (ή οποιεσδήποτε άλλες εφαρμογές προστέθηκαν ρητά) μπορεί να εξάγει/αποκρυπτογραφήσει (χωρίς προτροπή του χρήστη).
+* Μόνο η **δημιουργούσα εφαρμογή** (ή οποιεσδήποτε άλλες εφαρμογές προστέθηκαν ρητά) μπορούν να εξάγουν/αποκρυπτογραφήσουν (χωρίς προτροπή του χρήστη).
 * Όλες οι εφαρμογές μπορούν να δουν τον έλεγχο ακεραιότητας.
 * Καμία εφαρμογή δεν μπορεί να αλλάξει τις ACLs.
 * Το **partitionID** ορίζεται σε **`teamid:[teamID εδώ]`**.
@@ -96,18 +97,18 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 Η **απαρίθμηση κλειδιών και η εξαγωγή μυστικών** που **δεν θα προκαλέσει παράθυρο ειδοποίησης** μπορεί να γίνει με το εργαλείο [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Καταχωρήστε και λάβετε **πληροφορίες** για κάθε καταχώρηση κλειδιού:
+Καταχωρίστε και λάβετε **πληροφορίες** για κάθε καταχώριση κλειδιού:
 
-* Η ΑΡΙ **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώρηση και υπάρχουν ορισμένα χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση του:
+* Η ΑΡΙ **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώριση και υπάρχουν ορισμένα χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση του:
 * **`kSecReturnData`**: Εάν είναι true, θα προσπαθήσει να αποκρυπτογραφήσει τα δεδομένα (ορίστε το false για να αποφύγετε πιθανά αναδυόμενα παράθυρα)
-* **`kSecReturnRef`**: Λάβετε επίσης αναφορά στο στοιχείο του keychain (ορίστε το true σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς παράθυρο ειδοποίησης)
-* **`kSecReturnAttributes`**: Λάβετε μεταδεδομένα σχετικά με τις καταχωρήσεις
+* **`kSecReturnRef`**: Λάβετε επίσης αναφορά στο στοιχείο του κλειδιού (ορίστε το true σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς αναδυόμενο παράθυρο)
+* **`kSecReturnAttributes`**: Λάβετε μεταδεδομένα σχετικά με τις καταχωρίσεις
 * **`kSecMatchLimit`**: Πόσα αποτελέσματα να επιστραφούν
-* **`kSecClass`**: Τι είδος καταχώρησης keychain
+* **`kSecClass`**: Τι είδος καταχώρισης κλειδιού
 
-Λάβετε τα **ACLs** κάθε καταχώρησης:
+Λάβετε τα **ACLs** κάθε καταχώρισης:
 
-* Με την ΑΡΙ **`SecAccessCopyACLList`** μπορείτε να λάβετε το **ACL για το στοιχείο του keychain**, και θα επιστρέψει μια λίστα με ACLs (όπως `ACLAuhtorizationExportClear` και τα άλλα προαναφερθέντα) όπου κάθε λίστα έχει:
+* Με την ΑΡΙ **`SecAccessCopyACLList`** μπορείτε να λάβετε το **ACL για το στοιχείο του κλειδιού**, και θα επιστρέψει μια λίστα με ACLs (όπως `ACLAuhtorizationExportClear` και τα άλλα προηγουμένως αναφερθέντα) όπου κάθε λίστα έχει:
 * Περιγραφή
 * **Λίστα Εμπιστευμένων Εφαρμογών**. Αυτό μπορεί να είναι:
 * Μια εφαρμογή: /Applications/Slack.app
@@ -121,7 +122,7 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 
 Και αυτά είναι τα **απαιτούμενα** για να μπορείτε να **εξάγετε ένα μυστικό χωρίς παράθυρο ειδοποίησης**:
 
-* Εάν υπάρχουν **1+ εμπιστευμένες** εφαρμογές στη λίστα:
+* Εάν υπάρχουν **1+ εμπιστευμένες** εφαρμογές καταχωρημένες:
 * Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις** (**`Nil`**, ή να είστε **μέρος** της επιτρεπόμενης λίστας εφαρμογών στην εξουσιοδότηση για πρόσβαση στις μυστικές πληροφορίες)
 * Χρειάζεστε ταιριαστή υπογραφή κώδικα με το **PartitionID**
 * Χρειάζεστε ταιριαστή υπογραφή κώδικα με αυτήν μιας **εμπιστευμένης εφαρμογής** (ή να είστε μέλος της σωστής ομάδας KeychainAccessGroup)
@@ -131,16 +132,16 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 * Εάν **δεν υπάρχει PartitionID**, τότε αυτό δεν είναι απαραίτητο
 
 {% hint style="danger" %}
-Συνεπώς, εάν υπάρχει **1 εφαρμογή στη λίστα**, χρειάζεται να **ενθαρρύνετε κώδικα σε αυτήν την εφαρμογή**.
+Συνεπώς, εάν υπάρχει **1 εφαρμογή καταχωρημένη**, χρειάζεται να **ενθαρρύνετε κώδικα σε αυτήν την εφαρμογή**.
 
 Εάν το **apple** είναι υποδειγμένο στο **partitionID**, μπορείτε να έχετε πρόσβαση με το **`osascript`** σε οτιδήποτε εμπιστεύεται όλες τις εφαρμογές με το apple στο partitionID. Το **`Python`** μπορεί επίσης να χρησιμοποιηθεί γι' αυτό.
 {% endhint %}
 
 ### Δύο επιπλέον χαρακτηριστικά
 
-* **Αόρατο**: Είναι ένα λογικό σήμα για να **κρύψετε** την καταχώρηση από την εφαρμογή **UI** Keychain
+* **Αόρατο**: Είναι ένα λογικό σήμα για να **κρύψετε** την καταχώριση από την εφαρμογή **UI** Keychain
 * **Γενικό**: Χρησιμοποιείται για την αποθήκευση **μεταδεδομένων** (άρα ΔΕΝ ΕΙΝΑΙ ΚΡΥΠΤΟΓΡΑΦΗΜΕΝΟ)
-* Η Microsoft αποθήκευε σε καθαρό κείμενο όλα τα ανανεωμένα τοκεν για πρόσβαση σε ευαίσθητα σημεία.
+* Η Microsoft αποθήκευε σε καθαρό κείμενο όλα τα ανανεωμένα τεκμήρια για πρόσβαση σε ευαίσθητα σημεία.
 
 ## Αναφορές
 
@@ -148,26 +149,27 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 
 ### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
 [**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε εάν μια εταιρεία ή οι πελάτες της έχουν **διαρρεύσει** από **κλέφτες κακόβουλου λογισμικού**.
 
-Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των αποκλεισμών λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
+Ο κύριος στόχος του WhiteIntel είναι η καταπολέμηση των απαγωγών λογαριασμών και των επιθέσεων ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
 
-Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους δωρεάν στο:
+Μπορείτε να ελέγξετε τον ιστότοπό τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο Χακάρισμα του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο Χακάρισμα του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Κοινοποιήστε χάκερ τεχνάσματα υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
+{% endhint %}

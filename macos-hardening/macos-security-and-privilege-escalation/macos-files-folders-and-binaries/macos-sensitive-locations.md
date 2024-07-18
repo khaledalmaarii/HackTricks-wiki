@@ -1,25 +1,28 @@
-# macOS Ευαίσθητες Τοποθεσίες & Ενδιαφέροντα Daemons
+# macOS Ευαίσθητες Τοποθεσίες & Ενδιαφέροντες Δαίμονες
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Κωδικοί Πρόσβασης
 
 ### Σκιώδεις Κωδικοί Πρόσβασης
 
 Ο σκιώδης κωδικός πρόσβασης αποθηκεύεται μαζί με τη διαμόρφωση του χρήστη σε plists που βρίσκονται στο **`/var/db/dslocal/nodes/Default/users/`**.\
-Το παρακάτω oneliner μπορεί να χρησιμοποιηθεί για να ανακτήσει **όλες τις πληροφορίες σχετικά με τους χρήστες** (συμπεριλαμβανομένων των πληροφοριών του hash):
+Το παρακάτω oneliner μπορεί να χρησιμοποιηθεί για να ανακτήσει **όλες τις πληροφορίες σχετικά με τους χρήστες** (συμπεριλαμβανομένων των πληροφοριών για το hash):
+
+{% code overflow="wrap" %}
 ```bash
 for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"; defaults read "$l"; fi; done
 ```
@@ -27,12 +30,14 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 
 [**Σενάρια όπως αυτό εδώ**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) ή [**αυτό**](https://github.com/octomagon/davegrohl.git) μπορούν να χρησιμοποιηθούν για να μετατρέψουν το hash σε μορφή **hashcat**.
 
-Ένα εναλλακτικό one-liner το οποίο θα αδειάσει τα διαπιστευτήρια όλων των λογαριασμών πλην των υπηρεσιών σε μορφή hashcat `-m 7100` (macOS PBKDF2-SHA512):
+Ένα εναλλακτικό one-liner το οποίο θα αδειάσει τα διαπιστευτήρια όλων των λογαριασμών μη-υπηρεσιών σε μορφή hashcat `-m 7100` (macOS PBKDF2-SHA512):
 
 {% code overflow="wrap" %}
 ```bash
 sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex "[^_]*"); do plutil -extract name.0 raw $i | awk "{printf \$0\":\$ml\$\"}"; for j in {iterations,salt,entropy}; do l=$(k=$(plutil -extract ShadowHashData.0 raw $i) && base64 -d <<< $k | plutil -extract SALTED-SHA512-PBKDF2.$j raw -); if [[ $j == iterations ]]; then echo -n $l; else base64 -d <<< $l | xxd -p -c 0 | awk "{printf \"$\"\$0}"; fi; done; echo ""; done'
 ```
+{% endcode %}
+
 ### Keychain Dump
 
 Σημειώστε ότι κατά τη χρήση του δυαδικού security για **αποθήκευση των κωδικών αποκρυπτογραφημένων**, πολλές προτροπές θα ζητήσουν από τον χρήστη να επιτρέψει αυτήν τη λειτουργία.
@@ -52,30 +57,30 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 
 ### Επισκόπηση Keychaindump
 
-Ένα εργαλείο με το όνομα **keychaindump** έχει αναπτυχθεί για να εξάγει κωδικούς πρόσβασης από τα keychains του macOS, αλλά αντιμετωπίζει περιορισμούς σε νεότερες εκδόσεις macOS όπως το Big Sur, όπως υποδεικνύεται σε μια [συζήτηση](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Η χρήση του **keychaindump** απαιτεί από τον επιτιθέμενο να κερδίσει πρόσβαση και να αναβαθμίσει τα προνόμια σε **root**. Το εργαλείο εκμεταλλεύεται το γεγονός ότι το keychain είναι ξεκλείδωτο από προεπιλογή κατά την είσοδο του χρήστη για την ευκολία, επιτρέποντας σε εφαρμογές να τον προσπεράσουν χωρίς την ανάγκη επαναλαμβανόμενου κωδικού πρόσβασης του χρήστη. Ωστόσο, αν ένας χρήστης επιλέξει να κλειδώσει το keychain μετά από κάθε χρήση, το **keychaindump** γίνεται αναποτελεσματικό.
+Ένα εργαλείο με το όνομα **keychaindump** έχει αναπτυχθεί για την εξαγωγή κωδικών από τα keychains του macOS, αλλά αντιμετωπίζει περιορισμούς σε νεότερες εκδόσεις macOS όπως το Big Sur, όπως υποδεικνύεται σε μια [συζήτηση](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Η χρήση του **keychaindump** απαιτεί από τον επιτιθέμενο να κερδίσει πρόσβαση και να αναβαθμίσει τα προνόμια σε **root**. Το εργαλείο εκμεταλλεύεται το γεγονός ότι το keychain είναι ξεκλείδωτο από προεπιλογή κατά τη σύνδεση του χρήστη για την ευκολία, επιτρέποντας σε εφαρμογές να τον προσπεράσουν χωρίς την ανάγκη επαναλαμβανόμενου κωδικού πρόσβασης από τον χρήστη. Ωστόσο, αν ένας χρήστης επιλέξει να κλειδώσει το keychain μετά από κάθε χρήση, το **keychaindump** γίνεται αναποτελεσματικό.
 
-Το **Keychaindump** λειτουργεί στοχεύοντας ένα συγκεκριμένο διεργασία με το όνομα **securityd**, περιγραμμένο από την Apple ως ένα δαίμονα για την εξουσιοδότηση και κρυπτογραφικές λειτουργίες, ουσιώδης για την πρόσβαση στο keychain. Η διαδικασία εξαγωγής περιλαμβάνει την εντοπισμό ενός **Master Key** που προέρχεται από τον κωδικό εισόδου του χρήστη. Αυτό το κλειδί είναι ουσιώδες για την ανάγνωση του αρχείου keychain. Για να εντοπίσει το **Master Key**, το **keychaindump** σαρώνει τη μνήμη του **securityd** χρησιμοποιώντας την εντολή `vmmap`, αναζητώντας πιθανά κλειδιά μέσα σε περιοχές που σημειώνονται ως `MALLOC_TINY`. Η παρακάτω εντολή χρησιμοποιείται για τον έλεγχο αυτών των τοποθεσιών μνήμης:
+Το **Keychaindump** λειτουργεί στοχεύοντας ένα συγκεκριμένο διεργασία με το όνομα **securityd**, περιγράφεται από την Apple ως ένας δαίμονας για την εξουσιοδότηση και κρυπτογραφικές λειτουργίες, ουσιώδης για την πρόσβαση στο keychain. Η διαδικασία εξαγωγής περιλαμβάνει την εντοπισμό ενός **Master Key** που προέρχεται από τον κωδικό σύνδεσης του χρήστη. Αυτό το κλειδί είναι ουσιώδες για την ανάγνωση του αρχείου keychain. Για να εντοπίσει το **Master Key**, το **keychaindump** σαρώνει τη μνήμη του **securityd** χρησιμοποιώντας την εντολή `vmmap`, αναζητώντας πιθανά κλειδιά μέσα σε περιοχές που σημειώνονται ως `MALLOC_TINY`. Η παρακάτω εντολή χρησιμοποιείται για τον έλεγχο αυτών των τοποθεσιών μνήμης:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Αφού εντοπιστούν πιθανοί κύριοι κλειδιά, το **keychaindump** αναζητά μέσα στα heaps ένα συγκεκριμένο πρότυπο (`0x0000000000000018`) που υποδηλώνει ένα υποψήφιο για το κύριο κλειδί. Περαιτέρω βήματα, συμπεριλαμβανομένης της αποσκίασης, απαιτούνται για τη χρήση αυτού του κλειδιού, όπως περιγράφεται στον πηγαίο κώδικα του **keychaindump**. Οι αναλυτές που επικεντρώνονται σε αυτόν τον τομέα πρέπει να σημειώσουν ότι τα κρίσιμα δεδομένα για την αποκρυπτογράφηση του keychain αποθηκεύονται μέσα στη μνήμη της διεργασίας **securityd**. Ένα παράδειγμα εντολής για την εκτέλεση του **keychaindump** είναι:
+Αφού εντοπιστούν πιθανοί κύριοι κλειδιά, το **keychaindump** αναζητά μέσω των σωρών ένα συγκεκριμένο πρότυπο (`0x0000000000000018`) που υποδηλώνει ένα υποψήφιο για το κύριο κλειδί. Περαιτέρω βήματα, συμπεριλαμβανομένης της απο-εμφάνισης, απαιτούνται για να χρησιμοποιηθεί αυτό το κλειδί, όπως περιγράφεται στον πηγαίο κώδικα του **keychaindump**. Οι αναλυτές που επικεντρώνονται σε αυτόν τον τομέα πρέπει να σημειώσουν ότι τα κρίσιμα δεδομένα για την αποκρυπτογράφηση του keychain αποθηκεύονται μέσα στη μνήμη της διεργασίας **securityd**. Ένα παράδειγμα εντολής για την εκτέλεση του **keychaindump** είναι:
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) μπορεί να χρησιμοποιηθεί για την εξαγωγή των ακόλουθων τύπων πληροφοριών από ένα OSX keychain με ενδεδειγμένο τρόπο από πλευράς ψηφιοανακριτικής:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) μπορεί να χρησιμοποιηθεί για την εξαγωγή των ακόλουθων τύπων πληροφοριών από έναν OSX keychain με τρόπο που να είναι ασφαλής από δικαστική άποψη:
 
-* Κρυπτογραφημένος κωδικός Keychain, κατάλληλος για αποκρυπτογράφηση με το [hashcat](https://hashcat.net/hashcat/) ή το [John the Ripper](https://www.openwall.com/john/)
+* Κρυπτογραφημένος κωδικός keychain, κατάλληλος για αποκρυπτογράφηση με το [hashcat](https://hashcat.net/hashcat/) ή το [John the Ripper](https://www.openwall.com/john/)
 * Κωδικοί Internet
-* Γενικοί Κωδικοί
-* Ιδιωτικά Κλειδιά
+* Γενικοί κωδικοί
+* Ιδιωτικοί Κλειδιά
 * Δημόσια Κλειδιά
 * Πιστοποιητικά X509
 * Ασφαλείς Σημειώσεις
 * Κωδικοί Appleshare
 
-Δεδομένου του κωδικού ξεκλειδώματος του keychain, ενός κύριου κλειδιού που αποκτήθηκε χρησιμοποιώντας το [volafox](https://github.com/n0fate/volafox) ή το [volatility](https://github.com/volatilityfoundation/volatility), ή ενός αρχείου ξεκλειδώματος όπως το SystemKey, το Chainbreaker θα παρέχει επίσης κωδικούς κειμένου.
+Δεδομένου του κωδικού ξεκλειδώματος του keychain, ενός κύριου κλειδιού που αποκτήθηκε χρησιμοποιώντας το [volafox](https://github.com/n0fate/volafox) ή το [volatility](https://github.com/volatilityfoundation/volatility), ή ενός αρχείου ξεκλειδώματος όπως το SystemKey, το Chainbreaker θα παρέχει επίσης κωδικούς πλήρεις κειμένου.
 
 Χωρίς έναν από αυτούς τους τρόπους ξεκλειδώματος του Keychain, το Chainbreaker θα εμφανίσει όλες τις άλλες διαθέσιμες πληροφορίες.
 
@@ -123,7 +128,7 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 Το αρχείο **kcpassword** είναι ένα αρχείο που κρατά το **κωδικό πρόσβασης του χρήστη**, μόνο εάν ο ιδιοκτήτης του συστήματος έχει **ενεργοποιήσει την αυτόματη σύνδεση**. Έτσι, ο χρήστης θα συνδεθεί αυτόματα χωρίς να του ζητηθεί κωδικός πρόσβασης (το οποίο δεν είναι πολύ ασφαλές).
 
-Ο κωδικός πρόσβασης αποθηκεύεται στο αρχείο **`/etc/kcpassword`** που έχει γίνει xor με το κλειδί **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Εάν ο κωδικός πρόσβασης των χρηστών είναι μεγαλύτερος από το κλειδί, το κλειδί θα επαναχρησιμοποιηθεί.\
+Ο κωδικός πρόσβασης αποθηκεύεται στο αρχείο **`/etc/kcpassword`** που έχει γίνει xor με το κλειδί **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Εάν ο κωδικός πρόσβασης του χρήστη είναι μεγαλύτερος από το κλειδί, το κλειδί θα επαναχρησιμοποιηθεί.\
 Αυτό καθιστά τον κωδικό πρόσβασης αρκετά εύκολο να ανακτηθεί, για παράδειγμα χρησιμοποιώντας σενάρια όπως [**αυτό**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Ενδιαφέρουσες Πληροφορίες σε Βάσεις Δεδομένων
@@ -138,7 +143,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
 ### Ειδοποιήσεις
 
-Μπορείτε να βρείτε τα δεδομένα των Ειδοποιήσεων στο `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
+Μπορείτε να βρείτε τα δεδομένα Ειδοποιήσεων στο `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
 Το μεγαλύτερο μέρος των ενδιαφερουσών πληροφοριών θα βρίσκεται στο **blob**. Έτσι θα χρειαστεί να **εξάγετε** αυτό το περιεχόμενο και να το **μετατρέψετε** σε **αναγνώσιμη** μορφή ή να χρησιμοποιήσετε το **`strings`**. Για να το προσπελάσετε μπορείτε να κάνετε:
 ```bash
@@ -172,9 +177,9 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 ### Ειδοποιήσεις Darwin
 
-Το κύριο δαίμονα για τις ειδοποιήσεις είναι το **`/usr/sbin/notifyd`**. Για να λαμβάνουν ειδοποιήσεις, οι πελάτες πρέπει να εγγραφούν μέσω της θύρας Mach `com.apple.system.notification_center` (ελέγξτε τους με `sudo lsmp -p <pid notifyd>`). Το δαίμονας είναι δυνατό να προσαρμοστεί με το αρχείο `/etc/notify.conf`.
+Το κύριο δαίμονα για τις ειδοποιήσεις είναι το **`/usr/sbin/notifyd`**. Για να λάβουν ειδοποιήσεις, οι πελάτες πρέπει να εγγραφούν μέσω της θύρας Mach `com.apple.system.notification_center` (ελέγξτε τους με `sudo lsmp -p <pid notifyd>`). Το δαίμονας είναι παραμετροποιήσιμος με το αρχείο `/etc/notify.conf`.
 
-Τα ονόματα που χρησιμοποιούνται για τις ειδοποιήσεις είναι μοναδικές αντιστρόφως DNS σημειώσεις και όταν στέλνεται μια ειδοποίηση σε ένα από αυτά, οι πελάτες που έχουν δηλώσει ότι μπορούν να τη χειριστούν θα τη λάβουν.
+Τα ονόματα που χρησιμοποιούνται για τις ειδοποιήσεις είναι μοναδικές αντιστροφές σημειώσεις DNS και όταν στέλνεται μια ειδοποίηση σε ένα από αυτά, το(τα) πελάτη(ες) που έχουν δηλώσει ότι μπορούν να τη χειριστούν θα τη λάβουν.
 
 Είναι δυνατό να αδειάσετε την τρέχουσα κατάσταση (και να δείτε όλα τα ονόματα) στέλνοντας το σήμα SIGUSR2 στη διαδικασία notifyd και διαβάζοντας το δημιουργημένο αρχείο: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -207,7 +212,7 @@ common: com.apple.security.octagon.joined-with-bottle
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
-Είναι επίσης δυνατό να λάβετε πληροφορίες σχετικά με τον δαίμονα και τις συνδέσεις χρησιμοποιώντας:
+Είναι επίσης δυνατό να λάβετε πληροφορίες σχετικά με τον daemon και τις συνδέσεις χρησιμοποιώντας:
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```
@@ -215,6 +220,6 @@ sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 
 Αυτές είναι ειδοποιήσεις που ο χρήστης πρέπει να δει στην οθόνη:
 
-* **`CFUserNotification`**: Αυτή η API παρέχει έναν τρόπο να εμφανιστεί στην οθόνη ένα αναδυόμενο παράθυρο με ένα μήνυμα.
-* **Το Πίνακας Ανακοινώσεων**: Αυτό εμφανίζει στο iOS ένα banner που εξαφανίζεται και θα αποθηκευτεί στο Κέντρο Ειδοποιήσεων.
-* **`NSUserNotificationCenter`**: Αυτός είναι ο πίνακας ανακοινώσεων στο MacOS. Η βάση δεδομένων με τις ειδοποιήσεις βρίσκεται στο `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+- **`CFUserNotification`**: Αυτή η API παρέχει έναν τρόπο να εμφανιστεί στην οθόνη ένα αναδυόμενο παράθυρο με ένα μήνυμα.
+- **Το Bulletin Board**: Αυτό εμφανίζει στο iOS ένα banner που εξαφανίζεται και θα αποθηκευτεί στο Notification Center.
+- **`NSUserNotificationCenter`**: Αυτό είναι το bulletin board του iOS στο MacOS. Η βάση δεδομένων με τις ειδοποιήσεις βρίσκεται στο `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`

