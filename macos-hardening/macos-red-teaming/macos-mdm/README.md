@@ -1,18 +1,19 @@
 # macOS MDM
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 **Para aprender sobre macOS MDMs, confira:**
 
@@ -23,7 +24,7 @@ Outras maneiras de apoiar o HackTricks:
 
 ### **Visão Geral do MDM (Gerenciamento de Dispositivos Móveis)**
 
-[Gerenciamento de Dispositivos Móveis](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) é utilizado para gerenciar vários dispositivos de usuários finais, como smartphones, laptops e tablets. Especificamente para as plataformas da Apple (iOS, macOS, tvOS), envolve um conjunto de recursos especializados, APIs e práticas. A operação do MDM depende de um servidor MDM compatível, que pode ser comercialmente disponível ou de código aberto, e deve suportar o [Protocolo MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Pontos-chave incluem:
+[Gerenciamento de Dispositivos Móveis](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) é utilizado para gerenciar vários dispositivos de usuários finais, como smartphones, laptops e tablets. Especificamente para as plataformas da Apple (iOS, macOS, tvOS), envolve um conjunto de recursos especializados, APIs e práticas. A operação do MDM depende de um servidor MDM compatível, que pode ser comercial ou de código aberto, e deve suportar o [Protocolo MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Pontos-chave incluem:
 
 * Controle centralizado sobre os dispositivos.
 * Dependência de um servidor MDM que siga o protocolo MDM.
@@ -37,18 +38,18 @@ O [Programa de Inscrição de Dispositivos](https://www.apple.com/business/site/
 * Principalmente benéfico para dispositivos novos, mas também aplicável a dispositivos em reconfiguração.
 * Facilita uma configuração simples, tornando os dispositivos prontos para uso organizacional rapidamente.
 
-### **Considerações de Segurança**
+### **Consideração de Segurança**
 
-É crucial observar que a facilidade de inscrição fornecida pelo DEP, embora benéfica, também pode representar riscos de segurança. Se medidas de proteção não forem adequadamente aplicadas para a inscrição no MDM, os atacantes podem explorar esse processo simplificado para registrar seu dispositivo no servidor MDM da organização, se passando por um dispositivo corporativo.
+É crucial observar que a facilidade de inscrição fornecida pelo DEP, embora benéfica, também pode representar riscos de segurança. Se as medidas de proteção não forem adequadamente aplicadas para a inscrição no MDM, os atacantes podem explorar esse processo simplificado para registrar seu dispositivo no servidor MDM da organização, se passando por um dispositivo corporativo.
 
 {% hint style="danger" %}
-**Alerta de Segurança**: A inscrição simplificada no DEP pode potencialmente permitir o registro não autorizado de dispositivos no servidor MDM da organização se as devidas salvaguardas não estiverem em vigor.
+**Alerta de Segurança**: A inscrição simplificada no DEP pode potencialmente permitir o registro de dispositivos não autorizados no servidor MDM da organização se as salvaguardas adequadas não estiverem em vigor.
 {% endhint %}
 
 ### O que é SCEP (Protocolo Simples de Inscrição de Certificado)?
 
-* Um protocolo relativamente antigo, criado antes de TLS e HTTPS se tornarem comuns.
-* Fornece aos clientes uma maneira padronizada de enviar uma **Solicitação de Assinatura de Certificado** (CSR) com o objetivo de obter um certificado. O cliente solicitará ao servidor que lhe forneça um certificado assinado.
+* Um protocolo relativamente antigo, criado antes da disseminação do TLS e HTTPS.
+* Fornece aos clientes uma maneira padronizada de enviar uma **Solicitação de Assinatura de Certificado** (CSR) com o objetivo de obter um certificado. O cliente solicitará ao servidor um certificado assinado.
 
 ### O que são Perfis de Configuração (também conhecidos como mobileconfigs)?
 
@@ -70,20 +71,20 @@ O [Programa de Inscrição de Dispositivos](https://www.apple.com/business/site/
 ### DEP
 
 * **3 APIs**: 1 para revendedores, 1 para fornecedores de MDM, 1 para identidade de dispositivo (não documentado):
-* O chamado [API de "serviço em nuvem" DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Isso é usado pelos servidores de MDM para associar perfis DEP a dispositivos específicos.
+* O chamado [API de "serviço em nuvem" do DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Isso é usado por servidores MDM para associar perfis DEP a dispositivos específicos.
 * A [API DEP usada por Revendedores Autorizados da Apple](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) para inscrever dispositivos, verificar o status de inscrição e verificar o status da transação.
-* A API DEP privada não documentada. Isso é usado pelos Dispositivos Apple para solicitar seu perfil DEP. No macOS, o binário `cloudconfigurationd` é responsável por se comunicar por essa API.
-* Mais moderno e baseado em **JSON** (vs. plist)
+* A API DEP privada não documentada. Isso é usado por Dispositivos Apple para solicitar seu perfil DEP. No macOS, o binário `cloudconfigurationd` é responsável por se comunicar por essa API.
+* Mais moderno e baseado em **JSON** (em vez de plist)
 * A Apple concede um **token OAuth** ao fornecedor de MDM
 
-**API de "serviço em nuvem" DEP**
+**API de "serviço em nuvem" do DEP**
 
 * RESTful
 * sincroniza registros de dispositivos da Apple para o servidor MDM
-* sincroniza os "perfis DEP" para a Apple a partir do servidor MDM (entregue pela Apple para o dispositivo posteriormente)
+* sincroniza perfis DEP para a Apple a partir do servidor MDM (entregue pela Apple para o dispositivo posteriormente)
 * Um "perfil" DEP contém:
 * URL do servidor do fornecedor de MDM
-* Certificados confiáveis adicionais para URL do servidor (fixação opcional)
+* Certificados adicionais confiáveis para URL do servidor (ponteiro opcional)
 * Configurações adicionais (por exemplo, quais telas pular no Assistente de Configuração)
 
 ## Número de Série
@@ -119,10 +120,10 @@ ou ao executar `sudo profiles show -type enrollment`
 * Registro de Ativação é o nome interno para o **"perfil" DEP**
 * Começa assim que o dispositivo é conectado à Internet
 * Conduzido por **`CPFetchActivationRecord`**
-* Implementado por **`cloudconfigurationd`** via XPC. O **"Assistente de Configuração"** (quando o dispositivo é inicializado pela primeira vez) ou o comando **`profiles`** irá **contatar esse daemon** para recuperar o registro de ativação.
+* Implementado por **`cloudconfigurationd`** via XPC. O **"Assistente de Configuração"** (quando o dispositivo é inicializado pela primeira vez) ou o comando **`profiles`** irão **contatar esse daemon** para recuperar o registro de ativação.
 * LaunchDaemon (sempre em execução como root)
 
-Segue alguns passos para obter o Registro de Ativação realizado por **`MCTeslaConfigurationFetcher`**. Esse processo utiliza uma criptografia chamada **Absinthe**
+Segue alguns passos para obter o Registro de Ativação realizado por **`MCTeslaConfigurationFetcher`**. Este processo utiliza uma criptografia chamada **Absinthe**
 
 1. Recuperar **certificado**
 1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
@@ -156,7 +157,7 @@ A resposta é um dicionário JSON com alguns dados importantes como:
 * Assinado usando o **certificado de identidade do dispositivo (do APNS)**
 * **Cadeia de certificados** inclui o expirado **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
 
 ### Passo 6: Instalação do Perfil
 
@@ -172,7 +173,7 @@ A resposta é um dicionário JSON com alguns dados importantes como:
 * Exemplo:
 * Os payloads de Certificado usam CertificateService.xpc
 
-Tipicamente, o **perfil de ativação** fornecido por um fornecedor MDM incluirá os seguintes payloads:
+Tipicamente, o **perfil de ativação** fornecido por um fornecedor MDM irá **incluir os seguintes payloads**:
 
 * `com.apple.mdm`: para **inscrever** o dispositivo no MDM
 * `com.apple.security.scep`: para fornecer de forma segura um **certificado de cliente** ao dispositivo.
@@ -189,7 +190,7 @@ Tipicamente, o **perfil de ativação** fornecido por um fornecedor MDM incluir�
 * Propriedade: **`CheckInURLPinningCertificateUUIDs`**
 * Propriedade: **`ServerURLPinningCertificateUUIDs`**
 * Entregue via payload PEM
-* Permite que o dispositivo seja atribuído a um certificado de identidade:
+* Permite que o dispositivo seja atribuído com um certificado de identidade:
 * Propriedade: IdentityCertificateUUID
 * Entregue via payload SCEP
 
@@ -204,7 +205,7 @@ Tipicamente, o **perfil de ativação** fornecido por um fornecedor MDM incluir�
 
 ## Ataques
 
-### Inscrever Dispositivos em Outras Organizações
+### Inscrição de Dispositivos em Outras Organizações
 
 Como mencionado anteriormente, para tentar inscrever um dispositivo em uma organização **é necessário apenas um Número de Série pertencente a essa Organização**. Uma vez que o dispositivo é inscrito, várias organizações irão instalar dados sensíveis no novo dispositivo: certificados, aplicativos, senhas de WiFi, configurações de VPN [e assim por diante](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
 Portanto, este poderia ser um ponto de entrada perigoso para os atacantes se o processo de inscrição não estiver corretamente protegido:
@@ -213,16 +214,17 @@ Portanto, este poderia ser um ponto de entrada perigoso para os atacantes se o p
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking em AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking em GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

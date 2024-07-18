@@ -1,18 +1,19 @@
-# Firmware Analysis
+# Análise de Firmware
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## **Introdução**
 
@@ -20,22 +21,22 @@ O firmware é um software essencial que permite que os dispositivos operem corre
 
 ## **Coleta de Informações**
 
-A **coleta de informações** é um passo inicial crítico para entender a composição de um dispositivo e as tecnologias que ele utiliza. Esse processo envolve a coleta de dados sobre:
+**Coletar informações** é um passo inicial crítico para entender a composição de um dispositivo e as tecnologias que ele utiliza. Esse processo envolve a coleta de dados sobre:
 
 * A arquitetura da CPU e o sistema operacional que ele executa
 * Especificações do bootloader
-* Layout de hardware e fichas técnicas
+* Layout de hardware e folhas de dados
 * Métricas de código e localizações de origem
 * Bibliotecas externas e tipos de licença
 * Históricos de atualização e certificações regulatórias
 * Diagramas arquiteturais e de fluxo
 * Avaliações de segurança e vulnerabilidades identificadas
 
-Para esse fim, ferramentas de **inteligência de fontes abertas (OSINT)** são inestimáveis, assim como a análise de quaisquer componentes de software de código aberto disponíveis por meio de processos de revisão manuais e automatizados. Ferramentas como [Coverity Scan](https://scan.coverity.com) e [LGTM da Semmle](https://lgtm.com/#explore) oferecem análise estática gratuita que pode ser aproveitada para encontrar possíveis problemas.
+Para esse fim, ferramentas de **inteligência de código aberto (OSINT)** são inestimáveis, assim como a análise de quaisquer componentes de software de código aberto disponíveis por meio de processos de revisão manuais e automatizados. Ferramentas como [Coverity Scan](https://scan.coverity.com) e [LGTM da Semmle](https://lgtm.com/#explore) oferecem análise estática gratuita que pode ser aproveitada para encontrar possíveis problemas.
 
 ## **Obtenção do Firmware**
 
-A obtenção do firmware pode ser abordada por vários meios, cada um com seu próprio nível de complexidade:
+Obter o firmware pode ser abordado por vários meios, cada um com seu próprio nível de complexidade:
 
 * **Diretamente** da fonte (desenvolvedores, fabricantes)
 * **Construindo** a partir de instruções fornecidas
@@ -44,15 +45,14 @@ A obtenção do firmware pode ser abordada por vários meios, cada um com seu pr
 * Acessando armazenamento **em nuvem** diretamente, com ferramentas como [S3Scanner](https://github.com/sa7mon/S3Scanner)
 * Interceptando **atualizações** por meio de técnicas de homem-no-meio
 * **Extraindo** do dispositivo por meio de conexões como **UART**, **JTAG** ou **PICit**
-* **Capturando** solicitações de atualização dentro da comunicação do dispositivo
+* **Capturando** solicitações de atualização na comunicação do dispositivo
 * Identificando e usando **pontos de atualização codificados**
 * **Despejando** do bootloader ou rede
 * **Removendo e lendo** o chip de armazenamento, quando tudo mais falha, usando ferramentas de hardware apropriadas
 
-## **Analisando o Firmware**
+## Analisando o firmware
 
 Agora que você **tem o firmware**, você precisa extrair informações sobre ele para saber como tratá-lo. Diferentes ferramentas que você pode usar para isso:
-
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -61,8 +61,7 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-
-Se não encontrar muito com essas ferramentas, verifique a **entropia** da imagem com `binwalk -E <bin>`, se a entropia for baixa, então é pouco provável que esteja criptografada. Se a entropia for alta, é provável que esteja criptografada (ou comprimida de alguma forma).
+Se não encontrar muito com essas ferramentas, verifique a **entropia** da imagem com `binwalk -E <bin>`, se a entropia for baixa, então é pouco provável que esteja criptografada. Se a entropia for alta, é provável que esteja criptografada (ou compactada de alguma forma).
 
 Além disso, você pode usar essas ferramentas para extrair **arquivos incorporados no firmware**:
 
@@ -80,7 +79,6 @@ O Binwalk geralmente extrai dentro de uma **pasta com o nome do tipo de sistema 
 #### Extração Manual do Sistema de Arquivos
 
 Às vezes, o binwalk **não terá o byte mágico do sistema de arquivos em suas assinaturas**. Nestes casos, use o binwalk para **encontrar o deslocamento do sistema de arquivos e esculpir o sistema de arquivos comprimido** do binário e **extrair manualmente** o sistema de arquivos de acordo com seu tipo usando os passos abaixo.
-
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -92,9 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-
 Execute o seguinte comando **dd** esculpindo o sistema de arquivos Squashfs.
-
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -104,7 +100,6 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-
 Alternativamente, o seguinte comando também pode ser executado.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
@@ -131,12 +126,11 @@ Os arquivos estarão no diretório "`squashfs-root`" posteriormente.
 
 ## Analisando Firmware
 
-Uma vez que o firmware é obtido, é essencial dissecá-lo para entender sua estrutura e potenciais vulnerabilidades. Esse processo envolve a utilização de várias ferramentas para analisar e extrair dados valiosos da imagem do firmware.
+Uma vez que o firmware é obtido, é essencial dissecá-lo para entender sua estrutura e vulnerabilidades potenciais. Esse processo envolve a utilização de várias ferramentas para analisar e extrair dados valiosos da imagem do firmware.
 
 ### Ferramentas de Análise Inicial
 
 Um conjunto de comandos é fornecido para inspeção inicial do arquivo binário (referido como `<bin>`). Esses comandos ajudam na identificação de tipos de arquivos, extração de strings, análise de dados binários e compreensão dos detalhes de partição e sistema de arquivos:
-
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -145,7 +139,6 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-
 Para avaliar o status de criptografia da imagem, a **entropia** é verificada com `binwalk -E <bin>`. Baixa entropia sugere falta de criptografia, enquanto alta entropia indica possível criptografia ou compressão.
 
 Para extrair **arquivos embutidos**, são recomendadas ferramentas e recursos como a documentação de **file-data-carving-recovery-tools** e o **binvis.io** para inspeção de arquivos.
@@ -153,30 +146,28 @@ Para extrair **arquivos embutidos**, são recomendadas ferramentas e recursos co
 ### Extraindo o Sistema de Arquivos
 
 Usando `binwalk -ev <bin>`, geralmente é possível extrair o sistema de arquivos, frequentemente para um diretório nomeado de acordo com o tipo de sistema de arquivos (por exemplo, squashfs, ubifs). No entanto, quando o **binwalk** falha em reconhecer o tipo de sistema de arquivos devido à ausência de bytes mágicos, a extração manual é necessária. Isso envolve usar o `binwalk` para localizar o deslocamento do sistema de arquivos, seguido pelo comando `dd` para extrair o sistema de arquivos:
-
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-
 ### Análise do Sistema de Arquivos
 
-Com o sistema de arquivos extraído, a busca por falhas de segurança começa. A atenção é voltada para daemons de rede inseguros, credenciais codificadas, endpoints de API, funcionalidades de servidor de atualização, código não compilado, scripts de inicialização e binários compilados para análise offline.
+Com o sistema de arquivos extraído, a busca por falhas de segurança começa. A atenção é dada aos daemons de rede inseguros, credenciais codificadas, endpoints de API, funcionalidades do servidor de atualização, código não compilado, scripts de inicialização e binários compilados para análise offline.
 
-**Locais-chave** e **itens** para inspecionar incluem:
+**Locais** e **itens** chave a serem inspecionados incluem:
 
-* **etc/shadow** e **etc/passwd** para credenciais de usuário
-* Certificados SSL e chaves em **etc/ssl**
-* Arquivos de configuração e scripts em busca de vulnerabilidades potenciais
-* Binários incorporados para análise adicional
-* Servidores web comuns de dispositivos IoT e binários
+- **etc/shadow** e **etc/passwd** para credenciais de usuário
+- Certificados SSL e chaves em **etc/ssl**
+- Arquivos de configuração e scripts em busca de vulnerabilidades potenciais
+- Binários embutidos para análise adicional
+- Servidores web comuns de dispositivos IoT e binários
 
 Várias ferramentas auxiliam na descoberta de informações sensíveis e vulnerabilidades dentro do sistema de arquivos:
 
-* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) e [**Firmwalker**](https://github.com/craigz28/firmwalker) para busca de informações sensíveis
-* [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) para análise abrangente de firmware
-* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) e [**EMBA**](https://github.com/e-m-b-a/emba) para análise estática e dinâmica
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) e [**Firmwalker**](https://github.com/craigz28/firmwalker) para busca de informações sensíveis
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) para análise abrangente de firmware
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) e [**EMBA**](https://github.com/e-m-b-a/emba) para análise estática e dinâmica
 
 ### Verificações de Segurança em Binários Compilados
 
@@ -193,17 +184,13 @@ Para examinar programas individuais, é crucial identificar a endianness e a arq
 #### Exemplo com Arquitetura MIPS
 
 Para emular um binário de arquitetura MIPS, pode-se usar o comando:
-
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-
 E para instalar as ferramentas de emulação necessárias:
-
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-
 ### Emulação de Arquitetura ARM
 
 Para binários ARM, o processo é semelhante, com o emulador `qemu-arm` sendo utilizado para a emulação.
@@ -222,7 +209,7 @@ A análise em tempo de execução envolve interagir com um processo ou binário 
 
 ## Exploração de Binários e Prova de Conceito
 
-Desenvolver uma PoC para vulnerabilidades identificadas requer um profundo entendimento da arquitetura alvo e programação em linguagens de baixo nível. Proteções de tempo de execução de binários em sistemas embarcados são raras, mas quando presentes, técnicas como Programação Orientada a Retorno (ROP) podem ser necessárias.
+Desenvolver uma PoC para vulnerabilidades identificadas requer um entendimento profundo da arquitetura alvo e programação em linguagens de baixo nível. Proteções de tempo de execução de binários em sistemas embarcados são raras, mas quando presentes, técnicas como Programação Orientada a Retorno (ROP) podem ser necessárias.
 
 ## Sistemas Operacionais Preparados para Análise de Firmware
 

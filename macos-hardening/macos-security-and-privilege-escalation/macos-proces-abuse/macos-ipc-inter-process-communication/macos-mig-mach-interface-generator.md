@@ -1,18 +1,19 @@
 # macOS MIG - Mach Interface Generator
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Informações Básicas
 
@@ -22,18 +23,18 @@ A definição é especificada na Linguagem de Definição de Interface (IDL) usa
 
 Essas definições têm 5 seções:
 
-- **Declaração de subsistema**: A palavra-chave subsistema é usada para indicar o **nome** e o **id**. Também é possível marcá-lo como **`KernelServer`** se o servidor deve ser executado no kernel.
-- **Inclusões e importações**: O MIG usa o pré-processador C, então é capaz de usar importações. Além disso, é possível usar `uimport` e `simport` para código gerado pelo usuário ou servidor.
-- **Declarações de tipo**: É possível definir tipos de dados, embora geralmente importe `mach_types.defs` e `std_types.defs`. Para tipos personalizados, pode ser usada alguma sintaxe:
-  - \[i`n/out]tran`: Função que precisa ser traduzida de uma mensagem de entrada ou para uma mensagem de saída
-  - `c[user/server]type`: Mapeamento para outro tipo C.
-  - `destructor`: Chama esta função quando o tipo é liberado.
-- **Operações**: Estas são as definições dos métodos RPC. Existem 5 tipos diferentes:
-  - `routine`: Espera resposta
-  - `simpleroutine`: Não espera resposta
-  - `procedure`: Espera resposta
-  - `simpleprocedure`: Não espera resposta
-  - `function`: Espera resposta
+* **Declaração de subsistema**: A palavra-chave subsistema é usada para indicar o **nome** e o **id**. Também é possível marcá-lo como **`KernelServer`** se o servidor deve ser executado no kernel.
+* **Inclusões e importações**: O MIG usa o pré-processador C, então é capaz de usar importações. Além disso, é possível usar `uimport` e `simport` para código gerado pelo usuário ou servidor.
+* **Declarações de tipo**: É possível definir tipos de dados, embora geralmente importe `mach_types.defs` e `std_types.defs`. Para tipos personalizados, pode ser usada alguma sintaxe:
+* \[i`n/out]tran`: Função que precisa ser traduzida de uma mensagem de entrada ou para uma mensagem de saída
+* `c[user/server]type`: Mapeamento para outro tipo de C.
+* `destructor`: Chama esta função quando o tipo é liberado.
+* **Operações**: Estas são as definições dos métodos RPC. Existem 5 tipos diferentes:
+* `routine`: Espera resposta
+* `simpleroutine`: Não espera resposta
+* `procedure`: Espera resposta
+* `simpleprocedure`: Não espera resposta
+* `function`: Espera resposta
 
 ### Exemplo
 
@@ -94,18 +95,9 @@ myipc_server_routine,
 
 ### macOS MIG (Mach Interface Generator)
 
-O macOS MIG (Mach Interface Generator) é uma ferramenta que gera interfaces de comunicação entre processos para comunicação entre processos em sistemas baseados em Mach. Ele é amplamente utilizado para comunicação entre processos em sistemas macOS e iOS. O MIG gera código C que lida com a comunicação entre processos, permitindo que os processos se comuniquem de forma eficiente e segura. É importante entender como o MIG funciona para aproveitar ao máximo a comunicação entre processos em sistemas macOS. 
+O macOS MIG (Mach Interface Generator) é uma ferramenta usada para gerar interfaces de comunicação entre processos em sistemas macOS. Ele gera código C que lida com a comunicação entre processos usando mensagens MIG. Essas mensagens são enviadas por meio do Mach IPC, permitindo a comunicação entre processos em um sistema macOS. O macOS MIG é amplamente utilizado para comunicação entre processos em nível de sistema operacional. 
 
-### Exemplo de uso do MIG
-
-Aqui está um exemplo simples de como usar o MIG para comunicação entre processos em sistemas macOS:
-
-1. Defina as mensagens que os processos podem enviar e receber.
-2. Compile o arquivo de definição de interface usando o MIG.
-3. Implemente o código do servidor e do cliente para lidar com as mensagens definidas.
-4. Compile e execute o servidor e o cliente para iniciar a comunicação entre processos.
-
-Compreender o funcionamento do MIG e como usá-lo adequadamente pode ser útil para desenvolver aplicativos que se comunicam de forma eficiente e segura em sistemas macOS e iOS. 
+Para saber mais sobre o macOS MIG, consulte a documentação oficial da Apple: [Mach Interface Generator (MIG)](https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/MIG/mig_toc.html)
 
 {% endtab %}
 ```c
@@ -120,6 +112,9 @@ struct routine_descriptor	/* Array of routine descriptors */
 routine[1];
 } SERVERPREFmyipc_subsystem;
 ```
+{% endtab %}
+{% endtabs %}
+
 Com base na estrutura anterior, a função **`myipc_server_routine`** receberá o **ID da mensagem** e retornará a função apropriada a ser chamada:
 ```c
 mig_external mig_routine_t myipc_server_routine
@@ -219,7 +214,35 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```
 {% endtab %}
 
-{% tab title="myipc_client.c" %}
+{% tab title="myipc_client.c" %} 
+
+## Cliente myipc
+
+Este é o código-fonte do cliente myipc que será usado para se comunicar com o servidor myipc.
+
+```c
+#include <stdio.h>
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipc.h"
+
+int main() {
+    mach_port_t server_port;
+    kern_return_t ret;
+
+    ret = bootstrap_look_up(bootstrap_port, "com.example.myipc", &server_port);
+    if (ret != KERN_SUCCESS) {
+        printf("Erro ao procurar o serviço myipc: %s\n", mach_error_string(ret));
+        return 1;
+    }
+
+    myipc_hello(server_port);
+
+    return 0;
+}
+```
+
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -249,7 +272,7 @@ USERPREFSubtract(port, 40, 2);
 
 ### O registro NDR
 
-O registro NDR é exportado por `libsystem_kernel.dylib` e é uma estrutura que permite ao MIG **transformar dados de forma que seja agnóstico ao sistema** no qual está sendo utilizado, já que o MIG foi projetado para ser usado entre diferentes sistemas (e não apenas na mesma máquina).
+O registro NDR é exportado por `libsystem_kernel.dylib` e é uma estrutura que permite ao MIG **transformar dados para que sejam agnósticos do sistema** no qual está sendo usado, já que o MIG foi projetado para ser utilizado entre diferentes sistemas (e não apenas na mesma máquina).
 
 Isso é interessante porque se o `_NDR_record` for encontrado em um binário como uma dependência (`jtool2 -S <binary> | grep NDR` ou `nm`), significa que o binário é um cliente ou servidor MIG.
 
@@ -409,16 +432,17 @@ O código gerado pelo MIG também chama `kernel_debug` para gerar logs sobre ope
 
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

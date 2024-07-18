@@ -2,19 +2,20 @@
 
 ## Algoritmos Criptográficos/Compressão
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Identificando Algoritmos
 
@@ -28,7 +29,7 @@ Se esta função for usada, você pode descobrir qual **algoritmo está sendo us
 
 ![](<../../.gitbook/assets/image (156).png>)
 
-Confira aqui a tabela de algoritmos possíveis e seus valores atribuídos: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+Consulte aqui a tabela de algoritmos possíveis e seus valores atribuídos: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 **RtlCompressBuffer/RtlDecompressBuffer**
 
@@ -44,11 +45,12 @@ Inicia o processo de hash de um fluxo de dados. Se esta função for usada, voc�
 
 ![](<../../.gitbook/assets/image (549).png>)
 
-Confira aqui a tabela de algoritmos possíveis e seus valores atribuídos: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
+\
+Consulte aqui a tabela de algoritmos possíveis e seus valores atribuídos: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 ### Constantes de Código
 
-Às vezes é realmente fácil identificar um algoritmo graças ao fato de que ele precisa usar um valor especial e único.
+Às vezes é muito fácil identificar um algoritmo graças ao fato de que ele precisa usar um valor especial e único.
 
 ![](<../../.gitbook/assets/image (833).png>)
 
@@ -74,7 +76,7 @@ Neste caso, se você procurar por **0xA56363C6**, você pode descobrir que está
 
 É composto por 3 partes principais:
 
-* **Estágio de inicialização/**: Cria uma **tabela de valores de 0x00 a 0xFF** (256 bytes no total, 0x100). Essa tabela é comumente chamada de **Caixa de Substituição** (ou SBox).
+* **Estágio de inicialização/**: Cria uma **tabela de valores de 0x00 a 0xFF** (256 bytes no total, 0x100). Esta tabela é comumente chamada de **Caixa de Substituição** (ou SBox).
 * **Estágio de embaralhamento**: Irá **percorrer a tabela** criada anteriormente (loop de 0x100 iterações, novamente) modificando cada valor com bytes **semi-aleatórios**. Para criar esses bytes semi-aleatórios, a chave RC4 é usada. As chaves RC4 podem ter **entre 1 e 256 bytes de comprimento**, no entanto, geralmente é recomendado que seja acima de 5 bytes. Comumente, as chaves RC4 têm 16 bytes de comprimento.
 * **Estágio XOR**: Por fim, o texto simples ou cifrado é **XORado com os valores criados anteriormente**. A função para criptografar e descriptografar é a mesma. Para isso, um **loop pelos 256 bytes criados** será executado quantas vezes forem necessárias. Isso é geralmente reconhecido em um código decompilado com um **%256 (mod 256)**.
 
@@ -115,7 +117,7 @@ Neste caso, se você procurar por **0xA56363C6**, você pode descobrir que está
 
 ### Identificação
 
-Na seguinte imagem, observe como a constante **0x9E3779B9** é usada (observe que essa constante também é usada por outros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
+Na seguinte imagem, observe como a constante **0x9E3779B9** é usada (observe que esta constante também é usada por outros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
 Observe também o **tamanho do loop** (**132**) e o **número de operações XOR** nas instruções de **desmontagem** e no **exemplo de código**:
 
 ![](<../../.gitbook/assets/image (547).png>)
@@ -164,7 +166,7 @@ Observe o uso de mais constantes
 ## CRC (hash)
 
 * Menor e mais eficiente, pois sua função é encontrar alterações acidentais nos dados
-* Usa tabelas de pesquisa (então você pode identificar constantes)
+* Usa tabelas de pesquisa (para que você possa identificar constantes)
 
 ### Identificação
 
@@ -181,7 +183,7 @@ Um algoritmo de hash CRC se parece com:
 ### Características
 
 * Constantes não reconhecíveis
-* Você pode tentar escrever o algoritmo em python e procurar por coisas semelhantes online
+* Você pode tentar escrever o algoritmo em Python e procurar por coisas semelhantes online
 
 ### Identificação
 
@@ -192,17 +194,3 @@ O gráfico é bastante extenso:
 Verifique **3 comparações para reconhecê-lo**:
 
 ![](<../../.gitbook/assets/image (430).png>)
-
-<details>
-
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

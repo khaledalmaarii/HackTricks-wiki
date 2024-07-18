@@ -1,18 +1,19 @@
-# Cadeia de Chaves do macOS
+# macOS Keychain
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
@@ -20,9 +21,9 @@ Outras maneiras de apoiar o HackTricks:
 
 [**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
 
-O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares de roubo de informações.
+O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
 
-Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -31,9 +32,9 @@ Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 ## Principais Cadeias de Chaves
 
 * A **Cadeia de Chaves do Usuário** (`~/Library/Keychains/login.keycahin-db`), que é usada para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas de internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
-* A **Cadeia de Chaves do Sistema** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
+* A **Cadeia de Chaves do Sistema** (`/Library/Keychains/System.keychain`), que armazena **credenciais de todo o sistema** como senhas de WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
 
-### Acesso à Cadeia de Chaves de Senhas
+### Acesso à Cadeia de Chaves de Senha
 
 Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e exigem a **senha em texto simples do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usada para descriptografar.
 
@@ -72,7 +73,7 @@ Quando uma **nova** **entrada** é criada usando o **`Keychain Access.app`**, as
 Quando um **aplicativo cria uma entrada na cadeia de chaves**, as regras são ligeiramente diferentes:
 
 * Todos os aplicativos podem criptografar.
-* Apenas o **aplicativo criador** (ou qualquer outro aplicativo adicionado explicitamente) pode exportar/descriptografar (sem solicitar ao usuário).
+* Apenas o **aplicativo criador** (ou quaisquer outros aplicativos adicionados explicitamente) podem exportar/descriptografar (sem solicitar ao usuário).
 * Todos os aplicativos podem ver a verificação de integridade.
 * Nenhum aplicativo pode alterar as ACLs.
 * O **partitionID** é definido como **`teamid:[teamID aqui]`**.
@@ -100,7 +101,7 @@ Liste e obtenha **informações** sobre cada entrada do keychain:
 
 * A API **`SecItemCopyMatching`** fornece informações sobre cada entrada e existem alguns atributos que você pode definir ao usá-la:
 * **`kSecReturnData`**: Se verdadeiro, tentará descriptografar os dados (defina como falso para evitar possíveis pop-ups)
-* **`kSecReturnRef`**: Obtenha também a referência ao item do keychain (defina como verdadeiro no caso de você ver que pode descriptografar sem pop-up)
+* **`kSecReturnRef`**: Obtenha também a referência ao item do keychain (defina como verdadeiro caso depois você veja que pode descriptografar sem pop-up)
 * **`kSecReturnAttributes`**: Obtenha metadados sobre as entradas
 * **`kSecMatchLimit`**: Quantos resultados retornar
 * **`kSecClass`**: Que tipo de entrada do keychain
@@ -124,7 +125,7 @@ E estes são os **requisitos** para poder **exportar um segredo sem um prompt**:
 * Se **1+ aplicativos confiáveis** listados:
 * Precisa das **autorizações apropriadas** (**`Nil`**, ou fazer **parte** da lista permitida de aplicativos na autorização para acessar as informações secretas)
 * Precisa que a assinatura de código corresponda ao **PartitionID**
-* Precisa que a assinatura de código corresponda à de um **aplicativo confiável** (ou ser membro do grupo de acesso correto do Keychain)
+* Precisa que a assinatura de código corresponda à de um **aplicativo confiável** (ou ser membro do grupo KeychainAccessGroup correto)
 * Se **todos os aplicativos forem confiáveis**:
 * Precisa das **autorizações apropriadas**
 * Precisa que a assinatura de código corresponda ao **PartitionID**
@@ -133,7 +134,7 @@ E estes são os **requisitos** para poder **exportar um segredo sem um prompt**:
 {% hint style="danger" %}
 Portanto, se houver **1 aplicativo listado**, você precisa **injetar código nesse aplicativo**.
 
-Se **apple** for indicado no **partitionID**, você poderá acessá-lo com **`osascript`** para qualquer coisa que confie em todos os aplicativos com apple no partitionID. **`Python`** também poderia ser usado para isso.
+Se **apple** for indicado no **partitionID**, você poderá acessá-lo com **`osascript`** para qualquer coisa que esteja confiando em todos os aplicativos com apple no partitionID. **`Python`** também poderia ser usado para isso.
 {% endhint %}
 
 ### Dois atributos adicionais
@@ -158,16 +159,17 @@ Você pode verificar o site deles e experimentar o mecanismo gratuitamente em:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

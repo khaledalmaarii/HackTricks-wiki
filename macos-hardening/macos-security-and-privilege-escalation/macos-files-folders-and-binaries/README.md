@@ -1,51 +1,52 @@
-# macOS Arquivos, Pastas, Binários e Memória
+# Arquivos, Pastas, Binários e Memória do macOS
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
-## Layout da hierarquia de arquivos
+## Layout da Hierarquia de Arquivos
 
 * **/Applications**: Os aplicativos instalados devem estar aqui. Todos os usuários poderão acessá-los.
-* **/bin**: Binários de linha de comando
+* **/bin**: Binários da linha de comando
 * **/cores**: Se existir, é usado para armazenar despejos de núcleo
 * **/dev**: Tudo é tratado como um arquivo, então você pode ver dispositivos de hardware armazenados aqui.
 * **/etc**: Arquivos de configuração
 * **/Library**: Muitos subdiretórios e arquivos relacionados a preferências, caches e logs podem ser encontrados aqui. Uma pasta Library existe na raiz e em cada diretório de usuário.
 * **/private**: Não documentado, mas muitas das pastas mencionadas são links simbólicos para o diretório privado.
 * **/sbin**: Binários essenciais do sistema (relacionados à administração)
-* **/System**: Arquivo para fazer o OS X funcionar. Você deve encontrar principalmente apenas arquivos específicos da Apple aqui (não de terceiros).
+* **/System**: Arquivo para fazer o OS X funcionar. Você deve encontrar principalmente arquivos específicos da Apple aqui (não de terceiros).
 * **/tmp**: Arquivos são excluídos após 3 dias (é um link simbólico para /private/tmp)
-* **/Users**: Diretório doméstico para usuários.
+* **/Users**: Diretório doméstico dos usuários.
 * **/usr**: Binários de configuração e sistema
 * **/var**: Arquivos de log
 * **/Volumes**: As unidades montadas aparecerão aqui.
-* **/.vol**: Executando `stat a.txt` você obtém algo como `16777223 7545753 -rw-r--r-- 1 username wheel ...` onde o primeiro número é o número de identificação do volume onde o arquivo existe e o segundo é o número de inode. Você pode acessar o conteúdo deste arquivo através de /.vol/ com essa informação executando `cat /.vol/16777223/7545753`
+* **/.vol**: Executando `stat a.txt` você obtém algo como `16777223 7545753 -rw-r--r-- 1 nomeusuário wheel ...` onde o primeiro número é o número de identificação do volume onde o arquivo existe e o segundo é o número de inode. Você pode acessar o conteúdo deste arquivo através de /.vol/ com essa informação executando `cat /.vol/16777223/7545753`
 
 ### Pastas de Aplicativos
 
 * Os **aplicativos do sistema** estão localizados em `/System/Applications`
-* Os **aplicativos instalados** geralmente são instalados em `/Applications` ou em `~/Applications`
-* Os **dados do aplicativo** podem ser encontrados em `/Library/Application Support` para os aplicativos em execução como root e `~/Library/Application Support` para aplicativos em execução como o usuário.
-* Os **daemons de aplicativos de terceiros** que **precisam ser executados como root** geralmente estão localizados em `/Library/PrivilegedHelperTools/`
-* Os aplicativos **sandboxed** são mapeados na pasta `~/Library/Containers`. Cada aplicativo tem uma pasta nomeada de acordo com o ID do pacote do aplicativo (`com.apple.Safari`).
+* Os aplicativos **instalados** geralmente são instalados em `/Applications` ou em `~/Applications`
+* Os dados do **aplicativo** podem ser encontrados em `/Library/Application Support` para os aplicativos em execução como root e `~/Library/Application Support` para os aplicativos em execução como o usuário.
+* Os **daemons** de aplicativos de terceiros que **precisam ser executados como root** geralmente estão localizados em `/Library/PrivilegedHelperTools/`
+* Os aplicativos **sandboxed** são mapeados na pasta `~/Library/Containers`. Cada aplicativo tem uma pasta com o nome do ID do pacote do aplicativo (`com.apple.Safari`).
 * O **kernel** está localizado em `/System/Library/Kernels/kernel`
 * As **extensões de kernel da Apple** estão localizadas em `/System/Library/Extensions`
 * As **extensões de kernel de terceiros** são armazenadas em `/Library/Extensions`
 
 ### Arquivos com Informações Sensíveis
 
-O macOS armazena informações como senhas em vários lugares:
+O macOS armazena informações como senhas em vários locais:
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
@@ -70,14 +71,14 @@ O macOS armazena informações como senhas em vários lugares:
 * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`**: Aplicativos da Apple que seguem a estrutura de diretório (é um pacote).
 * **`.dylib`**: Bibliotecas dinâmicas (como arquivos DLL do Windows)
-* **`.pkg`**: São iguais a xar (formato de arquivo extensível). O comando installer pode ser usado para instalar o conteúdo desses arquivos.
+* **`.pkg`**: São iguais a xar (formato de arquivo de arquivo extensível). O comando installer pode ser usado para instalar o conteúdo desses arquivos.
 * **`.DS_Store`**: Este arquivo está em cada diretório, ele salva os atributos e personalizações do diretório.
 * **`.Spotlight-V100`**: Esta pasta aparece no diretório raiz de cada volume no sistema.
 * **`.metadata_never_index`**: Se este arquivo estiver na raiz de um volume, o Spotlight não indexará esse volume.
 * **`.noindex`**: Arquivos e pastas com esta extensão não serão indexados pelo Spotlight.
 * **`.sdef`**: Arquivos dentro de pacotes especificando como é possível interagir com o aplicativo a partir de um AppleScript.
 
-### Pacotes macOS
+### Pacotes do macOS
 
 Um pacote é um **diretório** que **parece um objeto no Finder** (um exemplo de pacote são os arquivos `*.app`).
 
@@ -94,7 +95,7 @@ No iOS, você pode encontrá-los em **`/System/Library/Caches/com.apple.dyld/`**
 
 Assim como o cache de biblioteca compartilhada dyld, o kernel e as extensões de kernel também são compilados em um cache de kernel, que é carregado na inicialização.
 
-Para extrair as bibliotecas do arquivo único de cache de biblioteca dylib compartilhada, era possível usar o binário [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) que pode não estar funcionando atualmente, mas você também pode usar [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
+Para extrair as bibliotecas do arquivo único de cache de biblioteca dyld, era possível usar o binário [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) que pode não estar funcionando atualmente, mas você também pode usar [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
@@ -122,7 +123,7 @@ Também é possível baixar o Cache de Biblioteca Compartilhada de outros dispos
 
 ### Mapeando SLC
 
-**`dyld`** usa a chamada de sistema **`shared_region_check_np`** para saber se o SLC foi mapeado (que retorna o endereço) e **`shared_region_map_and_slide_np`** para mapear o SLC.
+O **`dyld`** usa a chamada de sistema **`shared_region_check_np`** para saber se o SLC foi mapeado (que retorna o endereço) e **`shared_region_map_and_slide_np`** para mapear o SLC.
 
 Note que mesmo que o SLC seja deslizado na primeira utilização, todos os **processos** usam a **mesma cópia**, o que **elimina a proteção ASLR** se o atacante conseguir executar processos no sistema. Isso foi realmente explorado no passado e corrigido com o pager de região compartilhada.
 
@@ -139,7 +140,7 @@ Usando as variáveis de ambiente:
 
 ### Permissões de Pasta
 
-Em uma **pasta**, **ler** permite **listá-la**, **escrever** permite **excluir** e **escrever** arquivos nela, e **executar** permite **atravessar** o diretório. Portanto, por exemplo, um usuário com **permissão de leitura sobre um arquivo** dentro de um diretório onde ele **não tem permissão de execução** **não poderá ler** o arquivo.
+Em uma **pasta**, **leitura** permite **listá-la**, **escrita** permite **excluir** e **escrever** arquivos nela, e **executar** permite **atravessar** o diretório. Portanto, por exemplo, um usuário com **permissão de leitura sobre um arquivo** dentro de um diretório onde ele **não tem permissão de execução** **não poderá ler** o arquivo.
 
 ### Modificadores de Flag
 
@@ -148,14 +149,14 @@ Existem algumas flags que podem ser definidas nos arquivos que farão o arquivo 
 * **`uchg`**: Conhecida como **flag uchange** irá **impedir qualquer ação** de alterar ou excluir o **arquivo**. Para defini-la faça: `chflags uchg arquivo.txt`
 * O usuário root poderia **remover a flag** e modificar o arquivo
 * **`restricted`**: Esta flag faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar essa flag a um arquivo).
-* **`Bit pegajoso`**: Se um diretório tiver o bit pegajoso, **apenas** o **dono dos diretórios ou root pode renomear ou excluir** arquivos. Tipicamente isso é definido no diretório /tmp para impedir que usuários comuns excluam ou movam arquivos de outros usuários.
+* **`Bit pegajoso`**: Se um diretório tiver o bit pegajoso, **apenas** o **dono dos diretórios ou root podem renomear ou excluir** arquivos. Tipicamente isso é definido no diretório /tmp para impedir que usuários comuns excluam ou movam arquivos de outros usuários.
 
 Todas as flags podem ser encontradas no arquivo `sys/stat.h` (encontre-o usando `mdfind stat.h | grep stat.h`) e são:
 
 * `UF_SETTABLE` 0x0000ffff: Máscara de flags alteráveis pelo proprietário.
 * `UF_NODUMP` 0x00000001: Não fazer dump do arquivo.
 * `UF_IMMUTABLE` 0x00000002: Arquivo não pode ser alterado.
-* `UF_APPEND` 0x00000004: Gravações no arquivo só podem ser anexadas.
+* `UF_APPEND` 0x00000004: Escritas no arquivo só podem ser anexadas.
 * `UF_OPAQUE` 0x00000008: Diretório é opaco em relação à união.
 * `UF_COMPRESSED` 0x00000020: Arquivo está comprimido (alguns sistemas de arquivos).
 * `UF_TRACKED` 0x00000040: Sem notificações para exclusões/renomeações para arquivos com isso definido.
@@ -166,7 +167,7 @@ Todas as flags podem ser encontradas no arquivo `sys/stat.h` (encontre-o usando 
 * `SF_SYNTHETIC` 0xc0000000: Máscara de flags sintéticas somente leitura do sistema.
 * `SF_ARCHIVED` 0x00010000: Arquivo está arquivado.
 * `SF_IMMUTABLE` 0x00020000: Arquivo não pode ser alterado.
-* `SF_APPEND` 0x00040000: Gravações no arquivo só podem ser anexadas.
+* `SF_APPEND` 0x00040000: Escritas no arquivo só podem ser anexadas.
 * `SF_RESTRICTED` 0x00080000: Entitlement necessário para escrita.
 * `SF_NOUNLINK` 0x00100000: Item não pode ser removido, renomeado ou montado.
 * `SF_FIRMLINK` 0x00800000: Arquivo é um firmlink.
@@ -179,18 +180,18 @@ As **ACLs de arquivo** contêm **ACE** (Entradas de Controle de Acesso) onde per
 É possível conceder a um **diretório** essas permissões: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 E a um **arquivo**: `read`, `write`, `append`, `execute`.
 
-Quando o arquivo contém ACLs, você encontrará um "+" ao listar as permissões como em:
+Quando o arquivo contém ACLs você verá um "+" ao listar as permissões como em:
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
 ```
-Você pode **ler os ACLs** do arquivo com:
+Você pode **ler as ACLs** do arquivo com:
 ```bash
 ls -lde Movies
 drwx------+ 7 username  staff  224 15 Apr 19:42 Movies
 0: group:everyone deny delete
 ```
-Pode encontrar **todos os arquivos com ACLs** com (isto é muuuito lento):
+Pode encontrar **todos os arquivos com ACLs** com (isso é muuuito lento):
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
@@ -201,13 +202,13 @@ Atributos estendidos têm um nome e um valor desejado, e podem ser vistos usando
 - `com.apple.resourceFork`: Compatibilidade com o recurso de fork. Também visível como `filename/..namedfork/rsrc`
 - `com.apple.quarantine`: MacOS: Mecanismo de quarentena do Gatekeeper (III/6)
 - `metadata:*`: MacOS: vários metadados, como `_backup_excludeItem`, ou `kMD*`
-- `com.apple.lastuseddate` (#PS): Data do último uso do arquivo
+- `com.apple.lastuseddate` (#PS): Data de último uso do arquivo
 - `com.apple.FinderInfo`: MacOS: Informações do Finder (por exemplo, Tags de cor)
 - `com.apple.TextEncoding`: Especifica a codificação de texto de arquivos de texto ASCII
 - `com.apple.logd.metadata`: Usado pelo logd em arquivos em `/var/db/diagnostics`
 - `com.apple.genstore.*`: Armazenamento geracional (`/.DocumentRevisions-V100` na raiz do sistema de arquivos)
-- `com.apple.rootless`: MacOS: Usado pelo Sistema de Proteção da Integridade para rotular arquivos (III/10)
-- `com.apple.uuidb.boot-uuid`: Marcadores de logd de épocas de inicialização com UUID único
+- `com.apple.rootless`: MacOS: Usado pela Proteção de Integridade do Sistema para rotular arquivos (III/10)
+- `com.apple.uuidb.boot-uuid`: Marcadores de boot epochs do logd com UUID único
 - `com.apple.decmpfs`: MacOS: Compressão de arquivo transparente (II/7)
 - `com.apple.cprotect`: \*OS: Dados de criptografia por arquivo (III/11)
 - `com.apple.installd.*`: \*OS: Metadados usados pelo installd, por exemplo, `installType`, `uniqueInstallID`
@@ -225,7 +226,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Você pode **encontrar todos os arquivos que contêm este atributo estendido** com:
+Pode **encontrar todos os arquivos que contenham este atributo estendido** com: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -237,13 +238,13 @@ find / -type f -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf
 
 O atributo estendido `com.apple.decmpfs` indica que o arquivo está armazenado criptografado, `ls -l` irá relatar um **tamanho de 0** e os dados comprimidos estão dentro desse atributo. Sempre que o arquivo é acessado, ele será descriptografado na memória.
 
-Esse atributo pode ser visto com `ls -lO` indicado como comprimido porque arquivos comprimidos também são marcados com a flag `UF_COMPRESSED`. Se um arquivo comprimido for removido, essa flag com `chflags nocompressed </caminho/para/arquivo>`, o sistema não saberá que o arquivo estava comprimido e, portanto, não poderá descomprimir e acessar os dados (ele pensará que está vazio na verdade).
+Esse atributo pode ser visto com `ls -lO` indicado como comprimido porque arquivos comprimidos também são marcados com a flag `UF_COMPRESSED`. Se um arquivo comprimido for removido, essa flag com `chflags nocompressed </caminho/para/arquivo>`, o sistema não saberá que o arquivo estava comprimido e, portanto, não será capaz de descomprimir e acessar os dados (ele pensará que está vazio na verdade).
 
 A ferramenta afscexpand pode ser usada para forçar a descompressão de um arquivo.
 
 ## **Binários universais &** Formato Mach-o
 
-Os binários do Mac OS geralmente são compilados como **binários universais**. Um **binário universal** pode **suportar várias arquiteturas no mesmo arquivo**.
+Os binários do Mac OS geralmente são compilados como **binários universais**. Um **binário universal** pode **suportar múltiplas arquiteturas no mesmo arquivo**.
 
 {% content-ref url="universal-binaries-and-mach-o-format.md" %}
 [universal-binaries-and-mach-o-format.md](universal-binaries-and-mach-o-format.md)
@@ -277,16 +278,17 @@ O diretório `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/S
 * **`/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist`**: Dados sobre pontos de acesso sem fio.
 * **`/private/var/db/launchd.db/com.apple.launchd/overrides.plist`**: Lista de daemons desativados.
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

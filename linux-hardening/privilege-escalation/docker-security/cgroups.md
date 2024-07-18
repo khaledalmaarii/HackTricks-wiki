@@ -1,28 +1,29 @@
 # CGroups
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Informações Básicas
 
 **Linux Control Groups**, ou **cgroups**, são um recurso do kernel Linux que permite a alocação, limitação e priorização de recursos do sistema como CPU, memória e E/S de disco entre grupos de processos. Eles oferecem um mecanismo para **gerenciar e isolar o uso de recursos** de coleções de processos, benéfico para fins como limitação de recursos, isolamento de carga de trabalho e priorização de recursos entre diferentes grupos de processos.
 
-Existem **duas versões de cgroups**: versão 1 e versão 2. Ambas podem ser usadas simultaneamente em um sistema. A distinção principal é que **a versão 2 dos cgroups** introduz uma **estrutura hierárquica em forma de árvore**, permitindo uma distribuição de recursos mais sutil e detalhada entre grupos de processos. Além disso, a versão 2 traz várias melhorias, incluindo:
+Existem **duas versões de cgroups**: versão 1 e versão 2. Ambas podem ser usadas simultaneamente em um sistema. A distinção principal é que **cgroups versão 2** introduz uma **estrutura hierárquica em forma de árvore**, permitindo uma distribuição de recursos mais detalhada e sutil entre grupos de processos. Além disso, a versão 2 traz várias melhorias, incluindo:
 
-Além da nova organização hierárquica, a versão 2 dos cgroups também introduziu **outras mudanças e melhorias**, como suporte para **novos controladores de recursos**, melhor suporte para aplicativos legados e melhor desempenho.
+Além da nova organização hierárquica, cgroups versão 2 também introduziu **outras mudanças e melhorias**, como suporte para **novos controladores de recursos**, melhor suporte para aplicativos legados e melhor desempenho.
 
-No geral, os cgroups **versão 2 oferecem mais recursos e melhor desempenho** do que a versão 1, mas esta última ainda pode ser usada em determinados cenários onde a compatibilidade com sistemas mais antigos é uma preocupação.
+No geral, cgroups **versão 2 oferece mais recursos e melhor desempenho** do que a versão 1, mas esta última ainda pode ser usada em certos cenários onde a compatibilidade com sistemas mais antigos é uma preocupação.
 
 Você pode listar os cgroups v1 e v2 para qualquer processo olhando para o arquivo cgroup em /proc/\<pid>. Você pode começar olhando para os cgroups do seu shell com este comando:
 ```shell-session
@@ -42,10 +43,10 @@ $ cat /proc/self/cgroup
 A estrutura de saída é a seguinte:
 
 * **Números 2-12**: cgroups v1, com cada linha representando um cgroup diferente. Os controladores para estes são especificados ao lado do número.
-* **Número 1**: Também cgroups v1, mas exclusivamente para fins de gerenciamento (definido, por exemplo, pelo systemd), e não possui um controlador.
+* **Número 1**: Também cgroups v1, mas exclusivamente para fins de gerenciamento (definido por, por exemplo, systemd), e não possui um controlador.
 * **Número 0**: Representa cgroups v2. Nenhum controlador é listado, e esta linha é exclusiva em sistemas que executam apenas cgroups v2.
 * Os **nomes são hierárquicos**, assemelhando-se a caminhos de arquivos, indicando a estrutura e relação entre diferentes cgroups.
-* **Nomes como /user.slice ou /system.slice** especificam a categorização de cgroups, com user.slice tipicamente para sessões de login gerenciadas pelo systemd e system.slice para serviços do sistema.
+* Nomes como /user.slice ou /system.slice especificam a categorização de cgroups, com user.slice tipicamente para sessões de login gerenciadas pelo systemd e system.slice para serviços do sistema.
 
 ### Visualizando cgroups
 
@@ -53,11 +54,11 @@ O sistema de arquivos é tipicamente utilizado para acessar **cgroups**, divergi
 
 ![Sistema de Arquivos Cgroup](<../../../.gitbook/assets/image (1128).png>)
 
-Os arquivos de interface chave para cgroups são prefixados com **cgroup**. O arquivo **cgroup.procs**, que pode ser visualizado com comandos padrão como cat, lista os processos dentro do cgroup. Outro arquivo, **cgroup.threads**, inclui informações de threads.
+Os arquivos de interface chave para cgroups são prefixados com **cgroup**. O arquivo **cgroup.procs**, que pode ser visualizado com comandos padrão como cat, lista os processos dentro do cgroup. Outro arquivo, **cgroup.threads**, inclui informações sobre threads.
 
 ![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
 
-Os cgroups que gerenciam shells normalmente abrangem dois controladores que regulam o uso de memória e a contagem de processos. Para interagir com um controlador, deve-se consultar arquivos com o prefixo do controlador. Por exemplo, **pids.current** seria referenciado para determinar a contagem de threads no cgroup.
+Cgroups que gerenciam shells normalmente englobam dois controladores que regulam o uso de memória e a contagem de processos. Para interagir com um controlador, deve-se consultar os arquivos com o prefixo do controlador. Por exemplo, **pids.current** seria referenciado para determinar a contagem de threads no cgroup.
 
 ![Memória do Cgroup](<../../../.gitbook/assets/image (677).png>)
 
@@ -73,7 +74,7 @@ Da mesma forma, **modificar atributos do cgroup, como definir um limite de PID**
 ```bash
 echo 3000 > pids.max
 ```
-**Criar novos cgroups** envolve criar um novo subdiretório dentro da hierarquia do cgroup, o que faz o kernel gerar automaticamente os arquivos de interface necessários. Embora cgroups sem processos ativos possam ser removidos com `rmdir`, esteja ciente de certas restrições:
+**Criar novos cgroups** envolve criar um novo subdiretório dentro da hierarquia do cgroup, o que faz com que o kernel gere automaticamente os arquivos de interface necessários. Embora cgroups sem processos ativos possam ser removidos com `rmdir`, esteja ciente de certas restrições:
 
 - **Os processos só podem ser colocados em cgroups folha** (ou seja, os mais aninhados em uma hierarquia).
 - **Um cgroup não pode possuir um controlador ausente em seu pai**.

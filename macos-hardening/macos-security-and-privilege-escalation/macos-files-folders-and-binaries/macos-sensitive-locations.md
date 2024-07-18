@@ -1,18 +1,19 @@
-# Localizações Sensíveis do macOS e Daemons Interessantes
+# Locais Sensíveis do macOS e Daemons Interessantes
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Senhas
 
@@ -39,7 +40,7 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 
 ### Despejo de Chaveiro
 
-Observe que ao usar o binário security para **despejar as senhas descriptografadas**, várias solicitações pedirão ao usuário para permitir essa operação.
+Note que ao usar o binário security para **despejar as senhas descriptografadas**, várias solicitações pedirão ao usuário para permitir essa operação.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -51,18 +52,18 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Com base neste comentário [juuso/keychaindump#10 (comentário)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) parece que essas ferramentas não estão mais funcionando no Big Sur.
+Com base neste comentário [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) parece que essas ferramentas não estão mais funcionando no Big Sur.
 {% endhint %}
 
 ### Visão Geral do Keychaindump
 
 Uma ferramenta chamada **keychaindump** foi desenvolvida para extrair senhas dos keychains do macOS, mas enfrenta limitações em versões mais recentes do macOS como o Big Sur, conforme indicado em uma [discussão](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). O uso do **keychaindump** requer que o atacante obtenha acesso e escalone os privilégios para **root**. A ferramenta explora o fato de que o keychain é desbloqueado por padrão após o login do usuário para conveniência, permitindo que aplicativos acessem sem exigir a senha do usuário repetidamente. No entanto, se um usuário optar por bloquear seu keychain após cada uso, o **keychaindump** se torna ineficaz.
 
-O **Keychaindump** opera direcionando um processo específico chamado **securityd**, descrito pela Apple como um daemon para autorização e operações criptográficas, crucial para acessar o keychain. O processo de extração envolve a identificação de uma **Chave Mestra** derivada da senha de login do usuário. Essa chave é essencial para ler o arquivo do keychain. Para localizar a **Chave Mestra**, o **keychaindump** examina o heap de memória do **securityd** usando o comando `vmmap`, procurando por chaves potenciais em áreas marcadas como `MALLOC_TINY`. O comando a seguir é usado para inspecionar essas localizações de memória:
+O **Keychaindump** opera direcionando um processo específico chamado **securityd**, descrito pela Apple como um daemon para autorização e operações criptográficas, crucial para acessar o keychain. O processo de extração envolve a identificação de uma **Chave Mestra** derivada da senha de login do usuário. Essa chave é essencial para ler o arquivo do keychain. Para localizar a **Chave Mestra**, o **keychaindump** examina o heap de memória do **securityd** usando o comando `vmmap`, procurando por chaves potenciais em áreas marcadas como `MALLOC_TINY`. O seguinte comando é usado para inspecionar essas localizações de memória:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Após identificar chaves mestras potenciais, o **keychaindump** pesquisa os heaps em busca de um padrão específico (`0x0000000000000018`) que indica um candidato a chave mestra. Etapas adicionais, incluindo desobfuscação, são necessárias para utilizar essa chave, conforme descrito no código-fonte do **keychaindump**. Analistas que se concentram nessa área devem observar que os dados cruciais para descriptografar o chaveiro são armazenados na memória do processo **securityd**. Um exemplo de comando para executar o **keychaindump** é:
+Após identificar chaves mestras potenciais, o **keychaindump** pesquisa nas pilhas por um padrão específico (`0x0000000000000018`) que indica um candidato a chave mestra. Passos adicionais, incluindo desobfuscação, são necessários para utilizar essa chave, conforme descrito no código-fonte do **keychaindump**. Analistas que se concentram nessa área devem observar que os dados cruciais para descriptografar o chaveiro são armazenados na memória do processo **securityd**. Um exemplo de comando para executar o **keychaindump** é:
 ```bash
 sudo ./keychaindump
 ```
@@ -70,7 +71,7 @@ sudo ./keychaindump
 
 [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usado para extrair os seguintes tipos de informações de um keychain do OSX de maneira forense:
 
-- Senha do Keychain em formato hash, adequada para quebrar com [hashcat](https://hashcat.net/hashcat/) ou [John the Ripper](https://www.openwall.com/john/)
+- Senha do Keychain com hash, adequada para quebra com [hashcat](https://hashcat.net/hashcat/) ou [John the Ripper](https://www.openwall.com/john/)
 - Senhas de Internet
 - Senhas Genéricas
 - Chaves Privadas
@@ -107,7 +108,7 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **Despejar chaves do chaveiro (com senhas) com despejo de memória**
 
-[Siga estes passos](../#dumping-memory-with-osxpmem) para realizar um **despejo de memória**
+[Siga esses passos](../#dumping-memory-with-osxpmem) para realizar um **despejo de memória**
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -125,7 +126,7 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 ```
 ### kcpassword
 
-O arquivo **kcpassword** é um arquivo que armazena a **senha de login do usuário**, mas apenas se o proprietário do sistema tiver **habilitado o login automático**. Portanto, o usuário será automaticamente conectado sem ser solicitado a inserir uma senha (o que não é muito seguro).
+O arquivo **kcpassword** é um arquivo que armazena a **senha de login do usuário**, mas apenas se o proprietário do sistema tiver **habilitado o login automático**. Portanto, o usuário será automaticamente conectado sem precisar digitar uma senha (o que não é muito seguro).
 
 A senha é armazenada no arquivo **`/etc/kcpassword`** xorada com a chave **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Se a senha do usuário for mais longa do que a chave, a chave será reutilizada.\
 Isso torna a senha bastante fácil de recuperar, por exemplo, usando scripts como [**este**](https://gist.github.com/opshope/32f65875d45215c3677d). 
@@ -151,13 +152,9 @@ A maior parte das informações interessantes estará no **blob**. Portanto, voc
 cd $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/
 strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i -A4 slack
 ```
-{% endcode %}
-
 ### Notas
 
 As **notas** dos usuários podem ser encontradas em `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
-
-{% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.sqlite .tables
 
@@ -172,7 +169,7 @@ Nos aplicativos macOS, as preferências estão localizadas em **`$HOME/Library/P
 
 No macOS, a ferramenta de linha de comando **`defaults`** pode ser usada para **modificar o arquivo de preferências**.
 
-**`/usr/sbin/cfprefsd`** reivindica os serviços XPC `com.apple.cfprefsd.daemon` e `com.apple.cfprefsd.agent` e pode ser chamado para realizar ações como modificar preferências.
+**`/usr/sbin/cfprefsd`** gerencia os serviços XPC `com.apple.cfprefsd.daemon` e `com.apple.cfprefsd.agent` e pode ser chamado para realizar ações como modificar preferências.
 
 ## Notificações do Sistema
 
@@ -221,6 +218,6 @@ Também é possível obter informações sobre o daemon e conexões usando:
 
 Estas são notificações que o usuário deve ver na tela:
 
-- **`CFUserNotification`**: Essa API fornece uma maneira de exibir na tela um pop-up com uma mensagem.
-- **O Quadro de Avisos: Isso mostra no iOS um banner que desaparece e será armazenado no Centro de Notificações.
+- **`CFUserNotification`**: Esta API fornece uma maneira de exibir na tela um pop-up com uma mensagem.
+- **O Quadro de Avisos**: Isso mostra no iOS um banner que desaparece e será armazenado no Centro de Notificações.
 - **`NSUserNotificationCenter`**: Este é o quadro de avisos do iOS no MacOS. O banco de dados com as notificações está localizado em `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`

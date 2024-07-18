@@ -1,20 +1,21 @@
-# Grupos Interessantes - Escalação de Privilégios no Linux
+# Grupos Interessantes - Linux Privesc
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoie o HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
-## Grupos Sudo/Administrador
+## Grupos Sudo/Admin
 
 ### **PE - Método 1**
 
@@ -80,7 +81,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 Isso significa que **qualquer usuário que pertença ao grupo wheel pode executar qualquer coisa como sudo**.
 
-Se for o caso, para **se tornar root você pode simplesmente executar**:
+Se for o caso, para **se tornar root, você pode simplesmente executar**:
 ```
 sudo su
 ```
@@ -90,9 +91,9 @@ Usuários do **grupo shadow** podem **ler** o arquivo **/etc/shadow**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-Então, leia o arquivo e tente **quebrar algumas hashes**.
+Então, leia o arquivo e tente **quebrar alguns hashes**.
 
-## Grupo Staff
+## Grupo de Funcionários
 
 **staff**: Permite aos usuários adicionar modificações locais ao sistema (`/usr/local`) sem precisar de privilégios de root (observe que os executáveis em `/usr/local/bin` estão no caminho de qualquer usuário e podem "substituir" os executáveis em `/bin` e `/usr/bin` com o mesmo nome). Compare com o grupo "adm", que está mais relacionado à monitorização/segurança. [\[fonte\]](https://wiki.debian.org/SystemGroups)
 
@@ -106,7 +107,7 @@ $ echo $PATH
 ```
 Se conseguirmos sequestrar alguns programas em `/usr/local`, podemos facilmente obter acesso de root.
 
-Sequestrar o programa `run-parts` é uma maneira fácil de obter acesso de root, porque a maioria dos programas executará um `run-parts` (como crontab, quando o login ssh).
+Sequestrar o programa `run-parts` é uma maneira fácil de obter acesso de root, pois a maioria dos programas executará um `run-parts` (como crontab, quando fizer login via ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -148,7 +149,7 @@ $ /bin/bash -p
 ```
 ## Grupo de Disco
 
-Este privilégio é quase **equivalente ao acesso de root** pois permite acessar todos os dados dentro da máquina.
+Este privilégio é quase **equivalente ao acesso root** pois permite acessar todos os dados dentro da máquina.
 
 Arquivos: `/dev/sd[a-z][1-9]`
 ```bash
@@ -164,11 +165,11 @@ Note que usando o debugfs você também pode **escrever arquivos**. Por exemplo,
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você receberá um erro de "**Permissão negada**".
+No entanto, se você tentar **escrever arquivos de propriedade do root** (como `/etc/shadow` ou `/etc/passwd`) você terá um erro de "**Permissão negada**".
 
 ## Grupo de Vídeo
 
-Usando o comando `w` você pode encontrar **quem está conectado no sistema** e ele mostrará uma saída como a seguinte:
+Usando o comando `w` você pode encontrar **quem está logado no sistema** e ele mostrará uma saída como a seguinte:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -191,7 +192,7 @@ Em seguida, modifique a Largura e Altura para as usadas na tela e verifique os d
 
 ## Grupo Root
 
-Parece que por padrão **membros do grupo root** podem ter acesso para **modificar** alguns arquivos de configuração de **serviços** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que poderiam ser usadas para escalar privilégios...
+Parece que por padrão **membros do grupo root** poderiam ter acesso para **modificar** alguns arquivos de configuração de **serviço** ou alguns arquivos de **bibliotecas** ou **outras coisas interessantes** que poderiam ser usadas para escalar privilégios...
 
 **Verifique quais arquivos os membros do root podem modificar**:
 ```bash
@@ -213,8 +214,10 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Grupo lxc/lxd
 
-Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados dentro de _/var/log/_. Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve dar uma **olhada nos logs**.
+Geralmente, **membros** do grupo **`adm`** têm permissão para **ler arquivos de log** localizados dentro de _/var/log/_.\
+Portanto, se você comprometeu um usuário dentro deste grupo, definitivamente deve dar uma **olhada nos logs**.
 
 ## Grupo Auth
 
-Dentro do OpenBSD, o grupo **auth** geralmente pode escrever nas pastas _**/etc/skey**_ e _**/var/db/yubikey**_ se forem usadas. Essas permissões podem ser abusadas com o seguinte exploit para **escalar privilégios** para root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Dentro do OpenBSD, o grupo **auth** geralmente pode escrever nas pastas _**/etc/skey**_ e _**/var/db/yubikey**_ se forem usadas.\
+Essas permissões podem ser abusadas com o seguinte exploit para **escalar privilégios** para root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
