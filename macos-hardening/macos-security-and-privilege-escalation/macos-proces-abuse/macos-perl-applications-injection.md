@@ -1,20 +1,21 @@
-# Внедрення Perl-додатків в macOS
+# Впровадження Perl-додатків macOS
+
+{% hint style="success" %}
+Вивчайте та вправляйтеся в хакінгу AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Школа хакінгу HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та вправляйтеся в хакінгу GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Школа хакінгу HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}
 
-## Через змінну середовища `PERL5OPT` та `PERL5LIB`
+## Через змінні середовища `PERL5OPT` та `PERL5LIB`
 
 За допомогою змінної середовища PERL5OPT можна змусити perl виконувати довільні команди.\
 Наприклад, створіть цей скрипт:
@@ -31,7 +32,7 @@ print "Hello from the Perl script!\n";
 export PERL5OPT='-Mwarnings;system("whoami")'
 perl test.pl # This will execute "whoami"
 ```
-Ще один варіант - створити модуль Perl (наприклад, `/tmp/pmod.pm`):
+Ще одним варіантом є створення Perl модуля (наприклад, `/tmp/pmod.pm`):
 
 {% code title="/tmp/pmod.pm" %}
 ```perl
@@ -42,7 +43,7 @@ system('whoami');
 ```
 {% endcode %}
 
-А потім використовуйте змінні середовища:
+Потім використовуйте змінні середовища:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
@@ -64,16 +65,31 @@ perl -e 'print join("\n", @INC)'
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Деякі з повернутих папок навіть не існують, однак **`/Library/Perl/5.30`** **існує**, вона **не** захищена **SIP** і знаходиться **перед** папками, які захищені **SIP**. Тому хтось може зловживати цією папкою, щоб додати в неї залежності від скриптів, щоб високопривілейний Perl-скрипт завантажував їх.
+Деякі з повернутих папок навіть не існують, однак **`/Library/Perl/5.30`** **існує**, вона **не** **захищена** **SIP** і знаходиться **перед** папками, **захищеними SIP**. Тому хтось може зловживати цією папкою, щоб додати в неї залежності від скриптів, щоб високопривілейований Perl-скрипт завантажував їх.
 
 {% hint style="warning" %}
-Проте, слід зауважити, що вам **потрібно бути root, щоб писати в цю папку**, і в наш час ви отримаєте цей **запит TCC**:
+Проте, слід зазначити, що вам **потрібно бути root, щоб писати в цю папку**, і в наш час ви отримаєте цей **запит TCC**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Наприклад, якщо скрипт імпортує **`use File::Basename;`**, можна створити `/Library/Perl/5.30/File/Basename.pm`, щоб виконати довільний код.
 
 ## References
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
+
+{% hint style="success" %}
+Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Підтримайте HackTricks</summary>
+
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+
+</details>
+{% endhint %}
