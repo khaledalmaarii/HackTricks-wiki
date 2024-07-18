@@ -1,18 +1,19 @@
 # macOS IPC - Comunicación entre Procesos
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
 
 ## Mensajería Mach a través de Puertos
 
@@ -22,33 +23,33 @@ Mach utiliza **tareas** como la **unidad más pequeña** para compartir recursos
 
 La comunicación entre tareas ocurre a través de la Comunicación entre Procesos de Mach (IPC), utilizando canales de comunicación unidireccionales. **Los mensajes se transfieren entre puertos**, que actúan como **colas de mensajes** gestionadas por el kernel.
 
-Cada proceso tiene una **tabla IPC**, donde es posible encontrar los **puertos de mach del proceso**. El nombre de un puerto de mach es en realidad un número (un puntero al objeto del kernel).
+Cada proceso tiene una **tabla IPC**, donde es posible encontrar los **puertos mach del proceso**. El nombre de un puerto mach es en realidad un número (un puntero al objeto del kernel).
 
-Un proceso también puede enviar un nombre de puerto con algunos derechos **a una tarea diferente** y el kernel hará que esta entrada aparezca en la **tabla IPC de la otra tarea**.
+Un proceso también puede enviar un nombre de puerto con algunos derechos **a una tarea diferente** y el kernel hará que esta entrada en la **tabla IPC de la otra tarea** aparezca.
 
 ### Derechos de Puerto
 
 Los derechos de puerto, que definen qué operaciones puede realizar una tarea, son clave en esta comunicación. Los posibles **derechos de puerto** son ([definiciones desde aquí](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Derecho de Recepción**, que permite recibir mensajes enviados al puerto. Los puertos de Mach son colas MPSC (múltiples productores, un solo consumidor), lo que significa que solo puede haber **un derecho de recepción para cada puerto** en todo el sistema (a diferencia de las tuberías, donde varios procesos pueden tener descriptores de archivo al extremo de lectura de una tubería).
+* **Derecho de Recepción**, que permite recibir mensajes enviados al puerto. Los puertos Mach son colas MPSC (múltiples productores, un solo consumidor), lo que significa que solo puede haber **un derecho de recepción para cada puerto** en todo el sistema (a diferencia de las tuberías, donde varios procesos pueden tener descriptores de archivo al extremo de lectura de una tubería).
 * Una **tarea con el Derecho de Recepción** puede recibir mensajes y **crear Derechos de Envío**, lo que le permite enviar mensajes. Originalmente solo la **propia tarea tiene el Derecho de Recepción sobre su puerto**.
 * **Derecho de Envío**, que permite enviar mensajes al puerto.
 * El Derecho de Envío se puede **clonar** para que una tarea que posee un Derecho de Envío pueda clonar el derecho y **concedérselo a una tercera tarea**.
 * **Derecho de Envío-una-vez**, que permite enviar un mensaje al puerto y luego desaparece.
-* **Derecho de conjunto de puertos**, que denota un _conjunto de puertos_ en lugar de un solo puerto. Desencolar un mensaje de un conjunto de puertos desencola un mensaje de uno de los puertos que contiene. Los conjuntos de puertos se pueden utilizar para escuchar en varios puertos simultáneamente, de manera similar a `select`/`poll`/`epoll`/`kqueue` en Unix.
+* **Derecho de conjunto de puertos**, que denota un _conjunto de puertos_ en lugar de un solo puerto. Desencolar un mensaje de un conjunto de puertos desencola un mensaje de uno de los puertos que contiene. Los conjuntos de puertos se pueden utilizar para escuchar varios puertos simultáneamente, de manera similar a `select`/`poll`/`epoll`/`kqueue` en Unix.
 * **Nombre muerto**, que no es un derecho de puerto real, sino simplemente un marcador de posición. Cuando se destruye un puerto, todos los derechos de puerto existentes para el puerto se convierten en nombres muertos.
 
 **Las tareas pueden transferir DERECHOS DE ENVÍO a otros**, lo que les permite enviar mensajes de vuelta. **Los DERECHOS DE ENVÍO también se pueden clonar, por lo que una tarea puede duplicar y dar el derecho a una tercera tarea**. Esto, combinado con un proceso intermedio conocido como el **servidor de arranque**, permite una comunicación efectiva entre tareas.
 
 ### Puertos de Archivo
 
-Los puertos de archivo permiten encapsular descriptores de archivo en puertos de Mac (usando derechos de puerto de Mach). Es posible crear un `fileport` a partir de un FD dado usando `fileport_makeport` y crear un FD a partir de un fileport usando `fileport_makefd`.
+Los puertos de archivo permiten encapsular descriptores de archivo en puertos Mac (usando derechos de puerto Mach). Es posible crear un `fileport` a partir de un FD dado usando `fileport_makeport` y crear un FD a partir de un fileport usando `fileport_makefd`.
 
 ### Estableciendo una comunicación
 
 #### Pasos:
 
-Como se mencionó, para establecer el canal de comunicación, está involucrado el **servidor de arranque** (**launchd** en Mac).
+Como se menciona, para establecer el canal de comunicación, el **servidor de arranque** (**launchd** en Mac) está involucrado.
 
 1. La tarea **A** inicia un **nuevo puerto**, obteniendo un **derecho de RECEPCIÓN** en el proceso.
 2. La tarea **A**, siendo la titular del derecho de RECEPCIÓN, **genera un derecho de ENVÍO para el puerto**.
@@ -65,17 +66,17 @@ Para estos servicios predefinidos, el **proceso de búsqueda difiere ligeramente
 
 * La tarea **B** inicia una **búsqueda de arranque** para un nombre de servicio.
 * **launchd** verifica si la tarea se está ejecutando y si no lo está, la **inicia**.
-* La tarea **A** (el servicio) realiza un **registro de arranque**. Aquí, el **servidor de arranque crea un derecho de ENVÍO, lo retiene y transfiere el derecho de RECEPCIÓN a la tarea A**.
+* La tarea **A** (el servicio) realiza un **registro de arranque**. Aquí, el **servidor de arranque crea un derecho de ENVÍO, lo retiene y **transfiere el derecho de RECEPCIÓN a la tarea A**.
 * launchd duplica el **derecho de ENVÍO y lo envía a la tarea B**.
 * La tarea **B** genera un nuevo puerto con un **derecho de RECEPCIÓN** y un **derecho de ENVÍO**, y le da el **derecho de ENVÍO a la tarea A** (el svc) para que pueda enviar mensajes a la TAREA B (comunicación bidireccional).
 
-Sin embargo, este proceso solo se aplica a las tareas del sistema predefinidas. Las tareas no del sistema aún operan como se describió originalmente, lo que podría permitir potencialmente la suplantación.
+Sin embargo, este proceso solo se aplica a tareas del sistema predefinidas. Las tareas no del sistema aún operan como se describe originalmente, lo que podría permitir potencialmente la suplantación.
 
 ### Un Mensaje Mach
 
 [Encuentra más información aquí](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-La función `mach_msg`, esencialmente una llamada al sistema, se utiliza para enviar y recibir mensajes de Mach. La función requiere que el mensaje se envíe como argumento inicial. Este mensaje debe comenzar con una estructura `mach_msg_header_t`, seguida por el contenido real del mensaje. La estructura se define de la siguiente manera:
+La función `mach_msg`, esencialmente una llamada al sistema, se utiliza para enviar y recibir mensajes Mach. La función requiere que el mensaje se envíe como argumento inicial. Este mensaje debe comenzar con una estructura `mach_msg_header_t`, seguida del contenido real del mensaje. La estructura se define de la siguiente manera:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -96,7 +97,7 @@ Tenga en cuenta que este tipo de comunicación bidireccional se utiliza en mensa
 
 Los otros campos del encabezado del mensaje son:
 
-- `msgh_size`: el tamaño del paquete completo.
+- `msgh_size`: el tamaño de todo el paquete.
 - `msgh_remote_port`: el puerto al que se envía este mensaje.
 - `msgh_voucher_port`: [vales mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
 - `msgh_id`: el ID de este mensaje, que es interpretado por el receptor.
@@ -113,7 +114,7 @@ Puedes instalar esta herramienta en iOS descargándola desde [http://newosxbook.
 
 ### Ejemplo de código
 
-Observa cómo el **emisor** **asigna** un puerto, crea un **derecho de envío** para el nombre `org.darlinghq.example` y lo envía al **servidor de arranque** mientras que el emisor solicitó el **derecho de envío** de ese nombre y lo utilizó para **enviar un mensaje**.
+Observa cómo el **emisor** **asigna** un puerto, crea un **derecho de envío** para el nombre `org.darlinghq.example` y lo envía al **servidor de arranque** mientras que el emisor solicitó el **derecho de envío** de ese nombre y lo usó para **enviar un mensaje**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -186,17 +187,15 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 
 {% tab title="sender.c" %} 
 
-### macOS IPC (Comunicación entre Procesos)
+### macOS IPC: Comunicación entre procesos
 
-La comunicación entre procesos en macOS se puede lograr a través de varios mecanismos, como por ejemplo:
+En macOS, la comunicación entre procesos (IPC) se puede lograr a través de mecanismos como `mach messages`, `XPC services` y `distributed objects`. Estos mecanismos permiten a los procesos comunicarse entre sí y compartir datos de manera segura.
 
-- **Mach Messages**: Utiliza el subsistema Mach para enviar mensajes entre procesos.
-- **XPC Services**: Un mecanismo seguro y eficiente para la comunicación entre procesos en macOS.
-- **Distributed Objects**: Permite a los objetos de un proceso ser utilizados por otro proceso en la misma máquina o en una máquina remota.
+La comunicación entre procesos es fundamental para que las aplicaciones en macOS funcionen correctamente, pero también puede plantear riesgos de seguridad si no se implementa de manera segura. Es importante comprender cómo funcionan estos mecanismos y cómo se pueden asegurar para evitar posibles vulnerabilidades.
 
-Estos mecanismos pueden ser utilizados para la comunicación entre procesos en macOS, lo que puede ser aprovechado por los atacantes en caso de vulnerabilidades en la implementación de estos servicios. 
+En este contexto, es crucial conocer los diferentes métodos de IPC disponibles en macOS y cómo se pueden utilizar de manera segura para prevenir la escalada de privilegios y otros ataques de seguridad. 
 
-Para asegurar la integridad y seguridad del sistema, es importante implementar medidas de protección adecuadas al utilizar la comunicación entre procesos en macOS. 
+Para más información sobre la comunicación entre procesos en macOS, consulta la documentación oficial de Apple y otros recursos de seguridad de macOS. 
 
 {% endtab %}
 ```c
@@ -266,7 +265,7 @@ printf("Sent a message\n");
 * Las aplicaciones con el permiso **`com.apple.system-task-ports`** pueden obtener el **puerto de la tarea de cualquier** proceso, excepto el del kernel. En versiones anteriores se llamaba **`task_for_pid-allow`**. Esto solo se otorga a aplicaciones de Apple.
 * **Root puede acceder a los puertos de tarea** de aplicaciones **no** compiladas con un tiempo de ejecución **fortificado** (y no de Apple).
 
-### Inyección de shellcode en hilo a través del puerto de tarea
+### Inyección de shellcode en hilo a través del puerto de la tarea
 
 Puedes obtener un shellcode desde:
 
@@ -306,13 +305,23 @@ return 0;
 
 {% tab title="entitlements.plist" %} 
 
-### entitlements.plist
+### macOS IPC (Comunicación entre Procesos)
 
-El archivo `entitlements.plist` contiene información sobre los permisos y capacidades especiales que una aplicación tiene en macOS. Estos permisos pueden ser utilizados para restringir o permitir ciertas acciones que la aplicación puede realizar en el sistema. Es importante revisar y entender los permisos otorgados en este archivo para garantizar la seguridad y privacidad del sistema. 
+La comunicación entre procesos (IPC) en macOS se logra a través de mecanismos como **Mach ports**, **XPC services** y **distributed notifications**. Estos mecanismos pueden ser utilizados para la comunicación entre procesos en un sistema macOS. 
 
-Puedes modificar este archivo para ajustar los permisos de una aplicación específica, pero debes tener cuidado de no otorgar permisos excesivos que puedan ser aprovechados por atacantes en posibles escaladas de privilegios. 
+#### Mach Ports
 
-Asegúrate de revisar y entender los permisos definidos en `entitlements.plist` para mantener un sistema seguro y protegido. 
+Los **Mach ports** son canales de comunicación unidireccionales que permiten la transferencia de mensajes entre procesos. Cada puerto Mach tiene un identificador único y se pueden enviar mensajes a través de estos puertos.
+
+#### XPC Services
+
+Los **XPC services** son procesos independientes que pueden ser utilizados para realizar tareas específicas en macOS. Estos servicios se comunican con la aplicación principal a través de un mecanismo de IPC seguro.
+
+#### Distributed Notifications
+
+Las **distributed notifications** son un mecanismo de IPC que permite a los procesos enviar y recibir notificaciones a través del **Centro de Notificaciones** de macOS. Este mecanismo se puede utilizar para la comunicación entre procesos de forma eficiente.
+
+En resumen, la comunicación entre procesos en macOS se logra a través de varios mecanismos de IPC que permiten a los procesos comunicarse de manera segura y eficiente. 
 
 {% endtab %}
 ```xml
@@ -533,11 +542,11 @@ return 0;
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pi or string>
 ```
-### Inyección de Dylib en hilo a través del puerto de Tarea
+### Inyección de Dylib en hilo a través del puerto de tarea
 
-En macOS, los **hilos** pueden ser manipulados a través de **Mach** o utilizando la **API `pthread` posix**. El hilo que generamos en la inyección anterior fue generado utilizando la API de Mach, por lo que **no es compatible con posix**.
+En macOS, los **hilos** pueden ser manipulados a través de **Mach** o utilizando la **API posix `pthread`**. El hilo que generamos en la inyección anterior fue generado utilizando la API de Mach, por lo que **no es compatible con posix**.
 
-Fue posible **inyectar un shellcode simple** para ejecutar un comando porque **no era necesario trabajar con APIs compatibles con posix**, solo con Mach. **Inyecciones más complejas** necesitarían que el **hilo** también sea **compatible con posix**.
+Fue posible **inyectar un shellcode simple** para ejecutar un comando porque **no era necesario trabajar con APIs compatibles con posix**, solo con Mach. Las **inyecciones más complejas** necesitarían que el **hilo** también sea **compatible con posix**.
 
 Por lo tanto, para **mejorar el hilo**, se debe llamar a **`pthread_create_from_mach_thread`** que creará un pthread válido. Luego, este nuevo pthread podría **llamar a dlopen** para **cargar una dylib** del sistema, por lo que en lugar de escribir nuevo shellcode para realizar diferentes acciones, es posible cargar bibliotecas personalizadas.
 
@@ -754,7 +763,7 @@ kr  = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_E
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"No se pueden establecer permisos de memoria para el código del hilo remoto: Error %s\n", mach_error_string(kr));
+fprintf(stderr,"No se pueden establecer los permisos de memoria para el código del hilo remoto: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
@@ -763,7 +772,7 @@ kr  = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_
 
 if (kr != KERN_SUCCESS)
 {
-fprintf(stderr,"No se pueden establecer permisos de memoria para la pila del hilo remoto: Error %s\n", mach_error_string(kr));
+fprintf(stderr,"No se pueden establecer los permisos de memoria para la pila del hilo remoto: Error %s\n", mach_error_string(kr));
 return (-4);
 }
 
@@ -790,7 +799,7 @@ kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64
 (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT , &remoteThread );
 
 if (kr != KERN_SUCCESS) {
-fprintf(stderr,"No se puede crear un hilo remoto: error %s", mach_error_string (kr));
+fprintf(stderr,"No se puede crear el hilo remoto: error %s", mach_error_string (kr));
 return (-3);
 }
 
@@ -850,7 +859,7 @@ Para obtener más información sobre cómo funciona esta **comunicación** y có
 
 MIG fue creado para **simplificar el proceso de creación de código de IPC de Mach**. Básicamente **genera el código necesario** para que el servidor y el cliente se comuniquen con una definición dada. Aunque el código generado puede ser feo, un desarrollador solo necesitará importarlo y su código será mucho más simple que antes.
 
-Para más información, consulta:
+Para obtener más información, consulta:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-mig-mach-interface-generator.md" %}
 [macos-mig-mach-interface-generator.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-mig-mach-interface-generator.md)
@@ -864,16 +873,17 @@ Para más información, consulta:
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 * [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PR a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

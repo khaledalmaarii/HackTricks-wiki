@@ -4,23 +4,24 @@
 
 \
 Utiliza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
-¡Accede hoy mismo:
+Accede hoy mismo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Bash Común
 ```bash
@@ -171,15 +172,7 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep es una herramienta de línea de comandos que se utiliza para buscar patrones en archivos de texto. Es extremadamente útil para encontrar información específica dentro de archivos grandes. Aquí hay algunos ejemplos de cómo usar grep:
-
-- `grep pattern file`: Busca un patrón específico en un archivo.
-- `grep -i pattern file`: Busca un patrón de forma insensible a mayúsculas y minúsculas.
-- `grep -r pattern directory`: Busca un patrón de forma recursiva en un directorio y sus subdirectorios.
-- `grep -v pattern file`: Muestra líneas que no contienen el patrón especificado.
-- `grep -E 'pattern1|pattern2' file`: Busca múltiples patrones a la vez utilizando expresiones regulares.
-- `grep -c pattern file`: Muestra el número de líneas que contienen el patrón.
-- `grep -n pattern file`: Muestra el número de línea junto con la línea que contiene el patrón.
+Grep es una herramienta de línea de comandos que se utiliza para buscar patrones en archivos de texto. Es extremadamente útil para encontrar información específica dentro de archivos grandes.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -297,59 +290,14 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-### Descripción
-
-Bash es un intérprete de comandos que se utiliza comúnmente en sistemas operativos basados en Unix, como Linux. Permite a los usuarios interactuar con el sistema operativo ejecutando comandos desde la línea de comandos.
-
-### Comandos Útiles
-
-- **`cd`**: Cambia el directorio actual.
-- **`ls`**: Lista los archivos y directorios en el directorio actual.
-- **`pwd`**: Muestra la ruta del directorio actual.
-- **`cp`**: Copia archivos y directorios.
-- **`mv`**: Mueve archivos y directorios.
-- **`rm`**: Elimina archivos y directorios.
-- **`chmod`**: Cambia los permisos de archivos y directorios.
-- **`chown`**: Cambia el propietario de archivos y directorios.
-- **`grep`**: Busca texto en archivos.
-- **`ps`**: Muestra los procesos en ejecución.
-- **`kill`**: Envía una señal a un proceso.
-- **`top`**: Muestra los procesos en ejecución y su uso de recursos.
-- **`history`**: Muestra el historial de comandos.
-- **`man`**: Muestra el manual de un comando.
-- **`wget`**: Descarga archivos desde la web.
-- **`ssh`**: Inicia una sesión segura de shell remoto.
-- **`tar`**: Gestiona archivos comprimidos en formato tar.
-- **`df`**: Muestra el espacio en disco disponible.
-- **`du`**: Muestra el uso del espacio en disco de archivos y directorios.
-- **`ifconfig`**: Muestra la configuración de red.
-- **`ping`**: Envía un paquete ICMP a un host.
-- **`netstat`**: Muestra las conexiones de red.
-- **`who`**: Muestra quién está conectado al sistema.
-- **`uname`**: Muestra información sobre el sistema.
-- **`date`**: Muestra la fecha y la hora actuales.
-- **`echo`**: Muestra texto en la pantalla o redirige la salida.
-- **`cat`**: Muestra el contenido de un archivo.
-- **`head`**: Muestra las primeras líneas de un archivo.
-- **`tail`**: Muestra las últimas líneas de un archivo.
+Bash es un intérprete de comandos que se utiliza comúnmente en sistemas operativos basados en Unix. Es una herramienta poderosa que permite a los usuarios interactuar con el sistema operativo mediante la ejecución de comandos.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### Descripción
-
-Iptables es una herramienta de filtrado de paquetes en el kernel de Linux. Se utiliza para configurar reglas de firewall y controlar el tráfico de red.
-
-### Comandos Útiles
-
-- `iptables -L`: Muestra todas las reglas de iptables.
-- `iptables -F`: Limpia todas las reglas de iptables.
-- `iptables -A <chain> -p <protocol> --dport <port> -j ACCEPT`: Agrega una regla para permitir el tráfico en un puerto específico.
-- `iptables -A <chain> -s <source> -j DROP`: Bloquea el tráfico de una dirección IP específica.
-- `iptables-save > <file>`: Guarda las reglas de iptables en un archivo.
-- `iptables-restore < <file>`: Restaura las reglas de iptables desde un archivo.
+iptables es una herramienta de filtrado de paquetes en el kernel de Linux. Se utiliza para configurar reglas de firewall y controlar el tráfico de red.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -380,24 +328,25 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Entrenamiento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Entrenamiento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas** del mundo.\
-¡Accede hoy mismo:
+Utiliza [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
+¡Accede hoy:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

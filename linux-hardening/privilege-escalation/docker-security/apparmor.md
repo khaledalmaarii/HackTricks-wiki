@@ -1,24 +1,25 @@
 # AppArmor
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares de robo**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
 El objetivo principal de WhiteIntel es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
 
@@ -30,7 +31,7 @@ Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
 ## Información Básica
 
-AppArmor es una **mejora del kernel diseñada para restringir los recursos disponibles para los programas a través de perfiles por programa**, implementando efectivamente el Control de Acceso Obligatorio (MAC) al vincular atributos de control de acceso directamente a los programas en lugar de a los usuarios. Este sistema opera mediante **la carga de perfiles en el kernel**, generalmente durante el arranque, y estos perfiles dictan qué recursos puede acceder un programa, como conexiones de red, acceso a sockets en bruto y permisos de archivo.
+AppArmor es una **mejora del kernel diseñada para restringir los recursos disponibles para los programas a través de perfiles por programa**, implementando efectivamente el Control de Acceso Obligatorio (MAC) al vincular atributos de control de acceso directamente a los programas en lugar de a los usuarios. Este sistema opera **cargando perfiles en el kernel**, generalmente durante el arranque, y estos perfiles dictan qué recursos puede acceder un programa, como conexiones de red, acceso a sockets en bruto y permisos de archivo.
 
 Existen dos modos operativos para los perfiles de AppArmor:
 
@@ -42,7 +43,7 @@ Existen dos modos operativos para los perfiles de AppArmor:
 * **Módulo del Kernel**: Responsable de hacer cumplir las políticas.
 * **Políticas**: Especifican las reglas y restricciones para el comportamiento del programa y el acceso a recursos.
 * **Analizador**: Carga las políticas en el kernel para su cumplimiento o informe.
-* **Utilidades**: Estos son programas de modo de usuario que proporcionan una interfaz para interactuar y gestionar AppArmor.
+* **Utilidades**: Estos son programas en modo de usuario que proporcionan una interfaz para interactuar y gestionar AppArmor.
 
 ### Ruta de los perfiles
 
@@ -75,11 +76,11 @@ aa-mergeprof  #used to merge the policies
 * **Cx** (ejecutar bajo un perfil secundario, después de limpiar el entorno)
 * **Ux** (ejecutar sin restricciones, después de limpiar el entorno)
 * Se pueden definir **variables** en los perfiles y se pueden manipular desde fuera del perfil. Por ejemplo: @{PROC} y @{HOME} (agregar #include \<tunables/global> al archivo de perfil)
-* **Se admiten reglas de denegación para anular reglas de permiso**.
+* Se admiten **reglas de denegación para anular reglas de permiso**.
 
 ### aa-genprof
 
-Para comenzar fácilmente a crear un perfil, apparmor puede ayudarte. Es posible hacer que **apparmor inspeccione las acciones realizadas por un binario y luego permitirte decidir qué acciones deseas permitir o denegar**.\
+Para comenzar a crear un perfil fácilmente, apparmor puede ayudarte. Es posible hacer que **apparmor inspeccione las acciones realizadas por un binario y luego permitirte decidir qué acciones deseas permitir o denegar**.\
 Simplemente necesitas ejecutar:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -122,7 +123,7 @@ sudo aa-easyprof /path/to/binary
 }
 ```
 {% hint style="info" %}
-Ten en cuenta que de forma predeterminada, en un perfil creado no se permite nada, por lo que todo está denegado. Deberás agregar líneas como `/etc/passwd r,` para permitir la lectura del binario `/etc/passwd`, por ejemplo.
+Ten en cuenta que de forma predeterminada, en un perfil creado no se permite nada, por lo que todo está denegado. Necesitarás agregar líneas como `/etc/passwd r,` para permitir la lectura del binario `/etc/passwd`, por ejemplo.
 {% endhint %}
 
 Luego puedes **aplicar** el nuevo perfil con
@@ -149,7 +150,7 @@ apparmor_parser -R /etc/apparmor.d/profile.name #Remove profile
 ```
 ## Registros
 
-Ejemplo de registros **AUDIT** y **DENIED** del archivo _/var/log/audit/audit.log_ del ejecutable **`service_bin`**:
+Ejemplo de registros de **AUDIT** y **DENIED** del archivo _/var/log/audit/audit.log_ del ejecutable **`service_bin`**:
 ```bash
 type=AVC msg=audit(1610061880.392:286): apparmor="AUDIT" operation="getattr" profile="/bin/rcat" name="/dev/pts/1" pid=954 comm="service_bin" requested_mask="r" fsuid=1000 ouid=1000
 type=AVC msg=audit(1610061880.392:287): apparmor="DENIED" operation="open" profile="/bin/rcat" name="/etc/hosts" pid=954 comm="service_bin" requested_mask="r" denied_mask="r" fsuid=1000 ouid=0
@@ -195,10 +196,10 @@ Por defecto, el perfil **Apparmor docker-default** se genera desde [https://gith
 **Resumen del perfil docker-default**:
 
 - **Acceso** a toda la **red**
-- **No se define ninguna capacidad** (Sin embargo, algunas capacidades vendrán al incluir reglas base básicas, es decir, #include \<abstractions/base>)
-- **No se permite escribir** en ningún archivo de **/proc**
+- No se define ninguna **capacidad** (Sin embargo, algunas capacidades vendrán al incluir reglas base básicas, es decir, #include \<abstractions/base>)
+- **Escribir** en cualquier archivo **/proc** no está **permitido**
 - Otros **subdirectorios**/**archivos** de /**proc** y /**sys** tienen acceso **denegado** para leer/escribir/bloquear/enlazar/ejecutar
-- **No se permite montar**
+- **Montar** no está **permitido**
 - **Ptrace** solo se puede ejecutar en un proceso que esté confinado por el **mismo perfil de apparmor**
 
 Una vez que **ejecutes un contenedor docker**, deberías ver la siguiente salida:
@@ -206,7 +207,7 @@ Una vez que **ejecutes un contenedor docker**, deberías ver la siguiente salida
 1 processes are in enforce mode.
 docker-default (825)
 ```
-Ten en cuenta que **apparmor incluso bloqueará los privilegios de capacidades** concedidos al contenedor de forma predeterminada. Por ejemplo, será capaz de **bloquear el permiso de escritura dentro de /proc incluso si se concede la capacidad SYS\_ADMIN** porque por defecto el perfil apparmor de docker niega este acceso:
+Ten en cuenta que **apparmor incluso bloqueará los privilegios de capacidades** concedidos al contenedor de forma predeterminada. Por ejemplo, será capaz de **bloquear el permiso de escritura dentro de /proc incluso si se concede la capacidad SYS\_ADMIN** porque por defecto el perfil de apparmor de docker niega este acceso:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin/bash
 echo "" > /proc/stat
@@ -225,7 +226,7 @@ Ten en cuenta que puedes **añadir/eliminar** **capacidades** al contenedor de d
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` elimina todas las capacidades y solo otorga `SYS_PTRACE`
 
 {% hint style="info" %}
-Normalmente, cuando **encuentras** que tienes una **capacidad privilegiada** disponible **dentro** de un **contenedor docker** **pero** alguna parte del **exploit no funciona**, esto se debe a que **AppArmor de docker lo está previniendo**.
+Normalmente, cuando **descubres** que tienes una **capacidad privilegiada** disponible **dentro** de un **contenedor docker** pero alguna parte del **exploit no funciona**, esto se debe a que **AppArmor de docker lo está previniendo**.
 {% endhint %}
 
 ### Ejemplo
@@ -240,7 +241,7 @@ Para activar el perfil, necesitamos hacer lo siguiente:
 ```
 sudo apparmor_parser -r -W mydocker
 ```
-Para listar los perfiles, podemos ejecutar el siguiente comando. El comando a continuación está listando mi nuevo perfil de AppArmor.
+Para listar los perfiles, podemos usar el siguiente comando. El comando a continuación está listando mi nuevo perfil de AppArmor.
 ```
 $ sudo apparmor_status  | grep mydocker
 mydocker
@@ -262,9 +263,9 @@ Entonces, puedes ejecutar la siguiente línea para **encontrar el perfil exacto 
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-### Bypass de AppArmor en Docker
+### Bypass de AppArmor Docker2
 
-**AppArmor se basa en rutas**, esto significa que incluso si está **protegiendo** archivos dentro de un directorio como **`/proc`**, si puedes **configurar cómo se ejecutará el contenedor**, podrías **montar** el directorio proc del host dentro de **`/host/proc`** y este **ya no estará protegido por AppArmor**.
+**AppArmor se basa en rutas**, esto significa que incluso si podría estar **protegiendo** archivos dentro de un directorio como **`/proc`**, si puedes **configurar cómo se ejecutará el contenedor**, podrías **montar** el directorio proc del host dentro de **`/host/proc`** y este **ya no estará protegido por AppArmor**.
 
 ### Bypass de Shebang de AppArmor
 
@@ -282,24 +283,25 @@ chmod +x /tmp/test.pl
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda impulsado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares ladrones**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda impulsado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
-El objetivo principal de WhiteIntel es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
+Su objetivo principal es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
 
 Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita** en:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

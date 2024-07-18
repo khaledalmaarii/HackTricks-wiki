@@ -1,18 +1,19 @@
 # Grupos Interesantes - Escalada de Privilegios en Linux
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Grupos de Sudo/Administrador
 
@@ -28,7 +29,7 @@ Otras formas de apoyar a HackTricks:
 ```
 Esto significa que **cualquier usuario que pertenezca al grupo sudo o admin puede ejecutar cualquier cosa como sudo**.
 
-Si este es el caso, para **convertirte en root solo necesitas ejecutar**:
+Si este es el caso, para **convertirse en root solo tienes que ejecutar**:
 ```
 sudo su
 ```
@@ -43,7 +44,7 @@ Esto se debe a que normalmente esos son los grupos dentro de la **política polk
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Allí encontrarás qué grupos tienen permiso para ejecutar **pkexec** y **por defecto** en algunas distribuciones de Linux aparecen los grupos **sudo** y **admin**.
+Allí encontrarás qué grupos tienen permiso para ejecutar **pkexec** y **por defecto** en algunas distribuciones de Linux los grupos **sudo** y **admin** aparecen.
 
 Para **convertirte en root puedes ejecutar**:
 ```bash
@@ -92,9 +93,9 @@ Los usuarios del **grupo shadow** pueden **leer** el archivo **/etc/shadow**:
 ```
 ## Grupo de Personal
 
-**staff**: Permite a los usuarios agregar modificaciones locales al sistema (`/usr/local`) sin necesidad de privilegios de root (ten en cuenta que los ejecutables en `/usr/local/bin` están en la variable PATH de cualquier usuario, y pueden "sobrescribir" los ejecutables en `/bin` y `/usr/bin` con el mismo nombre). Compara con el grupo "adm", que está más relacionado con monitoreo/seguridad. [\[fuente\]](https://wiki.debian.org/SystemGroups)
+**staff**: Permite a los usuarios agregar modificaciones locales al sistema (`/usr/local`) sin necesidad de privilegios de root (tenga en cuenta que los ejecutables en `/usr/local/bin` están en la variable PATH de cualquier usuario, y pueden "sobrescribir" los ejecutables en `/bin` y `/usr/bin` con el mismo nombre). Compare con el grupo "adm", que está más relacionado con monitoreo/seguridad. [\[fuente\]](https://wiki.debian.org/SystemGroups)
 
-En distribuciones debian, la variable `$PATH` muestra que `/usr/local/` se ejecutará con la mayor prioridad, ya sea que seas un usuario privilegiado o no.
+En las distribuciones de Debian, la variable `$PATH` muestra que `/usr/local/` se ejecutará con la mayor prioridad, ya sea que sea un usuario privilegiado o no.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -104,7 +105,7 @@ $ echo $PATH
 ```
 Si podemos secuestrar algunos programas en `/usr/local`, podemos obtener fácilmente acceso de root.
 
-Secuestrar el programa `run-parts` es una forma fácil de obtener acceso de root, porque la mayoría de los programas ejecutarán un `run-parts` como (crontab, cuando se inicia sesión por ssh).
+Secuestrar el programa `run-parts` es una forma fácil de obtener acceso de root, ya que la mayoría de los programas ejecutarán un `run-parts` (como crontab, al iniciar sesión por SSH).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -197,7 +198,7 @@ find / -group root -perm -g=w 2>/dev/null
 ```
 ## Grupo Docker
 
-Puedes **montar el sistema de archivos raíz de la máquina anfitriona en el volumen de una instancia**, de modo que cuando la instancia se inicie, cargue inmediatamente un `chroot` en ese volumen. Esto te da efectivamente acceso de root en la máquina.
+Puedes **montar el sistema de archivos raíz de la máquina anfitriona en el volumen de una instancia**, de modo que cuando la instancia se inicie, cargue inmediatamente un `chroot` en ese volumen. Esto te otorga efectivamente permisos de root en la máquina.
 ```bash
 docker image #Get images from the docker service
 
@@ -212,7 +213,7 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 Finalmente, si no te gustan ninguna de las sugerencias anteriores, o si no están funcionando por alguna razón (¿firewall de la API de Docker?), siempre puedes intentar **ejecutar un contenedor privilegiado y escapar de él** como se explica aquí:
 
 {% content-ref url="../docker-security/" %}
-[docker-security](../docker-security/)
+[seguridad-docker](../docker-security/)
 {% endcontent-ref %}
 
 Si tienes permisos de escritura sobre el socket de Docker, lee [**este post sobre cómo escalar privilegios abusando del socket de Docker**](../#writable-docker-socket)**.**
@@ -230,23 +231,9 @@ Si tienes permisos de escritura sobre el socket de Docker, lee [**este post sobr
 ## Grupo Adm
 
 Normalmente, los **miembros** del grupo **`adm`** tienen permisos para **leer archivos de registro** ubicados dentro de _/var/log/_.\
-Por lo tanto, si has comprometido a un usuario dentro de este grupo, definitivamente deberías echar un **vistazo a los registros**.
+Por lo tanto, si has comprometido a un usuario dentro de este grupo, definitivamente deberías **revisar los registros**.
 
 ## Grupo Auth
 
 Dentro de OpenBSD, el grupo **auth** generalmente puede escribir en las carpetas _**/etc/skey**_ y _**/var/db/yubikey**_ si se utilizan.\
 Estos permisos pueden ser abusados con el siguiente exploit para **escalar privilegios** a root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
-
-<details>
-
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

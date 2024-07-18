@@ -1,18 +1,19 @@
 # Red Team en macOS
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Abusando de los MDMs
 
@@ -21,7 +22,7 @@ Otras formas de apoyar a HackTricks:
 
 Si logras **comprometer las credenciales de administrador** para acceder a la plataforma de gestión, puedes **potencialmente comprometer todas las computadoras** distribuyendo tu malware en las máquinas.
 
-Para el red teaming en entornos de MacOS, es muy recomendable tener cierto entendimiento de cómo funcionan los MDMs:
+Para el red teaming en entornos de MacOS, es altamente recomendable tener cierto entendimiento de cómo funcionan los MDMs:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -47,9 +48,9 @@ JAMF puede ejecutar **scripts personalizados** (scripts desarrollados por el sys
 
 Ve a una página como `https://<nombre-de-la-empresa>.jamfcloud.com/enroll/` para ver si tienen **habilitada la autoinscripción**. Si la tienen, podría **solicitar credenciales para acceder**.
 
-Podrías usar el script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar un ataque de spraying de contraseñas.
+Podrías usar el script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar un ataque de rociado de contraseñas.
 
-Además, después de encontrar credenciales adecuadas, podrías ser capaz de hacer fuerza bruta en otros nombres de usuario con el siguiente formulario:
+Además, después de encontrar credenciales adecuadas, podrías ser capaz de realizar un ataque de fuerza bruta a otros nombres de usuario con el siguiente formulario:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -62,7 +63,7 @@ Además, jamf **persiste** como un **LaunchDaemon** en **`/Library/LaunchAgents/
 
 #### Toma de control de dispositivos JAMF
 
-La **URL** de **JSS** (Servidor de Software Jamf) que usará **`jamf`** se encuentra en **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+La **URL** de **JSS** (Jamf Software Server) que usará **`jamf`** se encuentra en **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Este archivo básicamente contiene la URL:
 
 {% code overflow="wrap" %}
@@ -80,9 +81,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Por lo tanto, un atacante podría dejar caer un paquete malicioso (`pkg`) que **sobrescribe este archivo** al ser instalado configurando la **URL a un escucha de C2 de Mythic desde un agente de Typhon** para ahora poder abusar de JAMF como C2. 
-
-{% code overflow="wrap" %}
+Por lo tanto, un atacante podría dejar caer un paquete malicioso (`pkg`) que **sobrescribe este archivo** al ser instalado configurando la **URL a un escucha de C2 de Mythic desde un agente de Typhon** para ahora poder abusar de JAMF como C2.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -104,7 +103,7 @@ Con esta información, **crea una VM** con el **UUID de hardware robado** y con 
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-También podrías monitorear la ubicación `/Library/Application Support/Jamf/tmp/` para los **scripts personalizados** que los administradores podrían querer ejecutar a través de Jamf, ya que son **colocados aquí, ejecutados y eliminados**. Estos scripts **podrían contener credenciales**.
+También podrías monitorear la ubicación `/Library/Application Support/Jamf/tmp/` en busca de los **scripts personalizados** que los administradores podrían querer ejecutar a través de Jamf, ya que son **colocados aquí, ejecutados y eliminados**. Estos scripts **podrían contener credenciales**.
 
 Sin embargo, las **credenciales** podrían ser pasadas a estos scripts como **parámetros**, por lo que necesitarías monitorear `ps aux | grep -i jamf` (sin siquiera ser root).
 
@@ -120,7 +119,7 @@ Y también sobre los **protocolos** de **red** "especiales" de **MacOS**:
 
 ## Directorio Activo
 
-En algunas ocasiones encontrarás que la **computadora MacOS está conectada a un AD**. En este escenario deberías intentar **enumerar** el directorio activo como estás acostumbrado. Encuentra algo de **ayuda** en las siguientes páginas:
+En algunas ocasiones te encontrarás con que el **ordenador MacOS está conectado a un AD**. En este escenario deberías intentar **enumerar** el directorio activo como estás acostumbrado. Encuentra algo de **ayuda** en las siguientes páginas:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -189,7 +188,7 @@ Más información en [https://its-a-feature.github.io/posts/2018/01/Active-Direc
 
 ## Accediendo al Portafolio de Llaves
 
-El Portafolio de Llaves probablemente contiene información sensible que, si se accede sin generar una solicitud, podría ayudar a avanzar en un ejercicio de red teaming:
+Es altamente probable que el Portafolio de Llaves contenga información sensible que, si se accede sin generar una solicitud, podría ayudar a avanzar en un ejercicio de red teaming:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -197,7 +196,7 @@ El Portafolio de Llaves probablemente contiene información sensible que, si se 
 
 ## Servicios Externos
 
-El red teaming en MacOS es diferente al red teaming en Windows, ya que **generalmente MacOS está integrado con varias plataformas externas directamente**. Una configuración común de MacOS es acceder a la computadora utilizando **credenciales sincronizadas de OneLogin y acceder a varios servicios externos** (como github, aws...) a través de OneLogin.
+El red teaming en MacOS es diferente al red teaming regular en Windows, ya que **generalmente MacOS está integrado con varias plataformas externas directamente**. Una configuración común de MacOS es acceder a la computadora utilizando **credenciales sincronizadas de OneLogin y acceder a varios servicios externos** (como github, aws...) a través de OneLogin.
 
 ## Técnicas Misceláneas de Red Team
 
@@ -214,3 +213,18 @@ Cuando se descarga un archivo en Safari, si es un archivo "seguro", se **abrirá
 * [**https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0**](https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0)
 * [**Come to the Dark Side, We Have Apples: Turning macOS Management Evil**](https://www.youtube.com/watch?v=pOQOh07eMxY)
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Apoya a HackTricks</summary>
+
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}

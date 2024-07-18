@@ -1,18 +1,19 @@
 # Abuso de Instaladores en macOS
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Información Básica de Pkg
 
@@ -28,7 +29,7 @@ El archivo del paquete en sí es un archivo comprimido que contiene una **jerarq
 * **PackageInfo (xml)**: Información, requisitos de instalación, ubicación de instalación, rutas a scripts a ejecutar
 * **Lista de materiales (bom)**: Lista de archivos para instalar, actualizar o eliminar con permisos de archivo
 * **Carga (archivo CPIO comprimido con gzip)**: Archivos para instalar en la `ubicación de instalación` desde PackageInfo
-* **Scripts (archivo CPIO comprimido con gzip)**: Scripts de pre y post instalación y más recursos extraídos a un directorio temporal para la ejecución.
+* **Scripts (archivo CPIO comprimido con gzip)**: Scripts de pre y post instalación y más recursos extraídos a un directorio temporal para su ejecución.
 
 ### Descompresión
 ```bash
@@ -44,9 +45,9 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
-## Información básica de los archivos DMG
+## Información Básica de DMG
 
-Los archivos DMG, o Apple Disk Images, son un formato de archivo utilizado por macOS de Apple para imágenes de disco. Un archivo DMG es esencialmente una **imagen de disco montable** (contiene su propio sistema de archivos) que contiene datos de bloques crudos generalmente comprimidos y a veces encriptados. Cuando abres un archivo DMG, macOS lo **monta como si fuera un disco físico**, lo que te permite acceder a su contenido.
+Los archivos DMG, o Imágenes de Disco de Apple, son un formato de archivo utilizado por macOS de Apple para imágenes de disco. Un archivo DMG es esencialmente una **imagen de disco montable** (contiene su propio sistema de archivos) que contiene datos de bloques crudos generalmente comprimidos y a veces encriptados. Cuando abres un archivo DMG, macOS lo **monta como si fuera un disco físico**, lo que te permite acceder a su contenido.
 
 {% hint style="danger" %}
 Ten en cuenta que los instaladores **`.dmg`** admiten **tantos formatos** que en el pasado algunos de ellos que contenían vulnerabilidades fueron abusados para obtener **ejecución de código de kernel**.
@@ -58,15 +59,15 @@ Ten en cuenta que los instaladores **`.dmg`** admiten **tantos formatos** que en
 
 La jerarquía de un archivo DMG puede ser diferente según el contenido. Sin embargo, para los DMG de aplicaciones, generalmente sigue esta estructura:
 
-- Nivel superior: Este es la raíz de la imagen de disco. A menudo contiene la aplicación y posiblemente un enlace a la carpeta de Aplicaciones.
+- Nivel Superior: Este es la raíz de la imagen de disco. A menudo contiene la aplicación y posiblemente un enlace a la carpeta de Aplicaciones.
 - Aplicación (.app): Esta es la aplicación real. En macOS, una aplicación es típicamente un paquete que contiene muchos archivos y carpetas individuales que conforman la aplicación.
 - Enlace de Aplicaciones: Este es un acceso directo a la carpeta de Aplicaciones en macOS. El propósito de esto es facilitar la instalación de la aplicación. Puedes arrastrar el archivo .app a este acceso directo para instalar la aplicación.
 
-## Escalada de privilegios mediante abuso de pkg
+## Escalada de Privilegios mediante abuso de pkg
 
 ### Ejecución desde directorios públicos
 
-Si un script de pre o post instalación está, por ejemplo, ejecutándose desde **`/var/tmp/Installerutil`**, y un atacante pudiera controlar ese script, podría escalar privilegios cada vez que se ejecute. Otro ejemplo similar:
+Si un script de pre o post instalación está ejecutando, por ejemplo, desde **`/var/tmp/Installerutil`**, y un atacante pudiera controlar ese script, podría escalar privilegios cada vez que se ejecute. Otro ejemplo similar:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
@@ -80,9 +81,9 @@ Esta es una [función pública](https://developer.apple.com/documentation/securi
 ```
 ### Ejecución mediante montaje
 
-Si un instalador escribe en `/tmp/fixedname/bla/bla`, es posible **crear un montaje** sobre `/tmp/fixedname` sin propietarios para poder **modificar cualquier archivo durante la instalación** y abusar del proceso de instalación.
+Si un instalador escribe en `/tmp/fixedname/bla/bla`, es posible **crear un montaje** sobre `/tmp/fixedname` sin propietarios para que puedas **modificar cualquier archivo durante la instalación** y abusar del proceso de instalación.
 
-Un ejemplo de esto es **CVE-2021-26089** que logró **sobrescribir un script periódico** para obtener ejecución como root. Para obtener más información, echa un vistazo a la charla: [**OBTS v4.0: "Montaña de Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Un ejemplo de esto es **CVE-2021-26089** que logró **sobrescribir un script periódico** para obtener ejecución como root. Para más información, echa un vistazo a la charla: [**OBTS v4.0: "Montaña de Errores" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg como malware
 
@@ -90,7 +91,7 @@ Un ejemplo de esto es **CVE-2021-26089** que logró **sobrescribir un script per
 
 Es posible simplemente generar un archivo **`.pkg`** con **scripts de pre y post-instalación** sin ninguna carga útil.
 
-### JS en xml de Distribución
+### JS en Distribution xml
 
 Es posible agregar etiquetas **`<script>`** en el archivo **xml de distribución** del paquete y ese código se ejecutará y puede **ejecutar comandos** utilizando **`system.run`**:
 

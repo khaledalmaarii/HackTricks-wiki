@@ -24,7 +24,7 @@ Para comenzar, sigue esta página donde encontrarás el **flujo típico** que **
 
 Puedes revisar su **blog** en [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** también apoya proyectos de código abierto de ciberseguridad como HackTricks :)
+**STM Cyber** también apoya proyectos de código abierto de ciberseguridad como ¡HackTricks! :)
 
 ***
 
@@ -42,7 +42,7 @@ Puedes revisar su **blog** en [**https://blog.stmcyber.com**](https://blog.stmcy
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** es la plataforma de ethical hacking y **bug bounty #1 de Europa**.
+**Intigriti** es la plataforma de ethical hacking y **bug bounty #1 de Europa.**
 
 **Consejo de bug bounty**: ¡Regístrate en **Intigriti**, una plataforma premium de **bug bounty creada por hackers, para hackers**! Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy, ¡y comienza a ganar recompensas de hasta **$100,000**!
 
@@ -71,7 +71,7 @@ Obtén acceso hoy:
 
 * **Perspectivas de Hacking:** Participa en contenido que explora la emoción y los desafíos del hacking
 * **Noticias de Hacking en Tiempo Real:** Mantente al día con el mundo del hacking a través de noticias e información en tiempo real
-* **Últimos Anuncios:** Mantente informado sobre los nuevos bug bounties que se lanzan y actualizaciones importantes de la plataforma
+* **Últimos Anuncios:** Mantente informado sobre los nuevos bug bounties que se lanzan y actualizaciones cruciales de la plataforma
 
 **Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ¡y comienza a colaborar con los mejores hackers hoy!
 
@@ -81,7 +81,7 @@ Obtén acceso hoy:
 
 <figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Configuración instantánea disponible para evaluación de vulnerabilidades y pruebas de penetración**. Ejecuta un pentest completo desde cualquier lugar con más de 20 herramientas y funciones que van desde la recolección de información hasta la generación de informes. No reemplazamos a los pentesters, desarrollamos herramientas personalizadas, módulos de detección y explotación para darles más tiempo para profundizar, obtener shells y divertirse.
+**Configuración instantáneamente disponible para evaluación de vulnerabilidades y pruebas de penetración**. Ejecuta un pentest completo desde cualquier lugar con más de 20 herramientas y funciones que van desde la recolección de información hasta la generación de informes. No reemplazamos a los pentesters, desarrollamos herramientas personalizadas, detección y módulos de explotación para darles más tiempo para profundizar, obtener shells y divertirse.
 
 {% embed url="https://pentest-tools.com/" %}
 
@@ -93,7 +93,7 @@ Obtén acceso hoy:
 
 SerpApi ofrece APIs en tiempo real rápidas y fáciles para **acceder a los resultados de los motores de búsqueda**. Raspan los motores de búsqueda, manejan proxies, resuelven captchas y analizan todos los datos estructurados ricos por ti.
 
-Una suscripción a uno de los planes de SerpApi incluye acceso a más de 50 APIs diferentes para raspar diferentes motores de búsqueda, incluidos Google, Bing, Baidu, Yahoo, Yandex, y más.\
+Una suscripción a uno de los planes de SerpApi incluye acceso a más de 50 APIs diferentes para raspar diferentes motores de búsqueda, incluidos Google, Bing, Baidu, Yahoo, Yandex y más.\
 A diferencia de otros proveedores, **SerpApi no solo raspa resultados orgánicos**. Las respuestas de SerpApi incluyen consistentemente todos los anuncios, imágenes y videos en línea, gráficos de conocimiento y otros elementos y características presentes en los resultados de búsqueda.
 
 Los clientes actuales de SerpApi incluyen a **Apple, Shopify y GrubHub**.\
@@ -148,16 +148,17 @@ Encuéntralos en:
 ![Estadísticas de Github de HackTricks](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Imagen de análisis de Repobeats")
 
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos en** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

@@ -1,28 +1,29 @@
 # Autorización XPC de macOS
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) en GitHub.
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Autorización XPC
 
 Apple también propone otra forma de autenticar si el proceso conectado tiene **permisos para llamar a un método XPC expuesto**.
 
-Cuando una aplicación necesita **ejecutar acciones como un usuario privilegiado**, en lugar de ejecutar la aplicación como un usuario privilegiado, generalmente instala como root un HelperTool como un servicio XPC que podría ser llamado desde la aplicación para realizar esas acciones. Sin embargo, la aplicación que llama al servicio debe tener suficiente autorización.
+Cuando una aplicación necesita **ejecutar acciones como un usuario privilegiado**, en lugar de ejecutar la aplicación como un usuario privilegiado, generalmente instala como root un HelperTool como un servicio XPC que podría ser llamado desde la aplicación para realizar esas acciones. Sin embargo, la aplicación que llama al servicio debe tener la autorización suficiente.
 
 ### ShouldAcceptNewConnection siempre YES
 
-Un ejemplo se puede encontrar en [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). En `App/AppDelegate.m` intenta **conectarse** al **HelperTool**. Y en `HelperTool/HelperTool.m` la función **`shouldAcceptNewConnection`** **no verificará** ninguno de los requisitos indicados anteriormente. Siempre devolverá YES:
+Un ejemplo se puede encontrar en [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). En `App/AppDelegate.m` intenta **conectarse** al **HelperTool**. Y en `HelperTool/HelperTool.m`, la función **`shouldAcceptNewConnection`** **no verificará** ninguno de los requisitos indicados anteriormente. Siempre devolverá YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -47,9 +48,9 @@ Para obtener más información sobre cómo configurar correctamente esta verific
 
 ### Derechos de la aplicación
 
-Sin embargo, hay algo de **autorización que ocurre cuando se llama a un método desde HelperTool**.
+Sin embargo, hay alguna **autorización que ocurre cuando se llama a un método desde HelperTool**.
 
-La función **`applicationDidFinishLaunching`** de `App/AppDelegate.m` creará una referencia de autorización vacía después de que la aplicación haya iniciado. Esto debería funcionar siempre.\
+La función **`applicationDidFinishLaunching`** de `App/AppDelegate.m` creará una referencia de autorización vacía después de que la aplicación haya iniciado. Esto siempre debería funcionar.\
 Luego, intentará **agregar algunos derechos** a esa referencia de autorización llamando a `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -192,7 +193,7 @@ Existen diferentes ámbitos para indicar quién puede acceder a un derecho. Algu
 
 ### Verificación de Derechos
 
-En `HelperTool/HelperTool.m`, la función **`readLicenseKeyAuthorization`** verifica si el llamante está autorizado para **ejecutar dicho método** llamando a la función **`checkAuthorization`**. Esta función verificará que los **datos de autenticación** enviados por el proceso que llama tengan un **formato correcto** y luego comprobará **qué se necesita para obtener el derecho** de llamar al método específico. Si todo va bien, el **`error` devuelto será `nil`**:
+En `HelperTool/HelperTool.m`, la función **`readLicenseKeyAuthorization`** verifica si el llamante está autorizado para **ejecutar dicho método** llamando a la función **`checkAuthorization`**. Esta función verificará que los **datos de autenticación** enviados por el proceso que llama tengan un **formato correcto** y luego verificará **lo que se necesita para obtener el derecho** de llamar al método específico. Si todo va bien, el **`error` devuelto será `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -240,9 +241,9 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Ten en cuenta que para **verificar los requisitos para obtener el derecho** de llamar a ese método, la función `authorizationRightForCommand` simplemente verificará el objeto previamente comentado **`commandInfo`**. Luego, llamará a **`AuthorizationCopyRights`** para verificar **si tiene los derechos** para llamar a la función (nota que las banderas permiten la interacción con el usuario).
+Ten en cuenta que para **verificar los requisitos para obtener el derecho** de llamar a ese método, la función `authorizationRightForCommand` simplemente verificará el objeto comentado previamente **`commandInfo`**. Luego, llamará a **`AuthorizationCopyRights`** para verificar **si tiene los derechos** para llamar a la función (nota que las banderas permiten la interacción con el usuario).
 
-En este caso, para llamar a la función `readLicenseKeyAuthorization`, se define `kCommandKeyAuthRightDefault` como `@kAuthorizationRuleClassAllow`. Por lo tanto, **cualquiera puede llamarlo**.
+En este caso, para llamar a la función `readLicenseKeyAuthorization`, se define `kCommandKeyAuthRightDefault` como `@kAuthorizationRuleClassAllow`. Por lo tanto, **cualquiera puede llamarla**.
 
 ### Información de la base de datos
 
@@ -266,9 +267,9 @@ Puedes encontrar **todas las configuraciones de permisos** [**aquí**](https://w
 2. **'allow-root': 'true'**
 * Si un usuario está operando como usuario root (que tiene permisos elevados) y esta clave se establece en `true`, el usuario root podría potencialmente obtener este derecho sin necesidad de más autenticación. Sin embargo, típicamente, llegar a un estado de usuario root ya requiere autenticación, por lo que no es un escenario de "sin autenticación" para la mayoría de los usuarios.
 3. **'session-owner': 'true'**
-* Si se establece en `true`, el propietario de la sesión (el usuario que ha iniciado sesión) obtendría automáticamente este derecho. Esto podría evitar la autenticación adicional si el usuario ya ha iniciado sesión.
+* Si se establece en `true`, el propietario de la sesión (el usuario actualmente conectado) obtendría automáticamente este derecho. Esto podría evitar la autenticación adicional si el usuario ya está conectado.
 4. **'shared': 'true'**
-* Esta clave no otorga derechos sin autenticación. En cambio, si se establece en `true`, significa que una vez que el derecho ha sido autenticado, puede ser compartido entre varios procesos sin que cada uno necesite volver a autenticarse. Pero la concesión inicial del derecho seguiría requiriendo autenticación a menos que se combine con otras claves como `'authenticate-user': 'false'`.
+* Esta clave no otorga derechos sin autenticación. En cambio, si se establece en `true`, significa que una vez que se haya autenticado el derecho, se puede compartir entre varios procesos sin que cada uno necesite volver a autenticarse. Pero la concesión inicial del derecho seguiría requiriendo autenticación a menos que se combine con otras claves como `'authenticate-user': 'false'`.
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -283,7 +284,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 ### Verificación de uso de EvenBetterAuthorization
 
-Si encuentras la función: **`[HelperTool checkAuthorization:command:]`** probablemente el proceso esté utilizando el esquema de autorización mencionado anteriormente:
+Si encuentras la función: **`[HelperTool checkAuthorization:command:]`** probablemente el proceso esté utilizando el esquema mencionado anteriormente para la autorización:
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
@@ -301,7 +302,7 @@ La función **`shouldAcceptNewConnection`** indica el protocolo que se está exp
 
 En este caso, es lo mismo que en EvenBetterAuthorizationSample, [**verifica esta línea**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Conociendo el nombre del protocolo utilizado, es posible **volcar su definición de encabezado** con:
+Sabiendo el nombre del protocolo utilizado, es posible **volcar su definición de encabezado** con:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -423,16 +424,17 @@ NSLog(@"Finished!");
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

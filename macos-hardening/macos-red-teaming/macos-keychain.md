@@ -1,26 +1,27 @@
 # Llavero de macOS
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* ¡Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares de robo**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
-El objetivo principal de WhiteIntel es combatir las tomas de cuentas y los ataques de ransomware resultantes de malwares que roban información.
+El objetivo principal de WhiteIntel es combatir tomas de cuentas y ataques de ransomware resultantes de malwares que roban información.
 
 Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
@@ -55,16 +56,16 @@ Las ACLs están acompañadas por una **lista de aplicaciones de confianza** que 
 
 Además, la entrada podría contener la clave **`ACLAuthorizationPartitionID`,** que se utiliza para identificar el **teamid, apple,** y **cdhash.**
 
-* Si se especifica el **teamid**, entonces para **acceder al valor de la entrada** sin un **aviso**, la aplicación utilizada debe tener el **mismo teamid**.
+* Si se especifica el **teamid**, entonces para **acceder al valor de la entrada** sin una **solicitud**, la aplicación utilizada debe tener el **mismo teamid**.
 * Si se especifica el **apple**, entonces la aplicación debe estar **firmada** por **Apple**.
-* Si se indica el **cdhash**, entonces la **aplicación** debe tener el **cdhash** específico.
+* Si se indica el **cdhash**, entonces la aplicación debe tener el **cdhash** específico.
 
 ### Creación de una Entrada en el Llavero
 
 Cuando se crea una **nueva** **entrada** utilizando **`Keychain Access.app`**, se aplican las siguientes reglas:
 
 * Todas las aplicaciones pueden encriptar.
-* **Ninguna aplicación** puede exportar/desencriptar (sin solicitar permiso al usuario).
+* **Ninguna aplicación** puede exportar/desencriptar (sin solicitar al usuario).
 * Todas las aplicaciones pueden ver la comprobación de integridad.
 * Ninguna aplicación puede cambiar las ACLs.
 * El **partitionID** se establece en **`apple`**.
@@ -72,7 +73,7 @@ Cuando se crea una **nueva** **entrada** utilizando **`Keychain Access.app`**, s
 Cuando una **aplicación crea una entrada en el llavero**, las reglas son ligeramente diferentes:
 
 * Todas las aplicaciones pueden encriptar.
-* Solo la **aplicación creadora** (o cualquier otra aplicación añadida explícitamente) puede exportar/desencriptar (sin solicitar permiso al usuario).
+* Solo la **aplicación creadora** (o cualquier otra aplicación añadida explícitamente) puede exportar/desencriptar (sin solicitar al usuario).
 * Todas las aplicaciones pueden ver la comprobación de integridad.
 * Ninguna aplicación puede cambiar las ACLs.
 * El **partitionID** se establece en **`teamid:[teamID aquí]`**.
@@ -93,7 +94,7 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-La **enumeración y volcado del llavero** de secretos que **no generará un aviso** se puede hacer con la herramienta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+La **enumeración y volcado de contraseñas** del llavero que **no generará un aviso** se puede hacer con la herramienta [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
 Listar y obtener **información** sobre cada entrada del llavero:
@@ -122,23 +123,23 @@ Exportar los datos:
 Y estos son los **requisitos** para poder **exportar un secreto sin un aviso**:
 
 * Si hay **1 o más aplicaciones de confianza** listadas:
-* Necesitas las **autorizaciones apropiadas** (**`Nil`**, o ser **parte** de la lista permitida de aplicaciones en la autorización para acceder a la información secreta)
-* Necesitas que la firma de código coincida con **PartitionID**
-* Necesitas que la firma de código coincida con la de una **aplicación de confianza** (o ser miembro del grupo KeychainAccessGroup correcto)
+* Necesita las **autorizaciones** apropiadas (**`Nil`**, o ser **parte** de la lista permitida de aplicaciones en la autorización para acceder a la información secreta)
+* Necesita que la firma del código coincida con **PartitionID**
+* Necesita que la firma del código coincida con la de una **aplicación de confianza** (o ser miembro del grupo KeychainAccessGroup correcto)
 * Si **todas las aplicaciones son de confianza**:
-* Necesitas las **autorizaciones apropiadas**
-* Necesitas que la firma de código coincida con **PartitionID**
+* Necesita las **autorizaciones** apropiadas
+* Necesita que la firma del código coincida con **PartitionID**
 * Si no hay **PartitionID**, entonces esto no es necesario
 
 {% hint style="danger" %}
 Por lo tanto, si hay **1 aplicación listada**, necesitas **inyectar código en esa aplicación**.
 
-Si se indica **apple** en el **partitionID**, podrías acceder con **`osascript`** a cualquier cosa que confíe en todas las aplicaciones con apple en el partitionID. **`Python`** también podría ser utilizado para esto.
+Si se indica **apple** en el **PartitionID**, podrías acceder con **`osascript`** a cualquier cosa que confíe en todas las aplicaciones con apple en el PartitionID. **`Python`** también podría ser usado para esto.
 {% endhint %}
 
 ### Dos atributos adicionales
 
-* **Invisible**: Es un indicador booleano para **ocultar** la entrada de la aplicación **UI** del llavero
+* **Invisible**: Es un indicador booleano para **ocultar** la entrada de la aplicación del llavero **UI**
 * **General**: Es para almacenar **metadatos** (por lo que NO ESTÁ CIFRADO)
 * Microsoft estaba almacenando en texto plano todos los tokens de actualización para acceder a puntos finales sensibles.
 
@@ -150,7 +151,7 @@ Si se indica **apple** en el **partitionID**, podrías acceder con **`osascript`
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares de robo**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
 El objetivo principal de WhiteIntel es combatir las tomas de cuentas y los ataques de ransomware resultantes de malwares que roban información.
 
@@ -158,16 +159,17 @@ Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita**
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**oficial mercancía de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

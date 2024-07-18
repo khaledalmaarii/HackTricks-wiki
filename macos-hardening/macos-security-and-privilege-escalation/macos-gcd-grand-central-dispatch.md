@@ -1,24 +1,25 @@
 # macOS GCD - Grand Central Dispatch
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* ¡Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
 
 ## Información Básica
 
 **Grand Central Dispatch (GCD),** también conocido como **libdispatch** (`libdispatch.dyld`), está disponible tanto en macOS como en iOS. Es una tecnología desarrollada por Apple para optimizar el soporte de aplicaciones para la ejecución concurrente (multihilo) en hardware multinúcleo.
 
-**GCD** proporciona y gestiona **colas FIFO** a las que tu aplicación puede **enviar tareas** en forma de **objetos de bloque**. Los bloques enviados a las colas de despacho son **ejecutados en un grupo de hilos** totalmente gestionado por el sistema. GCD crea automáticamente hilos para ejecutar las tareas en las colas de despacho y programa esas tareas para que se ejecuten en los núcleos disponibles.
+**GCD** proporciona y gestiona **colas FIFO** a las que tu aplicación puede **enviar tareas** en forma de **objetos de bloque**. Los bloques enviados a las colas de despacho son **ejecutados en un grupo de hilos** completamente gestionados por el sistema. GCD crea automáticamente hilos para ejecutar las tareas en las colas de despacho y programa esas tareas para que se ejecuten en los núcleos disponibles.
 
 {% hint style="success" %}
 En resumen, para ejecutar código en **paralelo**, los procesos pueden enviar **bloques de código a GCD**, que se encargará de su ejecución. Por lo tanto, los procesos no crean nuevos hilos; **GCD ejecuta el código dado con su propio grupo de hilos** (que puede aumentar o disminuir según sea necesario).
@@ -32,13 +33,13 @@ Un bloque es una **sección de código autocontenida** (como una función con ar
 Sin embargo, a nivel de compilador los bloques no existen, son `os_object`s. Cada uno de estos objetos está formado por dos estructuras:
 
 * **literal de bloque**:&#x20;
-* Comienza con el campo **`isa`**, que apunta a la clase del bloque:
+* Comienza con el campo **`isa`**, apuntando a la clase del bloque:
 * `NSConcreteGlobalBlock` (bloques de `__DATA.__const`)
 * `NSConcreteMallocBlock` (bloques en el montón)
 * `NSConcreateStackBlock` (bloques en la pila)
-* Tiene **`flags`** (indicando los campos presentes en el descriptor del bloque) y algunos bytes reservados
+* Tiene **`flags`** (indicando los campos presentes en el descriptor de bloque) y algunos bytes reservados
 * El puntero a la función a llamar
-* Un puntero al descriptor del bloque
+* Un puntero al descriptor de bloque
 * Variables importadas del bloque (si las hay)
 * **descriptor de bloque**: Su tamaño depende de los datos presentes (como se indica en las banderas anteriores)
 * Tiene algunos bytes reservados
@@ -50,7 +51,7 @@ Sin embargo, a nivel de compilador los bloques no existen, son `os_object`s. Cad
 
 Una cola de despacho es un objeto nombrado que proporciona el orden FIFO de bloques para su ejecución.
 
-Los bloques se establecen en colas para ser ejecutados, y estas admiten 2 modos: `DISPATCH_QUEUE_SERIAL` y `DISPATCH_QUEUE_CONCURRENT`. Por supuesto, la **cola serial** **no tendrá problemas de condición de carrera** ya que un bloque no se ejecutará hasta que el anterior haya terminado. Pero **el otro tipo de cola podría tenerlo**.
+Los bloques se establecen en colas para ser ejecutados, y estas admiten 2 modos: `DISPATCH_QUEUE_SERIAL` y `DISPATCH_QUEUE_CONCURRENT`. Por supuesto, el **serial** no tendrá problemas de condición de carrera ya que un bloque no se ejecutará hasta que el anterior haya terminado. Pero **el otro tipo de cola podría tenerlo**.
 
 Colas predeterminadas:
 
@@ -74,7 +75,7 @@ Ten en cuenta que será el sistema quien decida **qué hilos manejan qué colas 
 
 #### Atributos
 
-Al crear una cola con **`dispatch_queue_create`** el tercer argumento es un `dispatch_queue_attr_t`, que suele ser `DISPATCH_QUEUE_SERIAL` (que en realidad es NULL) o `DISPATCH_QUEUE_CONCURRENT` que es un puntero a una estructura `dispatch_queue_attr_t` que permite controlar algunos parámetros de la cola.
+Al crear una cola con **`dispatch_queue_create`** el tercer argumento es un `dispatch_queue_attr_t`, que generalmente es `DISPATCH_QUEUE_SERIAL` (que en realidad es NULL) o `DISPATCH_QUEUE_CONCURRENT` que es un puntero a una estructura `dispatch_queue_attr_t` que permite controlar algunos parámetros de la cola.
 
 ### Objetos de Despacho
 
@@ -95,10 +96,10 @@ Hay varios objetos que libdispatch utiliza y las colas y bloques son solo 2 de e
 
 En Objetive-C hay diferentes funciones para enviar un bloque para ser ejecutado en paralelo:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Envía un bloque para su ejecución asíncrona en una cola de despacho y devuelve inmediatamente.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Envía un objeto de bloque para su ejecución y devuelve después de que ese bloque termine de ejecutarse.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Envía un bloque para su ejecución asíncrona en una cola de despacho y retorna inmediatamente.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Envía un objeto de bloque para su ejecución y retorna después de que ese bloque termine de ejecutarse.
 * [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Ejecuta un objeto de bloque solo una vez durante la vida útil de una aplicación.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Envía un elemento de trabajo para su ejecución y devuelve solo después de que termine de ejecutarse. A diferencia de [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), esta función respeta todos los atributos de la cola cuando ejecuta el bloque.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Envía un elemento de trabajo para su ejecución y retorna solo después de que termine de ejecutarse. A diferencia de [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), esta función respeta todos los atributos de la cola cuando ejecuta el bloque.
 
 Estas funciones esperan estos parámetros: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
@@ -113,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-Y este es un ejemplo de cómo usar **paralelismo** con **`dispatch_async`**:
+Y este es un ejemplo para usar **paralelismo** con **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -211,7 +212,7 @@ Entonces, si deseas que las entienda, simplemente puedes **declararlas**:
 Luego, encuentra un lugar en el código donde se **utilicen**:
 
 {% hint style="success" %}
-Ten en cuenta todas las referencias hechas a "block" para entender cómo podrías darte cuenta de que se está utilizando la estructura.
+Ten en cuenta todas las referencias hechas a "block" para entender cómo podrías descubrir que se está utilizando la estructura.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (1164).png" alt="" width="563"><figcaption></figcaption></figure>
@@ -227,3 +228,18 @@ Ghidra reescribirá automáticamente todo:
 ## Referencias
 
 * [**\*OS Internals, Volumen I: Modo de usuario. Por Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Apoya a HackTricks</summary>
+
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}

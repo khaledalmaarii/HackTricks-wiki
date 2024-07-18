@@ -1,18 +1,19 @@
 # Volcado de memoria de macOS
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) en github.
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
@@ -20,7 +21,7 @@ Otras formas de apoyar a HackTricks:
 
 [**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares de robo**.
 
-El objetivo principal de WhiteIntel es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
+El objetivo principal de WhiteIntel es combatir tomas de cuentas y ataques de ransomware resultantes de malwares que roban información.
 
 Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
@@ -32,11 +33,11 @@ Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
 ### Archivos de intercambio
 
-Los archivos de intercambio, como `/private/var/vm/swapfile0`, sirven como **cachés cuando la memoria física está llena**. Cuando no hay más espacio en la memoria física, sus datos se transfieren a un archivo de intercambio y luego se devuelven a la memoria física según sea necesario. Pueden estar presentes varios archivos de intercambio, con nombres como swapfile0, swapfile1, y así sucesivamente.
+Los archivos de intercambio, como `/private/var/vm/swapfile0`, sirven como **cachés cuando la memoria física está llena**. Cuando ya no hay espacio en la memoria física, sus datos se transfieren a un archivo de intercambio y luego se devuelven a la memoria física según sea necesario. Pueden estar presentes varios archivos de intercambio, con nombres como swapfile0, swapfile1, y así sucesivamente.
 
 ### Imagen de hibernación
 
-El archivo ubicado en `/private/var/vm/sleepimage` es crucial durante el **modo de hibernación**. **Los datos de la memoria se almacenan en este archivo cuando macOS hiberna**. Al despertar la computadora, el sistema recupera los datos de la memoria de este archivo, lo que permite al usuario continuar donde lo dejó.
+El archivo ubicado en `/private/var/vm/sleepimage` es crucial durante el **modo de hibernación**. **Los datos de la memoria se almacenan en este archivo cuando macOS hiberna**. Al despertar la computadora, el sistema recupera los datos de la memoria de este archivo, permitiendo al usuario continuar donde lo dejó.
 
 Cabe destacar que en los sistemas MacOS modernos, este archivo suele estar encriptado por razones de seguridad, lo que dificulta la recuperación.
 
@@ -44,7 +45,7 @@ Cabe destacar que en los sistemas MacOS modernos, este archivo suele estar encri
 
 ### Registros de presión de memoria
 
-Otro archivo importante relacionado con la memoria en los sistemas MacOS es el **registro de presión de memoria**. Estos registros se encuentran en `/var/log` y contienen información detallada sobre el uso de la memoria del sistema y los eventos de presión. Pueden ser particularmente útiles para diagnosticar problemas relacionados con la memoria o comprender cómo el sistema gestiona la memoria con el tiempo.
+Otro archivo importante relacionado con la memoria en los sistemas MacOS son los **registros de presión de memoria**. Estos registros se encuentran en `/var/log` y contienen información detallada sobre el uso de memoria del sistema y eventos de presión. Pueden ser particularmente útiles para diagnosticar problemas relacionados con la memoria o comprender cómo el sistema gestiona la memoria con el tiempo.
 
 ## Volcado de memoria con osxpmem
 
@@ -58,16 +59,16 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 #Dump aff4 format
 sudo osxpmem.app/osxpmem -o /tmp/dump_mem.aff4
 ```
-Si encuentras este error: `osxpmem.app/MacPmem.kext no se pudo cargar - (libkern/kext) fallo de autenticación (propietario/permisos de archivo); verifica los registros del sistema/kernel en busca de errores o intenta con kextutil(8)` Puedes solucionarlo haciendo:
+Si encuentras este error: `osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` Puedes solucionarlo haciendo:
 ```bash
 sudo cp -r osxpmem.app/MacPmem.kext "/tmp/"
 sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**Otros errores** podrían ser solucionados permitiendo la carga del kext en "Seguridad y privacidad --> General", simplemente **permítelo**.
+**Otros errores** podrían ser solucionados permitiendo la carga del kexto en "Seguridad y privacidad --> General", simplemente **permítelo**.
 
-También puedes usar este **oneliner** para descargar la aplicación, cargar el kext y volcar la memoria:
+También puedes usar este **oneliner** para descargar la aplicación, cargar el kexto y volcar la memoria:
 
 {% code overflow="wrap" %}
 ```bash
@@ -88,16 +89,17 @@ Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita**
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

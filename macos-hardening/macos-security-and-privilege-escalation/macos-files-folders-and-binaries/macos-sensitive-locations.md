@@ -1,43 +1,44 @@
 # Ubicaciones Sensibles de macOS y Demonios Interesantes
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Contraseñas
 
-### Contraseñas de Sombra
+### Contraseñas en Sombra
 
-La contraseña de sombra se almacena con la configuración del usuario en plists ubicados en **`/var/db/dslocal/nodes/Default/users/`**.\
-El siguiente oneliner se puede utilizar para volcar **toda la información sobre los usuarios** (incluida la información del hash):
+La contraseña en sombra se almacena con la configuración del usuario en plists ubicados en **`/var/db/dslocal/nodes/Default/users/`**.\
+El siguiente comando en una línea se puede utilizar para volcar **toda la información sobre los usuarios** (incluida la información del hash):
+
+{% code overflow="wrap" %}
 ```bash
 for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"; defaults read "$l"; fi; done
 ```
 {% endcode %}
 
-[**Scripts like this one**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) o [**este otro**](https://github.com/octomagon/davegrohl.git) se pueden utilizar para transformar el hash al **formato** de **hashcat**.
+[**Scripts like this one**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) o [**este otro**](https://github.com/octomagon/davegrohl.git) se pueden utilizar para transformar el hash al **formato hashcat**.
 
-Una alternativa en una sola línea que volcará las credenciales de todas las cuentas que no son de servicio en formato hashcat `-m 7100` (macOS PBKDF2-SHA512):
+Una alternativa en una sola línea que volcará credenciales de todas las cuentas que no son de servicio en formato hashcat `-m 7100` (macOS PBKDF2-SHA512):
 
 {% code overflow="wrap" %}
 ```bash
 sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex "[^_]*"); do plutil -extract name.0 raw $i | awk "{printf \$0\":\$ml\$\"}"; for j in {iterations,salt,entropy}; do l=$(k=$(plutil -extract ShadowHashData.0 raw $i) && base64 -d <<< $k | plutil -extract SALTED-SHA512-PBKDF2.$j raw -); if [[ $j == iterations ]]; then echo -n $l; else base64 -d <<< $l | xxd -p -c 0 | awk "{printf \"$\"\$0}"; fi; done; echo ""; done'
 ```
-{% endcode %}
-
 ### Volcado de llavero
 
-Tenga en cuenta que al utilizar el binario de seguridad para **volcar las contraseñas descifradas**, se le pedirá al usuario que permita esta operación en varias ocasiones.
+Tenga en cuenta que al utilizar el binario de seguridad para **volcar las contraseñas descifradas**, se mostrarán varias solicitudes pidiendo al usuario que permita esta operación.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -49,7 +50,7 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Según este comentario [juuso/keychaindump#10 (comentario)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) parece que estas herramientas ya no funcionan en Big Sur.
+Basado en este comentario [juuso/keychaindump#10 (comentario)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) parece que estas herramientas ya no funcionan en Big Sur.
 {% endhint %}
 
 ### Descripción de Keychaindump
@@ -68,7 +69,7 @@ sudo ./keychaindump
 
 [**Chainbreaker**](https://github.com/n0fate/chainbreaker) se puede utilizar para extraer los siguientes tipos de información de un llavero de OSX de manera forense:
 
-* Contraseña de llavero con hash, adecuada para crackear con [hashcat](https://hashcat.net/hashcat/) o [John the Ripper](https://www.openwall.com/john/)
+* Contraseña de llavero con hash, adecuada para descifrar con [hashcat](https://hashcat.net/hashcat/) o [John the Ripper](https://www.openwall.com/john/)
 * Contraseñas de Internet
 * Contraseñas genéricas
 * Claves privadas
@@ -125,7 +126,7 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 El archivo **kcpassword** es un archivo que contiene la **contraseña de inicio de sesión del usuario**, pero solo si el propietario del sistema ha **habilitado el inicio de sesión automático**. Por lo tanto, el usuario iniciará sesión automáticamente sin que se le pida una contraseña (lo cual no es muy seguro).
 
-La contraseña se almacena en el archivo **`/etc/kcpassword`** xor con la clave **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Si la contraseña de los usuarios es más larga que la clave, la clave se reutilizará.\
+La contraseña se almacena en el archivo **`/etc/kcpassword`** xored con la clave **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Si la contraseña de los usuarios es más larga que la clave, la clave se reutilizará.\
 Esto hace que la contraseña sea bastante fácil de recuperar, por ejemplo, utilizando scripts como [**este**](https://gist.github.com/opshope/32f65875d45215c3677d). 
 
 ## Información interesante en bases de datos
@@ -142,7 +143,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Puedes encontrar los datos de Notificaciones en `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-La mayor parte de la información interesante estará en **blob**. Por lo tanto, necesitarás **extraer** ese contenido y **transformarlo** en algo **legible** para humanos o usar **`strings`**. Para acceder a ello, puedes hacer:
+La mayor parte de la información interesante estará en **blob**. Por lo tanto, necesitarás **extraer** ese contenido y **transformarlo** a un formato **legible** para humanos o usar **`strings`**. Para acceder a ello, puedes hacer:
 ```bash
 cd $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/
 strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i -A4 slack
@@ -174,7 +175,7 @@ En macOS, la herramienta de línea de comandos **`defaults`** se puede utilizar 
 
 ### Notificaciones de Darwin
 
-El demonio principal para las notificaciones es **`/usr/sbin/notifyd`**. Para recibir notificaciones, los clientes deben registrarse a través del puerto Mach `com.apple.system.notification_center` (verificarlos con `sudo lsmp -p <pid notifyd>`). El demonio es configurable con el archivo `/etc/notify.conf`.
+El demonio principal para las notificaciones es **`/usr/sbin/notifyd`**. Para recibir notificaciones, los clientes deben registrarse a través del puerto Mach `com.apple.system.notification_center` (verificar con `sudo lsmp -p <pid notifyd>`). El demonio es configurable con el archivo `/etc/notify.conf`.
 
 Los nombres utilizados para las notificaciones son notaciones únicas de DNS inverso y cuando se envía una notificación a uno de ellos, el cliente o clientes que han indicado que pueden manejarla la recibirán.
 
@@ -196,12 +197,12 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Centro de Notificaciones Distribuido
 
-El **Centro de Notificaciones Distribuido** cuyo binario principal es **`/usr/sbin/distnoted`**, es otra forma de enviar notificaciones. Expone algunos servicios XPC y realiza algunas verificaciones para intentar verificar clientes.
+El **Centro de Notificaciones Distribuido**, cuyo binario principal es **`/usr/sbin/distnoted`**, es otra forma de enviar notificaciones. Expone algunos servicios XPC y realiza algunas verificaciones para intentar verificar clientes.
 
 ### Notificaciones Push de Apple (APN)
 
 En este caso, las aplicaciones pueden registrarse para **temas**. El cliente generará un token contactando a los servidores de Apple a través de **`apsd`**.\
-Luego, los proveedores también habrán generado un token y podrán conectarse con los servidores de Apple para enviar mensajes a los clientes. Estos mensajes serán recibidos localmente por **`apsd`** que transmitirá la notificación a la aplicación que la espera.
+Luego, los proveedores también habrán generado un token y podrán conectarse con los servidores de Apple para enviar mensajes a los clientes. Estos mensajes serán recibidos localmente por **`apsd`**, que retransmitirá la notificación a la aplicación que la espera.
 
 Las preferencias se encuentran en `/Library/Preferences/com.apple.apsd.plist`.
 
@@ -209,7 +210,7 @@ Hay una base de datos local de mensajes ubicada en macOS en `/Library/Applicatio
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
-También es posible obtener información sobre el daemon y las conexiones usando:
+También es posible obtener información sobre el demonio y las conexiones usando:
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```

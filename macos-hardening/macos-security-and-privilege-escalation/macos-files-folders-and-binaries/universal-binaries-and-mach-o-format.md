@@ -1,18 +1,19 @@
-# Binarios universales de macOS y Formato Mach-O
+# macOS Binarios universales y Formato Mach-O
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 ## Información Básica
 
@@ -47,7 +48,7 @@ uint32_t	align;		/* alineación como una potencia de 2 */
 };
 </code></pre>
 
-El encabezado tiene los bytes **mágicos** seguidos del **número** de **arquitecturas** que el archivo **contiene** (`nfat_arch`) y cada arquitectura tendrá una estructura `fat_arch`.
+El encabezado tiene los bytes **mágicos** seguidos por el **número** de **arquitecturas** que el archivo **contiene** (`nfat_arch`) y cada arquitectura tendrá una estructura `fat_arch`.
 
 Verifícalo con:
 
@@ -57,23 +58,23 @@ Verifícalo con:
 /bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
 
 % otool -f -v /bin/ls
-Fat headers
+Encabezados Fat
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>architecture x86_64
+</strong><strong>arquitectura x86_64
 </strong>    cputype CPU_TYPE_X86_64
 cpusubtype CPU_SUBTYPE_X86_64_ALL
 capabilities 0x0
-<strong>    offset 16384
-</strong><strong>    size 72896
-</strong>    align 2^14 (16384)
-<strong>architecture arm64e
+<strong>    desplazamiento 16384
+</strong><strong>    tamaño 72896
+</strong>    alineación 2^14 (16384)
+<strong>arquitectura arm64e
 </strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
 capabilities PTR_AUTH_VERSION USERSPACE 0
-<strong>    offset 98304
-</strong><strong>    size 88816
-</strong>    align 2^14 (16384)
+<strong>    desplazamiento 98304
+</strong><strong>    tamaño 88816
+</strong>    alineación 2^14 (16384)
 </code></pre>
 
 o utilizando la herramienta [Mach-O View](https://sourceforge.net/projects/machoview/):
@@ -113,7 +114,7 @@ uint32_t	reserved;	/* reserved */
 ```
 ### Tipos de Archivos Mach-O
 
-Existen diferentes tipos de archivos, puedes encontrar su definición en el [**código fuente, por ejemplo aquí**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h). Los más importantes son:
+Existen diferentes tipos de archivos, puedes encontrar su definición en el [**código fuente por ejemplo aquí**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h). Los más importantes son:
 
 * `MH_OBJECT`: Archivo de objeto relocatable (productos intermedios de la compilación, aún no son ejecutables).
 * `MH_EXECUTE`: Archivos ejecutables.
@@ -148,8 +149,8 @@ El código fuente también define varias banderas útiles para cargar biblioteca
 * `MH_BINDS_TO_WEAK`: Binario utiliza símbolos débiles
 * `MH_ALLOW_STACK_EXECUTION`: Hacer la pila ejecutable
 * `MH_NO_REEXPORTED_DYLIBS`: Biblioteca sin comandos LC\_REEXPORT
-* `MH_PIE`: Ejecutable Independiente de la Posición
-* `MH_HAS_TLV_DESCRIPTORS`: Hay una sección con variables locales de subprocesos
+* `MH_PIE`: Ejecutable de posición independiente
+* `MH_HAS_TLV_DESCRIPTORS`: Hay una sección con variables locales de hilo
 * `MH_NO_HEAP_EXECUTION`: Sin ejecución para páginas de montón/datos
 * `MH_HAS_OBJC`: Binario tiene secciones de Objective-C
 * `MH_SIM_SUPPORT`: Soporte para simulador
@@ -188,7 +189,7 @@ uint32_t	cmdsize;	/* incluye el tamaño de las estructuras section_64 */
 char		segname[16];	/* nombre del segmento */
 uint64_t	vmaddr;		/* dirección de memoria de este segmento */
 uint64_t	vmsize;		/* tamaño de memoria de este segmento */
-uint64_t	fileoff;	/* desplazamiento de archivo de este segmento */
+uint64_t	fileoff;	/* desplazamiento en el archivo de este segmento */
 uint64_t	filesize;	/* cantidad a mapear desde el archivo */
 int32_t		maxprot;	/* protección VM máxima */
 int32_t		initprot;	/* protección VM inicial */
@@ -238,12 +239,12 @@ Segmentos comunes cargados por este cmd:
 * **`__TEXT`**: Contiene **código ejecutable** con permisos de **lectura** y **ejecución** (no escritura)**.** Secciones comunes de este segmento:
 * `__text`: Código binario compilado
 * `__const`: Datos constantes (solo lectura)
-* `__[c/u/os_log]string`: Constantes de cadena de C, Unicode u os logs
+* `__[c/u/os_log]string`: Constantes de cadena C, Unicode u os logs
 * `__stubs` y `__stubs_helper`: Involucrados durante el proceso de carga de bibliotecas dinámicas
 * `__unwind_info`: Datos de desenrollado de pila.
 * Tenga en cuenta que todo este contenido está firmado pero también marcado como ejecutable (creando más opciones para la explotación de secciones que no necesariamente requieren este privilegio, como secciones dedicadas a cadenas).
 * **`__DATA`**: Contiene datos que son **legibles** y **escribibles** (no ejecutables)**.**
-* `__got:` Tabla de Desplazamiento Global
+* `__got:` Tabla de desplazamiento global
 * `__nl_symbol_ptr`: Puntero de símbolo no perezoso (vinculado en la carga)
 * `__la_symbol_ptr`: Puntero de símbolo perezoso (vinculado en uso)
 * `__const`: Debería ser datos de solo lectura (en realidad no)
@@ -255,12 +256,12 @@ Segmentos comunes cargados por este cmd:
 * **`__LINKEDIT`**: Contiene información para el enlazador (dyld) como, símbolos, cadenas y entradas de tabla de reubicación. Es un contenedor genérico para contenidos que no están ni en `__TEXT` ni en `__DATA` y su contenido se describe en otros comandos de carga.
 * Información de dyld: Rebase, opcodes de enlace no perezoso/perezoso/débil e información de exportación
 * Inicio de funciones: Tabla de direcciones de inicio de funciones
-* Datos en Código: Islas de datos en \_\_text
-* Tabla de Símbolos: Símbolos en binario
-* Tabla de Símbolos Indirectos: Símbolos de puntero/stub
-* Tabla de Cadenas
-* Firma de Código
-* **`__OBJC`**: Contiene información utilizada por el tiempo de ejecución de Objective-C. Aunque esta información también se puede encontrar en el segmento \_\_DATA, dentro de varias secciones en \_\_objc\_\*.
+* Datos en código: Islas de datos en \_\_text
+* Tabla de símbolos: Símbolos en binario
+* Tabla de símbolos indirectos: Símbolos de puntero/stub
+* Tabla de cadenas
+* Firma de código
+* **`__OBJC`**: Contiene información utilizada por el tiempo de ejecución de Objective-C. Aunque esta información también puede encontrarse en el segmento \_\_DATA, dentro de varias secciones en \_\_objc\_\*.
 * **`__RESTRICT`**: Un segmento sin contenido con una sola sección llamada **`__restrict`** (también vacía) que asegura que al ejecutar el binario, ignorará las variables de entorno DYLD.
 
 Como se pudo ver en el código, **los segmentos también admiten banderas** (aunque no se usan mucho):
@@ -272,7 +273,7 @@ Como se pudo ver en el código, **los segmentos también admiten banderas** (aun
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** contiene el punto de entrada en el atributo **entryoff**. En el momento de carga, **dyld** simplemente **agrega** este valor a la **base del binario** (en memoria), luego **salta** a esta instrucción para comenzar la ejecución del código del binario.
+**`LC_MAIN`** contiene el punto de entrada en el atributo **entryoff**. En el momento de carga, **dyld** simplemente **agrega** este valor a la **base del binario** (en memoria), luego **salta** a esta instrucción para comenzar la ejecución del código binario.
 
 **`LC_UNIXTHREAD`** contiene los valores que deben tener los registros al iniciar el hilo principal. Esto ya fue desaprobado pero **`dyld`** todavía lo utiliza. Es posible ver los valores de los registros establecidos por esto con:
 ```
@@ -301,24 +302,24 @@ cpsr 0x00000000
 ```
 ### **`LC_CODE_SIGNATURE`**
 
-Contiene información sobre la **firma de código del archivo Mach-O**. Solo contiene un **desplazamiento** que **apunta** al **bloque de firma**. Esto suele estar al final del archivo.\
+Contiene información sobre la **firma de código del archivo Mach-O**. Solo contiene un **desplazamiento** que **apunta** al **bloque de firma**. Normalmente se encuentra al final del archivo.\
 Sin embargo, puedes encontrar información sobre esta sección en [**esta publicación de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) y en este [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-Soporte para encriptación binaria. Sin embargo, por supuesto, si un atacante logra comprometer el proceso, podrá volcar la memoria sin cifrar.
+Soporte para encriptación binaria. Sin embargo, si un atacante logra comprometer el proceso, podrá volcar la memoria sin cifrar.
 
 ### **`LC_LOAD_DYLINKER`**
 
-Contiene la **ruta al ejecutable del enlazador dinámico** que mapea bibliotecas compartidas en el espacio de direcciones del proceso. El **valor siempre está configurado en `/usr/lib/dyld`**. Es importante tener en cuenta que en macOS, el mapeo de dylib ocurre en **modo de usuario**, no en modo kernel.
+Contiene la **ruta al ejecutable del enlazador dinámico** que mapea bibliotecas compartidas en el espacio de direcciones del proceso. El **valor siempre está configurado en `/usr/lib/dyld`**. Es importante tener en cuenta que en macOS, el mapeo de dylib ocurre en **modo usuario**, no en modo kernel.
 
 ### **`LC_IDENT`**
 
-Obsoleto, pero cuando está configurado para generar volcados en caso de pánico, se crea un volcado central Mach-O y la versión del kernel se establece en el comando `LC_IDENT`.
+Obsoleto, pero cuando está configurado para generar volcados en caso de pánico, se crea un volcado principal Mach-O y la versión del kernel se establece en el comando `LC_IDENT`.
 
 ### **`LC_UUID`**
 
-UUID aleatorio. No es útil directamente, pero XNU lo almacena en caché con el resto de la información del proceso. Puede usarse en informes de fallos.
+UUID aleatorio. No es útil directamente, pero XNU lo almacena en caché con el resto de la información del proceso. Puede ser utilizado en informes de fallos.
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
@@ -355,9 +356,9 @@ otool -L /bin/ls
 ```
 Algunas bibliotecas potencialmente relacionadas con malware son:
 
-* **DiskArbitration**: Monitoreo de unidades USB
-* **AVFoundation:** Captura de audio y video
-* **CoreWLAN**: Escaneos de Wifi.
+- **DiskArbitration**: Monitoreo de unidades USB
+- **AVFoundation**: Captura de audio y video
+- **CoreWLAN**: Escaneo de Wifi.
 
 {% hint style="info" %}
 Un binario Mach-O puede contener uno o **más constructores**, que se **ejecutarán antes** de la dirección especificada en **LC\_MAIN**.\
@@ -376,9 +377,9 @@ Los datos son básicamente la parte que contiene toda la **información** que es
 
 Esto incluye:
 
-* **Tabla de funciones:** Que contiene información sobre las funciones del programa.
-* **Tabla de símbolos**: Que contiene información sobre la función externa utilizada por el binario
-* También podría contener funciones internas, nombres de variables y más.
+- **Tabla de funciones**: Que contiene información sobre las funciones del programa.
+- **Tabla de símbolos**: Que contiene información sobre la función externa utilizada por el binario
+- También podría contener funciones internas, nombres de variables y más.
 
 Para verificarlo, puedes usar la herramienta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
@@ -392,20 +393,20 @@ size -m /bin/ls
 
 En el segmento `__TEXT` (r-x):
 
-* `__objc_classname`: Nombres de las clases (cadenas de texto)
-* `__objc_methname`: Nombres de los métodos (cadenas de texto)
-* `__objc_methtype`: Tipos de los métodos (cadenas de texto)
+- `__objc_classname`: Nombres de clases (cadenas)
+- `__objc_methname`: Nombres de métodos (cadenas)
+- `__objc_methtype`: Tipos de métodos (cadenas)
 
 En el segmento `__DATA` (rw-):
 
-* `__objc_classlist`: Punteros a todas las clases de Objetive-C
-* `__objc_nlclslist`: Punteros a clases de Objetive-C no perezosas
-* `__objc_catlist`: Puntero a Categorías
-* `__objc_nlcatlist`: Puntero a Categorías no perezosas
-* `__objc_protolist`: Lista de protocolos
-* `__objc_const`: Datos constantes
-* `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+- `__objc_classlist`: Punteros a todas las clases de Objetive-C
+- `__objc_nlclslist`: Punteros a clases de Objetive-C no perezosas
+- `__objc_catlist`: Puntero a Categorías
+- `__objc_nlcatlist`: Puntero a Categorías no perezosas
+- `__objc_protolist`: Lista de protocolos
+- `__objc_const`: Datos constantes
+- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
 
 ## Swift
 
-* `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`
+- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

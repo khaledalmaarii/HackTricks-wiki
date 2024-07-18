@@ -1,26 +1,27 @@
 # Montajes Sensibles
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**ropa oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-La exposición de `/proc` y `/sys` sin un aislamiento de espacio de nombres adecuado introduce riesgos de seguridad significativos, incluida la ampliación de la superficie de ataque y la divulgación de información. Estos directorios contienen archivos sensibles que, si están mal configurados o son accedidos por un usuario no autorizado, pueden llevar a la fuga del contenedor, modificación del host o proporcionar información que facilite ataques adicionales. Por ejemplo, montar incorrectamente `-v /proc:/host/proc` puede eludir la protección de AppArmor debido a su naturaleza basada en la ruta, dejando `/host/proc` desprotegido.
+La exposición de `/proc` y `/sys` sin un aislamiento de espacio de nombres adecuado introduce riesgos de seguridad significativos, incluida la ampliación de la superficie de ataque y la divulgación de información. Estos directorios contienen archivos sensibles que, si están mal configurados o son accedidos por un usuario no autorizado, pueden llevar a la fuga del contenedor, modificación del host o proporcionar información que facilite ataques adicionales. Por ejemplo, montar incorrectamente `-v /proc:/host/proc` puede eludir la protección de AppArmor debido a su naturaleza basada en rutas, dejando `/host/proc` desprotegido.
 
-**Puedes encontrar más detalles de cada vulnerabilidad potencial en** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
+**Puedes encontrar más detalles de cada posible vulnerabilidad en** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
 ## Vulnerabilidades de procfs
 
@@ -66,7 +67,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acceso a modprobe
 * Permite registrar intérpretes para formatos binarios no nativos basados en su número mágico.
 * Puede llevar a la escalada de privilegios o acceso a shell de root si `/proc/sys/fs/binfmt_misc/register` es escribible.
 * Explicación y explotación relevante:
-* [Rootkit de pobre hombre a través de binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* [Rootkit casero a través de binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutorial detallado: [Enlace al video](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Otros en `/proc`
@@ -106,19 +107,19 @@ echo b > /proc/sysrq-trigger # Reinicia el host
 #### **`/proc/kcore`**
 
 * Representa la memoria física del sistema en formato core ELF.
-* La lectura puede filtrar el contenido de la memoria del host y de otros contenedores.
-* Un tamaño de archivo grande puede provocar problemas de lectura o bloqueos de software.
+* La lectura puede filtrar contenidos de memoria del host y de otros contenedores.
+* Un tamaño de archivo grande puede causar problemas de lectura o bloqueos de software.
 * Uso detallado en [Volcado de /proc/kcore en 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 #### **`/proc/kmem`**
 
 * Interfaz alternativa para `/dev/kmem`, que representa la memoria virtual del kernel.
-* Permite la lectura y escritura, por lo tanto, la modificación directa de la memoria del kernel.
+* Permite lectura y escritura, por lo tanto, modificación directa de la memoria del kernel.
 
 #### **`/proc/mem`**
 
 * Interfaz alternativa para `/dev/mem`, que representa la memoria física.
-* Permite la lectura y escritura, la modificación de toda la memoria requiere resolver direcciones virtuales a físicas.
+* Permite lectura y escritura, la modificación de toda la memoria requiere resolver direcciones virtuales a físicas.
 
 #### **`/proc/sched_debug`**
 
@@ -128,14 +129,14 @@ echo b > /proc/sysrq-trigger # Reinicia el host
 #### **`/proc/[pid]/mountinfo`**
 
 * Proporciona información sobre los puntos de montaje en el espacio de nombres de montaje del proceso.
-* Expone la ubicación del `rootfs` del contenedor o de la imagen.
+* Expone la ubicación del `rootfs` o imagen del contenedor.
 
 ### Vulnerabilidades de `/sys`
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Utilizado para manejar los `uevents` de dispositivos del kernel.
-* Escribir en `/sys/kernel/uevent_helper` puede ejecutar scripts arbitrarios al activar `uevent` triggers.
+* Utilizado para manejar `uevents` de dispositivos del kernel.
+* Escribir en `/sys/kernel/uevent_helper` puede ejecutar scripts arbitrarios al activar `uevents`.
 *   **Ejemplo de Explotación**: %%%bash
 
 #### Crea un payload
@@ -159,7 +160,7 @@ echo change > /sys/class/mem/null/uevent
 cat /output %%%
 #### **`/sys/class/thermal`**
 
-* Controla la configuración de temperatura, potencialmente causando ataques DoS o daños físicos.
+* Controla la configuración de temperatura, potencialmente causando ataques de denegación de servicio o daños físicos.
 
 #### **`/sys/kernel/vmcoreinfo`**
 
@@ -173,7 +174,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` y `/sys/firmware/efi/efivars`**
 
 * Expone interfaces para interactuar con variables EFI en la NVRAM.
-* Una mala configuración o explotación puede llevar a laptops inutilizadas o máquinas host no arrancables.
+* La mala configuración o explotación puede llevar a laptops inutilizables o máquinas host no arrancables.
 
 #### **`/sys/kernel/debug`**
 
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

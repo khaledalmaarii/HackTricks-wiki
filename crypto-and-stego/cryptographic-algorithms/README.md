@@ -2,23 +2,24 @@
 
 ## Algoritmos Criptográficos/Compresión
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ayuda a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) en GitHub.
 
 </details>
+{% endhint %}
 
 ## Identificación de Algoritmos
 
-Si te encuentras con un código **que utiliza desplazamientos a la derecha e izquierda, xors y varias operaciones aritméticas** es altamente probable que sea la implementación de un **algoritmo criptográfico**. Aquí se mostrarán algunas formas de **identificar el algoritmo utilizado sin necesidad de revertir cada paso**.
+Si te encuentras con un código **que utiliza desplazamientos a la derecha e izquierda, XOR y varias operaciones aritméticas**, es altamente probable que sea la implementación de un **algoritmo criptográfico**. Aquí se mostrarán algunas formas de **identificar el algoritmo utilizado sin necesidad de revertir cada paso**.
 
 ### Funciones de API
 
@@ -36,7 +37,7 @@ Comprime y descomprime un búfer de datos dado.
 
 **CryptAcquireContext**
 
-Desde [la documentación](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): La función **CryptAcquireContext** se utiliza para adquirir un identificador a un contenedor de clave particular dentro de un proveedor de servicios criptográficos (CSP) específico. **Este identificador devuelto se utiliza en llamadas a funciones de CryptoAPI** que utilizan el CSP seleccionado.
+Según [la documentación](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): La función **CryptAcquireContext** se utiliza para adquirir un identificador a un contenedor de claves particular dentro de un proveedor de servicios criptográficos (CSP) específico. **Este identificador devuelto se utiliza en llamadas a funciones de CryptoAPI** que utilizan el CSP seleccionado.
 
 **CryptCreateHash**
 
@@ -49,7 +50,7 @@ Consulta aquí la tabla de algoritmos posibles y sus valores asignados: [https:/
 
 ### Constantes de Código
 
-A veces es realmente fácil identificar un algoritmo gracias al hecho de que necesita utilizar un valor especial y único.
+A veces es muy fácil identificar un algoritmo gracias al hecho de que necesita utilizar un valor especial y único.
 
 ![](<../../.gitbook/assets/image (833).png>)
 
@@ -62,7 +63,7 @@ Puedes buscar cualquiera de las otras constantes y obtendrás (probablemente) el
 
 ### Información de Datos
 
-Si el código no tiene ninguna constante significativa, puede estar **cargando información desde la sección .data**.\
+Si el código no tiene ninguna constante significativa, puede estar **cargando información de la sección .data**.\
 Puedes acceder a esos datos, **agrupar el primer dword** y buscarlo en Google como hemos hecho en la sección anterior:
 
 ![](<../../.gitbook/assets/image (531).png>)
@@ -76,7 +77,7 @@ En este caso, si buscas **0xA56363C6** puedes encontrar que está relacionado co
 Está compuesto por 3 partes principales:
 
 * **Etapa de Inicialización/**: Crea una **tabla de valores de 0x00 a 0xFF** (256 bytes en total, 0x100). Esta tabla comúnmente se llama **Caja de Sustitución** (o SBox).
-* **Etapa de Mezcla**: Recorrerá la tabla creada anteriormente (bucle de 0x100 iteraciones, nuevamente) modificando cada valor con bytes **semi-aleatorios**. Para crear estos bytes semi-aleatorios, se utiliza la **clave RC4**. Las **claves RC4** pueden tener **entre 1 y 256 bytes de longitud**, sin embargo, generalmente se recomienda que sea superior a 5 bytes. Comúnmente, las claves RC4 tienen una longitud de 16 bytes.
+* **Etapa de Mezcla**: Recorrerá **la tabla** creada anteriormente (bucle de 0x100 iteraciones, nuevamente) modificando cada valor con bytes **semi-aleatorios**. Para crear estos bytes semi-aleatorios, se utiliza la **clave RC4**. Las **claves RC4** pueden tener **entre 1 y 256 bytes de longitud**, sin embargo, generalmente se recomienda que sea superior a 5 bytes. Comúnmente, las claves RC4 tienen una longitud de 16 bytes.
 * **Etapa XOR**: Finalmente, el texto plano o cifrado se **XORea con los valores creados anteriormente**. La función para cifrar y descifrar es la misma. Para esto, se realizará un **bucle a través de los 256 bytes creados** tantas veces como sea necesario. Esto suele reconocerse en un código descompilado con un **%256 (módulo 256)**.
 
 {% hint style="info" %}
@@ -116,12 +117,12 @@ Está compuesto por 3 partes principales:
 
 ### Identificación
 
-En la siguiente imagen, observa cómo se utiliza la constante **0x9E3779B9** (nota que esta constante también es utilizada por otros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
+En la siguiente imagen, observa cómo se utiliza la constante **0x9E3779B9** (nota que esta constante también se utiliza en otros algoritmos criptográficos como **TEA** -Tiny Encryption Algorithm).\
 También observa el **tamaño del bucle** (**132**) y el **número de operaciones XOR** en las instrucciones de **desensamblado** y en el **ejemplo de código**:
 
 ![](<../../.gitbook/assets/image (547).png>)
 
-Como se mencionó anteriormente, este código puede visualizarse dentro de cualquier descompilador como una **función muy larga** ya que **no hay saltos** dentro de ella. El código descompilado puede verse como sigue:
+Como se mencionó anteriormente, este código puede visualizarse dentro de cualquier descompilador como una **función muy larga** ya que **no hay saltos** dentro de ella. El código descompilado puede verse así:
 
 ![](<../../.gitbook/assets/image (513).png>)
 
@@ -145,12 +146,12 @@ Por lo tanto, es posible identificar este algoritmo verificando el **número má
 
 ### Características
 
-* 3 funciones: Init, Update, Final
+* 3 funciones: Iniciar, Actualizar, Finalizar
 * Funciones de inicialización similares
 
-### Identificación
+### Identificar
 
-**Init**
+**Iniciar**
 
 Puedes identificar ambos verificando las constantes. Ten en cuenta que sha\_init tiene 1 constante que MD5 no tiene:
 
@@ -167,7 +168,7 @@ Observa el uso de más constantes
 * Más pequeño y eficiente ya que su función es encontrar cambios accidentales en los datos
 * Utiliza tablas de búsqueda (por lo que puedes identificar constantes)
 
-### Identificación
+### Identificar
 
 Verifica las **constantes de la tabla de búsqueda**:
 
@@ -182,9 +183,9 @@ Un algoritmo de hash CRC se ve así:
 ### Características
 
 * Constantes no reconocibles
-* Puedes intentar escribir el algoritmo en python y buscar cosas similares en línea
+* Puedes intentar escribir el algoritmo en Python y buscar cosas similares en línea
 
-### Identificación
+### Identificar
 
 El gráfico es bastante grande:
 
@@ -193,17 +194,3 @@ El gráfico es bastante grande:
 Verifica **3 comparaciones para reconocerlo**:
 
 ![](<../../.gitbook/assets/image (430).png>)
-
-<details>
-
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
