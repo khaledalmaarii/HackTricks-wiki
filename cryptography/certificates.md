@@ -1,58 +1,59 @@
 # Certificados
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## O que é um Certificado
 
-Um **certificado de chave pública** é um ID digital usado em criptografia para provar que alguém possui uma chave pública. Ele inclui os detalhes da chave, a identidade do proprietário (o sujeito) e uma assinatura digital de uma autoridade confiável (o emissor). Se o software confiar no emissor e a assinatura for válida, é possível uma comunicação segura com o proprietário da chave.
+Um **certificado de chave pública** é uma ID digital usada em criptografia para provar que alguém possui uma chave pública. Ele inclui os detalhes da chave, a identidade do proprietário (o sujeito) e uma assinatura digital de uma autoridade confiável (o emissor). Se o software confia no emissor e a assinatura é válida, a comunicação segura com o proprietário da chave é possível.
 
-Os certificados são principalmente emitidos por [autoridades de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é o [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas, conforme descrito no RFC 5280.
+Os certificados são emitidos principalmente por [autoridades certificadoras](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) em uma configuração de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI). Outro método é a [web de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), onde os usuários verificam diretamente as chaves uns dos outros. O formato comum para certificados é [X.509](https://en.wikipedia.org/wiki/X.509), que pode ser adaptado para necessidades específicas conforme descrito na RFC 5280.
 
-## Campos Comuns do x509
+## Campos Comuns x509
 
 ### **Campos Comuns em Certificados x509**
 
-Nos certificados x509, vários **campos** desempenham papéis críticos para garantir a validade e a segurança do certificado. Aqui está uma explicação desses campos:
+Em certificados x509, vários **campos** desempenham papéis críticos na garantia da validade e segurança do certificado. Aqui está uma análise desses campos:
 
-* O **Número da Versão** indica a versão do formato x509.
-* O **Número de Série** identifica unicamente o certificado dentro do sistema de uma Autoridade de Certificação (CA), principalmente para rastreamento de revogação.
-* O campo **Sujeito** representa o proprietário do certificado, que pode ser uma máquina, um indivíduo ou uma organização. Ele inclui identificação detalhada, como:
+* **Número da Versão** indica a versão do formato x509.
+* **Número de Série** identifica exclusivamente o certificado dentro do sistema de uma Autoridade Certificadora (CA), principalmente para rastreamento de revogação.
+* O campo **Sujeito** representa o proprietário do certificado, que pode ser uma máquina, um indivíduo ou uma organização. Inclui identificação detalhada, como:
 * **Nome Comum (CN)**: Domínios cobertos pelo certificado.
 * **País (C)**, **Localidade (L)**, **Estado ou Província (ST, S ou P)**, **Organização (O)** e **Unidade Organizacional (OU)** fornecem detalhes geográficos e organizacionais.
-* O **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
-* O **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
-* O **Período de Validade** é marcado pelos carimbos de **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma determinada data.
-* A seção da **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
-* As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso da Chave**, **Uso Estendido da Chave**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
+* **Nome Distinto (DN)** encapsula a identificação completa do sujeito.
+* **Emissor** detalha quem verificou e assinou o certificado, incluindo subcampos semelhantes ao Sujeito para a CA.
+* O **Período de Validade** é marcado por timestamps **Não Antes** e **Não Depois**, garantindo que o certificado não seja usado antes ou depois de uma certa data.
+* A seção **Chave Pública**, crucial para a segurança do certificado, especifica o algoritmo, tamanho e outros detalhes técnicos da chave pública.
+* As **extensões x509v3** aprimoram a funcionalidade do certificado, especificando **Uso de Chave**, **Uso de Chave Estendida**, **Nome Alternativo do Sujeito** e outras propriedades para ajustar a aplicação do certificado.
 
-#### **Uso da Chave e Extensões**
+#### **Uso de Chave e Extensões**
 
-* **Uso da Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou cifragem de chave.
-* **Uso Estendido da Chave** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
-* **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado de CA ou de entidade final, respectivamente.
-* Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem a singularidade e rastreabilidade das chaves.
-* **Acesso à Informação da Autoridade** e **Pontos de Distribuição de Lista de Revogação (CRL)** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
-* **CT Precertificate SCTs** oferecem registros de transparência, cruciais para a confiança pública no certificado.
+* **Uso de Chave** identifica aplicações criptográficas da chave pública, como assinatura digital ou criptografia de chave.
+* **Uso de Chave Estendida** restringe ainda mais os casos de uso do certificado, por exemplo, para autenticação de servidor TLS.
+* **Nome Alternativo do Sujeito** e **Restrição Básica** definem nomes de host adicionais cobertos pelo certificado e se é um certificado CA ou de entidade final, respectivamente.
+* Identificadores como **Identificador de Chave do Sujeito** e **Identificador de Chave da Autoridade** garantem unicidade e rastreabilidade das chaves.
+* **Acesso à Informação da Autoridade** e **Pontos de Distribuição de CRL** fornecem caminhos para verificar a CA emissora e verificar o status de revogação do certificado.
+* **SCTs de Pré-certificado CT** oferecem logs de transparência, cruciais para a confiança pública no certificado.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -74,25 +75,27 @@ print(f"Issuer: {issuer}")
 print(f"Subject: {subject}")
 print(f"Public Key: {public_key}")
 ```
-### **Diferença entre Pontos de Distribuição OCSP e CRL**
+### **Diferença entre OCSP e Pontos de Distribuição CRL**
 
-**OCSP** (**RFC 2560**) envolve um cliente e um respondedor trabalhando juntos para verificar se um certificado de chave pública digital foi revogado, sem precisar baixar o **CRL** completo. Este método é mais eficiente do que o tradicional **CRL**, que fornece uma lista de números de série de certificados revogados, mas requer o download de um arquivo potencialmente grande. Os CRLs podem incluir até 512 entradas. Mais detalhes estão disponíveis [aqui](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
+**OCSP** (**RFC 2560**) envolve um cliente e um respondedor trabalhando juntos para verificar se um certificado digital de chave pública foi revogado, sem a necessidade de baixar o **CRL** completo. Este método é mais eficiente do que o tradicional **CRL**, que fornece uma lista de números de série de certificados revogados, mas requer o download de um arquivo potencialmente grande. Os CRLs podem incluir até 512 entradas. Mais detalhes estão disponíveis [aqui](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm).
 
 ### **O que é Transparência de Certificado**
 
-A Transparência de Certificado ajuda a combater ameaças relacionadas a certificados, garantindo que a emissão e a existência de certificados SSL sejam visíveis para os proprietários de domínios, CAs e usuários. Seus objetivos são:
+A Transparência de Certificado ajuda a combater ameaças relacionadas a certificados, garantindo que a emissão e a existência de certificados SSL sejam visíveis para proprietários de domínios, CAs e usuários. Seus objetivos são:
 
-* Impedir que CAs emitam certificados SSL para um domínio sem o conhecimento do proprietário do domínio.
-* Estabelecer um sistema de auditoria aberto para rastrear certificados emitidos erroneamente ou maliciosamente.
+* Prevenir que CAs emitam certificados SSL para um domínio sem o conhecimento do proprietário do domínio.
+* Estabelecer um sistema de auditoria aberto para rastrear certificados emitidos por engano ou maliciosamente.
 * Proteger os usuários contra certificados fraudulentos.
 
-#### **Logs de Certificado**
+#### **Registros de Certificado**
 
-Os logs de certificado são registros publicamente auditáveis e somente de adição de certificados, mantidos por serviços de rede. Esses logs fornecem provas criptográficas para fins de auditoria. Tanto as autoridades de emissão quanto o público podem enviar certificados para esses logs ou consultá-los para verificação. Embora o número exato de servidores de log não seja fixo, espera-se que seja inferior a mil globalmente. Esses servidores podem ser gerenciados de forma independente por CAs, ISPs ou qualquer entidade interessada.
+Registros de certificado são registros auditáveis publicamente, apenas para adição, de certificados, mantidos por serviços de rede. Esses registros fornecem provas criptográficas para fins de auditoria. Tanto as autoridades de emissão quanto o público podem enviar certificados para esses registros ou consultá-los para verificação. Embora o número exato de servidores de registro não seja fixo, espera-se que seja inferior a mil globalmente. Esses servidores podem ser gerenciados de forma independente por CAs, ISPs ou qualquer entidade interessada.
 
 #### **Consulta**
 
-Para explorar os logs de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
+Para explorar os registros de Transparência de Certificado para qualquer domínio, visite [https://crt.sh/](https://crt.sh).
+
+Existem diferentes formatos para armazenar certificados, cada um com seus próprios casos de uso e compatibilidade. Este resumo cobre os principais formatos e fornece orientações sobre como converter entre eles.
 
 ## **Formatos**
 
@@ -122,9 +125,9 @@ Para explorar os logs de Transparência de Certificado para qualquer domínio, v
 * Extensões: .pfx, .p12.
 * Principalmente usado no Windows para importação e exportação de certificados.
 
-### **Conversão de Formatos**
+### **Convertendo Formatos**
 
-As **conversões PEM** são essenciais para compatibilidade:
+**Conversões PEM** são essenciais para compatibilidade:
 
 * **x509 para PEM**
 ```bash
@@ -152,20 +155,12 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX para PKCS#8** envolve dois passos:
+* **PFX para PKCS#8** envolve duas etapas:
 1. Converter PFX para PEM
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-2. Converta PEM para PKCS8
-
-Para converter um arquivo PEM para o formato PKCS8, você pode usar a ferramenta OpenSSL com o seguinte comando:
-
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pk8 -nocrypt
-```
-
-Isso irá converter a chave privada do formato PEM para o formato PKCS8.
+2. Converter PEM para PKCS8
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -180,24 +175,25 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 ```
 ***
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias **mais avançadas do mundo**.\
-Acesse hoje mesmo:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
