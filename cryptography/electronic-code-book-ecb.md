@@ -1,17 +1,17 @@
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-
+{% endhint %}
 
 # ECB
 
@@ -21,8 +21,8 @@ Otras formas de apoyar a HackTricks:
 
 El uso de ECB tiene múltiples implicaciones de seguridad:
 
-* **Los bloques del mensaje cifrado pueden ser eliminados**
-* **Los bloques del mensaje cifrado pueden ser movidos**
+* **Se pueden eliminar bloques del mensaje cifrado**
+* **Se pueden mover bloques del mensaje cifrado**
 
 # Detección de la vulnerabilidad
 
@@ -41,12 +41,12 @@ Esto se debe a que el **nombre de usuario y la contraseña de esas cookies conte
 Ahora, el atacante solo necesita descubrir si el formato es `<nombre de usuario><delimitador><contraseña>` o `<contraseña><delimitador><nombre de usuario>`. Para hacer eso, simplemente puede **generar varios nombres de usuario** con nombres de usuario y contraseñas **similares y largos hasta encontrar el formato y la longitud del delimitador:**
 
 | Longitud del nombre de usuario: | Longitud de la contraseña: | Longitud de nombre de usuario + contraseña: | Longitud de la cookie (después de decodificar): |
-| ------------------------------- | -------------------------- | ------------------------------------------- | --------------------------------------------- |
-| 2                               | 2                          | 4                                           | 8                                             |
-| 3                               | 3                          | 6                                           | 8                                             |
-| 3                               | 4                          | 7                                           | 8                                             |
-| 4                               | 4                          | 8                                           | 16                                            |
-| 7                               | 7                          | 14                                          | 16                                            |
+| ------------------------------- | -------------------------- | ------------------------------------------ | ---------------------------------------------- |
+| 2                               | 2                          | 4                                          | 8                                              |
+| 3                               | 3                          | 6                                          | 8                                              |
+| 3                               | 4                          | 7                                          | 8                                              |
+| 4                               | 4                          | 8                                          | 16                                             |
+| 7                               | 7                          | 14                                         | 16                                             |
 
 # Explotación de la vulnerabilidad
 
@@ -56,24 +56,24 @@ Conociendo el formato de la cookie (`<nombre de usuario>|<contraseña>`), para h
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-Podemos ver el patrón `\x23U\xE45K\xCB\x21\xC8` creado previamente con el nombre de usuario que solo contenía `a`.\
+Podemos ver el patrón `\x23U\xE45K\xCB\x21\xC8` creado previamente con el nombre de usuario que contenía solo `a`.\
 Luego, puedes eliminar el primer bloque de 8B y obtendrás una cookie válida para el nombre de usuario `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
 ## Moviendo bloques
 
-En muchas bases de datos es lo mismo buscar `WHERE username='admin';` o `WHERE username='admin    ';` _(Nota los espacios adicionales)_
+En muchas bases de datos es lo mismo buscar `WHERE username='admin';` que `WHERE username='admin    ';` _(Nota los espacios adicionales)_
 
 Entonces, otra forma de hacerse pasar por el usuario `admin` sería:
 
-* Generar un nombre de usuario que: `len(<username>) + len(<delimiter) % len(block)`. Con un tamaño de bloque de `8B` puedes generar un nombre de usuario llamado: `username       `, con el delimitador `|` el fragmento `<username><delimiter>` generará 2 bloques de 8B.
+* Generar un nombre de usuario que: `len(<username>) + len(<delimiter) % len(block)`. Con un tamaño de bloque de `8B` puedes generar un nombre de usuario llamado: `username       `, con el delimitador `|` el fragmento `<username><delimiter>` generará 2 bloques de 8Bs.
 * Luego, generar una contraseña que llene un número exacto de bloques que contengan el nombre de usuario que queremos suplantar y espacios, como: `admin   `
 
 La cookie de este usuario estará compuesta por 3 bloques: los primeros 2 son los bloques del nombre de usuario + delimitador y el tercero de la contraseña (que está falsificando el nombre de usuario): `username       |admin   `
 
-** Luego, simplemente reemplace el primer bloque con el último y estará suplantando al usuario `admin`: `admin          |username`**
+**Entonces, simplemente reemplaza el primer bloque con el último y estarás suplantando al usuario `admin`: `admin          |username`**
 
-# Referencias
+## Referencias
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))

@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Aprende y practica AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* ¡Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -28,11 +29,11 @@ Ambos atributos tienen 4 marcas de tiempo: **Modificación**, **acceso**, **crea
 
 ## TimeStomp - Herramienta anti-forense
 
-Esta herramienta **modifica** la información de marcas de tiempo dentro de **`$STANDARD_INFORMATION`** **pero** **no** la información dentro de **`$FILE_NAME`**. Por lo tanto, es posible **identificar** **actividades sospechosas**.
+Esta herramienta **modifica** la información de marcas de tiempo dentro de **`$STANDARD_INFORMATION`** **pero no** la información dentro de **`$FILE_NAME`**. Por lo tanto, es posible **identificar** **actividades sospechosas**.
 
 ## Usnjrnl
 
-El **Diario USN** (Update Sequence Number Journal) es una característica del NTFS (sistema de archivos de Windows NT) que realiza un seguimiento de los cambios de volumen. La herramienta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite examinar estos cambios.
+El **Diario USN** (Diario de Número de Secuencia de Actualización) es una característica del NTFS (sistema de archivos de Windows NT) que realiza un seguimiento de los cambios en el volumen. La herramienta [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permite examinar estos cambios.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -40,11 +41,11 @@ La imagen anterior es la **salida** mostrada por la **herramienta** donde se pue
 
 ## $LogFile
 
-**Todos los cambios de metadatos en un sistema de archivos se registran** en un proceso conocido como [registro de escritura anticipada](https://en.wikipedia.org/wiki/Write-ahead_logging). Los metadatos registrados se mantienen en un archivo llamado `**$LogFile**`, ubicado en el directorio raíz de un sistema de archivos NTFS. Herramientas como [LogFileParser](https://github.com/jschicht/LogFileParser) se pueden utilizar para analizar este archivo e identificar cambios.
+**Todos los cambios de metadatos en un sistema de archivos se registran** en un proceso conocido como [registro anticipado](https://en.wikipedia.org/wiki/Write-ahead_logging). Los metadatos registrados se mantienen en un archivo llamado `**$LogFile**`, ubicado en el directorio raíz de un sistema de archivos NTFS. Herramientas como [LogFileParser](https://github.com/jschicht/LogFileParser) se pueden utilizar para analizar este archivo e identificar cambios.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Nuevamente, en la salida de la herramienta es posible ver que se realizaron **algunos cambios**.
+Nuevamente, en la salida de la herramienta es posible ver que **se realizaron algunos cambios**.
 
 Utilizando la misma herramienta es posible identificar a **qué hora se modificaron las marcas de tiempo**:
 
@@ -69,9 +70,9 @@ Esta herramienta puede modificar ambos atributos `$STARNDAR_INFORMATION` y `$FIL
 
 # Ocultación de datos
 
-NTFS utiliza un clúster y el tamaño mínimo de información. Esto significa que si un archivo ocupa un clúster y medio, el **medio restante nunca se utilizará** hasta que se elimine el archivo. Entonces, es posible **ocultar datos en este espacio vacío**.
+NTFS utiliza un clúster y el tamaño mínimo de información. Esto significa que si un archivo ocupa un clúster y medio, el **medio restante nunca se utilizará** hasta que se elimine el archivo. Por lo tanto, es posible **ocultar datos en este espacio vacío**.
 
-Existen herramientas como slacker que permiten ocultar datos en este espacio "oculto". Sin embargo, un análisis del `$logfile` y `$usnjrnl` puede mostrar que se agregaron algunos datos:
+Existen herramientas como slacker que permiten ocultar datos en este espacio "oculto". Sin embargo, un análisis del `$logfile` y `$usnjrnl` puede mostrar que se agregaron datos:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
@@ -137,7 +138,7 @@ También puedes eliminarlas a través de la GUI siguiendo los pasos propuestos e
 
 Para deshabilitar las copias de sombra [pasos desde aquí](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. Abre el programa Servicios escribiendo "servicios" en la caja de búsqueda de texto después de hacer clic en el botón de inicio de Windows.
+1. Abre el programa Servicios escribiendo "servicios" en la barra de búsqueda de texto después de hacer clic en el botón de inicio de Windows.
 2. En la lista, encuentra "Copia de Sombra de Volumen", selecciónalo y luego accede a Propiedades haciendo clic derecho.
 3. Elige Deshabilitado en el menú desplegable "Tipo de inicio" y luego confirma el cambio haciendo clic en Aplicar y Aceptar.
 
@@ -169,16 +170,17 @@ También es posible modificar la configuración de qué archivos van a ser copia
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking de AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**oficial mercancía de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

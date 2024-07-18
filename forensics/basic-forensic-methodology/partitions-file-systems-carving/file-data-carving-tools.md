@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Aprende y practica AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 
 # Herramientas de Carving
@@ -22,7 +23,7 @@ La herramienta más común utilizada en forense para extraer archivos de imágen
 ## Binwalk <a id="binwalk"></a>
 
 **Binwalk** es una herramienta para buscar archivos binarios como imágenes y archivos de audio en busca de archivos y datos incrustados.
-Puede ser instalado con `apt`, sin embargo, la [fuente](https://github.com/ReFirmLabs/binwalk) se puede encontrar en github.
+Puede ser instalado con `apt`, sin embargo, el [origen](https://github.com/ReFirmLabs/binwalk) se puede encontrar en github.
 **Comandos útiles**:
 ```bash
 sudo apt install binwalk #Insllation
@@ -32,7 +33,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ## Foremost
 
-Otra herramienta común para encontrar archivos ocultos es **foremost**. Puedes encontrar el archivo de configuración de foremost en `/etc/foremost.conf`. Si solo deseas buscar archivos específicos, descoméntalos. Si no descomentas nada, foremost buscará los tipos de archivo configurados por defecto.
+Otra herramienta común para encontrar archivos ocultos es **foremost**. Puedes encontrar el archivo de configuración de foremost en `/etc/foremost.conf`. Si solo deseas buscar archivos específicos, descoméntalos. Si no descomentas nada, foremost buscará por los tipos de archivo configurados por defecto.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -40,7 +41,7 @@ foremost -v -i file.img -o output
 ```
 ## **Scalpel**
 
-**Scalpel** es otra herramienta que se puede utilizar para encontrar y extraer **archivos incrustados en un archivo**. En este caso, deberá descomentar en el archivo de configuración \(_/etc/scalpel/scalpel.conf_\) los tipos de archivo que desea extraer.
+**Scalpel** es otra herramienta que se puede utilizar para encontrar y extraer **archivos incrustados en un archivo**. En este caso, deberás descomentar en el archivo de configuración \(_/etc/scalpel/scalpel.conf_\) los tipos de archivo que deseas extraer.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -49,10 +50,12 @@ scalpel file.img -o output
 
 Esta herramienta viene incluida en Kali pero puedes encontrarla aquí: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk_extractor)
 
-Esta herramienta puede escanear una imagen y **extraer pcaps** en su interior, **información de red \(URLs, dominios, IPs, MACs, correos electrónicos\)** y más **archivos**. Solo tienes que hacer:
+Esta herramienta puede escanear una imagen y **extraer pcaps** en su interior, **información de red \(URLs, dominios, IPs, MACs, correos electrónicos\)** y más **archivos**. Solo necesitas hacer:
 ```text
 bulk_extractor memory.img -o out_folder
 ```
+Explora **toda la información** que la herramienta ha recopilado \(¿contraseñas?\), **analiza** los **paquetes** \(lee [**Análisis de Pcaps**](../pcap-inspection/)\), busca **dominios extraños** \(dominios relacionados con **malware** o **no existentes**\).
+
 ## PhotoRec
 
 Puedes encontrarlo en [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk_Download)
@@ -69,7 +72,24 @@ Busca claves AES buscando sus programaciones de claves. Capaz de encontrar clave
 
 Descarga [aquí](https://sourceforge.net/projects/findaes/).
 
-# Herramientas Complementarias
+# Herramientas complementarias
 
 Puedes usar [**viu** ](https://github.com/atanunq/viu)para ver imágenes desde la terminal.
-Puedes usar la herramienta de línea de comandos de Linux **pdftotext** para transformar un pdf en texto y leerlo.
+Puedes usar la herramienta de línea de comandos de Linux **pdftotext** para transformar un PDF en texto y leerlo.
+
+
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Apoya a HackTricks</summary>
+
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}

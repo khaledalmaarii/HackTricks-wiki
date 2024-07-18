@@ -1,18 +1,19 @@
 # LOAD_NAME / LOAD_CONST opcode OOB Read
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 **Esta información fue tomada** [**de este informe**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
@@ -49,9 +50,9 @@ Comencemos con un ejemplo simple, `[a, b, c]` podría compilar en el siguiente b
 ```
 Pero ¿qué sucede si `co_names` se convierte en una tupla vacía? El opcode `LOAD_NAME 2` sigue ejecutándose e intenta leer el valor de esa dirección de memoria donde originalmente debería estar. Sí, esto es una característica de lectura fuera de límites.
 
-El concepto principal para la solución es simple. Algunos opcodes en CPython, como `LOAD_NAME` y `LOAD_CONST`, son vulnerables (?) a la lectura fuera de límites.
+El concepto principal para la solución es simple. Algunos opcodes en CPython, por ejemplo `LOAD_NAME` y `LOAD_CONST`, son vulnerables (?) a la lectura fuera de límites.
 
-Recuperan un objeto del índice `oparg` de la tupla `consts` o `names` (así es como se llaman `co_consts` y `co_names` internamente). Podemos consultar el siguiente fragmento corto sobre `LOAD_CONST` para ver qué hace CPython cuando procesa el opcode `LOAD_CONST`.
+Recuperan un objeto del índice `oparg` de la tupla `consts` o `names` (así es como se llaman `co_consts` y `co_names` internamente). Podemos consultar el siguiente fragmento sobre `LOAD_CONST` para ver qué hace CPython cuando procesa el opcode `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -65,7 +66,7 @@ De esta manera podemos usar la función OOB para obtener un "nombre" desde un de
 
 ### Generando el Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Una vez que obtengamos esos desplazamientos útiles para nombres / constantes, ¿cómo obtenemos un nombre / constante a partir de ese desplazamiento y lo usamos? Aquí tienes un truco para ti:\
+Una vez que recuperamos esos desplazamientos útiles para nombres / constantes, ¿cómo obtenemos un nombre / constante a partir de ese desplazamiento y lo usamos? Aquí tienes un truco:\
 Supongamos que podemos obtener un nombre `__getattribute__` desde el desplazamiento 5 (`LOAD_NAME 5`) con `co_names=()`, entonces simplemente realiza lo siguiente:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
@@ -73,7 +74,7 @@ Supongamos que podemos obtener un nombre `__getattribute__` desde el desplazamie
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Nota que no es necesario nombrarlo como `__getattribute__`, puedes nombrarlo de forma más corta o extraña
+> Observa que no es necesario nombrarlo como `__getattribute__`, puedes nombrarlo de forma más corta o extraña
 
 Puedes entender la razón simplemente viendo su bytecode:
 ```python
@@ -92,14 +93,14 @@ Puedes entender la razón simplemente viendo su bytecode:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Observa que `LOAD_ATTR` también recupera el nombre de `co_names`. Python carga nombres desde el mismo desplazamiento si el nombre es el mismo, por lo que el segundo `__getattribute__` todavía se carga desde el desplazamiento=5. Usando esta característica podemos usar nombres arbitrarios una vez que el nombre está en la memoria cercana.
+Observa que `LOAD_ATTR` también recupera el nombre de `co_names`. Python carga los nombres desde el mismo desplazamiento si el nombre es el mismo, por lo que el segundo `__getattribute__` todavía se carga desde el desplazamiento=5. Usando esta característica, podemos utilizar un nombre arbitrario una vez que el nombre esté en la memoria cercana.
 
 Para generar números debería ser trivial:
 
-- 0: not \[\[]]
-- 1: not \[]
-- 2: (not \[]) + (not \[])
-- ...
+* 0: not \[\[]]
+* 1: not \[]
+* 2: (not \[]) + (not \[])
+* ...
 
 ### Script de Explotación <a href="#exploit-script-1" id="exploit-script-1"></a>
 
@@ -230,16 +231,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
