@@ -1,33 +1,39 @@
-# लेखक के बारे में
+# About the author
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित देखना चाहते हैं**? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर फॉलो करें 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) को PR जमा करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### नमस्ते!!
+### Hello!!
 
-सबसे पहले, यह दर्शाने की आवश्यकता है कि सभी **तकनीकों के श्रेय अन्य साइटों से अनुसंधानों को हैकिंग ट्रिक्स के लिए मूल लेखकों को है** (पृष्ठों में संदर्भ हैं)। हर अनुसंधान को समझ को बेहतर बनाने के लिए ज्ञान साझा करने वाले हर अनुसंधान को सलाम।
+सबसे पहले, यह बताना आवश्यक है कि अन्य साइटों से अनुसंधानों की सभी **तकनीकों का श्रेय मूल लेखकों को जाता है** (पृष्ठों में संदर्भ हैं)। इंटरनेट की सुरक्षा में सुधार के लिए ज्ञान साझा करने वाले हर अनुसंधान को बधाई।
 
-HackTricks एक शैक्षिक विकि है जो **साइबर सुरक्षा** के बारे में ज्ञान को संकलित करता है जिसे कार्लोस द्वारा संचालित किया गया है और सैकड़ों सहयोगियों के साथ है! यह एक **बड़ा हैकिंग ट्रिक्स संग्रह** है जिसे समुदाय द्वारा जितना संभव हो सके अपडेट किया जाता है। यदि आपको लगता है कि कुछ अभाविपूर्ण या पुराना है, तो कृपया, [**Hacktricks Github**](https://github.com/carlospolop/hacktricks) पर **पुल अनुरोध** भेजें!
+HackTricks एक शैक्षिक विकी है जो **साइबर-सुरक्षा** के बारे में ज्ञान को संकलित करता है, जिसका नेतृत्व कार्लोस करते हैं और इसमें सैकड़ों सहयोगी शामिल हैं! यह **हैकिंग ट्रिक्स का एक विशाल संग्रह** है जिसे समुदाय द्वारा यथासंभव अद्यतित रखा जाता है। यदि आपको कुछ गायब या पुराना लगता है, तो कृपया [**Hacktricks Github**](https://github.com/carlospolop/hacktricks) पर एक **Pull Request** भेजें!
 
-HackTricks एक विकि भी है जहां **बहुत से अनुसंधान भी अपने नवीनतम खोजों को साझा करते हैं**, इसलिए यह नवीनतम हैकिंग तकनीकों के साथ अपडेट रहने के लिए एक महान स्थान है।
+HackTricks एक विकी भी है जहाँ **कई शोधकर्ता अपने नवीनतम निष्कर्ष साझा करते हैं**, इसलिए यह नवीनतम हैकिंग तकनीकों के साथ अद्यतित रहने के लिए एक शानदार स्थान है।
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित देखना चाहते हैं**? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर फॉलो करें 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) को PR जमा करके।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
