@@ -1,47 +1,48 @@
 # Pcap Inspection
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>에서 **제로**부터 **히어로**까지 **AWS 해킹**을 배우세요!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고**하거나 **PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [telegram 그룹](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 중요한 사이버 보안 행사 중 하나로 **유럽**에서도 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진**하는 임무를 가진 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들을 위한 뜨거운 만남의 장입니다.
+[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 임무**를 가지고 있는 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-**PCAP** 대 **PCAPNG**에 대한 참고: PCAP 파일 형식에는 두 가지 버전이 있습니다. **PCAPNG은 더 최신이며 모든 도구에서 지원되지 않을 수 있습니다**. 다른 도구에서 작업하기 위해 파일을 Wireshark나 다른 호환 도구를 사용하여 PCAPNG에서 PCAP으로 변환해야 할 수도 있습니다.
+**PCAP**와 **PCAPNG**에 대한 주의: PCAP 파일 형식에는 두 가지 버전이 있습니다; **PCAPNG는 더 최신이며 모든 도구에서 지원되지 않습니다**. 다른 도구에서 작업하기 위해 Wireshark 또는 다른 호환 도구를 사용하여 PCAPNG에서 PCAP로 파일을 변환해야 할 수도 있습니다.
 {% endhint %}
 
-## Pcap을 위한 온라인 도구
+## Online tools for pcaps
 
-* Pcap의 헤더가 **손상**된 경우 [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)를 사용하여 **수정**해야 합니다.
-* Pcap에서 **정보를 추출**하고 **악성 코드**를 검색하려면 [**PacketTotal**](https://packettotal.com)을 사용하세요.
-* [**www.virustotal.com**](https://www.virustotal.com) 및 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)을 사용하여 **악성 활동**을 검색하세요.
-* 브라우저에서의 **전체 pcap 분석**은 [**https://apackets.com/**](https://apackets.com/)에서 가능합니다.
+* pcap의 헤더가 **손상된** 경우: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)를 사용하여 **수정**해 보세요.
+* [**PacketTotal**](https://packettotal.com)에서 pcap 내의 **정보**를 추출하고 **악성코드**를 검색하세요.
+* [**www.virustotal.com**](https://www.virustotal.com) 및 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)에서 **악의적인 활동**을 검색하세요.
+* [**https://apackets.com/**](https://apackets.com/)에서 브라우저를 통한 **전체 pcap 분석**.
 
-## 정보 추출
+## Extract Information
 
 다음 도구는 통계, 파일 등을 추출하는 데 유용합니다.
 
 ### Wireshark
 
 {% hint style="info" %}
-**PCAP를 분석할 예정이라면 기본적으로 Wireshark 사용 방법을 알아야 합니다**
+**PCAP을 분석하려면 기본적으로 Wireshark를 사용하는 방법을 알아야 합니다.**
 {% endhint %}
 
-Wireshark 트릭은 다음에서 찾을 수 있습니다:
+Wireshark 팁은 다음에서 찾을 수 있습니다:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -49,11 +50,11 @@ Wireshark 트릭은 다음에서 찾을 수 있습니다:
 
 ### [**https://apackets.com/**](https://apackets.com/)
 
-브라우저에서의 Pcap 분석.
+브라우저에서 pcap 분석.
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(only linux)_는 **pcap**을 분석하고 정보를 추출할 수 있습니다. 예를 들어 pcap 파일에서 Xplico는 각 이메일 (POP, IMAP 및 SMTP 프로토콜), 모든 HTTP 콘텐츠, 각 VoIP 통화 (SIP), FTP, TFTP 등을 추출합니다.
+[**Xplico** ](https://github.com/xplico/xplico)_(리눅스 전용)_는 **pcap**을 **분석**하고 그로부터 정보를 추출할 수 있습니다. 예를 들어, pcap 파일에서 Xplico는 각 이메일(POP, IMAP 및 SMTP 프로토콜), 모든 HTTP 콘텐츠, 각 VoIP 통화(SIP), FTP, TFTP 등을 추출합니다.
 
 **설치**
 ```bash
@@ -67,28 +68,28 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-_**127.0.0.1:9876**_에 _**xplico:xplico**_ 자격 증명으로 액세스합니다.
+Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
 
-그런 다음 **새로운 사례**를 만들고 해당 사례 내에 **새로운 세션**을 만들고 **pcap** 파일을 **업로드**합니다.
+그런 다음 **새 사례**를 만들고, 사례 내에서 **새 세션**을 만들고 **pcap** 파일을 **업로드**합니다.
 
 ### NetworkMiner
 
-Xplico와 마찬가지로 이 도구는 pcap에서 **분석 및 객체 추출**을 위한 도구입니다. 무료 버전을 [**여기**](https://www.netresec.com/?page=NetworkMiner)에서 **다운로드**할 수 있습니다. **Windows**와 호환됩니다.\
-이 도구는 또한 **더 빠른** 방식으로 **패킷에서 다른 정보를 분석**하는 데 유용합니다.
+Xplico와 마찬가지로 **pcaps**에서 객체를 **분석하고 추출하는** 도구입니다. **여기서** [**다운로드**](https://www.netresec.com/?page=NetworkMiner)할 수 있는 무료 버전이 있습니다. **Windows**에서 작동합니다.\
+이 도구는 패킷에서 **분석된 다른 정보**를 얻는 데도 유용하여 **더 빠르게** 무슨 일이 일어나고 있는지 알 수 있습니다.
 
 ### NetWitness Investigator
 
-[**여기**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)에서 **NetWitness Investigator를 다운로드**할 수 있습니다 **(Windows에서 작동)**.\
-이 도구는 **패킷을 분석**하고 정보를 유용한 방식으로 정렬하여 **내부에서 무슨 일이 일어나고 있는지 파악**하는 데 유용합니다.
+[**여기서 NetWitness Investigator를 다운로드**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware)할 수 있습니다. **(Windows에서 작동합니다)**.\
+이것은 패킷을 **분석하고** 정보를 유용한 방식으로 정리하여 **내부에서 무슨 일이 일어나고 있는지 알 수 있는** 또 다른 유용한 도구입니다.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* 사용자 이름 및 암호 추출 및 인코딩 (HTTP, FTP, Telnet, IMAP, SMTP...)
-* 인증 해시 추출 및 Hashcat을 사용하여 해독 (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* 시각적 네트워크 다이어그램 작성 (네트워크 노드 및 사용자)
+* 사용자 이름과 비밀번호 추출 및 인코딩 (HTTP, FTP, Telnet, IMAP, SMTP...)
+* 인증 해시 추출 및 Hashcat을 사용하여 크랙 (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* 시각적 네트워크 다이어그램 구축 (네트워크 노드 및 사용자)
 * DNS 쿼리 추출
 * 모든 TCP 및 UDP 세션 재구성
-* 파일 조각내기
+* 파일 조각화
 
 ### Capinfos
 ```
@@ -96,29 +97,29 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-만약 pcap 내부에서 **무언가를** 찾고 싶다면 **ngrep**를 사용할 수 있습니다. 다음은 주요 필터를 사용한 예시입니다:
+pcap 안에서 **무언가**를 **찾고** 있다면 **ngrep**을 사용할 수 있습니다. 다음은 주요 필터를 사용하는 예입니다:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### 조각 모음
+### Carving
 
-일반적인 조각 모음 기술을 사용하여 pcap에서 파일과 정보를 추출하는 데 유용할 수 있습니다:
+일반적인 조각 기술을 사용하면 pcap에서 파일과 정보를 추출하는 데 유용할 수 있습니다:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### 자격 증명 캡처
+### Capturing credentials
 
-[https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz)와 같은 도구를 사용하여 pcap 또는 라이브 인터페이스에서 자격 증명을 구문 분석할 수 있습니다.
+pcap 또는 라이브 인터페이스에서 자격 증명을 구문 분석하려면 [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz)와 같은 도구를 사용할 수 있습니다.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성 높은 사이버 보안 행사 중 하나이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 데 봉사**하는 이 컨퍼런스는 모든 분야의 기술 및 사이버 보안 전문가들에게 뜨거운 만남의 장입니다.
+[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 임무**를 가지고 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Exploits/Malware 확인
+## Check Exploits/Malware
 
 ### Suricata
 
@@ -135,17 +136,17 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap)은 다음을 수행하는 도구입니다.
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap)는 다음과 같은 도구입니다.
 
-* PCAP 파일을 읽고 HTTP 스트림을 추출합니다.
-* 모든 압축된 스트림을 gzip으로 해제합니다.
-* Yara로 모든 파일을 스캔합니다.
+* PCAP 파일을 읽고 Http 스트림을 추출합니다.
+* 압축된 스트림을 gzip으로 해제합니다.
+* 모든 파일을 yara로 스캔합니다.
 * report.txt를 작성합니다.
 * 선택적으로 일치하는 파일을 디렉토리에 저장합니다.
 
-### 악성코드 분석
+### Malware Analysis
 
-알려진 악성코드의 지문을 찾을 수 있는지 확인하십시오:
+알려진 악성코드의 지문을 찾을 수 있는지 확인하세요:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -153,9 +154,11 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html)는 수동적인 오픈 소스 네트워크 트래픽 분석기입니다. 많은 운영자들이 의심스러운 또는 악의적인 활동의 조사를 지원하기 위해 네트워크 보안 모니터(NSM)로서 Zeek를 사용합니다. Zeek는 보안 도메인을 넘어서 성능 측정 및 문제 해결을 포함한 다양한 트래픽 분석 작업을 지원합니다.
+> [Zeek](https://docs.zeek.org/en/master/about.html)는 수동적이고 오픈 소스인 네트워크 트래픽 분석기입니다. 많은 운영자들이 Zeek를 네트워크 보안 모니터(NSM)로 사용하여 의심스러운 또는 악의적인 활동에 대한 조사를 지원합니다. Zeek는 보안 도메인을 넘어 성능 측정 및 문제 해결을 포함한 다양한 트래픽 분석 작업도 지원합니다.
 
-기본적으로 `zeek`에 의해 생성된 로그는 **pcap**이 아닙니다. 따라서 **pcap에 대한 정보**가 있는 로그를 분석하기 위해 **다른 도구**를 사용해야 합니다.
+기본적으로 `zeek`에 의해 생성된 로그는 **pcap**이 아닙니다. 따라서 **pcap**에 대한 **정보**가 있는 로그를 분석하기 위해 **다른 도구**를 사용해야 합니다.
+
+### Connections Info
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -222,7 +225,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-## 다른 pcap 분석 트릭
+## 다른 pcap 분석 팁
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -240,20 +243,21 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성 높은 사이버 보안 이벤트 중 하나이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 데 봉사하는** 이 컨퍼런스는 모든 분야의 기술 및 사이버 보안 전문가들에게 열정적인 만남의 장입니다.
+[**RootedCON**](https://www.rootedcon.com/)은 **스페인**에서 가장 관련성이 높은 사이버 보안 이벤트이며 **유럽**에서 가장 중요한 행사 중 하나입니다. **기술 지식을 촉진하는 임무**를 가지고 있는 이 회의는 모든 분야의 기술 및 사이버 보안 전문가들이 모이는 뜨거운 만남의 장소입니다.
 
 {% embed url="https://www.rootedcon.com/" %}
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅까지 AWS 해킹 배우기**!</summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

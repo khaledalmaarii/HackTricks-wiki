@@ -1,87 +1,88 @@
-# 안티 포렌식 기술
+# 안티 포렌식 기법
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로**부터 **히어로**로 **AWS 해킹**을 배우세요!</summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고**하거나 **PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 기법을 공유하세요.**
 
 </details>
+{% endhint %}
 
 ## 타임스탬프
 
-공격자는 **파일의 타임스탬프를 변경**하여 감지를 피하려 할 수 있습니다.\
-MFT 내에서 `$STANDARD_INFORMATION` 및 `$FILE_NAME` 속성에서 타임스탬프를 찾을 수 있습니다.
+공격자는 **파일의 타임스탬프를 변경**하여 탐지를 피하고자 할 수 있습니다.\
+타임스탬프는 MFT의 `$STANDARD_INFORMATION` \_\_ 및 \_\_ `$FILE_NAME` 속성 내에서 찾을 수 있습니다.
 
-두 속성에는 **수정**, **액세스**, **생성**, **MFT 레지스트리 수정**(MACE 또는 MACB)에 대한 4개의 타임스탬프가 있습니다.
+두 속성 모두 4개의 타임스탬프를 가지고 있습니다: **수정**, **접근**, **생성**, 및 **MFT 레지스트리 수정** (MACE 또는 MACB).
 
-**Windows 탐색기** 및 기타 도구는 **`$STANDARD_INFORMATION`**에서 정보를 표시합니다.
+**Windows 탐색기** 및 기타 도구는 **`$STANDARD_INFORMATION`**의 정보를 표시합니다.
 
 ### TimeStomp - 안티 포렌식 도구
 
-이 도구는 **`$STANDARD_INFORMATION`** 내의 타임스탬프 정보를 **수정**하지만 **`$FILE_NAME`** 내의 정보는 **수정하지 않습니다**. 따라서 **의심스러운 활동을 식별**할 수 있습니다.
+이 도구는 **`$STANDARD_INFORMATION`** 내의 타임스탬프 정보를 **수정**하지만 **`$FILE_NAME`** 내의 정보는 **수정하지 않습니다**. 따라서 **의심스러운** **활동을 식별**할 수 있습니다.
 
 ### Usnjrnl
 
-**USN Journal**(Update Sequence Number Journal)은 NTFS(Windows NT 파일 시스템)의 기능으로 볼륨 변경 사항을 추적합니다. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) 도구를 사용하여 이러한 변경 사항을 검토할 수 있습니다.
+**USN 저널** (업데이트 시퀀스 번호 저널)은 NTFS (Windows NT 파일 시스템)의 기능으로, 볼륨 변경 사항을 추적합니다. [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) 도구를 사용하면 이러한 변경 사항을 검사할 수 있습니다.
 
 ![](<../../.gitbook/assets/image (801).png>)
 
-이전 이미지는 **도구**에서 표시된 **출력**으로 파일에 일부 **변경이 수행**된 것을 확인할 수 있습니다.
+이전 이미지는 **도구**에서 표시된 **출력**으로, 파일에 대해 **일부 변경이 수행되었음을** 관찰할 수 있습니다.
 
 ### $LogFile
 
-파일 시스템의 모든 메타데이터 변경 사항은 [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead\_logging)이라는 프로세스에서 **로그됩니다**. 로그된 메타데이터는 NTFS 파일 시스템의 루트 디렉토리에 있는 `**$LogFile**`이라는 파일에 유지됩니다. [LogFileParser](https://github.com/jschicht/LogFileParser)와 같은 도구를 사용하여 이 파일을 구문 분석하고 변경 사항을 식별할 수 있습니다.
+**파일 시스템에 대한 모든 메타데이터 변경 사항은** [쓰기 선행 로깅](https://en.wikipedia.org/wiki/Write-ahead_logging)이라는 프로세스에 기록됩니다. 기록된 메타데이터는 NTFS 파일 시스템의 루트 디렉토리에 위치한 `**$LogFile**`이라는 파일에 저장됩니다. [LogFileParser](https://github.com/jschicht/LogFileParser)와 같은 도구를 사용하여 이 파일을 구문 분석하고 변경 사항을 식별할 수 있습니다.
 
 ![](<../../.gitbook/assets/image (137).png>)
 
-다시 도구의 출력에서 **일부 변경이 수행**된 것을 확인할 수 있습니다.
+다시 말해, 도구의 출력에서 **일부 변경이 수행되었음을** 볼 수 있습니다.
 
-동일한 도구를 사용하여 **타임스탬프가 수정된 시간을 식별**할 수 있습니다:
+같은 도구를 사용하여 **타임스탬프가 수정된 시간을 식별**할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (1089).png>)
 
 * CTIME: 파일 생성 시간
 * ATIME: 파일 수정 시간
-* MTIME: 파일 MFT 레지스트리 수정
-* RTIME: 파일 액세스 시간
+* MTIME: 파일의 MFT 레지스트리 수정
+* RTIME: 파일 접근 시간
 
 ### `$STANDARD_INFORMATION` 및 `$FILE_NAME` 비교
 
-의심스러운 수정된 파일을 식별하는 또 다른 방법은 두 속성의 시간을 비교하여 **불일치**를 찾는 것입니다.
+의심스러운 수정된 파일을 식별하는 또 다른 방법은 두 속성의 시간을 비교하여 **불일치를 찾는 것**입니다.
 
 ### 나노초
 
-**NTFS** 타임스탬프는 **100 나노초의 정밀도**를 갖습니다. 따라서 2010-10-10 10:10:**00.000:0000과 같은 타임스탬프가 있는 파일을 찾는 것은 매우 의심스러울 수 있습니다.
+**NTFS** 타임스탬프는 **100 나노초**의 **정밀도**를 가집니다. 따라서 2010-10-10 10:10:**00.000:0000와 같은 타임스탬프를 가진 파일을 찾는 것은 매우 의심스럽습니다.
 
 ### SetMace - 안티 포렌식 도구
 
-이 도구는 `$STARNDAR_INFORMATION` 및 `$FILE_NAME` 속성을 모두 수정할 수 있습니다. 그러나 Windows Vista부터는 이 정보를 수정하려면 라이브 OS가 필요합니다.
+이 도구는 `$STARNDAR_INFORMATION` 및 `$FILE_NAME` 두 속성을 수정할 수 있습니다. 그러나 Windows Vista부터는 이 정보를 수정하기 위해 라이브 OS가 필요합니다.
 
-## 데이터 숨김
+## 데이터 숨기기
 
-NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 클러스터와 반 개를 사용하면 **파일이 삭제될 때까지 남은 반은 사용되지 않을 것**입니다. 그럼으로 이 "숨겨진" 공간에 데이터를 **숨길 수 있습니다**.
+NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 클러스터와 반 개를 차지하면, **남은 반 개는 파일이 삭제될 때까지 절대 사용되지 않습니다**. 따라서 이 슬랙 공간에 **데이터를 숨길 수 있습니다**.
 
-슬래커와 같은 도구를 사용하여 이 "숨겨진" 공간에 데이터를 숨길 수 있습니다. 그러나 `$logfile` 및 `$usnjrnl`의 분석을 통해 일부 데이터가 추가되었음을 확인할 수 있습니다:
+슬래커와 같은 도구를 사용하면 이 "숨겨진" 공간에 데이터를 숨길 수 있습니다. 그러나 `$logfile` 및 `$usnjrnl` 분석을 통해 일부 데이터가 추가되었음을 보여줄 수 있습니다:
 
 ![](<../../.gitbook/assets/image (1060).png>)
 
-그런 다음 FTK Imager와 같은 도구를 사용하여 슬랙 공간을 검색할 수 있습니다. 이러한 유형의 도구는 콘텐츠를 난독화하거나 암호화할 수 있습니다.
+그런 다음 FTK Imager와 같은 도구를 사용하여 슬랙 공간을 복구할 수 있습니다. 이러한 종류의 도구는 내용을 난독화하거나 심지어 암호화된 상태로 저장할 수 있습니다.
 
 ## UsbKill
 
-이 도구는 **USB 포트에 변경 사항이 감지되면 컴퓨터를 종료**합니다.\
-이를 발견하는 방법은 실행 중인 프로세스를 검사하고 **각 Python 스크립트를 검토**하는 것입니다.
+이 도구는 **USB** 포트에서 변경 사항이 감지되면 컴퓨터를 **꺼**는 도구입니다.\
+이를 발견하는 방법은 실행 중인 프로세스를 검사하고 **실행 중인 각 파이썬 스크립트를 검토하는 것**입니다.
 
-## 라이브 Linux 배포
+## 라이브 리눅스 배포판
 
-이러한 배포판은 **RAM 메모리 내에서 실행**됩니다. NTFS 파일 시스템이 쓰기 권한으로 마운트된 경우에만 침입을 감지할 수 있습니다. 읽기 권한으로만 마운트된 경우 침입을 감지할 수 없습니다.
+이 배포판은 **RAM** 메모리 내에서 **실행됩니다**. 이를 감지하는 유일한 방법은 **NTFS 파일 시스템이 쓰기 권한으로 마운트된 경우**입니다. 읽기 권한만으로 마운트되면 침입을 감지할 수 없습니다.
 
 ## 안전한 삭제
 
@@ -89,74 +90,90 @@ NFTS는 클러스터와 최소 정보 크기를 사용합니다. 즉, 파일이 
 
 ## Windows 구성
 
-포렌식 조사를 훨씬 어렵게 만들기 위해 여러 Windows 로깅 방법을 비활성화할 수 있습니다.
+여러 Windows 로깅 방법을 비활성화하여 포렌식 조사를 훨씬 더 어렵게 만들 수 있습니다.
 
 ### 타임스탬프 비활성화 - UserAssist
 
-이는 사용자가 실행한 각 실행 파일의 날짜와 시간을 유지하는 레지스트리 키입니다.
+이것은 사용자가 각 실행 파일을 실행한 날짜와 시간을 유지하는 레지스트리 키입니다.
 
-UserAssist를 비활성화하려면 두 단계가 필요합니다:
+UserAssist를 비활성화하려면 두 단계를 수행해야 합니다:
 
-1. `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 및 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled` 두 레지스트리 키를 0으로 설정하여 UserAssist를 비활성화하려는 것을 나타냅니다.
+1. 두 개의 레지스트리 키, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` 및 `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`를 모두 0으로 설정하여 UserAssist를 비활성화하려고 한다는 신호를 보냅니다.
 2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`와 같은 레지스트리 하위 트리를 지웁니다.
 
 ### 타임스탬프 비활성화 - Prefetch
 
-이는 Windows 시스템의 성능을 향상시키기 위해 실행된 응용 프로그램에 대한 정보를 저장합니다. 그러나 이는 포렌식 실무에도 유용할 수 있습니다.
+이것은 Windows 시스템의 성능을 향상시키기 위해 실행된 애플리케이션에 대한 정보를 저장합니다. 그러나 이것은 포렌식 관행에도 유용할 수 있습니다.
 
-* `regedit`를 실행합니다.
-* 파일 경로 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`를 선택합니다.
-* `EnablePrefetcher` 및 `EnableSuperfetch`에서 마우스 오른쪽 버튼을 클릭합니다.
-* 각각을 수정하려면 1(또는 3)에서 0으로 값을 변경합니다.
-* 다시 시작합니다.
+* `regedit` 실행
+* 파일 경로 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters` 선택
+* `EnablePrefetcher` 및 `EnableSuperfetch`를 마우스 오른쪽 버튼으로 클릭
+* 각 항목에서 값을 1(또는 3)에서 0으로 변경하기 위해 수정 선택
+* 재부팅
 
-### 타임스탬프 비활성화 - 마지막 액세스 시간
+### 타임스탬프 비활성화 - 마지막 접근 시간
 
-Windows NT 서버의 NTFS 볼륨에서 폴더가 열릴 때 시스템은 **각 목록된 폴더의 타임스탬프 필드를 업데이트**하는 시간을 취합니다. 이를 마지막 액세스 시간이라고 합니다. 사용 빈도가 높은 NTFS 볼륨에서는 성능에 영향을 줄 수 있습니다.
+Windows NT 서버의 NTFS 볼륨에서 폴더가 열릴 때마다 시스템은 각 나열된 폴더에 대한 타임스탬프 필드를 **업데이트하는 데 시간을 소요합니다**, 이를 마지막 접근 시간이라고 합니다. 사용량이 많은 NTFS 볼륨에서는 성능에 영향을 줄 수 있습니다.
 
 1. 레지스트리 편집기(Regedit.exe)를 엽니다.
-2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`로 이동합니다.
+2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`으로 이동합니다.
 3. `NtfsDisableLastAccessUpdate`를 찾습니다. 존재하지 않으면 이 DWORD를 추가하고 값을 1로 설정하여 프로세스를 비활성화합니다.
-4. 레지스트리 편집기를 닫고 서버를 다시 시작합니다.
-### USB 히스토리 삭제
+4. 레지스트리 편집기를 닫고 서버를 재부팅합니다.
 
-모든 **USB 장치 항목**은 Windows 레지스트리에 **USBSTOR** 레지스트리 키 아래에 저장되며, 이 키에는 PC나 노트북에 USB 장치를 연결할 때마다 생성되는 하위 키가 포함되어 있습니다. 이 키는 여기에서 찾을 수 있습니다 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **이를 삭제**하면 USB 히스토리가 삭제됩니다.\
-또한 [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) 도구를 사용하여 삭제했는지 확인하고 삭제할 수 있습니다.
+### USB 기록 삭제
 
-USB에 대한 정보를 저장하는 또 다른 파일은 `C:\Windows\INF` 내부의 `setupapi.dev.log` 파일입니다. 이 파일도 삭제해야 합니다.
+모든 **USB 장치 항목**은 USB 장치를 PC 또는 노트북에 연결할 때 생성되는 하위 키를 포함하는 **USBSTOR** 레지스트리 키 아래에 Windows 레지스트리에 저장됩니다. 이 키는 여기에서 찾을 수 있습니다: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **이것을 삭제하면** USB 기록이 삭제됩니다.\
+또한 [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html) 도구를 사용하여 삭제되었는지 확인할 수 있습니다 (그리고 삭제할 수 있습니다).
 
-### 그림자 복사본 비활성화
+USB에 대한 정보를 저장하는 또 다른 파일은 `C:\Windows\INF` 내의 `setupapi.dev.log` 파일입니다. 이것도 삭제해야 합니다.
 
-`vssadmin list shadowstorage`로 그림자 복사본을 **목록**화합니다.\
-`vssadmin delete shadow`를 실행하여 삭제합니다.
+### 섀도우 복사 비활성화
 
-또한 [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)에서 제안된 단계를 따라 GUI를 통해 삭제할 수도 있습니다.
+**섀도우 복사 목록**을 보려면 `vssadmin list shadowstorage` 실행\
+**삭제**하려면 `vssadmin delete shadow` 실행
 
-그림자 복사본을 비활성화하려면 [여기에서 제안된 단계](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows)를 따르세요:
+[https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)에서 제안된 단계를 따라 GUI를 통해 삭제할 수도 있습니다.
+
+섀도우 복사를 비활성화하려면 [여기에서 단계](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Windows 시작 버튼을 클릭한 후 텍스트 검색 상자에 "services"를 입력하여 서비스 프로그램을 엽니다.
-2. 목록에서 "Volume Shadow Copy"를 찾아 선택한 다음 마우스 오른쪽 버튼을 클릭하여 속성에 액세스합니다.
-3. "시작 유형" 드롭다운 메뉴에서 "비활성화"를 선택한 다음 변경을 확인하기 위해 적용 및 확인을 클릭합니다.
+2. 목록에서 "Volume Shadow Copy"를 찾아 선택한 후 마우스 오른쪽 버튼을 클릭하여 속성에 접근합니다.
+3. "시작 유형" 드롭다운 메뉴에서 비활성화를 선택하고, 변경 사항을 적용하고 확인을 클릭하여 변경을 확인합니다.
 
-그림자 복사본에서 복사할 파일의 구성을 수정할 수도 있습니다. 레지스트리 `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`에서 이를 수행할 수 있습니다.
+어떤 파일이 섀도우 복사에 복사될지를 레지스트리 `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`에서 수정할 수도 있습니다.
 
 ### 삭제된 파일 덮어쓰기
 
-* **Windows 도구**인 `cipher /w:C`를 사용할 수 있습니다. 이는 cipher에게 C 드라이브 내의 사용 가능한 미사용 디스크 공간에서 데이터를 제거하도록 지시합니다.
-* [**Eraser**](https://eraser.heidi.ie)와 같은 도구도 사용할 수 있습니다.
+* **Windows 도구**를 사용할 수 있습니다: `cipher /w:C` 이는 C 드라이브 내의 사용 가능한 미사용 디스크 공간에서 데이터를 제거하도록 지시합니다.
+* [**Eraser**](https://eraser.heidi.ie)와 같은 도구를 사용할 수도 있습니다.
 
 ### Windows 이벤트 로그 삭제
 
-* Windows + R --> eventvwr.msc --> "Windows Logs" 확장 --> 각 범주를 마우스 오른쪽 버튼으로 클릭하고 "로그 지우기"를 선택합니다.
+* Windows + R --> eventvwr.msc --> "Windows 로그" 확장 --> 각 카테고리를 마우스 오른쪽 버튼으로 클릭하고 "로그 지우기" 선택
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
 ### Windows 이벤트 로그 비활성화
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* 서비스 섹션 내에서 "Windows Event Log" 서비스를 비활성화합니다.
+* 서비스 섹션 내에서 "Windows 이벤트 로그" 서비스를 비활성화합니다.
 * `WEvtUtil.exec clear-log` 또는 `WEvtUtil.exe cl`
 
 ### $UsnJrnl 비활성화
 
 * `fsutil usn deletejournal /d c:`
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks 지원하기</summary>
+
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 기법을 공유하세요.**
+
+</details>
+{% endhint %}

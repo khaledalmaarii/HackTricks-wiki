@@ -1,43 +1,48 @@
 # 피싱 파일 및 문서
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
-* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받아보세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하시거나 **트위터**에서 **팔로우**해보세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하고 싶으시다면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **로 PR을 제출해보세요**.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
+{% endhint %}
 
 ## 오피스 문서
 
-Microsoft Word는 파일을 열기 전에 파일 데이터 유효성을 수행합니다. 데이터 유효성은 OfficeOpenXML 표준에 대한 데이터 구조 식별을 통해 수행됩니다. 데이터 구조 식별 중에 오류가 발생하면 분석 중인 파일이 열리지 않습니다.
+Microsoft Word는 파일을 열기 전에 파일 데이터 유효성 검사를 수행합니다. 데이터 유효성 검사는 OfficeOpenXML 표준에 대한 데이터 구조 식별 형태로 수행됩니다. 데이터 구조 식별 중 오류가 발생하면 분석 중인 파일은 열리지 않습니다.
 
-일반적으로 매크로를 포함하는 Word 파일은 `.docm` 확장자를 사용합니다. 그러나 파일 확장자를 변경하여 파일 이름을 변경하고도 여전히 매크로 실행 기능을 유지할 수 있습니다.\
-예를 들어 RTF 파일은 설계상 매크로를 지원하지 않지만, RTF로 이름이 바뀐 DOCM 파일은 Microsoft Word에서 처리되어 매크로 실행이 가능합니다.\
-동일한 내부 및 메커니즘은 Microsoft Office Suite의 모든 소프트웨어(Excel, PowerPoint 등)에 적용됩니다.
+일반적으로 매크로가 포함된 Word 파일은 `.docm` 확장자를 사용합니다. 그러나 파일 확장자를 변경하여 파일 이름을 바꾸면 매크로 실행 기능을 유지할 수 있습니다.\
+예를 들어, RTF 파일은 설계상 매크로를 지원하지 않지만, DOCM 파일을 RTF로 이름을 바꾸면 Microsoft Word에서 처리되며 매크로 실행이 가능합니다.\
+같은 내부 구조와 메커니즘은 Microsoft Office Suite의 모든 소프트웨어(Excel, PowerPoint 등)에 적용됩니다.
 
-일부 Office 프로그램에서 실행될 확장자를 확인하려면 다음 명령을 사용할 수 있습니다:
+다음 명령을 사용하여 일부 Office 프로그램에서 실행될 확장자를 확인할 수 있습니다:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
+DOCX 파일이 원격 템플릿을 참조하는 경우 (파일 – 옵션 – 추가 기능 – 관리: 템플릿 – 이동) 매크로를 “실행”할 수 있습니다.
+
 ### 외부 이미지 로드
 
-이동: _삽입 --> 빠른 부분 --> 필드_\
-_**카테고리**: 링크 및 참조, **필드 이름**: includePicture, 그리고 **파일 이름 또는 URL**:_ http://\<ip>/whatever
+다음으로 이동: _삽입 --> 빠른 부분 --> 필드_\
+_**카테고리**: 링크 및 참조, **필드 이름**: includePicture, 및 **파일 이름 또는 URL**:_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
 ### 매크로 백도어
 
-문서에서 매크로를 사용하여 임의의 코드를 실행하는 것이 가능합니다.
+문서에서 임의의 코드를 실행하기 위해 매크로를 사용할 수 있습니다.
 
-#### 자동로드 함수
+#### 자동 로드 함수
 
-더 일반적인 함수일수록 AV가 감지할 가능성이 높습니다.
+더 일반적일수록, AV가 이를 감지할 가능성이 높아집니다.
 
 * AutoOpen()
 * Document\_Open()
@@ -74,12 +79,12 @@ proc.Create "powershell <beacon line generated>
 ```
 #### 메타데이터 수동 제거
 
-**파일 > 정보 > 문서 검사 > 문서 검사**로 이동하여 문서 검사 도구를 열 수 있습니다. **검사**를 클릭한 다음 **문서 속성 및 개인 정보** 옆의 **모두 제거**를 클릭합니다.
+**파일 > 정보 > 문서 검사 > 문서 검사**로 이동하면 문서 검사기가 열립니다. **검사**를 클릭한 다음 **문서 속성 및 개인 정보** 옆의 **모두 제거**를 클릭합니다.
 
 #### 문서 확장자
 
-작업을 마치면 **다른 이름으로 저장** 드롭다운을 선택하여 형식을 **`.docx`**에서 **Word 97-2003 `.doc`**로 변경합니다.\
-이렇게 하는 이유는 **매크로를 `.docx` 내부에 저장할 수 없기 때문**이며, 매크로가 포함된 **`.docm`** 확장자에는 **낙인**이 있어서 (예: 썸네일 아이콘에 큰 `!`가 표시되어 있음) 웹/이메일 게이트웨이에서 완전히 차단할 수 있습니다. 따라서 이 **기존 `.doc` 확장자가 최상의 타협안**입니다.
+작업이 끝나면 **다른 이름으로 저장** 드롭다운에서 형식을 **`.docx`**에서 **Word 97-2003 `.doc`**로 변경합니다.\
+이렇게 하는 이유는 **`.docx`** 안에 매크로를 저장할 수 없고, 매크로 사용 가능 **`.docm`** 확장자에 대한 **오명**이 있기 때문입니다(예: 썸네일 아이콘에 큰 `!`가 있고 일부 웹/이메일 게이트웨이가 이를 완전히 차단합니다). 따라서 이 **구식 `.doc` 확장자**가 최선의 타협입니다.
 
 #### 악성 매크로 생성기
 
@@ -89,9 +94,9 @@ proc.Create "powershell <beacon line generated>
 
 ## HTA 파일
 
-HTA는 **HTML 및 VBScript 및 JScript와 같은 스크립팅 언어를 결합한 Windows 프로그램**입니다. 이는 사용자 인터페이스를 생성하고 브라우저의 보안 모델 제약 없이 "완전히 신뢰할 수 있는" 응용 프로그램으로 실행됩니다.
+HTA는 **HTML 및 스크립팅 언어(예: VBScript 및 JScript)**를 결합한 Windows 프로그램입니다. 사용자 인터페이스를 생성하고 브라우저의 보안 모델의 제약 없이 "완전히 신뢰할 수 있는" 애플리케이션으로 실행됩니다.
 
-HTA는 **`mshta.exe`**를 사용하여 실행되며, 일반적으로 **인터넷 익스플로러와 함께 설치**되어 **`mshta`가 IE에 의존**합니다. 따라서 IE가 제거되었을 경우 HTA는 실행할 수 없습니다.
+HTA는 **`mshta.exe`**를 사용하여 실행되며, 이는 일반적으로 **Internet Explorer**와 함께 **설치**되어 **`mshta`가 IE에 의존**하게 됩니다. 따라서 IE가 제거되면 HTA는 실행할 수 없습니다.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -146,9 +151,9 @@ var_func
 self.close
 </script>
 ```
-## NTLM 인증 강제
+## NTLM 인증 강제화
 
-**원격으로 NTLM 인증을 "강제"하는 여러 가지 방법**이 있습니다. 예를 들어 이메일이나 HTML에 **보이지 않는 이미지**를 추가하거나 사용자가 액세스할 것으로 예상되는 파일의 주소를 피해자에게 보내면 (심지어 HTTP MitM?) **폴더를 열기만으로도 인증을 유도**할 수 있습니다.
+여러 가지 방법으로 **NTLM 인증을 "원격으로" 강제화**할 수 있습니다. 예를 들어, 사용자가 접근할 이메일이나 HTML에 **보이지 않는 이미지**를 추가하거나 (HTTP MitM도 가능할까요?) 피해자에게 **파일의 주소**를 보내 **폴더를 열기만 해도** **인증**이 **트리거**되도록 할 수 있습니다.
 
 **다음 페이지에서 이러한 아이디어와 더 많은 내용을 확인하세요:**
 
@@ -162,19 +167,22 @@ self.close
 
 ### NTLM 릴레이
 
-해시나 인증 정보를 훔치는 것뿐만 아니라 **NTLM 릴레이 공격**도 수행할 수 있다는 것을 잊지 마세요:
+해시나 인증을 훔치는 것뿐만 아니라 **NTLM 릴레이 공격을 수행**할 수 있다는 것을 잊지 마세요:
 
 * [**NTLM 릴레이 공격**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8 (인증서로 NTLM 릴레이)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**AD CS ESC8 (NTLM 릴레이를 통한 인증서)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+
+{% hint style="success" %}
+AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사에서 일하시나요**? **HackTricks에 귀사를 광고하고 싶으신가요**? 아니면 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 얻으세요
-* **💬** [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **해킹 요령을 공유하려면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **에 PR을 제출**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

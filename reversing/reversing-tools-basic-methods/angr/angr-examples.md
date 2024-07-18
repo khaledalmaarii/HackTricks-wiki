@@ -1,24 +1,27 @@
-# Angr - 예시
+# Angr - Examples
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요**!</summary>
+<summary>Support HackTricks</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사를 HackTricks에서 광고하고 싶으신가요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드하고 싶으신가요**? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 얻으세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하고 싶으시다면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **로 PR을 제출하세요**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-{% hint style="info" %}
-프로그램이 `scanf`를 사용하여 **stdin에서 한 번에 여러 값을 가져오는 경우**에는 **`scanf`** 이후에서 시작하는 상태를 생성해야 합니다.
 {% endhint %}
 
-코드는 [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)에서 가져왔습니다.
+{% hint style="info" %}
+프로그램이 `scanf`를 사용하여 **stdin에서 여러 값을 한 번에 가져오는 경우** **`scanf`** 이후에 시작하는 상태를 생성해야 합니다.
+{% endhint %}
 
-### 주소에 도달하기 위한 입력 (주소 표시)
+Codes taken from [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+
+### 주소에 도달하기 위한 입력 (주소를 나타냄)
 ```python
 import angr
 import sys
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 주소에 도달하기 위한 입력 (출력 표시)
+### 주소에 도달하기 위한 입력 (출력을 나타냄)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -212,7 +215,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-이 시나리오에서는 입력이 `scanf("%u %u")`를 사용하여 가져오고 값으로 `"1 1"`이 주어졌으므로 스택의 값 **`0x00000001`**이 **사용자 입력**에서 나왔습니다. 이 값이 `$ebp - 8`에서 시작하는 것을 볼 수 있습니다. 따라서 코드에서는 **`$esp`에서 8바이트를 뺀 다음 (그 순간 `$ebp`와 `$esp`가 동일한 값이었기 때문에)** BVS를 푸시했습니다.
+이 시나리오에서 입력은 `scanf("%u %u")`로 받아졌고 값 `"1 1"`이 주어졌으므로 스택의 값 **`0x00000001`**은 **사용자 입력**에서 나옵니다. 이 값이 `$ebp - 8`에서 시작하는 것을 볼 수 있습니다. 따라서 코드에서 **`$esp`에 8바이트를 뺀 것입니다 (그 순간 `$ebp`와 `$esp`는 같은 값을 가졌습니다)** 그리고 BVS를 푸시했습니다.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-심볼릭 파일에는 상수 데이터와 심볼릭 데이터가 결합된 데이터가 포함될 수도 있음을 유의하십시오:
+상징적 파일은 상징적 데이터와 병합된 상수 데이터를 포함할 수도 있습니다:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -415,11 +418,11 @@ main(sys.argv)
 ```
 {% endhint %}
 
-### 제약 적용
+### 제약 조건 적용
 
 {% hint style="info" %}
-가끔 길이가 16인 2개의 단어를 **문자별로** 비교하는 단순한 인간 작업은 **angr**에게 많은 **비용**이 발생합니다. 왜냐하면 각 if문마다 가지를 생성해야 하기 때문에 가지가 지수적으로 증가하기 때문입니다: `2^16`\
-따라서, **angr가 이전 지점으로 돌아가서** (실제 어려운 부분이 이미 완료된 지점) **수동으로 해당 제약 조건을 설정하는 것이 더 쉽습니다**.
+때때로 길이 16의 두 단어를 **문자별로** 비교하는 간단한 인간 작업(루프)은 **angr**에 많은 비용이 듭니다. 왜냐하면 조건문마다 1개의 분기를 생성해야 하므로 **지수적으로** 분기를 생성해야 하기 때문입니다: `2^16`\
+따라서 **angr에게 이전 지점으로 돌아가도록 요청**하고 **그러한 제약 조건을 수동으로 설정**하는 것이 더 쉽습니다.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,16 +495,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-일부 시나리오에서는 비슷한 상태를 병합하여 쓸모없는 가지를 저장하고 해결책을 찾기 위해 **veritesting**를 활성화할 수 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+일부 시나리오에서는 **veritesting**을 활성화하여 유사한 상태를 병합하여 쓸모없는 분기를 줄이고 해결책을 찾을 수 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-이러한 시나리오에서 할 수 있는 또 다른 방법은 **angr이 이해하기 쉬운 무언가를 제공하는 함수를 hook하는 것**입니다.
+이러한 시나리오에서 할 수 있는 또 다른 방법은 **angr가 더 쉽게 이해할 수 있는 것을 제공하여 함수를 후킹하는 것**입니다.
 {% endhint %}
 
 ### 시뮬레이션 관리자
 
-일부 시뮬레이션 관리자는 다른 것보다 유용할 수 있습니다. 이전 예제에서 많은 유용한 가지가 생성되는 문제가 있었습니다. 여기서 **veritesting** 기술을 사용하여 이를 병합하고 해결책을 찾을 수 있습니다.\
+일부 시뮬레이션 관리자는 다른 관리자보다 더 유용할 수 있습니다. 이전 예제에서는 많은 유용한 분기가 생성되는 문제가 있었습니다. 여기서 **veritesting** 기술이 이를 병합하고 해결책을 찾을 것입니다.\
 이 시뮬레이션 관리자는 다음과 같이 활성화할 수도 있습니다: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 함수 호출 하나를 후킹/바이패스하기
+### 후킹/함수에 대한 호출 우회
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 함수 후킹 / 시무프로시저
+### 함수 후킹 / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 여러 매개변수를 사용하여 scanf 시뮬레이션
+### 여러 매개변수를 가진 scanf 시뮬레이션
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -754,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 정적 이진 파일
+### 정적 바이너리
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하고 싶으시다면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **로 PR을 제출하세요**.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
