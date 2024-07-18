@@ -1,18 +1,19 @@
-# Dockerフォレンジック
+# Docker Forensics
+
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)で**フォロー**する。
-- **HackTricks**および**HackTricks Cloud**のgithubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
 
 ## コンテナの変更
 
@@ -22,7 +23,7 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-あなたは簡単に次のコマンドで、このコンテナに対して行われた変更をイメージに関して見つけることができます:
+あなたは簡単に次のコマンドで、このコンテナに対してイメージに関して行われた変更を見つけることができます:
 ```bash
 docker diff wordpress
 C /var
@@ -36,18 +37,18 @@ A /var/lib/mysql/mysql/time_zone_leap_second.MYI
 A /var/lib/mysql/mysql/general_log.CSV
 ...
 ```
-前のコマンドで **C** は **変更** を意味し、**A** は **追加** を意味します。\
-もし `/etc/shadow` のような興味深いファイルが変更されていることがわかった場合、悪意のある活動をチェックするためにコンテナからダウンロードすることができます:
+前のコマンドで **C** は **変更** を意味し、**A,** は **追加** を意味します。\
+もし `/etc/shadow` のような興味深いファイルが変更されたことがわかった場合、悪意のある活動をチェックするためにそのファイルをコンテナからダウンロードできます:
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-あなたは新しいコンテナを実行し、そこからファイルを抽出することで、元のものと比較することもできます：
+あなたは新しいコンテナを実行し、ファイルを取り出すことで、元のものと比較することもできます。
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
 diff original_shadow shadow
 ```
-もし**いくつかの怪しいファイルが追加された**ことがわかった場合は、コンテナにアクセスして確認できます：
+もし**いくつかの怪しいファイルが追加された**とわかった場合は、コンテナにアクセスして確認できます：
 ```bash
 docker exec -it wordpress bash
 ```
@@ -60,17 +61,17 @@ container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-その後、イメージを**展開**して、**ブロブにアクセス**して、変更履歴で見つけた疑わしいファイルを検索できます。
+その後、イメージを**展開**して**ブロブにアクセス**し、変更履歴で見つけた疑わしいファイルを検索できます：
 ```bash
 tar -xf image.tar
 ```
 ### 基本的な分析
 
-イメージを実行して**基本情報**を取得できます：
+実行中のイメージから**基本情報**を取得できます：
 ```bash
 docker inspect <image>
 ```
-以下は、変更の要約履歴を取得する方法です:
+あなたはまた、次のようにして**変更履歴の要約**を取得することもできます：
 ```bash
 docker history --no-trunc <image>
 ```
@@ -90,16 +91,16 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-これにより、**Dockerイメージの異なるブロブをナビゲート**して、変更/追加されたファイルを確認できます。**赤**は追加されたファイルを、**黄色**は変更されたファイルを示します。**Tab** キーを使用して他のビューに移動し、**スペース** キーを使用してフォルダを折りたたんだり展開したりします。
+これにより、**Dockerイメージの異なるブロブをナビゲート**して、変更/追加されたファイルを確認できます。**赤**は追加されたファイルを、**黄色**は変更されたファイルを示します。**Tab** キーを使用して他のビューに移動し、**スペース** キーを使用してフォルダを折りたたんだり開いたりします。
 
-これにより、イメージの異なるステージのコンテンツにアクセスできなくなります。それを行うには、**各レイヤーを展開してアクセスする**必要があります。\
-イメージのすべてのレイヤーを展開するには、イメージが展開されたディレクトリから次のコマンドを実行します：
+これにより、イメージの異なるステージのコンテンツにアクセスできなくなります。それを行うには、**各レイヤーを展開してアクセスする必要があります**。\
+イメージが展開されたディレクトリから、イメージのすべてのレイヤーを展開することができます。
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
 ## メモリからの資格情報
 
-ホスト内でdockerコンテナを実行すると、ホストから`ps -ef`を実行するだけでコンテナで実行されているプロセスを見ることができます。
+ホスト内でdockerコンテナを実行すると、ホストから`ps -ef`を実行するだけでコンテナで実行中のプロセスを見ることができます。
 
-したがって（rootとして）、ホストからプロセスのメモリをダンプし、[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)資格情報を検索することができます。
+したがって（rootとして）、ホストからプロセスのメモリをダンプして、[**次の例のように**](../../linux-hardening/privilege-escalation/#process-memory)資格情報を検索することができます。

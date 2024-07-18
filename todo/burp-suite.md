@@ -1,43 +1,45 @@
+{% hint style="success" %}
+**AWSハッキングの学習と練習:**<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+**GCPハッキングの学習と練習:** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksであなたの会社を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加する**、または**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングのコツを共有する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 
 # 基本的なペイロード
 
-* **シンプルリスト:** 各行にエントリが含まれているリスト
-* **ランタイムファイル:** ランタイムで読み込まれるリスト（メモリにはロードされない）。大きなリストをサポートするため。
-* **ケース変更:** 文字列リストにいくつかの変更を適用する（変更なし、小文字にする、大文字にする、適切な名前にする - 最初の文字を大文字にして残りを小文字にする、適切な名前にする - 最初の文字を大文字にして残りはそのままにする）。
-* **数字:** XからYまでの数字をZステップまたはランダムに生成する。
-* **ブルートフォーサー:** 文字セット、最小＆最大長さ。
+* **シンプルリスト:** 各行にエントリを含むリスト
+* **ランタイムファイル:** メモリに読み込まれずに実行時に読み込まれるリスト。大規模なリストをサポートします。
+* **ケース変更:** 文字列のリストに変更を適用します（変更なし、小文字、大文字、Proper名 - 最初の文字だけ大文字で残りは小文字 -、Proper名 - 最初の文字だけ大文字で残りはそのまま -。
+* **数字:** XからYまでの数値をZステップまたはランダムに生成します。
+* **ブルートフォーサー:** 文字セット、最小長、最大長。
 
-[https://github.com/0xC01DF00D/Collabfiltrator](https://github.com/0xC01DF00D/Collabfiltrator) : DNSリクエストを介してコマンドを実行し、出力を取得するペイロード。
+[https://github.com/0xC01DF00D/Collabfiltrator](https://github.com/0xC01DF00D/Collabfiltrator) : コマンドを実行し、burpcollabへのDNSリクエストを介して出力を取得するためのペイロード。
 
 {% embed url="https://medium.com/@ArtsSEC/burp-suite-exporter-462531be24e" %}
 
 [https://github.com/h3xstream/http-script-generator](https://github.com/h3xstream/http-script-generator)
 
 
+{% hint style="success" %}
+**AWSハッキングの学習と練習:**<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+**GCPハッキングの学習と練習:** <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksであなたの会社を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加する**、または**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングのコツを共有する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

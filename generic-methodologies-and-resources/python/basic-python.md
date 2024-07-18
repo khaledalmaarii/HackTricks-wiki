@@ -1,30 +1,31 @@
 # 基本的なPython
 
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じて、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦で**フォロー**する：[**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* **ハッキングトリックを共有するには、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
 
 ## Pythonの基礎
 
 ### 便利な情報
 
-list(xrange()) == range() --> Python3ではrangeはPython2のxrangeと同じ（リストではなくジェネレーター）\
+list(xrange()) == range() --> Python3ではrangeはPython2のxrangeに相当する（リストではなくジェネレーター）\
 タプルとリストの違いは、タプル内の値の位置が意味を持つが、リストは単なる順序付けられた値であることです。タプルには構造がありますが、リストには順序があります。
 
 ### 主な操作
 
-数を累乗するには：3\*\*2（3^2ではありません）\
-2/3を行うと1が返されます。これは2つの整数（integers）を割っているためです。小数点以下を取得するには、浮動小数点数で割る必要があります（2.0/3.0）。\
+数を累乗するには: 3\*\*2（3の2乗）を使用します（3^2ではありません）\
+2/3を行うと1が返されます。これは2つの整数（integers）を割っているためです。小数点以下を取得するには浮動小数点数で割る必要があります（2.0/3.0）。\
 i >= j\
 i <= j\
 i == j\
@@ -70,7 +71,7 @@ sorted(\[1,43,5,3,21,4])
 \# 1行コメント\
 """\
 複数行コメント\
-別のコメント\
+もう一つ\
 """
 
 **ループ**
@@ -114,20 +115,20 @@ tuple(a) = (1, 2, 3) --> リストからタプルへ
 ### 辞書
 
 d = {} 空\
-monthNumbers = {1: 'Jan', 2: 'feb', 'feb': 2} --> monthNumbers -> {1: 'Jan', 2: 'feb', 'feb': 2}\
+monthNumbers={1:'Jan', 2: 'feb','feb':2}—> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
 monthNumbers\[1] = 'Jan'\
-monthNumbers\[‘feb’] = 2\
+monthNumbers\['feb'] = 2\
 list(monthNumbers) = \[1, 2, 'feb']\
 monthNumbers.values() = \['Jan', 'feb', 2]\
 keys = \[k for k in monthNumbers]\
-a = {'9': 9}\
-monthNumbers.update(a) = {'9': 9, 1: 'Jan', 2: 'feb', 'feb': 2}\
+a={'9':9}\
+monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
 mN = monthNumbers.copy() #独立したコピー\
-monthNumbers.get('key', 0) #キーが存在するか確認し、存在する場合はmonthNumbers\["key"]の値を返し、存在しない場合は0を返す
+monthNumbers.get('key',0) #キーが存在するかどうかを確認し、monthNumbers\["key"]の値を返す。存在しない場合は0を返す
 
 ### 集合
 
-集合には重複がない\
+集合には重複がありません\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #重複なし\
@@ -137,10 +138,10 @@ myset.remove(10) #存在する場合は削除、存在しない場合は例外�
 myset2 = set(\[1, 2, 3, 4])\
 myset.union(myset2) #mysetまたはmyset2の値\
 myset.intersection(myset2) #mysetとmyset2の値\
-myset.difference(myset2) #mysetにあるがmyset2にない値\
+myset.difference(myset2) #mysetにあってmyset2にない値\
 myset.symmetric\_difference(myset2) #mysetとmyset2の両方にない値\
 myset.pop() #集合の最初の要素を取得して削除\
-myset.intersection\_update(myset2) #myset = mysetとmyset2の両方にある要素\
+myset.intersection\_update(myset2) #myset = mysetとmyset2の両方の要素\
 myset.difference\_update(myset2) #myset = mysetにあってmyset2にない要素\
 myset.symmetric\_difference\_update(myset2) #myset = 両方にない要素
 ```python
@@ -170,12 +171,12 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted and one-liners
+### map, zip, filter, lambda, sorted およびワンライナー
 
-**Map** is like: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
+**Map** は次のようになります: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** stops when the shorter of foo or bar stops:
+**zip** は、foo または bar のうち短い方が停止します:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
@@ -195,11 +196,11 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-```python
-mult1 = [x for x in [1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
+```html
+<h2>例外</h2>
 ```
 
-### 例外
+mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 ```
 def divide(x,y):
 try:
@@ -223,7 +224,7 @@ assert len(grades) == 'wrong number grades'
 ```
 ### ジェネレータ、yield
 
-ジェネレータは、何かを返す代わりに、何かを「yield（生成）」します。アクセスすると、最初に生成された値を「返し」、その後、再度アクセスすると次に生成された値を返します。つまり、すべての値が同時に生成されるのではなく、すべての値を持つリストよりもこれを使用することで多くのメモリを節約できます。
+ジェネレータは、何かを返す代わりに、何かを「yield（提供）」します。アクセスすると、最初に生成された値を「返し」、その後、再度アクセスすると次に生成された値を返します。つまり、すべての値が同時に生成されるのではなく、すべての値を持つリストよりもこれを使用することで多くのメモリを節約できます。
 ```
 def myGen(n):
 yield n
@@ -278,12 +279,12 @@ from itertools import **combinations** --> 文字を繰り返さずにすべて�
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> 文字以降のすべての可能な組み合わせを生成する（たとえば、3番目は3番目以降から混合されますが、2番目や最初とは混合されません）\
-print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
+from itertools import **combinations\_with\_replacement** --> 文字以降のすべての可能な組み合わせを生成する（たとえば、3番目は3番目以降から混合されますが、2番目や1番目とは混合されません）\
+print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3)']
 
 ### デコレータ
 
-関数の実行にかかる時間を測定するデコレータ（[こちら](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)から）
+関数の実行に必要な時間を計測するデコレータ（[こちら](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)から）
 ```
 ```python
 from functools import wraps
@@ -308,16 +309,17 @@ Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**をフォローする**
-* **ハッキングトリックを共有するには、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}

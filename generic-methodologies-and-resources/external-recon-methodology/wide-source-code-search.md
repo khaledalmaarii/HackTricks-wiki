@@ -1,18 +1,19 @@
 # 広範囲なソースコード検索
 
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass) に参加するか、**Twitter** 🐦 で **@hacktricks_live** をフォローする**.**
-* **ハッキングトリックを共有するには** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。
+* [**購読プラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,18 +23,18 @@ HackTricks をサポートする他の方法:
 
 ***
 
-このページの目標は、1つ以上のプラットフォームで数千万のリポジトリを横断してコード（リテラルまたは正規表現）を検索できる **プラットフォームを列挙すること** です。
+このページの目的は、1つまたは複数のプラットフォームで数千/数百万のリポジトリを横断してコード（リテラルまたは正規表現）を検索できる**プラットフォームを列挙**することです。
 
-これは、**漏洩情報** や **脆弱性** パターンを検索する際に役立ちます。
+これは、**漏洩情報**や**脆弱性**パターンを検索する際に役立ちます。
 
 * [**SourceGraph**](https://sourcegraph.com/search): 数百万のリポジトリを検索します。無料版とエンタープライズ版（15日間無料）があります。正規表現をサポートしています。
 * [**Github Search**](https://github.com/search): Github全体を検索します。正規表現をサポートしています。
-* おそらく [**Github Code Search**](https://cs.github.com/) もチェックすると便利です。
+* また、[**Github Code Search**](https://cs.github.com/)をチェックすることも役立つかもしれません。
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlabプロジェクト全体を検索します。正規表現をサポートしています。
-* [**SearchCode**](https://searchcode.com/): 数百万のプロジェクトでコードを検索します。
+* [**SearchCode**](https://searchcode.com/): 数百万のプロジェクト内のコードを検索します。
 
 {% hint style="warning" %}
-リポジトリで漏洩を探して `git log -p` のようなコマンドを実行する際は、**他のコミットを含む他のブランチに秘密情報が含まれている可能性** があることを忘れないでください！
+リポジトリ内で漏洩を探す際に`git log -p`などを実行すると、秘密情報を含む**他のコミットを持つ他のブランチ**があるかもしれないことを忘れないでください！
 {% endhint %}
 
 **Try Hard Security Group**
@@ -42,16 +43,17 @@ HackTricks をサポートする他の方法:
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass) に参加するか、**Twitter** 🐦 で **@hacktricks_live** をフォローする**.**
-* **ハッキングトリックを共有するには** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。
+* [**購読プラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}

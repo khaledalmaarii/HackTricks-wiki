@@ -1,46 +1,47 @@
 # Pcap Inspection
 
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)のコレクション
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)を**フォロー**する
-- **HackTricks**と**HackTricks Cloud**のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して**ハッキングトリックを共有**してください。
 
 </details>
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/)は**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**でも最も重要なイベントの1つです。**技術知識の促進を使命**とするこの会議は、あらゆる分野のテクノロジーとサイバーセキュリティ専門家の熱い出会いの場です。
+[**RootedCON**](https://www.rootedcon.com/)は**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**でも最も重要なイベントの一つです。**技術知識の促進を使命**とするこの会議は、あらゆる分野のテクノロジーとサイバーセキュリティ専門家にとっての熱い出会いの場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-**PCAP**と**PCAPNG**についての注意：PCAPファイル形式には2つのバージョンがあります。**PCAPNG**は新しいバージョンであり、すべてのツールでサポートされていません。他のツールで使用するために、一部のツールで動作するようにPCAPNGファイルをPCAPに変換する必要があるかもしれません。
+**PCAP**と**PCAPNG**についての注意事項: PCAPファイル形式には2つのバージョンがあります。**PCAPNGは新しいバージョンであり、すべてのツールでサポートされていません**。他のツールで使用するためには、Wiresharkなどの互換性のあるツールを使用して、PCAPNGファイルをPCAPファイルに変換する必要がある場合があります。
 {% endhint %}
 
 ## Pcap用のオンラインツール
 
-- Pcapのヘッダーが**壊れている**場合は、[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)を使用して**修正**してみてください。
-- Pcap内の**情報**を抽出し、**マルウェア**を検索するには、[**PacketTotal**](https://packettotal.com)を使用します。
-- [**www.virustotal.com**](https://www.virustotal.com)および[**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)を使用して、**悪意のある活動**を検索します。
+* もしpcapのヘッダーが**壊れて**いる場合は、[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)を使用して**修正**を試みるべきです。
+* Pcap内の**情報**を抽出し、**マルウェア**を検索するには、[**PacketTotal**](https://packettotal.com)を使用します。
+* [**www.virustotal.com**](https://www.virustotal.com)と[**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)を使用して、**悪意のある活動**を検索します。
 
 ## 情報の抽出
 
-次のツールは、統計情報、ファイルなどを抽出するのに役立ちます。
+以下のツールは統計情報、ファイルなどを抽出するのに役立ちます。
 
 ### Wireshark
 
 {% hint style="info" %}
-**PCAPを分析する場合、基本的にWiresharkの使用方法を知っている必要があります**
+**PCAPを分析する場合は、基本的にWiresharkの使用方法を知っている必要があります**
 {% endhint %}
 
-Wiresharkのトリックは次の場所で見つけることができます：
+Wiresharkのトリックは次の場所で見つけることができます:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -48,7 +49,7 @@ Wiresharkのトリックは次の場所で見つけることができます：
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)（Linuxのみ）は、**pcap**を分析し、その情報を抽出できます。たとえば、pcapファイルからXplicoは、各電子メール（POP、IMAP、およびSMTPプロトコル）、すべてのHTTPコンテンツ、各VoIP通話（SIP）、FTP、TFTPなどを抽出します。
+[**Xplico** ](https://github.com/xplico/xplico)_(Linuxのみ)_は**pcap**を分析し、その情報を抽出することができます。例えば、pcapファイルからXplicoは、各電子メール（POP、IMAP、SMTPプロトコル）、すべてのHTTPコンテンツ、各VoIP通話（SIP）、FTP、TFTPなどを抽出します。
 
 **インストール**
 ```bash
@@ -62,19 +63,19 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-アクセスは_**127.0.0.1:9876**_、資格情報は_**xplico:xplico**_で行います。
+アクセスは、資格情報「xplico:xplico」を使用して、_**127.0.0.1:9876**_ にアクセスします。
 
-次に**新しいケース**を作成し、そのケース内に**新しいセッション**を作成し、**pcap**ファイルを**アップロード**してください。
+その後、**新しいケース**を作成し、ケース内に**新しいセッション**を作成し、**pcap**ファイルを**アップロード**します。
 
 ### NetworkMiner
 
 Xplicoと同様に、pcapからオブジェクトを**解析および抽出**するツールです。[**こちら**](https://www.netresec.com/?page=NetworkMiner) から無料版を**ダウンロード**できます。**Windows**と互換性があります。\
-このツールは、**パケットから他の情報を取得**し、**より迅速**に何が起こっていたのかを知るのに役立ちます。
+このツールは、**他の情報を取得**し、パケットから何が起こっていたのかを**迅速に**把握するのに役立ちます。
 
 ### NetWitness Investigator
 
-[**こちら**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) から**NetWitness Investigator**をダウンロードできます（**Windows**で動作します）。\
-これは、**パケットを解析**し、情報を整理して**内部で何が起こっているかを把握**するのに役立つ別の便利なツールです。
+[**NetWitness Investigatorをこちらから**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) ダウンロードできます（**Windows**で動作します）。\
+これは、**パケットを分析**し、情報を整理して**内部で何が起こっているか**を把握するのに役立つ別の便利なツールです。
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
@@ -83,7 +84,7 @@ Xplicoと同様に、pcapからオブジェクトを**解析および抽出**す
 * ビジュアルネットワークダイアグラムの作成（ネットワークノード＆ユーザー）
 * DNSクエリの抽出
 * すべてのTCPおよびUDPセッションの再構築
-* ファイルの彫刻
+* ファイルカービング
 
 ### Capinfos
 ```
@@ -109,7 +110,7 @@ ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) は **スペイン** で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ** でも最も重要なイベントの一つです。**技術知識の促進を使命** とするこの会議は、あらゆる分野のテクノロジーとサイバーセキュリティ専門家にとっての熱い出会いの場です。
+[**RootedCON**](https://www.rootedcon.com/) は**スペイン**で最も関連性の高いサイバーセキュリティイベントであり、**ヨーロッパ**で最も重要なイベントの一つです。**技術的知識の促進を使命**とするこの会議は、あらゆる分野のテクノロジーとサイバーセキュリティ専門家にとっての沸騰する出会いの場です。
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -124,7 +125,7 @@ apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
-**PCAPの確認**
+**pcapのチェック**
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
@@ -140,7 +141,7 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 ### Malware Analysis
 
-既知のマルウェアの指紋を見つけることができるかどうかを確認してください：
+既知のマルウェアの指紋を見つけることができるかどうかを確認してください:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -148,9 +149,9 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html)は、受動的なオープンソースのネットワークトラフィックアナライザーです。多くのオペレーターは、疑わしいまたは悪意のある活動の調査をサポートするために、Zeekをネットワークセキュリティモニター（NSM）として使用しています。 Zeekは、セキュリティ領域を超えたさまざまなトラフィック分析タスクをサポートしており、パフォーマンス測定やトラブルシューティングも含まれています。
+> [Zeek](https://docs.zeek.org/en/master/about.html)は、受動的なオープンソースのネットワークトラフィックアナライザーです。多くのオペレーターは、疑わしいまたは悪意のある活動の調査をサポートするために、Zeekをネットワークセキュリティモニター（NSM）として使用しています。Zeekは、セキュリティ領域を超えたさまざまなトラフィック分析タスクをサポートしており、パフォーマンス測定やトラブルシューティングも含まれています。
 
-基本的に、`zeek`によって作成されたログは**pcap**ではありません。したがって、pcapsに関する**情報**が含まれているログを分析するためには、**他のツール**を使用する必要があります。
+基本的に、`zeek`によって作成されたログは**pcap**ではありません。したがって、**pcap**に関する**情報**が含まれているログを分析するためには、**他のツール**を使用する必要があります。
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -217,7 +218,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-## その他のpcap分析のテクニック
+## その他のpcap分析トリック
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -239,16 +240,17 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 {% embed url="https://www.rootedcon.com/" %}
 
+{% hint style="success" %}
+AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>**htARTE (HackTricks AWS Red Team Expert)**を使って、ゼロからヒーローまでAWSハッキングを学ぶ</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を手に入れる
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加**したり、**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)を**フォロー**する
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks)のGitHubリポジトリにPRを提出して、あなたのハッキングトリックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
