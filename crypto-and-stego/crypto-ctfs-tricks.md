@@ -1,18 +1,19 @@
 # Sztuczki Crypto CTFs
 
+{% hint style="success" %}
+Nauka i praktyka Hackingu AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Nauka i praktyka Hackingu GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
+{% endhint %}
 
 ## Bazy danych skrótów online
 
@@ -28,10 +29,10 @@ Inne sposoby wsparcia HackTricks:
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Magiczne narzędzia do rozwiązywania
+## Magiczne automatyczne rozwiązujące
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (moduł Magic)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduł Magic)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
@@ -42,12 +43,12 @@ Większość zakodowanych danych można odkodować za pomocą tych 2 zasobów:
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Automatyczne rozwiązanie podstawień
+### Automatyczne rozwiązujące zastąpienia
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - Bardzo dobre !
 
-#### Automatyczne rozwiązanie szyfrów Cezara - ROTx
+#### Automatyczne rozwiązujące szyfr Cezara - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
@@ -55,9 +56,57 @@ Większość zakodowanych danych można odkodować za pomocą tych 2 zasobów:
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Automatyczne rozwiązanie kodowań bazowych
+### Automatyczne rozwiązujące kodowania bazowe
 
 Sprawdź wszystkie te bazy za pomocą: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+
+* **Ascii85**
+* `BQ%]q@psCd@rH0l`
+* **Base26** \[_A-Z_]
+* `BQEKGAHRJKHQMVZGKUXNT`
+* **Base32** \[_A-Z2-7=_]
+* `NBXWYYLDMFZGCY3PNRQQ====`
+* **Zbase32** \[_ybndrfg8ejkmcpqxot1uwisza345h769_]
+* `pbzsaamdcf3gna5xptoo====`
+* **Base32 Geohash** \[_0-9b-hjkmnp-z_]
+* `e1rqssc3d5t62svgejhh====`
+* **Base32 Crockford** \[_0-9A-HJKMNP-TV-Z_]
+* `D1QPRRB3C5S62RVFDHGG====`
+* **Base32 Extended Hexadecimal** \[_0-9A-V_]
+* `D1NMOOB3C5P62ORFDHGG====`
+* **Base45** \[_0-9A-Z $%\*+-./:_]
+* `59DPVDGPCVKEUPCPVD`
+* **Base58 (bitcoin)** \[_1-9A-HJ-NP-Za-km-z_]
+* `2yJiRg5BF9gmsU6AC`
+* **Base58 (flickr)** \[_1-9a-km-zA-HJ-NP-Z_]
+* `2YiHqF5bf9FLSt6ac`
+* **Base58 (ripple)** \[_rpshnaf39wBUDNEGHJKLM4PQ-T7V-Z2b-eCg65jkm8oFqi1tuvAxyz_]
+* `pyJ5RgnBE9gm17awU`
+* **Base62** \[_0-9A-Za-z_]
+* `g2AextRZpBKRBzQ9`
+* **Base64** \[_A-Za-z0-9+/=_]
+* `aG9sYWNhcmFjb2xh`
+* **Base67** \[_A-Za-z0-9-_.!\~\_]
+* `NI9JKX0cSUdqhr!p`
+* **Base85 (Ascii85)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `BQ%]q@psCd@rH0l`
+* **Base85 (Adobe)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `<~BQ%]q@psCd@rH0l~>`
+* **Base85 (IPv6 or RFC1924)** \[_0-9A-Za-z!#$%&()\*+-;<=>?@^_\`{|}\~\_]
+* `Xm4y`V\_|Y(V{dF>\`
+* **Base85 (xbtoa)** \[_!"#$%&'()\*+,-./0-9:;<=>?@A-Z\[\\]^\_\`a-u_]
+* `xbtoa Begin\nBQ%]q@psCd@rH0l\nxbtoa End N 12 c E 1a S 4e6 R 6991d`
+* **Base85 (XML)** \[_0-9A-Za-y!#$()\*+,-./:;=?@^\`{|}\~z\__]
+* `Xm4y|V{~Y+V}dF?`
+* **Base91** \[_A-Za-z0-9!#$%&()\*+,./:;<=>?@\[]^\_\`{|}\~"_]
+* `frDg[*jNN!7&BQM`
+* **Base100** \[]
+* `👟👦👣👘👚👘👩👘👚👦👣👘`
+* **Base122** \[]
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -142,23 +191,23 @@ drnajapajrna
 
 ### A1Z26
 
-Litery zamienione na ich wartości numeryczne
+Litery na ich wartość numeryczną
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
 ### Szyfr afiniczny - szyfrowanie
 
-Litera na liczbę `(ax+b)%26` (_a_ i _b_ to klucze, a _x_ to litera) oraz przekształcenie wyniku z powrotem na literę
+Przekształć literę na liczbę `(ax+b)%26` (_a_ i _b_ to klucze, a _x_ to litera), a następnie wynik z powrotem na literę
 ```
 krodfdudfrod
 ```
 ### Kod SMS
 
-**Multitap** [zamienia literę](https://www.dcode.fr/word-letter-change) na powtarzające się cyfry zdefiniowane przez odpowiadający kod klawisza na klawiaturze [telefonu komórkowego](https://www.dcode.fr/phone-keypad-cipher) (Ten tryb jest używany podczas pisania SMS-ów).\
+**Multitap** [zastępuje literę](https://www.dcode.fr/word-letter-change) powtarzanymi cyframi zdefiniowanymi przez odpowiadający kod klawisza na klawiaturze [telefonu komórkowego](https://www.dcode.fr/phone-keypad-cipher) (Ten tryb jest używany podczas pisania SMS-ów).\
 Na przykład: 2=A, 22=B, 222=C, 3=D...\
 Możesz zidentyfikować ten kod, ponieważ zobaczysz\*\* wiele powtarzających się liczb\*\*.
 
-Możesz odszyfrować ten kod za pomocą: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Możesz odszyfrować ten kod tutaj: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Kod Bacona
 
@@ -221,7 +270,7 @@ Sekret jest dzielony na X części, a do jego odzyskania potrzebujesz Y części
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Bruteforce w OpenSSL
+### Atak siłowy OpenSSL
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -232,16 +281,17 @@ Sekret jest dzielony na X części, a do jego odzyskania potrzebujesz Y części
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

