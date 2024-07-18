@@ -1,30 +1,31 @@
 # Basiese Python
 
+{% hint style="success" %}
+Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Python Basiese Beginsels
 
 ### Nuttige inligting
 
-list(xrange()) == range() --> In python3 is range die xrange van python2 (dit is nie 'n lys nie, maar 'n generator)\
-Die verskil tussen 'n Tuple en 'n Lys is dat die posisie van 'n waarde in 'n tuple betekenis daaraan gee, maar die lyse is net geordende waardes. Tuples het strukture, maar lyse het 'n volgorde.
+list(xrange()) == range() --> In python3 is die reeks die xrange van python2 (dit is nie 'n lys nie, maar 'n generator)\
+Die verskil tussen 'n Tuple en 'n Lys is dat die posisie van 'n waarde in 'n tuple dit betekenis gee, maar die lyste is net geordende waardes. Tuples het strukture maar lyste het 'n volgorde.
 
-### Hoofhandelinge
+### Hoof-operasies
 
-Om 'n getal te verhoog, gebruik jy: 3\*\*2 (nie 3^2 nie)\
-As jy 2/3 doen, gee dit 1 terug omdat jy twee ints (heeltalle) deel. As jy desimale wil hê, moet jy floats deel (2.0/3.0).\
+Om 'n nommer te verhoog gebruik jy: 3\*\*2 (nie 3^2 nie)\
+As jy 2/3 doen, gee dit 1 terug omdat jy twee ints (heeltalle) verdeel. As jy desimale wil hê, moet jy drijfgetalle verdeel (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
@@ -39,11 +40,11 @@ ord("A") = 65\
 chr(65) = 'A'\
 hex(100) = '0x64'\
 hex(100)\[2:] = '64'\
-isinstance(1, int) = True\
+isinstance(1, int) = Waar\
 "a b".split(" ") = \['a', 'b']\
 " ".join(\['a', 'b']) = "a b"\
-"abcdef".startswith("ab") = True\
-"abcdef".contains("abc") = True\
+"abcdef".startswith("ab") = Waar\
+"abcdef".contains("abc") = Waar\
 "abc\n".strip() = "abc"\
 "apbc".replace("p","") = "abc"\
 dir(str) = Lys van al die beskikbare metodes\
@@ -54,7 +55,7 @@ help(str) = Definisie van die klas str\
 sum(\[1,2,3]) = 6\
 sorted(\[1,43,5,3,21,4])
 
-**Voeg karakters bymekaar**\
+**Voeg karakters saam**\
 3 \* ’a’ = ‘aaa’\
 ‘a’ + ‘b’ = ‘ab’\
 ‘a’ + str(3) = ‘a3’\
@@ -67,7 +68,7 @@ sorted(\[1,43,5,3,21,4])
 "qwertyuiop"\[:-1] = 'qwertyuio'
 
 **Kommentaar**\
-\# Eenreëelkommentaar\
+\# Een reël kommentaar\
 """\
 Verskeie reëls kommentaar\
 Nog een\
@@ -93,60 +94,60 @@ for letter in "hola":
 ```
 ### Tuples
 
-t1 = (1,'2,'three')\
-t2 = (5,6)\
-t3 = t1 + t2 = (1, '2', 'three', 5, 6)\
+t1 = (1, '2', 'drie')\
+t2 = (5, 6)\
+t3 = t1 + t2 = (1, '2', 'drie', 5, 6)\
 (4,) = Singelton\
 d = () leë tuple\
-d += (4,) --> Voeg by 'n tuple\
+d += (4,) --> Byvoeging in 'n tuple\
 KAN NIE! --> t1\[1] == 'Nuwe waarde'\
-list(t2) = \[5,6] --> Van tuple na lys
+list(t2) = \[5, 6] --> Van tuple na lys
 
-### Lys (array)
+### List (array)
 
-d = \[] leë\
-a = \[1,2,3]\
-b = \[4,5]\
-a + b = \[1,2,3,4,5]\
-b.append(6) = \[4,5,6]\
-tuple(a) = (1,2,3) --> Van lys na tuple
+d = \[] leeg\
+a = \[1, 2, 3]\
+b = \[4, 5]\
+a + b = \[1, 2, 3, 4, 5]\
+b.append(6) = \[4, 5, 6]\
+tuple(a) = (1, 2, 3) --> Van lys na tuple
 
-### Woordeskat
+### Dictionary
 
-d = {} leë\
-monthNumbers={1:’Jan’, 2: ‘feb’,’feb’:2}—> monthNumbers ->{1:’Jan’, 2: ‘feb’,’feb’:2}\
-monthNumbers\[1] = ‘Jan’\
-monthNumbers\[‘feb’] = 2\
-list(monthNumbers) = \[1,2,’feb’]\
-monthNumbers.values() = \[‘Jan’,’feb’,2]\
-keys = \[k for k in monthNumbers]\
+d = {} leeg\
+monthNumbers={1:'Jan', 2: 'feb','feb':2}—> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
+monthNumbers\[1] = 'Jan'\
+monthNumbers\['feb'] = 2\
+list(monthNumbers) = \[1, 2, 'feb']\
+monthNumbers.values() = \['Jan', 'feb', 2]\
+keys = \[k vir k in monthNumbers]\
 a={'9':9}\
-monthNumbers.update(a) = {'9':9, 1:’Jan’, 2: ‘feb’,’feb’:2}\
+monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
 mN = monthNumbers.copy() #Onafhanklike kopie\
-monthNumbers.get('key',0) #Kyk of sleutel bestaan, Gee waarde van monthNumbers\["key"] of 0 as dit nie bestaan nie
+monthNumbers.get('sleutel',0) #Kyk of sleutel bestaan, Gee waarde van monthNumbers\["sleutel"] of 0 indien dit nie bestaan nie
 
-### Stel
+### Set
 
 In stelle is daar geen herhalings nie\
 myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #Geen herhalings\
-myset.update(\[1,2,3]) = set(\['a', 1, 2, 'b', 'c', 3])\
-myset.discard(10) #As teenwoordig, verwyder dit, as nie, niks\
-myset.remove(10) #As teenwoordig, verwyder dit, as nie, gooi 'n uitsondering\
+myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
+myset.discard(10) #Indien teenwoordig, verwyder dit, indien nie, niks\
+myset.remove(10) #Indien teenwoordig, verwyder dit, indien nie, gooi 'n uitsondering\
 myset2 = set(\[1, 2, 3, 4])\
 myset.union(myset2) #Waardes in myset OF myset2\
 myset.intersection(myset2) #Waardes in myset EN myset2\
 myset.difference(myset2) #Waardes in myset maar nie in myset2\
-myset.symmetric\_difference(myset2) #Waardes wat nie in myset EN myset2 is (nie in beide nie)\
+myset.symmetric\_difference(myset2) #Waardes wat nie in myset EN myset2 is nie (nie in beide nie)\
 myset.pop() #Kry die eerste element van die stel en verwyder dit\
 myset.intersection\_update(myset2) #myset = Elemente in beide myset en myset2\
 myset.difference\_update(myset2) #myset = Elemente in myset maar nie in myset2\
-myset.symmetric\_difference\_update(myset2) #myset = Elemente wat nie in beide is nie
+myset.symmetric\_difference\_update(myset2) #myset = Elemente wat nie in beide is
 
-### Klasse
+### Classes
 
-Die metode in \_\_It\_\_ sal gebruik word deur sort om te vergelyk of 'n objek van hierdie klas groter is as 'n ander
+Die metode in \_\_It\_\_ sal die een wees wat deur sort gebruik word om te vergelyk of 'n objek van hierdie klas groter is as 'n ander
 ```python
 class Person(name):
 def __init__(self,name):
@@ -174,7 +175,7 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted en eenregelige oplossingen
+### map, zip, filter, lambda, sorted en een-regelige programme
 
 **Map** is soos: \[f(x) vir x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
@@ -184,7 +185,11 @@ m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, 
 for f, b in zip(foo, bar):
 print(f, b)
 ```
-**Lambda** word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word
+**Lambda** word gebruik om 'n funksie te definieer\
+(lambda x,y: x+y)(5,3) = 8 --> Gebruik lambda as 'n eenvoudige **funksie**\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Gebruik lambda om 'n lys te sorteer\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Gebruik lambda om te filter\
+**reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
 ```
 def make_adder(n):
 return lambda x: x+n
@@ -195,9 +200,11 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
+```html
 mult1 = \[x vir x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] as x%3 == 0 ]
 
 ### Uitsonderings
+```
 ```
 def divide(x,y):
 try:
@@ -213,7 +220,7 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-As die voorwaarde vals is, sal die string op die skerm gedruk word.
+Indien die voorwaarde vals is, sal die string op die skerm gedruk word.
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
@@ -221,17 +228,18 @@ assert len(grades) == 'wrong number grades'
 ```
 ### Opwekkers, opbrengs
 
-'n Opwekker, in plaas van om iets terug te gee, "lewer" iets op. Wanneer jy dit toegang gee, sal dit die eerste gegenereerde waarde "teruggee", dan kan jy dit weer toegang gee en dit sal die volgende gegenereerde waarde teruggee. So, al die waardes word nie op dieselfde tyd gegenereer nie en baie geheue kan bespaar word deur dit te gebruik in plaas van 'n lys met al die waardes.
+'n Opwekker, in plaas van om iets terug te gee, "opbreng" dit iets. Wanneer jy dit toegang gee, sal dit die eerste waarde wat opgewek is "teruggee", dan kan jy dit weer toegang gee en dit sal die volgende waarde wat opgewek is teruggee. Dus, word nie al die waardes op dieselfde tyd opgewek nie en baie geheue kan bewaar word deur dit te gebruik in plaas van 'n lys met al die waardes.
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
+```afrikaans
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Fout
 
-### Reëlmatige Uitdrukkings
+### Gereelde Uitdrukkings
 
 import re\
 re.search("\w","hola").group() = "h"\
@@ -242,8 +250,8 @@ re.findall("\w+(la)","hola caracola") = \['la', 'la']
 . --> Alles\
 \w --> \[a-zA-Z0-9\_]\
 \d --> Nommer\
-\s --> Spasie karakter\[ \n\r\t\f]\
-\S --> Nie-spasie karakter\
+\s --> WitSpasie karakter\[ \n\r\t\f]\
+\S --> Nie-witSpasie karakter\
 ^ --> Begin met\
 $ --> Eindig met\
 \+ --> Een of meer\
@@ -253,15 +261,15 @@ $ --> Eindig met\
 **Opsies:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Laat punt om nuwe lyn te pas\
-MULTILINE --> Laat ^ en $ om in verskillende lyne te pas
+DOTALL --> Laat die punt toe om 'n nuwe lyn te pas\
+MULTILINE --> Laat ^ en $ toe om in verskillende lyne te pas
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> Genereer kombinasies tussen 1 of meer lysse, dalk herhalende waardes, kartesiese produk (verdelings eienskap)\
+from **itertools** import product --> Genereer kombinasies tussen 1 of meer lysse, dalk herhalende waardes, kartesiese produk (distributiewe eienskap)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
@@ -280,7 +288,8 @@ print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1',
 
 ### Versierders
 
-Versierder wat die tyd meet wat 'n funksie neem om uitgevoer te word (vanaf [hier](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
+Versierder wat die tyd meet wat 'n funksie benodig om uitgevoer te word (van [hier](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
+```
 ```python
 from functools import wraps
 import time
@@ -298,22 +307,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-As jy dit uitvoer, sal jy iets soos die volgende sien:
+As jy dit hardloop, sal jy iets soos die volgende sien:
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
+{% hint style="success" %}
+Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

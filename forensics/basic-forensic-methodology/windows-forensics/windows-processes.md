@@ -1,54 +1,55 @@
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslag.
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 
 ## smss.exe
 
 **Sessiebestuurder**.\
-Sessie 0 begin **csrss.exe** en **wininit.exe** (**OS-dienste**) terwyl Sessie 1 **csrss.exe** en **winlogon.exe** (**Gebruiker-sessie**) begin. Jy behoort egter **slegs een proses** van daardie **binêre lêer** sonder kinders in die prosesseboom te sien.
+Sessie 0 begin **csrss.exe** en **wininit.exe** (**OS-diens**) terwyl Sessie 1 **csrss.exe** en **winlogon.exe** (**Gebruikersessie**) begin. Jy behoort egter **net een proses** van daardie **binêre** te sien sonder kinders in die prosesseboom.
 
-Daarbenewens kan sessies anders as 0 en 1 beteken dat RDP-sessies plaasvind.
+Verder kan sessies anders as 0 en 1 beteken dat RDP-sessies plaasvind.
 
 
 ## csrss.exe
 
 **Kliënt/Bediener Uitvoeringsondersteuningsproses**.\
-Dit bestuur **prosesse** en **drade**, maak die **Windows API** beskikbaar vir ander prosesse en **koppel stuurprogramme aan**, skep **tydelike lêers**, en hanteer die **afsluitingsproses**.
+Dit bestuur **prosesse** en **drade**, maak die **Windows-API** beskikbaar vir ander prosesse en ook **koppel stationsletters aan**, skep **tydelike lêers**, en hanteer die **afsluitingsproses**.
 
-Daar is een wat in Sessie 0 loop en nog een in Sessie 1 (dus **2 prosesse** in die prosesseboom). Nog een word geskep **per nuwe Sessie**.
+Daar is een wat in Sessie 0 hardloop en nog een in Sessie 1 (dus **2 prosesse** in die prosesseboom). Nog een word geskep **per nuwe Sessie**.
 
 
 ## winlogon.exe
 
-**Windows Aantekenproses**.\
-Dit is verantwoordelik vir gebruiker **aanmelding**/**afmelding**. Dit begin **logonui.exe** om vir gebruikersnaam en wagwoord te vra en roep dan **lsass.exe** aan om dit te verifieer.
+**Windows Aanmeldingsproses**.\
+Dit is verantwoordelik vir gebruiker **aanmeldings**/**afmeldings**. Dit begin **logonui.exe** om vir gebruikersnaam en wagwoord te vra en skakel dan **lsass.exe** in om dit te verifieer.
 
-Daarna begin dit **userinit.exe** wat gespesifiseer word in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** met die sleutel **Userinit**.
+Daarna begin dit **userinit.exe** wat gespesifiseer is in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** met sleutel **Userinit**.
 
-Daarbenewens moet die vorige register **explorer.exe** in die **Shell-sleutel** hê, anders kan dit misbruik word as 'n **kwaadwillige volhardingsmetode**.
+Daarbenewens behoort die vorige register **explorer.exe** in die **Shell-sleutel** te hê of dit kan misbruik word as 'n **malware volhardingsmetode**.
 
 
 ## wininit.exe
 
 **Windows Inisialisasieproses**. \
-Dit begin **services.exe**, **lsass.exe**, en **lsm.exe** in Sessie 0. Daar behoort slegs 1 proses te wees.
+Dit begin **services.exe**, **lsass.exe**, en **lsm.exe** in Sessie 0. Daar behoort net 1 proses te wees.
 
 
 ## userinit.exe
 
-**Userinit Aanmeldingsprogram**.\
-Laai die **ntuser.dat in HKCU** en inisialiseer die **gebruikersomgewing** en voer **aanmeldingskripte** en **GPO** uit.
+**Gebruikerinisialisasie Aanmeldingsprogram**.\
+Laai die **ntduser.dat in HKCU** en inisialiseer die **gebruiker** **omgewing** en voer **aanmeldingskripte** en **GPO** uit.
 
 Dit begin **explorer.exe**.
 
@@ -60,7 +61,7 @@ Dit werk saam met smss.exe om gebruikersessies te manipuleer: Aanmelding/afmeldi
 
 Na W7 is lsm.exe omskep in 'n diens (lsm.dll).
 
-Daar behoort slegs 1 proses in W7 te wees en daarvandaan 'n diens wat die DLL uitvoer.
+Daar behoort net 1 proses in W7 te wees en van hulle 'n diens wat die DLL hardloop.
 
 
 ## services.exe
@@ -68,21 +69,21 @@ Daar behoort slegs 1 proses in W7 te wees en daarvandaan 'n diens wat die DLL ui
 **Diensbeheerder**.\
 Dit **laai** **dienste** wat as **outomatiese aanvang** en **bestuurders** gekonfigureer is.
 
-Dit is die ouerproses van **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** en nog baie meer.
+Dit is die ouerproses van **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** en baie meer.
 
-Dienste word gedefinieer in `HKLM\SYSTEM\CurrentControlSet\Services` en hierdie proses onderhou 'n databasis in die geheue van diensinligting wat deur sc.exe ondervra kan word.
+Dienste word gedefinieer in `HKLM\SYSTEM\CurrentControlSet\Services` en hierdie proses handhaaf 'n DB in die geheue van diensinligting wat deur sc.exe ondervra kan word.
 
-Let daarop hoe **sommige** **dienste** in 'n **eie proses** sal loop en ander sal 'n **svchost.exe-proses deel**.
+Let op hoe **sommige** **dienste** in 'n **proses van hul eie** gaan hardloop en ander gaan **'n svchost.exe-proses deel**.
 
-Daar behoort slegs 1 proses te wees.
+Daar behoort net 1 proses te wees.
 
 
 ## lsass.exe
 
 **Plaaslike Sekuriteitsowerheidsondersteuning**.\
-Dit is verantwoordelik vir die gebruiker se **verifikasie** en skep die **sekuriteitstokens**. Dit gebruik verifikasiepakkette wat in `HKLM\System\CurrentControlSet\Control\Lsa` geleë is.
+Dit is verantwoordelik vir die gebruiker **verifikasie** en skep die **sekuriteit** **tokens**. Dit gebruik verifikasiepakette wat in `HKLM\System\CurrentControlSet\Control\Lsa` geleë is.
 
-Dit skryf na die **Sekuriteit-gebeurtenislogboek** en daar behoort slegs 1 proses te wees.
+Dit skryf na die **Sekuriteit** **gebeurtenis** **logboek** en daar behoort net 1 proses te wees.
 
 Hou in gedagte dat hierdie proses hoogs aangeval word om wagwoorde te dump.
 
@@ -90,48 +91,55 @@ Hou in gedagte dat hierdie proses hoogs aangeval word om wagwoorde te dump.
 ## svchost.exe
 
 **Generiese Diensgasheerproses**.\
-Dit bied onderdak aan verskeie DLL-dienste in een gedeelde proses.
+Dit bied gasheer aan meervoudige DLL-dienste in een gedeelde proses.
 
-Gewoonlik sal jy vind dat **svchost.exe** met die `-k` vlag geloods word. Dit sal 'n navraag na die register **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** loods waar daar 'n sleutel met die genoemde argument sal wees wat die dienste bevat wat in dieselfde proses geloods moet word.
+Gewoonlik sal jy vind dat **svchost.exe** met die `-k` vlag gelanseer word. Dit sal 'n navraag na die register **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** lanceer waar daar 'n sleutel met die genoemde argument in -k sal wees wat die dienste bevat om in dieselfde proses te lanceer.
 
-Byvoorbeeld: `-k UnistackSvcGroup` sal loods: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+Byvoorbeeld: `-k UnistackSvcGroup` sal lanceer: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-As die **vlag `-s`** ook saam met 'n argument gebruik word, word svchost gevra om **slegs die gespesifiseerde diens** in hierdie argument te loods.
+As die **vlag `-s`** ook met 'n argument gebruik word, word svchost gevra om **net die gespesifiseerde diens** in hierdie argument te lanceer.
 
-Daar sal verskeie prosesse van `svchost.exe` wees. As een van hulle **nie die `-k` vlag gebruik nie**, is dit baie verdag. As jy vind dat **services.exe nie die ouerproses is nie**, is dit ook baie verdag.
+Daar sal verskeie prosesse van `svchost.exe` wees. As enige van hulle **nie die `-k` vlag gebruik nie**, is dit baie verdag. As jy vind dat **services.exe nie die ouerproses is nie**, is dit ook baie verdag.
 
 
 ## taskhost.exe
 
-Hierdie proses tree op as 'n gasheer vir prosesse wat van DLL's loop. Dit laai ook die dienste wat van DLL's loop.
+Hierdie proses tree op as 'n gasheer vir prosesse wat van DLL's hardloop. Dit laai ook die dienste wat van DLL's hardloop.
 
 In W8 word dit taskhostex.exe genoem en in W10 taskhostw.exe.
 
 
 ## explorer.exe
 
-Hierdie is die proses wat verantwoordelik is vir die **gebruiker se lessenaar** en die loods van lêers via lêeruitbreidings.
+Dit is die proses wat verantwoordelik is vir die **gebruiker se lessenaar** en die aanvang van lêers via lêeruitbreidings.
 
-**Slegs 1** proses behoort **per aangemelde gebruiker** gegenereer te word.
+**Net 1** proses behoort **per aangemelde gebruiker** gegenereer te word.
 
-Dit word uitgevoer vanaf **userinit.exe** wat beëindig moet word, sodat **geen ouerproses** vir hierdie proses moet verskyn nie.
+Dit word vanaf **userinit.exe** uitgevoer wat beëindig behoort te word, sodat **geen ouer** vir hierdie proses moet verskyn nie.
 
 
-# Vang kwaadwillige prosesse
+# Vangskadelike Prosesse
 
-* Loop dit vanaf die verwagte pad? (Geen Windows-binêre lêers loop vanaf 'n tydelike plek nie)
+* Hardloop dit van die verwagte pad af? (Geen Windows-binêres hardloop vanaf 'n tydelike plek nie)
 * Kommunikeer dit met vreemde IP-adresse?
-* Kontroleer digitale handtekeninge (Microsoft-artefakte moet onderteken wees)
+* Kontroleer digitale handtekeninge (Microsoft-artefakte behoort onderteken te wees)
 * Is dit korrek gespel?
-* Loop dit onder die verwagte SID?
+* Hardloop dit onder die verwagte SID?
 * Is die ouerproses die verwagte een (indien enige)?
-* Is die kinderprosesse die verwagte (geen cmd.exe, wscript.exe, powershell.exe nie)?
+* Is die kinderprosesse die verwagte (geen cmd.exe, wscript.exe, powershell.exe..?)?
 
+
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, ky
+</details>
+{% endhint %}

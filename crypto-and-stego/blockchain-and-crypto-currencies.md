@@ -1,32 +1,33 @@
+{% hint style="success" %}
+Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
+{% endhint %}
 
 
 ## Basiese Konsepte
 
-- **Slim Kontrakte** word gedefinieer as programme wat op 'n blokketting uitgevoer word wanneer sekere voorwaardes bereik word, wat ooreenkomste outomatiseer sonder bemiddelaars.
-- **Gedentraliseerde Toepassings (dApps)** bou op slim kontrakte, met 'n gebruikersvriendelike voorkant en 'n deursigtige, ouditeerbare agterkant.
+- **Slimme Kontrakte** word gedefinieer as programme wat op 'n blokketting uitgevoer word wanneer sekere voorwaardes bereik word, wat ooreenkomste outomatiseer sonder bemiddelaars.
+- **Gedekentraliseerde Toepassings (dApps)** bou op slimme kontrakte, met 'n gebruikersvriendelike voorkant en 'n deursigtige, auditeerbare agterkant.
 - **Tokens & Munte** onderskei waar munte as digitale geld dien, terwyl tokens waarde of eienaarskap in spesifieke kontekste verteenwoordig.
 - **Hulpprogram Tokens** gee toegang tot dienste, en **Sekerheidstokens** dui bate-eienaarskap aan.
-- **DeFi** staan vir Gedentraliseerde Finansies, wat finansiële dienste sonder sentrale owerhede bied.
-- **DEX** en **DAO's** verwys na Gedentraliseerde Ruilplatforms en Gedentraliseerde Outonome Organisasies, onderskeidelik.
+- **DeFi** staan vir Gedekentraliseerde Finansies, wat finansiële dienste sonder sentrale owerhede bied.
+- **DEX** en **DAOs** verwys na Gedekentraliseerde Ruilplatforms en Gedekentraliseerde Outonome Organisasies, onderskeidelik.
 
 ## Konsensus Meganismes
 
 Konsensusmeganismes verseker veilige en ooreengekome transaksievalidasies op die blokketting:
 - **Bewys van Werk (PoW)** steun op rekenkundige krag vir transaksieverifikasie.
-- **Bewys van Deelname (PoS)** vereis dat valideerders 'n sekere hoeveelheid tokens moet besit, wat energieverbruik verminder in vergelyking met PoW.
+- **Bewys van Deelname (PoS)** vereis dat valideerders 'n sekere hoeveelheid tokens besit, wat energieverbruik verminder in vergelyking met PoW.
 
 ## Bitcoin Essensies
 
@@ -39,15 +40,15 @@ Bitcoin-transaksies behels die oordrag van fondse tussen adresse. Transaksies wo
 - **Multisignatuurtransaksies** vereis meervoudige handtekeninge om 'n transaksie te magtig.
 - Transaksies bestaan uit **inskrywings** (bron van fondse), **uitsette** (bestemming), **fooie** (betaal aan mynwerkers), en **skripte** (transaksiereëls).
 
-### Bliksemskakelnetwerk
+### Blikseminetwerk
 
-Mik daarop om Bitcoin se skaalbaarheid te verbeter deur meervoudige transaksies binne 'n kanaal toe te laat, en slegs die finale toestand na die blokketting uit te saai.
+Mik om Bitcoin se skaalbaarheid te verbeter deur meervoudige transaksies binne 'n kanaal toe te laat, en slegs die finale toestand na die blokketting uit te saai.
 
 ## Bitcoin-privasieminagtings
 
 Privasieminagtings, soos **Gemeenskaplike Invoereienaarskap** en **UTXO-veranderingsadresopsporing**, benut transaksiepatrone. Strategieë soos **Mengers** en **CoinJoin** verbeter anonimiteit deur transaksieskakels tussen gebruikers te verduister.
 
-## Bitcoins Anoniem Verkry
+## Anoniem Bitcoins bekom
 
 Metodes sluit kontanttransaksies, mynbou, en die gebruik van mengers in. **CoinJoin** meng verskeie transaksies om naspeurbaarheid te bemoeilik, terwyl **PayJoin** CoinJoins as gewone transaksies vermom vir verhoogde privaatheid.
 
@@ -67,7 +68,7 @@ Dit is oor die algemeen selde dat invoere van verskillende gebruikers in 'n enke
 'n UTXO, of **Ongebruikte Transaksie-uitset**, moet heeltemal in 'n transaksie spandeer word. As slegs 'n deel daarvan na 'n ander adres gestuur word, gaan die res na 'n nuwe veranderingsadres. Waarnemers kan aanneem dat hierdie nuwe adres aan die sender behoort, wat privaatheid kompromitteer.
 
 ### Voorbeeld
-Om dit te verminder, kan mengdienste of die gebruik van meervoudige adresse help om eienaarskap te verduister.
+Om dit te verminder, kan mengdienste of die gebruik van verskeie adresse help om eienaarskap te verduister.
 
 ## **Sosiale Netwerke & Forum Blootstelling**
 
@@ -75,7 +76,7 @@ Gebruikers deel soms hul Bitcoin-adresse aanlyn, wat dit **maklik maak om die ad
 
 ## **Transaksiegrafiekontleding**
 
-Transaksies kan as grafieke gevisualiseer word, wat potensiële verbindings tussen gebruikers onthul gebaseer op die vloei van fondse.
+Transaksies kan as grafieke gevisualiseer word, wat potensiële verbindings tussen gebruikers onthul op grond van die vloei van fondse.
 
 ## **Onnodige Invoerheuristiek (Optimale Veranderingsheuristiek)**
 
@@ -102,7 +103,7 @@ Beursies moet vermy om munte te gebruik wat ontvang is op reeds gebruikte, leë 
 
 ## **Verkeersanalise**
 
-Deur netwerkverkeer te monitor, kan aanvallers moontlik transaksies of blokke aan IP adresse koppel, wat gebruikersprivaatheid in gevaar kan bring. Dit is veral waar as 'n entiteit baie Bitcoin knotsdieners bedryf, wat hul vermoë om transaksies te monitor verbeter.
+Deur netwerkverkeer te monitor, kan aanvallers moontlik transaksies of blokke aan IP adresse koppel, wat gebruikers se privaatheid in gevaar kan bring. Dit is veral waar as 'n entiteit baie Bitcoin knotsdienste bedryf, wat hul vermoë om transaksies te monitor verbeter.
 
 ## Meer
 Vir 'n omvattende lys van privaatheidsaanvalle en verdedigings, besoek [Bitcoin Privacy op Bitcoin Wiki](https://en.bitcoin.it/wiki/Privacy).
@@ -114,8 +115,8 @@ Vir 'n omvattende lys van privaatheidsaanvalle en verdedigings, besoek [Bitcoin 
 
 - **Kontant Transaksies**: Bitcoin verkry deur kontant.
 - **Kontant Alternatiewe**: Koop geskenkkaarte en ruil dit aanlyn vir bitcoin.
-- **Mynbou**: Die mees private metode om bitcoins te verdien is deur mynbou, veral wanneer alleen gedoen omdat mynbougroepe die mynwerker se IP-adres kan ken. [Mynbou Groepe Inligting](https://en.bitcoin.it/wiki/Pooled_mining)
-- **Diefstal**: Teoreties kan diefstal van bitcoin 'n ander metode wees om dit anoniem te bekom, alhoewel dit onwettig is en nie aanbeveel word nie.
+- **Mynbou**: Die mees private manier om bitcoins te verdien is deur mynbou, veral wanneer dit alleen gedoen word omdat mynbougroepe die mynwerker se IP-adres kan ken. [Mynbou Groepe Inligting](https://en.bitcoin.it/wiki/Pooled_mining)
+- **Diefstal**: Teoreties kan diefstal van bitcoin 'n ander manier wees om dit anoniem te bekom, alhoewel dit onwettig is en nie aanbeveel word nie.
 
 ## Mengdienste
 
@@ -141,28 +142,28 @@ Transaksies soos die bogenoemde kan PayJoin wees, wat privaatheid verbeter terwy
 **Die gebruik van PayJoin kan tradisionele moniteringsmetodes aansienlik ontwrig**, wat dit 'n belowende ontwikkeling maak in die strewe na transaksionele privaatheid.
 
 
-# Beste Praktyke vir Privatheid in Kriptogeldeenhede
+# Beste Praktyke vir Privaatheid in Kriptogeldeenhede
 
 ## **Bewaarbeurs Synchronisasie Tegnieke**
 
 Om privaatheid en sekuriteit te handhaaf, is dit noodsaaklik om bewaarbeurse met die blokketting te synchroniseer. Twee metodes steek uit:
 
 - **Volle node**: Deur die hele blokketting af te laai, verseker 'n volle node maksimum privaatheid. Alle transaksies wat ooit gemaak is, word plaaslik gestoor, wat dit onmoontlik maak vir teenstanders om te identifiseer in watter transaksies of adresse die gebruiker belangstel.
-- **Kliëntkant blokfiltering**: Hierdie metode behels die skep van filters vir elke blok in die blokketting, wat bewaarbeurse in staat stel om relevante transaksies te identifiseer sonder om spesifieke belange aan netwerkwaarnemers bloot te stel. Ligte bewaarbeurse laai hierdie filters af, en haal slegs volle blokke binne wanneer 'n ooreenkoms met die gebruiker se adresse gevind word.
+- **Kliëntkant blokfiltering**: Hierdie metode behels die skep van filters vir elke blok in die blokketting, wat bewaarbeurse in staat stel om relevante transaksies te identifiseer sonder om spesifieke belange aan netwerkwaarnemers bloot te stel. Ligte bewaarbeurse laai hierdie filters af, enige volle blokke wanneer 'n ooreenkoms met die gebruiker se adresse gevind word.
 
 ## **Tor benut vir Anonimiteit**
 
-Gegewe dat Bitcoin op 'n eweknie-netwerk werk, word die gebruik van Tor aanbeveel om jou IP-adres te verberg, wat privaatheid verbeter wanneer jy met die netwerk interaksie het.
+Gegewe dat Bitcoin op 'n ewekansige netwerk werk, word dit aanbeveel om Tor te gebruik om jou IP-adres te verberg, wat privaatheid verbeter wanneer jy met die netwerk interaksie het.
 
 ## **Voorkoming van Adres Hergebruik**
 
 Om privaatheid te beskerm, is dit noodsaaklik om vir elke transaksie 'n nuwe adres te gebruik. Hergebruik van adresse kan privaatheid in gevaar bring deur transaksies aan dieselfde entiteit te koppel. Moderne bewaarbeurse ontmoedig adres hergebruik deur hul ontwerp.
 
-## **Strategieë vir Transaksie-Privaatheid**
+## **Strategieë vir Transaksie Privaatheid**
 
-- **Meervoudige transaksies**: Die opsplitting van 'n betaling in verskeie transaksies kan die transaksiebedrag verdoesel, wat privaatheidsaanvalle kan voorkom.
-- **Vermyding van wisselgeld**: Om te kies vir transaksies wat nie wisselgeld-uitsette benodig nie, verbeter privaatheid deur wisselgeldopsporingsmetodes te ontwrig.
-- **Meervoudige wisselgeld-uitsette**: As die vermyding van wisselgeld nie moontlik is nie, kan die skep van meervoudige wisselgeld-uitsette steeds privaatheid verbeter.
+- **Meervoudige transaksies**: Die opsplitting van 'n betaling in verskeie transaksies kan die transaksiebedrag verberg, privaatheidsaanvalle dwarsboom.
+- **Vermy verandering**: Om te kies vir transaksies wat nie veranderingsuitsette benodig nie, verbeter privaatheid deur veranderingsopsporingsmetodes te ontwrig.
+- **Meervoudige veranderingsuitsette**: As die vermyding van verandering nie moontlik is nie, kan die skep van meervoudige veranderingsuitsette steeds privaatheid verbeter.
 
 # **Monero: 'n Baken van Anonimiteit**
 
@@ -172,11 +173,11 @@ Monero spreek die behoefte aan absolute anonimiteit in digitale transaksies aan,
 
 ## **Begrip van Gas**
 
-Gas meet die rekenkundige poging wat nodig is om operasies op Ethereum uit te voer, geprijs in **gwei**. Byvoorbeeld, 'n transaksie wat 2,310,000 gwei (of 0.00231 ETH) kos, behels 'n gaslimiet en 'n basiskoers, met 'n fooi om myners te motiveer. Gebruikers kan 'n maksimumfooi instel om te verseker dat hulle nie te veel betaal nie, met die oortollige bedrag wat terugbetaal word.
+Gas meet die rekenkundige poging wat nodig is om operasies op Ethereum uit te voer, geprijs in **gwei**. Byvoorbeeld, 'n transaksie wat 2,310,000 gwei (of 0.00231 ETH) kos, behels 'n gaslimiet en 'n basiskoers, met 'n fooi om myners te motiveer. Gebruikers kan 'n maksimumfooi instel om te verseker dat hulle nie te veel betaal nie, met die oortollige terugbetaal.
 
 ## **Uitvoering van Transaksies**
 
-Transaksies in Ethereum behels 'n sender en 'n ontvanger, wat beide gebruiker- of slimkontrakadresse kan wees. Hulle vereis 'n fooi en moet gemyn word. Essensiële inligting in 'n transaksie sluit die ontvanger, die sender se handtekening, waarde, opsionele data, gaslimiet en fooie in. Merkwaardig word die sender se adres afgelei uit die handtekening, wat die noodsaaklikheid daarvan in die transaksiedata uitskakel.
+Transaksies in Ethereum behels 'n sender en 'n ontvanger, wat beide gebruiker- of slimkontrakadresse kan wees. Hulle vereis 'n fooi en moet gemyn word. Essensiële inligting in 'n transaksie sluit die ontvanger, die sender se handtekening, waarde, opsionele data, gaslimiet en fooie in. Merkwaardig word die sender se adres afgelei uit die handtekening, wat die behoefte daaraan in die transaksiedata uitskakel.
 
 Hierdie praktyke en meganismes is fundamenteel vir enigeen wat met kriptogeldeenhede wil betrokke raak terwyl hulle privaatheid en sekuriteit prioriteer.
 
@@ -189,18 +190,3 @@ Hierdie praktyke en meganismes is fundamenteel vir enigeen wat met kriptogeldeen
 * [https://ethereum.org/en/developers/docs/transactions/](https://ethereum.org/en/developers/docs/transactions/)
 * [https://ethereum.org/en/developers/docs/gas/](https://ethereum.org/en/developers/docs/gas/)
 * [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy#Forced\_address\_reuse)
-
-
-<details>
-
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
-</details>

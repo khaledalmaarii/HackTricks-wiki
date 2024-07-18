@@ -1,28 +1,29 @@
 # Docker Forensics
 
+{% hint style="success" %}
+Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
-## Container modification
+## Kontainer-wysiging
 
-Daar is vermoedens dat 'n sekere docker-container gekompromitteer is:
+Daar is vermoedens dat 'n sekere docker-kontainer gekompromitteer is:
 ```bash
 docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-Jy kan maklik **die wysigings wat aan hierdie houer gedoen is met betrekking tot die prent** vind met:
+Jy kan maklik **die wysigings wat aan hierdie houer gedoen is met betrekking tot die beeld** vind met:
 ```bash
 docker diff wordpress
 C /var
@@ -53,7 +54,7 @@ docker exec -it wordpress bash
 ```
 ## Beeldwysigings
 
-Wanneer daar 'n uitgevoerde docker-beeld aan jou gegee word (waarskynlik in `.tar`-formaat) kan jy [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) gebruik om **'n opsomming van die wysigings** te **onttrek**:
+Wanneer jy 'n uitgevoerde docker-beeld (waarskynlik in `.tar`-formaat) ontvang, kan jy [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) gebruik om **'n opsomming van die wysigings** te onttrek:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
@@ -81,7 +82,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Duik
 
-Om bygevoegde/gewysigde lêers in Docker-beelde te vind, kan jy ook die [**duik**](https://github.com/wagoodman/dive) (laai dit af van [**vrystellings**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) nut gebruik:
+Om bygevoegde/gewysigde lêers in Docker-beelde te vind, kan jy ook die [**duik**](https://github.com/wagoodman/dive) (laai dit af van [**vrystellings**](https://github.com/wagoodman/dive/releases/tag/v0.10.0)) nutsmiddel gebruik:
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -92,14 +93,14 @@ sudo dive flask:latest
 ```
 Dit stel jou in staat om **deur die verskillende blobs van docker-beelde te navigeer** en te kontroleer watter lêers gewysig/toegevoeg is. **Rooi** beteken toegevoeg en **geel** beteken gewysig. Gebruik **tab** om na die ander aansig te beweeg en **spasie** om vouers in/uit te klap.
 
-Met dit sal jy nie die inhoud van die verskillende fases van die beeld kan bereik nie. Om dit te doen, sal jy **elke laag moet dekompresseer en toegang daartoe moet verkry**.\
-Jy kan al die lêers van 'n beeld dekompresseer vanaf die gids waar die beeld gedekompresseer is deur uit te voer:
+Met dit sal jy nie die inhoud van die verskillende fases van die beeld kan bereik nie. Om dit te doen, sal jy **elke laag moet dekompresseer en dit moet bereik**.\
+Jy kan al die lêers van 'n beeld dekompresseer vanaf die gids waar die beeld gedekompresseer is deur die volgende uit te voer:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
-## Geldeenhede vanaf geheue
+## Gelde vanaf geheue
 
-Let daarop dat wanneer jy 'n docker houer binne 'n gasheer hardloop **jy die prosesse wat op die houer hardloop vanaf die gasheer kan sien** deur net `ps -ef` uit te voer
+Let daarop dat wanneer jy 'n docker houer binne 'n gasheer hardloop **jy kan die prosesse sien wat op die houer vanaf die gasheer hardloop** deur net `ps -ef` uit te voer
 
-Daarom (as root) kan jy **die geheue van die prosesse dump** vanaf die gasheer en soek na **geldeenhede** net [**soos in die volgende voorbeeld**](../../linux-hardening/privilege-escalation/#process-memory).
+Daarom (as root) kan jy **die geheue van die prosesse dump** vanaf die gasheer en soek na **gelde** net [**soos in die volgende voorbeeld**](../../linux-hardening/privilege-escalation/#process-memory).

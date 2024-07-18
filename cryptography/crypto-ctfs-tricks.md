@@ -1,18 +1,19 @@
 # Crypto CTFs Truuks
 
+{% hint style="success" %}
+Leer & oefen AWS-hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
 
 ## Aanlyn Hash-databasisse
 
@@ -28,26 +29,26 @@ Ander maniere om HackTricks te ondersteun:
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Toveroplossers
+## Towerige Autosolvers
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Magic-module)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Enkoders
+## Koders
 
-Die meeste gekodeerde data kan ontsluit word met hierdie 2 hulpbronne:
+Die meeste van die gekodeerde data kan ontkodeer word met hierdie 2 bronne:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Substitusie Toveroplossers
+### Substitusie Autosolvers
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
-* [https://quipqiup.com/](https://quipqiup.com) - Baie goed!
+* [https://quipqiup.com/](https://quipqiup.com) - Baie goed !
 
-#### Caesar - ROTx Toveroplossers
+#### Caesar - ROTx Autosolvers
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
@@ -55,9 +56,9 @@ Die meeste gekodeerde data kan ontsluit word met hierdie 2 hulpbronne:
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Basisenkoderings Toveroplossers
+### Basisenkoderingsautosolver
 
-Kyk na al hierdie basisse met: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+Kontroleer al hierdie basisse met: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -102,7 +103,10 @@ Kyk na al hierdie basisse met: [https://github.com/dhondta/python-codext](https:
 * **Base100** \[]
 * `👟👦👣👘👚👘👩👘👚👦👣👘`
 * **Base122** \[]
-* `4F
+* `4F ˂r0Xmvc`
+* **ATOM-128** \[_/128GhIoPQROSTeUbADfgHijKLM+n0pFWXY456xyzB7=39VaqrstJklmNuZvwcdEC_]
+* `MIc3KiXa+Ihz+lrXMIc3KbCC`
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -123,7 +127,7 @@ Kyk na al hierdie basisse met: [https://github.com/dhondta/python-codext](https:
 * **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
-[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dood: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
@@ -135,7 +139,7 @@ Kyk na al hierdie basisse met: [https://github.com/dhondta/python-codext](https:
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/af\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/af\_morse-encode.html) - 404 Dood: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
+* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 Dood: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
 ### UUencoder
 ```
@@ -149,18 +153,12 @@ end
 * [http://www.webutils.pl/index.php?idx=uu](http://www.webutils.pl/index.php?idx=uu)
 
 ### XXKoder
-
-XXEncoder is a simple encoding technique that converts ASCII characters to their hexadecimal representation. It is commonly used to obfuscate data or bypass certain security measures. To decode the encoded data, you can use an online XXDecoder tool or write a custom script. Keep in mind that XXEncoder is a basic encoding method and may not provide strong security.
 ```
 begin 644 webutils_pl
 hG2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236Hol-G2xAEIVDH236
 5Hol-G2xAEE++
 end
 ```
-* [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
-
-### YEncoder
-
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
 
 ### YEncoder
@@ -172,8 +170,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
 ### BinHex
-
-BinHex is 'n formaat wat gebruik word om binêre lêers te vertaal na 'n teksformaat wat veilig oorgedra kan word. Dit word dikwels gebruik om lêers te omskep vir oordrag oor e-pos of ander kommunikasiekanale wat slegs teks ondersteun. BinHex gebruik 'n spesiale algoritme om die binêre data om te skakel na 'n reeks ASCII-karakters. Hierdie omgesette teks kan dan veilig oorgedra word sonder om data te verloor of te beskadig. BinHex is 'n nuttige hulpmiddel vir die oordra van binêre lêers in 'n veilige en betroubare formaat.
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -182,8 +178,6 @@ BinHex is 'n formaat wat gebruik word om binêre lêers te vertaal na 'n teksfor
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
-
-ASCII85 is 'n binêre na teks-koderingsalgoritme wat gebruik word om binêre data om te skakel na 'n teksvorm wat bestaan uit ASCII-karakters. Dit is nuttig vir die oordra van binêre data in 'n teksgebaseerde omgewing, soos e-pos of tekslêers. ASCII85 kodeer elke 4 byte van binêre data na 5 ASCII-karakters.
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
@@ -193,7 +187,7 @@ ASCII85 is 'n binêre na teks-koderingsalgoritme wat gebruik word om binêre dat
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=af\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=af\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -201,19 +195,19 @@ Briewe na hul numeriese waarde
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Affine Cipher Encode
+### Affine Chiffer Enkodeer
 
-Letter na nommer `(ax+b)%26` (_a_ en _b_ is die sleutels en _x_ is die letter) en die resultaat terug na 'n letter.
+Brief na nommer `(ax+b)%26` (_a_ en _b_ is die sleutels en _x_ is die letter) en die resultaat terug na 'n letter
 ```
 krodfdudfrod
 ```
 ### SMS Kode
 
-**Multitap** [vervang 'n letter](https://www.dcode.fr/word-letter-change) deur herhaalde syfers wat gedefinieer word deur die ooreenstemmende sleutelkode op 'n mobiele [foon sleutelbord](https://www.dcode.fr/phone-keypad-cipher) (Hierdie modus word gebruik wanneer SMS'e geskryf word).\
+**Multitap** [vervang 'n letter](https://www.dcode.fr/word-letter-change) deur herhaalde syfers wat gedefinieer word deur die ooreenstemmende sleutelkode op 'n mobiele [foon-knoppieskema](https://www.dcode.fr/phone-keypad-cipher) (Hierdie modus word gebruik wanneer SMS geskryf word).\
 Byvoorbeeld: 2=A, 22=B, 222=C, 3=D...\
 Jy kan hierdie kode identifiseer omdat jy\*\* verskeie herhaalde syfers\*\* sal sien.
 
-Jy kan hierdie kode ontsyfer by: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+Jy kan hierdie kode ontsluit by: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Bacon Kode
 
@@ -222,17 +216,17 @@ Vervang elke letter met 4 As of Bs (of 1s en 0s)
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
-### Rune
+### Runes
 
 ![](../.gitbook/assets/runes.jpg)
 
-## Saamdruk
+## Kompressie
 
-**Raw Deflate** en **Raw Inflate** (jy kan beide in Cyberchef vind) kan data saamdruk en ontspan sonder koppe.
+**Raw Deflate** en **Raw Inflate** (jy kan beide in Cyberchef vind) kan data komprimeer en dekomprimeer sonder koppe.
 
-## Maklike Kriptografie
+## Maklike Kripto
 
-### XOR - Outomatiese oplosser
+### XOR - Autosolver
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
@@ -252,11 +246,11 @@ wodsyoidrods
 * [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
 * [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
 
-## Sterk Kriptografie
+## Sterk Kripto
 
 ### Fernet
 
-2 basis64 strings (token en sleutel)
+2 base64 strings (token en sleutel)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -268,7 +262,7 @@ Key:
 
 ### Samir Geheime Deling
 
-'n Geheim word in X dele verdeel en om dit te herstel, het jy Y dele nodig (_Y <=X_).
+'n Geheim word in X dele verdeel en om dit te herwin, het jy Y dele nodig (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -276,7 +270,7 @@ Key:
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### OpenSSL brute-force
+### OpenSSL kragtige krag
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -287,16 +281,17 @@ Key:
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Leer & oefen AWS Hack: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Kontroleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
 
 </details>
+{% endhint %}
