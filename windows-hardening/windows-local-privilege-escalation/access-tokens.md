@@ -1,36 +1,39 @@
-# Token di Accesso
+# Access Tokens
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**PEASS ufficiale & HackTricks swag**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
 
-Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere le assunzioni di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
-Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
+Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Token di Accesso
+## Access Tokens
 
-Ogni **utente loggato** al sistema **possiede un token di accesso con informazioni di sicurezza** per quella sessione di accesso. Il sistema crea un token di accesso quando l'utente effettua il login. **Ogni processo eseguito** a nome dell'utente **ha una copia del token di accesso**. Il token identifica l'utente, i gruppi dell'utente e i privilegi dell'utente. Un token contiene anche un SID di login (Security Identifier) che identifica la sessione di accesso corrente.
+Ogni **utente connesso** al sistema **detiene un token di accesso con informazioni di sicurezza** per quella sessione di accesso. Il sistema crea un token di accesso quando l'utente accede. **Ogni processo eseguito** per conto dell'utente **ha una copia del token di accesso**. Il token identifica l'utente, i gruppi dell'utente e i privilegi dell'utente. Un token contiene anche un SID di accesso (Identificatore di Sicurezza) che identifica l'attuale sessione di accesso.
 
-Puoi visualizzare queste informazioni eseguendo `whoami /all`
+Puoi vedere queste informazioni eseguendo `whoami /all`
 ```
 whoami /all
 
@@ -74,77 +77,80 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-oppure utilizzando _Process Explorer_ di Sysinternals (seleziona il processo e accedi alla scheda "Sicurezza"):
+or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
 
 ![](<../../.gitbook/assets/image (772).png>)
 
 ### Amministratore locale
 
-Quando accede un amministratore locale, **vengono creati due token di accesso**: uno con i diritti di amministratore e l'altro con i diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo viene utilizzato quello con i **diritti regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualcosa **come amministratore** ("Esegui come amministratore", ad esempio) verrà utilizzato il **UAC** per chiedere il permesso.\
-Se desideri [**saperne di più sull'UAC leggi questa pagina**](../authentication-credentials-uac-and-efs/#uac)**.**
+Quando un amministratore locale accede, **vengono creati due token di accesso**: uno con diritti di amministratore e l'altro con diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo, viene utilizzato quello con diritti **regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualsiasi cosa **come amministratore** ("Esegui come amministratore" ad esempio), verrà utilizzato il **UAC** per chiedere il permesso.\
+Se vuoi [**saperne di più sul UAC leggi questa pagina**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Impersonificazione utente delle credenziali
+### Impersonificazione delle credenziali utente
 
-Se hai le **credenziali valide di un altro utente**, puoi **creare** una **nuova sessione di accesso** con tali credenziali:
+Se hai **credenziali valide di un altro utente**, puoi **creare** una **nuova sessione di accesso** con quelle credenziali :
 ```
 runas /user:domain\username cmd.exe
 ```
-L'**accesso token** ha anche un **riferimento** delle sessioni di accesso all'interno del **LSASS**, questo è utile se il processo ha bisogno di accedere ad alcuni oggetti della rete.\
-È possibile avviare un processo che **utilizza credenziali diverse per accedere ai servizi di rete** utilizzando:
+Il **token di accesso** ha anche un **riferimento** delle sessioni di accesso all'interno del **LSASS**, questo è utile se il processo deve accedere ad alcuni oggetti della rete.\
+Puoi avviare un processo che **utilizza credenziali diverse per accedere ai servizi di rete** utilizzando:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Questo è utile se si dispongono di credenziali utili per accedere agli oggetti nella rete ma tali credenziali non sono valide all'interno dell'host attuale in quanto verranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
+Questo è utile se hai credenziali utili per accedere a oggetti nella rete, ma quelle credenziali non sono valide all'interno dell'host attuale poiché saranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
 
 ### Tipi di token
 
 Ci sono due tipi di token disponibili:
 
-* **Token primario**: Serve come rappresentazione delle credenziali di sicurezza di un processo. La creazione e l'associazione di token primari con i processi sono azioni che richiedono privilegi elevati, sottolineando il principio della separazione dei privilegi. Tipicamente, un servizio di autenticazione è responsabile della creazione del token, mentre un servizio di accesso gestisce la sua associazione con la shell del sistema operativo dell'utente. È importante notare che i processi ereditano il token primario del processo genitore alla creazione.
-* **Token di impersonificazione**: Permette a un'applicazione server di adottare temporaneamente l'identità del client per accedere agli oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di funzionamento:
-  * **Anonimo**: Concede all server accesso simile a quello di un utente non identificato.
-  * **Identificazione**: Consente al server di verificare l'identità del client senza utilizzarla per l'accesso agli oggetti.
-  * **Impersonificazione**: Consente al server di operare con l'identità del client.
-  * **Delega**: Simile all'Impersonificazione ma include la capacità di estendere questa assunzione di identità a sistemi remoti con cui il server interagisce, garantendo la conservazione delle credenziali.
+* **Token Primario**: Serve come rappresentazione delle credenziali di sicurezza di un processo. La creazione e l'associazione di token primari con i processi sono azioni che richiedono privilegi elevati, sottolineando il principio di separazione dei privilegi. Tipicamente, un servizio di autenticazione è responsabile della creazione del token, mentre un servizio di accesso gestisce la sua associazione con la shell del sistema operativo dell'utente. Vale la pena notare che i processi ereditano il token primario del loro processo padre al momento della creazione.
+* **Token di Impersonificazione**: Consente a un'applicazione server di adottare temporaneamente l'identità del cliente per accedere a oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di operazione:
+* **Anonimo**: Concede accesso al server simile a quello di un utente non identificato.
+* **Identificazione**: Consente al server di verificare l'identità del cliente senza utilizzarla per l'accesso agli oggetti.
+* **Impersonificazione**: Consente al server di operare sotto l'identità del cliente.
+* **Delegazione**: Simile all'Impersonificazione, ma include la possibilità di estendere questa assunzione di identità a sistemi remoti con cui il server interagisce, garantendo la preservazione delle credenziali.
 
-#### Impersonare Token
+#### Token di Impersonificazione
 
-Utilizzando il modulo _**incognito**_ di metasploit, se si dispone di sufficienti privilegi, è possibile **elencare** e **impersonare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se si fosse l'altro utente**. È anche possibile **escalare i privilegi** con questa tecnica.
+Utilizzando il modulo _**incognito**_ di metasploit, se hai abbastanza privilegi, puoi facilmente **elencare** e **impersonare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se fossi l'altro utente**. Potresti anche **escalare i privilegi** con questa tecnica.
 
-### Privilegi dei Token
+### Privilegi del Token
 
-Scopri quali **privilegi dei token possono essere abusati per l'escalation dei privilegi:**
+Scopri quali **privilegi del token possono essere abusati per escalare i privilegi:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Dai un'occhiata a [**tutti i possibili privilegi dei token e alcune definizioni su questa pagina esterna**](https://github.com/gtworek/Priv2Admin).
+Dai un'occhiata a [**tutti i possibili privilegi del token e alcune definizioni su questa pagina esterna**](https://github.com/gtworek/Priv2Admin).
 
 ## Riferimenti
 
-Per saperne di più sui token in questi tutorial: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Scopri di più sui token in questi tutorial: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
 
-L'obiettivo principale di WhiteIntel è combattere i sequestri di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
-Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
+Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}

