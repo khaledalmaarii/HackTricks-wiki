@@ -1,24 +1,25 @@
 # macOSアプリ - 検査、デバッグ、およびFuzzing
 
+{% hint style="success" %}
+AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)で**フォロー**する
-- **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンであり、企業やその顧客が**スティーラマルウェア**によって**侵害**されていないかをチェックする**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかをチェックする**無料**の機能を提供しています。
 
 WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
@@ -35,9 +36,7 @@ WhiteIntelの主な目標は、情報窃取マルウェアによるアカウン�
 otool -L /bin/ls #List dynamically linked libraries
 otool -tv /bin/ps #Decompile application
 ```
-## macOSアプリの検査、デバッグ、およびFuzzing
-
-このセクションでは、macOSアプリケーションの検査、デバッグ、およびFuzzingに焦点を当てます。アプリケーションの動作を理解し、潜在的な脆弱性を特定するために、これらのテクニックを使用します。
+{% code overflow="wrap" %}
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -61,7 +60,7 @@ ARCH=arm64e disarm -c -S /path/bin # Get symbols (func names, strings...)
 ARCH=arm64e disarm -c -d /path/bin # Get disasembled
 jtool2 -d __DATA.__const myipc_server | grep MIG # Get MIG info
 ```
-以下から[**jtool2をダウンロードできます**](http://www.newosxbook.com/tools/jtool.html)または`brew`を使用してインストールできます。
+[**jtool2をこちらからダウンロード**](http://www.newosxbook.com/tools/jtool.html)するか、`brew`を使用してインストールしてください。
 ```bash
 # Install
 brew install --cask jtool2
@@ -120,42 +119,42 @@ ldid -S/tmp/entl.xml <binary>
 
 ### hdiutil
 
-このツールを使用すると、Appleディスクイメージ（**.dmg**）ファイルを**実行する前に**検査するために**マウント**できます。
+このツールを使用すると、Appleディスクイメージ（**.dmg**）ファイルを**マウント**して、実行する前にそれらを検査できます。
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
 ### パックされたバイナリ
 
-- 高いエントロピーをチェックする
-- 文字列をチェックする（理解できる文字列がほとんどない場合、パックされている可能性がある）
-- MacOS用のUPXパッカーは"\_\_XHDR"というセクションを生成する
+* 高エントロピーをチェックする
+* 文字列をチェックする（理解できる文字列がほとんどない場合、パックされている可能性がある）
+* MacOS用のUPXパッカーは"\_\_XHDR"というセクションを生成する
 
 ## 静的なObjective-C解析
 
 ### メタデータ
 
 {% hint style="danger" %}
-Objective-Cで書かれたプログラムは、[Mach-Oバイナリ](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)にコンパイルされる際に、クラス宣言を保持します。このようなクラス宣言には、以下の情報が含まれます：
+Objective-Cで書かれたプログラムは、[Mach-Oバイナリ](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)にコンパイルされる際に、クラス宣言を**保持**します。このようなクラス宣言には、以下の情報が含まれます：
 {% endhint %}
 
-- 定義されたインターフェース
-- インターフェースメソッド
-- インターフェースのインスタンス変数
-- 定義されたプロトコル
+* 定義されたインターフェース
+* インターフェースメソッド
+* インターフェースのインスタンス変数
+* 定義されたプロトコル
 
 これらの名前は、バイナリの逆コンパイルを困難にするために曖昧化される可能性があります。
 
 ### 関数呼び出し
 
-Objective-Cを使用するバイナリで関数が呼び出されると、コンパイルされたコードはその関数を呼び出す代わりに **`objc_msgSend`** を呼び出します。これにより最終的な関数が呼び出されます：
+Objective-Cを使用するバイナリで関数が呼び出されると、コンパイルされたコードはその関数を呼び出す代わりに**`objc_msgSend`**を呼び出します。これにより最終的な関数が呼び出されます：
 
 ![](<../../../.gitbook/assets/image (305).png>)
 
 この関数が期待するパラメータは次のとおりです：
 
-- 最初のパラメータ（**self**）は、「**メッセージを受け取るクラスのインスタンスを指すポインタ**」です。単純に言うと、メソッドが呼び出されるオブジェクトです。メソッドがクラスメソッドの場合、これはクラスオブジェクトのインスタンス（全体として）になりますが、インスタンスメソッドの場合、selfはクラスのインスタンスとしてインスタンス化されたオブジェクトを指します。
-- 2番目のパラメータ（**op**）は、「メッセージを処理するメソッドのセレクタ」です。単純に言うと、これは単に**メソッドの名前**です。
-- 残りのパラメータは、メソッドで必要な**値**です（op）。
+* 最初のパラメータ（**self**）は、「**メッセージを受け取るクラスのインスタンスを指すポインタ**」です。単純に言うと、メソッドが呼び出されるオブジェクトです。メソッドがクラスメソッドの場合、これはクラスオブジェクトのインスタンス（全体として）になりますが、インスタンスメソッドの場合は、selfはクラスのインスタンスとしてインスタンス化されたオブジェクトを指します。
+* 2番目のパラメータ（**op**）は、「メッセージを処理するメソッドのセレクタ」です。単純に言うと、これは**メソッドの名前**です。
+* 残りのパラメータは、メソッドで必要な**値**です（op）。
 
 ARM64で`lldb`を使用してこの情報を簡単に取得する方法は、次のページを参照してください：
 
@@ -163,17 +162,17 @@ ARM64で`lldb`を使用してこの情報を簡単に取得する方法は、次
 [arm64-basic-assembly.md](arm64-basic-assembly.md)
 {% endcontent-ref %}
 
-x64：
+x64:
 
 | **引数**         | **レジスタ**                                                   | **(for) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
 | **1番目の引数**  | **rdi**                                                         | **self: メソッドが呼び出されるオブジェクト**         |
 | **2番目の引数**  | **rsi**                                                         | **op: メソッドの名前**                                |
 | **3番目の引数**  | **rdx**                                                         | **メソッドへの最初の引数**                            |
-| **4番目の引数**  | **rcx**                                                         | **メソッドへの2番目の引数**                            |
-| **5番目の引数**  | **r8**                                                          | **メソッドへの3番目の引数**                            |
-| **6番目の引数**  | **r9**                                                          | **メソッドへの4番目の引数**                            |
-| **7番目以降の引数** | <p><strong>rsp+</strong><br><strong>(スタック上)</strong></p> | **メソッドへの5番目以降の引数**                        |
+| **4番目の引数**  | **rcx**                                                         | **メソッドへの2番目の引数**                           |
+| **5番目の引数**  | **r8**                                                          | **メソッドへの3番目の引数**                           |
+| **6番目の引数**  | **r9**                                                          | **メソッドへの4番目の引数**                           |
+| **7番目以降の引数** | <p><strong>rsp+</strong><br><strong>(スタック上)</strong></p> | **メソッドへの5番目以降の引数**                       |
 
 ### ObjectiveCメタデータのダンプ
 
@@ -206,7 +205,7 @@ metadata = icdump.objc.parse("/path/to/bin")
 
 print(metadata.to_decl())
 ```
-## 静的Swift解析
+## 静的Swift分析
 
 Swiftバイナリでは、Objective-C互換性があるため、[class-dump](https://github.com/nygard/class-dump/)を使用して宣言を抽出することができることがありますが、常にではありません。
 
@@ -222,9 +221,9 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-さらなる情報は、[**このブログ投稿**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)でこのセクションに保存されている情報について見つけることができます。
+さらなる情報は、[**このブログ投稿**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)でこれらのセクションに保存されている情報について見つけることができます。
 
-さらに、**Swift バイナリにはシンボルが含まれる可能性があります**（たとえば、ライブラリは関数を呼び出すためにシンボルを保存する必要があります）。**シンボルには通常、関数名や属性に関する情報が含まれており、見た目は醜いですが、非常に役立ちます。**そして、**"デマングラー"**が元の名前を取得できます。
+さらに、**Swift バイナリにはシンボルが含まれる可能性があります**（たとえば、ライブラリは関数を呼び出すためにシンボルを保存する必要があります）。**シンボルには通常、関数名や属性に関する情報が含まれており、見た目は醜い**ため、非常に役立ちます。そして、**"デマングラー"**があり、元の名前を取得できます。
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -232,14 +231,14 @@ https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
 # Swift cli
 swift demangle
 ```
-## ダイナミック解析
+## 動的解析
 
 {% hint style="warning" %}
-バイナリをデバッグするには、**SIPを無効にする必要がある**（`csrutil disable`または`csrutil enable --without debug`）か、バイナリを一時フォルダにコピーして**署名を削除**する必要があります（`codesign --remove-signature <binary-path>`）またはバイナリのデバッグを許可する（[このスクリプト](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)を使用できます）
+バイナリをデバッグするには、**SIPを無効にする必要があります**（`csrutil disable`または`csrutil enable --without debug`）またはバイナリを一時フォルダにコピーして**署名を削除**する必要があります（`codesign --remove-signature <binary-path>`）またはバイナリのデバッグを許可する（[このスクリプト](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)を使用できます）
 {% endhint %}
 
 {% hint style="warning" %}
-macOSで**システムバイナリ**（例：`cloudconfigurationd`）を**インストゥルメント**するには、**SIPを無効にする必要があります**（署名を削除するだけでは機能しません）。
+macOSで**システムバイナリ**（`cloudconfigurationd`など）を**インストゥルメント**するには、**SIPを無効にする必要があります**（署名を削除するだけでは機能しません）。
 {% endhint %}
 
 ### APIs
@@ -255,7 +254,7 @@ macOSはいくつかの興味深いAPIを公開しており、プロセスに関
 
 ### Sysdiagnose
 
-このツール（`/usr/bini/ysdiagnose`）は、`ps`、`zprint`などのさまざまなコマンドを実行してコンピュータから多くの情報を収集します。
+このツール（`/usr/bini/ysdiagnose`）は、基本的に`ps`、`zprint`などのさまざまなコマンドを実行してコンピュータから多くの情報を収集します。
 
 **root**として実行する必要があり、デーモン`/usr/libexec/sysdiagnosed`には`com.apple.system-task-ports`や`get-task-allow`など非常に興味深い権限があります。
 
@@ -269,21 +268,21 @@ macOSはいくつかの興味深いAPIを公開しており、プロセスに関
 
 MacOSはアプリケーションを実行する際に非常に役立つ多くのログを生成します。**何をしているか**を理解しようとする際に役立ちます。
 
-さらに、一部のログには、**ユーザー**や**コンピュータ**の**識別可能な情報**を**非表示**にするための`<private>`タグが含まれています。ただし、**この情報を開示するための証明書をインストールすることが可能**です。[こちら](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)の説明に従ってください。
+さらに、一部のログには、**ユーザー**や**コンピュータ**の**識別可能な情報**を**非表示**にするための`<private>`タグが含まれています。ただし、**証明書をインストールしてこの情報を開示**することが可能です。[こちら](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)の説明に従ってください。
 
 ### Hopper
 
 #### 左パネル
 
-Hopperの左パネルでは、バイナリのシンボル（**ラベル**）、手順と関数のリスト（**Proc**）、および文字列（**Str**）を見ることができます。これらはすべての文字列ではありませんが、Mac-Oファイルのさまざまな部分で定義されているものです（例：_cstringまたは`objc_methname`）。
+Hopperの左パネルでは、バイナリのシンボル（**ラベル**）、手順と関数のリスト（**Proc**）、および文字列（**Str**）を見ることができます。これらはすべての文字列ではありませんが、Mac-Oファイルのさまざまな部分（`_cstring`や`objc_methname`など）で定義されているものです。
 
 #### 中央パネル
 
-中央パネルでは、**逆アセンブルされたコード**を見ることができます。**生の**逆アセンブル、**グラフ**、**逆コンパイル**、**バイナリ**の表示方法をアイコンをクリックして切り替えることができます：
+中央パネルでは、**逆アセンブルされたコード**を見ることができます。**生の**逆アセンブル、**グラフ**、**逆コンパイル**、**バイナリ**のいずれかをクリックして表示できます：
 
 <figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
-コードオブジェクトを右クリックすると、そのオブジェクトへの**参照/参照元**を表示したり、その名前を変更したりできます（これは逆コンパイルされた擬似コードでは機能しません）：
+コードオブジェクトを右クリックすると、そのオブジェクトへの**参照/参照元**を表示したり、その名前を変更したりできます（逆コンパイルされた擬似コードでは機能しません）：
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
@@ -291,16 +290,16 @@ Hopperの左パネルでは、バイナリのシンボル（**ラベル**）、�
 
 #### 右パネル
 
-右パネルでは、**ナビゲーション履歴**（現在の状況に到達するまでの経路を知るため）、この関数を**呼び出すすべての関数**およびこの関数が**呼び出すすべての関数**を表示する**コールグラフ**、**ローカル変数**情報など、興味深い情報を見ることができます。
+右パネルでは、**ナビゲーション履歴**（現在の状況に到達するまでの経路を知るため）、この関数を**呼び出すすべての関数**およびこの関数が**呼び出すすべての関数**を表示できる**コールグラフ**、**ローカル変数**情報など、興味深い情報を見ることができます。
 
 ### dtrace
 
-これにより、ユーザーは非常に**低レベル**でアプリケーションにアクセスでき、プログラムを**トレース**したり、実行フローを変更したりする方法が提供されます。Dtraceは、カーネル全体に**配置されたプローブ**を使用し、システムコールの開始と終了などの場所にあります。
+これにより、ユーザーは非常に**低レベル**でアプリケーションにアクセスでき、プログラムを**トレース**したり、実行フローを変更したりする方法が提供されます。Dtraceは、カーネル全体に**配置されるプローブ**を使用します。これらのプローブは、システムコールの開始と終了などの場所に配置されます。
 
 DTraceは、各システムコールの**エントリと終了点**にプローブを作成するために**`dtrace_probe_create`**関数を使用します。これらのプローブは、各システムコールの**エントリと終了点**で発火できます。DTraceとのやり取りは、ルートユーザー専用の/dev/dtraceを介して行われます。
 
 {% hint style="success" %}
-SIP保護を完全に無効にせずにDtraceを有効にするには、リカバリモードで次のコマンドを実行できます：`csrutil enable --without dtrace`
+SIP保護を完全に無効にせずにDtraceを有効にするには、回復モードで次のコマンドを実行できます：`csrutil enable --without dtrace`
 
 また、**コンパイルしたバイナリ**の**`dtrace`**または**`dtruss`**を実行できます。
 {% endhint %}
@@ -323,7 +322,7 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 
 #### 例
 
-`man -k dtrace` を実行して、**利用可能なDTraceスクリプト**をリストします。例: `sudo dtruss -n binary`
+`man -k dtrace` を実行して、利用可能な**DTraceスクリプト**の一覧を表示します。例: `sudo dtruss -n binary`
 
 * 1行で
 ```bash
@@ -379,17 +378,17 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 `latency`、`sc_usage`、`fs_usage`、`trace`などのツールが内部で使用しています。
 
-`kdebug`とやり取りするためには、`sysctl`を使用し、`kern.kdebug`名前空間を介して、使用するMIBは`sys/sysctl.h`にあり、関数は`bsd/kern/kdebug.c`に実装されています。
+`kdebug`とやり取りするためには、`sysctl`を使用し、`kern.kdebug`名前空間を介してMIBを使用します。使用するMIBは`sys/sysctl.h`にあり、関数は`bsd/kern/kdebug.c`に実装されています。
 
-通常、カスタムクライアントで`kdebug`とやり取りするための手順は次のとおりです。
+通常、カスタムクライアントで`kdebug`とやり取りするためには、次の手順があります：
 
-- 既存の設定を削除する：KERN\_KDSETREMOVE
-- KERN\_KDSETBUFとKERN\_KDSETUPでトレースを設定する
-- バッファエントリ数を取得するにはKERN\_KDGETBUFを使用する
-- トレースから独自のクライアントを取得するにはKERN\_KDPINDEXを使用する
-- KERN\_KDENABLEでトレースを有効にする
-- KERN\_KDREADTRを呼び出してバッファを読む
-- 各スレッドをそれぞれのプロセスにマッチさせるにはKERN\_KDTHRMAPを呼び出す
+* 既存の設定を`KERN_KDSETREMOVE`で削除する
+* `KERN_KDSETBUF`および`KERN_KDSETUP`でトレースを設定する
+* バッファエントリ数を取得するには`KERN_KDGETBUF`を使用する
+* トレースから独自のクライアントを取得するには`KERN_KDPINDEX`を使用する
+* `KERN_KDENABLE`でトレースを有効にする
+* `KERN_KDREADTR`を呼び出してバッファを読む
+* 各スレッドをそれぞれのプロセスにマッチさせるには`KERN_KDTHRMAP`を呼び出す
 
 この情報を取得するためには、Appleのツール**`trace`**またはカスタムツール[kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**を使用できます。**
 
@@ -401,7 +400,7 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 **SIPが有効になっている場合でも**これを使用できます。
 
-クライアントとして、ユーティリティ`ktrace`を使用できます：
+クライアントとして`ktrace`ユーティリティを使用できます：
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
@@ -411,11 +410,11 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 
 これはカーネルレベルのプロファイリングに使用され、`Kdebug`コールアウトを使用して構築されています。
 
-基本的に、グローバル変数`kernel_debug_active`がチェックされ、設定されると`Kdebug`コードと呼び出し元のカーネルフレームのアドレスを持つ`kperf_kdebug_handler`が呼び出されます。 `Kdebug`コードが選択されたものと一致する場合、ビットマップとして構成された「アクション」を取得します（オプションについては`osfmk/kperf/action.h`を確認してください）。
+基本的に、グローバル変数`kernel_debug_active`がチェックされ、設定されると`Kdebug`コードと呼び出し元のカーネルフレームのアドレスを持つ`kperf_kdebug_handler`が呼び出されます。`Kdebug`コードが選択されたものと一致する場合、"actions"がビットマップとして構成されます（オプションについては`osfmk/kperf/action.h`を参照）。
 
 Kperfにはsysctl MIBテーブルもあります：（rootとして）`sysctl kperf`。これらのコードは`osfmk/kperf/kperfbsd.c`で見つけることができます。
 
-さらに、Kperfsの機能のサブセットは`kpc`にあり、マシンパフォーマンスカウンターに関する情報を提供します。
+さらに、Kperfsの機能のサブセットは`kpc`にあり、マシンパフォーマンスカウンタに関する情報を提供します。
 
 ### ProcessMonitor
 
@@ -434,7 +433,7 @@ Kperfにはsysctl MIBテーブルもあります：（rootとして）`sysctl kp
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo)は、GUIツールであり、Microsoft Sysinternalの_Procmon_からWindowsユーザーが知っている外観と感覚を持っています。このツールを使用すると、さまざまなイベントタイプの記録を開始および停止でき、これらのイベントをファイル、プロセス、ネットワークなどのカテゴリでフィルタリングでき、記録されたイベントをjson形式で保存する機能を提供します。
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo)は、GUIツールであり、Microsoft Sysinternalの_Procmon_からWindowsユーザーが知っている外観と感覚を持っています。このツールでは、さまざまなイベントタイプの記録を開始および停止でき、これらのイベントをファイル、プロセス、ネットワークなどのカテゴリでフィルタリングでき、記録されたイベントをjson形式で保存する機能が提供されています。
 
 ### Apple Instruments
 
@@ -456,7 +455,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-[**このブログ投稿**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)では、**`PT_DENY_ATTACH`**を使用してデバッグを防止するデーモンをデバッグする例が示されています。
+[**このブログ投稿**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)では、**`PT_DENY_ATTACH`**を使用してデバッグを防止する実行中のデーモンをデバッグする方法の例が示されています。
 
 ### lldb
 
@@ -475,7 +474,7 @@ settings set target.x86-disassembly-flavor intel
 lldb内で、`process save-core`を使用してプロセスをダンプします。
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) コマンド</strong></td><td><strong>説明</strong></td></tr><tr><td><strong>run (r)</strong></td><td>ブレークポイントがヒットするかプロセスが終了するまで続行される実行を開始します。</td></tr><tr><td><strong>continue (c)</strong></td><td>デバッグ対象プロセスの実行を継続します。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>次の命令を実行します。このコマンドは関数呼び出しをスキップします。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>次の命令を実行します。nextiコマンドとは異なり、このコマンドは関数呼び出しに入ります。</td></tr><tr><td><strong>finish (f)</strong></td><td>現在の関数（"frame"）内の残りの命令を実行して停止します。</td></tr><tr><td><strong>control + c</strong></td><td>実行を一時停止します。プロセスが実行されている場合、現在実行中の場所でプロセスを停止させます。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main # main関数を呼び出す</p><p>b <binname>`main # バイナリのメイン関数</p><p>b set -n main --shlib <lib_name> # 指定されたバイナリのメイン関数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l # ブレークポイントリスト</p><p>br e/dis <num> # ブレークポイントの有効化/無効化</p><p>breakpoint delete <num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint # ブレークポイントコマンドのヘルプを取得</p><p>help memory write # メモリへの書き込みに関するヘルプを取得</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format <a href="https://lldb.llvm.org/use/variable.html#type-format">format</a></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s <reg/memory address></strong></td><td>メモリをヌル終端文字列として表示します。</td></tr><tr><td><strong>x/i <reg/memory address></strong></td><td>メモリをアセンブリ命令として表示します。</td></tr><tr><td><strong>x/b <reg/memory address></strong></td><td>メモリをバイトとして表示します。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>パラメータで参照されるオブジェクトを出力します</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>AppleのObjective-C APIやメソッドのほとんどはオブジェクトを返すため、「print object」（po）コマンドで表示する必要があります。意味のある出力が得られない場合は、<code>x/b</code>を使用してください</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 # そのアドレスにAAAAを書き込む<br>memory write -f s $rip+0x11f+7 "AAAA" # そのアドレスにAAAAを書き込む</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis # 現在の関数を逆アセンブル</p><p>dis -n <funcname> # 関数を逆アセンブル</p><p>dis -n <funcname> -b <basename> # 関数を逆アセンブル</p><p>dis -c 6 # 6行を逆アセンブル</p><p>dis -c 0x100003764 -e 0x100003768 # 1つのアドレスからもう1つのアドレスまで</p><p>dis -p -c 4 # 現在のアドレスから逆アセンブルを開始</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1レジスタ内の3つのコンポーネントの配列をチェック</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) コマンド</strong></td><td><strong>説明</strong></td></tr><tr><td><strong>run (r)</strong></td><td>ブレークポイントがヒットするかプロセスが終了するまで続行される実行を開始します。</td></tr><tr><td><strong>continue (c)</strong></td><td>デバッグ対象プロセスの実行を継続します。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>次の命令を実行します。このコマンドは関数呼び出しをスキップします。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>次の命令を実行します。nextiコマンドとは異なり、このコマンドは関数呼び出しに入ります。</td></tr><tr><td><strong>finish (f)</strong></td><td>現在の関数（"frame"）内の残りの命令を実行して停止します。</td></tr><tr><td><strong>control + c</strong></td><td>実行を一時停止します。プロセスが実行されている場合、プロセスは現在実行中の場所で停止します。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main # main関数を呼び出す</p><p>b <binname>`main # バイナリのmain関数</p><p>b set -n main --shlib <lib_name> # 指定されたバイナリのmain関数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l # ブレークポイントリスト</p><p>br e/dis <num> # ブレークポイントの有効化/無効化</p><p>breakpoint delete <num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint # ブレークポイントコマンドのヘルプを取得</p><p>help memory write # メモリへの書き込みに関するヘルプを取得</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format <a href="https://lldb.llvm.org/use/variable.html#type-format">format</a></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s <reg/memory address></strong></td><td>メモリをヌル終端文字列として表示します。</td></tr><tr><td><strong>x/i <reg/memory address></strong></td><td>メモリをアセンブリ命令として表示します。</td></tr><tr><td><strong>x/b <reg/memory address></strong></td><td>メモリをバイトとして表示します。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>これは、パラメータで参照されるオブジェクトを出力します</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>AppleのObjective-C APIやメソッドのほとんどはオブジェクトを返すため、「print object」（po）コマンドを使用して表示する必要があります。 poが有意義な出力を生成しない場合は、<code>x/b</code>を使用してください</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 # そのアドレスにAAAAを書き込む<br>memory write -f s $rip+0x11f+7 "AAAA" # アドレスにAAAAを書き込む</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis # 現在の関数を逆アセンブル</p><p>dis -n <funcname> # 関数を逆アセンブル</p><p>dis -n <funcname> -b <basename> # 関数を逆アセンブル</p><p>dis -c 6 # 6行を逆アセンブル</p><p>dis -c 0x100003764 -e 0x100003768 # 1つのアドレスからもう1つのアドレスまで</p><p>dis -p -c 4 # 現在のアドレスから逆アセンブルを開始</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1レジスタ内の3つのコンポーネントの配列をチェック</td></tr></tbody></table>
 
 {% hint style="info" %}
 **`objc_sendMsg`** 関数を呼び出す際、**rsi** レジスタにはヌル終端（"C"）文字列としての**メソッド名**が格納されます。lldbを使用して名前を表示するには以下のようにします：
@@ -492,15 +491,15 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 
 #### VM 検出
 
-* **`sysctl hw.model`** コマンドは、ホストがMacOSの場合には "Mac" を返しますが、VMの場合は異なる値を返します。
+* **`sysctl hw.model`** コマンドは、ホストがMacOSの場合は "Mac" を返しますが、VMの場合は異なる値を返します。
 * 一部のマルウェアは、**`hw.logicalcpu`** と **`hw.physicalcpu`** の値を操作して、VMかどうかを検出しようとします。
 * 一部のマルウェアは、MACアドレス（00:50:56）に基づいてマシンがVMwareであるかどうかを検出することもあります。
-* プロセスがデバッグされているかどうかを簡単なコードで検出することも可能です：
-* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //プロセスがデバッグされています }`
-* **`ptrace`** システムコールを **`PT_DENY_ATTACH`** フラグとともに呼び出すこともできます。これにより、デバッガがアタッチしてトレースすることが防止されます。
+* 単純なコードを使用して、プロセスがデバッグされているかどうかを検出することも可能です：
+* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
+* **`ptrace`** システムコールを **`PT_DENY_ATTACH`** フラグとともに呼び出すこともできます。これにより、デバッガがアタッチしてトレースするのを防ぎます。
 * **`sysctl`** または **`ptrace`** 関数が **インポート** されているかどうかを確認できます（ただし、マルウェアは動的にインポートする可能性があります）
-* この記事に記載されているように、"[アンチデバッグテクニックの打破：macOSのptrace変種](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)"：\
-"_メッセージ「Process # exited with **status = 45 (0x0000002d)**」は、通常、デバッグ対象が **PT\_DENY\_ATTACH** を使用していることを示す兆候です_"
+* この記事に記載されているように、"[アンチデバッグテクニックの打破：macOS ptraceの変種](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
+“_メッセージ「Process # exited with **status = 45 (0x0000002d)**」は、通常、デバッグ対象が **PT\_DENY\_ATTACH** を使用していることを示す兆候です_”
 ## コアダンプ
 
 コアダンプは次の場合に作成されます：
@@ -517,9 +516,9 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 
 ReportCrash は**クラッシュしたプロセスを分析し、クラッシュレポートをディスクに保存**します。クラッシュレポートには、クラッシュの原因を**開発者が診断するのに役立つ情報**が含まれています。\
 ユーザーごとの launchd コンテキストで実行されるアプリケーションや他のプロセスの場合、ReportCrash は LaunchAgent として実行され、クラッシュレポートはユーザーの `~/Library/Logs/DiagnosticReports/` に保存されます。\
-デーモン、システム launchd コンテキストで実行される他のプロセスや他の特権プロセスの場合、ReportCrash は LaunchDaemon として実行され、クラッシュレポートはシステムの `/Library/Logs/DiagnosticReports` に保存されます。
+デーモン、システム launchd コンテキストで実行される他のプロセスや特権のあるプロセスの場合、ReportCrash は LaunchDaemon として実行され、クラッシュレポートはシステムの `/Library/Logs/DiagnosticReports` に保存されます。
 
-クラッシュレポートが**Appleに送信されるのを心配**している場合は、それらを無効にすることができます。そうでない場合、クラッシュレポートは**サーバーがどのようにクラッシュしたかを特定するのに役立つ**ことがあります。
+クラッシュレポートが**Apple に送信されるのを心配**している場合は、それらを無効にすることができます。そうでない場合、クラッシュレポートは**サーバーがどのようにクラッシュしたかを特定するのに役立つ**ことがあります。
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -539,7 +538,7 @@ MacOSでのFuzzing中は、Macがスリープモードに入らないように�
 
 #### SSH切断
 
-SSH接続経由でFuzzingを行う場合は、セッションが切断されないようにすることが重要です。そのために、sshd\_configファイルを以下のように変更します：
+SSH接続経由でFuzzingを行う場合は、セッションが切断されないようにすることが重要です。したがって、sshd\_configファイルを以下のように変更します：
 
 * TCPKeepAlive Yes
 * ClientAliveInterval 0
@@ -550,7 +549,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### 内部ハンドラ
 
-**以下のページ**をチェックして、指定されたスキームやプロトコルを処理するアプリを特定する方法を見つけてください:
+**以下のページ**をチェックして、指定されたスキームやプロトコルを処理するアプリを特定する方法を見つけてください：
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
@@ -558,7 +557,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 
 ### ネットワークプロセスの列挙
 
-ネットワークデータを管理しているプロセスを見つけるのは興味深いです:
+ネットワークデータを管理しているプロセスを見つけるのは興味深いです：
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
@@ -581,11 +580,11 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-CLI ツールに適しています
+CLI ツールに対応
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-macOS GUI ツールと "**just works"** します。一部の macOS アプリには、ユニークなファイル名、適切な拡張子、サンドボックスからファイルを読み取る必要があるなど、特定の要件があります (`~/Library/Containers/com.apple.Safari/Data`)...
+macOS の GUI ツールに対応しています。一部の macOS アプリケーションはユニークなファイル名、適切な拡張子、サンドボックスからファイルを読み取る必要があるなど、特定の要件を満たす必要があります (`~/Library/Containers/com.apple.Safari/Data`)...
 
 いくつかの例:
 
@@ -641,16 +640,17 @@ WhiteIntelの主な目標は、情報窃取マルウェアによるアカウン�
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を手に入れる
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks)のGitHubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**購読プラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}

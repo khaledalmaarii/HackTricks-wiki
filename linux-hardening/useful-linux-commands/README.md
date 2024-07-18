@@ -8,19 +8,20 @@
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>**htARTE（HackTricks AWS Red Team Expert）**で**ゼロからヒーローまでのAWSハッキング**を学びましょう！</summary>
+<summary>HackTricksをサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手してください
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つけてください
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)を**フォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**および**HackTricks Cloud**のgithubリポジトリにPRを提出して、ハッキングトリックを共有してください。
 
 </details>
+{% endhint %}
 
 ## Common Bash
 ```bash
@@ -278,7 +279,7 @@ find / -maxdepth 5 -type f -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /p
 # Found Newer directory only and sort by time. (depth = 5)
 find / -maxdepth 5 -type d -printf "%T@ %Tc | %p \n" 2>/dev/null | grep -v "| /proc" | grep -v "| /dev" | grep -v "| /run" | grep -v "| /var/log" | grep -v "| /boot"  | grep -v "| /sys/" | sort -n -r | less
 ```
-## Nmap検索のヘルプ
+## Nmap 検索ヘルプ
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -287,253 +288,7 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-### Description
-Bash is a Unix shell and command language. It is the default shell on most Linux distributions and macOS.
-
-### Useful Commands
-
-- `history`: Displays the command history.
-- `alias`: Creates an alias for a command.
-- `unalias`: Removes an alias.
-- `source`: Executes commands from a file in the current shell.
-- `echo $SHELL`: Displays the current shell.
-- `echo $0`: Displays the name of the shell or script.
-- `echo $PATH`: Displays the directories where the shell looks for commands.
-- `which [command]`: Displays the location of a command.
-- `type [command]`: Displays how a command is interpreted.
-- `man [command]`: Displays the manual for a command.
-- `apropos [keyword]`: Searches the manual page names and descriptions for a keyword.
-- `whatis [command]`: Displays a one-line description of a command.
-- `whereis [command]`: Displays the binary, source, and manual page files for a command.
-- `help [builtin]`: Displays help information for shell builtins.
-- `exit`: Exits the shell.
-- `Ctrl + C`: Interrupts the current command.
-- `Ctrl + Z`: Suspends the current command.
-- `bg`: Resumes a suspended command in the background.
-- `fg`: Brings a background command to the foreground.
-- `jobs`: Lists the current jobs.
-- `kill [PID]`: Sends a signal to a process.
-- `ps`: Displays information about processes.
-- `top`: Displays real-time system information.
-- `uptime`: Displays how long the system has been running.
-- `free`: Displays memory usage.
-- `df`: Displays disk space usage.
-- `du`: Displays file and directory disk usage.
-- `ls`: Lists directory contents.
-- `cd`: Changes the current directory.
-- `pwd`: Displays the current working directory.
-- `mkdir`: Creates a new directory.
-- `rm`: Removes files or directories.
-- `cp`: Copies files or directories.
-- `mv`: Moves or renames files or directories.
-- `touch`: Creates an empty file or updates the access and modification times of a file.
-- `cat`: Concatenates and displays file contents.
-- `more`: Displays file contents one screen at a time.
-- `less`: Displays file contents with advanced features.
-- `head`: Displays the beginning of a file.
-- `tail`: Displays the end of a file.
-- `grep`: Searches for patterns in files.
-- `find`: Searches for files and directories.
-- `wc`: Displays the number of lines, words, and characters in a file.
-- `chmod`: Changes file permissions.
-- `chown`: Changes file owner and group.
-- `chgrp`: Changes file group ownership.
-- `ln`: Creates links between files.
-- `tar`: Archives files.
-- `gzip`: Compresses files.
-- `gunzip`: Decompresses files.
-- `ssh`: Connects to a remote machine using SSH.
-- `scp`: Copies files securely between hosts.
-- `rsync`: Syncs files and directories between hosts.
-- `wget`: Downloads files from the web.
-- `curl`: Transfers data from or to a server.
-- `ping`: Tests network connectivity.
-- `traceroute`: Traces the route to a host.
-- `ifconfig`: Configures network interfaces.
-- `netstat`: Displays network connections.
-- `iptables`: Manages firewall rules.
-- `systemctl`: Controls the systemd system and service manager.
-- `journalctl`: Views and manages journal logs.
-- `crontab`: Manages cron jobs.
-- `at`: Schedules commands to be executed at a later time.
-- `watch`: Executes a program periodically.
-- `lsof`: Lists open files.
-- `ss`: Displays socket statistics.
-- `strace`: Traces system calls and signals.
-- `tcpdump`: Captures and analyzes network traffic.
-- `nc`: Netcat utility for reading from and writing to network connections.
-- `awk`: Processes and analyzes text files.
-- `sed`: Edits text using scripts.
-- `grep`: Searches for patterns in files.
-- `sort`: Sorts lines of text.
-- `uniq`: Filters adjacent matching lines.
-- `cut`: Extracts sections from each line of a file.
-- `paste`: Merges lines from multiple files.
-- `diff`: Compares files line by line.
-- `patch`: Applies changes to files.
-- `tr`: Translates or deletes characters.
-- `tee`: Reads from standard input and writes to standard output and files.
-- `xargs`: Builds and executes command lines from standard input.
-- `bc`: Calculator.
-- `date`: Displays or sets the system date and time.
-- `cal`: Displays a calendar.
-- `uptime`: Displays how long the system has been running.
-- `who`: Displays who is logged on.
-- `w`: Displays who is logged on and what they are doing.
-- `last`: Displays last logins.
-- `uname`: Displays system information.
-- `hostname`: Displays or sets the system's hostname.
-- `dmesg`: Displays boot messages.
-- `lsmod`: Displays loaded kernel modules.
-- `modinfo`: Displays information about a kernel module.
-- `modprobe`: Adds or removes kernel modules from the Linux kernel.
-- `insmod`: Inserts a module into the Linux kernel.
-- `rmmod`: Removes a module from the Linux kernel.
-- `journalctl`: Views and manages the systemd journal.
-- `systemctl`: Controls the systemd system and service manager.
-- `timedatectl`: Controls the system time and date.
-- `hostnamectl`: Controls the system hostname.
-- `loginctl`: Controls the systemd login manager.
-- `chage`: Changes user password expiry information.
-- `passwd`: Changes user password.
-- `useradd`: Adds a new user.
-- `userdel`: Deletes a user.
-- `usermod`: Modifies a user.
-- `groupadd`: Adds a new group.
-- `groupdel`: Deletes a group.
-- `groupmod`: Modifies a group.
-- `chown`: Changes file owner and group.
-- `chmod`: Changes file permissions.
-- `chgrp`: Changes file group ownership.
-- `su`: Switches user.
-- `sudo`: Executes a command as another user.
-- `visudo`: Edits the sudoers file.
-- `adduser`: Adds a new user and configures the account.
-- `deluser`: Deletes a user and their configuration files.
-- `passwd`: Changes user password.
-- `usermod`: Modifies a user account.
-- `groupadd`: Adds a new group.
-- `groupdel`: Deletes a group.
-- `groupmod`: Modifies a group.
-- `chage`: Changes user password expiry information.
-- `chsh`: Changes the user's login shell.
-- `id`: Displays user and group information.
-- `whoami`: Displays the current user.
-- `groups`: Displays the groups a user is in.
-- `w`: Displays who is logged on and what they are doing.
-- `last`: Displays last logins.
-- `finger`: Displays information about users.
-- `ps`: Displays information about processes.
-- `top`: Displays real-time system information.
-- `kill`: Sends a signal to a process.
-- `killall`: Kills processes by name.
-- `pkill`: Sends a signal to processes based on name.
-- `pgrep`: Looks up processes based on name.
-- `nice`: Runs a command with modified scheduling priority.
-- `renice`: Alters the priority of running processes.
-- `at`: Schedules commands to be executed at a later time.
-- `batch`: Executes commands when system load levels permit.
-- `crontab`: Manages cron jobs.
-- `watch`: Executes a program periodically.
-- `uptime`: Displays how long the system has been running.
-- `free`: Displays memory usage.
-- `vmstat`: Displays virtual memory statistics.
-- `iostat`: Displays I/O statistics.
-- `sar`: Collects and reports system activity information.
-- `lsof`: Lists open files.
-- `netstat`: Displays network connections.
-- `ss`: Displays socket statistics.
-- `tcpdump`: Captures and analyzes network traffic.
-- `strace`: Traces system calls and signals.
-- `ltrace`: Traces library calls.
-- `ldd`: Displays shared library dependencies.
-- `nm`: Lists symbols from object files.
-- `objdump`: Displays information from object files.
-- `readelf`: Displays information about ELF files.
-- `file`: Determines file type.
-- `strings`: Finds printable strings in files.
-- `hexdump`: Displays file contents in hexadecimal.
-- `xxd`: Creates a hex dump of a file.
-- `diff`: Compares files line by line.
-- `patch`: Applies changes to files.
-- `wc`: Displays the number of lines, words, and characters in a file.
-- `grep`: Searches for patterns in files.
-- `sed`: Edits text using scripts.
-- `awk`: Processes and analyzes text files.
-- `cut`: Extracts sections from each line of a file.
-- `sort`: Sorts lines of text.
-- `uniq`: Filters adjacent matching lines.
-- `tr`: Translates or deletes characters.
-- `tee`: Reads from standard input and writes to standard output and files.
-- `xargs`: Builds and executes command lines from standard input.
-- `bc`: Calculator.
-- `expr`: Evaluates expressions.
-- `seq`: Generates sequences of numbers.
-- `bc`: Calculator.
-- `dc`: Desk calculator.
-- `factor`: Factors numbers.
-- `pr`: Formats files for printing.
-- `fold`: Wraps lines to fit a specified width.
-- `fmt`: Formats text for printing.
-- `nl`: Numbers lines in a file.
-- `od`: Dumps files in octal and other formats.
-- `join`: Joins lines of two files on a common field.
-- `paste`: Merges lines from multiple files.
-- `sort`: Sorts lines of text.
-- `shuf`: Shuffles input lines.
-- `split`: Splits files into pieces.
-- `tr`: Translates or deletes characters.
-- `uniq`: Filters adjacent matching lines.
-- `wc`: Displays the number of lines, words, and characters in a file.
-- `head`: Displays the beginning of a file.
-- `tail`: Displays the end of a file.
-- `cat`: Concatenates and displays file contents.
-- `tac`: Concatenates and displays file contents in reverse.
-- `rev`: Reverses lines in a file.
-- `grep`: Searches for patterns in files.
-- `sed`: Edits text using scripts.
-- `awk`: Processes and analyzes text files.
-- `diff`: Compares files line by line.
-- `patch`: Applies changes to files.
-- `tar`: Archives files.
-- `gzip`: Compresses files.
-- `gunzip`: Decompresses files.
-- `bzip2`: Compresses files using the Burrows-Wheeler algorithm.
-- `bzcat`: Decompresses files compressed by bzip2.
-- `xz`: Compresses files using the LZMA algorithm.
-- `unxz`: Decompresses files compressed by xz.
-- `lzma`: Compresses files using the LZMA algorithm.
-- `unlzma`: Decompresses files compressed by lzma.
-- `zip`: Archives files using the ZIP format.
-- `unzip`: Extracts files from ZIP archives.
-- `7z`: Archives files using the 7z format.
-- `unrar`: Extracts files from RAR archives.
-- `tar`: Archives files.
-- `gzip`: Compresses files.
-- `gunzip`: Decompresses files.
-- `bzip2`: Compresses files using the Burrows-Wheeler algorithm.
-- `bzcat`: Decompresses files compressed by bzip2.
-- `xz`: Compresses files using the LZMA algorithm.
-- `unxz`: Decompresses files compressed by xz.
-- `lzma`: Compresses files using the LZMA algorithm.
-- `unlzma`: Decompresses files compressed by lzma.
-- `zip`: Archives files using the ZIP format.
-- `unzip`: Extracts files from ZIP archives.
-- `7z`: Archives files using the 7z format.
-- `unrar`: Extracts files from RAR archives.
-- `tar`: Archives files.
-- `gzip`: Compresses files.
-- `gunzip`: Decompresses files.
-- `bzip2`: Compresses files using the Burrows-Wheeler algorithm.
-- `bzcat`: Decompresses files compressed by bzip2.
-- `xz`: Compresses files using the LZMA algorithm.
-- `unxz`: Decompresses files compressed by xz.
-- `lzma`: Compresses files using the LZMA algorithm.
-- `unlzma`: Decompresses files compressed by lzma.
-- `zip`: Archives files using the ZIP format.
-- `unzip`: Extracts files from ZIP archives.
-- `7z`: Archives files using the 7z format.
-- `unrar`: Extracts files from RAR archives.
+Bash（Bourne Again Shell）は、GNUプロジェクトの一部として開発されたUnixシェルです。Bashは、Linuxシステムで広く使用されており、システム管理やスクリプト作成に便利です。
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
@@ -542,26 +297,6 @@ for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do ech
 
 ### 概要
 IptablesはLinuxシステムで使用されるファイアウォールユーティリティです。ネットワークトラフィックを監視し、許可された通信のみを許可するためのルールを設定することができます。
-
-### 一般的なコマンド
-以下はIptablesでよく使用されるコマンドの一部です。
-
-- `iptables -L`: 現在のファイアウォールルールをリスト表示します。
-- `iptables -F`: すべてのファイアウォールルールをフラッシュ（削除）します。
-- `iptables -A`: ファイアウォールルールに新しいルールを追加します。
-- `iptables -D`: ファイアウォールルールから特定のルールを削除します。
-
-### 例
-```bash
-# ファイアウォールルールをリスト表示
-iptables -L
-
-# ファイアウォールルールに新しいルールを追加
-iptables -A INPUT -s 192.168.1.1 -j ACCEPT
-
-# ファイアウォールルールから特定のルールを削除
-iptables -D INPUT -s 192.168.1.1 -j ACCEPT
-```
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -592,24 +327,25 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
+{% hint style="success" %}
+学習＆練習 AWS ハッキング:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks トレーニング AWS Red Team エキスパート (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学習＆練習 GCP ハッキング: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks トレーニング GCP Red Team エキスパート (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricks をサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見る
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする
-* **ハッキングテクニックを共有するには、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリに提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** をフォローする。**
+* **HackTricks** と **HackTricks Cloud** の github リポジトリに PR を提出してハッキングトリックを共有する。
 
 </details>
+{% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築**および**自動化**します。\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) を使用して、世界で最も高度なコミュニティツールによって強化された **ワークフローを簡単に構築** および **自動化** します。\
 今すぐアクセスしてください：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

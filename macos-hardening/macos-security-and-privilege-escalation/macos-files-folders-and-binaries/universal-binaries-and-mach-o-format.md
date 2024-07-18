@@ -1,25 +1,25 @@
-# macOSのUniversalバイナリとMach-Oフォーマット
+# macOSのUniversalバイナリ＆Mach-Oフォーマット
+
+{% hint style="success" %}
+AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合**は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で**@carlospolopm**をフォローする
-
-- **HackTricks**および**HackTricks Cloud**のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローする。
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングテクニックを共有する。
 
 </details>
+{% endhint %}
 
 ## 基本情報
 
-Mac OSのバイナリは通常、**universal binaries**としてコンパイルされます。**universal binary**は**同じファイル内で複数のアーキテクチャをサポート**できます。
+Mac OSのバイナリは通常、**universal binaries**としてコンパイルされます。**Universal binary**は**1つのファイル内で複数のアーキテクチャをサポート**できます。
 
-これらのバイナリは基本的に以下のような**Mach-O構造**に従います：
+これらのバイナリは基本的に**Mach-O構造**に従います。Mach-O構造は次のように構成されています：
 
 - ヘッダー
 - ロードコマンド
@@ -31,30 +31,28 @@ Mac OSのバイナリは通常、**universal binaries**としてコンパイル�
 
 次のコマンドでファイルを検索します：`mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
-```c
-#define FAT_MAGIC	0xcafebabe
-#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
-
+<pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
+</strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
+</strong>
 struct fat_header {
-	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-	uint32_t	nfat_arch;	/* number of structs that follow */
-};
+<strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
+</strong><strong>	uint32_t	nfat_arch;	/* 後続する構造体の数 */
+</strong>};
 
 struct fat_arch {
-	cpu_type_t	cputype;	/* cpu specifier (int) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
-	uint32_t	offset;		/* file offset to this object file */
-	uint32_t	size;		/* size of this object file */
-	uint32_t	align;		/* alignment as a power of 2 */
+cpu_type_t	cputype;	/* CPU指定子（int） */
+cpu_subtype_t	cpusubtype;	/* マシン指定子（int） */
+uint32_t	offset;		/* このオブジェクトファイルへのファイルオフセット */
+uint32_t	size;		/* このオブジェクトファイルのサイズ */
+uint32_t	align;		/* 2の累乗としてのアライメント */
 };
-```
+</code></pre>
 
-ヘッダーには**magic**バイトが続き、ファイルが含む**archs**の**数**（`nfat_arch`）と各アーキテクチャが`fat_arch`構造体を持ちます。
+ヘッダーには**マジック**バイトが続き、ファイルが含む**アーキテクチャの数**（`nfat_arch`）と各アーキテクチャには`fat_arch`構造体があります。
 
 次のコマンドで確認します：
 
-```shell
-% file /bin/ls
+<pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
 /bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
 /bin/ls (for architecture x86_64):	Mach-O 64-bit executable x86_64
 /bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
@@ -62,28 +60,28 @@ struct fat_arch {
 % otool -f -v /bin/ls
 Fat headers
 fat_magic FAT_MAGIC
-nfat_arch 2
-architecture x86_64
-    cputype CPU_TYPE_X86_64
+<strong>nfat_arch 2
+</strong><strong>architecture x86_64
+</strong>    cputype CPU_TYPE_X86_64
 cpusubtype CPU_SUBTYPE_X86_64_ALL
 capabilities 0x0
-    offset 16384
-    size 72896
-    align 2^14 (16384)
-architecture arm64e
-    cputype CPU_TYPE_ARM64
+<strong>    offset 16384
+</strong><strong>    size 72896
+</strong>    align 2^14 (16384)
+<strong>architecture arm64e
+</strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
 capabilities PTR_AUTH_VERSION USERSPACE 0
-    offset 98304
-    size 88816
-    align 2^14 (16384)
-```
+<strong>    offset 98304
+</strong><strong>    size 88816
+</strong>    align 2^14 (16384)
+</code></pre>
 
-または[Mach-O View](https://sourceforge.net/projects/machoview/)ツールを使用して確認できます：
+または[Mach-O View](https://sourceforge.net/projects/machoview/)ツールを使用して：
 
 <figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-通常、2つのアーキテクチャ向けにコンパイルされたuniversal binaryは、1つのアーキテクチャ向けにコンパイルされたものの**サイズを倍に**します。
+通常、2つのアーキテクチャ向けにコンパイルされたuniversal binaryは、1つのアーキテクチャ向けにコンパイルされたものと比べて**サイズが倍**になることが多いです。
 
 ## **Mach-Oヘッダー**
 
@@ -116,9 +114,9 @@ uint32_t	reserved;	/* reserved */
 ```
 ### Mach-Oファイルタイプ
 
-異なるファイルタイプがあります。これらは[**例えばこちらのソースコード**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h)で定義されています。最も重要なものは次のとおりです：
+異なるファイルタイプがあります。これらは[**こちらのソースコードで定義されています**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h)。最も重要なものは次のとおりです：
 
-- `MH_OBJECT`: 再配置可能なオブジェクトファイル（コンパイルの中間生成物であり、まだ実行可能ではありません）。
+- `MH_OBJECT`: リロケータブルオブジェクトファイル（コンパイルの中間生成物であり、まだ実行可能ではありません）。
 - `MH_EXECUTE`: 実行可能ファイル。
 - `MH_FVMLIB`: 固定VMライブラリファイル。
 - `MH_CORE`: コードダンプ
@@ -126,7 +124,7 @@ uint32_t	reserved;	/* reserved */
 - `MH_DYLIB`: ダイナミックライブラリ
 - `MH_DYLINKER`: ダイナミックリンカ
 - `MH_BUNDLE`: "プラグインファイル"。gccの-bundleを使用して生成され、`NSBundle`または`dlopen`によって明示的にロードされます。
-- `MH_DYSM`: デバッグ用シンボルを持つ`.dSym`ファイル（補助ファイル）。
+- `MH_DYSM`: 付随する`.dSym`ファイル（デバッグ用のシンボルを含むファイル）。
 - `MH_KEXT_BUNDLE`: カーネル拡張。
 ```bash
 # Checking the mac header of a binary
@@ -135,7 +133,7 @@ Mach header
 magic  cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags
 MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DYLDLINK TWOLEVEL PIE
 ```
-または、[Mach-O View](https://sourceforge.net/projects/machoview/) を使用する：
+または[Mach-O View](https://sourceforge.net/projects/machoview/)を使用する：
 
 <figure><img src="../../../.gitbook/assets/image (1133).png" alt=""><figcaption></figcaption></figure>
 
@@ -143,45 +141,47 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 
 ソースコードでは、ライブラリの読み込みに役立ついくつかのフラグも定義されています：
 
-* `MH_NOUNDEFS`: 未定義の参照なし（完全にリンクされている）
-* `MH_DYLDLINK`: Dyld リンク
-* `MH_PREBOUND`: 動的参照が事前にバインドされています。
+* `MH_NOUNDEFS`: 未定義の参照なし（完全にリンクされています）
+* `MH_DYLDLINK`: Dyld リンキング
+* `MH_PREBOUND`: ダイナミック参照が事前にバインドされています。
 * `MH_SPLIT_SEGS`: ファイルが r/o および r/w セグメントに分割されています。
-* `MH_WEAK_DEFINES`: バイナリには弱く定義されたシンボルが含まれています
+* `MH_WEAK_DEFINES`: バイナリには弱く定義されたシンボルがあります
 * `MH_BINDS_TO_WEAK`: バイナリが弱いシンボルを使用しています
 * `MH_ALLOW_STACK_EXECUTION`: スタックを実行可能にします
-* `MH_NO_REEXPORTED_DYLIBS`: ライブラリに LC\_REEXPORT コマンドが含まれていません
+* `MH_NO_REEXPORTED_DYLIBS`: ライブラリに LC\_REEXPORT コマンドがありません
 * `MH_PIE`: 位置に依存しない実行可能ファイル
 * `MH_HAS_TLV_DESCRIPTORS`: スレッドローカル変数を持つセクションがあります
 * `MH_NO_HEAP_EXECUTION`: ヒープ/データページの実行がありません
-* `MH_HAS_OBJC`: バイナリに oBject-C セクションが含まれています
+* `MH_HAS_OBJC`: バイナリに oBject-C セクションがあります
 * `MH_SIM_SUPPORT`: シミュレータサポート
 * `MH_DYLIB_IN_CACHE`: 共有ライブラリキャッシュ内の dylibs/frameworks で使用されます。
 
 ## **Mach-O ロードコマンド**
 
-**メモリ内のファイルのレイアウト** がここで指定され、**シンボルテーブルの位置**、実行開始時のメインスレッドのコンテキスト、および必要な **共有ライブラリ** が詳細に記載されています。メモリへのバイナリの読み込みプロセスに関する指示が、動的ローダー **(dyld)** に提供されます。
+**メモリ内のファイルのレイアウト**がここで指定され、**シンボルテーブルの位置**、実行開始時のメインスレッドのコンテキスト、および必要な**共有ライブラリ**の詳細が示されています。バイナリのメモリへの読み込みプロセスに関する指示が、動的ローダー（dyld）に提供されます。
 
-これには、**`loader.h`** で定義された **load\_command** 構造が使用されます。
+これには、`loader.h`で定義された**load\_command**構造が使用されます。
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-### **LC_SEGMENT/LC_SEGMENT_64**
+システムが異なる**50種類のロードコマンド**を異なる方法で処理しています。最も一般的なものは、`LC_SEGMENT_64`、`LC_LOAD_DYLINKER`、`LC_MAIN`、`LC_LOAD_DYLIB`、および`LC_CODE_SIGNATURE`です。
+
+### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-基本的に、このタイプのロードコマンドは、バイナリが実行されるときに、**\_\_TEXT**（実行コード）と**\_\_DATA**（プロセス用データ）**セグメントをどのようにロードするか**を、データセクションで示されたオフセットに従って定義します。
+基本的に、このタイプのロードコマンドは、バイナリが実行されるときに**\_\_TEXT**（実行コード）および**\_\_DATA**（プロセス用のデータ）**セグメントをどのようにロードするか**を、データセクションで示されたオフセットに従って定義します。
 {% endhint %}
 
-これらのコマンドは、プロセスが実行されるときに、**仮想メモリ空間にマップされるセグメント**を**定義**します。
+これらのコマンドは、プロセスの**仮想メモリ空間にマップされるセグメント**を**定義**します。
 
 **異なる種類**のセグメントがあり、プログラムの実行コードを保持する**\_\_TEXT**セグメントや、プロセスによって使用されるデータを含む**\_\_DATA**セグメントなどがあります。これらの**セグメントは、Mach-Oファイルのデータセクションに配置**されています。
 
-**各セグメント**は、さらに複数の**セクション**に**分割**できます。**ロードコマンド構造**には、それぞれのセグメント内の**これらのセクションに関する情報**が含まれています。
+**各セグメント**はさらに**複数のセクションに分割**できます。**ロードコマンド構造**には、それぞれのセグメント内の**これらのセクションに関する情報**が含まれています。
 
-ヘッダー内にはまず、**セグメントヘッダー**があります：
+ヘッダー内にはまず**セグメントヘッダー**があります：
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* 64ビットアーキテクチャ用 */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
@@ -219,7 +219,7 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-### **セクションヘッダーの例**:
+例: **セクションヘッダー**:
 
 <figure><img src="../../../.gitbook/assets/image (1108).png" alt=""><figcaption></figcaption></figure>
 
@@ -227,56 +227,54 @@ uint32_t	reserved3;	/* reserved */
 
 <figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-また、**コマンドライン**からも**ヘッダー情報**を取得することが可能です。
+また、**コマンドライン**から**ヘッダー情報**を取得することも可能です。
 ```bash
 otool -lv /bin/ls
 ```
-```markdown
-このcmdによってロードされる一般的なセグメント：
+以下は、このコマンドによって読み込まれる一般的なセグメントです：
 
-* **`__PAGEZERO`:** カーネルに**アドレスゼロをマップ**するよう指示し、**読み取り、書き込み、実行**ができないようにします。構造体内のmaxprotとminprot変数はゼロに設定され、このページには**読み取り書き込み実行権限がない**ことを示します。
-* この割り当ては**NULLポインターのデリファレンス脆弱性を緩和**するために重要です。これは、XNUが最初のページ（i386を除く）がアクセスできないようにする厳格なページゼロを強制するためです。バイナリは、最初の4kをカバーする小さな\_\_PAGEZERO（`-pagezero_size`を使用）を作成し、残りの32ビットメモリをユーザーモードとカーネルモードの両方でアクセス可能にすることでこれらの要件を満たすことができます。
-* **`__TEXT`**: **読み取り**および**実行**権限（書き込みなし）を持つ**実行可能なコード**を含みます。このセグメントの一般的なセクション：
-* `__text`: コンパイルされたバイナリコード
-* `__const`: 定数データ（読み取り専用）
-* `__[c/u/os_log]string`: C、Unicode、またはosログの文字列定数
-* `__stubs`および`__stubs_helper`: ダイナミックライブラリの読み込みプロセス中に関与
-* `__unwind_info`: スタックアンワインドデータ
-* このすべてのコンテンツが署名されているが、実行可能としてマークされていることに注意してください（この特権が必要ないセクションの悪用のためのさらなるオプションを作成します、例えば文字列専用セクション）。
-* **`__DATA`**: **読み取り**および**書き込み**可能なデータを含みます（実行不可）。
-* `__got:` グローバルオフセットテーブル
-* `__nl_symbol_ptr`: 遅延なし（ロード時にバインド）シンボルポインタ
-* `__la_symbol_ptr`: 遅延（使用時にバインド）シンボルポインタ
-* `__const`: 読み取り専用データであるべき（実際にはそうではない）
-* `__cfstring`: CoreFoundation文字列
-* `__data`: 初期化されたグローバル変数
-* `__bss`: 初期化されていない静的変数
-* `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolistなど）：Objective-Cランタイムで使用される情報
-* **`__DATA_CONST`**: \_\_DATA.\_\_constは定数であることが保証されていません（書き込み権限があります）、他のポインタやGOTも同様です。このセクションは、`mprotect`を使用して`__const`、一部の初期化子、およびGOTテーブル（解決後）を**読み取り専用**にします。
-* **`__LINKEDIT`**: リンカー（dyld）のための情報を含み、シンボル、文字列、および再配置テーブルエントリが含まれます。これは`__TEXT`または`__DATA`に含まれないコンテンツのための一般的なコンテナであり、その内容は他のロードコマンドで説明されています。
-* dyld情報：再配置、遅延なし/遅延/弱いバインディングオペコードおよびエクスポート情報
-* 関数開始：関数の開始アドレスのテーブル
-* コード内データ：\_\_text内のデータアイランド
-* シンボルテーブル：バイナリ内のシンボル
-* 間接シンボルテーブル：ポインタ/スタブシンボル
-* 文字列テーブル
-* コード署名
-* **`__OBJC`**: Objective-Cランタイムで使用される情報を含みます。ただし、この情報は、さまざまな\_\_objc\_\*セクション内にも見つかる可能性があります。
-* **`__RESTRICT`**: コンテンツのないセグメントで、**`__restrict`**（空でも）という単一のセクションがあり、バイナリを実行する際にDYLD環境変数を無視することを保証します。
+- **`__PAGEZERO`:** カーネルに**アドレスゼロをマップ**するよう指示し、**読み取り、書き込み、実行**ができないようにします。この構造体内のmaxprotとminprot変数はゼロに設定され、このページには**読み取り書き込み実行権限がない**ことを示します。
+- この割り当ては**NULLポインターのデリファレンスの脆弱性を緩和**するために重要です。これは、XNUが最初のメモリページ（i386を除く）がアクセスできないようにする厳格なページゼロを強制するためです。バイナリは、最初の4kをカバーする小さな\_\_PAGEZERO（`-pagezero_size`を使用）を作成し、残りの32ビットメモリをユーザーモードとカーネルモードの両方でアクセス可能にすることで、これらの要件を満たすことができます。
+- **`__TEXT`**: **読み取り**および**実行**権限（書き込み不可）を持つ**実行可能なコード**が含まれています。このセグメントの一般的なセクション：
+  - `__text`: コンパイルされたバイナリコード
+  - `__const`: 定数データ（読み取り専用）
+  - `__[c/u/os_log]string`: C、Unicode、またはosログの文字列定数
+  - `__stubs`および`__stubs_helper`: ダイナミックライブラリの読み込みプロセス中に関与
+  - `__unwind_info`: スタックアンワインドデータ
+- このコンテンツはすべて署名されていますが、実行可能としてマークされています（特権が必要ないセクションの悪用のためのさらなるオプションを作成します、例えば文字列専用セクション）。
+- **`__DATA`**: **読み取り**および**書き込み**可能なデータが含まれています（実行不可）。
+  - `__got:` グローバルオフセットテーブル
+  - `__nl_symbol_ptr`: 遅延なし（ロード時にバインド）シンボルポインター
+  - `__la_symbol_ptr`: 遅延（使用時にバインド）シンボルポインター
+  - `__const`: 読み取り専用データであるべき（実際にはそうではない）
+  - `__cfstring`: CoreFoundation文字列
+  - `__data`: 初期化されたグローバル変数
+  - `__bss`: 初期化されていない静的変数
+  - `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolistなど）: Objective-Cランタイムで使用される情報
+- **`__DATA_CONST`**: \_\_DATA.\_\_constは定数であることが保証されていません（書き込み権限があります）、他のポインターやGOTも同様です。このセクションは、`mprotect`を使用して`__const`、一部の初期化子、およびGOTテーブル（解決後）を**読み取り専用**にします。
+- **`__LINKEDIT`**: リンカー（dyld）のための情報を含み、シンボル、文字列、および再配置テーブルエントリが含まれます。これは`__TEXT`または`__DATA`に含まれないコンテンツのための一般的なコンテナであり、その内容は他のロードコマンドで説明されています。
+- dyld情報: リベース、遅延なし/遅延/弱いバインディングオペコードおよびエクスポート情報
+- 関数開始: 関数の開始アドレスのテーブル
+- コード内データ: \_\_text内のデータアイランド
+- シンボルテーブル: バイナリ内のシンボル
+- 間接シンボルテーブル: ポインター/スタブシンボル
+- 文字列テーブル
+- コード署名
+- **`__OBJC`**: Objective-Cランタイムで使用される情報を含みます。ただし、この情報は、さまざまな\_\_objc\_\*セクション内にも見つかる可能性があります。
+- **`__RESTRICT`**: コンテンツのないセグメントで、**`__restrict`**という単一のセクションがあり、バイナリを実行する際にDYLD環境変数を無視することを保証します。
 
-コードで見られたように、**セグメントもフラグをサポート**しています（あまり使用されていませんが）：
+コードで見られたように、**セグメントにはフラグもサポートされています**（あまり使用されていませんが）：
 
-* `SG_HIGHVM`: コアのみ（使用されていません）
-* `SG_FVMLIB`: 使用されていません
-* `SG_NORELOC`: セグメントに再配置がない
-* `SG_PROTECTED_VERSION_1`: 暗号化。例えばFinderが`__TEXT`セグメントのテキストを暗号化するために使用されます。
+- `SG_HIGHVM`: コアのみ（使用されていません）
+- `SG_FVMLIB`: 使用されていません
+- `SG_NORELOC`: セグメントに再配置がない
+- `SG_PROTECTED_VERSION_1`: 暗号化。例えば、Finderが`__TEXT`セグメントのテキストを暗号化するために使用されます。
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`** は**entryoff属性**にエントリーポイントを含みます。ロード時に、**dyld**は単にこの値を（メモリ内の）バイナリのベースに**追加**し、その後この命令に**ジャンプ**してバイナリのコードの実行を開始します。
+**`LC_MAIN`**には**entryoff属性**内のエントリーポイントが含まれています。ロード時に、**dyld**は単にこの値を（メモリ内の）バイナリのベースに**追加**し、その後この命令に**ジャンプ**してバイナリのコードの実行を開始します。
 
-**`LC_UNIXTHREAD`** は、メインスレッドを開始するときにレジスタが持っている必要がある値を含みます。これはすでに非推奨となっていますが、**`dyld`** はまだ使用しています。これによって設定されたレジスタの値を次のように確認できます：
-```
+**`LC_UNIXTHREAD`**には、メインスレッドを開始する際にレジスタが持つ必要がある値が含まれています。これはすでに非推奨となっていますが、**`dyld`**はまだ使用しています。これによって設定されるレジスタの値を次のように確認できます：
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -319,7 +317,7 @@ Macho-Oファイルの**コード署名**に関する情報を含みます。**�
 
 ### **`LC_UUID`**
 
-ランダムUUIDです。直接的には役立ちませんが、XNUはプロセス情報の残りと一緒にキャッシュします。クラッシュレポートで使用できます。
+ランダムUUIDです。直接的には何にも役立ちませんが、XNUはプロセス情報と一緒にキャッシュします。クラッシュレポートで使用できます。
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
@@ -329,7 +327,7 @@ Macho-Oファイルの**コード署名**に関する情報を含みます。**�
 
 このロードコマンドは、**ローダー**(dyld)に**ライブラリをロードしてリンクするよう指示する** **動的ライブラリ**依存関係を記述します。Mach-Oバイナリが必要とする**各ライブラリ**には`LC_LOAD_DYLIB`ロードコマンドがあります。
 
-* このロードコマンドは、**実際の依存する動的ライブラリを記述するstruct dylibを含むdylib_command**型の構造体です。
+* このロードコマンドは、**`dylib_command`**型の構造体であり（実際の依存する動的ライブラリを記述するstruct dylibを含む）、
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -367,7 +365,7 @@ Mach-O バイナリには、**LC\_MAIN** で指定されたアドレスの**前�
 
 ## **Mach-O データ**
 
-ファイルの中心には、ロードコマンド領域で定義された複数のセグメントで構成されるデータ領域があります。**各セグメント内にはさまざまなデータセクションが収められており**、各セクションには**コードまたはデータ**が特定のタイプに固有のものが含まれています。
+ファイルの中心には、ロードコマンド領域で定義された複数のセグメントで構成されるデータ領域があります。**各セグメントにはさまざまなデータセクションが収められており**、各セクションには**コードまたはデータ**が特定のタイプに固有のものが含まれています。
 
 {% hint style="success" %}
 データは基本的に、ロードコマンド**LC\_SEGMENTS\_64**によって読み込まれる**すべての情報**を含む部分です。
@@ -377,8 +375,8 @@ Mach-O バイナリには、**LC\_MAIN** で指定されたアドレスの**前�
 
 これには次のものが含まれます：
 
-- **関数テーブル**：プログラム関数に関する情報を保持
-- **シンボルテーブル**：バイナリで使用される外部関数に関する情報を含む
+- **関数テーブル**：プログラム関数に関する情報を保持します。
+- **シンボルテーブル**：バイナリで使用される外部関数に関する情報を含みます
 - 内部関数、変数名なども含まれる可能性があります。
 
 確認するには、[**Mach-O View**](https://sourceforge.net/projects/machoview/) ツールを使用できます：

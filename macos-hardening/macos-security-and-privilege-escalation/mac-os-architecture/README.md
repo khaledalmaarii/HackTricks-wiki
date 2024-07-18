@@ -1,51 +1,52 @@
-# macOS Kernel & System Extensions
+# macOS カーネル & システム拡張機能
+
+{% hint style="success" %}
+AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を通じて、ゼロからヒーローまでAWSハッキングを学びましょう</summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝**したい場合や **HackTricks を PDF でダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式 PEASS & HackTricks スワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見る
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする
-* **ハッキングテクニックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の GitHub リポジトリに PR を提出する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
+* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、ハッキングテクニックを共有してください。
 
 </details>
+{% endhint %}
 
 ## XNU カーネル
 
-**macOS の中核は XNU** であり、これは "X is Not Unix" の略です。このカーネルは基本的に **Mach マイクロカーネル**（後述）と **Berkeley Software Distribution (BSD)** の要素から構成されています。XNU はまた、**I/O Kit と呼ばれるシステムを介してカーネルドライバを提供**します。XNU カーネルは Darwin オープンソースプロジェクトの一部であり、**そのソースコードは自由にアクセスできます**。
+**macOSのコアはXNU**であり、「X is Not Unix」の略です。このカーネルは基本的に**Machマイクロカーネル**（後述します）と**Berkeley Software Distribution（BSD）**の要素から構成されています。XNUはまた、**I/O Kitというシステムを介してカーネルドライバを提供**します。XNUカーネルはDarwinオープンソースプロジェクトの一部であり、**そのソースコードは自由にアクセスできます**。
 
-セキュリティ研究者や Unix 開発者の観点から見ると、**macOS** はエレガントな GUI と多くのカスタムアプリケーションを備えた **FreeBSD** システムにかなり **似て**います。BSD 向けに開発されたほとんどのアプリケーションは、Unix ユーザにとって馴染みのあるコマンドラインツールが macOS にすべて備わっているため、修正を加えることなく macOS でコンパイルおよび実行できます。ただし、XNU カーネルには Mach が組み込まれているため、従来の Unix ライクなシステムと macOS の間にはいくつかの重要な違いがあり、これらの違いは潜在的な問題を引き起こすか、独自の利点を提供する可能性があります。
+セキュリティ研究者やUnix開発者の観点から見ると、**macOS**は、エレガントなGUIと多くのカスタムアプリケーションを備えた**FreeBSD**システムにかなり**似て**いると感じるかもしれません。BSD向けに開発されたほとんどのアプリケーションは、Unixユーザにとって馴染みのあるコマンドラインツールがmacOSにすべて備わっているため、修正を加えることなくmacOSでコンパイルおよび実行できます。ただし、XNUカーネルにはMachが組み込まれているため、従来のUnixライクなシステムとmacOSの間にはいくつかの重要な違いがあり、これらの違いは潜在的な問題を引き起こすか、独自の利点を提供する可能性があります。
 
-XNU のオープンソースバージョン: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+XNUのオープンソースバージョン: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach は **UNIX 互換のマイクロカーネル** であり、その主要な設計原則の1つは、**カーネルスペースで実行されるコードの量を最小限に抑え、ファイルシステム、ネットワーキング、I/O などの典型的なカーネル機能をユーザレベルのタスクとして実行**することです。
+Machは**UNIX互換のマイクロカーネル**であり、その主要な設計原則の1つは、**カーネルスペースで実行されるコードの量を最小限に抑え、ファイルシステム、ネットワーキング、I/Oなどの多くの典型的なカーネル機能をユーザレベルのタスクとして実行**することです。
 
-XNU では、Mach が **プロセッサスケジューリング、マルチタスキング、および仮想メモリ管理**など、通常カーネルが処理する多くの重要な低レベル操作を担当しています。
+XNUでは、Machは**プロセッサスケジューリング、マルチタスキング、および仮想メモリ管理**など、通常カーネルが処理する多くの重要な低レベル操作を担当しています。
 
 ### BSD
 
-XNU カーネルはまた、**FreeBSD** プロジェクトから派生した大量のコードを **組み込んで**います。このコードは、Mach と同じアドレス空間内でカーネルの一部として実行されます。ただし、XNU 内の FreeBSD コードは、Mach との互換性を確保するために変更が加えられたため、元の FreeBSD コードとは大きく異なる場合があります。FreeBSD は以下の多くのカーネル操作に貢献しています:
+XNU **カーネル**はまた、**FreeBSD**プロジェクトから派生したコードのかなりの量を**組み込んで**います。このコードは、**Machと同じアドレス空間内でカーネルの一部として実行**されます。ただし、XNU内のFreeBSDコードは、Machとの互換性を確保するために変更が必要であるため、元のFreeBSDコードとは大きく異なる場合があります。 FreeBSDは、次のような多くのカーネル操作に貢献しています：
 
 * プロセス管理
 * シグナル処理
 * ユーザーおよびグループ管理を含む基本的なセキュリティメカニズム
 * システムコールインフラストラクチャ
-* TCP/IP スタックおよびソケット
+* TCP/IPスタックおよびソケット
 * ファイアウォールおよびパケットフィルタリング
 
-BSD と Mach の相互作用を理解することは複雑であり、それぞれ異なる概念フレームワークを持っています。たとえば、BSD はプロセスを基本的な実行単位として使用しますが、Mach はスレッドに基づいて動作します。この相違は、XNU において BSD プロセスを Mach タスクに **関連付ける**ことで調整されます。BSD の fork() システムコールが使用されると、カーネル内の BSD コードは、タスクとスレッド構造を作成するために Mach 関数を使用します。
+BSDとMachの相互作用を理解することは複雑であり、それぞれ異なる概念フレームワークを持っているためです。たとえば、BSDはプロセスを基本的な実行単位として使用しますが、Machはスレッドに基づいて動作します。この相違は、XNUにおいて、**各BSDプロセスを1つのMachスレッドを含むMachタスクに関連付ける**ことで調整されます。BSDのfork()システムコールが使用されると、カーネル内のBSDコードは、タスクとスレッド構造を作成するためにMach関数を使用します。
 
-さらに、**Mach と BSD はそれぞれ異なるセキュリティモデルを維持**しています: **Mach** のセキュリティモデルは **ポート権限**に基づいており、一方、BSD のセキュリティモデルは **プロセス所有権**に基づいて動作します。これら2つのモデルの相違は、場合によってはローカル特権昇格の脆弱性を引き起こすことがあります。典型的なシステムコールに加えて、**Mach トラップ**もあり、ユーザースペースプログラムがカーネルとやり取りすることができます。これらの異なる要素が組み合わさり、macOS カーネルの多面的でハイブリッドなアーキテクチャを形成しています。
+さらに、**MachとBSDはそれぞれ異なるセキュリティモデルを維持**しています：**Mach**のセキュリティモデルは**ポート権限**に基づいており、一方、BSDのセキュリティモデルは**プロセス所有権**に基づいて動作します。これら2つのモデルの相違は、場合によってはローカル特権昇格の脆弱性を引き起こすことがあります。典型的なシステムコールに加えて、**ユーザースペースプログラムがカーネルとやり取りするためのMachトラップ**も存在します。これらの異なる要素が組み合わさり、macOSカーネルの多面的でハイブリッドなアーキテクチャを形成しています。
 
-### I/O Kit - ドライバ
+### I/O Kit - ドライバー
 
-I/O Kit は XNU カーネル内のオープンソースのオブジェクト指向 **デバイスドライバフレームワーク**であり、**動的にロードされるデバイスドライバ**を処理します。これにより、多様なハードウェアをサポートするために、カーネルにモジュラーコードを即座に追加できます。
+I/O KitはXNUカーネル内のオープンソースのオブジェクト指向**デバイスドライバーフレームワーク**であり、**動的にロードされるデバイスドライバ**を処理します。これにより、多様なハードウェアをサポートするために、カーネルにモジュール化されたコードを即座に追加できます。
 
 {% content-ref url="macos-iokit.md" %}
 [macos-iokit.md](macos-iokit.md)
@@ -59,31 +60,30 @@ I/O Kit は XNU カーネル内のオープンソースのオブジェクト指�
 
 ### カーネルキャッシュ
 
-**カーネルキャッシュ**は、XNU カーネルの **事前にコンパイルおよびリンクされたバージョン** と、重要なデバイス **ドライバ** および **カーネル拡張** を含むものです。これは **圧縮形式** で保存され、起動時にメモリに展開されます。カーネルキャッシュにより、カーネルと重要なドライバがすぐに実行可能な状態で利用可能になるため、起動にかかる時間とリソースが削減され、**より高速な起動時間**が実現されます。
+**カーネルキャッシュ**は、XNUカーネルの**事前にコンパイルおよびリンクされたバージョン**と、必須のデバイス**ドライバー**および**カーネル拡張機能**を含んでいます。これは**圧縮**形式で保存され、起動プロセス中にメモリに展開されます。カーネルキャッシュにより、カーネルと重要なドライバーの準備完了バージョンが利用可能になるため、起動時にこれらのコンポーネントを動的にロードおよびリンクするために費やされる時間とリソースが削減され、**より高速な起動時間**が実現されます。
 
-iOS では、**`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** にあり、macOS では **`find / -name kernelcache 2>/dev/null`** または **`mdfind kernelcache | grep kernelcache`** で見つけることができます。
+iOSでは、**`/System/Library/Caches/com.apple.kernelcaches/kernelcache`**にあり、macOSでは**`find / -name kernelcache 2>/dev/null`**または**`mdfind kernelcache | grep kernelcache`**で見つけることができます。
 
-**`kextstat`** を実行して、ロードされたカーネル拡張を確認することができます。
+**`kextstat`**を実行して、ロードされたカーネル拡張機能を確認することができます。
 
 #### IMG4
 
-IMG4 ファイル形式は、Apple が iOS および macOS デバイスで使用する **ファームウェアコンポーネント（カーネルキャッシュなど）を安全に保存および検証する**ために使用されるコンテナ形式です。IMG4 形式には、ヘッダーと複数のタグが含まれており、実際のペイロード（カーネルやブートローダなど）、署名、および一連のマニフェストプロパティをカプセル化しています。この形式は暗号的な検証をサポートしており、デバイスがファームウェアコンポーネントの真正性と整合性を実行する前に確認できます。
+IMG4ファイル形式は、AppleがiOSおよびmacOSデバイスで使用する**ファームウェアコンポーネント（カーネルキャッシュなど）を安全に**保存および検証するために使用されるコンテナ形式です。IMG4形式には、ヘッダーと複数のタグが含まれており、実際のペイロード（カーネルやブートローダーなど）、署名、および一連のマニフェストプロパティをカプセル化しています。この形式は暗号的な検証をサポートしており、デバイスがファームウェアコンポーネントの真正性と整合性を実行する前に確認できます。
 
-通常、以下のコンポーネントで構成されています:
+通常、以下のコンポーネントで構成されています：
 
-* **ペイロード (IM4P)**:
-  * しばしば圧縮されています（LZFSE4、LZSS など）
-  * オプションで暗号化されています
-* **マニフェスト (IM4M)**:
-  * 署名を含む
-  * 追加のキー/値の辞書
-* **リストア情報 (IM4R)**:
-  * APNonce としても知られています
-  * 一部の更新の再生を防止します
-  * オプション: 通常、これは見つかりません
+* **ペイロード（IM4P）**：
+* しばしば圧縮されています（LZFSE4、LZSSなど）
+* オプションで暗号化されています
+* **マニフェスト（IM4M）**：
+* 署名を含む
+* 追加のキー/値の辞書
+* **リストア情報（IM4R）**：
+* APNonceとしても知られています
+* 一部の更新の再生を防止します
+* オプション：通常、これは見つかりません
 
 カーネルキャッシュを展開する:
-
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -91,10 +91,9 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
-
 #### カーネルキャッシュシンボル
 
-時々、Appleは**シンボル**付きの**カーネルキャッシュ**をリリースします。[https://theapplewiki.com](https://theapplewiki.com/)のリンクをたどることで、いくつかのファームウェアにシンボルが付いているものをダウンロードできます。
+時々、Appleは**シンボル**付きの**カーネルキャッシュ**をリリースします。[https://theapplewiki.com](https://theapplewiki.com/)のリンクをたどることで、いくつかのファームウェアにシンボルが付いたものをダウンロードできます。
 
 ### IPSW
 
@@ -112,15 +111,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+以下のコマンドを使用して、抽出されたkernelcacheのシンボルを確認できます: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-次のコマンドを使用して、抽出されたkernelcacheのシンボルを確認できます: **`nm -a kernelcache.release.iphone14.e | wc -l`**
-
-これで、**すべての拡張機能**または**興味を持っている1つ**を抽出できます:
-
+これにより、**すべての拡張機能**または**興味を持っている1つ**を抽出できます:
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -133,10 +129,9 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
-
 ## macOSカーネル拡張機能
 
-macOSは、コードが実行される高い特権のために、**カーネル拡張機能**（.kext）の読み込みを非常に制限しています。実際、デフォルトでは（回避策が見つかるまで）ほぼ不可能です。
+macOSは**カーネル拡張機能（.kext）をロードすることに非常に制限的**であり、そのコードが実行される高い特権のためです。実際、デフォルトではほぼ不可能です（バイパスが見つかる限り）。
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
@@ -144,7 +139,7 @@ macOSは、コードが実行される高い特権のために、**カーネル�
 
 ### macOSシステム拡張機能
 
-macOSはカーネル拡張機能の代わりにシステム拡張機能を作成しました。これにより、開発者はカーネル拡張機能を使用せずに、ユーザーレベルのAPIを介してカーネルとやり取りできます。
+macOSはカーネル拡張機能の代わりにシステム拡張機能を作成しました。これにより、開発者はカーネル拡張機能を使用する必要がなくなり、ユーザーレベルのAPIを介してカーネルとやり取りできます。
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
@@ -155,16 +150,17 @@ macOSはカーネル拡張機能の代わりにシステム拡張機能を作成
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 
+{% hint style="success" %}
+AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>!</strong></summary>
+<summary>HackTricksのサポート</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローする。
+* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出する。
 
 </details>
+{% endhint %}
