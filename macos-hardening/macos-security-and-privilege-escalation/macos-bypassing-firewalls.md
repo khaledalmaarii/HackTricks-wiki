@@ -1,18 +1,19 @@
 # Bypassowanie zapór sieciowych w macOS
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakerskiego AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
+{% endhint %}
 
 ## Znalezione techniki
 
@@ -22,7 +23,7 @@ Poniższe techniki zostały znalezione działające w niektórych aplikacjach za
 
 * Na przykład nazywanie złośliwego oprogramowania nazwami znanych procesów macOS, takich jak **`launchd`**
 
-### Syntetyczne kliknięcie
+### Kliknięcie syntetyczne
 
 * Jeśli zapora prosi użytkownika o zgodę, złośliwe oprogramowanie może **kliknąć na zezwolenie**
 
@@ -32,7 +33,7 @@ Poniższe techniki zostały znalezione działające w niektórych aplikacjach za
 
 ### Znane domeny Apple
 
-Zapora może zezwalać na połączenia z znanymi domenami Apple, takimi jak **`apple.com`** lub **`icloud.com`**. I iCloud może być używany jako C2.
+Zapora może zezwalać na połączenia do znanych domen Apple, takich jak **`apple.com`** lub **`icloud.com`**. A iCloud może być używane jako C2.
 
 ### Ogólne Bypassowanie
 
@@ -40,17 +41,17 @@ Kilka pomysłów na próbę obejścia zapór sieciowych
 
 ### Sprawdź dozwolony ruch
 
-Znajomość dozwolonego ruchu pomoże Ci zidentyfikować potencjalnie domeny na białej liście lub aplikacje, które mają do nich dostęp
+Znajomość dozwolonego ruchu pomoże Ci zidentyfikować potencjalnie na białej liście domeny lub aplikacje, które mają do nich dostęp.
 ```bash
 lsof -i TCP -sTCP:ESTABLISHED
 ```
 ### Nadużywanie DNS
 
-Rozdzielanie DNS odbywa się za pomocą podpisanego aplikacji **`mdnsreponder`**, która prawdopodobnie będzie mogła nawiązać kontakt z serwerami DNS.
+Rozdzielczość DNS jest wykonywana za pomocą podpisanego aplikacji **`mdnsreponder`**, która prawdopodobnie będzie miała zezwolenie na kontakt z serwerami DNS.
 
 <figure><img src="../../.gitbook/assets/image (468).png" alt="https://www.youtube.com/watch?v=UlT5KFTMn2k"><figcaption></figcaption></figure>
 
-### Za pomocą aplikacji przeglądarki
+### Przez aplikacje przeglądarki
 
 * **oascript**
 ```applescript
@@ -89,16 +90,17 @@ Jeśli możesz **wstrzyknąć kod do procesu**, który ma zezwolenie na połącz
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
+{% hint style="success" %}
+Naucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

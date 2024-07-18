@@ -1,18 +1,19 @@
-# Wrażliwe montaże
+# Wrażliwe montowania
+
+{% hint style="success" %}
+Dowiedz się i ćwicz hakowanie AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz hakowanie GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Zacznij od zera i stań się mistrzem hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) albo **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -22,7 +23,7 @@ Ujawnienie `/proc` i `/sys` bez odpowiedniej izolacji przestrzeni nazw wprowadza
 
 **Możesz znaleźć dalsze szczegóły dotyczące każdej potencjalnej luki w** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)**.**
 
-## Zagrożenia związane z procfs
+## Vulnerabilities procfs
 
 ### `/proc/sys`
 
@@ -43,17 +44,17 @@ sleep 5 && ./crash & # Wywołanie obsługującego
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Szczegółowo opisany w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Szczegóły w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Zawiera ścieżkę do ładowacza modułów jądra, wywoływanego do ładowania modułów jądra.
 *   **Przykład sprawdzania dostępu**:
 
 ```bash
-ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdzanie dostępu do modprobe
+ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdź dostęp do modprobe
 ```
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* Wzmiankowany w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Odniesienie w [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Globalna flaga kontrolująca, czy jądro ma panikować czy wywoływać zabójcę OOM, gdy wystąpi warunek OOM.
 
 #### **`/proc/sys/fs`**
@@ -63,11 +64,11 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Sprawdzanie dostępu do modprobe
 
 #### **`/proc/sys/fs/binfmt_misc`**
 
-* Umożliwia rejestrację interpretatorów dla formatów binarnych nie-natywnych na podstawie ich numeru magicznego.
+* Umożliwia rejestrację interpretów dla formatów binarnych niezgodnych z systemem.
 * Może prowadzić do eskalacji uprawnień lub uzyskania dostępu do powłoki root, jeśli `/proc/sys/fs/binfmt_misc/register` jest zapisywalny.
 * Związany exploit i wyjaśnienie:
-* [Rootkit ubogiego człowieka za pomocą binfmt\_misc](https://github.com/toffan/binfmt\_misc)
-* Wideo-tutorial: [Link do wideo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+* [Rootkit typu poor man's za pomocą binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* Wideo tutorial: [Link do wideo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Inne w `/proc`
 
@@ -88,7 +89,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/kmsg`**
 
 * Ujawnia komunikaty z bufora pierścieniowego jądra.
-* Może pomóc w eksploatacji jądra, wyciekach adresów i dostarczaniu wrażliwych informacji systemowych.
+* Może pomóc w eksploatacji jądra, ujawnianiu adresów i dostarczaniu wrażliwych informacji systemowych.
 
 #### **`/proc/kallsyms`**
 
@@ -105,7 +106,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 
 #### **`/proc/kcore`**
 
-* Reprezentuje pamięć fizyczną systemu w formacie ELF core.
+* Reprezentuje pamięć fizyczną systemu w formacie rdzenia ELF.
 * Odczytanie może ujawnić zawartość pamięci hosta i innych kontenerów.
 * Duży rozmiar pliku może prowadzić do problemów z odczytem lub awarii oprogramowania.
 * Szczegółowe użycie w [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
@@ -118,7 +119,7 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/mem`**
 
 * Alternatywny interfejs dla `/dev/mem`, reprezentujący pamięć fizyczną.
-* Umożliwia odczytywanie i zapisywanie, modyfikacja całej pamięci wymaga przekształcenia adresów wirtualnych na fizyczne.
+* Umożliwia odczytywanie i zapisywanie, modyfikacja całej pamięci wymaga rozwiązania adresów wirtualnych na fizyczne.
 
 #### **`/proc/sched_debug`**
 
@@ -128,14 +129,14 @@ echo b > /proc/sysrq-trigger # Ponowne uruchomienie hosta
 #### **`/proc/[pid]/mountinfo`**
 
 * Udostępnia informacje o punktach montowania w przestrzeni nazw montowania procesu.
-* Ujawnia lokalizację `rootfs` kontenera lub obrazu.
+* Ujawnia lokalizację `rootfs` kontenera lub obrazu. 
 
-### Zagrożenia związane z `/sys`
+### Vulnerabilities `/sys`
 
 #### **`/sys/kernel/uevent_helper`**
 
 * Używany do obsługi `uevent` urządzenia jądra.
-* Zapisywanie do `/sys/kernel/uevent_helper` może uruchamiać dowolne skrypty po wyzwaleniu `uevent`.
+* Zapisywanie do `/sys/kernel/uevent_helper` może uruchamiać arbitralne skrypty po wyzwaleniu `uevent`.
 *   **Przykład eksploatacji**: %%%bash
 
 #### Tworzy ładunek
@@ -163,16 +164,16 @@ cat /output %%%
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Ujawnia adresy jądra, potencjalnie kompromitując KASLR.
+* Wycieka adresy jądra, potencjalnie kompromitując KASLR.
 
 #### **`/sys/kernel/security`**
 
 * Zawiera interfejs `securityfs`, umożliwiający konfigurację modułów bezpieczeństwa Linuxa, takich jak AppArmor.
 * Dostęp może umożliwić kontenerowi wyłączenie swojego systemu MAC.
 
-#### **`/sys/firmware/efi/vars` i `/sys/firmware/efi/efivars`**
+#### **`/sys/firmware/efi/vars` and `/sys/firmware/efi/efivars`**
 
-* Ujawnia interfejsy do interakcji z zmiennymi EFI w pamięci NVRAM.
+* Ujawnia interfejsy do interakcji z zmiennymi EFI w NVRAM.
 * Niewłaściwa konfiguracja lub eksploatacja może prowadzić do zablokowania laptopów lub niemożliwości uruchomienia hostów.
 
 #### **`/sys/kernel/debug`**
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Naucz się i ćwicz hakowanie AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naucz się i ćwicz hakowanie GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

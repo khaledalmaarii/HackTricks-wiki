@@ -1,27 +1,28 @@
-# Czerwone działo macOS
+# Red Teaming w macOS
+
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Dowiedz się, jak hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną na HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
 
 </details>
+{% endhint %}
 
-## Nadużywanie MDMów
+## Nadużywanie MDM
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
 Jeśli uda ci się **skompromitować dane uwierzytelniające administratora** w celu uzyskania dostępu do platformy zarządzania, możesz **potencjalnie skompromitować wszystkie komputery**, rozpowszechniając złośliwe oprogramowanie na maszynach.
 
-Dla czerwonego działa w środowiskach MacOS zaleca się posiadanie pewnego zrozumienia działania MDMów:
+Podczas red teamingu w środowiskach MacOS zaleca się posiadanie pewnego zrozumienia działania MDM:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -45,9 +46,9 @@ JAMF może uruchamiać **skrypty niestandardowe** (skrypty opracowane przez sysa
 
 #### Samozapis JAMF
 
-Przejdź do strony takiej jak `https://<nazwa-firmy>.jamfcloud.com/enroll/`, aby sprawdzić, czy mają włączone **samozapisanie**. Jeśli tak, może **poprosić o dane uwierzytelniające do dostępu**.
+Przejdź do strony takiej jak `https://<nazwa-firmy>.jamfcloud.com/enroll/`, aby sprawdzić, czy mają włączone **samozapisywanie**. Jeśli tak, może **poprosić o dane uwierzytelniające do dostępu**.
 
-Możesz użyć skryptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) do przeprowadzenia ataku na hasło metodą "password spraying".
+Możesz użyć skryptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) do przeprowadzenia ataku na hasło metodą password spraying.
 
 Ponadto, po znalezieniu odpowiednich danych uwierzytelniających, możesz być w stanie przeprowadzić atak brutalnej siły na inne nazwy użytkowników za pomocą następującego formularza:
 
@@ -57,7 +58,7 @@ Ponadto, po znalezieniu odpowiednich danych uwierzytelniających, możesz być w
 
 <figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-Binarny **`jamf`** zawierał sekret do otwarcia keychain, który w momencie odkrycia był **udostępniony** wszystkim i był to: **`jk23ucnq91jfu9aj`**.\
+Binarny plik **`jamf`** zawierał sekret do otwarcia keychain, który w momencie odkrycia był **udostępniony** wszystkim i był to: **`jk23ucnq91jfu9aj`**.\
 Ponadto, jamf **utrzymuje się** jako **LaunchDaemon** w **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Przejęcie urządzenia JAMF
@@ -102,7 +103,7 @@ Mając te informacje, **utwórz maszynę wirtualną** z **ukradzionym** sprzęto
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Możesz również monitorować lokalizację `/Library/Application Support/Jamf/tmp/` w poszukiwaniu **skryptów niestandardowych**, które administratorzy chcieliby wykonać za pośrednictwem Jamf, ponieważ są one **umieszczane tutaj, uruchamiane i usuwane**. Te skrypty **mogą zawierać poświadczenia**.
+Możesz również monitorować lokalizację `/Library/Application Support/Jamf/tmp/` w poszukiwaniu **skryptów niestandardowych**, które administratorzy chcieliby wykonać za pomocą Jamf, ponieważ są one **umieszczane tutaj, uruchamiane i usuwane**. Te skrypty **mogą zawierać poświadczenia**.
 
 Jednakże **poświadczenia** mogą być przekazywane do tych skryptów jako **parametry**, dlatego musisz monitorować `ps aux | grep -i jamf` (nawet bez bycia rootem).
 
@@ -136,10 +137,10 @@ Pewne **lokalne narzędzie MacOS**, które również może ci pomóc, to `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Istnieją również narzędzia przygotowane dla systemu MacOS do automatycznego wyliczania AD i zabawy z kerberosem:
+Również istnieją narzędzia przygotowane dla systemu MacOS do automatycznego wyliczania AD i zabawy z kerberosem:
 
-* [**Machound**](https://github.com/XMCyber/MacHound): MacHound to rozszerzenie narzędzia audytowego Bloodhound, umożliwiające zbieranie i przetwarzanie relacji w Active Directory na hostach z systemem MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost to projekt Objective-C zaprojektowany do interakcji z interfejsami API Heimdal krb5 w systemie macOS. Celem projektu jest umożliwienie lepszego testowania bezpieczeństwa wokół Kerberosa na urządzeniach z systemem macOS przy użyciu natywnych interfejsów API, bez konieczności korzystania z innych frameworków ani pakietów na docelowym systemie.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound to rozszerzenie narzędzia audytowego Bloodhound umożliwiające zbieranie i przetwarzanie relacji w Active Directory na hostach MacOS.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost to projekt Objective-C zaprojektowany do współpracy z interfejsem API Heimdal krb5 na macOS. Celem projektu jest umożliwienie lepszego testowania bezpieczeństwa wokół Kerberosa na urządzeniach macOS przy użyciu natywnych interfejsów API, bez konieczności korzystania z innych frameworków ani pakietów na celu.
 * [**Orchard**](https://github.com/its-a-feature/Orchard): Narzędzie JavaScript for Automation (JXA) do wyliczania Active Directory. 
 
 ### Informacje o domenie
@@ -148,7 +149,7 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
 ### Użytkownicy
 
-Trzy rodzaje użytkowników systemu MacOS to:
+Trzy rodzaje użytkowników MacOS to:
 
 - **Użytkownicy lokalni** — Zarządzani przez lokalną usługę OpenDirectory, nie są w żaden sposób połączeni z Active Directory.
 - **Użytkownicy sieciowi** — Nietrwałe użytkownicy Active Directory, którzy wymagają połączenia z serwerem DC w celu uwierzytelnienia.
@@ -187,7 +188,7 @@ Więcej informacji można znaleźć pod adresem [https://its-a-feature.github.io
 
 ## Dostęp do Keychain
 
-Keychain prawdopodobnie zawiera wrażliwe informacje, które w przypadku uzyskania dostępu bez generowania monitu mogą pomóc w przeprowadzeniu ćwiczenia czerwonej drużyny:
+Keychain prawdopodobnie zawiera wrażliwe informacje, które w przypadku uzyskania dostępu bez generowania monitu mogą pomóc w przeprowadzeniu ćwiczeń czerwonej drużyny:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -195,13 +196,13 @@ Keychain prawdopodobnie zawiera wrażliwe informacje, które w przypadku uzyskan
 
 ## Usługi zewnętrzne
 
-Red Teaming na MacOS różni się od standardowego Red Teamingu na Windowsie, ponieważ zazwyczaj **MacOS jest zintegrowany z kilkoma zewnętrznymi platformami bezpośrednio**. Powszechną konfiguracją MacOS jest dostęp do komputera za pomocą **synchronizowanych pośrednictwem OneLogin poświadczeń oraz dostęp do kilku zewnętrznych usług** (takich jak github, aws...) za pośrednictwem OneLogin.
+Red Teaming na MacOS różni się od standardowego Red Teamingu na Windows, ponieważ zazwyczaj **MacOS jest zintegrowany z kilkoma zewnętrznymi platformami bezpośrednio**. Powszechną konfiguracją MacOS jest dostęp do komputera za pomocą **synchronizowanych pośrednictwem OneLogin poświadczeń oraz dostęp do kilku zewnętrznych usług** (takich jak github, aws...) za pośrednictwem OneLogin.
 
 ## Różne techniki Red Team
 
 ### Safari
 
-Gdy plik jest pobierany w Safari, jeśli jest to "bezpieczny" plik, zostanie **automatycznie otwarty**. Na przykład, jeśli **pobierasz plik zip**, zostanie automatycznie rozpakowany:
+Gdy plik jest pobierany w Safari, jeśli jest to plik "bezpieczny", zostanie **automatycznie otwarty**. Na przykład, jeśli **pobierasz plik zip**, zostanie automatycznie rozpakowany:
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 

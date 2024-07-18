@@ -1,20 +1,21 @@
 # Wstrzykiwanie aplikacji Perl w macOS
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
 
-## Przez zmienną środowiskową `PERL5OPT` & `PERL5LIB`
+## Przez zmienną środowiskową `PERL5OPT` i `PERL5LIB`
 
 Korzystając z zmiennej środowiskowej PERL5OPT, można sprawić, że perl będzie wykonywał dowolne polecenia.\
 Na przykład, stwórz ten skrypt:
@@ -46,9 +47,9 @@ Następnie użyj zmiennych środowiskowych:
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
-## Przez zależności
+## Poprzez zależności
 
-Możliwe jest wyświetlenie kolejności folderów zależności uruchamiania Perla:
+Możliwe jest wyświetlenie kolejności folderów zależności Perl:
 ```bash
 perl -e 'print join("\n", @INC)'
 ```
@@ -64,10 +65,10 @@ Który zwróci coś w stylu:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** istnieje, nie jest chroniony przez SIP i znajduje się przed folderami chronionymi przez SIP. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, tak aby skrypt Perl o wysokich uprawnieniach mógł je załadować.
+Niektóre z zwróconych folderów nawet nie istnieją, jednak **`/Library/Perl/5.30`** istnieje, nie jest chroniony przez SIP i znajduje się przed folderami chronionymi przez SIP. Dlatego ktoś mógłby nadużyć tego folderu, aby dodać zależności skryptu, dzięki czemu skrypt Perl o wysokich uprawnieniach go załaduje.
 
 {% hint style="warning" %}
-Należy jednak zauważyć, że **musisz być rootem, aby móc pisać w tym folderze**, a obecnie otrzymasz ten **komunikat TCC**:
+Jednakże zauważ, że **musisz być rootem, aby móc pisać w tym folderze** i obecnie otrzymasz ten **komunikat TCC**:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (28).png" alt="" width="244"><figcaption></figcaption></figure>
@@ -77,3 +78,18 @@ Na przykład, jeśli skrypt importuje **`use File::Basename;`**, byłoby możliw
 ## Referencje
 
 * [https://www.youtube.com/watch?v=zxZesAN-TEk](https://www.youtube.com/watch?v=zxZesAN-TEk)
+
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Wesprzyj HackTricks</summary>
+
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

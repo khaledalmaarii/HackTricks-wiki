@@ -1,22 +1,23 @@
-# Aplikacje obsługujące rozszerzenia plików i schematy URL w macOS
+# macOS Obsługa aplikacji plików i schematów URL
+
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hackingu, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
 
 ## Baza danych LaunchServices
 
-Jest to baza danych wszystkich zainstalowanych aplikacji w macOS, do których można zapytać o informacje dotyczące każdej zainstalowanej aplikacji, takie jak obsługiwane przez nią schematy URL i typy MIME.
+Jest to baza danych wszystkich zainstalowanych aplikacji w systemie macOS, do których można zapytać o informacje dotyczące każdej zainstalowanej aplikacji, takie jak obsługiwane schematy URL i typy MIME.
 
 Możliwe jest zrzucenie tej bazy danych za pomocą:
 
@@ -30,7 +31,7 @@ Lub używając narzędzia [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.htm
 
 **`/usr/libexec/lsd`** jest mózgiem bazy danych. Zapewnia **kilka usług XPC** takich jak `.lsd.installation`, `.lsd.open`, `.lsd.openurl` i inne. Ale wymaga również **uprawnień** do aplikacji, aby móc korzystać z udostępnionych funkcji XPC, takich jak `.launchservices.changedefaulthandler` lub `.launchservices.changeurlschemehandler` do zmiany domyślnych aplikacji dla typów mime lub schematów URL i innych.
 
-**`/System/Library/CoreServices/launchservicesd`** twierdzi usługę `com.apple.coreservices.launchservicesd` i można je zapytać, aby uzyskać informacje o działających aplikacjach. Można je zapytać za pomocą narzędzia systemowego /**`usr/bin/lsappinfo`** lub za pomocą [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** twierdzi usługę `com.apple.coreservices.launchservicesd` i można je zapytać, aby uzyskać informacje o uruchomionych aplikacjach. Można je zapytać za pomocą narzędzia systemowego /**`usr/bin/lsappinfo`** lub za pomocą [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
 ## Obsługa rozszerzeń plików i schematów URL aplikacji
 
@@ -42,7 +43,7 @@ Następująca linia może być przydatna do znalezienia aplikacji, które mogą 
 ```
 {% endcode %}
 
-lub skorzystaj z czegoś takiego jak [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps):
+Albo użyj czegoś takiego jak [**SwiftDefaultApps**](https://github.com/Lord-Kamina/SwiftDefaultApps):
 ```bash
 ./swda getSchemes #Get all the available schemes
 ./swda getApps #Get all the apps declared
@@ -81,16 +82,17 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>xbl</string>
 <string>svg</string>
 ```
+{% hint style="success" %}
+Ucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Szkolenie AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Szkolenie GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF** sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

@@ -1,24 +1,25 @@
 # macOS Uniwersalne pliki binarne i format Mach-O
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
+{% endhint %}
 
 ## Podstawowe informacje
 
 Binarki systemu Mac OS zazwyczaj są kompilowane jako **uniwersalne pliki binarne**. **Uniwersalny plik binarny** może **obsługiwać wiele architektur w tym samym pliku**.
 
-Te binarki podążają za **strukturą Mach-O**, która składa się z:
+Te binarki stosują **strukturę Mach-O**, która składa się z:
 
 * Nagłówka
 * Komend ładowania
@@ -41,8 +42,8 @@ struct fat_header {
 struct fat_arch {
 cpu_type_t	cputype;	/* określacz CPU (int) */
 cpu_subtype_t	cpusubtype;	/* określacz maszyny (int) */
-uint32_t	offset;		/* przesunięcie pliku do tego pliku obiektu */
-uint32_t	size;		/* rozmiar tego pliku obiektu */
+uint32_t	offset;		/* przesunięcie pliku do tego pliku obiektowego */
+uint32_t	size;		/* rozmiar tego pliku obiektowego */
 uint32_t	align;		/* wyrównanie jako potęga liczby 2 */
 };
 </code></pre>
@@ -52,9 +53,9 @@ Nagłówek zawiera **magiczne** bajty, a następnie **liczbę** **architektur**,
 Sprawdź to za pomocą:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
-/bin/ls: Mach-O uniwersalny plik binarny z 2 architekturami: [x86_64:Mach-O 64-bitowy plik wykonywalny x86_64] [arm64e:Mach-O 64-bitowy plik wykonywalny arm64e]
-/bin/ls (dla architektury x86_64):	Mach-O 64-bitowy plik wykonywalny x86_64
-/bin/ls (dla architektury arm64e):	Mach-O 64-bitowy plik wykonywalny arm64e
+/bin/ls: Mach-O uniwersalny plik binarny z 2 architekturami: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
+/bin/ls (dla architektury x86_64):	Mach-O 64-bit executable x86_64
+/bin/ls (dla architektury arm64e):	Mach-O 64-bit executable arm64e
 
 % otool -f -v /bin/ls
 Nagłówki Fat
@@ -80,7 +81,7 @@ lub używając narzędzia [Mach-O View](https://sourceforge.net/projects/machovi
 
 <figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-Jak możesz sobie wyobrazić, zazwyczaj uniwersalny plik binarny skompilowany dla 2 architektur **podwaja rozmiar** w porównaniu z tym skompilowanym tylko dla 1 architektury.
+Jak możesz sobie wyobrazić, zazwyczaj uniwersalny plik binarny skompilowany dla 2 architektur **podwaja rozmiar** tego skompilowanego tylko dla 1 architektury.
 
 ## **Nagłówek Mach-O**
 
@@ -153,13 +154,13 @@ Kod źródłowy definiuje również kilka przydatnych flag do ładowania bibliot
 * `MH_NO_HEAP_EXECUTION`: Brak wykonania dla stron sterty/danych
 * `MH_HAS_OBJC`: Binarne sekcje oBject-C
 * `MH_SIM_SUPPORT`: Wsparcie dla symulatora
-* `MH_DYLIB_IN_CACHE`: Używane w dylibs/frameworks w udostępnionej pamięci biblioteki.
+* `MH_DYLIB_IN_CACHE`: Używane w dylibs/frameworks w udostępnionej pamięci podręcznej bibliotek.
 
 ## **Polecenia ładowania Mach-O**
 
 **Układ pliku w pamięci** jest tutaj określony, szczegółowo opisując **lokalizację tabeli symboli**, kontekst głównego wątku na początku wykonania oraz wymagane **biblioteki współdzielone**. Instrukcje są dostarczane do dynamicznego ładowacza **(dyld)** dotyczące procesu ładowania binarnego do pamięci.
 
-Używa struktury **load\_command**, zdefiniowanej w wspomnianym pliku **`loader.h`**:
+Używa struktury **load\_command**, zdefiniowanej w wspomnianym **`loader.h`**:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -201,7 +202,7 @@ Przykład nagłówka segmentu:
 
 <figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
-Ten nagłówek definiuje **liczbę sekcji, których nagłówki pojawiają się po** nim:
+Ten nagłówek definiuje **liczbę sekcji, których nagłówki po nim występują**:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -226,34 +227,34 @@ Jeśli **dodasz** **przesunięcie sekcji** (0x37DC) + **przesunięcie**, gdzie *
 
 <figure><img src="../../../.gitbook/assets/image (701).png" alt=""><figcaption></figcaption></figure>
 
-Można również uzyskać informacje o **nagłówkach** z **wiersza poleceń** za pomocą:
+Możliwe jest również uzyskanie **informacji o nagłówkach** z **wiersza poleceń** za pomocą:
 ```bash
 otool -lv /bin/ls
 ```
-```markdown
+```md
 Wspólne segmenty ładowane przez tę komendę:
 
-* **`__PAGEZERO`:** Wskazuje jądrze, aby **mapowało** **adres zero**, dzięki czemu **nie można go odczytać, zapisać ani wykonać**. Zmienne maxprot i minprot w strukturze są ustawione na zero, aby wskazać, że na tej stronie **nie ma praw do odczytu-zapisu-wykonania**.
-* Ta alokacja jest ważna dla **zmniejszenia podatności na odwołania do wskaźników NULL**. Wynika to z faktu, że XNU narzuca twardą stronę zero, która zapewnia, że pierwsza strona (tylko pierwsza) pamięci jest nieosiągalna (oprócz w i386). Binarny może spełnić te wymagania, tworząc małe \_\_PAGEZERO (używając `-pagezero_size`) obejmujące pierwsze 4k i pozwalając na dostęp do reszty pamięci 32-bitowej zarówno w trybie użytkownika, jak i jądra.
+* **`__PAGEZERO`:** Instruuje jądro, aby **mapować** **adres zero**, dzięki czemu **nie można go odczytać, zapisać ani wykonać**. Zmienne maxprot i minprot w strukturze są ustawione na zero, aby wskazać, że na tej stronie **nie ma praw do odczytu-zapisu-wykonania**.
+* Ta alokacja jest ważna dla **zmniejszenia podatności na odwołania do wskaźników NULL**. Wynika to z faktu, że XNU narzuca twardą stronę zero, która zapewnia, że pierwsza strona (tylko pierwsza) pamięci jest nieosiągalna (oprócz w i386). Binarny może spełnić te wymagania, tworząc małe \_\_PAGEZERO (używając `-pagezero_size`) obejmujące pierwsze 4 KB i pozwalając na dostęp do reszty pamięci 32-bitowej zarówno w trybie użytkownika, jak i jądra.
 * **`__TEXT`**: Zawiera **wykonywalny** **kod** z uprawnieniami **do odczytu** i **wykonania** (bez możliwości zapisu)**.** Wspólne sekcje tego segmentu:
 * `__text`: Skompilowany kod binarny
 * `__const`: Dane stałe (tylko do odczytu)
 * `__[c/u/os_log]string`: Stałe łańcuchy znaków C, Unicode lub os logs
 * `__stubs` i `__stubs_helper`: Zaangażowane podczas procesu dynamicznego ładowania bibliotek
 * `__unwind_info`: Dane rozluźniania stosu.
-* Należy zauważyć, że cała ta zawartość jest podpisana, ale również oznaczona jako wykonywalna (tworząc więcej opcji do eksploatacji sekcji, które niekoniecznie potrzebują tego uprawnienia, jak sekcje dedykowane łańcuchom znaków).
+* Zauważ, że cała ta zawartość jest podpisana, ale również oznaczona jako wykonywalna (tworząc więcej opcji do eksploatacji sekcji, które niekoniecznie potrzebują tego uprawnienia, jak sekcje dedykowane łańcuchom znaków).
 * **`__DATA`**: Zawiera dane, które są **do odczytu** i **zapisu** (bez możliwości wykonania)**.**
 * `__got:` Globalna tabela przesunięć
-* `__nl_symbol_ptr`: Wskaźnik symbolu nie leniwego (wiąż przy ładowaniu)
-* `__la_symbol_ptr`: Wskaźnik symbolu leniwego (wiąż przy użyciu)
+* `__nl_symbol_ptr`: Wskaźnik symbolu niepóźnego (łączenie podczas ładowania)
+* `__la_symbol_ptr`: Wskaźnik symbolu leniwego (łączenie przy użyciu)
 * `__const`: Powinny być to dane tylko do odczytu (w rzeczywistości nie)
-* `__cfstring`: Łańcuchy CoreFoundation
+* `__cfstring`: Ciągi CoreFoundation
 * `__data`: Zmienne globalne (które zostały zainicjowane)
 * `__bss`: Zmienne statyczne (które nie zostały zainicjowane)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, itp.): Informacje używane przez środowisko uruchomieniowe Objective-C
 * **`__DATA_CONST`**: \_\_DATA.\_\_const nie jest gwarantowane jako stałe (uprawnienia do zapisu), podobnie jak inne wskaźniki i tabela GOT. Ta sekcja sprawia, że `__const`, niektóre inicjalizatory i tabela GOT (po rozwiązaniu) są **tylko do odczytu** za pomocą `mprotect`.
 * **`__LINKEDIT`**: Zawiera informacje dla linkera (dyld), takie jak wpisy do tabel symboli, łańcuchów i relokacji. Jest to ogólny kontener na treści, które nie znajdują się w `__TEXT` ani `__DATA`, a jego zawartość jest opisana w innych poleceniach ładowania.
-* Informacje dyld: Rebase, operacje wiązania nie leniwego/leniwego/słabego i informacje o eksporcie
+* Informacje dyld: Rebase, operacje wiązania niepóźnego/leniwego/słabego i informacje o eksporcie
 * Początki funkcji: Tabela adresów początkowych funkcji
 * Dane w kodzie: Wyspy danych w \_\_text
 * Tabela symboli: Symbole w binarnym pliku
@@ -268,13 +269,13 @@ Jak można było zauważyć w kodzie, **segmenty również obsługują flagi** (
 * `SG_HIGHVM`: Tylko rdzeń (nieużywane)
 * `SG_FVMLIB`: Nie używane
 * `SG_NORELOC`: Segment nie ma relokacji
-* `SG_PROTECTED_VERSION_1`: Szyfrowanie. Używane na przykład przez Finder do szyfrowania tekstu w segmencie `__TEXT`.
+* `SG_PROTECTED_VERSION_1`: Szyfrowanie. Używane na przykład przez Finder do szyfrowania tekstu w segmencie **`__TEXT`**.
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
 **`LC_MAIN`** zawiera punkt wejścia w atrybucie **entryoff**. Podczas ładowania, **dyld** po prostu **dodaje** tę wartość do (w pamięci) **bazowego adresu binarnego**, a następnie **przechodzi** do tej instrukcji, aby rozpocząć wykonywanie kodu binarnego.
 
-**`LC_UNIXTHREAD`** zawiera wartości rejestrów, które muszą być ustawione podczas rozpoczynania głównego wątku. Jest to już przestarzałe, ale **`dyld`** wciąż tego używa. Można zobaczyć wartości rejestrów ustawione przez to polecenie za pomocą:
+**`LC_UNIXTHREAD`** zawiera wartości rejestrów, które muszą być ustawione przy uruchamianiu głównego wątku. Jest to już przestarzałe, ale **`dyld`** wciąż tego używa. Można zobaczyć wartości rejestrów ustawione przez to polecenie za pomocą:
 ```
 ```bash
 otool -l /usr/lib/dyld
@@ -302,7 +303,7 @@ cpsr 0x00000000
 ### **`LC_CODE_SIGNATURE`**
 
 Zawiera informacje na temat **podpisu kodu pliku Mach-O**. Zawiera tylko **przesunięcie**, które **wskazuje** na **blok podpisu**. Zazwyczaj znajduje się na samym końcu pliku.\
-Można jednak znaleźć pewne informacje na temat tej sekcji w [**tym wpisie na blogu**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) oraz w tym [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
+Można jednak znaleźć pewne informacje na temat tej sekcji w [**tym poście na blogu**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) oraz w tym [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
@@ -310,7 +311,7 @@ Obsługuje szyfrowanie binarne. Jednak oczywiście, jeśli atakujący zdoła sko
 
 ### **`LC_LOAD_DYLINKER`**
 
-Zawiera **ścieżkę do wykonywalnego dynamicznego łącznika**, który mapuje biblioteki współdzielone do przestrzeni adresowej procesu. **Wartość zawsze jest ustawiona na `/usr/lib/dyld`**. Ważne jest zauważenie, że w macOS mapowanie dylibów odbywa się w **trybie użytkownika**, a nie w trybie jądra.
+Zawiera **ścieżkę do wykonywalnego dynamicznego łącznika**, który mapuje biblioteki współdzielone do przestrzeni adresowej procesu. **Wartość zawsze jest ustawiona na `/usr/lib/dyld`**. Ważne jest zauważenie, że w macOS mapowanie dylibów zachodzi w **trybie użytkownika**, a nie w trybie jądra.
 
 ### **`LC_IDENT`**
 
@@ -322,13 +323,13 @@ Losowy UUID. Jest przydatny do niczego bezpośrednio, ale XNU przechowuje go wra
 
 ### **`LC_DYLD_ENVIRONMENT`**
 
-Pozwala wskazać zmienne środowiskowe dla dyld przed wykonaniem procesu. Może to być bardzo niebezpieczne, ponieważ pozwala to na wykonanie arbitralnego kodu wewnątrz procesu, dlatego to polecenie ładowania jest używane tylko w dyld zbudowanym z `#define SUPPORT_LC_DYLD_ENVIRONMENT` i dodatkowo ogranicza przetwarzanie tylko do zmiennych o formie `DYLD_..._PATH` określających ścieżki ładowania.
+Pozwala wskazać zmienne środowiskowe dla dyld przed wykonaniem procesu. Może to być bardzo niebezpieczne, ponieważ pozwala na wykonanie dowolnego kodu wewnątrz procesu, dlatego to polecenie ładowania jest używane tylko w dyld zbudowanym z `#define SUPPORT_LC_DYLD_ENVIRONMENT` i dodatkowo ogranicza przetwarzanie tylko do zmiennych o formie `DYLD_..._PATH` określających ścieżki ładowania.
 
 ### **`LC_LOAD_DYLIB`**
 
-To polecenie ładowania opisuje zależność **dynamicznej biblioteki**, które **nakazuje** **ładowaczowi** (dyld) **załadowanie i połączenie tej biblioteki**. Istnieje polecenie ładowania `LC_LOAD_DYLIB` **dla każdej biblioteki**, którą wymaga plik Mach-O.
+To polecenie ładowania opisuje **zależność dynamicznej biblioteki**, która **nakazuje** **ładowaczowi** (dyld) **załadować i połączyć tę bibliotekę**. Istnieje polecenie ładowania `LC_LOAD_DYLIB` **dla każdej biblioteki**, którą wymaga plik Mach-O.
 
-* To polecenie ładowania jest strukturą typu **`dylib_command`** (która zawiera strukturę dylib, opisującą rzeczywistą zależną dynamiczną bibliotekę):
+* To polecenie ładowania jest strukturą typu **`dylib_command`** (która zawiera strukturę dylib, opisującą rzeczywistą zależną bibliotekę dynamiczną):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -366,7 +367,7 @@ Przesunięcia dowolnych konstruktorów są przechowywane w sekcji **\_\_mod\_ini
 
 ## **Dane Mach-O**
 
-W centrum pliku znajduje się obszar danych, który składa się z kilku segmentów zdefiniowanych w obszarze poleceń ładowania. **W każdym segmencie może być umieszczonych wiele sekcji danych**, z każdą sekcją **zawierającą kod lub dane** specyficzne dla danego typu.
+W centrum pliku znajduje się region danych, który składa się z kilku segmentów zdefiniowanych w regionie poleceń ładowania. **W każdym segmencie może być umieszczona różnorodność sekcji danych**, z każdą sekcją **zawierającą kod lub dane** specyficzne dla danego typu.
 
 {% hint style="success" %}
 Dane to w zasadzie część zawierająca wszystkie **informacje**, które są ładowane przez polecenia ładowania **LC\_SEGMENTS\_64**
@@ -392,20 +393,20 @@ size -m /bin/ls
 
 W segmencie `__TEXT` (r-x):
 
-- `__objc_classname`: Nazwy klas (ciągi znaków)
-- `__objc_methname`: Nazwy metod (ciągi znaków)
-- `__objc_methtype`: Typy metod (ciągi znaków)
+* `__objc_classname`: Nazwy klas (ciągi znaków)
+* `__objc_methname`: Nazwy metod (ciągi znaków)
+* `__objc_methtype`: Typy metod (ciągi znaków)
 
 W segmencie `__DATA` (rw-):
 
-- `__objc_classlist`: Wskaźniki do wszystkich klas Objective-C
-- `__objc_nlclslist`: Wskaźniki do klas Objective-C Non-Lazy
-- `__objc_catlist`: Wskaźnik do kategorii
-- `__objc_nlcatlist`: Wskaźnik do kategorii Non-Lazy
-- `__objc_protolist`: Lista protokołów
-- `__objc_const`: Dane stałe
-- `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
+* `__objc_classlist`: Wskaźniki do wszystkich klas Objective-C
+* `__objc_nlclslist`: Wskaźniki do klas Objective-C Non-Lazy
+* `__objc_catlist`: Wskaźnik do kategorii
+* `__objc_nlcatlist`: Wskaźnik do kategorii Non-Lazy
+* `__objc_protolist`: Lista protokołów
+* `__objc_const`: Dane stałe
+* `__objc_imageinfo`, `__objc_selrefs`, `objc__protorefs`...
 
 ## Swift
 
-- `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`
+* `_swift_typeref`, `_swift3_capture`, `_swift3_assocty`, `_swift3_types, _swift3_proto`, `_swift3_fieldmd`, `_swift3_builtin`, `_swift3_reflstr`

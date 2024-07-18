@@ -2,29 +2,30 @@
 
 ## Algorytmy kryptograficzne/kompresji
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów GitHub.
 
 </details>
+{% endhint %}
 
 ## Identyfikacja algorytmów
 
-Jeśli natrafisz na kod **używający przesunięć bitowych w prawo i w lewo, operacji XOR oraz kilku operacji arytmetycznych**, istnieje wysokie prawdopodobieństwo, że jest to implementacja **algorytmu kryptograficznego**. Tutaj zostaną przedstawione sposoby **identyfikacji użytego algorytmu bez konieczności odwracania każdego kroku**.
+Jeśli znajdziesz kod **korzystający z przesunięć bitowych, operacji XOR i kilku operacji arytmetycznych**, jest bardzo prawdopodobne, że jest to implementacja **algorytmu kryptograficznego**. Poniżej zostaną przedstawione sposoby **identyfikacji użytego algorytmu bez konieczności odwracania każdego kroku**.
 
 ### Funkcje API
 
 **CryptDeriveKey**
 
-Jeśli jest używana ta funkcja, można znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
+Jeśli jest używana ta funkcja, można sprawdzić, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
 
 ![](<../../.gitbook/assets/image (156).png>)
 
@@ -36,11 +37,11 @@ Kompresuje i dekompresuje dany bufor danych.
 
 **CryptAcquireContext**
 
-Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** służy do uzyskania uchwytu do określonego kontenera kluczy w określonym dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI**, które korzystają z wybranego CSP.
+Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** służy do uzyskania uchwytu do określonego kontenera kluczy w określonym dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI** korzystających z wybranego CSP.
 
 **CryptCreateHash**
 
-Inicjuje haszowanie strumienia danych. Jeśli jest używana ta funkcja, można znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
+Inicjuje haszowanie strumienia danych. Jeśli jest używana ta funkcja, można sprawdzić, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
 
 ![](<../../.gitbook/assets/image (549).png>)
 
@@ -48,7 +49,7 @@ Sprawdź tutaj tabelę możliwych algorytmów i ich przypisane wartości: [https
 
 ### Stałe kodu
 
-Czasami bardzo łatwo jest zidentyfikować algorytm dzięki konieczności użycia specjalnej i unikalnej wartości.
+Czasami łatwo jest zidentyfikować algorytm dzięki konieczności użycia specjalnej i unikalnej wartości.
 
 ![](<../../.gitbook/assets/image (833).png>)
 
@@ -57,12 +58,12 @@ Jeśli wyszukasz pierwszą stałą w Google, otrzymasz:
 ![](<../../.gitbook/assets/image (529).png>)
 
 Dlatego można założyć, że zdekompilowana funkcja to **kalkulator sha256**.\
-Możesz wyszukać dowolną inną stałą i otrzymasz (prawdopodobnie) ten sam wynik.
+Możesz wyszukać dowolną inną stałą i prawdopodobnie otrzymasz ten sam wynik.
 
 ### Informacje o danych
 
 Jeśli kod nie zawiera istotnej stałej, może **wczytywać informacje z sekcji .data**.\
-Możesz uzyskać dostęp do tych danych, **zgrupować pierwsze słowo dwubajtowe** i wyszukać je w Google, tak jak zrobiliśmy wcześniej w sekcji:
+Możesz uzyskać dostęp do tych danych, **zgrupować pierwsze słowo** i wyszukać je w Google, tak jak zrobiliśmy wcześniej:
 
 ![](<../../.gitbook/assets/image (531).png>)
 
@@ -75,11 +76,11 @@ W tym przypadku, jeśli wyszukasz **0xA56363C6**, dowiesz się, że jest to zwi�
 Składa się z 3 głównych części:
 
 * **Etap inicjalizacji/**: Tworzy **tabelę wartości od 0x00 do 0xFF** (łącznie 256 bajtów, 0x100). Ta tabela jest zwykle nazywana **Substitution Box** (lub SBox).
-* **Etap mieszania**: Przejdzie **pętlą przez tabelę** utworzoną wcześniej (pętla 0x100 iteracji, ponownie) modyfikując każdą wartość za pomocą **półlosowych** bajtów. Aby utworzyć te półlosowe bajty, używany jest klucz RC4. Klucze RC4 mogą mieć długość **od 1 do 256 bajtów**, jednak zazwyczaj zaleca się, aby były one powyżej 5 bajtów. Zazwyczaj klucze RC4 mają długość 16 bajtów.
-* **Etap XOR**: Wreszcie, tekst jawnie lub zaszyfrowany jest **XORowany z utworzonymi wcześniej wartościami**. Funkcja do szyfrowania i deszyfrowania jest taka sama. W tym celu **przejdzie się pętlą przez utworzone 256 bajtów** tak wiele razy, ile jest to konieczne. Zazwyczaj jest to rozpoznawane w zdekompilowanym kodzie za pomocą **%256 (mod 256)**.
+* **Etap mieszania**: Przejdzie przez **tabelę** utworzoną wcześniej (pętla 0x100 iteracji, ponownie) modyfikując każdą wartość za pomocą **półlosowych** bajtów. Aby utworzyć te półlosowe bajty, używany jest **klucz RC4**. Klucze RC4 mogą mieć długość **od 1 do 256 bajtów**, jednak zazwyczaj zaleca się, aby były one powyżej 5 bajtów. Zazwyczaj klucze RC4 mają długość 16 bajtów.
+* **Etap XOR**: Wreszcie, tekst jawnie lub zaszyfrowany jest **XORowany z utworzonymi wcześniej wartościami**. Funkcja do szyfrowania i deszyfrowania jest taka sama. W tym celu zostanie wykonana **pętla przez utworzone 256 bajtów** tak wiele razy, ile jest to konieczne. Zazwyczaj jest to rozpoznawane w zdekompilowanym kodzie za pomocą **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Aby zidentyfikować RC4 w kodzie disassembly/zdekompilowanym, można sprawdzić 2 pętle o rozmiarze 0x100 (z użyciem klucza) oraz XOR danych wejściowych z 256 wartościami utworzonymi wcześniej w 2 pętlach, prawdopodobnie z użyciem %256 (mod 256)**
+**Aby zidentyfikować RC4 w kodzie disassembly/dekompilowanym, można sprawdzić 2 pętle o rozmiarze 0x100 (z użyciem klucza) oraz XOR danych wejściowych z 256 wartościami utworzonymi wcześniej w tych 2 pętlach, prawdopodobnie z użyciem %256 (mod 256)**
 {% endhint %}
 
 ### **Etap inicjalizacji/Substitution Box:** (Zauważ liczbę 256 używaną jako licznik i jak 0 jest zapisywane na każdym miejscu spośród 256 znaków)
@@ -98,8 +99,8 @@ Składa się z 3 głównych części:
 
 ### **Charakterystyka**
 
-* Użycie **skrzynek substytucji i tablic poszukiwań**
-* Możliwe jest **rozróżnienie AES dzięki użyciu określonych wartości tablic poszukiwań** (stałych). _Zauważ, że **stała** może być **przechowywana** w pliku binarnym **lub tworzona**_ _**dynamicznie**._
+* Użycie **skrzynek substytucji i tabel przeglądowych**
+* Możliwe jest **rozróżnienie AES dzięki użyciu określonych wartości tabeli przeglądowej** (stałych). _Zauważ, że **stała** może być **przechowywana** w pliku binarnym **lub tworzona**_ _**dynamicznie**._
 * **Klucz szyfrowania** musi być **podzielny** przez **16** (zwykle 32B), a zazwyczaj używany jest **IV** o długości 16B.
 
 ### Stałe SBox
@@ -110,7 +111,7 @@ Składa się z 3 głównych części:
 
 ### Charakterystyka
 
-* Rzadko można znaleźć złośliwe oprogramowanie używające tego algorytmu, ale istnieją przykłady (Ursnif)
+* Rzadko można znaleźć złośliwe oprogramowanie używające go, ale istnieją przykłady (Ursnif)
 * Łatwo określić, czy algorytm to Serpent, na podstawie jego długości (bardzo długa funkcja)
 
 ### Identyfikacja
@@ -124,14 +125,14 @@ Jak wspomniano wcześniej, ten kod może być zobrazowany w dowolnym dekompilato
 
 ![](<../../.gitbook/assets/image (513).png>)
 
-Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **numer magiczny** i **początkowe XORy**, widząc **bardzo długą funkcję** i **porównując** niektóre **instrukcje** z długiej funkcji **z implementacją** (taką jak przesunięcie w lewo o 7 i obrót w lewo o 22).
+Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **magiczną liczbę** i **początkowe XORy**, widząc **bardzo długą funkcję** i **porównując** niektóre **instrukcje** z długiej funkcji **z implementacją** (taką jak przesunięcie w lewo o 7 i obrót w lewo o 22).
 ## RSA **(Szyfrowanie asymetryczne)**
 
 ### Charakterystyka
 
 * Bardziej złożony niż algorytmy symetryczne
-* Brak stałych! (trudno określić niestandardowe implementacje)
-* KANAL (analizator krypto) nie pokazuje wskazówek dotyczących RSA, ponieważ polega na stałych.
+* Brak stałych! (trudne określenie niestandardowej implementacji)
+* KANAL (analizator kryptograficzny) nie wykazuje wskazówek dotyczących RSA, ponieważ polega na stałych.
 
 ### Identyfikacja poprzez porównania
 
@@ -144,12 +145,12 @@ Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **numer magi
 
 ### Charakterystyka
 
-* 3 funkcje: Init, Update, Final
+* 3 funkcje: Inicjalizacja, Aktualizacja, Końcowa
 * Podobne funkcje inicjalizacji
 
 ### Identyfikacja
 
-**Init**
+**Inicjalizacja**
 
 Możesz je zidentyfikować, sprawdzając stałe. Zauważ, że sha\_init ma 1 stałą, której MD5 nie ma:
 
@@ -168,7 +169,7 @@ Zauważ użycie większej liczby stałych
 
 ### Identyfikacja
 
-Sprawdź **stałe tablic poszukiwań**:
+Sprawdź **stałe tablicy poszukiwań**:
 
 ![](<../../.gitbook/assets/image (508).png>)
 
@@ -180,7 +181,7 @@ Algorytm funkcji skrótu CRC wygląda tak:
 
 ### Charakterystyka
 
-* Stałe nie są rozpoznawalne
+* Stałe nie do rozpoznania
 * Możesz spróbować napisać algorytm w języku Python i szukać podobnych rzeczy online
 
 ### Identyfikacja

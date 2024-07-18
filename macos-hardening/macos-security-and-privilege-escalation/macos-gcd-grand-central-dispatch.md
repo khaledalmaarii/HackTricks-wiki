@@ -1,22 +1,23 @@
 # macOS GCD - Grand Central Dispatch
 
+{% hint style="success" %}
+Ucz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
+{% endhint %}
 
 ## Podstawowe informacje
 
-**Grand Central Dispatch (GCD),** znany również jako **libdispatch** (`libdispatch.dyld`), jest dostępny zarówno w macOS, jak i iOS. Jest to technologia opracowana przez Apple do optymalizacji wsparcia aplikacji dla równoczesnego (wielowątkowego) wykonywania na sprzęcie wielordzeniowym.
+**Grand Central Dispatch (GCD)**, znany również jako **libdispatch** (`libdispatch.dyld`), jest dostępny zarówno w macOS, jak i iOS. Jest to technologia opracowana przez Apple, która optymalizuje obsługę aplikacji dla równoczesnego (wielowątkowego) wykonywania na sprzęcie wielordzeniowym.
 
 **GCD** dostarcza i zarządza **kolejkami FIFO**, do których twoja aplikacja może **przesyłać zadania** w postaci **bloków kodu**. Bloki przesłane do kolejek dystrybucji są **wykonywane na puli wątków** w pełni zarządzanej przez system. GCD automatycznie tworzy wątki do wykonywania zadań w kolejkach dystrybucji i harmonogramuje te zadania do uruchomienia na dostępnych rdzeniach.
 
@@ -24,7 +25,7 @@ Inne sposoby wsparcia HackTricks:
 Podsumowując, aby wykonać kod **równolegle**, procesy mogą wysyłać **bloki kodu do GCD**, który zajmie się ich wykonaniem. Dlatego procesy nie tworzą nowych wątków; **GCD wykonuje dany kod za pomocą własnej puli wątków** (która może się zwiększać lub zmniejszać w miarę potrzeby).
 {% endhint %}
 
-Jest to bardzo pomocne do skutecznego zarządzania równoczesnym wykonywaniem, znacznie zmniejszając liczbę wątków, które tworzą procesy, i optymalizując równoległe wykonanie. Jest to idealne rozwiązanie dla zadań wymagających **dużej równoległości** (łamanie haseł?) lub dla zadań, które nie powinny blokować głównego wątku: Na przykład główny wątek w iOS obsługuje interakcje z interfejsem użytkownika, więc wszelkie inne funkcje, które mogą spowodować zawieszenie aplikacji (wyszukiwanie, dostęp do sieci, odczyt pliku...) są obsługiwane w ten sposób.
+Jest to bardzo pomocne do skutecznego zarządzania równoczesnym wykonywaniem, znacznie zmniejszając liczbę wątków, które tworzą procesy, i optymalizując równoczesne wykonanie. Jest to idealne rozwiązanie dla zadań wymagających **dużej równoległości** (brute-forcing?) lub dla zadań, które nie powinny blokować głównego wątku: na przykład główny wątek w iOS obsługuje interakcje z interfejsem użytkownika, więc wszelkie inne funkcje, które mogą spowodować zawieszenie aplikacji (wyszukiwanie, dostęp do sieci, odczyt pliku...) są obsługiwane w ten sposób.
 
 ### Bloki
 
@@ -36,15 +37,15 @@ Jednak na poziomie kompilatora bloki nie istnieją, są to `os_object`s. Każdy 
 * `NSConcreteGlobalBlock` (bloki z `__DATA.__const`)
 * `NSConcreteMallocBlock` (bloki na stercie)
 * `NSConcreateStackBlock` (bloki na stosie)
-* Posiada **`flags`** (wskazujące na pola obecne w deskryptorze bloku) oraz kilka zarezerwowanych bajtów
+* Posiada **`flagi`** (wskazujące na pola obecne w deskryptorze bloku) oraz kilka zarezerwowanych bajtów
 * Wskaźnik do funkcji do wywołania
 * Wskaźnik do deskryptora bloku
-* Zaimportowane zmienne bloku (jeśli takie istnieją)
-* **deskryptor bloku**: Jego rozmiar zależy od danych, które są obecne (zgodnie z flagami podanymi wcześniej)
+* Zaimplementowane zmienne bloku (jeśli takie istnieją)
+* **deskryptor bloku**: Jego rozmiar zależy od danych, które są obecne (jak wskazano w poprzednich flagach)
 * Posiada kilka zarezerwowanych bajtów
 * Jego rozmiar
 * Zazwyczaj będzie miał wskaźnik do sygnatury w stylu Objective-C, aby wiedzieć, ile miejsca jest potrzebne na parametry (flaga `BLOCK_HAS_SIGNATURE`)
-* Jeśli zmienne są odwoływane, ten blok będzie również zawierał wskaźniki do pomocnika kopiującego (kopiującego wartość na początku) i pomocnika usuwającego (zwalniającego ją).
+* Jeśli zmienne są odwoływane, ten blok będzie również miał wskaźniki do pomocnika kopiowania (kopiującego wartość na początku) i pomocnika usuwania (zwalniającego ją).
 
 ### Kolejki
 
@@ -93,12 +94,12 @@ Istnieje kilka obiektów, których używa libdispatch, a kolejki i bloki to tylk
 
 ## Objective-C
 
-W Objective-C istnieją różne funkcje do wysyłania bloku do wykonania równoległego:
+W Objective-C istnieją różne funkcje do wysłania bloku do wykonania równoległego:
 
 * [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Przesyła blok do asynchronicznego wykonania w kolejce dystrybucji i natychmiast zwraca.
 * [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Przesyła obiekt bloku do wykonania i zwraca po zakończeniu tego bloku.
 * [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Wykonuje blok tylko raz przez cały czas życia aplikacji.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Przesyła element roboczy do wykonania i zwraca dopiero po zakończeniu jego wykonania. W przeciwieństwie do [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ta funkcja respektuje wszystkie atrybuty kolejki podczas wykonywania bloku.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Przesyła element pracy do wykonania i zwraca dopiero po zakończeniu jego wykonania. W przeciwieństwie do [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), ta funkcja respektuje wszystkie atrybuty kolejki podczas wykonywania bloku.
 
 Te funkcje oczekują tych parametrów: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
@@ -113,7 +114,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-A to przykład użycia **równoległości** z **`dispatch_async`**:
+I oto przykład użycia **równoległości** z **`dispatch_async`**:
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -146,7 +147,7 @@ return 0;
 ## Swift
 
 **`libswiftDispatch`** to biblioteka zapewniająca **powiązania Swift** do frameworka Grand Central Dispatch (GCD), który jest pierwotnie napisany w języku C.\
-Biblioteka **`libswiftDispatch`** owija interfejsy API C GCD w bardziej przyjazny dla Swifta interfejs, ułatwiając i bardziej intuicyjnie dla programistów Swifta pracować z GCD.
+Biblioteka **`libswiftDispatch`** owija interfejsy API C GCD w bardziej przyjazny dla języka Swift interfejs, ułatwiając i bardziej intuicyjnie dla programistów Swift pracować z GCD.
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -198,7 +199,7 @@ Backtrace:
 ```
 ## Ghidra
 
-Obecnie Ghidra nie rozumie ani struktury **`dispatch_block_t`** ObjectiveC, ani struktury **`swift_dispatch_block`**.
+Obecnie Ghidra nie rozumie ani struktury **`dispatch_block_t`** ObjectiveC, ani **`swift_dispatch_block`**.
 
 Więc jeśli chcesz, aby je zrozumiał, po prostu możesz je **zadeklarować**:
 
@@ -224,6 +225,6 @@ Ghidra automatycznie przepisze wszystko:
 
 <figure><img src="../../.gitbook/assets/image (1166).png" alt="" width="563"><figcaption></figcaption></figure>
 
-## References
+## Referencje
 
 * [**\*OS Internals, Tom I: Tryb użytkownika. Autor: Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)

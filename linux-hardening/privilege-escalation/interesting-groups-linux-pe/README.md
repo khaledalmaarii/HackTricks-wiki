@@ -1,20 +1,21 @@
 # Interesujące Grupy - Eskalacja Uprawnień w Linuxie
 
+{% hint style="success" %}
+Dowiedz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
+{% endhint %}
 
-## Grupy Sudo/Administratorów
+## Grupy Sudo/Admin
 
 ### **PE - Metoda 1**
 
@@ -28,17 +29,18 @@ Inne sposoby wsparcia HackTricks:
 ```
 To oznacza, że **każdy użytkownik należący do grupy sudo lub admin może wykonać cokolwiek jako sudo**.
 
-Jeśli tak jest, aby **stać się rootem, po prostu wykonaj**:
+Jeśli tak jest, aby **stać się rootem, wystarczy wykonać**:
 ```
 sudo su
 ```
 ### PE - Metoda 2
 
-Znajdź wszystkie binarne pliki suid i sprawdź, czy istnieje binarna aplikacja **Pkexec**:
+Znajdź wszystkie binarne pliki suid i sprawdź, czy istnieje binarny plik **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Jeśli okaże się, że binarny **pkexec jest binarnym SUID** i należysz do grupy **sudo** lub **admin**, prawdopodobnie będziesz mógł wykonywać binarne jako sudo, używając `pkexec`. To dlatego, że zazwyczaj te grupy są wewnątrz **polityki polkit**. Ta polityka określa, które grupy mogą używać `pkexec`. Sprawdź to za pomocą:
+Jeśli okaże się, że binarny **pkexec jest binarnym SUID** i należysz do grupy **sudo** lub **admin**, prawdopodobnie będziesz mógł wykonywać binarne pliki jako sudo za pomocą `pkexec`.\
+Dzieje się tak, ponieważ zazwyczaj te grupy są wewnątrz **polityki polkit**. Polityka ta określa, które grupy mogą korzystać z `pkexec`. Sprawdź to za pomocą:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -48,13 +50,13 @@ Aby **stać się rootem, możesz wykonać**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-Jeśli spróbujesz wykonać **pkexec** i otrzymasz ten **błąd**:
+Jeśli spróbujesz wykonać polecenie **pkexec** i otrzymasz ten **błąd**:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**To nie dlatego, że nie masz uprawnień, ale dlatego, że nie jesteś podłączony bez GUI**. Istnieje sposób na obejście tego problemu tutaj: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrzebujesz **2 różnych sesji ssh**:
+**To nie dlatego, że nie masz uprawnień, ale dlatego, że nie jesteś podłączony bez GUI**. Istnieje sposób na obejście tego problemu tutaj: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrzebujesz **2 różne sesje ssh**:
 
 {% code title="sesja1" %}
 ```bash
@@ -77,9 +79,9 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
-To oznacza, że **każdy użytkownik należący do grupy wheel może wykonać cokolwiek jako sudo**.
+To oznacza, że **każdy użytkownik należący do grupy wheel może wykonywać cokolwiek jako sudo**.
 
-Jeśli tak jest, aby **stać się rootem, po prostu wykonaj**:
+Jeśli tak jest, aby **stać się rootem, wystarczy wykonać**:
 ```
 sudo su
 ```
@@ -93,7 +95,7 @@ Więc, przeczytaj plik i spróbuj **złamać kilka hashy**.
 
 ## Grupa Personelu
 
-**staff**: Umożliwia użytkownikom dodawanie lokalnych modyfikacji do systemu (`/usr/local`) bez konieczności posiadania uprawnień roota (zauważ, że pliki wykonywalne w `/usr/local/bin` są w zmiennej PATH każdego użytkownika i mogą "nadpisać" pliki wykonywalne w `/bin` i `/usr/bin` o tej samej nazwie). Porównaj z grupą "adm", która bardziej dotyczy monitorowania/bezpieczeństwa. [\[źródło\]](https://wiki.debian.org/SystemGroups)
+**personel**: Umożliwia użytkownikom dodawanie lokalnych modyfikacji do systemu (`/usr/local`) bez konieczności posiadania uprawnień roota (zauważ, że pliki wykonywalne w `/usr/local/bin` są w zmiennej PATH każdego użytkownika i mogą "nadpisać" pliki wykonywalne w `/bin` i `/usr/bin` o tej samej nazwie). Porównaj z grupą "adm", która bardziej dotyczy monitorowania/bezpieczeństwa. [\[źródło\]](https://wiki.debian.org/SystemGroups)
 
 W dystrybucjach debian, zmienna `$PATH` pokazuje, że `/usr/local/` będzie uruchamiany jako najwyższy priorytet, niezależnie od tego, czy jesteś uprzywilejowanym użytkownikiem, czy nie.
 ```bash
@@ -163,11 +165,11 @@ Zauważ, że używając debugfs możesz również **pisać pliki**. Na przykład
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Jednakże, jeśli spróbujesz **zapisać pliki należące do roota** (takie jak `/etc/shadow` lub `/etc/passwd`), otrzymasz błąd "**Permission denied**".
+Jednak jeśli spróbujesz **zapisać pliki należące do roota** (takie jak `/etc/shadow` lub `/etc/passwd`), otrzymasz błąd "**Permission denied**".
 
 ## Grupa wideo
 
-Korzystając z polecenia `w`, możesz dowiedzieć się **kto jest zalogowany w systemie** i otrzymasz wynik podobny do poniższego:
+Za pomocą polecenia `w` możesz sprawdzić **kto jest zalogowany w systemie** i otrzymasz wynik podobny do poniższego:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
@@ -175,12 +177,12 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1** oznacza, że użytkownik **yossi jest zalogowany fizycznie** do terminala na maszynie.
 
-Grupa **video** ma dostęp do wyświetlania danych ekranowych. W zasadzie można obserwować ekrany. Aby to zrobić, musisz **przechwycić bieżący obraz na ekranie** w postaci surowych danych i uzyskać rozdzielczość, jaką ekran używa. Dane ekranu można zapisać w `/dev/fb0`, a rozdzielczość tego ekranu można znaleźć w `/sys/class/graphics/fb0/virtual_size`.
+Grupa **video** ma dostęp do przeglądania wyjścia ekranu. W zasadzie można obserwować ekrany. Aby to zrobić, musisz **przechwycić bieżący obraz na ekranie** w postaci surowych danych i uzyskać rozdzielczość, którą ekran używa. Dane ekranu można zapisać w `/dev/fb0`, a rozdzielczość tego ekranu można znaleźć w `/sys/class/graphics/fb0/virtual_size`.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Aby **otworzyć** **surowy obraz**, możesz użyć **GIMP**, wybrać plik \*\*`screen.raw` \*\* i wybrać jako typ pliku **Dane obrazu surowego**:
+Aby **otworzyć** **surowy obraz**, możesz użyć **GIMP**, wybierz plik \*\*`screen.raw` \*\* i wybierz jako typ pliku **Dane obrazu surowego**:
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
@@ -192,13 +194,13 @@ Następnie zmodyfikuj Szerokość i Wysokość na te używane na ekranie i spraw
 
 Wygląda na to, że domyślnie **członkowie grupy root** mogą mieć dostęp do **modyfikacji** niektórych plików konfiguracyjnych **usługi** lub niektórych plików **bibliotek** lub **innych interesujących rzeczy**, które mogą być wykorzystane do eskalacji uprawnień...
 
-**Sprawdź, które pliki członkowie root mogą modyfikować**:
+**Sprawdź, które pliki mogą być modyfikowane przez członków root**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
 ## Grupa Docker
 
-Możesz **podłączyć system plików root hosta do woluminu instancji**, więc gdy instancja zostanie uruchomiona, natychmiast wczytuje `chroot` do tego woluminu. To efektywnie daje Ci uprawnienia roota na maszynie.
+Możesz **zamontować system plików root hosta do woluminu instancji**, więc gdy instancja zostanie uruchomiona, natychmiast wczytuje `chroot` do tego woluminu. W rezultacie otrzymujesz uprawnienia roota na maszynie.
 ```bash
 docker image #Get images from the docker service
 
@@ -219,7 +221,7 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ## Grupa Adm
 
 Zazwyczaj **członkowie** grupy **`adm`** mają uprawnienia do **odczytu plików dziennika** znajdujących się wewnątrz _/var/log/_.\
-Dlatego jeśli skompromitowałeś użytkownika należącego do tej grupy, zdecydowanie powinieneś **przejrzeć dzienniki**.
+Dlatego, jeśli skompromitowałeś użytkownika należącego do tej grupy, zdecydowanie powinieneś **przejrzeć dzienniki**.
 
 ## Grupa Auth
 

@@ -1,18 +1,19 @@
 # Użytkownicy macOS
 
+{% hint style="success" %}
+Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
@@ -22,7 +23,7 @@ Inne sposoby wsparcia HackTricks:
 
 Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
 
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
+Możesz odwiedzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -47,9 +48,24 @@ for i in "${state[@]}"; do sysadminctl -"${i}" status; done;
 * **Nikt**: Procesy są wykonywane z tym użytkownikiem, gdy wymagane są minimalne uprawnienia
 * **Root**
 
-### Uprawnienia użytkowników
+### Uprawnienia użytkownika
 
-* **Standardowy użytkownik:** Najbardziej podstawowy użytkownik. Ten użytkownik potrzebuje udzielonych uprawnień od użytkownika admina, gdy próbuje zainstalować oprogramowanie lub wykonać inne zaawansowane zadania. Sam nie jest w stanie tego zrobić.
-* **Użytkownik admina**: Użytkownik, który działa przeważnie jako standardowy użytkownik, ale ma także uprawnienia do wykonywania działań root, takich jak instalowanie oprogramowania i inne zadania administracyjne. Wszyscy użytkownicy należący do grupy admina **mają dostęp do roota za pośrednictwem pliku sudoers**.
+* **Standardowy użytkownik**: Najbardziej podstawowy użytkownik. Ten użytkownik potrzebuje udzielonych uprawnień od użytkownika admina, gdy próbuje zainstalować oprogramowanie lub wykonać inne zaawansowane zadania. Sam nie jest w stanie tego zrobić.
+* **Użytkownik admina**: Użytkownik, który działa przeważnie jako standardowy użytkownik, ale ma także możliwość wykonywania działań root, takich jak instalowanie oprogramowania i inne zadania administracyjne. Wszyscy użytkownicy należący do grupy admina **mają dostęp do roota za pośrednictwem pliku sudoers**.
 * **Root**: Root to użytkownik uprawniony do wykonania prawie każdej akcji (istnieją ograniczenia narzucone przez zabezpieczenia, takie jak System Integrity Protection).
 * Na przykład root nie będzie w stanie umieścić pliku wewnątrz `/System`
+
+{% hint style="success" %}
+Naucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Wesprzyj HackTricks</summary>
+
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

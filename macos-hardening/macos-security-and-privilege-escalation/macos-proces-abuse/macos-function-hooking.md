@@ -1,18 +1,19 @@
-# Hacowanie funkcji w macOS
+# Hakowanie funkcji w macOS
+
+{% hint style="success" %}
+Dowiedz się i praktykuj hakowanie AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i praktykuj hakowanie GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
 
 </details>
+{% endhint %}
 
 ## Interpozycja funkcji
 
@@ -101,7 +102,7 @@ Należy również zauważyć, że **interposing zachodzi pomiędzy procesem a za
 
 ### Dynamiczne Interposing
 
-Teraz jest również możliwe dynamiczne interposing funkcji za pomocą funkcji **`dyld_dynamic_interpose`**. Pozwala to programowo interpose funkcję w czasie wykonania, zamiast robić to tylko od początku.
+Teraz jest również możliwe dynamiczne interposing funkcji za pomocą funkcji **`dyld_dynamic_interpose`**. Pozwala to programowo interpose funkcję w czasie wykonania zamiast robić to tylko od początku.
 
 Wystarczy wskazać **krotki** **funkcji do zastąpienia i funkcji zastępczej**.
 ```c
@@ -128,7 +129,7 @@ Zauważ, że ponieważ metody i klasy są dostępne na podstawie swoich nazw, te
 
 ### Dostęp do surowych metod
 
-Możliwe jest uzyskanie dostępu do informacji o metodach, takich jak nazwa, liczba parametrów lub adres, jak w poniższym przykładzie:
+Możliwe jest uzyskanie informacji o metodach, takich jak nazwa, liczba parametrów lub adres, jak w poniższym przykładzie:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -196,12 +197,14 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
+{% endcode %}
+
 ### Podmiana metody za pomocą method\_exchangeImplementations
 
 Funkcja **`method_exchangeImplementations`** pozwala **zmienić** **adres** **implementacji** **jednej funkcji na drugą**.
 
 {% hint style="danger" %}
-Dlatego gdy funkcja jest wywoływana, **wykonywana jest inna funkcja**.
+Kiedy funkcja jest wywoływana, **wykonywana jest inna funkcja**.
 {% endhint %}
 
 {% code overflow="wrap" %}
@@ -256,11 +259,11 @@ W tym przypadku, jeśli **kod implementacji prawidłowej** metody **sprawdza** *
 Następująca technika nie ma tego ograniczenia.
 {% endhint %}
 
-### Podmienianie Metod za pomocą method\_setImplementation
+### Podmienianie metody za pomocą method\_setImplementation
 
-Poprzedni format jest dziwny, ponieważ zmieniasz implementację 2 metod na siebie. Korzystając z funkcji **`method_setImplementation`** możesz **zmienić implementację** jednej **metody na inną**.
+Poprzedni format jest dziwny, ponieważ zmieniasz implementację 2 metod na siebie. Korzystając z funkcji **`method_setImplementation`** możesz **zmienić implementację** metody **na inną**.
 
-Pamiętaj tylko, aby **zapisać adres implementacji oryginalnej metody**, jeśli zamierzasz ją wywołać z nowej implementacji przed jej nadpisaniem, ponieważ później będzie znacznie trudniej zlokalizować ten adres.
+Pamiętaj tylko, aby **zapisać adres implementacji oryginalnej** metody, jeśli zamierzasz ją wywołać z nowej implementacji przed jej nadpisaniem, ponieważ później będzie znacznie trudniej zlokalizować ten adres.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -316,7 +319,7 @@ return 0;
 ```
 {% endcode %}
 
-## Metodologia ataku za pomocą hookowania
+## Metodologia ataku hooking
 
 Na tej stronie omówione zostały różne sposoby hookowania funkcji. Jednakże, wymagały one **uruchomienia kodu wewnątrz procesu w celu ataku**.
 
@@ -324,9 +327,9 @@ Aby to zrobić, najłatwiejszą techniką jest wstrzyknięcie [Dyld za pomocą z
 
 Obie opcje są jednak **ograniczone** do **niechronionych** binarnych/procesów. Sprawdź każdą technikę, aby dowiedzieć się więcej na temat ograniczeń.
 
-Atak za pomocą hookowania funkcji jest bardzo specyficzny, atakujący będzie to robił, aby **ukraść wrażliwe informacje z wnętrza procesu** (jeśli nie, wystarczyłoby przeprowadzić atak wstrzyknięcia procesu). Te wrażliwe informacje mogą znajdować się w pobranych przez użytkownika aplikacjach, takich jak MacPass.
+Atak poprzez hookowanie funkcji jest bardzo specyficzny, atakujący będzie to robił, aby **ukraść wrażliwe informacje z wnętrza procesu** (jeśli nie, wystarczyłoby przeprowadzić atak wstrzyknięcia procesu). Te wrażliwe informacje mogą znajdować się w pobranych przez użytkownika aplikacjach, takich jak MacPass.
 
-Wektor ataku dla atakującego polegałby na znalezieniu podatności lub usunięciu sygnatury aplikacji, a następnie wstrzyknięciu zmiennej środowiskowej **`DYLD_INSERT_LIBRARIES`** poprzez plik Info.plist aplikacji, dodając coś w rodzaju:
+Wektor ataku polegałby więc na znalezieniu podatności lub usunięciu sygnatury aplikacji, wstrzyknięciu zmiennej środowiskowej **`DYLD_INSERT_LIBRARIES`** poprzez plik Info.plist aplikacji, dodając coś w rodzaju:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -345,7 +348,7 @@ a następnie **ponownie zarejestruj** aplikację:
 Dodaj do tej biblioteki kod hakowania w celu wycieku informacji: Hasła, wiadomości...
 
 {% hint style="danger" %}
-Zauważ, że w nowszych wersjach macOS, jeśli **usuniesz sygnaturę** binariów aplikacji i zostały one wcześniej uruchomione, macOS **nie będzie już uruchamiać aplikacji**.
+Zauważ, że w nowszych wersjach macOS, jeśli **usuniesz sygnaturę** binariów aplikacji i zostały one wcześniej uruchomione, macOS **nie będzie już uruchamiał aplikacji**.
 {% endhint %}
 
 #### Przykład biblioteki
@@ -392,16 +395,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+Dowiedz się i praktykuj Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Dowiedz się i praktykuj Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i zostań mistrzem hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wesprzyj HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
