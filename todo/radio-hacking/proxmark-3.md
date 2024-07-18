@@ -1,16 +1,19 @@
 # Proxmark 3
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -20,15 +23,15 @@
 
 ***
 
-## Atakowanie Systemów RFID za pomocą Proxmark3
+## Atakowanie systemów RFID za pomocą Proxmark3
 
-Pierwszą rzeczą, którą musisz zrobić, jest posiadanie [**Proxmark3**](https://proxmark.com) i [**zainstalowanie oprogramowania oraz jego zależności**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Pierwszą rzeczą, którą musisz zrobić, to mieć [**Proxmark3**](https://proxmark.com) i [**zainstalować oprogramowanie i jego zależności**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### Atakowanie MIFARE Classic 1KB
 
-Ma **16 sektorów**, z których każdy ma **4 bloki**, a każdy blok zawiera **16B**. UID znajduje się w sektorze 0 bloku 0 (i nie może być zmieniony).\
-Aby uzyskać dostęp do każdego sektora, potrzebujesz **2 kluczy** (**A** i **B**), które są przechowywane w **bloku 3 każdego sektora** (sektorowy blok końcowy). Sektorowy blok końcowy przechowuje również **bity dostępu**, które określają uprawnienia do **odczytu i zapisu** na **każdym bloku** za pomocą 2 kluczy.\
-2 klucze są przydatne do udzielenia uprawnień do odczytu, jeśli znasz pierwszy, i zapisu, jeśli znasz drugi (na przykład).
+Ma **16 sektorów**, z których każdy ma **4 bloki**, a każdy blok zawiera **16B**. UID znajduje się w sektorze 0 bloku 0 (i nie można go zmienić).\
+Aby uzyskać dostęp do każdego sektora, potrzebujesz **2 kluczy** (**A** i **B**), które są przechowywane w **bloku 3 każdego sektora** (trailer sektora). Trailer sektora przechowuje również **bity dostępu**, które dają **uprawnienia do odczytu i zapisu** na **każdym bloku** przy użyciu 2 kluczy.\
+2 klucze są przydatne do nadawania uprawnień do odczytu, jeśli znasz pierwszy, i zapisu, jeśli znasz drugi (na przykład).
 
 Można przeprowadzić kilka ataków
 ```bash
@@ -49,11 +52,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 pozwala na wykonanie innych działań, takich jak **podsluchiwanie** komunikacji **Tag-Reader** w celu próby znalezienia danych wrażliwych. Na tej karcie można po prostu podsłuchać komunikację i obliczyć użyty klucz, ponieważ **operacje kryptograficzne są słabe** i znając tekst jawny i zaszyfrowany, można go obliczyć (narzędzie `mfkey64`).
+Proxmark3 pozwala na wykonywanie innych działań, takich jak **podsłuchiwanie** komunikacji **Tag do Czytnika**, aby spróbować znaleźć wrażliwe dane. W tej karcie możesz po prostu podsłuchiwać komunikację i obliczyć używany klucz, ponieważ **operacje kryptograficzne są słabe**, a znając tekst jawny i szyfrowany, możesz go obliczyć (narzędzie `mfkey64`).
 
-### Surowe polecenia
+### Surowe Komendy
 
-Systemy IoT czasami używają **tagów niebrandowanych lub niekomercyjnych**. W takim przypadku można użyć Proxmark3 do wysyłania niestandardowych **surowych poleceń do tagów**.
+Systemy IoT czasami używają **tagów nieznakowanych lub niekomercyjnych**. W takim przypadku możesz użyć Proxmark3 do wysyłania niestandardowych **surowych komend do tagów**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -63,15 +66,15 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Z tymi informacjami możesz spróbować wyszukać informacje o karcie i o sposobie komunikacji z nią. Proxmark3 pozwala na wysyłanie poleceń w postaci surowej, na przykład: `hf 14a raw -p -b 7 26`
+Z tą informacją możesz spróbować wyszukać informacje o karcie i o sposobie komunikacji z nią. Proxmark3 pozwala na wysyłanie surowych poleceń, takich jak: `hf 14a raw -p -b 7 26`
 
 ### Skrypty
 
-Oprogramowanie Proxmark3 jest dostarczane z preinstalowaną listą **skryptów automatyzacji**, które można użyć do wykonywania prostych zadań. Aby uzyskać pełną listę, użyj polecenia `script list`. Następnie użyj polecenia `script run`, a po nim nazwę skryptu:
+Oprogramowanie Proxmark3 zawiera wstępnie załadowaną listę **skryptów automatyzacji**, które możesz wykorzystać do wykonywania prostych zadań. Aby uzyskać pełną listę, użyj polecenia `script list`. Następnie użyj polecenia `script run`, a następnie nazwy skryptu:
 ```
 proxmark3> script run mfkeys
 ```
-Możesz stworzyć skrypt do **fuzzowania czytników tagów**, więc kopiując dane **ważnej karty** napisz **skrypt Lua**, który **losowo zmienia** jedno lub więcej losowych **bajtów** i sprawdź, czy **czytnik ulega awarii** podczas dowolnej iteracji.
+Możesz stworzyć skrypt do **fuzz tag readers**, więc kopiując dane z **ważnej karty**, wystarczy napisać **skrypt Lua**, który **losuje** jeden lub więcej losowych **bajtów** i sprawdza, czy **czytnik się zawiesza** przy jakiejkolwiek iteracji.
 
 **Try Hard Security Group**
 
@@ -80,14 +83,17 @@ Możesz stworzyć skrypt do **fuzzowania czytników tagów**, więc kopiując da
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}

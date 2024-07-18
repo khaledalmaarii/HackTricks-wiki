@@ -1,24 +1,27 @@
 # Angr - Przykłady
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i stań się ekspertem od hakowania AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? A może chcesz uzyskać dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) albo **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
-
-{% hint style="info" %}
-Jeśli program używa `scanf` do pobrania **kilku wartości naraz ze standardowego wejścia** musisz wygenerować stan, który zaczyna się po **`scanf`**.
 {% endhint %}
 
-Kody pochodzą z [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+{% hint style="info" %}
+Jeśli program używa `scanf`, aby uzyskać **kilka wartości jednocześnie z stdin**, musisz wygenerować stan, który zaczyna się po **`scanf`**.
+{% endhint %}
 
-### Wejście do osiągnięcia adresu (wskazującego adres)
+Kody pobrane z [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+
+### Wejście do osiągnięcia adresu (wskazując adres)
 ```python
 import angr
 import sys
@@ -212,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-W tym scenariuszu wejście zostało pobrane za pomocą `scanf("%u %u")`, a wartość `"1 1"` została podana, więc wartości **`0x00000001`** ze stosu pochodzą od **wejścia użytkownika**. Można zobaczyć, jak te wartości zaczynają się w `$ebp - 8`. W związku z tym w kodzie **odjęliśmy 8 bajtów od `$esp` (ponieważ w tym momencie `$ebp` i `$esp` miały taką samą wartość)**, a następnie przesunęliśmy BVS.
+W tym scenariuszu, dane wejściowe zostały pobrane za pomocą `scanf("%u %u")`, a wartość `"1 1"` została podana, więc wartości **`0x00000001`** na stosie pochodzą z **danych wejściowych użytkownika**. Możesz zobaczyć, jak te wartości zaczynają się w `$ebp - 8`. Dlatego w kodzie **odjęliśmy 8 bajtów od `$esp` (ponieważ w tym momencie `$ebp` i `$esp` miały tę samą wartość)**, a następnie wprowadziliśmy BVS.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Statyczne wartości pamięci (zmienne globalne)
+### Wartości pamięci statycznej (zmienne globalne)
 ```python
 import angr
 import claripy
@@ -277,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Dynamiczne wartości pamięci (Malloc)
+### Wartości pamięci dynamicznej (Malloc)
 ```python
 import angr
 import claripy
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Należy pamiętać, że symboliczny plik może również zawierać dane stałe scalone z danymi symbolicznymi:
+Zauważ, że plik symboliczny może również zawierać stałe dane połączone z danymi symbolicznymi:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -415,10 +418,11 @@ Należy pamiętać, że symboliczny plik może również zawierać dane stałe s
 ```
 {% endhint %}
 
-### Stosowanie ograniczeń
+### Stosowanie Ograniczeń
 
 {% hint style="info" %}
-Czasami proste operacje ludzkie, takie jak porównywanie 2 słów o długości 16 **znak po znaku** (pętla), **kosztują** dużo zasobów **angr**, ponieważ musi generować gałęzie **wykładniczo**, generując 1 gałąź na każde if: `2^16`. Dlatego łatwiej jest **poprosić angr o powrót do poprzedniego punktu** (gdzie najtrudniejsza część została już wykonana) i **ustawić te ograniczenia ręcznie**.
+Czasami proste operacje ludzkie, takie jak porównanie 2 słów o długości 16 **znak po znaku** (pętla), **kosztują** dużo dla **angr**, ponieważ musi generować gałęzie **eksponencjalnie**, ponieważ generuje 1 gałąź na if: `2^16`\
+Dlatego łatwiej jest **poprosić angr o powrót do poprzedniego punktu** (gdzie prawdziwie trudna część została już zrobiona) i **ustawić te ograniczenia ręcznie**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -491,16 +495,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-W niektórych scenariuszach można aktywować **veritesting**, który połączy podobne stany, aby zaoszczędzić niepotrzebne gałęzie i znaleźć rozwiązanie: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+W niektórych scenariuszach możesz aktywować **veritesting**, który połączy podobne stany, aby zaoszczędzić niepotrzebne gałęzie i znaleźć rozwiązanie: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Inną rzeczą, którą można zrobić w tych scenariuszach, jest **zahaczenie funkcji, aby angr mógł łatwiej zrozumieć**.
+Inną rzeczą, którą możesz zrobić w tych scenariuszach, jest **podpięcie funkcji, dając angr coś, co może zrozumieć** łatwiej.
 {% endhint %}
 
-### Menedżerowie symulacji
+### Menedżerowie Symulacji
 
-Niektóre menedżery symulacji mogą być bardziej przydatne niż inne. W poprzednim przykładzie pojawił się problem z tworzeniem wielu przydatnych gałęzi. Tutaj technika **veritesting** pozwoli je połączyć i znaleźć rozwiązanie.\
+Niektórzy menedżerowie symulacji mogą być bardziej przydatni niż inni. W poprzednim przykładzie wystąpił problem, ponieważ stworzono wiele użytecznych gałęzi. Tutaj technika **veritesting** połączy je i znajdzie rozwiązanie.\
 Ten menedżer symulacji można również aktywować za pomocą: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -539,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Podpinanie/Omijanie jednego wywołania funkcji
+### Hooking/Bypassing jedno wywołanie funkcji
 ```python
 # This level performs the following computations:
 #
@@ -607,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Podpinanie funkcji / Simprocedure
+### Hooking a function / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -691,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Symulacja scanf z kilkoma parametrami
+### Symulacja scanf z wieloma parametrami
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -753,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Statyczne pliki binarne
+### Statyczne Binarne
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -820,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

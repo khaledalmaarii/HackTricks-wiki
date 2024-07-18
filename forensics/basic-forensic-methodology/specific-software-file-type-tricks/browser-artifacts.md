@@ -1,44 +1,45 @@
-# Artefakty przeglądarek
+# Browser Artifacts
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na GitHubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo tworzyć i **automatyzować przepływy pracy** z wykorzystaniem najbardziej **zaawansowanych narzędzi społecznościowych** na świecie.\
-Zdobądź dostęp już dziś:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Artefakty przeglądarek <a href="#id-3def" id="id-3def"></a>
+## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
 
-Artefakty przeglądarek obejmują różne rodzaje danych przechowywanych przez przeglądarki internetowe, takie jak historia nawigacji, zakładki i dane pamięci podręcznej. Te artefakty są przechowywane w określonych folderach w systemie operacyjnym, różniących się pod względem lokalizacji i nazwy w zależności od przeglądarki, ale zazwyczaj przechowujących podobne rodzaje danych.
+Browser artifacts include various types of data stored by web browsers, such as navigation history, bookmarks, and cache data. These artifacts are kept in specific folders within the operating system, differing in location and name across browsers, yet generally storing similar data types.
 
-Oto podsumowanie najczęstszych artefaktów przeglądarek:
+Here's a summary of the most common browser artifacts:
 
-* **Historia nawigacji**: Śledzi wizyty użytkownika na stronach internetowych, przydatna do identyfikacji wizyt na złośliwych stronach.
-* **Dane autouzupełniania**: Sugestie oparte na częstych wyszukiwaniach, oferujące wgląd, gdy są połączone z historią nawigacji.
+* **Historia przeglądania**: Śledzi wizyty użytkownika na stronach internetowych, przydatne do identyfikacji wizyt na złośliwych stronach.
+* **Dane autouzupełniania**: Sugestie oparte na częstych wyszukiwaniach, oferujące wgląd w połączeniu z historią przeglądania.
 * **Zakładki**: Strony zapisane przez użytkownika dla szybkiego dostępu.
 * **Rozszerzenia i dodatki**: Rozszerzenia przeglądarki lub dodatki zainstalowane przez użytkownika.
-* **Pamięć podręczna**: Przechowuje treści internetowe (np. obrazy, pliki JavaScript) w celu poprawy czasów ładowania strony, wartościowa do analizy sądowej.
-* **Logowania**: Przechowywane dane logowania.
-* **Favicons**: Ikony związane z witrynami, pojawiające się w kartach i zakładkach, przydatne do uzyskania dodatkowych informacji o wizytach użytkownika.
+* **Pamięć podręczna**: Przechowuje treści internetowe (np. obrazy, pliki JavaScript) w celu poprawy czasu ładowania stron, cenne dla analizy kryminalistycznej.
+* **Loginy**: Przechowywane dane logowania.
+* **Favikony**: Ikony związane ze stronami internetowymi, pojawiające się na kartach i w zakładkach, przydatne do dodatkowych informacji o wizytach użytkownika.
 * **Sesje przeglądarki**: Dane związane z otwartymi sesjami przeglądarki.
-* **Pobrania**: Rejestry plików pobranych za pomocą przeglądarki.
-* **Dane formularza**: Informacje wprowadzone w formularzach internetowych, zapisane do przyszłych sugestii autouzupełniania.
-* **Miniatury**: Podglądy stron internetowych.
+* **Pobrania**: Rejestry plików pobranych przez przeglądarkę.
+* **Dane formularzy**: Informacje wprowadzone w formularzach internetowych, zapisywane dla przyszłych sugestii autouzupełniania.
+* **Miniatury**: Obrazy podglądowe stron internetowych.
 * **Custom Dictionary.txt**: Słowa dodane przez użytkownika do słownika przeglądarki.
 
 ## Firefox
@@ -49,30 +50,30 @@ Firefox organizuje dane użytkownika w profilach, przechowywanych w określonych
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-Plik `profiles.ini` w tych katalogach wymienia profile użytkownika. Dane każdego profilu są przechowywane w folderze o nazwie zmiennych `Path` w `profiles.ini`, znajdującym się w tym samym katalogu co `profiles.ini`. Jeśli brakuje folderu profilu, może on zostać usunięty.
+Plik `profiles.ini` w tych katalogach zawiera listę profili użytkowników. Dane każdego profilu są przechowywane w folderze nazwanym w zmiennej `Path` w `profiles.ini`, znajdującym się w tym samym katalogu co `profiles.ini`. Jeśli folder profilu jest brakujący, mógł zostać usunięty.
 
 W każdym folderze profilu można znaleźć kilka ważnych plików:
 
-* **places.sqlite**: Przechowuje historię, zakładki i pobrania. Narzędzia takie jak [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) w systemie Windows mogą uzyskać dostęp do danych historycznych.
-* Użyj konkretnych zapytań SQL do wyodrębnienia informacji o historii i pobranych plikach.
+* **places.sqlite**: Przechowuje historię, zakładki i pobrania. Narzędzia takie jak [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) na Windows mogą uzyskać dostęp do danych historii.
+* Użyj specyficznych zapytań SQL, aby wyodrębnić informacje o historii i pobraniach.
 * **bookmarkbackups**: Zawiera kopie zapasowe zakładek.
 * **formhistory.sqlite**: Przechowuje dane formularzy internetowych.
 * **handlers.json**: Zarządza obsługą protokołów.
-* **persdict.dat**: Słowa z niestandardowego słownika.
+* **persdict.dat**: Słowa ze słownika użytkownika.
 * **addons.json** i **extensions.sqlite**: Informacje o zainstalowanych dodatkach i rozszerzeniach.
-* **cookies.sqlite**: Przechowuje ciasteczka, z [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) dostępnym do inspekcji w systemie Windows.
+* **cookies.sqlite**: Przechowywanie ciasteczek, z [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) dostępnym do inspekcji na Windows.
 * **cache2/entries** lub **startupCache**: Dane pamięci podręcznej, dostępne za pomocą narzędzi takich jak [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html).
 * **favicons.sqlite**: Przechowuje favikony.
 * **prefs.js**: Ustawienia i preferencje użytkownika.
-* **downloads.sqlite**: Starsza baza danych pobranych plików, teraz zintegrowana z places.sqlite.
+* **downloads.sqlite**: Starsza baza danych pobrań, teraz zintegrowana z places.sqlite.
 * **thumbnails**: Miniatury stron internetowych.
 * **logins.json**: Zaszyfrowane informacje logowania.
-* **key4.db** lub **key3.db**: Przechowuje klucze szyfrowania do zabezpieczania poufnych informacji.
+* **key4.db** lub **key3.db**: Przechowuje klucze szyfrowania dla zabezpieczania wrażliwych informacji.
 
-Dodatkowo, sprawdzenie ustawień anty-phishing przeglądarki można wykonać, wyszukując wpisy `browser.safebrowsing` w `prefs.js`, wskazujące, czy funkcje bezpiecznego przeglądania są włączone czy wyłączone.
+Dodatkowo, sprawdzenie ustawień przeglądarki dotyczących ochrony przed phishingiem można przeprowadzić, wyszukując wpisy `browser.safebrowsing` w `prefs.js`, co wskazuje, czy funkcje bezpiecznego przeglądania są włączone czy wyłączone.
 
-Aby spróbować odszyfrować główne hasło, można skorzystać z [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Z poniższym skryptem i wywołaniem można określić plik hasła do ataku brutalnej siły:
+Aby spróbować odszyfrować główne hasło, możesz użyć [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Za pomocą poniższego skryptu i wywołania możesz określić plik haseł do ataku siłowego:
 
 {% code title="brute.sh" %}
 ```bash
@@ -91,67 +92,67 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome przechowuje profile użytkownika w określonych lokalizacjach w zależności od systemu operacyjnego:
+Google Chrome przechowuje profile użytkowników w określonych lokalizacjach w zależności od systemu operacyjnego:
 
 * **Linux**: `~/.config/google-chrome/`
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 * **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-W tych katalogach większość danych użytkownika można znaleźć w folderach **Default/** lub **ChromeDefaultData/**. Poniższe pliki przechowują istotne dane:
+W tych katalogach większość danych użytkownika można znaleźć w folderach **Default/** lub **ChromeDefaultData/**. Następujące pliki zawierają istotne dane:
 
-* **History**: Zawiera adresy URL, pobrania i słowa kluczowe wyszukiwania. Na systemie Windows można użyć [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) do odczytania historii. Kolumna "Typ przejścia" ma różne znaczenia, w tym kliknięcia użytkownika w linki, wpisane adresy URL, przesłane formularze i przeładowania strony.
-* **Cookies**: Przechowuje pliki cookie. Do inspekcji dostępne jest narzędzie [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
-* **Cache**: Przechowuje dane w pamięci podręcznej. Użytkownicy systemu Windows mogą skorzystać z [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) do inspekcji.
-* **Zakładki**: Zakładki użytkownika.
+* **History**: Zawiera adresy URL, pobrania i słowa kluczowe wyszukiwania. Na Windowsie można użyć [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) do odczytania historii. Kolumna "Transition Type" ma różne znaczenia, w tym kliknięcia użytkownika w linki, wpisane adresy URL, przesyłanie formularzy i przeładowania stron.
+* **Cookies**: Przechowuje ciasteczka. Do inspekcji dostępne jest [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html).
+* **Cache**: Przechowuje dane w pamięci podręcznej. Aby sprawdzić, użytkownicy Windows mogą skorzystać z [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html).
+* **Bookmarks**: Zakładki użytkownika.
 * **Web Data**: Zawiera historię formularzy.
-* **Favicons**: Przechowuje ikony stron internetowych.
+* **Favicons**: Przechowuje favikony stron internetowych.
 * **Login Data**: Zawiera dane logowania, takie jak nazwy użytkowników i hasła.
-* **Aktualna sesja**/**Aktualne karty**: Dane dotyczące bieżącej sesji przeglądania i otwartych kart.
-* **Ostatnia sesja**/**Ostatnie karty**: Informacje o aktywnych stronach podczas ostatniej sesji przed zamknięciem przeglądarki Chrome.
-* **Rozszerzenia**: Katalogi dla rozszerzeń i dodatków przeglądarki.
-* **Miniaturki**: Przechowuje miniaturki stron internetowych.
-* **Preferencje**: Plik bogaty w informacje, zawierający ustawienia dla wtyczek, rozszerzeń, wyskakujących okien, powiadomień i innych.
-* **Wbudowana ochrona przed phishingiem przeglądarki**: Aby sprawdzić, czy ochrona przed phishingiem i złośliwym oprogramowaniem jest włączona, uruchom polecenie `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Szukaj `{"enabled: true,"}` w wyniku.
+* **Current Session**/**Current Tabs**: Dane o bieżącej sesji przeglądania i otwartych kartach.
+* **Last Session**/**Last Tabs**: Informacje o stronach aktywnych podczas ostatniej sesji przed zamknięciem Chrome.
+* **Extensions**: Katalogi dla rozszerzeń przeglądarki i dodatków.
+* **Thumbnails**: Przechowuje miniatury stron internetowych.
+* **Preferences**: Plik bogaty w informacje, w tym ustawienia dla wtyczek, rozszerzeń, okienek pop-up, powiadomień i innych.
+* **Wbudowana ochrona przed phishingiem przeglądarki**: Aby sprawdzić, czy ochrona przed phishingiem i złośliwym oprogramowaniem jest włączona, uruchom `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Szukaj `{"enabled: true,"}` w wynikach.
 
-## **Odzyskiwanie danych z bazy danych SQLite**
+## **Odzyskiwanie danych z bazy SQLite DB**
 
 Jak można zauważyć w poprzednich sekcjach, zarówno Chrome, jak i Firefox używają baz danych **SQLite** do przechowywania danych. Możliwe jest **odzyskanie usuniętych wpisów za pomocą narzędzia** [**sqlparse**](https://github.com/padfoot999/sqlparse) **lub** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-Internet Explorer 11 zarządza swoimi danymi i metadanymi w różnych lokalizacjach, ułatwiając oddzielenie przechowywanych informacji i odpowiadających im szczegółów dla łatwego dostępu i zarządzania.
+Internet Explorer 11 zarządza swoimi danymi i metadanymi w różnych lokalizacjach, co ułatwia oddzielanie przechowywanych informacji i ich odpowiadających szczegółów dla łatwego dostępu i zarządzania.
 
 ### Przechowywanie metadanych
 
-Metadane dla Internet Explorera są przechowywane w `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (gdzie VX to V01, V16 lub V24). Towarzyszący temu plik `V01.log` może wykazywać rozbieżności czasu modyfikacji w porównaniu z `WebcacheVX.data`, co wskazuje na konieczność naprawy za pomocą `esentutl /r V01 /d`. Te metadane, przechowywane w bazie danych ESE, można odzyskać i inspirować za pomocą narzędzi takich jak photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html). W tabeli **Containers** można rozróżnić konkretne tabele lub kontenery, w których przechowywany jest każdy segment danych, w tym szczegóły pamięci podręcznej dla innych narzędzi Microsoftu, takich jak Skype.
+Metadane dla Internet Explorera są przechowywane w `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (gdzie VX to V01, V16 lub V24). Wraz z tym plik `V01.log` może pokazywać różnice w czasie modyfikacji w porównaniu do `WebcacheVX.data`, co wskazuje na potrzebę naprawy za pomocą `esentutl /r V01 /d`. Te metadane, przechowywane w bazie danych ESE, można odzyskać i zbadać za pomocą narzędzi takich jak photorec i [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html). W tabeli **Containers** można dostrzec konkretne tabele lub kontenery, w których przechowywany jest każdy segment danych, w tym szczegóły pamięci podręcznej dla innych narzędzi Microsoftu, takich jak Skype.
 
 ### Inspekcja pamięci podręcznej
 
-Narzędzie [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) umożliwia inspekcję pamięci podręcznej, wymagając lokalizacji folderu z ekstrakcją danych pamięci podręcznej. Metadane pamięci podręcznej obejmują nazwę pliku, katalog, liczbę dostępów, pochodzenie URL i znaczniki czasu wskazujące czasy tworzenia, dostępu, modyfikacji i wygaśnięcia pamięci podręcznej.
+Narzędzie [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) umożliwia inspekcję pamięci podręcznej, wymagając lokalizacji folderu z danymi pamięci podręcznej. Metadane pamięci podręcznej obejmują nazwę pliku, katalog, liczbę dostępu, pochodzenie URL oraz znaczniki czasu wskazujące czasy utworzenia, dostępu, modyfikacji i wygaśnięcia pamięci podręcznej.
 
-### Zarządzanie plikami cookie
+### Zarządzanie ciasteczkami
 
-Pliki cookie można badać za pomocą [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), a metadane obejmują nazwy, adresy URL, liczby dostępów i różne szczegóły związane z czasem. Trwałe pliki cookie są przechowywane w `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, a pliki sesji w pamięci.
+Ciasteczka można badać za pomocą [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), a metadane obejmują nazwy, adresy URL, liczby dostępu i różne szczegóły czasowe. Ciasteczka trwałe są przechowywane w `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, a ciasteczka sesyjne znajdują się w pamięci.
 
 ### Szczegóły pobierania
 
-Metadane pobierania są dostępne za pomocą [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), a konkretne kontenery przechowują dane, takie jak URL, typ pliku i lokalizację pobierania. Fizyczne pliki można znaleźć w `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Metadane pobierania są dostępne za pośrednictwem [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), a konkretne kontenery przechowują dane takie jak URL, typ pliku i lokalizacja pobierania. Fizyczne pliki można znaleźć w `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Historia przeglądania
 
-Aby przejrzeć historię przeglądania, można użyć [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), wymagając lokalizacji wyodrębnionych plików historii i konfiguracji dla Internet Explorera. Metadane obejmują czasy modyfikacji i dostępu, wraz z liczbą dostępów. Pliki historii znajdują się w `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Aby przeglądać historię przeglądania, można użyć [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), wymagając lokalizacji wyodrębnionych plików historii i konfiguracji dla Internet Explorera. Metadane obejmują czasy modyfikacji i dostępu, a także liczby dostępu. Pliki historii znajdują się w `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### Wpisywane adresy URL
+### Wpisane adresy URL
 
-Wpisywane adresy URL i ich czasy użycia są przechowywane w rejestrze pod `NTUSER.DAT` w `Software\Microsoft\InternetExplorer\TypedURLs` i `Software\Microsoft\InternetExplorer\TypedURLsTime`, śledząc ostatnie 50 adresów URL wprowadzonych przez użytkownika i ich ostatnie czasy wprowadzenia.
+Wpisane adresy URL i ich czasy użycia są przechowywane w rejestrze pod `NTUSER.DAT` w `Software\Microsoft\InternetExplorer\TypedURLs` i `Software\Microsoft\InternetExplorer\TypedURLsTime`, śledząc ostatnie 50 adresów URL wprowadzonych przez użytkownika i ich ostatnie czasy wprowadzenia.
 
 ## Microsoft Edge
 
-Microsoft Edge przechowuje dane użytkownika w `%userprofile%\Appdata\Local\Packages`. Ścieżki do różnych typów danych to:
+Microsoft Edge przechowuje dane użytkownika w `%userprofile%\Appdata\Local\Packages`. Ścieżki dla różnych typów danych to:
 
-* **Ścieżka profilu**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
-* **Historia, pliki cookie i pobrania**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
-* **Ustawienia, zakładki i lista czytania**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
+* **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+* **Historia, Ciasteczka i Pobrania**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+* **Ustawienia, Zakładki i Lista do przeczytania**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
 * **Pamięć podręczna**: `C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
 * **Ostatnie aktywne sesje**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
 
@@ -159,47 +160,49 @@ Microsoft Edge przechowuje dane użytkownika w `%userprofile%\Appdata\Local\Pack
 
 Dane Safari są przechowywane w `/Users/$User/Library/Safari`. Kluczowe pliki to:
 
-* **History.db**: Zawiera tabele `history_visits` i `history_items` z adresami URL i znacznikami czasu wizyt. Użyj `sqlite3` do zapytań.
+* **History.db**: Zawiera tabele `history_visits` i `history_items` z adresami URL i znacznikami czasu wizyt. Użyj `sqlite3`, aby zapytać.
 * **Downloads.plist**: Informacje o pobranych plikach.
-* **Bookmarks.plist**: Przechowuje adresy URL zakładek.
+* **Bookmarks.plist**: Przechowuje zakładkowane adresy URL.
 * **TopSites.plist**: Najczęściej odwiedzane strony.
-* **Extensions.plist**: Lista rozszerzeń przeglądarki Safari. Użyj `plutil` lub `pluginkit` do odzyskania.
-* **UserNotificationPermissions.plist**: Domeny uprawnione do wysyłania powiadomień. Użyj `plutil` do analizy.
-* **LastSession.plist**: Karty z ostatniej sesji. Użyj `plutil` do analizy.
-* **Wbudowana ochrona przed phishingiem przeglądarki**: Sprawdź za pomocą `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Odpowiedź 1 oznacza, że funkcja jest aktywna.
+* **Extensions.plist**: Lista rozszerzeń przeglądarki Safari. Użyj `plutil` lub `pluginkit`, aby je odzyskać.
+* **UserNotificationPermissions.plist**: Domeny uprawnione do wysyłania powiadomień. Użyj `plutil`, aby je przeanalizować.
+* **LastSession.plist**: Karty z ostatniej sesji. Użyj `plutil`, aby je przeanalizować.
+* **Wbudowana ochrona przed phishingiem przeglądarki**: Sprawdź, używając `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Odpowiedź 1 wskazuje, że funkcja jest aktywna.
 
 ## Opera
 
-Dane Opery znajdują się w `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i mają format historii i pobierania podobny do Chrome'a.
+Dane Opery znajdują się w `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i dzielą format Chrome'a dla historii i pobrań.
 
-* **Wbudowana ochrona przed phishingiem przeglądarki**: Sprawdź, czy `fraud_protection_enabled` w pliku Preferencje jest ustawione na `true` za pomocą `grep`.
+* **Wbudowana ochrona przed phishingiem przeglądarki**: Zweryfikuj, sprawdzając, czy `fraud_protection_enabled` w pliku Preferences jest ustawione na `true`, używając `grep`.
 
-Te ścieżki i polecenia są kluczowe do dostępu i zrozumienia danych przeglądania przechowywanych przez różne przeglądarki internetowe.
+Te ścieżki i polecenia są kluczowe dla uzyskania dostępu i zrozumienia danych przeglądania przechowywanych przez różne przeglądarki internetowe.
 
-## Referencje
+## References
 
 * [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
 * [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
-* **Książka: OS X Incident Response: Scripting and Analysis By Jaron Bradley strona 123**
+* **Książka: OS X Incident Response: Scripting and Analysis By Jaron Bradley str. 123**
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) do łatwego tworzenia i **automatyzacji prac** z wykorzystaniem najbardziej zaawansowanych narzędzi społeczności na świecie.\
-Zdobądź dostęp już dziś:
+Użyj [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), aby łatwo budować i **automatyzować przepływy pracy** zasilane przez **najbardziej zaawansowane** narzędzia społecznościowe na świecie.\
+Uzyskaj dostęp już dziś:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem w hakowaniu AWS dzięki</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) na githubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
+{% endhint %}

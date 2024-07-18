@@ -1,18 +1,19 @@
-# Narzędzia do wycinania i odzyskiwania danych
+# File/Data Carving & Recovery Tools
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Kup [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,19 +23,19 @@ Inne sposoby wsparcia HackTricks:
 
 ***
 
-## Narzędzia do wycinania i odzyskiwania
+## Carving & Recovery tools
 
-Więcej narzędzi na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Więcej narzędzi w [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Najczęściej używanym narzędziem w dziedzinie kryminalistyki do wyodrębniania plików z obrazów jest [**Autopsy**](https://www.autopsy.com/download/). Pobierz go, zainstaluj i spraw, aby przetworzył plik w celu znalezienia "ukrytych" plików. Zauważ, że Autopsy jest przeznaczony do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
+Najczęściej używane narzędzie w forensyce do ekstrakcji plików z obrazów to [**Autopsy**](https://www.autopsy.com/download/). Pobierz je, zainstaluj i spraw, aby przetworzyło plik w celu znalezienia "ukrytych" plików. Zauważ, że Autopsy jest zaprojektowane do obsługi obrazów dysków i innych rodzajów obrazów, ale nie prostych plików.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** to narzędzie do analizy plików binarnych w celu znalezienia osadzonej zawartości. Można je zainstalować za pomocą `apt`, a jego źródło znajduje się na [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** to narzędzie do analizy plików binarnych w celu znalezienia osadzonych treści. Można je zainstalować za pomocą `apt`, a jego źródło znajduje się na [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Przydatne polecenia**:
+**Przydatne komendy**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -43,7 +44,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Innym powszechnie stosowanym narzędziem do znajdowania ukrytych plików jest **foremost**. Konfigurację foremost można znaleźć w pliku `/etc/foremost.conf`. Jeśli chcesz wyszukać określone pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie przeszukiwał domyślnie skonfigurowane typy plików.
+Innym powszechnym narzędziem do znajdowania ukrytych plików jest **foremost**. Plik konfiguracyjny foremost znajduje się w `/etc/foremost.conf`. Jeśli chcesz wyszukać konkretne pliki, odkomentuj je. Jeśli nic nie odkomentujesz, foremost będzie szukać domyślnie skonfigurowanych typów plików.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,56 +52,58 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** to kolejne narzędzie, które można użyć do znalezienia i wyodrębnienia **plików osadzonych w pliku**. W tym przypadku będziesz musiał odkomentować z pliku konfiguracyjnego (_/etc/scalpel/scalpel.conf_) typy plików, które chcesz wyodrębnić.
+**Scalpel** to kolejne narzędzie, które można wykorzystać do znajdowania i wyodrębniania **plików osadzonych w pliku**. W tym przypadku będziesz musiał odkomentować w pliku konfiguracyjnym (_/etc/scalpel/scalpel.conf_) typy plików, które chcesz, aby zostały wyodrębnione.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-To narzędzie znajduje się w Kali, ale można je znaleźć tutaj: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+To narzędzie znajduje się w Kali, ale możesz je znaleźć tutaj: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-To narzędzie może przeskanować obraz i **wydobyć pcapy** wewnątrz niego, **informacje sieciowe (adresy URL, domeny, adresy IP, adresy MAC, maile)** oraz więcej **plików**. Wystarczy tylko:
+To narzędzie może przeskanować obraz i **wyodrębnić pcaps** w nim, **informacje o sieci (URL, domeny, IP, MAC, maile)** i więcej **plików**. Musisz tylko zrobić:
 ```
 bulk_extractor memory.img -o out_folder
 ```
+Przejrzyj **wszystkie informacje**, które narzędzie zebrało (hasła?), **analizuj** **pakiety** (przeczytaj [**analizę Pcaps**](../pcap-inspection/)), szukaj **dziwnych domen** (domen związanych z **złośliwym oprogramowaniem** lub **nieistniejącymi**).
+
 ### PhotoRec
 
 Możesz go znaleźć pod adresem [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)
 
-Posiada wersje z interfejsem graficznym i wiersza poleceń. Możesz wybrać **typy plików**, które chcesz, aby PhotoRec wyszukał.
+Dostępna jest wersja z interfejsem graficznym i wiersza poleceń. Możesz wybrać **typy plików**, które PhotoRec ma wyszukiwać.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
 ### binvis
 
-Sprawdź [kod](https://code.google.com/archive/p/binvis/) oraz [narzędzie na stronie internetowej](https://binvis.io/#/).
+Sprawdź [kod](https://code.google.com/archive/p/binvis/) i [stronę narzędzia](https://binvis.io/#/).
 
-#### Funkcje BinVis
+#### Cechy BinVis
 
-* Wizualizator **struktury** plików
+* Wizualny i aktywny **podgląd struktury**
 * Wiele wykresów dla różnych punktów skupienia
-* Skupienie na fragmentach próbki
-* **Wykrywanie ciągów i zasobów**, w plikach wykonywalnych PE lub ELF, np.
-* Pozyskiwanie **wzorców** do kryptografii plików
-* **Wykrywanie** algorytmów pakowania lub kodowania
-* **Identyfikacja** steganografii poprzez wzorce
-* **Wizualne** porównywanie binarne
+* Skupienie na częściach próbki
+* **Widzenie ciągów i zasobów**, w plikach PE lub ELF, np.
+* Uzyskiwanie **wzorców** do kryptanalizy plików
+* **Wykrywanie** algorytmów pakujących lub kodujących
+* **Identyfikacja** steganografii na podstawie wzorców
+* **Wizualna** różnica binarna
 
-BinVis to doskonały **punkt wyjścia do zapoznania się z nieznanym celem** w scenariuszu black-boxing.
+BinVis to świetny **punkt wyjścia, aby zapoznać się z nieznanym celem** w scenariuszu black-box.
 
-## Konkretne narzędzia do odzyskiwania danych
+## Specyficzne narzędzia do odzyskiwania danych
 
 ### FindAES
 
-Wyszukuje klucze AES, szukając ich harmonogramów kluczy. Potrafi znaleźć klucze 128, 192 i 256 bitowe, takie jak te używane przez TrueCrypt i BitLocker.
+Wyszukuje klucze AES, przeszukując ich harmonogramy kluczy. Może znaleźć klucze 128, 192 i 256 bitowe, takie jak te używane przez TrueCrypt i BitLocker.
 
 Pobierz [tutaj](https://sourceforge.net/projects/findaes/).
 
 ## Narzędzia uzupełniające
 
-Możesz użyć [**viu** ](https://github.com/atanunq/viu), aby zobaczyć obrazy z terminala.\
-Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby przekształcić plik PDF na tekst i go odczytać.
+Możesz użyć [**viu**](https://github.com/atanunq/viu), aby zobaczyć obrazy z terminala.\
+Możesz użyć narzędzia wiersza poleceń Linux **pdftotext**, aby przekształcić plik pdf w tekst i go przeczytać.
 
 **Try Hard Security Group**
 
@@ -108,16 +111,17 @@ Możesz użyć narzędzia wiersza poleceń systemu Linux **pdftotext**, aby prze
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
