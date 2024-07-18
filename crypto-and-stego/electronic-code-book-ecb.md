@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 
 # ECB
@@ -28,7 +29,7 @@ L'utilisation de l'ECB a plusieurs implications en termes de sécurité :
 
 Imaginez que vous vous connectez à une application plusieurs fois et que vous **obtenez toujours le même cookie**. Cela est dû au fait que le cookie de l'application est **`<nom d'utilisateur>|<mot de passe>`**.\
 Ensuite, vous générez deux nouveaux utilisateurs, tous deux avec le **même mot de passe long** et **presque** le **même** **nom d'utilisateur**.\
-Vous découvrez que les **blocs de 8B** où l'**information des deux utilisateurs** est la même sont **identiques**. Vous imaginez alors que cela pourrait être dû à l'utilisation de l'ECB.
+Vous découvrez que les **blocs de 8B** où l'**information des deux utilisateurs** est la même sont **identiques**. Ensuite, vous imaginez que cela pourrait être dû à l'utilisation de l'**ECB**.
 
 Comme dans l'exemple suivant. Observez comment ces **2 cookies décodés** ont plusieurs fois le bloc **`\x23U\xE45K\xCB\x21\xC8`**
 ```
@@ -41,12 +42,12 @@ Cela est dû au fait que le **nom d'utilisateur et le mot de passe de ces cookie
 Maintenant, l'attaquant doit simplement découvrir si le format est `<nom d'utilisateur><délimiteur><mot de passe>` ou `<mot de passe><délimiteur><nom d'utilisateur>`. Pour ce faire, il peut simplement **générer plusieurs noms d'utilisateur** avec des **noms d'utilisateur et des mots de passe similaires et longs jusqu'à ce qu'il trouve le format et la longueur du délimiteur :**
 
 | Longueur du nom d'utilisateur : | Longueur du mot de passe : | Longueur du nom d'utilisateur + mot de passe : | Longueur du cookie (après décodage) : |
-| ------------------------------- | -------------------------- | -------------------------------------------- | -------------------------------------- |
-| 2                               | 2                          | 4                                            | 8                                      |
-| 3                               | 3                          | 6                                            | 8                                      |
-| 3                               | 4                          | 7                                            | 8                                      |
-| 4                               | 4                          | 8                                            | 16                                     |
-| 7                               | 7                          | 14                                           | 16                                     |
+| ------------------------------- | -------------------------- | -------------------------------------------- | --------------------------------------- |
+| 2                               | 2                          | 4                                            | 8                                       |
+| 3                               | 3                          | 6                                            | 8                                       |
+| 3                               | 4                          | 7                                            | 8                                       |
+| 4                               | 4                          | 8                                            | 16                                      |
+| 7                               | 7                          | 14                                           | 16                                      |
 
 # Exploitation de la vulnérabilité
 
@@ -77,18 +78,3 @@ Le cookie de cet utilisateur sera composé de 3 blocs : les 2 premiers sont les 
 ## Références
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
-
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 
 ## smss.exe
 
 **Gestionnaire de session**.\
-La session 0 démarre **csrss.exe** et **wininit.exe** (**services OS**) tandis que la session 1 démarre **csrss.exe** et **winlogon.exe** (**session utilisateur**). Cependant, vous ne devriez voir **qu'un seul processus** de ce **binaire** sans enfants dans l'arborescence des processus.
+La session 0 démarre **csrss.exe** et **wininit.exe** (**services du système d'exploitation**) tandis que la session 1 démarre **csrss.exe** et **winlogon.exe** (**session utilisateur**). Cependant, vous ne devriez voir **qu'un seul processus** de ce **binaire** sans enfants dans l'arborescence des processus.
 
-De plus, des sessions autres que 0 et 1 peuvent signifier que des sessions RDP sont en cours.
+De plus, des sessions autres que 0 et 1 peuvent indiquer que des sessions RDP sont en cours.
 
 
 ## csrss.exe
@@ -26,7 +27,7 @@ De plus, des sessions autres que 0 et 1 peuvent signifier que des sessions RDP s
 **Processus de sous-système d'exécution client/serveur**.\
 Il gère les **processus** et les **threads**, rend l'**API Windows** disponible pour d'autres processus et **mappe les lettres de lecteur**, crée des **fichiers temporaires** et gère le **processus d'arrêt**.
 
-Il y en a un qui s'exécute dans la session 0 et un autre dans la session 1 (donc **2 processus** dans l'arborescence des processus). Un autre est créé **par nouvelle session**.
+Il y en a un **en cours d'exécution dans la session 0 et un autre dans la session 1** (donc **2 processus** dans l'arborescence des processus). Un autre est créé **par nouvelle session**.
 
 
 ## winlogon.exe
@@ -41,7 +42,7 @@ De plus, le registre précédent devrait avoir **explorer.exe** dans la clé **S
 
 ## wininit.exe
 
-**Processus d'initialisation Windows**.\
+**Processus d'initialisation Windows**. \
 Il lance **services.exe**, **lsass.exe** et **lsm.exe** dans la session 0. Il ne devrait y avoir qu'un seul processus.
 
 
@@ -80,7 +81,7 @@ Il ne devrait y avoir qu'un seul processus.
 ## lsass.exe
 
 **Sous-système d'autorité de sécurité local**.\
-Il est responsable de l'**authentification de l'utilisateur** et crée les **jetons de sécurité**. Il utilise des packages d'authentification situés dans `HKLM\System\CurrentControlSet\Control\Lsa`.
+Il est responsable de l'**authentification des utilisateurs** et crée les **jetons de sécurité**. Il utilise des packages d'authentification situés dans `HKLM\System\CurrentControlSet\Control\Lsa`.
 
 Il écrit dans le **journal des événements de sécurité** et il ne devrait y avoir qu'un seul processus.
 
@@ -103,16 +104,16 @@ Il y aura plusieurs processus de `svchost.exe`. Si l'un d'eux n'utilise **pas le
 
 ## taskhost.exe
 
-Ce processus agit comme un hôte pour les processus s'exécutant à partir de DLL. Il charge également les services s'exécutant à partir de DLL.
+Ce processus agit comme un hôte pour les processus s'exécutant à partir de DLL. Il charge également les services qui s'exécutent à partir de DLL.
 
 Dans W8, cela s'appelle taskhostex.exe et dans W10 taskhostw.exe.
 
 
 ## explorer.exe
 
-C'est le processus responsable du **bureau de l'utilisateur** et du lancement de fichiers via les extensions de fichier.
+Ce processus est responsable du **bureau de l'utilisateur** et du lancement de fichiers via les extensions de fichiers.
 
-**Seul 1** processus devrait être créé **par utilisateur connecté**.
+**Seul 1** processus devrait être créé **par utilisateur connecté.**
 
 Cela est exécuté à partir de **userinit.exe** qui devrait être terminé, donc **aucun parent** ne devrait apparaître pour ce processus.
 
@@ -120,11 +121,25 @@ Cela est exécuté à partir de **userinit.exe** qui devrait être terminé, don
 # Détection des processus malveillants
 
 * Est-il exécuté à partir du chemin attendu ? (Aucun binaire Windows ne s'exécute à partir de l'emplacement temporaire)
-* Communique-t-il avec des adresses IP étranges ?
+* Communique-t-il avec des adresses IP suspectes ?
 * Vérifiez les signatures numériques (les artefacts Microsoft devraient être signés)
 * Est-il orthographié correctement ?
 * S'exécute-t-il sous l'identifiant de sécurité attendu ?
 * Le processus parent est-il celui attendu (le cas échéant) ?
 * Les processus enfants sont-ils ceux attendus ? (pas de cmd.exe, wscript.exe, powershell.exe..?)
 
+
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Soutenez HackTricks</summary>
+
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+
 </details>
+{% endhint %}

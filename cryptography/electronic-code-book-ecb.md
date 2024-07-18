@@ -1,21 +1,22 @@
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 
 # ECB
 
-(ECB) Electronic Code Book - schéma de chiffrement symétrique qui **remplace chaque bloc de texte en clair** par le **bloc de texte chiffré**. C'est le schéma de chiffrement le **plus simple**. L'idée principale est de **diviser** le texte en clair en **blocs de N bits** (dépend de la taille du bloc de données d'entrée, de l'algorithme de chiffrement) puis de chiffrer (déchiffrer) chaque bloc de texte en clair en utilisant la seule clé.
+(ECB) Electronic Code Book - schéma de chiffrement symétrique qui **remplace chaque bloc du texte en clair** par le **bloc de texte chiffré**. C'est le schéma de chiffrement le **plus simple**. L'idée principale est de **diviser** le texte en clair en **blocs de N bits** (dépend de la taille du bloc de données d'entrée, de l'algorithme de chiffrement) puis de chiffrer (déchiffrer) chaque bloc de texte en clair en utilisant la seule clé.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
@@ -28,7 +29,7 @@ L'utilisation de l'ECB a plusieurs implications en termes de sécurité :
 
 Imaginez que vous vous connectez à une application plusieurs fois et que vous **obtenez toujours le même cookie**. Cela est dû au fait que le cookie de l'application est **`<nom d'utilisateur>|<mot de passe>`**.\
 Ensuite, vous générez deux nouveaux utilisateurs, tous deux avec le **même mot de passe long** et **presque** le **même** **nom d'utilisateur**.\
-Vous découvrez que les **blocs de 8B** où l'**information des deux utilisateurs** est la même sont **identiques**. Vous imaginez alors que cela pourrait être dû à l'utilisation de l'ECB.
+Vous découvrez que les **blocs de 8B** où les **informations des deux utilisateurs** sont les mêmes sont **identiques**. Ensuite, vous imaginez que cela pourrait être dû à l'utilisation de l'ECB.
 
 Comme dans l'exemple suivant. Observez comment ces **2 cookies décodés** ont plusieurs fois le bloc **`\x23U\xE45K\xCB\x21\xC8`**
 ```
@@ -56,7 +57,8 @@ Connaissant le format du cookie (`<nom d'utilisateur>|<mot de passe>`), afin d'u
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-Nous pouvons voir le motif `\x23U\xE45K\xCB\x21\xC8` créé précédemment avec le nom d'utilisateur qui ne contenait que `a`. Ensuite, vous pouvez supprimer le premier bloc de 8B et vous obtiendrez un cookie valide pour le nom d'utilisateur `admin`:
+Nous pouvons voir le motif `\x23U\xE45K\xCB\x21\xC8` créé précédemment avec le nom d'utilisateur qui ne contenait que `a`.\
+Ensuite, vous pouvez supprimer le premier bloc de 8B et vous obtiendrez un cookie valide pour le nom d'utilisateur `admin`:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
@@ -69,10 +71,10 @@ Ainsi, une autre façon d'usurper l'utilisateur `admin` serait de :
 * Générer un nom d'utilisateur tel que : `len(<username>) + len(<delimiter) % len(block)`. Avec une taille de bloc de `8B`, vous pouvez générer un nom d'utilisateur appelé : `username       `, avec le délimiteur `|` le morceau `<username><delimiter>` générera 2 blocs de 8B.
 * Ensuite, générer un mot de passe qui remplira un nombre exact de blocs contenant le nom d'utilisateur que nous voulons usurper et des espaces, par exemple : `admin   `
 
-Le cookie de cet utilisateur sera composé de 3 blocs : les 2 premiers sont les blocs du nom d'utilisateur + délimiteur et le troisième est le mot de passe (qui simule le nom d'utilisateur) : `username       |admin   `
+Le cookie de cet utilisateur sera composé de 3 blocs : les 2 premiers sont les blocs du nom d'utilisateur + délimiteur et le troisième est celui du mot de passe (qui simule le nom d'utilisateur) : `username       |admin   `
 
-** Ensuite, il suffit de remplacer le premier bloc par le dernier et vous usurperez l'utilisateur `admin` : `admin          |username`**
+**Ensuite, il suffit de remplacer le premier bloc par le dernier et vous usurperez l'utilisateur `admin` : `admin          |username`**
 
-# Références
+## Références
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))

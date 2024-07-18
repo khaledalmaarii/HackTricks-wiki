@@ -1,36 +1,37 @@
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 
 # CBC - Cipher Block Chaining
 
 En mode CBC, le **bloc chiffré précédent est utilisé comme IV** pour XOR avec le bloc suivant :
 
-![Chiffrement CBC](https://defuse.ca/images/cbc\_encryption.png)
+![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
 Pour décrypter le CBC, les **opérations opposées** sont effectuées :
 
-![Déchiffrement CBC](https://defuse.ca/images/cbc\_decryption.png)
+![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
 Remarquez qu'il est nécessaire d'utiliser une **clé de chiffrement** et un **IV**.
 
 # Remplissage du message
 
 Comme le chiffrement est effectué en **blocs de taille fixe**, un **remplissage** est généralement nécessaire dans le **dernier bloc** pour compléter sa longueur.\
-Généralement, **PKCS7** est utilisé, ce qui génère un remplissage **répétant** le **nombre de bytes nécessaires** pour **compléter** le bloc. Par exemple, s'il manque 3 bytes dans le dernier bloc, le remplissage sera `\x03\x03\x03`.
+Généralement, le **PKCS7** est utilisé, ce qui génère un remplissage **répétant** le **nombre de bytes nécessaires** pour **compléter** le bloc. Par exemple, s'il manque 3 bytes dans le dernier bloc, le remplissage sera `\x03\x03\x03`.
 
-Examinons d'autres exemples avec **2 blocs de 8 octets** :
+Examinons d'autres exemples avec **2 blocs de 8 bytes de longueur** :
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -39,7 +40,7 @@ Examinons d'autres exemples avec **2 blocs de 8 octets** :
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Remarquez comment dans le dernier exemple, le **dernier bloc était plein, donc un autre a été généré uniquement avec du padding**.
+Remarquez comment dans le dernier exemple, le **dernier bloc était plein, donc un autre a été généré uniquement avec un remplissage**.
 
 # Oracle de Remplissage
 
@@ -63,7 +64,7 @@ Vous pourriez également **abuser de cette vulnérabilité pour chiffrer de nouv
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Si le site est vulnérable, `padbuster`essaiera automatiquement de trouver quand l'erreur de rembourrage se produit, mais vous pouvez également indiquer le message d'erreur en utilisant le paramètre **-error**.
+Si le site est vulnérable, `padbuster` essaiera automatiquement de trouver quand l'erreur de rembourrage se produit, mais vous pouvez également indiquer le message d'erreur en utilisant le paramètre **-error**.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
@@ -74,7 +75,7 @@ En **résumé**, vous pouvez commencer à décrypter les données chiffrées en 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
 Imaginez que vous ayez un texte chiffré qui occupe **2 blocs** formés par les octets de **E0 à E15**.\
-Pour **décrypter** le **dernier** **bloc** (**E8** à **E15**), le bloc entier passe par le "décryptage du chiffrement par bloc" générant les **octets intermédiaires I0 à I15**.\
+Pour **décrypter** le **dernier** **bloc** (**E8** à **E15**), tout le bloc passe par le "décryptage du chiffrement par bloc" générant les **octets intermédiaires I0 à I15**.\
 Enfin, chaque octet intermédiaire est **XORé** avec les octets chiffrés précédents (E0 à E7). Donc :
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
@@ -104,21 +105,6 @@ Si vous vous **connectez plusieurs fois** et obtenez toujours le **même cookie*
 Maintenant, si vous essayez de **modifier** le **cookie**, vous verrez que vous obtenez une **erreur** de l'application.\
 Mais si vous forcez le padding (en utilisant padbuster par exemple), vous parvenez à obtenir un autre cookie valide pour un utilisateur différent. Ce scénario est très probablement vulnérable à padbuster.
 
-# Références
+## Références
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
-
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-D'autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

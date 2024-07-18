@@ -1,16 +1,17 @@
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -19,10 +20,10 @@ Autres façons de soutenir HackTricks :
 
 # Horodatage
 
-Un attaquant peut être intéressé par **la modification des horodatages des fichiers** pour éviter d'être détecté.\
+Un attaquant peut être intéressé par **le changement des horodatages des fichiers** pour éviter d'être détecté.\
 Il est possible de trouver les horodatages à l'intérieur du MFT dans les attributs `$STANDARD_INFORMATION` __ et __ `$FILE_NAME`.
 
-Les deux attributs ont 4 horodatages : **modification**, **accès**, **création** et **modification du registre MFT** (MACE ou MACB).
+Les deux attributs ont 4 horodatages : **modification**, **accès**, **création**, et **modification du registre MFT** (MACE ou MACB).
 
 **L'explorateur Windows** et d'autres outils affichent les informations de **`$STANDARD_INFORMATION`**.
 
@@ -32,7 +33,7 @@ Cet outil **modifie** les informations d'horodatage à l'intérieur de **`$STAND
 
 ## Usnjrnl
 
-Le **journal USN** (Update Sequence Number Journal) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des modifications du volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
+Le **journal USN** (Update Sequence Number Journal) est une fonctionnalité du NTFS (système de fichiers Windows NT) qui garde une trace des changements de volume. L'outil [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) permet d'examiner ces changements.
 
 ![](<../../.gitbook/assets/image (449).png>)
 
@@ -40,7 +41,7 @@ L'image précédente est la **sortie** affichée par l'**outil** où l'on peut o
 
 ## $LogFile
 
-**Toutes les modifications de métadonnées sur un système de fichiers sont enregistrées** dans un processus appelé [journalisation en avant](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
+**Tous les changements de métadonnées sur un système de fichiers sont enregistrés** dans un processus appelé [journalisation en avance](https://en.wikipedia.org/wiki/Write-ahead_logging). Les métadonnées enregistrées sont conservées dans un fichier nommé `**$LogFile**`, situé dans le répertoire racine d'un système de fichiers NTFS. Des outils tels que [LogFileParser](https://github.com/jschicht/LogFileParser) peuvent être utilisés pour analyser ce fichier et identifier les changements.
 
 ![](<../../.gitbook/assets/image (450).png>)
 
@@ -80,11 +81,11 @@ Il est alors possible de récupérer l'espace inutilisé en utilisant des outils
 # UsbKill
 
 C'est un outil qui **éteindra l'ordinateur si un changement dans les ports USB** est détecté.\
-Une façon de découvrir cela serait d'inspecter les processus en cours d'exécution et de **revoir chaque script Python en cours d'exécution**.
+Une façon de découvrir cela serait d'inspecter les processus en cours d'exécution et de **vérifier chaque script Python en cours d'exécution**.
 
 # Distributions Linux en direct
 
-Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de les détecter est **si le système de fichiers NTFS est monté avec des autorisations d'écriture**. S'il est monté uniquement avec des autorisations de lecture, il ne sera pas possible de détecter l'intrusion.
+Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de les détecter est **si le système de fichiers NTFS est monté avec des permissions d'écriture**. S'il est monté uniquement avec des permissions de lecture, il ne sera pas possible de détecter l'intrusion.
 
 # Suppression sécurisée
 
@@ -92,7 +93,7 @@ Ces distributions sont **exécutées dans la mémoire RAM**. La seule façon de 
 
 # Configuration Windows
 
-Il est possible de désactiver plusieurs méthodes de journalisation de Windows pour rendre l'investigation forensique beaucoup plus difficile.
+Il est possible de désactiver plusieurs méthodes de journalisation de Windows pour rendre l'enquête forensique beaucoup plus difficile.
 
 ## Désactiver les horodatages - UserAssist
 
@@ -123,7 +124,7 @@ Chaque fois qu'un dossier est ouvert à partir d'un volume NTFS sur un serveur W
 4. Fermez l'Éditeur du Registre et redémarrez le serveur.
 ## Supprimer l'historique USB
 
-Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **En supprimant cela**, vous supprimerez l'historique USB.\
+Toutes les **entrées de périphériques USB** sont stockées dans le Registre Windows sous la clé de registre **USBSTOR** qui contient des sous-clés créées chaque fois que vous branchez un périphérique USB sur votre PC ou ordinateur portable. Vous pouvez trouver cette clé ici `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. En **supprimant cela**, vous supprimerez l'historique USB.\
 Vous pouvez également utiliser l'outil [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) pour vous assurer de les avoir supprimés (et pour les supprimer).
 
 Un autre fichier qui enregistre des informations sur les clés USB est le fichier `setupapi.dev.log` à l'intérieur de `C:\Windows\INF`. Celui-ci devrait également être supprimé.
@@ -138,10 +139,10 @@ Vous pouvez également les supprimer via l'interface graphique en suivant les é
 Pour désactiver les copies d'ombre [étapes à partir d'ici](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Ouvrez le programme Services en tapant "services" dans la zone de recherche de texte après avoir cliqué sur le bouton Démarrer de Windows.
-2. Dans la liste, trouvez "Volume Shadow Copy", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
+2. Dans la liste, trouvez "Copie d'ombre de volume", sélectionnez-le, puis accédez aux Propriétés en cliquant avec le bouton droit.
 3. Choisissez Désactivé dans le menu déroulant "Type de démarrage", puis confirmez le changement en cliquant sur Appliquer et OK.
 
-Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie d'ombre dans le Registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
+Il est également possible de modifier la configuration des fichiers qui vont être copiés dans la copie d'ombre dans le registre `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
 
 ## Écraser les fichiers supprimés
 
@@ -169,16 +170,17 @@ Il est également possible de modifier la configuration des fichiers qui vont ê
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

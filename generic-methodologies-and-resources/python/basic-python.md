@@ -1,18 +1,19 @@
 # Python de base
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 ## Bases de Python
 
@@ -23,7 +24,7 @@ La différence entre un Tuple et une Liste est que la position d'une valeur dans
 
 ### Opérations principales
 
-Pour élever un nombre, vous utilisez : 3\*\*2 (pas 3^2)\
+Pour élever un nombre, utilisez : 3\*\*2 (pas 3^2)\
 Si vous faites 2/3, cela renvoie 1 car vous divisez deux entiers (integers). Si vous voulez des décimales, vous devriez diviser des flottants (2.0/3.0).\
 i >= j\
 i <= j\
@@ -138,7 +139,7 @@ myset2 = set(\[1, 2, 3, 4])\
 myset.union(myset2) #Valeurs de myset OU myset2\
 myset.intersection(myset2) #Valeurs dans myset ET myset2\
 myset.difference(myset2) #Valeurs dans myset mais pas dans myset2\
-myset.symmetric\_difference(myset2) #Valeurs qui ne sont ni dans myset NI dans myset2 (pas dans les deux)\
+myset.symmetric\_difference(myset2) #Valeurs qui ne sont pas dans myset ET myset2 (pas dans les deux)\
 myset.pop() #Obtient le premier élément de l'ensemble et le supprime\
 myset.intersection\_update(myset2) #myset = Éléments à la fois dans myset et myset2\
 myset.difference\_update(myset2) #myset = Éléments dans myset mais pas dans myset2\
@@ -176,10 +177,10 @@ return self.idNum < other.idNum
 ```
 ### map, zip, filter, lambda, sorted et one-liners
 
-**Map** est comme: \[f(x) pour x dans iterable] --> map(tuple, \[a, b]) = \[(1, 2, 3), (4, 5)]\
+**Map** est comme : \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** s'arrête lorsque le plus court entre foo ou bar s'arrête:
+**zip** s'arrête lorsque le plus court entre foo ou bar s'arrête :
 ```
 for f, b in zip(foo, bar):
 print(f, b)
@@ -200,10 +201,10 @@ crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
 ```python
-mult1 = [x for x in [1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
-```
+mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
 
 ### Exceptions
+```
 ```
 def divide(x,y):
 try:
@@ -219,7 +220,7 @@ print “executing finally clause in any case”
 ```
 ### Assert()
 
-Si la condition est fausse, la chaîne sera affichée à l'écran
+Si la condition est fausse, la chaîne sera imprimée à l'écran
 ```
 def avg(grades, weights):
 assert not len(grades) == 0, 'no grades data'
@@ -238,7 +239,7 @@ g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Erreur
 
-### Expressions Régulières
+### Expressions régulières
 
 import re\
 re.search("\w","hola").group() = "h"\
@@ -248,7 +249,7 @@ re.findall("\w+(la)","hola caracola") = \['la', 'la']
 **Significations spéciales:**\
 . --> Tout\
 \w --> \[a-zA-Z0-9\_]\
-\d --> Nombre\
+\d --> Chiffre\
 \s --> Caractère d'espace blanc\[ \n\r\t\f]\
 \S --> Caractère non-espace\
 ^ --> Commence par\
@@ -282,7 +283,7 @@ from itertools import **combinations** --> Génère toutes les combinaisons poss
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Génère toutes les combinaisons possibles à partir du caractère suivant (par exemple, le 3ème est mélangé à partir du 3ème en avant mais pas avec le 2ème ou le premier)\
+from itertools import **combinations\_with\_replacement** --> Génère toutes les combinaisons possibles à partir du caractère en avant (par exemple, le 3ème est mélangé à partir du 3ème en avant mais pas avec le 2ème ou le premier)\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
 ### Décorateurs
@@ -306,22 +307,23 @@ return wrapper
 def decorated_func():
 print("Decorated func!")
 ```
-Si vous l'exécutez, vous verrez quelque chose comme ce qui suit:
+Si vous l'exécutez, vous verrez quelque chose comme ce qui suit :
 ```
 Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}

@@ -2,19 +2,20 @@
 
 ## Artefacts Windows
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -30,13 +31,13 @@ Dans le chemin `\Users\<nom_utilisateur>\AppData\Local\Microsoft\Windows\Notific
 
 ### Chronologie
 
-La chronologie est une caractéristique de Windows qui fournit un **historique chronologique** des pages Web visitées, des documents édités et des applications exécutées.
+La chronologie est une caractéristique de Windows qui fournit un **historique chronologique** des pages web visitées, des documents édités et des applications exécutées.
 
 La base de données se trouve dans le chemin `\Users\<nom_utilisateur>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Cette base de données peut être ouverte avec un outil SQLite ou avec l'outil [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **qui génère 2 fichiers pouvant être ouverts avec l'outil** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
 
 ### ADS (Flux de données alternatifs)
 
-Les fichiers téléchargés peuvent contenir la **Zone.Identifier ADS** indiquant **comment** il a été **téléchargé** depuis l'intranet, Internet, etc. Certains logiciels (comme les navigateurs) mettent généralement encore **plus** **d'informations** comme l'**URL** à partir de laquelle le fichier a été téléchargé.
+Les fichiers téléchargés peuvent contenir la **Zone.Identifier des ADS** indiquant **comment** il a été **téléchargé** depuis l'intranet, internet, etc. Certains logiciels (comme les navigateurs) mettent généralement encore **plus** **d'informations** comme l'**URL** à partir de laquelle le fichier a été téléchargé.
 
 ## **Sauvegardes de fichiers**
 
@@ -45,12 +46,12 @@ Les fichiers téléchargés peuvent contenir la **Zone.Identifier ADS** indiquan
 Dans Vista/Win7/Win8/Win10, la **Corbeille** se trouve dans le dossier **`$Recycle.bin`** à la racine du lecteur (`C:\$Recycle.bin`).\
 Lorsqu'un fichier est supprimé dans ce dossier, 2 fichiers spécifiques sont créés :
 
-* `$I{id}` : Informations sur le fichier (date de suppression)
+* `$I{id}` : Informations sur le fichier (date de la suppression)
 * `$R{id}` : Contenu du fichier
 
 ![](<../../../.gitbook/assets/image (486).png>)
 
-En ayant ces fichiers, vous pouvez utiliser l'outil [**Rifiuti**](https://github.com/abelcheung/rifiuti2) pour obtenir l'adresse d'origine des fichiers supprimés et la date de suppression (utilisez `rifiuti-vista.exe` pour Vista - Win10).
+En ayant ces fichiers, vous pouvez utiliser l'outil [**Rifiuti**](https://github.com/abelcheung/rifiuti2) pour obtenir l'adresse d'origine des fichiers supprimés et la date de la suppression (utilisez `rifiuti-vista.exe` pour Vista - Win10).
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
@@ -60,7 +61,7 @@ En ayant ces fichiers, vous pouvez utiliser l'outil [**Rifiuti**](https://github
 
 Shadow Copy est une technologie incluse dans Microsoft Windows qui peut créer des **copies de sauvegarde** ou des instantanés de fichiers ou de volumes d'ordinateur, même lorsqu'ils sont en cours d'utilisation.
 
-Ces sauvegardes sont généralement situées dans le dossier `\System Volume Information` à la racine du système de fichiers et le nom est composé d'**UID** comme indiqué dans l'image suivante :
+Ces sauvegardes sont généralement situées dans le dossier `\System Volume Information` à la racine du système de fichiers et le nom est composé d'**UIDs** comme indiqué dans l'image suivante :
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
@@ -76,7 +77,7 @@ Le registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contient 
 
 ### Fichiers Office AutoSaved
 
-Vous pouvez trouver les fichiers autosauvegardés de bureau dans : `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Vous pouvez trouver les fichiers autosaved d'Office dans : `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
 ## Éléments de Shell
 
@@ -93,7 +94,7 @@ Lorsqu'un dossier est créé, un lien vers le dossier, vers le dossier parent et
 
 Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** **ou** d'un **dossier**, les **horodatages MAC** de ce fichier, les **informations de volume** où le fichier est stocké et le **dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers en cas de suppression.
 
-De plus, la **date de création du lien** est la première **fois** où le fichier d'origine a été **utilisé** et la **date de modification** du fichier de lien est la **dernière** **fois** où le fichier d'origine a été utilisé.
+De plus, la **date de création du lien** est la première **fois** où le fichier original a été **utilisé** et la **date de modification** du fichier de lien est la **dernière** **fois** où le fichier d'origine a été utilisé.
 
 Pour inspecter ces fichiers, vous pouvez utiliser [**LinkParser**](http://4discovery.com/our-tools/).
 
@@ -122,7 +123,7 @@ Les **jumplists** créés automatiquement sont stockés dans `C:\Users\{username
 
 Les jumplists personnalisés sont stockés dans `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` et sont créés par l'application généralement parce que quelque chose d'**important** s'est produit avec le fichier (peut-être marqué comme favori).
 
-L'**heure de création** de toute jumplist indique **la première fois que le fichier a été accédé** et l'**heure de modification la dernière fois**.
+L'**heure de création** de n'importe quel jumplist indique **la première fois que le fichier a été accédé** et l'**heure de modification la dernière fois**.
 
 Vous pouvez inspecter les jumplists en utilisant [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
 
@@ -146,7 +147,7 @@ Notez que certains fichiers LNK au lieu de pointer vers le chemin d'origine, poi
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Les fichiers dans le dossier WPDNSE sont une copie des fichiers originaux, donc ne survivront pas à un redémarrage du PC et le GUID est pris à partir d'un shellbag.
+Les fichiers dans le dossier WPDNSE sont une copie des fichiers originaux, ils ne survivront donc pas à un redémarrage du PC et le GUID est pris à partir d'un shellbag.
 
 ### Informations du Registre
 
@@ -171,7 +172,7 @@ La tâche planifiée connue sous le nom de 'Nettoyage Plug and Play' est princip
 La tâche est située dans le chemin suivant :
 `C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-Une capture d'écran illustrant le contenu de la tâche est fournie :
+Une capture d'écran du contenu de la tâche est fournie :
 ![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
 **Composants clés et paramètres de la tâche :**
@@ -181,7 +182,7 @@ Une capture d'écran illustrant le contenu de la tâche est fournie :
 - **Période ('P1M')** : Indique au Planificateur de tâches de lancer la tâche de nettoyage mensuellement pendant la maintenance automatique régulière.
 - **Date limite ('P2M')** : Instruit le Planificateur de tâches, si la tâche échoue pendant deux mois consécutifs, d'exécuter la tâche pendant la maintenance automatique d'urgence.
 
-Cette configuration garantit une maintenance régulière et un nettoyage des pilotes, avec des dispositions pour retenter la tâche en cas d'échecs consécutifs.
+Cette configuration assure une maintenance régulière et un nettoyage des pilotes, avec des dispositions pour retenter la tâche en cas d'échecs consécutifs.
 
 **Pour plus d'informations, consultez :** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
@@ -225,7 +226,7 @@ Vous pouvez ouvrir le fichier PST en utilisant l'outil [**Kernel PST Viewer**](h
 ![](<../../../.gitbook/assets/image (485).png>)
 ### Fichiers OST de Microsoft Outlook
 
-Un fichier **OST** est généré par Microsoft Outlook lorsqu'il est configuré avec un serveur **IMAP** ou un serveur **Exchange**, stockant des informations similaires à un fichier PST. Ce fichier est synchronisé avec le serveur, conservant les données des **12 derniers mois** jusqu'à une **taille maximale de 50 Go**, et est situé dans le même répertoire que le fichier PST. Pour visualiser un fichier OST, le [**visionneur OST Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) peut être utilisé.
+Un fichier **OST** est généré par Microsoft Outlook lorsqu'il est configuré avec un serveur **IMAP** ou un serveur **Exchange**, stockant des informations similaires à un fichier PST. Ce fichier est synchronisé avec le serveur, conservant les données des **12 derniers mois** jusqu'à une **taille maximale de 50 Go**, et est situé dans le même répertoire que le fichier PST. Pour visualiser un fichier OST, le [**visualiseur OST Kernel**](https://www.nucleustechnologies.com/ost-viewer.html) peut être utilisé.
 
 ### Récupération des pièces jointes
 
@@ -234,9 +235,9 @@ Les pièces jointes perdues peuvent être récupérées depuis :
 - Pour **IE10** : `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook`
 - Pour **IE11 et versions ultérieures** : `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook`
 
-### Fichiers MBOX Thunderbird
+### Fichiers MBOX de Thunderbird
 
-**Thunderbird** utilise des fichiers **MBOX** pour stocker des données, situés dans `\Utilisateurs\%NOM_UTILISATEUR%\AppData\Roaming\Thunderbird\Profiles`.
+**Thunderbird** utilise des fichiers **MBOX** pour stocker des données, situés dans `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`.
 
 ### Miniatures d'images
 
@@ -249,9 +250,9 @@ Les pièces jointes perdues peuvent être récupérées depuis :
 Le Registre Windows, stockant des données étendues sur l'activité du système et de l'utilisateur, est contenu dans des fichiers situés dans :
 
 - `%windir%\System32\Config` pour diverses sous-clés `HKEY_LOCAL_MACHINE`.
-- `%UserProfile%{Utilisateur}\NTUSER.DAT` pour `HKEY_CURRENT_USER`.
+- `%UserProfile%{User}\NTUSER.DAT` pour `HKEY_CURRENT_USER`.
 - Les versions de Windows Vista et ultérieures sauvegardent les fichiers de registre `HKEY_LOCAL_MACHINE` dans `%Windir%\System32\Config\RegBack\`.
-- De plus, les informations sur l'exécution des programmes sont stockées dans `%UserProfile%\{Utilisateur}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` à partir de Windows Vista et de Windows 2008 Server.
+- De plus, les informations sur l'exécution des programmes sont stockées dans `%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT` à partir de Windows Vista et de Windows 2008 Server.
 
 ### Outils
 
@@ -266,7 +267,7 @@ Certains outils sont utiles pour analyser les fichiers de registre :
 
 Lorsqu'une clé est supprimée, elle est marquée comme telle, mais tant que l'espace qu'elle occupe n'est pas nécessaire, elle ne sera pas supprimée. Par conséquent, en utilisant des outils comme **Registry Explorer**, il est possible de récupérer ces clés supprimées.
 
-### Dernière heure de modification
+### Heure de dernière modification
 
 Chaque clé-valeur contient une **horodatage** indiquant la dernière fois qu'elle a été modifiée.
 
@@ -284,27 +285,27 @@ Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le R
 
 ## Programmes Exécutés
 
-### Processus Windows de base
+### Processus Windows de Base
 
 Dans [cet article](https://jonahacks.medium.com/investigating-common-windows-processes-18dee5f97c1d), vous pouvez en apprendre davantage sur les processus Windows courants pour détecter les comportements suspects.
 
-### Applications récentes Windows
+### Applications Récentes Windows
 
 Dans le registre `NTUSER.DAT` dans le chemin `Software\Microsoft\Current Version\Search\RecentApps`, vous pouvez trouver des sous-clés avec des informations sur l'**application exécutée**, la **dernière fois** qu'elle a été exécutée et le **nombre de fois** qu'elle a été lancée.
 
-### BAM (Modérateur d'activité en arrière-plan)
+### BAM (Modérateur d'Activité en Arrière-plan)
 
-Vous pouvez ouvrir le fichier `SYSTEM` avec un éditeur de registre et dans le chemin `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`, vous pouvez trouver des informations sur les **applications exécutées par chaque utilisateur** (notez le `{SID}` dans le chemin) et à **quelle heure** elles ont été exécutées (l'heure est à l'intérieur de la valeur de données du registre).
+Vous pouvez ouvrir le fichier `SYSTEM` avec un éditeur de registre et dans le chemin `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`, vous pouvez trouver des informations sur les **applications exécutées par chaque utilisateur** (notez le `{SID}` dans le chemin) et à **quel moment** elles ont été exécutées (l'heure est à l'intérieur de la valeur de données du registre).
 
 ### Préchargement Windows
 
-Le préchargement est une technique qui permet à un ordinateur de **récupérer silencieusement les ressources nécessaires pour afficher le contenu** auquel un utilisateur **pourrait accéder dans un avenir proche** afin que les ressources puissent être accédées plus rapidement.
+Le préchargement est une technique qui permet à un ordinateur de **récupérer silencieusement les ressources nécessaires pour afficher du contenu** auquel un utilisateur **pourrait accéder dans un avenir proche** afin que les ressources puissent être accédées plus rapidement.
 
 Le préchargement Windows consiste à créer des **caches des programmes exécutés** pour pouvoir les charger plus rapidement. Ces caches sont créés sous forme de fichiers `.pf` dans le chemin : `C:\Windows\Prefetch`. Il y a une limite de 128 fichiers dans XP/VISTA/WIN7 et 1024 fichiers dans Win8/Win10.
 
-Le nom du fichier est créé sous la forme `{nom_du_programme}-{hash}.pf` (le hash est basé sur le chemin et les arguments de l'exécutable). Dans W10, ces fichiers sont compressés. Notez que la seule présence du fichier indique que **le programme a été exécuté** à un moment donné.
+Le nom de fichier est créé sous la forme `{nom_du_programme}-{hash}.pf` (le hash est basé sur le chemin et les arguments de l'exécutable). Dans W10, ces fichiers sont compressés. Notez que la seule présence du fichier indique que **le programme a été exécuté** à un moment donné.
 
-Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers préchargés**. Ce fichier contient des informations sur le **nombre d'exécutions**, les **dates** d'exécution et les **fichiers** **ouverts** par le programme.
+Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers préchargés**. Ce fichier contient des **informations sur le nombre d'exécutions**, les **dates** d'exécution et les **fichiers** **ouverts** par le programme.
 
 Pour inspecter ces fichiers, vous pouvez utiliser l'outil [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
 ```bash
@@ -317,7 +318,7 @@ Pour inspecter ces fichiers, vous pouvez utiliser l'outil [**PEcmd.exe**](https:
 **Superprefetch** a le même objectif que prefetch, **charger les programmes plus rapidement** en prédisant ce qui va être chargé ensuite. Cependant, il ne remplace pas le service prefetch.\
 Ce service générera des fichiers de base de données dans `C:\Windows\Prefetch\Ag*.db`.
 
-Dans ces bases de données, vous pouvez trouver le **nom** du **programme**, le **nombre** d'**exécutions**, les **fichiers** **ouverts**, le **volume** **accédé**, le **chemin complet**, les **plages horaires** et les **horodatages**.
+Dans ces bases de données, vous pouvez trouver le **nom** du **programme**, le **nombre** d'**exécutions**, les **fichiers** **ouverts**, le **volume** **accédé**, le **chemin** **complet**, les **plages horaires** et les **horodatages**.
 
 Vous pouvez accéder à ces informations en utilisant l'outil [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
@@ -347,14 +348,14 @@ Le **AppCompatCache**, également connu sous le nom de **ShimCache**, fait parti
 
 - Chemin complet du fichier
 - Taille du fichier
-- Dernière heure de modification sous **$Standard\_Information** (SI)
-- Dernière heure de mise à jour du ShimCache
+- Heure de dernière modification sous **$Standard\_Information** (SI)
+- Heure de dernière mise à jour du ShimCache
 - Indicateur d'exécution du processus
 
 Ces données sont stockées dans le registre à des emplacements spécifiques en fonction de la version du système d'exploitation :
 
 - Pour XP, les données sont stockées sous `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache` avec une capacité de 96 entrées.
-- Pour Server 2003, ainsi que pour les versions de Windows 2008, 2012, 2016, 7, 8 et 10, le chemin de stockage est `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, avec respectivement une capacité de 512 et 1024 entrées.
+- Pour Server 2003, ainsi que pour les versions de Windows 2008, 2012, 2016, 7, 8 et 10, le chemin de stockage est `SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache`, avec une capacité de 512 et 1024 entrées, respectivement.
 
 Pour analyser les informations stockées, l'outil [**AppCompatCacheParser**](https://github.com/EricZimmerman/AppCompatCacheParser) est recommandé.
 
@@ -370,7 +371,7 @@ Pour extraire et analyser les données de **Amcache.hve**, l'outil [**AmcachePar
 ```bash
 AmcacheParser.exe -f C:\Users\genericUser\Desktop\Amcache.hve --csv C:\Users\genericUser\Desktop\outputFolder
 ```
-Parmi les fichiers CSV générés, le fichier `Amcache_Unassociated file entries` est particulièrement remarquable en raison des informations détaillées qu'il fournit sur les entrées de fichiers non associées.
+Parmi les fichiers CSV générés, le fichier `Entrées de fichiers non associées Amcache` est particulièrement remarquable en raison des informations détaillées qu'il fournit sur les entrées de fichiers non associées.
 
 Le fichier CSV le plus intéressant généré est le `Amcache_Unassociated file entries`.
 
@@ -396,7 +397,7 @@ Ce référentiel contient un **journal** avec **chaque application installée** 
 À l'intérieur de la table Application de cette base de données, il est possible de trouver les colonnes : "ID de l'application", "Numéro de package" et "Nom d'affichage". Ces colonnes contiennent des informations sur les applications préinstallées et installées et il est possible de savoir si certaines applications ont été désinstallées car les ID des applications installées devraient être séquentiels.
 
 Il est également possible de **trouver des applications installées** dans le chemin du registre : `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
-Et les **applications désinstallées** dans : `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
+Et des **applications désinstallées** dans : `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
 
 ## Événements Windows
 
@@ -440,29 +441,29 @@ Les événements d'accès sont enregistrés dans le fichier de configuration de 
 - **Interactif à distance mis en cache (12)** : Connexion à distance avec des informations d'identification mises en cache.
 - **Déverrouillage mis en cache (13)** : Déverrouillage avec des informations d'identification mises en cache.
 
-#### Codes d'état et de sous-état pour l'ID d'événement 4625 :
+#### Codes d'état et sous-codes pour l'ID d'événement 4625 :
 
-- **0xC0000064** : Nom d'utilisateur inexistant - Pourrait indiquer une attaque par énumération de noms d'utilisateur.
+- **0xC0000064** : Le nom d'utilisateur n'existe pas - pourrait indiquer une attaque d'énumération de noms d'utilisateur.
 - **0xC000006A** : Nom d'utilisateur correct mais mauvais mot de passe - Tentative de deviner ou de forcer un mot de passe.
 - **0xC0000234** : Compte utilisateur verrouillé - Peut suivre une attaque par force brute entraînant de multiples échecs de connexion.
 - **0xC0000072** : Compte désactivé - Tentatives non autorisées d'accéder à des comptes désactivés.
 - **0xC000006F** : Connexion en dehors des heures autorisées - Indique des tentatives d'accès en dehors des heures de connexion définies, un signe possible d'accès non autorisé.
-- **0xC0000070** : Violation des restrictions de poste de travail - Pourrait être une tentative de connexion depuis un emplacement non autorisé.
+- **0xC0000070** : Violation des restrictions de poste de travail - Pourrait être une tentative de connexion à partir d'un emplacement non autorisé.
 - **0xC0000193** : Expiration du compte - Tentatives d'accès avec des comptes utilisateur expirés.
 - **0xC0000071** : Mot de passe expiré - Tentatives de connexion avec des mots de passe obsolètes.
 - **0xC0000133** : Problèmes de synchronisation de l'heure - De grands écarts de temps entre le client et le serveur peuvent indiquer des attaques plus sophistiquées comme le pass-the-ticket.
 - **0xC0000224** : Changement de mot de passe obligatoire - Des changements obligatoires fréquents pourraient suggérer une tentative de déstabilisation de la sécurité du compte.
-- **0xC0000225** : Indique un bug système plutôt qu'un problème de sécurité.
+- **0xC0000225** : Indique un bogue système plutôt qu'un problème de sécurité.
 - **0xC000015b** : Type de connexion refusé - Tentative d'accès avec un type de connexion non autorisé, comme un utilisateur essayant d'exécuter une connexion de service.
 
 #### ID d'événement 4616 :
-- **Changement d'heure** : Modification de l'heure du système, pouvant obscurcir la chronologie des événements.
+- **Changement d'heure** : Modification de l'heure du système, pourrait obscurcir la chronologie des événements.
 
 #### ID d'événements 6005 et 6006 :
 - **Démarrage et arrêt du système** : L'ID d'événement 6005 indique le démarrage du système, tandis que l'ID d'événement 6006 marque son arrêt.
 
 #### ID d'événement 1102 :
-- **Suppression de journal** : Les journaux de sécurité sont effacés, ce qui est souvent un indicateur de dissimulation d'activités illicites.
+- **Suppression de journal** : Les journaux de sécurité sont effacés, ce qui est souvent un indicateur d'activités illicites dissimulées.
 
 #### ID d'événements pour le suivi des périphériques USB :
 - **20001 / 20003 / 10000** : Première connexion du périphérique USB.
@@ -496,25 +497,10 @@ Les ID d'événements système utiles pour le suivi des périphériques USB incl
 
 L'EventID 6005 indique le démarrage du système, tandis que l'EventID 6006 marque l'arrêt.
 
-#### Suppression des journaux
+#### Suppression de journaux
 
 L'EventID 1102 de sécurité signale la suppression des journaux, un événement critique pour l'analyse forensique.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
-
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

