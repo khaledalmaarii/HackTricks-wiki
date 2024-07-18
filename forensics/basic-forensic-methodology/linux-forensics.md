@@ -1,37 +1,38 @@
-# Uchunguzi wa Linux
+# Linux Forensics
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii ya **juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kuandaa kazi** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
-## Kukusanya Taarifa za Awali
+## Mkusanyiko wa Taarifa za Awali
 
 ### Taarifa za Msingi
 
-Kwanza kabisa, ni vyema kuwa na **USB** na **binari na maktaba bora inayojulikana** (unaweza tu kupata ubuntu na kunakili folda _/bin_, _/sbin_, _/lib,_ na _/lib64_), kisha funga USB, na badilisha mazingira ya env kutumia hizo binari:
+Kwanza kabisa, inapendekezwa kuwa na **USB** yenye **binaries na maktaba zinazojulikana vizuri** (unaweza kupata tu ubuntu na nakala za folda _/bin_, _/sbin_, _/lib,_ na _/lib64_), kisha unganisha USB, na badilisha mabadiliko ya mazingira kutumia hizo binaries:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Baada ya kuiwezesha mfumo kutumia programu za msingi na zilizojulikana unaweza kuanza **kuchambua taarifa za msingi**:
+Mara tu umepanga mfumo kutumia binaries nzuri na zinazojulikana unaweza kuanza **kuchota taarifa za msingi**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -49,47 +50,47 @@ cat /etc/passwd #Unexpected data?
 cat /etc/shadow #Unexpected data?
 find /directory -type f -mtime -1 -print #Find modified files during the last minute in the directory
 ```
-#### Taarifa za Mashaka
+#### Taarifa za kushuku
 
-Wakati unapopata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama vile:
+Wakati wa kupata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
 
-- **Mchakato wa Root** kawaida hufanya kazi na PIDS ndogo, kwa hivyo ikiwa utapata mchakato wa root na PID kubwa unaweza kuwa na shaka
-- Angalia **kuingia kwa usajili** wa watumiaji bila ganda ndani ya `/etc/passwd`
-- Angalia **hashi za nywila** ndani ya `/etc/shadow` kwa watumiaji bila ganda
+* **Mchakato wa Root** kawaida huendesha na PIDS za chini, hivyo ikiwa utapata mchakato wa root wenye PID kubwa unaweza kushuku
+* Angalia **kuingia kwa watumiaji** waliojiandikisha bila shell ndani ya `/etc/passwd`
+* Angalia **hash za nywila** ndani ya `/etc/shadow` kwa watumiaji bila shell
 
-### Kumbukumbu ya Kuteleza
+### Dump ya Kumbukumbu
 
 Ili kupata kumbukumbu ya mfumo unaoendesha, inashauriwa kutumia [**LiME**](https://github.com/504ensicsLabs/LiME).\
-Ili **kuichambua**, unahitaji kutumia **kernel sawa** ambao mashine ya mwathiriwa inatumia.
+Ili **kuunda** hiyo, unahitaji kutumia **kernel sawa** ambayo mashine ya mwathirika inatumia.
 
 {% hint style="info" %}
-Kumbuka kuwa huwezi **kufunga LiME au kitu kingine chochote** kwenye mashine ya mwathiriwa kwani itafanya mabadiliko kadhaa kwake
+Kumbuka kwamba huwezi **kufunga LiME au kitu kingine chochote** kwenye mashine ya mwathirika kwani itafanya mabadiliko kadhaa
 {% endhint %}
 
-Kwa hivyo, ikiwa una toleo linalofanana na Ubuntu unaweza kutumia `apt-get install lime-forensics-dkms`\
-Katika visa vingine, unahitaji kupakua [**LiME**](https://github.com/504ensicsLabs/LiME) kutoka github na kuichambua na vichwa sahihi vya kernel. Ili **kupata vichwa sahihi vya kernel** vya mashine ya mwathiriwa, unaweza tu **kuchapisha saraka** `/lib/modules/<toleo la kernel>` kwenye mashine yako, kisha **kuichambua** LiME ukitumia:
+Hivyo, ikiwa una toleo sawa la Ubuntu unaweza kutumia `apt-get install lime-forensics-dkms`\
+Katika hali nyingine, unahitaji kupakua [**LiME**](https://github.com/504ensicsLabs/LiME) kutoka github na kuunda hiyo kwa kutumia vichwa sahihi vya kernel. Ili **kupata vichwa sahihi vya kernel** vya mashine ya mwathirika, unaweza tu **kunakili saraka** `/lib/modules/<kernel version>` kwenye mashine yako, na kisha **kuunda** LiME kwa kutumia hizo:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 ```
-LiME inasaidia **muundo** 3:
+LiME inasaidia **format** 3:
 
-* Raw (kila sehemu zimeunganishwa pamoja)
-* Padded (sawa na raw, lakini na sifuri kwenye bits sahihi)
-* Lime (muundo unaopendekezwa na metadata)
+* Raw (sehemu zote zimeunganishwa pamoja)
+* Padded (sawa na raw, lakini na sifuri katika bits za kulia)
+* Lime (format inayopendekezwa yenye metadata)
 
-LiME pia inaweza kutumika kutuma **dump kupitia mtandao** badala ya kuihifadhi kwenye mfumo kwa kutumia kitu kama: `path=tcp:4444`
+LiME pia inaweza kutumika **kutuma dump kupitia mtandao** badala ya kuihifadhi kwenye mfumo kwa kutumia kitu kama: `path=tcp:4444`
 
-### Uchoraji wa Diski
+### Disk Imaging
 
 #### Kuzima
 
-Kwanza kabisa, utahitaji **kuzima mfumo**. Hii sio chaguo kila wakati kwani mara nyingine mfumo utakuwa seva ya uzalishaji ambayo kampuni haiwezi kumudu kuzima.\
-Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **kuzima kwa kutelekeza umeme**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **mfumo wa faili** kusawazishwa, lakini pia itaruhusu **programu hasidi** kuharibu **usahihi**. Kufanya kwa kutelekeza umeme kunaweza kusababisha **upotevu wa taarifa fulani** (sio taarifa nyingi itapotea kwani tayari tumepiga picha ya kumbukumbu) na **programu hasidi haitakuwa na fursa** ya kufanya chochote kuhusu hilo. Kwa hivyo, ikiwa **una shaka** kwamba kunaweza kuwa na **programu hasidi**, tekeleza tu **amri ya `sync`** kwenye mfumo na kutelekeza umeme.
+Kwanza kabisa, utahitaji **kuzima mfumo**. Hii si chaguo kila wakati kwani wakati mwingine mfumo utakuwa seva ya uzalishaji ambayo kampuni haiwezi kumudu kuzima.\
+Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **"kuvuta plug" kuzima**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **filesystem** kuwa **synchronized**, lakini pia itaruhusu **malware** inay posible **kuharibu ushahidi**. Njia ya "kuvuta plug" inaweza kuleta **kupoteza taarifa** (sio nyingi za taarifa zitapotea kwani tayari tumepata picha ya kumbukumbu) na **malware haitakuwa na fursa yoyote** ya kufanya chochote kuhusu hilo. Hivyo, ikiwa unadhani kuna **malware**, tekeleza tu **amri ya `sync`** kwenye mfumo na uvute plug.
 
-#### Kupiga picha ya diski
+#### Kuchukua picha ya diski
 
-Ni muhimu kuzingatia kwamba **kabla ya kuunganisha kompyuta yako na chochote kinachohusiana na kesi**, lazima uhakikishe kuwa itakuwa **imeunganishwa kama soma tu** ili kuepuka kuhariri taarifa yoyote.
+Ni muhimu kutambua kwamba **kabla ya kuunganisha kompyuta yako na chochote kinachohusiana na kesi**, unahitaji kuwa na uhakika kwamba itakuwa **imewekwa kama kusoma tu** ili kuepuka kubadilisha taarifa yoyote.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -98,9 +99,9 @@ dd if=<subject device> of=<image file> bs=512
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### Uchambuzi wa Awali wa Picha ya Diski
+### Disk Image pre-analysis
 
-Kuiga picha ya diski bila data zaidi.
+Kuchora picha ya diski bila data zaidi.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -156,36 +157,36 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia** mchakato wa kiotomatiki ulioendeshwa na zana za jamii za **juu kabisa** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Tafuta Malware Inayojulikana
+## Tafuta Malware inayojulikana
 
-### Faili za Mfumo Zilizobadilishwa
+### Faili za Mfumo zilizobadilishwa
 
-Linux inatoa zana za kuhakikisha uadilifu wa sehemu za mfumo, muhimu kwa kutambua faili zenye matatizo yanayowezekana.
+Linux inatoa zana za kuhakikisha uaminifu wa vipengele vya mfumo, muhimu kwa kugundua faili zinazoweza kuwa na matatizo.
 
-* **Mifumo ya RedHat**: Tumia `rpm -Va` kwa uchunguzi kamili.
-* **Mifumo ya Debian**: `dpkg --verify` kwa uhakiki wa awali, kisha `debsums | grep -v "OK$"` (baada ya kusakinisha `debsums` kwa kutumia `apt-get install debsums`) kutambua masuala yoyote.
+* **Mifumo ya RedHat**: Tumia `rpm -Va` kwa ukaguzi wa kina.
+* **Mifumo ya Debian**: `dpkg --verify` kwa uthibitisho wa awali, ikifuatiwa na `debsums | grep -v "OK$"` (baada ya kufunga `debsums` kwa `apt-get install debsums`) ili kubaini matatizo yoyote.
 
-### Zana za Kugundua Malware/Rootkit
+### Vifaa vya Kugundua Malware/Rootkit
 
-Soma ukurasa ufuatao kujifunza kuhusu zana zinazoweza kuwa na manufaa katika kutambua malware:
+Soma ukurasa ufuatao kujifunza kuhusu zana ambazo zinaweza kuwa na manufaa katika kutafuta malware:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Tafuta Programu Zilizosakinishwa
+## Tafuta programu zilizowekwa
 
-Kutafuta kwa ufanisi programu zilizosakinishwa kwenye mifumo ya Debian na RedHat, fikiria kutumia nyaraka za mfumo na mabadiliko pamoja na uchunguzi wa mikono kwenye saraka za kawaida.
+Ili kutafuta kwa ufanisi programu zilizowekwa kwenye mifumo ya Debian na RedHat, fikiria kutumia kumbukumbu za mfumo na hifadhidata pamoja na ukaguzi wa mikono katika directories za kawaida.
 
-* Kwa Debian, angalia _**`/var/lib/dpkg/status`**_ na _**`/var/log/dpkg.log`**_ kupata maelezo kuhusu usakinishaji wa pakiti, kutumia `grep` kufanya uchujaji wa taarifa maalum.
-* Watumiaji wa RedHat wanaweza kuuliza hifadhidata ya RPM kwa kutumia `rpm -qa --root=/mntpath/var/lib/rpm` kuorodhesha pakiti zilizosakinishwa.
+* Kwa Debian, angalia _**`/var/lib/dpkg/status`**_ na _**`/var/log/dpkg.log`**_ kupata maelezo kuhusu usakinishaji wa pakiti, ukitumia `grep` kuchuja taarifa maalum.
+* Watumiaji wa RedHat wanaweza kuuliza hifadhidata ya RPM kwa `rpm -qa --root=/mntpath/var/lib/rpm` ili orodhesha pakiti zilizowekwa.
 
-Kugundua programu zilizosakinishwa kwa mkono au nje ya mameneja haya ya pakiti, chunguza saraka kama _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, na _**`/sbin`**_. Changanya orodha za saraka na amri za kipekee za mfumo kutambua programu za kutekelezwa ambazo hazihusiani na pakiti zinazojulikana, kuimarisha utafutaji wako wa programu zote zilizosakinishwa.
+Ili kugundua programu zilizowekwa kwa mikono au nje ya wasimamizi hawa wa pakiti, chunguza directories kama _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, na _**`/sbin`**_. Changanya orodha za directories na amri maalum za mfumo ili kubaini executable zisizohusishwa na pakiti zinazojulikana, kuboresha utafutaji wako wa programu zote zilizowekwa.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,22 +205,22 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zaidi zinazotumia zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha kiotomatiki** kazi kwa urahisi zinazotolewa na zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Rudisha Programu za Kutekelezwa Zilizofutwa
+## Rejesha Binaries Zilizofutwa
 
-Fikiria mchakato uliotekelezwa kutoka /tmp/exec na kisha ukafutwa. Inawezekana kuutoa.
+Fikiria mchakato uliofanywa kutoka /tmp/exec na kisha kufutwa. Inawezekana kuutoa
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Angalia Mahali pa Kuanza moja kwa moja
+## Kagua maeneo ya Autostart
 
-### Kazi Zilizopangwa
+### Kazi za Ratiba
 ```bash
 cat /var/spool/cron/crontabs/*  \
 /var/spool/cron/atjobs \
@@ -233,96 +234,96 @@ cat /var/spool/cron/crontabs/*  \
 #MacOS
 ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Library/LaunchAgents/
 ```
-### Huduma
+### Services
 
-Njia ambapo programu hasidi inaweza kusakinishwa kama huduma:
+Njia ambapo malware inaweza kuwekwa kama huduma:
 
-- **/etc/inittab**: Huita skripti za uanzishaji kama rc.sysinit, ikiongoza kwa skripti za kuanza.
-- **/etc/rc.d/** na **/etc/rc.boot/**: Zina skripti za kuanzisha huduma, ya mwisho ikipatikana kwenye toleo za zamani za Linux.
-- **/etc/init.d/**: Hutumiwa katika toleo fulani za Linux kama Debian kwa kuhifadhi skripti za kuanza.
-- Huduma pia inaweza kuwezeshwa kupitia **/etc/inetd.conf** au **/etc/xinetd/**, kulingana na toleo la Linux.
-- **/etc/systemd/system**: Daktari kwa skripti za mfumo na msimamizi wa huduma.
-- **/etc/systemd/system/multi-user.target.wants/**: Ina viungo kwa huduma zinazopaswa kuanza katika kiwango cha mbio cha watumiaji wengi.
-- **/usr/local/etc/rc.d/**: Kwa huduma za desturi au za mtu wa tatu.
-- **\~/.config/autostart/**: Kwa programu za kiotomatiki za kuanza za mtumiaji, ambayo inaweza kuwa mahali pa kujificha kwa programu hasidi inayolenga mtumiaji.
-- **/lib/systemd/system/**: Faili za kawaida za kifurushi zilizowekwa kwa kiwango cha mfumo.
+* **/etc/inittab**: Inaita skripti za awali kama rc.sysinit, ikielekeza zaidi kwa skripti za kuanzisha.
+* **/etc/rc.d/** na **/etc/rc.boot/**: Zina skripti za kuanzisha huduma, ya pili ikipatikana katika matoleo ya zamani ya Linux.
+* **/etc/init.d/**: Inatumika katika matoleo fulani ya Linux kama Debian kwa kuhifadhi skripti za kuanzisha.
+* Huduma zinaweza pia kuanzishwa kupitia **/etc/inetd.conf** au **/etc/xinetd/**, kulingana na toleo la Linux.
+* **/etc/systemd/system**: Katalogi ya skripti za meneja wa mfumo na huduma.
+* **/etc/systemd/system/multi-user.target.wants/**: Inashikilia viungo kwa huduma ambazo zinapaswa kuanzishwa katika kiwango cha kuendesha watumiaji wengi.
+* **/usr/local/etc/rc.d/**: Kwa huduma za kawaida au za wahusika wengine.
+* **\~/.config/autostart/**: Kwa programu za kuanzisha kiotomatiki maalum kwa mtumiaji, ambazo zinaweza kuwa mahali pa kuficha malware inayolenga watumiaji.
+* **/lib/systemd/system/**: Faili za kitengo za kawaida za mfumo zinazotolewa na pakiti zilizowekwa.
 
-### Moduli za Kerneli
+### Kernel Modules
 
-Moduli za kerneli za Linux, mara nyingi hutumiwa na programu hasidi kama sehemu za rootkit, hupakiwa wakati wa kuanza kwa mfumo. Miongoni mwa nyaraka na faili muhimu kwa moduli hizi ni pamoja na:
+Moduli za kernel za Linux, mara nyingi hutumiwa na malware kama sehemu za rootkit, zinawekwa wakati wa kuanzisha mfumo. Katalogi na faili muhimu kwa moduli hizi ni pamoja na:
 
-- **/lib/modules/$(uname -r)**: Inashikilia moduli kwa toleo la sasa la kerneli.
-- **/etc/modprobe.d**: Ina faili za usanidi kudhibiti upakiaji wa moduli.
-- **/etc/modprobe** na **/etc/modprobe.conf**: Faili za mipangilio ya kawaida ya moduli.
+* **/lib/modules/$(uname -r)**: Inashikilia moduli za toleo la kernel linalotumika.
+* **/etc/modprobe.d**: Inashikilia faili za usanidi kudhibiti upakiaji wa moduli.
+* **/etc/modprobe** na **/etc/modprobe.conf**: Faili za mipangilio ya kimataifa ya moduli.
 
-### Maeneo Mengine ya Kuanza-Otomatiki
+### Other Autostart Locations
 
-Linux hutumia faili mbalimbali kutekeleza programu kiotomatiki baada ya kuingia kwa mtumiaji, ikibeba programu hasidi kwa uwezekano:
+Linux inatumia faili mbalimbali kwa kutekeleza programu kiotomatiki wakati wa kuingia kwa mtumiaji, ambayo inaweza kuwa na malware:
 
-- **/etc/profile.d/**\*, **/etc/profile**, na **/etc/bash.bashrc**: Hutekelezwa kwa kuingia kwa mtumiaji yeyote.
-- **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, na **\~/.config/autostart**: Faili za mtumiaji maalum ambazo hutekelezwa wakati wa kuingia kwao.
-- **/etc/rc.local**: Hutekelezwa baada ya huduma zote za mfumo kuanza, ikimaanisha mwisho wa mpito kwa mazingira ya watumiaji wengi.
+* **/etc/profile.d/**\*, **/etc/profile**, na **/etc/bash.bashrc**: Zinatekelezwa kwa kuingia kwa mtumiaji yeyote.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, na **\~/.config/autostart**: Faili maalum za mtumiaji zinazotekelezwa wakati wa kuingia kwao.
+* **/etc/rc.local**: Inatekelezwa baada ya huduma zote za mfumo kuanzishwa, ikionyesha mwisho wa mpito kwenda mazingira ya watumiaji wengi.
 
-## Angalia Kumbukumbu
+## Examine Logs
 
-Mifumo ya Linux hufuatilia shughuli za mtumiaji na matukio ya mfumo kupitia faili mbalimbali za kumbukumbu. Kumbukumbu hizi ni muhimu kwa kutambua ufikiaji usiohalali, maambukizi ya programu hasidi, na matukio mengine ya usalama. Faili muhimu za kumbukumbu ni pamoja na:
+Mifumo ya Linux inafuatilia shughuli za watumiaji na matukio ya mfumo kupitia faili mbalimbali za kumbukumbu. Kumbukumbu hizi ni muhimu kwa kutambua ufikiaji usioidhinishwa, maambukizi ya malware, na matukio mengine ya usalama. Faili muhimu za kumbukumbu ni pamoja na:
 
-- **/var/log/syslog** (Debian) au **/var/log/messages** (RedHat): Hukamata ujumbe na shughuli za mfumo kwa ujumla.
-- **/var/log/auth.log** (Debian) au **/var/log/secure** (RedHat): Hurekodi majaribio ya uwakilishi, kuingia kwa mafanikio na kushindwa.
-- Tumia `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` kuchuja matukio muhimu ya uwakilishi.
-- **/var/log/boot.log**: Ina ujumbe wa kuanza kwa mfumo.
-- **/var/log/maillog** au **/var/log/mail.log**: Hurekodi shughuli za seva ya barua pepe, muhimu kwa kufuatilia huduma zinazohusiana na barua pepe.
-- **/var/log/kern.log**: Huhifadhi ujumbe wa kerneli, ikiwa ni pamoja na makosa na onyo.
-- **/var/log/dmesg**: Inashikilia ujumbe wa dereva wa kifaa.
-- **/var/log/faillog**: Hurekodi majaribio ya kuingia yaliyoshindwa, ikisaidia uchunguzi wa uvunjaji wa usalama.
-- **/var/log/cron**: Hurekodi utekelezaji wa kazi za cron.
-- **/var/log/daemon.log**: Hufuatilia shughuli za huduma za nyuma.
-- **/var/log/btmp**: Hati majaribio ya kuingia yaliyoshindwa.
-- **/var/log/httpd/**: Ina makosa ya Apache HTTPD na kumbukumbu za ufikiaji.
-- **/var/log/mysqld.log** au **/var/log/mysql.log**: Hurekodi shughuli za MySQL database.
-- **/var/log/xferlog**: Hurekodi uhamisho wa faili za FTP.
-- **/var/log/**: Daima angalia kumbukumbu zisizotarajiwa hapa.
+* **/var/log/syslog** (Debian) au **/var/log/messages** (RedHat): Huhifadhi ujumbe na shughuli za mfumo mzima.
+* **/var/log/auth.log** (Debian) au **/var/log/secure** (RedHat): Huhifadhi majaribio ya uthibitishaji, kuingia kwa mafanikio na yasiyofanikiwa.
+* Tumia `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` kuchuja matukio muhimu ya uthibitishaji.
+* **/var/log/boot.log**: Inashikilia ujumbe wa kuanzisha mfumo.
+* **/var/log/maillog** au **/var/log/mail.log**: Huhifadhi shughuli za seva ya barua pepe, muhimu kwa kufuatilia huduma zinazohusiana na barua pepe.
+* **/var/log/kern.log**: Huhifadhi ujumbe wa kernel, ikiwa ni pamoja na makosa na onyo.
+* **/var/log/dmesg**: Inashikilia ujumbe wa madereva ya vifaa.
+* **/var/log/faillog**: Huhifadhi majaribio ya kuingia yasiyofanikiwa, kusaidia katika uchunguzi wa uvunjaji wa usalama.
+* **/var/log/cron**: Huhifadhi utekelezaji wa kazi za cron.
+* **/var/log/daemon.log**: Inafuatilia shughuli za huduma za nyuma.
+* **/var/log/btmp**: Huhifadhi majaribio ya kuingia yasiyofanikiwa.
+* **/var/log/httpd/**: Inashikilia kumbukumbu za makosa na ufikiaji wa Apache HTTPD.
+* **/var/log/mysqld.log** au **/var/log/mysql.log**: Huhifadhi shughuli za hifadhidata ya MySQL.
+* **/var/log/xferlog**: Huhifadhi uhamishaji wa faili za FTP.
+* **/var/log/**: Daima angalia kumbukumbu zisizotarajiwa hapa.
 
 {% hint style="info" %}
-Mifumo ya Linux inaweza kulemazwa au kufutwa kumbukumbu za ukaguzi na mfumo wa udukuzi au programu hasidi. Kwa kuwa kumbukumbu kwenye mifumo ya Linux kwa ujumla zina habari muhimu zaidi kuhusu shughuli za uovu, wadukuzi mara kwa mara huwafuta. Kwa hivyo, wakati wa kukagua faili za kumbukumbu zilizopo, ni muhimu kutafuta mapengo au kuingia kwa mpangilio ambao unaweza kuwa ishara ya kufutwa au kuharibiwa.
+Kumbukumbu za mifumo ya Linux na mifumo ya ukaguzi zinaweza kuzuiwa au kufutwa katika uvamizi au tukio la malware. Kwa sababu kumbukumbu kwenye mifumo ya Linux kwa ujumla zina taarifa muhimu zaidi kuhusu shughuli mbaya, wavamizi mara nyingi huzifuta. Hivyo, wakati wa kuchunguza faili za kumbukumbu zilizopo, ni muhimu kutafuta mapengo au kuingia zisizo za kawaida ambazo zinaweza kuwa dalili za kufutwa au kuingilia.
 {% endhint %}
 
 **Linux inahifadhi historia ya amri kwa kila mtumiaji**, iliyohifadhiwa katika:
 
-- \~/.bash\_history
-- \~/.zsh\_history
-- \~/.zsh\_sessions/\*
-- \~/.python\_history
-- \~/.\*\_history
+* \~/.bash\_history
+* \~/.zsh\_history
+* \~/.zsh\_sessions/\*
+* \~/.python\_history
+* \~/.\*\_history
 
-Zaidi ya hayo, amri `last -Faiwx` hutoa orodha ya kuingia kwa mtumiaji. Ichunguze kwa kuingia kwa mtumiaji asiyejulikana au usiotarajiwa.
+Zaidi ya hayo, amri ya `last -Faiwx` inatoa orodha ya kuingia kwa watumiaji. Angalia kwa kuingia zisizojulikana au zisizotarajiwa.
 
-Angalia faili zinazoweza kutoa rprivileges zaidi:
+Angalia faili ambazo zinaweza kutoa rprivileges za ziada:
 
-- Pitia `/etc/sudoers` kwa rprivileges za mtumiaji zisizotarajiwa ambazo zinaweza kuwa zimetolewa.
-- Pitia `/etc/sudoers.d/` kwa rprivileges za mtumiaji zisizotarajiwa ambazo zinaweza kuwa zimetolewa.
-- Angalia `/etc/groups` kutambua uanachama wa kikundi au ruhusa zisizo za kawaida.
-- Angalia `/etc/passwd` kutambua uanachama wa kikundi au ruhusa zisizo za kawaida.
+* Kagua `/etc/sudoers` kwa haki za mtumiaji zisizotarajiwa ambazo zinaweza kuwa zimetolewa.
+* Kagua `/etc/sudoers.d/` kwa haki za mtumiaji zisizotarajiwa ambazo zinaweza kuwa zimetolewa.
+* Chunguza `/etc/groups` ili kubaini uanachama wa vikundi au ruhusa zisizo za kawaida.
+* Chunguza `/etc/passwd` ili kubaini uanachama wa vikundi au ruhusa zisizo za kawaida.
 
-Baadhi ya programu pia huzalisha kumbukumbu zake:
+Baadhi ya programu pia zinaweza kuunda kumbukumbu zake:
 
-- **SSH**: Angalia _\~/.ssh/authorized\_keys_ na _\~/.ssh/known\_hosts_ kwa mawasiliano ya mbali yasiyoruhusiwa.
-- **Gnome Desktop**: Tazama _\~/.recently-used.xbel_ kwa faili zilizo hivi karibuni kupitia programu za Gnome.
-- **Firefox/Chrome**: Angalia historia ya kivinjari na vipakuliwa katika _\~/.mozilla/firefox_ au _\~/.config/google-chrome_ kwa shughuli za shaka.
-- **VIM**: Pitia _\~/.viminfo_ kwa maelezo ya matumizi, kama njia za faili zilizotembelewa na historia ya utafutaji.
-- **Open Office**: Angalia ufikiaji wa hivi karibuni wa hati ambazo zinaweza kuashiria faili zilizodukuliwa.
-- **FTP/SFTP**: Pitia kumbukumbu katika _\~/.ftp\_history_ au _\~/.sftp\_history_ kwa uhamisho wa faili ambao unaweza kuwa haujaruhusiwa.
-- **MySQL**: Chunguza _\~/.mysql\_history_ kwa mizunguko iliyotekelezwa ya MySQL, ikifichua shughuli zisizoidhinishwa za database.
-- **Less**: Anwani _\~/.lesshst_ kwa historia ya matumizi, ikiwa ni pamoja na faili zilizotazamwa na amri zilizotekelezwa.
-- **Git**: Angalia _\~/.gitconfig_ na mradi _.git/logs_ kwa mabadiliko kwenye hazina.
+* **SSH**: Chunguza _\~/.ssh/authorized\_keys_ na _\~/.ssh/known\_hosts_ kwa uhusiano wa mbali usioidhinishwa.
+* **Gnome Desktop**: Angalia _\~/.recently-used.xbel_ kwa faili zilizofikiwa hivi karibuni kupitia programu za Gnome.
+* **Firefox/Chrome**: Kagua historia ya kivinjari na upakuaji katika _\~/.mozilla/firefox_ au _\~/.config/google-chrome_ kwa shughuli za kushangaza.
+* **VIM**: Kagua _\~/.viminfo_ kwa maelezo ya matumizi, kama vile njia za faili zilizofikiwa na historia ya utafutaji.
+* **Open Office**: Angalia ufikiaji wa hati za hivi karibuni ambazo zinaweza kuashiria faili zilizovunjwa.
+* **FTP/SFTP**: Kagua kumbukumbu katika _\~/.ftp\_history_ au _\~/.sftp\_history_ kwa uhamishaji wa faili ambao unaweza kuwa haujaidhinishwa.
+* **MySQL**: Chunguza _\~/.mysql\_history_ kwa maswali ya MySQL yaliyotekelezwa, ambayo yanaweza kufichua shughuli zisizoidhinishwa za hifadhidata.
+* **Less**: Changanua _\~/.lesshst_ kwa historia ya matumizi, ikiwa ni pamoja na faili zilizotazamwa na amri zilizotekelezwa.
+* **Git**: Chunguza _\~/.gitconfig_ na mradi _.git/logs_ kwa mabadiliko ya hifadhidata.
 
-### Kumbukumbu za USB
+### USB Logs
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) ni programu ndogo iliyoandikwa kwa Python 3 safi ambayo huchambua faili za kumbukumbu za Linux (`/var/log/syslog*` au `/var/log/messages*` kulingana na usambazaji) kwa kujenga meza za historia ya matukio ya USB.
+[**usbrip**](https://github.com/snovvcrash/usbrip) ni kipande kidogo cha programu kilichoandikwa kwa Python 3 safi ambacho kinachambua faili za kumbukumbu za Linux (`/var/log/syslog*` au `/var/log/messages*` kulingana na distro) kwa ajili ya kujenga meza za historia ya matukio ya USB.
 
-Ni muhimu **kujua USB zote zilizotumiwa** na itakuwa na manufaa zaidi ikiwa una orodha iliyoruhusiwa ya USB za kupata "matukio ya uvunjaji" (matumizi ya USB ambazo hazimo ndani ya orodha hiyo). 
+Ni muhimu **kujua USB zote ambazo zimekuwa zikitumika** na itakuwa na manufaa zaidi ikiwa una orodha iliyoidhinishwa ya USB ili kupata "matukio ya ukiukaji" (matumizi ya USB ambazo ziko nje ya orodha hiyo).
 
-### Usakinishaji
+### Installation
 ```bash
 pip3 install usbrip
 usbrip ids download #Download USB ID database
@@ -335,38 +336,38 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-Zaidi ya mifano na habari ndani ya github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+More examples and info inside the github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za jamii ya **juu zaidi** duniani.\
-Pata Ufikiaji Leo:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Pitia Akaunti za Mtumiaji na Shughuli za Kuingia
+## Review User Accounts and Logon Activities
 
-Chunguza _**/etc/passwd**_, _**/etc/shadow**_ na **logs za usalama** kwa majina yasiyo ya kawaida au akaunti zilizoundwa au kutumika karibu na matukio yasiyoruhusiwa yanayojulikana. Pia, angalia mashambulizi ya sudo ya nguvu.\
-Zaidi ya hayo, angalia faili kama _**/etc/sudoers**_ na _**/etc/groups**_ kwa mamlaka zisizotarajiwa zilizopewa watumiaji.\
-Hatimaye, tafuta akaunti zenye **bila nywila** au nywila **rahisi kudhani**.
+Chunguza _**/etc/passwd**_, _**/etc/shadow**_ na **logs za usalama** kwa majina yasiyo ya kawaida au akaunti zilizoundwa na au kutumika karibu na matukio yasiyoidhinishwa yanayojulikana. Pia, angalia mashambulizi ya sudo brute-force yanayowezekana.\
+Zaidi ya hayo, angalia faili kama _**/etc/sudoers**_ na _**/etc/groups**_ kwa ruhusa zisizotarajiwa zilizotolewa kwa watumiaji.\
+Hatimaye, tafuta akaunti zenye **hakuna nywila** au **nywila zinazoweza kukisiwa kwa urahisi**.
 
-## Chunguza Mfumo wa Faili
+## Examine File System
 
-### Uchambuzi wa Miundo ya Mfumo wa Faili katika Uchunguzi wa Programu Hasidi
+### Analyzing File System Structures in Malware Investigation
 
-Wakati wa kuchunguza matukio ya programu hasidi, muundo wa mfumo wa faili ni chanzo muhimu cha habari, kufunua mfululizo wa matukio na maudhui ya programu hasidi. Hata hivyo, waandishi wa programu hasidi wanakua mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za muda wa faili au kuepuka mfumo wa faili kwa uhifadhi wa data.
+Wakati wa kuchunguza matukio ya malware, muundo wa mfumo wa faili ni chanzo muhimu cha habari, kinachoonyesha mfululizo wa matukio na maudhui ya malware. Hata hivyo, waandishi wa malware wanatengeneza mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za muda za faili au kuepuka mfumo wa faili kwa ajili ya uhifadhi wa data.
 
-Ili kupinga mbinu hizi za kuzuia uchunguzi wa kiforensiki, ni muhimu:
+Ili kupambana na mbinu hizi za anti-forensic, ni muhimu:
 
-* **Fanya uchambuzi kamili wa muda** kutumia zana kama **Autopsy** kwa kuona mfululizo wa matukio au **Sleuth Kit's** `mactime` kwa data ya muda ya kina.
-* **Chunguza hati za kutarajia** katika $PATH ya mfumo, ambayo inaweza kuwa na hati za shell au PHP zinazotumiwa na wachomaji.
-* **Tafuta `/dev` kwa faili za kawaida**, kwani kawaida ina faili maalum, lakini inaweza kuwa na faili zinazohusiana na programu hasidi.
-* **Tafuta faili au saraka zilizofichwa** zenye majina kama ".. " (dot dot space) au "..^G" (dot dot control-G), ambayo inaweza kuficha maudhui mabaya.
-* **Tambua faili za setuid root** kwa kutumia amri: `find / -user root -perm -04000 -print` Hii inapata faili zenye ruhusa zilizoinuliwa, ambazo zinaweza kutumiwa vibaya na wachomaji.
-* **Pitia muda wa kufutwa** katika meza za inode ili kutambua kufutwa kwa faili nyingi, ikionyesha uwepo wa rootkits au trojans.
-* **Angalia inode za mfululizo** kwa faili za kibaya karibu baada ya kutambua moja, kwani zinaweza kuwekwa pamoja.
-* **Chunguza saraka za binary za kawaida** (_/bin_, _/sbin_) kwa faili zilizobadilishwa hivi karibuni, kwani hizi zinaweza kubadilishwa na programu hasidi.
+* **Fanya uchambuzi wa kina wa muda** ukitumia zana kama **Autopsy** kwa ajili ya kuonyesha mfululizo wa matukio au **Sleuth Kit's** `mactime` kwa data ya kina ya muda.
+* **Chunguza scripts zisizotarajiwa** katika $PATH ya mfumo, ambazo zinaweza kujumuisha scripts za shell au PHP zinazotumiwa na washambuliaji.
+* **Chunguza `/dev` kwa faili zisizo za kawaida**, kwani kawaida ina faili maalum, lakini inaweza kuwa na faili zinazohusiana na malware.
+* **Tafuta faili au directories zilizofichwa** zikiwa na majina kama ".. " (dot dot space) au "..^G" (dot dot control-G), ambazo zinaweza kuficha maudhui mabaya.
+* **Tambua faili za setuid root** ukitumia amri: `find / -user root -perm -04000 -print` Hii inapata faili zenye ruhusa za juu, ambazo zinaweza kutumiwa vibaya na washambuliaji.
+* **Review deletion timestamps** katika jedwali la inode ili kugundua kufutwa kwa faili kwa wingi, ambayo inaweza kuashiria uwepo wa rootkits au trojans.
+* **Inspect consecutive inodes** kwa faili mbaya zilizo karibu baada ya kubaini moja, kwani zinaweza kuwa zimewekwa pamoja.
+* **Check common binary directories** (_/bin_, _/sbin_) kwa faili zilizobadilishwa hivi karibuni, kwani hizi zinaweza kubadilishwa na malware.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -375,63 +376,63 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Tafadhali kumbuka kwamba **mshambuliaji** anaweza **kubadilisha** **muda** ili kufanya **faili zionekane** **halali**, lakini hawezi kubadilisha **inode**. Ikiwa utagundua kwamba **faili** inaonyesha kwamba iliumbwa na kubadilishwa kwa **wakati sawa** na faili zingine kwenye folda hiyo hiyo, lakini **inode** ni **kubwa kwa kushangaza**, basi **alama za wakati za faili hiyo zilibadilishwa**.
+Kumbuka kwamba **mshambuliaji** anaweza **kubadilisha** **wakati** ili kufanya **faili kuonekana** **halali**, lakini hawezi **kubadilisha** **inode**. Ikiwa unapata kwamba **faili** inaonyesha kwamba iliumbwa na kubadilishwa kwa **wakati mmoja** na faili zingine katika folda hiyo hiyo, lakini **inode** ni **kubwa zaidi** **kivyake**, basi **alama za wakati za faili hiyo zilibadilishwa**.
 {% endhint %}
 
-## Linganisha faili za toleo tofauti za mfumo wa faili
+## Linganisha faili za toleo tofauti la mfumo wa faili
 
-### Muhtasari wa Linganisho la Matoleo ya Mfumo wa Faili
+### Muhtasari wa Linganisho la Toleo la Mfumo wa Faili
 
-Ili kulinganisha matoleo ya mfumo wa faili na kugundua mabadiliko, tunatumia amri za `git diff` zilizorahisishwa:
+Ili kulinganisha toleo la mfumo wa faili na kubaini mabadiliko, tunatumia amri rahisi za `git diff`:
 
-* **Kutafuta faili mpya**, linganisha saraka mbili:
+* **Ili kupata faili mpya**, linganisha directories mbili:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **Kwa maudhui yaliyobadilishwa**, orodhesha mabadiliko ukizingatia mistari maalum:
+* **Kwa yaliyobadilishwa**, orodhesha mabadiliko huku ukipuuzilia mbali mistari maalum:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-* **Kutambua faili zilizofutwa**:
+* **Kugundua faili zilizofutwa**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Chaguo za Kichuja** (`--diff-filter`) husaidia kupunguza mabadiliko maalum kama vile faili zilizoongezwa (`A`), zilizofutwa (`D`), au zilizobadilishwa (`M`).
+* **Chaguzi za kuchuja** (`--diff-filter`) husaidia kupunguza mabadiliko maalum kama vile faili zilizoongezwa (`A`), kufutwa (`D`), au kubadilishwa (`M`).
 * `A`: Faili zilizoongezwa
 * `C`: Faili zilizokopiwa
 * `D`: Faili zilizofutwa
 * `M`: Faili zilizobadilishwa
 * `R`: Faili zilizobadilishwa jina
-* `T`: Mabadiliko ya aina (k.m., faili kwenda kwa ishara ya symlink)
-* `U`: Faili zisizounganishwa
+* `T`: Mabadiliko ya aina (mfano, faili hadi symlink)
+* `U`: Faili zisizojumuishwa
 * `X`: Faili zisizojulikana
 * `B`: Faili zilizovunjika
 
-## Marejeo
+## Marejeleo
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Kitabu: Malware Forensics Field Guide for Linux Systems: Mwongozo wa Uchunguzi wa Kidijitali**
+* **Kitabu: Mwongozo wa Upelelezi wa Malware kwa Mifumo ya Linux: Mwongozo wa Upelelezi wa Kidijitali**
 
 <details>
 
 <summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa kwenye HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
+Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa katika HackTricks**? au unataka kupata **toleo jipya la PEASS au kupakua HackTricks katika PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
 
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Pata [**mavazi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
-**Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+**Shiriki mbinu zako za hacking kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kutumia mifumo ya kazi** kwa urahisi ikiwa na zana za jamii za **juu kabisa** duniani.\
-Pata Upatikanaji Leo:
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha kiotomatiki** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
+Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

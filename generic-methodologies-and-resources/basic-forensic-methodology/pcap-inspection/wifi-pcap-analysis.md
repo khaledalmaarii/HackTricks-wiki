@@ -1,63 +1,67 @@
-# Uchambuzi wa Pcap ya Wifi
+# Wifi Pcap Analysis
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Angalia BSSIDs
+## Check BSSIDs
 
-Unapopokea kichwa ambacho trafiki kuu ni ya Wifi ukitumia WireShark unaweza kuanza kuchunguza SSIDs zote za kichwa hicho na _Wireless --> WLAN Traffic_:
+Unapopokea kukamata ambayo trafiki yake kuu ni Wifi ukitumia WireShark unaweza kuanza kuchunguza SSIDs zote za kukamata kwa kutumia _Wireless --> WLAN Traffic_:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
 ![](<../../../.gitbook/assets/image (492).png>)
 
-### Kuvunja Nguvu
+### Brute Force
 
-Moja ya nguzo za skrini hiyo inaonyesha ikiwa **uthibitisho wowote ulipatikana ndani ya pcap**. Ikiwa hivyo ndivyo unaweza kujaribu kuvunja nguvu kutumia `aircrack-ng`:
+Moja ya nguzo za skrini hiyo inaonyesha kama **uthibitisho wowote ulipatikana ndani ya pcap**. Ikiwa hiyo ni hali unaweza kujaribu kuifanya Brute force kwa kutumia `aircrack-ng`:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-## Data katika Beacons / Channel ya Upande
+Kwa mfano, itapata WPA passphrase inayolinda PSK (pre shared-key), ambayo itahitajika kufungua trafiki baadaye.
 
-Ikiwa una shaka kwamba **data inavuja ndani ya beacons ya mtandao wa Wifi** unaweza kuangalia beacons ya mtandao kwa kutumia filter kama ifuatavyo: `wlan contains <JINA laMTANDAO>`, au `wlan.ssid == "JINA laMTANDAO"` tafuta ndani ya pakiti zilizofilteriwa kwa strings za shaka.
+## Data katika Beacons / Kituo cha Kando
 
-## Pata Anwani za MAC Zisizojulikana katika Mtandao wa Wifi
+Ikiwa unashuku kwamba **data inavuja ndani ya beacons za mtandao wa Wifi** unaweza kuangalia beacons za mtandao kwa kutumia chujio kama ifuatavyo: `wlan contains <NAMEofNETWORK>`, au `wlan.ssid == "NAMEofNETWORK"` tafuta ndani ya pakiti zilizochujwa kwa nyuzi za kutatanisha.
 
-Kiungo kifuatacho kitakuwa muhimu kupata **mashine zinazoingiza data ndani ya Mtandao wa Wifi**:
+## Pata Anwani za MAC zisizojulikana katika Mtandao wa Wifi
+
+Kiungo kinachofuata kitakuwa na manufaa kutafuta **mashine zinazotuma data ndani ya Mtandao wa Wifi**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-Ikiwa tayari unajua **anwani za MAC unaweza kuziondoa kutoka kwa matokeo** kwa kuongeza ukaguzi kama huu: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
+Ikiwa tayari unajua **anwani za MAC unaweza kuondoa hizo kutoka kwa matokeo** ukiongeza ukaguzi kama huu: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Baada ya kugundua **anwani za MAC zisizojulikana** zinazoshirikiana ndani ya mtandao unaweza kutumia **filters** kama ifuatavyo: `wlan.addr==<anwani ya MAC> && (ftp || http || ssh || telnet)` kufilter trafiki yake. Tafadhali kumbuka kuwa filters za ftp/http/ssh/telnet ni muhimu ikiwa umedecrypt trafiki.
+Mara tu unapogundua **anwani za MAC zisizojulikana** zinazowasiliana ndani ya mtandao unaweza kutumia **vichujio** kama ifuatavyo: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` kuchuja trafiki yake. Kumbuka kwamba vichujio vya ftp/http/ssh/telnet ni vya manufaa ikiwa umepata ufunguo wa trafiki.
 
-## Decrypt Trafiki
+## Fungua Trafiki
 
-Hariri --> Mapendeleo --> Itifaki --> IEEE 802.11--> Hariri
+Hariri --> Mipendeleo --> Protokali --> IEEE 802.11--> Hariri
 
 ![](<../../../.gitbook/assets/image (499).png>)
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,78 +1,95 @@
-# Kugundua Udukuzi
+# Kugundua Phishing
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Utangulizi
 
-Kugundua jaribio la udukuzi ni muhimu kuelewa **mbinu za udukuzi zinazotumiwa leo**. Kwenye ukurasa wa mzazi wa chapisho hili, unaweza kupata habari hii, kwa hivyo ikiwa haujui ni mbinu gani zinazotumiwa leo, nakushauri uende kwenye ukurasa wa mzazi na usome angalau sehemu hiyo.
+Ili kugundua jaribio la phishing ni muhimu **kuelewa mbinu za phishing zinazotumiwa leo**. Kwenye ukurasa wa mzazi wa chapisho hili, unaweza kupata habari hii, hivyo kama hujui ni mbinu zipi zinazotumiwa leo nakusihi uende kwenye ukurasa wa mzazi na usome angalau sehemu hiyo.
 
-Chapisho hili linategemea wazo kwamba **wahalifu watjaribu kwa njia fulani kufanana au kutumia jina la kikoa cha muathiriwa**. Ikiwa kikoa chako kinaitwa `mfano.com` na unadukuliwa ukitumia kikoa tofauti kabisa kwa sababu fulani kama `umeshindalottery.com`, mbinu hizi hazitafunua hilo.
+Chapisho hili linategemea wazo kwamba **washambuliaji watajaribu kwa namna fulani kuiga au kutumia jina la kikoa la mwathirika**. Ikiwa kikoa chako kinaitwa `example.com` na unafanyiwa phishing kwa kutumia jina la kikoa tofauti kabisa kwa sababu fulani kama `youwonthelottery.com`, mbinu hizi hazitakufichua.
 
-## Mabadiliko ya Majina ya Kikoa
+## Mabadiliko ya majina ya kikoa
 
-Ni **rahisi** kufunua **jaribio la udukuzi** ambalo litatumia **jina la kikoa linalofanana** ndani ya barua pepe.\
-Inatosha **kuunda orodha ya majina ya udukuzi yanayoweza kutumiwa na mshambuliaji** na **kuangalia** ikiwa ime **sajiliwa** au tu kuangalia ikiwa kuna **IP** inayotumia.
+Ni rahisi **kufichua** jaribio hizo za **phishing** ambazo zitatumia jina la **kikoa linalofanana** ndani ya barua pepe.\
+Inatosha **kuunda orodha ya majina ya phishing yanayoweza kutokea** ambayo mshambuliaji anaweza kutumia na **kuangalia** ikiwa yame **jiandikisha** au kuangalia ikiwa kuna **IP** yoyote inayotumia hilo.
 
-### Kupata vikoa vinavyoshukiwa
+### Kupata majina ya kikoa yenye shaka
 
-Kwa madhumuni haya, unaweza kutumia moja ya zana zifuatazo. Kumbuka kuwa zana hizi pia zitafanya maombi ya DNS kiotomatiki kuchunguza ikiwa kikoa kina IP yoyote iliyopewa:
+Kwa kusudi hili, unaweza kutumia yoyote ya zana zifuatazo. Kumbuka kwamba zana hizi pia zitafanya maombi ya DNS kiotomatiki ili kuangalia ikiwa kikoa kina IP yoyote iliyotolewa:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
 ### Bitflipping
 
-**Unaweza kupata maelezo mafupi ya mbinu hii kwenye ukurasa wa mzazi. Au soma utafiti halisi kwenye** [**https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/**](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+**Unaweza kupata maelezo mafupi ya mbinu hii kwenye ukurasa wa mzazi. Au soma utafiti wa asili katika** [**https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/**](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-Kwa mfano, mabadiliko ya bit 1 kwenye kikoa cha microsoft.com yanaweza kugeuza kuwa _windnws.com._\
-**Wahalifu wanaweza kusajili vikoa vingi vya bit-flipping iwezekanavyo vinavyohusiana na muathiriwa kupeleka watumiaji halali kwenye miundombinu yao**.
+Kwa mfano, mabadiliko ya bit 1 katika kikoa microsoft.com yanaweza kubadilisha kuwa _windnws.com._\
+**Washambuliaji wanaweza kujiandikisha majina mengi ya kikoa yanayohusiana na mwathirika ili kuwahamisha watumiaji halali kwenye miundombinu yao**.
 
-**Vikoa vyote vinavyowezekana vya bit-flipping pia vinapaswa kufuatiliwa.**
+**Majina yote ya kikoa yanayoweza kubadilishwa yanapaswa pia kufuatiliwa.**
 
-### Uchunguzi wa Msingi
+### Ukaguzi wa msingi
 
-Unapokuwa na orodha ya majina ya udukuzi yanayowezekana unapaswa **kuwachunguza** (hasa bandari za HTTP na HTTPS) kuona ikiwa wanatumia fomu ya kuingia inayofanana na moja ya kikoa cha muathiriwa.\
-Unaweza pia kuangalia bandari 3333 kuona ikiwa imefunguliwa na inaendesha kipengee cha `gophish`.\
-Ni muhimu pia kujua **umri wa kila kikoa cha shaka kilichogunduliwa**, kadri inavyokuwa mchanga ndivyo hatari zaidi.\
-Unaweza pia kupata **picha za skrini** za ukurasa wa wavuti wa HTTP na/au HTTPS wa shaka kuona ikiwa ni shaka na kesi hiyo **ufikie kuangalia kwa undani**.
+Mara tu unapokuwa na orodha ya majina ya kikoa yenye shaka unapaswa **kuangalia** (hasa bandari za HTTP na HTTPS) ili **kuona ikiwa wanatumia fomu ya kuingia inayofanana** na moja ya kikoa cha mwathirika.\
+Unaweza pia kuangalia bandari 3333 kuona ikiwa iko wazi na inafanya kazi ya `gophish`.\
+Ni muhimu pia kujua **umri wa kila kikoa kilichogunduliwa chenye shaka**, kadri inavyokuwa changa ndivyo inavyokuwa hatari zaidi.\
+Unaweza pia kupata **picha za skrini** za ukurasa wa wavuti wa HTTP na/au HTTPS wenye shaka ili kuona ikiwa ni ya shaka na katika hali hiyo **ingia ili kuangalia kwa undani zaidi**.
 
-### Uchunguzi wa Kina
+### Ukaguzi wa hali ya juu
 
-Ikiwa unataka kwenda hatua moja mbele ningependekeza **kufuatilia vikoa hivyo vya shaka na kutafuta zaidi** mara kwa mara (kila siku? inachukua sekunde/dakika chache tu). Unapaswa pia **kuangalia** bandari **zilizofunguliwa** za IP zinazohusiana na **tafuta mifano ya `gophish` au zana kama hizo** (ndio, wahalifu pia hufanya makosa) na **kufuatilia kurasa za wavuti za HTTP na HTTPS za vikoa vya shaka na subdomains** kuona ikiwa wameiga fomu yoyote ya kuingia kutoka kwenye kurasa za wavuti za muathiriwa.\
-Ili **kutumia hii kiotomatiki** ningependekeza kuwa na orodha ya fomu za kuingia za vikoa vya muathiriwa, kutambaa kurasa za wavuti za shaka na kulinganisha kila fomu ya kuingia iliyopatikana ndani ya vikoa vya shaka na kila fomu ya kuingia ya kikoa cha muathiriwa kwa kutumia kitu kama `ssdeep`.\
-Ikiwa umepata fomu za kuingia za vikoa vya shaka, unaweza kujaribu **kupeleka vitambulisho visivyo sahihi** na **kuangalia ikiwa inakurejesha kwenye kikoa cha muathiriwa**.
+Ikiwa unataka kwenda hatua moja mbele nakusihi **ufuatilie majina hayo ya kikoa yenye shaka na kutafuta zaidi** mara kwa mara (kila siku? inachukua sekunde/chache tu). Unapaswa pia **kuangalia** bandari **zilizo wazi** za IP zinazohusiana na **kutafuta mifano ya `gophish` au zana zinazofanana** (ndiyo, washambuliaji pia hufanya makosa) na **kufuatilia kurasa za wavuti za HTTP na HTTPS za majina ya kikoa na subdomains zenye shaka** ili kuona ikiwa wameiga fomu yoyote ya kuingia kutoka kwenye kurasa za wavuti za mwathirika.\
+Ili **kujiandaa** hii nakusihi uwe na orodha ya fomu za kuingia za majina ya kikoa ya mwathirika, spider kurasa za wavuti zenye shaka na kulinganisha kila fomu ya kuingia iliyopatikana ndani ya majina ya kikoa yenye shaka na kila fomu ya kuingia ya kikoa cha mwathirika kwa kutumia kitu kama `ssdeep`.\
+Ikiwa umepata fomu za kuingia za majina ya kikoa yenye shaka, unaweza kujaribu **kutuma akidi za junk** na **kuangalia ikiwa inakuelekeza kwenye kikoa cha mwathirika**.
 
-## Majina ya Kikoa yanayotumia Maneno muhimu
+## Majina ya kikoa yanayotumia maneno muhimu
 
-Ukurasa wa mzazi pia unataja mbinu ya mabadiliko ya jina la kikoa ambayo inajumuisha kuweka **jina la kikoa la muathiriwa ndani ya kikoa kubwa** (k.m. paypal-financial.com kwa paypal.com).
+Ukurasa wa mzazi pia unataja mbinu ya mabadiliko ya jina la kikoa ambayo inajumuisha kuweka **jina la kikoa la mwathirika ndani ya kikoa kikubwa** (mfano paypal-financial.com kwa paypal.com).
 
 ### Uwazi wa Cheti
 
-Haiwezekani kuchukua njia ya awali ya "Brute-Force" lakini ni kweli **inawezekana kufunua majaribio kama hayo ya udukuzi** pia shukrani kwa uwazi wa cheti. Kila wakati cheti kinapotolewa na CA, maelezo yanafanywa kuwa ya umma. Hii inamaanisha kwamba kwa kusoma uwazi wa cheti au hata kufuatilia, ni **inawezekana kupata vikoa vinavyotumia neno muhimu ndani ya jina lake** Kwa mfano, ikiwa mshambuliaji anazalisha cheti cha [https://paypal-financial.com](https://paypal-financial.com), kwa kuona cheti ni rahisi kupata neno muhimu "paypal" na kujua kuwa barua pepe ya shaka inatumika.
+Haiwezekani kuchukua njia ya awali ya "Brute-Force" lakini kwa kweli **inawezekana kufichua jaribio kama hilo la phishing** pia kwa shukrani kwa uwazi wa cheti. Kila wakati cheti kinapotolewa na CA, maelezo yanapatikana hadharani. Hii inamaanisha kwamba kwa kusoma uwazi wa cheti au hata kufuatilia, **inawezekana kupata majina ya kikoa yanayotumia neno muhimu ndani ya jina lake** Kwa mfano, ikiwa mshambuliaji anaunda cheti cha [https://paypal-financial.com](https://paypal-financial.com), kuona cheti kunawezekana kupata neno muhimu "paypal" na kujua kwamba barua pepe yenye shaka inatumika.
 
-Chapisho [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) inapendekeza unaweza kutumia Censys kutafuta vyeti vinavyoathiri neno maalum na kufuta kwa tarehe (vyeti "vipya" tu) na kwa mtoaji wa CA "Let's Encrypt":
+Chapisho [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) linapendekeza kwamba unaweza kutumia Censys kutafuta vyeti vinavyohusiana na neno muhimu maalum na kuchuja kwa tarehe (vyeti "vipya" tu) na kwa mtoaji wa CA "Let's Encrypt":
 
 ![https://0xpatrik.com/content/images/2018/07/cert\_listing.png](<../../.gitbook/assets/image (1115).png>)
 
-Hata hivyo, unaweza kufanya "vilevile" kwa kutumia wavuti huru [**crt.sh**](https://crt.sh). Unaweza **kutafuta neno muhimu** na **kufuta** matokeo **kwa tarehe na CA** ikiwa unataka.
+Hata hivyo, unaweza kufanya "kile kile" kwa kutumia wavuti ya bure [**crt.sh**](https://crt.sh). Unaweza **kutafuta neno muhimu** na **kuchuja** matokeo **kwa tarehe na CA** ikiwa unataka.
 
 ![](<../../.gitbook/assets/image (519).png>)
 
-Kwa kutumia chaguo hili la mwisho unaweza hata kutumia uga wa Kulinganisha Utambulisho kuona ikiwa utambulisho wowote kutoka kwa kikoa halisi unalingana na moja ya vikoa vya shaka (kumbuka kwamba kikoa cha shaka kinaweza kuwa chanya ya uwongo).
+Kwa kutumia chaguo hili la mwisho unaweza hata kutumia uwanja wa Matching Identities kuona ikiwa kitambulisho chochote kutoka kwenye kikoa halisi kinakidhi chochote kati ya majina ya kikoa yenye shaka (kumbuka kwamba jina la kikoa lenye shaka linaweza kuwa la uwongo).
 
-**Chaguo lingine** ni mradi mzuri unaoitwa [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream hutoa mtiririko wa moja kwa moja wa vyeti vilivyozalishwa hivi karibuni ambavyo unaweza kutumia kugundua maneno maalum (karibu) kwa wakati halisi. Kwa kweli, kuna mradi unaitwa [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) ambao unafanya hivyo.
-### **Domeini mpya**
+**Chaguo lingine** ni mradi mzuri unaoitwa [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream inatoa mtiririko wa wakati halisi wa vyeti vilivyoundwa hivi karibuni ambavyo unaweza kutumia kugundua maneno muhimu yaliyotajwa katika wakati (karibu) halisi. Kwa kweli, kuna mradi unaoitwa [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) ambao unafanya hivyo.
 
-**Chaguo la mwisho** ni kukusanya orodha ya **domeini zilizosajiliwa hivi karibuni** kwa baadhi ya TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) hutoa huduma kama hiyo) na **kuchunguza maneno muhimu katika domeini hizi**. Hata hivyo, domeini ndefu kawaida hutumia moja au zaidi ya subdomain, hivyo neno muhimu halitaonekana ndani ya FLD na hutaweza kupata subdomain ya ulaghai.
+### **Majina mapya ya kikoa**
+
+**Chaguo la mwisho** ni kukusanya orodha ya **majina mapya ya kikoa yaliyosajiliwa** kwa baadhi ya TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) inatoa huduma hiyo) na **kuangalia maneno muhimu katika majina haya ya kikoa**. Hata hivyo, majina marefu ya kikoa mara nyingi hutumia moja au zaidi ya subdomains, kwa hivyo neno muhimu halitaonekana ndani ya FLD na huwezi kupata subdomain ya phishing.
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,24 +1,27 @@
 # Angr - Mifano
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-{% hint style="info" %}
-Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka kwa stdin** unahitaji kuzalisha hali ambayo inaanza baada ya **`scanf`**.
 {% endhint %}
 
-Makodsi yamechukuliwa kutoka [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+{% hint style="info" %}
+Ikiwa programu inatumia `scanf` kupata **thamani kadhaa kwa wakati mmoja kutoka stdin** unahitaji kuunda hali inayaanza baada ya **`scanf`**.
+{% endhint %}
 
-### Kuingiza ili kufikia anwani (ikiashiria anwani)
+Codes taken from [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+
+### Ingizo kufikia anwani (ikiashiria anwani)
 ```python
 import angr
 import sys
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Ingiza kufikia anwani (ikiashiria machapisho)
+### Ingizo kufikia anwani (kuashiria uchapishaji)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Thamani za Usajili
+### Thamani za rejista
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -212,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Katika kesi hii, kuingia ilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, kwa hivyo thamani **`0x00000001`** ya stack inatoka kwa **kuingia mtumiaji**. Unaweza kuona jinsi thamani hizi zinaanza katika `$ebp - 8`. Kwa hivyo, katika nambari tumetoa **bytes 8 kwa `$esp` (kama wakati huo `$ebp` na `$esp` walikuwa na thamani sawa)** na kisha tukaipush BVS.
+Katika hali hii, ingizo lilichukuliwa na `scanf("%u %u")` na thamani `"1 1"` ilitolewa, hivyo thamani **`0x00000001`** za stack zinatoka kwenye **ingizo la mtumiaji**. Unaweza kuona jinsi thamani hizi zinavyoanza katika `$ebp - 8`. Kwa hivyo, katika msimbo tuna **ondoa byte 8 kutoka `$esp` (kama katika wakati huo `$ebp` na `$esp` zilikuwa na thamani sawa)** na kisha tumepush BVS.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Thamani za Kumbukumbu za Stati (Vipimo vya Kimataifa)
+### Thamani za Kumbukumbu za Kawaida (Mabadiliko ya Kimataifa)
 ```python
 import angr
 import claripy
@@ -277,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Thamani za Kumbukumbu ya Kudumu (Malloc)
+### Thamani za Kumbukumbu za Kijamii (Malloc)
 ```python
 import angr
 import claripy
@@ -336,7 +339,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Uigizaji wa Faili
+### Uigaji wa Faili
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Tafadhali kumbuka kwamba faili ya ishara inaweza pia kuwa na data ya kudumu iliyochanganywa na data ya ishara:
+Kumbuka kwamba faili ya alama inaweza pia kuwa na data thabiti iliyounganishwa na data za alama:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -415,11 +418,11 @@ Tafadhali kumbuka kwamba faili ya ishara inaweza pia kuwa na data ya kudumu iliy
 ```
 {% endhint %}
 
-### Kutumia Vizuizi
+### Kutumia Vikwazo
 
 {% hint style="info" %}
-Maranyingi shughuli za binadamu za kulinganisha maneno 2 yenye urefu wa 16 **herufi kwa herufi** (kwa kitanzi), **gharama** sana kwa **angr** kwa sababu inahitaji kuzalisha matawi **kwa kiwango cha kipekee** kwa sababu inazalisha tawi 1 kwa kila ikiwa: `2^16`\
-Hivyo basi, ni rahisi zaidi **kuuliza angr irudi kwenye hatua ya awali** (ambapo sehemu ngumu halisi ilishafanywa) na **kuweka vizuizi hivyo kwa mkono**.
+Wakati mwingine operesheni rahisi za kibinadamu kama kulinganisha maneno 2 ya urefu 16 **karakteri kwa karakteri** (mzunguko), **gharama** kubwa kwa **angr** kwa sababu inahitaji kuunda matawi **kwa kiwango kikubwa** kwa sababu inaunda tawi 1 kwa kila ikiwa: `2^16`\
+Hivyo, ni rahisi **kuomba angr ifikie mahali hapo awali** (ambapo sehemu ngumu halisi ilikuwa tayari imefanywa) na **kuiweka vikwazo hivyo kwa mikono**.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Katika hali fulani unaweza kuamsha **veritesting**, ambayo itaunganisha hali sawa, ili kuokoa matawi yasiyofaa na kupata suluhisho: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Katika baadhi ya hali unaweza kuanzisha **veritesting**, ambayo itachanganya hali zinazofanana, ili kuokoa matawi yasiyo na maana na kupata suluhisho: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Jambo lingine unaloweza kufanya katika hali hizi ni **kufunga kazi ya kumpa angr kitu ambacho inaweza kuelewa** kwa urahisi zaidi.
+Jambo lingine unaloweza kufanya katika hali hizi ni **kuunganisha kazi kwa kumpa angr kitu ambacho kinaweza kueleweka** kwa urahisi zaidi.
 {% endhint %}
 
-### Mameneja wa Uigaji
+### Wasimamizi wa Simulering
 
-Baadhi ya mameneja wa uigaji wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kwa sababu matawi mengi muhimu yaliumbwa. Hapa, mbinu ya **veritesting** itaunganisha hayo na kupata suluhisho.\
-Mameneja huyu wa uigaji pia unaweza kuamshwa kwa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Wasimamizi wengine wa simulering wanaweza kuwa na manufaa zaidi kuliko wengine. Katika mfano uliopita kulikuwa na tatizo kwani matawi mengi ya manufaa yaliumbwa. Hapa, mbinu ya **veritesting** itachanganya hayo na itapata suluhisho.\
+Wasimamizi huu wa simulering pia wanaweza kuanzishwa kwa: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kufunga/Kupita moja kwa moja kwa wito wa kazi
+### Hooking/Kupita simu moja kwa kazi
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kufunga kazi / Simprocedure
+### Kuingiza kazi / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Linganisha scanf na vigezo kadhaa
+### Simulate scanf with several params
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -754,7 +757,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Programu za Statiči
+### Static Binaries
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

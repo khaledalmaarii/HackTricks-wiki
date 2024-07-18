@@ -1,37 +1,38 @@
-# Oracle ya Padding
+# Padding Oracle
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## CBC - Cipher Block Chaining
 
-Katika modi ya CBC **block iliyotangulia iliyofanyiwa encryption hutumiwa kama IV** ya XOR na block inayofuata:
+In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
 
 ![https://defuse.ca/images/cbc\_encryption.png](https://defuse.ca/images/cbc\_encryption.png)
 
-Kwa kudecrypt CBC **operesheni za kinyume** hufanywa:
+To decrypt CBC the **opposite** **operations** are done:
 
 ![https://defuse.ca/images/cbc\_decryption.png](https://defuse.ca/images/cbc\_decryption.png)
 
-Tambua jinsi inavyohitajika kutumia **ufunguo wa encryption** na **IV**.
+Notice how it's needed to use an **encryption** **key** and an **IV**.
 
-## Kupangilia Ujumbe
+## Message Padding
 
-Kwa kuwa encryption inafanywa katika **blocks za saizi iliyowekwa**, **padding** mara nyingi inahitajika katika **block ya mwisho** ili kukamilisha urefu wake.\
-Kawaida **PKCS7** hutumiwa, ambayo inazalisha padding **inayorudia** **idadi** ya **bytes** **inayohitajika** kukamilisha block. Kwa mfano, ikiwa block ya mwisho inakosa bytes 3, padding itakuwa `\x03\x03\x03`.
+As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
+Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
 
-Tuangalie mifano zaidi na **blocks 2 zenye urefu wa 8bytes**:
+Let's look at more examples with a **2 blocks of length 8bytes**:
 
 | byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
@@ -40,43 +41,43 @@ Tuangalie mifano zaidi na **blocks 2 zenye urefu wa 8bytes**:
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Tambua jinsi katika mfano wa mwisho **block ya mwisho ilikuwa kamili hivyo nyingine ilizalishwa tu na padding**.
+Note how in the last example the **last block was full so another one was generated only with padding**.
 
-## Oracle ya Padding
+## Padding Oracle
 
-Wakati programu inadecrypt data iliyofanyiwa encryption, kwanza itadecrypt data; kisha itaondoa padding. Wakati wa kusafisha padding, ikiwa **padding isiyo halali inachochea tabia inayoweza kugundulika**, una **udhaifu wa oracle ya padding**. Tabia inayoweza kugundulika inaweza kuwa **kosa**, **ukosefu wa matokeo**, au **jibu polepole**.
+When an application decrypts encrypted data, it will first decrypt the data; then it will remove the padding. During the cleanup of the padding, if an **invalid padding triggers a detectable behaviour**, you have a **padding oracle vulnerability**. The detectable behaviour can be an **error**, a **lack of results**, or a **slower response**.
 
-Ukigundua tabia hii, unaweza **kudecrypt data iliyofanyiwa encryption** na hata **kufanya encryption ya maandishi wazi yoyote**.
+If you detect this behaviour, you can **decrypt the encrypted data** and even **encrypt any cleartext**.
 
-### Jinsi ya kutumia
+### How to exploit
 
-Unaweza kutumia [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) kudukua aina hii ya udhaifu au tu fanya
+You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
 ```
 sudo apt-get install padbuster
 ```
-Ili kujaribu kama kuki ya tovuti ina mapungufu unaweza kujaribu:
+Ili kujaribu kama cookie ya tovuti ina udhaifu unaweza kujaribu:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
-**Ukodishaji 0** maana yake **base64** inatumika (ingawa nyingine zinapatikana, angalia menyu ya msaada).
+**Encoding 0** inamaanisha kwamba **base64** inatumika (lakini zingine zinapatikana, angalia menyu ya msaada).
 
-Unaweza pia **kutumia udhaifu huu kwa kuficha data mpya. Kwa mfano, fikiria maudhui ya kuki ni "**_**mtumiaji=JinaLanguLaMtumiaji**_**", basi unaweza kubadilisha kuwa "\_mtumiaji=msimamizi\_" na kuinua mamlaka ndani ya programu. Unaweza pia kufanya hivyo ukitumia `paduster` ukielekeza kipengele cha -plaintext:**
+Unaweza pia **kutumia udhaifu huu kuandika data mpya. Kwa mfano, fikiria kwamba maudhui ya cookie ni "**_**user=MyUsername**_**", kisha unaweza kubadilisha kuwa "\_user=administrator\_" na kuongeza mamlaka ndani ya programu. Unaweza pia kufanya hivyo ukitumia `paduster`ukitaja -plaintext** parameter:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-Ikiwa tovuti ina kasoro `padbuster` itajaribu kiotomatiki kupata wakati kosa la padding linatokea, lakini unaweza pia kuashiria ujumbe wa kosa kwa kutumia parameter ya **-error**.
+Ikiwa tovuti ina udhaifu, `padbuster` itajaribu moja kwa moja kubaini wakati kosa la padding linapotokea, lakini unaweza pia kuonyesha ujumbe wa kosa hilo ukitumia **-error** parameter.
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
 ### Nadharia
 
-Kwa **muhtasari**, unaweza kuanza kufichua data iliyofichwa kwa kudhani thamani sahihi ambayo inaweza kutumika kuunda **paddings tofauti** zote. Kisha, shambulio la padding oracle litianza kufichua herufi kutoka mwisho hadi mwanzo kwa kudhani ni thamani sahihi ambayo **inaunda padding ya 1, 2, 3, nk**.
+Kwa **muhtasari**, unaweza kuanza kufungua data iliyosimbwa kwa kubashiri thamani sahihi ambazo zinaweza kutumika kuunda **paddings tofauti**. Kisha, shambulio la padding oracle litaanza kufungua byte kutoka mwisho hadi mwanzo kwa kubashiri ni ipi itakuwa thamani sahihi inayounda padding ya **1, 2, 3, n.k.**.
 
 ![](<../.gitbook/assets/image (561).png>)
 
-Fikiria una maandishi yaliyofichwa ambayo yanachukua **vikundi 2** vilivyoundwa na herufi kutoka **E0 hadi E15**.\
-Ili **kufichua** **kikundi cha mwisho** (**E8** hadi **E15**), kikundi nzima hupitia "ufichuaji wa block cipher" ukizalisha **herufi za kati I0 hadi I15**.\
-Hatimaye, kila herufi ya kati ina **XORed** na herufi zilizofichwa hapo awali (E0 hadi E7). Hivyo:
+Fikiria una maandiko yaliyosimbwa yanayochukua **blocks 2** yaliyoundwa na byte kutoka **E0 hadi E15**.\
+Ili **kufungua** **block** ya **mwisho** (**E8** hadi **E15**), block nzima inapita kupitia "block cipher decryption" ikizalisha **byte za kati I0 hadi I15**.\
+Hatimaye, kila byte ya kati inafanywa **XOR** na byte zilizopita zilizofichwa (E0 hadi E7). Hivyo:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -84,41 +85,42 @@ Hatimaye, kila herufi ya kati ina **XORed** na herufi zilizofichwa hapo awali (E
 * `C12 = I12 ^ E4`
 * ...
 
-Sasa, Inawezekana **kubadilisha `E7` hadi `C15` iwe `0x01`**, ambayo pia itakuwa padding sahihi. Hivyo, katika kesi hii: `\x01 = I15 ^ E'7`
+Sasa, inawezekana **kubadilisha `E7` hadi `C15` iwe `0x01`**, ambayo pia itakuwa padding sahihi. Hivyo, katika kesi hii: `\x01 = I15 ^ E'7`
 
-Hivyo, kwa kupata E'7, ni **inawezekana kuhesabu I15**: `I15 = 0x01 ^ E'7`
+Hivyo, kupata E'7, inawezekana **kuyakadiria I15**: `I15 = 0x01 ^ E'7`
 
-Hii inaruhusu sisi **kuhesabu C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+Ambayo inaturuhusu **kuyakadiria C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Kwa kujua **C15**, sasa ni **inawezekana kuhesabu C14**, lakini wakati huu kwa kubadilisha nguvu padding `\x02\x02`.
+Kujua **C15**, sasa inawezekana **kuyakadiria C14**, lakini wakati huu kwa kubashiri padding `\x02\x02`.
 
-BF hii ni ngumu kama ile ya awali kwa sababu inawezekana kuhesabu **`E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo ni muhimu tu kupata **`E'14`** ambayo inazalisha **`C14` sawa na `0x02`**.\
-Kisha, fanya hatua sawa kufichua C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+Hii BF ni ngumu kama ile ya awali kwani inawezekana kukadiria `E''15` ambayo thamani yake ni 0x02: `E''7 = \x02 ^ I15` hivyo inahitajika tu kupata **`E'14`** inayozalisha **`C14` inayolingana na `0x02`**.\
+Kisha, fanya hatua hizo hizo kufungua C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Fuata mnyororo huu hadi ufichue maandishi yote yaliyofichwa.**
+**Fuata mnyororo huu hadi ufungue maandiko yote yaliyosimbwa.**
 
-### Kugundua udhaifu
+### Ugunduzi wa udhaifu
 
-Jisajili akaunti na ingia kwa akaunti hiyo.\
-Ikiwa **unaingia mara nyingi** na daima unapata **cookie sawa**, kuna uwezekano **kitu** **hakiko sawa** katika programu. **Cookie inayotumwa inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa cookie ni **sawa daima**, itakuwa uwezekano daima kuwa halali na **hakutakuwa na njia ya kuitengua**.
+Jisajili na ujiandikishe na akaunti hii.\
+Ikiwa unafanya **kuingia mara nyingi** na kila wakati unapata **keki ile ile**, kuna uwezekano **kuna kitu** **sijakamilika** katika programu. **Keki inayotumwa nyuma inapaswa kuwa ya kipekee** kila wakati unapoingia. Ikiwa keki ni **daima** ile **ile**, kuna uwezekano itakuwa daima halali na hakuna **njia ya kuifuta**.
 
-Sasa, ikiwa jaribu **kubadilisha** **cookie**, utaona unapata **kosa** kutoka kwa programu.\
-Lakini ikiwa unatumia BF ya padding (kwa kutumia padbuster kwa mfano) unaweza kupata cookie nyingine halali kwa mtumiaji tofauti. Hali hii inaweza kuwa na uwezekano mkubwa wa kuwa na udhaifu wa padbuster.
+Sasa, ikiwa unajaribu **kubadilisha** **keki**, unaweza kuona unapata **kosa** kutoka kwa programu.\
+Lakini ikiwa unafanya BF padding (ukitumia padbuster kwa mfano) unafanikiwa kupata keki nyingine halali kwa mtumiaji tofauti. Hali hii ina uwezekano mkubwa wa kuwa na udhaifu kwa padbuster.
 
-### Marejeo
+### Marejeleo
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

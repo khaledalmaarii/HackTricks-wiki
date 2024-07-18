@@ -1,88 +1,90 @@
-# Shambulizi la Upanuzi wa Urefu wa Hash
+# Hash Length Extension Attack
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za wizi wa habari.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Muhtasari wa shambulizi
+## Summary of the attack
 
-Fikiria server ambayo ina **kutilia sahihi** baadhi ya **data** kwa **kuongeza** **siri** kwa baadhi ya data dhahiri inayojulikana kisha kuhakiki data hiyo. Ikiwa unajua:
+Fikiria seva ambayo inasaini baadhi ya **data** kwa kuongezea **siri** kwa baadhi ya data ya wazi inayojulikana na kisha kuhashi data hiyo. Ikiwa unajua:
 
-* **Urefu wa siri** (hii inaweza pia kufanywa kwa nguvu kutoka kwa safu ya urefu iliyopewa)
-* **Data dhahiri**
-* **Algoritimu (na inayoweza kushambuliwa na shambulizi hili)**
-* **Kujaza inajulikana**
-* Kawaida moja ya msingi hutumiwa, hivyo ikiwa mahitaji mengine 3 yanakidhiwa, hii pia inafaa
-* Kujaza hubadilika kulingana na urefu wa siri+data, ndio sababu urefu wa siri unahitajika
+* **Urefu wa siri** (hii inaweza pia kubruteforced kutoka kwa anuwai ya urefu iliyotolewa)
+* **Data ya wazi**
+* **Algorithimu (na inahatarishwa na shambulio hili)**
+* **Padding inajulikana**
+* Kawaida moja ya chaguo-msingi inatumika, hivyo ikiwa mahitaji mengine 3 yanakidhi, hii pia inafanya hivyo
+* Padding inatofautiana kulingana na urefu wa siri + data, ndivyo maana urefu wa siri unahitajika
 
-Basi, ni rahisi kwa **mshambuliaji** kuongeza **data** na **kuzalisha** sahihi **ya awali + data iliyongezwa**.
+Basi, inawezekana kwa **mshambuliaji** ku **ongeza** **data** na **kuunda** **sahihi** halali kwa **data ya awali + data iliyoongezwa**.
 
-### Vipi?
+### How?
 
-Kimsingi, algorithm zinazoweza kushambuliwa huzalisha hashes kwa kwanza **kutia hash kundi la data**, na kisha, **kutoka** kwa **hash iliyoundwa awali** (hali), wan **ongeza kundi la data linalofuata** na **kulihakiki**.
+Kimsingi algorithimu zinazohatarishwa zinaweza kuunda hash kwa kwanza **kuhashi block ya data**, na kisha, **kutoka** kwa **hash** iliyoundwa **awali** (hali), wana **ongeza block inayofuata ya data** na **kuhashi**.
 
-Kisha, fikiria kwamba siri ni "siri" na data ni "data", MD5 ya "secretdata" ni 6036708eba0d11f6ef52ad44e8b74d5b.\
-Ikiwa mshambuliaji anataka kuongeza herufi "ongeza" anaweza:
+Basi, fikiria kwamba siri ni "siri" na data ni "data", MD5 ya "siri data" ni 6036708eba0d11f6ef52ad44e8b74d5b.\
+Ikiwa mshambuliaji anataka kuongeza mfuatano "ongeza" anaweza:
 
-* Kuzalisha MD5 ya "A" 64
-* Badilisha hali ya hash iliyoundwa awali kuwa 6036708eba0d11f6ef52ad44e8b74d5b
-* Ongeza herufi "ongeza"
-* Maliza hash na hash inayotokana itakuwa **sahihi kwa "siri" + "data" + "kujaza" + "ongeza"**
+* Kuunda MD5 ya "A" 64
+* Kubadilisha hali ya hash iliyowekwa awali kuwa 6036708eba0d11f6ef52ad44e8b74d5b
+* Ongeza mfuatano "ongeza"
+* Maliza hash na hash inayotokana itakuwa **halali kwa "siri" + "data" + "padding" + "ongeza"**
 
-### **Zana**
+### **Tool**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### Marejeo
+### References
 
-Unaweza kupata shambulizi hili limeelezewa vizuri katika [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+Unaweza kupata shambulio hili limeelezewa vizuri katika [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za wizi wa habari.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao kwa **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

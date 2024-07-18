@@ -1,20 +1,21 @@
-# Mazingira ya Linux
+# Linux Environment Variables
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Kikundi cha Usalama cha Kujitahidi**
+**Try Hard Security Group**
 
 <figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,11 +23,11 @@ Njia nyingine za kusaidia HackTricks:
 
 ***
 
-## Mazingira ya Kitaifa
+## Global variables
 
-Mazingira ya kitaifa **yataurithiwa na** **mchakato wa watoto**.
+Vigezo vya kimataifa **vitakuwa** vinarithiwa na **mchakato wa watoto**.
 
-Unaweza kuunda mazingira ya kitaifa kwa kikao chako cha sasa kwa kufanya:
+Unaweza kuunda kigezo cha kimataifa kwa ajili ya kikao chako cha sasa kwa kufanya:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
@@ -37,15 +38,15 @@ Unaweza **kuondoa** variable kwa kufanya:
 ```bash
 unset MYGLOBAL
 ```
-## Variables za Kienyeji
+## Local variables
 
-**Variables za kienyeji** zinaweza kufikiwa tu na **kifaa cha sasa/maandishi**.
+The **local variables** can only be **accessed** by the **current shell/script**.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Orodhesha mazingira ya sasa
+## Orodha ya mabadiliko ya sasa
 ```bash
 set
 env
@@ -53,63 +54,63 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Vipimo vya Kawaida
+## Common variables
 
-Kutoka: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – kiolesura kinachotumiwa na **X**. Kipimo hiki kawaida huwekwa kama **:0.0**, ambayo inamaanisha kiolesura cha kwanza kwenye kompyuta ya sasa.
-* **EDITOR** – mhariri wa maandishi unaopendelewa na mtumiaji.
-* **HISTFILESIZE** – idadi kubwa ya mistari inayojumuishwa kwenye faili ya historia.
-* **HISTSIZE** – Idadi ya mistari inayoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kikao chake.
+* **DISPLAY** – onyesho linalotumiwa na **X**. Kigezo hiki kwa kawaida huwekwa kwenye **:0.0**, ambayo inamaanisha onyesho la kwanza kwenye kompyuta ya sasa.
+* **EDITOR** – mhariri wa maandiko anayependelea mtumiaji.
+* **HISTFILESIZE** – idadi ya juu ya mistari iliyomo kwenye faili ya historia.
+* **HISTSIZE** – Idadi ya mistari iliyoongezwa kwenye faili ya historia wakati mtumiaji anamaliza kikao chake.
 * **HOME** – saraka yako ya nyumbani.
 * **HOSTNAME** – jina la mwenyeji wa kompyuta.
 * **LANG** – lugha yako ya sasa.
-* **MAIL** – eneo la sanduku la barua pepe la mtumiaji. Kawaida **/var/spool/mail/USER**.
+* **MAIL** – mahali ambapo mzunguko wa barua wa mtumiaji upo. Kwa kawaida **/var/spool/mail/USER**.
 * **MANPATH** – orodha ya saraka za kutafuta kurasa za mwongozo.
 * **OSTYPE** – aina ya mfumo wa uendeshaji.
-* **PS1** – ishara ya amri ya msingi katika bash.
-* **PATH** – inahifadhi njia ya saraka zote zinazoshikilia faili za binary unazotaka kutekeleza kwa kuzitaja kwa jina la faili na sio kwa njia ya kihusishi au kamili.
+* **PS1** – kiashiria cha chaguo-msingi katika bash.
+* **PATH** – huhifadhi njia ya saraka zote ambazo zina faili za binary unazotaka kutekeleza kwa kutaja tu jina la faili na si kwa njia ya uhusiano au njia kamili.
 * **PWD** – saraka ya kazi ya sasa.
-* **SHELL** – njia ya kabu ya amri ya sasa (kwa mfano, **/bin/bash**).
+* **SHELL** – njia ya shell ya amri ya sasa (kwa mfano, **/bin/bash**).
 * **TERM** – aina ya terminal ya sasa (kwa mfano, **xterm**).
 * **TZ** – eneo lako la muda.
 * **USER** – jina lako la mtumiaji la sasa.
 
-## Vipimo vya Kuvutia kwa Udukuzi
+## Interesting variables for hacking
 
 ### **HISTFILESIZE**
 
-Badilisha **thamani ya kipimo hiki iwe 0**, hivyo unapomaliza **kikao chako** faili ya **historia** (\~/.bash\_history) **itafutwa**.
+Badilisha **thamani ya kigezo hiki kuwa 0**, ili wakati unapo **maliza kikao chako** faili ya **historia** (\~/.bash\_history) **itafutwa**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Badilisha **thamani ya kigezo hiki iwe 0**, hivyo unapomaliza **kikao chako** amri yoyote haitaongezwa kwenye **faili ya historia** (\~/.bash\_history).
+Badilisha **thamani ya hii variable kuwa 0**, ili wakati unapo **maliza kikao chako** amri yoyote itaongezwa kwenye **faili ya historia** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Mchakato utatumia **proxy** iliyotangazwa hapa kuunganisha kwenye mtandao kupitia **http au https**.
+Mchakato utatumia **proxy** iliyotangazwa hapa kuungana na mtandao kupitia **http au https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
-### SSL_CERT_FILE & SSL_CERT_DIR
+### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Mchakato utaamini vyeti vilivyoorodheshwa katika **mazingira haya ya mazingira**.
+Mifumo itatumia vyeti vilivyoonyeshwa katika **hizi env variables**.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Badilisha jinsi dirisha lako la amri linavyoonekana.
+Badilisha jinsi inavyoonekana.
 
 [**Hii ni mfano**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
-Root:
+Mizizi:
 
 ![](<../.gitbook/assets/image (897).png>)
 
@@ -117,30 +118,31 @@ Mtumiaji wa kawaida:
 
 ![](<../.gitbook/assets/image (740).png>)
 
-Kazi moja, mbili na tatu zilizowekwa nyuma:
+Kazi tatu zilizotengwa:
 
 ![](<../.gitbook/assets/image (145).png>)
 
-Kazi moja iliyowekwa nyuma, moja imezuiliwa na amri ya mwisho haikumalizika kwa usahihi:
+Kazi moja iliyotengwa, moja ilisimamishwa na amri ya mwisho haikukamilika vizuri:
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
+**Jaribu Kikundi cha Usalama**
 
 <figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

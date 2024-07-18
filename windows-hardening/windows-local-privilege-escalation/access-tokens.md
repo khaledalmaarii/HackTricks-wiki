@@ -1,36 +1,39 @@
-# Vitambulisho vya Kufikia
+# Access Tokens
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa **huduma za bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **programu hasidi za kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba taarifa.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
 
-Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Vitambulisho vya Kufikia
+## Access Tokens
 
-Kila **mtumiaji aliyeingia** kwenye mfumo **ana kitambulisho cha kufikia chenye habari za usalama** kwa kikao hicho cha kuingia. Mfumo hutoa kitambulisho cha kufikia wakati mtumiaji anaingia. **Kila mchakato unaoendeshwa** kwa niaba ya mtumiaji **una nakala ya kitambulisho cha kufikia**. Kitambulisho hicho huchambua mtumiaji, vikundi vya mtumiaji, na mamlaka ya mtumiaji. Kitambulisho pia kina SID ya kuingia (Kitambulisho cha Usalama) kinachoidhinisha kikao cha kuingia cha sasa.
+Kila **mtumiaji aliyeingia** kwenye mfumo **ana token ya ufikiaji yenye taarifa za usalama** kwa ajili ya kikao hicho cha kuingia. Mfumo huunda token ya ufikiaji wakati mtumiaji anaingia. **Kila mchakato unaotekelezwa** kwa niaba ya mtumiaji **una nakala ya token ya ufikiaji**. Token hiyo inatambulisha mtumiaji, vikundi vya mtumiaji, na ruhusa za mtumiaji. Token pia ina SID ya kuingia (Identifier ya Usalama) inayotambulisha kikao cha sasa cha kuingia.
 
-Unaweza kuona habari hii kwa kutekeleza `whoami /all`
+Unaweza kuona taarifa hii ukitekeleza `whoami /all`
 ```
 whoami /all
 
@@ -74,77 +77,80 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-or using _Process Explorer_ kutoka Sysinternals (chagua mchakato na ufikie kichupo cha "Usalama"):
+or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
 
 ![](<../../.gitbook/assets/image (772).png>)
 
-### Msimamizi wa Mitaa
+### Msimamizi wa ndani
 
-Wakati msimamizi wa mitaa anapoingia, **vitambulisho viwili vya ufikiaji** vinajengwa: Kimoja chenye haki za msimamizi na kingine chenye haki za kawaida. **Kwa chaguo-msingi**, wakati mtumiaji huyu anaendesha mchakato, kile chenye **haki za kawaida** (si msimamizi) **hutumiwa**. Wakati mtumiaji huyu anajaribu **kuendesha** kitu **kama msimamizi** ("Chalaza kama Msimamizi" kwa mfano) **UAC** itatumika kuomba idhini.\
+Wakati msimamizi wa ndani anapoingia, **tokeni mbili za ufikiaji zinaundwa**: Moja ikiwa na haki za msimamizi na nyingine ikiwa na haki za kawaida. **Kwa default**, wakati mtumiaji huyu anatekeleza mchakato, ile yenye **haki za kawaida** (zisizo za msimamizi) **inatumika**. Wakati mtumiaji huyu anajaribu **kutekeleza** chochote **kama msimamizi** ("Run as Administrator" kwa mfano) **UAC** itatumika kuomba ruhusa.\
 Ikiwa unataka [**kujifunza zaidi kuhusu UAC soma ukurasa huu**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Uigizaji wa Mtumiaji wa Vitambulisho
+### Ujanja wa utambulisho wa mtumiaji
 
-Ikiwa una **vitambulisho halali vya mtumiaji mwingine**, unaweza **kuunda** kikao **kipya cha kuingia** kwa kutumia vitambulisho hivyo:
+Ikiwa una **uthibitisho halali wa mtumiaji mwingine yeyote**, unaweza **kuunda** **sehemu mpya ya kuingia** kwa kutumia uthibitisho huo:
 ```
 runas /user:domain\username cmd.exe
 ```
-**Tokeni ya ufikiaji** pia ina **marejeleo** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kupata baadhi ya vitu vya mtandao.\
-Unaweza kuzindua mchakato ambao **unatumia sifa tofauti kwa ajili ya kupata huduma za mtandao** kwa kutumia:
+The **access token** ina **rejea** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kufikia baadhi ya vitu vya mtandao.\
+Unaweza kuzindua mchakato ambao **unatumia sifa tofauti za kufikia huduma za mtandao** kwa kutumia:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Hii ni muhimu ikiwa una sifa muhimu za kupata vitu kwenye mtandao lakini sifa hizo si halali ndani ya mwenyeji wa sasa kwani zitatumika tu kwenye mtandao (katika mwenyeji wa sasa, sifa zako za mtumiaji wa sasa zitatumika).
+Hii ni muhimu ikiwa una akidi muhimu za kufikia vitu katika mtandao lakini akidi hizo si halali ndani ya mwenyeji wa sasa kwani zitatumika tu katika mtandao (katika mwenyeji wa sasa, ruhusa za mtumiaji wako wa sasa zitatumika).
 
-### Aina za Vyeti
+### Aina za tokeni
 
-Kuna aina mbili za vyeti zilizopo:
+Kuna aina mbili za tokeni zinazopatikana:
 
-* **Cheti Kuu**: Hufanya kama uwakilishi wa sifa za usalama za mchakato. Uundaji na uunganishaji wa vyeti vya msingi na michakato ni vitendo vinavyohitaji mamlaka ya juu, kusisitiza kanuni ya kutenganisha mamlaka. Kwa kawaida, huduma ya uthibitishaji inahusika na uundaji wa cheti, wakati huduma ya kuingia inashughulikia uhusiano wake na kabati la mfumo wa mtumiaji. Ni muhimu kutambua kwamba michakato huirithi cheti kuu cha mchakato wao wa mzazi wakati wa uundaji.
-* **Cheti cha Uigizaji**: Humpa programu ya seva uwezo wa kuchukua kitambulisho cha mteja kwa muda kwa kupata vitu salama. Mfumo huu umegawanywa katika viwango vinne vya uendeshaji:
-  * **Anonim**: Hutoa ufikiaji wa seva kama wa mtumiaji asiyejulikana.
-  * **Utambuzi**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kutumia kwa upatikanaji wa vitu.
-  * **Uigizaji**: Inawezesha seva kufanya kazi chini ya kitambulisho cha mteja.
-  * **Uteuzi**: Kama Uigizaji lakini inajumuisha uwezo wa kuendeleza dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inashirikiana nayo, ikisimamia uhifadhi wa sifa.
+* **Tokeni Kuu**: Inatumika kama uwakilishi wa akidi za usalama za mchakato. Uundaji na uhusiano wa tokeni kuu na michakato ni vitendo vinavyohitaji ruhusa za juu, ikisisitiza kanuni ya kutenganisha ruhusa. Kwa kawaida, huduma ya uthibitishaji inawajibika kwa uundaji wa tokeni, wakati huduma ya kuingia inashughulikia uhusiano wake na kiolesura cha mfumo wa uendeshaji wa mtumiaji. Inafaa kutaja kwamba michakato inarithi tokeni kuu ya mchakato wao wa mzazi wakati wa uundaji.
+* **Tokeni ya Kuiga**: Inamuwezesha programu ya seva kuchukua kitambulisho cha mteja kwa muda ili kufikia vitu salama. Mekanismu hii imegawanywa katika viwango vinne vya uendeshaji:
+* **Kujulikana**: Inatoa ufikiaji wa seva sawa na wa mtumiaji asiyejulikana.
+* **Utambulisho**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kukitumia kwa ufikiaji wa vitu.
+* **Kuiga**: Inamuwezesha seva kufanya kazi chini ya kitambulisho cha mteja.
+* **Delegation**: Kama Kuiga lakini inajumuisha uwezo wa kupanua dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inawasiliana nayo, kuhakikisha uhifadhi wa akidi.
 
-#### Kujifanya Kuwa na Vyeti
+#### Tokeni za Kuiga
 
-Kwa kutumia moduli ya _**incognito**_ ya metasploit ikiwa una mamlaka za kutosha unaweza kwa urahisi **kuorodhesha** na **kujifanya kuwa** vyeti vingine. Hii inaweza kuwa muhimu kufanya **vitendo kana kwamba wewe ni mtumiaji mwingine**. Pia unaweza **kupandisha vyeo vya mamlaka** kwa kutumia mbinu hii.
+Kwa kutumia moduli ya _**incognito**_ ya metasploit ikiwa una ruhusa za kutosha unaweza kwa urahisi **orodhesha** na **kuiga** tokeni nyingine. Hii inaweza kuwa muhimu kufanya **vitendo kana kwamba wewe ni mtumiaji mwingine**. Unaweza pia **kuinua ruhusa** kwa kutumia mbinu hii.
 
-### Mamlaka ya Vyeti
+### Ruhusa za Tokeni
 
-Jifunze ni **mamlaka gani ya vyeti yanaweza kutumiwa vibaya kwa kupandisha vyeo vya mamlaka:**
+Jifunze ni zipi **ruhusa za tokeni zinaweza kutumika vibaya ili kuinua ruhusa:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Tazama [**mamlaka yote yanayowezekana ya vyeti na baadhi ya ufafanuzi kwenye ukurasa huu wa nje**](https://github.com/gtworek/Priv2Admin).
+Angalia [**ruhusa zote zinazowezekana za tokeni na baadhi ya maelezo kwenye ukurasa huu wa nje**](https://github.com/gtworek/Priv2Admin).
 
-## Marejeo
+## Marejeleo
 
-Jifunze zaidi kuhusu vyeti katika mafunzo haya: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) na [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Jifunze zaidi kuhusu tokeni katika mafunzo haya: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) na [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** inayotoa huduma za **bure** kuchunguza ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** inayotoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **wameathiriwa** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi ya wizi wa habari.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** hapa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) **kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
