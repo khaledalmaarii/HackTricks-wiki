@@ -1,18 +1,19 @@
 # macOS Güvenliği ve Yetki Yükseltme
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Bize katılın** 💬 [**Discord grubunda**](https://discord.gg/hRep4RUj7f) veya [**telegram grubunda**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
@@ -25,13 +26,13 @@ Hacking'in heyecanına ve zorluklarına inen içeriklerle etkileşime girin
 Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
 
 **En Son Duyurular**\
-Başlatılan en yeni ödül avı programları ve önemli platform güncellemeleri hakkında bilgi sahibi olun
+Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgilenin
 
 **Bize katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliğine başlayın!
 
 ## Temel MacOS
 
-Eğer macOS hakkında bilgi sahibi değilseniz, macOS'ın temellerini öğrenmeye başlamalısınız:
+MacOS'u tanımıyorsanız, MacOS'un temellerini öğrenmeye başlamalısınız:
 
 * Özel macOS **dosyaları ve izinleri:**
 
@@ -57,18 +58,18 @@ Eğer macOS hakkında bilgi sahibi değilseniz, macOS'ın temellerini öğrenmey
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Ortak macOS ağ hizmetleri ve protokolleri
+* Ortak macOS **ağ hizmetleri ve protokolleri**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
 * **Açık kaynak** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-* Bir `tar.gz` dosyası indirmek için [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) gibi bir URL'yi [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) şeklinde değiştirin
+* Bir `tar.gz` indirmek için [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) gibi bir URL'yi [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) şeklinde değiştirin
 
 ### MacOS MDM
 
-Şirketlerde **macOS** sistemleri büyük olasılıkla bir MDM ile **yönetilecektir**. Bu nedenle, bir saldırganın bakış açısından **bu nasıl çalışır** öğrenmek ilginç olacaktır:
+Şirketlerde **macOS** sistemlerinin büyük olasılıkla bir **MDM ile yönetileceği** unutulmamalıdır. Bu nedenle, bir saldırganın bakış açısından **bu nasıl çalışır** bilgisi önemlidir:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
@@ -93,12 +94,12 @@ Eğer macOS hakkında bilgi sahibi değilseniz, macOS'ın temellerini öğrenmey
 Eğer **kök olarak çalışan bir işlem** bir kullanıcı tarafından kontrol edilebilen bir dosyaya yazarsa, kullanıcı bu durumu **yetki yükseltmek** için kötüye kullanabilir.\
 Bu durumlar şunlardan kaynaklanabilir:
 
-* Kullanıcı tarafından zaten oluşturulmuş olan dosya (kullanıcı tarafından sahip olunan)
-* Dosya, bir grup tarafından yazılabilir durumdaysa kullanıcı tarafından yazılabilir
-* Dosya, kullanıcı tarafından sahip olunan bir dizinin içinde ise (kullanıcı dosyayı oluşturabilir)
-* Dosya, kök tarafından sahip olunan bir dizinin içinde ise ancak kullanıcının bir grup sayesinde yazma erişimi varsa (kullanıcı dosyayı oluşturabilir)
+* Kullanıcı tarafından zaten oluşturulmuş olan dosya (kullanıcıya ait)
+* Dosya, bir grup tarafından yazılabilir durumda olduğu için kullanıcı tarafından yazılabilir
+* Dosya, kullanıcıya ait olan bir dizin içinde bulunuyorsa (kullanıcı dosyayı oluşturabilir)
+* Dosya, kök tarafından sahip olunan bir dizin içinde bulunuyorsa ancak kullanıcının bir grup tarafından yazma erişimi varsa (kullanıcı dosyayı oluşturabilir)
 
-**Kök tarafından kullanılacak bir dosya oluşturabilmek**, bir kullanıcının içeriğinden **yararlanmasına** veya hatta onu başka bir yere **sembolik bağlantılar/sabit bağlantılar** oluşturmasına olanak tanır.
+**Kök tarafından kullanılacak bir dosya** oluşturabilmek, bir kullanıcının dosyanın içeriğinden **yararlanmasına** veya hatta onu başka bir yere yönlendirmek için **sembolik bağlar/sabit bağlar** oluşturmasına olanak tanır.
 
 Bu tür zafiyetler için **savunmasız `.pkg` yükleyicilerini** kontrol etmeyi unutmayın:
 
@@ -116,17 +117,17 @@ Dosya uzantıları tarafından kaydedilen garip uygulamalar kötüye kullanılab
 
 ## macOS TCC / SIP Yetki Yükseltme
 
-macOS'ta **uygulamalar ve ikili dosyalar**, diğerlerinden daha ayrıcalıklı hale getiren klasörleri veya ayarları erişmek için izinlere sahip olabilir.
+MacOS'ta **uygulamalar ve ikili dosyalar**, diğerlerinden daha ayrıcalıklı hale getiren klasörleri veya ayarları erişmek için izinlere sahip olabilir.
 
-Bu nedenle, bir macOS makinesini başarılı bir şekilde ele geçirmek isteyen bir saldırganın **TCC ayrıcalıklarını yükseltmesi** gerekecektir (veya ihtiyaçlarına bağlı olarak **SIP'yi atlaması** gerekebilir).
+Bu nedenle, bir macOS makinesini başarılı bir şekilde ele geçirmek isteyen bir saldırganın, MacOS'ta **TCC ayrıcalıklarını yükseltmesi** gerekecektir (veya ihtiyacına bağlı olarak **SIP'yi atlaması** gerekebilir).
 
-Bu ayrıcalıklar genellikle uygulamanın imzalandığı **yetkilendirmeler** şeklinde verilir veya uygulama bazı erişimler isteyebilir ve **kullanıcı bunları onayladıktan sonra** bu erişimler **TCC veritabanlarında** bulunabilir. Bir işlemin bu ayrıcalıkları elde etmenin başka bir yolu da, genellikle **miras alındıkları için** bu ayrıcalıklara sahip bir işlemin **çocuğu olmaktır**.
+Bu ayrıcalıklar genellikle uygulamanın imzalandığı **yetkilendirme** biçiminde verilir veya uygulama bazı erişimler isteyebilir ve **kullanıcı onayladıktan sonra** bu erişimler **TCC veritabanlarında** bulunabilir. Bir işlemin bu ayrıcalıkları elde etmenin başka bir yolu da, genellikle **miras alındıkları için** bu ayrıcalıklara sahip bir işlemin **çocuğu olmaktır**.
 
-Bu bağlantıları takip ederek farklı yolları bulabilirsiniz: [**TCC'de ayrıcalıkları yükseltmek**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**TCC'yi atlamak**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) ve geçmişte **SIP'nin nasıl atlatıldığını** görmek için [**buraya**](macos-security-protections/macos-sip.md#sip-bypasses) bakın.
+Bu bağlantıları takip ederek [**TCC'de ayrıcalıkları yükseltme**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**TCC'yi atlamak için**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) ve geçmişte **SIP'nin nasıl atlatıldığını** öğrenin.
 
 ## macOS Geleneksel Yetki Yükseltme
 
-Tabii ki, bir kırmızı takımın bakış açısından kök yetkilerine yükselmeniz de önemli olacaktır. Bazı ipuçları için aşağıdaki yazıya göz atın:
+Tabii ki, bir kırmızı takımın bakış açısından kök yetkilerine yükselmek de önemlidir. Bazı ipuçları için aşağıdaki gönderiyi kontrol edin:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
@@ -141,29 +142,30 @@ Tabii ki, bir kırmızı takımın bakış açısından kök yetkilerine yüksel
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın ve deneyimli hackerlar ve ödül avcıları ile iletişim kurun!
+[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) sunucusuna katılın ve deneyimli hackerlar ve ödül avcıları ile iletişime geçin!
 
 **Hacking İçgörüleri**\
-Hacking'in heyecanını ve zorluklarını inceleyen içeriklerle etkileşime geçin
+Hacking'in heyecanına ve zorluklarına inen içeriklerle etkileşime girin
 
 **Gerçek Zamanlı Hack Haberleri**\
-Hızlı tempolu hacking dünyasını gerçek zamanlı haberler ve içgörülerle takip edin
+Hızlı tempolu hacking dünyasında gerçek zamanlı haberler ve içgörülerle güncel kalın
 
 **En Son Duyurular**\
-Yayınlanan en yeni ödül avı programları ve önemli platform güncellemeleri hakkında bilgi edinin
+Yeni ödül avı başlatmaları ve önemli platform güncellemeleri hakkında bilgilenin
 
 **Bize Katılın** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ve bugün en iyi hackerlarla işbirliğine başlayın!
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Destek HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

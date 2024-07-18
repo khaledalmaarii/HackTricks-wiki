@@ -1,24 +1,25 @@
 # macOS Hassas Konumlar ve İlginç Daemonlar
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'ler**]'imiz(https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek hacking püf noktalarını paylaşın.
 
 </details>
+{% endhint %}
 
 ## Parolalar
 
-### Gölge Parolaları
+### Shadow Parolaları
 
-Gölge parolaları, kullanıcının yapılandırmasıyla birlikte **`/var/db/dslocal/nodes/Default/users/`** konumunda bulunan plist dosyalarında saklanır.\
+Shadow parolaları, kullanıcının yapılandırmasıyla birlikte **`/var/db/dslocal/nodes/Default/users/`** konumundaki plist'lerde saklanır.\
 Aşağıdaki oneliner, **kullanıcılar hakkındaki tüm bilgileri** (hash bilgileri dahil) dökmek için kullanılabilir:
 
 {% code overflow="wrap" %}
@@ -27,19 +28,17 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 ```
 {% endcode %}
 
-[**Bu örnekteki betikler**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) veya [**bu örnekteki**](https://github.com/octomagon/davegrohl.git) betikler, **hashcat** **formatına** dönüştürmek için kullanılabilir.
+[**Bu gibi betikler**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) veya [**bu**](https://github.com/octomagon/davegrohl.git) **gibi** betikler, **hashcat formatına** dönüştürmek için kullanılabilir.
 
-Tüm hizmet hesaplarında olmayan kimlik bilgilerini **hashcat** formatına dökecek alternatif bir tek satırlık komut `-m 7100` (macOS PBKDF2-SHA512):
+Tüm hizmet hesaplarında olmayan kimlik bilgilerini **hashcat formatında** dökümleyecek alternatif bir tek satırlık komut `-m 7100` (macOS PBKDF2-SHA512):
 
 {% code overflow="wrap" %}
 ```bash
 sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex "[^_]*"); do plutil -extract name.0 raw $i | awk "{printf \$0\":\$ml\$\"}"; for j in {iterations,salt,entropy}; do l=$(k=$(plutil -extract ShadowHashData.0 raw $i) && base64 -d <<< $k | plutil -extract SALTED-SHA512-PBKDF2.$j raw -); if [[ $j == iterations ]]; then echo -n $l; else base64 -d <<< $l | xxd -p -c 0 | awk "{printf \"$\"\$0}"; fi; done; echo ""; done'
 ```
-{% endcode %}
-
 ### Anahtarlık Dökümü
 
-Güvenlik ikilisini kullanarak **şifreleri şifrelenmiş olarak dökmek** istendiğinde, birkaç uyarı kullanıcıdan bu işlemi izlemesini isteyecektir.
+Güvenlik ikilisini kullanarak **şifreleri şifrelenmiş olarak dökmek** için birkaç uyarı penceresi kullanıcıdan bu işlemi izin vermesini isteyecektir.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -56,19 +55,19 @@ Bu yorum temel alınarak [juuso/keychaindump#10 (comment)](https://github.com/ju
 
 ### Keychaindump Genel Bakış
 
-**keychaindump** adlı bir araç, macOS anahtarlıklarından şifreleri çıkarmak için geliştirilmiştir, ancak Big Sur gibi yeni macOS sürümlerinde sınırlamalarla karşılaşmaktadır, [tartışmada](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) belirtildiği gibi. **keychaindump**'ın kullanımı, saldırganın **root** erişimi elde etmesini ve ayrıcalıkları yükseltmesini gerektirir. Araç, anahtarlığın kullanıcı girişinde varsayılan olarak kilidini açık tutulması gerçeğinden yararlanır, bu da uygulamaların kullanıcının şifresini sürekli olarak girmesini gerektirmeksizin buna erişmesine olanak tanır. Bununla birlikte, bir kullanıcının her kullanımdan sonra anahtarlığını kilitlemeyi tercih etmesi durumunda, **keychaindump** etkisiz hale gelir.
+**keychaindump** adlı bir araç, macOS anahtarlıklarından şifreleri çıkarmak için geliştirilmiştir, ancak Big Sur gibi yeni macOS sürümlerinde sınırlamalarla karşılaşmaktadır, [tartışmada](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) belirtildiği gibi. **keychaindump**'ın kullanımı saldırganın **root** erişimi elde etmesini ve ayrıcalıklarını yükseltmesini gerektirir. Araç, anahtarlığın kullanıcı girişinde varsayılan olarak kilidini açık tutulması gerçeğinden yararlanır, böylece uygulamaların kullanıcının şifresini sürekli olarak girmesini gerektirmeden erişmesine izin verir. Ancak, bir kullanıcının her kullanımdan sonra anahtarlığını kilitlemeyi tercih etmesi durumunda, **keychaindump** etkisiz hale gelir.
 
-**Keychaindump**, Apple tarafından yetkilendirme ve kriptografik işlemler için bir daemon olarak tanımlanan **securityd** adlı belirli bir işlemi hedef alarak çalışır. Çıkarma işlemi, kullanıcının giriş şifresinden türetilen bir **Anahtar Anahtarı**nı tanımlamayı içerir. Bu anahtar, anahtarlık dosyasını okumak için gereklidir. **Master Key**'i bulmak için **keychaindump**, potansiyel anahtarları aramak için `MALLOC_TINY` olarak işaretlenen alanlarda **securityd**'nin bellek yığınını `vmmap` komutunu kullanarak tarar. Bu bellek konumlarını incelemek için aşağıdaki komut kullanılır:
+**Keychaindump**, Apple tarafından yetkilendirme ve kriptografik işlemler için önemli olan **securityd** adlı belirli bir işlemi hedef alarak çalışır. Çıkarma işlemi, kullanıcının giriş şifresinden türetilen bir **Anahtar Ustası**'nı tanımlamayı içerir. Bu anahtar, anahtarlık dosyasını okumak için gereklidir. **Master Key**'i bulmak için **keychaindump**, potansiyel anahtarları aramak için `MALLOC_TINY` olarak işaretlenen alanlarda **securityd**'nin bellek yığınını `vmmap` komutunu kullanarak tarar. Bu bellek konumlarını incelemek için aşağıdaki komut kullanılır:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Potansiyel anahtarları tanımladıktan sonra, **keychaindump**, anahtar için bir adayı gösteren (`0x0000000000000018`) belirli bir deseni aramak için heap'leri tarar. Bu anahtarı kullanabilmek için deşifre etme de dahil olmak üzere daha fazla adım, **keychaindump**'ın kaynak kodunda belirtildiği gibi gereklidir. Bu alana odaklanan analistler, anahtar zincirini şifrelemek için gerekli olan kritik verilerin **securityd** işlemi belleğinde saklandığını unutmamalıdır. **keychaindump**'ı çalıştırmak için bir örnek komut:
+Potansiyel anahtarları belirledikten sonra, **keychaindump**, anahtar adayını belirten (`0x0000000000000018`) belirli bir deseni aramak için heap'leri tarar. Bu anahtarı kullanmak için deşifre etme de dahil olmak üzere daha fazla adım, **keychaindump**'ın kaynak kodunda belirtildiği gibi gereklidir. Bu alana odaklanan analistler, anahtar zincirini şifrelemek için gerekli olan kritik verilerin **securityd** işlemi belleğinde saklandığını unutmamalıdır. **keychaindump**'ı çalıştırmak için bir örnek komut:
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker), bir OSX anahtar zincirinden aşağıdaki türde bilgileri adli bütünlük kurallarına uygun bir şekilde çıkarmak için kullanılabilir:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker), bir OSX anahtar zincirinden aşağıdaki türde bilgileri adli olarak güvenilir bir şekilde çıkarmak için kullanılabilir:
 
 * Hashlenmiş Keychain şifresi, [hashcat](https://hashcat.net/hashcat/) veya [John the Ripper](https://www.openwall.com/john/) ile kırılmak üzere uygun
 * İnternet Şifreleri
@@ -79,9 +78,9 @@ sudo ./keychaindump
 * Güvenli Notlar
 * Appleshare Şifreleri
 
-Anahtar zincirini açma şifresi, [volafox](https://github.com/n0fate/volafox) veya [volatility](https://github.com/volatilityfoundation/volatility) ile elde edilen bir anahtar veya SystemKey gibi bir açma dosyası ile, Chainbreaker ayrıca düz metin şifreler sağlayacaktır.
+Anahtar zincirini açma şifresi, [volafox](https://github.com/n0fate/volafox) veya [volatility](https://github.com/volatilityfoundation/volatility) ile elde edilen bir anahtar veya SystemKey gibi bir açma dosyası ile Chainbreaker, ayrıca düz metin şifreleri sağlayacaktır.
 
-Anahtar Zincirini açmanın bu yöntemlerinden biri olmadan, Chainbreaker tüm diğer mevcut bilgileri gösterecektir.
+Bu yöntemlerden birine sahip olmadan Anahtar Zincirini açma, Chainbreaker tüm diğer mevcut bilgileri gösterecektir.
 
 #### **Anahtar zinciri anahtarlarını dök**
 ```bash
@@ -107,7 +106,7 @@ python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d1
 ```
 #### **Hafıza dökümü ile anahtarlık anahtarlarını (şifrelerle birlikte) dökün**
 
-**Hafıza dökümü** yapmak için [bu adımları izleyin](../#dumping-memory-with-osxpmem)
+[Şu adımları izleyin](../#dumping-memory-with-osxpmem) **bir hafıza dökümü** gerçekleştirmek için
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -127,8 +126,12 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 **kcpassword** dosyası, yalnızca sistem sahibi **otomatik girişi etkinleştirmişse** kullanıcının **giriş şifresini** tutan bir dosyadır. Bu nedenle, kullanıcıya şifre sorulmadan otomatik olarak giriş yapılacaktır (bu çok güvenli değildir).
 
-Şifre, **`/etc/kcpassword`** dosyasında **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** anahtarı ile xorlanmış olarak saklanır. Kullanıcının şifresi anahtardan daha uzunsa, anahtar tekrar kullanılacaktır.\
-Bu, şifrenin oldukça kolay bir şekilde kurtarılmasını sağlar, örneğin [**bu gibi**](https://gist.github.com/opshope/32f65875d45215c3677d) betikler kullanılarak.
+Şifre, **`/etc/kcpassword`** dosyasında **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** anahtarı ile XOR işlemine tabi tutularak saklanır. Kullanıcının şifresi anahtardan daha uzunsa, anahtar tekrar kullanılacaktır.\
+Bu, şifrenin oldukça kolay bir şekilde kurtarılmasını sağlar, örneğin [**bu gibi**](https://gist.github.com/opshope/32f65875d45215c3677d) betikler kullanılarak. 
+
+## Veritabanlarında İlginç Bilgiler
+
+### Mesajlar
 ```bash
 sqlite3 $HOME/Library/Messages/chat.db .tables
 sqlite3 $HOME/Library/Messages/chat.db 'select * from message'
@@ -138,9 +141,9 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
 ### Bildirimler
 
-Bildirim verilerini `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/` dizininde bulabilirsiniz.
+Bildirimler verilerini `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/` dizininde bulabilirsiniz.
 
-Çoğu ilginç bilgi **blob** içinde olacaktır. Bu nedenle, o içeriği **çıkarmalı** ve insanların **okuyabileceği** hale **dönüştürmelisiniz** ya da **`strings`** kullanmalısınız. Buna erişmek için şunu yapabilirsiniz:
+Çoğu ilginç bilgi **blob** içinde olacaktır. Bu nedenle, o içeriği **çıkartmanız** ve insanların **okuyabileceği** hale **dönüştürmeniz** veya **`strings`** kullanmanız gerekecek. Buna erişmek için şunu yapabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -164,21 +167,21 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 ## Tercihler
 
-MacOS uygulamalarındaki tercihler **`$HOME/Library/Preferences`** konumundadır ve iOS'ta ise `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences` konumundadır.&#x20;
+macOS uygulamalarındaki tercihler **`$HOME/Library/Preferences`** konumundadır ve iOS'ta ise `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences` konumundadır.&#x20;
 
-MacOS'ta **`defaults`** adlı cli aracı **Tercihler dosyasını değiştirmek** için kullanılabilir.
+macOS'ta **`defaults`** adlı cli aracı **Tercihler dosyasını değiştirmek** için kullanılabilir.
 
-**`/usr/sbin/cfprefsd`**, XPC hizmetlerini `com.apple.cfprefsd.daemon` ve `com.apple.cfprefsd.agent` iddialıdır ve tercihleri değiştirmek gibi eylemleri gerçekleştirmek için çağrılabilir.
+**`/usr/sbin/cfprefsd`** XPC hizmetlerini `com.apple.cfprefsd.daemon` ve `com.apple.cfprefsd.agent` iddialıdır ve tercihleri değiştirmek gibi eylemleri gerçekleştirmek için çağrılabilir.
 
 ## Sistem Bildirimleri
 
 ### Darwin Bildirimleri
 
-Bildirimler için ana daemon **`/usr/sbin/notifyd`**'dir. Bildirimleri alabilmek için istemciler, `com.apple.system.notification_center` Mach portu üzerinden kayıt olmak zorundadır (`sudo lsmp -p <pid notifyd>` ile kontrol edilebilir). Daemon, `/etc/notify.conf` dosyası ile yapılandırılabilir.
+Bildirimler için ana daemon **`/usr/sbin/notifyd`**'dir. Bildirimleri almak için istemcilerin `com.apple.system.notification_center` Mach portu üzerinden kaydolmaları gerekir (`sudo lsmp -p <pid notifyd>` ile kontrol edin). Daemon, `/etc/notify.conf` dosyası ile yapılandırılabilir.
 
 Bildirimler için kullanılan isimler benzersiz ters DNS gösterimleridir ve bir bildirim birine gönderildiğinde, bunu işleyebileceğini belirten istemciler alacaktır.
 
-Mevcut durumu (ve tüm isimleri görmek) görmek için, sinyal SIGUSR2'yi notifyd işlemine göndererek ve oluşturulan dosyayı okuyarak `/var/run/notifyd_<pid>.status` dosyasını boşaltmak mümkündür:
+Mevcut durumu (ve tüm isimleri görmek) göndererek görmek mümkündür. notifyd işlemine SIGUSR2 sinyali göndererek ve oluşturulan dosyayı okuyarak: `/var/run/notifyd_<pid>.status`:
 ```bash
 ps -ef | grep -i notifyd
 0   376     1   0 15Mar24 ??        27:40.97 /usr/sbin/notifyd
@@ -196,12 +199,12 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Dağıtılmış Bildirim Merkezi
 
-Ana ikili dosyası **`/usr/sbin/distnoted`** olan **Dağıtılmış Bildirim Merkezi**, bildirimler göndermenin başka bir yoludur. Bazı XPC hizmetlerini açığa çıkarır ve istemcileri doğrulamak için bazı kontroller yapar.
+Ana ikili dosyası **`/usr/sbin/distnoted`** olan **Dağıtılmış Bildirim Merkezi**, bildirim göndermenin başka bir yoludur. Bazı XPC hizmetlerini açığa çıkarır ve istemcileri doğrulamak için bazı kontroller yapar.
 
 ### Apple Push Bildirimleri (APN)
 
 Bu durumda, uygulamalar **konular** için kayıt oluşturabilir. İstemci, Apple'ın sunucularına **`apsd`** aracılığıyla ulaşarak bir belirteç oluşturacaktır.\
-Daha sonra, sağlayıcılar da bir belirteç oluşturacak ve Apple'ın sunucularına bağlanarak istemcilere mesaj gönderebilecektir. Bu mesajlar yerel olarak **`apsd`** tarafından alınacak ve bekleyen uygulamaya iletilen bildirimi iletecektir.
+Daha sonra sağlayıcılar da bir belirteç oluşturacak ve Apple'ın sunucularına bağlanarak mesajları istemcilere gönderebilecektir. Bu mesajlar yerel olarak **`apsd`** tarafından alınacak ve bekleyen uygulamaya iletilen bildirimi iletecektir.
 
 Tercihler, `/Library/Preferences/com.apple.apsd.plist` konumundadır.
 
@@ -217,6 +220,6 @@ Ayrıca, şu kullanılarak daemon ve bağlantılar hakkında bilgi almak mümkü
 
 Bu, kullanıcının ekranda görmesi gereken bildirimlerdir:
 
-- **`CFUserNotification`**: Bu API, ekranda bir mesajla birlikte bir pop-up göstermenin bir yolunu sağlar.
+- **`CFUserNotification`**: Bu API, ekranda bir mesajla çıkan bir pencere göstermenin bir yolunu sağlar.
 - **Bülten Panosu**: Bu, iOS'ta kaybolan bir banner gösterir ve Bildirim Merkezi'nde saklanır.
-- **`NSUserNotificationCenter`**: Bu, MacOS'ta iOS bülten panosudur. Bildirimlerle ilgili veritabanı, `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db` konumundadır.
+- **`NSUserNotificationCenter`**: Bu, MacOS'ta iOS bülten panosudur. Bildirimlerle ilgili veritabanı `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db` konumundadır.

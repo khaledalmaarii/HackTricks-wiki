@@ -1,18 +1,19 @@
 # Hassas Bağlantı Noktaları
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile</strong>!</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks ve HackTricks Cloud github depolarına katkıda bulunun.**
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* Hacking püf noktalarını paylaşarak PR'ler göndererek [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -31,7 +32,7 @@ Bu dizin, genellikle `sysctl(2)` aracılığıyla çekirdek değişkenlerini de�
 #### **`/proc/sys/kernel/core_pattern`**
 
 * [core(5)](https://man7.org/linux/man-pages/man5/core.5.html) adresinde açıklanmıştır.
-* Çekirdek dosyası oluşturulduğunda ilk 128 baytı argüman olarak alan bir programın tanımlanmasına izin verir. Dosya bir pipe `|` ile başlıyorsa kod yürütme olasılığı vardır.
+* İlk 128 baytı argümanlar olarak alan bir programın çekirdek dosyası oluşturulduğunda çalıştırılmasına izin verir. Dosya bir boru `|` ile başlıyorsa kod yürütme olabilir.
 *   **Test ve Sömürü Örneği**:
 
 ```bash
@@ -44,7 +45,7 @@ sleep 5 && ./crash & # İşleyiciyi tetikle
 #### **`/proc/sys/kernel/modprobe`**
 
 * [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde detaylı olarak açıklanmıştır.
-* Çekirdek modül yükleyicisinin yolunu içerir, çekirdek modüllerini yüklemek için çağrılır.
+* Çekirdek modül yükleyicisinin yolunu içerir ve çekirdek modüllerini yüklemek için çağrılır.
 *   **Erişimi Kontrol Etme Örneği**:
 
 ```bash
@@ -53,8 +54,8 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
 
 #### **`/proc/sys/vm/panic_on_oom`**
 
-* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde referans olarak verilmiştir.
-* Bir OOM durumu meydana geldiğinde çekirdeğin çökmesini veya OOM öldürücüyü çağırmasını kontrol eden global bir bayrak.
+* [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresinde referans gösterilmiştir.
+* Bir OOM durumu meydana geldiğinde çekirdeğin çökmesini veya OOM öldürücüyü çağırmasını kontrol eden genel bir bayrak.
 
 #### **`/proc/sys/fs`**
 
@@ -65,7 +66,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
 
 * Sihirli sayılarına dayalı olmayan ikili biçimler için yorumlayıcıları kaydetmeye olanak tanır.
 * `/proc/sys/fs/binfmt_misc/register` yazılabilirse ayrıcalık yükseltmesine veya kök kabuk erişimine yol açabilir.
-* İlgili sömürü ve açıklama:
+* İlgili saldırı ve açıklama:
 * [binfmt\_misc ile yoksul adamın kök kiti](https://github.com/toffan/binfmt\_misc)
 * Detaylı öğretici: [Video bağlantısı](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
@@ -78,7 +79,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # modprobe erişimini kontrol et
 
 #### **`/proc/sysrq-trigger`**
 
-* Sysrq komutlarını çağırmaya izin verir, potansiyel olarak anında sistem yeniden başlatmalar veya diğer kritik işlemlere neden olabilir.
+* Sysrq komutlarını çağırmaya izin verir ve potansiyel olarak anında sistem yeniden başlatmalar veya diğer kritik işlemlere neden olabilir.
 *   **Ana Bilgisayarı Yeniden Başlatma Örneği**:
 
 ```bash
@@ -101,7 +102,7 @@ echo b > /proc/sysrq-trigger # Ana bilgisayarı yeniden başlatır
 
 * Çekirdek bellek cihazı `/dev/mem` ile etkileşim sağlar.
 * Tarihsel olarak ayrıcalık yükseltme saldırılarına karşı savunmasızdır.
-* Daha fazla bilgi için [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresine bakabilirsiniz.
+* Daha fazlası için [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html) adresine bakın.
 
 #### **`/proc/kcore`**
 
@@ -112,41 +113,41 @@ echo b > /proc/sysrq-trigger # Ana bilgisayarı yeniden başlatır
 
 #### **`/proc/kmem`**
 
-* `/dev/kmem` için alternatif arayüz, çekirdek sanal belleğini temsil eder.
+* Çekirdek sanal belleği temsil eden `/dev/kmem` için alternatif bir arayüz.
 * Okuma ve yazma izni verir, dolayısıyla çekirdek belleğinin doğrudan değiştirilmesine olanak tanır.
 
 #### **`/proc/mem`**
 
-* `/dev/mem` için alternatif arayüz, fiziksel belleği temsil eder.
-* Okuma ve yazma izni verir, tüm belleğin değiştirilmesi sanal adreslerin fiziksel adreslere çözülmesini gerektirir.
+* Fiziksel belleği temsil eden `/dev/mem` için alternatif bir arayüz.
+* Okuma ve yazma izni verir, tüm belleğin değiştirilmesi sanal adresleri fiziksel adreslere çözümlemeyi gerektirir.
 
 #### **`/proc/sched_debug`**
 
 * PID ad alanı korumalarını atlayarak işlem zamanlama bilgilerini döndürür.
-* İşlem adlarını, kimlikleri ve cgroup kimliklerini açığa çıkarır.
+* İşlem adlarını, kimlikleri ve cgroup tanımlayıcılarını açığa çıkarır.
 
 #### **`/proc/[pid]/mountinfo`**
 
 * İşlem bağlantı noktaları hakkında bilgi sağlar.
-* Konteyner `rootfs` veya görüntünün konumunu açığa çıkarır.
+* Konteynerin `rootfs` veya görüntünün konumunu açığa çıkarır.
 
 ### `/sys` Zafiyetleri
 
 #### **`/sys/kernel/uevent_helper`**
 
-* Çekirdek cihaz `uevent`'lerini işlemek için kullanılır.
+* Çekirdek cihaz `uevent`'leri işlemek için kullanılır.
 * `/sys/kernel/uevent_helper`'a yazmak, `uevent` tetikleyicileri üzerine keyfi komut dosyalarını yürütebilir.
-*   **Sömürü Örneği için**: %%%bash
+*   **Sömürü için Örnek**: %%%bash
 
 #### Bir yük oluşturur
 
 echo "#!/bin/sh" > /evil-helper echo "ps > /output" >> /evil-helper chmod +x /evil-helper
 
-#### Konteyner için OverlayFS bağlantı noktasından ana bilgisayar yolunu bulur
+#### OverlayFS bağlantı noktasından ana bilgisayar yolunu bulur
 
 host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
-#### uevent_helper'ı kötü amaçlı yardımcıya ayarlar
+#### uevent\_helper'ı kötü amaçlı yardımcıya ayarlar
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
@@ -173,7 +174,7 @@ cat /output %%%
 #### **`/sys/firmware/efi/vars` ve `/sys/firmware/efi/efivars`**
 
 * NVRAM'daki EFI değişkenleriyle etkileşim için arayüzler sunar.
-* Yanlış yapılandırma veya istismar, tuğla gibi dizüstü bilgisayarlar veya başlatılamayan ana bilgisayar makinelerine yol açabilir.
+* Yanlış yapılandırma veya kötüye kullanım, tuğla gibi olan dizüstü bilgisayarlar veya başlatılamayan ana bilgisayar makinelerine yol açabilir.
 
 #### **`/sys/kernel/debug`**
 
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **tanıtmak istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Hacking püf noktalarını paylaşarak PR'ler göndererek **HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

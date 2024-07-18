@@ -1,28 +1,29 @@
 # AppArmor
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman yapmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**The PEASS Family**]'yi keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek HackTricks** (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), **şirketin veya müşterilerinin** **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini kontrol etmek için ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
 
-WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+Websitesini ziyaret edebilir ve **ücretsiz** olarak motorlarını deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -30,7 +31,7 @@ Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 ## Temel Bilgiler
 
-AppArmor, **programlara sağlanan kaynakları kısıtlamak için tasarlanmış bir çekirdek geliştirmesidir**, etkin bir şekilde Zorunlu Erişim Kontrolü (MAC) uygulayarak erişim kontrol özelliklerini doğrudan kullanıcılara değil programlara bağlayarak çalışır. Bu sistem, genellikle önyükleme sırasında profilleri çekirdeğe **yükleyerek** çalışır ve bu profiller bir programın erişebileceği kaynakları belirler, örneğin ağ bağlantıları, ham soket erişimi ve dosya izinleri gibi.
+AppArmor, **programlara program profilleri aracılığıyla sunulan kaynakları kısıtlamayı amaçlayan bir çekirdek geliştirmesidir**, erişim kontrol özelliklerini doğrudan kullanıcılara değil programlara bağlayarak Zorunlu Erişim Kontrolü (MAC) uygulamaktadır. Bu sistem, genellikle önyükleme sırasında, profilleri çekirdeğe yükleyerek çalışır ve bu profiller bir programın erişebileceği kaynakları belirler, örneğin ağ bağlantıları, ham soket erişimi ve dosya izinleri gibi.
 
 AppArmor profilleri için iki işletim modu bulunmaktadır:
 
@@ -41,13 +42,13 @@ AppArmor profilleri için iki işletim modu bulunmaktadır:
 
 * **Çekirdek Modülü**: Politikaların uygulanmasından sorumludur.
 * **Politikalar**: Program davranışı ve kaynak erişimi için kuralları ve kısıtlamaları belirtir.
-* **Ayrıştırıcı**: Politikaları çekirdeğe yükleme veya raporlama işlevini yerine getirir.
+* **Ayrıştırıcı**: Politikaları çekirdeğe yükler ve uygular veya raporlar.
 * **Araçlar**: AppArmor ile etkileşimde bulunmak ve yönetmek için bir arayüz sağlayan kullanıcı modu programlarıdır.
 
 ### Profil Yolu
 
-Apparmor profilleri genellikle _**/etc/apparmor.d/**_ klasöründe saklanır\
-`sudo aa-status` komutuyla kısıtlanan ikili dosyaları listeleyebilirsiniz. Listelenen her ikili dosyanın yolundaki "/" karakterini bir noktaya değiştirirseniz, bahsedilen klasördeki apparmor profilinin adını elde edersiniz.
+Apparmor profilleri genellikle _**/etc/apparmor.d/**_ dizininde saklanır.\
+`sudo aa-status` komutu ile bazı profiller tarafından kısıtlanan ikili dosyaları listeleyebilirsiniz. Listelenen her ikili dosyanın yolundaki "/" karakterini bir noktaya değiştirirseniz, bahsedilen klasördeki apparmor profilinin adını elde edersiniz.
 
 Örneğin, _/usr/bin/man_ için bir **apparmor** profili _/etc/apparmor.d/usr.bin.man_ konumunda olacaktır.
 
@@ -67,19 +68,19 @@ aa-mergeprof  #used to merge the policies
 * **Dosyalar** üzerinde yürütülecek erişimi belirtmek için aşağıdaki **erişim kontrolleri** kullanılabilir:
 * **r** (okuma)
 * **w** (yazma)
-* **m** (belleğe eşleme olarak yürütme)
+* **m** (bellek haritası olarak yürütme)
 * **k** (dosya kilitleme)
 * **l** (sert bağlantı oluşturma)
 * **ix** (yeni programın politikayı devralarak başka bir programı yürütmesi için)
 * **Px** (ortamı temizledikten sonra başka bir profil altında yürütme)
 * **Cx** (ortamı temizledikten sonra başka bir alt profil altında yürütme)
-* **Ux** (ortamı temizledikten sonra kısıtsız yürütme)
+* **Ux** (ortamı temizledikten sonra kısıtlanmamış olarak yürütme)
 * **Değişkenler** profillerde tanımlanabilir ve profilden dışarıdan manipüle edilebilir. Örneğin: @{PROC} ve @{HOME} (profil dosyasına #include \<tunables/global> ekleyin)
 * **İzin verme kurallarını geçersiz kılmak için reddetme kuralları desteklenir**.
 
 ### aa-genprof
 
-Profil oluşturmaya başlamak için apparmor size yardımcı olabilir. **Apparmor'un bir binary tarafından gerçekleştirilen eylemleri incelemesine ve ardından hangi eylemleri izin vermek veya reddetmek istediğinize karar vermenize olanak tanımasına** yardımcı olabilir.\
+Profil oluşturmaya kolayca başlamak için apparmor size yardımcı olabilir. **Bir yürütülebilir tarafından gerçekleştirilen eylemleri incelemesine ve ardından hangi eylemleri izin vermek veya reddetmek istediğinize karar vermenize olanak tanır**.\
 Sadece şunu çalıştırmanız yeterlidir:
 ```bash
 sudo aa-genprof /path/to/binary
@@ -88,15 +89,15 @@ Ardından, farklı bir konsolda genellikle ikili dosyanın gerçekleştireceği 
 ```bash
 /path/to/binary -a dosomething
 ```
-Ardından, ilk konsolda "**s**" tuşuna basın ve ardından kaydedilen eylemlerde ihmal etmek isteyip istemediğinizi, izin vermek isteyip istemediğinizi veya başka bir şey yapmak isteyip istemediğinizi belirtin. İşiniz bittiğinde "**f**" tuşuna basın ve yeni profil _/etc/apparmor.d/path.to.binary_ dizininde oluşturulacaktır.
+Ardından, ilk konsolda "**s**" tuşuna basın ve kaydedilen eylemlerde ihmal etmek, izin vermek veya ne yapmak istediğinizi belirtin. İşlemi tamamladığınızda "**f**" tuşuna basın ve yeni profil _/etc/apparmor.d/path.to.binary_ dizininde oluşturulacaktır.
 
 {% hint style="info" %}
-Yön tuşları kullanarak neyi izin vermek/engellemek/ihmal etmek istediğinizi seçebilirsiniz.
+Yön tuşları kullanarak izin vermek/engellemek/ne yapmak istediğinizi seçebilirsiniz.
 {% endhint %}
 
 ### aa-easyprof
 
-Ayrıca bir uygulamanın apparmor profil şablonunu oluşturabilirsiniz:
+Ayrıca, bir uygulamanın apparmor profil şablonunu oluşturabilirsiniz:
 ```bash
 sudo aa-easyprof /path/to/binary
 # vim:syntax=apparmor
@@ -125,18 +126,18 @@ sudo aa-easyprof /path/to/binary
 Varsayılan olarak oluşturulan bir profilde hiçbir şey izin verilmez, bu nedenle her şey reddedilir. Örneğin, örneğin `/etc/passwd r,` gibi satırlar eklemeniz gerekecektir.
 {% endhint %}
 
-Yeni profili ardından şu şekilde **zorlayabilirsiniz**:
+Yeni profilinizi ardından şu şekilde **zorlayabilirsiniz**:
 ```bash
 sudo apparmor_parser -a /etc/apparmor.d/path.to.binary
 ```
 ### Günlüklerden bir profil değiştirme
 
-Aşağıdaki araç, günlükleri okuyacak ve kullanıcıya tespit edilen yasak eylemlerin bazılarını izin verip vermek istemediğini soracaktır:
+Aşağıdaki araç, günlükleri okuyacak ve kullanıcıya tespit edilen bazı yasaklanmış eylemlerin izin verilip verilmediğini sormak için soracak:
 ```bash
 sudo aa-logprof
 ```
 {% hint style="info" %}
-Ok tuşları kullanarak neyi izin vermek/engellemek/neyi olursa olsun seçebilirsiniz
+Ok tuşları kullanarak neyi izin vermek/engellemek/neyi yapmak istediğinizi seçebilirsiniz
 {% endhint %}
 
 ### Profil Yönetimi
@@ -174,7 +175,7 @@ For more information, please see: https://wiki.ubuntu.com/DebuggingApparmor
 ```
 ## Docker'da Apparmor
 
-Docker'ın **docker-profile** profili varsayılan olarak yüklendiğine dikkat edin:
+Docker'ın **docker-profile** profili varsayılan olarak nasıl yüklendiğine dikkat edin:
 ```bash
 sudo aa-status
 apparmor module is loaded.
@@ -190,15 +191,15 @@ apparmor module is loaded.
 /usr/lib/connman/scripts/dhclient-script
 docker-default
 ```
-Varsayılan olarak **Apparmor docker-default profil**'ü [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor) adresinden oluşturulur.
+Varsayılan olarak **Apparmor docker-default profil**i [https://github.com/moby/moby/tree/master/profiles/apparmor](https://github.com/moby/moby/tree/master/profiles/apparmor) adresinden oluşturulur.
 
 **docker-default profil Özeti**:
 
 - Tüm **ağa erişim**
-- **Yetenek** tanımlanmamıştır (Ancak, bazı yetenekler temel kural içeren temel kural dosyalarını içerir #include \<abstractions/base> )
+- **Yetenek** tanımlanmamıştır (Ancak, bazı yetenekler temel kural dosyalarını içererek gelecektir, yani #include \<abstractions/base>)
 - Herhangi bir **/proc** dosyasına **yazma izni yok**
-- Diğer /**proc** ve /**sys** alt dizinleri/**dosyaları** okuma/yazma/kilitleme/bağlantı/çalıştırma erişimi **reddedilmiştir**
-- **Bağlama** izni yok
+- Diğer /**proc** ve /**sys** alt dizinleri/**dosyaları** okuma/yazma/kilitleme/bağlantı/çalıştırma erişimine **izin verilmez**
+- **Bağlama** izni **yok**
 - **Ptrace** yalnızca **aynı apparmor profil**i tarafından sınırlanmış bir işlemde çalıştırılabilir
 
 Bir **docker konteyneri çalıştırdıktan** sonra aşağıdaki çıktıyı görmelisiniz:
@@ -212,11 +213,11 @@ docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined ubuntu /bin
 echo "" > /proc/stat
 sh: 1: cannot create /proc/stat: Permission denied
 ```
-Apparmor kısıtlamalarını atlamak için **apparmor'ı devre dışı bırakmanız** gerekmektedir:
+Apparmor kısıtlamalarını atlamak için **apparmor'u devre dışı bırakmanız** gerekmektedir:
 ```bash
 docker run -it --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu /bin/bash
 ```
-Varsayılan olarak **AppArmor** konteynerin içinden klasörleri bağlamasını da **yasaklayacaktır** SYS\_ADMIN yeteneği olsa bile.
+Varsayılan olarak **AppArmor'ın**, **konteynerin içinden klasör bağlamasını yasaklayacağını** unutmayın, hatta SYS_ADMIN yeteneği ile bile.
 
 Docker konteynerine **yetenekler ekleyebilir/çıkarabilirsiniz** (bu hala **AppArmor** ve **Seccomp** gibi koruma yöntemleri tarafından kısıtlanacaktır):
 
@@ -225,7 +226,7 @@ Docker konteynerine **yetenekler ekleyebilir/çıkarabilirsiniz** (bu hala **App
 * `--cap-drop=ALL --cap-add=SYS_PTRACE` tüm yetenekleri kaldırır ve sadece `SYS_PTRACE` yeteneğini verir
 
 {% hint style="info" %}
-Genellikle, bir **docker** konteynerinin **içinde** bir **ayrıcalıklı yeteneğin** bulunduğunu **fark ettiğinizde** ve **saldırının bazı kısımlarının çalışmadığını gördüğünüzde**, bunun nedeni docker **apparmor'ın bunu engelliyor olması** olabilir.
+Genellikle, bir **docker** konteyneri **içinde** bir **açık yeteneğin** bulunduğunu **fark ettiğinizde** ve **saldırının bazı kısımlarının çalışmadığını gördüğünüzde**, bunun nedeni docker **apparmor'ın bunu engelliyor olması** olacaktır.
 {% endhint %}
 
 ### Örnek
@@ -245,28 +246,30 @@ Profilleri listelemek için aşağıdaki komutu kullanabiliriz. Aşağıdaki kom
 $ sudo apparmor_status  | grep mydocker
 mydocker
 ```
-Aşağıda gösterildiği gibi, "AppArmor" profili "/etc/" dizinine yazma erişimini engellediği için " /etc/" dizinini değiştirmeye çalıştığımızda hata alırız.
+Aşağıda gösterildiği gibi, "AppArmor" profili "/etc/" dizinine yazma erişimini engellediği için "/etc/" dizinini değiştirmeye çalıştığımızda hata alırız.
 ```
 $ docker run --rm -it --security-opt apparmor:mydocker -v ~/haproxy:/localhost busybox chmod 400 /etc/hostname
 chmod: /etc/hostname: Permission denied
 ```
 ### AppArmor Docker Bypass1
 
-Bir konteynerin çalıştırdığı **apparmor profilini** şu şekilde bulabilirsiniz:
+Bir konteynerin çalıştırdığı **apparmor profilini** bulmak için şunu kullanabilirsiniz:
 ```bash
 docker inspect 9d622d73a614 | grep lowpriv
 "AppArmorProfile": "lowpriv",
 "apparmor=lowpriv"
 ```
-Ardından, kullanılan tam profilini bulmak için aşağıdaki satırı çalıştırabilirsiniz:
+Ardından, kullanılan tam profil **bulmak için aşağıdaki komutu çalıştırabilirsiniz**:
 ```bash
 find /etc/apparmor.d/ -name "*lowpriv*" -maxdepth 1 2>/dev/null
 ```
-### AppArmor Docker Bypass2
+Eğer **apparmor docker profilini değiştirebilir ve yeniden yükleyebilirseniz** tuhaf bir durumda. Kısıtlamaları kaldırabilir ve onları "atlayabilirsiniz".
 
-**AppArmor, yol tabanlıdır**, bu da demektir ki eğer **apparmor docker profilini değiştirebilir ve yeniden yükleyebilirseniz.** Kısıtlamaları kaldırabilir ve onları "atlayabilirsiniz."
+### AppArmor Docker Atlatma2
 
-### AppArmor Shebang Bypass
+**AppArmor yol tabanlıdır**, bu da demektir ki eğer **`/proc`** gibi bir dizin içindeki dosyaları koruyorsa bile, **konteynerin nasıl çalıştırılacağını yapılandırabilirseniz**, ana bilgisayarın proc dizinini **`/host/proc`** içine bağlayabilir ve bu artık AppArmor tarafından korunmaz.
+
+### AppArmor Shebang Atlatma
 
 Bu [**bu hata**](https://bugs.launchpad.net/apparmor/+bug/1911431)da, **belirli kaynaklarla perl'in çalışmasını engelliyorsanız bile**, sadece bir kabuk betiği oluşturursanız ve ilk satırda **`#!/usr/bin/perl`** belirtirseniz ve dosyayı doğrudan **çalıştırırsanız**, istediğinizi çalıştırabilirsiniz. Örn.:
 ```perl
@@ -284,22 +287,23 @@ chmod +x /tmp/test.pl
 
 [**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize** edilip edilmediğini kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
 
-WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılım saldırılarıyla mücadele etmektir.
+WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
 Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin!</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** Twitter'da 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

@@ -1,26 +1,27 @@
-# macOS IPC - Inter Process Communication
+# macOS IPC - İşlem Arası İletişim
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) veya [**telegram grubumuza**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin**.
+* **Hacking püf noktalarını göndererek HackTricks ve HackTricks Cloud** github depolarına PR göndererek paylaşın.
 
 </details>
+{% endhint %}
 
-## Mach mesajlaşması Portlar aracılığıyla
+## Portlar Aracılığıyla Mach Mesajlaşması
 
 ### Temel Bilgiler
 
-Mach, kaynakları paylaşmak için **görevleri** kullanır ve her görev **çoklu iş parçacığı** içerebilir. Bu **görevler ve iş parçacıkları POSIX işlemlerine ve iş parçacıklarına 1:1 eşlenir**.
+Mach, kaynakları paylaşmak için **görevleri** en **küçük birim** olarak kullanır ve her görev **çoklu iş parçacığı** içerebilir. Bu **görevler ve iş parçacıkları POSIX işlemlerine ve iş parçacıklarına 1:1 eşlenir**.
 
-Görevler arasındaki iletişim, Mach Arası İşlem İletişimi (IPC) aracılığıyla gerçekleşir ve tek yönlü iletişim kanallarını kullanır. **Mesajlar portlar arasında aktarılır**, bu portlar çekirdek tarafından yönetilen bir tür **mesaj kuyruğu** gibi davranır.
+Görevler arasındaki iletişim, Mach İşlem Arası İletişim (IPC) aracılığıyla gerçekleşir ve tek yönlü iletişim kanallarını kullanır. **Mesajlar portlar arasında aktarılır**, bu portlar çekirdek tarafından yönetilen bir tür **mesaj kuyruğu** gibi davranır.
 
 Bir **port**, Mach IPC'nin temel öğesidir. Bu, **mesaj göndermek ve almak** için kullanılabilir.
 
@@ -30,20 +31,20 @@ Bir işlem ayrıca bir port adını bazı haklarla **farklı bir göreve gönder
 
 ### Port Hakları
 
-İletişimde önemli olan port hakları, bir görevin yapabileceği işlemleri tanımlar. Mümkün olan **port hakları** şunlardır ([buradan tanımlar](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
+İletişimde önemli olan port hakları, bir görevin yapabileceği işlemleri tanımlar. Mümkün olan **port hakları** şunlardır ([buradan tanımlamalar](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)):
 
-* **Alma hakkı**, porta gönderilen mesajları almayı sağlar. Mach portları MPSC (çoklu üretici, tek tüketici) kuyruklarıdır, bu da demektir ki tüm sistemde her bir port için yalnızca **bir alma hakkı olabilir** (borular gibi, burada birden fazla işlemin aynı borunun okuma ucuna dosya tanımlayıcıları tutabileceği gibi).
-* Bir **Alma hakkına sahip görev**, mesajları alabilir ve **Gönderme hakları oluşturabilir**, böylece mesaj gönderebilir. Başlangıçta yalnızca **kendi görevi kendi portu üzerinde Alma hakkına sahiptir**.
+* **Alma hakkı**, porta gönderilen mesajları almayı sağlar. Mach portları MPSC (çoklu üretici, tek tüketici) kuyruklarıdır, bu da demektir ki tüm sistemde bir port için yalnızca **bir alma hakkı olabilir** (borular gibi, burada birden fazla işlem, aynı borunun okuma ucuna ait dosya tanımlayıcılarına sahip olabilir).
+* **Alma hakkına sahip bir görev**, mesajları alabilir ve **Gönderme hakları oluşturabilir**, böylece mesaj gönderebilir. Başlangıçta yalnızca **kendi görevi, portun üzerinde Alma hakkına sahiptir**.
 * Alma hakkının sahibi **öldüğünde** veya onu sonlandırdığında, **gönderme hakkı işlevsiz hale gelir (ölü ad)**.
 * **Gönderme hakkı**, porta mesaj göndermeyi sağlar.
-* Gönderme hakkı **kopyalanabilir**, böylece bir Gönderme hakkına sahip bir görev, hakkı kopyalayabilir ve **üçüncü bir göreve verebilir**.
+* Gönderme hakkı **kopyalanabilir**, böylece Gönderme hakkına sahip bir görev, hakkı kopyalayabilir ve **üçüncü bir göreve verilebilir**.
 * **Port hakları** ayrıca Mac mesajları aracılığıyla da **geçirilebilir**.
 * **Bir kez gönderme hakkı**, porta bir mesaj göndermeyi ve ardından kaybolmayı sağlar.
 * Bu hak **kopyalanamaz**, ancak **taşınabilir**.
 * **Port kümesi hakkı**, yalnızca tek bir port değil bir _port kümesini_ belirtir. Bir port kümesinden bir mesaj çıkarmak, içerdiği portlardan birinden bir mesaj çıkarır. Port kümeleri, Unix'teki `select`/`poll`/`epoll`/`kqueue` gibi aynı anda birkaç porta dinlemek için kullanılabilir.
-* **Ölü ad**, gerçek bir port hakkı değil, yalnızca bir yer tutucudur. Bir port yok edildiğinde, portun tüm var olan port hakları ölü adlara dönüşür.
+* **Ölü ad**, gerçek bir port hakkı değil, yalnızca bir yer tutucudur. Bir port yok edildiğinde, portun tüm mevcut port hakları ölü adlara dönüşür.
 
-**Görevler, SEND haklarını başkalarına aktarabilir**, böylece onlara geri mesaj gönderme yetkisi verilebilir. **SEND hakları da klonlanabilir**, böylece bir görev hakkı kopyalayabilir ve üçüncü bir göreve verebilir. Bu, **aracı bir süreç olan** **başlangıç sunucusu** ile birlikte, görevler arasında etkili iletişim sağlar.
+**Görevler, SEND haklarını başkalarına aktarabilir**, böylece onlara geri mesaj gönderme yetkisi verilebilir. **SEND hakları da klonlanabilir**, böylece bir görev hakkı çoğaltabilir ve üçüncü bir göreve verebilir. Bu, **aracı bir süreç olan başlangıç sunucusu** ile birlikte, görevler arasında etkili iletişim sağlar.
 
 ### Dosya Portları
 
@@ -53,29 +54,29 @@ Dosya portları, dosya tanımlayıcılarını Mac portlarına (Mach port haklar�
 
 Daha önce belirtildiği gibi, Mach mesajları aracılığıyla hakları göndermek mümkündür, ancak **zaten bir Mach mesajı gönderme hakkına sahip olmadan bir hakkı gönderemezsiniz**. Peki, ilk iletişim nasıl kurulur?
 
-Bunun için **başlangıç sunucusu** (**mac'te launchd**) devreye girer, çünkü **herkes başlangıç sunucusuna bir SEND hakkı alabilir**, böylece başka bir işleme mesaj göndermek için bir hakkı istemek mümkündür:
+Bu durumda, **başlangıç sunucusu** (**mac**'de **launchd**) devreye girer, çünkü **herkes başlangıç sunucusuna bir SEND hakkı alabilir**, böylece başka bir işleme mesaj göndermek için bir hakkı istemek mümkündür:
 
-1. Görev **A**, **YALNIZCA** üzerinde **ALMA hakkına sahip olduğu yeni bir port oluşturur**.
+1. Görev **A**, **ALMA hakkı** alarak yeni bir **port oluşturur**.
 2. ALMA hakkının sahibi olan Görev **A**, port için bir **GÖNDERME hakkı oluşturur**.
-3. Görev **A**, **başlangıç sunucusu** ile bir **bağlantı kurar** ve başlangıçta oluşturduğu porta **GÖNDERME hakkını gönderir**.
+3. Görev **A**, **başlangıç sunucusu** ile bir **bağlantı kurar** ve başlangıçta oluşturduğu porta ait **GÖNDERME hakkını sunucuya gönderir**.
 * Unutmayın ki herkes başlangıç sunucusuna bir GÖNDERME hakkı alabilir.
-4. Görev A, başlangıç sunucusuna bir `bootstrap_register` mesajı göndererek verilen porta `com.apple.taska` gibi bir **isimle ilişkilendirir**.
-5. Görev **B**, hizmet adı için bir başlangıç **araması yapmak üzere başlangıç sunucusu** ile etkileşime girer (`bootstrap_lookup`). Başlangıç sunucusu yanıt verebilsin diye, görev B, arama mesajı içinde önceden oluşturduğu bir **port için bir GÖNDERME hakkı gönderir**. Arama başarılıysa, **sunucu Task A'dan aldığı GÖNDERME hakkını kopyalar ve Task B'ye iletir**.
+4. Görev A, başlangıç sunucusuna bir `bootstrap_register` mesajı göndererek verilen portu `com.apple.taska` gibi bir **isimle ilişkilendirir**.
+5. Görev **B**, hizmet adı için bir başlangıç **araması yapmak üzere başlangıç sunucusu** ile etkileşime girer (`bootstrap_lookup`). Sunucu yanıt verebilsin diye, görev B, arama mesajı içinde önceden oluşturduğu bir **port için bir GÖNDERME hakkı gönderir**. Arama başarılıysa, **sunucu Task A'dan aldığı GÖNDERME hakkını kopyalar ve Task B'ye iletir**.
 * Unutmayın ki herkes başlangıç sunucusuna bir GÖNDERME hakkı alabilir.
 6. Bu GÖNDERME hakkı ile **Görev B**, **Görev A'ya bir mesaj gönderebilir**.
-7. İki yönlü iletişim için genellikle görev **B**, bir **ALMA** hakkı ve bir **GÖNDERME** hakkı olan yeni bir port oluşturur ve **Görev A'ya GÖNDERME hakkını verir**, böylece Görev A, Görev B'ye mesaj gönderebilir (iki yönlü iletişim).
+7. İki yönlü iletişim için genellikle görev **B**, bir **ALMA** hakkı ve bir **GÖNDERME** hakkı olan yeni bir port oluşturur ve **Görev A'ya GÖNDERME hakkını verir**, böylece Görev A, GÖREV B'ye mesaj gönderebilir (iki yönlü iletişim).
 
-Başlangıç sunucusu, bir görevin iddia ettiği hizmet adını **kimlik doğrulayamaz**. Bu, bir görevin potansiyel olarak **herhangi bir sistem görevini taklit edebileceği** anlamına gelir, örneğin yanlışlıkla **bir yetkilendirme hizmet adı iddia edebilir** ve ardından her isteği onaylayabilir.
+Başlangıç sunucusu **hizmet adını doğrulayamaz**. Bu, bir **görevin** potansiyel olarak **herhangi bir sistem görevini taklit edebileceği** anlamına gelir, örneğin yanlışlıkla **bir yetkilendirme hizmet adı iddia edebilir** ve ardından her isteği onaylayabilir.
 
-Daha sonra, Apple, **sistem tarafından sağlanan hizmetlerin adlarını** güvenli yapılandırma dosyalarında saklar, bu dosyalar **SIP korumalı** dizinlerde bulunur: `/System/Library/LaunchDaemons` ve `/System/Library/LaunchAgents`. Her hizmet adının yanında **ilişkili ikili dosya da saklanır**. Başlangıç sunucusu, bu hizmet adları için **her biri için bir ALMA hakkı oluşturur ve saklar**.
+Daha sonra, Apple, **sistem tarafından sağlanan hizmetlerin adlarını** güvenli yapılandırma dosyalarında saklar, bu dosyalar **SIP korumalı** dizinlerde bulunur: `/System/Library/LaunchDaemons` ve `/System/Library/LaunchAgents`. Her hizmet adının yanında, **ilişkili ikili dosya da saklanır**. Başlangıç sunucusu, bu hizmet adları için her biri için bir **ALMA hakkı oluşturur ve saklar**.
 
-Bu önceden tanımlanmış hizmetler için, **arama süreci biraz farklıdır**. Bir hizmet adı arandığında, launchd hizmeti dinamik olarak başlatır. Yeni iş akışı şöyle işler:
+Bu önceden tanımlanmış hizmetler için, **arama süreci biraz farklıdır**. Bir hizmet adı aranırken, launchd hizmeti dinamik olarak başlatır. Yeni iş akışı şöyle işler:
 
 * Görev **B**, bir hizmet adı için bir başlangıç **araması başlatır**.
 * **launchd**, görevin çalışıp çalışmadığını kontrol eder ve çalışmıyorsa, **başlatır**.
-* Görev **A** (hizmet), bir **başlangıç kontrolü gerçekleştirir** (`bootstrap_check_in()`). Burada, **başlangıç** sunucusu bir GÖNDERME hakkı oluşturur, saklar ve **ALMA hakkını Görev A'ya aktarır**.
+* Görev **A** (hizmet), bir **başlangıç kontrolü yapar** (`bootstrap_check_in()`). Burada, **başlangıç sunucusu bir GÖNDERME hakkı oluşturur, saklar ve ALMA hakkını Görev A'ya aktarır**.
 * launchd, **GÖNDERME hakkını kopyalar ve Görev B'ye iletir**.
-* Görev **B**, bir **ALMA** hakkı ve bir **GÖNDERME** hakkı olan yeni bir port oluşturur ve **Görev A'ya GÖNDERME hakkını verir** (hizmet), böylece Görev A, Görev B'ye mesaj gönderebilir (iki yönlü iletişim).
+* Görev **B**, bir **ALMA** hakkı ve bir **GÖNDERME** hakkı olan yeni bir port oluşturur ve **Görev A'ya GÖNDERME hakkını verir** (hizmet), böylece Görev A, GÖREV B'ye mesaj gönderebilir (iki yönlü iletişim).
 
 Ancak, bu süreç yalnızca önceden tanımlanmış sistem görevleri için geçerlidir. Sistem dışı görevler hala önceki şekilde çalışır, bu da potansiyel olarak taklit edilmesine izin verebilir.
 
@@ -86,7 +87,7 @@ Bu nedenle, launchd asla çökmemeli veya tüm sistem çökecektir.
 
 [Daha fazla bilgiyi burada bulabilirsiniz](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
-`mach_msg` işlevi, temelde bir sistem çağrısı olan Mach iletilerini göndermek ve almak için kullanılır. İşlev, iletilmesi gereken iletiyi başlangıç argümanı olarak gerektirir. Bu ileti, bir `mach_msg_header_t` yapısı ile başlamalı ve ardından gerçek ileti içeriği gelmelidir. Yapı aşağıdaki gibi tanımlanmıştır:
+`mach_msg` işlevi, temelde bir sistem çağrısı olup Mach iletilerini göndermek ve almak için kullanılır. İşlev, iletilmesi gereken iletiyi başlangıç argümanı olarak gerektirir. Bu ileti, bir `mach_msg_header_t` yapısı ile başlamalı ve ardından gerçek ileti içeriği gelmelidir. Yapı aşağıdaki gibi tanımlanmıştır:
 ```c
 typedef struct {
 mach_msg_bits_t               msgh_bits;
@@ -97,15 +98,15 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-İşlemciler, bir Mach bağlantı noktasında ileti alabilen bir _**alma hakkına**_ sahip olabilirler. Tersine, **gönderenler** bir _**gönderme**_ veya _**bir kez gönderme hakkına**_ sahiptir. Bir kez gönderme hakkı, yalnızca bir ileti göndermek için kullanılır ve ardından geçersiz hale gelir.
+İşlemciler, bir Mach bağlantı noktasında ileti almak için bir _**alma hakkına**_ sahip olabilirler. Tersine, **gönderenler** bir _**gönderme**_ veya _**bir kez gönderme hakkına**_ sahiptir. Bir kez gönderme hakkı yalnızca bir ileti göndermek için kullanılır, ardından geçersiz hale gelir.
 
-Başlangıç alanı **`msgh_bits`** bir bit haritasıdır:
+Başlangıç alanı **`msgh_bits`** bir bit eşlemidir:
 
-* İlk bit (en anlamlı) bir iletişimin karmaşık olduğunu belirtmek için kullanılır (aşağıda daha fazla bilgi)
-* 3. ve 4. bitler çekirdek tarafından kullanılır
-* 2. baytın **en az 5 anlamlı biti**, **makbuz** için kullanılabilir: anahtar/değer kombinasyonları göndermek için başka bir bağlantı nokta türü.
-* 3. baytın **en az 5 anlamlı biti**, **yerel bağlantı noktası** için kullanılabilir
-* 4. baytın **en az 5 anlamlı biti**, **uzak bağlantı noktası** için kullanılabilir
+- İlk bit (en anlamlı) bir ileti'nin karmaşık olduğunu belirtmek için kullanılır (aşağıda daha fazla bilgi)
+- 3. ve 4. bitler çekirdek tarafından kullanılır
+- 2. baytın **en az 5 anlamlı bitsi** **makbuz** için kullanılabilir: anahtar/değer kombinasyonları göndermek için başka bir bağlantı nokta türü.
+- 3. baytın **en az 5 anlamlı bitsi** **yerel bağlantı noktası** için kullanılabilir
+- 4. baytın **en az 5 anlamlı bitsi** **uzak bağlantı noktası** için kullanılabilir
 
 Makbuzda, yerel ve uzak bağlantı noktalarında belirtilebilecek türler [**mach/message.h**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) adresinden alınabilir:
 ```c
@@ -120,12 +121,12 @@ Makbuzda, yerel ve uzak bağlantı noktalarında belirtilebilecek türler [**mac
 #define MACH_MSG_TYPE_DISPOSE_SEND      25      /* must hold send right(s) */
 #define MACH_MSG_TYPE_DISPOSE_SEND_ONCE 26      /* must hold sendonce right */
 ```
-Örneğin, `MACH_MSG_TYPE_MAKE_SEND_ONCE`, bu bağlantı noktası için türetilmiş ve aktarılmış bir **tek seferlik gönderme hakkının** belirtildiğini göstermek için kullanılabilir. Alıcı yanıt göndermesin diye `MACH_PORT_NULL` belirtilebilir.
+Örneğin, `MACH_MSG_TYPE_MAKE_SEND_ONCE`, bu bağlantı noktası için türetilmiş ve aktarılmış bir **tek seferlik gönderme hakkının** belirtildiğini **belirtmek** için kullanılabilir. Alıcı yanıt veremez şeklinde alıcının yanıt vermesini engellemek için de `MACH_PORT_NULL` belirtilebilir.
 
-Kolay **iki yönlü iletişim** sağlamak için bir işlem, _yanıt bağlantı noktası_ (**`msgh_local_port`**) olarak adlandırılan bir **mach bağlantı noktası** belirtebilir, burada mesajın alıcısı bu mesaja yanıt gönderebilir.
+Kolay **iki yönlü iletişim** sağlamak için bir işlem, _yanıt bağlantı noktası_ (**`msgh_local_port`** olarak adlandırılan) olarak adlandırılan bir mach **mesaj başlığı** içinde bir **mach bağlantı noktası** belirtebilir, mesajın alıcısı bu mesaja yanıt gönderebilir.
 
 {% hint style="success" %}
-Bu tür iki yönlü iletişimin XPC mesajlarında kullanıldığını unutmayın (`xpc_connection_send_message_with_reply` ve `xpc_connection_send_message_with_reply_sync`). Ancak genellikle farklı bağlantı noktaları oluşturulur, önceki açıklamalarda belirtildiği gibi iki yönlü iletişimi oluşturmak için.
+Bu tür iki yönlü iletişimin XPC mesajlarında kullanıldığını unutmayın (`xpc_connection_send_message_with_reply` ve `xpc_connection_send_message_with_reply_sync`). Ancak genellikle farklı bağlantı noktaları oluşturulur, önceki açıklamalarda açıklandığı gibi iki yönlü iletişimi oluşturmak için.
 {% endhint %}
 
 Mesaj başlığının diğer alanları şunlardır:
@@ -136,16 +137,16 @@ Mesaj başlığının diğer alanları şunlardır:
 - `msgh_id`: bu mesajın kimliği, alıcı tarafından yorumlanır.
 
 {% hint style="danger" %}
-**Mach mesajları**, mach çekirdeğine yerleştirilmiş **tek alıcı**, **çoklu gönderen** iletişim kanalı olan bir `mach bağlantı noktası` üzerinden gönderilir. **Birden fazla işlem**, bir mach bağlantı noktasına **mesaj gönderebilir**, ancak herhangi bir zamanda sadece **bir işlem okuyabilir**.
+**Mach mesajları**, mach çekirdeğine yerleştirilmiş **tek alıcı**, **çoklu gönderen** iletişim kanalı olan bir **mach bağlantı noktası** üzerinden gönderilir. **Birden fazla işlem**, bir mach bağlantı noktasına **mesaj gönderebilir**, ancak herhangi bir anda yalnızca **bir işlem** ondan okuyabilir.
 {% endhint %}
 
-Mesajlar daha sonra **`mach_msg_header_t`** başlık, ardından **gövde** ve **trailer** (varsa) ile oluşturulur ve yanıt verme izni verebilir. Bu durumlarda, çekirdek sadece mesajı bir görevden diğerine iletmelidir.
+Mesajlar daha sonra **`mach_msg_header_t`** başlık ile başlar, ardından **gövde** ve **trailer** (varsa) gelir ve yanıt verme izni verebilir. Bu durumlarda, çekirdek sadece mesajı bir görevden diğerine iletmelidir.
 
-**Trailer**, **çekirdek tarafından mesaja eklenen bilgilerdir** (kullanıcı tarafından ayarlanamaz) ve mesaj alımında `MACH_RCV_TRAILER_<trailer_opt>` bayrakları ile istenebilir (istenebilecek farklı bilgiler vardır).
+Bir **trailer**, **kullanıcı tarafından ayarlanamayan** mesaja çekirdek tarafından eklenen bilgidir ve alıcıdan bu bilgiyi talep etmek için `MACH_RCV_TRAILER_<trailer_opt>` bayrakları kullanılır (talep edilebilecek farklı bilgiler vardır).
 
 #### Karmaşık Mesajlar
 
-Ancak, ek port hakları geçiren veya belleği paylaşan daha **karmaşık** mesajlar gibi durumlar vardır, burada çekirdek bu nesneleri de alıcıya göndermelidir. Bu durumlarda, başlık `msgh_bits`'in en anlamlı biti ayarlanır.
+Ancak, ek port hakları geçiren veya belleği paylaşan daha **karmaşık** mesajlar gibi diğer mesajlar da vardır, bu durumlarda çekirdek bu nesneleri alıcıya göndermek zorundadır. Bu durumlarda, başlık `msgh_bits`'in en anlamlı biti ayarlanır.
 
 Geçirilebilecek olası tanımlayıcılar [**`mach/message.h`**](https://opensource.apple.com/source/xnu/xnu-7195.81.3/osfmk/mach/message.h.auto.html) içinde tanımlanmıştır.
 ```c
@@ -166,22 +167,22 @@ mach_msg_descriptor_type_t    type : 8;
 ```
 ### Mac Port API'leri
 
-Portların görev alanı ile ilişkilendirildiğini unutmayın, bu nedenle bir port oluşturmak veya aramak için görev alanı da sorgulanır (`mach/mach_port.h` içinde daha fazla bilgi):
+Portlar görev ad alanına bağlı olduğundan, bir port oluşturmak veya aramak için görev ad alanı da sorgulanır (daha fazlası için `mach/mach_port.h`):
 
-- **`mach_port_allocate` | `mach_port_construct`**: Bir port oluşturur.
-- `mach_port_allocate` ayrıca bir **port seti** oluşturabilir: bir grup port üzerinde alım hakkı. Bir mesaj alındığında, mesajın nereden geldiği belirtilir.
-- `mach_port_allocate_name`: Portun adını değiştirir (varsayılan olarak 32 bitlik tamsayı).
-- `mach_port_names`: Bir hedeften port adlarını alır.
-- `mach_port_type`: Bir görevin bir ada sahip olma haklarını alır.
-- `mach_port_rename`: Bir portun adını değiştirir (FD'ler için dup2 gibi).
-- `mach_port_allocate`: YENİ ALIM, PORT_SET veya DEAD_NAME oluşturur.
-- `mach_port_insert_right`: ALIM hakkına sahip olduğunuz bir portta yeni bir hak oluşturur.
+- **`mach_port_allocate` | `mach_port_construct`**: Bir port **oluşturur**.
+- `mach_port_allocate` ayrıca bir **port seti** oluşturabilir: bir grup port üzerinde alınan hak. Bir mesaj alındığında, mesajın nereden geldiği belirtilir.
+- `mach_port_allocate_name`: Portun adını değiştirir (varsayılan olarak 32 bitlik tamsayı)
+- `mach_port_names`: Bir hedeften port adlarını alır
+- `mach_port_type`: Bir görevin bir ada sahip olma haklarını alır
+- `mach_port_rename`: Bir portun adını değiştirir (FD'ler için dup2 gibi)
+- `mach_port_allocate`: YENİ ALMA, PORT\_SET veya DEAD\_NAME oluşturur
+- `mach_port_insert_right`: ALMA hakkına sahip olduğunuz bir portta yeni bir hak oluşturur
 - `mach_port_...`
-- **`mach_msg`** | **`mach_msg_overwrite`**: Mach mesajları göndermek ve almak için kullanılan işlevler. Üzerine yazma sürümü, mesaj alımı için farklı bir tampon belirtmeyi sağlar (diğer sürüm sadece onu yeniden kullanır).
+- **`mach_msg`** | **`mach_msg_overwrite`**: Mach mesajları **göndermek ve almak** için kullanılan işlevler. Üzerine yazma sürümü, mesaj alımı için farklı bir tampon belirtmeyi sağlar (diğer sürüm sadece onu yeniden kullanır).
 
-### Debug mach_msg
+### Debug mach\_msg
 
-`mach_msg` ve `mach_msg_overwrite` işlevlerinin gönderme ve alma işlemlerinde kullanıldığı için bunlara bir kesme noktası ayarlamak, gönderilen ve alınan mesajları incelemeyi sağlar.
+`mach_msg` ve `mach_msg_overwrite` işlevlerinin gönderme ve alma işlemlerinde kullanıldığı için bunlara bir kesme noktası ayarlamak gönderilen ve alınan mesajları incelemeyi sağlar.
 
 Örneğin, bu işlevi kullanan **`libSystem.B`'yi yükleyecek herhangi bir uygulamayı hata ayıklamaya başlayın**.
 
@@ -235,7 +236,7 @@ x4 = 0x0000000000001f03 ;mach_port_name_t (rcv_name)
 x5 = 0x0000000000000000 ;mach_msg_timeout_t (timeout)
 x6 = 0x0000000000000000 ;mach_port_name_t (notify)
 ```
-İlk argümanı kontrol ederek ileti başlığını inceleyin:
+İlk argümanı kontrol ederek mesaj başlığını inceleyin:
 ```armasm
 (lldb) x/6w $x0
 0x124e04ce8: 0x00131513 0x00000388 0x00000807 0x00001f03
@@ -276,11 +277,11 @@ name      ipc-object    rights     flags   boost  reqs  recv  send sonce oref  q
 +     send        --------        ---            1         <-                                       0x00002603  (74295) passd
 [...]
 ```
-**İsim**, bağlantı noktasına verilen varsayılan isimdir (ilk 3 baytın nasıl **arttığını** kontrol edin). **`ipc-object`** ise bağlantı noktasının **şifrelenmiş** benzersiz **tanımlayıcısıdır**.\
+**İsim**, bağlantı noktasına verilen varsayılan addır (ilk 3 baytın nasıl **arttığını** kontrol edin). **`ipc-object`** ise bağlantı noktasının **şifrelenmiş** benzersiz **tanımlayıcısıdır**.\
 Ayrıca, yalnızca **`send`** hakkına sahip bağlantı noktalarının sahibini belirlediğine dikkat edin (bağlantı noktası adı + pid).\
 Ayrıca, **diğer görevleri belirtmek** için **`+`** işaretinin kullanımına dikkat edin.
 
-Ayrıca, [**procesxp**](https://www.newosxbook.com/tools/procexp.html) kullanarak **kayıtlı hizmet adlarını** (SIP devre dışı bırakıldığında `com.apple.system-task-port` gerektiğinden) görmek de mümkündür:
+Ayrıca, [**procesxp**](https://www.newosxbook.com/tools/procexp.html) kullanarak **kayıtlı hizmet adlarını** (SIP devre dışı bırakıldığında `com.apple.system-task-port` gerektiğinden) görmek mümkündür:
 ```
 procesp 1 ports
 ```
@@ -288,7 +289,7 @@ iOS'ta bu aracı indirerek yükleyebilirsiniz [http://newosxbook.com/tools/binpa
 
 ### Kod örneği
 
-**Gönderici**nin nasıl bir bağlantı noktası **ayırdığını**, `org.darlinghq.example` adı için bir **gönderme hakkı** oluşturduğuna ve bunu **önyükleme sunucusuna** gönderdiğine dikkat edin, gönderici bu ad için **gönderme hakkını** istedi ve bunu kullanarak bir **mesaj gönderdi**.
+**Gönderici**nin nasıl bir bağlantı noktası **ayırdığını**, `org.darlinghq.example` adı için bir **gönderme hakkı** oluşturduğunu ve bunu **önyükleme sunucusuna** gönderdiğini, göndericinin o ad için **gönderme hakkını** istediğini ve bunu kullanarak bir **mesaj gönderdiğini** görebilirsiniz.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -359,19 +360,7 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}Dosya Açıklaması
-----------------
-
-Bu C dosyası, bir IPC (İşlem Arası İletişim) mekanizması olan `Mach message` kullanarak bir mesaj gönderen basit bir programı içerir.
-
-Kod Açıklaması
---------------
-
-- İlk olarak, `mach/mach.h` başlık dosyası dahil edilir.
-- `main` fonksiyonunda, bir `mach_msg_header_t` başlığı oluşturulur ve başlık alanları ayarlanır.
-- Ardından, bir mesaj oluşturulur ve `mach_msg_send` fonksiyonu kullanılarak mesaj gönderilir.
-
-Bu program, IPC mekanizmalarını anlamak ve kullanmak için basit bir örnek sunar. {% endtab %}
+{% tab title="sender.c" %}Dosya gönderme işlemi için kullanılan C programı. Bu program, alıcıya bir dosya göndermek için IPC soketlerini kullanır. Bu, iki işlem arasında iletişim kurmak için kullanılan bir yöntemdir. Bu program, dosya adını ve boyutunu alıcıya gönderir ve ardından dosyanın içeriğini gönderir. Bu işlem, dosya gönderme işlemini gerçekleştirmek için alıcı programla birlikte çalışır.{% endtab %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -428,13 +417,13 @@ printf("Sent a message\n");
 
 ## Ayrıcalıklı Bağlantı Noktaları
 
-Belirli hassas eylemleri gerçekleştirmeye veya belirli hassas verilere erişmeye izin veren bazı özel bağlantı noktaları vardır, bir görevin üzerlerinde **GÖNDERME** izinlerine sahip olması durumunda. Bu, saldırganlar açısından bu bağlantı noktalarını sadece yetenekleri değil, aynı zamanda **GÖNDERME izinlerini görevler arasında paylaşmak** mümkün olduğu için çok ilginç hale getirir.
+Belirli hassas eylemleri gerçekleştirmeye veya belirli hassas verilere erişmeye izin veren bazı özel bağlantı noktaları vardır, bir görevin üzerlerinde **GÖNDERME** izinlerine sahip olması durumunda. Bu, bu bağlantı noktalarını saldırganlar açısından çok ilginç kılar, sadece yeteneklerinden değil, aynı zamanda **GÖNDERME izinlerinin görevler arasında paylaşılabilir** olmasından dolayı.
 
 ### Ana Bilgisayar Özel Bağlantı Noktaları
 
 Bu bağlantı noktaları bir numara ile temsil edilir.
 
-**GÖNDERME** hakları, **`host_get_special_port`** çağrısı ile elde edilebilir ve **ALMA** hakları **`host_set_special_port`** çağrısı ile elde edilir. Ancak, her iki çağrı da yalnızca kökün erişebileceği **`host_priv`** bağlantı noktasını gerektirir. Ayrıca, geçmişte kök, örneğin `HOST_KEXTD_PORT`'u ele geçirerek kod imzalarını atlayarak izin veren keyfi bağlantı noktalarını ele geçirebiliyordu (SIP şimdi buna engel oluyor).
+**GÖNDERME** hakları, **`host_get_special_port`** çağrısı ile elde edilebilir ve **ALMA** hakları **`host_set_special_port`** çağrısı ile elde edilebilir. Ancak, her iki çağrı da yalnızca kökün erişebileceği **`host_priv`** bağlantı noktasını gerektirir. Ayrıca, geçmişte kök, örneğin `HOST_KEXTD_PORT`'u ele geçirerek kod imzalarını atlayarak izin veren keyfi bağlantı noktalarını ele geçirebiliyordu (SIP şimdi buna engel oluyor).
 
 Bunlar 2 gruba ayrılır: **İlk 7 bağlantı noktası çekirdek tarafından sahiplenilir**; 1 `HOST_PORT`, 2 `HOST_PRIV_PORT`, 3 `HOST_IO_MASTER_PORT` ve 7 `HOST_MAX_SPECIAL_KERNEL_PORT`'dur.\
 **8'den** başlayanlar ise **sistem hizmetlileri tarafından sahiplenilir** ve [**`host_special_ports.h`**](https://opensource.apple.com/source/xnu/xnu-4570.1.46/osfmk/mach/host\_special\_ports.h.auto.html) dosyasında tanımlanmıştır.
@@ -445,7 +434,7 @@ Bunlar 2 gruba ayrılır: **İlk 7 bağlantı noktası çekirdek tarafından sah
 * `host_virtual_physical_table_info`: Sanal/Fiziksel sayfa tablosu (MACH\_VMDEBUG gerektirir)
 * `host_statistics`: Ana bilgisayar istatistiklerini al
 * `mach_memory_info`: Çekirdek bellek düzenini al
-* **Ana bilgisayar Ayrıcalıklı bağlantı noktası**: Bu bağlantı noktası üzerinde **GÖNDERME** hakkına sahip bir işlem, örneğin önyükleme verilerini gösterme veya bir çekirdek uzantısını yükleme girişiminde bulunma gibi **ayrıcalıklı eylemler gerçekleştirebilir**. Bu izne sahip olmak için **işlemin kök olması** gerekir.
+* **Ana bilgisayar Ayrıcalıklı bağlantı noktası**: Bu bağlantı noktası üzerinde **GÖNDERME** hakkı olan bir işlem, örneğin önyükleme verilerini gösterme veya bir çekirdek uzantısını yükleme gibi **ayrıcalıklı eylemler gerçekleştirebilir**. Bu izne sahip olmak için **işlemin kök olması** gerekir.
 * Ayrıca, **`kext_request`** API'sını çağırmak için yalnızca Apple ikililerine verilen **`com.apple.private.kext*`** diğer ayrıcalıklara ihtiyaç vardır.
 * Çağrılabilen diğer rutinler şunlardır:
 * `host_get_boot_info`: `machine_boot_info()`'yu al
@@ -461,7 +450,7 @@ procexp all ports | grep "HSP"
 ```
 ### Görev Özel Portları
 
-Bunlar, tanınmış hizmetler için ayrılmış portlardır. Onları `task_[get/set]_special_port` çağırarak almak/ayarlamak mümkündür. `task_special_ports.h` dosyasında bulunabilirler:
+Bunlar, tanınmış hizmetler için ayrılmış portlardır. Onları `task_[get/set]_special_port` çağırarak almak/ayarlamak mümkündür. Onlar `task_special_ports.h` dosyasında bulunabilir:
 ```c
 typedef	int	task_special_port_t;
 
@@ -475,49 +464,49 @@ world.*/
 [Buradan](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html):
 
 * **TASK\_KERNEL\_PORT**\[görev-kendisi gönderme hakkı]: Bu görevi kontrol etmek için kullanılan bağlantı noktası. Görevi etkileyen mesajları göndermek için kullanılır. Bu, **mach\_task\_self (aşağıdaki Görev Bağlantı Noktaları'na bakınız)** tarafından döndürülen bağlantı noktasıdır.
-* **TASK\_BOOTSTRAP\_PORT**\[başlatıcı gönderme hakkı]: Görevin başlatıcı bağlantı noktası. Diğer sistem hizmeti bağlantı noktalarının geri dönüşünü istemek için kullanılır.
-* **TASK\_HOST\_NAME\_PORT**\[ana-görev gönderme hakkı]: İçeren ana bilgisayarın bilgilerini istemek için kullanılan bağlantı noktası. Bu, **mach\_host\_self** tarafından döndürülen bağlantı noktasıdır.
+* **TASK\_BOOTSTRAP\_PORT**\[başlatma gönderme hakkı]: Görevin başlatma bağlantı noktası. Diğer sistem hizmeti bağlantı noktalarının geri dönüşünü istemek için mesaj göndermek için kullanılır.
+* **TASK\_HOST\_NAME\_PORT**\[ana-gönderme hakkı]: İçeren ana bilgisayarın bilgilerini istemek için kullanılan bağlantı noktası. Bu, **mach\_host\_self** tarafından döndürülen bağlantı noktasıdır.
 * **TASK\_WIRED\_LEDGER\_PORT**\[defter gönderme hakkı]: Bu görevin kablolu çekirdek belleğini çektiği kaynağı adlandıran bağlantı noktası.
-* **TASK\_PAGED\_LEDGER\_PORT**\[defter gönderme hakkı]: Bu görevin varsayılan belleği yönetilen belleğini çektiği kaynağı adlandıran bağlantı noktası.
+* **TASK\_PAGED\_LEDGER\_PORT**\[defter gönderme hakkı]: Bu görevin varsayılan bellek yönetilen belleğini çektiği kaynağı adlandıran bağlantı noktası.
 
 ### Görev Bağlantı Noktaları
 
-Başlangıçta Mach'ta "işlemler" değil "görevler" vardı ve bu daha çok bir iş parçacığı konteyneri olarak kabul ediliyordu. Mach, BSD ile birleştirildiğinde **her görev bir BSD işlemiyle ilişkilendirildi**. Bu nedenle her BSD işleminin bir işlem olması için gereken ayrıntılara sahip olması ve her Mach görevinin de iç işleyişi olması (kernel_task olan mevcut pid 0 hariç).
+Başlangıçta Mach'ta "işlemler" değil, "görevler" vardı ve bu daha çok bir iş parçacığı konteynırı olarak kabul ediliyordu. Mach, BSD ile birleştirildiğinde **her görev bir BSD işlemiyle ilişkilendirildi**. Bu nedenle her BSD işleminin bir işlem olması için gereken ayrıntılara sahip olması ve her Mach görevinin de iç işleyişi olması (kernel_task olan mevcut pid 0 hariç).
 
 Bununla ilgili iki çok ilginç işlev bulunmaktadır:
 
-* `task_for_pid(hedef_görev_bağlantı_noktası, pid, &pid_li_görev_bağlantı_noktası)`: Belirtilen `pid` ile ilişkilendirilen görev bağlantı noktası için BİRİM hakkı alın ve genellikle `mach_task_self()` kullanan çağrılan görev bağlantı noktasına (ancak farklı bir görev üzerinde bir GÖNDERİM bağlantı noktası olabilir) verilir.
+* `task_for_pid(hedef_görev_bağlantı_noktası, pid, &pid_li_görev_bağlantı_noktası)`: Belirtilen `pid` ile ilişkilendirilen görevin görev bağlantı noktası için BİRİM hakkı alın ve genellikle `mach_task_self()` kullanan çağrılan görev olan `hedef_görev_bağlantı_noktası`'na verilir (ancak farklı bir görev üzerinde bir BİRİM bağlantı noktası olabilir).
 * `pid_for_task(görev, &pid)`: Bir göreve BİRİM hakkı verildiğinde, bu görevin hangi PID ile ilişkili olduğunu bulun.
 
-Görev içinde işlemler gerçekleştirmek için görevin kendine `mach_task_self()` çağrısı yaparak BİRİM hakkına ihtiyacı vardı (bu, `task_self_trap` (28) kullanır). Bu izinle bir görev, aşağıdaki gibi çeşitli işlemleri gerçekleştirebilir:
+Görev içinde işlem yapabilmek için görevin kendine `SEND` hakkına ihtiyacı vardı ve `mach_task_self()`'i çağırarak bu izni alıyordu (`task_self_trap` (28) kullanır). Bu izinle bir görev, aşağıdaki gibi çeşitli işlemleri gerçekleştirebilir:
 
 * `task_threads`: Görevin iş parçacıklarının tüm görev bağlantı noktaları üzerinde BİRİM hakkı alın
-* `task_info`: Bir görev hakkında bilgi alın
-* `task_suspend/resume`: Bir görevi askıya alın veya devam ettirin
+* `task_info`: Bir görev hakkında bilgi al
+* `task_suspend/resume`: Bir görevi askıya al veya devam ettir
 * `task_[get/set]_special_port`
 * `thread_create`: Bir iş parçacığı oluştur
-* `task_[get/set]_state`: Görev durumunu kontrol edin
+* `task_[get/set]_state`: Görev durumunu kontrol et
 * ve daha fazlası [**mach/task.h**](https://github.com/phracker/MacOSX-SDKs/blob/master/MacOSX11.3.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/mach/task.h) içinde bulunabilir
 
 {% hint style="danger" %}
-Farklı bir görevin bir **görev bağlantı noktası üzerinde BİRİM hakkı** ile, farklı bir görev üzerinde böyle işlemler gerçekleştirmek mümkündür.
+Farklı bir görevin bir **görev bağlantı noktası üzerinde BİRİM hakkı** ile, farklı bir görev üzerinde bu tür işlemleri gerçekleştirmek mümkündür.
 {% endhint %}
 
 Ayrıca, görev\_bağlantı_noktası aynı zamanda **`vm_map`** bağlantı noktasıdır ve `vm_read()` ve `vm_write()` gibi işlevlerle bir görev içinde belleği **okuma ve değiştirme** izni verir. Bu temelde, farklı bir görevin görev\_bağlantı_noktası üzerinde BİRİM haklarına sahip bir görevin, o göreve **kod enjekte etme** yeteneğine sahip olacağı anlamına gelir.
 
-Unutmayın ki **çekirdek de bir görev olduğundan**, biri **`kernel_task` üzerinde BİRİM izinleri** almayı başarırsa, çekirdeği herhangi bir şeyi yürütmek için kullanabilir (jailbreak).
+Unutmayın ki **kernel de bir görev olduğundan**, biri **`kernel_task` üzerinde BİRİM izinleri** almayı başarırsa, kernelin herhangi bir şeyi yürütmesini sağlayabilir (jailbreak).
 
-* Çağrı yapmak için `mach_task_self()` ve **çalışan görev için** bu bağlantı noktası için **adı alın**. Bu bağlantı noktası yalnızca **`exec()`** sırasında **miras alınır**; `fork()` ile oluşturulan yeni bir görev yeni bir görev bağlantı noktası alır (`exec()` sonrasında bir suid ikili dosyada da bir görev yeni bir görev bağlantı noktası alır). Bir görevi başlatmak ve bağlantı noktasını almanın tek yolu, bir `fork()` yaparken "port takası dansı"nı gerçekleştirmektir.
-* Bu, bağlantı noktasına erişim için kısıtlamaları içerir (`AppleMobileFileIntegrity` ikilisinden `macos_task_policy`den):
+* Çağrı yapmak için `mach_task_self()` ve **çalışan görev için** bu bağlantı noktasının adını alın. Bu bağlantı noktası yalnızca **`exec()`** sırasında **miras alınır**; `fork()` ile oluşturulan yeni bir görev yeni bir görev bağlantı noktası alır (`exec()`'den sonra bir suid ikili dosyada da bir görev yeni bir görev bağlantı noktası alır). Bir görevi başlatmak ve bağlantı noktasını almanın tek yolu, bir `fork()` yaparken ["port takası dansı"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) gerçekleştirmektir.
+* Bu, bağlantı noktasına erişim kısıtlamalarıdır (`AppleMobileFileIntegrity` ikilisinden `macos_task_policy`'den):
 * Uygulamanın **`com.apple.security.get-task-allow` yetkisi** varsa, aynı kullanıcıdan işlemler **görev bağlantı noktasına erişebilir** (genellikle hata ayıklama için Xcode tarafından eklenir). **Notarizasyon** süreci bunu üretim sürümlerine izin vermez.
 * **`com.apple.system-task-ports`** yetkisine sahip uygulamalar, çekirdek hariç olmak üzere **herhangi bir** işlem için **görev bağlantı noktasını alabilir**. Daha eski sürümlerde **`task_for_pid-allow`** olarak adlandırılıyordu. Bu yalnızca Apple uygulamalarına verilir.
 * **Root, sertifikalı olmayan** bir çalıştırma zamanıyla derlenmiş uygulamaların görev bağlantı noktalarına **erişebilir** (ve Apple'dan değil).
 
-**Görev adı bağlantı noktası:** _Görev bağlantı noktasının_ ayrıcalıklı olmayan bir sürümüdür. Görevi referans alır, ancak kontrol etmeye izin vermez. Bu üzerinden mevcut olan tek şey `task_info()` gibi görünmektedir.
+**Görev adı bağlantı noktası:** _Görev bağlantı noktasının_ ayrıcalıklı olmayan bir sürümüdür. Görevi referans alır, ancak kontrol etmeye izin vermez. Yalnızca `task_info()` aracılığıyla erişilebileceği görülen tek şey budur.
 
 ### İş Parçacığı Bağlantı Noktaları
 
-İş parçacıkları da ilişkili bağlantı noktalara sahiptir, bunlar **`task_threads`** çağrısından ve `processor_set_threads` ile işlemci tarafından görülebilir. Bir iş parçacığı bağlantı noktasına BİRİM hakkı, `thread_act` alt sistemi işlevlerini kullanmaya izin verir, örneğin:
+İş parçacıklarının da ilişkili bağlantı noktaları vardır ve bu bağlantı noktaları, **`task_threads`**'i çağıran görev ve `processor_set_threads` ile işlemci tarafından görülebilir. Bir iş parçacığı bağlantı noktasına BİRİM hakkı, `thread_act` alt sistemindeki işlevleri kullanmaya izin verir, örneğin:
 
 * `thread_terminate`
 * `thread_[get/set]_state`
@@ -526,11 +515,11 @@ Unutmayın ki **çekirdek de bir görev olduğundan**, biri **`kernel_task` üze
 * `thread_info`
 * ...
 
-Herhangi bir iş parçacığı, **`mach_thread_sef`**'e çağrı yaparak bu bağlantı noktasını alabilir.
+Herhangi bir iş parçacığı, **`mach_thread_sef`**'i çağırarak bu bağlantı noktasını alabilir.
 
 ### Görev Bağlantı Noktası Aracılığıyla İş Parçacığına Kabuk Kodu Enjeksiyonu
 
-Kabuk kodunu aşağıdan alabilirsiniz:
+Kabuk kodunu şuradan alabilirsiniz:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -573,7 +562,7 @@ return 0;
 
 ## İzinler.plist
 
-Bu dosya, uygulamanın sistem kaynaklarına erişim düzeyini belirleyen izinlerin listesini içerir. Bu izinler, uygulamanın hangi özelliklere erişebileceğini ve hangi işlemleri gerçekleştirebileceğini belirler. İzinler.plist dosyası, uygulamanın güvenlik ve ayrıcalık yükseltme süreçlerinde önemli bir rol oynar.
+Bu dosya, uygulamanın sistem kaynaklarına erişim düzeyini belirleyen yetkilendirme bilgilerini içerir. Bu yetkilendirmeler, uygulamanın hangi işlemleri gerçekleştirebileceğini ve hangi sistem kaynaklarına erişebileceğini belirler. Bu dosya, uygulamanın güvenliğini artırmak ve ayrıcalık yükseltme saldırılarını önlemek için önemlidir. 
 
 {% endtab %}
 ```xml
@@ -803,13 +792,13 @@ Bu işlemi iOS'ta çalıştırmak için, yazılabilir bir belleği yürütülebi
 
 ### Görev bağlantısı aracılığıyla Thread'e Dylib Enjeksiyonu
 
-macOS'ta **thread'ler**, **Mach** veya **posix `pthread` api** kullanılarak manipüle edilebilir. Önceki enjeksiyonda oluşturduğumuz thread, Mach api kullanılarak oluşturulduğundan **posix uyumlu değildir**.
+MacOS'ta **thread'ler**, **Mach** veya **posix `pthread` api** kullanılarak manipüle edilebilir. Önceki enjeksiyonda oluşturduğumuz thread, Mach api kullanılarak oluşturulduğundan **posix uyumlu değildir**.
 
-Bir komutu yürütmek için **basit bir shellcode enjekte etmek mümkündü** çünkü bu, **posix uyumlu api'lerle çalışmaya ihtiyaç duymuyordu**, sadece Mach ile çalışıyordu. **Daha karmaşık enjeksiyonlar** için **thread'in** aynı zamanda **posix uyumlu olması** gerekir.
+Bir komutu yürütmek için **basit bir shellcode enjekte etmek mümkündü** çünkü bu, **posix uyumlu api'lerle çalışmaya gerek duymuyordu**, sadece Mach ile çalışıyordu. **Daha karmaşık enjeksiyonlar** için **thread'in** aynı zamanda **posix uyumlu olması** gerekir.
 
-Bu nedenle, **thread'i iyileştirmek** için **`pthread_create_from_mach_thread`** çağrısı yapılmalıdır ki bu da **geçerli bir pthread oluşturacaktır**. Sonra, bu yeni pthread, sistemden bir dylib yüklemek için **dlopen** çağrısı yapabilir, böylece farklı işlemleri gerçekleştirmek için yeni shellcode yazmak yerine özel kütüphaneler yüklemek mümkün olacaktır.
+Bu nedenle, **thread'i iyileştirmek** için **`pthread_create_from_mach_thread`** çağrısı yapılmalıdır ki bu da **geçerli bir pthread oluşturacaktır**. Sonrasında, bu yeni pthread, sistemden bir dylib yüklemek için **dlopen**'ı **çağırabilir**, böylece farklı işlemler gerçekleştirmek için yeni shellcode yazmak yerine özel kütüphaneler yüklemek mümkün olacaktır.
 
-Örnek dylib'leri (örneğin bir log oluşturan ve ardından dinleyebileceğiniz):
+Örnek dylib'leri (örneğin bir log oluşturan ve ardından dinleyebileceğiniz bir dylib):
 
 {% content-ref url="../macos-library-injection/macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../macos-library-injection/macos-dyld-hijacking-and-dyld\_insert_libraries.md)
@@ -1096,7 +1085,7 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ```
 ### Görev Bağlantısı Yoluyla İş Parçacığı Kaçırma <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
 
-Bu teknikte, işlemin bir iş parçacığı kaçırılır:
+Bu teknikte, işlemin bir iş parçacığı ele geçirilir:
 
 {% content-ref url="macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](macos-thread-injection-via-task-port.md)
@@ -1108,22 +1097,22 @@ Bu teknikte, işlemin bir iş parçacığı kaçırılır:
 
 ## İstisna Bağlantıları
 
-Bir iş parçacığında bir istisna meydana geldiğinde, bu istisna iş parçacığının belirlenmiş istisna bağlantısına gönderilir. İş parçacığı bunu ele almazsa, görev istisna bağlantılarına gönderilir. Görev bunu ele almazsa, yönetilen başlatıcıdır (burada kabul edilecektir) olan ana bağlantı noktasına gönderilir. Bu, istisna triyajı olarak adlandırılır.
+Bir iş parçacığında bir istisna meydana geldiğinde, bu istisna iş parçacığının belirlenmiş istisna bağlantısına gönderilir. İş parçacığı bunu ele almazsa, görev istisna bağlantılarına gönderilir. Görev bunu ele almazsa, yöneticisi launchd tarafından yönetilen ana bağlantı noktasına gönderilir (burada kabul edilir). Buna istisna triyajı denir.
 
-Genellikle sonunda, eğer rapor uygun şekilde ele alınmazsa, rapor sonunda ReportCrash daemon tarafından ele alınır. Bununla birlikte, aynı görevdeki başka bir iş parçacığının istisnayı yönetmesi mümkündür, bu, `PLCrashReporter` gibi çökme raporlama araçlarının yaptığı şeydir.
+Genellikle sonunda, eğer rapor düzgün bir şekilde ele alınmazsa, rapor sonunda ReportCrash daemon tarafından ele alınır. Bununla birlikte, aynı görevdeki başka bir iş parçacığının istisnayı yönetmesi mümkündür, bu da `PLCrashReporter` gibi çökme raporu araçlarının yaptığı şeydir.
 
 ## Diğer Nesneler
 
 ### Saat
 
-Herhangi bir kullanıcı saat hakkında bilgiye erişebilir ancak zamanı ayarlamak veya diğer ayarları değiştirmek için kök kullanıcı olmak gereklidir.
+Herhangi bir kullanıcı saat hakkında bilgiye erişebilir, ancak zamanı ayarlamak veya diğer ayarları değiştirmek için kök kullanıcı olmak gerekir.
 
-Bilgi almak için `clock` alt sistemi fonksiyonları olan `clock_get_time`, `clock_get_attributtes` veya `clock_alarm` gibi fonksiyonları çağırmak mümkündür.\
+Bilgi almak için `clock` alt sistemi fonksiyonları çağrılabilir, örneğin: `clock_get_time`, `clock_get_attributtes` veya `clock_alarm`\
 Değerleri değiştirmek için `clock_priv` alt sistemi, `clock_set_time` ve `clock_set_attributes` gibi fonksiyonlarla kullanılabilir.
 
 ### İşlemciler ve İşlemci Kümesi
 
-İşlemci API'leri, `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment` gibi fonksiyonları çağırarak tek bir mantıksal işlemciyi kontrol etmeyi sağlar...
+İşlemci API'leri, tek bir mantıksal işlemciyi kontrol etmeye olanak tanır ve `processor_start`, `processor_exit`, `processor_info`, `processor_get_assignment` gibi fonksiyonları çağırarak etkileşimde bulunabilir...
 
 Ayrıca, **işlemci kümesi** API'leri, birden fazla işlemciyi bir grup içine gruplamak için bir yol sağlar. Varsayılan işlemci kümesini almak için **`processor_set_default`** çağrılabilir.\
 İşlemci kümesi ile etkileşimde bulunmak için bazı ilginç API'ler şunlardır:
@@ -1134,8 +1123,8 @@ Ayrıca, **işlemci kümesi** API'leri, birden fazla işlemciyi bir grup içine 
 * `processor_set_stack_usage`
 * `processor_set_info`
 
-[**Bu yazıda**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/) belirtildiği gibi, geçmişte bu, diğer işlemlerdeki görev bağlantılarını elde etmek için önceki korumayı atlamak için **`processor_set_tasks`** çağrılarak işlemci belleğine erişimi sağladı.\
-Günümüzde bu işlevi kullanmak için kök kullanıcı olmanız gerekir ve bu korumalıdır, bu nedenle korumasız işlemlerde yalnızca bu bağlantı noktalarını alabilirsiniz.
+[**Bu yazıda**](https://reverse.put.as/2014/05/05/about-the-processor\_set\_tasks-access-to-kernel-memory-vulnerability/) belirtildiği gibi, geçmişte bu, diğer işlemlerdeki görev bağlantılarını elde etmek için önceki korumayı atlamak için **`processor_set_tasks`** çağrısını yaparak kontrol etmeyi sağladı.\
+Günümüzde bu işlevi kullanmak için kök kullanıcı olmanız gerekir ve bu nedenle korumalıdır, bu nedenle korumasız işlemlerde yalnızca bu bağlantı noktalarını alabilirsiniz.
 
 Deneyebilirsiniz:
 
@@ -1278,16 +1267,17 @@ For more info check:
 * [\*OS Internals, Volume I, User Mode, Jonathan Levin](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
 * [https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html](https://web.mit.edu/darwin/src/modules/xnu/osfmk/man/task\_get\_special\_port.html)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

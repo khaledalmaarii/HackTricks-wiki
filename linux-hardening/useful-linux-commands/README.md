@@ -1,26 +1,27 @@
-# Kullanışlı Linux Komutları
+# Faydalı Linux Komutları
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
-Bugün Erişim Alın:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını otomatikleştirin**.\
+Bugün Erişim Edinin:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar gönderin.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 ## Ortak Bash
 ```bash
@@ -144,7 +145,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **iş akışlarını otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Edinin:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -171,34 +172,17 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-### Grep
-
+### Tanım
 `grep` komutu, metin dosyalarında belirli bir metni aramak için kullanılır.
 
-Örnek Kullanım:
-
+### Kullanım
 ```bash
-grep "kelime" dosya.txt
+grep "aranacak_metin" dosya_adı
 ```
 
-### Grep with line number
-
-`-n` bayrağı, eşleşen satırların numaralarını gösterir.
-
-Örnek Kullanım:
-
+### Örnek
 ```bash
-grep -n "kelime" dosya.txt
-```
-
-### Grep with case insensitive
-
-`-i` bayrağı, büyük/küçük harf duyarlılığını devre dışı bırakır.
-
-Örnek Kullanım:
-
-```bash
-grep -i "kelime" dosya.txt
+grep "hacker" belge.txt
 ```
 ```bash
 #Extract emails from file
@@ -280,33 +264,6 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Bul
-
-### `find`
-
-`find` komutu, dosya sisteminizde belirli kriterlere göre dosyaları aramanıza ve bulmanıza olanak tanır.
-
-#### Kullanımı
-
-```bash
-find /path/to/search -name "filename"
-```
-
-- `/path/to/search`: Aramak istediğiniz dizinin yolu
-- `-name "filename"`: Aramak istediğiniz dosyanın adı
-
-#### Örnekler
-
-- `/etc` dizininde `passwd` dosyasını bulma:
-
-```bash
-find /etc -name "passwd"
-```
-
-- `/home` dizininde `.txt` uzantılı dosyaları bulma:
-
-```bash
-find /home -name "*.txt"
-```
 ```bash
 # Find SUID set files.
 find / -perm /u=s -ls 2>/dev/null
@@ -344,16 +301,14 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-## Bash
+Bash, Bourne Again Shell'in kısaltmasıdır ve Linux sistemlerinde en yaygın kullanılan kabuk (shell) programıdır. Bash, komutları çalıştırmak, betik dosyalarını çalıştırmak, dosya yönetimi yapmak ve daha birçok işlemi gerçekleştirmek için kullanılır. Bash'in güçlü bir komut yorumlayıcısı olduğu ve geniş bir komut setine sahip olduğu bilinmektedir.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-### İptables Hakkında
-
-İptables, Linux işletim sisteminde güvenlik duvarı kurallarını yapılandırmak için kullanılan bir araçtır. Bu araç, ağ trafiğini kontrol etmek ve yönlendirmek için kullanılır. İptables, paket filtreleme, ağ adresi çevirme ve ağ adresi ve portu değiştirme gibi işlemleri gerçekleştirebilir. Güvenlik duvarı kurallarını yapılandırmak için genellikle komut satırı arayüzü kullanılır.
+Iptables, Linux tabanlı sistemlerde güvenlik duvarı kurallarını yapılandırmak için kullanılan bir araçtır. Iptables, gelen ve giden ağ trafiğini kontrol etmek için kullanılır ve sistem güvenliğini artırmak için oldukça etkilidir. Bu araç sayesinde ağ trafiğini filtreleyebilir, yönlendirebilir ve engelleyebilirsiniz.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -384,24 +339,25 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
+{% hint style="success" %}
+Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme konusunda bilgi edinin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekle</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katıl veya **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip et**.
+* **Hacking püf noktalarını paylaşmak için PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulun.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen ve **otomatikleştirilmiş iş akışları** oluşturmanın keyfini çıkarın.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçları tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

@@ -1,26 +1,27 @@
-# macOS Fonksiyon Hooklama
+# macOS Fonksiyon Hooking
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunu sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 **Discord grubuna** [**katılın**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin**.
+* **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek **hackleme püf noktalarını paylaşın**.
 
 </details>
+{% endhint %}
 
-## Fonksiyon Araya Girmek
+## Fonksiyon Interposing
 
-**`__interpose` (`__DATA___interpose`)** bölümü olan bir **dylib** oluşturun (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüm) ve **orijinal** ve **yerine geçen** fonksiyonları işaret eden **fonksiyon işaretçileri** tuple'larını içerir.
+**`__interpose` (`__DATA___interpose`)** bölümü olan bir **dylib** oluşturun (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüm) ve **orijinal** ve **yerine geçen** fonksiyonlara işaret eden **fonksiyon işaretçileri** tuple'larını içerir.
 
-Ardından, **dylib'i** **`DYLD_INSERT_LIBRARIES`** ile **enjekte edin** (araya girmenin ana uygulama yüklenmeden önce gerçekleşmesi gerekir). Açıkçası [**`DYLD_INSERT_LIBRARIES`** kullanımına uygulanan **kısıtlamalar** burada da geçerlidir](macos-library-injection/#check-restrictions).
+Ardından, **dylib'i** **`DYLD_INSERT_LIBRARIES`** ile **enjekte edin** (interposing, ana uygulama yüklenmeden önce gerçekleşmelidir). Açıkçası [**`DYLD_INSERT_LIBRARIES`** kullanımına uygulanan **kısıtlamalar** burada da geçerlidir](macos-library-injection/#check-restrictions).
 
-### printf'i Araya Girmek
+### printf'i Interpose Edin
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -97,13 +98,13 @@ Hello from interpose
 **`DYLD_PRINT_INTERPOSTING`** çevresel değişkeni, araya girme işlemini hata ayıklamak için kullanılabilir ve araya girme işlemini yazdırır.
 {% endhint %}
 
-Ayrıca **araya girme işlemi, işlem ve yüklenen kütüphaneler arasında gerçekleşir**, paylaşılan kütüphane önbelleği ile çalışmaz.
+Ayrıca **araya girme işleminin işlem ve yüklenen kütüphaneler arasında gerçekleştiğini** unutmayın, paylaşılan kütüphane önbelleği ile çalışmaz.
 
 ### Dinamik Araya Girme
 
 Artık bir işlevi dinamik olarak **`dyld_dynamic_interpose`** işlevini kullanarak araya girmek de mümkündür. Bu, bir işlevi çalışma zamanında programatik olarak araya girmeyi sağlar, sadece başlangıçtan değil.
 
-Yerine getirilecek işlev ve yerine geçecek işlevin **çiftlerini** belirtmek yeterlidir.
+Yerine getirilecek işlev ve yerine geçecek işlevin **demetlerini** belirtmek yeterlidir.
 ```c
 struct dyld_interpose_tuple {
 const void* replacement;
@@ -120,15 +121,15 @@ ObjectiveC'de bir yöntem şu şekilde çağrılır: **`[myClassInstance nameOfT
 
 Nesne **`someObject`**, yöntem **`@selector(method1p1:p2:)`** ve argümanlar **value1**, **value2**'dir.
 
-Nesne yapıları takip edilerek, yöntem kodlarına **isimlerin** ve **işaretçilerin** bulunduğu bir **yöntem dizisine** ulaşmak mümkündür.
+Nesne yapıları takip edilerek, **yöntemlerin bir dizisine** ulaşmak mümkündür, burada **isimler** ve **yöntem kodunun işaretçileri** bulunmaktadır.
 
 {% hint style="danger" %}
-Yöntemler ve sınıflar isimlerine göre erişildiği için bu bilgiler ikili dosyada saklanır, bu nedenle `otool -ov </path/bin>` veya [`class-dump </path/bin>`](https://github.com/nygard/class-dump) ile geri alınabilir.
+Yöntemler ve sınıflar isimlerine göre erişildiği için bu bilgi ikili dosyada saklanır, bu yüzden `otool -ov </path/bin>` veya [`class-dump </path/bin>`](https://github.com/nygard/class-dump) ile geri alınabilir.
 {% endhint %}
 
 ### Ham yöntemlere erişim
 
-Aşağıdaki örnekte olduğu gibi yöntemlerin adı, parametre sayısı veya adresi gibi bilgilere erişmek mümkündür:
+Yöntemlerin adı, parametre sayısı veya adresi gibi bilgilere aşağıdaki örnekte olduğu gibi erişmek mümkündür:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -204,7 +205,7 @@ return 0;
 Bu nedenle bir fonksiyon çağrıldığında **çalıştırılan diğer fonksiyondur**.
 {% endhint %}
 
-{% code overflow="wrap" %}
+{% endcode %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -320,7 +321,7 @@ return 0;
 
 Bu sayfada fonksiyonları hook etmenin farklı yolları tartışıldı. Bununla birlikte, bunlar **saldırmak için işlem içinde kod çalıştırmayı** içeriyordu.
 
-Bunu yapabilmek için kullanılacak en kolay teknik, bir [Dyld aracılığıyla çevresel değişkenler veya ele geçirme yoluyla enjekte etmektir](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Bununla birlikte, bunun aynı zamanda [Dylib işlem enjeksiyonu](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) yoluyla da yapılabilmesi mümkün olabilir.
+Bunu yapabilmek için kullanılacak en kolay teknik, bir [Dyld aracılığıyla çevresel değişkenler veya ele geçirme](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md) yoluyla enjekte etmektir. Bununla birlikte, bunun aynı zamanda [Dylib işlem enjeksiyonu](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) yoluyla da yapılabilmesi mümkün olabilir.
 
 Ancak, her iki seçenek de **korumasız** ikili işlemlerle sınırlıdır. Sınırlamalar hakkında daha fazla bilgi edinmek için her tekniği kontrol edin.
 
@@ -342,10 +343,10 @@ ve ardından uygulamayı **yeniden kaydedin**:
 ```
 {% endcode %}
 
-O kütüphaneye, bilgileri dışarı çıkarmak için kancalama kodunu ekleyin: Şifreler, mesajlar...
+O kütüphaneye bilgileri dışarı çıkarmak için kancalama kodunu ekleyin: Şifreler, mesajlar...
 
 {% hint style="danger" %}
-Yeni macOS sürümlerinde, uygulama ikilisinin **imzasını kaldırırsanız** ve önceden çalıştırıldıysa, macOS artık uygulamayı **çalıştırmayacak**.
+Yeni macOS sürümlerinde, uygulama ikili dosyasının imzasını **kaldırırsanız** ve önceden çalıştırıldıysa, macOS artık uygulamayı **çalıştırmayacak**.
 {% endhint %}
 
 #### Kütüphane örneği
@@ -392,16 +393,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
