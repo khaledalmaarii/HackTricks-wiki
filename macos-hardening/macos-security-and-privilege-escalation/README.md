@@ -1,31 +1,32 @@
 # Usalama na Kupandisha Madaraka kwa macOS
 
+{% hint style="success" %}
+Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha** [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa zawadi za mdudu!
 
-**Machapisho ya Kuhack**\
-Shiriki na yaliyomo yanayochimba katika msisimko na changamoto za kuhack
+**Machapisho ya Udukuzi**\
+Shiriki na yaliyomo yanayochimba kina katika msisimko na changamoto za udukuzi
 
-**Taarifa za Kuhack Halisi**\
-Kaa up-to-date na ulimwengu wa kuhack wenye kasi kupitia taarifa za wakati halisi na ufahamu
+**Taarifa za Udukuzi za Wakati Halisi**\
+Kaa up-to-date na ulimwengu wa udukuzi wenye kasi kupitia habari za wakati halisi na ufahamu
 
 **Matangazo ya Karibuni**\
-Baki mwelekezwa na zawadi mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
+Baki mwelewa na zawadi mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
 
 **Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
@@ -39,7 +40,7 @@ Ikiwa haujazoea macOS, unapaswa kuanza kujifunza misingi ya macOS:
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* **Watumiaji wa kawaida wa macOS**
+* Watumiaji wa kawaida wa macOS
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -51,30 +52,30 @@ Ikiwa haujazoea macOS, unapaswa kuanza kujifunza misingi ya macOS:
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* **Mimariria** ya k**ernel**
+* **Mimaririko** ya **kernel**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Huduma na itifaki za n**etwork za macOS**
+* Huduma na itifaki za mtandao za macOS
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* macOS ya **OpenSource**: [https://opensource.apple.com/](https://opensource.apple.com/)
+* **Opensource** ya macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
 * Ili kupakua `tar.gz` badilisha URL kama [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) kuwa [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MDM ya MacOS
 
-Katika makampuni **mifumo ya macOS inaweza kuwa imepangiliwa sana na MDM**. Kwa hivyo, kutoka mtazamo wa mshambuliaji ni muhimu kujua **jinsi hiyo inavyofanya kazi**:
+Katika makampuni **mifumo ya macOS inaweza kuwa imepangiliwa kwa MDM**. Kwa hivyo, kutoka mtazamo wa mshambuliaji ni muhimu kujua **jinsi hiyo inavyofanya kazi**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Ukaguzi, Uchunguzi na Kufanya Fuzzing
+### MacOS - Ukaguzi, Udukuzi na Fuzzing
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
@@ -86,19 +87,19 @@ Katika makampuni **mifumo ya macOS inaweza kuwa imepangiliwa sana na MDM**. Kwa 
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Eneo la Mashambulizi
+## Eneo la Shambulizi
 
 ### Ruhusa za Faili
 
 Ikiwa **mchakato unaoendeshwa kama root unahifadhi** faili ambayo inaweza kudhibitiwa na mtumiaji, mtumiaji anaweza kutumia hii kwa **kupandisha madaraka**.\
 Hii inaweza kutokea katika hali zifuatazo:
 
-* Faili iliyotumiwa tayari imeundwa na mtumiaji (inayomilikiwa na mtumiaji)
+* Faili iliyotumiwa tayari ilikuwa imeundwa na mtumiaji (inayomilikiwa na mtumiaji)
 * Faili iliyotumiwa inaweza kuandikwa na mtumiaji kwa sababu ya kikundi
 * Faili iliyotumiwa iko ndani ya saraka inayomilikiwa na mtumiaji (mtumiaji anaweza kuunda faili)
 * Faili iliyotumiwa iko ndani ya saraka inayomilikiwa na root lakini mtumiaji ana ufikiaji wa kuandika juu yake kwa sababu ya kikundi (mtumiaji anaweza kuunda faili)
 
-Uwezo wa **kuunda faili** ambayo itatumika na **root**, inaruhusu mtumiaji **kutumia maudhui yake** au hata kuunda **symlinks/hardlinks** kuelekeza mahali pengine.
+Uwezo wa **kuunda faili** ambayo itatumika na **root**, inaruhusu mtumiaji **kutumia maudhui yake** au hata kuunda **viungo vya ishara/viungo ngumu** kuielekeza mahali pengine.
 
 Kwa aina hii ya udhaifu usisahau kuchunguza **wasanidi wa `.pkg`** walio hatarini:
 
@@ -116,11 +117,11 @@ Programu za ajabu zilizosajiliwa na ugani wa faili zinaweza kutumiwa vibaya na p
 
 ## Kupandisha Madaraka ya TCC / SIP ya macOS
 
-Katika macOS **programu na programu za binary zinaweza kuwa na ruhusa** ya kufikia folda au mipangilio inayowafanya wawe na haki zaidi kuliko wengine.
+Katika macOS **programu na programu za binary zinaweza kuwa na ruhusa** za kufikia folda au mipangilio ambayo inawafanya wawe na haki zaidi kuliko wengine.
 
 Kwa hivyo, mshambuliaji anayetaka kudhoofisha kwa mafanikio kompyuta ya macOS atahitaji **kupandisha madaraka yake ya TCC** (au hata **kupuuza SIP**, kulingana na mahitaji yake).
 
-Ruhusa hizi kawaida hupewa kwa mfumo wa **ruhusa** programu imesainiwa nazo, au programu inaweza kuomba ufikiaji fulani na baada ya **mtumiaji kuziidhinisha** zinaweza kupatikana katika **databases za TCC**. Njia nyingine mchakato unaweza kupata ruhusa hizi ni kwa kuwa **mtoto wa mchakato** na ruhusa hizo kwani kawaida **zinarithiwa**.
+Ruhusa hizi kawaida hupewa kwa mfumo wa **ruhusa** programu imesainiwa nazo, au programu inaweza kuomba baadhi ya ufikiaji na baada ya **mtumiaji kuidhinisha** wanaweza kupatikana katika **databases za TCC**. Njia nyingine mchakato unaweza kupata ruhusa hizi ni kwa kuwa **mtoto wa mchakato** na ruhusa hizo kwani kawaida **zinarithiwa**.
 
 Fuata viungo hivi kupata njia tofauti za [**kupandisha madaraka katika TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), kwa [**kupuuza TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) na jinsi zamani [**SIP imepita**](macos-security-protections/macos-sip.md#sip-bypasses).
 
@@ -143,27 +144,28 @@ Bila shaka kutoka mtazamo wa timu nyekundu unapaswa pia kuwa na nia ya kupandish
 
 Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa tuzo za udhaifu!
 
-**Machapisho ya Kudukua**\
-Shiriki na maudhui yanayochimba kina kuhusu msisimko na changamoto za kudukua
+**Machapisho ya Udukuzi**\
+Shiriki na maudhui yanayochimba kina katika msisimko na changamoto za udukuzi
 
-**Taarifa za Kudukua za Wakati Halisi**\
-Kaa sawa na ulimwengu wa kudukua wenye kasi kupitia taarifa za wakati halisi na ufahamu
+**Taarifa za Udukuzi za Muda Halisi**\
+Kaa sawa na ulimwengu wa udukuzi wenye kasi kupitia taarifa za muda halisi na ufahamu
 
-**Matangazo Mapya**\
-Baki mwelekezi na matangazo mapya ya tuzo za udhaifu yanayoanzishwa na sasisho muhimu za jukwaa
+**Matangazo ya Karibuni**\
+Baki mwelewa na tuzo za udhaifu zinazoanzishwa na sasisho muhimu za jukwaa
 
 **Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
 
+{% hint style="success" %}
+Jifunze & jifanye Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & jifanye Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

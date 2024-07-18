@@ -1,26 +1,27 @@
 # Programu za macOS - Kuchunguza, kudebugi na Fuzzing
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wame **vamiwa** na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za wizi wa habari.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za wizi wa habari.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
@@ -28,7 +29,7 @@ Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
 ***
 
-## Uchambuzi Stati
+## Uchambuzi wa Stetiki
 
 ### otool & objdump & nm
 ```bash
@@ -83,7 +84,7 @@ jtool2 -d __DATA.__const myipc_server | grep MIG
 ### Codesign / ldid
 
 {% hint style="success" %}
-**`Codesign`** inaweza kupatikana katika **macOS** wakati **`ldid`** inaweza kupatikana katika **iOS**
+**`Codesign`** inaweza kupatikana kwenye **macOS** wakati **`ldid`** inaweza kupatikana kwenye **iOS**
 {% endhint %}
 ```bash
 # Get signer
@@ -113,12 +114,12 @@ ldid -S/tmp/entl.xml <binary>
 ```
 ### SuspiciousPackage
 
-[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) ni chombo kinachofaa kuchunguza faili za **.pkg** (wakala) na kuona kilichomo ndani kabla ya kuiweka.\
-Wakala hawa wana skripti za bash za `preinstall` na `postinstall` ambazo waundaji wa programu hasidi kawaida hutumia vibaya kudumisha **programu hasidi**.
+[**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) ni chombo kinachofaa kuchunguza faili za **.pkg** (wakufunzi) na kuona kilichomo ndani kabla ya kuiweka.\
+Wakufunzi hawa wana skripti za bash za `preinstall` na `postinstall` ambazo waundaji wa programu hasidi kawaida hutumia vibaya kudumisha **programu hasidi**.
 
 ### hdiutil
 
-Chombo hiki kuruhusu kufunga picha za diski za Apple (**.dmg**) ili kuzichunguza kabla ya kuziendesha:
+Chombo hiki kuruhusu kufunga picha za diski za Apple (**.dmg**) ili kuzichunguza kabla ya kuzitumia:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -135,12 +136,12 @@ Itakuwa imemountiwa katika `/Volumes`
 ### Metadata
 
 {% hint style="danger" %}
-Tafadhali kumbuka kuwa programu zilizoandikwa kwa Objective-C **huhifadhi** matangazo yao ya darasa **wakati** **zina** **kuchakatwa** kuwa [binari za Mach-O](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Matangazo hayo ya darasa **ni pamoja na** jina na aina ya:
+Tafadhali kumbuka kuwa programu zilizoandikwa kwa Objective-C **huhifadhi** maelezo yao ya darasa **wakati** **zina** **kuchakatwa** kuwa [binari za Mach-O](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Maelezo haya ya darasa **ni pamoja na** jina na aina ya:
 {% endhint %}
 
-* Violezo vilivyofafanuliwa
-* Njia za violezo
-* Vipengele vya kiolezo
+* Interfaces zilizofafanuliwa
+* Njia za interface
+* Variables za kesi za interface
 * Itifaki zilizofafanuliwa
 
 Kumbuka kuwa majina haya yanaweza kufichwa ili kufanya kugeuza nyuma ya binari kuwa ngumu zaidi.
@@ -153,9 +154,9 @@ Wakati kazi inaitwa katika binari inayotumia Objective-C, badala ya kuita kazi h
 
 Parameta ambazo kazi hii inatarajia ni:
 
-* Parameta ya kwanza (**self**) ni "kiashiria kinachoelekeza kwa **mfano wa darasa ambalo linapaswa kupokea ujumbe**". Au kusema kwa urahisi zaidi, ni kitu ambacho mbinu inaitwa juu yake. Ikiwa mbinu ni mbinu ya darasa, hii itakuwa mfano wa kitu cha darasa (kwa ujumla), wakati kwa mbinu ya mfano, self itaelekeza kwa mfano ulioanzishwa wa darasa kama kitu.
-* Parameta ya pili, (**op**), ni "chaguzi ya mbinu inayoshughulikia ujumbe". Tena, kwa urahisi zaidi, hii ni tu **jina la mbinu.**
-* Parameta zilizobaki ni **thamani zozote zinazohitajika na mbinu** (op).
+* Parameta ya kwanza (**self**) ni "kiashiria kinachoelekeza kwa **mfano wa darasa ambalo linapaswa kupokea ujumbe**". Au kusema kwa urahisi zaidi, ni kitu ambacho njia inaitwa juu yake. Ikiwa njia ni njia ya darasa, hii itakuwa mfano wa kitu cha darasa (kwa jumla), wakati kwa njia ya kesi, self itaelekeza kwa mfano ulioanzishwa wa darasa kama kitu.
+* Parameta ya pili, (**op**), ni "chaguzi ya njia inayoshughulikia ujumbe". Tena, kwa urahisi zaidi, hii ni tu **jina la njia**.
+* Parameta zilizobaki ni **thamani zozote zinazohitajika na njia** (op).
 
 Angalia jinsi ya **kupata habari hii kwa urahisi na `lldb` katika ARM64** kwenye ukurasa huu:
 
@@ -165,15 +166,15 @@ Angalia jinsi ya **kupata habari hii kwa urahisi na `lldb` katika ARM64** kwenye
 
 x64:
 
-| **Hoja**          | **Kusajili**                                                    | **(kwa) objc\_msgSend**                                |
+| **Hoja**          | **Kirejista**                                                  | **(kwa) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **Hoja ya 1**     | **rdi**                                                         | **self: kitu ambacho mbinu inaitwa juu yake**          |
-| **Hoja ya 2**     | **rsi**                                                         | **op: jina la mbinu**                                 |
-| **Hoja ya 3**     | **rdx**                                                         | **Hoja ya 1 kwa mbinu**                               |
-| **Hoja ya 4**     | **rcx**                                                         | **Hoja ya 2 kwa mbinu**                               |
-| **Hoja ya 5**     | **r8**                                                          | **Hoja ya 3 kwa mbinu**                               |
-| **Hoja ya 6**     | **r9**                                                          | **Hoja ya 4 kwa mbinu**                               |
-| **Hoja ya 7+**    | <p><strong>rsp+</strong><br><strong>(kwenye steki)</strong></p> | **Hoja ya 5+ kwa mbinu**                              |
+| **Hoja ya 1**     | **rdi**                                                         | **self: kitu ambacho njia inaitwa juu yake**           |
+| **Hoja ya 2**     | **rsi**                                                         | **op: jina la njia**                                  |
+| **Hoja ya 3**     | **rdx**                                                         | **Hoja ya 1 kwa njia**                                |
+| **Hoja ya 4**     | **rcx**                                                         | **Hoja ya 2 kwa njia**                                |
+| **Hoja ya 5**     | **r8**                                                          | **Hoja ya 3 kwa njia**                                |
+| **Hoja ya 6**     | **r9**                                                          | **Hoja ya 4 kwa njia**                                |
+| **Hoja ya 7+**    | <p><strong>rsp+</strong><br><strong>(kwenye steki)</strong></p> | **Hoja ya 5+ kwa njia**                               |
 
 ### Tupa Metadata ya ObjectiveC
 
@@ -195,22 +196,22 @@ objdump --macho --objc-meta-data /path/to/bin
 
 [**class-dump**](https://github.com/nygard/class-dump/) ni chombo cha awali kinachozalisha tamko kwa ajili ya madarasa, makundi, na itifaki katika nambari iliyopangwa kwa ObjetiveC.
 
-Ni cha zamani na hakijalishi hivyo huenda kisifanye kazi ipasavyo.
+Ni cha zamani na hakihifadhiwi kwa hiyo labda haitafanya kazi vizuri.
 
 #### ICDump
 
-[**iCDump**](https://github.com/romainthomas/iCDump) ni chombo cha sasa na cha msalaba-jukwaa cha kudondosha madarasa ya Objective-C. Ikilinganishwa na zana zilizopo, iCDump inaweza kufanya kazi kivyake bila kutegemea mfumo wa Apple na inaonyesha vifungo vya Python.
+[**iCDump**](https://github.com/romainthomas/iCDump) ni daraja la darasa la Objective-C la kisasa na la msalaba-jukwaa. Ikilinganishwa na zana zilizopo, iCDump inaweza kufanya kazi kivyake kutoka kwa mfumo wa Apple na inafunua vifungo vya Python.
 ```python
 import icdump
 metadata = icdump.objc.parse("/path/to/bin")
 
 print(metadata.to_decl())
 ```
-## Uchambuzi Statisi wa Swift
+## Uchambuzi Statisia wa Swift
 
 Kwa mafaili ya Swift, kwa kuwa kuna utangamano wa Objective-C, mara kwa mara unaweza kutoa tamko kutumia [class-dump](https://github.com/nygard/class-dump/) lakini sio kila wakati.
 
-Kwa kutumia mistari ya amri ya **`jtool -l`** au **`otool -l`** ni rahisi kupata sehemu kadhaa zinazoanza na kiambishi cha **`__swift5`**:
+Kwa kutumia mistari ya amri ya **`jtool -l`** au **`otool -l`** niwezekanavyo kupata sehemu kadhaa ambazo zinaanza na kiambishi cha **`__swift5`**:
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -224,7 +225,7 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ```
 Unaweza kupata habari zaidi kuhusu [**habari zilizohifadhiwa katika sehemu hizi katika chapisho hili la blogi**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
 
-Zaidi ya hayo, **Binaries za Swift zinaweza kuwa na alama** (kwa mfano maktaba hulazimika kuhifadhi alama ili kazi zake ziweze kuitwa). **Alama kwa kawaida huwa na habari kuhusu jina la kazi** na sifa kwa njia isiyovutia, hivyo ni muhimu sana na kuna "**wadondoa alama"** ambao wanaweza kupata jina halisi:
+Zaidi ya hayo, **Binaries za Swift zinaweza kuwa na alama** (kwa mfano maktaba hulazimika kuhifadhi alama ili kazi zake ziweze kuitwa). **Alama kwa kawaida huwa na habari kuhusu jina la kazi** na sifa kwa njia isiyovutia, hivyo ni muhimu sana na kuna "**wachambuzi"** ambao wanaweza kupata jina halisi:
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -235,7 +236,7 @@ swift demangle
 ## Uchambuzi wa Kudumu
 
 {% hint style="warning" %}
-Tafadhali elewa kwamba ili kudebugi binaries, **SIP inahitaji kuwa imelemazwa** (`csrutil disable` au `csrutil enable --without debug`) au kuiga binaries kwenye folda ya muda na **kuondoa saini** na `codesign --remove-signature <njia-ya-binary>` au kuruhusu uchambuzi wa binary (unaweza kutumia [script hii](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
+Tafadhali elewa kwamba ili kudebugi binaries, **SIP inahitaji kuwa imelemazwa** (`csrutil disable` au `csrutil enable --without debug`) au kuiga binaries kwenye folda ya muda na **kuondoa saini** na `codesign --remove-signature <njia-ya-binary>` au kuruhusu kudebugi ya binary (unaweza kutumia [script hii](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
@@ -261,9 +262,9 @@ Inapaswa kutekelezwa kama **mizizi** na daemon `/usr/libexec/sysdiagnosed` ina r
 
 Plist yake iko katika `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist` ambayo inatangaza MachServices 3:
 
-* `com.apple.sysdiagnose.CacheDelete`: Inafuta nyaraka za zamani kwenye /var/rmp
+* `com.apple.sysdiagnose.CacheDelete`: Inafuta nyaraka za zamani katika /var/rmp
 * `com.apple.sysdiagnose.kernel.ipc`: Bandari maalum 23 (kernel)
-* `com.apple.sysdiagnose.service.xpc`: Kiolesura cha mode ya mtumiaji kupitia darasa la `Libsysdiagnose` Obj-C. Vigezo vitatu vinaweza kupitishwa kwenye neno (`compress`, `display`, `run`)
+* `com.apple.sysdiagnose.service.xpc`: Kiolesura cha mode ya mtumiaji kupitia darasa la `Libsysdiagnose` Obj-C. Vigezo vitatu vinaweza kupitishwa katika neno (`compress`, `display`, `run`)
 
 ### Unified Logs
 
@@ -275,7 +276,7 @@ Zaidi ya hayo, kuna baadhi ya magogo ambayo yatakuwa na lebo `<private>` kuficha
 
 #### Kifungu cha Kushoto
 
-Kwenye kifungu cha kushoto cha hopper inawezekana kuona alama (**Lebo**) za binary, orodha ya taratibu na kazi (**Proc**) na herufi (**Str**). Hizi si herufi zote lakini zile zilizofafanuliwa katika sehemu kadhaa za faili ya Mac-O (kama vile _cstring au_ `objc_methname`).
+Kwenye kifungu cha kushoto cha hopper inawezekana kuona alama (**Labels**) za binary, orodha ya taratibu na kazi (**Proc**) na herufi (**Str**). Hizi si herufi zote lakini zile zilizofafanuliwa katika sehemu kadhaa za faili ya Mac-O (kama vile _cstring au_ `objc_methname`).
 
 #### Kifungu cha Kati
 
@@ -291,13 +292,13 @@ Zaidi ya hayo, kwenye **kati chini unaweza kuandika amri za python**.
 
 #### Kifungu cha Kulia
 
-Kwenye kifungu cha kulia unaweza kuona habari muhimu kama **historia ya urambazaji** (ili ujue jinsi ulivyofika kwenye hali ya sasa), **grafu ya wito** ambapo unaweza kuona **kazi zote zinazopiga simu kazi hii** na kazi zote ambazo **kazi hii inapiga simu**, na habari za **mazingira ya ndani**.
+Kwenye kifungu cha kulia unaweza kuona habari za kuvutia kama **historia ya urambazaji** (ili ujue jinsi ulivyofika kwenye hali ya sasa), **grafu ya wito** ambapo unaweza kuona **kazi zote zinazopiga simu kazi hii** na kazi zote ambazo **kazi hii inapiga simu**, na habari za **mazingira ya ndani**.
 
 ### dtrace
 
-Inaruhusu watumiaji kupata ufikivu kwenye programu kwa kiwango cha chini sana na hutoa njia kwa watumiaji kufuatilia **programu** na hata kubadilisha mtiririko wao wa utekelezaji. Dtrace hutumia **probes** ambazo zinawekwa kote kwenye kernel na ziko katika maeneo kama mwanzo na mwisho wa wito wa mfumo.
+Inaruhusu watumiaji kupata ufikiaji kwenye programu kwa kiwango cha chini sana na hutoa njia kwa watumiaji kufuatilia **programu** na hata kubadilisha mtiririko wao wa utekelezaji. Dtrace hutumia **probes** ambazo zinawekwa kote kwenye kernel na ziko katika maeneo kama mwanzo na mwisho wa wito wa mfumo.
 
-DTrace hutumia kazi ya **`dtrace_probe_create`** kuunda kipimo kwa kila wito wa mfumo. Probes hizi zinaweza kufyatuliwa kwenye **ingia na toka kwa kila wito wa mfumo**. Mwingiliano na DTrace hufanyika kupitia /dev/dtrace ambayo inapatikana kwa mtumiaji wa mizizi pekee.
+DTrace hutumia kazi ya **`dtrace_probe_create`** kuunda kipimo kwa kila wito wa mfumo. Probes hizi zinaweza kufyatuliwa kwenye **nukta ya kuingia na kutoka kwa kila wito wa mfumo**. Mwingiliano na DTrace hufanyika kupitia /dev/dtrace ambayo inapatikana kwa mtumiaji wa mizizi pekee.
 
 {% hint style="success" %}
 Ili kuwezesha Dtrace bila kulemaza kabisa ulinzi wa SIP unaweza kutekeleza kwenye hali ya kupona: `csrutil enable --without dtrace`
@@ -317,9 +318,9 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 ```
 Jina la kichunguzi linajumuisha sehemu nne: mtoa huduma, moduli, kazi, na jina (`fbt:mach_kernel:ptrace:entry`). Ikiwa haujataja sehemu fulani ya jina, Dtrace itatumia sehemu hiyo kama kichujio.
 
-Ili kusanidi DTrace kuamsha vichunguzi na kutaja ni hatua gani za kuchukua wanapochomwa, tutahitaji kutumia lugha ya D.
+Ili kusanidi DTrace kuamsha vichunguzi na kutaja ni hatua gani za kutekeleza wanapochomwa, tutahitaji kutumia lugha ya D.
 
-Maelezo zaidi na mifano zaidi inapatikana katika [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
+Maelezo zaidi na mifano zaidi inaweza kupatikana katika [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
 
 #### Mifano
 
@@ -379,14 +380,14 @@ Hii ni kituo cha kufuatilia kernel. Miezi iliyodhibitishwa inaweza kupatikana ka
 
 Vyombo kama `latency`, `sc_usage`, `fs_usage` na `trace` hutumia hii ndani.
 
-Kuongeza na `kdebug` `sysctl` hutumiwa kupitia `kern.kdebug` na MIBs za kutumia zinaweza kupatikana katika `sys/sysctl.h` zikiwa na kazi zilizotekelezwa katika `bsd/kern/kdebug.c`.
+Kuongeza na `kdebug` `sysctl` hutumiwa kupitia `kern.kdebug` namespace na MIBs za kutumia zinaweza kupatikana katika `sys/sysctl.h` zikiwa na kazi zilizoanzishwa katika `bsd/kern/kdebug.c`.
 
 Kuwasiliana na kdebug na mteja wa desturi hatua hizi kawaida hufuatwa:
 
 * Ondoa mipangilio iliyopo na KERN\_KDSETREMOVE
 * Weka ufuatiliaji na KERN\_KDSETBUF na KERN\_KDSETUP
 * Tumia KERN\_KDGETBUF kupata idadi ya vipengele vya buffer
-* Pata mteja wako kutoka kwa ufuatiliaji na KERN\_KDPINDEX
+* Pata mteja wako kutoka kwenye ufuatiliaji na KERN\_KDPINDEX
 * Wezesha ufuatiliaji na KERN\_KDENABLE
 * Soma buffer kwa kuita KERN\_KDREADTR
 * Kulinganisha kila mchakato na mchakato wake kwa kuita KERN\_KDTHRMAP.
@@ -397,11 +398,11 @@ Ili kupata habari hii inawezekana kutumia zana ya Apple **`trace`** au zana ya d
 
 ### ktrace
 
-`ktrace_*` APIs hutoka kwa `libktrace.dylib` ambayo hufunika zile za `Kdebug`. Kisha, mteja anaweza tu kuita `ktrace_session_create` na `ktrace_events_[single/class]` kuweka maingiliano kwenye miezi maalum na kisha kuanza na `ktrace_start`.
+API za `ktrace_*` zinatoka kwa `libktrace.dylib` ambayo inafunika zile za `Kdebug`. Kisha, mteja anaweza tu kuita `ktrace_session_create` na `ktrace_events_[single/class]` kuweka maingiliano kwenye nambari maalum na kisha kuanza na `ktrace_start`.
 
 Unaweza kutumia hii hata na **SIP imewashwa**
 
-Unaweza kutumia kama wateja zana ya matumizi `ktrace`:
+Unaweza kutumia kama wateja zana ya `ktrace`:
 ```bash
 ktrace trace -s -S -t c -c ls | grep "ls("
 ```
@@ -411,11 +412,11 @@ Au `tailspin`.
 
 Hii hutumika kufanya uchambuzi wa kiwango cha kernel na imejengwa kwa kutumia simu za `Kdebug`.
 
-Kimsingi, kivinjari cha jumla `kernel_debug_active` huchunguzwa na ikisetiwa huita `kperf_kdebug_handler` na `Kdebug` nambari na anwani ya fremu ya kernel inayopiga simu. Ikiwa nambari ya `Kdebug` inalingana na moja iliyochaguliwa inapata "vitendo" vilivyowekwa kama ramani (angalia `osfmk/kperf/action.h` kwa chaguo).
+Kimsingi, kivinjari cha jumla `kernel_debug_active` huchunguzwa na ikisetiwa huita `kperf_kdebug_handler` na simu ya `Kdebug` na anwani ya fremu ya kernel inayopiga simu. Ikiwa simu ya `Kdebug` inalingana na moja iliyochaguliwa inapata "vitendo" vilivyowekwa kama ramani (angalia `osfmk/kperf/action.h` kwa chaguo).
 
-Kperf ina jedwali la sysctl MIB pia: (kama root) `sysctl kperf`. Nambari hizi zinaweza kupatikana katika `osfmk/kperf/kperfbsd.c`.
+Kperf ina jedwali la MIB la sysctl pia: (kama mzizi) `sysctl kperf`. Nambari hizi zinaweza kupatikana katika `osfmk/kperf/kperfbsd.c`.
 
-Zaidi ya hayo, sehemu ya Kperfs inapatikana katika `kpc`, ambayo hutoa habari kuhusu vipimo vya utendaji wa mashine.
+Zaidi ya hayo, sehemu ya Kperfs inapatikana katika `kpc`, ambayo hutoa habari kuhusu vigezo vya utendaji wa mashine.
 
 ### ProcessMonitor
 
@@ -423,7 +424,7 @@ Zaidi ya hayo, sehemu ya Kperfs inapatikana katika `kpc`, ambayo hutoa habari ku
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/) ni chombo kinachochapisha mahusiano kati ya michakato.\
+[**SpriteTree**](https://themittenmac.com/tools/) ni chombo cha kuchapisha mahusiano kati ya michakato.\
 Unahitaji kufuatilia mac yako na amri kama **`sudo eslogger fork exec rename create > cap.json`** (terminal inayoanzisha hii inahitaji FDA). Kisha unaweza kupakia json katika chombo hiki kuona mahusiano yote:
 
 <figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
@@ -434,7 +435,7 @@ Unahitaji kufuatilia mac yako na amri kama **`sudo eslogger fork exec rename cre
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) ni chombo cha GUI kinachofanana na watumiaji wa Windows wanaweza kujua kutoka kwa _Procmon_ ya Microsoft Sysinternal. Chombo hiki kuruhusu kuanza na kuacha kurekodi aina mbalimbali za matukio, kuruhusu kuchuja matukio haya kwa makundi kama vile faili, mchakato, mtandao, n.k., na hutoa utendaji wa kuhifadhi matukio yaliyorekodiwa kwa muundo wa json.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) ni chombo cha GUI kinachofanana na watumiaji wa Windows wanaweza kufahamu kutoka kwa _Procmon_ ya Microsoft Sysinternal. Chombo hiki kuruhusu kuanza na kuacha kurekodi aina mbalimbali za matukio, kuruhusu kuchuja matukio haya kwa makundi kama vile faili, mchakato, mtandao, n.k., na hutoa utendaji wa kuhifadhi matukio yaliyorekodiwa kwa muundo wa json.
 
 ### Apple Instruments
 
@@ -456,11 +457,11 @@ Pia huchunguza michakato ya faili dhidi ya **virustotal** na kuonyesha habari ku
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-Katika [**chapisho hili la blogi**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) unaweza kupata mfano jinsi ya **kudebugi daemon inayotumia** **`PT_DENY_ATTACH`** kuzuia kudebugi hata kama SIP ilikuwa imelemazwa.
+Katika [**chapisho hili la blogi**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) unaweza kupata mfano kuhusu jinsi ya **kudebugi daemon inayotumika** ambayo ilikuwa inatumia **`PT_DENY_ATTACH`** kuzuia kudebugi hata kama SIP ilikuwa imelemazwa.
 
 ### lldb
 
-**lldb** ni chombo cha **msingi** kwa **kudebugi** faili za **macOS**.
+**lldb** ni chombo cha **kweli** kwa **kudebugi** faili za **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -475,10 +476,10 @@ settings set target.x86-disassembly-flavor intel
 Ndani ya lldb, dumpisha mchakato kwa kutumia `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Amri</strong></td><td><strong>Maelezo</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Kuanza utekelezaji, ambao utaendelea bila kikwazo mpaka kivinjari kikome au mchakato ukome.</td></tr><tr><td><strong>continue (c)</strong></td><td>Kuendelea na utekelezaji wa mchakato uliopo kwenye uchunguzi.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Kutekeleza maagizo ijayo. Amri hii itaruka wito wa kazi.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Kutekeleza maagizo ijayo. Tofauti na amri ya nexti, amri hii itaingia kwenye wito wa kazi.</td></tr><tr><td><strong>finish (f)</strong></td><td>Kutekeleza maagizo mengine kwenye kazi ya sasa ("frame") na kusimamisha.</td></tr><tr><td><strong>control + c</strong></td><td>Kusitisha utekelezaji. Ikiwa mchakato umekuwa ukitekelezwa (r) au kuendelea (c), hii itasababisha mchakato kusimama ...popote ulipo kwenye utekelezaji.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Wito wowote wa kazi unaoitwa main</p><p>b &#x3C;binname>`main #Kazi kuu ya bin</p><p>b set -n main --shlib &#x3C;lib_name> #Kazi kuu ya bin iliyotajwa</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Orodha ya vituo vya kusitisha</p><p>br e/dis &#x3C;num> #Wezesha/lemaza kituo cha kusitisha</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Pata msaada wa amri ya kituo cha kusitisha</p><p>help memory write #Pata msaada wa kuandika kwenye kumbukumbu</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">muundo</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;anwani ya reg/kumbukumbu></strong></td><td>Onyesha kumbukumbu kama mstari ulio na sifuri.</td></tr><tr><td><strong>x/i &#x3C;anwani ya reg/kumbukumbu></strong></td><td>Onyesha kumbukumbu kama maagizo ya mkusanyiko.</td></tr><tr><td><strong>x/b &#x3C;anwani ya reg/kumbukumbu></strong></td><td>Onyesha kumbukumbu kama baiti.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Hii itachapisha kitu kinachotajwa na paramu</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Taarifa kwamba APIs au njia za Objective-C za Apple kwa kawaida hurejesha vitu, na hivyo inapaswa kuonyeshwa kupitia amri ya "print object" (po). Ikiwa po haizalishi matokeo yanayofaa tumia <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>kumbukumbu soma 0x000....<br>kumbukumbu soma $x0+0xf2a<br>kumbukumbu andika 0x100600000 -s 4 0x41414141 #Andika AAAA kwenye anwani hiyo<br>kumbukumbu andika -f s $rip+0x11f+7 "AAAA" #Andika AAAA kwenye anwani</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas kazi ya sasa</p><p>dis -n &#x3C;jina la kazi> #Disas kazi</p><p>dis -n &#x3C;jina la kazi> -b &#x3C;jina la msingi> #Disas kazi<br>dis -c 6 #Disas mistari 6<br>dis -c 0x100003764 -e 0x100003768 # Kutoka anwani moja hadi nyingine<br>dis -p -c 4 # Anza kwenye anwani ya sasa ya kuchambua</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Angalia safu ya 3 katika x1 reg</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Amri</strong></td><td><strong>Maelezo</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Kuanza utekelezaji, ambao utaendelea bila kikomo mpaka kivinjari kikome au mchakato ukome.</td></tr><tr><td><strong>continue (c)</strong></td><td>Kuendelea na utekelezaji wa mchakato uliopo kwenye uchunguzi.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Kutekeleza maagizo ijayo. Amri hii itaruka wito wa kazi.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Kutekeleza maagizo ijayo. Tofauti na amri ya nexti, amri hii itaingia kwenye wito wa kazi.</td></tr><tr><td><strong>finish (f)</strong></td><td>Kutekeleza maagizo mengine kwenye kazi ya sasa ("frame") kurudi na kusimamisha.</td></tr><tr><td><strong>control + c</strong></td><td>Kusitisha utekelezaji. Ikiwa mchakato umekuwa ukitekelezwa (r) au kuendelea (c), hii itasababisha mchakato kusimama ...popote ulipo kwenye utekelezaji.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Wito wowote wa kazi unaoitwa main</p><p>b &#x3C;binname>`main #Kazi kuu ya bin</p><p>b set -n main --shlib &#x3C;lib_name> #Kazi kuu ya bin iliyotajwa</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Orodha ya vituo vya kuvunja</p><p>br e/dis &#x3C;num> #Wezesha/lemaza kituo cha kuvunja</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Pata msaada wa amri ya kuvunja</p><p>help memory write #Pata msaada wa kuandika kwenye kumbukumbu</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama herufi zilizomalizika na sifuri.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama maagizo ya mkusanyiko.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Onyesha kumbukumbu kama baiti.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Hii itachapisha kitu kinachotajwa na paramu</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Taarifa kwamba APIs au njia za Apple za Objective-C kwa kawaida hurejesha vitu, na hivyo inapaswa kuonyeshwa kupitia amri ya "print object" (po). Ikiwa po haizalishi matokeo yanayofaa tumia <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>kumbukumbu soma 0x000....<br>kumbukumbu soma $x0+0xf2a<br>kumbukumbu andika 0x100600000 -s 4 0x41414141 #Andika AAAA kwenye anwani hiyo<br>kumbukumbu andika -f s $rip+0x11f+7 "AAAA" #Andika AAAA kwenye anwani</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas kazi ya sasa</p><p>dis -n &#x3C;funcname> #Disas kazi</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas kazi<br>dis -c 6 #Disas mistari 6<br>dis -c 0x100003764 -e 0x100003768 # Kutoka anwani moja hadi nyingine<br>dis -p -c 4 # Anza kwenye anwani ya sasa ya kuchambua</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Angalia safu ya 3 katika x1 reg</td></tr></tbody></table>
 
 {% hint style="info" %}
-Unapoitisha **`objc_sendMsg`** function, **rsi** register inashikilia **jina la njia** kama mstari wa sifuri ("C"). Ili kuchapisha jina kupitia lldb fanya:
+Unapoitisha **`objc_sendMsg`** function, **rsi** register inashikilia **jina la njia** kama herufi zilizomalizika ("C"). Ili kuchapisha jina kupitia lldb fanya:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -488,38 +489,38 @@ Unapoitisha **`objc_sendMsg`** function, **rsi** register inashikilia **jina la 
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Uchambuzi wa Kuzuia-Dinamiki
+### Uchambuzi wa Kielelezo
 
 #### Uchunguzi wa VM
 
 * Amri **`sysctl hw.model`** inarudisha "Mac" wakati **mwenyeji ni MacOS** lakini kitu tofauti wakati ni VM.
 * Kwa kucheza na thamani za **`hw.logicalcpu`** na **`hw.physicalcpu`** baadhi ya programu hasidi jaribu kugundua ikiwa ni VM.
-* Baadhi ya programu hasidi pia zinaweza **kugundua** ikiwa mashine ni ya **VMware** kulingana na anwani ya MAC (00:50:56).
-* Pia inawezekana kugundua ikiwa mchakato unachunguzwa na msimbo rahisi kama huu:
+* Baadhi ya programu hasidi pia zinaweza **kugundua** ikiwa mashine ni **VMware** kulingana na anwani ya MAC (00:50:56).
+* Pia inawezekana kugundua ikiwa mchakato unachunguzwa kwa kutumia msimbo rahisi kama huu:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //mchakato unachunguzwa }`
-* Inaweza pia kuita wito wa mfumo wa **`ptrace`** na bendera ya **`PT_DENY_ATTACH`**. Hii **inazuia** kideb**u**ga kushikilia na kufuatilia.
-* Unaweza kuangalia ikiwa **`sysctl`** au **`ptrace`** kazi inaingizwa (lakini programu hasidi inaweza kuipakia kwa njia ya dinamiki)
-* Kama ilivyobainishwa katika andiko hili, “[Kushinda Mbinu za Kuzuia-Uchunguzi: toleo la macOS la ptrace](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
+* Inaweza pia kuita wito wa mfumo wa **`ptrace`** na bendera ya **`PT_DENY_ATTACH`**. Hii **inazuia** kivinjari kutua na kufuatilia.
+* Unaweza kuchunguza ikiwa **`sysctl`** au **`ptrace`** kazi inaingizwa (lakini programu hasidi inaweza kuiongeza kwa kudhurika)
+* Kama ilivyobainishwa katika andiko hili, “[Kushinda Mbinu za Kuzuia Uchunguzi wa Kielelezo: toleo la macOS la ptrace](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
 “_Ujumbe Mchakato # ulitoka na **hali = 45 (0x0000002d)** kawaida ni ishara wazi kwamba lengo la uchunguzi linatumia **PT\_DENY\_ATTACH**_”
-## Kuhifadhi Core
+## Kuvuja Kwa Msingi
 
-Core dumps huundwa ikiwa:
+Kuvuja kwa msingi hufanyika ikiwa:
 
 - `kern.coredump` sysctl imewekwa kama 1 (kwa chaguo-msingi)
 - Ikiwa mchakato haukuwa suid/sgid au `kern.sugid_coredump` ni 1 (kwa chaguo-msingi ni 0)
-- Kikomo cha `AS_CORE` kuruhusu operesheni. Inawezekana kuzuia uundaji wa core dumps kwa kuita `ulimit -c 0` na kuziruhusu tena kwa `ulimit -c unlimited`.
+- Kikomo cha `AS_CORE` kuruhusu operesheni. Inawezekana kuzuia uundaji wa kuvuja kwa msingi kwa kuita `ulimit -c 0` na kuiruhusu tena kwa `ulimit -c isiyokuwa na kikomo`.
 
-Katika kesi hizo core dumps huundwa kulingana na `kern.corefile` sysctl na kuhifadhiwa kawaida katika `/cores/core/.%P`.
+Katika kesi hizo, kuvuja kwa msingi huzalishwa kulingana na `kern.corefile` sysctl na kuhifadhiwa kawaida katika `/cores/core/.%P`.
 
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **anauchambua michakato inayopasuka na kuokoa ripoti ya kupasuka kwa diski**. Ripoti ya kupasuka ina habari ambazo zinaweza **kusaidia mwandishi wa programu kutambua** sababu ya kupasuka.\
-Kwa maombi na michakato mingine **inayoendesha katika muktadha wa uzinduzi wa mtumiaji**, ReportCrash inaendeshwa kama LaunchAgent na kuokoa ripoti za kupasuka kwenye `~/Library/Logs/DiagnosticReports/` ya mtumiaji\
-Kwa daemons, michakato mingine **inayoendesha katika muktadha wa uzinduzi wa mfumo** na michakato mingine yenye mamlaka, ReportCrash inaendeshwa kama LaunchDaemon na kuokoa ripoti za kupasuka kwenye `/Library/Logs/DiagnosticReports` ya mfumo
+ReportCrash **anauchambua mchakato unaovuja na kuokoa ripoti ya kuvuja kwa diski**. Ripoti ya kuvuja ina habari ambazo zinaweza **kusaidia mwandishi wa programu kutambua** sababu ya kuvuja.\
+Kwa maombi na michakato mingine **inayoendesha katika muktadha wa uzinduzi wa mtumiaji**, ReportCrash inaendeshwa kama LaunchAgent na kuokoa ripoti za kuvuja kwenye `~/Library/Logs/DiagnosticReports/` ya mtumiaji\
+Kwa daemons, michakato mingine **inayoendesha katika muktadha wa uzinduzi wa mfumo** na michakato mingine yenye mamlaka, ReportCrash inaendeshwa kama LaunchDaemon na kuokoa ripoti za kuvuja kwenye `/Library/Logs/DiagnosticReports` ya mfumo
 
-Ikiwa una wasiwasi kuhusu ripoti za kupasuka **zikitumwa kwa Apple** unaweza kuzizima. Vinginevyo, ripoti za kupasuka zinaweza kuwa na manufaa **kutambua jinsi server ilivyopasuka**.
+Ikiwa una wasiwasi kuhusu ripoti za kuvuja **zikitumwa kwa Apple** unaweza kuzizima. Vinginevyo, ripoti za kuvuja zinaweza kuwa na manufaa **kutambua jinsi server ilivyovuja**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -531,7 +532,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.ReportCrash.Root.
 ```
 ### Kulala
 
-Wakati wa kufanya fuzzing kwenye MacOS ni muhimu kuhakikisha Mac haipati usingizi:
+Wakati wa kufanya fuzzing kwenye MacOS ni muhimu kuzuia Mac kulala:
 
 * systemsetup -setsleep Kamwe
 * pmset, Mapendeleo ya Mfumo
@@ -539,7 +540,7 @@ Wakati wa kufanya fuzzing kwenye MacOS ni muhimu kuhakikisha Mac haipati usingiz
 
 #### Kukatisha SSH
 
-Ikiwa unafanya fuzzing kupitia uhusiano wa SSH ni muhimu kuhakikisha kikao hakitaisha. Kwa hivyo badilisha faili ya sshd\_config kwa:
+Ikiwa unafanya fuzzing kupitia uhusiano wa SSH ni muhimu kuhakikisha kikao hakitakwenda siku nzima. Kwa hivyo badilisha faili ya sshd\_config na:
 
 * TCPKeepAlive Ndiyo
 * ClientAliveInterval 0
@@ -557,6 +558,8 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 {% endcontent-ref %}
 
 ### Kuhesabu Michakato ya Mtandao
+
+Hii ni ya kuvutia kugundua michakato inayosimamia data ya mtandao:
 ```bash
 dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >> recv.log
 #wait some time
@@ -583,7 +586,7 @@ Inafanya kazi kwa zana za CLI
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Inafanya kazi "inavyopaswa" na zana za GUI za macOS. Tafadhali kumbuka kuwa baadhi ya programu za macOS zinahitaji mahitaji maalum kama majina ya faili ya kipekee, ugani sahihi, kusoma faili kutoka kwa sanduku (`~/Library/Containers/com.apple.Safari/Data`)...
+Inafanya kazi "inavyopaswa" na zana za GUI za macOS. Tafadhali kumbuka kuwa baadhi ya programu za macOS zinahitaji mahitaji maalum kama majina ya faili ya kipekee, ugani sahihi, kusoma faili kutoka kwenye sanduku (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Baadhi ya mifano:
 ```bash
@@ -629,24 +632,25 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za kuiba taarifa**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malwares za kuiba**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba taarifa.
 
 Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Jifunze & jifanye Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & jifanye Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

