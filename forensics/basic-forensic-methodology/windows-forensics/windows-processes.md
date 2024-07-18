@@ -1,54 +1,55 @@
+{% hint style="success" %}
+Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile öğrenin!</strong></summary>
+<summary>HackTricks'i Destekle</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'i **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
+* **Hacking püf noktalarını göndererek HackTricks ve HackTricks Cloud** github depolarına PR gönder.
 
 </details>
+{% endhint %}
 
 
 ## smss.exe
 
 **Oturum Yöneticisi**.\
-Oturum 0, **csrss.exe** ve **wininit.exe** (**İşletim Sistemi** **hizmetleri**)'yi başlatırken, Oturum 1, **csrss.exe** ve **winlogon.exe** (**Kullanıcı** **oturumu**)'yu başlatır. Bununla birlikte, işlem ağacında **yalnızca bir tane** bu **ikili**nin çocuksuz bir işlemi olduğunu görmelisiniz.
+Oturum 0, **csrss.exe** ve **wininit.exe** (**İşletim Sistemi hizmetleri**) başlatırken Oturum 1, **csrss.exe** ve **winlogon.exe** (**Kullanıcı oturumu**) başlatır. Ancak, bu **binary**'nin **çocuksuz** bir **süreç ağacında** görünmesi gerekmektedir.
 
 Ayrıca, 0 ve 1'den farklı oturumlar, RDP oturumlarının gerçekleştiği anlamına gelebilir.
 
 
 ## csrss.exe
 
-**İstemci/Sunucu Çalışma Alt Sistemi İşlemi**.\
-**İşlemleri** ve **iş parçacıklarını** yönetir, diğer işlemler için **Windows** **API**'yi kullanılabilir hale getirir ve ayrıca **sürücü harflerini eşler**, **geçici dosyalar** oluşturur ve **kapanma işlemini** yönetir.
+**İstemci/Sunucu Çalışma Alt Sistemi Süreci**.\
+**Süreçleri** ve **iş parçacıklarını** yönetir, **Windows API**'yi diğer süreçler için kullanılabilir hale getirir ve ayrıca **sürücü harflerini eşler**, **geçici dosyalar oluşturur** ve **kapatma işlemini** yönetir.
 
-Oturum 0'da bir tane **çalışırken, Oturum 1'de bir tane daha** vardır (bu nedenle işlem ağacında **2 işlem** bulunur). Yeni bir Oturum başına başka bir tane oluşturulur.
+Oturum 0'da bir tane **çalışırken ve Oturum 1'de bir tane** olmak üzere (bu nedenle süreç ağacında **2 süreç** bulunmaktadır). Yeni bir Oturum başına başka bir tane oluşturulur.
 
 
 ## winlogon.exe
 
-**Windows Oturum Açma İşlemi**.\
-Kullanıcı **oturum açma**/**oturum kapatma** işlemlerinden sorumludur. Kullanıcı adı ve parola sormak için **logonui.exe**'yi başlatır ve ardından bunları doğrulamak için **lsass.exe**'yi çağırır.
+**Windows Oturum Açma Süreci**.\
+Kullanıcı **oturum açma**/**oturum kapatma** işlemlerinden sorumludur. Kullanıcı adı ve şifre istemek için **logonui.exe**'yi başlatır ve ardından bunları doğrulamak için **lsass.exe**'yi çağırır.
 
-Ardından, **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`**'da **Userinit** anahtarıyla belirtilen **userinit.exe**'yi başlatır.
+Daha sonra, **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`**'da belirtilen **Userinit** anahtarıyla **userinit.exe**'yi başlatır.
 
-Ayrıca, önceki kayıt defterinde **Shell anahtarında explorer.exe** olmalı veya kötü amaçlı yazılım kalıcılık yöntemi olarak istismar edilebilir.
+Ayrıca, önceki kayıt defterinde **Shell anahtarında explorer.exe**'nin olması gerekmektedir veya bu, **kötü amaçlı yazılım kalıcılık yöntemi** olarak kötüye kullanılabilir.
 
 
 ## wininit.exe
 
-**Windows Başlatma İşlemi**. \
-Oturum 0'da **services.exe**, **lsass.exe** ve **lsm.exe**'yi başlatır. Yalnızca 1 işlem olmalıdır.
+**Windows Başlatma Süreci**. \
+Oturum 0'da **services.exe**, **lsass.exe** ve **lsm.exe**'yi başlatır. Yalnızca 1 süreç olmalıdır.
 
 
 ## userinit.exe
 
-**Userinit Oturum Açma Uygulaması**.\
-**ntuser.dat'ı HKCU'da** yükler ve **kullanıcı** **ortamını** başlatır, **oturum açma** **betiklerini** ve **GPO'ları** çalıştırır.
+**Kullanıcı Oturum Açma Uygulaması**.\
+**HKCU'da ntduser.dat**'ı yükler ve **kullanıcı ortamını başlatır** ve **oturum açma betiklerini** ve **GPO'ları** çalıştırır.
 
 **explorer.exe**'yi başlatır.
 
@@ -56,62 +57,87 @@ Oturum 0'da **services.exe**, **lsass.exe** ve **lsm.exe**'yi başlatır. Yalnı
 ## lsm.exe
 
 **Yerel Oturum Yöneticisi**.\
-smss.exe ile birlikte kullanıcı oturumlarını manipüle etmek için çalışır: Oturum açma/oturum kapatma, kabuk başlatma, masaüstünü kilitleme/açma vb.
+Kullanıcı oturumlarını yönetmek için smss.exe ile çalışır: Oturum açma/kapatma, kabuk başlatma, masaüstünü kilitleme/açma vb.
 
 W7'den sonra lsm.exe bir hizmete (lsm.dll) dönüştürüldü.
 
-W7'de yalnızca 1 işlem olmalı ve bunlardan biri DLL çalıştıran bir hizmeti çalıştıran bir hizmet olmalıdır.
+W7'de yalnızca 1 süreç olmalıdır ve bunlardan biri DLL çalıştıran bir hizmettir.
 
 
 ## services.exe
 
-**Hizmet Denetim Yöneticisi**.\
-**Otomatik başlatılan hizmetleri** ve **sürücüleri** yükler.
+**Hizmet Kontrol Yöneticisi**.\
+**Otomatik başlangıç** ve **sürücüler** olarak yapılandırılmış **hizmetleri yükler**.
 
-**svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** ve daha birçok işlemin ana işlemidir.
+**svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** ve daha birçok sürecin ana sürecidir.
 
-Hizmetler `HKLM\SYSTEM\CurrentControlSet\Services` içinde tanımlanır ve bu işlem, sc.exe tarafından sorgulanabilen hizmet bilgilerinin bellekteki bir veritabanını korur.
+Hizmetler, `HKLM\SYSTEM\CurrentControlSet\Services` içinde tanımlanmıştır ve bu süreç, hizmet bilgilerinin bellekteki bir veritabanını sorgulayabileceği bir DB'yi korur.
 
-Dikkat edin, **bazı** **hizmetler** kendi **işlemlerinde çalışacak** ve diğerleri **svchost.exe işlemiyle paylaşacak**.
+**Bazı hizmetlerin kendi süreçlerinde** çalışacağına **dikkat edin** ve diğerlerinin **svchost.exe sürecini paylaşacağına dikkat edin**.
 
-Yalnızca 1 işlem olmalıdır.
+Yalnızca 1 süreç olmalıdır.
 
 
 ## lsass.exe
 
-**Yerel Güvenlik Yetkilendirme Alt Sistemi**.\
-Kullanıcı **kimlik doğrulama**sından ve **güvenlik** **jetonlarının** oluşturulmasından sorumludur. Kimlik doğrulama paketleri `HKLM\System\CurrentControlSet\Control\Lsa` konumunda bulunur.
+**Yerel Güvenlik Otoritesi Alt Sistemi**.\
+Kullanıcı **kimlik doğrulamasından sorumludur** ve **güvenlik** **jetonları** oluşturur. `HKLM\System\CurrentControlSet\Control\Lsa` konumunda bulunan kimlik doğrulama paketlerini kullanır.
 
-**Güvenlik** **etkinlik** **günlüğüne** yazılır ve yalnızca 1 işlem olmalıdır.
+**Güvenlik** **etkinlik** **günlüğüne yazılır** ve yalnızca 1 süreç olmalıdır.
 
-Bu işlemin parolaları çalmak için yoğun bir şekilde saldırıya uğradığını unutmayın.
+Bu sürecin şifreleri çalmak için yoğun bir şekilde saldırıya uğradığını unutmayın.
 
 
 ## svchost.exe
 
-**Genel Hizmet Ana İşlemi**.\
-Birleşik bir işlemde birden çok DLL hizmetini barındırır.
+**Genel Hizmet Ana Bilgisayar Süreci**.\
+Birden fazla DLL hizmetini tek bir paylaşılan süreçte barındırır.
 
-Genellikle **svchost.exe**'nin `-k` bayrağıyla başlatıldığını göreceksiniz. Bu, aynı işlemde başlatılacak hizmetleri içeren `-k` ile belirtilen bir anahtarın bulunacağı **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** kaydına bir sorgu başlatacaktır.
+Genellikle **svchost.exe**'nin **-k** bayrağıyla başlatıldığını göreceksiniz. Bu, aynı süreçte başlatılacak hizmetleri içeren **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** kaydına bir argümanla bir sorgu başlatacaktır.
 
 Örneğin: `-k UnistackSvcGroup` şunları başlatacaktır: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-**-s** bayrağı da bir argümanla birlikte kullanılıyorsa, svchost'un yalnızca bu argümandaki belirtilen hizmeti başlatması istenir.
+**-s bayrağı** belirli bir hizmeti başlatması isteniyorsa, svchost'a yalnızca bu argümanla belirtilen hizmeti başlatması istenir.
 
-Birkaç `svchost.exe` işlemi olacaktır. Bunlardan herhangi biri **`-k` bayrağı kullanmıyorsa**, bu çok şüphelidir. **services.exe'nin ebeveyn olmadığını** bulursanız, bu da çok şüphelidir.
+`svchost.exe`'nin birkaç süreci olacaktır. Bunlardan herhangi biri **-k** bayrağı kullanmıyorsa, bu çok şüphelidir. **services.exe'nin ebeveyn olmadığını** bulursanız, bu da çok şüphelidir.
 
 
 ## taskhost.exe
 
-Bu işlem, DLL'lerden çalışan işlemler için bir ana bilgisayar görevi görür. Ayrıca DLL'lerden çalışan hizmetleri yükler.
+Bu süreç, DLL'lerden çalışan süreçler için bir ana bilgisayar olarak hareket eder. Ayrıca DLL'lerden çalışan hizmetleri yükler.
 
 W8'de bu taskhostex.exe olarak adlandırılır ve W10'da taskhostw.exe olarak adlandırılır.
 
 
 ## explorer.exe
 
-Bu, kullanıcının masaüstünden sorumlu olan işlemdir ve dosya uzantıları aracılığıyla dosyaları başlatır.
+Bu, **kullanıcının masaüstünden** sorumlu süreçtir ve dosyaları dosya uzantıları aracılığıyla başlatır.
 
-**Giriş yapan her kullanıcı başına yalnızca 1** işlem oluşturulmalıdır.
+**Giriş yapan kullanıcı başına yalnızca 1** süreç oluşturulmalıdır.
 
-Bu, sonlandırılması gereken **userinit.exe** tarafından çalıştırılır, bu nedenle bu işlem için **ebeveyn görünmemel
+Bu, **userinit.exe**'den çalıştırılır ve bu nedenle bu süreç için **ebeveyn** görünmemelidir.
+
+
+# Zararlı Süreçleri Yakalama
+
+* Beklenen yoldan mı çalışıyor? (Windows binary dosyaları geçici konumdan çalıştırılmaz)
+* Garip IP adresleriyle iletişim kuruyor mu?
+* Dijital imzaları kontrol edin (Microsoft ürünleri imzalı olmalıdır)
+* Doğru yazılmış mı?
+* Beklenen SID altında mı çalışıyor?
+* Ebeveyn süreç beklenen mi (varsa)?
+* Çocuk süreçler beklenen mi? (cmd.exe, wscript.exe, powershell.exe yok mu?)
+{% hint style="success" %}
+Öğren ve AWS Hacking pratiği yap:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Öğren ve GCP Hacking pratiği yap: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekle</summary>
+
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol et!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katıl veya [**telegram grubuna**](https://t.me/peass) katıl veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip et.**
+* **Hacking püf noktalarını göndererek HackTricks ve HackTricks Cloud** github depolarına PR gönder.
+
+</details>
+{% endhint %}

