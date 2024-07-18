@@ -1,22 +1,23 @@
 # Wifi Pcap 分析
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 格式的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们**。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
-## 检查 BSSIDs
+## 检查 BSSID
 
-当您收到一个主要流量为 Wifi 的捕获时，可以使用 WireShark 开始调查捕获中的所有 SSID，路径为 _Wireless --> WLAN Traffic_：
+当你收到一个主要流量为 Wifi 的捕获文件时，使用 WireShark 你可以开始调查捕获中的所有 SSID，方法是选择 _Wireless --> WLAN Traffic_：
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -24,23 +25,25 @@
 
 ### 暴力破解
 
-该屏幕的一列指示**在 pcap 中是否找到任何身份验证**。如果是这种情况，您可以尝试使用 `aircrack-ng` 进行暴力破解：
+该屏幕的其中一列指示是否在 pcap 中发现了 **任何身份验证**。如果是这种情况，你可以尝试使用 `aircrack-ng` 进行暴力破解：
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-## 在信标/侧通道中的数据
+例如，它将检索保护PSK（预共享密钥）的WPA密码短语，这将在稍后解密流量时需要。
 
-如果你怀疑**数据正在Wifi网络的信标中泄露**，你可以使用类似以下过滤器来检查网络的信标：`wlan contains <NETWORK名称>`，或者 `wlan.ssid == "NETWORK名称"`，在过滤后的数据包中搜索可疑字符串。
+## 信标中的数据 / 侧信道
 
-## 在Wifi网络中查找未知的MAC地址
+如果您怀疑**数据在Wifi网络的信标中泄露**，可以使用以下过滤器检查网络的信标：`wlan contains <NAMEofNETWORK>`，或`wlan.ssid == "NAMEofNETWORK"`，在过滤后的数据包中搜索可疑字符串。
 
-以下链接将有助于找到**在Wifi网络中发送数据的设备**：
+## 在Wifi网络中查找未知MAC地址
+
+以下链接将有助于查找**在Wifi网络中发送数据的机器**：
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-如果你已经知道**MAC地址，你可以从输出中删除它们**，添加类似这样的检查：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
+如果您已经知道**MAC地址，可以通过添加检查将其从输出中移除**，例如：`&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-一旦你发现了**在网络中通信的未知MAC地址**，你可以使用类似以下的**过滤器**：`wlan.addr==<MAC地址> && (ftp || http || ssh || telnet)` 来过滤其流量。请注意，ftp/http/ssh/telnet 过滤器在你解密了流量后会很有用。
+一旦您检测到**在网络中通信的未知MAC**地址，可以使用**过滤器**，例如：`wlan.addr==<MAC address> && (ftp || http || ssh || telnet)`来过滤其流量。请注意，ftp/http/ssh/telnet过滤器在您解密流量后非常有用。
 
 ## 解密流量
 
@@ -48,16 +51,17 @@ aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 
 ![](<../../../.gitbook/assets/image (499).png>)
 
+{% hint style="success" %}
+学习和实践AWS黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果你想看到你的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们**。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
+{% endhint %}

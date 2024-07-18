@@ -1,22 +1,25 @@
-# Angr - 例子
+# Angr - 示例
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中被宣传**吗？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 {% hint style="info" %}
 如果程序使用 `scanf` 从 stdin **一次获取多个值**，您需要生成一个在 **`scanf`** 之后开始的状态。
 {% endhint %}
 
-代码取自 [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
+代码来自 [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)
 
 ### 输入以到达地址（指示地址）
 ```python
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 到达地址的输入（指示打印）
+### 输入以到达地址（指示打印）
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 注册表数值
+### 注册表值
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -150,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 栈数值
+### 堆栈值
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -212,7 +215,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定了值 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推送了 BVS。
+在这个场景中，输入是通过 `scanf("%u %u")` 获取的，给定的值是 `"1 1"`，因此栈中的值 **`0x00000001`** 来自 **用户输入**。你可以看到这些值从 `$ebp - 8` 开始。因此，在代码中我们 **从 `$esp` 中减去了 8 字节（因为那时 `$ebp` 和 `$esp` 的值是相同的）**，然后我们推送了 BVS。
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
@@ -277,7 +280,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 动态内存值（Malloc）
+### 动态内存值 (Malloc)
 ```python
 import angr
 import claripy
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-请注意，符号文件还可能包含与符号数据合并的常量数据：
+请注意，符号文件也可能包含与符号数据合并的常量数据：
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -418,8 +421,8 @@ main(sys.argv)
 ### 应用约束
 
 {% hint style="info" %}
-有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于 **angr** 来说会**花费很多成本**，因为它需要**指数级地生成分支**，因为它会为每个 if 语句生成一个分支：`2^16`\
-因此，更容易**要求 angr 返回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
+有时，简单的人类操作，比如逐字比较两个长度为16的单词（循环），对**angr**的**成本**非常高，因为它需要**指数**生成分支，因为每个if生成1个分支：`2^16`\
+因此，**让angr回到之前的点**（在真实的困难部分已经完成的地方）并**手动设置这些约束**会更容易。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,17 +495,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-在某些情况下，您可以激活**veritesting**，它将合并类似状态，以节省无用的分支并找到解决方案：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+在某些情况下，您可以激活 **veritesting**，这将合并相似的状态，以节省无用的分支并找到解决方案： `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-在这些情况下，您可以做的另一件事是**hook函数，使angr更容易理解**。
+在这些情况下，您还可以做的另一件事是 **hook 函数，给 angr 一些它可以更容易理解的东西**。
 {% endhint %}
 
 ### 模拟管理器
 
-有些模拟管理器比其他的更有用。在前面的示例中，存在一个问题，即创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
-这个模拟管理器也可以通过以下方式激活：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+一些模拟管理器可能比其他的更有用。在前面的例子中，由于创建了许多有用的分支，因此出现了问题。在这里，**veritesting** 技术将合并这些分支并找到解决方案。\
+此模拟管理器也可以通过以下方式激活： `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 钩住/绕过对函数的一次调用
+### Hooking/Bypassing 一次对函数的调用
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Hooking一个函数 / Simprocedure
+### 钩住一个函数 / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 模拟带有多个参数的 scanf
+### 使用多个参数模拟 scanf
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}

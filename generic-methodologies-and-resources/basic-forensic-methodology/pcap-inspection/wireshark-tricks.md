@@ -1,26 +1,27 @@
-# Wireshark技巧
+# Wireshark tricks
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-- 如果您想看到您的**公司在HackTricks中被广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
 
-WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
 
 您可以访问他们的网站并免费尝试他们的引擎：
 
@@ -28,129 +29,130 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 ***
 
-## 提升您的Wireshark技能
+## 提升您的 Wireshark 技能
 
 ### 教程
 
-以下教程非常适合学习一些很酷的基本技巧：
+以下教程非常适合学习一些酷炫的基本技巧：
 
-- [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
-- [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
+* [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/](https://unit42.paloaltonetworks.com/using-wireshark-identifying-hosts-and-users/)
+* [https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/](https://unit42.paloaltonetworks.com/using-wireshark-exporting-objects-from-a-pcap/)
 
 ### 分析信息
 
 **专家信息**
 
-单击 _**Analyze** --> **Expert Information**_ 您将获得对**分析**的数据发生情况的**概述**：
+点击 _**分析** --> **专家信息**_，您将获得 **分析** 的数据包的 **概述**：
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **已解析地址**
 
-在 _**Statistics --> Resolved Addresses**_ 下，您可以找到Wireshark解析的一些信息，如端口/传输到协议，MAC到制造商等。了解通信中涉及的内容是很有趣的。
+在 _**统计信息 --> 已解析地址**_ 下，您可以找到 Wireshark "**解析**" 的多条 **信息**，如端口/传输到协议、MAC 到制造商等。了解通信中涉及的内容是很有趣的。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
-**协议层次结构**
+**协议层次**
 
-在 _**Statistics --> Protocol Hierarchy**_ 下，您可以找到通信中涉及的**协议**及其相关数据。
+在 _**统计信息 --> 协议层次**_ 下，您可以找到通信中涉及的 **协议** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **对话**
 
-在 _**Statistics --> Conversations**_ 下，您可以找到通信中对话的**摘要**及其相关数据。
+在 _**统计信息 --> 对话**_ 下，您可以找到通信中的 **对话摘要** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **端点**
 
-在 _**Statistics --> Endpoints**_ 下，您可以找到通信中端点的**摘要**及每个端点的相关数据。
+在 _**统计信息 --> 端点**_ 下，您可以找到通信中的 **端点摘要** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS信息**
+**DNS 信息**
 
-在 _**Statistics --> DNS**_ 下，您可以找到有关捕获的DNS请求的统计信息。
+在 _**统计信息 --> DNS**_ 下，您可以找到捕获的 DNS 请求的统计信息。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**I/O图**
+**I/O 图**
 
-在 _**Statistics --> I/O Graph**_ 下，您可以找到通信的**图表**。
+在 _**统计信息 --> I/O 图**_ 下，您可以找到 **通信图**。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### 过滤器
 
-在这里，您可以找到根据协议的Wireshark过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+在这里，您可以根据协议找到 Wireshark 过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 其他有趣的过滤器：
 
-- `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-- HTTP和初始HTTPS流量
-- `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-- HTTP和初始HTTPS流量 + TCP SYN
-- `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-- HTTP和初始HTTPS流量 + TCP SYN + DNS请求
+* `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
+* HTTP 和初始 HTTPS 流量
+* `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
+* HTTP 和初始 HTTPS 流量 + TCP SYN
+* `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
+* HTTP 和初始 HTTPS 流量 + TCP SYN + DNS 请求
 
 ### 搜索
 
-如果您想在会话的数据包中**搜索**内容，请按下_Ctrl+f_。您可以通过按右键然后编辑列来向主信息栏添加新层（编号、时间、来源等）。
+如果您想在会话的 **数据包** 中 **搜索** **内容**，请按 _CTRL+f_。您可以通过右键单击并编辑列来向主信息栏（编号、时间、源等）添加新层。
 
-### 免费的pcap实验室
+### 免费 pcap 实验室
 
-**通过以下免费挑战练习：** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**通过以下免费挑战进行练习：** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## 识别域名
 
-您可以添加一个显示Host HTTP标头的列：
+您可以添加一个显示 Host HTTP 头的列：
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-以及添加一个从发起的HTTPS连接中添加服务器名称的列（**ssl.handshake.type == 1**）：
+以及一个添加发起 HTTPS 连接的服务器名称的列 (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
 ## 识别本地主机名
 
-### 从DHCP
+### 从 DHCP
 
-在当前的Wireshark中，您需要搜索`DHCP`而不是`bootp`
+在当前的 Wireshark 中，您需要搜索 `DHCP` 而不是 `bootp`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
-### 从NBNS
+### 从 NBNS
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## 解密TLS
+## 解密 TLS
 
-### 使用服务器私钥解密https流量
+### 使用服务器私钥解密 HTTPS 流量
 
-_编辑>首选项>协议>ssl>_
+_edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-点击_编辑_，添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
+按 _编辑_ 并添加服务器和私钥的所有数据 (_IP、端口、协议、密钥文件和密码_)
 
-### 使用对称会话密钥解密https流量
+### 使用对称会话密钥解密 HTTPS 流量
 
-Firefox和Chrome都有记录TLS会话密钥的功能，这些密钥可以与Wireshark一起用于解密TLS流量。这允许对安全通信进行深入分析。有关如何执行此解密的更多详细信息，请参阅[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)的指南。
+Firefox 和 Chrome 都具有记录 TLS 会话密钥的能力，这可以与 Wireshark 一起使用以解密 TLS 流量。这允许对安全通信进行深入分析。有关如何执行此解密的更多详细信息，请参阅 [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) 的指南。
 
-要检测此内容，请在环境中搜索变量`SSLKEYLOGFILE`
+要检测此内容，请在环境中搜索变量 `SSLKEYLOGFILE`
 
-共享密钥文件看起来像这样：
+共享密钥的文件看起来像这样：
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-要在Wireshark中导入此内容，请转到\_编辑 > 首选项 > 协议 > ssl > 并将其导入到（Pre）-Master-Secret日志文件名：
+要在 Wireshark 中导入此内容，请转到 _edit > preference > protocol > ssl > 并将其导入 (Pre)-Master-Secret 日志文件名：
 
 ![](<../../../.gitbook/assets/image (989).png>)
-## ADB通信
 
-从发送APK的ADB通信中提取APK：
+## ADB 通信
+
+从 ADB 通信中提取 APK，其中 APK 被发送：
 ```python
 from scapy.all import *
 
@@ -181,24 +183,25 @@ f.close()
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**支持的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**损害**。
+[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **泄露**。
 
-WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫持和勒索软件攻击。
+WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
 
 您可以访问他们的网站并免费尝试他们的引擎：
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

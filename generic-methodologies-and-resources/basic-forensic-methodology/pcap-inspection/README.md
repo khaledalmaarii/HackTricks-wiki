@@ -1,47 +1,48 @@
-# Pcap 检查
+# Pcap Inspection
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注**我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流地。
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的事件之一。该大会的 **使命是促进技术知识**，是各个学科技术和网络安全专业人士的热烈交流平台。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-关于 **PCAP** 和 **PCAPNG** 的说明：PCAP 文件格式有两个版本；**PCAPNG 是较新的版本，不是所有工具都支持**。您可能需要使用 Wireshark 或其他兼容工具将文件从 PCAPNG 转换为 PCAP，以便在其他一些工具中使用。
+关于 **PCAP** 与 **PCAPNG** 的说明：PCAP 文件格式有两个版本；**PCAPNG 是较新的，并不是所有工具都支持**。您可能需要使用 Wireshark 或其他兼容工具将文件从 PCAPNG 转换为 PCAP，以便在某些其他工具中使用。
 {% endhint %}
 
-## 用于 pcap 的在线工具
+## 在线工具用于 pcap
 
-* 如果您的 pcap 文件头部**损坏**，您应该尝试使用以下链接进行**修复**：[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* 在 [**PacketTotal**](https://packettotal.com) 中提取**信息**并搜索 pcap 中的**恶意软件**
-* 使用 [**www.virustotal.com**](https://www.virustotal.com) 和 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) 搜索**恶意活动**
-* 在 [**https://apackets.com/**](https://apackets.com/) 中通过浏览器进行**完整 pcap 分析**
+* 如果您的 pcap 头部 **损坏**，您应该尝试使用：[http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php) **修复** 它
+* 在 [**PacketTotal**](https://packettotal.com) 中提取 **信息** 并搜索 **恶意软件**
+* 使用 [**www.virustotal.com**](https://www.virustotal.com) 和 [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) 搜索 **恶意活动**
+* 在 [**https://apackets.com/**](https://apackets.com/) 中进行 **完整的 pcap 分析**
 
 ## 提取信息
 
-以下工具可用于提取统计数据、文件等。
+以下工具用于提取统计信息、文件等。
 
 ### Wireshark
 
 {% hint style="info" %}
-**如果您要分析 PCAP，基本上必须了解如何使用 Wireshark**
+**如果您要分析 PCAP，您基本上必须知道如何使用 Wireshark**
 {% endhint %}
 
-您可以在以下链接找到一些 Wireshark 技巧：
+您可以在以下位置找到一些 Wireshark 技巧：
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -49,11 +50,11 @@
 
 ### [**https://apackets.com/**](https://apackets.com/)
 
-通过浏览器进行 pcap 分析。
+浏览器中的 pcap 分析。
 
-### Xplico 框架
+### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)（仅限 Linux）可以**分析** pcap 并从中提取信息。例如，Xplico 可从 pcap 文件中提取每封电子邮件（POP、IMAP 和 SMTP 协议）、所有 HTTP 内容、每个 VoIP 通话（SIP）、FTP、TFTP 等。
+[**Xplico** ](https://github.com/xplico/xplico)_(仅限 Linux)_ 可以 **分析** 一个 **pcap** 并从中提取信息。例如，从一个 pcap 文件中，Xplico 提取每封电子邮件（POP、IMAP 和 SMTP 协议）、所有 HTTP 内容、每个 VoIP 通话（SIP）、FTP、TFTP 等。
 
 **安装**
 ```bash
@@ -67,28 +68,28 @@ sudo apt-get install xplico
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
-访问 _**127.0.0.1:9876**_，使用凭据 _**xplico:xplico**_
+访问 _**127.0.0.1:9876**_，凭证为 _**xplico:xplico**_
 
-然后创建一个**新案例**，在案例内创建一个**新会话**，并**上传pcap文件**。
+然后创建一个 **新案例**，在案例中创建一个 **新会话** 并 **上传 pcap** 文件。
 
 ### NetworkMiner
 
-像Xplico一样，这是一个用于**分析和提取pcap文件中对象的工具**。它有一个免费版本，您可以[**在这里下载**](https://www.netresec.com/?page=NetworkMiner)。它适用于**Windows**。\
-这个工具还可以用来从数据包中**分析其他信息**，以便更快地了解发生了什么。
+像 Xplico 一样，它是一个 **分析和提取 pcaps 中对象** 的工具。它有一个免费版，你可以 **在这里下载** [**这里**](https://www.netresec.com/?page=NetworkMiner)。它适用于 **Windows**。\
+这个工具也有助于从数据包中获取 **其他信息分析**，以便能够更 **快速** 地了解发生了什么。
 
 ### NetWitness Investigator
 
-您可以从[**这里下载NetWitness Investigator**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(它适用于Windows)**。\
-这是另一个有用的工具，可以**分析数据包**并以有用的方式对信息进行分类，以**了解内部发生的情况**。
+你可以 [**从这里下载 NetWitness Investigator**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **（适用于 Windows）**。\
+这是另一个有用的工具，**分析数据包** 并以有用的方式整理信息，以 **了解内部发生的事情**。
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* 提取和编码用户名和密码（HTTP、FTP、Telnet、IMAP、SMTP...）
-* 提取认证哈希并使用Hashcat破解它们（Kerberos、NTLM、CRAM-MD5、HTTP-Digest...）
-* 构建可视化网络图（网络节点和用户）
-* 提取DNS查询
-* 重建所有TCP和UDP会话
-* 文件切割
+* 提取和编码用户名和密码 (HTTP, FTP, Telnet, IMAP, SMTP...)
+* 提取身份验证哈希并使用 Hashcat 破解它们 (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* 构建可视化网络图 (网络节点和用户)
+* 提取 DNS 查询
+* 重建所有 TCP 和 UDP 会话
+* 文件雕刻
 
 ### Capinfos
 ```
@@ -96,29 +97,29 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-如果你想在 pcap 文件中查找某些内容，可以使用 ngrep。以下是一个使用主要过滤器的示例：
+如果您在 pcap 中**寻找****某些东西**，可以使用 **ngrep**。以下是使用主要过滤器的示例：
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### 数据恢复
+### Carving
 
-使用常见的数据恢复技术可以帮助从 pcap 中提取文件和信息：
+使用常见的雕刻技术可以从pcap中提取文件和信息：
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### 捕获凭据
+### Capturing credentials
 
-您可以使用类似 [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) 的工具来解析 pcap 或实时接口中的凭据。
+您可以使用像 [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) 这样的工具从pcap或实时接口中解析凭据。
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最相关的网络安全活动之一，也是**欧洲**最重要的活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流平台。
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的事件之一。该大会 **旨在促进技术知识**，是各个学科技术和网络安全专业人士的热烈交流平台。
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## 检查漏洞/恶意软件
+## Check Exploits/Malware
 
 ### Suricata
 
@@ -135,17 +136,17 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[YaraPCAP](https://github.com/kevthehermit/YaraPcap) 是一个工具，可以：
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) 是一个工具
 
-- 读取 PCAP 文件并提取 Http 流。
-- 解压缩任何压缩流
-- 使用 yara 扫描每个文件
-- 写入 report.txt
-- 可选择将匹配的文件保存到一个目录
+* 读取 PCAP 文件并提取 Http 流。
+* gzip 解压任何压缩流
+* 使用 yara 扫描每个文件
+* 写入 report.txt
+* 可选地将匹配的文件保存到目录
 
 ### 恶意软件分析
 
-检查是否能找到任何已知恶意软件的指纹：
+检查您是否可以找到已知恶意软件的任何指纹：
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -153,9 +154,11 @@ suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) 是一个被动的、开源的网络流量分析器。许多运营商使用 Zeek 作为网络安全监控器（NSM）来支持对可疑或恶意活动的调查。Zeek 还支持一系列超出安全领域的流量分析任务，包括性能测量和故障排除。
+> [Zeek](https://docs.zeek.org/en/master/about.html) 是一个被动的开源网络流量分析器。许多操作员使用 Zeek 作为网络安全监控器 (NSM) 来支持对可疑或恶意活动的调查。Zeek 还支持广泛的流量分析任务，超出安全领域，包括性能测量和故障排除。
 
-基本上，由 `zeek` 创建的日志不是 **pcaps**。因此，您将需要使用 **其他工具** 来分析包含有关 pcaps 的信息的日志。
+基本上，由 `zeek` 创建的日志不是 **pcaps**。因此，您需要使用 **其他工具** 来分析包含 **pcaps 信息** 的日志。
+
+### 连接信息
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -240,20 +243,21 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动之一，也是**欧洲**最重要的之一。以**促进技术知识**为使命，这个大会是技术和网络安全专业人士在各个领域的热点会议。
+[**RootedCON**](https://www.rootedcon.com/) 是 **西班牙** 最相关的网络安全事件，也是 **欧洲** 最重要的活动之一。该大会 **旨在促进技术知识**，是各个学科技术和网络安全专业人士的热烈交流平台。
 
 {% embed url="https://www.rootedcon.com/" %}
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们**。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
