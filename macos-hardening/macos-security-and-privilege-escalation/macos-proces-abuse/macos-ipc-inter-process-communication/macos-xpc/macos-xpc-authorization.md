@@ -1,18 +1,19 @@
 # macOS XPC Autorizacija
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## XPC Autorizacija
 
@@ -50,7 +51,7 @@ Za više informacija o tome kako pravilno konfigurisati ovu proveru:
 Međutim, dolazi do **autorizacije kada se pozove metoda iz HelperTool-a**.
 
 Funkcija **`applicationDidFinishLaunching`** iz `App/AppDelegate.m` će kreirati praznu referencu za autorizaciju nakon što se aplikacija pokrene. Ovo bi uvek trebalo da radi.\
-Zatim će pokušati **dodati neka prava** toj referenci za autorizaciju pozivajući `setupAuthorizationRights`:
+Zatim će pokušati **dodati neka prava** toj referenci autorizacije pozivajući `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -184,7 +185,7 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Ovo znači da će na kraju ovog procesa, dozvole navedene unutar `commandInfo` biti sačuvane u `/var/db/auth.db`. Primetite kako tamo možete pronaći za **svaku metodu** koja će **zahtevati autentikaciju**, **ime dozvole** i **`kCommandKeyAuthRightDefault`**. Ovaj poslednji **ukazuje ko može dobiti ovu dozvolu**.
+Ovo znači da će na kraju ovog procesa, dozvole deklarisane unutar `commandInfo` biti sačuvane u `/var/db/auth.db`. Primetite kako tamo možete pronaći za **svaku metodu** koja će **zahtevati autentikaciju**, **ime dozvole** i **`kCommandKeyAuthRightDefault`**. Ovaj poslednji **ukazuje ko može dobiti ovu dozvolu**.
 
 Postoje različiti opsezi koji ukazuju ko može pristupiti dozvoli. Neki od njih su definisani u [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (možete pronaći [sve njih ovde](https://www.dssw.co.uk/reference/authorization-rights/)), ali ukratko:
 
@@ -192,7 +193,7 @@ Postoje različiti opsezi koji ukazuju ko može pristupiti dozvoli. Neki od njih
 
 ### Provera Dozvola
 
-U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivaoc ovlašćen da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li **authData** poslat od strane pozivajućeg procesa ima **ispravan format** i zatim će proveriti **šta je potrebno da se dobije dozvola** za pozivanje određene metode. Ako sve prođe dobro, **vraćena `error` vrednost će biti `nil`**:
+U `HelperTool/HelperTool.m` funkcija **`readLicenseKeyAuthorization`** proverava da li je pozivaoc ovlašćen da **izvrši takvu metodu** pozivajući funkciju **`checkAuthorization`**. Ova funkcija će proveriti da li **authData** poslat od strane pozivajućeg procesa ima **ispravan format** i zatim će proveriti **šta je potrebno da bi se dobila dozvola** za pozivanje određene metode. Ako sve prođe dobro, **vraćena `greška` će biti `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -264,11 +265,11 @@ Sve konfiguracije dozvola možete pronaći [ovde](https://www.dssw.co.uk/referen
 * Ovo je najdirektniji ključ. Ako je postavljen na `false`, specificira da korisnik ne mora pružiti autentikaciju da bi dobio ovo pravo.
 * Ovo se koristi u **kombinaciji sa jednim od 2 ispod ili označavanjem grupe** kojoj korisnik mora pripadati.
 2. **'allow-root': 'true'**
-* Ako korisnik radi kao root korisnik (koji ima povišene dozvole), i ovaj ključ je postavljen na `true`, root korisnik potencijalno može dobiti ovo pravo bez dodatne autentikacije. Međutim, obično, dostizanje statusa root korisnika već zahteva autentikaciju, tako da ovo nije "bez autentikacije" scenarij za većinu korisnika.
+* Ako korisnik radi kao korisnik root (koji ima povišene dozvole) i ovaj ključ je postavljen na `true`, korisnik root bi potencijalno mogao dobiti ovo pravo bez dodatne autentikacije. Međutim, obično, dostizanje statusa korisnika root već zahteva autentikaciju, tako da ovo nije "bez autentikacije" scenarij za većinu korisnika.
 3. **'session-owner': 'true'**
 * Ako je postavljen na `true`, vlasnik sesije (trenutno prijavljeni korisnik) automatski bi dobio ovo pravo. Ovo može zaobići dodatnu autentikaciju ako je korisnik već prijavljen.
 4. **'shared': 'true'**
-* Ovaj ključ ne dodeljuje prava bez autentikacije. Umesto toga, ako je postavljen na `true`, to znači da jednom kada je pravo autentifikovano, može se deliti među više procesa bez potrebe da se svaki ponovo autentifikuje. Međutim, početno dodeljivanje prava i dalje zahteva autentikaciju osim ako nije kombinovano sa drugim ključevima poput `'authenticate-user': 'false'`.
+* Ovaj ključ ne dodeljuje prava bez autentikacije. Umesto toga, ako je postavljen na `true`, to znači da jednom kada je pravo autentifikovano, može se deliti među više procesa bez potrebe da se svaki ponovo autentifikuje. Međutim, početno dodeljivanje prava i dalje bi zahtevalo autentikaciju osim ako nije kombinovano sa drugim ključevima poput `'authenticate-user': 'false'`.
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -279,7 +280,7 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Reverziranje autorizacije
+## Revertovanje autorizacije
 
 ### Provera da li se koristi EvenBetterAuthorization
 
@@ -315,7 +316,7 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Na kraju, samo treba da znamo **ime izložene Mach usluge** kako bismo uspostavili komunikaciju sa njom. Postoji nekoliko načina da to otkrijemo:
+Na kraju, samo treba da znamo **ime izložene Mach usluge** kako bismo uspostavili komunikaciju sa njom. Postoje nekoliko načina da to otkrijemo:
 
 * U **`[HelperTool init()]`** gde možete videti Mach uslugu koja se koristi:
 
@@ -339,7 +340,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 U ovom primeru je kreirano:
 
 * Definicija protokola sa funkcijama
-* Prazna autentifikacija za korišćenje zahteva za pristup
+* Prazna autentifikacija za korišćenje kako bi se zatražio pristup
 * Povezivanje sa XPC servisom
 * Poziv funkcije ako je povezivanje bilo uspešno
 ```objectivec
@@ -423,16 +424,17 @@ NSLog(@"Finished!");
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

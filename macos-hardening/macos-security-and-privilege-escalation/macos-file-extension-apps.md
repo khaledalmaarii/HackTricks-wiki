@@ -1,22 +1,23 @@
 # macOS Aplikacije za obradu ekstenzija datoteka i URL šema
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## Baza podataka LaunchServices
 
-Ovo je baza podataka svih instaliranih aplikacija u macOS-u koja se može upitati kako bi se dobile informacije o svakoj instaliranoj aplikaciji, kao što su podržane URL šeme i MIME tipovi.
+Ovo je baza podataka svih instaliranih aplikacija u macOS-u koja se može upitati kako bi se dobile informacije o svakoj instaliranoj aplikaciji, kao što su URL šeme koje podržava i MIME tipovi.
 
 Moguće je izbaciti ovu bazu podataka sa:
 
@@ -28,13 +29,13 @@ Moguće je izbaciti ovu bazu podataka sa:
 
 Ili korišćenjem alata [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-**`/usr/libexec/lsd`** je mozak baze podataka. Pruža **nekoliko XPC usluga** poput `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, i drugih. Međutim, takođe **zahteva određene dozvole** aplikacijama da bi mogle koristiti izložene XPC funkcionalnosti, poput `.launchservices.changedefaulthandler` ili `.launchservices.changeurlschemehandler` za promenu podrazumevanih aplikacija za mime tipove ili URL šeme i drugo.
+**`/usr/libexec/lsd`** je mozak baze podataka. Pruža **nekoliko XPC usluga** poput `.lsd.installation`, `.lsd.open`, `.lsd.openurl`, i više. Ali takođe **zahteva određene privilegije** aplikacijama da bi mogle koristiti izložene XPC funkcionalnosti, poput `.launchservices.changedefaulthandler` ili `.launchservices.changeurlschemehandler` za promenu podrazumevanih aplikacija za mime tipove ili URL šeme i drugo.
 
-**`/System/Library/CoreServices/launchservicesd`** tvrdi uslugu `com.apple.coreservices.launchservicesd` i može se upitati za informacije o pokrenutim aplikacijama. Može se upitati pomoću sistema alata /**`usr/bin/lsappinfo`** ili pomoću [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
+**`/System/Library/CoreServices/launchservicesd`** zahteva uslugu `com.apple.coreservices.launchservicesd` i može se ispitati radi dobijanja informacija o pokrenutim aplikacijama. Može se ispitati sistemskim alatom /**`usr/bin/lsappinfo`** ili sa [**lsdtrip**](https://newosxbook.com/tools/lsdtrip.html).
 
-## Aplikacije za rukovanje ekstenzijama datoteka i URL šemama
+## Aplikacije za rukovanje ekstenzijama fajlova i URL šemama
 
-Sledeća linija može biti korisna za pronalaženje aplikacija koje mogu otvoriti datoteke u zavisnosti od ekstenzije:
+Sledeća linija može biti korisna za pronalaženje aplikacija koje mogu otvoriti fajlove u zavisnosti od ekstenzije:
 
 {% code overflow="wrap" %}
 ```bash
@@ -81,16 +82,17 @@ grep -A3 CFBundleTypeExtensions Info.plist  | grep string
 <string>xbl</string>
 <string>svg</string>
 ```
+{% hint style="success" %}
+Učite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks obuka AWS Red Tim Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks obuka GCP Red Tim Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

@@ -1,24 +1,25 @@
 # CGroups
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
-## Osnovne Informacije
+## Osnovne informacije
 
-**Linux Control Groups**, ili **cgroups**, su funkcija Linux jezgra koja omogućava dodelu, ograničavanje i prioritizaciju resursa sistema poput CPU-a, memorije i disk I/O među grupama procesa. Pružaju mehanizam za **upravljanje i izolaciju korišćenja resursa** kolekcija procesa, korisnih za svrhe poput ograničavanja resursa, izolacije radnog opterećenja i prioritizacije resursa među različitim grupama procesa.
+**Linux Control Groups**, ili **cgroups**, su funkcija Linux jezgra koja omogućava dodelu, ograničavanje i prioritizaciju resursa sistema poput CPU-a, memorije i disk I/O među grupama procesa. Pružaju mehanizam za **upravljanje i izolaciju korišćenja resursa** kolekcija procesa, korisnih za svrhe poput ograničavanja resursa, izolacije radnih opterećenja i prioritizacije resursa među različitim grupama procesa.
 
-Postoje **dve verzije cgroups-a**: verzija 1 i verzija 2. Obe mogu biti korišćene istovremeno na sistemu. Osnovna razlika je što **cgroups verzija 2** uvodi **hijerarhijsku, stablo-sličnu strukturu**, omogućavajući detaljniju distribuciju resursa među grupama procesa. Pored toga, verzija 2 donosi različita poboljšanja, uključujući:
+Postoje **dve verzije cgroups-a**: verzija 1 i verzija 2. Obe mogu istovremeno biti korišćene na sistemu. Osnovna razlika je što **cgroups verzija 2** uvodi **hijerarhijsku, stablo-sličnu strukturu**, omogućavajući detaljniju distribuciju resursa među grupama procesa. Pored toga, verzija 2 donosi različita poboljšanja, uključujući:
 
 Pored nove hijerarhijske organizacije, cgroups verzija 2 takođe je uvela **nekoliko drugih promena i poboljšanja**, kao što su podrška za **nove kontrolere resursa**, bolja podrška za legacy aplikacije i poboljšana performansa.
 
@@ -41,13 +42,13 @@ $ cat /proc/self/cgroup
 ```
 ### Pregledanje cgroups
 
-Struktura izlaza je kako slijedi:
+Struktura izlaza je kako sledi:
 
 * **Brojevi 2–12**: cgroups v1, pri čemu svaka linija predstavlja drugačiji cgroup. Kontroleri za ove su navedeni pored broja.
-* **Broj 1**: Takođe cgroups v1, ali isključivo za upravljačke svrhe (postavljen od strane, npr., systemd), i nedostaje kontroler.
+* **Broj 1**: Takođe cgroups v1, ali isključivo u svrhe upravljanja (postavljen od strane, npr., systemd-a), i nedostaje kontroler.
 * **Broj 0**: Predstavlja cgroups v2. Kontroleri nisu navedeni, i ova linija je ekskluzivna za sisteme koji koriste samo cgroups v2.
 * **Imena su hijerarhijska**, slična putanjama datoteka, ukazujući na strukturu i odnos između različitih cgroups.
-* **Imena poput /user.slice ili /system.slice** specificiraju kategorizaciju cgroups, pri čemu je user.slice obično za sesije prijave upravljane od strane systemd-a, a system.slice za sistemski servis.
+* **Imena poput /user.slice ili /system.slice** specificiraju kategorizaciju cgroups, pri čemu je user.slice obično za sesije prijavljivanja koje upravlja systemd, a system.slice za sistemski servis.
 
 Slika: ![Cgroup Filesystem](<../../../.gitbook/assets/image (1128).png>)
 
@@ -55,15 +56,15 @@ Ključne datoteke interfejsa za cgroups imaju prefiks **cgroup**. Datoteka **cgr
 
 Slika: ![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
 
-Cgroups koji upravljaju ljuskama obično obuhvataju dva kontrolera koji regulišu upotrebu memorije i broj procesa. Za interakciju s kontrolerom, treba se konsultovati datoteke koje nose prefiks kontrolera. Na primjer, **pids.current** bi se koristio za utvrđivanje broja niti u cgroup-u.
+Cgroups koji upravljaju ljuskama obično obuhvataju dva kontrolera koji regulišu upotrebu memorije i broj procesa. Za interakciju sa kontrolerom, treba se konsultovati datoteke koje nose prefiks kontrolera. Na primer, **pids.current** bi se koristio da bi se utvrdio broj niti u cgroup-u.
 
 Slika: ![Cgroup Memory](<../../../.gitbook/assets/image (677).png>)
 
-Indikacija **max** u vrijednosti sugerira odsustvo specifičnog ograničenja za cgroup. Međutim, zbog hijerarhijske prirode cgroups-a, ograničenja mogu biti nametnuta od strane cgroup-a na nižem nivou u hijerarhiji direktorijuma.
+Indikacija **max** u vrednosti sugeriše odsustvo specifičnog ograničenja za cgroup. Međutim, zbog hijerarhijske prirode cgroups-a, ograničenja mogu biti nametnuta od strane cgroup-a na nižem nivou u hijerarhiji direktorijuma.
 
-### Manipulacija i Kreiranje cgroups
+### Manipulacija i Kreiranje cgroups-a
 
-Procesi se dodjeljuju cgroups-ima **upisivanjem njihovog ID procesa (PID) u datoteku `cgroup.procs`**. Za ovo su potrebne administratorske privilegije. Na primjer, za dodavanje procesa:
+Procesi se dodeljuju cgroups-ima tako što se **upisuje njihov ID procesa (PID) u datoteku `cgroup.procs`**. Ovo zahteva privilegije root-a. Na primer, da dodate proces:
 ```bash
 echo [pid] > cgroup.procs
 ```
@@ -71,17 +72,17 @@ Slično tome, **izmena cgroup atributa, poput postavljanja PID ograničenja**, v
 ```bash
 echo 3000 > pids.max
 ```
-**Kreiranje novih cgroups** uključuje pravljenje nove poddirektorijuma unutar hijerarhije cgroup-a, što podstiče jezgro da automatski generiše neophodne interfejs fajlove. Iako se cgroups bez aktivnih procesa mogu ukloniti pomoću `rmdir`, budite svesni određenih ograničenja:
+**Kreiranje novih cgroups** uključuje pravljenje novog poddirektorijuma unutar hijerarhije cgroup-a, što podstiče jezgro da automatski generiše neophodne interfejs fajlove. Iako se cgroups bez aktivnih procesa mogu ukloniti pomoću `rmdir`, budite svesni određenih ograničenja:
 
 * **Procesi mogu biti smešteni samo u listne cgroups** (tj. najugnježdenije u hijerarhiji).
 * **Cgroup ne može imati kontroler koji nedostaje u svom roditelju**.
-* **Kontroleri za poddirektorijume moraju biti eksplicitno navedeni** u fajlu `cgroup.subtree_control`. Na primer, da biste omogućili kontrolere za CPU i PID u poddirektorijumu:
+* **Kontroleri za pod-cgroups moraju biti eksplicitno deklarisani** u fajlu `cgroup.subtree_control`. Na primer, da biste omogućili kontrolere CPU i PID u pod-cgroup-u:
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
 **Root cgroup** je izuzetak od ovih pravila, omogućavajući direktno postavljanje procesa. Ovo se može koristiti za uklanjanje procesa iz systemd upravljanja.
 
-**Pratiti upotrebu CPU-a** unutar cgroup-a je moguće putem datoteke `cpu.stat`, koja prikazuje ukupno utrošeno vreme CPU-a, korisno za praćenje upotrebe preko podprocesa servisa:
+**Pratiti upotrebu CPU-a** unutar cgroup-a je moguće putem datoteke `cpu.stat`, koja prikazuje ukupno vreme CPU-a koje je potrošeno, korisno za praćenje upotrebe preko podprocesa servisa:
 
 <figure><img src="../../../.gitbook/assets/image (908).png" alt=""><figcaption><p>Statistika upotrebe CPU-a prikazana u datoteci cpu.stat</p></figcaption></figure>
 

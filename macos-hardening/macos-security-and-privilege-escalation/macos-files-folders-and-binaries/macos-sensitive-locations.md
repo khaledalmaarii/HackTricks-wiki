@@ -1,18 +1,19 @@
 # macOS Osetljive lokacije i interesantni demoni
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## Lozinke
 
@@ -27,7 +28,7 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 ```
 {% endcode %}
 
-[**Skripte poput ove**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) ili [**ove**](https://github.com/octomagon/davegrohl.git) mogu se koristiti za transformisanje heša u **hashcat** **format**.
+[**Skripte poput ove**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) ili [**ove**](https://github.com/octomagon/davegrohl.git) mogu se koristiti za transformisanje heša u **hashcat format**.
 
 Alternativni jednolinijski kod koji će izbaciti podatke za prijavljivanje svih korisničkih naloga koji nisu servisni nalozi u hashcat formatu `-m 7100` (macOS PBKDF2-SHA512):
 
@@ -35,9 +36,11 @@ Alternativni jednolinijski kod koji će izbaciti podatke za prijavljivanje svih 
 ```bash
 sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex "[^_]*"); do plutil -extract name.0 raw $i | awk "{printf \$0\":\$ml\$\"}"; for j in {iterations,salt,entropy}; do l=$(k=$(plutil -extract ShadowHashData.0 raw $i) && base64 -d <<< $k | plutil -extract SALTED-SHA512-PBKDF2.$j raw -); if [[ $j == iterations ]]; then echo -n $l; else base64 -d <<< $l | xxd -p -c 0 | awk "{printf \"$\"\$0}"; fi; done; echo ""; done'
 ```
-### Dumpovanje keša
+{% endcode %}
 
-Imajte na umu da prilikom korišćenja binarnog koda security za **dumpovanje dešifrovanih lozinki**, korisniku će biti postavljeno nekoliko prozora za odobrenje ove operacije.
+### Dumpovanje Keychain-a
+
+Imajte na umu da prilikom korišćenja security binarnog fajla za **dumpovanje dešifrovanih lozinki**, biće postavljeno nekoliko prozora sa zahtevom korisnika za odobrenje ove operacije.
 ```bash
 #security
 secuirty dump-trust-settings [-s] [-d] #List certificates
@@ -49,18 +52,18 @@ security dump-keychain -d #Dump all the info, included secrets (the user will be
 ### [Keychaindump](https://github.com/juuso/keychaindump)
 
 {% hint style="danger" %}
-Na osnovu ovog komentara [juuso/keychaindump#10 (comment)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) izgleda da ovi alati više ne funkcionišu u Big Sur-u.
+Na osnovu ovog komentara [juuso/keychaindump#10 (komentar)](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) izgleda da ovi alati više ne funkcionišu u Big Sur-u.
 {% endhint %}
 
 ### Pregled Keychaindump-a
 
-Alat pod nazivom **keychaindump** je razvijen za izvlačenje lozinki iz macOS keychain-ova, ali se suočava sa ograničenjima na novijim macOS verzijama poput Big Sura, kako je naznačeno u [diskusiji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Korišćenje **keychaindump**-a zahteva od napadača da stekne pristup i eskalira privilegije na **root** nivo. Alat iskorišćava činjenicu da je keychain podrazumevano otključan prilikom korisnikovog prijavljivanja radi praktičnosti, omogućavajući aplikacijama pristup bez ponovnog unošenja korisnikove lozinke. Međutim, ako korisnik odluči da zaključa svoj keychain nakon svake upotrebe, **keychaindump** postaje neefikasan.
+Alat pod nazivom **keychaindump** je razvijen za izvlačenje lozinki iz macOS keychain-ova, ali se suočava sa ograničenjima na novijim verzijama macOS-a poput Big Sura, kako je naznačeno u [diskusiji](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760). Korišćenje **keychaindump**-a zahteva da napadač stekne pristup i eskalira privilegije na **root** nivo. Alat iskorišćava činjenicu da je keychain podrazumevano otključan prilikom korisnikovog prijavljivanja radi praktičnosti, omogućavajući aplikacijama pristup bez ponovnog unošenja korisnikove lozinke. Međutim, ako korisnik odluči da zaključa svoj keychain nakon svake upotrebe, **keychaindump** postaje neefikasan.
 
-**Keychaindump** funkcioniše tako što cilja određeni proces nazvan **securityd**, opisan od strane Apple-a kao daemon za autorizaciju i kriptografske operacije, od suštinskog značaja za pristup keychain-u. Proces ekstrakcije uključuje identifikaciju **Master Key**-a izvedenog iz korisnikove prijavne lozinke. Ovaj ključ je neophodan za čitanje keychain fajla. Da bi pronašao **Master Key**, **keychaindump** skenira memorijski heap **securityd**-a koristeći `vmmap` komandu, tražeći potencijalne ključeve unutar područja označenih kao `MALLOC_TINY`. Sledeća komanda se koristi za inspekciju ovih memorijskih lokacija:
+**Keychaindump** funkcioniše tako što cilja određeni proces nazvan **securityd**, opisan od strane Apple-a kao daemon za autorizaciju i kriptografske operacije, od suštinskog značaja za pristup keychain-u. Proces ekstrakcije uključuje identifikaciju **Master Key**-a izvedenog iz korisnikove prijavne lozinke. Ovaj ključ je neophodan za čitanje keychain fajla. Da bi pronašao **Master Key**, **keychaindump** skenira memorijski heap **securityd**-a koristeći `vmmap` komandu, tražeći potencijalne ključeve unutar oblasti označenih kao `MALLOC_TINY`. Sledeća komanda se koristi za inspekciju ovih memorijskih lokacija:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Nakon identifikacije potencijalnih glavnih ključeva, **keychaindump** pretražuje hrpe za određeni obrazac (`0x0000000000000018`) koji ukazuje na kandidata za glavni ključ. Dalji koraci, uključujući deobfuskaciju, potrebni su za korišćenje ovog ključa, kako je navedeno u izvornom kodu **keychaindump**-a. Analitičari koji se fokusiraju na ovu oblast trebalo bi da primete da su ključni podaci za dešifrovanje keš memorije sačuvani unutar memorije procesa **securityd**. Primer komande za pokretanje **keychaindump**-a je:
+Nakon identifikovanja potencijalnih glavnih ključeva, **keychaindump** pretražuje hrpe za određeni obrazac (`0x0000000000000018`) koji ukazuje na kandidata za glavni ključ. Dalji koraci, uključujući deobfuskaciju, potrebni su za korišćenje ovog ključa, kako je navedeno u izvornom kodu **keychaindump**-a. Analitičari koji se fokusiraju na ovu oblast trebalo bi da primete da su ključni podaci za dešifrovanje keš memorije sačuvani unutar memorije procesa **securityd**. Primer komande za pokretanje **keychaindump**-a je:
 ```bash
 sudo ./keychaindump
 ```
@@ -77,16 +80,16 @@ sudo ./keychaindump
 * Bezbedne beleške
 * Appleshare lozinke
 
-Uz ključ za otključavanje keychain-a, master ključ dobijen korišćenjem [volafox](https://github.com/n0fate/volafox) ili [volatility](https://github.com/volatilityfoundation/volatility), ili fajl za otključavanje poput SystemKey, Chainbreaker će takođe pružiti lozinke u obliku običnog teksta.
+Uz keychain otključavanje lozinke, master ključ dobijen korišćenjem [volafox](https://github.com/n0fate/volafox) ili [volatility](https://github.com/volatilityfoundation/volatility), ili fajla za otključavanje poput SystemKey, Chainbreaker će takođe pružiti lozinke u obliku običnog teksta.
 
 Bez jednog od ovih metoda za otključavanje Keychain-a, Chainbreaker će prikazati sve ostale dostupne informacije.
 
-#### **Izbaci ključeve keychain-a**
+#### **Izbaci ključeve iz keychain-a**
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-#### **Izbacite ključeve lanca ključeva (sa lozinkama) pomoću SystemKey**
+#### **Izbacite ključeve lanca ključeva (sa lozinkama) pomoću SystemKey-a**
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -103,7 +106,7 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Izbacite ključeve lanca ključeva (sa lozinkama) pomoću ispusta memorije**
+#### **Izbacite ključeve keša (sa lozinkama) pomoću ispusta memorije**
 
 [Pratite ove korake](../#dumping-memory-with-osxpmem) da biste izvršili **ispust memorije**
 ```bash
@@ -125,10 +128,10 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 
 **kcpassword** fajl je fajl koji čuva **korisničku lozinku za prijavljivanje**, ali samo ako vlasnik sistema ima **omogućeno automatsko prijavljivanje**. Stoga će korisnik automatski biti prijavljen bez traženja lozinke (što nije vrlo sigurno).
 
-Lozinka je sačuvana u fajlu **`/etc/kcpassword`** ksovirovana ključem **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ako je korisnička lozinka duža od ključa, ključ će biti ponovo korišćen.\
-Ovo čini lozinku prilično lako povratiti, na primer korišćenjem skripti poput [**ove**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Lozinka je sačuvana u fajlu **`/etc/kcpassword`** ksovirovana sa ključem **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Ako je korisnička lozinka duža od ključa, ključ će biti ponovo korišćen.\
+Ovo čini lozinku prilično lako povratiti, na primer korišćenjem skripti poput [**ove**](https://gist.github.com/opshope/32f65875d45215c3677d). 
 
-## Interesantne Informacije u Bazama Podataka
+## Interesantne informacije u bazama podataka
 
 ### Poruke
 ```bash
@@ -142,9 +145,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Podatke o obaveštenjima možete pronaći u `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-Većina zanimljivih informacija će biti u **blob**-u. Stoga ćete morati da **izvučete** taj sadržaj i **transformišete** ga u **čitljiv** oblik ili koristite **`strings`**. Da pristupite tome možete uraditi: 
-
-{% code overflow="wrap" %}
+Većina zanimljivih informacija će biti u **blob**-u. Stoga ćete morati da **izvučete** taj sadržaj i **preoblikujete** ga u **čitljiv** oblik ili koristite **`strings`**. Da pristupite tome, možete uraditi:
 ```bash
 cd $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/
 strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i -A4 slack
@@ -166,11 +167,11 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 ## Postavke
 
-U macOS aplikacijama postavke se nalaze u **`$HOME/Library/Preferences`**, a u iOS-u se nalaze u `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.
+U macOS aplikacijama postavke se nalaze u **`$HOME/Library/Preferences`** dok se u iOS-u nalaze u `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.&#x20;
 
-U macOS-u se alatka komandne linije **`defaults`** može koristiti za **izmenu datoteke postavki**.
+U macOS-u se alatka komandne linije **`defaults`** može koristiti za **modifikaciju datoteke postavki**.
 
-**`/usr/sbin/cfprefsd`** zahteva XPC servise `com.apple.cfprefsd.daemon` i `com.apple.cfprefsd.agent` i može se pozvati da obavlja radnje poput izmene postavki.
+**`/usr/sbin/cfprefsd`** koristi XPC servise `com.apple.cfprefsd.daemon` i `com.apple.cfprefsd.agent` i može se pozvati da izvrši akcije poput modifikacije postavki.
 
 ## Sistem Obaveštenja
 
@@ -198,7 +199,7 @@ common: com.apple.security.octagon.joined-with-bottle
 ```
 ### Distribuirani centar za obaveštenja
 
-**Distribuirani centar za obaveštenja** čiji je glavni binarni fajl **`/usr/sbin/distnoted`**, je još jedan način slanja obaveštenja. Izlaže neke XPC servise i vrši provere kako bi pokušao da verifikuje klijente.
+**Distribuirani centar za obaveštenja** čiji je glavni izvršni fajl **`/usr/sbin/distnoted`**, je još jedan način slanja obaveštenja. Izlaže neke XPC usluge i vrši provere kako bi pokušao da proveri klijente.
 
 ### Apple Push obaveštenja (APN)
 
@@ -215,10 +216,10 @@ Takođe je moguće dobiti informacije o daemonu i konekcijama koristeći:
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```
-## Obaveštenja korisnika
+## Obaveštenja Korisnika
 
 Ovo su obaveštenja koja korisnik treba da vidi na ekranu:
 
-- **`CFUserNotification`**: Ova API pruža način da se prikaže iskačući prozor sa porukom na ekranu.
-- **Tabla sa obaveštenjima**: Ovo prikazuje baner na iOS-u koji nestaje i biće sačuvan u Centru za obaveštenja.
-- **`NSUserNotificationCenter`**: Ovo je tabla sa obaveštenjima na MacOS-u. Baza podataka sa obaveštenjima se nalazi u `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+* **`CFUserNotification`**: Ova API pruža način da se prikaže iskačući prozor sa porukom na ekranu.
+* **Oglasna Tabla**: Ovo prikazuje baner na iOS-u koji nestaje i biće sačuvan u Centru za Obaveštenja.
+* **`NSUserNotificationCenter`**: Ovo je iOS oglasna tabla na MacOS-u. Baza podataka sa obaveštenjima se nalazi u `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`

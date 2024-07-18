@@ -1,25 +1,26 @@
 # macOS Red Teaming
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## Zloupotreba MDM-ova
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Ako uspete da **kompromitujete administratorske akreditive** kako biste pristupili platformi za upravljanje, možete **potencijalno kompromitovati sve računare** distribuiranjem malvera na mašine.
+Ako uspete da **kompromitujete admin korisničke podatke** kako biste pristupili platformi za upravljanje, možete **potencijalno kompromitovati sve računare** distribuiranjem malvera na mašine.
 
 Za crveno timovanje u MacOS okruženjima, veoma je preporučljivo imati određeno razumevanje kako MDM-ovi funkcionišu:
 
@@ -29,40 +30,40 @@ Za crveno timovanje u MacOS okruženjima, veoma je preporučljivo imati određen
 
 ### Korišćenje MDM-a kao C2
 
-MDM će imati dozvolu da instalira, upita ili ukloni profile, instalira aplikacije, kreira lokalne administratorske naloge, postavi lozinku za firmware, promeni FileVault ključ...
+MDM će imati dozvolu da instalira, upita ili ukloni profile, instalira aplikacije, kreira lokalne admin naloge, postavi lozinku za firmware, promeni FileVault ključ...
 
-Da biste pokrenuli svoj MDM, potrebno je da **vaš CSR bude potpisan od strane prodavca** što možete pokušati da dobijete sa [**https://mdmcert.download/**](https://mdmcert.download/). I da biste pokrenuli svoj MDM za Apple uređaje, možete koristiti [**MicroMDM**](https://github.com/micromdm/micromdm).
+Da biste pokrenuli svoj MDM, potrebno je da **vaš CSR bude potpisan od strane prodavca** što možete pokušati da dobijete sa [**https://mdmcert.download/**](https://mdmcert.download/). A za pokretanje sopstvenog MDM-a za Apple uređaje možete koristiti [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 Međutim, da biste instalirali aplikaciju na prijavljeni uređaj, i dalje vam je potrebno da bude potpisana od strane developerskog naloga... međutim, prilikom MDM prijavljivanja, **uređaj dodaje SSL sertifikat MDM-a kao pouzdanog CA**, tako da sada možete potpisati bilo šta.
 
-Da biste prijavili uređaj u MDM, potrebno je da instalirate **`mobileconfig`** fajl kao root, koji može biti dostavljen putem **pkg** fajla (možete ga kompresovati u zip i kada se preuzme sa safarija, biće dekompresovan).
+Da biste prijavili uređaj u MDM, potrebno je da instalirate **`mobileconfig`** fajl kao root, koji može biti dostavljen putem **pkg** fajla (možete ga kompresovati u zip i kada se preuzme sa Safarija, biće dekompresovan).
 
 **Mythic agent Orthrus** koristi ovu tehniku.
 
-### Zloupotreba JAMF PRO
+### Zloupotreba JAMF PRO-a
 
 JAMF može pokrenuti **prilagođene skripte** (skripte razvijene od strane sistem administratora), **nativne payload-e** (kreiranje lokalnih naloga, postavljanje EFI lozinke, praćenje fajlova/procesa...) i **MDM** (konfiguracije uređaja, sertifikati uređaja...).
 
-#### Samoprijavljivanje u JAMF
+#### JAMF samo-prijavljivanje
 
-Idite na stranicu poput `https://<ime-kompanije>.jamfcloud.com/enroll/` da biste videli da li imaju omogućeno **samoprijavljivanje**. Ako imaju, može **zatražiti akreditive za pristup**.
+Idite na stranicu poput `https://<ime-kompanije>.jamfcloud.com/enroll/` da biste videli da li imaju omogućeno **samo-prijavljivanje**. Ako imaju, može **zatražiti pristupne podatke**.
 
-Možete koristiti skriptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) da biste izvršili napad prskanja lozinki.
+Možete koristiti skriptu [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) da biste izveli napad prskanja lozinki.
 
-Osim toga, nakon pronalaska odgovarajućih akreditiva, možda ćete moći da probate da forsirovanjem pristupite drugim korisničkim imenima sa sledećim formularom:
+Osim toga, nakon pronalaska odgovarajućih pristupnih podataka, možda ćete moći da probate da forsirovanjem pristupite drugim korisničkim imenima sa sledećim obrascem:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
-#### Autentikacija uređaja u JAMF-u
+#### JAMF autentikacija uređaja
 
 <figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`** binarni fajl sadrži tajnu za otvaranje keša koji je u vreme otkrića **deljen** među svima i to je bilo: **`jk23ucnq91jfu9aj`**.\
+**`jamf`** binarni fajl sadrži tajnu za otvaranje keša koja je u vreme otkrića bila **deljena** među svima i bila je: **`jk23ucnq91jfu9aj`**.\
 Osim toga, jamf **traje** kao **LaunchDaemon** u **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### Preuzimanje kontrole nad uređajem u JAMF-u
+#### Preuzimanje kontrole nad uređajem putem JAMF-a
 
-**JSS** (Jamf Software Server) **URL** koji će **`jamf`** koristiti se nalazi u **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+URL **JSS** (Jamf Software Server) koji će **`jamf`** koristiti nalazi se u **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Ovaj fajl u osnovi sadrži URL:
 
 {% code overflow="wrap" %}
@@ -104,9 +105,9 @@ Sa ovim informacijama, **napravite virtuelnu mašinu** sa **ukradenim** hardvers
 
 Takođe možete pratiti lokaciju `/Library/Application Support/Jamf/tmp/` za **prilagođene skripte** koje administratori žele da izvrše putem Jamf-a jer se ovde **postavljaju, izvršavaju i uklanjaju**. Ove skripte **mogu sadržati pristupne podatke**.
 
-Međutim, **pristupni podaci** mogu biti prosleđeni ovim skriptama kao **parametri**, pa biste trebali pratiti `ps aux | grep -i jamf` (čak i bez biti root).
+Međutim, **pristupni podaci** mogu biti prosleđeni ovim skriptama kao **parametri**, pa biste trebali pratiti `ps aux | grep -i jamf` (čak i bez privilegija root korisnika).
 
-Skripta [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) može osluškivati dodavanje novih fajlova i novih argumenata procesa.
+Skripta [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) može pratiti dodavanje novih fajlova i novih argumenata procesa.
 
 ### Udaljeni pristup MacOS-u
 
@@ -118,7 +119,7 @@ I takođe o "specijalnim" **mrežnim** **protokolima** za **MacOS**:
 
 ## Active Directory
 
-U nekim situacijama ćete otkriti da je **MacOS računar povezan sa AD**. U ovom scenariju trebali biste pokušati da **enumerišete** active directory kao što ste navikli. Pronađite **pomoć** na sledećim stranicama:
+U nekim situacijama ćete otkriti da je **MacOS računar povezan sa AD**. U ovom scenariju trebali biste pokušati da **enumerišete** active directory na način na koji ste navikli. Pronađite **pomoć** na sledećim stranicama:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -139,8 +140,8 @@ dscl "/Active Directory/[Domain]/All Domains" ls /
 Takođe postoje neki alati pripremljeni za MacOS radi automatskog enumerisanja AD i igranja sa kerberosom:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound je proširenje alata za reviziju Bloodhound koje omogućava prikupljanje i unošenje odnosa Active Directory-ja na MacOS hostovima.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost je Objective-C projekat dizajniran za interakciju sa Heimdal krb5 API-jima na macOS-u. Cilj projekta je omogućiti bolje testiranje sigurnosti oko Kerberosa na uređajima sa macOS-om koristeći nativne API-je bez potrebe za bilo kojim drugim okvirom ili paketima na cilju.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript za Automation (JXA) alat za enumeraciju Active Directory-ja.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost je Objective-C projekat dizajniran za interakciju sa Heimdal krb5 API-jima na macOS-u. Cilj projekta je omogućiti bolje testiranje sigurnosti oko Kerberosa na macOS uređajima korišćenjem nativnih API-ja bez potrebe za bilo kojim drugim okvirom ili paketima na ciljnom uređaju.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA) alat za enumeraciju Active Directory-ja.
 
 ### Informacije o domenu
 ```bash
@@ -155,7 +156,7 @@ Tri vrste MacOS korisnika su:
 * **Mobilni korisnici** — Active Directory korisnici sa lokalnom rezervnom kopijom svojih akreditacija i fajlova.
 
 Lokalne informacije o korisnicima i grupama čuvaju se u folderu _/var/db/dslocal/nodes/Default._\
-Na primer, informacije o korisniku pod imenom _mark_ čuvaju se u _/var/db/dslocal/nodes/Default/users/mark.plist_, a informacije o grupi _admin_ su u _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Na primer, informacije o korisniku pod imenom _mark_ čuvaju se u _/var/db/dslocal/nodes/Default/users/mark.plist_ a informacije o grupi _admin_ su u _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
 Pored korišćenja HasSession i AdminTo veza, **MacHound dodaje tri nove veze** u Bloodhound bazu podataka:
 
@@ -187,7 +188,7 @@ Više informacija na [https://its-a-feature.github.io/posts/2018/01/Active-Direc
 
 ## Pristupanje Keychain-u
 
-Keychain verovatno sadrži osetljive informacije koje, ako se pristupi bez generisanja upita, mogu pomoći u napredovanju vežbe crvenog tima:
+Keychain verovatno sadrži osetljive informacije koje, ako se pristupi bez generisanja upita, mogu pomoći u sprovođenju vežbe crvenog tima:
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -195,9 +196,9 @@ Keychain verovatno sadrži osetljive informacije koje, ako se pristupi bez gener
 
 ## Spoljni servisi
 
-MacOS Red Teaming se razlikuje od redovnog Windows Red Teaming-a jer je obično **MacOS integrisan sa nekoliko spoljnih platformi direktno**. Česta konfiguracija MacOS-a je pristup računaru korišćenjem **OneLogin sinhronizovanih akreditiva, i pristupanje nekoliko spoljnih servisa** (kao što su github, aws...) putem OneLogin-a.
+MacOS crveno timovanje je drugačije od redovnog Windows crvenog timovanja jer je obično **MacOS integrisan sa nekoliko spoljnih platformi direktno**. Česta konfiguracija MacOS-a je pristup računaru korišćenjem **OneLogin sinhronizovanih akreditiva, i pristupanje nekoliko spoljnih servisa** (kao što su github, aws...) putem OneLogina.
 
-## Različite tehnike crvenog tima
+## Razne tehnike crvenog tima
 
 ### Safari
 
@@ -212,3 +213,18 @@ Kada se fajl preuzme u Safariju, ako je "siguran" fajl, **automatski će biti ot
 * [**https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0**](https://gist.github.com/its-a-feature/1a34f597fb30985a2742bb16116e74e0)
 * [**Come to the Dark Side, We Have Apples: Turning macOS Management Evil**](https://www.youtube.com/watch?v=pOQOh07eMxY)
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
+
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Podržite HackTricks</summary>
+
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+
+</details>
+{% endhint %}

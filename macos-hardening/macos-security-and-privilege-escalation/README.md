@@ -1,37 +1,38 @@
-# macOS Bezbednost & Eskalacija Privilegija
+# macOS Bezbednost & Eskalacija privilegija
+
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
 Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
 
-**Hakerski Uvidi**\
+**Hakerski uvidi**\
 Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Vesti o Hakovanju u Realnom Vremenu**\
+**Vesti o hakovanju u realnom vremenu**\
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Najnovije Najave**\
-Budite informisani o najnovijim nagradama za pronalaženje bagova i bitnim ažuriranjima platformi
+**Najnovije najave**\
+Budite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platformi
 
-**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
 ## Osnovno o MacOS-u
 
-Ako niste upoznati sa macOS-om, trebalo bi da počnete sa učenjem osnova macOS-a:
+Ako niste upoznati sa macOS-om, trebalo bi da počnete da učite osnove macOS-a:
 
 * Posebne macOS **datoteke i dozvole:**
 
@@ -51,7 +52,7 @@ Ako niste upoznati sa macOS-om, trebalo bi da počnete sa učenjem osnova macOS-
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* **Arhitektura** jezgra
+* Arhitektura **jezgra**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
@@ -80,15 +81,15 @@ U kompanijama **macOS** sistemi verovatno će biti **upravljani MDM-om**. Stoga,
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## Zaštite MacOS Bezbednosti
+## Zaštita MacOS-a
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Napadna Površina
+## Napadna površina
 
-### Dozvole Datoteka
+### Dozvole datoteka
 
 Ako **proces koji se izvršava kao root piše** datoteku kojom može upravljati korisnik, korisnik bi to mogao zloupotrebiti za **eskalaciju privilegija**.\
 Ovo se može desiti u sledećim situacijama:
@@ -96,17 +97,17 @@ Ovo se može desiti u sledećim situacijama:
 * Datoteka koja se koristi već je kreirana od strane korisnika (vlasništvo korisnika)
 * Datoteka koja se koristi je upisiva od strane korisnika zbog grupe
 * Datoteka koja se koristi je unutar direktorijuma koji je vlasništvo korisnika (korisnik bi mogao kreirati datoteku)
-* Datoteka koja se koristi je unutar direktorijuma koji je vlasništvo root-a, ali korisnik ima pristup pisanju nad njim zbog grupe (korisnik bi mogao kreirati datoteku)
+* Datoteka koja se koristi je unutar direktorijuma koji je vlasništvo root-a, ali korisnik ima pristup pisanju zbog grupe (korisnik bi mogao kreirati datoteku)
 
-Mogućnost **kreiranja datoteke** koja će biti **korišćena od strane root-a**, omogućava korisniku da **iskoristi njen sadržaj** ili čak kreira **simboličke veze/fizičke veze** da je usmeri na drugo mesto.
+Mogućnost **kreiranja datoteke** koju će **koristiti root**, omogućava korisniku da **iskoristi njen sadržaj** ili čak kreira **simboličke veze/fizičke veze** da je usmeri na drugo mesto.
 
-Za ovakve ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
+Za ovakve vrste ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-### Ekstenzija Datoteke & Aplikacije za Obradu URL šema
+### Ekstenzija datoteke & rukovaoci aplikacijama URL šeme
 
 Čudne aplikacije registrovane preko ekstenzija datoteka mogu biti zloupotrebljene i različite aplikacije mogu biti registrovane da otvore specifične protokole
 
@@ -114,19 +115,19 @@ Za ovakve ranjivosti ne zaboravite da **proverite ranjive `.pkg` instalere**:
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## macOS TCC / SIP Eskalacija Privilegija
+## macOS TCC / SIP Eskalacija privilegija
 
 U macOS-u **aplikacije i binarni fajlovi mogu imati dozvole** za pristup fasciklama ili podešavanjima koja ih čine privilegovanim u odnosu na druge.
 
-Stoga, napadač koji želi uspešno kompromitovati macOS mašinu će morati da **eskalira svoje TCC privilegije** (ili čak **zaobiđe SIP**, u zavisnosti od svojih potreba).
+Stoga, napadač koji želi uspešno da kompromituje macOS mašinu će morati da **eskalira svoje TCC privilegije** (ili čak **zaobiđe SIP**, u zavisnosti od svojih potreba).
 
-Ove privilegije obično se dodeljuju u obliku **ovlašćenja** sa kojima je aplikacija potpisana, ili aplikacija može zatražiti neke pristupe i nakon što ih **korisnik odobri** mogu se naći u **TCC bazama podataka**. Drugi način na koji proces može dobiti ove privilegije je ako je **potomak procesa** sa tim **privilegijama** jer se obično **nasleđuju**.
+Ove privilegije obično se dodeljuju u obliku **prava** sa kojima je aplikacija potpisana, ili aplikacija može zatražiti neke pristupe i nakon što ih **korisnik odobri** mogu se naći u **TCC bazama podataka**. Još jedan način na koji proces može dobiti ove privilegije je ako je **potomak procesa** sa tim **pravima** jer se obično **nasleđuju**.
 
 Pratite ove linkove da biste pronašli različite načine za [**eskalciju privilegija u TCC-u**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), za [**zaobilaženje TCC-a**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) i kako je u prošlosti [**SIP zaobiđen**](macos-security-protections/macos-sip.md#sip-bypasses).
 
-## macOS Tradicionalna Eskalacija Privilegija
+## macOS Tradicionalna eskalacija privilegija
 
-Naravno, sa perspektive timova za crveno testiranje trebalo bi da vas zanima i eskalacija do root-a. Proverite sledeći post za neke smernice:
+Naravno, sa perspektive crvenih timova trebalo bi da vas zanima i eskalacija do root-a. Proverite sledeći post za neke smernice:
 
 {% content-ref url="macos-privilege-escalation.md" %}
 [macos-privilege-escalation.md](macos-privilege-escalation.md)
@@ -150,20 +151,21 @@ Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
 **Poslednje objave**\
-Budite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platforme
+Budite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platformi
 
 **Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

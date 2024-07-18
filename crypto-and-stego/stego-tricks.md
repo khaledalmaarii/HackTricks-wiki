@@ -1,18 +1,19 @@
 # Trikovi Steganografije
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakeračke trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -101,7 +102,7 @@ Steghide olakšava skrivanje podataka unutar `JPEG, BMP, WAV i AU` datoteka, spo
 * `steghide info file` otkriva da li datoteka sadrži skrivene podatke.
 * `steghide extract -sf file [--passphrase password]` izvlači skrivene podatke, lozinka je opcionalna.
 
-Za web bazirano izvlačenje, posetite [ovaj sajt](https://futureboy.us/stegano/decinput.html).
+Za web bazirano izvlačenje, posetite [ovaj veb sajt](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce napad sa Stegcracker-om:**
 
@@ -109,13 +110,13 @@ Za web bazirano izvlačenje, posetite [ovaj sajt](https://futureboy.us/stegano/d
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg za PNG i BMP fajlove**
+### **zsteg za PNG i BMP datoteke**
 
-zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. Instalacija se vrši putem `gem install zsteg`, sa [izvorom na GitHub-u](https://github.com/zed-0xff/zsteg).
+zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP datotekama. Instalacija se vrši putem `gem install zsteg`, a izvorni kod se može pronaći na [GitHub-u](https://github.com/zed-0xff/zsteg).
 
 **Komande:**
 
-* `zsteg -a file` primenjuje sve metode detekcije na fajlu.
+* `zsteg -a file` primenjuje sve metode detekcije na datoteku.
 * `zsteg -E file` specificira payload za ekstrakciju podataka.
 
 ### **StegoVeritas i Stegsolve**
@@ -126,19 +127,19 @@ zsteg se specijalizuje za otkrivanje skrivenih podataka u PNG i BMP fajlovima. I
 
 ### **FFT za Otkrivanje Skrivenog Sadržaja**
 
-Tehnike Brze Furijeove Transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
+Tehnike brze Furijeove transformacije (FFT) mogu otkriti skriveni sadržaj u slikama. Korisni resursi uključuju:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic na GitHub-u](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy za Audio i Image Fajlove**
+### **Stegpy za Audio i Image Datoteke**
 
-Stegpy omogućava ugradnju informacija u image i audio fajlove, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
+Stegpy omogućava ugradnju informacija u image i audio datoteke, podržavajući formate poput PNG, BMP, GIF, WebP i WAV. Dostupan je na [GitHub-u](https://github.com/dhsdshdhk/stegpy).
 
-### **Pngcheck za Analizu PNG Fajlova**
+### **Pngcheck za Analizu PNG Datoteka**
 
-Za analizu PNG fajlova ili proveru njihove autentičnosti, koristite:
+Za analizu PNG datoteka ili proveru njihove autentičnosti, koristite:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -155,7 +156,7 @@ Za dalje istraživanje, razmotrite posetu:
 
 ## **Izdvajanje podataka iz audio zapisa**
 
-**Audio steganografija** nudi jedinstvenu metodu za skrivanje informacija unutar zvučnih datoteka. Različiti alati se koriste za ugradnju ili dobijanje skrivenog sadržaja.
+**Audio steganografija** nudi jedinstvenu metodu za skrivanje informacija unutar zvučnih datoteka. Različiti alati se koriste za ugradnju ili izvlačenje skrivenog sadržaja.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
@@ -167,13 +168,13 @@ Ovaj alat je kompatibilan sa različitim formatima uključujući PNG, BMP, GIF, 
 
 ### **ffmpeg**
 
-ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivanje bilo kakvih neslaganja.
+ffmpeg je ključan za procenu integriteta audio datoteka, ističući detaljne informacije i otkrivajući eventualne neslaganja.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg se ističe u skrivanju i izvlačenju podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub-u](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
+WavSteg se ističe u skrivanju i izvlačenju podataka unutar WAV fajlova koristeći strategiju najmanje značajnog bita. Dostupan je na [GitHub](https://github.com/ragibson/Steganography#WavSteg). Komande uključuju:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -185,7 +186,7 @@ Deepsound omogućava šifrovanje i otkrivanje informacija unutar zvučnih fajlov
 
 ### **Sonic Visualizer**
 
-Neprocenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvanični sajt](https://www.sonicvisualiser.org/) za više informacija.
+Nezamenjiv alat za vizuelnu i analitičku inspekciju audio fajlova, Sonic Visualizer može otkriti skrivene elemente koji nisu detektovani na druge načine. Posetite [zvanični sajt](https://www.sonicvisualiser.org/) za više informacija.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -219,16 +220,17 @@ Za prevod Brailove azbuke, [Branah Braille Translator](https://www.branah.com/br
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Učite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od početnika do stručnjaka sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
