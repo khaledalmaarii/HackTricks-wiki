@@ -1,22 +1,23 @@
 # macOS通用二进制文件和Mach-O格式
 
+{% hint style="success" %}
+学习和实践AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP Hacking：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## 基本信息
 
-Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二进制文件**可以在同一个文件中**支持多种架构**。
+Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二进制文件**可以在同一文件中**支持多个架构**。
 
 这些二进制文件遵循**Mach-O结构**，基本上由以下部分组成：
 
@@ -28,26 +29,26 @@ Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二�
 
 ## Fat Header
 
-使用以下命令搜索文件：`mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+使用以下命令搜索包含：`mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
 </strong>
 struct fat_header {
 <strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* 后跟的结构体数量 */
+</strong><strong>	uint32_t	nfat_arch;	/* 后续结构的数量 */
 </strong>};
 
 struct fat_arch {
 cpu_type_t	cputype;	/* CPU指定器（int） */
 cpu_subtype_t	cpusubtype;	/* 机器指定器（int） */
-uint32_t	offset;		/* 指向此目标文件的文件偏移量 */
-uint32_t	size;		/* 此目标文件的大小 */
-uint32_t	align;		/* 作为2的幂的对齐 */
+uint32_t	offset;		/* 指向该目标文件的文件偏移量 */
+uint32_t	size;		/* 该目标文件的大小 */
+uint32_t	align;		/* 2的幂对齐 */
 };
 </code></pre>
 
-头部包含**魔数**后跟文件**包含的架构数**（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
+头部包含**魔数**字节，后跟文件**包含**的**架构**数（`nfat_arch`），每个架构都将有一个`fat_arch`结构。
 
 使用以下命令检查：
 
@@ -80,11 +81,11 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 <figure><img src="../../../.gitbook/assets/image (1094).png" alt=""><figcaption></figcaption></figure>
 
-正如您可能在想的那样，通常为2种架构编译的通用二进制文件**会使大小翻倍**，相比只为1种架构编译的情况。
+正如你可能在想的那样，通常为2个架构编译的通用二进制文件**会使大小翻倍**，相比于只为1个架构编译的情况。
 
 ## **Mach-O头部**
 
-头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数字节以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -115,16 +116,16 @@ uint32_t	reserved;	/* reserved */
 
 有不同的文件类型，你可以在[**这里的源代码中找到它们的定义**](https://opensource.apple.com/source/xnu/xnu-2050.18.24/EXTERNAL\_HEADERS/mach-o/loader.h)。最重要的类型包括：
 
-- `MH_OBJECT`：可重定位目标文件（编译的中间产品，还不是可执行文件）。
-- `MH_EXECUTE`：可执行文件。
-- `MH_FVMLIB`：固定虚拟内存库文件。
-- `MH_CORE`：代码转储。
-- `MH_PRELOAD`：预加载的可执行文件（在 XNU 中不再支持）。
-- `MH_DYLIB`：动态库。
-- `MH_DYLINKER`：动态链接器。
-- `MH_BUNDLE`："插件文件"。使用 -bundle 在 gcc 中生成，并由 `NSBundle` 或 `dlopen` 显式加载。
-- `MH_DYSM`：配套的 `.dSym` 文件（带有用于调试的符号的文件）。
-- `MH_KEXT_BUNDLE`：内核扩展。
+- `MH_OBJECT`: 可重定位目标文件（编译的中间产品，还不是可执行文件）。
+- `MH_EXECUTE`: 可执行文件。
+- `MH_FVMLIB`: 固定虚拟内存库文件。
+- `MH_CORE`: 代码转储。
+- `MH_PRELOAD`: 预加载的可执行文件（在 XNU 中不再支持）。
+- `MH_DYLIB`: 动态库。
+- `MH_DYLINKER`: 动态链接器。
+- `MH_BUNDLE`: "插件文件"。使用 -bundle 在 gcc 中生成，并由 `NSBundle` 或 `dlopen` 显式加载。
+- `MH_DYSM`: 伴随的 `.dSym` 文件（带有用于调试的符号的文件）。
+- `MH_KEXT_BUNDLE`: 内核扩展。
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -171,14 +172,14 @@ uint32_t cmdsize;       /* total size of command in bytes */
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-基本上，这种类型的加载命令定义了在执行二进制文件时，根据数据部分中指示的偏移量，如何加载\_\_TEXT（可执行代码）和\_\_DATA（进程数据）段。
+基本上，这种类型的加载命令定义了在执行二进制文件时，根据数据部分中指示的偏移量，如何加载**\_\_TEXT**（可执行代码）和**\_\_DATA**（进程数据）**段**。
 {% endhint %}
 
 这些命令**定义了在执行过程中映射到进程的虚拟内存空间中的段**。
 
 有**不同类型**的段，比如**\_\_TEXT**段，保存程序的可执行代码，以及**\_\_DATA**段，包含进程使用的数据。这些**段位于Mach-O文件的数据部分**中。
 
-**每个段**可以进一步**划分为多个区块**。**加载命令结构**包含了关于**各自段内的这些区块的信息**。
+**每个段**可以进一步**划分为多个** **区段**。**加载命令结构**包含了关于**各自段内的这些区段**的**信息**。
 
 在头部首先找到**段头**：
 
@@ -201,7 +202,7 @@ int32_t		initprot;	/* initial VM protection */
 
 <figure><img src="../../../.gitbook/assets/image (1126).png" alt=""><figcaption></figcaption></figure>
 
-此头部定义了**在其后出现的区块头的数量**：
+此头部定义了**其后出现的区段头的数量**：
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -232,17 +233,17 @@ otool -lv /bin/ls
 ```
 以下是由此命令加载的常见段：
 
-- **`__PAGEZERO`：** 它指示内核**映射****地址零**，因此**无法读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
-- 此分配对于**缓解空指针解引用漏洞**很重要。这是因为XNU强制执行一个硬页零，确保内存的第一页（仅限第一页）无法访问（除了i386）。二进制文件可以通过创建一个小的\_\_PAGEZERO（使用`-pagezero_size`）来满足这些要求，以覆盖前4k，并使其余32位内存在用户模式和内核模式下均可访问。
-- **`__TEXT`**：包含具有**读取**和**执行**权限的**可执行代码**（不可写）。此段的常见部分：
+- **`__PAGEZERO`：** 它指示内核**映射****地址零**，因此**无法从中读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
+- 此分配对于**缓解空指针解引用漏洞**很重要。这是因为XNU强制执行一个硬页零，确保内存的第一页（仅限第一页）是不可访问的（除了i386）。二进制文件可以通过创建一个小的\_\_PAGEZERO（使用`-pagezero_size`）来满足这些要求，以覆盖前4k，并使其余32位内存在用户模式和内核模式下均可访问。
+- **`__TEXT`：** 包含具有**读取**和**执行**权限的**可执行代码**（不可写入）。此段的常见部分：
   - `__text`：已编译的二进制代码
   - `__const`：常量数据（只读）
   - `__[c/u/os_log]string`：C、Unicode或os日志字符串常量
   - `__stubs`和`__stubs_helper`：在动态库加载过程中涉及
   - `__unwind_info`：堆栈展开数据。
 - 请注意，所有这些内容都经过签名，但也标记为可执行（为不一定需要此特权的部分提供了更多利用选项，如专用字符串部分）。
-- **`__DATA`**：包含**可读**和**可写**的数据（不可执行）。
-  - `__got`：全局偏移表
+- **`__DATA`：** 包含**可读**和**可写**的数据（不可执行）。
+  - `__got:` 全局偏移表
   - `__nl_symbol_ptr`：非懒惰（加载时绑定）符号指针
   - `__la_symbol_ptr`：懒惰（使用时绑定）符号指针
   - `__const`：应为只读数据（实际上不是）
@@ -250,8 +251,8 @@ otool -lv /bin/ls
   - `__data`：已初始化的全局变量
   - `__bss`：未初始化的静态变量
   - `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
-- **`__DATA_CONST`**：\_\_DATA.\_\_const不能保证是常量（具有写权限），其他指针和GOT也不是。此部分使用`mprotect`使`__const`、一些初始化程序和GOT表（一旦解析）**只读**。
-- **`__LINKEDIT`**：包含链接器（dyld）的信息，如符号、字符串和重定位表条目。它是一个通用容器，用于存放既不在`__TEXT`也不在`__DATA`中的内容，其内容在其他加载命令中描述。
+- **`__DATA_CONST`：** \_\_DATA.\_\_const不能保证是常量（具有写权限），其他指针和GOT也不是。此部分使用`mprotect`使`__const`、一些初始化程序和GOT表（一旦解析）**只读**。
+- **`__LINKEDIT`：** 包含链接器（dyld）的信息，如符号、字符串和重定位表条目。它是一个通用容器，用于存放既不在`__TEXT`也不在`__DATA`中的内容，其内容在其他加载命令中描述。
 - dyld信息：重定位、非懒惰/懒惰/弱绑定操作码和导出信息
 - 函数起始：函数的起始地址表
 - 代码中的数据：\_\_text中的数据岛
@@ -259,21 +260,21 @@ otool -lv /bin/ls
 - 间接符号表：指针/存根符号
 - 字符串表
 - 代码签名
-- **`__OBJC`**：包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，但在各种\_\_objc\_\*部分中。
-- **`__RESTRICT`**：一个没有内容的段，只有一个名为**`__restrict`**的单个部分（也为空），确保在运行二进制文件时，它将忽略DYLD环境变量。
+- **`__OBJC`：** 包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，在各种\_\_objc\_\*部分中。
+- **`__RESTRICT`：** 一个没有内容的段，只有一个名为**`__restrict`**的部分（也为空），确保运行二进制文件时将忽略DYLD环境变量。
 
-正如代码中所示，**段也支持标志**（尽管它们并不经常使用）：
+正如代码中所示，**段还支持标志**（尽管它们并不经常使用）：
 
-- `SG_HIGHVM`：仅核心（未使用）
+- `SG_HIGHVM`：仅限核心（未使用）
 - `SG_FVMLIB`：未使用
 - `SG_NORELOC`：段没有重定位
-- `SG_PROTECTED_VERSION_1`：加密。例如，Finder使用它来加密文本`__TEXT`段。
+- `SG_PROTECTED_VERSION_1`：加密。例如，Finder用于加密文本`__TEXT`段。
 
 ### **`LC_UNIXTHREAD/LC_MAIN`**
 
-**`LC_MAIN`**包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值添加到（内存中的）二进制文件的**基址**，然后**跳转**到此指令以开始执行二进制文件的代码。
+**`LC_MAIN`** 包含**entryoff属性中的入口点**。在加载时，**dyld**只需将此值添加到（内存中的）**二进制文件的基址**，然后**跳转**到此指令以开始执行二进制文件的代码。
 
-**`LC_UNIXTHREAD`**包含启动主线程时寄存器必须具有的值。这已经被弃用，但**`dyld`**仍在使用它。可以通过以下方式查看此设置的寄存器的值：
+**`LC_UNIXTHREAD`** 包含启动主线程时寄存器必须具有的值。这已经被弃用，但**`dyld`**仍在使用它。可以通过以下方式查看此设置的寄存器的值：
 ```bash
 otool -l /usr/lib/dyld
 [...]
@@ -304,7 +305,7 @@ cpsr 0x00000000
 
 ### **`LC_ENCRYPTION_INFO[_64]`**
 
-支持二进制加密。但是，当然，如果攻击者设法 compromise 进程，他将能够 dump 内存未加密。
+支持二进制加密。但是，当然，如果攻击者设法 compromise 进程，他将能够以未加密的方式 dump 内存。
 
 ### **`LC_LOAD_DYLINKER`**
 
@@ -358,25 +359,25 @@ otool -L /bin/ls
 - **CoreWLAN**：Wifi扫描。
 
 {% hint style="info" %}
-Mach-O二进制文件可以包含一个或**多个构造函数**，这些函数将在**LC\_MAIN**中指定的地址之前**执行**。\
+Mach-O二进制文件可以包含一个或**多个构造函数**，这些函数将在**LC\_MAIN**指定的地址之前**执行**。\
 任何构造函数的偏移量都保存在**\_\_DATA\_CONST**段的**\_\_mod\_init\_func**部分中。
 {% endhint %}
 
 ## **Mach-O数据**
 
-文件的核心是数据区域，由加载命令区域中定义的几个段组成。**每个段中可以包含各种数据部分**，每个部分**包含特定类型的代码或数据**。
+文件的核心是数据区域，由加载命令区域中定义的几个段组成。**每个段中可以包含各种数据部分**，每个部分**保存特定类型的代码或数据**。
 
 {% hint style="success" %}
-数据基本上是包含在加载命令**LC\_SEGMENTS\_64**中加载的所有**信息**的部分。
+数据基本上是包含在加载命令**LC\_SEGMENTS\_64**加载的所有**信息**的部分。
 {% endhint %}
 
 ![https://www.oreilly.com/api/v2/epubs/9781785883378/files/graphics/B05055\_02\_38.jpg](<../../../.gitbook/assets/image (507) (3).png>)
 
 这包括：
 
-- **函数表**：包含有关程序函数的信息。
-- **符号表**：包含有关二进制文件使用的外部函数的信息
-- 还可能包含内部函数、变量名称等等。
+- **函数表**：保存有关程序函数的信息。
+- **符号表**：包含二进制文件使用的外部函数的信息
+- 它还可以包含内部函数、变量名称等等。
 
 要检查它，您可以使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具：
 

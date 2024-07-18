@@ -1,20 +1,21 @@
 # 隐写术技巧
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技能：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技能：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
-**Try Hard Security Group**
+**Try Hard 安全团队**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -26,7 +27,7 @@
 
 ### **Binwalk**
 
-用于搜索二进制文件中嵌入的隐藏文件和数据的工具。通过`apt`安装，其源代码可在[GitHub](https://github.com/ReFirmLabs/binwalk)上找到。
+用于搜索二进制文件中嵌入的隐藏文件和数据的工具。通过 `apt` 安装，源代码可在 [GitHub](https://github.com/ReFirmLabs/binwalk) 上找到。
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -34,19 +35,19 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，其源代码位于 [GitHub](https://github.com/korczis/foremost)。
+根据文件的头部和尾部恢复文件，对于 png 图像非常有用。通过 `apt` 安装，源代码位于 [GitHub](https://github.com/korczis/foremost)。
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-帮助查看文件元数据，可在[这里](https://www.sno.phy.queensu.ca/\~phil/exiftool/)找到。
+帮助查看文件元数据，可在[此处](https://www.sno.phy.queensu.ca/\~phil/exiftool/)找到。
 ```bash
 exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-类似于exiftool，用于查看元数据。可通过`apt`安装，在[GitHub](https://github.com/Exiv2/exiv2)上找到源代码，并有一个[官方网站](http://www.exiv2.org/)。
+类似于exiftool，用于查看元数据。可通过`apt`安装，在[GitHub](https://github.com/Exiv2/exiv2)上获取源代码，并有一个[官方网站](http://www.exiv2.org/)。
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -56,7 +57,7 @@ exiv2 file # Shows the metadata
 
 ### **字符串**
 
-从文件中提取可读字符串，使用各种编码设置来过滤输出。
+提取文件中的可读字符串，使用各种编码设置来过滤输出。
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -68,7 +69,7 @@ strings -e b -n 6 file # 16bit strings (big-endian)
 strings -e L -n 6 file # 32bit strings (little-endian)
 strings -e B -n 6 file # 32bit strings (big-endian)
 ```
-### **比较（cmp）**
+### **比较 (cmp)**
 
 用于将修改后的文件与在线找到的原始版本进行比较。
 ```bash
@@ -78,7 +79,7 @@ cmp original.jpg stego.jpg -b -l
 
 ### **空格中的隐藏数据**
 
-在看似空白的空格中，可能隐藏着看不见的字符，其中可能包含信息。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
+看似空白的空格中可能隐藏着不可见字符。要提取这些数据，请访问 [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)。
 
 ## **从图像中提取数据**
 
@@ -88,13 +89,13 @@ cmp original.jpg stego.jpg -b -l
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-要尝试修复损坏的图像，添加元数据注释可能会有所帮助：
+尝试修复损坏的图像时，添加元数据注释可能会有所帮助：
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide用于数据隐藏**
 
-Steghide便于在`JPEG、BMP、WAV和AU`文件中隐藏数据，能够嵌入和提取加密数据。使用`apt`进行安装很简单，其[源代码可在GitHub上找到](https://github.com/StefanoDeVuono/steghide)。
+Steghide可用于在`JPEG、BMP、WAV和AU`文件中隐藏数据，能够嵌入和提取加密数据。使用`apt`可以轻松安装，其[源代码可在GitHub上找到](https://github.com/StefanoDeVuono/steghide)。
 
 **命令:**
 
@@ -105,13 +106,13 @@ Steghide便于在`JPEG、BMP、WAV和AU`文件中隐藏数据，能够嵌入和�
 
 **使用Stegcracker进行暴力破解攻击:**
 
-* 若要尝试对Steghide进行密码破解，请使用[stegcracker](https://github.com/Paradoxis/StegCracker.git)如下:
+* 要在Steghide上尝试密码破解，请使用[stegcracker](https://github.com/Paradoxis/StegCracker.git)，如下所示:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
 ### **zsteg 用于 PNG 和 BMP 文件**
 
-zsteg 专门用于揭示 PNG 和 BMP 文件中的隐藏数据。通过 `gem install zsteg` 进行安装，其[源代码在 GitHub 上](https://github.com/zed-0xff/zsteg)。
+zsteg 专门用于揭示 PNG 和 BMP 文件中的隐藏数据。安装可通过 `gem install zsteg` 完成，其[源代码在 GitHub 上](https://github.com/zed-0xff/zsteg)。
 
 **命令:**
 
@@ -122,11 +123,11 @@ zsteg 专门用于揭示 PNG 和 BMP 文件中的隐藏数据。通过 `gem inst
 
 **stegoVeritas** 检查元数据，执行图像转换，并应用 LSB 强制破解等其他功能。使用 `stegoveritas.py -h` 查看所有选项的完整列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
 
-**Stegsolve** 应用各种颜色滤镜来显示图像中隐藏的文本或消息。可在[GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)上找到。
+**Stegsolve** 应用各种颜色滤镜以显示图像中隐藏的文本或消息。可在[GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)上找到。
 
 ### **FFT 用于隐藏内容检测**
 
-快速傅里叶变换（FFT）技术可以揭示图像中隐藏的内容。有用的资源包括:
+快速傅里叶变换 (FFT) 技术可揭示图像中的隐藏内容。有用的资源包括:
 
 * [EPFL 演示](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -145,7 +146,7 @@ pngcheck stego.png
 ```
 ### **图像分析的附加工具**
 
-进一步探索，请访问：
+要进行进一步探索，请考虑访问：
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -155,15 +156,15 @@ pngcheck stego.png
 
 ## **从音频中提取数据**
 
-**音频隐写术** 提供了一种在声音文件中隐藏信息的独特方法。不同的工具用于嵌入或检索隐藏内容。
+**音频隐写术** 提供了一种在声音文件中隐藏信息的独特方法。不同的工具被用于嵌入或检索隐藏内容。
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV 和 AU 文件中。详细说明请参阅 [stego tricks documentation](stego-tricks.md#steghide)。
+Steghide 是一个多功能工具，旨在将数据隐藏在 JPEG、BMP、WAV 和 AU 文件中。详细说明请参阅[隐写技巧文档](stego-tricks.md#steghide)。
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-该工具兼容各种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅 [Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
+该工具兼容多种格式，包括 PNG、BMP、GIF、WebP 和 WAV。有关更多信息，请参阅[Stegpy 的部分](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)。
 
 ### **ffmpeg**
 
@@ -181,11 +182,11 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound允许使用AES-256在声音文件中加密和检测信息。可以从[官方页面](http://jpinsoft.net/deepsound/download.aspx)下载。
+Deepsound允许使用AES-256在声音文件中加密和检测信息。可从[官方页面](http://jpinsoft.net/deepsound/download.aspx)下载。
 
 ### **Sonic Visualizer**
 
-Sonic Visualizer是一个无价的工具，用于对音频文件进行视觉和分析检查，可以揭示其他方法无法检测到的隐藏元素。访问[官方网站](https://www.sonicvisualiser.org/)了解更多信息。
+Sonic Visualizer是一款无价的工具，用于对音频文件进行视觉和分析检查，可以揭示其他方法无法检测到的隐藏元素。访问[官方网站](https://www.sonicvisualiser.org/)了解更多信息。
 
 ### **DTMF Tones - 拨号音**
 
@@ -202,29 +203,30 @@ math.sqrt(2500) #50
 ```
 ### **盲文翻译**
 
-要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)这个优秀的资源。
+要进行盲文翻译，请使用[Branah盲文翻译器](https://www.branah.com/braille-translator)这一优秀资源。
 
 ## **参考资料**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**尝试困难安全组**
+**Try Hard安全团队**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+学习并练习AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}

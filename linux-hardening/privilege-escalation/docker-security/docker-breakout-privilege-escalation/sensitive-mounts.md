@@ -1,26 +1,27 @@
 # 敏感挂载点
 
+{% hint style="success" %}
+学习并练习AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs收藏品](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-未经适当命名空间隔离的`/proc`和`/sys`的暴露会引入重大安全风险，包括扩大攻击面和信息泄露。这些目录包含敏感文件，如果配置不当或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
+未经适当命名空间隔离的`/proc`和`/sys`的暴露会带来重大安全风险，包括增加攻击面和信息泄露。这些目录包含敏感文件，如果配置错误或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
 
-**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **中找到每个潜在漏洞的更多详细信息。
+**您可以在** [**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)** **找到每个潜在漏洞的更多详细信息。
 
 ## procfs漏洞
 
@@ -31,7 +32,7 @@
 #### **`/proc/sys/kernel/core_pattern`**
 
 * 在[core(5)](https://man7.org/linux/man-pages/man5/core.5.html)中描述。
-* 允许定义在生成核心文件时执行的程序，前128个字节作为参数。如果文件以管道`|`开头，可能导致代码执行。
+* 允许定义一个程序，在核心文件生成时使用前128个字节作为参数。如果文件以管道`|`开头，可能导致代码执行。
 *   **测试和利用示例**：
 
 ```bash
@@ -73,7 +74,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 
 #### **`/proc/config.gz`**
 
-* 如果启用了`CONFIG_IKCONFIG_PROC`，可能会泄露内核配置。
+* 如果启用了`CONFIG_IKCONFIG_PROC`，可能会显示内核配置。
 * 对攻击者有用，以识别运行中内核中的漏洞。
 
 #### **`/proc/sysrq-trigger`**
@@ -106,7 +107,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 #### **`/proc/kcore`**
 
 * 以ELF核心格式表示系统的物理内存。
-* 读取可能泄露主机系统和其他容器的内存内容。
+* 读取可能泄漏主机系统和其他容器的内存内容。
 * 大文件大小可能导致读取问题或软件崩溃。
 * 详细用法请参阅[2019年转储/proc/kcore](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)。
 
@@ -150,7 +151,7 @@ host\_path=$(sed -n 's/._\perdir=(\[^,]_).\*/\1/p' /etc/mtab)
 
 echo "$host\_path/evil-helper" > /sys/kernel/uevent\_helper
 
-#### 触发一个uevent
+#### 触发uevent
 
 echo change > /sys/class/mem/null/uevent
 
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习并练习 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
