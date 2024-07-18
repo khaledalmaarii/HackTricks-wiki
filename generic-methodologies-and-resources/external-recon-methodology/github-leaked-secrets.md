@@ -1,31 +1,32 @@
 # Github Dorks & Leaks
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 <img src="../../.gitbook/assets/i3.png" alt="" data-size="original">\
-**Mshauri wa tuzo ya mdudu**: **jiandikishe** kwa **Intigriti**, jukwaa la tuzo za mdudu la malipo la juu lililoanzishwa na wadukuzi, kwa wadukuzi! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata tuzo hadi **$100,000**!
+**Siri ya tuzo ya mdudu**: **jiandikishe** kwa **Intigriti**, jukwaa la **tuzo za mdudu za malipo lililoundwa na wadukuzi, kwa wadukuzi**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata tuzo hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-Sasa tukiwa tumekamilisha orodha ya mali katika wigo wetu, ni wakati wa kutafuta matunda ya chini ya OSINT.
+Sasa tumeunda orodha ya mali katika wigo wetu ni wakati wa kutafuta matunda ya chini ya OSINT.
 
-### Majukwaa ambayo tayari yamefanya utafutaji wa uvujaji
+### Majukwaa ambayo tayari yameshatafuta uvujaji
 
 * [https://trufflesecurity.com/blog/introducing-forager/](https://trufflesecurity.com/blog/introducing-forager/)
 
-### Uvujaji wa funguo za API kwenye github
+### Uvujaji wa funguo za Api kwenye github
 
 * [https://github.com/dxa4481/truffleHog](https://github.com/dxa4481/truffleHog)
 * [https://github.com/gitleaks/gitleaks](https://github.com/gitleaks/gitleaks)
@@ -321,16 +322,17 @@ GCP SECRET
 AWS SECRET
 "private" extension:pgp
 ```
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

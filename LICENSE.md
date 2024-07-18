@@ -1,147 +1,194 @@
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>unga mkono HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Leseni ya Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Haki miliki © Carlos Polop 2021. Isipokuwa pale inapobainishwa vinginevyo (habari za nje zilizochukuliwa kutoka kwenye kitabu zinamilikiwa na waandishi halisi), maandishi kwenye <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> na Carlos Polop yamepewa leseni chini ya <a href="https://creativecommons.org/licenses/by-nc/4.0/">Leseni ya Kimataifa ya Creative Commons Attribution-NonCommercial 4.0 (CC BY-NC 4.0)</a>.
+<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Leseni ya Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Haki miliki © Carlos Polop 2021. Isipokuwa pale inapobainishwa vinginevyo (habari za nje zilizochapishwa kwenye kitabu zinamilikiwa na waandishi wa asili), maandishi kwenye <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> na Carlos Polop yameidhinishwa chini ya <a href="https://creativecommons.org/licenses/by-nc/4.0/">Leseni ya Creative Commons Attribution-NonCommercial 4.0 Kimataifa (CC BY-NC 4.0)</a>.
 
-Leseni: Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)<br>
-Leseni Inayoweza Kusomwa na Binadamu: https://creativecommons.org/licenses/by-nc/4.0/<br>
-Masharti Kamili ya Kisheria: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
-Umbo: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
+Leseni: Attribution-NonCommercial 4.0 Kimataifa (CC BY-NC 4.0)<br>Leseni Inayoweza Kusomwa na Binadamu: https://creativecommons.org/licenses/by-nc/4.0/<br>Vigezo vya Kisheria Kamili: https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>Uumbaji: https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
 
 # creative commons
 
-# Attribution-NonCommercial 4.0 International
+# Attribution-NonCommercial 4.0 Kimataifa
 
-Kampuni ya Creative Commons ("Creative Commons") sio kampuni ya sheria na haitoi huduma za kisheria au ushauri wa kisheria. Usambazaji wa leseni za umma za Creative Commons hautengenezi uhusiano wa mwanasheria-mteja au uhusiano mwingine wowote. Creative Commons inaweka leseni zake za umma na habari zinazohusiana zinapatikana "kama ilivyo". Creative Commons haitoi dhamana yoyote kuhusu leseni zake, vifaa vyovyote vilivyopewa leseni chini ya masharti na hali zake, au habari yoyote inayohusiana. Creative Commons inakataa dhima yote kwa uharibifu unaotokana na matumizi yao kwa kiwango kikubwa kinachowezekana.
+Kampuni ya Creative Commons ("Creative Commons") sio kampuni ya sheria na haitoi huduma za kisheria au ushauri wa kisheria. Usambazaji wa leseni za umma za Creative Commons hauzalishi uhusiano wa mwanasheria-mteja au uhusiano mwingine. Creative Commons inaweka leseni zake za umma na habari zinazohusiana inapatikana "kama ilivyo". Creative Commons haitoi dhamana yoyote kuhusu leseni zake, vifaa vyovyote vilivyoidhinishwa chini ya masharti yake na habari zinazohusiana. Creative Commons inakanusha dhima yote kwa uharibifu unaotokana na matumizi yao kwa kiwango kikubwa kinachowezekana.
 
 ## Kutumia Leseni za Umma za Creative Commons
 
-Leseni za umma za Creative Commons zinatoa seti ya kawaida ya masharti na hali ambazo waundaji na wamiliki wengine wa haki wanaweza kutumia kushiriki kazi za awali za ubunifu na vifaa vingine chini ya hakimiliki na haki fulani zingine zilizotajwa katika leseni ya umma hapo chini. Mambo yafuatayo ni kwa madhumuni ya habari tu, hayajakamilika, na hayafanyi sehemu ya leseni zetu.
+Leseni za umma za Creative Commons hutoa seti ya kawaida ya vigezo na masharti ambayo waumbaji na wamiliki wengine wa haki wanaweza kutumia kushiriki kazi za awali za ubunifu na vifaa vingine vilivyo chini ya hakimiliki na haki fulani zilizotajwa katika leseni ya umma hapa chini. Mambo yafuatayo ni kwa madhumuni ya habari tu, si ya kina, na hayajaingizwa katika leseni zetu.
 
-* __Mambo ya kuzingatia kwa watoa leseni:__ Leseni zetu za umma zinalenga kutumiwa na wale walioruhusiwa kutoa idhini ya umma kutumia vifaa kwa njia ambazo kwa kawaida zinazuiliwa na hakimiliki na haki fulani zingine. Leseni zetu hazirejeshwi. Watoa leseni wanapaswa kusoma na kuelewa masharti na hali ya leseni wanayochagua kabla ya kuitumia. Watoa leseni pia wanapaswa kupata haki zote muhimu kabla ya kutumia leseni zetu ili umma uweze kutumia tena vifaa kama ilivyotarajiwa. Watoa leseni wanapaswa kuweka wazi vifaa vyovyote visivyo chini ya leseni. Hii ni pamoja na vifaa vingine vilivyopewa leseni ya CC, au vifaa vilivyotumiwa chini ya ubaguzi au kizuizi cha hakimiliki. [Mambo zaidi ya kuzingatia kwa watoa leseni](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
+* __Mambo ya kuzingatia kwa watoa leseni:__ Leseni zetu za umma zinalenga kutumiwa na wale walioruhusiwa kutoa idhini ya umma kutumia vifaa kwa njia ambazo kwa kawaida zimezuiliwa na hakimiliki na haki fulani zingine. Leseni zetu hazirejeshwi. Watoa leseni wanapaswa kusoma na kuelewa vigezo na masharti ya leseni wanayochagua kabla ya kuomba. Watoa leseni wanapaswa pia kuhakikisha wanapata haki zote muhimu kabla ya kutumia leseni zetu ili umma uweze kutumia tena vifaa kama ilivyotarajiwa. Watoa leseni wanapaswa kufafanua wazi vifaa vyovyote visivyo chini ya leseni. Hii ni pamoja na vifaa vingine vilivyoidhinishwa na CC, au vifaa vilivyotumika chini ya ubaguzi au kizuizi cha hakimiliki. [Mambo zaidi ya kuzingatia kwa watoa leseni](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
 
-* __Mambo ya kuzingatia kwa umma:__ Kwa kutumia moja ya leseni zetu za umma, mtoa leseni anaruhusu umma kutumia vifaa vilivyopewa leseni kulingana na masharti na hali zilizotajwa. Ikiwa idhini ya mtoa leseni haihitajiki kwa sababu yoyote - kwa mfano, kwa sababu ya ubaguzi au kizuizi chochote cha hakimiliki - basi matumizi hayo hayasimamiwi na leseni. Leseni zetu zinaruhusu tu idhini chini ya hakimiliki na haki fulani zingine ambazo mtoa leseni ana mamlaka ya kutoa. Matumizi ya vifaa vilivyopewa leseni yanaweza kuwa na vizuizi vingine kwa sababu nyingine, ikiwa ni pamoja na kwa sababu wengine wana hakimiliki au haki nyingine kwenye vifaa. Mtoa leseni anaweza kuomba maombi maalum, kama vile kuomba mabadiliko yote yatambuliwe au kuelezewa. Ingawa sio lazima kwa leseni zetu, unahimizwa kuheshimu maombi hayo kwa kiwango kinachofaa. [Mambo zaidi ya kuzingatia kwa umma](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+* __Mambo ya kuzingatia kwa umma:__ Kwa kutumia moja ya leseni zetu za umma, mtoa leseni anaruhusu umma kutumia vifaa vilivyoidhinishwa chini ya vigezo na masharti maalum. Ikiwa idhini ya mtoa leseni sio muhimu kwa sababu yoyote–kwa mfano, kutokana na ubaguzi au kizuizi chochote kinachotumika kwa hakimiliki–basi matumizi hayo hayasimamiwi na leseni. Leseni zetu zinaruhusu idhini tu chini ya hakimiliki na haki fulani zingine ambazo mtoa leseni ana mamlaka ya kutoa. Matumizi ya vifaa vilivyoidhinishwa vinaweza bado kuwa na vikwazo kwa sababu nyingine, ikiwa ni pamoja na kwa sababu wengine wanamiliki hakimiliki au haki nyingine katika vifaa. Mtoa leseni anaweza kuomba maombi maalum, kama vile kuomba kwamba mabadiliko yote yatambuliwe au yaelezwe. Ingawa si lazima kwa leseni zetu, unahimizwa kuheshimu maombi hayo kwa kadri inavyowezekana. [Mambo zaidi ya kuzingatia kwa umma](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
 
-# Creative Commons Attribution-NonCommercial 4.0 International Public License
+# Creative Commons Attribution-NonCommercial 4.0 Kimataifa Leseni ya Umma
 
-Kwa kutumia Haki Zilizopewa Leseni (zilizoelezewa hapa chini), Unakubali na kukubaliana kufungwa na masharti na hali ya Leseni ya Umma ya Creative Commons Attribution-NonCommercial 4.0 International ("Leseni ya Umma"). Kwa kiwango ambacho Leseni hii ya Umma inaweza kufasiriwa kama mkataba, Unapewa Haki Zilizopewa Leseni kwa kuzingatia kukubali kwako masharti na hali hizi, na Mtoa Leseni anakupa haki hizo kwa kuzingatia faida ambazo Mtoa Leseni anapokea kwa kufanya Vifaa Vilivyopewa Leseni kupatikana chini ya masharti na hali hizi.
+Kwa kutumia Haki zilizoidhinishwa (zilizoainishwa hapa chini), Unakubali na kukubaliana kufungwa na vigezo na masharti ya Leseni ya Umma ya Creative Commons Attribution-NonCommercial 4.0 Kimataifa ("Leseni ya Umma"). Kwa kiwango ambacho Leseni hii ya Umma inaweza kufasiriwa kama mkataba, Unapewa Haki zilizoidhinishwa kwa kuzingatia kukubali kwako vigezo na masharti haya, na Mtoaji leseni anakupa haki hizo kwa kuzingatia faida anazopata Mtoaji leseni kutokana na kufanya Vifaa vilivyoidhinishwa kupatikana chini ya vigezo na masharti haya.
 
-## Sehemu 1 - Ufafanuzi.
+## Sehemu 1 – Maelezo.
 
-a. __Vifaa Vilivyobadilishwa__ inamaanisha vifaa vinavyofungwa na Hakimiliki na Haki Zinazofanana ambavyo vimepatikana kutoka kwa au kulingana na Vifaa Vilivyopewa Leseni na ambavyo Vifaa Vilivyopewa Leseni
-## Sehemu 2 - Wigo.
+a. __Vifaa Vilivyobadilishwa__ inamaanisha vifaa vinavyofuata Hakimiliki na Haki Zinazofanana ambavyo vinatokana na au vimejengwa kulingana na Vifaa Vilivyoidhinishwa na ambavyo Vifaa Vilivyoidhinishwa vimebadilishwa, kubadilishwa, kusawazishwa, kubadilishwa vingine, au kubadilishwa vinginevyo kwa njia inayohitaji idhini chini ya Hakimiliki na Haki Zinazofanana zilizoshikiliwa na Mtoaji leseni. Kwa madhumuni ya Leseni hii ya Umma, ambapo Vifaa Vilivyoidhinishwa ni kazi ya muziki, utendaji, au rekodi ya sauti, Vifaa Vilivyobadilishwa daima vinazalishwa ambapo Vifaa Vilivyoidhinishwa vinahusishwa kwa wakati na picha inayosonga.
 
-a. ___Ruhusa ya leseni.___
+b. __Leseni ya Mbadala__ inamaanisha leseni Unayotumia kwa Hakimiliki yako na Haki Zinazofanana katika michango yako kwa Vifaa Vilivyobadilishwa kulingana na vigezo na masharti ya Leseni hii ya Umma.
 
-1. Kulingana na masharti na hali ya Leseni ya Umma hii, Mwenye Leseni anakupa leseni ya ulimwengu mzima, isiyo na malipo, isiyoweza kusubiriwa, isiyo ya kipekee, isiyoweza kusubiriwa ya kutekeleza Haki za Leseni kwenye Nyenzo zilizopewa leseni ili:
+c. __Hakimiliki na Haki Zinazofanana__ inamaanisha hakimiliki na/au haki zinazohusiana kwa karibu na hakimiliki ikiwa ni pamoja na, bila kikomo, utendaji, matangazo, rekodi za sauti, na Haki za Mfumo wa Hifadhidata wa Sui Generis, bila kujali jinsi haki hizo zinavyoitwa au kugawanywa. Kwa madhumuni ya Leseni hii ya Umma, haki zilizotajwa katika Sehemu 2(b)(1)-(2) sio Hakimiliki na Haki Zinazofanana.
 
-A. kuzaliana na Kushiriki Nyenzo zilizopewa leseni, kwa sehemu au kwa ujumla, kwa madhumuni ya kibiashara tu; na
+d. __Hatua za Kiteknolojia Zilizofanikiwa__ inamaanisha hatua hizo ambazo, bila mamlaka sahihi, hazipaswi kuzungukwa chini ya sheria zinazotimiza majukumu chini ya Ibara 11 ya Mkataba wa Hakimiliki wa WIPO uliochukuliwa Desemba 20, 1996, na/au mikataba ya kimataifa inayofanana.
 
-B. kuzalisha, kuzaliana, na Kushiriki Nyenzo Zilizobadilishwa kwa madhumuni ya kibiashara tu.
+e. __Makatazo na Vizuizi__ inamaanisha matumizi ya haki, kufanya kazi kwa haki, na/au kizuizi kingine chochote au kikomo kwa Hakimiliki na Haki Zinazofanana ambazo zinatumika kwa matumizi yako ya Vifaa Vilivyoidhinishwa.
 
-2. __Makatazo na Kikomo.__ Kwa kuepuka shaka, ambapo Makatazo na Kikomo yanatumika kwa matumizi yako, Leseni ya Umma hii haihusiki, na hauhitaji kuzingatia masharti na hali zake.
+f. __Vifaa Vilivyoidhinishwa__ inamaanisha kazi ya sanaa au fasihi, hifadhidata, au vifaa vingine ambavyo Mtoaji leseni ameomba Leseni hii ya Umma.
 
-3. __Muda.__ Muda wa Leseni ya Umma hii umeelezwa katika Sehemu 6(a).
+g. __Haki Zilizoidhinishwa__ inamaanisha haki zilizokubaliwa kwako kulingana na vigezo na masharti ya Leseni hii ya Umma, ambayo zinahusika na Hakimiliki na Haki Zinazofanana zote zinazohusika na matumizi yako ya Vifaa Vilivyoidhinishwa na ambazo Mtoaji leseni ana mamlaka ya kutoa leseni.
 
-4. __Vyombo vya habari na muundo; marekebisho ya kiufundi yanaruhusiwa.__ Mwenye Leseni anakuruhusu kutekeleza Haki za Leseni katika vyombo vya habari na muundo wowote, iwe inajulikana sasa au baadaye, na kufanya marekebisho ya kiufundi yanayohitajika kufanya hivyo. Mwenye Leseni anasamehe na/au anakubaliana kutokutoa haki au mamlaka yoyote ya kukataza wewe kufanya marekebisho ya kiufundi yanayohitajika kutekeleza Haki za Leseni, ikiwa ni pamoja na marekebisho ya kiufundi yanayohitajika kuzunguka Hatua za Teknolojia Zinazofaa. Kwa madhumuni ya Leseni ya Umma hii, kufanya tu marekebisho yaliyoruhusiwa na Sehemu hii 2(a)(4) kamwe haitazalisha Nyenzo Zilizobadilishwa.
+h. __Mtoaji leseni__ inamaanisha mtu au watu binafsi au taasisi zinazotoa haki chini ya Leseni hii ya Umma.
 
-5. __Wapokeaji wa chini.__
+i. __Si ya Kibiashara__ inamaanisha si kwa kusudi kuu la au kuelekezwa kuelekea faida ya kibiashara au fidia ya pesa. Kwa madhumuni ya Leseni hii ya Umma, kubadilishana kwa Vifaa Vilivyoidhinishwa kwa vifaa vingine vilivyofungwa na Hakimiliki na Haki Zinazofanana kwa njia ya kugawizana faili za dijiti au njia zinazofanana ni Si ya Kibiashara ikiwa hakuna malipo ya fidia ya pesa yanayohusiana na kubadilishana.
 
-A. __Mwaliko kutoka kwa Mwenye Leseni - Nyenzo Zilizopewa Leseni.__ Kila mpokeaji wa Nyenzo Zilizopewa Leseni anapokea moja kwa moja mwaliko kutoka kwa Mwenye Leseni kutekeleza Haki za Leseni chini ya masharti na hali za Leseni ya Umma hii.
+j. __Kushiriki__ inamaanisha kutoa vifaa kwa umma kwa njia au mchakato wowote unaohitaji idhini chini ya Haki Zilizoidhinishwa, kama vile kunakili, kuonyesha hadharani, kutoa hadharani, kusambaza, kusambaza, kuwasilisha, au kuingiza, na kufanya vifaa kupatikana kwa umma ikiwa ni pamoja na njia ambazo wanachama wa umma wanaweza kupata vifaa kutoka mahali na wakati waliochagua kibinafsi.
 
-B. __Hakuna vizuizi vya chini.__ Huwezi kutoa au kuweka masharti au hali yoyote ya ziada au tofauti kwenye Nyenzo Zilizopewa Leseni, au kutumia Hatua za Teknolojia Zinazofaa kwenye Nyenzo Zilizopewa Leseni ikiwa kufanya hivyo kunazuia utekelezaji wa Haki za Leseni na mpokeaji yeyote wa Nyenzo Zilizopewa Leseni.
+k. __Haki za Mfumo wa Hifadhidata wa Sui Generis__ inamaanisha haki zingine isipokuwa hakimiliki zinazotokana na Maelekezo 96/9/EC ya Bunge la Ulaya na Baraza la Machi 11, 1996 kuhusu ulinzi wa kisheria wa hifadhidata, kama ilivyofanyiwa marekebisho na/au kufanikiwa, pamoja na haki zingine zinazolingana kimsingi popote duniani.
 
-6. __Hakuna uthibitisho.__ Hakuna kitu katika Leseni ya Umma hii kinachounda au kinaweza kufasiriwa kama idhini ya kudai au kudokeza kuwa wewe ni, au kwamba matumizi yako ya Nyenzo Zilizopewa Leseni yana uhusiano na, au yanadhaminiwa, yanakubaliwa, au yanapewa hadhi rasmi na, Mwenye Leseni au wengine walioteuliwa kupokea sifa kama ilivyotolewa katika Sehemu 3(a)(1)(A)(i).
+l. __Wewe__ inamaanisha mtu binafsi au taasisi inayotumia Haki Zilizoidhinishwa chini ya Leseni hii ya Umma. "Yako" ina maana inayolingana.
+## Sehemu 2 - Upeo.
 
-b. ___Haki nyingine.___
+a. ___Ruzuku ya Leseni.___
 
-1. Haki za maadili, kama haki ya uadilifu, hazijapewa leseni chini ya Leseni ya Umma hii, wala haki za utangazaji, faragha, na/au haki zingine za kibinafsi sawa; hata hivyo, kwa kiwango kinachowezekana, Mwenye Leseni anasamehe na/au anakubaliana kutokutoa haki kama hizo zinazoshikiliwa na Mwenye Leseni kwa kiwango kidogo kinachohitajika kukuruhusu kutekeleza Haki za Leseni, lakini sio vinginevyo.
+1. Kulingana na masharti ya Leseni Hii ya Umma, Mtoaji Leseni anakupa Leseni ya ulimwengu, isiyo na malipo, isiyoweza kubadilishwa, isiyo ya kipekee, isiyoweza kubatilishwa kwa kutekeleza Haki za Leseni kwenye Nyenzo zilizopewa Leseni kufanya yafuatayo:
 
-2. Haki za hati miliki na alama za biashara hazijapewa leseni chini ya Leseni ya Umma hii.
+A. kuzalisha na Kushiriki Nyenzo zilizopewa Leseni, kwa sehemu au kwa jumla, kwa madhumuni ya Kibiashara tu; na
 
-3. Kwa kiwango kinachowezekana, Mwenye Leseni anasamehe haki yoyote ya kukusanya tuzo kutoka kwako kwa utekelezaji wa Haki za Leseni, iwe moja kwa moja au kupitia shirika la kukusanya chini ya mpango wowote wa leseni wa hiari au wa lazima. Katika kesi zingine zote, Mwenye Leseni anahifadhi wazi haki yoyote ya kukusanya tuzo hizo, ikiwa ni pamoja na wakati Nyenzo Zilizopewa Leseni hutumiwa kwa madhumuni yasiyo ya kibiashara.
+B. kuzalisha, kuzalisha upya, na Kushiriki Nyenzo Zilizobadilishwa kwa madhumuni ya Kibiashara tu.
+
+2. __Makatazo na Vizuizi.__ Ili kuepuka shaka, ambapo Makatazo na Vizuizi vinatumika kwa Matumizi Yako, Leseni Hii ya Umma haihusiki, na Hauitaji kuzingatia masharti yake.
+
+3. __Muda.__ Muda wa Leseni Hii ya Umma umeelezewa katika Sehemu 6(a).
+
+4. __Media na muundo; marekebisho ya kiufundi kuruhusiwa.__ Mtoaji Leseni anakuruhusu kutekeleza Haki za Leseni katika media na muundo wowote uliopo au utakaoundwa baadaye, na kufanya marekebisho ya kiufundi yanayohitajika kufanya hivyo. Mtoaji Leseni anapuuza na/au anakubaliana kutokataza wewe kufanya marekebisho ya kiufundi yanayohitajika kutekeleza Haki za Leseni, ikiwa ni pamoja na marekebisho ya kiufundi yanayohitajika kuzunguka Hatua Madhubuti za Kiteknolojia. Kwa madhumuni ya Leseni Hii ya Umma, kufanya marekebisho tu yanayoruhusiwa na Sehemu hii 2(a)(4) kamwe haitoi Nyenzo Zilizobadilishwa.
+
+5. __Wapokeaji wa Chini.__
+
+A. __Pendekezo kutoka kwa Mtoaji Leseni - Nyenzo zilizopewa Leseni.__ Kila mpokeaji wa Nyenzo zilizopewa Leseni anapokea moja kwa moja pendekezo kutoka kwa Mtoaji Leseni kutekeleza Haki za Leseni chini ya masharti ya Leseni Hii ya Umma.
+
+B. __Hakuna vizuizi vya wapokeaji wa chini.__ Huenda usipendekeze au kuweka masharti au hali yoyote ziada au tofauti kwenye, au kutumia Hatua Madhubuti za Kiteknolojia kwenye, Nyenzo zilizopewa Leseni ikiwa kufanya hivyo kunazuia utekelezaji wa Haki za Leseni na mpokeaji yeyote wa Nyenzo zilizopewa Leseni.
+
+6. __Hakuna uhalalishaji.__ Hakuna kitu katika Leseni Hii ya Umma kinachothibitisha au kinachoweza kufasiriwa kama idhini ya kudai au kumaanisha kuwa Wewe ni, au kwamba Matumizi Yako ya Nyenzo zilizopewa Leseni, zina uhusiano na, au zinasaidiwa, zinakubaliwa, au zinapewa hadhi rasmi na, Mtoaji Leseni au wengine waliochaguliwa kupokea kutambuliwa kama ilivyotolewa katika Sehemu 3(a)(1)(A)(i).
+
+b. ___Haki Nyingine.___
+
+1. Haki za kimaadili, kama vile haki ya uadilifu, hazijapewa Leseni chini ya Leseni Hii ya Umma, wala sifa, faragha, na/au haki zingine za kibinafsi; hata hivyo, kwa kiwango kinachowezekana, Mtoaji Leseni anapuuza na/au anakubaliana kutokataza haki kama hizo zinazoshikiliwa na Mtoaji Leseni kwa kiwango kidogo kinachohitajika kuruhusu Wewe kutekeleza Haki za Leseni, lakini sio vinginevyo.
+
+2. Haki za Patent na alama za biashara hazijapewa Leseni chini ya Leseni Hii ya Umma.
+
+3. Kwa kiwango kinachowezekana, Mtoaji Leseni anapuuza haki yoyote ya kukusanya tanti kutoka kwako kwa kutekeleza Haki za Leseni, moja kwa moja au kupitia chama cha kukusanya chini ya mpango wowote wa hiari au wa lazima wa leseni. Katika kila kesi nyingine, Mtoaji Leseni anahifadhi wazi haki yoyote ya kukusanya tanti kama hizo, ikiwa ni pamoja na wakati Nyenzo zilizopewa Leseni hutumiwa zaidi ya madhumuni ya Kibiashara.
 
 ## Sehemu 3 - Masharti ya Leseni.
 
-Utekelezaji wako wa Haki za Leseni unategemea wazi kwa masharti yafuatayo.
+Utekelezaji wako wa Haki za Leseni unawekwa wazi chini ya masharti yafuatayo.
 
-a. ___Uthibitisho.___
+a. ___Kutambulisha.___
 
-1. Ikiwa Unashiriki Nyenzo Zilizopewa Leseni (ikiwa ni pamoja na katika fomu iliyobadilishwa), lazima:
+1. Ikiwa Unashiriki Nyenzo zilizopewa Leseni (ikiwa ni pamoja na kwa fomu iliyobadilishwa), Lazima:
 
-A. uhifadhi yafuatayo ikiwa yametolewa na Mwenye Leseni pamoja na Nyenzo Zilizopewa Leseni:
+A. uhifadhi yafuatayo ikiwa imepatikana na Mtoaji Leseni pamoja na Nyenzo zilizopewa Leseni:
 
-i. utambulisho wa waumbaji wa Nyenzo Zilizopewa Leseni na wengine wote walioteuliwa kupokea sifa, kwa njia yoyote inayofaa inayotakiwa na Mwenye Leseni (ikiwa ni pamoja na kwa kutumia jina la uongo ikiwa limepangwa);
+i. utambulisho wa waumbaji wa Nyenzo zilizopewa Leseni na wengine wote waliochaguliwa kupokea kutambuliwa, kwa njia yoyote inayohitajika na Mtoaji Leseni (ikiwa ni pamoja na kwa jina la uongo ikiwa imechaguliwa);
 
 ii. notisi ya hakimiliki;
 
-iii. notisi inayohusiana na Leseni ya Umma hii;
+iii. notisi inayorejelea Leseni Hii ya Umma;
 
-iv. notisi inayohusiana na kutoa dhamana;
+iv. notisi inayorejelea kutoa dhamana;
 
-v. URI au kiungo cha wavuti kwenye Nyenzo Zilizopewa Leseni kwa kiwango kinachowezekana kwa vitendo;
+v. URI au kiungo cha mtandao kwa Nyenzo zilizopewa Leseni kwa kiwango kinachowezekana kwa vitendo;
 
-B. eleza ikiwa umebadilisha Nyenzo Zilizopewa Leseni na uhifadhi ishara ya marekebisho yoyote ya awali; na
+B. eleza ikiwa Umefanya mabadiliko kwenye Nyenzo zilizopewa Leseni na uhifadhi ishara ya mabadiliko yoyote ya awali; na
 
-C. eleza kuwa Nyenzo Zilizopewa Leseni zimepewa leseni chini ya Leseni ya Umma hii, na jumuisha maandishi ya, au URI au kiungo cha wavuti kwenye, Leseni ya Umma hii.
+C. eleza kuwa Nyenzo zilizopewa Leseni zinapewa Leseni chini ya Leseni Hii ya Umma, na jumuisha maandishi ya, au URI au kiungo cha mtandao kwa, Leseni Hii ya Umma.
 
-2. Unaweza kutimiza masharti katika Sehemu 3(a)(1) kwa njia yoyote inayofaa kulingana na njia, njia, na muktadha ambao Unashiriki Nyenzo Zilizopewa Leseni. Kwa mfano, inaweza kuwa ni sawa kutimiza masharti kwa kutoa URI au kiungo cha wavuti kwenye rasilimali ambayo ina habari inayohitajika.
+2. Unaweza kutimiza masharti katika Sehemu 3(a)(1) kwa njia yoyote inayofaa kulingana na njia, njia, na muktadha ambao Unashiriki Nyenzo zilizopewa Leseni. Kwa mfano, inaweza kuwa ni sawa kutimiza masharti kwa kutoa URI au kiungo cha mtandao kwa rasilimali inayojumuisha habari inayohitajika.
 
-3. Ikiwa Mwenye Leseni anakuomba, lazima uondoe habari yoyote inayohitajika na Sehemu 3(a)(1)(A) kwa kiwango kinachowezekana kwa vitendo.
+3. Ikiombwa na Mtoaji Leseni, Lazima uondoe habari yoyote inayohitajika na Sehemu 3(a)(1)(A) kwa kiwango kinachowezekana.
 
-4. Ikiwa Unashiriki Nyenzo Zilizobadilishwa Unazozalisha, Leseni ya Mbadala ya Mbadala Unayotumia haiwezi kuzuia wapokeaji wa Nyenzo Zilizobadilishwa kuzingatia Leseni ya Umma hii.
+4. Ikiwa Unashiriki Nyenzo Zilizobadilishwa Unazozalisha, Leseni ya Mbadala Unayotumia isizuie wapokeaji wa Nyenzo Zilizobadilishwa kutekeleza Leseni Hii ya Umma.
 
 ## Sehemu 4 - Haki za Hifadhidata za Sui Generis.
 
-Ikiwa Haki za Leseni zinajumuisha Haki za Hifadhidata za Sui Generis ambazo zinatumika kwa matumizi yako ya Nyenzo Zilizopewa Leseni:
+Ikiwa Haki za Leseni zinajumuisha Haki za Hifadhidata za Sui Generis zinazotumika kwa Matumizi Yako ya Nyenzo zilizopewa Leseni:
 
-a. kwa kuepuka shaka, Sehemu 2(a)(1) inakupa haki ya kuchimba, kutumia tena, kuzaliana, na Kushiriki sehemu au sehemu kubwa ya maudhui ya hifadhidata kwa madhumuni ya kibiashara tu;
+a. kwa kuepuka shaka, Sehemu 2(a)(1) inakupa haki ya kutoa, kutumia tena, kuzalisha, na Kushiriki sehemu au sehemu kubwa ya maudhui ya hifadhidata kwa madhumuni ya Kibiashara tu;
 
-b. ikiwa unajumuisha sehemu au sehemu kubwa ya maudhui ya hifadhidata katika hifadhidata ambayo una Haki za Hifadhidata za Sui Generis, basi hifadhidata ambayo una Haki za Hifadhidata za Sui Generis (lakini sio maudhui yake binafsi) ni Nyenzo Zilizobadilishwa; na
+b. ikiwa Unajumuisha sehemu au sehemu kubwa ya maudhui ya hifadhidata katika hifadhidata ambayo una Haki za Hifadhidata za Sui Generis, basi hifadhidata ambayo una Haki za Hifadhidata za Sui Generis (lakini sio maudhui yake binafsi) ni Nyenzo Zilizobadilishwa; na
 
-c. lazima uzingatie masharti katika Sehemu 3(a) ikiwa Unashiriki sehemu au sehemu kubwa ya maudh
+c. Lazima uzingatie masharti katika Sehemu 3(a) ikiwa Unashiriki sehemu au sehemu kubwa ya maudhui ya hifadhidata.
+
+Kwa kuepuka shaka, Sehemu Hii 4 inapanua na sio kuchukua nafasi ya majukumu yako chini ya Leseni Hii ya Umma ambapo Haki za Leseni zinajumuisha Haki zingine za Hakimiliki na Haki Zinazofanana.
+
+## Sehemu 5 - Kutoa Dhamana na Kizuizi cha Dhima.
+
+a. __Isipokuwa vinginevyo kando na kujitolea tofauti na Mtoaji Leseni, kwa kiwango kinachowezekana, Mtoaji Leseni anatoa Nyenzo zilizopewa Leseni kama ilivyo na inavyopatikana, na haitoi uwakilishi au dhamana ya aina yoyote kuhusu Nyenzo zilizopewa Leseni, iwe ni wazi, iliyopendekezwa, kisheria, au nyingine. Hii ni pamoja na, bila kikomo, dhamana za umiliki, uuzaji, uwezo kwa kusudi fulani, kutokukiuka, kutokuwepo kwa kasoro za siri au zingine, usahihi, au uwepo au kutokuwepo kwa makosa, iwe inajulikana au inayoweza kugundulika. Ambapo kutoa dhamana kunakatazwa kikamilifu au kwa sehemu, kutoa kwa dhamana hii kunaweza kutokwenda kwako.__
+
+b. __Kwa kiwango kinachowezekana, kamwe Mtoaji Leseni hatakuwa na dhima kwako kwa msingi wowote wa kisheria (ikiwa ni pamoja, bila kikomo, uzembe) au vinginevyo kwa hasara yoyote moja kwa moja, maalum, isiyo ya moja kwa moja, ya bahati mbaya, ya athari, ya adhabu, ya mfano, au hasara nyingine, gharama, matumizi, au uharibifu unaotokana na Leseni Hii ya Umma au matumizi ya Nyenzo zilizopewa Leseni, hata kama Mtoaji Leseni ameonywa juu ya uwezekano wa hasara, gharama, matumizi, au uharibifu kama huo. Ambapo kizuizi cha dhima hakiruhusiwi kikamilifu au kwa sehemu, kizuizi hiki kinaweza kutokwenda kwako.__
+
+c. Kutoa dhamana na kizuizi cha dhima vilivyotolewa hapo juu vitatafsiriwa kwa njia ambayo, kwa kiwango kinachowezekana, inalingana zaidi na kutoa dhamana kamili na kuondoa dhima yote.
+
+## Sehemu 6 - Muda na Kukomesha.
+
+a. Leseni Hii ya Umma inatumika kwa muda wa Hakimiliki na Haki Zinazofanana zilizopewa hapa. Walakini, ikiwa Hushikilii Leseni Hii ya Umma, basi Haki Zako chini ya Leseni Hii ya Umma zitakoma moja kwa moja.
+
+b. Ambapo Haki yako ya kutumia Nyenzo zilizopewa Leseni imekoma chini ya Sehemu 6(a), itarejeshwa:
+
+1. moja kwa moja kuanzia tarehe ukiukaji unapofanywa, ikiwa utarekebisha ndani ya siku 30 tangu ugunduzi wako wa ukiukaji; au
+
+2. kwa kurejeshwa wazi na Mtoaji Leseni.
+
+Kwa kuepuka shaka, Sehemu 6(b) hii haiafiki haki yoyote Mtoaji Leseni anaweza kuwa nayo kutafuta marekebisho kwa ukiukaji wako wa Leseni Hii ya Umma.
+
+c. Kwa kuepuka shaka, Mtoaji Leseni pia anaweza kutoa Nyenzo zilizopewa Leseni chini ya masharti au hali tofauti au kuacha kusambaza Nyenzo zilizopewa Leseni wakati wowote; hata hivyo, kufanya hivyo haitakomesha Leseni Hii ya Umma.
+
+d. Sehemu 1, 5, 6, 7, na 8 zitabaki hai baada ya kukomesha kwa Leseni Hii ya Umma.
 ## Sehemu ya 7 - Masharti na Masharti Mengine.
 
-a. Mtoaji wa Leseni hatakuwa amefungwa na masharti au masharti yoyote ya ziada au tofauti yaliyowasilishwa na Wewe isipokuwa ikiwa imekubaliwa wazi.
+a. Mtoaji leseni hatakuwa amefungwa na masharti au masharti yoyote ya ziada au tofauti yaliyotolewa na Wewe isipokuwa ikikubaliwa kwa uwazi.
 
-b. Makubaliano yoyote, ufahamu, au makubaliano kuhusu Nyenzo iliyopewa Leseni ambayo hayajatajwa hapa ni tofauti na na huru na masharti na masharti ya Leseni ya Umma hii.
+b. Mipangilio yoyote, uelewa, au makubaliano kuhusu Nyenzo iliyopewa leseni ambayo hayajaorodheshwa hapa ni tofauti na na huru kutoka kwa masharti ya Leseni hii ya Umma.
 
-## Sehemu ya 8 - Tafsiri.
+## Sehemu ya 8 - Ufafanuzi.
 
-a. Kwa kuepuka shaka, Leseni ya Umma hii haiwezi, na haitatafsiriwa kuwa, kupunguza, kuzuia, au kuweka masharti kwa matumizi yoyote ya Nyenzo iliyopewa Leseni ambayo yanaweza kufanywa kihalali bila idhini chini ya Leseni hii ya Umma.
+a. Ili kuepuka shaka, Leseni hii ya Umma haitoi, na haitatafsiriwa kama kupunguza, kikomo, kuzuia, au kuweka masharti kwa matumizi yoyote ya Nyenzo iliyopewa leseni ambayo ingeweza kufanywa kihalali bila idhini chini ya Leseni hii ya Umma.
 
-b. Kwa kiwango kinachowezekana, ikiwa kifungu chochote cha Leseni hii ya Umma kinachukuliwa kuwa hakiwezi kutekelezeka, itarekebishwa moja kwa moja kwa kiwango cha chini kinachohitajika ili kiweze kutekelezeka. Ikiwa kifungu hakiwezi kurekebishwa, kitatengwa kutoka kwa Leseni hii ya Umma bila kuathiri uwezekano wa kutekelezeka wa masharti na masharti yaliyobaki.
+b. Kwa kiwango kinachowezekana, ikiwa kifungu chochote cha Leseni hii ya Umma kitachukuliwa kutotekelezeka, itarekebishwa moja kwa moja kwa kiwango cha chini kinachohitajika kufanya iweze kutekelezeka. Ikiwa kifungu hakiwezi kurekebishwa, kitatenganishwa kutoka kwa Leseni hii ya Umma bila kuathiri uwezekano wa kutekelezeka kwa masharti na masharti yanayosalia.
 
-c. Hakuna masharti au masharti ya Leseni hii ya Umma yatakayosamehewa na hakuna kushindwa kuzingatia kinachokubaliwa isipokuwa imekubaliwa wazi na Mtoaji wa Leseni.
+c. Hakuna kifungu au sharti la Leseni hii ya Umma litakalofutwa na hakuna kushindwa kutekelezwa kunakubaliwa isipokuwa ikikubaliwa kwa uwazi na Mtoaji leseni.
 
-d. Hakuna kitu katika Leseni hii ya Umma kinachounda au kinaweza kutafsiriwa kama kizuizi au msamaha wa haki yoyote na kinga inayotumika kwa Mtoaji wa Leseni au Wewe, ikiwa ni pamoja na kutoka kwa taratibu za kisheria za mamlaka au mamlaka yoyote.
+d. Hakuna kitu katika Leseni hii ya Umma kinachounda au kinaweza kutafsiriwa kama kikomo, au msamaha wa, haki yoyote na kinga zinazotumika kwa Mtoaji leseni au Wewe, ikiwa ni pamoja na kutoka kwa taratibu za kisheria za mamlaka au mamlaka yoyote.
 ```
 Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
 
 Creative Commons may be contacted at [creativecommons.org](http://creativecommons.org/).
 ```
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

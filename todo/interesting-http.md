@@ -1,29 +1,30 @@
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-# Vichwa vya kurejelea na sera
+# Vichwa vya Rufaa na Sera
 
-Kichwa cha kurejelea ni kichwa kinachotumiwa na vivinjari kuonyesha ukurasa uliotembelewa awali.
+Rufaa ni kichwa kinachotumiwa na vivinjari kuonyesha ukurasa uliotembelewa awali.
 
 ## Taarifa nyeti zilizovuja
 
-Ikiwa wakati fulani ndani ya ukurasa wa wavuti taarifa nyeti yoyote iko kwenye vigezo vya ombi la GET, ikiwa ukurasa una viungo kwenda vyanzo vya nje au mshambuliaji anaweza kufanya/kupendekeza (ujanja wa kijamii) mtumiaji atembelee URL inayodhibitiwa na mshambuliaji. Inaweza kuweza kuchota taarifa nyeti ndani ya ombi la GET la hivi karibuni.
+Ikiwa wakati fulani ndani ya ukurasa wa wavuti kuna taarifa nyeti iliyopo kwenye vigezo vya ombi la GET, ikiwa ukurasa una viungo kwa vyanzo vya nje au mshambuliaji anaweza kufanya/kupendekeza (ujanja wa kijamii) mtumiaji atembelee URL inayodhibitiwa na mshambuliaji. Inaweza kuweza kuchota taarifa nyeti ndani ya ombi la GET la hivi karibuni.
 
 ## Kupunguza madhara
 
-Unaweza kufanya kivinjari kufuata **sera ya Kichwa cha Kurejelea** ambayo inaweza **kuzuia** taarifa nyeti kutumwa kwa programu zingine za wavuti:
+Unaweza kufanya kivinjari kifuatilie **Sera ya Rufaa** ambayo inaweza **kuzuia** taarifa nyeti kutumwa kwa programu zingine za wavuti:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -43,19 +44,19 @@ Unaweza kubadilisha sheria hii kwa kutumia lebo ya meta ya HTML (mshambuliaji an
 ```
 ## Ulinzi
 
-Usiwahi kuweka data nyeti ndani ya parameta za GET au njia katika URL.
+Usiweke data nyeti ndani ya paramita za GET au njia katika URL.
 
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

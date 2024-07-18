@@ -1,120 +1,145 @@
+{% hint style="success" %}
+Jifunze & zoezi AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 
 ## smss.exe
 
 **Meneja wa Kikao**.\
-Kikao cha 0 kinaanza **csrss.exe** na **wininit.exe** (**huduma za OS**) wakati Kikao cha 1 kinaanza **csrss.exe** na **winlogon.exe** (**kikao cha mtumiaji**). Walakini, unapaswa kuona **mchakato mmoja tu** wa hiyo **binary** bila watoto katika mti wa michakato.
+Kikao 0 kinaanza **csrss.exe** na **wininit.exe** (**huduma za OS**) wakati Kikao 1 kinaanza **csrss.exe** na **winlogon.exe** (**Kikao cha Mtumiaji**). Walakini, unapaswa kuona **mchakato mmoja tu** wa **binary** hiyo bila watoto katika mti wa michakato.
 
-Pia, vikao visivyo vya 0 na 1 vinaweza kuashiria kuwa vikao vya RDP vinaendelea.
+Pia, vikao isipokuwa 0 na 1 vinaweza maanisha kuwa vikao vya RDP vinatokea.
 
 
 ## csrss.exe
 
-**Mchakato wa Subsystem ya Mteja/Mhudumu**.\
-Inasimamia **michakato** na **nyuzi**, inafanya **Windows API** ipatikane kwa michakato mingine na pia **inamapisha barua za kuendesha gari**, inaunda **faili za muda**, na inashughulikia **mchakato wa kuzima**.
+**Mchakato wa Mteja/Mhudumu wa Mfumo wa Kukimbia**.\
+Inasimamia **michakato** na **nyuzi**, inafanya **Windows** **API** ipatikane kwa michakato mingine na pia **inapanga barua za kuendesha gari**, inaunda **faili za muda**, na inashughulikia **mchakato wa kuzimwa**.
 
-Kuna mmoja anayekimbia katika Kikao cha 0 na mwingine katika Kikao cha 1 (kwa hivyo **michakato 2** katika mti wa michakato). Mwingine mmoja huundwa **kwa kila Kikao kipya**.
+Kuna moja **inayoendesha katika Kikao 0 na nyingine katika Kikao 1** (kwa hivyo **michakato 2** katika mti wa michakato). Nyingine moja inaundwa **kwa kila Kikao kipya**.
 
 
 ## winlogon.exe
 
-**Mchakato wa Ingia wa Windows**.\
-Inahusika na **kuingia kwa mtumiaji**/**kutoka kwa mtumiaji**. Inazindua **logonui.exe** kuomba jina la mtumiaji na nenosiri na kisha inaita **lsass.exe** kuvithibitisha.
+**Mchakato wa Kuingia kwenye Windows**.\
+Inahusika na **kuingia**/**kutoka** kwa mtumiaji. Inazindua **logonui.exe** kuuliza jina la mtumiaji na nywila na kisha inaita **lsass.exe** kuvithibitisha.
 
 Kisha inazindua **userinit.exe** ambayo imeainishwa katika **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** na funguo **Userinit**.
 
-Zaidi ya hayo, usajili uliotangulia unapaswa kuwa na **explorer.exe** katika funguo la **Shell** au inaweza kutumiwa kama **njia ya kudumu ya programu hasidi**.
+Zaidi ya hayo, usajili wa awali unapaswa kuwa na **explorer.exe** katika funguo ya **Shell** au inaweza kutumika kama **njia ya kudumu ya zisizo za programu hasidi**.
 
 
 ## wininit.exe
 
-**Mchakato wa Uzinduzi wa Windows**. \
-Inazindua **services.exe**, **lsass.exe**, na **lsm.exe** katika Kikao cha 0. Inapaswa kuwa na mchakato mmoja tu.
+**Mchakato wa Kuanzisha Windows**. \
+Inazindua **services.exe**, **lsass.exe**, na **lsm.exe** katika Kikao 0. Inapaswa kuwa mchakato mmoja tu.
 
 
 ## userinit.exe
 
-**Programu ya Ingia ya Userinit**.\
-Inapakia **ntduser.dat katika HKCU** na inaanzisha **mazingira ya mtumiaji** na inatekeleza **maandishi ya kuingia** na **GPO**.
+**Programu ya Kuingia ya Mtumiaji**.\
+Inapakia **ntduser.dat katika HKCU** na kuanzisha **mazingira ya mtumiaji** na kutekeleza **maandishi ya kuingia** na **GPO**.
 
 Inazindua **explorer.exe**.
 
 
 ## lsm.exe
 
-**Meneja wa Kikao cha Lokal**.\
-Inafanya kazi na smss.exe kubadilisha vikao vya mtumiaji: Kuingia/kutoka, kuanza kwa kichupo, kufunga/kufungua kufungwa, nk.
+**Meneja wa Kikao cha Lokali**.\
+Inafanya kazi na smss.exe kubadilisha vikao vya mtumiaji: Kuingia/kutoka, kuanza kwa kifaa cha kuingia, kufunga/kufuli desktop, n.k.
 
 Baada ya W7 lsm.exe iligeuzwa kuwa huduma (lsm.dll).
 
-Inapaswa kuwa na mchakato mmoja tu katika W7 na kutoka kwao huduma inayotumia DLL.
+Inapaswa kuwa mchakato mmoja tu katika W7 na kati yao huduma inayoendesha DLL.
 
 
 ## services.exe
 
 **Meneja wa Udhibiti wa Huduma**.\
-Ina **kuzaa** **huduma** zilizo **sanidiwa kama kuanza moja kwa moja** na **madereva**.
+Ina **paki** **huduma** zilizoconfigure kama **kuanza moja kwa moja** na **madereva**.
 
 Ni mchakato mzazi wa **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** na wengine wengi.
 
 Huduma zimefafanuliwa katika `HKLM\SYSTEM\CurrentControlSet\Services` na mchakato huu unahifadhi DB kumbukumbu ya habari ya huduma ambayo inaweza kuulizwa na sc.exe.
 
-Tazama jinsi **baadhi ya huduma** **zitakuwa zikikimbia katika mchakato wao wenyewe** na zingine zitakuwa **zinafungua mchakato wa svchost.exe**.
+Tambua jinsi **baadhi ya** **huduma** zitakuwa zinaendesha katika **mchakato wao wenyewe** na zingine zitakuwa **zinashiriki mchakato wa svchost.exe**.
 
-Inapaswa kuwa na mchakato mmoja tu.
+Inapaswa kuwa mchakato mmoja tu.
 
 
 ## lsass.exe
 
-**Mamlaka ya Usalama wa Lokal**.\
-Inahusika na **uthibitishaji** wa mtumiaji na kuunda **vitambulisho vya usalama**. Inatumia vifurushi vya uthibitishaji vilivyoko katika `HKLM\System\CurrentControlSet\Control\Lsa`.
+**Mfumo wa Mamlaka wa Usalama wa Lokali**.\
+Inahusika na **uthibitishaji** wa mtumiaji na kuunda **vitambulisho vya usalama**. Inatumia paketi za uthibitishaji zilizoko katika `HKLM\System\CurrentControlSet\Control\Lsa`.
 
-Inaandika kwenye **tukio la usalama** **la usalama** na inapaswa kuwa na mchakato mmoja tu.
+Inaandika kwenye **tukio la usalama** na inapaswa kuwa mchakato mmoja tu.
 
-Kumbuka kuwa mchakato huu unashambuliwa sana ili kupata nywila.
+Kumbuka kuwa mchakato huu unashambuliwa sana kwa kudondosha nywila.
 
 
 ## svchost.exe
 
-**Mchakato Mwenyeji wa Huduma Mbadala**.\
+**Mchakato wa Mwenyeji wa Huduma ya Kawaida**.\
 Inahifadhi huduma nyingi za DLL katika mchakato mmoja ulioshirikiwa.
 
-Kawaida, utagundua kuwa **svchost.exe** inazinduliwa na bendera ya `-k`. Hii itazindua uchunguzi kwenye usajili **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** ambapo kutakuwa na funguo na hoja iliyotajwa katika -k ambayo italeta huduma za kuzindua katika mchakato huo huo.
+Kawaida, utaona kwamba **svchost.exe** inazinduliwa na bendera ya `-k`. Hii itazindua uchunguzi kwa usajili **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** ambapo kutakuwa na funguo na hoja iliyotajwa katika -k ambayo italeta huduma za kuzindua katika mchakato huo huo.
 
 Kwa mfano: `-k UnistackSvcGroup` itazindua: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-Ikiwa **bendera `-s`** pia inatumika na hoja, basi svchost inaulizwa **kuzindua huduma iliyoainishwa tu** katika hoja hii.
+Ikiwa **bendera `-s`** pia inatumika na hoja, basi svchost inaulizwa **kuzindua huduma iliyotajwa tu** katika hoja hii.
 
-Kutakuwa na michakato kadhaa ya `svchost.exe`. Ikiwa yeyote wao **haifanyi matumizi ya bendera `-k`**, basi hiyo ni ya kutiliwa shaka sana. Ikiwa utagundua kuwa **services.exe sio mzazi**, hiyo pia ni ya kutiliwa shaka.
+Kutakuwa na michakato kadhaa ya `svchost.exe`. Ikiwa mojawapo yao **haifanyi matumizi ya bendera ya `-k`**, basi hiyo ni ya kutiliwa shaka sana. Ikiwa utagundua kwamba **services.exe sio mzazi**, hiyo pia ni ya kutiliwa shaka.
 
 
 ## taskhost.exe
 
-Mchakato huu hufanya kama mwenyeji kwa michakato inayokimbia kutoka kwa DLL. Pia inapakia huduma zinazokimbia kutoka kwa DLL.
+Mchakato huu hufanya kama mwenyeji wa michakato inayoendeshwa kutoka kwa DLLs. Pia inapakia huduma zinazoendeshwa kutoka kwa DLLs.
 
 Katika W8 hii inaitwa taskhostex.exe na katika W10 taskhostw.exe.
 
 
 ## explorer.exe
 
-Hii ndio mchakato unaohusika na **desktop ya mtumiaji** na kuzindua faili kupitia viendelezi vya faili.
+Huu ni mchakato unayehusika na **desktop ya mtumiaji** na kuzindua faili kupitia nyongeza za faili.
 
-**Mchakato 1 tu** unapaswa kuundwa **kwa kila mtumiaji aliyeingia**.
+**Mchakato 1 tu** unapaswa kuundwa **kwa kila mtumiaji aliyeingia.**
 
-Hii inatekelezwa kutoka kwa **userinit.exe** ambayo inapaswa kufutwa, kwa hivyo **mzazi haitapaswi kuonekana** kwa mchakato huu.
+Hii inaendeshwa kutoka kwa **userinit.exe** ambayo inapaswa kusitishwa, kwa hivyo **mzazi haitaonekana** kwa mchakato huu.
 
 
-# Kukamata Michak
+# Kukamata Michakato ya Kudhuru
+
+* Je! Inaendeshwa kutoka kwenye njia inayotarajiwa? (Hakuna binaries za Windows zinaendeshwa kutoka eneo la muda)
+* Je! Ina mawasiliano na anwani za IP za ajabu?
+* Angalia saini za dijitali (artifacts za Microsoft zinapaswa kuwa zimesainiwa)
+* Je! Imeandikwa kwa usahihi?
+* Inaendeshwa chini ya SID inayotarajiwa?
+* Je! Mchakato mzazi ni ule unaotarajiwa (ikiwa upo)?
+* Je! Michakato ya watoto ni ile inayotarajiwa? (bila cmd.exe, wscript.exe, powershell.exe..?)
+
+
+{% hint style="success" %}
+Jifunze & zoezi AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+
+</details>
+{% endhint %}

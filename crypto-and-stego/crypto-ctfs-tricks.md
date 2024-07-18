@@ -1,20 +1,21 @@
 # Mbinu za Crypto CTFs
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>unga mkono HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Dbs za Hashes Mtandaoni
+## Dbs za Hashi za Mtandaoni
 
 * _**Tafuta kwenye Google**_
 * [http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240](http://hashtoolkit.com/reverse-hash?hash=4d186321c1a7f0f354b297e8914ab240)
@@ -28,34 +29,34 @@ Njia nyingine za kusaidia HackTricks:
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## Vifaa vya Kiotomatiki vya Ufumbuzi wa Siri
+## Watafutaji wa Kiotomatiki wa Ajabu
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Uchawi)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Moduli ya Ajabu)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
-## Wajumuishaji
+## Wachimbaji wa Msimbaji
 
-Data nyingi iliyohifadhiwa inaweza kufumbuliwa na rasilimali hizi 2:
+Kiwango kikubwa cha data iliyosimbwa inaweza kusimbuliwa na rasilimali hizi 2:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### Vifaa vya Kiotomatiki vya Badilishaji
+### Watafutaji wa Kiotomatiki wa Kubadilisha
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - Nzuri sana!
 
-#### Wajumuishaji wa Caesar - ROTx
+#### Wachimbaji wa Caesar - ROTx
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Atbash Cipher
+#### Msimbaji wa Atbash
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### Vifaa vya Kiotomatiki vya Msingi wa Kodi
+### Wachimbaji wa Msingi wa Msimbaji
 
 Angalia misingi hii yote na: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
@@ -190,21 +191,21 @@ drnajapajrna
 
 ### A1Z26
 
-Barua kwa thamani zao za nambari
+Barua kwenda kwa thamani zao za nambari
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Kifaa cha Affine Chomeka
+### Ufungaji wa Chaguo la Affine
 
-Barua kwenda nambari `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni barua) na matokeo rudisha kwa barua
+Barua hadi num `(ax+b)%26` (_a_ na _b_ ni funguo na _x_ ni herufi) na matokeo kurudi kwa herufi
 ```
 krodfdudfrod
 ```
 ### Msimbo wa SMS
 
-**Multitap** [badilisha herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazorudiwa zilizofafanuliwa na nambari ya ufunguo inayolingana kwenye kibodi ya simu ya mkononi ([keypad](https://www.dcode.fr/phone-keypad-cipher)) (Hali hii hutumiwa wakati wa kuandika SMS).\
+**Multitap** [badilisha herufi](https://www.dcode.fr/word-letter-change) kwa nambari zinazorudi zilizofafanuliwa na nambari ya ufunguo inayolingana kwenye kibodi ya simu ya mkononi (Hali hii hutumiwa wakati wa kuandika SMS).\
 Kwa mfano: 2=A, 22=B, 222=C, 3=D...\
-Unaweza kutambua msimbo huu kwa sababu utaona\*\* nambari kadhaa zinazorudiwa\*\*.
+Unaweza kutambua msimbo huu kwa sababu utaona\*\* nambari kadhaa zikirudiwa\*\*.
 
 Unaweza kufichua msimbo huu hapa: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
@@ -219,9 +220,9 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ![](../.gitbook/assets/runes.jpg)
 
-## Ufupishaji
+## Kukandamiza
 
-**Raw Deflate** na **Raw Inflate** (unaweza kupata zote katika Cyberchef) zinaweza kufupisha na kufufua data bila vichwa.
+**Raw Deflate** na **Raw Inflate** (unaweza kupata zote kwenye Cyberchef) zinaweza kukandamiza na kufyatua data bila vichwa.
 
 ## Crypto Rahisi
 
@@ -249,7 +250,7 @@ wodsyoidrods
 
 ### Fernet
 
-2 mizunguko ya msingi64 (tokeni na ufunguo)
+2 mizinga ya msingi64 (ishara na ufunguo)
 ```
 Token:
 gAAAAABWC9P7-9RsxTz_dwxh9-O2VUB7Ih8UCQL1_Zk4suxnkCvb26Ie4i8HSUJ4caHZuiNtjLl3qfmCv_fS3_VpjL7HxCz7_Q==
@@ -259,7 +260,7 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Kugawanya Siri ya Samir
+### Ugawaji wa Siri wa Samir
 
 Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
 ```
@@ -269,7 +270,7 @@ Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
 ```
 [http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
 
-### Kuvunja nguvu ya OpenSSL
+### Kuforce ya OpenSSL
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
 * [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
@@ -280,16 +281,17 @@ Siri inagawanywa katika sehemu X na ili kuipata unahitaji sehemu Y (_Y <=X_).
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Jifunze & zoezi Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & zoezi Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

