@@ -1,18 +1,19 @@
-# Linux Umgebungsvariablen
+# Linux-Umgebungsvariablen
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -24,28 +25,28 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ## Globale Variablen
 
-Die globalen Variablen **werden von** **Kindprozessen** geerbt.
+Die globalen Variablen **werden** von **Kindprozessen** geerbt.
 
 Sie können eine globale Variable für Ihre aktuelle Sitzung erstellen, indem Sie:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Diese Variable wird von Ihren aktuellen Sitzungen und deren untergeordneten Prozessen zugänglich sein.
+Diese Variable wird von Ihren aktuellen Sitzungen und deren Kindprozessen zugänglich sein.
 
-Sie können eine Variable **entfernen**, indem Sie:
+Sie können eine Variable **entfernen** mit:
 ```bash
 unset MYGLOBAL
 ```
 ## Lokale Variablen
 
-Die **lokalen Variablen** können nur von der **aktuellen Shell/dem aktuellen Skript** **zugegriffen** werden.
+Die **lokalen Variablen** können nur von der **aktuellen Shell/Skript** **zugegriffen** werden.
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
-## Liste aktuelle Variablen
+## Aktuelle Variablen auflisten
 ```bash
 set
 env
@@ -53,59 +54,59 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Gemeinsame Variablen
+## Common variables
 
-Von: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-* **DISPLAY** – das Display, das von **X** verwendet wird. Diese Variable ist normalerweise auf **:0.0** gesetzt, was das erste Display auf dem aktuellen Computer bedeutet.
+* **DISPLAY** – der Bildschirm, der von **X** verwendet wird. Diese Variable ist normalerweise auf **:0.0** gesetzt, was den ersten Bildschirm auf dem aktuellen Computer bedeutet.
 * **EDITOR** – der bevorzugte Texteditor des Benutzers.
-* **HISTFILESIZE** – die maximale Anzahl von Zeilen, die in der Verlaufsdatei enthalten sind.
-* **HISTSIZE** – Anzahl der Zeilen, die der Verlaufsdatei hinzugefügt werden, wenn der Benutzer seine Sitzung beendet.
-* **HOME** – Ihr Benutzerverzeichnis.
+* **HISTFILESIZE** – die maximale Anzahl von Zeilen, die in der Verlaufdatei enthalten sind.
+* **HISTSIZE** – Anzahl der Zeilen, die zur Verlaufdatei hinzugefügt werden, wenn der Benutzer seine Sitzung beendet.
+* **HOME** – dein Home-Verzeichnis.
 * **HOSTNAME** – der Hostname des Computers.
-* **LANG** – Ihre aktuelle Sprache.
-* **MAIL** – der Speicherort des Benutzer-Mail-Spool. Normalerweise **/var/spool/mail/BENUTZER**.
+* **LANG** – deine aktuelle Sprache.
+* **MAIL** – der Speicherort des Mail-Spools des Benutzers. Normalerweise **/var/spool/mail/USER**.
 * **MANPATH** – die Liste der Verzeichnisse, in denen nach Handbuchseiten gesucht wird.
 * **OSTYPE** – der Typ des Betriebssystems.
-* **PS1** – die Standard-Prompt in bash.
-* **PATH** – speichert den Pfad aller Verzeichnisse, die Binärdateien enthalten, die Sie ausführen möchten, indem Sie nur den Dateinamen angeben und nicht den relativen oder absoluten Pfad.
+* **PS1** – die Standardaufforderung in bash.
+* **PATH** – speichert den Pfad aller Verzeichnisse, die die Binärdateien enthalten, die du ausführen möchtest, indem du nur den Namen der Datei angibst und nicht den relativen oder absoluten Pfad.
 * **PWD** – das aktuelle Arbeitsverzeichnis.
-* **SHELL** – der Pfad zur aktuellen Befehlsshell (zum Beispiel **/bin/bash**).
+* **SHELL** – der Pfad zur aktuellen Befehlszeile (zum Beispiel **/bin/bash**).
 * **TERM** – der aktuelle Terminaltyp (zum Beispiel **xterm**).
-* **TZ** – Ihre Zeitzone.
-* **USER** – Ihr aktueller Benutzername.
+* **TZ** – deine Zeitzone.
+* **USER** – dein aktueller Benutzername.
 
-## Interessante Variablen für Hacking
+## Interesting variables for hacking
 
 ### **HISTFILESIZE**
 
-Ändern Sie den **Wert dieser Variablen auf 0**, damit beim **Beenden Ihrer Sitzung** die **Verlaufsdatei** (\~/.bash\_history) **gelöscht wird**.
+Ändere den **Wert dieser Variable auf 0**, damit die **Verlaufdatei** (\~/.bash\_history) **gelöscht wird**, wenn du deine **Sitzung beendest**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Ändern Sie den **Wert dieser Variablen auf 0**, damit bei **Beendigung Ihrer Sitzung** keine Befehle zur **Verlaufsdatei** (\~/.bash\_history) hinzugefügt werden.
+Ändern Sie **den Wert dieser Variablen auf 0**, damit beim **Beenden Ihrer Sitzung** kein Befehl in die **Historie-Datei** (\~/.bash\_history) hinzugefügt wird.
 ```bash
 export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Die Prozesse werden den hier deklarierten **Proxy** verwenden, um eine Verbindung zum Internet über **http oder https** herzustellen.
+Die Prozesse verwenden den hier deklarierten **Proxy**, um über **http oder https** eine Verbindung zum Internet herzustellen.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
 ### SSL\_CERT\_FILE & SSL\_CERT\_DIR
 
-Die Prozesse werden den in **diesen Umgebungsvariablen** angegebenen Zertifikaten vertrauen.
+Die Prozesse vertrauen den in **diesen Umgebungsvariablen** angegebenen Zertifikaten.
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Ändern Sie das Aussehen Ihrer Eingabeaufforderung.
+Ändern Sie, wie Ihr Prompt aussieht.
 
 [**Dies ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
@@ -113,15 +114,15 @@ Root:
 
 ![](<../.gitbook/assets/image (897).png>)
 
-Normaler Benutzer:
+Regulärer Benutzer:
 
 ![](<../.gitbook/assets/image (740).png>)
 
-Ein, zwei und drei im Hintergrund laufende Jobs:
+Ein, zwei und drei Hintergrundjobs:
 
 ![](<../.gitbook/assets/image (145).png>)
 
-Ein Hintergrundjob, ein gestoppter Job und der letzte Befehl wurde nicht korrekt beendet:
+Ein Hintergrundjob, ein gestoppter und der letzte Befehl wurde nicht korrekt beendet:
 
 ![](<../.gitbook/assets/image (715).png>)
 
@@ -131,16 +132,17 @@ Ein Hintergrundjob, ein gestoppter Job und der letzte Befehl wurde nicht korrekt
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
