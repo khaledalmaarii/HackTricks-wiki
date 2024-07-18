@@ -1,28 +1,29 @@
 # KIOSK에서 탈출하기
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 처음부터 전문가까지 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 PDF로 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 레포지토리에 PR을 제출하여 해킹 요령을 공유하세요.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 기반으로 한 검색 엔진으로, 회사나 그 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**당했는지 확인하는 **무료** 기능을 제공합니다.
+[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 기반으로 한 검색 엔진으로, 회사나 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**당했는지 확인할 수 있는 **무료** 기능을 제공합니다.
 
-WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격을 막는 것입니다.
+WhiteIntel의 주요 목표는 정보를 도난하는 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격을 막는 것입니다.
 
-그들의 웹사이트를 확인하고 **무료**로 엔진을 시도해 볼 수 있습니다:
+그들의 웹사이트를 방문하여 **무료**로 엔진을 시험해 볼 수 있습니다:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -33,8 +34,8 @@ WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 
 |   구성요소   | 동작                                                               |
 | ------------- | -------------------------------------------------------------------- |
 | 전원 버튼  | 장치를 다시 켜면 시작 화면이 노출될 수 있음      |
-| 전원 케이블   | 전원이 잠깐 차단될 때 장치가 다시 부팅되는지 확인   |
-| USB 포트     | 더 많은 바로 가기가 있는 물리적 키보드 연결                        |
+| 전원 케이블   | 전원이 잠깐 끊겼을 때 장치가 다시 부팅되는지 확인   |
+| USB 포트     | 더 많은 바로 가기를 가진 물리적 키보드 연결                        |
 | 이더넷      | 네트워크 스캔 또는 스니핑을 통해 추가적인 공격이 가능할 수 있음             |
 
 
@@ -42,8 +43,8 @@ WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 
 
 **일반 대화 상자**는 **파일 저장**, **파일 열기**, 글꼴 선택, 색상 선택 등의 옵션입니다. 대부분의 경우 이러한 옵션을 통해 **전체 탐색기 기능**을 제공합니다. 이는 다음 옵션에 액세스할 수 있다면 탐색기 기능에 액세스할 수 있음을 의미합니다:
 
-* 닫기/닫기로
-* 열기/열기로
+* 닫기/다른 이름으로 저장
+* 열기/다른 프로그램으로 열기
 * 인쇄
 * 내보내기/가져오기
 * 검색
@@ -58,7 +59,7 @@ WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 
 
 ### 명령 실행
 
-어떤 경우에는 `열기로` 옵션을 사용하여 어떤 종류의 셸을 열거나 실행할 수 있을 수 있습니다.
+어떤 경우에는 **`열기`** 옵션을 사용하여 어떤 종류의 셸을 열거나 실행할 수 있습니다.
 
 #### Windows
 
@@ -66,7 +67,7 @@ WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 
 
 #### \*NIX \_\_
 
-_bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ 여기에서 더 많은 정보를 찾을 수 있습니다: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 ## Windows
 
@@ -78,7 +79,7 @@ _bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [http
 * **바로 가기**: CTRL+N (새 세션 열기), CTRL+R (명령 실행), CTRL+SHIFT+ESC (작업 관리자), Windows+E (탐색기 열기), CTRL-B, CTRL-I (즐겨찾기), CTRL-H (기록), CTRL-L, CTRL-O (파일/열기 대화 상자), CTRL-P (인쇄 대화 상자), CTRL-S (다른 이름으로 저장)
 * 숨겨진 관리 메뉴: CTRL-ALT-F8, CTRL-ESC-F9
 * **쉘 URI**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **UNC 경로**: 공유 폴더에 연결하기 위한 경로. 로컬 머신의 C$에 연결을 시도해야 함 ("\\\127.0.0.1\c$\Windows\System32")
+* **UNC 경로**: 공유 폴더에 연결하는 경로. 로컬 머신의 C$에 연결을 시도해야 함 ("\\\127.0.0.1\c$\Windows\System32")
 * **더 많은 UNC 경로:**
 
 | UNC                       | UNC            | UNC                  |
@@ -92,24 +93,6 @@ _bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [http
 | %SYSTEMDRIVE%             | %SYSTEMROOT%   | %TEMP%               |
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
-
-### 이진 파일 다운로드
-
-콘솔: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-탐색기: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-레지스트리 편집기: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
-
-### 브라우저에서 파일 시스템에 액세스
-
-| 경로                | 경로              | 경로               | 경로                |
-| ------------------- | ----------------- | ------------------ | ------------------- |
-| File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
-| File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
-| File://C:/windows\\ | File://C:\windows | File://C:\windows/ | File://C:\windows\\ |
-| C:/windows          | C:/windows/       | C:/windows\\       | C:\windows          |
-| C:\windows\\        | C:\windows/       | %WINDIR%           | %TMP%               |
-| %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
-| %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 ### 단축키
 
 * Sticky Keys – SHIFT 키를 5번 누름
@@ -125,7 +108,7 @@ _bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [http
 * WINDOWS+F – 검색
 * SHIFT+F10 – 컨텍스트 메뉴
 * CTRL+SHIFT+ESC – 작업 관리자
-* CTRL+ALT+DEL – 최신 Windows 버전에서의 시작 화면
+* CTRL+ALT+DEL – 최신 Windows 버전에서 스플래시 화면
 * F1 – 도움말 F3 – 검색
 * F6 – 주소 표시줄
 * F11 – 인터넷 익스플로러에서 전체 화면 전환
@@ -139,7 +122,7 @@ _bash, sh, zsh..._ 여기에서 더 많은 것을 찾을 수 있습니다: [http
 
 * 왼쪽에서 오른쪽으로 스와이프하여 모든 열린 창을 볼 수 있으며 KIOSK 앱을 최소화하고 전체 OS에 직접 액세스할 수 있음
 * 오른쪽에서 왼쪽으로 스와이프하여 작업 센터를 열고 KIOSK 앱을 최소화하고 전체 OS에 직접 액세스할 수 있음
-* 위쪽 가장자리에서 스와이프하여 전체 화면 모드에서 열린 앱의 타이틀 표시줄을 표시함
+* 위쪽 가장자리에서 스와이프하여 전체 화면 모드에서 열린 앱의 타이틀 표시줄을 보이게 함
 * 아래쪽에서 위쪽으로 스와이프하여 전체 화면 앱에서 작업 표시줄을 표시함
 
 ### 인터넷 익스플로러 트릭
@@ -198,17 +181,17 @@ JavaScript를 사용하여 공통 대화 상자를 만들고 파일 탐색기에
 * 화면 하단에서 약 1-2인치 위로 한 손가락으로 스와이프(느리게): 독이 나타남
 * 화면 상단에서 한 손가락으로 아래로 스와이프: 알림 보기
 * 화면 우측 상단에서 한 손가락으로 아래로 스와이프: iPad Pro의 제어 센터 보기
-* 화면 좌측에서 한 손가락으로 1-2인치 스와이프: 오늘 보기 보기
-* 화면 중앙에서 빠르게 한 손가락으로 오른쪽이나 왼쪽으로 스와이프: 다음/이전 앱으로 변경
-* 우측 상단의 전원/잠금/취침 버튼을 누른 채로 iPad을 오른쪽으로 슬라이드하여 전원을 끔: 전원 끄기
-* 우측 상단의 전원/잠금/취침 버튼과 홈 버튼을 몇 초간 누름: 강제 종료
-* 우측 상단의 전원/잠금/취침 버튼과 홈 버튼을 빠르게 누름: 화면 하단 왼쪽에 팝업되는 스크린샷을 찍음. 두 버튼을 동시에 아주 짧게 누르면 몇 초간 강제 종료됨
+* 화면 왼쪽에서 한 손가락으로 약 1-2인치 스와이프: 오늘 보기 보기
+* 화면 중앙에서 빠르게 오른쪽이나 왼쪽으로 한 손가락으로 스와이프: 다음/이전 앱으로 변경
+* 오른쪽 상단의 On/**Off**/Sleep 버튼을 누르고 **iPad를 오른쪽 끝까지 슬라이드하여 전원을 끔**: 전원 끄기
+* **iPad의** 오른쪽 상단의 On/**Off**/Sleep 버튼을 길게 누르고 홈 버튼을 몇 초간 누름**: 강제 종료
+* **iPad의** 오른쪽 상단의 On/**Off**/Sleep 버튼을 누르고 홈 버튼을 빨리 누름**: 화면 하단 왼쪽에 팝업되는 스크린샷 촬영. 두 버튼을 동시에 매우 짧게 누르면 몇 초간 강제 종료됨
 
 ### 단축키
 
 iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리케이션에서 탈출하는 데 도움이 되는 단축키만 여기에 표시됩니다.
 
-| 키  | 이름         |
+| 키 | 이름         |
 | --- | ------------ |
 | ⌘   | Command      |
 | ⌥   | Option (Alt) |
@@ -223,9 +206,9 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 
 #### 시스템 단축키
 
-이 단축키는 iPad의 시각 설정 및 소리 설정에 따라 다릅니다.
+이 단축키는 iPad의 시각적 설정 및 소리 설정에 따라 다릅니다.
 
-| 단축키 | 동작             |
+| 단축키 | 동작                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
 | F1       | 화면 어둡게 하기                                                                    |
 | F2       | 화면 밝게 하기                                                                |
@@ -246,9 +229,9 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 | ⌘ (Space)                                          | Spotlight 열기                                          |
 | ⌘⇥ (Command-Tab)                                   | 최근 사용한 10개의 앱 목록                                 |
 | ⌘\~                                                | 마지막 앱으로 이동                                       |
-| ⌘⇧3 (Command-Shift-3)                              | 스크린샷 (하단 왼쪽에 떠서 저장하거나 조작 가능) |
+| ⌘⇧3 (Command-Shift-3)                              | 스크린샷 (하단 왼쪽에 떠서 저장하거나 조작) |
 | ⌘⇧4                                                | 스크린샷 찍고 편집기에서 열기                    |
-| ⌘를 누르고 길게 누름                                   | 앱에 대한 사용 가능한 단축키 목록                 |
+| ⌘를 길게 누르기                                   | 앱에 대한 사용 가능한 단축키 목록                 |
 | ⌘⌥D (Command-Option/Alt-D)                         | 독 표시                                      |
 | ^⌥H (Control-Option-H)                             | 홈 버튼                                             |
 | ^⌥H H (Control-Option-H-H)                         | 멀티태스크 바 표시                                      |
@@ -256,41 +239,41 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 | Escape                                             | 뒤로 버튼                                             |
 | → (오른쪽 화살표)                                    | 다음 항목                                               |
 | ← (왼쪽 화살표)                                     | 이전 항목                                           |
-| ↑↓ (위 화살표, 아래 화살표)                          | 선택한 항목을 동시에 탭                        |
-| ⌥ ↓ (Option-아래 화살표)                            | 아래로 스크롤                                             |
-| ⌥↑ (Option-위 화살표)                               | 위로 스크롤                                               |
+| ↑↓ (위쪽 화살표, 아래쪽 화살표)                          | 선택한 항목을 동시에 탭                        |
+| ⌥ ↓ (Option-아래쪽 화살표)                            | 아래로 스크롤                                             |
+| ⌥↑ (Option-위쪽 화살표)                               | 위로 스크롤                                               |
 | ⌥← 또는 ⌥→ (Option-왼쪽 화살표 또는 Option-오른쪽 화살표) | 왼쪽 또는 오른쪽으로 스크롤                                    |
 | ^⌥S (Control-Option-S)                             | VoiceOver 음성 켜기/끄기                         |
 | ⌘⇧⇥ (Command-Shift-Tab)                            | 이전 앱으로 전환                              |
 | ⌘⇥ (Command-Tab)                                   | 원래 앱으로 전환                         |
-| ←+→, 그리고 Option + ← 또는 Option+→                   | 독을 통해 탐색                                   |
+| ←+→, 그런 다음 Option + ← 또는 Option+→                   | 독을 통해 탐색                                   |
 #### Safari 단축키
 
-| 단축키                | 동작                                           |
+| 단축키                | 동작                                             |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | 위치 열기                                    |
-| ⌘T                      | 새 탭 열기                                   |
-| ⌘W                      | 현재 탭 닫기                            |
-| ⌘R                      | 현재 탭 새로 고침                          |
-| ⌘.                      | 현재 탭 로딩 중지                     |
-| ^⇥                      | 다음 탭으로 전환                           |
-| ^⇧⇥ (Control-Shift-Tab) | 이전 탭으로 이동                         |
-| ⌘L                      | 텍스트 입력/URL 필드 선택하여 수정     |
-| ⌘⇧T (Command-Shift-T)   | 마지막으로 닫은 탭 열기 (여러 번 사용 가능) |
-| ⌘\[                     | 이전 페이지로 이동      |
-| ⌘]                      | 다음 페이지로 이동   |
-| ⌘⇧R                     | 리더 모드 활성화                             |
+| ⌘L (Command-L)          | 위치 열기                                        |
+| ⌘T                      | 새 탭 열기                                      |
+| ⌘W                      | 현재 탭 닫기                                    |
+| ⌘R                      | 현재 탭 새로고침                                |
+| ⌘.                      | 현재 탭 로딩 중지                               |
+| ^⇥                      | 다음 탭으로 전환                                |
+| ^⇧⇥ (Control-Shift-Tab) | 이전 탭으로 이동                                |
+| ⌘L                      | 텍스트 입력/URL 필드 선택하여 수정             |
+| ⌘⇧T (Command-Shift-T)   | 마지막으로 닫은 탭 열기 (여러 번 사용 가능)     |
+| ⌘\[                     | 브라우징 기록에서 이전 페이지로 이동            |
+| ⌘]                      | 브라우징 기록에서 다음 페이지로 이동            |
+| ⌘⇧R                     | 리더 모드 활성화                                |
 
 #### 메일 단축키
 
 | 단축키                   | 동작                       |
 | -------------------------- | ---------------------------- |
-| ⌘L                         | 위치 열기                |
-| ⌘T                         | 새 탭 열기               |
-| ⌘W                         | 현재 탭 닫기        |
-| ⌘R                         | 현재 탭 새로 고침      |
-| ⌘.                         | 현재 탭 로딩 중지 |
-| ⌘⌥F (Command-Option/Alt-F) | 메일함에서 검색       |
+| ⌘L                         | 위치 열기                   |
+| ⌘T                         | 새 탭 열기                 |
+| ⌘W                         | 현재 탭 닫기               |
+| ⌘R                         | 현재 탭 새로고침           |
+| ⌘.                         | 현재 탭 로딩 중지          |
+| ⌘⌥F (Command-Option/Alt-F) | 메일함에서 검색            |
 
 ## 참고 자료
 
@@ -305,22 +288,23 @@ iPad 키보드 또는 USB 키보드 어댑터가 있어야 합니다. 애플리�
 
 [**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 고객이 **스틸러 악성 코드**에 의해 **침해**당했는지 확인할 수 있는 **무료** 기능을 제공합니다.
 
-WhiteIntel의 주요 목표는 정보를 도난당한 악성 코드로 인한 계정 탈취 및 랜섬웨어 공격에 대항하는 것입니다.
+WhiteIntel의 주요 목표는 정보 탈취 악성 코드로 인한 계정 탈취 및 랜섬웨어 공격에 대응하는 것입니다.
 
 그들의 웹사이트를 방문하여 **무료**로 엔진을 사용해 볼 수 있습니다:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>제로부터 AWS 해킹을 전문가로 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **HackTricks에 귀사를 광고하거나 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [디스코드 그룹](https://discord.gg/hRep4RUj7f)에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **HackTricks 및 HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 **해킹 요령을 공유하세요.**
+* [**구독 요금제**](https://github.com/sponsors/carlospolop) 확인!
+* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass) 참여 또는 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 팔로우**.
+* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 레포지토리에 PR 제출.
 
 </details>
+{% endhint %}

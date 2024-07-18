@@ -1,32 +1,33 @@
 # macOS 설치 프로그램 남용
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로에서 영웅까지 AWS 해킹 배우기**!</summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소에 PR을 제출하여 해킹 요령을 공유하세요.
 
 </details>
+{% endhint %}
 
 ## Pkg 기본 정보
 
-macOS **설치 프로그램 패키지**(.pkg 파일로도 알려짐)는 macOS에서 **소프트웨어를 배포**하는 데 사용되는 파일 형식입니다. 이러한 파일은 **소프트웨어가 설치되고 올바르게 실행되기 위해 필요한 모든 것을 포함하는 상자와 같습니다**.
+macOS **설치 프로그램 패키지** (또는 `.pkg` 파일로 알려진)는 macOS에서 **소프트웨어를 배포**하는 데 사용되는 파일 형식입니다. 이러한 파일은 설치 및 실행에 필요한 모든 것을 포함하는 **상자와 같습니다**.
 
-패키지 파일 자체는 **대상 컴퓨터에 설치될 파일 및 디렉토리 계층 구조를 보유하는 아카이브**입니다. 또한 **설치 전후에 작업을 수행하는 스크립트**를 포함할 수 있습니다. 예를 들어 구성 파일 설정이나 소프트웨어의 이전 버전을 정리하는 작업 등을 수행할 수 있습니다.
+패키지 파일 자체는 **대상 컴퓨터에 설치될 파일 및 디렉토리 계층 구조**를 보유하는 아카이브입니다. 또한 **설정 파일 설정 또는 이전 버전의 소프트웨어를 정리하는 작업과 같은 작업을 수행하는 스크립트**를 포함할 수 있습니다.
 
 ### 계층 구조
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
-* **Distribution (xml)**: 사용자 정의 (제목, 환영 텍스트 등) 및 스크립트/설치 확인
+* **Distribution (xml)**: 사용자 정의 (제목, 환영 텍스트...) 및 스크립트/설치 확인
 * **PackageInfo (xml)**: 정보, 설치 요구 사항, 설치 위치, 실행할 스크립트 경로
-* **Bill of materials (bom)**: 파일 목록, 파일 권한으로 설치, 업데이트 또는 제거할 파일
+* **Bill of materials (bom)**: 파일 목록 및 파일 권한으로 설치, 업데이트 또는 제거
 * **Payload (CPIO 아카이브 gzip 압축)**: PackageInfo의 `install-location`에 설치할 파일
 * **Scripts (CPIO 아카이브 gzip 압축)**: 임시 디렉토리로 추출된 사전 및 사후 설치 스크립트 및 기타 리소스.
 ```bash
@@ -44,10 +45,10 @@ cpio -i < Scripts
 ```
 ## DMG 기본 정보
 
-DMG 파일 또는 Apple 디스크 이미지는 Apple의 macOS에서 사용되는 파일 형식입니다. DMG 파일은 기본적으로 **마운트 가능한 디스크 이미지**이며(자체 파일 시스템을 포함), 일반적으로 압축되고 때로는 암호화된 원시 블록 데이터를 포함합니다. DMG 파일을 열면 macOS가 **물리적 디스크처럼 마운트**하여 해당 내용에 액세스할 수 있게 됩니다.
+DMG 파일 또는 Apple 디스크 이미지는 Apple의 macOS에서 사용되는 파일 형식입니다. DMG 파일은 기본적으로 **마운트 가능한 디스크 이미지**이며(자체 파일 시스템을 포함), 일반적으로 압축되고 때로는 암호화된 원시 블록 데이터를 포함합니다. DMG 파일을 열면 macOS가 **물리적 디스크처럼 마운트**하여 내용에 액세스할 수 있게 됩니다.
 
 {% hint style="danger" %}
-**`.dmg`** 설치 프로그램은 **다양한 형식을** 지원하므로, 과거에는 취약점을 포함한 일부 설치 프로그램이 **커널 코드 실행을** 얻기 위해 **악용**되었음을 유의하십시오.
+**`.dmg`** 설치 프로그램은 **다양한 형식을** 지원하므로, 과거에는 취약점을 포함한 일부 파일이 **커널 코드 실행을** 얻기 위해 남용되었음을 유의하십시오.
 {% endhint %}
 
 ### 계층 구조
@@ -60,17 +61,17 @@ DMG 파일의 계층 구조는 내용에 따라 다를 수 있습니다. 그러�
 * 응용 프로그램 (.app): 이것은 실제 응용 프로그램입니다. macOS에서 응용 프로그램은 일반적으로 응용 프로그램을 구성하는 많은 개별 파일과 폴더를 포함하는 패키지입니다.
 * 응용 프로그램 링크: 이것은 macOS의 Applications 폴더로의 바로 가기입니다. 이것의 목적은 응용 프로그램을 설치하기 쉽게 만드는 것입니다. .app 파일을 이 바로 가기로 끌어다가 응용 프로그램을 설치할 수 있습니다.
 
-## pkg 악용을 통한 권한 상승
+## pkg 남용을 통한 권한 상승
 
-### 공용 디렉토리에서 실행
+### 공용 디렉터리에서 실행
 
-예를 들어 사전 또는 사후 설치 스크립트가 **`/var/tmp/Installerutil`**에서 실행되고 있고, 공격자가 해당 스크립트를 제어할 수 있다면, 실행될 때마다 권한을 상승시킬 수 있습니다. 또 다른 유사한 예는 다음과 같습니다:
+예를 들어 사전 또는 사후 설치 스크립트가 **`/var/tmp/Installerutil`**에서 실행되고 있고, 공격자가 해당 스크립트를 제어할 수 있다면 실행될 때마다 권한을 상승시킬 수 있습니다. 또 다른 유사한 예는 다음과 같습니다:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption><p><a href="https://www.youtube.com/watch?v=kCXhIYtODBg">https://www.youtube.com/watch?v=kCXhIYtODBg</a></p></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-이것은 **루트로 실행할 내용을** 호출하는 [공개 함수](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)입니다. 이 함수는 **실행할 파일의 경로**를 매개변수로 받지만, 공격자가 이 파일을 **수정**할 수 있다면, 루트로의 실행을 **악용**하여 권한을 **상승**시킬 수 있습니다.
+이것은 **루트로 실행할 내용을** 호출하는 [공개 함수](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)입니다. 이 함수는 **실행할 파일의 경로**를 매개변수로 받지만, 공격자가 이 파일을 **수정**할 수 있다면 루트로의 실행을 **남용**하여 권한을 **상승**시킬 수 있습니다.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
@@ -80,7 +81,7 @@ DMG 파일의 계층 구조는 내용에 따라 다를 수 있습니다. 그러�
 
 만약 설치 프로그램이 `/tmp/fixedname/bla/bla`에 쓴다면, **noowners로 `/tmp/fixedname` 위에 마운트를 생성**하여 설치 중에 **어떤 파일이든 수정**할 수 있어 설치 프로세스를 악용할 수 있습니다.
 
-이러한 예로는 **CVE-2021-26089**가 있으며, 이는 **주기적 스크립트를 덮어쓰고 루트로 실행**하는 데 성공했습니다. 자세한 정보는 다음 발표를 참고하세요: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+이러한 예시로는 **CVE-2021-26089**가 있으며, 이는 **주기적 스크립트를 덮어쓰고 루트로 실행**하는 데 성공했습니다. 자세한 정보는 다음 발표를 참고하세요: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## 악성코드로서의 pkg
 

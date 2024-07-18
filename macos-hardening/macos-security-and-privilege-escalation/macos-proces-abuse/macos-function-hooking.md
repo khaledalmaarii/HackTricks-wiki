@@ -1,26 +1,27 @@
 # macOS 함수 후킹
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)를 통해 제로부터 영웅이 될 때까지 AWS 해킹을 배우세요</strong></summary>
+<summary>HackTricks 지원</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 우리의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 제출하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 **Discord 그룹**에 **가입**하거나 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 해킹 트릭을 **공유**하세요.
 
 </details>
+{% endhint %}
 
-## 함수 인터포징
+## 함수 Interposing
 
-**`__interpose` (`__DATA___interpose`)** 섹션(또는 **`S_INTERPOSING`**으로 플래그 지정된 섹션)을 포함하는 **함수 포인터**의 튜플을 포함하는 **dylib**를 만듭니다. 이 튜플은 **원본** 및 **대체** 함수를 참조합니다.
+**`__interpose` (`__DATA___interpose`)** 섹션을 포함하는 **dylib**를 만들고, **원본** 및 **대체** 함수를 참조하는 **함수 포인터**의 튜플을 포함시킵니다.
 
-그런 다음, **`DYLD_INSERT_LIBRARIES`**를 사용하여 dylib를 **주입**합니다 (인터포징은 주 앱이 로드되기 전에 발생해야 합니다). 당연히 [**`DYLD_INSERT_LIBRARIES` 사용에 적용되는 제한 사항**도 여기에 적용됩니다](macos-library-injection/#check-restrictions).
+그런 다음, **`DYLD_INSERT_LIBRARIES`**를 사용하여 dylib를 **주입**합니다 (interposing은 주 앱이 로드되기 전에 발생해야 합니다). 당연히 [**`DYLD_INSERT_LIBRARIES`** 사용에 적용된 **제한 사항**이 여기에도 적용됩니다](macos-library-injection/#check-restrictions).
 
-### printf 인터포징
+### printf Interpose
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -94,16 +95,16 @@ DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
 {% hint style="warning" %}
-**`DYLD_PRINT_INTERPOSTING`** 환경 변수는 interposing을 디버깅하는 데 사용될 수 있으며 interpose 프로세스를 출력합니다.
-{% endhint %}
+**`DYLD_PRINT_INTERPOSTING`** 환경 변수를 사용하여 interposing을 디버그하고 interpose 프로세스를 출력할 수 있습니다.
+{% endhint%}
 
-또한 **interposing은 프로세스와 로드된 라이브러리 사이에서 발생**하며 공유 라이브러리 캐시와는 작동하지 않음을 유의하십시오.
+또한 **interposing은 프로세스와 로드된 라이브러리 사이에서 발생**하며, 공유 라이브러리 캐시와는 작동하지 않습니다.
 
 ### 동적 Interposing
 
-이제 **`dyld_dynamic_interpose`** 함수를 사용하여 함수를 동적으로 interpose하는 것도 가능합니다. 이를 통해 프로그램적으로 함수를 런타임에서만 교체할 수 있습니다.
+이제 **`dyld_dynamic_interpose`** 함수를 사용하여 함수를 동적으로 interpose하는 것도 가능합니다. 이를 통해 프로그램적으로 함수를 런타임에서 interpose할 수 있으며 처음부터만 하는 것이 아니라 동적으로 할 수 있습니다.
 
-**교체할 함수와 대체 함수의 튜플**을 지정하기만 하면 됩니다.
+**대체할 함수와 대체 함수의 튜플**을 지정하기만 하면 됩니다.
 ```c
 struct dyld_interpose_tuple {
 const void* replacement;
@@ -116,11 +117,11 @@ const struct dyld_interpose_tuple array[], size_t count);
 
 ObjectiveC에서 메소드를 호출하는 방법은 다음과 같습니다: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-**객체**, **메소드**, **파라미터**가 필요합니다. 메소드가 호출되면 **메시지가 전송**되며 **`objc_msgSend`** 함수를 사용합니다: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+**객체**, **메소드**, **파라미터**가 필요합니다. 메소드가 호출되면 **`objc_msgSend`** 함수를 사용하여 **msg가 전송**됩니다: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-객체는 **`someObject`**, 메소드는 **`@selector(method1p1:p2:)`**, 인수는 **value1**, **value2**입니다.
+객체는 **`someObject`**, 메소드는 **`@selector(method1p1:p2:)`**, 인자는 **value1**, **value2**입니다.
 
-객체 구조를 따라 **메소드 배열**에 도달하여 **이름** 및 **메소드 코드에 대한 포인터**를 **찾을 수** 있습니다.
+객체 구조를 따라가면 **메소드 배열**에 도달할 수 있으며, 여기에는 **이름**과 **메소드 코드에 대한 포인터**가 **위치**합니다.
 
 {% hint style="danger" %}
 메소드와 클래스는 이름을 기반으로 액세스되므로 이 정보는 이진 파일에 저장되므로 `otool -ov </path/bin>` 또는 [`class-dump </path/bin>`](https://github.com/nygard/class-dump)을 사용하여 검색할 수 있습니다.
@@ -198,7 +199,7 @@ return 0;
 ```
 {% endcode %}
 
-### method_exchangeImplementations를 사용한 메소드 스위즐링
+### method_exchangeImplementations을 사용한 메소드 스위즐링
 
 **`method_exchangeImplementations`** 함수는 **하나의 함수의 구현체의 주소를 다른 함수로 변경**할 수 있게 합니다.
 
@@ -253,16 +254,16 @@ return 0;
 {% endcode %}
 
 {% hint style="warning" %}
-이 경우에는 **합법적인** 메소드의 **구현 코드가 메소드 이름을 확인**하면 이 스위즐링을 **감지**하고 실행을 방지할 수 있습니다.
+이 경우에는 **합법적인 메소드의 구현 코드가 메소드 이름을 확인**하면 이 스위즐링을 **감지**하고 실행을 방지할 수 있습니다.
 
 다음 기술에는 이 제한이 없습니다.
 {% endhint %}
 
 ### method\_setImplementation을 사용한 메소드 스위즐링
 
-이전 형식은 이상하다. 왜냐하면 두 메소드의 구현을 서로 바꾸기 때문이다. **`method_setImplementation`** 함수를 사용하면 **한 메소드의 구현을 다른 메소드로 변경**할 수 있습니다.
+이전 형식은 이상하다. 왜냐하면 한 메소드의 구현을 다른 메소드로 변경하고 있기 때문이다. **`method_setImplementation`** 함수를 사용하면 **한 메소드의 구현을 다른 메소드로 변경**할 수 있습니다.
 
-새로운 구현에서 이전 구현의 주소를 호출할 예정이라면 덮어쓰기 전에 **원래 구현의 주소를 저장**해야 합니다. 나중에 그 주소를 찾는 것이 훨씬 복잡해질 것이기 때문입니다.
+새로운 구현에서 이전 구현의 주소를 호출할 예정이라면 덮어쓰기 전에 **원래 구현의 주소를 저장**해 두는 것을 기억하세요. 나중에 그 주소를 찾는 것이 훨씬 복잡해질 것입니다.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -320,7 +321,7 @@ return 0;
 
 ## 후킹 공격 방법론
 
-이 페이지에서는 함수 후킹하는 다양한 방법에 대해 논의되었습니다. 그러나 이들은 **프로세스 내에서 코드를 실행하여 공격하는 것**을 포함했습니다.
+이 페이지에서는 함수를 후킹하는 다양한 방법에 대해 논의되었습니다. 그러나 이들은 **프로세스 내에서 코드를 실행하여 공격하는 것**을 포함했습니다.
 
 이를 위해 가장 쉬운 기술은 [Dyld를 환경 변수나 해킹을 통해 주입하는 것](macos-library-injection/macos-dyld-hijacking-and-dyld\_insert\_libraries.md)입니다. 그러나 [Dylib 프로세스 주입](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)을 통해서도 이 작업을 수행할 수 있다고 생각됩니다.
 
@@ -328,7 +329,7 @@ return 0;
 
 그러나 함수 후킹 공격은 매우 구체적입니다. 공격자는 이를 통해 **프로세스 내부에서 민감한 정보를 탈취**할 것입니다 (그렇지 않으면 프로세스 주입 공격을 수행할 것입니다). 그리고 이러한 민감한 정보는 MacPass와 같은 사용자 다운로드 앱에 위치할 수 있습니다.
 
-따라서 공격자 벡터는 취약점을 찾거나 응용 프로그램의 서명을 제거하여, Info.plist를 통해 **`DYLD_INSERT_LIBRARIES`** 환경 변수를 주입하는 것과 같은 작업을 추가하는 것입니다:
+따라서 공격자 벡터는 취약점을 찾거나 응용 프로그램의 서명을 제거하여, **`DYLD_INSERT_LIBRARIES`** 환경 변수를 Info.plist를 통해 주입하는 것입니다. 다음과 같이 추가할 수 있습니다:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -394,16 +395,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)로부터 제로에서 영웅까지 AWS 해킹 배우기</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
+* 해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
 
 </details>
+{% endhint %}
