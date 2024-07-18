@@ -1,26 +1,29 @@
 # Erişim Jetonları
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz?** **Şirketinizi HackTricks'te reklamını görmek ister misiniz?** ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini kontrol etmek için ücretsiz** işlevsellikler sunar.
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **tehdit altına alınıp alınmadığını** kontrol etmek için **ücretsiz** işlevler sunar.
 
-WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -28,9 +31,9 @@ Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 ## Erişim Jetonları
 
-**Sisteme giriş yapan her kullanıcı**, o oturum için **güvenlik bilgileri içeren bir erişim jetonuna sahiptir**. Kullanıcı oturum açtığında sistem bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, erişim jetonunun bir kopyasına sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca, mevcut oturumu tanımlayan bir oturum açma SID'si (Güvenlik Tanımlayıcı) içerir.
+Sisteme **giriş yapmış her kullanıcı**, o oturum için **güvenlik bilgileriyle bir erişim jetonu taşır**. Kullanıcı giriş yaptığında sistem bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, **erişim jetonunun bir kopyasına** sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca mevcut oturum açma işlemini tanımlayan bir oturum açma SID'si (Güvenlik Tanımlayıcısı) içerir.
 
-Bu bilgileri `whoami /all` komutunu çalıştırarak görebilirsiniz.
+Bu bilgiyi `whoami /all` komutunu çalıştırarak görebilirsiniz.
 ```
 whoami /all
 
@@ -74,71 +77,80 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
+or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
+
+![](<../../.gitbook/assets/image (772).png>)
+
 ### Yerel yönetici
 
-Bir yerel yönetici oturum açtığında, **iki erişim belirteci oluşturulur**: Bir tanesi yönetici haklarıyla diğeri normal haklarla. **Varsayılan olarak**, bu kullanıcı bir işlemi yürüttüğünde **normal** (yönetici olmayan) **haklara sahip olan kullanılır**. Bu kullanıcı bir şeyi **yönetici olarak yürütmeye çalıştığında** ("Yönetici olarak çalıştır" örneğin) **UAC** izni için sorulacaktır.\
+Bir yerel yönetici oturum açtığında, **iki erişim belirteci oluşturulur**: Biri yönetici haklarıyla diğeri normal haklarla. **Varsayılan olarak**, bu kullanıcı bir işlem yürüttüğünde **normal** (yönetici olmayan) **haklara sahip olan** kullanılır. Bu kullanıcı **yönetici olarak** herhangi bir şeyi **çalıştırmaya** çalıştığında ("Yönetici olarak çalıştır" örneğin) **UAC** izin istemek için kullanılacaktır.\
 Eğer [**UAC hakkında daha fazla bilgi edinmek istiyorsanız bu sayfayı okuyun**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Kimlik kullanıcı taklidi
+### Kimlik bilgileri kullanıcı taklidi
 
-Eğer **başka bir kullanıcının geçerli kimlik bilgilerine sahipseniz**, bu kimlik bilgileriyle bir **yeni oturum açma oturumu oluşturabilirsiniz**:
+Eğer **herhangi bir başka kullanıcının geçerli kimlik bilgilerine** sahipseniz, bu kimlik bilgileriyle **yeni bir oturum açma** oturumu **oluşturabilirsiniz**:
 ```
 runas /user:domain\username cmd.exe
 ```
-**Erişim belirteci**, ayrıca **LSASS** içindeki oturumların bir **referansını** da içerir, bu işlem ağdaki bazı nesnelere erişmesi gerekiyorsa faydalıdır.\
-Ağ hizmetlerine erişmek için **farklı kimlik bilgilerini kullanan bir işlem başlatabilirsiniz**.
+**Erişim belirteci**, **LSASS** içindeki oturum açma oturumlarının da bir **referansına** sahiptir, bu, işlemin ağın bazı nesnelerine erişmesi gerektiğinde faydalıdır.\
+Ağ hizmetlerine erişmek için **farklı kimlik bilgileri kullanan** bir işlem başlatabilirsiniz:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+Bu, ağdaki nesnelere erişim için geçerli kimlik bilgilerine sahip olduğunuzda faydalıdır, ancak bu kimlik bilgileri mevcut ana bilgisayar içinde geçerli değildir çünkü yalnızca ağda kullanılacaktır (mevcut ana bilgisayarda mevcut kullanıcı ayrıcalıkları kullanılacaktır).
+
 ### Token Türleri
 
 İki tür token mevcuttur:
 
-- **Birincil Token**: Bir işlemin güvenlik kimlik bilgilerinin temsili olarak hizmet verir. Birincil token'ın oluşturulması ve işlemlerle ilişkilendirilmesi, ayrıcalık ayrımı ilkesini vurgulayan yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama servisi token oluştururken, bir oturum açma servisi kullanıcının işletim sistemi kabuğuyla ilişkilendirir. İşlemlerin oluşturulduğunda, işlem, ebeveyn işleminin birincil token'ını miras alır.
-- **Taklit Token**: Bir sunucu uygulamasına geçici olarak güvenli nesnelere erişim için istemcinin kimliğini benimsetme yetkisi verir. Bu mekanizma dört seviyede işlem görür:
-  - **Anonim**: Sunucuya kimliği belirsiz bir kullanıcı gibi erişim sağlar.
-  - **Tanımlama**: Sunucunun nesne erişimi için kullanmadan istemcinin kimliğini doğrulamasına izin verir.
-  - **Taklit**: Sunucunun istemcinin kimliği altında çalışmasını sağlar.
-  - **Delege**: Taklit ile benzerdir ancak bu kimlik varsayımını sunucunun etkileşimde bulunduğu uzak sistemlere genişletme yeteneğini içerir, kimlik bilgisinin korunmasını sağlar.
+* **Birincil Token**: Bir sürecin güvenlik kimlik bilgilerini temsil eder. Birincil tokenların oluşturulması ve süreçlerle ilişkilendirilmesi, ayrıcalık ayrımı ilkesini vurgulayan, yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama hizmeti token oluşturma ile sorumluyken, bir oturum açma hizmeti bunun kullanıcı işletim sistemi kabuğu ile ilişkilendirilmesinden sorumludur. Süreçlerin, oluşturulduklarında ebeveyn süreçlerinin birincil tokenını miras aldığını belirtmekte fayda var.
+* **Taklit Token**: Bir sunucu uygulamasının, güvenli nesnelere erişim için istemcinin kimliğini geçici olarak benimsemesini sağlar. Bu mekanizma dört işlem seviyesine ayrılmıştır:
+* **Anonim**: Sunucuya, tanımlanamayan bir kullanıcınınki gibi erişim izni verir.
+* **Kimlik Doğrulama**: Sunucunun, nesne erişimi için kullanmadan istemcinin kimliğini doğrulamasına olanak tanır.
+* **Taklit**: Sunucunun, istemcinin kimliği altında çalışmasını sağlar.
+* **Delege**: Taklit ile benzer, ancak sunucunun etkileşimde bulunduğu uzak sistemlere bu kimlik varsayımını genişletme yeteneğini içerir, kimlik bilgilerini korur.
 
-#### Token Taklit Etme
+#### Taklit Tokenlar
 
-Yeterli ayrıcalıklara sahipseniz metasploit'in _**incognito**_ modülünü kullanarak diğer **token'ları** kolayca **listeleyebilir** ve **taklit edebilirsiniz**. Bu, **diğer kullanıcı gibi işlemler gerçekleştirmek** için faydalı olabilir. Bu teknikle ayrıca **ayrıcalıkları yükseltebilirsiniz**.
+Metasploit'in _**incognito**_ modülünü kullanarak yeterli ayrıcalıklara sahipseniz, diğer **tokenları** kolayca **listeleyebilir** ve **taklit edebilirsiniz**. Bu, **diğer kullanıcıymış gibi eylemler gerçekleştirmek** için faydalı olabilir. Bu teknikle **ayrıcalıkları yükseltebilirsiniz**.
 
 ### Token Ayrıcalıkları
 
-Ayrıcalıkları yükseltmek için **hangi token ayrıcalıklarının kötüye kullanılabileceğini öğrenin:**
+Hangi **token ayrıcalıklarının ayrıcalıkları yükseltmek için kötüye kullanılabileceğini öğrenin:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-[**Tüm olası token ayrıcalıklarına ve bazı tanımlara bu harici sayfada göz atın**](https://github.com/gtworek/Priv2Admin).
+[**tüm olası token ayrıcalıklarına ve bu dış sayfadaki bazı tanımlara**](https://github.com/gtworek/Priv2Admin) göz atın.
 
 ## Referanslar
 
-Bu öğreticilerde token'lar hakkında daha fazla bilgi edinin: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) ve [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Tokenlar hakkında daha fazla bilgi edinin: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) ve [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **tehlikeye atılıp atılmadığını kontrol etmek için ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunan bir **dark-web** destekli arama motorudur.
 
-WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir **[**bilgi güvenliği şirketinde mi çalışıyorsunuz**? Şirketinizi **HackTricks'te reklamını görmek ister misiniz**? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **[💬](https://emojipedia.org/speech-balloon/) Discord grubuna** katılın veya [telegram grubuna](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin**.
-* **Hacking püf noktalarınızı göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **üzerinden PR'lar gönderin**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

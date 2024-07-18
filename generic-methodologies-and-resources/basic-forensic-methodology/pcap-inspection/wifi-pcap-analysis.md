@@ -1,22 +1,23 @@
 # Wifi Pcap Analizi
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuzu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## BSSID'leri Kontrol Edin
 
-WireShark kullanarak Wifi trafiğinin ağırlıklı olduğu bir yakalama aldığınızda, yakalamadaki tüm SSID'leri incelemeye başlayabilirsiniz _Wireless --> WLAN Traffic_:
+WireShark kullanarak Wifi'nın ana trafiği olan bir yakalama aldığınızda, _Wireless --> WLAN Traffic_ ile yakalamadaki tüm SSID'leri araştırmaya başlayabilirsiniz:
 
 ![](<../../../.gitbook/assets/image (106).png>)
 
@@ -24,40 +25,43 @@ WireShark kullanarak Wifi trafiğinin ağırlıklı olduğu bir yakalama aldığ
 
 ### Kaba Kuvvet
 
-Bu ekranın sütunlarından biri, **pcap içinde herhangi bir kimlik doğrulaması bulunup bulunmadığını** gösterir. Eğer durum buysa, `aircrack-ng` kullanarak kaba kuvvet saldırısı yapabilirsiniz:
+O ekranın sütunlarından biri, **pcap içinde herhangi bir kimlik doğrulamanın bulunup bulunmadığını** gösterir. Eğer durum böyleyse, `aircrack-ng` kullanarak kaba kuvvet denemesi yapabilirsiniz:
 ```bash
 aircrack-ng -w pwds-file.txt -b <BSSID> file.pcap
 ```
-## Veri Paketlerinde / Yan Kanalda
+For example it will retrieve the WPA passphrase protecting a PSK (pre shared-key), that will be required to decrypt the trafic later.
 
-Eğer **verilerin bir Wifi ağı beacons'ları içinde sızdırıldığını** şüpheleniyorsanız, ağın beacons'larını aşağıdaki gibi bir filtre kullanarak kontrol edebilirsiniz: `wlan contains <AĞINADI>`, veya `wlan.ssid == "AĞINADI"` filtrelenmiş paketler içinde şüpheli dizgiler arayın.
+## Data in Beacons / Side Channel
 
-## Bir Wifi Ağındaki Bilinmeyen MAC Adreslerini Bulma
+If you suspect that **verilerin bir Wifi ağının beacon'larında sızdırıldığını** kontrol edebilirsiniz. Ağa ait beacon'ları aşağıdaki gibi bir filtre kullanarak kontrol edebilirsiniz: `wlan contains <NAMEofNETWORK>`, veya `wlan.ssid == "NAMEofNETWORK"` filtrelenmiş paketler içinde şüpheli dizeleri arayın.
 
-Aşağıdaki bağlantı, **bir Wifi Ağı içinde veri gönderen makineleri bulmak için** faydalı olacaktır:
+## Find Unknown MAC Addresses in A Wifi Network
+
+The following link will be useful to find the **veri gönderen makineleri Wifi Ağı içinde**:
 
 * `((wlan.ta == e8:de:27:16:70:c9) && !(wlan.fc == 0x8000)) && !(wlan.fc.type_subtype == 0x0005) && !(wlan.fc.type_subtype ==0x0004) && !(wlan.addr==ff:ff:ff:ff:ff:ff) && wlan.fc.type==2`
 
-Eğer zaten **MAC adreslerini biliyorsanız, çıktıdan onları çıkarabilirsiniz** bu kontrolü ekleyerek: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
+If you already know **MAC adreslerini çıktıdan çıkarabilirsiniz** bu tür kontroller ekleyerek: `&& !(wlan.addr==5c:51:88:31:a0:3b)`
 
-Bir kez **bilinmeyen MAC** adreslerini ağ içinde iletişim halinde tespit ettiğinizde, şu gibi **filtreler** kullanabilirsiniz: `wlan.addr==<MAC adresi> && (ftp || http || ssh || telnet)` trafiğini filtrelemek için. Ftp/http/ssh/telnet filtrelerinin trafiği şifrelediyseniz faydalı olduğunu unutmayın.
+Once you have detected **bilinmeyen MAC** adreslerinin ağ içinde iletişim kurduğunu, **filtreler** kullanabilirsiniz: `wlan.addr==<MAC address> && (ftp || http || ssh || telnet)` trafiğini filtrelemek için. ftp/http/ssh/telnet filtrelerinin, trafiği şifrelediyseniz yararlı olduğunu unutmayın.
 
-## Trafik Şifrelemesi
+## Decrypt Traffic
 
-Düzenle --> Tercihler --> Protokoller --> IEEE 802.11--> Düzenle
+Edit --> Preferences --> Protocols --> IEEE 802.11--> Edit
 
 ![](<../../../.gitbook/assets/image (499).png>)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

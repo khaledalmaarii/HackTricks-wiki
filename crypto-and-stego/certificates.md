@@ -1,58 +1,59 @@
 # Sertifikalar
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
 ## Sertifika Nedir
 
-Bir **genel anahtar sertifikası**, birinin genel anahtarı sahibi olduğunu kanıtlamak için kriptografi alanında kullanılan dijital bir kimliktir. Anahtarın ayrıntılarını, sahibin kimliğini (konuyu) ve güvenilir bir otoriteden (veren) dijital imzayı içerir. Yazılım, vereni güvenirse ve imza geçerliyse, anahtar sahibiyle güvenli iletişim mümkündür.
+Bir **açık anahtar sertifikası**, birinin bir açık anahtara sahip olduğunu kanıtlamak için kriptografide kullanılan dijital bir kimliktir. Anahtarın detaylarını, sahibinin kimliğini (konu) ve güvenilir bir otoriteden (verici) dijital bir imzayı içerir. Yazılım vericiyi güvenilir bulursa ve imza geçerliyse, anahtarın sahibiyle güvenli iletişim mümkündür.
 
-Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CAs) tarafından [genel anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Başka bir yöntem ise [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust) 'dır, burada kullanıcılar doğrudan birbirlerinin anahtarlarını doğrular. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509)'dur ve RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uygun olarak uyarlanabilir.
+Sertifikalar genellikle [sertifika otoriteleri](https://en.wikipedia.org/wiki/Certificate\_authority) (CA'lar) tarafından [açık anahtar altyapısı](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI) kurulumunda verilir. Diğer bir yöntem ise [güven ağı](https://en.wikipedia.org/wiki/Web\_of\_trust)dır; burada kullanıcılar birbirlerinin anahtarlarını doğrudan doğrular. Sertifikalar için yaygın format [X.509](https://en.wikipedia.org/wiki/X.509) olup, RFC 5280'de belirtildiği gibi belirli ihtiyaçlara uyarlanabilir.
 
 ## x509 Ortak Alanlar
 
-### **x509 Sertifikalarındaki Ortak Alanlar**
+### **x509 Sertifikalarında Ortak Alanlar**
 
-x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamak için birkaç **alan** kritik roller oynar. İşte bu alanların ayrıntıları:
+x509 sertifikalarında, sertifikanın geçerliliğini ve güvenliğini sağlamak için birkaç **alan** kritik roller üstlenir. Bu alanların bir dökümü:
 
-* **Sürüm Numarası**, x509 formatının sürümünü belirtir.
-* **Seri Numarası**, sertifikayı benzersiz bir şekilde tanımlar, genellikle iptal takibi için bir Sertifika Otoritesi'nin (CA) sistemi içinde.
-* **Konu** alanı sertifikanın sahibini temsil eder, bu bir makine, bir birey veya bir kuruluş olabilir. Detaylı kimlik bilgilerini içerir:
-* **Ortak Ad (CN)**: Sertifika tarafından kapsanan alanlar.
-* **Ülke (C)**, **Yerel (L)**, **Eyalet veya İl (ST, S veya P)**, **Kuruluş (O)** ve **Kuruluş Birimi (OU)** coğrafi ve kurumsal ayrıntılar sağlar.
-* **Ayrıcalıklı Ad (DN)** tam konu kimliğini kapsar.
-* **Veren**, sertifikayı doğrulayan ve imzalayan kişiyi belirtir, CA için Konu ile benzer alt alanları içerir.
-* **Geçerlilik Süresi**, sertifikanın belirli bir tarihten önce veya sonra kullanılmadığından emin olmak için **Not Önce** ve **Not Sonra** zaman damgaları ile işaretlenir.
-* Sertifikanın güvenliği için kritik olan **Genel Anahtar** bölümü, genel anahtarın algoritmasını, boyutunu ve diğer teknik detaylarını belirtir.
-* **x509v3 uzantıları**, sertifikanın işlevselliğini artırır, **Anahtar Kullanımı**, **Genişletilmiş Anahtar Kullanımı**, **Konu Alternatif Adı** ve sertifikanın uygulamasını ayarlamak için diğer özellikleri belirtir.
+* **Versiyon Numarası**, x509 formatının versiyonunu belirtir.
+* **Seri Numarası**, sertifikayı bir Sertifika Otoritesi (CA) sisteminde benzersiz olarak tanımlar, esasen iptal takibi için kullanılır.
+* **Konu** alanı, sertifikanın sahibini temsil eder; bu bir makine, birey veya organizasyon olabilir. Detaylı kimlik bilgilerini içerir:
+* **Ortak İsim (CN)**: Sertifika tarafından kapsanan alanlar.
+* **Ülke (C)**, **Yerleşim Yeri (L)**, **Eyalet veya İl (ST, S veya P)**, **Organizasyon (O)** ve **Organizasyon Birimi (OU)** coğrafi ve organizasyonel detaylar sağlar.
+* **Ayrıcalıklı İsim (DN)**, tam konu kimliğini kapsar.
+* **Verici**, sertifikayı doğrulayan ve imzalayan kişiyi detaylandırır; CA için konu ile benzer alt alanlar içerir.
+* **Geçerlilik Süresi**, sertifikanın belirli bir tarihten önce veya sonra kullanılmadığını sağlamak için **Not Before** ve **Not After** zaman damgaları ile işaretlenir.
+* **Açık Anahtar** bölümü, sertifikanın güvenliği için kritik olup, açık anahtarın algoritmasını, boyutunu ve diğer teknik detaylarını belirtir.
+* **x509v3 uzantıları**, sertifikanın işlevselliğini artırır; **Anahtar Kullanımı**, **Genişletilmiş Anahtar Kullanımı**, **Konu Alternatif Adı** ve sertifikanın uygulamasını ince ayar yapmak için diğer özellikleri belirtir.
 
 #### **Anahtar Kullanımı ve Uzantılar**
 
-* **Anahtar Kullanımı**, genel anahtarın kriptografik uygulamalarını tanımlar, örneğin dijital imza veya anahtar şifreleme.
-* **Genişletilmiş Anahtar Kullanımı**, sertifikanın kullanım durumlarını daha da daraltır, örneğin TLS sunucusu kimlik doğrulaması için.
-* **Konu Alternatif Adı** ve **Temel Kısıtlama**, sertifika tarafından kapsanan ek ana bilgisayar adlarını ve sertifikanın bir CA mı yoksa son varlık sertifikası mı olduğunu tanımlar.
-* **Konu Anahtar Kimliği** ve **Yetki Anahtar Kimliği**, anahtarların benzersizliğini ve izlenebilirliğini sağlar.
-* **Yetki Bilgi Erişimi** ve **CRL Dağıtım Noktaları**, sertifikayı veren CA'yı doğrulamak için yollar sağlar ve sertifika iptal durumunu kontrol etmek için yollar sağlar.
-* **CT Ön Sertifika SCT'leri**, sertifikaya olan kamu güveni için önemli olan şeffaflık günlüklerini sunar.
+* **Anahtar Kullanımı**, açık anahtarın kriptografik uygulamalarını tanımlar; örneğin dijital imza veya anahtar şifreleme.
+* **Genişletilmiş Anahtar Kullanımı**, sertifikanın kullanım durumlarını daha da daraltır; örneğin, TLS sunucu kimlik doğrulaması için.
+* **Konu Alternatif Adı** ve **Temel Kısıtlama**, sertifika tarafından kapsanan ek ana bilgisayar adlarını ve bunun bir CA veya son varlık sertifikası olup olmadığını tanımlar.
+* **Konu Anahtar Tanımlayıcı** ve **Otorite Anahtar Tanımlayıcı** gibi tanımlayıcılar, anahtarların benzersizliğini ve izlenebilirliğini sağlar.
+* **Otorite Bilgi Erişimi** ve **CRL Dağıtım Noktaları**, verici CA'yı doğrulamak ve sertifika iptal durumunu kontrol etmek için yollar sağlar.
+* **CT Ön Sertifika SCT'leri**, sertifikaya kamu güveni için kritik olan şeffaflık günlükleri sunar.
 ```python
 # Example of accessing and using x509 certificate fields programmatically:
 from cryptography import x509
@@ -76,23 +77,25 @@ print(f"Public Key: {public_key}")
 ```
 ### **OCSP ve CRL Dağıtım Noktaları Arasındaki Fark**
 
-**OCSP** (**RFC 2560**), bir istemci ve yanıtlayıcının birlikte çalışarak dijital genel anahtar sertifikasının iptal edilip edilmediğini kontrol etmesini sağlar ve tam **CRL**'yi indirmeye gerek kalmadan yapar. Bu yöntem, potansiyel olarak büyük bir dosya indirmeyi gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla detay [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) bulunabilir.
+**OCSP** (**RFC 2560**), bir istemci ve bir yanıtlayıcının, tam **CRL** indirmeye gerek kalmadan dijital kamu anahtar sertifikasının iptal edilip edilmediğini kontrol etmek için birlikte çalışmasını içerir. Bu yöntem, iptal edilen sertifika seri numaralarının bir listesini sağlayan ve potansiyel olarak büyük bir dosyanın indirilmesini gerektiren geleneksel **CRL**'den daha verimlidir. CRL'ler en fazla 512 giriş içerebilir. Daha fazla ayrıntı [burada](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Content/ArubaFrameStyles/CertRevocation/About\_OCSP\_and\_CRL.htm) mevcuttur.
 
 ### **Sertifika Şeffaflığı Nedir**
 
-Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan sahipleri, CA'lar ve kullanıcılar tarafından görülebilir olmasını sağlayarak sertifika ile ilgili tehditlerle mücadeleye yardımcı olur. Amaçları şunlardır:
+Sertifika Şeffaflığı, SSL sertifikalarının verilmesi ve varlığının alan adı sahipleri, CA'lar ve kullanıcılar tarafından görünür olmasını sağlayarak sertifika ile ilgili tehditlerle mücadele etmeye yardımcı olur. Hedefleri şunlardır:
 
-* CA'ların alan sahibinin bilgisi olmadan bir alan için SSL sertifikaları vermesini engellemek.
-* Yanlışlıkla veya kötü niyetle verilen sertifikaları izlemek için açık bir denetim sistemi oluşturmak.
-* Kullanıcıları sahte sertifikalara karşı korumak.
+* CA'ların, alan adı sahibinin bilgisi olmadan bir alan için SSL sertifikası vermesini engellemek.
+* Yanlış veya kötü niyetle verilmiş sertifikaların izlenmesi için açık bir denetim sistemi kurmak.
+* Kullanıcıları sahte sertifikalardan korumak.
 
 #### **Sertifika Kayıtları**
 
-Sertifika kayıtları, ağ hizmetleri tarafından tutulan, herkese açık olarak denetlenebilir, yalnızca eklemeye izin veren sertifikaların kayıtlarıdır. Bu kayıtlar denetim amaçları için kriptografik kanıtlar sağlar. Hem verme yetkilileri hem de halk, bu kayıtlara sertifikaları sunabilir veya doğrulama için sorgulayabilir. Kayıt sunucularının kesin sayısı sabit değildir, küresel olarak binin altında olması beklenir. Bu sunucular, CA'lar, ISS'ler veya ilgili herhangi bir varlık tarafından bağımsız olarak yönetilebilir.
+Sertifika kayıtları, ağ hizmetleri tarafından tutulan, kamuya açık denetlenebilir, yalnızca ekleme yapılabilen sertifika kayıtlarıdır. Bu kayıtlar, denetim amaçları için kriptografik kanıtlar sağlar. Hem verme otoriteleri hem de kamu, bu kayıtlara sertifika gönderebilir veya doğrulama için sorgulayabilir. Kayıt sunucularının kesin sayısı sabit olmamakla birlikte, dünya genelinde binin altında olması beklenmektedir. Bu sunucular, CA'lar, ISP'ler veya herhangi bir ilgilenen kuruluş tarafından bağımsız olarak yönetilebilir.
 
 #### **Sorgu**
 
 Herhangi bir alan için Sertifika Şeffaflığı kayıtlarını keşfetmek için [https://crt.sh/](https://crt.sh) adresini ziyaret edin.
+
+Sertifikaları depolamak için farklı formatlar mevcuttur, her birinin kendi kullanım durumları ve uyumluluğu vardır. Bu özet, ana formatları kapsar ve bunlar arasında dönüştürme konusunda rehberlik sağlar.
 
 ## **Formatlar**
 
@@ -101,36 +104,36 @@ Herhangi bir alan için Sertifika Şeffaflığı kayıtlarını keşfetmek için
 * Sertifikalar için en yaygın kullanılan formattır.
 * Sertifikalar ve özel anahtarlar için ayrı dosyalar gerektirir, Base64 ASCII ile kodlanmıştır.
 * Yaygın uzantılar: .cer, .crt, .pem, .key.
-* Başlıca olarak Apache ve benzeri sunucular tarafından kullanılır.
+* Öncelikle Apache ve benzeri sunucular tarafından kullanılır.
 
 ### **DER Formatı**
 
-* Sertifikaların ikili bir formatıdır.
+* Sertifikaların ikili formatıdır.
 * PEM dosyalarında bulunan "BEGIN/END CERTIFICATE" ifadelerini içermez.
 * Yaygın uzantılar: .cer, .der.
 * Genellikle Java platformları ile kullanılır.
 
 ### **P7B/PKCS#7 Formatı**
 
-* Base64 ASCII ile depolanır, .p7b veya .p7c uzantılarına sahiptir.
-* Yalnızca sertifikaları ve zincir sertifikalarını içerir, özel anahtarı hariç tutar.
+* Base64 ASCII formatında depolanır, uzantıları .p7b veya .p7c'dir.
+* Sadece sertifikaları ve zincir sertifikalarını içerir, özel anahtarı hariç tutar.
 * Microsoft Windows ve Java Tomcat tarafından desteklenir.
 
 ### **PFX/P12/PKCS#12 Formatı**
 
 * Sunucu sertifikalarını, ara sertifikaları ve özel anahtarları tek bir dosyada kapsayan ikili bir formattır.
 * Uzantılar: .pfx, .p12.
-* Genellikle Windows'ta sertifika içe ve dışa aktarma işlemleri için kullanılır.
+* Sertifika içe aktarma ve dışa aktarma için öncelikle Windows'ta kullanılır.
 
-### **Format Dönüşümleri**
+### **Format Dönüştürme**
 
-**PEM dönüşümleri**, uyumluluk için önemlidir:
+**PEM dönüşümleri** uyumluluk için gereklidir:
 
-* **x509'tan PEM'e**
+* **x509'dan PEM'e**
 ```bash
 openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
-* **PEM'i DER'e dönüştürme**
+* **PEM'den DER'e**
 ```bash
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
@@ -142,31 +145,31 @@ openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```bash
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
-* **PKCS7'i PEM'e dönüştürme**
+* **PKCS7'den PEM'e**
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
-**PFX dönüşümleri**, Windows üzerinde sertifikaları yönetmek için hayati öneme sahiptir:
+**PFX dönüşümleri**, Windows'ta sertifikaları yönetmek için çok önemlidir:
 
 * **PFX'ten PEM'e**
 ```bash
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
-* **PFX'i PKCS#8'e** dönüştürmek iki adımdan oluşur:
-1. PFX'i PEM'e dönüştürün
+* **PFX'ten PKCS#8'e** iki adım içerir:
+1. PFX'i PEM'e dönüştür
 ```bash
 openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
-2. PEM formatındaki dosyayı PKCS8 formatına dönüştürün.
+2. PEM'i PKCS8'e Dönüştür
 ```bash
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
-* **P7B'den PFX'e** dönüştürmek için de iki komut gereklidir:
-1. P7B'yi CER'e dönüştürün.
+* **P7B'den PFX'e** geçmek için de iki komut gereklidir:
+1. P7B'yi CER'ye dönüştür
 ```bash
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 ```
-2. CER ve Özel Anahtarı PFX'e Dönüştürün
+2. CER ve Özel Anahtarı PFX'e Dönüştür
 ```bash
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile cacert.cer
 ```
@@ -175,21 +178,22 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **otomatik iş akışlarını** kolayca oluşturun.\
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_term=trickest&utm_content=certificates) kullanın.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=certificates" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,24 +1,27 @@
 # Angr - Örnekler
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi HackTricks'te** görmek ister misiniz? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
-
-{% hint style="info" %}
-Program, **bir seferde birden fazla değeri stdin'den almak için `scanf`** kullanıyorsa, **`scanf`'den sonra başlayan bir durum oluşturmanız gerekir**.
 {% endhint %}
 
-Kodlar [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf)'den alınmıştır.
+{% hint style="info" %}
+Eğer program **stdin'den birden fazla değeri almak için `scanf`** kullanıyorsa, **`scanf`**'den sonra başlayan bir durum oluşturmanız gerekir.
+{% endhint %}
 
-### Adrese ulaşmak için giriş (adresi belirterek)
+Kodlar [https://github.com/jakespringer/angr\_ctf](https://github.com/jakespringer/angr\_ctf) adresinden alınmıştır.
+
+### Adrese ulaşmak için girdi (adres belirten)
 ```python
 import angr
 import sys
@@ -51,7 +54,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Adrese ulaşmak için giriş (yazdırmaları gösteren)
+### Adrese ulaşmak için girdi (yazdırmaları gösterir)
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -86,7 +89,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Kayıt Değerleri
+### Kayıt defteri değerleri
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -150,7 +153,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Stack değerleri
+### Yığın değerleri
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -212,11 +215,11 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-Bu senaryoda, girdi `scanf("%u %u")` ile alındı ve değer `"1 1"` verildi, bu nedenle yığının değerleri **kullanıcı girdisinden** gelmektedir. Bu değerlerin **`0x00000001`** olduğunu `$ebp - 8`'de görebilirsiniz. Bu nedenle, kodda **`$ebp` ve `$esp` o an aynı değere sahip olduğundan**, **`$esp`'den 8 bayt çıkardık** ve ardından BVS'yi ittik.
+Bu senaryoda, girdi `scanf("%u %u")` ile alındı ve değer `"1 1"` verildi, bu nedenle yığın değerleri **`0x00000001`** **kullanıcı girdisinden** gelmektedir. Bu değerlerin `$ebp - 8`'de nasıl başladığını görebilirsiniz. Bu nedenle, kodda **`$esp`'den 8 bayt çıkardık (o anda `$ebp` ve `$esp` aynı değere sahipti)** ve ardından BVS'yi itmiş olduk.
 
 ![](<../../../.gitbook/assets/image (136).png>)
 
-### Statik Bellek Değerleri (Global değişkenler)
+### Statik Bellek Değerleri (Küresel Değişkenler)
 ```python
 import angr
 import claripy
@@ -392,7 +395,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-Sembolik dosyanın aynı zamanda sembolik verilerle birleştirilmiş sabit veriler içerebileceğini unutmayın:
+Sembolik dosyanın, sembolik verilerle birleştirilmiş sabit veriler de içerebileceğini unutmayın:
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -415,11 +418,11 @@ Sembolik dosyanın aynı zamanda sembolik verilerle birleştirilmiş sabit veril
 ```
 {% endhint %}
 
-### Kısıtlamalar Uygulama
+### Kısıtlamaların Uygulanması
 
 {% hint style="info" %}
-Bazen basit insan işlemleri, örneğin 16 karakter uzunluğundaki 2 kelimeyi karakter karakter karşılaştırmak (döngü), **angr** için maliyetli olabilir çünkü her if için bir dal oluşturduğundan dalların **üstel olarak** oluşturulması gerekir: `2^16`\
-Bu nedenle, **angr'ye önceki bir noktaya gitmesini** (gerçek zor kısmın zaten yapıldığı nokta) ve **bu kısıtlamaları manuel olarak belirlemesini** istemek daha kolaydır.
+Bazen 16 karakter uzunluğundaki 2 kelimeyi **karakter karakter** karşılaştırmak gibi basit insan işlemleri, **angr** için çok maliyetli olabilir çünkü her bir if için 1 dal oluşturması gerektiğinden **üstel** olarak dallar üretmek zorundadır: `2^16`\
+Bu nedenle, **angr'dan önceki bir noktaya dönmesini istemek** (gerçek zor kısmın zaten yapıldığı yer) ve **bu kısıtlamaları manuel olarak ayarlamak** daha kolaydır.
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -492,16 +495,16 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-Bazı senaryolarda, gereksiz dalları kaydetmek ve çözüm bulmak için benzer durumları birleştirecek olan **veritesting**'i etkinleştirebilirsiniz: `simulation = project.factory.simgr(initial_state, veritesting=True)`
+Bazı senaryolarda **veritesting**'i etkinleştirebilirsiniz, bu da benzer durumları birleştirerek gereksiz dalları kaydetmek ve çözümü bulmak için: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-Bu senaryolarda yapabileceğiniz başka bir şey de, angr'a daha kolay anlayabileceği bir şey vermek için fonksiyonu **hook** etmektir.
+Bu senaryolarda yapabileceğiniz bir diğer şey, **angr'ye daha kolay anlayabileceği bir şey vermek için fonksiyonu hooklamak**tır.
 {% endhint %}
 
 ### Simülasyon Yöneticileri
 
-Bazı simülasyon yöneticileri diğerlerinden daha kullanışlı olabilir. Önceki örnekte bir sorun vardı çünkü birçok faydalı dal oluşturuldu. Burada **veritesting** tekniği bu dalları birleştirecek ve bir çözüm bulacaktır.\
+Bazı simülasyon yöneticileri diğerlerinden daha faydalı olabilir. Önceki örnekte birçok faydalı dal oluşturulduğu için bir sorun vardı. Burada, **veritesting** tekniği bunları birleştirerek bir çözüm bulacaktır.\
 Bu simülasyon yöneticisi ayrıca şu şekilde etkinleştirilebilir: `simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
@@ -540,7 +543,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Bir işlev çağrısını kancalamak/geçmek
+### Bir fonksiyona yapılan bir çağrıyı Hooklama/Atlatma
 ```python
 # This level performs the following computations:
 #
@@ -608,7 +611,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Bir fonksiyonu kanca ile bağlama / Simprocedure
+### Bir fonksiyonu Hooklama / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -692,7 +695,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### Birden fazla parametre ile scanf işlemini simüle edin
+### Birden Fazla Parametre ile scanf Simülasyonu
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -821,14 +824,17 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

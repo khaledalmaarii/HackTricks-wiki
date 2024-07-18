@@ -1,16 +1,19 @@
 # Proxmark 3
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin **HackTricks'te reklamını görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin**.
-* **Hacking püf noktalarınızı göndererek PR'larla paylaşın** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -20,15 +23,15 @@
 
 ***
 
-## Proxmark3 ile RFID Sistemlerine Saldırı
+## Proxmark3 ile RFID Sistemlerine Saldırmak
 
-İlk yapmanız gereken şey bir [**Proxmark3**](https://proxmark.com) sahibi olmak ve [**yazılımı ve bağımlılıklarını yüklemek**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**i**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Yapmanız gereken ilk şey bir [**Proxmark3**](https://proxmark.com) edinmek ve [**yazılımı ve bağımlılıklarını yüklemek**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
-### MIFARE Classic 1KB Saldırısı
+### MIFARE Classic 1KB'ye Saldırmak
 
-Her birinde **4 blok** bulunan **16 sektörü** vardır ve her blok **16B** içerir. UID, sektör 0 blok 0'da bulunur (ve değiştirilemez).\
-Her sektöre erişmek için **2 anahtar** (**A** ve **B**) gereklidir ve bunlar **her sektörün blok 3'ünde** (sektör kapakçığı) saklanır. Sektör kapakçığı ayrıca, 2 anahtarı kullanarak **her blok üzerinde okuma ve yazma** izinlerini veren **erişim bitlerini** de saklar.\
-2 anahtar, ilkini bildiğinizde okuma izni vermek ve ikincisini bildiğinizde yazma izni vermek için kullanışlıdır (örneğin).
+**16 sektör** vardır, her birinde **4 blok** ve her blokta **16B** bulunur. UID, sektör 0 blok 0'da (ve değiştirilemez).\
+Her sektöre erişmek için **2 anahtara** (**A** ve **B**) ihtiyacınız var, bunlar **her sektörün blok 3'ünde** (sektör trailer) saklanır. Sektör trailer ayrıca **okuma ve yazma** izinlerini veren **erişim bitlerini** saklar.\
+2 anahtar, ilkini biliyorsanız okumak için ve ikincisini biliyorsanız yazmak için izin vermek için kullanışlıdır (örneğin).
 
 Birçok saldırı gerçekleştirilebilir.
 ```bash
@@ -49,7 +52,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3, hassas verileri bulmaya çalışmak için **Tag to Reader iletişimini dinleyerek** gibi diğer eylemleri gerçekleştirmeyi sağlar. Bu kartta, **kriptografik işlemler zayıf olduğundan** iletişimi dinleyip kullanılan anahtarı hesaplayabilirsiniz ve düz metin ve şifreli metni bildiğinizde bunu hesaplayabilirsiniz (`mfkey64` aracı).
+Proxmark3, hassas verileri bulmaya çalışmak için **Tag ile Reader iletişimini dinleme** gibi diğer eylemleri gerçekleştirmeye olanak tanır. Bu kartta, iletişimi dinleyebilir ve kullanılan anahtarı hesaplayabilirsiniz çünkü **kullanılan kriptografik işlemler zayıftır** ve düz metin ile şifreli metni bilerek bunu hesaplayabilirsiniz (`mfkey64` aracı).
 
 ### Ham Komutlar
 
@@ -63,17 +66,15 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Bu bilgilerle kart hakkında bilgi aramayı ve kartla iletişim kurma yöntemini araştırmayı deneyebilirsiniz. Proxmark3, `hf 14a raw -p -b 7 26` gibi ham komutlar göndermenizi sağlar.
+Bu bilgilerle kart hakkında ve onunla iletişim kurma yöntemi hakkında bilgi aramayı deneyebilirsiniz. Proxmark3, şu şekilde ham komutlar göndermeye olanak tanır: `hf 14a raw -p -b 7 26`
 
-### Komut Dosyaları
+### Scripts
 
-Proxmark3 yazılımı, basit görevleri yerine getirmek için kullanabileceğiniz önceden yüklenmiş bir **otomasyon komut dosyaları** listesi ile birlikte gelir. Tam listeyi almak için `script list` komutunu kullanın. Daha sonra, script'in adını takip eden `script run` komutunu kullanın:
+Proxmark3 yazılımı, basit görevleri yerine getirmek için kullanabileceğiniz önceden yüklenmiş **otomasyon scriptleri** listesi ile birlikte gelir. Tam listeyi almak için `script list` komutunu kullanın. Ardından, scriptin adını takip eden `script run` komutunu kullanın:
 ```
 proxmark3> script run mfkeys
 ```
-**Proxmark 3 ile Radyo Hacking**
-
-Farklı tag okuyucularını **fuzz** etmek için bir betik oluşturabilirsiniz, bu nedenle bir **geçerli kartın** verilerini kopyalayarak **Lua betiği** yazın ve bir veya daha fazla rastgele **baytı rastgele hale getirin** ve okuyucunun herhangi bir iterasyonda **çöküp çökmediğini kontrol edin**.
+Bir **fuzz tag okuyucuları** oluşturmak için bir script yazabilirsiniz, böylece bir **geçerli kartın** verilerini kopyalayarak bir **Lua scripti** yazın, bir veya daha fazla rastgele **byte**'ı **rastgeleleştirip** her iterasyonda **okuyucunun çöküp çökmediğini** kontrol edin.
 
 **Try Hard Security Group**
 
@@ -82,14 +83,17 @@ Farklı tag okuyucularını **fuzz** etmek için bir betik oluşturabilirsiniz, 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz? Şirketinizi **HackTricks'te** reklamını görmek ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin**.
-* **Hacking püf noktalarınızı göndererek PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

