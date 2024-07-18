@@ -1,18 +1,19 @@
 # Trikovi za Crypto CTF-ove
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 ## Online baze heševa
 
@@ -37,7 +38,7 @@ Drugi načini podrške HackTricks-u:
 
 ## Enkoderi
 
-Većina enkodiranih podataka može se dekodirati sa ovim 2 resursa:
+Većinu enkodiranih podataka možete dekodirati sa ovim 2 resursa:
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
@@ -58,6 +59,7 @@ Većina enkodiranih podataka može se dekodirati sa ovim 2 resursa:
 ### Automatski rešavači za osnovne enkodiranja
 
 Proverite sve ove baze sa: [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+* **HAZZ15** \[_HNO4klm6ij9n+J2hyf0gzA8uvwDEq3X1Q7ZKeFrWcVTts/MRGYbdxSo=ILaUpPBC5_]
 * `DmPsv8J7qrlKEoY7`
 * **MEGAN35** \[_3G-Ub=c-pW-Z/12+406-9Vaq-zA-F5_]
 * `kLD8iwKsigSalLJ5`
@@ -138,7 +140,7 @@ ryvkryvkryvkryvkryvkryvkryvk
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=sr\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=sr\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
@@ -146,7 +148,7 @@ Slova njihova numerička vrednost
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
-### Afina Šifra Kodiranje
+### Afinski šifarski kod
 
 Pretvori slovo u broj `(ax+b)%26` (_a_ i _b_ su ključevi, a _x_ je slovo) i rezultat ponovo u slovo
 ```
@@ -154,15 +156,15 @@ krodfdudfrod
 ```
 ### SMS Kod
 
-**Multitap** [zamenjuje slovo](https://www.dcode.fr/word-letter-change) ponovljenim brojevima definisanim odgovarajućim kodom tastera na mobilnom [telefonskom tastaturi](https://www.dcode.fr/phone-keypad-cipher) (Ovaj režim se koristi prilikom pisanja SMS poruka).\
+**Multitap** [zamenjuje slovo](https://www.dcode.fr/word-letter-change) ponovljenim brojevima definisanim odgovarajućim kodom tastera na mobilnoj [telefonskoj tastaturi](https://www.dcode.fr/phone-keypad-cipher) (Ovaj režim se koristi prilikom pisanja SMS poruka).\
 Na primer: 2=A, 22=B, 222=C, 3=D...\
-Možete prepoznati ovaj kod jer ćete videti\*\* više puta ponovljene brojeve\*\*.
+Možete identifikovati ovaj kod jer ćete videti\*\* više puta ponovljene brojeve\*\*.
 
 Ovaj kod možete dekodirati na: [https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### Bacon Kod
 
-Zamenite svako slovo sa 4 A-ja ili B-a (ili 1 i 0)
+Zamenite svako slovo sa 4 A ili B (ili 1 i 0)
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
@@ -213,7 +215,7 @@ Key:
 
 ### Samir Deljenje tajni
 
-Tajna je podeljena na X delova i da biste je vratili, potrebno vam je Y delova (_Y <=X_).
+Tajna je podeljena na X delova i za njeno vraćanje potrebno je Y delova (_Y <=X_).
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
@@ -232,16 +234,17 @@ Tajna je podeljena na X delova i da biste je vratili, potrebno vam je Y delova (
 * [https://github.com/lockedbyte/cryptovenom](https://github.com/lockedbyte/cryptovenom)
 * [https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

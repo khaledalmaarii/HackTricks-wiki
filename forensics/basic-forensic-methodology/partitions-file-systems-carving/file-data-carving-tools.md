@@ -1,28 +1,29 @@
+{% hint style="success" %}
+Učite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 
 # Alati za izdvajanje podataka
 
-## Autopsy
+## Autopsija
 
-Najčešći alat koji se koristi u forenzici za izdvajanje fajlova iz slika je [**Autopsy**](https://www.autopsy.com/download/). Preuzmite ga, instalirajte ga i omogućite mu da obradi fajl kako bi pronašao "skrivene" fajlove. Imajte na umu da je Autopsy napravljen da podržava disk slike i druge vrste slika, ali ne i obične fajlove.
+Najčešći alat koji se koristi u forenzici za izdvajanje fajlova iz slika je [**Autopsija**](https://www.autopsy.com/download/). Preuzmite ga, instalirajte ga i podesite da obradi fajl kako bi pronašao "skrivene" fajlove. Imajte na umu da je Autopsija napravljena da podržava disk slike i druge vrste slika, ali ne i obične fajlove.
 
 ## Binwalk <a id="binwalk"></a>
 
-**Binwalk** je alat za pretragu binarnih fajlova kao što su slike i audio fajlovi u potrazi za ugrađenim fajlovima i podacima.
-Može se instalirati pomoću `apt` komande, međutim [izvorni kod](https://github.com/ReFirmLabs/binwalk) se može pronaći na github-u.
+**Binwalk** je alat za pretragu binarnih fajlova poput slika i audio fajlova za ugrađene fajlove i podatke.
+Može se instalirati pomoću `apt` međutim [izvor](https://github.com/ReFirmLabs/binwalk) se može pronaći na github-u.
 **Korisne komande**:
 ```bash
 sudo apt install binwalk #Insllation
@@ -32,7 +33,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ## Foremost
 
-Još jedan čest alat za pronalaženje skrivenih datoteka je **foremost**. Konfiguracionu datoteku za foremost možete pronaći u `/etc/foremost.conf`. Ako želite samo da pretražujete određene datoteke, uklonite komentare sa njih. Ako ne uklonite komentare, foremost će pretraživati podrazumevane konfigurisane vrste datoteka.
+Još jedan čest alat za pronalaženje skrivenih datoteka je **foremost**. Konfiguracionu datoteku za foremost možete pronaći u `/etc/foremost.conf`. Ako želite da pretražujete samo određene datoteke, uklonite komentare ispred njih. Ako ne uklonite komentare, foremost će pretraživati prema svojim podrazumevanim konfigurisanim tipovima datoteka.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -40,54 +41,55 @@ foremost -v -i file.img -o output
 ```
 ## **Skalpel**
 
-**Skalpel** je još jedan alat koji se može koristiti za pronalaženje i izdvajanje **datoteka ugrađenih u datoteku**. U ovom slučaju, trebaće vam da uklonite komentare iz konfiguracione datoteke \(_/etc/scalpel/scalpel.conf_\) za vrste datoteka koje želite da izdvojite.
+**Skalpel** je još jedan alat koji se može koristiti za pronalaženje i izdvajanje **datoteka ugrađenih u datoteku**. U ovom slučaju, moraćete da uklonite komentare iz konfiguracione datoteke \(_/etc/scalpel/scalpel.conf_\) za vrste datoteka koje želite da izdvojite.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
 ```
 ## Bulk Extractor
 
-Ovaj alat dolazi unutar Kali operativnog sistema, ali ga možete pronaći i ovde: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk_extractor)
+Ovaj alat dolazi unutar kali distribucije, ali ga možete pronaći ovde: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk_extractor)
 
-Ovaj alat može skenirati sliku i **izvući pcaps** unutar nje, **informacije o mreži (URL-ovi, domeni, IP adrese, MAC adrese, mejlovi)** i još **datoteke**. Samo trebate:
+Ovaj alat može skenirati sliku i **izdvojiti pcaps** unutar nje, **mrežne informacije \(URL-ove, domene, IP adrese, MAC adrese, mejlove\)** i više **datoteka**. Samo treba da uradite:
 ```text
 bulk_extractor memory.img -o out_folder
 ```
-Pregledajte **sve informacije** koje je alat prikupio \(lozinke?\), **analizirajte** pakete \(pročitajte [**Pcaps analizu**](../pcap-inspection/)\), tražite **čudne domene** \(domene povezane s **malverom** ili **ne-postojeće**\).
+Prođite kroz **sve informacije** koje je alat prikupio \(lozinke?\), **analizirajte** **pakete** \(pročitajte [**Analiza Pcap datoteka**](../pcap-inspection/)\), tražite **čudne domene** \(domene povezane sa **malverom** ili **ne-postojeće**\).
 
 ## PhotoRec
 
 Možete ga pronaći na [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk_Download)
 
-Dolazi s verzijom GUI i CLI. Možete odabrati **vrste datoteka** koje želite da PhotoRec pretražuje.
+Dolazi sa GUI i CLI verzijom. Možete odabrati **tipove datoteka** koje želite da PhotoRec pretražuje.
 
 ![](../../../.gitbook/assets/image%20%28524%29.png)
 
-# Specifični alati za izvlačenje podataka
+# Specifični alati za izdvajanje podataka
 
 ## FindAES
 
-Pretražuje AES ključeve tražeći njihove rasporede ključeva. Može pronaći ključeve od 128, 192 i 256 bita, poput onih koje koriste TrueCrypt i BitLocker.
+Pretražuje AES ključeve tražeći njihove rasporede ključeva. Može pronaći 128, 192 i 256 bitne ključeve, poput onih koje koriste TrueCrypt i BitLocker.
 
 Preuzmite [ovde](https://sourceforge.net/projects/findaes/).
 
 # Komplementarni alati
 
-Možete koristiti [**viu** ](https://github.com/atanunq/viu)da vidite slike iz terminala.
-Možete koristiti linux alat komandne linije **pdftotext** da pretvorite PDF u tekst i pročitate ga.
+Možete koristiti [**viu** ](https://github.com/atanunq/viu) da vidite slike iz terminala.
+Možete koristiti linux komandnu liniju alat **pdftotext** da pretvorite pdf u tekst i pročitate ga.
 
 
+
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite videti **oglašavanje vaše kompanije u HackTricks-u** ili **preuzeti HackTricks u PDF formatu** Pogledajte [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

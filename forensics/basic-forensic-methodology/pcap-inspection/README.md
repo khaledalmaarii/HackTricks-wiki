@@ -1,34 +1,63 @@
 # Pregled Pcap datoteka
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/ssponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji kibernetički događaj u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i kibernetičkih profesionalaca u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i bezbednosnih stručnjaka u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-Napomena o **PCAP** vs **PCAPNG**: postoje dve verzije PCAP formata; **PCAPNG je novija i nije podržana od svih alata**. Možda ćete morati da konvertujete datoteku iz PCAPNG u PCAP koristeći Wireshark ili drugi kompatibilni alat, kako biste je mogli koristiti u nekim drugim alatima.
+Napomena o **PCAP** vs **PCAPNG**: postoje dve verzije PCAP formata datoteka; **PCAPNG je noviji i nije podržan od svih alata**. Možda ćete morati da konvertujete datoteku iz PCAPNG u PCAP koristeći Wireshark ili neki drugi kompatibilni alat, kako biste mogli da radite sa njom u nekim drugim alatima.
 {% endhint %}
 
 ## Online alati za pcap datoteke
 
-* Ako je zaglavlje vaše pcap datoteke **oštećeno**, trebali biste pokušati da ga **popravite** koristeći: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Izdvojite **informacije** i pretražujte **malver** unutar pcap datoteke na [**PacketTotal**](https://packettotal.com)
-* Pretražujte **zlonamerne aktivnosti** koristeći [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* Ako je zaglavlje vaše pcap datoteke **oštećeno**, trebalo bi da pokušate da ga **popravite** koristeći: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Izvucite **informacije** i tražite **malver** unutar pcap datoteke na [**PacketTotal**](https://packettotal.com)
+* Tražite **zlonamerne aktivnosti** koristeći [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+
+## Izdvajanje informacija
+
+Sledeći alati su korisni za izdvajanje statistika, datoteka, itd.
+
+### Wireshark
+
+{% hint style="info" %}
+**Ako ćete analizirati Famekor Wi** usingen**, ukivanć** usingounder  leastcesfind theima-ref for ivoć** usingounder : ** Wi**:anal example theimaref theive URLomerefs Wi**:anal example theima-ref for  yourte url Wi theiteore you theimaref the duaoive % URLec** usingoundive %est Wi relevant for ** Wi relevant for ** Wi relevant for ** Wi relevant for ** Wi relevant for ** Wi relevant for ** you Wi relevant for ** Wi relevant for ** Wi theau.** usingand a his for theau example the. xtop your online training, and the [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repositories.
+
+</details>
+{% endhint %}
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i bezbednosnih stručnjaka u svakoj disciplini.
+
+{% embed url="https://www.rootedcon.com/" %}
+
+{% hint style="info" %}
+Napomena o **PCAP** vs **PCAPNG**: postoje dve verzije PCAP formata datoteka; **PCAPNG je noviji i nije podržan od svih alata**. Možda ćete morati da konvertujete datoteku iz PCAPNG u PCAP koristeći Wireshark ili neki drugi kompatibilni alat, kako biste mogli da radite sa njom u nekim drugim alatima.
+{% endhint %}
+
+## Online alati za pcap datoteke
+
+* Ako je zaglavlje vaše pcap datoteke **oštećeno**, trebalo bi da pokušate da ga **popravite** koristeći: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Izvucite **informacije** i tražite **malver** unutar pcap datoteke na [**PacketTotal**](https://packettotal.com)
+* Tražite **zlonamerne aktivnosti** koristeći [**www.virustotal.com**](https://www.virustotal.com) i [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
 
 ## Izdvajanje informacija
 
@@ -40,7 +69,7 @@ Sledeći alati su korisni za izdvajanje statistika, datoteka, itd.
 **Ako ćete analizirati PCAP datoteku, osnovno je da znate kako koristiti Wireshark**
 {% endhint %}
 
-Neki trikovi za Wireshark se mogu naći u:
+Možete pronaći neke trikove za Wireshark u:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -48,7 +77,7 @@ Neki trikovi za Wireshark se mogu naći u:
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(samo za linux)_ može **analizirati** pcap datoteku i izvući informacije iz nje. Na primer, iz pcap datoteke Xplico izvlači svaki email (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, itd.
+[**Xplico** ](https://github.com/xplico/xplico)_(samo za linux)_ može **analizirati** pcap datoteku i izvući informacije iz nje. Na primer, iz pcap datoteke Xplico iz  izvlači svaki email (POP, IMAP i SMTP protokoli), sve HTTP sadržaje, svaki VoIP poziv (SIP), FTP, TFTP, i tako dalje.
 
 **Instalacija**
 ```bash
@@ -57,33 +86,33 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-**Pokretanje**
+**Pokreni**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
 Pristupite _**127.0.0.1:9876**_ sa pristupnim podacima _**xplico:xplico**_
 
-Zatim kreirajte **novi slučaj**, kreirajte **novu sesiju** unutar slučaja i **učitajte pcap** datoteku.
+Zatim kreirajte **novi slučaj**, napravite **novu sesiju** unutar slučaja i **učitajte pcap** datoteku.
 
 ### NetworkMiner
 
-Kao i Xplico, ovo je alat za **analizu i izdvajanje objekata iz pcap datoteka**. Ima besplatno izdanje koje možete **preuzeti** [**ovde**](https://www.netresec.com/?page=NetworkMiner). Radi na **Windows**-u.\
-Ovaj alat je takođe koristan za dobijanje **drugih analiziranih informacija** iz paketa kako biste mogli brže saznati šta se dešavalo.
+Kao i Xplico, ovo je alat za **analizu i izdvajanje objekata iz pcap-ova**. Ima besplatno izdanje koje možete **preuzeti** [**ovde**](https://www.netresec.com/?page=NetworkMiner). Radi sa **Windows**-om.\
+Ovaj alat je takođe koristan za dobijanje **ostalih informacija analiziranih** iz paketa kako biste mogli znati šta se dešavalo na **brži** način.
 
 ### NetWitness Investigator
 
-Možete preuzeti [**NetWitness Investigator odavde**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Radi na Windows-u)**.\
-Ovo je još jedan koristan alat koji **analizira pakete** i sortira informacije na koristan način kako biste **znali šta se dešava unutar**.
+Možete preuzeti [**NetWitness Investigator ovde**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Radi na Windows-u)**.\
+Ovo je još jedan koristan alat koji **analizira pakete** i sortira informacije na koristan način kako biste **znali šta se dešava unutra**.
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
 * Izdvajanje i enkodiranje korisničkih imena i lozinki (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Izdvajanje autentifikacionih heševa i njihovo pucanje koristeći Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Izgradnja vizuelnog dijagrama mreže (Mrežni čvorovi i korisnici)
+* Izdvajanje autentifikacionih heševa i njihovo pucanje korišćenjem Hashcat-a (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Izgradnja vizuelnog dijagrama mreže (Mrežni čvorovi & korisnici)
 * Izdvajanje DNS upita
-* Rekonstrukcija svih TCP i UDP sesija
-* Izdvajanje fajlova
+* Rekonstrukcija svih TCP & UDP sesija
+  * Rezanje datoteka
 
 ### Capinfos
 ```
@@ -91,13 +120,13 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-Ako **tražite** nešto unutar pcap datoteke, možete koristiti **ngrep**. Evo primera korišćenja osnovnih filtera:
+Ako **tražite** nešto unutar pcap datoteke,**možete** koristiti **ngrep**. Evo primera korišćenja osnovnih filtera:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Isecanje
+### Rezanje
 
-Korišćenje uobičajenih tehnika isečenja može biti korisno za izvlačenje fajlova i informacija iz pcap fajla:
+Korišćenje uobičajenih tehnika rezanja može biti korisno za izvlačenje datoteka i informacija iz pcap datoteke:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
@@ -105,15 +134,15 @@ Korišćenje uobičajenih tehnika isečenja može biti korisno za izvlačenje fa
 
 ### Snimanje akreditacija
 
-Možete koristiti alate poput [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) za parsiranje akreditacija iz pcap fajla ili sa živog interfejsa.
+Možete koristiti alate poput [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) za parsiranje akreditacija iz pcap datoteke ili sa live interfejsa.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji sajber bezbednosni događaj u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i sajber bezbednosnih profesionalaca u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i stručnjaka za kibernetičku bezbednost u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Provera Exploita/Malvera
+## Provera Eksploatacija/Malvera
 
 ### Suricata
 
@@ -124,51 +153,21 @@ apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
-**Proverite pcap**
-
----
-
-**Description:**
-
-A pcap file is a packet capture file that contains network traffic data. It is commonly used in network forensics to analyze and investigate network activities. By inspecting a pcap file, you can gain valuable insights into the communication between different hosts on a network.
-
-**Instructions:**
-
-To check a pcap file, you can use various tools such as Wireshark, tcpdump, or tshark. These tools allow you to open and analyze the contents of the pcap file.
-
-1. Open the pcap file using Wireshark:
-   ```
-   wireshark <pcap_file>
-   ```
-
-2. Analyze the network traffic:
-   - Look for any suspicious or abnormal network activities.
-   - Identify the source and destination IP addresses.
-   - Examine the protocols used (e.g., HTTP, FTP, DNS).
-   - Check for any potential security breaches or unauthorized access attempts.
-
-3. Use filters to narrow down the analysis:
-   - Apply filters to focus on specific protocols, IP addresses, or ports.
-   - Use display filters to show only relevant packets.
-
-4. Export relevant packets:
-   - If you find any packets of interest, you can export them for further analysis or evidence collection.
-
-By carefully inspecting the pcap file, you can uncover valuable information about network traffic patterns, potential security incidents, or even evidence of malicious activities.
+**Provera pcap-a**
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) je alat koji
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) je alatka koja
 
-* Čita PCAP datoteke i izvlači HTTP tokove.
-* gzip dekompresuje sve komprimirane tokove
-* Skenira svaku datoteku sa yara
+* Čita PCAP datoteku i izvlači HTTP tokove.
+* gzip dekompresuje bilo koje kompresovane tokove
+* Skenira svaku datoteku pomoću yara
 * Piše izveštaj.txt
-* Opciono čuva podudarajuće datoteke u direktorijumu
+* Opciono čuva podudarne datoteke u direktorijumu
 
-### Analiza malvera
+### Analiza Malvera
 
 Proverite da li možete pronaći bilo kakav otisak poznatog malvera:
 
@@ -178,9 +177,9 @@ Proverite da li možete pronaći bilo kakav otisak poznatog malvera:
 
 ## Zeek
 
-> [Zeek](https://docs.zeek.org/en/master/about.html) je pasivni, open-source analizator mrežnog saobraćaja. Mnogi operateri koriste Zeek kao mrežni sigurnosni monitor (NSM) kako bi podržali istrage sumnjive ili zlonamerne aktivnosti. Zeek takođe podržava širok spektar zadataka analize saobraćaja izvan domena sigurnosti, uključujući merenje performansi i otklanjanje problema.
+> [Zeek](https://docs.zeek.org/en/master/about.html) je pasivni, open-source analizator saobraćaja na mreži. Mnogi operateri koriste Zeek kao Monitor za bezbednost mreže (NSM) kako bi podržali istrage sumnjive ili zlonamerne aktivnosti. Zeek takođe podržava širok spektar zadataka analize saobraćaja izvan domena bezbednosti, uključujući merenje performansi i rešavanje problema.
 
-U osnovi, zapisi koje kreira `zeek` nisu **pcap** datoteke. Stoga će vam biti potrebni **drugim alati** za analizu zapisa gde se nalaze **informacije** o pcap datotekama.
+U osnovi, zapisi kreirani od strane `zeek` nisu **pcap** datoteke. Stoga će vam biti potrebni **drugi alati** za analizu zapisa gde se nalaze **informacije** o pcap datotekama. 
 
 ### Informacije o konekcijama
 ```bash
@@ -233,23 +232,6 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
 ### DNS informacije
-
-Kada analizirate pakete u PCAP datoteci, možete pronaći korisne informacije o DNS upitima i odgovorima. Ove informacije mogu biti korisne za identifikaciju komunikacije sa sumnjivim ili zlonamjernim domenama.
-
-Da biste pristupili DNS informacijama, možete koristiti alate kao što su `tshark` ili `Wireshark`. Evo nekoliko koraka koje možete slijediti:
-
-1. Pokrenite `tshark` ili otvorite PCAP datoteku u `Wireshark`-u.
-2. Primijenite filter za DNS pakete kako biste ograničili prikaz samo na DNS komunikaciju.
-3. Pregledajte DNS upite i odgovore kako biste pronašli korisne informacije.
-
-Ovdje su neke od informacija koje možete pronaći u DNS paketima:
-
-- **Domena**: Prikazuje se domena koja se traži u DNS upitu.
-- **IP adresa**: Prikazuje se IP adresa koja je povezana s domenom.
-- **Tip zapisa**: Prikazuje se vrsta DNS zapisa, kao što su A, AAAA, CNAME, MX itd.
-- **Vrijeme života (TTL)**: Prikazuje se koliko dugo DNS zapis ostaje u kešu.
-
-Analizirajući ove informacije, možete dobiti uvid u komunikaciju koja se odvija putem DNS-a i identificirati potencijalne sigurnosne prijetnje.
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -266,7 +248,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-## Ostale trikove analize pcap datoteka
+## Ostale trikove analize pcap-a
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -284,20 +266,21 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji kibernetički događaj u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i kibernetičkih profesionalaca u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com/) je najrelevantniji događaj u oblasti **kibernetičke bezbednosti** u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i stručnjaka za kibernetičku bezbednost u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
+{% hint style="success" %}
+Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju oglašenu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
