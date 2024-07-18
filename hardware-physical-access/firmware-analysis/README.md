@@ -1,53 +1,54 @@
 # Analyse du micrologiciel
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## **Introduction**
 
-Le micrologiciel est un logiciel essentiel qui permet aux appareils de fonctionner correctement en gérant et en facilitant la communication entre les composants matériels et le logiciel avec lequel les utilisateurs interagissent. Il est stocké en mémoire permanente, garantissant que l'appareil peut accéder aux instructions vitales dès sa mise sous tension, ce qui conduit au lancement du système d'exploitation. Examiner et éventuellement modifier le micrologiciel est une étape critique pour identifier les vulnérabilités de sécurité.
+Le micrologiciel est un logiciel essentiel qui permet aux appareils de fonctionner correctement en gérant et facilitant la communication entre les composants matériels et le logiciel avec lequel les utilisateurs interagissent. Il est stocké en mémoire permanente, garantissant que l'appareil peut accéder aux instructions vitales dès sa mise sous tension, ce qui conduit au lancement du système d'exploitation. Examiner et éventuellement modifier le micrologiciel est une étape critique pour identifier les vulnérabilités de sécurité.
 
 ## **Collecte d'informations**
 
-La **collecte d'informations** est une étape initiale critique pour comprendre la composition d'un appareil et les technologies qu'il utilise. Ce processus implique la collecte de données sur :
+La **collecte d'informations** est une étape initiale critique pour comprendre la composition d'un appareil et les technologies qu'il utilise. Ce processus implique de collecter des données sur :
 
 * L'architecture du processeur et le système d'exploitation qu'il exécute
-* Spécificités du chargeur d'amorçage
-* Configuration matérielle et fiches techniques
-* Métriques de la base de code et emplacements des sources
-* Bibliothèques externes et types de licences
-* Historiques de mises à jour et certifications réglementaires
-* Diagrammes architecturaux et de flux
-* Évaluations de sécurité et vulnérabilités identifiées
+* Les spécificités du chargeur d'amorçage
+* La disposition matérielle et les fiches techniques
+* Les métriques de la base de code et les emplacements des sources
+* Les bibliothèques externes et les types de licences
+* Les historiques de mises à jour et les certifications réglementaires
+* Les diagrammes architecturaux et de flux
+* Les évaluations de sécurité et les vulnérabilités identifiées
 
-À cette fin, les outils de **renseignement en source ouverte (OSINT)** sont inestimables, tout comme l'analyse de tout composant logiciel en source ouverte disponible via des processus d'examen manuel et automatisé. Des outils comme [Coverity Scan](https://scan.coverity.com) et [LGTM de Semmle](https://lgtm.com/#explore) offrent une analyse statique gratuite qui peut être exploitée pour trouver des problèmes potentiels.
+À cette fin, les outils de **renseignement en source ouverte (OSINT)** sont inestimables, tout comme l'analyse de tout composant logiciel en source ouverte disponible via des processus d'examen manuels et automatisés. Des outils comme [Coverity Scan](https://scan.coverity.com) et [LGTM de Semmle](https://lgtm.com/#explore) offrent une analyse statique gratuite qui peut être exploitée pour trouver des problèmes potentiels.
 
 ## **Acquisition du micrologiciel**
 
 L'obtention du micrologiciel peut être abordée de diverses manières, chacune avec son propre niveau de complexité :
 
 * **Directement** auprès de la source (développeurs, fabricants)
-* **Construction** à partir des instructions fournies
-* **Téléchargement** à partir de sites de support officiels
-* Utilisation de requêtes **Google dork** pour trouver des fichiers de micrologiciel hébergés
-* Accès direct au **stockage cloud**, avec des outils comme [S3Scanner](https://github.com/sa7mon/S3Scanner)
-* Interception des **mises à jour** via des techniques de l'homme du milieu
-* **Extraction** à partir de l'appareil via des connexions comme **UART**, **JTAG** ou **PICit**
-* **Sniffing** pour les demandes de mise à jour dans la communication de l'appareil
-* Identification et utilisation des **points de terminaison de mise à jour codés en dur**
-* **Extraction** du chargeur d'amorçage ou du réseau
-* **Retrait et lecture** de la puce de stockage, en dernier recours, en utilisant des outils matériels appropriés
+* **Le construire** en suivant les instructions fournies
+* **Le télécharger** à partir de sites de support officiels
+* Utiliser des requêtes **Google dork** pour trouver des fichiers de micrologiciel hébergés
+* Accéder au **stockage cloud** directement, avec des outils comme [S3Scanner](https://github.com/sa7mon/S3Scanner)
+* Intercepter les **mises à jour** via des techniques de l'homme du milieu
+* **Extraire** du périphérique via des connexions comme **UART**, **JTAG**, ou **PICit**
+* **Sniffer** les demandes de mise à jour dans la communication de l'appareil
+* Identifier et utiliser des **points de terminaison de mise à jour codés en dur**
+* **Extraire** du chargeur d'amorçage ou du réseau
+* **Retirer et lire** la puce de stockage, en dernier recours, en utilisant des outils matériels appropriés
 
 ## Analyse du micrologiciel
 
@@ -72,7 +73,7 @@ Ou [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive
 
 ### Obtenir le système de fichiers
 
-Avec les outils précédemment commentés comme `binwalk -ev <bin>`, vous devriez avoir pu **extraire le système de fichiers**.\
+Avec les outils précédemment commentés comme `binwalk -ev <bin>`, vous auriez dû pouvoir **extraire le système de fichiers**.\
 Binwalk l'extrait généralement dans un **dossier nommé comme le type de système de fichiers**, qui est généralement l'un des suivants : squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
 #### Extraction manuelle du système de fichiers
@@ -129,7 +130,7 @@ Une fois le firmware obtenu, il est essentiel de le disséquer pour comprendre s
 
 ### Outils d'Analyse Initiale
 
-Un ensemble de commandes est fourni pour l'inspection initiale du fichier binaire (appelé `<bin>`). Ces commandes aident à identifier les types de fichiers, extraire des chaînes, analyser des données binaires et comprendre les détails des partitions et des systèmes de fichiers :
+Un ensemble de commandes est fourni pour l'inspection initiale du fichier binaire (appelé `<bin>`). Ces commandes aident à identifier les types de fichiers, extraire des chaînes, analyser des données binaires et comprendre les détails des partitions et des systèmes de fichiers:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -152,7 +153,7 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
 ### Analyse du système de fichiers
 
-Une fois le système de fichiers extrait, la recherche de failles de sécurité commence. Une attention particulière est portée aux démons réseau non sécurisés, aux identifiants codés en dur, aux points de terminaison API, aux fonctionnalités de serveur de mise à jour, au code non compilé, aux scripts de démarrage et aux binaires compilés pour une analyse hors ligne.
+Une fois le système de fichiers extrait, la recherche de failles de sécurité commence. Une attention particulière est portée aux démons réseau non sécurisés, aux identifiants codés en dur, aux points d'API, aux fonctionnalités de serveur de mise à jour, au code non compilé, aux scripts de démarrage et aux binaires compilés pour une analyse hors ligne.
 
 Les **emplacements clés** et les **éléments** à inspecter comprennent :
 
@@ -166,15 +167,15 @@ Plusieurs outils aident à découvrir des informations sensibles et des vulnéra
 
 - [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) et [**Firmwalker**](https://github.com/craigz28/firmwalker) pour la recherche d'informations sensibles
 - [**L'outil d'analyse et de comparaison de firmware (FACT)**](https://github.com/fkie-cad/FACT\_core) pour une analyse complète du firmware
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) et [**EMBA**](https://github.com/e-m-b-a/emba) pour l'analyse statique et dynamique
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) et [**EMBA**](https://github.com/e-m-b-a/emba) pour une analyse statique et dynamique
 
 ### Vérifications de sécurité sur les binaires compilés
 
 Le code source et les binaires compilés trouvés dans le système de fichiers doivent être examinés pour détecter des vulnérabilités. Des outils comme **checksec.sh** pour les binaires Unix et **PESecurity** pour les binaires Windows aident à identifier les binaires non protégés qui pourraient être exploités.
 
-## Émulation du firmware pour une analyse dynamique
+## Émulation de firmware pour une analyse dynamique
 
-Le processus d'émulation du firmware permet une **analyse dynamique** du fonctionnement d'un appareil ou d'un programme individuel. Cette approche peut rencontrer des défis liés aux dépendances matérielles ou architecturales, mais le transfert du système de fichiers racine ou de binaires spécifiques vers un appareil avec une architecture et une endianness correspondantes, tel qu'un Raspberry Pi, ou vers une machine virtuelle pré-construite, peut faciliter les tests ultérieurs.
+Le processus d'émulation de firmware permet une **analyse dynamique** du fonctionnement d'un appareil ou d'un programme individuel. Cette approche peut rencontrer des défis liés aux dépendances matérielles ou architecturales, mais le transfert du système de fichiers racine ou de binaires spécifiques vers un appareil avec une architecture et une endianness correspondantes, tel qu'un Raspberry Pi, ou vers une machine virtuelle pré-construite, peut faciliter les tests ultérieurs.
 
 ### Émulation de binaires individuels
 
@@ -190,11 +191,9 @@ Et pour installer les outils d'émulation nécessaires :
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-Pour l'architecture MIPS (big-endian), `qemu-mips` est utilisé, et pour les binaires little-endian, `qemu-mipsel` serait le choix.
-
 #### Émulation de l'architecture ARM
 
-Pour les binaires ARM, le processus est similaire, avec l'émulateur `qemu-arm` utilisé pour l'émulation.
+Pour les binaires ARM, le processus est similaire, avec l'émulateur `qemu-arm` étant utilisé pour l'émulation.
 
 ### Émulation du Système Complet
 
@@ -202,11 +201,11 @@ Des outils comme [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware 
 
 ## Analyse Dynamique en Pratique
 
-À ce stade, un environnement de dispositif réel ou émulé est utilisé pour l'analyse. Il est essentiel de maintenir l'accès à l'interface en ligne de commande (shell) du système d'exploitation et du système de fichiers. L'émulation peut ne pas reproduire parfaitement les interactions matérielles, nécessitant parfois des redémarrages de l'émulation. L'analyse devrait revisiter le système de fichiers, exploiter les pages web exposées et les services réseau, et explorer les vulnérabilités du chargeur d'amorçage. Les tests d'intégrité du firmware sont essentiels pour identifier d'éventuelles vulnérabilités de porte dérobée.
+À ce stade, un environnement de dispositif réel ou émulé est utilisé pour l'analyse. Il est essentiel de maintenir l'accès à l'invite de commande du système d'exploitation et au système de fichiers. L'émulation peut ne pas reproduire parfaitement les interactions matérielles, nécessitant des redémarrages occasionnels de l'émulation. L'analyse devrait revisiter le système de fichiers, exploiter les pages web exposées et les services réseau, et explorer les vulnérabilités du chargeur d'amorçage. Les tests d'intégrité du firmware sont essentiels pour identifier les potentielles vulnérabilités de porte dérobée.
 
 ## Techniques d'Analyse en Temps d'Exécution
 
-L'analyse en temps d'exécution implique d'interagir avec un processus ou un binaire dans son environnement d'exploitation, en utilisant des outils comme gdb-multiarch, Frida et Ghidra pour définir des points d'arrêt et identifier les vulnérabilités à travers le fuzzing et d'autres techniques.
+L'analyse en temps d'exécution implique d'interagir avec un processus ou un binaire dans son environnement d'exploitation, en utilisant des outils comme gdb-multiarch, Frida, et Ghidra pour définir des points d'arrêt et identifier les vulnérabilités à travers le fuzzing et d'autres techniques.
 
 ## Exploitation Binaire et Preuve de Concept
 
@@ -214,16 +213,16 @@ Développer une PoC pour les vulnérabilités identifiées nécessite une compr�
 
 ## Systèmes d'Exploitation Préparés pour l'Analyse de Firmware
 
-Des systèmes d'exploitation comme [AttifyOS](https://github.com/adi0x90/attifyos) et [EmbedOS](https://github.com/scriptingxss/EmbedOS) fournissent des environnements préconfigurés pour les tests de sécurité du firmware, équipés des outils nécessaires.
+Des systèmes d'exploitation comme [AttifyOS](https://github.com/adi0x90/attifyos) et [EmbedOS](https://github.com/scriptingxss/EmbedOS) fournissent des environnements préconfigurés pour les tests de sécurité des firmwares, équipés des outils nécessaires.
 
-## OS Préparés pour Analyser le Firmware
+## OS Préparés pour Analyser les Firmwares
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS est une distribution conçue pour vous aider à réaliser des évaluations de sécurité et des tests de pénétration des dispositifs Internet des objets (IoT). Il vous fait gagner beaucoup de temps en fournissant un environnement préconfiguré avec tous les outils nécessaires chargés.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Système d'exploitation de test de sécurité embarqué basé sur Ubuntu 18.04 préchargé avec des outils de test de sécurité du firmware.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS est une distribution conçue pour vous aider à réaliser des évaluations de sécurité et des tests de pénétration des dispositifs Internet des Objets (IoT). Il vous fait gagner beaucoup de temps en fournissant un environnement préconfiguré avec tous les outils nécessaires chargés.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Système d'exploitation de test de sécurité embarqué basé sur Ubuntu 18.04 préchargé avec des outils de test de sécurité des firmwares.
 
-## Firmware Vulnérable pour la Pratique
+## Firmwares Vulnérables pour la Pratique
 
-Pour pratiquer la découverte de vulnérabilités dans les firmwares, utilisez les projets de firmware vulnérables suivants comme point de départ.
+Pour pratiquer la découverte de vulnérabilités dans les firmwares, utilisez les projets de firmwares vulnérables suivants comme point de départ.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
@@ -246,17 +245,3 @@ Pour pratiquer la découverte de vulnérabilités dans les firmwares, utilisez l
 ## Formation et Certificat
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

@@ -1,18 +1,19 @@
 # Montages Sensibles
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../../..https:/pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -26,13 +27,13 @@ L'exposition de `/proc` et `/sys` sans une isolation de l'espace de noms appropr
 
 ### `/proc/sys`
 
-Ce répertoire permet d'accéder à la modification des variables du noyau, généralement via `sysctl(2)`, et contient plusieurs sous-répertoires d'intérêt :
+Ce répertoire permet d'accéder à la modification des variables du noyau, généralement via `sysctl(2)`, et contient plusieurs sous-répertoires préoccupants :
 
 #### **`/proc/sys/kernel/core_pattern`**
 
 * Décrit dans [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-* Permet de définir un programme à exécuter lors de la génération d'un fichier core avec les 128 premiers octets comme arguments. Cela peut entraîner l'exécution de code si le fichier commence par un pipe `|`.
-*   **Exemple de test et d'exploitation** :
+* Permet de définir un programme à exécuter lors de la génération d'un fichier core avec les 128 premiers octets comme arguments. Cela peut entraîner l'exécution de code si le fichier commence par un tuyau `|`.
+*   **Exemple de test et d'exploitation**:
 
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Oui # Test d'accès en écriture
@@ -43,9 +44,9 @@ sleep 5 && ./crash & # Déclencher le gestionnaire
 
 #### **`/proc/sys/kernel/modprobe`**
 
-* Détail dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
+* Détails dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 * Contient le chemin du chargeur de module du noyau, invoqué pour charger les modules du noyau.
-*   **Exemple de vérification d'accès** :
+*   **Exemple de vérification d'accès**:
 
 ```bash
 ls -l $(cat /proc/sys/kernel/modprobe) # Vérifier l'accès à modprobe
@@ -64,9 +65,9 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Vérifier l'accès à modprobe
 #### **`/proc/sys/fs/binfmt_misc`**
 
 * Permet d'enregistrer des interprètes pour des formats binaires non natifs en fonction de leur numéro magique.
-* Peut entraîner une élévation de privilèges ou un accès à un shell root si `/proc/sys/fs/binfmt_misc/register` est inscriptible.
+* Peut entraîner une élévation de privilèges ou un accès au shell root si `/proc/sys/fs/binfmt_misc/register` est inscriptible.
 * Exploit pertinent et explication :
-* [Rootkit du pauvre via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
+* [Rootkit de pauvre homme via binfmt\_misc](https://github.com/toffan/binfmt\_misc)
 * Tutoriel approfondi : [Lien vidéo](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ### Autres dans `/proc`
@@ -79,7 +80,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Vérifier l'accès à modprobe
 #### **`/proc/sysrq-trigger`**
 
 * Permet d'invoquer des commandes Sysrq, pouvant entraîner des redémarrages immédiats du système ou d'autres actions critiques.
-*   **Exemple de redémarrage de l'hôte** :
+*   **Exemple de redémarrage de l'hôte**:
 
 ```bash
 echo b > /proc/sysrq-trigger # Redémarre l'hôte
@@ -130,7 +131,7 @@ echo b > /proc/sysrq-trigger # Redémarre l'hôte
 * Fournit des informations sur les points de montage dans l'espace de noms de montage du processus.
 * Expose l'emplacement du `rootfs` du conteneur ou de l'image.
 
-### Vulnérabilités sys
+### Vulnérabilités `/sys`
 
 #### **`/sys/kernel/uevent_helper`**
 
@@ -163,7 +164,7 @@ cat /output %%%
 
 #### **`/sys/kernel/vmcoreinfo`**
 
-* Fuites d'adresses du noyau, compromettant potentiellement le KASLR.
+* Fuites les adresses du noyau, compromettant potentiellement le KASLR.
 
 #### **`/sys/kernel/security`**
 
@@ -190,16 +191,17 @@ cat /output %%%
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

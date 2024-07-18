@@ -1,18 +1,19 @@
 # Red Team macOS
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 ## Abus des MDM
 
@@ -21,7 +22,7 @@ Autres façons de soutenir HackTricks :
 
 Si vous parvenez à **compromettre les identifiants d'administrateur** pour accéder à la plateforme de gestion, vous pouvez **potentiellement compromettre tous les ordinateurs** en distribuant votre logiciel malveillant sur les machines.
 
-Pour le red teaming dans les environnements macOS, il est fortement recommandé d'avoir une certaine compréhension du fonctionnement des MDM :
+Pour le red teaming dans les environnements macOS, il est fortement recommandé de comprendre le fonctionnement des MDM :
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -29,7 +30,7 @@ Pour le red teaming dans les environnements macOS, il est fortement recommandé 
 
 ### Utilisation de MDM comme C2
 
-Un MDM aura l'autorisation d'installer, interroger ou supprimer des profils, installer des applications, créer des comptes administrateurs locaux, définir un mot de passe du firmware, changer la clé FileVault...
+Un MDM aura l'autorisation d'installer, interroger ou supprimer des profils, installer des applications, créer des comptes administrateurs locaux, définir un mot de passe de firmware, changer la clé FileVault...
 
 Pour exécuter votre propre MDM, vous devez **faire signer votre CSR par un vendeur** que vous pourriez essayer d'obtenir avec [**https://mdmcert.download/**](https://mdmcert.download/). Et pour exécuter votre propre MDM pour les appareils Apple, vous pourriez utiliser [**MicroMDM**](https://github.com/micromdm/micromdm).
 
@@ -45,9 +46,9 @@ JAMF peut exécuter des **scripts personnalisés** (scripts développés par l'a
 
 #### Auto-inscription JAMF
 
-Allez sur une page comme `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si **l'auto-inscription est activée**. S'ils l'ont, cela pourrait **demander des identifiants pour accéder**.
+Allez sur une page comme `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si **l'auto-inscription est activée**. S'ils l'ont, il pourrait **demander des identifiants pour accéder**.
 
-Vous pourriez utiliser le script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) pour effectuer une attaque de pulvérisation de mots de passe.
+Vous pourriez utiliser le script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) pour effectuer une attaque de pulvérisation de mot de passe.
 
 De plus, après avoir trouvé les identifiants appropriés, vous pourriez être en mesure de faire une attaque de force brute sur d'autres noms d'utilisateur avec le formulaire suivant :
 
@@ -62,7 +63,7 @@ De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchA
 
 #### Prise de contrôle de dispositif JAMF
 
-L'URL du **JSS** (Serveur de logiciels Jamf) que **`jamf`** utilisera est située dans **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+L'URL du **JSS** (Jamf Software Server) que **`jamf`** utilisera est située dans **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Ce fichier contient essentiellement l'URL :
 
 {% code overflow="wrap" %}
@@ -96,15 +97,15 @@ Pour **impersonner la communication** entre un appareil et JMF, vous avez besoin
 * L'**UUID** de l'appareil : `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * Le **trousseau JAMF** depuis : `/Library/Application\ Support/Jamf/JAMF.keychain` qui contient le certificat de l'appareil
 
-Avec ces informations, **créez une machine virtuelle** avec l'**UUID du matériel volé** et avec **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'**agent Jamf** et volez ses informations.
+Avec ces informations, **créez une machine virtuelle** avec l'**UUID matériel volé** et avec **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'**agent Jamf** et volez ses informations.
 
 #### Vol de secrets
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Vous pouvez également surveiller l'emplacement `/Library/Application Support/Jamf/tmp/` pour les **scripts personnalisés** que les administrateurs pourraient vouloir exécuter via Jamf car ils sont **placés ici, exécutés et supprimés**. Ces scripts **peuvent contenir des informations d'identification**.
+Vous pouvez également surveiller l'emplacement `/Library/Application Support/Jamf/tmp/` pour les **scripts personnalisés** que les administrateurs pourraient vouloir exécuter via Jamf car ils sont **placés ici, exécutés et supprimés**. Ces scripts **pourraient contenir des identifiants**.
 
-Cependant, les **informations d'identification** pourraient être transmises à ces scripts en tant que **paramètres**, donc vous devriez surveiller `ps aux | grep -i jamf` (même sans être root).
+Cependant, les **identifiants** pourraient être transmis à ces scripts en tant que **paramètres**, donc vous devriez surveiller `ps aux | grep -i jamf` (même sans être root).
 
 Le script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) peut écouter les nouveaux fichiers ajoutés et les nouveaux arguments de processus.
 
@@ -136,11 +137,13 @@ Certains **outils locaux MacOS** qui pourraient également vous aider sont `dscl
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Également, il existe des outils préparés pour MacOS permettant d'énumérer automatiquement l'AD et de jouer avec Kerberos :
+Également, il existe des outils préparés pour MacOS pour énumérer automatiquement l'AD et jouer avec Kerberos :
 
 * [**Machound**](https://github.com/XMCyber/MacHound) : MacHound est une extension de l'outil d'audit Bloodhound permettant de collecter et d'ingérer des relations Active Directory sur des hôtes MacOS.
 * [**Bifrost**](https://github.com/its-a-feature/bifrost) : Bifrost est un projet Objective-C conçu pour interagir avec les API Heimdal krb5 sur macOS. Le but du projet est de permettre de meilleurs tests de sécurité autour de Kerberos sur les appareils macOS en utilisant des API natives sans nécessiter d'autres frameworks ou packages sur la cible.
 * [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript for Automation (JXA) pour l'énumération de l'Active Directory.
+
+### Informations sur le domaine
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -185,7 +188,7 @@ Plus d'informations sur [https://its-a-feature.github.io/posts/2018/01/Active-Di
 
 ## Accéder au trousseau
 
-Le trousseau contient très probablement des informations sensibles qui, s'il est accédé sans générer de demande, pourrait aider à faire avancer un exercice de l'équipe rouge :
+Il est très probable que le trousseau contienne des informations sensibles qui, s'il est accédé sans générer de demande, pourrait aider à faire avancer un exercice d'équipe rouge :
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -195,11 +198,11 @@ Le trousseau contient très probablement des informations sensibles qui, s'il es
 
 Le Red Teaming sur MacOS est différent d'un Red Teaming Windows classique car **MacOS est généralement intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS est d'accéder à l'ordinateur en utilisant **les identifiants synchronisés de OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin.
 
-## Techniques Red Team diverses
+## Techniques de l'équipe rouge diverses
 
 ### Safari
 
-Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **automatiquement ouvert**. Par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
+Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **ouvert automatiquement**. Par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -211,16 +214,17 @@ Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr"
 * [**Come to the Dark Side, We Have Apples: Turning macOS Management Evil**](https://www.youtube.com/watch?v=pOQOh07eMxY)
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez** 💬 [**le groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

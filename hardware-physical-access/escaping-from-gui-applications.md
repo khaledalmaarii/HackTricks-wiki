@@ -1,18 +1,19 @@
 # Évasion des KIOSKs
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
@@ -20,9 +21,9 @@ Autres façons de soutenir HackTricks :
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
-Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site Web et essayer leur moteur gratuitement sur :
 
 {% embed url="https://whiteintel.io" %}
 
@@ -35,7 +36,7 @@ Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur 
 | Bouton d'alimentation  | Éteindre et rallumer l'appareil peut exposer l'écran de démarrage      |
 | Câble d'alimentation   | Vérifiez si l'appareil redémarre lorsque l'alimentation est brièvement coupée   |
 | Ports USB     | Connectez un clavier physique avec plus de raccourcis                        |
-| Ethernet      | L'analyse du réseau ou le reniflage peuvent permettre une exploitation plus poussée             |
+| Ethernet      | L'analyse du réseau ou le sniffing peuvent permettre une exploitation supplémentaire             |
 
 
 ## Vérifier les actions possibles à l'intérieur de l'application GUI
@@ -58,7 +59,7 @@ Vous devriez vérifier si vous pouvez :
 
 ### Exécution de commandes
 
-Peut-être qu'en utilisant l'option `Ouvrir avec`, vous pouvez ouvrir/exécuter une sorte de shell.
+Peut-être **en utilisant une option `Ouvrir avec`** vous pouvez ouvrir/exécuter une sorte de shell.
 
 #### Windows
 
@@ -77,9 +78,9 @@ _bash, sh, zsh..._ Plus ici : [https://gtfobins.github.io/](https://gtfobins.git
 * **Liens symboliques**
 * **Raccourcis** : CTRL+N (ouvrir une nouvelle session), CTRL+R (Exécuter des commandes), CTRL+SHIFT+ESC (Gestionnaire des tâches), Windows+E (ouvrir l'explorateur), CTRL-B, CTRL-I (Favoris), CTRL-H (Historique), CTRL-L, CTRL-O (Boîte de dialogue Ouvrir/Fichier), CTRL-P (Boîte de dialogue Imprimer), CTRL-S (Enregistrer sous)
 * Menu administratif caché : CTRL-ALT-F8, CTRL-ESC-F9
-* **URI Shell** : _shell:Outils administratifs, shell:Bibliothèque de documents, shell:Bibliothèques, shell:ProfilsUtilisateurs, shell:Personnel, shell:DossierRecherche, shell:Système, shell:Réseau, shell:Envoyer vers, shell:ProfilsUtilisateurs, shell:Outils administratifs communs, shell:Ordinateur, shell:Internet_
+* **URI Shell** : _shell:Outils administratifs, shell:Bibliothèques de documents, shell:Bibliothèques, shell:ProfilsUtilisateurs, shell:Personnel, shell:DossierRecherche, shell:Système, shell:Réseau, shell:Envoyer vers, shell:ProfilsUtilisateurs, shell:Outils administratifs communs, shell:Ordinateur, shell:Internet_
 * **Chemins UNC** : Chemins pour se connecter à des dossiers partagés. Vous devriez essayer de vous connecter au C$ de la machine locale ("\\\127.0.0.1\c$\Windows\System32")
-* **Autres chemins UNC** :
+* **Autres chemins UNC:**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -116,7 +117,7 @@ Explorateur : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2
 * Mouse Keys – SHIFT+ALT+NUMLOCK
 * Contraste élevé – SHIFT+ALT+PRINTSCN
 * Touche de bascule – Maintenez NUMLOCK enfoncé pendant 5 secondes
-* Touches de filtre – Maintenez la touche droite SHIFT enfoncée pendant 12 secondes
+* Touches de filtre – Maintenez la touche SHIFT droite enfoncée pendant 12 secondes
 * WINDOWS+F1 – Recherche Windows
 * WINDOWS+D – Afficher le bureau
 * WINDOWS+E – Lancer l'Explorateur Windows
@@ -144,7 +145,7 @@ Explorateur : [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2
 
 ### Astuces pour Internet Explorer
 
-#### 'Barre d'images'
+#### 'Barre d'outils d'image'
 
 C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle est cliquée. Vous pourrez Enregistrer, Imprimer, Envoyer par e-mail, Ouvrir "Mes images" dans l'Explorateur. Le Kiosque doit utiliser Internet Explorer.
 
@@ -152,7 +153,7 @@ C'est une barre d'outils qui apparaît en haut à gauche de l'image lorsqu'elle 
 
 Tapez ces URL pour obtenir une vue de l'Explorateur :
 
-* `shell:Outils d'administration`
+* `shell:Outils administratifs`
 * `shell:Bibliothèque de documents`
 * `shell:Bibliothèques`
 * `shell:ProfilsUtilisateurs`
@@ -161,7 +162,7 @@ Tapez ces URL pour obtenir une vue de l'Explorateur :
 * `shell:DossierLieuxRéseau`
 * `shell:EnvoyerVers`
 * `shell:ProfilsUtilisateurs`
-* `shell:Outils d'administration communs`
+* `shell:Outils administratifs communs`
 * `shell:PosteTravail`
 * `shell:DossierInternet`
 * `Shell:Profil`
@@ -171,7 +172,7 @@ Tapez ces URL pour obtenir une vue de l'Explorateur :
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panneau de configuration
 * `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Poste de travail
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Lieux réseau
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Mes lieux réseau
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
 ### Afficher les extensions de fichier
@@ -193,16 +194,16 @@ Source : https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de198
 ### Gestes et boutons
 
 * Balayez vers le haut avec quatre (ou cinq) doigts / Double-tapez sur le bouton Accueil : Pour afficher la vue multitâche et changer d'application
-* Balayez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour passer à l'application suivante/précédente
+* Balayez d'un côté ou de l'autre avec quatre ou cinq doigts : Pour changer vers l'application suivante/précédente
 * Pincez l'écran avec cinq doigts / Touchez le bouton Accueil / Balayez vers le haut avec 1 doigt depuis le bas de l'écran en un mouvement rapide vers le haut : Pour accéder à l'Accueil
 * Balayez avec un doigt depuis le bas de l'écran sur 1-2 pouces (lentement) : Le dock apparaîtra
 * Balayez vers le bas depuis le haut de l'écran avec 1 doigt : Pour afficher vos notifications
 * Balayez vers le bas avec 1 doigt dans le coin supérieur droit de l'écran : Pour voir le centre de contrôle de l'iPad Pro
 * Balayez avec 1 doigt depuis la gauche de l'écran sur 1-2 pouces : Pour voir la vue Aujourd'hui
-* Balayez rapidement avec 1 doigt du centre de l'écran vers la droite ou la gauche : Pour passer à l'application suivante/précédente
-* Appuyez et maintenez le bouton Marche/Arrêt en haut à droite de l'iPad + Déplacez le curseur Éteindre tout à droite : Pour éteindre
+* Balayez rapidement avec 1 doigt depuis le centre de l'écran vers la droite ou la gauche : Pour changer vers l'application suivante/précédente
+* Maintenez enfoncé le bouton Marche/Arrêt en haut à droite de l'iPad + Déplacez le curseur Éteindre tout à droite : Pour éteindre
 * Appuyez sur le bouton Marche/Arrêt en haut à droite de l'iPad et le bouton Accueil pendant quelques secondes : Pour forcer un arrêt complet
-* Appuyez sur le bouton Marche/Arrêt en haut à droite de l'iPad et le bouton Accueil rapidement : Pour prendre une capture d'écran qui apparaîtra en bas à gauche de l'écran. Appuyez brièvement sur les deux boutons en même temps, car si vous les maintenez enfoncés quelques secondes, un arrêt complet sera effectué.
+* Appuyez rapidement sur le bouton Marche/Arrêt en haut à droite de l'iPad et le bouton Accueil : Pour prendre une capture d'écran qui apparaîtra en bas à gauche de l'écran. Appuyez brièvement sur les deux boutons en même temps, car si vous les maintenez enfoncés quelques secondes, un arrêt complet sera effectué.
 
 ### Raccourcis
 
@@ -259,7 +260,7 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ↑↓ (Flèche vers le haut, Flèche vers le bas)                          | Appuyer simultanément sur l'élément sélectionné                        |
 | ⌥ ↓ (Option-Flèche vers le bas)                            | Faire défiler vers le bas                                             |
 | ⌥↑ (Option-Flèche vers le haut)                               | Faire défiler vers le haut                                               |
-| ⌥← or ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite                                    |
+| ⌥← ou ⌥→ (Option-Flèche gauche ou Option-Flèche droite) | Faire défiler vers la gauche ou la droite                                    |
 | ^⌥S (Contrôle-Option-S)                             | Activer ou désactiver la synthèse vocale VoiceOver                         |
 | ⌘⇧⇥ (Commande-Majuscule-Tabulation)                            | Passer à l'application précédente                              |
 | ⌘⇥ (Commande-Tabulation)                                   | Revenir à l'application d'origine                         |
@@ -277,9 +278,9 @@ Ces raccourcis sont pour les paramètres visuels et sonores, en fonction de l'ut
 | ^⇧⇥ (Control-Shift-Tab) | Aller à l'onglet précédent                        |
 | ⌘L                      | Sélectionner le champ de texte/URL pour le modifier|
 | ⌘⇧T (Command-Shift-T)   | Ouvrir le dernier onglet fermé (peut être utilisé plusieurs fois) |
-| ⌘\[                     | Revenir à la page précédente dans votre historique de navigation |
-| ⌘]                      | Aller à la page suivante dans votre historique de navigation |
-| ⌘⇧R                     | Activer le mode Lecteur                            |
+| ⌘\[                     | Revenir à la page précédente dans l'historique de navigation |
+| ⌘]                      | Aller à la page suivante dans l'historique de navigation |
+| ⌘⇧R                     | Activer le mode Lecteur                           |
 
 #### Raccourcis Mail
 
@@ -311,16 +312,17 @@ Vous pouvez consulter leur site web et essayer leur moteur gratuitement sur :
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

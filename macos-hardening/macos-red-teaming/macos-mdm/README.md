@@ -1,18 +1,19 @@
 # macOS MDM
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Pour en savoir plus sur les MDM macOS, consultez :**
 
@@ -23,10 +24,10 @@ Autres façons de soutenir HackTricks :
 
 ### **Aperçu de MDM (Gestion des appareils mobiles)**
 
-La [Gestion des appareils mobiles](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) est utilisée pour gérer différents appareils utilisateurs tels que les smartphones, les ordinateurs portables et les tablettes. Particulièrement pour les plateformes d'Apple (iOS, macOS, tvOS), cela implique un ensemble de fonctionnalités spécialisées, d'API et de pratiques. Le fonctionnement de MDM repose sur un serveur MDM compatible, qui est soit disponible commercialement, soit en open source, et doit prendre en charge le [Protocole MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Les points clés incluent :
+La [Gestion des appareils mobiles](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) est utilisée pour gérer différents appareils utilisateurs tels que des smartphones, des ordinateurs portables et des tablettes. Particulièrement pour les plateformes d'Apple (iOS, macOS, tvOS), cela implique un ensemble de fonctionnalités spécialisées, d'API et de pratiques. Le fonctionnement de MDM repose sur un serveur MDM compatible, qui est soit disponible commercialement, soit open-source, et doit prendre en charge le [Protocole MDM](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Les points clés incluent :
 
 * Contrôle centralisé des appareils.
-* Dépendance à un serveur MDM qui respecte le protocole MDM.
+* Dépendance d'un serveur MDM qui respecte le protocole MDM.
 * Capacité du serveur MDM à envoyer diverses commandes aux appareils, par exemple, effacement de données à distance ou installation de configurations.
 
 ### **Fondamentaux du DEP (Programme d'inscription des appareils)**
@@ -52,9 +53,9 @@ Il est crucial de noter que la facilité d'inscription fournie par le DEP, bien 
 
 ### Quels sont les profils de configuration (également appelés mobileconfigs) ?
 
-* Moyen officiel d'**établir/faire respecter la configuration système** d'Apple.
+* Méthode officielle d'**établissement/imposition de la configuration système** par Apple.
 * Format de fichier pouvant contenir plusieurs charges utiles.
-* Basé sur des listes de propriétés (le type XML).
+* Basé sur des listes de propriétés (du type XML).
 * "peut être signé et chiffré pour valider leur origine, assurer leur intégrité et protéger leur contenu." Fondamentaux — Page 70, Guide de sécurité iOS, janvier 2018.
 
 ## Protocoles
@@ -70,21 +71,21 @@ Il est crucial de noter que la facilité d'inscription fournie par le DEP, bien 
 ### DEP
 
 * **3 API** : 1 pour les revendeurs, 1 pour les fournisseurs MDM, 1 pour l'identité de l'appareil (non documenté) :
-* Le soi-disant [API de "service cloud" DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Cela est utilisé par les serveurs MDM pour associer des profils DEP à des appareils spécifiques.
+* La soi-disant [API "service cloud" DEP](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). Celle-ci est utilisée par les serveurs MDM pour associer des profils DEP à des appareils spécifiques.
 * L'[API DEP utilisée par les revendeurs agréés Apple](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) pour inscrire des appareils, vérifier l'état de l'inscription et vérifier l'état de la transaction.
-* L'API DEP privée non documentée. Cela est utilisé par les appareils Apple pour demander leur profil DEP. Sur macOS, le binaire `cloudconfigurationd` est responsable de la communication via cette API.
+* L'API DEP privée non documentée. Celle-ci est utilisée par les appareils Apple pour demander leur profil DEP. Sur macOS, le binaire `cloudconfigurationd` est responsable de la communication via cette API.
 * Plus moderne et basé sur **JSON** (par rapport à plist)
 * Apple accorde un **jeton OAuth** au fournisseur MDM
 
-**API de "service cloud" DEP**
+**API "service cloud" DEP**
 
 * RESTful
-* synchroniser les enregistrements d'appareils d'Apple vers le serveur MDM
-* synchroniser les "profils DEP" vers Apple depuis le serveur MDM (fournis par Apple à l'appareil ultérieurement)
+* synchronise les enregistrements d'appareils d'Apple vers le serveur MDM
+* synchronise les "profils DEP" vers Apple depuis le serveur MDM (fournis par Apple à l'appareil ultérieurement)
 * Un "profil" DEP contient :
 * URL du serveur du fournisseur MDM
 * Certificats de confiance supplémentaires pour l'URL du serveur (épinglage facultatif)
-* Paramètres supplémentaires (par ex. quels écrans sauter dans l'Assistant de configuration)
+* Paramètres supplémentaires (par exemple, quelles étapes sauter dans l'Assistant de configuration)
 
 ## Numéro de série
 
@@ -99,23 +100,23 @@ Les appareils Apple fabriqués après 2010 ont généralement des numéros de s�
 1. Création de l'enregistrement de l'appareil (Revendeur, Apple) : L'enregistrement du nouvel appareil est créé
 2. Attribution de l'enregistrement de l'appareil (Client) : L'appareil est attribué à un serveur MDM
 3. Synchronisation de l'enregistrement de l'appareil (Fournisseur MDM) : Le MDM synchronise les enregistrements de l'appareil et pousse les profils DEP vers Apple
-4. Enregistrement DEP (Appareil) : L'appareil obtient son profil DEP
+4. Vérification DEP (Appareil) : L'appareil obtient son profil DEP
 5. Récupération du profil (Appareil)
 6. Installation du profil (Appareil) a. incl. charges utiles MDM, SCEP et CA racine
 7. Émission de commandes MDM (Appareil)
 
 ![](<../../../.gitbook/assets/image (694).png>)
 
-Le fichier `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exporte des fonctions qui peuvent être considérées comme des **étapes "hautes"** du processus d'inscription.
-### Étape 4 : Vérification DEP - Obtenir l'enregistrement d'activation
+Le fichier `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exporte des fonctions qui peuvent être considérées comme des **étapes** **de haut niveau** du processus d'inscription.
+### Étape 4: Vérification DEP - Obtenir l'enregistrement d'activation
 
 Cette partie du processus se produit lorsque **un utilisateur démarre un Mac pour la première fois** (ou après une suppression complète)
 
 ![](<../../../.gitbook/assets/image (1044).png>)
 
-ou en exécutant `sudo profiles show -type enrollment`
+ou lors de l'exécution de `sudo profiles show -type enrollment`
 
-* Déterminer si l'appareil est activé pour DEP
+* Déterminer **si l'appareil est activé pour DEP**
 * L'enregistrement d'activation est le nom interne du **"profil" DEP**
 * Commence dès que l'appareil est connecté à Internet
 * Piloté par **`CPFetchActivationRecord`**
@@ -127,7 +128,7 @@ Il suit quelques étapes pour obtenir l'enregistrement d'activation effectué pa
 1. Récupérer le **certificat**
 1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
 2. **Initialiser** l'état à partir du certificat (**`NACInit`**)
-1. Utilise diverses données spécifiques à l'appareil (par ex. **Numéro de série via `IOKit`**)
+1. Utilise diverses données spécifiques à l'appareil (par exemple le **numéro de série via `IOKit`**)
 3. Récupérer la **clé de session**
 1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
 4. Établir la session (**`NACKeyEstablishment`**)
@@ -143,7 +144,7 @@ La réponse est un dictionnaire JSON avec des données importantes telles que :
 * **url** : URL de l'hôte du fournisseur MDM pour le profil d'activation
 * **anchor-certs** : Tableau de certificats DER utilisés comme ancres de confiance
 
-### **Étape 5 : Récupération du profil**
+### **Étape 5: Récupération du profil**
 
 ![](<../../../.gitbook/assets/image (444).png>)
 
@@ -156,9 +157,9 @@ La réponse est un dictionnaire JSON avec des données importantes telles que :
 * Signé en utilisant le **certificat d'identité de l'appareil (de APNS)**
 * La **chaîne de certificats** inclut le certificat expiré **Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (2) (2).png>)
 
-### Étape 6 : Installation du profil
+### Étape 6: Installation du profil
 
 * Une fois récupéré, **le profil est stocké sur le système**
 * Cette étape démarre automatiquement (si dans l'**assistant de configuration**)
@@ -172,7 +173,7 @@ La réponse est un dictionnaire JSON avec des données importantes telles que :
 * Exemple :
 * Les charges utiles de certificat utilisent CertificateService.xpc
 
-Généralement, le **profil d'activation** fourni par un fournisseur MDM inclura les charges utiles suivantes :
+Typiquement, **le profil d'activation** fourni par un fournisseur MDM inclura **les charges utiles suivantes** :
 
 * `com.apple.mdm` : pour **inscrire** l'appareil dans le MDM
 * `com.apple.security.scep` : pour fournir de manière sécurisée un **certificat client** à l'appareil.
@@ -189,13 +190,13 @@ Généralement, le **profil d'activation** fourni par un fournisseur MDM inclura
 * Propriété : **`CheckInURLPinningCertificateUUIDs`**
 * Propriété : **`ServerURLPinningCertificateUUIDs`**
 * Livré via la charge utile PEM
-* Permet à l'appareil d'être attribué à un certificat d'identité :
+* Permet à l'appareil d'être attribué avec un certificat d'identité :
 * Propriété : IdentityCertificateUUID
 * Livré via la charge utile SCEP
 
-### **Étape 7 : Écoute des commandes MDM**
+### **Étape 7: Écoute des commandes MDM**
 
-* Après l'enregistrement MDM est terminé, le fournisseur peut **émettre des notifications push en utilisant APNs**
+* Après l'enregistrement MDM est complet, le fournisseur peut **émettre des notifications push en utilisant APNs**
 * À la réception, géré par **`mdmclient`**
 * Pour interroger les commandes MDM, une demande est envoyée à ServerURL
 * Utilise la charge utile MDM précédemment installée :
@@ -208,21 +209,3 @@ Généralement, le **profil d'activation** fourni par un fournisseur MDM inclura
 
 Comme précédemment commenté, pour essayer d'inscrire un appareil dans une organisation, **seul un numéro de série appartenant à cette organisation est nécessaire**. Une fois l'appareil inscrit, plusieurs organisations installeront des données sensibles sur le nouvel appareil : certificats, applications, mots de passe WiFi, configurations VPN [et ainsi de suite](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
 Par conséquent, cela pourrait être un point d'entrée dangereux pour les attaquants si le processus d'inscription n'est pas correctement protégé:
-
-{% content-ref url="enrolling-devices-in-other-organisations.md" %}
-[enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
-{% endcontent-ref %}
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>

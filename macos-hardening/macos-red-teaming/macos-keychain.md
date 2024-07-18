@@ -1,18 +1,19 @@
 # macOS Keychain
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
@@ -39,7 +40,7 @@ Ces fichiers, bien qu'ils ne bénéficient pas d'une protection inhérente et pu
 
 ## Protections des entrées du trousseau
 
-### ACL
+### ACLs
 
 Chaque entrée dans le trousseau est régie par des **listes de contrôle d'accès (ACL)** qui dictent qui peut effectuer diverses actions sur l'entrée du trousseau, notamment :
 
@@ -93,14 +94,14 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-L'**énumération et l'extraction** des secrets du trousseau qui **ne généreront pas de fenêtre contextuelle** peuvent être effectuées avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+La **numérotation et l'extraction** des secrets du trousseau qui **ne généreront pas de fenêtre contextuelle** peuvent être effectuées avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
 Listez et obtenez des **informations** sur chaque entrée du trousseau :
 
 * L'API **`SecItemCopyMatching`** donne des informations sur chaque entrée et il existe quelques attributs que vous pouvez définir lors de son utilisation :
 * **`kSecReturnData`** : Si vrai, il tentera de décrypter les données (définissez-le sur faux pour éviter les fenêtres contextuelles potentielles)
-* **`kSecReturnRef`** : Obtenez également la référence de l'élément du trousseau (définissez-le sur vrai au cas où vous pourriez décrypter sans fenêtre contextuelle)
+* **`kSecReturnRef`** : Obtenez également la référence de l'élément du trousseau (définissez-le sur vrai au cas où vous verriez que vous pouvez décrypter sans fenêtre contextuelle)
 * **`kSecReturnAttributes`** : Obtenez des métadonnées sur les entrées
 * **`kSecMatchLimit`** : Combien de résultats renvoyer
 * **`kSecClass`** : Quel type d'entrée de trousseau
@@ -109,7 +110,7 @@ Obtenez les **ACL** de chaque entrée :
 
 * Avec l'API **`SecAccessCopyACLList`** vous pouvez obtenir l'**ACL de l'élément du trousseau**, et il renverra une liste d'ACL (comme `ACLAuhtorizationExportClear` et les autres mentionnés précédemment) où chaque liste a :
 * Description
-* **Liste d'applications de confiance**. Cela pourrait être :
+* Liste d'applications de confiance. Cela pourrait être :
 * Une application : /Applications/Slack.app
 * Un binaire : /usr/libexec/airportd
 * Un groupe : group://AirPort
@@ -119,7 +120,7 @@ Exportez les données :
 * L'API **`SecKeychainItemCopyContent`** obtient le texte en clair
 * L'API **`SecItemExport`** exporte les clés et certificats mais il peut être nécessaire de définir des mots de passe pour exporter le contenu chiffré
 
-Et voici les **conditions** pour pouvoir **exporter un secret sans fenêtre contextuelle** :
+Et voici les **exigences** pour pouvoir **exporter un secret sans fenêtre contextuelle** :
 
 * Si **1+ applications de confiance** répertoriées :
 * Besoin des **autorisations appropriées** (**`Nil`**, ou faire **partie** de la liste autorisée d'applications dans l'autorisation pour accéder aux informations secrètes)
@@ -152,22 +153,23 @@ Si **apple** est indiqué dans le **partitionID**, vous pourriez y accéder avec
 
 [**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **logiciels malveillants voleurs**.
 
-Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants volant des informations.
+Le but principal de WhiteIntel est de lutter contre les prises de contrôle de compte et les attaques de ransomware résultant de logiciels malveillants voleurs d'informations.
 
-Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** sur :
+Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** à :
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

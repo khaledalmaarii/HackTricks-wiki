@@ -1,50 +1,51 @@
 # macOS GCD - Grand Central Dispatch
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) **et** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **dépôts GitHub.**
 
 </details>
+{% endhint %}
 
 ## Informations de base
 
 **Grand Central Dispatch (GCD),** également connu sous le nom de **libdispatch** (`libdispatch.dyld`), est disponible à la fois sur macOS et iOS. Il s'agit d'une technologie développée par Apple pour optimiser le support des applications pour l'exécution concurrente (multithread) sur un matériel multicœur.
 
-**GCD** fournit et gère des **files d'attente FIFO** auxquelles votre application peut **soumettre des tâches** sous forme d'**objets de blocs**. Les blocs soumis aux files d'attente de répartition sont **exécutés sur un pool de threads** entièrement géré par le système. GCD crée automatiquement des threads pour exécuter les tâches dans les files d'attente de répartition et planifie l'exécution de ces tâches sur les cœurs disponibles.
+**GCD** fournit et gère des **files d'attente FIFO** auxquelles votre application peut ** soumettre des tâches** sous forme d'**objets de blocs**. Les blocs soumis aux files d'attente de répartition sont **exécutés sur un pool de threads** entièrement géré par le système. GCD crée automatiquement des threads pour exécuter les tâches dans les files d'attente de répartition et planifie l'exécution de ces tâches sur les cœurs disponibles.
 
 {% hint style="success" %}
 En résumé, pour exécuter du code en **parallèle**, les processus peuvent envoyer des **blocs de code à GCD**, qui se chargera de leur exécution. Par conséquent, les processus ne créent pas de nouveaux threads ; **GCD exécute le code donné avec son propre pool de threads** (qui peut augmenter ou diminuer selon les besoins).
 {% endhint %}
 
-Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : Par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
+Cela est très utile pour gérer avec succès l'exécution parallèle, réduisant considérablement le nombre de threads que les processus créent et optimisant l'exécution parallèle. C'est idéal pour les tâches qui nécessitent une **grande parallélisme** (force brute ?) ou pour les tâches qui ne doivent pas bloquer le thread principal : par exemple, le thread principal sur iOS gère les interactions UI, donc toute autre fonctionnalité qui pourrait faire planter l'application (recherche, accès à un site web, lecture d'un fichier...) est gérée de cette manière.
 
 ### Blocs
 
 Un bloc est une **section de code autonome** (comme une fonction avec des arguments renvoyant une valeur) et peut également spécifier des variables liées.\
 Cependant, au niveau du compilateur, les blocs n'existent pas, ce sont des `os_object`s. Chacun de ces objets est formé de deux structures :
 
-- **littéral de bloc** :&#x20;
-  - Il commence par le champ **`isa`**, pointant vers la classe du bloc :
-    - `NSConcreteGlobalBlock` (blocs de `__DATA.__const`)
-    - `NSConcreteMallocBlock` (blocs dans le tas)
-    - `NSConcreateStackBlock` (blocs dans la pile)
-  - Il a des **`flags`** (indiquant les champs présents dans le descripteur de bloc) et quelques octets réservés
-  - Le pointeur de fonction à appeler
-  - Un pointeur vers le descripteur de bloc
-  - Variables importées du bloc (le cas échéant)
-- **descripteur de bloc** : Sa taille dépend des données présentes (comme indiqué dans les drapeaux précédents)
-  - Il a quelques octets réservés
-  - Sa taille
-  - Il aura généralement un pointeur vers une signature de style Objective-C pour savoir combien d'espace est nécessaire pour les paramètres (drapeau `BLOCK_HAS_SIGNATURE`)
-  - Si des variables sont référencées, ce bloc aura également des pointeurs vers un assistant de copie (copiant la valeur au début) et un assistant de libération (la libérant).
+* **littéral de bloc** :&#x20;
+* Il commence par le champ **`isa`**, pointant vers la classe du bloc :
+* `NSConcreteGlobalBlock` (blocs de `__DATA.__const`)
+* `NSConcreteMallocBlock` (blocs dans le tas)
+* `NSConcreateStackBlock` (blocs dans la pile)
+* Il a des **`flags`** (indiquant les champs présents dans le descripteur de bloc) et quelques octets réservés
+* Le pointeur de fonction à appeler
+* Un pointeur vers le descripteur de bloc
+* Variables importées du bloc (le cas échéant)
+* **descripteur de bloc** : Sa taille dépend des données présentes (comme indiqué dans les drapeaux précédents)
+* Il a quelques octets réservés
+* Sa taille
+* Il aura généralement un pointeur vers une signature de style Objective-C pour savoir combien d'espace est nécessaire pour les paramètres (drapeau `BLOCK_HAS_SIGNATURE`)
+* Si des variables sont référencées, ce bloc aura également des pointeurs vers un assistant de copie (copiant la valeur au début) et un assistant de libération (la libérant).
 
 ### Files d'attente
 
@@ -54,23 +55,23 @@ Les blocs sont placés dans des files d'attente pour être exécutés, et celles
 
 Files d'attente par défaut :
 
-- `.main-thread` : Depuis `dispatch_get_main_queue()`
-- `.libdispatch-manager` : Gestionnaire de file d'attente de GCD
-- `.root.libdispatch-manager` : Gestionnaire de file d'attente de GCD
-- `.root.maintenance-qos` : Tâches de priorité la plus basse
-- `.root.maintenance-qos.overcommit`
-- `.root.background-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
-- `.root.background-qos.overcommit`
-- `.root.utility-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
-- `.root.utility-qos.overcommit`
-- `.root.default-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_DEFAULT`
-- `.root.background-qos.overcommit`
-- `.root.user-initiated-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_HIGH`
-- `.root.background-qos.overcommit`
-- `.root.user-interactive-qos` : Priorité la plus élevée
-- `.root.background-qos.overcommit`
+* `.main-thread` : Depuis `dispatch_get_main_queue()`
+* `.libdispatch-manager` : Gestionnaire de file d'attente de GCD
+* `.root.libdispatch-manager` : Gestionnaire de file d'attente de GCD
+* `.root.maintenance-qos` : Tâches de priorité la plus basse
+* `.root.maintenance-qos.overcommit`
+* `.root.background-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_BACKGROUND`
+* `.root.background-qos.overcommit`
+* `.root.utility-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_NON_INTERACTIVE`
+* `.root.utility-qos.overcommit`
+* `.root.default-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_DEFAULT`
+* `.root.background-qos.overcommit`
+* `.root.user-initiated-qos` : Disponible en tant que `DISPATCH_QUEUE_PRIORITY_HIGH`
+* `.root.background-qos.overcommit`
+* `.root.user-interactive-qos` : Priorité la plus élevée
+* `.root.background-qos.overcommit`
 
-Remarquez que c'est le système qui décidera **quels threads gèrent quelles files d'attente à chaque instant** (plusieurs threads peuvent travailler dans la même file d'attente ou le même thread peut travailler dans différentes files d'attente à un moment donné)
+Notez que c'est le système qui décidera **quels threads gèrent quelles files d'attente à chaque instant** (plusieurs threads peuvent travailler dans la même file d'attente ou le même thread peut travailler dans différentes files d'attente à un moment donné)
 
 #### Attributs
 
@@ -80,25 +81,25 @@ Lors de la création d'une file d'attente avec **`dispatch_queue_create`**, le t
 
 Il existe plusieurs objets que libdispatch utilise et les files d'attente et les blocs ne sont que 2 d'entre eux. Il est possible de créer ces objets avec `dispatch_object_create` :
 
-- `block`
-- `data` : Blocs de données
-- `group` : Groupe de blocs
-- `io` : Requêtes E/S asynchrones
-- `mach` : Ports Mach
-- `mach_msg` : Messages Mach
-- `pthread_root_queue` : Une file d'attente avec un pool de threads pthread et pas de workqueues
-- `queue`
-- `semaphore`
-- `source` : Source d'événement
+* `block`
+* `data` : Blocs de données
+* `group` : Groupe de blocs
+* `io` : Requêtes E/S asynchrones
+* `mach` : Ports Mach
+* `mach_msg` : Messages Mach
+* `pthread_root_queue` : Une file d'attente avec un pool de threads pthread et pas de workqueues
+* `queue`
+* `semaphore`
+* `source` : Source d'événements
 
 ## Objective-C
 
 En Objective-C, il existe différentes fonctions pour envoyer un bloc à exécuter en parallèle :
 
-- [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async) : Soumet un bloc pour une exécution asynchrone sur une file d'attente de répartition et retourne immédiatement.
-- [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) : Soumet un objet de bloc pour exécution et retourne après que ce bloc ait fini d'être exécuté.
-- [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once) : Exécute un objet de bloc une seule fois pendant la durée de vie d'une application.
-- [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait) : Soumet un élément de travail pour exécution et ne retourne qu'après son exécution. Contrairement à [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), cette fonction respecte tous les attributs de la file d'attente lorsqu'elle exécute le bloc.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async) : Soumet un bloc pour une exécution asynchrone sur une file d'attente de répartition et retourne immédiatement.
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) : Soumet un objet bloc pour exécution et retourne après que ce bloc ait fini d'exécuter.
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once) : Exécute un objet bloc une seule fois pendant la durée de vie d'une application.
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait) : Soumet un élément de travail pour exécution et ne retourne qu'après son exécution. Contrairement à [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), cette fonction respecte tous les attributs de la file d'attente lorsqu'elle exécute le bloc.
 
 Ces fonctions attendent ces paramètres : [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
@@ -227,3 +228,18 @@ Ghidra réécrira automatiquement tout :
 ## Références
 
 * [**\*OS Internals, Volume I: User Mode. Par Jonathan Levin**](https://www.amazon.com/MacOS-iOS-Internals-User-Mode/dp/099105556X)
+
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Soutenez HackTricks</summary>
+
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

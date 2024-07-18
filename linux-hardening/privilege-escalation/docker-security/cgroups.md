@@ -1,22 +1,23 @@
 # CGroups
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Informations de base
 
-Les **Groupes de contrôle Linux**, ou **cgroups**, sont une fonctionnalité du noyau Linux qui permet l'allocation, la limitation et la priorisation des ressources système telles que le CPU, la mémoire et les E/S disque parmi les groupes de processus. Ils offrent un mécanisme de **gestion et d'isolation de l'utilisation des ressources** des collections de processus, bénéfique pour des objectifs tels que la limitation des ressources, l'isolation des charges de travail et la priorisation des ressources parmi différents groupes de processus.
+Les **groupes de contrôle Linux**, ou **cgroups**, sont une fonctionnalité du noyau Linux qui permet l'allocation, la limitation et la priorisation des ressources système telles que le CPU, la mémoire et les E/S disque parmi les groupes de processus. Ils offrent un mécanisme de **gestion et d'isolation de l'utilisation des ressources** des collections de processus, bénéfique pour des objectifs tels que la limitation des ressources, l'isolation des charges de travail et la priorisation des ressources parmi différents groupes de processus.
 
 Il existe **deux versions de cgroups** : la version 1 et la version 2. Les deux peuvent être utilisées simultanément sur un système. La distinction principale est que **cgroups version 2** introduit une **structure hiérarchique en forme d'arbre**, permettant une distribution des ressources plus nuancée et détaillée parmi les groupes de processus. De plus, la version 2 apporte diverses améliorations, notamment :
 
@@ -41,19 +42,19 @@ $ cat /proc/self/cgroup
 ```
 Le schéma de sortie est le suivant :
 
-* **Nombres 2 à 12** : cgroups v1, chaque ligne représentant un cgroup différent. Les contrôleurs pour ceux-ci sont spécifiés à côté du nombre.
+* **Nombres 2–12** : cgroups v1, chaque ligne représentant un cgroup différent. Les contrôleurs pour ceux-ci sont spécifiés à côté du nombre.
 * **Nombre 1** : Également cgroups v1, mais uniquement à des fins de gestion (défini par, par exemple, systemd), et ne comporte pas de contrôleur.
-* **Nombre 0** : Représente les cgroups v2. Aucun contrôleur n'est répertorié, et cette ligne est exclusive aux systèmes exécutant uniquement des cgroups v2.
+* **Nombre 0** : Représente les cgroups v2. Aucun contrôleur n'est répertorié, et cette ligne est exclusive aux systèmes exécutant uniquement les cgroups v2.
 * Les **noms sont hiérarchiques**, ressemblant à des chemins de fichiers, indiquant la structure et la relation entre différents cgroups.
 * Des noms tels que /user.slice ou /system.slice spécifient la catégorisation des cgroups, avec user.slice généralement pour les sessions de connexion gérées par systemd et system.slice pour les services système.
 
 ### Visualisation des cgroups
 
-Le système de fichiers est généralement utilisé pour accéder aux **cgroups**, s'écartant de l'interface d'appel système Unix traditionnellement utilisée pour les interactions avec le noyau. Pour examiner la configuration cgroup d'un shell, il convient d'examiner le fichier **/proc/self/cgroup**, qui révèle le cgroup du shell. Ensuite, en naviguant vers le répertoire **/sys/fs/cgroup** (ou **`/sys/fs/cgroup/unified`**) et en localisant un répertoire portant le nom du cgroup, on peut observer divers paramètres et informations d'utilisation des ressources pertinentes au cgroup.
+Le système de fichiers est généralement utilisé pour accéder aux **cgroups**, s'éloignant de l'interface d'appel système Unix traditionnellement utilisée pour les interactions avec le noyau. Pour enquêter sur la configuration d'un cgroup de shell, il convient d'examiner le fichier **/proc/self/cgroup**, qui révèle le cgroup du shell. Ensuite, en naviguant vers le répertoire **/sys/fs/cgroup** (ou **`/sys/fs/cgroup/unified`**), et en localisant un répertoire portant le nom du cgroup, on peut observer divers paramètres et informations d'utilisation des ressources pertinentes au cgroup.
 
 ![Système de fichiers Cgroup](<../../../.gitbook/assets/image (1128).png>)
 
-Les fichiers d'interface clés pour les cgroups sont préfixés par **cgroup**. Le fichier **cgroup.procs**, qui peut être consulté avec des commandes standard comme cat, liste les processus dans le cgroup. Un autre fichier, **cgroup.threads**, inclut des informations sur les threads.
+Les fichiers d'interface clés pour les cgroups sont préfixés par **cgroup**. Le fichier **cgroup.procs**, qui peut être consulté avec des commandes standard comme cat, répertorie les processus dans le cgroup. Un autre fichier, **cgroup.threads**, inclut des informations sur les threads.
 
 ![Cgroup Procs](<../../../.gitbook/assets/image (281).png>)
 
@@ -75,9 +76,9 @@ echo 3000 > pids.max
 ```
 **Créer de nouveaux cgroupes** implique de créer un nouveau sous-répertoire dans la hiérarchie cgroup, ce qui incite le noyau à générer automatiquement les fichiers d'interface nécessaires. Bien que les cgroupes sans processus actifs puissent être supprimés avec `rmdir`, soyez conscient de certaines contraintes :
 
-- **Les processus ne peuvent être placés que dans des cgroupes feuilles** (c'est-à-dire les plus imbriqués dans une hiérarchie).
-- **Un cgroup ne peut pas posséder de contrôleur absent dans son parent**.
-- **Les contrôleurs des cgroupes enfants doivent être explicitement déclarés** dans le fichier `cgroup.subtree_control`. Par exemple, pour activer les contrôleurs CPU et PID dans un cgroup enfant :
+* **Les processus ne peuvent être placés que dans des cgroupes feuilles** (c'est-à-dire les plus imbriqués dans une hiérarchie).
+* **Un cgroup ne peut pas posséder de contrôleur absent dans son parent**.
+* **Les contrôleurs pour les cgroupes enfants doivent être explicitement déclarés** dans le fichier `cgroup.subtree_control`. Par exemple, pour activer les contrôleurs CPU et PID dans un cgroup enfant :
 ```bash
 echo "+cpu +pids" > cgroup.subtree_control
 ```
@@ -89,4 +90,4 @@ Le **cgroup racine** est une exception à ces règles, permettant un placement d
 
 ## Références
 
-* **Livre : How Linux Works, 3rd Edition: Ce que tout superutilisateur devrait savoir Par Brian Ward**
+* **Livre : How Linux Works, 3rd Edition: What Every Superuser Should Know Par Brian Ward**

