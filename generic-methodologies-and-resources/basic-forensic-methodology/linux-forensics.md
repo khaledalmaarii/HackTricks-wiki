@@ -1,37 +1,38 @@
-# Forense en Linux
+# Linux Forensics
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilice [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas del mundo**.\
-Acceda hoy mismo:
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking en AWS desde cero hasta convertirse en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si desea ver su **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulte los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtenga la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únase al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síganos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparta sus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
 
-## Recopilación de Información Inicial
+## Recolección Inicial de Información
 
 ### Información Básica
 
-En primer lugar, se recomienda tener una **USB** con **binarios y bibliotecas conocidos y buenos** (puede simplemente obtener Ubuntu y copiar las carpetas _/bin_, _/sbin_, _/lib_ y _/lib64_), luego montar la USB y modificar las variables de entorno para usar esos binarios:
+Primero que nada, se recomienda tener un **USB** con **binaries y bibliotecas bien conocidas** (puedes simplemente obtener ubuntu y copiar las carpetas _/bin_, _/sbin_, _/lib,_ y _/lib64_), luego monta el USB y modifica las variables de entorno para usar esos binaries:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
 ```
-Una vez que hayas configurado el sistema para usar binarios buenos y conocidos, puedes comenzar **a extraer alguna información básica**:
+Una vez que hayas configurado el sistema para usar binarios buenos y conocidos, puedes comenzar a **extraer información básica**:
 ```bash
 date #Date and time (Clock may be skewed, Might be at a different timezone)
 uname -a #OS info
@@ -51,11 +52,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Información sospechosa
 
-Mientras se obtiene la información básica, se debe verificar cosas extrañas como:
+Mientras obtienes la información básica, debes verificar cosas extrañas como:
 
-- Los **procesos de root** generalmente se ejecutan con PIDS bajos, por lo que si encuentras un proceso de root con un PID alto, puedes sospechar
-- Verificar **inicios de sesión registrados** de usuarios sin shell dentro de `/etc/passwd`
-- Verificar **hashes de contraseñas** dentro de `/etc/shadow` para usuarios sin shell
+* **Los procesos de root** generalmente se ejecutan con PIDS bajos, así que si encuentras un proceso de root con un PID grande, puedes sospechar.
+* Verifica los **inicios de sesión registrados** de usuarios sin un shell dentro de `/etc/passwd`.
+* Verifica los **hashes de contraseñas** dentro de `/etc/shadow` para usuarios sin un shell.
 
 ### Volcado de memoria
 
@@ -63,11 +64,11 @@ Para obtener la memoria del sistema en ejecución, se recomienda usar [**LiME**]
 Para **compilarlo**, necesitas usar el **mismo kernel** que está utilizando la máquina víctima.
 
 {% hint style="info" %}
-Recuerda que **no puedes instalar LiME ni nada más** en la máquina víctima, ya que hará varios cambios en ella
+Recuerda que **no puedes instalar LiME ni nada más** en la máquina víctima, ya que hará varios cambios en ella.
 {% endhint %}
 
-Entonces, si tienes una versión idéntica de Ubuntu, puedes usar `apt-get install lime-forensics-dkms`\
-En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) desde github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, simplemente **copia el directorio** `/lib/modules/<versión del kernel>` a tu máquina, y luego **compila** LiME usando esos encabezados:
+Así que, si tienes una versión idéntica de Ubuntu, puedes usar `apt-get install lime-forensics-dkms`\
+En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) de github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, puedes simplemente **copiar el directorio** `/lib/modules/<versión del kernel>` a tu máquina, y luego **compilar** LiME usándolos:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -75,21 +76,21 @@ sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
 LiME soporta 3 **formatos**:
 
 * Raw (cada segmento concatenado)
-* Padded (igual que raw, pero con ceros en los bits derechos)
+* Padded (igual que raw, pero con ceros en los bits de la derecha)
 * Lime (formato recomendado con metadatos)
 
-LiME también se puede utilizar para **enviar el volcado a través de la red** en lugar de almacenarlo en el sistema usando algo como: `path=tcp:4444`
+LiME también se puede usar para **enviar el volcado a través de la red** en lugar de almacenarlo en el sistema usando algo como: `path=tcp:4444`
 
-### Imagen de Disco
+### Imagen de disco
 
 #### Apagado
 
-En primer lugar, necesitarás **apagar el sistema**. Esto no siempre es una opción, ya que a veces el sistema será un servidor de producción que la empresa no puede permitirse apagar.\
-Hay **2 formas** de apagar el sistema, un **apagado normal** y un **apagado "desenchufar"**. El primero permitirá que los **procesos terminen como de costumbre** y que el **sistema de archivos** se **sincronice**, pero también permitirá que el posible **malware** **destruya evidencia**. El enfoque de "desenchufar" puede implicar **alguna pérdida de información** (no se perderá mucha información ya que ya tomamos una imagen de la memoria) y el **malware no tendrá oportunidad** de hacer nada al respecto. Por lo tanto, si **sospechas** que puede haber un **malware**, simplemente ejecuta el **comando `sync`** en el sistema y desenchufa.
+Primero que nada, necesitarás **apagar el sistema**. Esto no siempre es una opción, ya que a veces el sistema será un servidor de producción que la empresa no puede permitirse apagar.\
+Hay **2 formas** de apagar el sistema, un **apagado normal** y un **apagado de "desconectar el enchufe"**. El primero permitirá que los **procesos se terminen como de costumbre** y que el **sistema de archivos** esté **sincronizado**, pero también permitirá que el posible **malware** **destruya evidencia**. El enfoque de "desconectar el enchufe" puede conllevar **alguna pérdida de información** (no se perderá mucha información ya que ya tomamos una imagen de la memoria) y el **malware no tendrá ninguna oportunidad** de hacer algo al respecto. Por lo tanto, si **sospechas** que puede haber un **malware**, simplemente ejecuta el **comando** **`sync`** en el sistema y desconecta el enchufe.
 
-#### Tomar una imagen del disco
+#### Tomando una imagen del disco
 
-Es importante tener en cuenta que **antes de conectar tu computadora a cualquier cosa relacionada con el caso**, debes asegurarte de que se va a **montar como solo lectura** para evitar modificar cualquier información.
+Es importante notar que **antes de conectar tu computadora a cualquier cosa relacionada con el caso**, necesitas asegurarte de que se va a **montar como solo lectura** para evitar modificar cualquier información.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -100,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Análisis previo de la imagen del disco
 
-Crear una imagen del disco sin más datos.
+Imaging una imagen de disco sin más datos.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -156,23 +157,23 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilice [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
-Obtenga acceso hoy:
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
+Accede hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Buscar Malware conocido
+## Buscar malware conocido
 
-### Archivos del Sistema Modificados
+### Archivos del sistema modificados
 
 Linux ofrece herramientas para garantizar la integridad de los componentes del sistema, crucial para detectar archivos potencialmente problemáticos.
 
-* **Sistemas basados en RedHat**: Utilice `rpm -Va` para una verificación exhaustiva.
-* **Sistemas basados en Debian**: `dpkg --verify` para verificación inicial, seguido de `debsums | grep -v "OK$"` (después de instalar `debsums` con `apt-get install debsums`) para identificar problemas.
+* **Sistemas basados en RedHat**: Usa `rpm -Va` para una verificación completa.
+* **Sistemas basados en Debian**: `dpkg --verify` para una verificación inicial, seguido de `debsums | grep -v "OK$"` (después de instalar `debsums` con `apt-get install debsums`) para identificar cualquier problema.
 
 ### Detectores de Malware/Rootkit
 
-Lea la siguiente página para conocer herramientas que pueden ser útiles para encontrar malware:
+Lee la siguiente página para aprender sobre herramientas que pueden ser útiles para encontrar malware:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -180,12 +181,12 @@ Lea la siguiente página para conocer herramientas que pueden ser útiles para e
 
 ## Buscar programas instalados
 
-Para buscar eficazmente programas instalados en sistemas Debian y RedHat, considere aprovechar los registros y bases de datos del sistema junto con verificaciones manuales en directorios comunes.
+Para buscar de manera efectiva programas instalados en sistemas Debian y RedHat, considera aprovechar los registros del sistema y bases de datos junto con verificaciones manuales en directorios comunes.
 
-* Para Debian, inspeccione _**`/var/lib/dpkg/status`**_ y _**`/var/log/dpkg.log`**_ para obtener detalles sobre las instalaciones de paquetes, utilizando `grep` para filtrar información específica.
+* Para Debian, inspecciona _**`/var/lib/dpkg/status`**_ y _**`/var/log/dpkg.log`**_ para obtener detalles sobre las instalaciones de paquetes, utilizando `grep` para filtrar información específica.
 * Los usuarios de RedHat pueden consultar la base de datos RPM con `rpm -qa --root=/mntpath/var/lib/rpm` para listar los paquetes instalados.
 
-Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explore directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, y _**`/sbin`**_. Combine listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando su búsqueda de todos los programas instalados.
+Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explora directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, y _**`/sbin`**_. Combina listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando tu búsqueda de todos los programas instalados.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -204,14 +205,14 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilice [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias **más avanzadas** del mundo.\
-Obtenga acceso hoy:
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Recuperar Binarios en Ejecución Eliminados
+## Recuperar binarios en ejecución eliminados
 
-Imagina un proceso que se ejecutó desde /tmp/exec y luego fue eliminado. Es posible extraerlo
+Imagina un proceso que se ejecutó desde /tmp/exec y luego fue eliminado. Es posible extraerlo.
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -237,90 +238,90 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 Rutas donde un malware podría instalarse como un servicio:
 
-- **/etc/inittab**: Llama a scripts de inicialización como rc.sysinit, dirigiendo posteriormente a scripts de inicio.
-- **/etc/rc.d/** y **/etc/rc.boot/**: Contienen scripts para el inicio de servicios, siendo este último encontrado en versiones antiguas de Linux.
-- **/etc/init.d/**: Utilizado en ciertas versiones de Linux como Debian para almacenar scripts de inicio.
-- Los servicios también pueden ser activados a través de **/etc/inetd.conf** o **/etc/xinetd/**, dependiendo de la variante de Linux.
-- **/etc/systemd/system**: Un directorio para scripts del sistema y del administrador de servicios.
-- **/etc/systemd/system/multi-user.target.wants/**: Contiene enlaces a servicios que deben iniciarse en un nivel de ejecución multiusuario.
-- **/usr/local/etc/rc.d/**: Para servicios personalizados o de terceros.
-- **\~/.config/autostart/**: Para aplicaciones de inicio automático específicas del usuario, que pueden ser un lugar de ocultación para malware dirigido al usuario.
-- **/lib/systemd/system/**: Archivos de unidad predeterminados de todo el sistema proporcionados por paquetes instalados.
+* **/etc/inittab**: Llama a scripts de inicialización como rc.sysinit, dirigiendo posteriormente a scripts de inicio.
+* **/etc/rc.d/** y **/etc/rc.boot/**: Contienen scripts para el inicio de servicios, siendo este último encontrado en versiones más antiguas de Linux.
+* **/etc/init.d/**: Usado en ciertas versiones de Linux como Debian para almacenar scripts de inicio.
+* Los servicios también pueden ser activados a través de **/etc/inetd.conf** o **/etc/xinetd/**, dependiendo de la variante de Linux.
+* **/etc/systemd/system**: Un directorio para scripts del gestor de sistema y servicios.
+* **/etc/systemd/system/multi-user.target.wants/**: Contiene enlaces a servicios que deben iniciarse en un nivel de ejecución multiusuario.
+* **/usr/local/etc/rc.d/**: Para servicios personalizados o de terceros.
+* **\~/.config/autostart/**: Para aplicaciones de inicio automático específicas del usuario, que pueden ser un escondite para malware dirigido a usuarios.
+* **/lib/systemd/system/**: Archivos de unidad predeterminados a nivel de sistema proporcionados por paquetes instalados.
 
 ### Módulos del Kernel
 
 Los módulos del kernel de Linux, a menudo utilizados por malware como componentes de rootkit, se cargan al inicio del sistema. Los directorios y archivos críticos para estos módulos incluyen:
 
-- **/lib/modules/$(uname -r)**: Contiene módulos para la versión del kernel en ejecución.
-- **/etc/modprobe.d**: Contiene archivos de configuración para controlar la carga de módulos.
-- **/etc/modprobe** y **/etc/modprobe.conf**: Archivos para configuraciones globales de módulos.
+* **/lib/modules/$(uname -r)**: Contiene módulos para la versión del kernel en ejecución.
+* **/etc/modprobe.d**: Contiene archivos de configuración para controlar la carga de módulos.
+* **/etc/modprobe** y **/etc/modprobe.conf**: Archivos para configuraciones globales de módulos.
 
-### Otras Ubicaciones de Inicio Automático
+### Otras Ubicaciones de Autoinicio
 
-Linux emplea varios archivos para ejecutar programas automáticamente al iniciar sesión de usuario, potencialmente albergando malware:
+Linux emplea varios archivos para ejecutar automáticamente programas al iniciar sesión del usuario, potencialmente albergando malware:
 
-- **/etc/profile.d/**\*, **/etc/profile** y **/etc/bash.bashrc**: Ejecutados para cualquier inicio de sesión de usuario.
-- **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile** y **\~/.config/autostart**: Archivos específicos del usuario que se ejecutan al iniciar sesión.
-- **/etc/rc.local**: Se ejecuta después de que todos los servicios del sistema se han iniciado, marcando el final de la transición a un entorno multiusuario.
+* **/etc/profile.d/**\*, **/etc/profile**, y **/etc/bash.bashrc**: Se ejecutan para cualquier inicio de sesión de usuario.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, y **\~/.config/autostart**: Archivos específicos del usuario que se ejecutan al iniciar sesión.
+* **/etc/rc.local**: Se ejecuta después de que todos los servicios del sistema han comenzado, marcando el final de la transición a un entorno multiusuario.
 
 ## Examinar Registros
 
-Los sistemas Linux registran las actividades de los usuarios y los eventos del sistema a través de varios archivos de registro. Estos registros son fundamentales para identificar accesos no autorizados, infecciones de malware y otros incidentes de seguridad. Los archivos de registro clave incluyen:
+Los sistemas Linux rastrean las actividades de los usuarios y los eventos del sistema a través de varios archivos de registro. Estos registros son fundamentales para identificar accesos no autorizados, infecciones de malware y otros incidentes de seguridad. Los archivos de registro clave incluyen:
 
-- **/var/log/syslog** (Debian) o **/var/log/messages** (RedHat): Capturan mensajes y actividades en todo el sistema.
-- **/var/log/auth.log** (Debian) o **/var/log/secure** (RedHat): Registran intentos de autenticación, inicios de sesión exitosos y fallidos.
-- Utiliza `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` para filtrar eventos de autenticación relevantes.
-- **/var/log/boot.log**: Contiene mensajes de inicio del sistema.
-- **/var/log/maillog** o **/var/log/mail.log**: Registra actividades del servidor de correo electrónico, útil para rastrear servicios relacionados con el correo electrónico.
-- **/var/log/kern.log**: Almacena mensajes del kernel, incluidos errores y advertencias.
-- **/var/log/dmesg**: Contiene mensajes de controladores de dispositivos.
-- **/var/log/faillog**: Registra intentos de inicio de sesión fallidos, ayudando en investigaciones de violaciones de seguridad.
-- **/var/log/cron**: Registra la ejecución de trabajos cron.
-- **/var/log/daemon.log**: Realiza un seguimiento de las actividades de los servicios en segundo plano.
-- **/var/log/btmp**: Documenta intentos de inicio de sesión fallidos.
-- **/var/log/httpd/**: Contiene registros de errores y accesos de Apache HTTPD.
-- **/var/log/mysqld.log** o **/var/log/mysql.log**: Registra actividades de la base de datos MySQL.
-- **/var/log/xferlog**: Registra transferencias de archivos FTP.
-- **/var/log/**: Siempre verifica los registros inesperados aquí.
+* **/var/log/syslog** (Debian) o **/var/log/messages** (RedHat): Capturan mensajes y actividades a nivel de sistema.
+* **/var/log/auth.log** (Debian) o **/var/log/secure** (RedHat): Registran intentos de autenticación, inicios de sesión exitosos y fallidos.
+* Usa `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` para filtrar eventos de autenticación relevantes.
+* **/var/log/boot.log**: Contiene mensajes de inicio del sistema.
+* **/var/log/maillog** o **/var/log/mail.log**: Registra actividades del servidor de correo, útil para rastrear servicios relacionados con el correo electrónico.
+* **/var/log/kern.log**: Almacena mensajes del kernel, incluidos errores y advertencias.
+* **/var/log/dmesg**: Contiene mensajes del controlador de dispositivos.
+* **/var/log/faillog**: Registra intentos de inicio de sesión fallidos, ayudando en investigaciones de brechas de seguridad.
+* **/var/log/cron**: Registra ejecuciones de trabajos cron.
+* **/var/log/daemon.log**: Rastrear actividades de servicios en segundo plano.
+* **/var/log/btmp**: Documenta intentos de inicio de sesión fallidos.
+* **/var/log/httpd/**: Contiene registros de errores y accesos de Apache HTTPD.
+* **/var/log/mysqld.log** o **/var/log/mysql.log**: Registra actividades de la base de datos MySQL.
+* **/var/log/xferlog**: Registra transferencias de archivos FTP.
+* **/var/log/**: Siempre verifica si hay registros inesperados aquí.
 
 {% hint style="info" %}
-Los registros del sistema y los subsistemas de auditoría de Linux pueden estar deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos rutinariamente los eliminan. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar lagunas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
+Los registros del sistema Linux y los subsistemas de auditoría pueden ser deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos los eliminan rutinariamente. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar brechas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
 {% endhint %}
 
 **Linux mantiene un historial de comandos para cada usuario**, almacenado en:
 
-- \~/.bash\_history
-- \~/.zsh\_history
-- \~/.zsh\_sessions/\*
-- \~/.python\_history
-- \~/.\*\_history
+* \~/.bash\_history
+* \~/.zsh\_history
+* \~/.zsh\_sessions/\*
+* \~/.python\_history
+* \~/.\*\_history
 
-Además, el comando `last -Faiwx` proporciona una lista de inicios de sesión de usuario. Revísalo en busca de inicios de sesión desconocidos o inesperados.
+Además, el comando `last -Faiwx` proporciona una lista de inicios de sesión de usuarios. Verifícalo para inicios de sesión desconocidos o inesperados.
 
-Revisa archivos que pueden otorgar privilegios adicionales:
+Verifica archivos que pueden otorgar privilegios adicionales:
 
-- Revisa `/etc/sudoers` para privilegios de usuario no anticipados que puedan haber sido otorgados.
-- Revisa `/etc/sudoers.d/` para privilegios de usuario no anticipados que puedan haber sido otorgados.
-- Examina `/etc/groups` para identificar membresías o permisos de grupo inusuales.
-- Examina `/etc/passwd` para identificar membresías o permisos de grupo inusuales.
+* Revisa `/etc/sudoers` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
+* Revisa `/etc/sudoers.d/` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
+* Examina `/etc/groups` para identificar cualquier membresía o permisos de grupo inusuales.
+* Examina `/etc/passwd` para identificar cualquier membresía o permisos de grupo inusuales.
 
 Algunas aplicaciones también generan sus propios registros:
 
-- **SSH**: Examina _\~/.ssh/authorized\_keys_ y _\~/.ssh/known\_hosts_ para conexiones remotas no autorizadas.
-- **Escritorio Gnome**: Revisa _\~/.recently-used.xbel_ para archivos accedidos recientemente a través de aplicaciones de Gnome.
-- **Firefox/Chrome**: Verifica el historial y descargas del navegador en _\~/.mozilla/firefox_ o _\~/.config/google-chrome_ en busca de actividades sospechosas.
-- **VIM**: Revisa _\~/.viminfo_ para detalles de uso, como rutas de archivos accedidos e historial de búsqueda.
-- **Open Office**: Verifica el acceso a documentos recientes que puedan indicar archivos comprometidos.
-- **FTP/SFTP**: Revisa los registros en _\~/.ftp\_history_ o _\~/.sftp\_history_ para transferencias de archivos que podrían ser no autorizadas.
-- **MySQL**: Investiga _\~/.mysql\_history_ para consultas MySQL ejecutadas, revelando potencialmente actividades no autorizadas en la base de datos.
-- **Less**: Analiza _\~/.lesshst_ para historial de uso, incluidos archivos vistos y comandos ejecutados.
-- **Git**: Examina _\~/.gitconfig_ y el proyecto _.git/logs_ para cambios en repositorios.
+* **SSH**: Examina _\~/.ssh/authorized\_keys_ y _\~/.ssh/known\_hosts_ para conexiones remotas no autorizadas.
+* **Gnome Desktop**: Revisa _\~/.recently-used.xbel_ para archivos accedidos recientemente a través de aplicaciones de Gnome.
+* **Firefox/Chrome**: Verifica el historial del navegador y las descargas en _\~/.mozilla/firefox_ o _\~/.config/google-chrome_ para actividades sospechosas.
+* **VIM**: Revisa _\~/.viminfo_ para detalles de uso, como rutas de archivos accedidos e historial de búsqueda.
+* **Open Office**: Verifica el acceso reciente a documentos que pueda indicar archivos comprometidos.
+* **FTP/SFTP**: Revisa los registros en _\~/.ftp\_history_ o _\~/.sftp\_history_ para transferencias de archivos que puedan no estar autorizadas.
+* **MySQL**: Investiga _\~/.mysql\_history_ para consultas de MySQL ejecutadas, que pueden revelar actividades no autorizadas en la base de datos.
+* **Less**: Analiza _\~/.lesshst_ para el historial de uso, incluidos archivos vistos y comandos ejecutados.
+* **Git**: Examina _\~/.gitconfig_ y el proyecto _.git/logs_ para cambios en los repositorios.
 
 ### Registros USB
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) es un pequeño software escrito en Python 3 puro que analiza archivos de registro de Linux (`/var/log/syslog*` o `/var/log/messages*` dependiendo de la distribución) para construir tablas de historial de eventos USB.
 
-Es interesante **conocer todos los USB que se han utilizado** y será más útil si tienes una lista autorizada de USB para encontrar "eventos de violación" (el uso de USB que no están en esa lista).
+Es interesante **conocer todos los USB que se han utilizado** y será más útil si tienes una lista autorizada de USB para encontrar "eventos de violación" (el uso de USB que no están dentro de esa lista).
 
 ### Instalación
 ```bash
@@ -335,38 +336,38 @@ usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR
 usbrip ids download #Downlaod database
 usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
-Más ejemplos e información en el github: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
+Más ejemplos e información dentro de GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
-Accede hoy mismo:
+Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
+Accede hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Revisar Cuentas de Usuario y Actividades de Inicio de Sesión
 
-Examina los archivos _**/etc/passwd**_, _**/etc/shadow**_ y los **registros de seguridad** en busca de nombres inusuales o cuentas creadas y utilizadas en proximidad a eventos no autorizados conocidos. Además, verifica posibles ataques de fuerza bruta a sudo.\
-Además, revisa archivos como _**/etc/sudoers**_ y _**/etc/groups**_ en busca de privilegios inesperados otorgados a usuarios.\
-Finalmente, busca cuentas sin **contraseñas** o con contraseñas **fáciles de adivinar**.
+Examina el _**/etc/passwd**_, _**/etc/shadow**_ y **registros de seguridad** en busca de nombres inusuales o cuentas creadas y/o utilizadas en estrecha proximidad a eventos no autorizados conocidos. Además, verifica posibles ataques de fuerza bruta a sudo.\
+Además, revisa archivos como _**/etc/sudoers**_ y _**/etc/groups**_ en busca de privilegios inesperados otorgados a los usuarios.\
+Finalmente, busca cuentas con **sin contraseñas** o contraseñas **fácilmente adivinables**.
 
 ## Examinar el Sistema de Archivos
 
-### Analizando Estructuras del Sistema de Archivos en Investigaciones de Malware
+### Análisis de Estructuras del Sistema de Archivos en la Investigación de Malware
 
-En investigaciones de incidentes de malware, la estructura del sistema de archivos es una fuente crucial de información, revelando tanto la secuencia de eventos como el contenido del malware. Sin embargo, los autores de malware están desarrollando técnicas para dificultar este análisis, como modificar las marcas de tiempo de los archivos o evitar el sistema de archivos para el almacenamiento de datos.
+Al investigar incidentes de malware, la estructura del sistema de archivos es una fuente crucial de información, revelando tanto la secuencia de eventos como el contenido del malware. Sin embargo, los autores de malware están desarrollando técnicas para obstaculizar este análisis, como modificar las marcas de tiempo de los archivos o evitar el sistema de archivos para el almacenamiento de datos.
 
-Para contrarrestar estos métodos antiforense, es esencial:
+Para contrarrestar estos métodos anti-forenses, es esencial:
 
-* Realizar un **análisis detallado de la línea de tiempo** utilizando herramientas como **Autopsy** para visualizar las líneas de tiempo de eventos o `mactime` de **Sleuth Kit** para obtener datos detallados de la línea de tiempo.
-* Investigar **scripts inesperados** en la variable $PATH del sistema, que podrían incluir scripts de shell o PHP utilizados por atacantes.
-* Examinar `/dev` en busca de archivos atípicos, ya que tradicionalmente contiene archivos especiales, pero podría contener archivos relacionados con malware.
-* Buscar archivos o directorios ocultos con nombres como ".. " (punto punto espacio) o "..^G" (punto punto control-G), que podrían ocultar contenido malicioso.
-* Identificar archivos setuid root con el comando: `find / -user root -perm -04000 -print` Esto encuentra archivos con permisos elevados, que podrían ser abusados por atacantes.
-* Revisar las marcas de tiempo de eliminación en las tablas de inodos para detectar eliminaciones masivas de archivos, lo que podría indicar la presencia de rootkits o troyanos.
-* Inspeccionar inodos consecutivos en busca de archivos maliciosos cercanos después de identificar uno, ya que podrían haber sido colocados juntos.
-* Verificar archivos modificados recientemente en directorios binarios comunes (_/bin_, _/sbin_), ya que podrían ser alterados por malware.
+* **Realizar un análisis de línea de tiempo exhaustivo** utilizando herramientas como **Autopsy** para visualizar líneas de tiempo de eventos o `mactime` de **Sleuth Kit** para datos de línea de tiempo detallados.
+* **Investigar scripts inesperados** en el $PATH del sistema, que podrían incluir scripts de shell o PHP utilizados por atacantes.
+* **Examinar `/dev` en busca de archivos atípicos**, ya que tradicionalmente contiene archivos especiales, pero puede albergar archivos relacionados con malware.
+* **Buscar archivos o directorios ocultos** con nombres como ".. " (punto punto espacio) o "..^G" (punto punto control-G), que podrían ocultar contenido malicioso.
+* **Identificar archivos setuid root** utilizando el comando: `find / -user root -perm -04000 -print` Esto encuentra archivos con permisos elevados, que podrían ser abusados por atacantes.
+* **Revisar marcas de tiempo de eliminación** en tablas de inodos para detectar eliminaciones masivas de archivos, lo que podría indicar la presencia de rootkits o troyanos.
+* **Inspeccionar inodos consecutivos** en busca de archivos maliciosos cercanos después de identificar uno, ya que pueden haber sido colocados juntos.
+* **Verificar directorios binarios comunes** (_/bin_, _/sbin_) en busca de archivos modificados recientemente, ya que estos podrían haber sido alterados por malware.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -375,16 +376,16 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Ten en cuenta que un **atacante** puede **modificar** la **hora** para que los **archivos parezcan** **legítimos**, pero no puede modificar el **inode**. Si descubres que un **archivo** indica que fue creado y modificado al **mismo tiempo** que el resto de los archivos en la misma carpeta, pero el **inode** es **inesperadamente más grande**, entonces los **timestamps de ese archivo fueron modificados**.
+Tenga en cuenta que un **atacante** puede **modificar** el **tiempo** para hacer que los **archivos aparezcan** **legítimos**, pero **no puede** modificar el **inode**. Si encuentra que un **archivo** indica que fue creado y modificado al **mismo tiempo** que el resto de los archivos en la misma carpeta, pero el **inode** es **inesperadamente más grande**, entonces los **timestamps de ese archivo fueron modificados**.
 {% endhint %}
 
-## Comparar archivos de diferentes versiones de sistemas de archivos
+## Comparar archivos de diferentes versiones del sistema de archivos
 
-### Resumen de Comparación de Versiones de Sistemas de Archivos
+### Resumen de comparación de versiones del sistema de archivos
 
-Para comparar versiones de sistemas de archivos y señalar cambios, utilizamos comandos simplificados de `git diff`:
+Para comparar versiones del sistema de archivos y señalar cambios, utilizamos comandos simplificados de `git diff`:
 
-* **Para encontrar archivos nuevos**, compara dos directorios:
+* **Para encontrar nuevos archivos**, compare dos directorios:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
@@ -396,13 +397,13 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Opciones de filtro** (`--diff-filter`) ayudan a reducir los cambios específicos como archivos añadidos (`A`), eliminados (`D`), o modificados (`M`).
+* **Las opciones de filtro** (`--diff-filter`) ayudan a reducir a cambios específicos como archivos añadidos (`A`), eliminados (`D`) o modificados (`M`).
 * `A`: Archivos añadidos
 * `C`: Archivos copiados
 * `D`: Archivos eliminados
 * `M`: Archivos modificados
 * `R`: Archivos renombrados
-* `T`: Cambios de tipo (por ejemplo, archivo a enlace simbólico)
+* `T`: Cambios de tipo (por ejemplo, de archivo a symlink)
 * `U`: Archivos no fusionados
 * `X`: Archivos desconocidos
 * `B`: Archivos rotos
@@ -412,17 +413,17 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Libro: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
+* **Libro: Guía de campo de forense de malware para sistemas Linux: Guías de campo de forense digital**
 
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprende hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión del PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
+¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? o ¿quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
 
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén la [**ropa oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord**](https://discord.gg/hRep4RUj7f) o al **grupo de telegram** o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* Obtén la [**merch oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
+* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
 **Comparte tus trucos de hacking enviando PRs al** [**repositorio de hacktricks**](https://github.com/carlospolop/hacktricks) **y al** [**repositorio de hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -431,7 +432,7 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utiliza [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente con las herramientas comunitarias más avanzadas del mundo.\
-¡Accede hoy:
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
+Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

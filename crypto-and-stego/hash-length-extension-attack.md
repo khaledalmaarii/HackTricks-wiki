@@ -1,28 +1,29 @@
-# Ataque de Extensión de Longitud de Hash
+# Hash Length Extension Attack
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 #### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
-El objetivo principal de WhiteIntel es combatir tomas de cuentas y ataques de ransomware resultantes de malwares que roban información.
+Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
 
-Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita** en:
+Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -30,28 +31,28 @@ Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita**
 
 ## Resumen del ataque
 
-Imagina un servidor que está **firmando** algunos **datos** al **añadir** un **secreto** a algunos datos de texto claro conocidos y luego hasheando esos datos. Si conoces:
+Imagina un servidor que está **firmando** algunos **datos** al **agregar** un **secreto** a algunos datos de texto claro conocidos y luego hasheando esos datos. Si sabes:
 
-* **La longitud del secreto** (esto también se puede obtener por fuerza bruta desde un rango de longitud dado)
+* **La longitud del secreto** (esto también se puede forzar a partir de un rango de longitud dado)
 * **Los datos de texto claro**
 * **El algoritmo (y es vulnerable a este ataque)**
-* **El relleno es conocido**
-* Por lo general se usa uno predeterminado, por lo que si se cumplen los otros 3 requisitos, esto también lo está
-* El relleno varía dependiendo de la longitud del secreto+datos, por eso se necesita la longitud del secreto
+* **El padding es conocido**
+* Usualmente se usa uno por defecto, así que si se cumplen los otros 3 requisitos, esto también se cumple
+* El padding varía dependiendo de la longitud del secreto + datos, por eso se necesita la longitud del secreto
 
-Entonces, es posible para un **atacante** **añadir** **datos** y **generar** una firma válida para los **datos anteriores + datos añadidos**.
+Entonces, es posible que un **atacante** **agregue** **datos** y **genere** una **firma** válida para los **datos anteriores + datos agregados**.
 
 ### ¿Cómo?
 
-Básicamente, los algoritmos vulnerables generan los hashes primero **hasheando un bloque de datos**, y luego, **a partir** del **hash creado previamente** (estado), **añaden el siguiente bloque de datos** y lo **hashean**.
+Básicamente, los algoritmos vulnerables generan los hashes primero **hasheando un bloque de datos**, y luego, **a partir** del **hash** (estado) **creado previamente**, **agregan el siguiente bloque de datos** y **lo hashean**.
 
 Entonces, imagina que el secreto es "secreto" y los datos son "datos", el MD5 de "secretodata" es 6036708eba0d11f6ef52ad44e8b74d5b.\
-Si un atacante quiere añadir la cadena "añadir" puede:
+Si un atacante quiere agregar la cadena "agregar", puede:
 
 * Generar un MD5 de 64 "A"s
-* Cambiar el estado del hash inicializado previamente a 6036708eba0d11f6ef52ad44e8b74d5b
-* Añadir la cadena "añadir"
-* Finalizar el hash y el hash resultante será uno **válido para "secreto" + "datos" + "relleno" + "añadir"**
+* Cambiar el estado del hash previamente inicializado a 6036708eba0d11f6ef52ad44e8b74d5b
+* Agregar la cadena "agregar"
+* Terminar el hash y el hash resultante será un **válido para "secreto" + "datos" + "padding" + "agregar"**
 
 ### **Herramienta**
 
@@ -65,24 +66,25 @@ Puedes encontrar este ataque bien explicado en [https://blog.skullsecurity.org/2
 
 <figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
 
-El objetivo principal de WhiteIntel es combatir tomas de cuentas y ataques de ransomware resultantes de malwares que roban información.
+Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
 
-Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita** en:
+Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

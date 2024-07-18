@@ -1,26 +1,27 @@
-# Trucos de Wireshark
+# Wireshark tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares de robo**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware de robo**.
 
-El objetivo principal de WhiteIntel es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
+Su objetivo principal de WhiteIntel es combatir la toma de control de cuentas y ataques de ransomware resultantes de malware que roba información.
 
 Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
@@ -41,45 +42,45 @@ Los siguientes tutoriales son increíbles para aprender algunos trucos básicos 
 
 ### Información Analizada
 
-**Información de Expertos**
+**Información Experta**
 
-Al hacer clic en _**Analyze** --> **Expert Information**_ tendrás una **visión general** de lo que está sucediendo en los paquetes **analizados**:
+Al hacer clic en _**Analizar** --> **Información Experta**_ tendrás una **visión general** de lo que está sucediendo en los paquetes **analizados**:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Direcciones Resueltas**
 
-Bajo _**Statistics --> Resolved Addresses**_ puedes encontrar varias **informaciones** que fueron "**resueltas**" por Wireshark, como puerto/transporte a protocolo, MAC al fabricante, etc. Es interesante saber qué está implicado en la comunicación.
+Bajo _**Estadísticas --> Direcciones Resueltas**_ puedes encontrar varias **informaciones** que fueron "**resueltas**" por Wireshark, como puerto/transporte a protocolo, MAC al fabricante, etc. Es interesante saber qué está implicado en la comunicación.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Jerarquía de Protocolos**
 
-Bajo _**Statistics --> Protocol Hierarchy**_ puedes encontrar los **protocolos** **involucrados** en la comunicación y datos sobre ellos.
+Bajo _**Estadísticas --> Jerarquía de Protocolos**_ puedes encontrar los **protocolos** **involucrados** en la comunicación y datos sobre ellos.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversaciones**
 
-Bajo _**Statistics --> Conversations**_ puedes encontrar un **resumen de las conversaciones** en la comunicación y datos sobre ellas.
+Bajo _**Estadísticas --> Conversaciones**_ puedes encontrar un **resumen de las conversaciones** en la comunicación y datos sobre ellas.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Puntos Finales**
 
-Bajo _**Statistics --> Endpoints**_ puedes encontrar un **resumen de los puntos finales** en la comunicación y datos sobre cada uno de ellos.
+Bajo _**Estadísticas --> Puntos Finales**_ puedes encontrar un **resumen de los puntos finales** en la comunicación y datos sobre cada uno de ellos.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**Información de DNS**
+**Información DNS**
 
-Bajo _**Statistics --> DNS**_ puedes encontrar estadísticas sobre la solicitud de DNS capturada.
+Bajo _**Estadísticas --> DNS**_ puedes encontrar estadísticas sobre la solicitud DNS capturada.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**Gráfico de E/S**
+**Gráfico I/O**
 
-Bajo _**Statistics --> I/O Graph**_ puedes encontrar un **gráfico de la comunicación**.
+Bajo _**Estadísticas --> Gráfico I/O**_ puedes encontrar un **gráfico de la comunicación.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
@@ -89,35 +90,35 @@ Aquí puedes encontrar filtros de Wireshark dependiendo del protocolo: [https://
 Otros filtros interesantes:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* Tráfico HTTP e HTTPS inicial
+* Tráfico HTTP y HTTPS inicial
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* Tráfico HTTP e HTTPS inicial + SYN TCP
+* Tráfico HTTP y HTTPS inicial + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* Tráfico HTTP e HTTPS inicial + SYN TCP + solicitudes DNS
+* Tráfico HTTP y HTTPS inicial + TCP SYN + solicitudes DNS
 
 ### Búsqueda
 
-Si deseas **buscar** **contenido** dentro de los **paquetes** de las sesiones, presiona _CTRL+f_. Puedes agregar nuevas capas a la barra de información principal (N.º, Hora, Origen, etc.) presionando el botón derecho y luego editar columna.
+Si deseas **buscar** **contenido** dentro de los **paquetes** de las sesiones, presiona _CTRL+f_. Puedes agregar nuevas capas a la barra de información principal (No., Hora, Origen, etc.) presionando el botón derecho y luego editando la columna.
 
 ### Laboratorios pcap gratuitos
 
 **Practica con los desafíos gratuitos de:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
-## Identificación de Dominios
+## Identificando Dominios
 
-Puedes agregar una columna que muestre el encabezado Host HTTP:
+Puedes agregar una columna que muestre el encabezado HTTP del Host:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-Y una columna que agregue el nombre del servidor desde una conexión HTTPS inicial (**ssl.handshake.type == 1**):
+Y una columna que agregue el nombre del Servidor de una conexión HTTPS iniciadora (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
-## Identificación de nombres de host locales
+## Identificando nombres de host locales
 
 ### Desde DHCP
 
-En el Wireshark actual en lugar de `bootp` debes buscar `DHCP`
+En la versión actual de Wireshark, en lugar de `bootp` necesitas buscar `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -125,19 +126,19 @@ En el Wireshark actual en lugar de `bootp` debes buscar `DHCP`
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## Descifrado de TLS
+## Desencriptando TLS
 
-### Descifrado de tráfico https con clave privada del servidor
+### Desencriptando tráfico https con la clave privada del servidor
 
-_editar>preferencias>protocolo>ssl>_
+_edit>preferencia>protocolo>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
 Presiona _Editar_ y agrega todos los datos del servidor y la clave privada (_IP, Puerto, Protocolo, Archivo de clave y contraseña_)
 
-### Descifrado de tráfico https con claves de sesión simétricas
+### Desencriptando tráfico https con claves de sesión simétricas
 
-Tanto Firefox como Chrome tienen la capacidad de registrar claves de sesión TLS, que pueden ser utilizadas con Wireshark para descifrar el tráfico TLS. Esto permite un análisis detallado de las comunicaciones seguras. Se puede encontrar más detalles sobre cómo realizar este descifrado en una guía en [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Tanto Firefox como Chrome tienen la capacidad de registrar claves de sesión TLS, que se pueden usar con Wireshark para desencriptar tráfico TLS. Esto permite un análisis profundo de las comunicaciones seguras. Más detalles sobre cómo realizar esta desencriptación se pueden encontrar en una guía en [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Para detectar esto, busca dentro del entorno la variable `SSLKEYLOGFILE`
 
@@ -145,12 +146,13 @@ Un archivo de claves compartidas se verá así:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Para importar esto en Wireshark ve a \_editar > preferencias > protocolo > ssl > e impórtalo en (Pre)-Master-Secret log filename:
+Para importar esto en Wireshark, ve a \_editar > preferencia > protocolo > ssl > e impórtalo en el nombre de archivo de registro de (Pre)-Master-Secret:
 
 ![](<../../../.gitbook/assets/image (989).png>)
+
 ## Comunicación ADB
 
-Extraer un APK de una comunicación ADB donde se envió el APK:
+Extrae un APK de una comunicación ADB donde se envió el APK:
 ```python
 from scapy.all import *
 
@@ -181,24 +183,25 @@ f.close()
 
 <figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware robador**.
 
-Su objetivo principal es combatir los secuestros de cuentas y los ataques de ransomware resultantes de malwares que roban información.
+Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
 
-Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita** en:
+Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
