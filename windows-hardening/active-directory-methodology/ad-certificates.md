@@ -1,114 +1,117 @@
-# AD Sertifikate
+# AD Certificates
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Inleiding
+## Introduction
 
-### Komponente van 'n Sertifikaat
+### Components of a Certificate
 
 - Die **Onderwerp** van die sertifikaat dui sy eienaar aan.
-- 'n **Openbare Sleutel** word gekoppel aan 'n privaat gehoue sleutel om die sertifikaat aan sy regmatige eienaar te koppel.
-- Die **Geldigheidsperiode**, gedefinieer deur **NieVoor** en **NieNa** datums, dui die sertifikaat se effektiewe duur aan.
-- 'n Unieke **Serienommer**, verskaf deur die Sertifikaatowerheid (CA), identifiseer elke sertifikaat.
-- Die **Uitreiker** verwys na die CA wat die sertifikaat uitgereik het.
-- **SubjectAlternativeName** maak voorsiening vir addisionele name vir die onderwerp, wat die identifikasie buigsaamheid verbeter.
-- **Basiese Beperkings** identifiseer of die sertifikaat vir 'n CA of 'n eindentiteit is en definieer gebruikbeperkings.
-- **Uitgebreide Sleutelgebruik (EKUs)** onderskei die sertifikaat se spesifieke doeleindes, soos kodesondertekening of e-posversleuteling, deur middel van Objekidentifiseerders (OIDs).
-- Die **Handtekeningalgoritme** spesifiseer die metode vir die ondertekening van die sertifikaat.
-- Die **Handtekening**, geskep met die uitreiker se privaatsleutel, waarborg die egtheid van die sertifikaat.
+- 'n **Publieke Sleutel** word gekoppel aan 'n privaat besit sleutel om die sertifikaat aan sy regmatige eienaar te verbind.
+- Die **Geldigheidsperiode**, gedefinieer deur **NotBefore** en **NotAfter** datums, merk die sertifikaat se effektiewe duur.
+- 'n unieke **Serienommer**, verskaf deur die Sertifikaatowerheid (CA), identifiseer elke sertifikaat.
+- Die **Uitgewer** verwys na die CA wat die sertifikaat uitgereik het.
+- **SubjectAlternativeName** laat vir addisionele name vir die onderwerp, wat identifikasiefleksibiliteit verbeter.
+- **Basiese Beperkings** identifiseer of die sertifikaat vir 'n CA of 'n eindentiteit is en definieer gebruiksbeperkings.
+- **Verlengde Sleutelgebruik (EKUs)** delineer die sertifikaat se spesifieke doele, soos kodeondertekening of e-posversleuteling, deur middel van Objektidentifiseerders (OIDs).
+- Die **Handtekening Algoritme** spesifiseer die metode vir die ondertekening van die sertifikaat.
+- Die **Handtekening**, geskep met die uitgewer se privaat sleutel, waarborg die sertifikaat se egtheid.
 
-### Spesiale Oorwegings
+### Special Considerations
 
-- **Subject Alternative Names (SANs)** brei 'n sertifikaat se toepaslikheid uit na verskeie identiteite, wat noodsaaklik is vir bedieners met verskeie domeine. Veilige uitreikprosesse is noodsaaklik om impersonasie-risiko's te voorkom deur aanvallers wat die SAN-spesifikasie manipuleer.
+- **Onderwerp Alternatiewe Name (SANs)** brei 'n sertifikaat se toepasbaarheid uit na meerdere identiteite, wat noodsaaklik is vir bedieners met meerdere domeine. Veilige uitreikprosesse is noodsaaklik om te verhoed dat aanvallers die SAN-spesifikasie manipuleer en so identiteitsdiefstal veroorsaak.
 
-### Sertifikaatowerhede (CA's) in Active Directory (AD)
+### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS erken CA-sertifikate in 'n AD-bos deur middel van aangewese houers wat elkeen unieke rolle vervul:
+AD CS erken CA-sertifikate in 'n AD-woud deur middel van aangewese houers, elk met unieke rolle:
 
-- Die **Sertifiseringsowerhede**-houer bevat vertroude wortel-CA-sertifikate.
-- Die **Inschrywingsdienste**-houer beskryf Enterprise-CA's en hul sertifikaatsjablone.
-- Die **NTAuthCertificates**-voorwerp bevat CA-sertifikate wat gemagtig is vir AD-outentisering.
-- Die **AIA (Authority Information Access)**-houer fasiliteer sertifikaatkettingvalidering met tussenliggende en kruis-CA-sertifikate.
+- Die **Sertifiseringsowerhede** houer bevat vertroude wortel CA-sertifikate.
+- Die **Inskrywingsdienste** houer bevat Enterprise CA's en hul sertifikaat sjablone.
+- Die **NTAuthCertificates** objek sluit CA-sertifikate in wat gemagtig is vir AD-outehentisering.
+- Die **AIA (Owerheid Inligting Toegang)** houer fasiliteer sertifikaatkettingvalidasie met tussenliggende en kruis CA-sertifikate.
 
-### Sertifikaatverkryging: Vloei van Kliëntsertifikaatversoek
+### Certificate Acquisition: Client Certificate Request Flow
 
-1. Die versoekproses begin met kliënte wat 'n Enterprise-CA vind.
-2. 'n CSR word geskep, wat 'n openbare sleutel en ander besonderhede bevat, nadat 'n openbare-privaat sleutelpaar gegenereer is.
-3. Die CA evalueer die CSR teen beskikbare sertifikaatsjablone en reik die sertifikaat uit op grond van die sjabloon se toestemmings.
-4. Nadat dit goedgekeur is, onderteken die CA die sertifikaat met sy privaatsleutel en stuur dit terug na die kliënt.
+1. Die versoekproses begin met kliënte wat 'n Enterprise CA vind.
+2. 'n CSR word geskep, wat 'n publieke sleutel en ander besonderhede bevat, na die generering van 'n publieke-privaat sleutel paar.
+3. Die CA evalueer die CSR teenoor beskikbare sertifikaat sjablone, en stel die sertifikaat uit op grond van die sjabloon se toestemmings.
+4. Na goedkeuring, onderteken die CA die sertifikaat met sy privaat sleutel en keer dit terug na die kliënt.
 
-### Sertifikaatsjablone
+### Certificate Templates
 
-Gedefinieer binne AD, beskryf hierdie sjablone die instellings en toestemmings vir die uitreiking van sertifikate, insluitend toegelate EKUs en inskrywings- of wysigingsregte, wat krities is vir die bestuur van toegang tot sertifikaatdienste.
+Gedefinieer binne AD, skets hierdie sjablone die instellings en toestemmings vir die uitreiking van sertifikate, insluitend toegelate EKUs en inskrywings- of wysigingsregte, wat krities is vir die bestuur van toegang tot sertifikaatdienste.
 
-## Sertifikaatinskrywing
+## Certificate Enrollment
 
-Die inskrywingsproses vir sertifikate word geïnisieer deur 'n administrateur wat 'n sertifikaatsjabloon **skep**, wat dan deur 'n Enterprise-sertifikaatowerheid (CA) **gepubliseer** word. Dit maak die sjabloon beskikbaar vir kliëntinskrywing, 'n stap wat bereik word deur die naam van die sjabloon by die `certificatetemplates`-veld van 'n Active Directory-voorwerp te voeg.
+Die inskrywingsproses vir sertifikate word geinitieer deur 'n administrateur wat **'n sertifikaat sjabloon skep**, wat dan **gepubliseer** word deur 'n Enterprise Sertifikaatowerheid (CA). Dit maak die sjabloon beskikbaar vir kliëntinskrywing, 'n stap wat bereik word deur die sjabloon se naam by die `certificatetemplates` veld van 'n Active Directory objek te voeg.
 
-Om 'n sertifikaat aan te vra, moet **inskrywingsregte** verleen word. Hierdie regte word gedefinieer deur sekuriteitsbeskrywers op die sertifikaatsjabloon en die Enterprise-CA self. Regte moet in beide plekke verleen word vir 'n versoek om suksesvol te wees.
+Vir 'n kliënt om 'n sertifikaat aan te vra, moet **inskrywingsregte** toegeken word. Hierdie regte word gedefinieer deur sekuriteitsbeskrywings op die sertifikaat sjabloon en die Enterprise CA self. Toestemmings moet in beide plekke toegeken word vir 'n versoek om suksesvol te wees.
 
-### Inskrywingsregte vir Sjabloon
+### Template Enrollment Rights
 
-Hierdie regte word gespesifiseer deur middel van Toegangsbeheerinskrywings (ACE's), wat toestemmings soos volg beskryf:
-- **Certificate-Enrollment** en **Certificate-AutoEnrollment**-regte, elk geassosieer met spesifieke GUID's.
-- **ExtendedRights**, wat alle uitgebreide toestemmings toelaat.
-- **FullControl/GenericAll**, wat volledige beheer oor die sjabloon bied.
+Hierdie regte word gespesifiseer deur middel van Toegang Beheer Inskrywings (ACEs), wat toestemmings soos:
+- **Sertifikaat-Inskrywing** en **Sertifikaat-AutoInskrywing** regte, elk geassosieer met spesifieke GUIDs.
+- **VerlengdeRegte**, wat alle verlengde toestemmings toelaat.
+- **VolleBeheer/GemiddeldAl**, wat volledige beheer oor die sjabloon bied.
 
-### Inskrywingsregte vir Enterprise-CA
+### Enterprise CA Enrollment Rights
 
-Die regte van die CA word beskryf in sy sekuriteitsbeskrywer, wat toeganklik is via die Sertifikaatowerheidbestuurskonsol. Sommige instellings maak selfs laagbevoorregte gebruikers moontlik remote toegang, wat 'n veiligheidskwessie kan wees.
+Die CA se regte word uiteengesit in sy sekuriteitsbeskrywing, toeganklik via die Sertifikaatowerheid bestuurskonsol. Sommige instellings laat selfs laag-geprivilegieerde gebruikers afstandstoegang toe, wat 'n sekuriteitskwessie kan wees.
 
-### Addisionele Uitreikingsbeheer
+### Additional Issuance Controls
 
-Sekere beheermaatreëls kan van toepassing wees, soos:
-- **Bestuursgoedkeuring**: Plaas versoek in 'n hangende toestand totdat dit deur 'n sertifikaatbestuurder goedgekeur word.
-- **Inskrywingsagente en Gemagtigde Handtekeninge**: Spesifiseer die aantal vereiste handtekeninge op 'n CSR en die nodige Aansoekbeleid-OIDs.
+Sekere kontroles mag van toepassing wees, soos:
+- **Bestuurder Goedkeuring**: Plaas versoeke in 'n hangende toestand totdat dit deur 'n sertifikaatbestuurder goedgekeur word.
+- **Inskrywingsagente en Gemagtigde Handtekeninge**: Spesifiseer die aantal vereiste handtekeninge op 'n CSR en die nodige Aansoekbeleid OIDs.
 
-### Metodes om Sertifikate aan te vra
+### Methods to Request Certificates
 
-Sertifikate kan aangevra word deur middel van:
-1. **Windows-kliëntsertifikaatinskrywingsprotokol** (MS-WCCE), met behulp van DCOM-koppelvlakke.
-2. **ICertPassage Remote Protocol** (MS-ICPR), deur middel van genoemde pype of TCP/IP.
-3. Die **sertifikaatinskrywingswebkoppelvlak**, met die Sertifikaatowerheid Web Inskrywing rol geïnstalleer.
-4. Die **Sertifikaatinskrywingsdiens** (CES), in samewerking met die Sertifikaatinskrywingsbeleid (CEP)-diens.
-5. Die **Netwerktoestelinskrywingsdiens** (NDES) vir netwerktoestelle, met behulp van die Eenvoudige Sertifikaatinskrywingsprotokol (SCEP).
+Sertifikate kan aangevra word deur:
+1. **Windows Kliënt Sertifikaat Inskrywing Protokol** (MS-WCCE), met DCOM interfaces.
+2. **ICertPassage Afstand Protokol** (MS-ICPR), deur middel van benoemde pype of TCP/IP.
+3. Die **sertifikaat inskrywings web koppelvlak**, met die Sertifikaatowerheid Web Inskrywing rol geïnstalleer.
+4. Die **Sertifikaat Inskrywingsdiens** (CES), in samewerking met die Sertifikaat Inskrywingsbeleid (CEP) diens.
+5. Die **Netwerk Toestel Inskrywingsdiens** (NDES) vir netwerktoestelle, met die Gebruik van die Eenvoudige Sertifikaat Inskrywingsprotokol (SCEP).
 
-Windows-gebruikers kan ook sertifikate aanvra deur middel van die GUI (`certmgr.msc` of `certlm.msc`) of opdraggereelgereedskap (`certreq.exe` of PowerShell se `Get-Certificate`-opdrag).
+Windows gebruikers kan ook sertifikate aan vra via die GUI (`certmgr.msc` of `certlm.msc`) of opdraglyn gereedskap (`certreq.exe` of PowerShell se `Get-Certificate` opdrag).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Sertifikaatverifikasie
+## Sertifikaat Verifikasie
 
-Active Directory (AD) ondersteun sertifikaatverifikasie, hoofsaaklik deur gebruik te maak van die **Kerberos** en **Secure Channel (Schannel)** protokolle.
+Active Directory (AD) ondersteun sertifikaat verifikasie, hoofsaaklik deur gebruik te maak van **Kerberos** en **Secure Channel (Schannel)** protokolle.
 
-### Kerberos-verifikasieproses
+### Kerberos Verifikasie Proses
 
-In die Kerberos-verifikasieproses word 'n gebruiker se versoek vir 'n Ticket Granting Ticket (TGT) onderteken met behulp van die **privaatsleutel** van die gebruiker se sertifikaat. Hierdie versoek ondergaan verskeie validerings deur die domeinbeheerder, insluitend die **geldigheid**, **pad** en **herroepingstatus** van die sertifikaat. Validerings sluit ook in om te bevestig dat die sertifikaat afkomstig is van 'n betroubare bron en om die uitreiker se teenwoordigheid in die **NTAUTH-sertifikaatstoor** te bevestig. Suksesvolle validerings lei tot die uitreiking van 'n TGT. Die **`NTAuthCertificates`**-voorwerp in AD, te vind by:
+In die Kerberos verifikasie proses, word 'n gebruiker se versoek om 'n Ticket Granting Ticket (TGT) onderteken met die **privaat sleutel** van die gebruiker se sertifikaat. Hierdie versoek ondergaan verskeie validerings deur die domeinbeheerder, insluitend die sertifikaat se **geldigheid**, **pad**, en **herroepingstatus**. Validerings sluit ook in om te verifieer dat die sertifikaat van 'n vertroude bron kom en om die uitreiker se teenwoordigheid in die **NTAUTH sertifikaat stoor** te bevestig. Suksesvolle validerings lei tot die uitreiking van 'n TGT. Die **`NTAuthCertificates`** objek in AD, gevind by:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-### Sekuriteitskanaal (Schannel) Verifikasie
+is sentraal tot die vestiging van vertroue vir sertifikaatverifikasie.
 
-Schannel fasiliteer veilige TLS/SSL-verbindinge, waar tydens 'n handskud die klient 'n sertifikaat voorlê wat, as dit suksesvol gevalideer word, toegang magtig. Die kartering van 'n sertifikaat na 'n AD-rekening mag Kerberos se **S4U2Self**-funksie of die sertifikaat se **Subject Alternative Name (SAN)** insluit, onder andere metodes.
+### Veilige Kanaal (Schannel) Verifikasie
 
-### AD Sertifikaatdienste Enumerasie
+Schannel fasiliteer veilige TLS/SSL verbindings, waar tydens 'n handdruk, die kliënt 'n sertifikaat aanbied wat, indien suksesvol geverifieer, toegang magtig. Die toewysing van 'n sertifikaat aan 'n AD-rekening kan die Kerberos se **S4U2Self** funksie of die sertifikaat se **Subject Alternative Name (SAN)** insluit, onder andere metodes.
 
-AD se sertifikaatdienste kan deur middel van LDAP-navrae geënumereer word, wat inligting oor **Enterprise Certificate Authorities (CAs)** en hul konfigurasies openbaar. Dit is toeganklik vir enige domein-geverifieerde gebruiker sonder spesiale voorregte. Hulpmiddels soos **[Certify](https://github.com/GhostPack/Certify)** en **[Certipy](https://github.com/ly4k/Certipy)** word gebruik vir enumerasie en kwesbaarheidsassessering in AD CS-omgewings.
+### AD Sertifikaat Dienste Enumerasie
 
-Opdragte vir die gebruik van hierdie hulpmiddels sluit in:
+AD se sertifikaatdienste kan deur LDAP navrae gelys word, wat inligting oor **Enterprise Certificate Authorities (CAs)** en hul konfigurasies onthul. Dit is toeganklik vir enige domein-geverifieerde gebruiker sonder spesiale voorregte. Gereedskap soos **[Certify](https://github.com/GhostPack/Certify)** en **[Certipy](https://github.com/ly4k/Certipy)** word gebruik vir enumerasie en kwesbaarheidsevaluering in AD CS omgewings.
+
+Opdragte om hierdie gereedskap te gebruik sluit in:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -127,16 +130,17 @@ certutil -v -dstemplate
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

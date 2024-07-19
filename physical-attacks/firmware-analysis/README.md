@@ -1,57 +1,58 @@
-# Firmware-analise
+# Firmware Analysis
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy in HackTricks wil adverteer** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Inleiding**
+## **Introduction**
 
-Firmware is essensiële sagteware wat toestelle in staat stel om korrek te werk deur die hardewarekomponente en die sagteware wat gebruikers mee skakel, te bestuur en te fasiliteer. Dit word gestoor in permanente geheue, wat verseker dat die toestel vanaf die oomblik dat dit aangeskakel word, toegang kan verkry tot noodsaaklike instruksies, wat lei tot die lancering van die bedryfstelsel. Die ondersoek en moontlike wysiging van firmware is 'n kritieke stap in die identifisering van sekuriteitskwesbaarhede.
+Firmware is essensiële sagteware wat toestelle in staat stel om korrek te werk deur kommunikasie tussen die hardewarekomponente en die sagteware waarmee gebruikers interaksie het, te bestuur en te fasiliteer. Dit word in permanente geheue gestoor, wat verseker dat die toestel toegang kan verkry tot noodsaaklike instruksies vanaf die oomblik dat dit aangeskakel word, wat lei tot die opstart van die bedryfstelsel. Om firmware te ondersoek en moontlik te wysig, is 'n kritieke stap in die identifisering van sekuriteitskwesbaarhede.
 
-## **Versameling van inligting**
+## **Gathering Information**
 
-**Versameling van inligting** is 'n kritieke aanvanklike stap om die samestelling van 'n toestel en die tegnologieë wat dit gebruik, te verstaan. Hierdie proses behels die versameling van data oor:
+**Inligting versameling** is 'n kritieke aanvanklike stap in die begrip van 'n toestel se samestelling en die tegnologieë wat dit gebruik. Hierdie proses behels die versameling van data oor:
 
-- Die CPU-argitektuur en bedryfstelsel waarop dit loop
-- Spesifieke opstartlaaiers
-- Hardeware-opstelling en databladsye
-- Kodebasis-metriek en bronlokasies
+- Die CPU-argitektuur en bedryfstelsel wat dit gebruik
+- Bootloader spesifikasies
+- Hardeware uitleg en datasheets
+- Codebase metrieke en bronliggings
 - Eksterne biblioteke en lisensietipes
-- Opdateringsgeskiedenis en reguleringssertifikate
-- Argitektoniese en vloeidiagramme
-- Sekuriteitsassesserings en geïdentifiseerde kwesbaarhede
+- Opdatering geskiedenisse en regulerende sertifikate
+- Argitektoniese en vloediagramme
+- Sekuriteitsassessering en geïdentifiseerde kwesbaarhede
 
-Vir hierdie doel is **open-source intelligensie (OSINT)**-hulpmiddels van onskatbare waarde, asook die analise van enige beskikbare open-source sagtewarekomponente deur middel van handmatige en outomatiese hersieningsprosesse. Hulpmiddels soos [Coverity Scan](https://scan.coverity.com) en [Semmle’s LGTM](https://lgtm.com/#explore) bied gratis statiese analise wat benut kan word om potensiële kwessies op te spoor.
+Vir hierdie doel is **oopbron intelligensie (OSINT)** gereedskap van onskatbare waarde, sowel as die analise van enige beskikbare oopbron sagtewarekomponente deur handmatige en geoutomatiseerde hersieningsprosesse. Gereedskap soos [Coverity Scan](https://scan.coverity.com) en [Semmle’s LGTM](https://lgtm.com/#explore) bied gratis statiese analise wat benut kan word om potensiële probleme te vind.
 
-## **Verkryging van die firmware**
+## **Acquiring the Firmware**
 
-Die verkryging van firmware kan op verskillende maniere benader word, elk met sy eie vlak van kompleksiteit:
+Om firmware te verkry kan op verskeie maniere benader word, elk met sy eie vlak van kompleksiteit:
 
 - **Direk** van die bron (ontwikkelaars, vervaardigers)
-- **Bou** dit volgens die voorsiene instruksies
+- **Bou** dit volgens verskafde instruksies
 - **Aflaai** van amptelike ondersteuningswebwerwe
-- Gebruik van **Google-dork**-navrae om gehuisvese firmware-lêers te vind
-- Direkte toegang tot **wolkstoorplek** met hulpmiddels soos [S3Scanner](https://github.com/sa7mon/S3Scanner)
-- Onderskepping van **opdaterings** deur middel van man-in-die-middel-tegnieke
-- **Onttrekking** van die toestel deur middel van verbindings soos **UART**, **JTAG**, of **PICit**
+- Gebruik **Google dork** navrae om gehoste firmware-lêers te vind
+- Toegang tot **cloud storage** direk, met gereedskap soos [S3Scanner](https://github.com/sa7mon/S3Scanner)
+- Interseptering van **opdaterings** via man-in-the-middle tegnieke
+- **Ekstrak** van die toestel deur verbindings soos **UART**, **JTAG**, of **PICit**
 - **Sniffing** vir opdateringsversoeke binne toestelkommunikasie
-- Identifisering en gebruik van **hardgekoppelde opdaterings-eindpunte**
-- **Dumping** vanaf die opstartlaaier of netwerk
-- **Verwydering en lees** van die stoorchip, wanneer al die ander pogings misluk, deur gebruik te maak van geskikte hardewarehulpmiddels
+- Identifisering en gebruik van **hardcoded update endpoints**
+- **Dumping** van die bootloader of netwerk
+- **Verwydering en lees** van die stoorchip, wanneer alles anders misluk, met toepaslike hardeware gereedskap
 
-## Analise van die firmware
+## Analyzing the firmware
 
-Nou dat jy die firmware het, moet jy inligting daaroor onttrek om te weet hoe om dit te hanteer. Verskillende hulpmiddels wat jy daarvoor kan gebruik:
+Nou dat jy **die firmware het**, moet jy inligting daaroor onttrek om te weet hoe om dit te behandel. Verskillende gereedskap wat jy daarvoor kan gebruik:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -60,24 +61,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-As jy nie veel vind met daardie gereedskap nie, kyk na die **entropie** van die prent met `binwalk -E <bin>`. As die entropie laag is, is dit nie waarskynlik versleutel nie. As die entropie hoog is, is dit waarskynlik versleutel (of op 'n sekere manier saamgedruk).
+If you don't find much with those tools check the **entropy** of the image with `binwalk -E <bin>`, if low entropy, then it's not likely to be encrypted. If high entropy, Its likely encrypted (or compressed in some way).
 
-Verder kan jy hierdie gereedskap gebruik om **lêers wat in die firmware ingebed is**, uit te trek:
+Boonop, jy kan hierdie gereedskap gebruik om **lêers ingebed binne die firmware** te onttrek:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Of [**binvis.io**](https://binvis.io/#/) ([kode](https://code.google.com/archive/p/binvis/)) om die lêer te ondersoek.
+Of [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) om die lêer te inspekteer.
 
-### Kry die Lêersisteem
+### Getting the Filesystem
 
-Met die vorige genoemde gereedskap soos `binwalk -ev <bin>` behoort jy in staat te wees om die **lêersisteem uit te trek**.\
-Binwalk sit dit gewoonlik binne 'n **gids met die naam van die lêersisteem**, wat gewoonlik een van die volgende is: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+Met die vorige kommentaar gereedskap soos `binwalk -ev <bin>` behoort jy in staat te wees om die **lêerstelsel** te **onttrek**.\
+Binwalk onttrek dit gewoonlik binne 'n **map genaamd soos die lêerstelseltipe**, wat gewoonlik een van die volgende is: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Handmatige Lêersisteem Uittrekking
+#### Manual Filesystem Extraction
 
-Soms sal binwalk **nie die sielkundige byte van die lêersisteem in sy handtekeninge hê nie**. In hierdie gevalle, gebruik binwalk om die **verskuiwing van die lêersisteem te vind en die saamgedrukte lêersisteem** uit die binêre lêer te **uitsny** en die lêersisteem handmatig uit te trek volgens sy tipe deur die volgende stappe te volg.
+Soms, binwalk sal **nie die magiese byte van die lêerstelsel in sy handtekeninge hê nie**. In hierdie gevalle, gebruik binwalk om die **offset van die lêerstelsel te vind en die gecomprimeerde lêerstelsel** uit die binêre te **karve** en die lêerstelsel volgens sy tipe te **onttrek** met die stappe hieronder.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -89,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Voer die volgende **dd-opdrag** uit om die Squashfs-lêersisteem uit te snys.
+Voer die volgende **dd-opdrag** uit om die Squashfs-lêerstelsel te sny.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -99,38 +100,38 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-Alternatiewelik kan die volgende bevel ook uitgevoer word.
+Alternatiewelik kan die volgende opdrag ook uitgevoer word.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* Vir squashfs (soos in die bogenoemde voorbeeld gebruik)
+* Vir squashfs (gebruik in die voorbeeld hierbo)
 
 `$ unsquashfs dir.squashfs`
 
-Lêers sal daarna in die "`squashfs-root`" gids wees.
+Lêers sal in die "`squashfs-root`" gids wees daarna.
 
-* CPIO-argief lêers
+* CPIO argief lêers
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* Vir jffs2-lêersisteme
+* Vir jffs2 lêerstelsels
 
 `$ jefferson rootfsfile.jffs2`
 
-* Vir ubifs-lêersisteme met NAND-flits
+* Vir ubifs lêerstelsels met NAND flash
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
 
-## Ontleding van Firmware
+## Analise van Firmware
 
-Sodra die firmware verkry is, is dit noodsaaklik om dit te ontleed om die struktuur en potensiële kwesbaarhede daarvan te verstaan. Hierdie proses behels die gebruik van verskeie gereedskap om waardevolle data uit die firmware-beeld te analiseer en te onttrek.
+Sodra die firmware verkry is, is dit noodsaaklik om dit te ontleed om die struktuur en potensiële kwesbaarhede te verstaan. Hierdie proses behels die gebruik van verskeie gereedskap om waardevolle data uit die firmware beeld te analiseer en te onttrek.
 
-### Gereedskap vir Aanvanklike Analise
+### Begin Analise Gereedskap
 
-'n Stel bevele word verskaf vir die aanvanklike ondersoek van die binêre lêer (verwys as `<bin>`). Hierdie bevele help om lêertipes te identifiseer, strings te onttrek, binêre data te analiseer, en die partisie- en lêersisteemdetails te verstaan:
+'n Stel opdragte word verskaf vir die aanvanklike inspeksie van die binêre lêer (verwys na `<bin>`). Hierdie opdragte help om lêertipes te identifiseer, stringe te onttrek, binêre data te analiseer, en die partisie en lêerstelsel besonderhede te verstaan:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -139,94 +140,96 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-Om die versleutelingsstatus van die prent te beoordeel, word die **entropie** nagegaan met `binwalk -E <bin>`. Lae entropie dui op 'n gebrek aan versleuteling, terwyl hoë entropie moontlike versleuteling of kompressie aandui.
+Om die versleutelingstatus van die beeld te evalueer, word die **entropy** nagegaan met `binwalk -E <bin>`. Lae entropy dui op 'n gebrek aan versleuteling aan, terwyl hoë entropy moontlike versleuteling of kompressie aandui.
 
-Vir die onttrekking van **ingebedde lêers**, word gereedskap en hulpbronne soos die dokumentasie van **file-data-carving-recovery-tools** en **binvis.io** vir lêerondersoek aanbeveel.
+Vir die onttrekking van **embedded files**, word gereedskap en hulpbronne soos die **file-data-carving-recovery-tools** dokumentasie en **binvis.io** vir lêerinspeksie aanbeveel.
 
-### Onttrekking van die Lêersisteem
+### Onttrekking van die Filesystem
 
-Met behulp van `binwalk -ev <bin>` kan die lêersisteem gewoonlik onttrek word, dikwels na 'n gids wat vernoem is na die lêersisteemtipe (bv. squashfs, ubifs). Wanneer **binwalk** egter nie die lêersisteemtipe herken as gevolg van ontbrekende magiese bytes nie, is handmatige onttrekking nodig. Dit behels die gebruik van `binwalk` om die lêersisteem se offset op te spoor, gevolg deur die `dd`-opdrag om die lêersisteem uit te sny:
+Met `binwalk -ev <bin>` kan 'n mens gewoonlik die filesystem onttrek, dikwels in 'n gids wat na die filesystem tipe genoem is (bv. squashfs, ubifs). As **binwalk** egter nie die filesystem tipe kan herken nie weens ontbrekende magic bytes, is handmatige onttrekking nodig. Dit behels die gebruik van `binwalk` om die filesystem se offset te lokaliseer, gevolg deur die `dd` opdrag om die filesystem uit te sny:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-Daarna, afhangende van die lêersisteemtipe (bv. squashfs, cpio, jffs2, ubifs), word verskillende opdragte gebruik om die inhoud handmatig te onttrek.
+```markdown
+Daarna, afhangende van die lêerstelseltipe (bv., squashfs, cpio, jffs2, ubifs), word verskillende opdragte gebruik om die inhoud handmatig te onttrek.
 
-### Lêersisteemontleding
+### Lêerstelselanalise
 
-Met die lêersisteem onttrek, begin die soektog na sekuriteitsgebreke. Aandag word geskenk aan onveilige netwerkdaemons, hardgekoppelde geloofsbriewe, API-eindpunte, opdateringsserverfunksies, ongekompileerde kodes, opstartskripte en gekompileerde binaire lêers vir aflynontleding.
+Met die lêerstelsel onttrek, begin die soektog na sekuriteitsfoute. Aandag word gegee aan onveilige netwerk daemons, hardcoded akrediteerbesonderhede, API eindpunte, opdatering bediener funksies, ongecompileerde kode, opstart skripte, en gecompileerde binêre vir offline analise.
 
-**Belangrike plekke** en **items** om te ondersoek sluit in:
+**Belangrike plekke** en **items** om te inspekteer sluit in:
 
-- **etc/shadow** en **etc/passwd** vir gebruikersgeloofsbriewe
-- SSL-sertifikate en sleutels in **etc/ssl**
-- Konfigurasie- en skripslêers vir potensiële kwesbaarhede
-- Ingeslote binaire lêers vir verdere ontleding
-- Algemene IoT-toestel-webbedieners en binaire lêers
+- **etc/shadow** en **etc/passwd** vir gebruikers akrediteerbesonderhede
+- SSL sertifikate en sleutels in **etc/ssl**
+- Konfigurasie en skrip lêers vir potensiële kwesbaarhede
+- Ingebedde binêre vir verdere analise
+- Algemene IoT toestel webbedieners en binêre
 
-Verskeie hulpmiddels help om sensitiewe inligting en kwesbaarhede binne die lêersisteem te ontdek:
+Verskeie gereedskap help om sensitiewe inligting en kwesbaarhede binne die lêerstelsel te ontdek:
 
-- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) en [**Firmwalker**](https://github.com/craigz28/firmwalker) vir soektog na sensitiewe inligting
-- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) vir omvattende lêersisteemontleding
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), en [**EMBA**](https://github.com/e-m-b-a/emba) vir statiese en dinamiese ontleding
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) en [**Firmwalker**](https://github.com/craigz28/firmwalker) vir sensitiewe inligting soektog
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) vir omvattende firmware analise
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), en [**EMBA**](https://github.com/e-m-b-a/emba) vir statiese en dinamiese analise
 
-### Sekuriteitskontroles op Gekompileerde Binaire Lêers
+### Sekuriteitskontroles op Gecompileerde Binêre
 
-Beide bronkode en gekompileerde binaire lêers wat in die lêersisteem gevind word, moet ondersoek word vir kwesbaarhede. Hulpmiddels soos **checksec.sh** vir Unix-binaire lêers en **PESecurity** vir Windows-binaire lêers help om onbeskermde binaire lêers te identifiseer wat uitgebuit kan word.
+Sowel die bronkode as gecompileerde binêre wat in die lêerstelsel gevind word, moet ondersoek word vir kwesbaarhede. Gereedskap soos **checksec.sh** vir Unix binêre en **PESecurity** vir Windows binêre help om onbeskermde binêre te identifiseer wat uitgebuit kan word.
 
-## Emulering van Firmware vir Dinamiese Ontleding
+## Emulering van Firmware vir Dynamiese Analise
 
-Die proses van emulering van firmware maak **dinamiese ontleding** van óf 'n toestel se werking óf 'n individuele program moontlik. Hierdie benadering kan uitdagings in die vorm van hardeware- of argitektuurafhanklikhede hê, maar die oordra van die hooflêersisteem of spesifieke binaire lêers na 'n toestel met 'n ooreenstemmende argitektuur en endianness, soos 'n Raspberry Pi, of na 'n voorafgeboude virtuele masjien, kan verdere toetsing fasiliteer.
+Die proses van emulering van firmware stel **dynamiese analise** in staat, hetsy van 'n toestel se werking of 'n individuele program. Hierdie benadering kan uitdagings ondervind met hardeware of argitektuur afhanklikhede, maar die oordrag van die wortellêerstelsel of spesifieke binêre na 'n toestel met ooreenstemmende argitektuur en endianness, soos 'n Raspberry Pi, of na 'n voorafgeboude virtuele masjien, kan verdere toetsing fasiliteer.
 
-### Emulering van Individuele Binaire Lêers
+### Emulering van Individuele Binêre
 
-Vir die ondersoek van enkelprogramme is dit noodsaaklik om die endianness en CPU-argitektuur van die program te identifiseer.
+Vir die ondersoek van enkele programme, is dit van kardinale belang om die program se endianness en CPU argitektuur te identifiseer.
 
-#### Voorbeeld met MIPS-argitektuur
+#### Voorbeeld met MIPS Argitektuur
 
-Om 'n MIPS-argitektuur-binaire lêer te emuleer, kan die volgende opdrag gebruik word:
+Om 'n MIPS argitektuur binêre te emuleer, kan 'n mens die opdrag gebruik:
+```
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-En om die nodige emulasiehulpmiddels te installeer:
+En om die nodige emulasie-instrumente te installeer:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-Vir MIPS (big-endian) word `qemu-mips` gebruik, en vir little-endian binaêre lêers sal `qemu-mipsel` die keuse wees.
+For MIPS (big-endian), `qemu-mips` word gebruik, en vir little-endian binaries, `qemu-mipsel` sou die keuse wees.
 
-#### ARM-argitektuur-emulasie
+#### ARM Argitektuur Emulasie
 
-Vir ARM-binaêre lêers is die proses soortgelyk, met die gebruik van die `qemu-arm` emulator vir emulasie.
+Vir ARM binaries is die proses soortgelyk, met die `qemu-arm` emulator wat gebruik word vir emulasie.
 
-### Volledige Sisteememulasie
+### Volle Stelsel Emulasie
 
-Hulpmiddels soos [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit), en ander fasiliteer volledige firmware-emulasie, outomatiseer die proses en help met dinamiese analise.
+Gereedskap soos [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit), en ander, fasiliteer volle firmware emulasie, outomatiseer die proses en help met dinamiese analise.
 
-## Dinamiese Analisetegnieke in die Praktyk
+## Dinamiese Analise in Praktyk
 
-Op hierdie stadium word 'n werklike of geëmuleerde toestelomgewing gebruik vir analise. Dit is noodsaaklik om skeltoegang tot die bedryfstelsel en lêersisteem te behou. Emulasie mag nie hardeware-interaksies perfek naboots nie, wat af en toe emulasie-herstarts noodsaaklik maak. Analise moet die lêersisteem hersien, blootgestelde webbladsye en netwerkdienste uitbuit, en bootloader-kwesbaarhede ondersoek. Firmware-integriteitstoetse is krities om potensiële agterdeur-kwesbaarhede te identifiseer.
+Op hierdie stadium word 'n werklike of geëmuleerde toestelomgewing vir analise gebruik. Dit is noodsaaklik om shell-toegang tot die OS en lêerstelsel te handhaaf. Emulasie mag nie perfek hardeware-interaksies naboots nie, wat af en toe emulasie-herlaai vereis. Analise moet die lêerstelsel herbesoek, blootgestelde webbladsye en netwerkdienste benut, en opstartlader kwesbaarhede verken. Firmware integriteitstoetse is krities om potensiële agterdeur kwesbaarhede te identifiseer.
 
-## Dinamiese Analisetegnieke
+## Tydren Analise Tegnieke
 
-Dinamiese analise behels interaksie met 'n proses of binaêre lêer in sy bedryfsomgewing, deur gebruik te maak van hulpmiddels soos gdb-multiarch, Frida en Ghidra om breekpunte te stel en kwesbaarhede te identifiseer deur middel van fuzzing en ander tegnieke.
+Tydren analise behels interaksie met 'n proses of binary in sy bedryfsomgewing, met behulp van gereedskap soos gdb-multiarch, Frida, en Ghidra om breekpunte in te stel en kwesbaarhede te identifiseer deur middel van fuzzing en ander tegnieke.
 
-## Binaêre Uitbuiting en Bewys-van-Konsep
+## Binary Exploitatie en Bewys-van-Konsep
 
-Die ontwikkeling van 'n Bewys-van-Konsep vir geïdentifiseerde kwesbaarhede vereis 'n diepgaande begrip van die teikenargitektuur en programmering in laervlak-tale. Binaêre tydproteksies in ingebedde stelsels is skaars, maar wanneer dit teenwoordig is, mag tegnieke soos Return Oriented Programming (ROP) nodig wees.
+Om 'n PoC vir geïdentifiseerde kwesbaarhede te ontwikkel, vereis 'n diep begrip van die teikenargitektuur en programmering in laervlak tale. Binary tydren beskermings in ingebedde stelsels is skaars, maar wanneer dit teenwoordig is, mag tegnieke soos Return Oriented Programming (ROP) nodig wees.
 
-## Voorbereide Bedryfstelsels vir Firmware-analise
+## Voorbereide Bedryfstelsels vir Firmware Analise
 
-Bedryfstelsels soos [AttifyOS](https://github.com/adi0x90/attifyos) en [EmbedOS](https://github.com/scriptingxss/EmbedOS) bied vooraf gekonfigureerde omgewings vir firmware-sekuriteitstoetsing, toegerus met nodige hulpmiddels.
+Bedryfstelsels soos [AttifyOS](https://github.com/adi0x90/attifyos) en [EmbedOS](https://github.com/scriptingxss/EmbedOS) bied vooraf-gekonfigureerde omgewings vir firmware sekuriteitstoetsing, toegerus met nodige gereedskap.
 
-## Voorbereide bedryfstelsels vir Firmware-analise
+## Voorbereide OS's om Firmware te analiseer
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS is 'n distro wat bedoel is om jou te help met die uitvoer van sekuriteitsassessering en penetrasietoetsing van Internet of Things (IoT)-toestelle. Dit bespaar baie tyd deur 'n vooraf gekonfigureerde omgewing met al die nodige hulpmiddels te voorsien.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Ingebedde sekuriteitstoetsingsbedryfstelsel gebaseer op Ubuntu 18.04 wat vooraf gelaai is met hulpmiddels vir firmware-sekuriteitstoetsing.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS is 'n distro wat bedoel is om jou te help om sekuriteitsassessering en penetrasietoetsing van Internet of Things (IoT) toestelle uit te voer. Dit bespaar jou baie tyd deur 'n vooraf-gekonfigureerde omgewing met al die nodige gereedskap te bied.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Ingebedde sekuriteitstoetsing bedryfstelsel gebaseer op Ubuntu 18.04 wat vooraf gelaai is met firmware sekuriteitstoetsing gereedskap.
 
-## Kwesbare firmware om te oefen
+## Kwetsbare firmware om te oefen
 
-Om te oefen om kwesbaarhede in firmware te ontdek, gebruik die volgende kwesbare firmwareprojekte as 'n beginpunt.
+Om kwesbaarhede in firmware te ontdek, gebruik die volgende kwesbare firmware projekte as 'n beginpunt.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
@@ -246,20 +249,21 @@ Om te oefen om kwesbaarhede in firmware te ontdek, gebruik die volgende kwesbare
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-## Opleiding en Sertifisering
+## Opleiding en Sertifikaat
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks in PDF aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

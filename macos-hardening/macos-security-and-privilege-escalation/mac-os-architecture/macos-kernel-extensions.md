@@ -1,46 +1,49 @@
-# macOS Kernel Uitbreidings
+# macOS Kernel Extensions
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Werk jy vir 'n **sakeman in siber-sekuriteit**? Wil jy jou **sakeman geadverteer sien op HackTricks**? Of wil jy toegang hê tot die **laaste weergawe van PEASS of HackTricks aflaai in PDF-formaat**? Sien die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons eksklusiewe versameling van [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS en HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) **Discord-groep** of die [**telegram-groep**](https://t.me/peass) of **volg my** op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Deel jou hacking-truuks deur 'n PR te stuur na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Basiese Inligting
 
-Kernel-uitbreidings (Kexts) is **pakkette** met 'n **`.kext`**-uitbreiding wat **direk in die macOS-kernelruimte gelaai word**, wat addisionele funksionaliteit aan die hoofbedryfstelsel bied.
+Kernel uitbreidings (Kexts) is **pakkette** met 'n **`.kext`** uitbreiding wat **direk in die macOS kernel ruimte gelaai word**, wat addisionele funksionaliteit aan die hoofbedryfstelsel bied.
 
 ### Vereistes
 
-Dit is vanselfsprekend so kragtig dat dit **ingewikkeld is om 'n kernel-uitbreiding te laai**. Dit is die **vereistes** wat 'n kernel-uitbreiding moet nakom om gelaai te word:
+Dit is duidelik dat dit so kragtig is dat dit **gekompliseerd is om 'n kernel uitbreiding te laai**. Dit is die **vereistes** waaraan 'n kernel uitbreiding moet voldoen om gelaai te kan word:
 
-* Wanneer jy **herstelmodus betree**, moet kernel-**uitbreidings toegelaat word** om gelaai te word:
+* Wanneer **jy herstelmodus binnegaan**, moet kernel **uitbreidings toegelaat word** om gelaai te word:
 
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* Die kernel-uitbreiding moet **onderteken wees met 'n kernel-kodesertifikaat**, wat slegs deur Apple **toegeken kan word**. Wie sal in detail die maatskappy en die redes waarom dit benodig word, ondersoek.
-* Die kernel-uitbreiding moet ook **genoteer wees**, Apple sal dit vir malware kan nagaan.
-* Dan is die **root**-gebruiker die een wat die kernel-uitbreiding kan **laai** en die lêers binne die pakkie moet aan **root** **behoort**.
-* Tydens die oplaai-proses moet die pakkie voorberei word in 'n **beskermde nie-root-plek**: `/Library/StagedExtensions` (vereis die `com.apple.rootless.storage.KernelExtensionManagement` toekenning).
-* Laastens, wanneer daar gepoog word om dit te laai, sal die gebruiker 'n [**bevestigingsversoek ontvang**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) en, indien aanvaar, moet die rekenaar **herlaai** word om dit te laai.
+* Die kernel uitbreiding moet **onderteken wees met 'n kernel kode ondertekeningssertifikaat**, wat slegs **deur Apple** toegestaan kan word. Wie die maatskappy en die redes waarom dit nodig is, in detail sal hersien.
+* Die kernel uitbreiding moet ook **genotarieer** wees, Apple sal dit vir malware kan nagaan.
+* Dan is die **root** gebruiker die een wat die **kernel uitbreiding kan laai** en die lêers binne die pakkie moet **aan root behoort**.
+* Tydens die oplaadproses moet die pakkie in 'n **beskermde nie-root ligging** voorberei word: `/Library/StagedExtensions` (vereis die `com.apple.rootless.storage.KernelExtensionManagement` toestemming).
+* Laastens, wanneer daar probeer word om dit te laai, sal die gebruiker [**'n bevestigingsversoek ontvang**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) en, indien aanvaar, moet die rekenaar **herbegin** word om dit te laai.
 
-### Laaiproses
+### Laai proses
 
-In Catalina was dit so: Dit is interessant om op te let dat die **verifikasieproses** in **gebruikersruimte** plaasvind. Tog kan slegs aansoeke met die **`com.apple.private.security.kext-management`** toekenning die kernel vra om 'n uitbreiding te laai: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+In Catalina was dit soos volg: Dit is interessant om op te let dat die **verifikasie** proses in **gebruikersland** plaasvind. Dit is egter slegs toepassings met die **`com.apple.private.security.kext-management`** toestemming wat **die kernel kan vra om 'n uitbreiding te laai**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** kliek **begin** die **verifikasieproses** vir die laai van 'n uitbreiding
-* Dit sal met **`kextd`** praat deur 'n **Mach-diens** te stuur.
+1. **`kextutil`** cli **begin** die **verifikasie** proses om 'n uitbreiding te laai
+* Dit sal met **`kextd`** praat deur 'n **Mach diens** te gebruik.
 2. **`kextd`** sal verskeie dinge nagaan, soos die **handtekening**
 * Dit sal met **`syspolicyd`** praat om te **kontroleer** of die uitbreiding gelaai kan word.
-3. **`syspolicyd`** sal die **gebruiker** **vra** as die uitbreiding nie voorheen gelaai is nie.
+3. **`syspolicyd`** sal die **gebruiker** **vra** of die uitbreiding nie voorheen gelaai is nie.
 * **`syspolicyd`** sal die resultaat aan **`kextd`** rapporteer
-4. **`kextd`** sal uiteindelik die kernel kan sê om die uitbreiding te laai
+4. **`kextd`** sal uiteindelik in staat wees om die kernel te **vertel om** die uitbreiding te laai
 
 As **`kextd`** nie beskikbaar is nie, kan **`kextutil`** dieselfde kontroles uitvoer.
 
@@ -49,14 +52,17 @@ As **`kextd`** nie beskikbaar is nie, kan **`kextutil`** dieselfde kontroles uit
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Werk jy vir 'n **sakeman in siber-sekuriteit**? Wil jy jou **sakeman geadverteer sien op HackTricks**? Of wil jy toegang hê tot die **laaste weergawe van PEASS of HackTricks aflaai in PDF-formaat**? Sien die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons eksklusiewe versameling van [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS en HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) **Discord-groep** of die [**telegram-groep**](https://t.me/peass) of **volg my** op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Deel jou hacking-truuks deur 'n PR te stuur na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **en** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

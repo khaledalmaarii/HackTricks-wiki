@@ -1,21 +1,22 @@
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Baie basies sal hierdie instrument ons help om waardes vir veranderlikes te vind wat aan sekere voorwaardes moet voldoen, en dit sal baie vervelig wees om dit met die hand te bereken. Daarom kan jy aan Z3 aandui watter voorwaardes die veranderlikes moet bevredig en dit sal enkele waardes vind (indien moontlik).
+Baie basies, hierdie hulpmiddel sal ons help om waardes vir veranderlikes te vind wat aan sekere voorwaardes moet voldoen, en om dit met die hand te bereken sal baie irriterend wees. Daarom kan jy vir Z3 die voorwaardes aandui waaraan die veranderlikes moet voldoen en dit sal 'n paar waardes vind (indien moontlik).
 
-**Sommige teks en voorbeelde is onttrek uit [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**Sommige teks en voorbeelde is onttrek van [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
 # Basiese Operasies
 
@@ -34,31 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Inte/Simplifiseer/Reëls
-
-Die Z3 SMT-solver bied 'n verskeidenheid funksies vir die hantering van ints, vereenvoudiging en werk met reële getalle. Hier is 'n oorsig van die basiese metodes wat beskikbaar is:
-
-### Inte
-
-- `Int` is die tipe vir ints in Z3.
-- Jy kan ints skep deur die `IntVal`-funksie te gebruik, byvoorbeeld `IntVal(42)` sal 'n int met die waarde 42 skep.
-- Inte kan ook geskep word deur die `Int`-funksie te gebruik, byvoorbeeld `Int('x')` sal 'n int met die naam 'x' skep.
-- Inte kan gebruik word in wiskundige uitdrukkings, byvoorbeeld `x + 2` of `y * 3`.
-
-### Vereenvoudiging
-
-- Die `simplify`-funksie kan gebruik word om wiskundige uitdrukkings te vereenvoudig.
-- Byvoorbeeld, `simplify(x + 0)` sal vereenvoudig na `x`, en `simplify(x * 1)` sal vereenvoudig na `x`.
-- Vereenvoudiging kan help om die uitdrukking te vereenvoudig en die oplossing te vind.
-
-### Reële getalle
-
-- `Real` is die tipe vir reële getalle in Z3.
-- Jy kan reële getalle skep deur die `RealVal`-funksie te gebruik, byvoorbeeld `RealVal(3.14)` sal 'n reële getal met die waarde 3.14 skep.
-- Reële getalle kan ook geskep word deur die `Real`-funksie te gebruik, byvoorbeeld `Real('y')` sal 'n reële getal met die naam 'y' skep.
-- Reële getalle kan gebruik word in wiskundige uitdrukkings, byvoorbeeld `y + 2.5` of `z * 1.5`.
-
-Met hierdie basiese metodes kan jy ints en reële getalle hanteer, vereenvoudig en gebruik in jou SMT-probleme met die Z3-solver.
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -79,10 +56,6 @@ set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
 ## Druk Model
-
-To print the model generated by Z3, you can use the `model` method. This method returns a string representation of the model.
-
-Om die model wat deur Z3 gegenereer is af te druk, kan jy die `model` metode gebruik. Hierdie metode gee 'n teksvoorstelling van die model terug.
 ```python
 from z3 import *
 
@@ -96,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Masjienrekenkunde
+# Masjien Aritmetiek
 
-Moderne CPU's en algemene programmeertale gebruik rekenkunde oor **vasgestelde grootte bit-vektore**. Masjienrekenkunde is beskikbaar in Z3Py as **Bit-Vektore**.
+Moderne CPU's en hoofstroom programmeertale gebruik aritmetiek oor **vaste-grootte bit-vektore**. Masjien aritmetiek is beskikbaar in Z3Py as **Bit-Vektore**.
 ```python
 from z3 import *
 
@@ -113,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Ondertekende/Ondertekende Getalle
+## Getekende/Ongetekende Getalle
 
-Z3 bied spesiale ondertekende weergawes van aritmetiese operasies waar dit 'n verskil maak of die **bit-vektor as ondertekend of onondertekend behandel word**. In Z3Py, stem die operatore **<, <=, >, >=, /, % en >>** ooreen met die **ondertekende** weergawes. Die ooreenstemmende **onondertekende** operatore is **ULT, ULE, UGT, UGE, UDiv, URem en LShR.**
+Z3 bied spesiale getekende weergawes van wiskundige operasies waar dit 'n verskil maak of die **bit-vectore as getekend of ongetekend** behandel word. In Z3Py, die operateurs **<, <=, >, >=, /, % en >>** stem ooreen met die **getekende** weergawes. Die ooreenstemmende **ongetekende** operateurs is **ULT, ULE, UGT, UGE, UDiv, URem en LShR.**
 ```python
 from z3 import *
 
@@ -135,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Funksies
 
-**Geïnterpreteerde funksies** soos aritmetika waar die **funksie +** 'n **vasgestelde standaardinterpretasie** het (dit tel twee getalle bymekaar). **Ongeïnterpreteerde funksies** en konstantes is **maximaal buigsaam**; hulle laat **enige interpretasie** toe wat **konsekwent** is met die **beperkings** oor die funksie of konstante.
+**Geïnterpreteerde funksies** soos aritmetika waar die **funksie +** 'n **vaste standaardinterpretasie** het (dit voeg twee getalle by). **Nie-geïnterpreteerde funksies** en konstantes is **maksimaal buigsaam**; hulle laat **enige interpretasie** toe wat **konsekwent** is met die **beperkings** oor die funksie of konstante.
 
-Voorbeeld: f toegepas twee keer op x lei tot x weer, maar f toegepas een keer op x is verskillend van x.
+Voorbeeld: f wat twee keer op x toegepas word, lei tot x weer, maar f wat een keer op x toegepas word, is anders as x.
 ```python
 from z3 import *
 
@@ -213,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

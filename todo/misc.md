@@ -1,48 +1,51 @@
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-In 'n ping-respons TTL:\
+In 'n ping antwoord TTL:\
 127 = Windows\
 254 = Cisco\
-Lo demás,algunlinux
+Die res, 'n paar linux
 
 $1$- md5\
 $2$of $2a$ - Blowfish\
 $5$- sha256\
 $6$- sha512
 
-As jy nie weet wat agter 'n diens is nie, probeer om 'n HTTP GET-versoek te maak.
+As jy nie weet wat agter 'n diens is nie, probeer om 'n HTTP GET versoek te maak.
 
-**UDP-skanderings**\
+**UDP Skande**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-'n Leë UDP-pakket word gestuur na 'n spesifieke poort. As die UDP-poort oop is, word geen antwoord teruggestuur vanaf die teikermasjien nie. As die UDP-poort gesluit is, moet 'n ICMP-poort onbereikbaar-pakket teruggestuur word vanaf die teikermasjien.\
+'n Leë UDP-pakket word na 'n spesifieke poort gestuur. As die UDP-poort oop is, word daar geen antwoord van die teikenmasjien teruggestuur nie. As die UDP-poort gesluit is, moet 'n ICMP-poort onbereikbaar pakket van die teikenmasjien teruggestuur word.\
 
-
-UDP-poortskandering is dikwels onbetroubaar, aangesien brandmuure en roetingsapparate ICMP-pakette kan laat val. Dit kan lei tot vals positiewe resultate in jou skandering, en jy sal gereeld sien dat UDP-poortskanderings wys dat alle UDP-poorte oop is op 'n gescande masjien.\
-o Die meeste poortskanners skandeer nie alle beskikbare poorte nie, en het gewoonlik 'n vooraf ingestelde lys van "interessante poorte" wat geskandeer word.
+UDP-poort skandering is dikwels onbetroubaar, aangesien vuurmure en routers ICMP\
+pakkette kan laat val. Dit kan lei tot vals positiewe in jou skandering, en jy sal gereeld\
+UDP-poort skanderings sien wat alle UDP-poorte oop op 'n gescande masjien toon.\
+o Meeste poort skandeerders skandeer nie alle beskikbare poorte nie, en het gewoonlik 'n vooraf ingestelde lys\
+van “interessante poorte” wat geskandeer word.
 
 # CTF - Truuks
 
-In **Windows** gebruik **Winzip** om vir lêers te soek.\
-**Alternatiewe datastrome**: _dir /r | find ":$DATA"_\
+In **Windows** gebruik **Winzip** om na lêers te soek.\
+**Alternatiewe data Strome**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
 ```
-## Kriptografie
+## Crypto
 
 **featherduster**\
 
@@ -61,23 +64,23 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 factordb.com\
 rsatool
 
-Snow --> Versteek boodskappe deur gebruik te maak van spasies en tabs
+Snow --> Versteek boodskappe met spaties en tabulatoren
 
-# Karakters
+# Characters
 
-%E2%80%AE => RTL Karakter (skryf payloads agteruit)
+%E2%80%AE => RTL Karakter (skryf payloads agterstewe)
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking truuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

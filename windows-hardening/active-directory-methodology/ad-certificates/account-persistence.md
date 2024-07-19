@@ -1,70 +1,72 @@
-# AD CS Rekening Volharding
+# AD CS Account Persistence
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Hierdie is 'n klein opsomming van die volhardingshoofstukke van die fantastiese navorsing van [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
+**Dit is 'n klein opsomming van die masjien volharding hoofstukke van die wonderlike navorsing van [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
 
-## **Begrip van aktiewe gebruikersgeloofdiefstal met sertifikate - PERSIST1**
+## **Begrip van Aktiewe Gebruiker Kredensiaal Diefstal met Sertifikate – PERSIST1**
 
-In 'n scenario waar 'n sertifikaat wat domeinverifikasie moontlik maak deur 'n gebruiker aangevra kan word, het 'n aanvaller die geleentheid om hierdie sertifikaat te **versoek** en **steel** om volharding op 'n netwerk te behou. Standaard laat die `User`-sjabloon in Active Directory sulke versoek toe, alhoewel dit soms gedeaktiveer kan word.
+In 'n scenario waar 'n sertifikaat wat domeinverifikasie toelaat deur 'n gebruiker aangevra kan word, het 'n aanvaller die geleentheid om hierdie sertifikaat te **aanspreek** en te **steel** om **volharding** op 'n netwerk te **onderhou**. Standaard laat die `User` sjabloon in Active Directory sulke versoeke toe, alhoewel dit soms gedeaktiveer kan wees.
 
-Met behulp van 'n hulpmiddel genaamd [**Certify**](https://github.com/GhostPack/Certify), kan 'n persoon soek na geldige sertifikate wat volgehoue toegang moontlik maak:
+Deur 'n hulpmiddel genaamd [**Certify**](https://github.com/GhostPack/Certify) te gebruik, kan 'n mens soek na geldige sertifikate wat volhardende toegang moontlik maak:
 ```bash
 Certify.exe find /clientauth
 ```
-Dit word beklemtoon dat 'n sertifikaat se krag lê in sy vermoë om as die gebruiker te **verifieer** waartoe dit behoort, ongeag enige wagwoordveranderinge, solank die sertifikaat **geldig** bly.
+Dit word beklemtoon dat 'n sertifikaat se krag lê in sy vermoë om **as die gebruiker** wat dit behoort te **authentiseer**, ongeag enige wagwoordveranderings, solank die sertifikaat **geldend** bly.
 
-Sertifikate kan aangevra word deur middel van 'n grafiese koppelvlak met behulp van `certmgr.msc` of deur die opdraglyn met `certreq.exe`. Met **Certify** word die proses om 'n sertifikaat aan te vra vereenvoudig soos volg:
+Sertifikate kan aangevra word deur 'n grafiese koppelvlak met `certmgr.msc` of deur die opdraglyn met `certreq.exe`. Met **Certify** word die proses om 'n sertifikaat aan te vra vereenvoudig soos volg:
 ```bash
 Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
-Na 'n suksesvolle versoek word 'n sertifikaat saam met sy privaatsleutel in `.pem`-formaat gegenereer. Om dit na 'n `.pfx`-lêer om te skakel, wat bruikbaar is op Windows-stelsels, word die volgende opdrag gebruik:
+Upon successful request, a certificate along with its private key is generated in `.pem` format. To convert this into a `.pfx` file, which is usable on Windows systems, the following command is utilized:
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-Die `.pfx` lêer kan dan op 'n teikensisteem gelaai word en gebruik word saam met 'n instrument genaamd [**Rubeus**](https://github.com/GhostPack/Rubeus) om 'n Ticket Granting Ticket (TGT) vir die gebruiker aan te vra, wat die aanvaller se toegang verleng solank die sertifikaat **geldig** is (gewoonlik een jaar):
+Die `.pfx`-lêer kan dan na 'n teikenstelsel opgelaai word en gebruik word met 'n hulpmiddel genaamd [**Rubeus**](https://github.com/GhostPack/Rubeus) om 'n Ticket Granting Ticket (TGT) vir die gebruiker aan te vra, wat die aanvaller se toegang verleng solank die sertifikaat **geld** (tipies een jaar):
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-'n Belangrike waarskuwing word gedeel oor hoe hierdie tegniek, in kombinasie met 'n ander metode wat in die **THEFT5**-afdeling uitgelig word, 'n aanvaller in staat stel om volhardend 'n rekening se **NTLM-hash** te verkry sonder om met die Local Security Authority Subsystem Service (LSASS) te kommunikeer, en vanuit 'n nie-verhoogde konteks, wat 'n sluwer metode bied vir langtermyn-geloofsbrieffrustrasie.
+'n Belangrike waarskuwing word gedeel oor hoe hierdie tegniek, gekombineer met 'n ander metode wat in die **THEFT5** afdeling uiteengesit word, 'n aanvaller in staat stel om volhoubaar 'n rekening se **NTLM hash** te verkry sonder om met die Local Security Authority Subsystem Service (LSASS) te kommunikeer, en vanuit 'n nie-verhoogde konteks, wat 'n meer stil metode vir langtermyn geloofsbriefdiefstal bied.
 
-## **Verkryging van Masjien Volharding met Sertifikate - PERSIST2**
+## **Masjien Volhoubaarheid Verkry met Sertifikate - PERSIST2**
 
-'n Ander metode behels die inskrywing van 'n gekompromitteerde stelsel se masjienrekening vir 'n sertifikaat, deur gebruik te maak van die verstek `Machine`-sjabloon wat sulke aksies toelaat. As 'n aanvaller verhoogde bevoegdhede op 'n stelsel verwerf, kan hulle die **SYSTEM**-rekening gebruik om sertifikate aan te vra, wat 'n vorm van **volharding** bied:
+'n Ander metode behels die inskrywing van 'n gecompromitteerde stelsel se masjienrekening vir 'n sertifikaat, wat die standaard `Machine` sjabloon gebruik wat sulke aksies toelaat. As 'n aanvaller verhoogde voorregte op 'n stelsel verkry, kan hulle die **SYSTEM** rekening gebruik om sertifikate aan te vra, wat 'n vorm van **volhoubaarheid** bied:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
-Hierdie toegang stel die aanvaller in staat om te verifieer na **Kerberos** as die masjienrekening en **S4U2Self** te gebruik om Kerberos-dienskaartjies vir enige diens op die gasheer te verkry, wat die aanvaller effektiewe volgehoue toegang tot die masjien verleen.
+This access enables the attacker to authenticate to **Kerberos** as the machine account and utilize **S4U2Self** to obtain Kerberos service tickets for any service on the host, effectively granting the attacker persistent access to the machine.
 
-## **Uitbreiding van Volgehoue Toegang deur Sertifikaatvernieuwing - PERSIST3**
+## **Uitbreiding van Volharding deur Sertifikaat Vernuwing - PERSIST3**
 
-Die laaste metode wat bespreek word, behels die benutting van die **geldigheid** en **vernieuwingsperiodes** van sertifikaatsjablone. Deur 'n sertifikaat voor sy verval te **vernieu, kan 'n aanvaller verifikasie behou tot Active Directory sonder die nodigheid van addisionele kaartinskrywings, wat spore op die Sertifikaatowerheid (CA) bediener kan agterlaat.
+Die finale metode wat bespreek word, behels die benutting van die **geldigheid** en **vernuwingperiodes** van sertifikaat sjablone. Deur 'n sertifikaat te **vernuwe** voordat dit verval, kan 'n aanvaller die autentisering na Active Directory handhaaf sonder die behoefte aan addisionele kaartregistrasies, wat spore op die Sertifikaatowerheid (CA) bediener kan agterlaat.
 
-Hierdie benadering maak voorsiening vir 'n **uitgebreide volgehoue toegang**-metode, wat die risiko van opsporing verminder deur minder interaksies met die CA-bediener en die voorkoming van die generering van artefakte wat administrateurs op die indringing kan attent maak.
+Hierdie benadering stel 'n **verlengde volharding** metode in staat, wat die risiko van opsporing minimaliseer deur minder interaksies met die CA bediener en die generering van artefakte te vermy wat administrateurs op die indringing kan waarsku.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
