@@ -1,54 +1,56 @@
-# Skripti za Apple kwenye macOS
+# macOS Apple Scripts
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Skripti za Apple
+## Apple Scripts
 
-Hii ni lugha ya skripti inayotumiwa kwa **utomatishaji wa kazi** kwa **kuingiliana na michakato ya mbali**. Inafanya iwe rahisi **kuomba michakato mingine kutekeleza baadhi ya hatua**. **Programu hasidi** inaweza kutumia vipengele hivi kudhuru kazi zinazotolewa na michakato mingine.\
-Kwa mfano, programu hasidi inaweza **kuingiza msimbo wa JS usiojulikana kwenye kurasa zilizofunguliwa kwenye kivinjari**. Au **bonyeza moja kwa moja** ruhusa zinazoruhusiwa zinazohitajika na mtumiaji.
+Ni lugha ya skripti inayotumika kwa otomatiki ya kazi **kuingiliana na michakato ya mbali**. Inafanya iwe rahisi **kuomba michakato mingine kutekeleza vitendo vingine**. **Malware** inaweza kutumia vipengele hivi kuboresha kazi zinazotolewa na michakato mingine.\
+Kwa mfano, malware inaweza **kuingiza msimbo wa JS wa kiholela katika kurasa zilizofunguliwa za kivinjari**. Au **kubonyeza kiotomatiki** baadhi ya ruhusa zinazohitajika kwa mtumiaji;
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
 end tell
 ```
-Hapa una mifano kadhaa: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
-Pata habari zaidi kuhusu programu hasidi zinazotumia AppleScripts [**hapa**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
+Here you have some examples: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
+Find more info about malware using applescripts [**here**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
 
-Skripti za Apple zinaweza kuwa rahisi "**kukusanywa**". Toleo hizi zinaweza kuwa rahisi "**kukusanywa upya**" na `osadecompile`
+Apple scripts yanaweza "kukatwa" kwa urahisi. Matoleo haya yanaweza "kufutwa" kwa urahisi na `osadecompile`
 
-Hata hivyo, skripti hizi pia zinaweza **kuwa zimehifadhiwa kama "Soma tu"** (kupitia chaguo la "Hifadhi..."):
+Hata hivyo, skripti hizi zinaweza pia **kuzalishwa kama "Soma tu"** (kupitia chaguo la "Zalisha..."):
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```
 file mal.scpt
 mal.scpt: AppleScript compiled
 ```
-Na katika kesi hii, yaliyomo hayawezi kuchambuliwa hata na `osadecompile`
+na katika kesi hii maudhui hayawezi kufanywa decompiled hata kwa `osadecompile`
 
-Hata hivyo, bado kuna zana kadhaa ambazo zinaweza kutumika kuelewa programu hizi, [**soma utafiti huu kwa maelezo zaidi**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Zana [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) pamoja na [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) itakuwa muhimu sana kuelewa jinsi skripti inavyofanya kazi.
+Hata hivyo, bado kuna zana ambazo zinaweza kutumika kuelewa aina hii ya executable, [**soma utafiti huu kwa maelezo zaidi**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Zana [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) pamoja na [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) itakuwa muhimu sana kuelewa jinsi script inavyofanya kazi.
+
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

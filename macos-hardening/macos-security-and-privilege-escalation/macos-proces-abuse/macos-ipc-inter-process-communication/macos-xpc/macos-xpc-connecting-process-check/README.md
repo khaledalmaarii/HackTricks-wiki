@@ -1,60 +1,61 @@
-# Uthibitisho wa Uunganishaji wa Mchakato wa macOS XPC
+# macOS XPC Connecting Process Check
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inayotangazwa katika HackTricks** au **kupakua HackTricks katika PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Uthibitisho wa Uunganishaji wa Mchakato wa XPC
+## XPC Connecting Process Check
 
-Wakati uunganishaji unafanywa kwa huduma ya XPC, seva itathibitisha ikiwa uunganishaji huo unaruhusiwa. Hizi ni uthibitisho ambao kawaida hufanywa:
+Wakati muunganisho unapoanzishwa na huduma ya XPC, seva itakagua ikiwa muunganisho unaruhusiwa. Hizi ndizo ukaguzi ambao kawaida hufanywa:
 
-1. Angalia ikiwa **mchakato unaounganisha umesainiwa na cheti kilichosainiwa na Apple** (kinachotolewa tu na Apple).
-* Ikiwa hii **haitathibitishwa**, mshambuliaji anaweza kuunda **cheti bandia** ili kufanana na uthibitisho mwingine wowote.
-2. Angalia ikiwa mchakato unaounganisha umesainiwa na **cheti cha shirika** (uthibitisho wa kitambulisho cha timu).
-* Ikiwa hii **haitathibitishwa**, **cheti chochote cha maendeleo** kutoka Apple kinaweza kutumika kwa kusaini na kuunganisha na huduma.
-3. Angalia ikiwa mchakato unaounganisha una **kitambulisho sahihi cha kifurushi**.
-* Ikiwa hii **haitathibitishwa**, zana yoyote **iliyosainiwa na shirika lile lile** inaweza kutumika kwa kuingiliana na huduma ya XPC.
+1. Angalia ikiwa **mchakato unaounganisha umeandikwa na cheti kilichosainiwa na Apple** (ambacho kinatolewa tu na Apple).
+* Ikiwa hii **haijathibitishwa**, mshambuliaji anaweza kuunda **cheti bandia** ili kufanana na ukaguzi mwingine wowote.
+2. Angalia ikiwa mchakato unaounganisha umeandikwa na **cheti cha shirika**, (uthibitisho wa kitambulisho cha timu).
+* Ikiwa hii **haijathibitishwa**, **cheti chochote cha mende** kutoka Apple kinaweza kutumika kwa kusaini, na kuungana na huduma.
+3. Angalia ikiwa mchakato unaounganisha **una kitambulisho sahihi cha kifurushi**.
+* Ikiwa hii **haijathibitishwa**, chombo chochote **kilichosainiwa na shirika hilo hilo** kinaweza kutumika kuingiliana na huduma ya XPC.
 4. (4 au 5) Angalia ikiwa mchakato unaounganisha una **nambari sahihi ya toleo la programu**.
-* Ikiwa hii **haitathibitishwa**, wateja wazee na dhaifu, walio hatarini kwa kuingiza mchakato, wanaweza kutumika kuunganisha na huduma ya XPC hata na uthibitisho mwingine uliopo.
-5. (4 au 5) Angalia ikiwa mchakato unaounganisha una **runtime imara bila ruhusa hatari** (kama zile zinazoruhusu kupakia maktaba za aina yoyote au kutumia mazingira ya DYLD)
-1. Ikiwa hii **haitathibitishwa**, mteja anaweza kuwa **hatarini kwa kuingiza nambari**
-6. Angalia ikiwa mchakato unaounganisha una **ruhusa** inayoruhusu kuunganisha na huduma. Hii inatumika kwa programu za Apple.
-7. **Uthibitisho** lazima uwe **kulingana** na **kitambulisho cha ukaguzi cha mteja kinachounganisha** badala ya Kitambulisho cha Mchakato (**PID**) kwani cha kwanza kinazuia mashambulizi ya kutumia tena PID.
-* Watengenezaji **mara chache hutumia wito wa API ya kitambulisho cha ukaguzi** kwani ni **binafsi**, kwa hivyo Apple inaweza **kubadilisha** wakati wowote. Kwa kuongezea, matumizi ya API binafsi hayaruhusiwi katika programu za Duka la App la Mac.
-* Ikiwa njia ya **`processIdentifier`** inatumika, inaweza kuwa hatarini
-* Badala ya **`xpc_connection_get_audit_token`**, inapaswa kutumika **`xpc_dictionary_get_audit_token`**, kwani ya mwisho inaweza pia kuwa [hatarini katika hali fulani](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+* Ikiwa hii **haijathibitishwa**, wateja wa zamani, wasio salama, walio hatarini kwa sindano ya mchakato wanaweza kutumika kuungana na huduma ya XPC hata na ukaguzi mwingine ukiwa mahali.
+5. (4 au 5) Angalia ikiwa mchakato unaounganisha una mazingira ya runtime yaliyohakikishwa bila ruhusa hatari (kama zile zinazoruhusu kupakia maktaba za kawaida au kutumia DYLD env vars)
+1. Ikiwa hii **haijathibitishwa**, mteja anaweza kuwa **hatari kwa sindano ya msimbo**
+6. Angalia ikiwa mchakato unaounganisha una **ruhusa** inayoruhusu kuungana na huduma. Hii inatumika kwa binaries za Apple.
+7. **Uthibitisho** lazima uwe **kulingana** na **tokeni ya ukaguzi ya mteja** **badala** ya kitambulisho chake cha mchakato (**PID**) kwani ya kwanza inazuia **shambulio la upya la PID**.
+* Wandevu **hawatumii mara kwa mara tokeni ya ukaguzi** API wito kwani ni **binafsi**, hivyo Apple inaweza **kubadilisha** wakati wowote. Zaidi ya hayo, matumizi ya API binafsi hayaruhusiwi katika programu za Duka la Mac.
+* Ikiwa njia **`processIdentifier`** inatumika, inaweza kuwa hatari
+* **`xpc_dictionary_get_audit_token`** inapaswa kutumika badala ya **`xpc_connection_get_audit_token`**, kwani ya mwisho inaweza pia kuwa [hatari katika hali fulani](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Mashambulizi ya Mawasiliano
+### Communication Attacks
 
-Kwa habari zaidi kuhusu shambulio la kutumia tena PID angalia:
+Kwa maelezo zaidi kuhusu shambulio la upya la PID angalia:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-Kwa habari zaidi kuhusu shambulio la **`xpc_connection_get_audit_token`** angalia:
+Kwa maelezo zaidi **`xpc_connection_get_audit_token`** shambulio angalia:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Kuzuia Mashambulizi ya Kupunguza - Trustcache
+### Trustcache - Downgrade Attacks Prevention
 
-Trustcache ni njia ya ulinzi iliyoletwa kwenye mashine za Apple Silicon ambayo inahifadhi kwenye hifadhidata CDHSAH ya programu za Apple ili tu programu zisizobadilishwa zinazoruhusiwa ziweze kutekelezwa. Hii inazuia utekelezaji wa toleo za kupunguza.
+Trustcache ni njia ya kujihami iliyowekwa katika mashine za Apple Silicon ambayo inahifadhi hifadhidata ya CDHSAH ya binaries za Apple ili tu binaries zisizobadilishwa zinazoruhusiwa ziweze kutekelezwa. Hii inazuia utekelezaji wa toleo la kudharau.
 
-### Mifano ya Nambari
+### Code Examples
 
-Seva itatekeleza uthibitisho huu katika kazi inayoitwa **`shouldAcceptNewConnection`**.
+Seva itatekeleza **uthibitisho** huu katika kazi inayoitwa **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -65,9 +66,9 @@ return YES;
 ```
 {% endcode %}
 
-Kitu NSXPCConnection ina mali ya **binafsi** **`auditToken`** (ile inayopaswa kutumika lakini inaweza kubadilika) na mali ya **umma** **`processIdentifier`** (ile ambayo haipaswi kutumika).
+Kitu NSXPCConnection kina mali **ya faragha** **`auditToken`** (ile ambayo inapaswa kutumika lakini inaweza kubadilika) na mali **ya umma** **`processIdentifier`** (ile ambayo haipaswi kutumika).
 
-Mchakato wa kuunganisha unaweza kuthibitishwa kwa kitu kama hiki:
+Mchakato unaounganisha unaweza kuthibitishwa kwa kitu kama:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -91,7 +92,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-Ikiwa msanidi programu hataki kuangalia toleo la mteja, anaweza angalia kuwa mteja hana udhaifu wa kuingiza mchakato angalau:
+Ikiwa mendelevu hataki kuangalia toleo la mteja, anaweza kuangalia kwamba mteja si hatarini kwa sindano ya mchakato angalau:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -110,16 +111,17 @@ return Yes; // Accept connection
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuhack AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

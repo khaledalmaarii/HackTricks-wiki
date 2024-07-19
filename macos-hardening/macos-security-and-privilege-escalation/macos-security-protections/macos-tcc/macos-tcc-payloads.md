@@ -1,28 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### Desktop
 
-* **Uhalali**: Hakuna
+* **Entitlement**: Hakuna
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Nakili `$HOME/Desktop` hadi `/tmp/desktop`.
-
+Copy `$HOME/Desktop` to `/tmp/desktop`.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -58,7 +58,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Desktop` hadi `/tmp/desktop`.
-
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -67,15 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Nyaraka
 
-* **Entitlement**: Hakuna
+* **Haki**: Hakuna
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Nakili `$HOME/Documents` hadi `/tmp/documents`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -111,24 +107,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/`Documents hadi `/tmp/documents`.
-
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Vipakuzi
+### Downloads
 
-* **Uhalali**: Hakuna
+* **Entitlement**: Hakuna
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Nakili `$HOME/Downloads` hadi `/tmp/downloads`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -163,8 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Nakili `$HOME/Downloads` kwenda `/tmp/downloads`.
-
+Nakili `$HOME/Dowloads` hadi `/tmp/downloads`.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -173,15 +164,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### Maktaba ya Picha
 
-* **Uwezo**: `com.apple.security.personal-information.photos-library`
+* **Haki**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Nakili `$HOME/Pictures/Photos Library.photoslibrary` hadi `/tmp/photos`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -216,23 +204,21 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Nakili `$HOME/Pictures/Photos Library.photoslibrary` kwenda `/tmp/photos`.
-
+Nakili `$HOME/Pictures/Photos Library.photoslibrary` hadi `/tmp/photos`.
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Wasiliana
+### Mawasiliano
 
-* **Uwezo**: `com.apple.security.personal-information.addressbook`
+* **Ruhusa**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Nakili `$HOME/Library/Application Support/AddressBook` hadi `/tmp/contacts`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -268,7 +254,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Library/Application Support/AddressBook` hadi `/tmp/contacts`.
-
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -277,13 +262,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Kalenda
 
-* **Haki**: `com.apple.security.personal-information.calendars`
+* **Ruhusa**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Nakili `$HOME/Library/Calendars` hadi `/tmp/calendars`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -319,7 +303,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Nakili `$HOME/Library/Calendars` hadi `/tmp/calendars`.
-
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -328,15 +311,12 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 ### Kamera
 
-* **Uwezo**: `com.apple.security.device.camera`
+* **Ruhusa**: `com.apple.security.device.camera`
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="undefined" %}
-Rekodi video ya sekunde 3 na iihifadhi kwenye **`/tmp/recording.mov`**
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Rekodi" %}
+Rekodi video ya sekunde 3 na uhifadhi katika **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -414,9 +394,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Angalia" %}
-Angalia ikiwa programu ina ufikiaji wa kamera.
-
+{% tab title="ObjectiveC - Check" %}
+Kagua ikiwa programu ina ufikiaji wa kamera.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -449,23 +428,22 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Chukua picha na kamera
-
+Piga picha na kamera
+{% endtab %}
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-### Kipaza sauti
+### Microphone
 
-* **Ruhusa**: **com.apple.security.device.audio-input**
+* **Entitlement**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Rekodi" %}
-Rekodi sauti ya sekunde 5 na uhifadhi kwenye `/tmp/recording.m4a`
-
+{% tab title="ObjetiveC - Record" %}
+Record 5s of audio na uhifadhi katika `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -564,9 +542,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Angalia" %}
+{% tab title="ObjectiveC - Check" %}
 Angalia ikiwa programu ina ufikiaji wa kipaza sauti.
-
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -597,8 +574,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-Rekodi sauti ya sekunde 5 na uhifadhi kwenye `/tmp/recording.wav`
-
+Rekodi sauti ya sekunde 5 na uhifadhi katika `/tmp/recording.wav`
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -611,16 +587,15 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Mahali
 
 {% hint style="success" %}
-Ili programu ipate mahali, **Huduma za Mahali** (kutoka kwa Faragha na Usalama) **lazima ziwezeshwe,** vinginevyo haitaweza kufikia hiyo.
+Ili programu iweze kupata mahali, **Huduma za Mahali** (kutoka kwa Faragha na Usalama) **lazima ziwe zimeshawekwa,** vinginevyo haitoweza kuzipata.
 {% endhint %}
 
-* **Haki**: `com.apple.security.personal-information.location`
-* **TCC**: Imeidhinishwa katika `/var/db/locationd/clients.plist`
+* **Ruhusa**: `com.apple.security.personal-information.location`
+* **TCC**: Imepewa katika `/var/db/locationd/clients.plist`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Andika mahali katika `/tmp/logs.txt`
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -670,8 +645,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Pata ufikiaji wa eneo hilo
-
+Pata ufikiaji wa eneo
 ```
 ???
 ```
@@ -686,7 +660,6 @@ Pata ufikiaji wa eneo hilo
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Rekodi skrini kuu kwa sekunde 5 katika `/tmp/screen.mov`
-
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -744,7 +717,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Rekodi skrini kuu kwa sekunde 5
-
+{% endtab %}
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -756,8 +729,10 @@ screencapture -V 5 /tmp/screen.mov
 * **Haki**: Hakuna
 * **TCC**: `kTCCServiceAccessibility`
 
-Tumia haki ya TCC kukubali udhibiti wa Finder kwa kubonyeza enter na kuepuka TCC kwa njia hiyo.
+Tumia haki ya TCC kukubali udhibiti wa Finder kwa kubonyeza enter na kupita TCC kwa njia hiyo
 
+{% tabs %}
+{% tab title="Kubaliana na TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -808,9 +783,10 @@ usleep(100000); // 0.1 seconds
 return 0;
 }
 ```
+{% endtab %}
 
-Hifadhi funguo zilizopigwa kwenye **`/tmp/keystrokes.txt`**
-
+{% tab title="Keylogger" %}
+Hifadhi funguo zilizobonyeza katika **`/tmp/keystrokes.txt`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -914,21 +890,24 @@ CFRunLoopRun();
 return 0;
 }
 ```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="danger" %}
-**Uwezo wa Ufikiaji ni idhini yenye nguvu sana**, unaweza kuitumia vibaya kwa njia nyingine, kwa mfano unaweza kufanya shambulio la **keystrokes** kutoka hapo bila haja ya kuita Matukio ya Mfumo.
+**Upatikanaji ni ruhusa yenye nguvu sana**, unaweza kuitumia vibaya kwa njia nyingine, kwa mfano unaweza kufanya **shambulio la funguo** moja kwa moja kutoka hapo bila kuhitaji kuita Matukio ya Mfumo.
 {% endhint %}
+
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
