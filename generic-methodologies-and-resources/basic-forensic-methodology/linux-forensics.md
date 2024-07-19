@@ -52,11 +52,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Información sospechosa
 
-Mientras obtienes la información básica, debes verificar cosas extrañas como:
+Mientras obtienes la información básica, deberías verificar cosas extrañas como:
 
-* **Los procesos de root** generalmente se ejecutan con PIDS bajos, así que si encuentras un proceso de root con un PID grande, puedes sospechar.
-* Verifica los **inicios de sesión registrados** de usuarios sin un shell dentro de `/etc/passwd`.
-* Verifica los **hashes de contraseñas** dentro de `/etc/shadow` para usuarios sin un shell.
+* **Los procesos de root** generalmente se ejecutan con PIDS bajos, así que si encuentras un proceso de root con un PID grande, puedes sospechar
+* Verifica los **inicios de sesión registrados** de usuarios sin un shell dentro de `/etc/passwd`
+* Verifica los **hashes de contraseñas** dentro de `/etc/shadow` para usuarios sin un shell
 
 ### Volcado de memoria
 
@@ -64,11 +64,11 @@ Para obtener la memoria del sistema en ejecución, se recomienda usar [**LiME**]
 Para **compilarlo**, necesitas usar el **mismo kernel** que está utilizando la máquina víctima.
 
 {% hint style="info" %}
-Recuerda que **no puedes instalar LiME ni nada más** en la máquina víctima, ya que hará varios cambios en ella.
+Recuerda que **no puedes instalar LiME ni nada más** en la máquina víctima, ya que hará varios cambios en ella
 {% endhint %}
 
 Así que, si tienes una versión idéntica de Ubuntu, puedes usar `apt-get install lime-forensics-dkms`\
-En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) de github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, puedes simplemente **copiar el directorio** `/lib/modules/<versión del kernel>` a tu máquina, y luego **compilar** LiME usándolos:
+En otros casos, necesitas descargar [**LiME**](https://github.com/504ensicsLabs/LiME) de github y compilarlo con los encabezados de kernel correctos. Para **obtener los encabezados de kernel exactos** de la máquina víctima, puedes simplemente **copiar el directorio** `/lib/modules/<kernel version>` a tu máquina, y luego **compilar** LiME usándolos:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -162,7 +162,7 @@ Accede hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
-## Buscar malware conocido
+## Buscar Malware conocido
 
 ### Archivos del sistema modificados
 
@@ -186,7 +186,7 @@ Para buscar de manera efectiva programas instalados en sistemas Debian y RedHat,
 * Para Debian, inspecciona _**`/var/lib/dpkg/status`**_ y _**`/var/log/dpkg.log`**_ para obtener detalles sobre las instalaciones de paquetes, utilizando `grep` para filtrar información específica.
 * Los usuarios de RedHat pueden consultar la base de datos RPM con `rpm -qa --root=/mntpath/var/lib/rpm` para listar los paquetes instalados.
 
-Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explora directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, y _**`/sbin`**_. Combina listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando tu búsqueda de todos los programas instalados.
+Para descubrir software instalado manualmente o fuera de estos gestores de paquetes, explora directorios como _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_ y _**`/sbin`**_. Combina listados de directorios con comandos específicos del sistema para identificar ejecutables no asociados con paquetes conocidos, mejorando tu búsqueda de todos los programas instalados.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -279,13 +279,13 @@ Los sistemas Linux rastrean las actividades de los usuarios y los eventos del si
 * **/var/log/cron**: Registra ejecuciones de trabajos cron.
 * **/var/log/daemon.log**: Rastrear actividades de servicios en segundo plano.
 * **/var/log/btmp**: Documenta intentos de inicio de sesión fallidos.
-* **/var/log/httpd/**: Contiene registros de errores y accesos de Apache HTTPD.
+* **/var/log/httpd/**: Contiene registros de errores y acceso de Apache HTTPD.
 * **/var/log/mysqld.log** o **/var/log/mysql.log**: Registra actividades de la base de datos MySQL.
 * **/var/log/xferlog**: Registra transferencias de archivos FTP.
 * **/var/log/**: Siempre verifica si hay registros inesperados aquí.
 
 {% hint style="info" %}
-Los registros del sistema Linux y los subsistemas de auditoría pueden ser deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos los eliminan rutinariamente. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar brechas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
+Los registros del sistema Linux y los subsistemas de auditoría pueden estar deshabilitados o eliminados en un incidente de intrusión o malware. Debido a que los registros en los sistemas Linux generalmente contienen información muy útil sobre actividades maliciosas, los intrusos los eliminan rutinariamente. Por lo tanto, al examinar los archivos de registro disponibles, es importante buscar brechas o entradas fuera de orden que puedan ser una indicación de eliminación o manipulación.
 {% endhint %}
 
 **Linux mantiene un historial de comandos para cada usuario**, almacenado en:
@@ -300,8 +300,8 @@ Además, el comando `last -Faiwx` proporciona una lista de inicios de sesión de
 
 Verifica archivos que pueden otorgar privilegios adicionales:
 
-* Revisa `/etc/sudoers` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
-* Revisa `/etc/sudoers.d/` en busca de privilegios de usuario no anticipados que puedan haber sido otorgados.
+* Revisa `/etc/sudoers` en busca de privilegios de usuario no anticipados que puedan haberse otorgado.
+* Revisa `/etc/sudoers.d/` en busca de privilegios de usuario no anticipados que puedan haberse otorgado.
 * Examina `/etc/groups` para identificar cualquier membresía o permisos de grupo inusuales.
 * Examina `/etc/passwd` para identificar cualquier membresía o permisos de grupo inusuales.
 
@@ -354,7 +354,7 @@ Finalmente, busca cuentas con **sin contraseñas** o contraseñas **fácilmente 
 
 ## Examinar el Sistema de Archivos
 
-### Análisis de Estructuras del Sistema de Archivos en la Investigación de Malware
+### Analizando Estructuras del Sistema de Archivos en la Investigación de Malware
 
 Al investigar incidentes de malware, la estructura del sistema de archivos es una fuente crucial de información, revelando tanto la secuencia de eventos como el contenido del malware. Sin embargo, los autores de malware están desarrollando técnicas para obstaculizar este análisis, como modificar las marcas de tiempo de los archivos o evitar el sistema de archivos para el almacenamiento de datos.
 
@@ -413,26 +413,27 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Libro: Guía de campo de forense de malware para sistemas Linux: Guías de campo de forense digital**
+* **Libro: Guía de Campo de Forense de Malware para Sistemas Linux: Guías de Campo de Forense Digital**
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? o ¿quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Obtén la [**merch oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Comparte tus trucos de hacking enviando PRs al** [**repositorio de hacktricks**](https://github.com/carlospolop/hacktricks) **y al** [**repositorio de hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las herramientas comunitarias **más avanzadas** del mundo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) para construir y **automatizar flujos de trabajo** fácilmente, impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

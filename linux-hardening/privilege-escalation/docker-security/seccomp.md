@@ -1,30 +1,39 @@
 # Seccomp
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Información Básica
 
-**Seccomp**, que significa Modo de Computación Segura, es una característica de seguridad del **kernel de Linux diseñada para filtrar llamadas al sistema**. Restringe los procesos a un conjunto limitado de llamadas al sistema (`exit()`, `sigreturn()`, `read()` y `write()` para descriptores de archivos ya abiertos). Si un proceso intenta llamar a cualquier otra cosa, es terminado por el kernel usando SIGKILL o SIGSYS. Este mecanismo no virtualiza recursos, sino que aísla el proceso de ellos.
+**Seccomp**, que significa modo de Computación Segura, es una característica de seguridad del **núcleo de Linux diseñada para filtrar llamadas al sistema**. Restringe los procesos a un conjunto limitado de llamadas al sistema (`exit()`, `sigreturn()`, `read()` y `write()` para descriptores de archivo ya abiertos). Si un proceso intenta llamar a cualquier otra cosa, es terminado por el núcleo usando SIGKILL o SIGSYS. Este mecanismo no virtualiza recursos, sino que aísla el proceso de ellos.
 
-Hay dos formas de activar seccomp: a través de la llamada al sistema `prctl(2)` con `PR_SET_SECCOMP`, o para los kernels de Linux 3.17 en adelante, la llamada al sistema `seccomp(2)`. El método más antiguo de habilitar seccomp escribiendo en `/proc/self/seccomp` ha sido desaprobado a favor de `prctl()`.
+Hay dos formas de activar seccomp: a través de la llamada al sistema `prctl(2)` con `PR_SET_SECCOMP`, o para núcleos de Linux 3.17 y superiores, la llamada al sistema `seccomp(2)`. El método más antiguo de habilitar seccomp escribiendo en `/proc/self/seccomp` ha sido desaprobado en favor de `prctl()`.
 
-Una mejora, **seccomp-bpf**, agrega la capacidad de filtrar llamadas al sistema con una política personalizable, utilizando reglas de Berkeley Packet Filter (BPF). Esta extensión es aprovechada por software como OpenSSH, vsftpd y los navegadores Chrome/Chromium en Chrome OS y Linux para un filtrado eficiente y flexible de llamadas al sistema, ofreciendo una alternativa al ya no compatible systrace para Linux.
+Una mejora, **seccomp-bpf**, añade la capacidad de filtrar llamadas al sistema con una política personalizable, utilizando reglas de Berkeley Packet Filter (BPF). Esta extensión es aprovechada por software como OpenSSH, vsftpd y los navegadores Chrome/Chromium en Chrome OS y Linux para un filtrado de llamadas al sistema flexible y eficiente, ofreciendo una alternativa a la ahora no soportada systrace para Linux.
 
 ### **Modo Original/Estricto**
 
-En este modo Seccomp **solo permite las llamadas al sistema** `exit()`, `sigreturn()`, `read()` y `write()` a descriptores de archivos ya abiertos. Si se realiza cualquier otra llamada al sistema, el proceso es terminado usando SIGKILL
+En este modo, Seccomp **solo permite las llamadas al sistema** `exit()`, `sigreturn()`, `read()` y `write()` a descriptores de archivo ya abiertos. Si se realiza cualquier otra llamada al sistema, el proceso es terminado usando SIGKILL
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -58,9 +67,13 @@ int input = open("output.txt", O_RDONLY);
 printf("You will not see this message--the process will be killed first\n");
 }
 ```
+{% endcode %}
+
 ### Seccomp-bpf
 
-Este modo permite **filtrar las llamadas al sistema utilizando una política configurable** implementada utilizando reglas de Berkeley Packet Filter.
+Este modo permite **filtrar llamadas al sistema utilizando una política configurable** implementada mediante reglas de Berkeley Packet Filter.
+
+{% code title="seccomp_bpf.c" %}
 ```c
 #include <seccomp.h>
 #include <unistd.h>
@@ -108,31 +121,33 @@ seccomp_release(ctx);
 printf("this process is %d\n", getpid());
 }
 ```
+{% endcode %}
+
 ## Seccomp en Docker
 
-**Seccomp-bpf** es compatible con **Docker** para restringir las **syscalls** desde los contenedores, disminuyendo efectivamente la superficie de ataque. Puedes encontrar las **syscalls bloqueadas** por **defecto** en [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) y el **perfil seccomp por defecto** se puede encontrar aquí [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-Puedes ejecutar un contenedor de docker con una política de **seccomp diferente** con:
+**Seccomp-bpf** es compatible con **Docker** para restringir las **syscalls** de los contenedores, disminuyendo efectivamente el área de superficie. Puedes encontrar las **syscalls bloqueadas** por **defecto** en [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) y el **perfil seccomp por defecto** se puede encontrar aquí [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+Puedes ejecutar un contenedor de docker con una política de **seccomp** **diferente** con:
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-Si deseas, por ejemplo, **prohibir** que un contenedor ejecute alguna **llamada al sistema** como `uname`, puedes descargar el perfil predeterminado desde [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) y simplemente **eliminar la cadena `uname` de la lista**.\
-Si deseas asegurarte de que **cierto binario no funcione dentro de un contenedor de Docker**, puedes usar strace para listar las llamadas al sistema que el binario está utilizando y luego prohibirlas.\
-En el siguiente ejemplo se descubren las **llamadas al sistema** de `uname`:
+Si quieres, por ejemplo, **prohibir** que un contenedor ejecute alguna **syscall** como `uname`, podrías descargar el perfil predeterminado de [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) y simplemente **eliminar la cadena `uname` de la lista**.\
+Si quieres asegurarte de que **algún binario no funcione dentro de un contenedor docker**, podrías usar strace para listar las syscalls que el binario está utilizando y luego prohibirlas.\
+En el siguiente ejemplo se descubren las **syscalls** de `uname`:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Si estás utilizando **Docker solo para lanzar una aplicación**, puedes **perfil**arla con **`strace`** y **solo permitir las llamadas al sistema** que necesita.
+Si estás usando **Docker solo para lanzar una aplicación**, puedes **perfilarla** con **`strace`** y **solo permitir las syscalls** que necesita.
 {% endhint %}
 
 ### Ejemplo de política Seccomp
 
 [Ejemplo de aquí](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Para ilustrar la característica de Seccomp, creemos un perfil de Seccomp deshabilitando la llamada al sistema "chmod" como se muestra a continuación.
+Para ilustrar la función de Seccomp, crearemos un perfil de Seccomp deshabilitando la llamada al sistema “chmod” como se muestra a continuación.
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -144,20 +159,45 @@ Para ilustrar la característica de Seccomp, creemos un perfil de Seccomp deshab
 ]
 }
 ```
-En el perfil anterior, hemos establecido la acción predeterminada en "permitir" y creado una lista negra para deshabilitar "chmod". Para ser más seguro, podemos establecer la acción predeterminada en "bloquear" y crear una lista blanca para habilitar selectivamente las llamadas al sistema.\
-El siguiente resultado muestra la llamada "chmod" devolviendo un error porque está deshabilitada en el perfil seccomp.
+En el perfil anterior, hemos establecido la acción predeterminada en "permitir" y creado una lista negra para deshabilitar "chmod". Para ser más seguros, podemos establecer la acción predeterminada en "descartar" y crear una lista blanca para habilitar selectivamente las llamadas al sistema.\
+La siguiente salida muestra la llamada "chmod" devolviendo un error porque está deshabilitada en el perfil seccomp.
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-El siguiente resultado muestra el "docker inspect" que muestra el perfil:
+El siguiente output muestra el “docker inspect” mostrando el perfil:
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
-],
-```
-### Desactivarlo en Docker
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-Inicia un contenedor con la bandera: **`--security-opt seccomp=unconfined`**
+<details>
 
-A partir de Kubernetes 1.19, **seccomp está habilitado de forma predeterminada para todos los Pods**. Sin embargo, el perfil seccomp predeterminado aplicado a los Pods es el perfil "**RuntimeDefault**", que es **proporcionado por el tiempo de ejecución del contenedor** (por ejemplo, Docker, containerd). El perfil "RuntimeDefault" permite la mayoría de las llamadas al sistema mientras bloquea algunas que se consideran peligrosas o generalmente no requeridas por los contenedores.
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
