@@ -1,70 +1,71 @@
 # SPI
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Basiese Inligting
 
-SPI (Serial Peripheral Interface) is 'n Synchronous Serial Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandskommunikasie tussen IC's (Geïntegreerde stroombrekers). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat georkestreer word deur die Klok- en Chip Select-sein. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroprosessor) wat eksterne randtoestelle soos EEPROM, sensors, beheerstelsels, ens. bestuur, wat as die slawe beskou word.
+SPI (Serial Peripheral Interface) is 'n Sinchroniese Seriële Kommunikasieprotokol wat in ingebedde stelsels gebruik word vir kortafstandkommunikasie tussen IC's (Geïntegreerde Stroombane). SPI Kommunikasieprotokol maak gebruik van die meester-slaaf argitektuur wat georkestreer word deur die Klok en Chip Kies Sein. 'n Meester-slaaf argitektuur bestaan uit 'n meester (gewoonlik 'n mikroverwerker) wat eksterne periferies soos EEPROM, sensors, beheertoestelle, ens. bestuur wat as die slawes beskou word.
 
-Meervoudige slawe kan aan 'n meester gekoppel word, maar slawe kan nie met mekaar kommunikeer nie. Slawe word geadministreer deur twee pine, klok en chip select. Aangesien SPI 'n synchrone kommunikasieprotokol is, volg die inset- en uitsetpunte die kloksignale. Die chip select word deur die meester gebruik om 'n slaaf te kies en daarmee te kommunikeer. Wanneer die chip select hoog is, is die slaaftoestel nie gekies nie, terwyl wanneer dit laag is, die skyf gekies is en die meester met die slaaf sou interaksie hê.
+Meerdere slawes kan aan 'n meester gekoppel word, maar slawes kan nie met mekaar kommunikeer nie. Slawes word bestuur deur twee penne, klok en chip kies. Aangesien SPI 'n sinchroniese kommunikasieprotokol is, volg die invoer- en uitvoerpenne die klokseine. Die chip kies word deur die meester gebruik om 'n slaaf te kies en met hom te kommunikeer. Wanneer die chip kies hoog is, is die slaaf toestel nie gekies nie, terwyl wanneer dit laag is, die chip gekies is en die meester met die slaaf sal kommunikeer.
 
-Die MOSI (Meester Uit, Slaaf In) en MISO (Meester In, Slaaf Uit) is verantwoordelik vir die stuur en ontvang van data. Data word na die slaaftoestel gestuur deur die MOSI-pen terwyl die chip select laag gehou word. Die insetdata bevat instruksies, geheue-adresse of data soos per die datablad van die slaaftoestellewer. Met 'n geldige inset is die MISO-pen verantwoordelik vir die oordrag van data na die meester. Die uitsetdata word presies met die volgende klok-siklus na die einde van die inset gestuur. Die MISO-penne stuur data oor totdat die data heeltemal oorgedra is of die meester die chip select-pen hoog stel (in daardie geval sal die slaaf ophou om oor te dra en die meester sal nie daarna luister nie).
+Die MOSI (Master Out, Slave In) en MISO (Master In, Slave Out) is verantwoordelik vir die stuur en ontvang van data. Data word na die slaaf toestel gestuur deur die MOSI pen terwyl die chip kies laag gehou word. Die invoerdata bevat instruksies, geheue adresse of data volgens die datasheet van die slaaf toestel verskaffer. Na 'n geldige invoer is die MISO pen verantwoordelik vir die oordrag van data na die meester. Die uitvoerdata word presies by die volgende klok siklus gestuur nadat die invoer eindig. Die MISO penne stuur data tot die data volledig oorgedra is of die meester die chip kies pen hoog stel (in daardie geval sal die slaaf stop om te stuur en die meester sal nie daarna luister nie).
 
 ## Dumping Firmware van EEPROMs
 
-Die aflaai van firmware kan nuttig wees vir die analise van die firmware en die vind van kwesbaarhede daarin. Baie kere is die firmware nie beskikbaar op die internet of is irrelevant as gevolg van faktore soos modelnommer, weergawe, ens. Daarom kan dit nuttig wees om die firmware direk van die fisiese toestel te onttrek om spesifiek te wees tydens die soeke na bedreigings.
+Dumping firmware kan nuttig wees om die firmware te analiseer en kwesbaarhede daarin te vind. Dikwels is die firmware nie op die internet beskikbaar nie of is dit irrelevant weens variasies van faktore soos modelnommer, weergawe, ens. Daarom kan dit nuttig wees om die firmware direk van die fisiese toestel te onttrek om spesifiek te wees terwyl jy op soek is na bedreigings.
 
-Die verkryging van 'n Seriële Konsole kan nuttig wees, maar baie kere gebeur dit dat die lêers slegs lees is. Dit beperk die analise as gevolg van verskeie redes. Byvoorbeeld, gereedskap wat benodig word om pakkies te stuur en te ontvang, sal nie in die firmware wees nie. Dus is dit nie haalbaar om die binêre lêers te onttrek vir omgekeerde ingenieurswese nie. Daarom kan dit baie nuttig wees om die hele firmware op die stelsel te dump en die binêre lêers vir analise te onttrek.
+Om Serial Console te verkry kan nuttig wees, maar dikwels gebeur dit dat die lêers slegs leesbaar is. Dit beperk die analise weens verskeie redes. Byvoorbeeld, 'n hulpmiddel wat benodig word om pakkette te stuur en te ontvang, sal nie in die firmware wees nie. Dus is dit nie haalbaar om die binêre lêers te onttrek om hulle om te keer nie. Daarom kan dit baie nuttig wees om die hele firmware op die stelsel te dump en die binêre lêers vir analise te onttrek.
 
-Ook, tydens rooi lees en die verkryging van fisiese toegang tot toestelle, kan die aflaai van die firmware help om die lêers te wysig of skadelike lêers in te spuit en dit dan weer in die geheue te flits wat kan help om 'n agterdeur in die toestel te implanteer. Daarom is daar tal moontlikhede wat met firmware-aflaai ontsluit kan word.
+Ook, tydens rooi spanwerk en om fisiese toegang tot toestelle te verkry, kan die dumping van die firmware help om die lêers te wysig of kwaadwillige lêers in te spuit en dan weer in die geheue te flits wat nuttig kan wees om 'n agterdeur in die toestel te implanteer. Daarom is daar talle moontlikhede wat ontsluit kan word met firmware dumping.
 
-### CH341A EEPROM-programmeerder en -leser
+### CH341A EEPROM Programmer en Leser
 
-Hierdie toestel is 'n goedkoop instrument vir die aflaai van firmware van EEPROMs en ook vir die herflitsing daarvan met firmware-lêers. Dit is 'n gewilde keuse vir die werk met rekenaar BIOS-stroombrekers (wat net EEPROMs is). Hierdie toestel verbind oor USB en benodig minimale gereedskap om te begin. Dit kry ook gewoonlik die taak vinnig gedoen, sodat dit ook nuttig kan wees vir fisiese toegang tot toestelle.
+Hierdie toestel is 'n goedkoop hulpmiddel om firmwares van EEPROMs te dump en ook om hulle weer te flits met firmware lêers. Dit was 'n gewilde keuse om met rekenaar BIOS skywe (wat net EEPROMs is) te werk. Hierdie toestel sluit oor USB aan en benodig minimale hulpmiddels om te begin. Ook, dit voltooi gewoonlik die taak vinnig, so dit kan nuttig wees in fisiese toestel toegang ook.
 
-![tekening](../../.gitbook/assets/board\_image\_ch341a.jpg)
+![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-Koppel die EEPROM-geheue aan die CH341a-programmeerder en steek die toestel in die rekenaar. Indien die toestel nie opgespoor word nie, probeer om bestuurders in die rekenaar te installeer. Maak ook seker dat die EEPROM in die regte oriëntasie gekoppel is (gewoonlik, plaas die VCC-pen in omgekeerde oriëntasie tot die USB-konnektor) anders sal die sagteware nie in staat wees om die skyf op te spoor nie. Raadpleeg die diagram indien nodig:
+Koppel die EEPROM geheue met die CH341a Programmer en steek die toestel in die rekenaar. Indien die toestel nie gedetecteer word nie, probeer om bestuurders in die rekenaar te installeer. Maak ook seker dat die EEPROM in die regte oriëntasie gekoppel is (gewoonlik, plaas die VCC Pen in omgekeerde oriëntasie teen die USB-konnektor) anders sal die sagteware nie in staat wees om die chip te detecteer nie. Verwys na die diagram indien nodig:
 
-![tekening](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![tekening](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
+![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
-Gebruik ten slotte sagteware soos flashrom, G-Flash (GUI), ens. vir die aflaai van die firmware. G-Flash is 'n minimale GUI-gereedskap wat vinnig is en die EEPROM outomaties opspoor. Dit kan nuttig wees as die firmware vinnig onttrek moet word, sonder om baie met die dokumentasie te speel.
+Laastens, gebruik sagteware soos flashrom, G-Flash (GUI), ens. om die firmware te dump. G-Flash is 'n minimale GUI hulpmiddel wat vinnig is en die EEPROM outomaties detecteer. Dit kan nuttig wees as die firmware vinnig onttrek moet word, sonder om veel met die dokumentasie te knoei.
 
-![tekening](../../.gitbook/assets/connected\_status\_ch341a.jpg)
+![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-Na die aflaai van die firmware kan die analise op die binêre lêers gedoen word. Gereedskap soos strings, hexdump, xxd, binwalk, ens. kan gebruik word om baie inligting oor die firmware sowel as die hele lêersisteem ook te onttrek.
+Na die dumping van die firmware, kan die analise op die binêre lêers gedoen word. Hulpmiddels soos strings, hexdump, xxd, binwalk, ens. kan gebruik word om baie inligting oor die firmware sowel as die hele lêerstelsel te onttrek.
 
-Om die inhoud uit die firmware te onttrek, kan binwalk gebruik word. Binwalk analiseer vir heks-handtekeninge en identifiseer die lêers in die binêre lêer en is in staat om hulle te onttrek.
+Om die inhoud van die firmware te onttrek, kan binwalk gebruik word. Binwalk analiseer vir hex handtekeninge en identifiseer die lêers in die binêre lêer en is in staat om hulle te onttrek.
 ```
 binwalk -e <filename>
 ```
 Die kan .bin of .rom wees volgens die gereedskap en konfigurasies wat gebruik word.
 
 {% hint style="danger" %}
-Let daarop dat die uithaal van firmware 'n delikate proses is en baie geduld vereis. Enige verkeerde hantering kan potensieel die firmware beskadig of selfs heeltemal uitvee en die toestel onbruikbaar maak. Dit word aanbeveel om die spesifieke toestel te bestudeer voordat 'n poging aangewend word om die firmware uit te haal.
+Let daarop dat firmware-ekstraksie 'n delikate proses is en baie geduld vereis. Enige verkeerde hantering kan moontlik die firmware korrupteer of selfs heeltemal uitvee en die toestel onbruikbaar maak. Dit word aanbeveel om die spesifieke toestel te bestudeer voordat jy probeer om die firmware te ekstrak.
 {% endhint %}
 
 ### Bus Pirate + flashrom
 
 ![](<../../.gitbook/assets/image (910).png>)
 
-Let daarop dat selfs al dui die PINOUT van die Pirate Bus op pine vir **MOSI** en **MISO** om aan SPI te koppel, sommige SPI's kan pine aandui as DI en DO. **MOSI -> DI, MISO -> DO**
+Let daarop dat selfs al dui die PINOUT van die Pirate Bus pinde aan vir **MOSI** en **MISO** om aan SPI te koppel, kan sommige SPIs pinde as DI en DO aandui. **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flash-geheue te dump deur iets soos die volgende uit te voer:
+In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org/Flashrom) gebruik om die inhoud van die flitsgeheue te dump deur iets soos te loop:
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -73,16 +74,17 @@ In Windows of Linux kan jy die program [**`flashrom`**](https://www.flashrom.org
 # -r <file> Image to save in the filesystem
 flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

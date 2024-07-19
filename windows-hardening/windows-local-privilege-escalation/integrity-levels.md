@@ -1,26 +1,27 @@
 # Integriteitsvlakke
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte deur **steel-malware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
 
-Die primêre doel van WhiteIntel is om rekening-oorneeminge en losgeldaanvalle te beveg wat voortspruit uit inligtingsteel-malware.
+Hul primêre doel van WhiteIntel is om rekeningoorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
@@ -30,29 +31,29 @@ Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 ## Integriteitsvlakke
 
-In Windows Vista en latere weergawes kom alle beskermde items met 'n **integriteitsvlak**-etiket. Hierdie opstelling ken meestal 'n "medium" integriteitsvlak toe aan lêers en registerleërs, behalwe vir sekere vouers en lêers waarin Internet Explorer 7 op 'n lae integriteitsvlak kan skryf. Die verstekgedrag is dat prosesse wat deur standaardgebruikers geïnisieer word, 'n medium integriteitsvlak het, terwyl dienste tipies op 'n stelselintegriteitsvlak werk. 'n Hoë-integriteitsmerk beskerm die hoofgids.
+In Windows Vista en later weergawes, kom alle beskermde items met 'n **integriteitsvlak** etiket. Hierdie opstelling ken meestal 'n "medium" integriteitsvlak toe aan lêers en registersleutels, behalwe vir sekere vouers en lêers waartoe Internet Explorer 7 op 'n lae integriteitsvlak kan skryf. Die standaardgedrag is dat prosesse wat deur standaardgebruikers geïnisieer word, 'n medium integriteitsvlak het, terwyl dienste tipies op 'n stelselintegriteitsvlak werk. 'n Hoë-integriteitsetiket beskerm die wortelgids.
 
-'n Belangrike reël is dat voorwerpe nie deur prosesse met 'n laer integriteitsvlak as die voorwerp se vlak gewysig kan word nie. Die integriteitsvlakke is:
+'n Sleutelreël is dat voorwerpe nie deur prosesse met 'n laer integriteitsvlak as die voorwerp se vlak gewysig kan word nie. Die integriteitsvlakke is:
 
 * **Onbetroubaar**: Hierdie vlak is vir prosesse met anonieme aanmeldings. %%%Voorbeeld: Chrome%%%
-* **Laag**: Hoofsaaklik vir internetinteraksies, veral in Internet Explorer se Beskermde Modus, wat geassosieerde lêers en prosesse affekteer, en sekere vouers soos die **Tydelike Internetvouer**. Prosesse met 'n lae integriteit staar aansienlike beperkings in die gesig, insluitend geen register skryftoegang en beperkte gebruikersprofiel skryftoegang.
-* **Medium**: Die verstekvlak vir die meeste aktiwiteite, toegewys aan standaardgebruikers en voorwerpe sonder spesifieke integriteitsvlakke. Selfs lede van die Administrateursgroep werk standaard op hierdie vlak.
-* **Hoog**: Gereserveer vir administrateurs, wat hulle in staat stel om voorwerpe op laer integriteitsvlakke te wysig, insluitend dié op die hoë vlak self.
-* **Stelsel**: Die hoogste operasionele vlak vir die Windows-kernel en kerndienste, buite bereik selfs vir administrateurs, wat verseker dat belangrike stelselfunksies beskerm word.
-* **Installer**: 'n Unieke vlak wat bokant alle ander staan, wat voorwerpe op hierdie vlak in staat stel om enige ander voorwerp te deïnstalleer.
+* **Laag**: Hoofsaaklik vir internetinteraksies, veral in Internet Explorer se Beskermde Modus, wat geassosieerde lêers en prosesse beïnvloed, en sekere vouers soos die **Tydelike Internet-gids**. Lae integriteitsprosesse ondervind beduidende beperkings, insluitend geen register skrywe toegang en beperkte gebruikersprofiel skrywe toegang nie.
+* **Medium**: Die standaardvlak vir die meeste aktiwiteite, toegeken aan standaardgebruikers en voorwerpe sonder spesifieke integriteitsvlakke. Selfs lede van die Administrators-groep werk standaard op hierdie vlak.
+* **Hoog**: Gereserveer vir administrateurs, wat hulle toelaat om voorwerpe op laer integriteitsvlakke te wysig, insluitend dié op die hoë vlak self.
+* **Stelsel**: Die hoogste operasionele vlak vir die Windows-kern en kern dienste, buite bereik selfs vir administrateurs, wat beskerming van noodsaaklike stelselfunksies verseker.
+* **Installeerder**: 'n Unieke vlak wat bo al die ander staan, wat voorwerpe op hierdie vlak in staat stel om enige ander voorwerp te deïnstalleer.
 
-Jy kan die integriteitsvlak van 'n proses kry deur **Process Explorer** van **Sysinternals** te gebruik, die **eienskappe** van die proses te ontsluit en die "**Sekuriteit**" -kategorie te besigtig:
+Jy kan die integriteitsvlak van 'n proses verkry met **Process Explorer** van **Sysinternals**, deur toegang te verkry tot die **eienskappe** van die proses en die "**Sekuriteit**" oortjie te besigtig:
 
 ![](<../../.gitbook/assets/image (824).png>)
 
-Jy kan ook jou **huidige integriteitsvlak** kry deur `whoami /groups` te gebruik
+Jy kan ook jou **huidige integriteitsvlak** verkry met `whoami /groups`
 
 ![](<../../.gitbook/assets/image (325).png>)
 
-### Integriteitsvlakke in Lêersisteem
+### Integriteitsvlakke in lêerstelsel
 
-'n Voorwerp binne die lêersisteem mag 'n **minimum integriteitsvlakvereiste** hê en as 'n proses nie hierdie integriteitsproses het nie, sal dit nie daarmee kan interaksie hê nie.\
-Byvoorbeeld, laat ons **'n gewone lêer vanaf 'n gewone gebruikerskonsole skep en die regte nagaan**:
+'n Voorwerp binne die lêerstelsel mag 'n **minimum integriteitsvlak vereiste** benodig en as 'n proses nie hierdie integriteitsvlak het nie, sal dit nie in staat wees om daarmee te kommunikeer.\
+Byvoorbeeld, laat ons **'n gewone lêer van 'n gewone gebruiker-konsol skep en die toestemmings nagaan**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -63,7 +64,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Nou, laat ons 'n minimum integriteitsvlak van **Hoog** aan die lêer toeken. Dit **moet gedoen word vanuit 'n konsole** wat as **administrateur** hardloop, aangesien 'n **gewone konsole** in Medium Integriteitsvlak sal hardloop en **nie toegelaat sal word** om 'n Hoë Integriteitsvlak aan 'n objek toe te ken nie:
+Nou, kom ons ken 'n minimum integriteitsvlak van **Hoog** aan die lêer toe. Dit **moet gedoen word vanaf 'n konsole** wat as **administrateur** loop, aangesien 'n **gewone konsole** in Medium Integriteitsvlak sal loop en **nie toegelaat sal word** om 'n Hoë Integriteitsvlak aan 'n objek toe te ken:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -78,7 +79,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-Dit is waar dinge interessant raak. Jy kan sien dat die gebruiker `DESKTOP-IDJHTKP\user` **VOLLE voorregte** oor die lêer het (inderdaad, hierdie was die gebruiker wat die lêer geskep het), maar as gevolg van die minimum integriteitsvlak wat geïmplementeer is, sal hy nie die lêer kan wysig nie tensy hy binne 'n Hoë Integriteitsvlak hardloop (let wel dat hy dit steeds kan lees):
+Dit is waar dinge interessant raak. Jy kan sien dat die gebruiker `DESKTOP-IDJHTKP\user` **VOLLE regte** oor die lêer het (werklik, dit was die gebruiker wat die lêer geskep het), egter, as gevolg van die minimum integriteitsvlak wat geïmplementeer is, sal hy nie in staat wees om die lêer weer te wysig nie, tensy hy binne 'n Hoë Integriteitsvlak loop (let op dat hy dit sal kan lees):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -88,12 +89,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Daarom, wanneer 'n lêer 'n minimumintegriteitsvlak het, moet jy ten minste op daardie integriteitsvlak hardloop om dit te kan wysig.**
+**Daarom, wanneer 'n lêer 'n minimum integriteitsvlak het, moet jy ten minste op daardie integriteitsvlak loop om dit te kan wysig.**
 {% endhint %}
 
-### Integriteitsvlakke in Binêre lêers
+### Integriteitsvlakke in Binaries
 
-Ek het 'n kopie van `cmd.exe` gemaak in `C:\Windows\System32\cmd-laag.exe` en dit 'n **integriteitsvlak van laag vanuit 'n administrateurskonsole ingestel:**
+Ek het 'n kopie van `cmd.exe` gemaak in `C:\Windows\System32\cmd-low.exe` en dit 'n **integriteitsvlak van laag vanaf 'n administrateurkonsol gestel:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -103,40 +104,41 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Nou, wanneer ek `cmd-low.exe` hardloop, sal dit **onder 'n lae-integriteitsvlak** hardloop in plaas van 'n medium een:
+Nou, wanneer ek `cmd-low.exe` uitvoer, sal dit **onder 'n lae-integriteitsvlak** loop in plaas van 'n medium een:
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-Vir nuuskierige mense, as jy 'n hoë integriteitsvlak toeken aan 'n binêre lêer (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) sal dit nie outomaties met 'n hoë integriteitsvlak hardloop nie (as jy dit vanaf 'n medium integriteitsvlak aanroep --standaard-- sal dit onder 'n medium integriteitsvlak hardloop).
+Vir nuuskierige mense, as jy 'n hoë integriteitsvlak aan 'n binêre toewys (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), sal dit nie outomaties met 'n hoë integriteitsvlak loop nie (as jy dit van 'n medium integriteitsvlak aanroep --per standaard-- sal dit onder 'n medium integriteitsvlak loop).
 
 ### Integriteitsvlakke in Prosesse
 
-Nie alle lêers en vouers het 'n minimum integriteitsvlak nie, **maar alle prosesse hardloop onder 'n integriteitsvlak**. En soortgelyk aan wat met die lêerstelsel gebeur het, **as 'n proses binne 'n ander proses wil skryf, moet dit ten minste dieselfde integriteitsvlak hê**. Dit beteken dat 'n proses met 'n lae integriteitsvlak nie 'n handvatsel met volle toegang tot 'n proses met 'n medium integriteitsvlak kan oopmaak nie.
+Nie alle lêers en vouers het 'n minimum integriteitsvlak nie, **maar alle prosesse loop onder 'n integriteitsvlak**. En soortgelyk aan wat met die lêerstelsel gebeur het, **as 'n proses binne 'n ander proses wil skryf, moet dit ten minste dieselfde integriteitsvlak hê**. Dit beteken dat 'n proses met 'n lae integriteitsvlak nie 'n handvatsel met volle toegang tot 'n proses met 'n medium integriteitsvlak kan oopmaak nie.
 
-As gevolg van die beperkings wat in hierdie en die vorige afdeling genoem is, vanuit 'n veiligheidsoogpunt, word dit altyd **aanbeveel om 'n proses in die laerste moontlike integriteitsvlak te hardloop**.
+As gevolg van die beperkings wat in hierdie en die vorige afdeling bespreek is, is dit altyd **aanbeveel om 'n proses in die laagste moontlike integriteitsvlak te laat loop**.
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte deur **diefstal-malware** **gekompromiteer** is.
+[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
 
-Die primêre doel van WhiteIntel is om rekening-oorneemname en lospryse-aanvalle te bekamp wat voortspruit uit inligtingsteel-malware.
+Hul primêre doel van WhiteIntel is om rekeningoorname en ransomware-aanvalle wat voortspruit uit inligting-steel malware te bekamp.
 
 Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van niks tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

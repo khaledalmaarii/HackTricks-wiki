@@ -1,50 +1,52 @@
 # JTAG
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat **jou maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## JTAGenum
 
-[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)is 'n instrument wat met 'n Raspberry PI of 'n Arduino gebruik kan word om JTAG-penne van 'n onbekende skyf te vind.\
-In die **Arduino**, verbind die **pennetjies vanaf 2 tot 11 met 10 penne wat moontlik aan 'n JTAG behoort**. Laai die program in die Arduino en dit sal probeer om al die penne te bruteforce om te vind of enige penne aan JTAG behoort en watter een elkeen is.\
-In die **Raspberry PI** kan jy slegs **pennetjies vanaf 1 tot 6** gebruik (6 penne, dus sal jy stadiger gaan om elke potensiële JTAG-pen te toets).
+[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)is 'n hulpmiddel wat gebruik kan word met 'n Raspberry PI of 'n Arduino om te probeer om JTAG-pinne van 'n onbekende chip te vind.\
+In die **Arduino**, koppel die **pinnes van 2 tot 11 aan 10pinnes wat moontlik aan 'n JTAG behoort**. Laai die program in die Arduino en dit sal probeer om al die pinnes te bruteforce om te vind of enige pinnes aan JTAG behoort en watter een elkeen is.\
+In die **Raspberry PI** kan jy slegs **pinnes van 1 tot 6** gebruik (6pinnes, so jy sal stadiger gaan om elke potensiële JTAG-pin te toets).
 
 ### Arduino
 
-In Arduino, nadat die kabels aangesluit is (pen 2 tot 11 aan JTAG-penne en Arduino GND aan die basisbord GND), **laai die JTAGenum-program in Arduino** en stuur 'n **`h`** na die Seriële Monitor (bevel vir hulp) en jy behoort die hulp te sien:
+In Arduino, nadat jy die kabels gekoppel het (pin 2 tot 11 aan JTAG-pinne en Arduino GND aan die basisbord GND), **laai die JTAGenum program in Arduino** en in die Serial Monitor stuur 'n **`h`** (opdrag vir hulp) en jy behoort die hulp te sien:
 
 ![](<../../.gitbook/assets/image (939).png>)
 
 ![](<../../.gitbook/assets/image (578).png>)
 
-Stel **"Geen lynafsluiting" en 115200 baud** in.\
-Stuur die bevel s om die skandering te begin:
+Konfigureer **"Geen lyn einde" en 115200baud**.\
+Stuur die opdrag s om te begin skandeer:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-As jy 'n JTAG kontak, sal jy een of verskeie **lyne sien wat begin met FOUND!** wat die penne van JTAG aandui.
+As jy 'n JTAG kontak, sal jy een of verskeie **lyne vind wat begin met FOUND!** wat die pinnes van JTAG aandui.
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat **jou maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

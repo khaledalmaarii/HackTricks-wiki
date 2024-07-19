@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Om te toets of 'n Bus Pirate werk, verbind +5V met VPU en 3.3V met ADC en kry toegang tot die buspiraat (Gebruik byvoorbeeld Tera Term) en gebruik die bevel `~`:
+Om te toets of 'n Bus Pirate werk, koppel +5V met VPU en 3.3V met ADC en toegang die bus pirate (gebruik Tera Term byvoorbeeld) en gebruik die opdrag `~`:
 ```bash
 # Use command
 HiZ>~
@@ -55,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Soos u in die vorige opdraglyn kan sien, het dit gesê dat dit 0 foute gevind het. Dit is baie nuttig om te weet dat dit werk nadat dit gekoop is of nadat 'n firmware geflits is.
+Soos wat jy in die vorige opdraglyn kan sien, het dit gesê dat dit 0 foute gevind het. Dit is baie nuttig om te weet dit werk na aankoop of na die flits van 'n firmware.
 
-Om met die bus-piraat te verbind, kan u die dokumente volg:
+Om met die bus pirate te verbind, kan jy die dokumentasie volg:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
-In hierdie geval gaan ek verbind met 'n EPROM: ATMEL901 24C256 PU27:
+In hierdie geval gaan ek met 'n EPROM verbind: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Om met die bus-piraat te praat, het ek Tera Term gebruik wat aan die piraatbus se COM-poort gekoppel is met 'n Opstelling --> Seriële Poort --> Spoed van 115200.\
-In die volgende kommunikasie kan u vind hoe om die bus-piraat voor te berei om I2C te praat en hoe om vanaf die geheue te skryf en te lees (Opmerkings verskyn met "#", moenie daardie deel in die kommunikasie verwag nie):
+Om met die bus pirate te praat, het ek Tera Term gebruik wat aan die pirate bus COM-poort gekoppel is met 'n Setup --> Serial Port --> Speed van 115200.\
+In die volgende kommunikasie kan jy vind hoe om die bus pirate voor te berei om I2C te praat en hoe om van die geheue te skryf en te lees (Kommentaar verskyn met "#", moenie verwag dat daardie deel in die kommunikasie sal wees):
 ```bash
 # Check communication with buspirate
 i
@@ -167,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-In hierdie scenario gaan ons die I2C kommunikasie tussen die arduino en die vorige EPROM bespied, jy hoef net beide toestelle te koppel en dan die bus piraat aan te sluit op die SCL, SDA en GND-penne:
+In hierdie scenario gaan ons die I2C kommunikasie tussen die arduino en die vorige EPROM snuffel, jy moet net albei toestelle kommunikeer en dan die bus pirate aan die SCL, SDA en GND panele koppel:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

