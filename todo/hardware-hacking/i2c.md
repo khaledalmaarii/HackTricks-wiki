@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 제로부터 전문가까지 배우세요</strong></summary>
+<summary>Support HackTricks</summary>
 
-다른 HackTricks를 지원하는 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하고 싶다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** Twitter에서 **@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.
-* **해킹 트릭을 공유하려면 PR을 제출하여** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 기여하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Bus Pirate를 테스트하려면 +5V를 VPU에 연결하고 3.3V를 ADC에 연결하고 버스 파이러트에 액세스하십시오 (예: Tera Term 사용) 그리고 `~` 명령을 사용하세요:
+Bus Pirate가 작동하는지 테스트하려면 +5V를 VPU에 연결하고 3.3V를 ADC에 연결한 후 버스 파이레를 접근합니다 (예: Tera Term 사용) 그리고 `~` 명령어를 사용합니다:
 ```bash
 # Use command
 HiZ>~
@@ -55,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-이전 명령줄에서 오류를 0개 발견했다고 했습니다. 이것은 구매한 후나 펌웨어를 플래싱한 후에 작동하는지 알 수 있는 매우 유용한 정보입니다.
+이전 명령줄에서 0개의 오류가 발견되었다고 표시된 것을 볼 수 있습니다. 이는 구매 후 또는 펌웨어를 플래시한 후에 작동하는지 확인하는 데 매우 유용합니다.
 
-버스 파이러트와 연결하려면 다음 문서를 따를 수 있습니다:
+버스 파이레와 연결하려면 문서를 참조할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
-이 경우에는 EPROM에 연결할 것입니다: ATMEL901 24C256 PU27:
+이 경우 EPROM: ATMEL901 24C256 PU27에 연결할 것입니다:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-버스 파이러트와 통신하기 위해 Tera Term을 사용하여 파이러트 버스 COM 포트에 연결하고 Setup --> Serial Port --> 속도를 115200으로 설정합니다.\
-다음 통신에서는 버스 파이러트를 I2C 통신을 위해 준비하는 방법과 메모리에서 쓰고 읽는 방법을 찾을 수 있습니다 (주석은 "#"을 사용하여 나타내며, 통신 부분에는 해당 부분이 포함되지 않습니다):
+버스 파이레와 대화하기 위해 Tera Term을 사용하여 파이레 버스 COM 포트에 연결했습니다. 설정 --> 직렬 포트 --> 속도 115200으로 설정했습니다.\
+다음 통신에서는 버스 파이레를 I2C로 대화하도록 준비하는 방법과 메모리에서 읽고 쓰는 방법을 찾을 수 있습니다(주석은 "#"을 사용하여 나타나며, 통신에서 해당 부분을 기대하지 마십시오):
 ```bash
 # Check communication with buspirate
 i
@@ -165,9 +166,9 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-### 스니퍼
+### Sniffer
 
-이 시나리오에서는 아두이노와 이전 EPROM 간의 I2C 통신을 스니핑할 것입니다. 두 장치 간에 통신하고 나서 버스 파이러트를 SCL, SDA 및 GND 핀에 연결하면 됩니다:
+이 시나리오에서는 아두이노와 이전 EPROM 간의 I2C 통신을 스니핑할 것입니다. 두 장치를 통신한 다음 버스 해적을 SCL, SDA 및 GND 핀에 연결하기만 하면 됩니다:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>제로부터 영웅이 될 때까지 AWS 해킹 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하고 싶다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **깃허브 저장소에 제출하세요.**
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

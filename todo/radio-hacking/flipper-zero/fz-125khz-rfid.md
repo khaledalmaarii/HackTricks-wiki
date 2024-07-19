@@ -1,18 +1,19 @@
 # FZ - 125kHz RFID
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 제로에서 영웅까지 AWS 해킹 배우기</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)에서 **팔로우**하세요.
-- **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -28,42 +29,42 @@ HackTricks를 지원하는 다른 방법:
 
 ## 작업
 
-이러한 유형의 태그에 대한 자세한 정보는 [**이 소개**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz)를 읽으세요.
+이러한 유형의 태그에 대한 자세한 정보는 [**이 소개를 읽어보세요**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 
 ### 읽기
 
-카드 정보를 **읽으려고 시도**합니다. 그런 다음 **모방**할 수 있습니다.
+카드 정보를 **읽으려고** 시도합니다. 그런 다음 이를 **에뮬레이트**할 수 있습니다.
 
 {% hint style="warning" %}
-일부 인터콤은 키 복제를 방지하기 위해 읽기 전에 쓰기 명령을 보내려고 합니다. 쓰기가 성공하면 해당 태그는 가짜로 간주됩니다. Flipper가 RFID를 모방할 때 리더가 원본과 구별할 방법이 없기 때문에 이러한 문제가 발생하지 않습니다.
+일부 인터콤은 읽기 전에 쓰기 명령을 보내어 키 복제를 방지하려고 합니다. 쓰기가 성공하면 해당 태그는 가짜로 간주됩니다. Flipper가 RFID를 에뮬레이트할 때 리더가 원본과 구별할 방법이 없으므로 이러한 문제는 발생하지 않습니다.
 {% endhint %}
 
 ### 수동 추가
 
-Flipper Zero에서 **수동으로 데이터를 지정**하여 **가짜 카드를 생성**할 수 있습니다.
+Flipper Zero에서 **수동으로 데이터를 입력하여 가짜 카드를 생성**한 다음 이를 에뮬레이트할 수 있습니다.
 
 #### 카드의 ID
 
-카드를 받을 때 때로는 카드에 ID(또는 일부)가 명시적으로 적혀 있는 경우가 있습니다.
+카드를 받을 때 카드에 ID(또는 일부)가 보이도록 쓰여 있는 경우가 있습니다.
 
-- **EM Marin**
+* **EM Marin**
 
-예를 들어 EM-Marin 카드의 경우 물리적 카드에서 **마지막 5바이트 중 마지막 3바이트를 명확히 읽을 수 있습니다**.\
-카드에서 읽을 수 없는 경우 브루트 포스로 나머지 2바이트를 찾을 수 있습니다.
+예를 들어 이 EM-Marin 카드에서는 물리적 카드에서 **마지막 3개의 5바이트를 명확하게 읽을 수 있습니다**.\
+나머지 2개는 카드를 통해 읽을 수 없는 경우 무차별 대입으로 찾을 수 있습니다.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
-- **HID**
+* **HID**
 
-HID 카드의 경우 카드에 인쇄된 3바이트 중 2바이트만 찾을 수 있습니다.
+이 HID 카드에서도 카드에 인쇄된 3바이트 중 2바이트만 찾을 수 있습니다.
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
-### 모방/쓰기
+### 에뮬레이트/쓰기
 
-카드를 **복사**하거나 **수동으로 ID를 입력한 후** Flipper Zero로 **모방**하거나 실제 카드에 **쓸** 수 있습니다.
+카드를 **복사**하거나 **ID를 수동으로 입력**한 후 Flipper Zero로 이를 **에뮬레이트**하거나 실제 카드에 **쓰기**할 수 있습니다.
 
-## 참고 자료
+## 참고자료
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
@@ -71,16 +72,17 @@ HID 카드의 경우 카드에 인쇄된 3바이트 중 2바이트만 찾을 수
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 제로에서 영웅까지 AWS 해킹 배우기</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-- **회사가 HackTricks에 광고되길 원하거나** **PDF 형식의 HackTricks를 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-- [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-- 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)에서 **팔로우**하세요.
-- **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
