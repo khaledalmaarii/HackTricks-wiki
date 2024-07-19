@@ -1,23 +1,24 @@
 # macOS Apple Scripts
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Apple Scripts
 
-Es handelt sich um eine Skriptsprache, die zur Automatisierung von Aufgaben verwendet wird und **mit Remote-Prozessen interagiert**. Es ist sehr einfach, **andere Prozesse aufzufordern, bestimmte Aktionen auszuführen**. **Malware** kann diese Funktionen missbrauchen, um Funktionen von anderen Prozessen zu missbrauchen.\
-Beispielsweise könnte eine Malware beliebigen JS-Code in geöffneten Browserseiten **einschleusen** oder **automatisch auf** einige vom Benutzer angeforderte Berechtigungen klicken.
+Es ist eine Skriptsprache, die zur Automatisierung von Aufgaben **mit der Interaktion mit entfernten Prozessen** verwendet wird. Es macht es ziemlich einfach, **andere Prozesse zu bitten, einige Aktionen auszuführen**. **Malware** kann diese Funktionen missbrauchen, um Funktionen zu missbrauchen, die von anderen Prozessen exportiert werden.\
+Zum Beispiel könnte eine Malware **willkürlichen JS-Code in geöffnete Browserseiten injizieren**. Oder **automatisch auf** einige vom Benutzer angeforderte Berechtigungen klicken;
 ```applescript
 tell window 1 of process "SecurityAgent"
 click button "Always Allow" of group 1
@@ -26,29 +27,30 @@ end tell
 Hier sind einige Beispiele: [https://github.com/abbeycode/AppleScripts](https://github.com/abbeycode/AppleScripts)\
 Weitere Informationen über Malware, die AppleScripts verwendet, finden Sie [**hier**](https://www.sentinelone.com/blog/how-offensive-actors-use-applescript-for-attacking-macos/).
 
-Apple-Scripts können leicht "**kompiliert**" werden. Diese Versionen können mit `osadecompile` leicht "**dekompiliert**" werden.
+Apple-Skripte können leicht "**kompiliert**" werden. Diese Versionen können leicht "**dekompiliert**" werden mit `osadecompile`
 
-Diese Skripte können jedoch auch als "Schreibgeschützt" exportiert werden (über die Option "Exportieren..."):
+Diese Skripte können auch **als "Nur lesen" exportiert** werden (über die Option "Exportieren..."):
 
 <figure><img src="https://github.com/carlospolop/hacktricks/raw/master/.gitbook/assets/image%20(556).png" alt=""><figcaption></figcaption></figure>
 ```
 file mal.scpt
 mal.scpt: AppleScript compiled
 ```
-Und in diesem Fall kann der Inhalt selbst mit `osadecompile` nicht dekompiliert werden.
+und in diesem Fall kann der Inhalt selbst mit `osadecompile` nicht dekompiliert werden.
 
-Es gibt jedoch immer noch einige Tools, die verwendet werden können, um diese Art von ausführbaren Dateien zu verstehen. [**Lesen Sie diese Forschung für weitere Informationen**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Das Tool [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) mit [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) wird sehr nützlich sein, um zu verstehen, wie das Skript funktioniert.
+Es gibt jedoch immer noch einige Tools, die verwendet werden können, um diese Art von ausführbaren Dateien zu verstehen, [**lesen Sie diese Forschung für weitere Informationen**](https://labs.sentinelone.com/fade-dead-adventures-in-reversing-malicious-run-only-applescripts/)). Das Tool [**applescript-disassembler**](https://github.com/Jinmo/applescript-disassembler) mit [**aevt\_decompile**](https://github.com/SentineLabs/aevt\_decompile) wird sehr nützlich sein, um zu verstehen, wie das Skript funktioniert.
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
