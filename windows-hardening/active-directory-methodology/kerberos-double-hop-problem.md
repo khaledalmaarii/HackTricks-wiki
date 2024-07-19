@@ -1,117 +1,126 @@
-# Kerberos双跳问题
+# Kerberos Double Hop Problem
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs收藏品**PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群** 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## 简介
 
-当攻击者尝试在两个**跳跃**之间使用**Kerberos身份验证**时，就会出现Kerberos“双跳”问题，例如使用**PowerShell**/**WinRM**。
+## Introduction
 
-当通过**Kerberos**进行**身份验证**时，**凭据**不会被缓存在**内存**中。因此，即使用户正在运行进程，您也**找不到用户的凭据**。
+Kerberos "双跳" 问题出现在攻击者试图在两个跳之间使用 **Kerberos 认证** 时，例如使用 **PowerShell**/**WinRM**。
 
-这是因为使用Kerberos连接时会执行以下步骤：
+当通过 **Kerberos** 进行 **认证** 时，**凭据** **不会** 被缓存到 **内存** 中。因此，即使用户正在运行进程，运行 mimikatz 时也 **找不到用户的凭据**。
 
-1. User1提供凭据，**域控制器**返回一个Kerberos **TGT**给User1。
-2. User1使用**TGT**请求一个**服务票证**以连接到Server1。
-3. User1连接到Server1并提供**服务票证**。
-4. **Server1**没有缓存User1的凭据或User1的**TGT**。因此，当来自Server1的User1尝试登录到第二个服务器时，他**无法进行身份验证**。
+这是因为连接 Kerberos 时的步骤如下：
 
-### 无限制委派
+1. User1 提供凭据，**域控制器** 返回一个 Kerberos **TGT** 给 User1。
+2. User1 使用 **TGT** 请求一个 **服务票据** 以 **连接** 到 Server1。
+3. User1 **连接** 到 **Server1** 并提供 **服务票据**。
+4. **Server1** **没有** 缓存 User1 的 **凭据** 或 User1 的 **TGT**。因此，当 User1 从 Server1 尝试登录到第二台服务器时，他 **无法进行认证**。
 
-如果PC上启用了**无限制委派**，则**服务器**将获得访问它的每个用户的**TGT**，这样就可以**妥协域控制器**。\
-[**在无限制委派页面了解更多信息**](unconstrained-delegation.md)。
+### Unconstrained Delegation
+
+如果在 PC 上启用了 **不受限制的委派**，则不会发生这种情况，因为 **服务器** 将 **获取** 每个访问它的用户的 **TGT**。此外，如果使用不受限制的委派，您可能可以 **从中妥协域控制器**。\
+[**在不受限制的委派页面中获取更多信息**](unconstrained-delegation.md)。
 
 ### CredSSP
 
-另一种避免此问题的方式是[**明显不安全的**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7)**凭据安全支持提供程序**。来自Microsoft的说法：
+另一种避免此问题的方法是 [**显著不安全**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) 的 **凭据安全支持提供程序**。来自微软的说明：
 
-> CredSSP身份验证将用户凭据从本地计算机委派到远程计算机。这种做法增加了远程操作的安全风险。如果远程计算机受到损害，当凭据传递给它时，这些凭据可以用于控制网络会话。
+> CredSSP 认证将用户凭据从本地计算机委派到远程计算机。这种做法增加了远程操作的安全风险。如果远程计算机被妥协，当凭据被传递给它时，这些凭据可以用于控制网络会话。
 
-强烈建议在生产系统、敏感网络和类似环境中禁用**CredSSP**，因为存在安全风险。要确定**CredSSP**是否已启用，可以运行`Get-WSManCredSSP`命令。此命令允许**检查CredSSP状态**，甚至可以在启用**WinRM**的情况下远程执行。
+由于安全问题，强烈建议在生产系统、敏感网络和类似环境中禁用 **CredSSP**。要确定 **CredSSP** 是否启用，可以运行 `Get-WSManCredSSP` 命令。此命令允许 **检查 CredSSP 状态**，并且可以在启用 **WinRM** 的情况下远程执行。
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
 }
 ```
-## 解决方法
+## Workarounds
 
-### 调用命令
+### Invoke Command
 
-为了解决双跳问题，提出了一种涉及嵌套`Invoke-Command`的方法。这并不能直接解决问题，但提供了一种无需特殊配置的解决方法。该方法允许通过从初始攻击机器执行的PowerShell命令或通过与第一台服务器先前建立的PS-Session，在第二台服务器上执行一个命令（`hostname`）。以下是操作步骤：
+为了解决双跳问题，提出了一种涉及嵌套 `Invoke-Command` 的方法。这并不能直接解决问题，但提供了一种无需特殊配置的变通方法。该方法允许通过从初始攻击机器执行的 PowerShell 命令或通过与第一台服务器之前建立的 PS-Session，在第二台服务器上执行命令（`hostname`）。以下是具体操作步骤：
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
+或者，建议与第一个服务器建立 PS-Session，并使用 `$cred` 运行 `Invoke-Command` 来集中任务。
+
 ### 注册 PSSession 配置
 
-绕过双跳问题的解决方案涉及使用 `Register-PSSessionConfiguration` 与 `Enter-PSSession`。这种方法需要与 `evil-winrm` 不同的方法，并允许创建一个不受双跳限制影响的会话。
+绕过双跳问题的解决方案涉及使用 `Register-PSSessionConfiguration` 和 `Enter-PSSession`。这种方法需要与 `evil-winrm` 不同的方式，并允许一个不受双跳限制的会话。
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
-### 端口转发
+### PortForwarding
 
-对于中间目标上的本地管理员，端口转发允许将请求发送到最终服务器。使用 `netsh`，可以添加一个端口转发规则，同时添加一个Windows防火墙规则以允许转发的端口。
+对于中介目标上的本地管理员，端口转发允许请求发送到最终服务器。使用 `netsh`，可以添加一个端口转发规则，以及一个 Windows 防火墙规则以允许转发的端口。
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
 #### winrs.exe
 
-`winrs.exe` 可用于转发 WinRM 请求，如果担心 PowerShell 监控，这可能是一个不太容易被检测到的选项。下面的命令演示了它的用法：
+`winrs.exe` 可用于转发 WinRM 请求，如果 PowerShell 监控是一个问题，这可能是一个不太容易被检测到的选项。下面的命令演示了它的用法：
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-在第一个服务器上安装OpenSSH可以解决双跳问题，特别适用于跳板机场景。此方法需要在Windows上进行CLI安装和设置OpenSSH。当配置为密码认证时，这允许中间服务器代表用户获取TGT。
+在第一台服务器上安装 OpenSSH 可以为双跳问题提供解决方法，特别适用于跳板机场景。此方法需要在 Windows 上进行 CLI 安装和配置 OpenSSH。当配置为密码认证时，这允许中介服务器代表用户获取 TGT。
 
-#### OpenSSH安装步骤
+#### OpenSSH 安装步骤
 
-1. 下载并将最新的OpenSSH发行版zip文件移动到目标服务器。
-2. 解压缩并运行`Install-sshd.ps1`脚本。
-3. 添加防火墙规则以打开端口22，并验证SSH服务是否正在运行。
+1. 下载并将最新的 OpenSSH 发布 zip 移动到目标服务器。
+2. 解压并运行 `Install-sshd.ps1` 脚本。
+3. 添加防火墙规则以打开 22 端口，并验证 SSH 服务是否正在运行。
 
-要解决`Connection reset`错误，可能需要更新权限以允许每个人在OpenSSH目录上具有读取和执行访问权限。
+要解决 `Connection reset` 错误，可能需要更新权限，以允许所有人对 OpenSSH 目录的读取和执行访问。
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-## 参考资料
+## 参考文献
 
-* [理解Kerberos双跳问题](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
-* [双跳攻击](https://posts.slayerlabs.com/double-hop/)
-* [另一种解决多跳PowerShell远程的方法](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
-* [不使用CredSSP解决PowerShell多跳问题](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
+* [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
+* [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
+* [https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting](https://learn.microsoft.com/en-gb/archive/blogs/sergey\_babkins\_blog/another-solution-to-multi-hop-powershell-remoting)
+* [https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/](https://4sysops.com/archives/solve-the-powershell-multi-hop-problem-without-using-credssp/)
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要在**HackTricks中看到您的公司广告**？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

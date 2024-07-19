@@ -1,16 +1,19 @@
 # DCOM Exec
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零到英雄学习 AWS 黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 你在一家 **网络安全公司**工作吗？你想在 HackTricks 上看到你的 **公司广告**吗？或者你想访问 **最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT**](https://opensea.io/collection/the-peass-family) 收藏
-* 获取 [**官方 PEASS & HackTricks 周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注**我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 分享你的黑客技巧**..
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -24,7 +27,7 @@
 
 **有关此技术的更多信息，请查看原始帖子 [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-分布式组件对象模型 (DCOM) 对象为基于网络的对象交互提供了有趣的能力。微软为 DCOM 和组件对象模型 (COM) 提供了全面的文档，分别可在 [此处获取 DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) 和 [此处获取 COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx)。可以使用 PowerShell 命令检索 DCOM 应用程序列表：
+分布式组件对象模型 (DCOM) 对象为基于网络的对象交互提供了有趣的能力。微软为 DCOM 和组件对象模型 (COM) 提供了全面的文档，分别可以在 [这里查看 DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) 和 [这里查看 COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx)。可以使用 PowerShell 命令检索 DCOM 应用程序列表：
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -56,9 +59,9 @@ ls \\10.10.10.10\c$\Users
 
 **MMC20.Application** 对象被识别为缺乏明确的 "LaunchPermissions"，默认权限允许管理员访问。有关更多详细信息，可以在 [这里](https://twitter.com/tiraniddo/status/817532039771525120) 探索一个线程，并建议使用 [@tiraniddo](https://twitter.com/tiraniddo) 的 OleView .NET 来过滤没有明确启动权限的对象。
 
-两个特定对象 `ShellBrowserWindow` 和 `ShellWindows` 因缺乏明确的启动权限而被强调。`HKCR:\AppID\{guid}` 下缺少 `LaunchPermission` 注册表项表示没有明确的权限。
+两个特定对象，`ShellBrowserWindow` 和 `ShellWindows`，因缺乏明确的启动权限而被强调。`HKCR:\AppID\{guid}` 下缺少 `LaunchPermission` 注册表项表示没有明确的权限。
 
-### ShellWindows
+###  ShellWindows
 对于缺乏 ProgID 的 `ShellWindows`，.NET 方法 `Type.GetTypeFromCLSID` 和 `Activator.CreateInstance` 通过其 AppID 促进对象实例化。此过程利用 OleView .NET 检索 `ShellWindows` 的 CLSID。一旦实例化，可以通过 `WindowsShell.Item` 方法进行交互，从而调用方法，如 `Document.Application.ShellExecute`。
 
 提供了示例 PowerShell 命令以实例化对象并远程执行命令：
