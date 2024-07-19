@@ -25,9 +25,9 @@ Get Access Today:
 
 ## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
 
-I browser artifacts includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, che differiscono per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
+I dati degli artefatti del browser includono vari tipi di dati memorizzati dai browser web, come la cronologia di navigazione, i segnalibri e i dati della cache. Questi artefatti sono conservati in cartelle specifiche all'interno del sistema operativo, che differiscono per posizione e nome tra i browser, ma generalmente memorizzano tipi di dati simili.
 
-Ecco un riepilogo dei browser artifacts più comuni:
+Ecco un riepilogo dei più comuni artefatti del browser:
 
 * **Cronologia di Navigazione**: Tiene traccia delle visite degli utenti ai siti web, utile per identificare le visite a siti dannosi.
 * **Dati di Autocompletamento**: Suggerimenti basati su ricerche frequenti, offrendo informazioni quando combinati con la cronologia di navigazione.
@@ -70,7 +70,7 @@ All'interno di ciascuna cartella del profilo, puoi trovare diversi file importan
 * **logins.json**: Informazioni di accesso crittografate.
 * **key4.db** o **key3.db**: Memorizza le chiavi di crittografia per proteggere informazioni sensibili.
 
-Inoltre, controllare le impostazioni anti-phishing del browser può essere fatto cercando le voci `browser.safebrowsing` in `prefs.js`, che indicano se le funzionalità di navigazione sicura sono abilitate o disabilitate.
+Inoltre, il controllo delle impostazioni anti-phishing del browser può essere effettuato cercando le voci `browser.safebrowsing` in `prefs.js`, che indicano se le funzionalità di navigazione sicura sono abilitate o disabilitate.
 
 Per provare a decrittare la password principale, puoi usare [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Con il seguente script e chiamata puoi specificare un file di password da forzare:
@@ -124,7 +124,7 @@ Internet Explorer 11 gestisce i suoi dati e metadati in diverse posizioni, aiuta
 
 ### Archiviazione dei Metadati
 
-I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (con VX che può essere V01, V16 o V24). Insieme a questo, il file `V01.log` potrebbe mostrare discrepanze nei tempi di modifica con `WebcacheVX.data`, indicando la necessità di riparazione utilizzando `esentutl /r V01 /d`. Questi metadati, ospitati in un database ESE, possono essere recuperati e ispezionati utilizzando strumenti come photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), rispettivamente. All'interno della tabella **Containers**, è possibile discernere le specifiche tabelle o contenitori in cui ogni segmento di dati è memorizzato, inclusi i dettagli della cache per altri strumenti Microsoft come Skype.
+I metadati per Internet Explorer sono memorizzati in `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (con VX che può essere V01, V16 o V24). Insieme a questo, il file `V01.log` potrebbe mostrare discrepanze nei tempi di modifica con `WebcacheVX.data`, indicando la necessità di riparazione utilizzando `esentutl /r V01 /d`. Questi metadati, contenuti in un database ESE, possono essere recuperati e ispezionati utilizzando strumenti come photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), rispettivamente. All'interno della tabella **Containers**, è possibile discernere le specifiche tabelle o contenitori in cui è memorizzato ciascun segmento di dati, inclusi i dettagli della cache per altri strumenti Microsoft come Skype.
 
 ### Ispezione della Cache
 
@@ -187,21 +187,22 @@ Questi percorsi e comandi sono cruciali per accedere e comprendere i dati di nav
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) per costruire e **automatizzare flussi di lavoro** alimentati dagli **strumenti comunitari più avanzati** del mondo.\
+Usa [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) per costruire e **automatizzare flussi di lavoro** facilmente alimentati dagli **strumenti** della **comunità più avanzata**.\
 Accedi oggi:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara a fare hacking su AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** controlla i [**Piani di Abbonamento**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandise ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos.
 
 </details>
+{% endhint %}

