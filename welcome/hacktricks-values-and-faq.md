@@ -1,69 +1,70 @@
-# Thamani na Maswali Yanayoulizwa Mara kwa Mara Kuhusu HackTricks
+# HackTricks Values & FAQ
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuhack AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Thamani za HackTricks
+## HackTricks Values
 
 {% hint style="success" %}
 Hizi ni **thamani za Mradi wa HackTricks**:
 
-* Toa **upatikanaji wa BURE** kwa **rasilimali za kuhack za ELIMU** kwa **WOTE** kwenye Mtandao.
-* Kuhack ni kuhusu kujifunza, na kujifunza inapaswa kuwa huru iwezekanavyo.
-* Madhumuni ya kitabu hiki ni kutumikia kama **rasilimali kamili ya elimu**.
-* **HIFADHI** mbinu za kuhack nzuri ambazo jamii inachapisha ikitoa **WAAANDISHI WA ASILI** **MASHUKA** yote.
-* **Hatutaki sifa kutoka kwa watu wengine**, tunataka tu kuhifadhi mbinu za kupendeza kwa kila mtu.
-* Pia tunachapisha **utafiti wetu wenyewe** kwenye HackTricks.
-* Katika visa kadhaa tutachapisha **kwenye HackTricks muhtasari wa sehemu muhimu** za mbinu na tutawatia moyo wasomaji kutembelea chapisho la asili kwa maelezo zaidi.
-* **KUANDAA** mbinu zote za kuhack kwenye kitabu ili iwe **RAHISI ZAIDI KUFIKIA**
-* Timu ya HackTricks imetumia maelfu ya masaa bure **kutengeneza maudhui** ili watu waweze **kujifunza haraka**
+* Toa **UFUNDI** wa rasilimali za **ELIMU ya hacking** kwa **WOTE** kwenye Mtandao.
+* Hacking ni kuhusu kujifunza, na kujifunza inapaswa kuwa bure kadri iwezekanavyo.
+* Kusudi la kitabu hiki ni kutumikia kama **rasilimali ya elimu** ya kina.
+* **HIFADHI** mbinu za **hacking** za kushangaza ambazo jamii inachapisha ikitoa **WANDANI** **WAASISI** wote **sifa**.
+* **Hatupendi sifa kutoka kwa watu wengine**, tunataka tu kuhifadhi mbinu nzuri kwa kila mtu.
+* Pia tunaandika **utafiti wetu wenyewe** katika HackTricks.
+* Katika hali kadhaa tutandika tu **katika HackTricks muhtasari wa sehemu muhimu** za mbinu na tutawatia moyo **wasomaji kutembelea chapisho la asili** kwa maelezo zaidi.
+* **ANDAA** mbinu zote za hacking katika kitabu ili iwe **RAHA KUPATIKANA**
+* Timu ya HackTricks imejitolea maelfu ya masaa bure **tu kuandaa maudhui** ili watu waweze **kujifunza haraka**
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
 
-## Maswali Yanayoulizwa Mara kwa Mara Kuhusu HackTricks
+## HackTricks faq
 
 {% hint style="success" %}
 * **Asante sana kwa rasilimali hizi, naweza kuwashukuru vipi?**
 {% endhint %}
 
-Unaweza kuwashukuru hadharani timu ya HackTricks kwa kuweka pamoja rasilimali hizi zote hadharani kwenye tweet ikimtaja [**@hacktricks\_live**](https://twitter.com/hacktricks\_live).\
-Ikiwa una shukrani maalum unaweza pia [**kudhamini mradi hapa**](https://github.com/sponsors/carlospolop).\
-Na usisahau **kupatia nyota katika miradi ya Github!** (Pata viungo chini).
+Unaweza kuwashukuru hadharani timu za HackTricks kwa kuunganisha rasilimali hizi zote hadharani katika tweet ikimnukuu [**@hacktricks\_live**](https://twitter.com/hacktricks\_live).\
+Ikiwa unashukuru sana unaweza pia [**kudhamini mradi huu hapa**](https://github.com/sponsors/carlospolop).\
+Na usisahau **kutoa nyota katika miradi ya Github!** (Pata viungo hapa chini).
 
 {% hint style="success" %}
-* **Naweza kuchangiaje kwenye mradi?**
+* **Ninaweza vipi kuchangia katika mradi?**
 {% endhint %}
 
-Unaweza **kushiriki vidokezo na mbinu mpya na jamii au kusahihisha makosa** unayopata kwenye vitabu kwa kutuma **Ombi la Kuvuta** kwenye kurasa za Github husika:
+Unaweza **kushiriki vidokezo na mbinu mpya na jamii au kurekebisha makosa** unayoyapata katika vitabu kwa kutuma **Pull Request** kwenye kurasa husika za Github:
 
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-Usisahau **kupatia nyota katika miradi ya Github!**
+Usisahau **kutoa nyota katika miradi ya Github!**
 
 {% hint style="success" %}
-* **Naweza kunakili baadhi ya maudhui kutoka HackTricks na kuyaweka kwenye blogu yangu?**
+* **Naweza kunakili maudhui kutoka HackTricks na kuyweka kwenye blogu yangu?**
 {% endhint %}
 
-Ndio, unaweza, lakini **usisahau kutaja viungo maalum** ambapo maudhui yalichukuliwa.
+Ndio, unaweza, lakini **usisahau kutaja kiungo maalum** ambacho maudhui yalitolewa.
 
 {% hint style="success" %}
-* **Naweza kurejelea ukurasa wa HackTricks vipi?**
+* **Ninaweza vipi kunukuu ukurasa wa HackTricks?**
 {% endhint %}
 
-Muda mrefu kama kiungo **cha** ukurasa(s) ambapo ulichukua habari kinaonekana basi inatosha.\
+Mradi tu kiungo **cha** ukurasa(za) ulizochukua taarifa kutoka kitatosha.\
 Ikiwa unahitaji bibtex unaweza kutumia kitu kama:
 ```latex
 @misc{hacktricks-bibtexing,
@@ -74,96 +75,97 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
 {% hint style="warning" %}
-* **Je, naweza kunakili HackTricks zote kwenye blogu yangu?**
+* **Naweza kunakili HackTricks zote kwenye blogu yangu?**
 {% endhint %}
 
-**Ningependa usifanye hivyo**. Hiyo **haitamsaidia yeyote** kwani **maudhui yote tayari yanapatikana hadharani** katika vitabu rasmi vya HackTricks bure.
+**Ningependa kutokufanya hivyo**. Hii **haitafaidisha mtu yeyote** kwani **maudhui yote tayari yanapatikana hadharani** katika vitabu rasmi vya HackTricks bure.
 
-Ikiwa unaogopa kwamba itapotea, basi unaweza kuiga kwenye Github au kuipakua, kama nilivyosema tayari ni bure.
+Ikiwa unahofia kuwa itatoweka, tu fork kwenye Github au uipakue, kama nilivyosema tayari ni bure.
 
 {% hint style="warning" %}
-* **Kwa nini una wadhamini? Je, vitabu vya HackTricks ni kwa madhumuni ya biashara?**
+* **Kwa nini una wadhamini? Je, vitabu vya HackTricks vina madhumuni ya kibiashara?**
 {% endhint %}
 
-**Thamani ya kwanza ya HackTricks** ni kutoa **rasilimali za elimu ya kuvamia bure** kwa **KILA MTU** duniani. Timu ya HackTricks imejitolea **maelfu ya masaa** kutoa maudhui haya, tena, **bure**.
+Thamani ya kwanza ya **HackTricks** ni kutoa rasilimali za elimu za **BURE** za hacking kwa **WOTE** duniani. Timu ya HackTricks imejitolea **masaa maelfu** kutoa maudhui haya, tena, kwa **BURE**.
 
-Ikiwa unafikiri vitabu vya HackTricks vimeundwa kwa **madhumuni ya biashara** umekosea **KABISA**.
+Ikiwa unafikiri vitabu vya HackTricks vimeandaliwa kwa **madhumuni ya kibiashara** uko **KABISA KOSA**.
 
-Tuna wadhamini kwa sababu, hata kama maudhui yote ni **BURE**, tunataka **kutoa jamii fursa ya kuthamini kazi yetu** ikiwa wanataka. Kwa hivyo, tunawapa watu chaguo la kuchangia HackTricks kupitia [**Github sponsors**](https://github.com/sponsors/carlospolop), na **kampuni muhimu za usalama wa mtandao** kudhamini HackTricks na kuwa na **matangazo** katika kitabu huku **matangazo** yakipangwa katika maeneo ambayo yanawafanya yawe **dhahiri** lakini **hayavurugi mchakato wa kujifunza** ikiwa mtu anajikita katika maudhui.
+Tuna wadhamini kwa sababu, hata kama maudhui yote ni BURE, tunataka **kutoa jamii fursa ya kuthamini kazi yetu** wanapojisikia. Hivyo, tunawapa watu chaguo la kuchangia HackTricks kupitia [**wadhamini wa Github**](https://github.com/sponsors/carlospolop), na **makampuni muhimu ya usalama wa mtandao** kudhamini HackTricks na **kuwa na matangazo** katika kitabu, ambapo **matangazo** yanapangwa kila wakati katika maeneo yanayofanya kuwa **naonekana** lakini **hayakoseshi mchakato wa kujifunza** ikiwa mtu anazingatia maudhui.
 
-Hutapata HackTricks imejaa matangazo ya kuchosha kama blogu zingine zenye maudhui kidogo kuliko HackTricks, kwa sababu HackTricks haijafanywa kwa madhumuni ya biashara.
+Hautapata HackTricks imejaa matangazo ya annoying kama blogu nyingine zenye maudhui kidogo kuliko HackTricks, kwa sababu HackTricks haijandikwa kwa madhumuni ya kibiashara.
 
 {% hint style="danger" %}
-* **Nifanye nini ikiwa ukurasa fulani wa HackTricks unategemea chapisho langu la blogu lakini halijarejelewa?**
+* **Nifanye nini ikiwa ukurasa fulani wa HackTricks unategemea chapisho langu la blogu lakini haujarejelewa?**
 {% endhint %}
 
-**Tunasikitika sana. Hii haipaswi kutokea**. Tafadhali, tujulishe kupitia maswala ya Github, Twitter, Discord... kiungo cha ukurasa wa HackTricks na maudhui na kiungo cha blogu yako na **tutakagua na kuongeza haraka iwezekanavyo**.
+**Tunajuta sana. Hii haikupaswa kutokea**. Tafadhali, tujulishe kupitia masuala ya Github, Twitter, Discord... kiungo cha ukurasa wa HackTricks wenye maudhui na kiungo cha blogu yako na **tutakagua na kuongeza ASAP**.
 
 {% hint style="danger" %}
-* **Nifanye nini ikiwa kuna maudhui kutoka kwenye blogu yangu kwenye HackTricks na sitaki iwe hapo?**
+* **Nifanye nini ikiwa kuna maudhui kutoka kwa blogu yangu katika HackTricks na sitaki iwepo?**
 {% endhint %}
 
-Tafadhali elewa kwamba kuwa na viungo kwenye ukurasa wako kwenye HackTricks:
+Kumbuka kuwa kuwa na viungo kwenye ukurasa wako katika HackTricks:
 
 * Inaboresha **SEO** yako
-* Maudhui yanapata **kutafsiriwa zaidi ya lugha 15** hivyo kuwawezesha watu zaidi kupata maudhui haya
-* **HackTricks inahamasisha** watu kucheki ukurasa wako (watu kadhaa wametutajia kwamba tangu ukurasa wao uwe kwenye HackTricks wanapokea ziara zaidi)
+* Maudhui yanapata **kutafsiriwa kwa zaidi ya lugha 15** ikifanya iwezekane kwa watu wengi kufikia maudhui haya
+* **HackTricks inahamasisha** watu **kuangalia ukurasa wako** (watu kadhaa wametujulisha kuwa tangu ukurasa wao upo katika HackTricks wanapata ziara zaidi)
 
-Hata hivyo, Ikiwa bado unataka maudhui ya blogu yako kuondolewa kutoka HackTricks tafadhali tujulishe na bila shaka **tutaondoa kila kiungo kwenye blogu yako**, na maudhui yoyote yanayotokana nayo.
+Hata hivyo, ikiwa bado unataka maudhui ya blogu yako yaondolewe kutoka HackTricks tafadhali tujulishe na bila shaka tutafanya **kuondoa kila kiungo kwa blogu yako**, na maudhui yoyote yanayotegemea hiyo.
 
 {% hint style="danger" %}
-* **Nifanye nini ikiwa nimegundua maudhui yaliyonakiliwa kwenye HackTricks?**
+* **Nifanye nini ikiwa napata maudhui yaliyokopwa katika HackTricks?**
 {% endhint %}
 
-Tunatoa **sifa zote kwa waandishi asilia**. Ikiwa unagundua ukurasa na maudhui yaliyonakiliwa bila kurejelea chanzo asilia, tujulishe na tutaeither **yaondoa**, **kuongeza kiungo kabla ya maandishi**, au **kuandika upya ukiweka kiungo**.
+Sisi daima **tunawapa waandishi wa asili sifa zote**. Ikiwa unapata ukurasa wenye maudhui yaliyokopwa bila chanzo cha asili kilichorejelewa, tujulishe na tutafanya **kuondoa**, **kuongeza kiungo kabla ya maandiko**, au **kuandika upya kwa kuongeza kiungo**.
 
-## LESENI
+## LICENSE
 
-Haki zote zimehifadhiwa isipokuwa imeelezwa vinginevyo.
+Copyright © Haki zote zimehifadhiwa isipokuwa kama ilivyoelezwa vinginevyo.
 
 #### Muhtasari wa Leseni:
 
-* Kutambulika: Una uhuru wa:
-* Kushiriki — kunakili na kusambaza nyenzo katika aina yoyote au muundo.
-* Kubadilisha — kuchanganya, kubadilisha, na kujenga kwa msingi wa nyenzo.
+* Attributio: Una uhuru wa:
+* Kushiriki — kunakili na kusambaza nyenzo katika njia yoyote au muundo.
+* Kubadilisha — kuchanganya, kubadilisha, na kujenga juu ya nyenzo.
 
-#### Masharti Mengine:
+#### Masharti ya Ziada:
 
-* Yaliyomo ya Watu Wengine: Sehemu fulani za blogu/kitabu hiki zinaweza kujumuisha yaliyomo kutoka vyanzo vingine, kama vile maelezo kutoka blogu au machapisho mengine. Matumizi ya yaliyomo kama hayo yanafanywa chini ya kanuni za matumizi ya haki au kwa idhini wazi kutoka kwa wamiliki wa hakimiliki husika. Tafadhali rejea vyanzo halisi kwa habari maalum kuhusu leseni kuhusiana na yaliyomo ya watu wengine.
-* Uandishi: Yaliyomo asilia yaliyoandikwa na HackTricks yanazingatia masharti ya leseni hii. Unahimizwa kuweka alama ya kazi hii kwa mwandishi unaposhiriki au kuibadilisha.
+* Maudhui ya Watu wa Tatu: Sehemu zingine za blogu hii/kitabu zinaweza kujumuisha maudhui kutoka vyanzo vingine, kama vile nukuu kutoka blogu nyingine au machapisho. Matumizi ya maudhui kama haya yanafanywa chini ya kanuni za matumizi ya haki au kwa ruhusa wazi kutoka kwa wamiliki wa hakimiliki husika. Tafadhali rejelea vyanzo vya asili kwa habari maalum za leseni kuhusu maudhui ya watu wa tatu.
+* Uandishi: Maudhui ya asili yaliyoandikwa na HackTricks yanategemea masharti ya leseni hii. Unahimizwa kutoa sifa kwa kazi hii unaposhiriki au kubadilisha.
 
-#### Visamaha:
+#### Mipango ya Kutengwa:
 
-* Matumizi ya Kibiashara: Kwa maswali kuhusu matumizi ya kibiashara ya yaliyomo haya, tafadhali wasiliana nami.
+* Matumizi ya Kibiashara: Kwa maswali kuhusu matumizi ya kibiashara ya maudhui haya, tafadhali wasiliana nami.
 
-Leseni hii haitoi haki yoyote ya alama ya biashara au haki za kutambulisha kuhusiana na yaliyomo. Alama za biashara na nembo zilizotajwa katika blogu/kitabu hiki ni mali ya wamiliki wao husika.
+Leseni hii haitoi haki yoyote ya alama ya biashara au haki za chapa kuhusiana na maudhui. Alama zote za biashara na chapa zilizomo katika blogu hii/kitabu ni mali ya wamiliki wao husika.
 
-**Kwa kufikia au kutumia HackTricks, unakubaliana kufuata masharti ya leseni hii. Ikiwa hukubaliani na masharti haya, tafadhali, usifikie tovuti hii.**
+**Kwa kufikia au kutumia HackTricks, unakubali kufuata masharti ya leseni hii. Ikiwa hukubaliani na masharti haya, tafadhali, usifike kwenye tovuti hii.**
 
-## **Kanusho**
+## **Kujitenga**
 
 {% hint style="danger" %}
-Kitabu hiki, 'HackTricks,' kinalenga kwa madhumuni ya elimu na habari pekee. Yaliyomo ndani ya kitabu hiki yanatolewa kwa msingi wa 'kama ilivyo,' na waandishi na wachapishaji hawatoi uwakilishi au dhamana ya aina yoyote, wazi au kwa kufichwa, kuhusu ukamilifu, usahihi, uaminifu, ufaa, au upatikanaji wa habari, bidhaa, huduma, au michoro inayohusiana ndani ya kitabu hiki. Kuiamini habari kama hiyo kunategemea kabisa hatari yako mwenyewe.
+Kitabu hiki, 'HackTricks,' kinakusudiwa kwa madhumuni ya elimu na taarifa pekee. Maudhui ndani ya kitabu hiki yanatolewa kwa msingi wa 'kama ilivyo', na waandishi na wachapishaji hawatoi uwakilishi au dhamana yoyote, wazi au fiche, kuhusu ukamilifu, usahihi, uaminifu, kufaa, au upatikanaji wa habari, bidhaa, huduma, au picha zinazohusiana zilizomo ndani ya kitabu hiki. Kila unavyotegemea habari kama hiyo ni kwa hatari yako mwenyewe.
 
-Waandishi na wachapishaji hawatawajibika kamwe kwa upotezaji au uharibifu wowote, ikiwa ni pamoja na bila kikomo, upotezaji wa moja kwa moja au wa matokeo, au upotezaji wowote au uharibifu wowote unaotokana na upotezaji wa data au faida unaotokana na, au kuhusiana na, matumizi ya kitabu hiki.
+Waandishi na wachapishaji hawatakuwa na jukumu lolote kwa hasara au uharibifu wowote, ikiwa ni pamoja na bila kikomo, hasara au uharibifu wa moja kwa moja au wa matokeo, au hasara au uharibifu wowote unaotokana na kupoteza data au faida zinazotokana na, au kuhusiana na, matumizi ya kitabu hiki.
 
-Zaidi ya hayo, mbinu na vidokezo vilivyoelezwa katika kitabu hiki vinatolewa kwa madhumuni ya elimu na habari pekee, na visitumike kwa shughuli yoyote haramu au yenye nia mbaya. Waandishi na wachapishaji hawaidhinishi au kusaidia shughuli yoyote haramu au isiyo ya maadili, na matumizi yoyote ya habari iliyomo ndani ya kitabu hiki ni kwa hatari na uamuzi wa mtumiaji mwenyewe.
+Zaidi ya hayo, mbinu na vidokezo vilivyoelezwa katika kitabu hiki vinatolewa kwa madhumuni ya elimu na taarifa pekee, na havipaswi kutumika kwa shughuli zozote zisizo za kisheria au zenye nia mbaya. Waandishi na wachapishaji hawakubali au kuunga mkono shughuli zozote zisizo za kisheria au zisizo za maadili, na matumizi yoyote ya habari iliyomo ndani ya kitabu hiki ni kwa hatari na uamuzi wa mtumiaji.
 
-Mtumiaji ndiye anayewajibika pekee kwa hatua zozote zinazochukuliwa kulingana na habari iliyomo ndani ya kitabu hiki, na daima anapaswa kutafuta ushauri wa kitaalam na msaada anapojaribu kutekeleza mbinu au vidokezo vilivyoelezwa hapa.
+Mtumiaji ndiye mwenye jukumu pekee kwa hatua zozote zinazochukuliwa kwa msingi wa habari iliyomo ndani ya kitabu hiki, na inashauriwa kila wakati kutafuta ushauri wa kitaalamu na msaada wanapojaribu kutekeleza mbinu au vidokezo vyovyote vilivyoelezwa hapa.
 
-Kwa kutumia kitabu hiki, mtumiaji anakubaliana kuachilia waandishi na wachapishaji kutoka kwa dhima yoyote na jukumu kwa uharibifu, hasara, au madhara yanayoweza kutokea kutokana na matumizi ya kitabu hiki au habari yoyote iliyomo ndani yake.
+Kwa kutumia kitabu hiki, mtumiaji anakubali kuachilia waandishi na wachapishaji kutoka kwa dhima yoyote na wajibu kwa uharibifu, hasara, au madhara yoyote yanayoweza kutokea kutokana na matumizi ya kitabu hiki au maudhui yoyote yaliyomo ndani yake.
 {% endhint %}
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

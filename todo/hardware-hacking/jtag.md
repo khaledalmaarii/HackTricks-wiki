@@ -1,36 +1,52 @@
 # JTAG
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## JTAGenum
 
-[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)ni chombo kinachoweza kutumika na Raspberry PI au Arduino kutafuta pins za JTAG kutoka kwa chip isiyojulikana.\
-Kwenye **Arduino**, unaweza kuunganisha **pins kutoka 2 hadi 11 kwa pins 10 zinazoweza kuwa za JTAG**. Pakia programu kwenye Arduino na itajaribu kufanya nguvu ya brute kwenye pins zote ili kupata ikiwa kuna pins zinazohusiana na JTAG na kila moja ni ipi.\
-Kwenye **Raspberry PI** unaweza kutumia tu **pins kutoka 1 hadi 6** (pins 6, hivyo utapima polepole kila pin inayowezekana ya JTAG).
+[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)ni chombo kinachoweza kutumika na Raspberry PI au Arduino kutafuta kujaribu pini za JTAG kutoka kwa chip isiyojulikana.\
+Katika **Arduino**, ung'anishe **pini kutoka 2 hadi 11 kwa pini 10 zinazoweza kuwa za JTAG**. Pakia programu kwenye Arduino na itajaribu kujaribu nguvu zote za pini ili kuona kama pini yoyote inahusiana na JTAG na ambayo ni kila moja.\
+Katika **Raspberry PI** unaweza kutumia tu **pini kutoka 1 hadi 6** (pini 6, hivyo utachukua muda mrefu zaidi kujaribu kila pini inayoweza kuwa ya JTAG).
 
 ### Arduino
 
-Kwenye Arduino, baada ya kuunganisha nyaya (pin 2 hadi 11 kwa pins za JTAG na Arduino GND kwa GND ya ubao wa mzunguko), **pakia programu ya JTAGenum kwenye Arduino** na kwenye Serial Monitor tuma **`h`** (amri ya msaada) na unapaswa kuona msaada:
+Katika Arduino, baada ya kuunganisha nyaya (pini 2 hadi 11 kwa pini za JTAG na GND ya Arduino kwa GND ya baseboard), **pakia programu ya JTAGenum kwenye Arduino** na katika Monitor ya Serial tuma **`h`** (amri ya msaada) na unapaswa kuona msaada:
 
 ![](<../../.gitbook/assets/image (939).png>)
 
 ![](<../../.gitbook/assets/image (578).png>)
 
-Sanidi **"Hakuna mwisho wa mstari" na 115200baud**.\
+Sanidi **"No line ending" na 115200baud**.\
 Tuma amri s kuanza skanning:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-Ikiwa unawasiliana na JTAG, utapata moja au zaidi **mistari ikiwaanza na KUPATIKANA!** ikionyesha pins za JTAG.
+Ikiwa unawasiliana na JTAG, utaona moja au kadhaa **mistari inayohakikisha kuwa IMEPATIKANA!** ikionyesha pini za JTAG.
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

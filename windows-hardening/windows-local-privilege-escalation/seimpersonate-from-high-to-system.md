@@ -1,23 +1,24 @@
-# SeImpersonate kutoka High Kwenda System
+# SeImpersonate kutoka High Hadi System
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
-### Msimbo
+### Code
 
-Msimbo ufuatao kutoka [hapa](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Inaruhusu **kuashiria Kitambulisho cha Mchakato kama hoja** na CMD **inayofanya kazi kama mtumiaji** wa mchakato ulioashiriwa itaendeshwa.\
-Ikiendeshwa katika mchakato wa Uadilifu wa Juu unaweza **kuashiria PID ya mchakato unaoendeshwa kama System** (kama vile winlogon, wininit) na kutekeleza cmd.exe kama mfumo.
+Msimbo ufuatao kutoka [hapa](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Inaruhusu **kuashiria ID ya Mchakato kama hoja** na CMD **inayoendesha kama mtumiaji** wa mchakato ulioashiriwa itatekelezwa.\
+Ikiwa inatekelezwa katika mchakato wa High Integrity unaweza **kuashiria PID ya mchakato unaoendesha kama System** (kama winlogon, wininit) na kutekeleza cmd.exe kama system.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -156,7 +157,7 @@ return 0;
 
 ### Kosa
 
-Kwa baadhi ya matukio unaweza jaribu kujifanya kuwa System na haitafanya kazi ikionyesha matokeo kama yafuatayo:
+Wakati mwingine unaweza kujaribu kujifanya kuwa System na haitafanya kazi ikionyesha matokeo kama yafuatayo:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -167,22 +168,37 @@ Kwa baadhi ya matukio unaweza jaribu kujifanya kuwa System na haitafanya kazi ik
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Hii inamaanisha kwamba hata kama unafanya kazi kwenye kiwango cha Uadilifu wa Juu **huna idhini za kutosha**.\
-Angalia idhini za sasa za Msimamizi kwenye michakato ya `svchost.exe` kwa kutumia **mchunguzi wa michakato** (au unaweza pia kutumia mchakato wa hacker):
+Hii inamaanisha kwamba hata kama unafanya kazi kwenye kiwango cha Juu cha Uaminifu **huna ruhusa za kutosha**.\
+Hebu tuangalie ruhusa za sasa za Msimamizi juu ya michakato ya `svchost.exe` kwa kutumia **processes explorer** (au unaweza pia kutumia process hacker):
 
 1. Chagua mchakato wa `svchost.exe`
-2. Bonyeza Kulia --> Mali
-3. Ndani ya Tab "Usalama" bonyeza chini kulia kitufe "Idhini"
-4. Bonyeza kwenye "Zaidi"
-5. Chagua "Waadiministrata" na bonyeza "Hariri"
-6. Bonyeza "Onyesha idhini za juu"
+2. Bonyeza kulia --> Mali
+3. Ndani ya Tab ya "Usalama" bonyeza chini kulia kwenye kitufe cha "Ruhusa"
+4. Bonyeza kwenye "Advanced"
+5. Chagua "Administrators" na bonyeza "Hariri"
+6. Bonyeza kwenye "Onyesha ruhusa za juu"
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Picha iliyotangulia inaonyesha idhini zote ambazo "Waadiministrata" wanayo juu ya mchakato ulioteuliwa (kama unavyoona katika kesi ya `svchost.exe` wana idhini za "Uchunguzi" tu)
+Picha ya awali inaonyesha ruhusa zote ambazo "Administrators" wanazo juu ya mchakato uliochaguliwa (kama unavyoona katika kesi ya `svchost.exe` wana ruhusa tu za "Query")
 
-Angalia idhini ambazo "Waadiministrata" wanazo juu ya `winlogon.exe`:
+Tazama ruhusa "Administrators" wanazo juu ya `winlogon.exe`:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Ndani ya mchakato huo "Waadiministrata" wanaweza "Soma Kumbukumbu" na "Soma Idhini" ambayo labda inaruhusu Waadiministrata kuiga tokeni inayotumiwa na mchakato huu.
+Ndani ya mchakato huo "Administrators" wanaweza "Soma Kumbukumbu" na "Soma Ruhusa" ambayo huenda inawawezesha Msimamizi kuiga token inayotumika na mchakato huu.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

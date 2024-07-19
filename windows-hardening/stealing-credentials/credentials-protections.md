@@ -1,102 +1,103 @@
-# Kinga za Kibali za Windows
+# Windows Credentials Protections
 
-## Kinga za Kibali
+## Credentials Protections
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## WDigest
 
-Itifaki ya [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396), iliyoanzishwa na Windows XP, imeundwa kwa ajili ya uthibitisho kupitia Itifaki ya HTTP na **imezimwa kwa chaguo-msingi kwenye Windows XP hadi Windows 8.0 na Windows Server 2003 hadi Windows Server 2012**. Mipangilio ya msingi kama hii husababisha **uhifadhi wa nywila za maandishi wazi kwenye LSASS** (Local Security Authority Subsystem Service). Mshambuliaji anaweza kutumia Mimikatz kuchimba **kibali hizi** kwa kutekeleza:
+Protokali ya [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396), iliyozinduliwa na Windows XP, imeundwa kwa ajili ya uthibitishaji kupitia Protokali ya HTTP na **imewezeshwa kwa default kwenye Windows XP hadi Windows 8.0 na Windows Server 2003 hadi Windows Server 2012**. Mpangilio huu wa default unapelekea **hifadhi ya nywila katika maandiko ya wazi kwenye LSASS** (Huduma ya Mamlaka ya Usalama wa Mitaa). Mshambuliaji anaweza kutumia Mimikatz ili **kuchota hizi akidi** kwa kutekeleza:
 ```bash
 sekurlsa::wdigest
 ```
-Ili **kuamsha au kulemaza kipengele hiki**, funguo za usajili za _**UseLogonCredential**_ na _**Negotiate**_ ndani ya _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ lazima ziwekwe kuwa "1". Ikiwa funguo hizi ziko **hazipo au zimewekwa kuwa "0"**, WDigest **imelemazwa**:
+Ili **kuwasha au kuzima kipengele hiki**, funguo za rejista _**UseLogonCredential**_ na _**Negotiate**_ ndani ya _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ lazima ziwe zimewekwa kuwa "1". Ikiwa funguo hizi **hazipo au zimewekwa kuwa "0"**, WDigest ime **zimwa**:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
-## Ulindaji wa LSA
+## LSA Protection
 
-Kuanzia **Windows 8.1**, Microsoft iliimarisha usalama wa LSA ili **kuzuia kusoma kwa kumbukumbu au uingizaji wa nambari usiohalali na michakato isiyosadikika**. Kuboresha hii inazuia utendaji wa kawaida wa amri kama vile `mimikatz.exe sekurlsa:logonpasswords`. Ili **kuwezesha ulinzi ulioimarishwa huu**, thamani ya _**RunAsPPL**_ katika _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ inapaswa kurekebishwa kuwa 1:
+Kuanzia na **Windows 8.1**, Microsoft iliboresha usalama wa LSA ili **kuzuia usomaji wa kumbukumbu zisizoidhinishwa au sindikizo la msimbo na michakato isiyoaminika**. Uboreshaji huu unakwamisha utendaji wa kawaida wa amri kama `mimikatz.exe sekurlsa:logonpasswords`. Ili **kuwezesha ulinzi huu ulioimarishwa**, thamani ya _**RunAsPPL**_ katika _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ inapaswa kubadilishwa kuwa 1:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
-### Kupita
+### Bypass
 
-Inawezekana kukiuka ulinzi huu kwa kutumia dereva wa Mimikatz mimidrv.sys:
+Inapowezekana kupita ulinzi huu kwa kutumia Mimikatz driver mimidrv.sys:
 
 ![](../../.gitbook/assets/mimidrv.png)
 
-## Mlinzi wa Anwani
+## Credential Guard
 
-**Mlinzi wa Anwani**, kipengele pekee kwa **Windows 10 (toleo la Enterprise na la Elimu)**, huzidisha usalama wa anwani za mashine kwa kutumia **Hali Salama ya Kivitual (VSM)** na **Usalama Uliotokana na Kivitualizesheni (VBS)**. Inatumia nyongeza za kivitualizesheni za CPU kwa kufunga michakato muhimu ndani ya nafasi salama ya kumbukumbu, mbali na kufikia kwa mfumo wa uendeshaji wa kuu. Kufungwa huku kunahakikisha hata kernel haiwezi kufikia kumbukumbu katika VSM, ikilinda anwani za mashine kutokana na mashambulizi kama vile **pita-neno-la-hash**. **Mamlaka ya Usalama wa Ndani (LSA)** inafanya kazi ndani ya mazingira haya salama kama trustlet, wakati mchakato wa **LSASS** katika mfumo wa uendeshaji wa kuu unafanya kazi kama mawasiliano tu na LSA ya VSM.
+**Credential Guard**, kipengele ambacho ni maalum kwa **Windows 10 (Enterprise na Education editions)**, kinaongeza usalama wa akidi za mashine kwa kutumia **Virtual Secure Mode (VSM)** na **Virtualization Based Security (VBS)**. Kinatumia nyongeza za virtualisasi za CPU kutenga michakato muhimu ndani ya nafasi ya kumbukumbu iliyo salama, mbali na ufikiaji wa mfumo wa uendeshaji mkuu. Kutengwa huku kunahakikisha kwamba hata kernel haiwezi kufikia kumbukumbu katika VSM, kwa ufanisi ikilinda akidi kutokana na mashambulizi kama **pass-the-hash**. **Local Security Authority (LSA)** inafanya kazi ndani ya mazingira haya salama kama trustlet, wakati mchakato wa **LSASS** katika OS kuu unafanya kazi kama mwasiliani tu na LSA ya VSM.
 
-Kwa chaguo-msingi, **Mlinzi wa Anwani** haujaamilishwa na inahitaji kuamilishwa kwa mikono ndani ya shirika. Ni muhimu kwa kuzidisha usalama dhidi ya zana kama **Mimikatz**, ambazo zinakwamishwa katika uwezo wao wa kutoa anwani za mashine. Hata hivyo, udhaifu unaweza bado kutumiwa kupitia kuongeza **Watoa Msaada wa Usalama (SSP)** za kibinafsi ili kukamata anwani za mashine kwa maandishi wazi wakati wa jaribio la kuingia.
+Kwa kawaida, **Credential Guard** haifanyi kazi na inahitaji kuamshwa kwa mikono ndani ya shirika. Ni muhimu kwa kuongeza usalama dhidi ya zana kama **Mimikatz**, ambazo zinakabiliwa na uwezo wao wa kutoa akidi. Hata hivyo, udhaifu bado unaweza kutumiwa kupitia kuongeza **Security Support Providers (SSP)** za kawaida ili kukamata akidi katika maandiko wazi wakati wa majaribio ya kuingia.
 
-Ili kuthibitisha hali ya uamilishaji wa **Mlinzi wa Anwani**, funguo ya usajili _**LsaCfgFlags**_ chini ya _**HKLM\System\CurrentControlSet\Control\LSA**_ inaweza kukaguliwa. Thamani ya "**1**" inaonyesha uamilishaji na **ufunguo wa UEFI**, "**2**" bila funguo, na "**0**" inaonyesha kuwa haijaamilishwa. Ukaguzi huu wa usajili, ingawa ni ishara imara, si hatua pekee ya kuamilisha Mlinzi wa Anwani. Miongozo kamili na script ya PowerShell kwa kuamilisha kipengele hiki zinapatikana mtandaoni.
+Ili kuthibitisha hali ya uanzishaji wa **Credential Guard**, funguo ya rejista _**LsaCfgFlags**_ chini ya _**HKLM\System\CurrentControlSet\Control\LSA**_ inaweza kukaguliwa. Thamani ya "**1**" inaonyesha uanzishaji na **UEFI lock**, "**2**" bila lock, na "**0**" inaashiria haijawashwa. Ukaguzi huu wa rejista, ingawa ni kiashiria kizuri, si hatua pekee ya kuamsha Credential Guard. Mwongozo wa kina na skripti ya PowerShell ya kuamsha kipengele hiki zinapatikana mtandaoni.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
-Kwa uelewa kamili na maagizo ya kuwezesha **Guard ya Sifa** kwenye Windows 10 na uanzishaji wake wa moja kwa moja kwenye mifumo inayoweza kufanya kazi ya **Windows 11 Enterprise na Education (toleo 22H2)**, tembelea [hati ya Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
+Kwa ufahamu wa kina na maelekezo juu ya kuwezesha **Credential Guard** katika Windows 10 na uanzishaji wake wa kiotomatiki katika mifumo inayofaa ya **Windows 11 Enterprise na Education (toleo 22H2)**, tembelea [nyaraka za Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
-Maelezo zaidi kuhusu utekelezaji wa SSPs za desturi kwa ajili ya kukamata sifa zinapatikana katika [mwongozo huu](../active-directory-methodology/custom-ssp.md).
+Maelezo zaidi juu ya kutekeleza SSPs za kawaida kwa ajili ya kukamata akidi yanapatikana katika [hiki kiongozi](../active-directory-methodology/custom-ssp.md).
 
-## Hali ya RDP ya RestrictedAdmin
+## RDP RestrictedAdmin Mode
 
-**Windows 8.1 na Windows Server 2012 R2** iliingiza vipengele vingi vipya vya usalama, ikiwa ni pamoja na _**Hali ya Msimamizi iliyozuiwa kwa RDP**_. Hali hii ililenga kuboresha usalama kwa kupunguza hatari zinazohusiana na mashambulizi ya [**pita hash**](https://blog.ahasayen.com/pass-the-hash/).
+**Windows 8.1 na Windows Server 2012 R2** zilileta vipengele vingi vipya vya usalama, ikiwa ni pamoja na _**Restricted Admin mode kwa RDP**_. Hali hii ilipangwa kuboresha usalama kwa kupunguza hatari zinazohusiana na [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/) mashambulizi.
 
-Kawaida, unapojiunganisha kwenye kompyuta ya mbali kupitia RDP, sifa zako huhifadhiwa kwenye kompyuta ya lengo. Hii inaleta hatari kubwa ya usalama, hasa unapotumia akaunti zenye mamlaka ya juu. Hata hivyo, kwa kuanzishwa kwa _**Hali ya Msimamizi iliyozuiwa**_, hatari hii inapunguzwa sana.
+Kawaida, unapounganisha na kompyuta ya mbali kupitia RDP, akidi zako zinahifadhiwa kwenye mashine lengwa. Hii inatoa hatari kubwa ya usalama, hasa unapokuwa ukitumia akaunti zenye mamlaka ya juu. Hata hivyo, kwa kuanzishwa kwa _**Restricted Admin mode**_, hatari hii inapunguzwa kwa kiasi kikubwa.
 
-Unapozindua uhusiano wa RDP kwa kutumia amri **mstsc.exe /RestrictedAdmin**, uthibitisho kwa kompyuta ya mbali hufanyika bila kuhifadhi sifa zako kwenye kompyuta hiyo. Hatua hii inahakikisha kwamba, katika tukio la maambukizi ya zisizo au ikiwa mtumiaji mhalifu anapata ufikiaji kwenye seva ya mbali, sifa zako hazitatishiwi, kwani hazihifadhiwi kwenye seva.
+Wakati wa kuanzisha muunganisho wa RDP kwa kutumia amri **mstsc.exe /RestrictedAdmin**, uthibitishaji wa kompyuta ya mbali unafanywa bila kuhifadhi akidi zako kwenye hiyo. Njia hii inahakikisha kwamba, katika tukio la maambukizi ya programu hasidi au ikiwa mtumiaji mbaya atapata ufikiaji wa seva ya mbali, akidi zako hazitakuwa hatarini, kwani hazihifadhiwi kwenye seva.
 
-Ni muhimu kutambua kwamba katika **Hali ya Msimamizi iliyozuiwa**, jaribio la kupata rasilimali za mtandao kutoka kwenye kikao cha RDP halitatumia sifa zako binafsi; badala yake, **kitambulisho cha mashine** hutumiwa.
+Ni muhimu kutambua kwamba katika **Restricted Admin mode**, juhudi za kufikia rasilimali za mtandao kutoka kwenye kikao cha RDP hazitatumia akidi zako binafsi; badala yake, **utambulisho wa mashine** unatumika.
 
-Kipengele hiki kinaashiria hatua kubwa mbele katika kusimamia uhusiano wa desktop za mbali na kulinda habari nyeti isifichuliwe katika kesi ya uvunjaji wa usalama.
+Kipengele hiki kinatoa hatua muhimu mbele katika kulinda muunganisho wa desktop ya mbali na kulinda taarifa nyeti zisifichuliwe katika tukio la uvunjaji wa usalama.
 
 ![](../../.gitbook/assets/RAM.png)
 
 Kwa maelezo zaidi tembelea [rasilimali hii](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
-## Sifa Zilizohifadhiwa
+## Cached Credentials
 
-Windows inalinda **sifa za uwanja** kupitia **Mamlaka ya Usalama wa Ndani (LSA)**, ikisaidia mchakato wa kuingia kwa itifaki za usalama kama **Kerberos** na **NTLM**. Kipengele muhimu cha Windows ni uwezo wake wa kuhifadhi **kuingia kwa uwanja kumi uliopita** ili kuhakikisha watumiaji wanaweza bado kupata kompyuta zao hata kama **mudhibiti wa uwanja yuko nje ya mtandao** - faida kwa watumiaji wa kompyuta za mkononi mara nyingi mbali na mtandao wa kampuni yao.
+Windows inalinda **akidi za kikoa** kupitia **Local Security Authority (LSA)**, ikisaidia michakato ya kuingia kwa kutumia itifaki za usalama kama **Kerberos** na **NTLM**. Kipengele muhimu cha Windows ni uwezo wake wa kuhifadhi **kuingia kwa kikoa kumi za mwisho** ili kuhakikisha watumiaji wanaweza kuendelea kufikia kompyuta zao hata kama **kikundi cha kudhibiti kikoa kiko offline**—faida kwa watumiaji wa laptop ambao mara nyingi wako mbali na mtandao wa kampuni yao.
 
-Idadi ya kuingia zilizohifadhiwa inaweza kubadilishwa kupitia **funguo maalum za usajili au sera ya kikundi**. Ili kuona au kubadilisha mipangilio hii, amri ifuatayo hutumiwa:
+Idadi ya kuingia zilizohifadhiwa inaweza kubadilishwa kupitia **funguo maalum za rejista au sera ya kikundi**. Ili kuona au kubadilisha mipangilio hii, amri ifuatayo inatumika:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-Upatikanaji wa siri za siri hizi umedhibitiwa kwa karibu, na akaunti ya **SYSTEM** pekee ina ruhusa muhimu ya kuziona. Waendeshaji wanaohitaji kupata habari hii lazima wafanye hivyo kwa ruhusa za mtumiaji wa SYSTEM. Siri hizi zimehifadhiwa kwenye: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+Access to these cached credentials is tightly controlled, with only the **SYSTEM** account having the necessary permissions to view them. Administrators needing to access this information must do so with SYSTEM user privileges. The credentials are stored at: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-**Mimikatz** inaweza kutumika kuchimbua siri za siri hizi zilizohifadhiwa kwa kutumia amri `lsadump::cache`.
+**Mimikatz** can be employed to extract these cached credentials using the command `lsadump::cache`.
 
-Kwa maelezo zaidi, chanzo cha asili [kinatoa](http://juggernaut.wikidot.com/cached-credentials) habari kamili.
+For further details, the original [source](http://juggernaut.wikidot.com/cached-credentials) provides comprehensive information.
 
-## Watumiaji Waliohifadhiwa
+## Protected Users
 
-Uanachama katika kikundi cha **Watumiaji Waliohifadhiwa** unaweka nyongeza kadhaa za usalama kwa watumiaji, ikihakikisha viwango vya juu vya ulinzi dhidi ya wizi na matumizi mabaya ya siri:
+Membership in the **Protected Users group** introduces several security enhancements for users, ensuring higher levels of protection against credential theft and misuse:
 
-* **Utekelezaji wa Siri (CredSSP)**: Hata kama mipangilio ya Sera ya Kikundi kwa **Kuruhusu kutekeleza siri za msingi** imeanzishwa, siri za maandishi wazi za Watumiaji Waliohifadhiwa hazitahifadhiwa.
-* **Windows Digest**: Kuanzia **Windows 8.1 na Windows Server 2012 R2**, mfumo hautahifadhi siri za maandishi wazi za Watumiaji Waliohifadhiwa, bila kujali hali ya Windows Digest.
-* **NTLM**: Mfumo hautahifadhi siri za maandishi wazi za Watumiaji Waliohifadhiwa au kazi za NT one-way (NTOWF).
-* **Kerberos**: Kwa Watumiaji Waliohifadhiwa, uthibitisho wa Kerberos hautazalisha funguo za **DES** au **RC4**, wala hautahifadhi siri za maandishi wazi au funguo za muda mrefu zaidi ya kupata Tiketi ya Kutoa Tiketi ya Kuingia (TGT) ya awali.
-* **Ingia Nje ya Mtandao**: Watumiaji Waliohifadhiwa hawatapata uthibitishaji uliohifadhiwa ulioanzishwa wakati wa kuingia au kufungua, maana ingia nje ya mtandao haiungi mkono akaunti hizi.
+* **Credential Delegation (CredSSP)**: Hata kama mipangilio ya Sera ya Kundi kwa **Ruhusu kuhamasisha akiba ya kawaida** imewezeshwa, akiba ya maandiko ya kawaida ya Watumiaji Waliohifadhiwa haitahifadhiwa.
+* **Windows Digest**: Kuanzia **Windows 8.1 na Windows Server 2012 R2**, mfumo hautahifadhi akiba ya maandiko ya kawaida ya Watumiaji Waliohifadhiwa, bila kujali hali ya Windows Digest.
+* **NTLM**: Mfumo hautahifadhi akiba ya maandiko ya kawaida ya Watumiaji Waliohifadhiwa au kazi za upande mmoja za NT (NTOWF).
+* **Kerberos**: Kwa Watumiaji Waliohifadhiwa, uthibitishaji wa Kerberos hautazalisha **DES** au **RC4 keys**, wala hautahifadhi akiba ya maandiko ya kawaida au funguo za muda mrefu zaidi ya upatikanaji wa Tiketi ya Kutoa Tiketi (TGT) ya awali.
+* **Offline Sign-In**: Watumiaji Waliohifadhiwa hawatakuwa na mthibitishaji wa akiba ulioundwa wakati wa kuingia au kufungua, ikimaanisha kuwa kuingia bila mtandao hakusaidiwi kwa akaunti hizi.
 
-Kinga hizi zinaanzishwa mara tu mtumiaji, ambaye ni mwanachama wa kikundi cha **Watumiaji Waliohifadhiwa**, anapoingia kwenye kifaa. Hii inahakikisha kuwa hatua muhimu za usalama zimewekwa kulinda dhidi ya njia mbalimbali za kudhoofisha siri.
+These protections are activated the moment a user, who is a member of the **Protected Users group**, signs into the device. This ensures that critical security measures are in place to safeguard against various methods of credential compromise.
 
-Kwa maelezo zaidi, tafadhali angalia [nyaraka](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group) rasmi.
+For more detailed information, consult the official [documentation](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
-**Jedwali kutoka** [**nyaraka**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Table from** [**the docs**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |
@@ -116,3 +117,18 @@ Kwa maelezo zaidi, tafadhali angalia [nyaraka](https://docs.microsoft.com/en-us/
 | Replicator              | Replicator               | Replicator                                                                    | Replicator                   |
 | Schema Admins           | Schema Admins            | Schema Admins                                                                 | Schema Admins                |
 | Server Operators        | Server Operators         | Server Operators                                                              | Server Operators             |
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

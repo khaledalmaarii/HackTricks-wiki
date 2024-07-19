@@ -1,76 +1,78 @@
-# Kuvunja Vifaa
+# Hardware Hacking
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuvunja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvunja kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## JTAG
 
-JTAG inaruhusu kufanya uchunguzi wa mpaka. Uchunguzi wa mpaka unachambua mzunguko fulani, ikiwa ni pamoja na seli za uchunguzi wa mpaka zilizojumuishwa na rejista kwa kila pin.
+JTAG inaruhusu kufanya uchambuzi wa mipaka. Uchambuzi wa mipaka unachambua mzunguko fulani, ikiwa ni pamoja na seli za mipaka zilizojumuishwa na register kwa kila pini.
 
-Kiwango cha JTAG kinadefini **maagizo maalum ya kufanya uchunguzi wa mpaka**, ikiwa ni pamoja na yafuatayo:
+Standards ya JTAG inafafanua **amri maalum za kufanya uchambuzi wa mipaka**, ikiwa ni pamoja na yafuatayo:
 
-* **BYPASS** inaruhusu kujaribu chip maalum bila gharama ya kupitia chips zingine.
-* **SAMPLE/PRELOAD** inachukua sampuli ya data inayoingia na kutoka kifaa wakati kinafanya kazi kawaida.
+* **BYPASS** inakuwezesha kujaribu chip maalum bila mzigo wa kupita kupitia chips nyingine.
+* **SAMPLE/PRELOAD** inachukua sampuli ya data inayingia na kutoka kwenye kifaa wakati kiko katika hali yake ya kawaida ya kufanya kazi.
 * **EXTEST** inaweka na kusoma hali za pini.
 
-Pia inaweza kusaidia maagizo mengine kama vile:
+Inaweza pia kusaidia amri nyingine kama:
 
 * **IDCODE** kwa kutambua kifaa
-* **INTEST** kwa uchunguzi wa ndani wa kifaa
+* **INTEST** kwa majaribio ya ndani ya kifaa
 
-Unaweza kukutana na maagizo haya unapotumia chombo kama JTAGulator.
+Unaweza kukutana na maelekezo haya unapokuwa ukitumia chombo kama JTAGulator.
 
-### Bandari ya Upatikanaji wa Mtihani
+### The Test Access Port
 
-Uchunguzi wa mpaka unajumuisha vipimo vya **Bandari ya Upatikanaji wa Mtihani (TAP)** ya nyaya nne, bandari ya matumizi ya jumla inayotoa **upatikanaji wa kusaidia mtihani wa JTAG** iliyojengwa ndani ya sehemu. TAP hutumia ishara tano zifuatazo:
+Uchambuzi wa mipaka unajumuisha majaribio ya **Test Access Port (TAP)** ya nyaya nne, bandari ya matumizi ya jumla inayotoa **ufikiaji wa kazi za msaada wa mtihani wa JTAG** zilizojumuishwa katika kipengee. TAP inatumia ishara tano zifuatazo:
 
-* Kuingiza saa ya mtihani (**TCK**) TCK ni **saa** inayoeleza mara ngapi kudhibiti kifaa cha TAP kitachukua hatua moja (yaani, kwenda hatua inayofuata katika mashine ya hali).
-* Kuchagua hali ya mtihani (**TMS**) Kuingiza TMS inadhibiti **mashine ya hali ya mwisho**. Kila wakati wa saa, kudhibiti cha TAP cha kifaa huchunguza voltage kwenye pini ya TMS. Ikiwa voltage iko chini ya kizingiti fulani, ishara inachukuliwa kuwa chini na kufasiriwa kama 0, wakati ikiwa voltage iko juu ya kizingiti fulani, ishara inachukuliwa kuwa juu na kufasiriwa kama 1.
-* Kuingiza data ya mtihani (**TDI**) TDI ni pini inayotuma **data ndani ya chip kupitia seli za uchunguzi**. Kila muuzaji anahusika na kufafanua itifaki ya mawasiliano kupitia pini hii, kwa sababu JTAG haidefinishi hii.
-* Kutoa data ya mtihani (**TDO**) TDO ni pini inayotuma **data nje ya chip**.
-* Kuingiza upya mtihani (**TRST**) Kuingiza TRST inarejesha **mashine ya hali ya mwisho** kwa hali nzuri inayojulikana. Vinginevyo, ikiwa TMS inashikiliwa kwa 1 kwa mizunguko mitano ya saa, inaita upya, kama ilivyo kwa pini ya TRST, ndio sababu TRST ni hiari.
+* Ingizo la saa ya mtihani (**TCK**) TCK ni **saa** inayofafanua mara ngapi kidhibiti cha TAP kitachukua hatua moja (kwa maneno mengine, kuruka hadi hali inayofuata katika mashine ya hali).
+* Ingizo la kuchagua hali ya mtihani (**TMS**) TMS inasimamia **mashine ya hali ya mwisho**. Kila wakati wa saa, kidhibiti cha JTAG TAP cha kifaa kinachunguza voltage kwenye pini ya TMS. Ikiwa voltage iko chini ya kigezo fulani, ishara inachukuliwa kuwa ya chini na kutafsiriwa kama 0, wakati voltage ikiwa juu ya kigezo fulani, ishara inachukuliwa kuwa ya juu na kutafsiriwa kama 1.
+* Ingizo la data ya mtihani (**TDI**) TDI ni pini inayotuma **data ndani ya chip kupitia seli za uchambuzi**. Kila muuzaji anawajibika kufafanua itifaki ya mawasiliano kupitia pini hii, kwa sababu JTAG haifafanui hii.
+* Ingizo la data ya mtihani (**TDO**) TDO ni pini inayotuma **data nje ya chip**.
+* Ingizo la kurekebisha mtihani (**TRST**) TRST ya hiari inarekebisha mashine ya hali ya mwisho **hadi hali nzuri inayojulikana**. Vinginevyo, ikiwa TMS inashikiliwa kwenye 1 kwa mizunguko mitano mfululizo ya saa, inasababisha kurekebisha, kwa njia ile ile ambayo pini ya TRST ingefanya, ndiyo maana TRST ni ya hiari.
 
-Maranyingi utaweza kupata pini hizo zilizowekwa alama kwenye PCB. Katika hali zingine unaweza kuhitaji **kuzipata**.
+Wakati mwingine utaweza kupata pini hizo zimeandikwa kwenye PCB. Katika matukio mengine unaweza kuhitaji **kuzipata**.
 
-### Kutambua Pini za JTAG
+### Identifying JTAG pins
 
-Njia ya haraka lakini ghali zaidi ya kugundua bandari za JTAG ni kwa kutumia **JTAGulator**, kifaa kilichoundwa kwa kusudi hili (ingawa inaweza **pia kugundua mipangilio ya UART**).
+Njia ya haraka lakini ya gharama kubwa kugundua bandari za JTAG ni kwa kutumia **JTAGulator**, kifaa kilichoundwa mahsusi kwa ajili ya kusudi hili (ingawa pia kinaweza **gundua pinouts za UART**).
 
-Ina **vituo 24** unaweza kuunganisha kwenye pini za bodi. Kisha inafanya **shambulio la BF** la mchanganyiko wote uwezekanao kutuma maagizo ya uchunguzi wa mpaka ya **IDCODE** na **BYPASS**. Ikiipokea majibu, inaonyesha kituo kinacholingana na kila ishara ya JTAG
+Ina **channels 24** ambazo unaweza kuunganisha na pini za bodi. Kisha inafanya **shambulio la BF** la mchanganyiko wote wanaowezekana ikituma amri za uchambuzi wa mipaka **IDCODE** na **BYPASS**. Ikiwa inapokea jibu, inaonyesha channel inayolingana na kila ishara ya JTAG.
 
-Njia nafuu lakini polepole zaidi ya kutambua mipangilio ya pini za JTAG ni kwa kutumia [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) iliyopakiwa kwenye kichapishi kinachoweza kufanana na Arduino.
+Njia ya bei nafuu lakini ya polepole zaidi ya kutambua pinouts za JTAG ni kwa kutumia [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) iliyopakuliwa kwenye microcontroller inayofaa na Arduino.
 
-Kwa kutumia **JTAGenum**, kwanza ungehitaji **kufafanua pini za kifaa cha uchunguzi** utakazotumia kwa uorodheshaji. Ungehitaji kurejelea ramani ya pini ya kifaa, kisha kuunganisha pini hizi na alama za majaribio kwenye kifaa chako lengwa.
+Kwa kutumia **JTAGenum**, kwanza ungetakiwa **kufafanua pini za kifaa cha uchunguzi** ambacho utatumia kwa ajili ya kuhesabu. Ungetakiwa kurejelea mchoro wa pinout wa kifaa, kisha kuunganisha hizi pini na maeneo ya mtihani kwenye kifaa chako cha lengo.
 
-Njia **ya tatu** ya kutambua pini za JTAG ni kwa **kuchunguza PCB** kwa moja ya mipangilio ya pini. Katika hali zingine, PCB inaweza kutoa **interface ya Tag-Connect** kwa urahisi, ambayo ni ishara wazi kwamba bodi ina kifaa cha JTAG, pia. Unaweza kuona jinsi interface hiyo inavyoonekana kwenye [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Aidha, kuchunguza **datasheets za chipsets kwenye PCB** kunaweza kufunua ramani za pini zinazoashiria viunganishi vya JTAG.
+Njia **ya tatu** ya kutambua pini za JTAG ni kwa **kuangalia PCB** kwa moja ya pinouts. Katika baadhi ya matukio, PCB zinaweza kutoa **kiunganishi cha Tag-Connect**, ambacho ni dalili wazi kwamba bodi ina kiunganishi cha JTAG pia. Unaweza kuona jinsi kiunganishi hicho kinavyoonekana kwenye [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Zaidi ya hayo, kuangalia **karatasi za data za chipsets kwenye PCB** kunaweza kufichua michoro ya pinout inayotaja viunganishi vya JTAG.
 
 ## SDW
 
-SWD ni itifaki maalum ya ARM iliyoundwa kwa ajili ya kudebugi.
+SWD ni itifaki maalum ya ARM iliyoundwa kwa ajili ya ufuatiliaji.
 
-Interface ya SWD inahitaji **pini mbili**: ishara ya **SWDIO** inayoweza kubadilishana, ambayo ni sawa na pini za **TDI na TDO za JTAG na saa**, na **SWCLK**, ambayo ni sawa na **TCK** katika JTAG. Vifaa vingi vinaweza kusaidia **Bandari ya Upatikanaji wa Mfululizo au Debug ya JTAG (SWJ-DP)**, interface iliyounganisha JTAG na SWD inayokuwezesha kuunganisha kitanzi cha SWD au JTAG kwenye lengo. 
+Kiunganishi cha SWD kinahitaji **pini mbili**: ishara ya **SWDIO** inayoweza kuelekezwa, ambayo ni sawa na pini za **TDI na TDO za JTAG** na saa, na **SWCLK**, ambayo ni sawa na **TCK** katika JTAG. Vifaa vingi vinasaidia **Bandari ya Ufuatiliaji wa Nyaya au JTAG (SWJ-DP)**, kiunganishi kilichounganisha JTAG na SWD kinachokuwezesha kuunganisha probe ya SWD au JTAG kwenye lengo.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuvunja AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvunja kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,172 +1,174 @@
 # Cheat Engine
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) ni programu muhimu ya kutafuta mahali ambapo thamani muhimu zimehifadhiwa ndani ya kumbukumbu ya mchezo unaoendelea na kuzibadilisha.\
-Unapoidownload na kuikimbia, unapewa **mafunzo** ya jinsi ya kutumia zana hiyo. Ikiwa unataka kujifunza jinsi ya kutumia zana hiyo, ni vyema kumaliza mafunzo hayo.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) ni programu muhimu ya kupata mahali ambapo thamani muhimu zimehifadhiwa ndani ya kumbukumbu ya mchezo unaoendelea na kuzibadilisha.\
+Unaposhusha na kuendesha, unapata **mafunzo** ya jinsi ya kutumia chombo hicho. Ikiwa unataka kujifunza jinsi ya kutumia chombo hicho, inashauriwa kukamilisha.
 
-## Unachotafuta ni nini?
+## Unatafuta nini?
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Zana hii ni muhimu sana kwa kutafuta **mahali ambapo thamani fulani** (kawaida nambari) **imehifadhiwa kwenye kumbukumbu** ya programu.\
-**Kawaida nambari** zimehifadhiwa kwa **muundo wa 4bytes**, lakini unaweza pia kuzipata kwa muundo wa **double** au **float**, au unaweza kutaka kutafuta kitu **tofauti na nambari**. Kwa sababu hiyo ni muhimu kuhakikisha unachagua unachotaka **kutafuta**:
+Chombo hiki ni muhimu sana kupata **mahali ambapo thamani fulani** (kawaida ni nambari) **imehifadhiwa katika kumbukumbu** ya programu.\
+**Kawaida nambari** huhifadhiwa katika **4bytes** fomu, lakini unaweza pia kuziona katika **double** au **float** fomati, au unaweza kutaka kutafuta kitu **tofauti na nambari**. Kwa sababu hiyo unahitaji kuwa na uhakika unachagua kile unachotaka **kutafuta**:
 
 ![](<../../.gitbook/assets/image (324).png>)
 
-Pia unaweza kueleza **aina tofauti** za **utafutaji**:
+Pia unaweza kuashiria **aina tofauti** za **tafiti**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
-Unaweza pia kuchagua sanduku la **kusitisha mchezo wakati wa kutafuta kumbukumbu**:
+Unaweza pia kuangalia kisanduku ili **kusitisha mchezo wakati wa kuskania kumbukumbu**:
 
 ![](<../../.gitbook/assets/image (1052).png>)
 
-### Vitufe vya Haraka
+### Hotkeys
 
-Katika _**Hariri --> Vipangilio --> Vitufe vya Haraka**_ unaweza kuweka **vitufe vya haraka** tofauti kwa madhumuni tofauti kama **kusitisha** **mchezo** (ambao ni muhimu ikiwa wakati fulani unataka kutafuta kumbukumbu). Chaguo nyingine zinapatikana:
+Katika _**Edit --> Settings --> Hotkeys**_ unaweza kuweka **hotkeys** tofauti kwa madhumuni tofauti kama **kusitisha** **mchezo** (ambayo ni muhimu sana ikiwa kwa wakati fulani unataka kuskania kumbukumbu). Chaguzi nyingine zinapatikana:
 
 ![](<../../.gitbook/assets/image (864).png>)
 
 ## Kubadilisha thamani
 
-Marafiki **umepata** mahali **thamani** unayoitafuta (zaidi kuhusu hili katika hatua zifuatazo) unaweza **kuibadilisha** kwa kubofya mara mbili, kisha bofya mara mbili thamani yake:
+Mara tu unapokuwa **umepata** mahali ambapo **thamani** unayotafuta iko (zaidi kuhusu hii katika hatua zinazofuata) unaweza **kuibadilisha** kwa kubofya mara mbili, kisha kubofya mara mbili kwenye thamani yake:
 
 ![](<../../.gitbook/assets/image (563).png>)
 
-Na mwishowe **tia alama ya tiki** ili kufanya mabadiliko kwenye kumbukumbu:
+Na hatimaye **kuweka alama** ili kupata mabadiliko yafanyike katika kumbukumbu:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
-**Mabadiliko** kwenye **kumbukumbu** yatakuwa mara moja **yamefanyika** (tambua kuwa hadi mchezo hautumii tena thamani hii, thamani **haitasasishwa kwenye mchezo**).
+**Mabadiliko** kwa **kumbukumbu** yatatumika mara moja (kumbuka kwamba hadi mchezo usitumie thamani hii tena thamani **haitasasishwa katika mchezo**).
 
 ## Kutafuta thamani
 
-Kwa hivyo, tutachukulia kuwa kuna thamani muhimu (kama maisha ya mtumiaji wako) unayotaka kuboresha, na unatafuta thamani hii kwenye kumbukumbu)
+Hivyo, tutadhani kuna thamani muhimu (kama maisha ya mtumiaji wako) ambayo unataka kuboresha, na unatafuta thamani hii katika kumbukumbu)
 
 ### Kupitia mabadiliko yanayojulikana
 
-Kuchukulia unatafuta thamani 100, unafanya **utafutaji** ukatafuta thamani hiyo na unapata matokeo mengi sawa:
+Tukidhani unatafuta thamani 100, unafanya **scan** ukitafuta thamani hiyo na unapata mengi ya kufanana:
 
 ![](<../../.gitbook/assets/image (108).png>)
 
-Kisha, fanya kitu ili **thamani ibadilike**, na **sitishe** mchezo na **fanya** **utafutaji unaofuata**:
+Kisha, unafanya kitu ili **thamani ibadilike**, na un **asitisha** mchezo na **ufanye** **scan inayofuata**:
 
 ![](<../../.gitbook/assets/image (684).png>)
 
-Cheat Engine itatafuta **thamani** ambazo **zilipita kutoka 100 hadi thamani mpya**. Hongera, **umepata** **anwani** ya thamani uliyokuwa ukiiangalia, sasa unaweza kuibadilisha.\
-_Ikiwa bado una thamani kadhaa, fanya kitu kingine kubadilisha tena thamani hiyo, na fanya "utafutaji unaofuata" mwingine kuchuja anwani._
+Cheat Engine itatafuta **thamani** ambazo **zilipita kutoka 100 hadi thamani mpya**. Hongera, umepata **anwani** ya thamani uliyokuwa unatafuta, sasa unaweza kuibadilisha.\
+_Ikiwa bado una thamani kadhaa, fanya kitu kubadilisha tena thamani hiyo, na fanya "scan inayofuata" ili kuchuja anwani._
 
-### Thamani Isiyojulikana, mabadiliko yanayojulikana
+### Thamani isiyojulikana, mabadiliko yanayojulikana
 
-Katika hali ambayo **hujui thamani** lakini unajua **jinsi ya kufanya ibadilike** (na hata thamani ya mabadiliko) unaweza kutafuta nambari yako.
+Katika hali ambapo **hujui thamani** lakini unajua **jinsi ya kuifanya ibadilike** (na hata thamani ya mabadiliko) unaweza kutafuta nambari yako.
 
-Kwa hivyo, anza kwa kufanya utafutaji wa aina "**Thamani ya awali isiyojulikana**":
+Hivyo, anza kwa kufanya scan ya aina "**Thamani ya mwanzo isiyojulikana**":
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Kisha, badilisha thamani, eleza **jinsi** **thamani** **ilibadilika** (kwa kesi yangu ilipunguzwa kwa 1) na fanya **utafutaji unaofuata**:
+Kisha, fanya thamani ibadilike, onyesha **jinsi** **thamani** **ilibadilika** (katika kesi yangu ilipungua kwa 1) na fanya **scan inayofuata**:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Utapewa **thamani zote zilizobadilishwa kwa njia iliyochaguliwa**:
+Utawasilishwa **na thamani zote ambazo zilibadilishwa kwa njia iliyochaguliwa**:
 
 ![](<../../.gitbook/assets/image (569).png>)
 
-Marafiki unapopata thamani yako, unaweza kuibadilisha.
+Mara tu unapokuwa umepata thamani yako, unaweza kuibadilisha.
 
-Tambua kuwa kuna **mabadiliko mengi yanayowezekana** na unaweza kufanya hatua hizi **kadri unavyotaka** kuchuja matokeo:
+Kumbuka kwamba kuna **mabadiliko mengi yanayowezekana** na unaweza kufanya hatua hizi **kadri unavyotaka** ili kuchuja matokeo:
 
 ![](<../../.gitbook/assets/image (574).png>)
 
-### Anwani ya Kumbukumbu Isiyotabirika - Kupata kanuni
+### Anwani ya Kumbukumbu ya Nasibu - Kupata msimbo
 
-Mpaka sasa tumefunzwa jinsi ya kupata anwani inayohifadhi thamani, lakini ni uwezekano mkubwa kwamba katika **utekelezaji tofauti wa mchezo anwani hiyo iko sehemu tofauti ya kumbukumbu**. Kwa hivyo hebu tujue jinsi ya kupata daima anwani hiyo.
+Hadi sasa tumefundishwa jinsi ya kupata anwani inayohifadhi thamani, lakini ni uwezekano mkubwa kwamba katika **utekelezaji tofauti wa mchezo anwani hiyo iko katika sehemu tofauti za kumbukumbu**. Hivyo hebu tujifunze jinsi ya kila wakati kupata anwani hiyo.
 
-Kwa kutumia mbinu zilizotajwa, pata anwani ambapo mchezo wako wa sasa unahifadhi thamani muhimu. Kisha (kusitisha mchezo ikiwa unataka) fanya **bonyeza kulia** kwenye anwani uliyoipata na chagua "**Pata nini kinachofikia anwani hii**" au "**Pata nini kinachoandika kwenye anwani hii**":
+Tumia baadhi ya hila zilizotajwa, pata anwani ambapo mchezo wako wa sasa unahifadhi thamani muhimu. Kisha (ukisitisha mchezo ikiwa unataka) fanya **kubofya kulia** kwenye **anwani** iliyopatikana na uchague "**Jua ni nani anayeingia kwenye anwani hii**" au "**Jua ni nani anayeandika kwenye anwani hii**":
 
 ![](<../../.gitbook/assets/image (1067).png>)
 
-**Chaguo la kwanza** ni muhimu kujua ni **vipande** vya **kanuni** vinavyotumia **anwani hii** (ambayo ni muhimu kwa mambo zaidi kama **kujua wapi unaweza kubadilisha kanuni** ya mchezo).\
-**Chaguo la pili** ni **maalum zaidi**, na litakuwa na manufaa zaidi katika kesi hii kwani tunataka kujua **kutoka wapi thamani hii inaandikwa**.
+**Chaguo la kwanza** ni muhimu kujua ni **sehemu** gani za **msimbo** zinazo **tumia** **anwani hii** (ambayo ni muhimu kwa mambo mengine kama **kujua wapi unaweza kubadilisha msimbo** wa mchezo).\
+**Chaguo la pili** ni **maalum zaidi**, na litakuwa na msaada zaidi katika kesi hii kwani tunavutiwa kujua **kutoka wapi thamani hii inaandikwa**.
 
-Marafiki unapochagua moja ya chaguo hizo, **mchunguzi** utaunganishwa kwenye programu na dirisha **tupu jipya** litatokea. Sasa, **cheza** mchezo na **badilisha** thamani hiyo (bila kuanzisha upya mchezo). Dirisha hilo linapaswa **kujazwa** na **anwani** zinazobadilisha **thamani**:
+Mara tu unapochagua moja ya chaguzi hizo, **debugger** itakuwa **imeunganishwa** na programu na dirisha jipya **bila maudhui** litajitokeza. Sasa, **cheza** **mchezo** na **badilisha** **thamani hiyo** (bila kuanzisha upya mchezo). **Dirisha** linapaswa kuwa **limejaa** na **anwani** zinazobadilisha **thamani**:
 
 ![](<../../.gitbook/assets/image (91).png>)
 
-Sasa ulipogundua anwani inayobadilisha thamani unaweza **kubadilisha kanuni kwa furaha** (Cheat Engine inakuruhusu kubadilisha kwa NOPs haraka):
+Sasa kwamba umepata anwani inayobadilisha thamani unaweza **kubadilisha msimbo kwa mapenzi yako** (Cheat Engine inakuruhusu kuibadilisha kwa NOPs haraka):
 
 ![](<../../.gitbook/assets/image (1057).png>)
 
-Kwa hivyo, sasa unaweza kuibadilisha ili kanuni isiathiri nambari yako, au itaathiri daima kwa njia chanya.
-### Anwani ya Kumbukumbu Isiyo ya Kawaida - Kupata kielekezi
+Hivyo, sasa unaweza kuibadilisha ili msimbo usiathiri nambari yako, au uathiri kila wakati kwa njia chanya.
 
-Kufuatia hatua zilizopita, pata mahali ambapo thamani unayopendezwa nayo iko. Kisha, kutumia "**Pata ni nani anayeandika kwenye anwani hii**" gundua ni anwani gani inaandika thamani hii na bofya mara mbili ili upate maoni ya kuvunja:
+### Anwani ya Kumbukumbu ya Nasibu - Kupata kiashiria
+
+Kufuata hatua zilizopita, pata mahali ambapo thamani unayovutiwa nayo iko. Kisha, ukitumia "**Jua ni nani anayeandika kwenye anwani hii**" pata ni anwani gani inayoandika thamani hii na ubofye mara mbili ili kupata mtazamo wa disassembly:
 
 ![](<../../.gitbook/assets/image (1039).png>)
 
-Kisha, fanya utafutaji mpya **ukitafuta thamani ya hex kati ya "\[]"** (thamani ya $edx katika kesi hii):
+Kisha, fanya scan mpya **ukitafuta thamani ya hex kati ya "\[]"** (thamani ya $edx katika kesi hii):
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(_Ikiwa zinaonekana kadhaa, kawaida unahitaji ile yenye anwani ndogo zaidi_)\
-Sasa, tumepata **kielekezi ambacho kitabadilisha thamani tunayopendezwa nayo**.
+(_Ikiwa kadhaa zinaonekana kawaida unahitaji ile yenye anwani ndogo zaidi_)\
+Sasa, tumepata **kiashiria ambacho kitakuwa kinabadilisha thamani tunayotaka**.
 
-Bofya "**Ongeza Anwani Manually**":
+Bofya kwenye "**Ongeza Anwani kwa Mkono**":
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Sasa, bofya kisanduku cha "Kielekezi" na ongeza anwani iliyopatikana kwenye sanduku la maandishi (katika hali hii, anwani iliyopatikana kwenye picha iliyopita ilikuwa "Mafunzo-i386.exe"+2426B0):
+Sasa, bofya kwenye kisanduku cha "Kiashiria" na ongeza anwani iliyopatikana katika kisanduku cha maandiko (katika hali hii, anwani iliyopatikana katika picha iliyopita ilikuwa "Tutorial-i386.exe"+2426B0):
 
 ![](<../../.gitbook/assets/image (392).png>)
 
-(Tazama jinsi "Anwani" ya kwanza inavyojazwa moja kwa moja kutoka kwa anwani ya kielekezi unayoingiza)
+(Kumbuka jinsi "Anwani" ya kwanza inajaza kiotomatiki kutoka kwa anwani ya kiashiria unayoingiza)
 
-Bofya OK na kielekezi kipya kitabuniwa:
+Bofya OK na kiashiria kipya kitaundwa:
 
 ![](<../../.gitbook/assets/image (308).png>)
 
-Sasa, kila wakati unabadilisha thamani hiyo un **kubadilisha thamani muhimu hata ikiwa anwani ya kumbukumbu ambapo thamani iko ni tofauti.**
+Sasa, kila wakati unabadilisha thamani hiyo unakuwa **unabadilisha thamani muhimu hata kama anwani ya kumbukumbu ambapo thamani hiyo iko ni tofauti.**
 
-### Uingizaji wa Kanuni
+### Uingizaji wa Msimbo
 
-Uingizaji wa kanuni ni mbinu ambapo unainjekta kipande cha kanuni ndani ya mchakato lengwa, na kisha kurekebisha utekelezaji wa kanuni kwenda kupitia kanuni uliyoandika mwenyewe (kama kukupa alama badala ya kuzipumzisha).
+Uingizaji wa msimbo ni mbinu ambapo unatia kipande cha msimbo katika mchakato wa lengo, na kisha unarudisha utekelezaji wa msimbo ili upite kupitia msimbo wako ulioandikwa (kama kukupa alama badala ya kuziondoa).
 
-Kwa hivyo, wazia umepata anwani inayopunguza 1 kwa maisha ya mchezaji wako:
+Hivyo, fikiria umepata anwani inayopunguza 1 kwa maisha ya mchezaji wako:
 
 ![](<../../.gitbook/assets/image (203).png>)
 
-Bofya Onyesha kuvunja kanuni ili upate **kanuni ya kuvunja**.\
-Kisha, bofya **CTRL+a** kuita dirisha la Kujumuisha moja kwa moja na chagua _**Kiolesura --> Uingizaji wa Kanuni**_
+Bofya onyesha disassembler ili kupata **msimbo wa disassemble**.\
+Kisha, bofya **CTRL+a** ili kuanzisha dirisha la Auto assemble na uchague _**Template --> Code Injection**_
 
 ![](<../../.gitbook/assets/image (902).png>)
 
-Jaza **anwani ya maagizo unayotaka kurekebisha** (kawaida hii hujazwa moja kwa moja):
+Jaza **anwani ya maagizo unayotaka kubadilisha** (hii kawaida inajazwa kiotomatiki):
 
 ![](<../../.gitbook/assets/image (744).png>)
 
-Kiolesura kitabuniwa:
+Kigezo kitaundwa:
 
 ![](<../../.gitbook/assets/image (944).png>)
 
-Kwa hivyo, ingiza kanuni yako mpya ya mkusanyiko katika sehemu ya "**newmem**" na ondoa kanuni ya asili kutoka kwa "**originalcode**" ikiwa hautaki iendelee kutekelezwa\*\*.\*\* Katika mfano huu, kanuni iliyoinjekta itaongeza alama 2 badala ya kupunguza 1:
+Hivyo, ingiza msimbo wako mpya wa assembly katika sehemu ya "**newmem**" na ondolea msimbo wa asili kutoka kwa "**originalcode**" ikiwa hutaki itekelezwe\*\*.\*\* Katika mfano huu msimbo uliotiwa utaongeza alama 2 badala ya kupunguza 1:
 
 ![](<../../.gitbook/assets/image (521).png>)
 
-**Bofya kutekeleza na kadhalika na kanuni yako itapaswa kuingizwa kwenye programu ikibadilisha tabia ya utendaji!**
+**Bofya kwenye tekeleza na kadhalika na msimbo wako unapaswa kuingizwa katika programu ukibadilisha tabia ya kazi hiyo!**
 
-## **Vyanzo**
+## **Marejeleo**
 
-* **Mafunzo ya Cheat Engine, kamilisha ili ujifunze jinsi ya kuanza na Cheat Engine**
+* **Mafunzo ya Cheat Engine, kamilisha ili kujifunza jinsi ya kuanza na Cheat Engine**

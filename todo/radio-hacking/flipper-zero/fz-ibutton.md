@@ -1,46 +1,47 @@
 # FZ - iButton
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Utangulizi
+## Intro
 
-Kwa habari zaidi kuhusu ni nini iButton angalia:
+Kwa maelezo zaidi kuhusu iButton ni nini angalia:
 
 {% content-ref url="../ibutton.md" %}
 [ibutton.md](../ibutton.md)
 {% endcontent-ref %}
 
-## Ubunifu
+## Design
 
-Sehemu ya **buluu** ya picha ifuatayo ni jinsi unavyohitaji **kuweka iButton halisi** ili Flipper iweze **kusoma.** Sehemu ya **kijani** ni jinsi unavyohitaji **kugusa msomaji** na Flipper zero ili **kuiga iButton kwa usahihi.**
+Sehemu ya **bluu** ya picha ifuatayo ni jinsi unavyohitaji **kueka iButton halisi** ili Flipper aweze **kuisoma.** Sehemu ya **kijani** ni jinsi unavyohitaji **kugusa msomaji** na Flipper zero ili **kuiga iButton kwa usahihi**.
 
 <figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
-## Vitendo
+## Actions
 
-### Kusoma
+### Read
 
-Katika Mode ya Kusoma, Flipper inasubiri ufunguo wa iButton kugusa na inaweza kuchakata aina tatu za funguo: **Dallas, Cyfral, na Metakom**. Flipper ita **gundua aina ya funguo yenyewe**. Jina la itifaki ya funguo litakuwa linaonyeshwa kwenye skrini juu ya nambari ya kitambulisho.
+Katika Modu ya Kusoma Flipper anasubiri funguo ya iButton kugusa na anaweza kuchakata aina yoyote ya funguo tatu: **Dallas, Cyfral, na Metakom**. Flipper atajua **aina ya funguo yenyewe**. Jina la protokali ya funguo litakuwa linaonyeshwa kwenye skrini juu ya nambari ya kitambulisho.
 
-### Ongeza kwa mkono
+### Add manually
 
-Inawezekana **kuongeza kwa mkono** iButton ya aina: **Dallas, Cyfral, na Metakom**
+Inawezekana **kuongeza kwa mikono** iButton ya aina: **Dallas, Cyfral, na Metakom**
 
-### **Kuiga**
+### **Emulate**
 
-Inawezekana **kuiga** iButtons zilizohifadhiwa (zilizosomwa au kuongezwa kwa mkono).
+Inawezekana **kuiga** iButtons zilizohifadhiwa (zilizosomwa au zilizoongezwa kwa mikono).
 
 {% hint style="info" %}
 Ikiwa huwezi kufanya mawasiliano yanayotarajiwa ya Flipper Zero kugusa msomaji unaweza **kutumia GPIO ya nje:**
@@ -48,20 +49,21 @@ Ikiwa huwezi kufanya mawasiliano yanayotarajiwa ya Flipper Zero kugusa msomaji u
 
 <figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>
 
-## Marejeo
+## References
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

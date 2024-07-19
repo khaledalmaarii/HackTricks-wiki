@@ -1,43 +1,59 @@
-# Viwango vya Uadilifu
+# Viwango vya Uaminifu
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wame **vamiwa** na **malware za kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **kimeathiriwa** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Viwango vya Uadilifu
+## Viwango vya Uaminifu
 
-Katika Windows Vista na toleo zingine baadaye, vitu vyote vilivyolindwa huja na lebo ya **kiwango cha uadilifu**. Hii inaweka kimsingi kiwango cha uadilifu "wa kati" kwa faili na funguo za usajili, isipokuwa kwa folda na faili fulani ambazo Internet Explorer 7 inaweza kuandika kwa kiwango cha uadilifu wa chini. Tabia ya msingi ni kwamba michakato iliyozinduliwa na watumiaji wa kawaida ina kiwango cha uadilifu wa kati, wakati huduma kwa kawaida hufanya kazi kwa kiwango cha uadilifu wa mfumo. Lebo ya uadilifu wa juu inalinda saraka ya msingi.
+Katika Windows Vista na toleo la baadaye, vitu vyote vilivyolindwa vinakuja na lebo ya **kiwango cha uaminifu**. Mpangilio huu kwa kawaida unatoa kiwango cha "kati" kwa faili na funguo za rejista, isipokuwa kwa folda na faili fulani ambazo Internet Explorer 7 inaweza kuandika kwa kiwango cha chini cha uaminifu. Tabia ya default ni kwamba michakato inayozinduliwa na watumiaji wa kawaida ina kiwango cha kati cha uaminifu, wakati huduma kwa kawaida hufanya kazi kwa kiwango cha uaminifu wa mfumo. Lebo ya uaminifu wa juu inalinda saraka ya mzizi.
 
-Sheria muhimu ni kwamba vitu haviwezi kuhaririwa na michakato yenye kiwango cha uadilifu cha chini kuliko kiwango cha kitu. Viwango vya uadilifu ni:
+Kanuni muhimu ni kwamba vitu haviwezi kubadilishwa na michakato yenye kiwango cha chini cha uaminifu kuliko kiwango cha kitu. Viwango vya uaminifu ni:
 
-* **Isioaminika**: Kiwango hiki ni kwa michakato na kuingia kwa siri. %%%Mfano: Chrome%%%
-* **Chini**: Hasa kwa mwingiliano wa mtandao, hasa katika Hali ya Kulindwa ya Internet Explorer, ikiafikia faili na michakato inayohusiana, na folda fulani kama **Folda ya Mtandao ya Muda**. Michakato ya kiwango cha chini inakabiliwa na vizuizi vikubwa, ikiwa ni pamoja na kutokuwa na ufikivu wa kuandika kwenye usajili na ufikivu mdogo wa kuandika katika wasifu wa mtumiaji.
-* **Kati**: Kiwango cha msingi kwa shughuli nyingi, kikiwekwa kwa watumiaji wa kawaida na vitu bila viwango maalum vya uadilifu. Hata wanachama wa kikundi cha Wasimamizi wanafanya kazi kwa kiwango hiki kwa chaguo-msingi.
-* **Ju
+* **Hauaminika**: Kiwango hiki ni kwa michakato yenye kuingia kwa siri. %%%Mfano: Chrome%%%
+* **Chini**: Kimsingi kwa mwingiliano wa mtandao, hasa katika Modu ya Kulindwa ya Internet Explorer, ikihusisha faili na michakato zinazohusiana, na folda fulani kama **Folda ya Mtandao ya Muda**. Michakato ya uaminifu wa chini inakabiliwa na vizuizi vikubwa, ikiwa ni pamoja na kukosa ufikiaji wa kuandika rejista na ufikiaji mdogo wa kuandika wasifu wa mtumiaji.
+* **Kati**: Kiwango cha default kwa shughuli nyingi, kinachotolewa kwa watumiaji wa kawaida na vitu bila viwango maalum vya uaminifu. Hata wanachama wa kundi la Wasimamizi hufanya kazi kwa kiwango hiki kwa default.
+* **Juu**: Imehifadhiwa kwa wasimamizi, ikiwaruhusu kubadilisha vitu kwa viwango vya chini vya uaminifu, ikiwa ni pamoja na vile vilivyo katika kiwango cha juu mwenyewe.
+* **Mfumo**: Kiwango cha juu zaidi cha uendeshaji kwa kernel ya Windows na huduma za msingi, ambacho hakiwezi kufikiwa hata na wasimamizi, kuhakikisha ulinzi wa kazi muhimu za mfumo.
+* **Installer**: Kiwango cha kipekee ambacho kiko juu ya vingine vyote, kikiruhusu vitu katika kiwango hiki kufuta kitu kingine chochote.
+
+Unaweza kupata kiwango cha uaminifu cha mchakato kwa kutumia **Process Explorer** kutoka **Sysinternals**, ukifungua **mali** ya mchakato na kuangalia tab ya "**Usalama**":
+
+![](<../../.gitbook/assets/image (824).png>)
+
+Unaweza pia kupata **kiwango chako cha uaminifu wa sasa** kwa kutumia `whoami /groups`
+
+![](<../../.gitbook/assets/image (325).png>)
+
+### Viwango vya Uaminifu katika Mfumo wa Faili
+
+Kitu ndani ya mfumo wa faili kinaweza kuhitaji **mahitaji ya kiwango cha chini cha uaminifu** na ikiwa mchakato huna mchakato huu wa uaminifu hautaweza kuingiliana nacho.\
+Kwa mfano, hebu **tufanye faili ya kawaida kutoka kwa konso ya mtumiaji wa kawaida na kuangalia ruhusa**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -48,7 +64,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-Sasa, tuweke kiwango cha chini cha uadilifu kuwa **Kiwango cha Juu** kwa faili. Hii ** lazima ifanyike kutoka kwenye konsoli ** ikifanya kazi kama ** msimamizi ** kwani ** konsoli ya kawaida ** itakuwa ikifanya kazi katika kiwango cha Uadilifu wa Kati na ** haitaruhusiwa ** kuweka kiwango cha Uadilifu cha Juu kwa kitu:
+Sasa, hebu tuweke kiwango cha chini cha uaminifu cha **Juu** kwa faili. Hii **lazima ifanywe kutoka kwenye konso** inayotembea kama **meneja** kwani **konso ya kawaida** itakuwa ikitembea katika kiwango cha Uaminifu wa Kati na **haitaruhusiwa** kuweka kiwango cha Juu cha Uaminifu kwa kitu:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -63,7 +79,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-Hapa ndipo mambo yanapokuwa ya kuvutia. Unaweza kuona kuwa mtumiaji `DESKTOP-IDJHTKP\user` ana **ruhusa KAMILI** juu ya faili (kweli huyu ndiye mtumiaji aliyeunda faili), hata hivyo, kutokana na kiwango cha chini cha uadilifu kilichotekelezwa hataweza tena kuhariri faili isipokuwa akiendesha kwa kiwango cha Uadilifu wa Juu (kumbuka kuwa ataweza kuisoma):
+Hapa ndipo mambo yanakuwa ya kuvutia. Unaweza kuona kwamba mtumiaji `DESKTOP-IDJHTKP\user` ana **haki kamili** juu ya faili (kweli huyu ndiye mtumiaji aliyeunda faili), hata hivyo, kutokana na kiwango cha chini cha uaminifu kilichotekelezwa hatoweza kubadilisha faili tena isipokuwa anapokuwa akifanya kazi ndani ya Kiwango cha Juu cha Uaminifu (zingatia kwamba ataweza kuisoma):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -73,12 +89,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Hivyo basi, wakati faili ina kiwango cha chini cha uadilifu, ili kuibadilisha unahitaji kuendesha angalau katika kiwango hicho cha uadilifu.**
+**Hivyo, wakati faili ina kiwango cha chini cha uaminifu, ili kuibadilisha unahitaji kuwa unafanya kazi angalau katika kiwango hicho cha uaminifu.**
 {% endhint %}
 
-### Viwango vya Uadilifu katika Programu za Binari
+### Viwango vya Uaminifu katika Binaries
 
-Nilifanya nakala ya `cmd.exe` katika `C:\Windows\System32\cmd-low.exe` na kuweka **kiwango cha uadilifu kuwa cha chini kutoka kwenye konsoli ya msimamizi:**
+Nimefanya nakala ya `cmd.exe` katika `C:\Windows\System32\cmd-low.exe` na kuweka kiwango chake cha **uaminifu kuwa wa chini kutoka kwa console ya msimamizi:**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -88,40 +104,41 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-Sasa, ninapoendesha `cmd-low.exe` itakuwa **inaendeshwa chini ya kiwango cha usalama cha chini** badala ya cha kati:
+Sasa, ninapokimbia `cmd-low.exe` itafanya **kazi chini ya kiwango cha chini cha uaminifu** badala ya kiwango cha kati:
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-Kwa watu wenye shauku, ikiwa unaweka kiwango cha juu cha usalama kwa faili (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) haitaendeshwa na kiwango cha juu cha usalama moja kwa moja (ukiitoa kutoka kiwango cha kati cha usalama --kwa chaguo-msingi-- itaendeshwa chini ya kiwango cha kati cha usalama).
+Kwa watu wenye hamu, ikiwa unatoa kiwango cha juu cha uaminifu kwa binary (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) haitafanya kazi kwa kiwango cha juu cha uaminifu moja kwa moja (ikiwa unaitumia kutoka kiwango cha kati cha uaminifu --kwa default-- itafanya kazi chini ya kiwango cha kati cha uaminifu).
 
-### Viwango vya Usalama katika Michakato
+### Viwango vya Uaminifu katika Mchakato
 
-Siyo faili na folda zote zina kiwango cha chini cha usalama, **lakini michakato yote inaendeshwa chini ya kiwango cha usalama**. Na kama ilivyotokea na mfumo wa faili, **ikiwa mchakato unataka kuandika ndani ya mchakato mwingine lazima iwe na angalau kiwango sawa cha usalama**. Hii inamaanisha kwamba mchakato wenye kiwango cha chini cha usalama hawezi kufungua kushughulikia na ufikio kamili wa mchakato wenye kiwango cha kati cha usalama.
+Sio faili na folda zote zina kiwango cha chini cha uaminifu, **lakini mchakato wote unafanya kazi chini ya kiwango cha uaminifu**. Na sawa na kile kilichotokea na mfumo wa faili, **ikiwa mchakato unataka kuandika ndani ya mchakato mwingine lazima uwe na angalau kiwango sawa cha uaminifu**. Hii inamaanisha kwamba mchakato wenye kiwango cha chini cha uaminifu hauwezi kufungua kushughulikia kwa ufikiaji kamili kwa mchakato wenye kiwango cha kati cha uaminifu.
 
-Kutokana na vizuizi vilivyozungumziwa katika sehemu hii na sehemu iliyopita, kutoka mtazamo wa usalama, daima ni **mapendekezo kuendesha mchakato katika kiwango cha chini cha usalama kinachowezekana**.
+Kwa sababu ya vizuizi vilivyotajwa katika sehemu hii na sehemu iliyopita, kutoka kwa mtazamo wa usalama, kila wakati **inapendekezwa kufanya kazi katika kiwango cha chini cha uaminifu kinachowezekana**.
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **kuyumbishwa** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba taarifa.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

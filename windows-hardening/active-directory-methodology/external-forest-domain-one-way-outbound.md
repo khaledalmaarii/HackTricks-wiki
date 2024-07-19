@@ -1,24 +1,25 @@
-# Domainu ya Msitu wa Nje - Moja-Kuelekea (Kuelekea Nje)
+# External Forest Domain - One-Way (Outbound)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Katika hali hii **domainu yako** ina **kuiamini** baadhi ya **madaraka** kwa mkuu kutoka **domainu tofauti**.
+Katika hali hii **domeni yako** in **amini** baadhi ya **mamlaka** kwa kiongozi kutoka **domeni tofauti**.
 
-## Uchambuzi
+## Enumeration
 
-### Uaminifu wa Kuelekea Nje
+### Outbound Trust
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -40,58 +41,59 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-## Shambulizi la Akaunti ya Uaminifu
+## Trust Account Attack
 
-Kuna udhaifu wa usalama unapoanzishwa uhusiano wa uaminifu kati ya udomeni mbili, zilizotambulishwa hapa kama udomeni **A** na udomeni **B**, ambapo udomeni **B** unapanua uaminifu wake kwa udomeni **A**. Katika hali hii, akaunti maalum inaundwa katika udomeni **A** kwa ajili ya udomeni **B**, ambayo inacheza jukumu muhimu katika mchakato wa uwakiki kati ya udomeni hizo mbili. Akaunti hii, inayohusishwa na udomeni **B**, hutumiwa kwa kuficha tiketi za kupata huduma kote katika udomeni hizo.
+Ukiukosefu wa usalama upo wakati uhusiano wa kuaminiana unapoanzishwa kati ya maeneo mawili, ambayo yanatambulika hapa kama eneo **A** na eneo **B**, ambapo eneo **B** linapanua uaminifu wake kwa eneo **A**. Katika mpangilio huu, akaunti maalum inaundwa katika eneo **A** kwa ajili ya eneo **B**, ambayo ina jukumu muhimu katika mchakato wa uthibitishaji kati ya maeneo mawili. Akaunti hii, inayohusishwa na eneo **B**, inatumika kwa ajili ya kuficha tiketi za kupata huduma kati ya maeneo.
 
-Jambo muhimu la kuelewa hapa ni kwamba nenosiri na hash ya akaunti hii maalum inaweza kuchimbuliwa kutoka kwa Msimamizi wa Udomeni katika udomeni **A** kwa kutumia zana ya mstari wa amri. Amri ya kutekeleza hatua hii ni:
+Jambo muhimu kuelewa hapa ni kwamba nenosiri na hash ya akaunti hii maalum yanaweza kutolewa kutoka kwa Kidhibiti cha Eneo katika eneo **A** kwa kutumia zana ya amri. Amri ya kutekeleza kitendo hiki ni:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Uchimbaji huu ni wa kufanikiwa kwa sababu akaunti, iliyojulikana na **$** baada ya jina lake, iko hai na inamilikiwa na kikundi cha "Watumiaji wa Kikoa" cha kikoa **A**, hivyo kurithi ruhusa zinazohusiana na kikundi hiki. Hii inaruhusu watu kuthibitisha dhidi ya kikoa **A** kwa kutumia sifa za akaunti hii.
+Hii uchimbaji inawezekana kwa sababu akaunti, iliyotambulishwa na **$** baada ya jina lake, iko hai na inahusishwa na kundi la "Domain Users" la kikoa **A**, hivyo ikirithi ruhusa zinazohusiana na kundi hili. Hii inawawezesha watu kuthibitisha dhidi ya kikoa **A** wakitumia akidi za akaunti hii.
 
-**Onyo:** Ni rahisi kutumia hali hii kupata msingi katika kikoa **A** kama mtumiaji, ingawa na ruhusa ndogo. Hata hivyo, ufikiaji huu ni wa kutosha kufanya uchambuzi wa kina kwenye kikoa **A**.
+**Warning:** Inawezekana kutumia hali hii kupata msingi katika kikoa **A** kama mtumiaji, ingawa kwa ruhusa zilizopunguzwa. Hata hivyo, ufikiaji huu unatosha kufanya uhesabuji katika kikoa **A**.
 
-Katika hali ambapo `ext.local` ni kikoa kinachotegemewa na `root.local` ni kikoa kinachotegemewa, akaunti ya mtumiaji iitwayo `EXT$` itaundwa ndani ya `root.local`. Kupitia zana maalum, ni rahisi kudondosha funguo za uaminifu za Kerberos, kufunua sifa za `EXT$` katika `root.local`. Amri ya kufanikisha hili ni:
+Katika hali ambapo `ext.local` ni kikoa kinachotegemea na `root.local` ni kikoa kinachotegemewa, akaunti ya mtumiaji iliyoitwa `EXT$` ingekuwa ikiumbwa ndani ya `root.local`. Kupitia zana maalum, inawezekana kutoa funguo za kuaminiana za Kerberos, zikifunua akidi za `EXT$` katika `root.local`. Amri ya kufanikisha hili ni:
 ```bash
 lsadump::trust /patch
 ```
-Kufuatia hili, mtu anaweza kutumia funguo ya RC4 iliyochimbuliwa kujithibitisha kama `root.local\EXT$` ndani ya `root.local` kwa kutumia amri ya zana nyingine:
+Kufuata hili, mtu anaweza kutumia funguo ya RC4 iliyochukuliwa kuthibitisha kama `root.local\EXT$` ndani ya `root.local` kwa kutumia amri ya chombo kingine:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Hatua hii ya uthibitishaji inafungua uwezekano wa kuhesabu na hata kutumia huduma ndani ya `root.local`, kama vile kutekeleza shambulio la Kerberoast kuchimba maelezo ya akaunti ya huduma kwa kutumia:
+Huu hatua ya uthibitishaji inafungua uwezekano wa kuhesabu na hata kutumia huduma ndani ya `root.local`, kama vile kufanya shambulio la Kerberoast ili kutoa akauti za huduma kwa kutumia:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Kukusanya nenosiri la uaminifu wazi
+### Kukusanya nenosiri la kuaminiana la wazi
 
-Katika mchakato uliopita, ilikuwa kutumika hash ya uaminifu badala ya **nenosiri wazi** (ambalo pia lilikuwa **limechimbuliwa na mimikatz**).
+Katika mchakato uliopita, ilitumika hash ya kuaminiana badala ya **nenosiri la wazi** (ambalo pia **lilikuwa limeondolewa na mimikatz**).
 
-Nenosiri wazi linaweza kupatikana kwa kubadilisha pato la \[ CLEAR ] kutoka mimikatz kutoka hexadecimal na kuondoa herufi za sifuri ' \x00 ':
+Nenosiri la wazi linaweza kupatikana kwa kubadilisha \[ CLEAR ] kutoka kwa mimikatz kutoka hexadecimal na kuondoa bytes za null ‘\x00’:
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-Maranyingi wakati wa kuunda uhusiano wa uaminifu, nenosiri lazima lipwe na mtumiaji kwa ajili ya uaminifu. Katika onyesho hili, ufunguo ni nenosiri la uaminifu la awali na kwa hivyo linaweza kusomwa na binadamu. Kwa kuwa ufunguo unabadilika (siku 30), nenosiri wazi haitasomwa na binadamu lakini kwa kiufundi bado linaweza kutumika.
+Wakati mwingine unapounda uhusiano wa kuaminiana, nenosiri linapaswa kuandikwa na mtumiaji kwa ajili ya kuaminiana. Katika onyesho hili, ufunguo ni nenosiri la kuaminiana la awali na hivyo linaweza kusomeka na binadamu. Kadri ufunguo unavyopitia (siku 30), nenosiri la wazi halitasomeka na binadamu lakini kiufundi bado linaweza kutumika.
 
-Nenosiri wazi linaweza kutumika kufanya uwakiki wa kawaida kama akaunti ya uaminifu, njia mbadala ya kuomba TGT kwa kutumia ufunguo wa siri wa Kerberos wa akaunti ya uaminifu. Hapa, kuuliza root.local kutoka ext.local kwa wanachama wa Domain Admins:
+Nenosiri la wazi linaweza kutumika kufanya uthibitishaji wa kawaida kama akaunti ya kuaminiana, mbadala wa kuomba TGT kwa kutumia ufunguo wa siri wa Kerberos wa akaunti ya kuaminiana. Hapa, kuuliza root.local kutoka ext.local kwa wanachama wa Domain Admins:
 
 ![](<../../.gitbook/assets/image (792).png>)
 
-## Marejeo
+## Marejeleo
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

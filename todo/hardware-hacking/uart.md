@@ -1,79 +1,80 @@
 # UART
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Taarifa Msingi
+## Basic Information
 
-UART ni itifaki ya mfululizo, ambayo inamaanisha inahamisha data kati ya vipengele biti moja kwa wakati. Tofauti na itifaki za mawasiliano ya mfululizo hupitisha data kwa wakati mmoja kupitia njia nyingi. Itifaki za mfululizo za kawaida ni pamoja na RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, na USB.
+UART ni protokali ya serial, ambayo inamaanisha inahamisha data kati ya vipengele bit moja kwa wakati. Kinyume chake, protokali za mawasiliano ya sambamba hupeleka data kwa wakati mmoja kupitia njia nyingi. Protokali za kawaida za serial ni pamoja na RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express, na USB.
 
-Kwa ujumla, mstari unashikiliwa juu (kwa thamani ya mantiki 1) wakati UART iko katika hali ya kupumzika. Kisha, kwa kusudi la kuashiria mwanzo wa uhamisho wa data, mtumaji hutoa biti ya kuanza kwa mpokeaji, wakati ambao ishara inashikiliwa chini (kwa thamani ya mantiki 0). Kisha, mtumaji hutoa biti tano hadi nane za data zinazojumuisha ujumbe halisi, ikifuatiwa na biti ya ukaguzi wa usawa na biti moja au mbili za kusimamisha (zenye thamani ya mantiki 1), kulingana na usanidi. Biti ya ukaguzi wa usawa, inayotumiwa kwa ukaguzi wa makosa, mara nyingi haionekani katika vitendo. Biti ya kusimamisha (au biti) inaashiria mwisho wa uhamisho.
+Kwa ujumla, laini inashikiliwa juu (katika thamani ya mantiki 1) wakati UART iko katika hali ya kupumzika. Kisha, ili kuashiria mwanzo wa uhamisho wa data, mtumaji anatumia bit ya mwanzo kwa mpokeaji, wakati ambapo ishara inashikiliwa chini (katika thamani ya mantiki 0). Kisha, mtumaji anatumia bits tano hadi nane za data zinazojumuisha ujumbe halisi, ikifuatiwa na bit ya parity ya hiari na bit moja au mbili za kusitisha (zikiwa na thamani ya mantiki 1), kulingana na usanidi. Bit ya parity, inayotumika kwa ajili ya kuangalia makosa, haionekani mara nyingi katika mazoezi. Bit ya kusitisha (au bits) inaashiria mwisho wa uhamisho.
 
-Tunaita usanidi wa kawaida zaidi 8N1: biti nane za data, hakuna usawa, na biti moja ya kusimamisha. Kwa mfano, ikiwa tunataka kutuma herufi C, au 0x43 katika ASCII, katika usanidi wa UART wa 8N1, tungepeleka biti zifuatazo: 0 (biti ya kuanza); 0, 1, 0, 0, 0, 0, 1, 1 (thamani ya 0x43 katika tarakilishi), na 0 (biti ya kusimamisha).
+Tunaita usanidi wa kawaida zaidi 8N1: bits nane za data, hakuna parity, na bit moja ya kusitisha. Kwa mfano, ikiwa tungependa kutuma herufi C, au 0x43 katika ASCII, katika usanidi wa 8N1 UART, tungepeleka bits zifuatazo: 0 (bit ya mwanzo); 0, 1, 0, 0, 0, 0, 1, 1 (thamani ya 0x43 katika binary), na 0 (bit ya kusitisha).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-Vyombo vya vifaa vya mawasiliano na UART:
+Zana za vifaa kuwasiliana na UART:
 
-* Kigeuzi cha USB-kwa-mfululizo
-* Vifaa vya kigeuzi na chips za CP2102 au PL2303
-* Zana ya aina nyingi kama: Pirate ya Bus, Adafruit FT232H, Shikra, au Bajeti ya Attify
+* Adaptari ya USB-to-serial
+* Adaptari zenye chips za CP2102 au PL2303
+* Zana nyingi kama: Bus Pirate, Adafruit FT232H, Shikra, au Attify Badge
 
-### Kutambua Bandari za UART
+### Identifying UART Ports
 
-UART ina bandari 4: **TX**(Tuma), **RX**(Pokea), **Vcc**(Voltage), na **GND**(Ground). Unaweza kupata bandari 4 zenye herufi za **`TX`** na **`RX`** **zilizoandikwa** kwenye PCB. Lakini ikiwa hakuna ishara, unaweza kuhitaji kujaribu kuzipata mwenyewe kwa kutumia **multimeter** au **analyzer ya mantiki**.
+UART ina bandari 4: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage), na **GND**(Ground). Unaweza kuwa na uwezo wa kupata bandari 4 zikiwa na herufi **`TX`** na **`RX`** **imeandikwa** kwenye PCB. Lakini ikiwa hakuna dalili, unaweza kuhitaji kujaribu kuzipata mwenyewe kwa kutumia **multimeter** au **logic analyzer**.
 
-Kwa kutumia **multimeter** na kifaa kimezimwa:
+Kwa kutumia **multimeter** na kifaa kikiwa kimezimwa:
 
-* Kutambua pin ya **GND** tumia mode ya **Majaribio ya Uendelezaji**, weka kamba ya nyuma kwenye ardhi na jaribu na ile nyekundu mpaka usikie sauti kutoka kwa multimeter. Pins kadhaa za GND zinaweza kupatikana kwenye PCB, kwa hivyo unaweza kuwa umepata au hujapata ile inayomilikiwa na UART.
-* Kutambua **bandari ya VCC**, weka mode ya **voltage ya DC** na iweke hadi 20 V ya voltage. Kamba nyeusi kwenye ardhi na kamba nyekundu kwenye pin. Washa kifaa. Ikiwa multimeter inapima voltage ya mara kwa mara ya 3.3 V au 5 V, umepata pin ya Vcc. Ikiwa unapata voltages nyingine, jaribu tena na bandari zingine.
-* Kutambua **TX** **bandari**, **mode ya voltage ya DC** hadi 20 V ya voltage, kamba nyeusi kwenye ardhi, na kamba nyekundu kwenye pin, na uweke kifaa. Ikiwa unagundua voltage inabadilika kwa sekunde chache na kisha inadhibitika kwa thamani ya Vcc, labda umepata bandari ya TX. Hii ni kwa sababu wakati wa kuwasha, inatuma data fulani ya uchunguzi.
-* **Bandari ya RX** itakuwa ile karibu zaidi na zingine 3, ina mabadiliko madogo ya voltage na thamani ya chini zaidi ya jumla ya pini zote za UART.
+* Ili kubaini pini ya **GND** tumia hali ya **Continuity Test**, weka uongozi wa nyuma kwenye ardhi na jaribu na uongozi mwekundu hadi usikie sauti kutoka kwa multimeter. Pini kadhaa za GND zinaweza kupatikana kwenye PCB, hivyo unaweza kuwa umepata au hujapata ile inayohusiana na UART.
+* Ili kubaini bandari ya **VCC**, weka hali ya **DC voltage** na uweke hadi 20 V ya voltage. Probe mweusi kwenye ardhi na probe nyekundu kwenye pini. Washa kifaa. Ikiwa multimeter inapima voltage isiyobadilika ya 3.3 V au 5 V, umepata pini ya Vcc. Ikiwa unapata voltage nyingine, jaribu tena na bandari nyingine.
+* Ili kubaini bandari ya **TX**, weka hali ya **DC voltage** hadi 20 V ya voltage, probe mweusi kwenye ardhi, na probe nyekundu kwenye pini, na washia kifaa. Ikiwa unapata voltage inabadilika kwa sekunde chache kisha inastabilika kwenye thamani ya Vcc, umepata bandari ya TX. Hii ni kwa sababu wakati wa kuwasha, inatuma baadhi ya data za debug.
+* Bandari ya **RX** itakuwa karibu zaidi na zingine 3, ina mabadiliko madogo ya voltage na thamani ya chini zaidi ya pini zote za UART.
 
-Unaweza kuchanganya pini za TX na RX na hakuna kitakachotokea, lakini ikiwa unachanganya GND na bandari ya VCC unaweza kuharibu mzunguko.
+Unaweza kuchanganya bandari za TX na RX na hakuna kitu kitakachotokea, lakini ikiwa unachanganya bandari za GND na VCC unaweza kuharibu mzunguko.
 
-Kwenye vifaa vya lengo fulani, bandari ya UART inaweza kuwa imelemazwa na mtengenezaji kwa kulemaza RX au TX au hata zote mbili. Katika kesi hiyo, inaweza kuwa na manufaa kufuatilia mawasiliano kwenye bodi ya mzunguko na kupata sehemu ya kuvunja. Kiashiria kikali kuhusu kuthibitisha kutokuwepo kwa UART na kuvunjika kwa mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimesafirishwa na dhamana fulani, mtengenezaji huacha vipengele vya uchunguzi (katika kesi hii, UART) na hivyo, lazima awe ameunganisha UART na ataiunganisha tena wakati wa kutatua hitilafu. Pins hizi za kuvunja zinaweza kuunganishwa kwa kusodolewa au nyaya za jumper.
+Katika baadhi ya vifaa vya lengo, bandari ya UART imezimwa na mtengenezaji kwa kuzima RX au TX au hata zote mbili. Katika hali hiyo, inaweza kuwa na manufaa kufuatilia muunganisho kwenye bodi ya mzunguko na kupata sehemu ya kuvunja. Kidokezo kikubwa kuhusu kuthibitisha kutokuwepo kwa UART na kuvunja mzunguko ni kuangalia dhamana ya kifaa. Ikiwa kifaa kimepelekwa na dhamana fulani, mtengenezaji huacha baadhi ya interfaces za debug (katika kesi hii, UART) na hivyo, lazima awe amezima UART na ataiunganisha tena wakati wa debug. Pini hizi za kuvunja zinaweza kuunganishwa kwa kulehemu au nyaya za jumper.
 
-### Kutambua Kiwango cha Baud ya UART
+### Identifying the UART Baud Rate
 
-Njia rahisi ya kutambua kiwango sahihi cha baud ni kutazama **pato la pini ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomwa, badilisha kiwango cha baud kinachowezekana kinachofuata hadi data iweze kusomwa. Unaweza kutumia kigeuzi cha USB-kwa-mfululizo au kifaa cha aina nyingi kama Bus Pirate kufanya hivi, pamoja na script msaidizi, kama vile [baudrate.py](https://github.com/devttys0/baudrate/). Viwango vya baud vya kawaida ni 9600, 38400, 19200, 57600, na 115200.
+Njia rahisi ya kubaini kiwango sahihi cha baud ni kuangalia **matokeo ya pini ya TX na kujaribu kusoma data**. Ikiwa data unayopokea haiwezi kusomwa, badilisha hadi kiwango kinachowezekana cha baud hadi data iweze kusomwa. Unaweza kutumia adaptari ya USB-to-serial au kifaa cha matumizi mengi kama Bus Pirate kufanya hivyo, pamoja na script ya msaada, kama [baudrate.py](https://github.com/devttys0/baudrate/). Viwango vya kawaida vya baud ni 9600, 38400, 19200, 57600, na 115200.
 
 {% hint style="danger" %}
-Ni muhimu kutambua kwamba katika itifaki hii unahitaji kuunganisha TX ya kifaa kimoja na RX ya kingine!
+Ni muhimu kutambua kwamba katika protokali hii unahitaji kuunganisha TX ya kifaa kimoja na RX ya kingine!
 {% endhint %}
 
-## Kigeuzi cha CP210X UART kwenda TTY
+## CP210X UART to TTY Adapter
 
-Chip ya CP210X hutumiwa kwenye bodi nyingi za prototyping kama NodeMCU (na esp8266) kwa Mawasiliano ya Mfululizo. Vigeuzi hivi ni vya bei rahisi na vinaweza kutumika kuunganisha kwenye kiolesura cha UART cha lengo. Kifaa kina pini 5: 5V, GND, RXD, TXD, 3.3V. Hakikisha kuunganisha voltage kama inavyoungwa mkono na lengo ili kuepuka uharibifu wowote. Hatimaye unganisha pini ya RXD ya Kigeuzi kwa TXD ya lengo na pini ya TXD ya Kigeuzi kwa RXD ya lengo.
+Chip ya CP210X inatumika katika bodi nyingi za prototyping kama NodeMCU (ikiwa na esp8266) kwa Mawasiliano ya Serial. Adaptari hizi ni za bei nafuu na zinaweza kutumika kuunganisha kwenye interface ya UART ya lengo. Kifaa kina pini 5: 5V, GND, RXD, TXD, 3.3V. Hakikisha kuunganisha voltage kama inavyoungwa mkono na lengo ili kuepuka uharibifu wowote. Mwishowe, ungana pini ya RXD ya Adaptari na TXD ya lengo na pini ya TXD ya Adaptari na RXD ya lengo.
 
-Ikiwa kigeuzi hakigunduliwi, hakikisha kuwa madereva ya CP210X yamefungwa kwenye mfumo wa mwenyeji. Mara tu kigeuzi kinapogunduliwa na kuunganishwa, zana kama picocom, minicom au screen zinaweza kutumika.
+Ikiwa adaptari haijagundulika, hakikisha kuwa madereva wa CP210X yamewekwa kwenye mfumo wa mwenyeji. Mara tu adaptari inapogundulika na kuunganishwa, zana kama picocom, minicom au screen zinaweza kutumika.
 
-Kutaja vifaa vilivyounganishwa kwenye mifumo ya Linux/MacOS:
+Ili kuorodhesha vifaa vilivyounganishwa kwenye mifumo ya Linux/MacOS:
 ```
 ls /dev/
 ```
@@ -81,25 +82,25 @@ Kwa mwingiliano wa msingi na kiolesura cha UART, tumia amri ifuatayo:
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-Kwa minicom, tumia amri ifuatayo kuiboresha:
+Kwa minicom, tumia amri ifuatayo kuikamilisha:
 ```
 minicom -s
 ```
-Configure mazingira kama baudrate na jina la kifaa katika chaguo la `Serial port setup`.
+Configure mipangilio kama baudrate na jina la kifaa katika chaguo la `Serial port setup`.
 
-Baada ya usanidi, tumia amri `minicom` kuanza kupata Konzi ya UART.
+Baada ya usanidi, tumia amri `minicom` kuanza kupata UART Console.
 
-## UART Kupitia Arduino UNO R3 (Makaratasi ya Chip ya Atmel 328p yanayoweza kuondolewa)
+## UART Kupitia Arduino UNO R3 (Bodi za Chip za Atmel 328p Zinazoweza Kuondolewa)
 
-Katika kesi ambapo viunganishi vya UART Serial hadi USB havipatikani, Arduino UNO R3 inaweza kutumika na udukuzi wa haraka. Kwa kuwa Arduino UNO R3 kawaida inapatikana mahali popote, hii inaweza kuokoa muda mwingi.
+Iwapo adapta za UART Serial hadi USB hazipatikani, Arduino UNO R3 inaweza kutumika kwa hack ya haraka. Kwa kuwa Arduino UNO R3 kwa kawaida inapatikana popote, hii inaweza kuokoa muda mwingi.
 
-Arduino UNO R3 ina kiunganishi cha USB hadi Serial kilichojengwa kwenye bodi yenyewe. Ili kupata uhusiano wa UART, tuvute nje chipu ya mikrokontrola ya Atmel 328p kutoka kwenye bodi. Udukuzi huu unafanya kazi kwenye toleo la Arduino UNO R3 lenye Atmel 328p ambayo haijasindikwa kwenye bodi (toleo la SMD linatumika ndani yake). Unganisha pin ya RX ya Arduino (Pin ya Dijitali 0) kwenye pin ya TX ya Kiolesura cha UART na pin ya TX ya Arduino (Pin ya Dijitali 1) kwenye pin ya RX ya kiolesura cha UART.
+Arduino UNO R3 ina adapta ya USB hadi Serial iliyojengwa kwenye bodi yenyewe. Ili kupata muunganisho wa UART, toa chip ya microcontroller ya Atmel 328p kutoka kwenye bodi. Hack hii inafanya kazi kwenye toleo la Arduino UNO R3 lenye Atmel 328p isiyosafishwa kwenye bodi (toleo la SMD linatumika ndani yake). Unganisha pini ya RX ya Arduino (Pini ya Kidijitali 0) kwenye pini ya TX ya Kiunganishi cha UART na pini ya TX ya Arduino (Pini ya Kidijitali 1) kwenye pini ya RX ya kiunganishi cha UART.
 
-Hatimaye, inapendekezwa kutumia Arduino IDE kupata Konzi ya Serial. Katika sehemu ya `zana` kwenye menyu, chagua chaguo la `Serial Console` na weka kiwango cha baud kulingana na kiolesura cha UART.
+Hatimaye, inapendekezwa kutumia Arduino IDE kupata Serial Console. Katika sehemu ya `tools` kwenye menyu, chagua chaguo la `Serial Console` na weka baud rate kulingana na kiunganishi cha UART.
 
 ## Bus Pirate
 
-Katika hali hii, tunakusudia kunasa mawasiliano ya UART ya Arduino ambayo inatuma maandishi yote ya programu kwa Mfuatiliaji wa Serial.
+Katika hali hii tutakuwa tukichunguza mawasiliano ya UART ya Arduino inayotuma uchapishaji wote wa programu kwenye Serial Monitor.
 ```bash
 # Check the modes
 UART>m
@@ -171,54 +172,55 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-## Kudondosha Firmware na Konsoli ya UART
+## Dumping Firmware with UART Console
 
-Konsoli ya UART hutoa njia nzuri ya kufanya kazi na firmware ya msingi katika mazingira ya runtime. Lakini wakati upatikanaji wa Konsoli ya UART ni wa kusoma tu, inaweza kuleta vizuizi vingi. Katika vifaa vingi vilivyowekwa, firmware hufungwa katika EEPROMs na kutekelezwa kwenye processors zenye kumbukumbu ya muda mfupi. Hivyo, firmware inabaki kuwa ya kusoma tu tangu firmware ya awali wakati wa utengenezaji iko ndani ya EEPROM yenyewe na faili mpya zingepotea kutokana na kumbukumbu ya muda mfupi. Hivyo, kudondosha firmware ni jitihada muhimu wakati wa kufanya kazi na firmware zilizowekwa.
+UART Console inatoa njia nzuri ya kufanya kazi na firmware ya msingi katika mazingira ya wakati halisi. Lakini wakati ufikiaji wa UART Console ni wa kusoma tu, inaweza kuleta vizuizi vingi. Katika vifaa vingi vilivyojumuishwa, firmware huhifadhiwa katika EEPROMs na kutekelezwa katika prosesa ambazo zina kumbukumbu ya muda. Hivyo, firmware inahifadhiwa kuwa ya kusoma tu kwani firmware ya awali wakati wa utengenezaji iko ndani ya EEPROM yenyewe na faili zozote mpya zitapotea kutokana na kumbukumbu ya muda. Hivyo, dumping firmware ni juhudi ya thamani wakati wa kufanya kazi na firmware zilizojumuishwa.
 
-Kuna njia nyingi za kufanya hivi na sehemu ya SPI inashughulikia njia za kutoa firmware moja kwa moja kutoka kwenye EEPROM na vifaa mbalimbali. Ingawa, inapendekezwa kujaribu kwanza kudondosha firmware na UART tangu kudondosha firmware na vifaa vya kimwili na mwingiliano wa nje kunaweza kuwa hatari.
+Kuna njia nyingi za kufanya hivi na sehemu ya SPI inashughulikia mbinu za kutoa firmware moja kwa moja kutoka kwa EEPROM na vifaa mbalimbali. Ingawa, inapendekezwa kwanza kujaribu dumping firmware na UART kwani dumping firmware kwa vifaa vya kimwili na mwingiliano wa nje inaweza kuwa hatari.
 
-Kudondosha firmware kutoka kwenye Konsoli ya UART inahitaji kwanza kupata upatikanaji wa bootloaders. Wauzaji maarufu wengi hutumia uboot (Universal Bootloader) kama bootloader yao ya kupakia Linux. Hivyo, kupata upatikanaji wa uboot ni muhimu.
+Dumping firmware kutoka kwa UART Console inahitaji kwanza kupata ufikiaji wa bootloaders. Wauzaji wengi maarufu hutumia uboot (Universal Bootloader) kama bootloader yao kupakia Linux. Hivyo, kupata ufikiaji wa uboot ni muhimu.
 
-Ili kupata upatikanaji wa bootloader, unganisha bandari ya UART kwenye kompyuta na tumia mojawapo ya zana za Konsoli ya Serial na weka ugavi wa umeme kwa kifaa ukiwa umekatwa. Mara tu usanidi utakapokuwa tayari, bonyeza Kitufe cha Kuingia na kishike. Hatimaye, unganisha ugavi wa umeme kwa kifaa na ruhusu ianze.
+Ili kupata ufikiaji wa boot bootloader, ung'anisha bandari ya UART kwenye kompyuta na tumia yoyote ya zana za Serial Console na uweke usambazaji wa nguvu kwa kifaa kisichounganishwa. Mara mipangilio ikikamilika, bonyeza Kitufe cha Enter na ushikilie. Hatimaye, ung'anisha usambazaji wa nguvu kwa kifaa na uache ikianza.
 
-Kufanya hivi kutavuruga uboot kutoka kupakia na kutoa menyu. Inapendekezwa kuelewa amri za uboot na kutumia menyu ya msaada kuziorodhesha. Hii inaweza kuwa amri ya `help`. Kwa kuwa wauzaji tofauti hutumia mipangilio tofauti, ni muhimu kuelewa kila moja yao kivyake.
+Kufanya hivi kutakatisha uboot kutoka kupakia na kutatoa menyu. Inapendekezwa kuelewa amri za uboot na kutumia menyu ya msaada kuorodhesha hizo. Hii inaweza kuwa amri ya `help`. Kwa kuwa wauzaji tofauti hutumia mipangilio tofauti, ni muhimu kuelewa kila moja yao kwa tofauti.
 
-Kawaida, amri ya kudondosha firmware ni:
+Kawaida, amri ya dumping firmware ni:
 ```
 md
 ```
-which stands for "memory dump". Hii itadump kumbukumbu (Maudhui ya EEPROM) kwenye skrini. Inashauriwa kurekodi pato la Konzi ya Serial kabla ya kuanza mchakato ili kukamata kumbukumbu.
+ambayo inasimama kwa "memory dump". Hii itatoa kumbukumbu (EEPROM Content) kwenye skrini. Inapendekezwa kuandika matokeo ya Serial Console kabla ya kuanza mchakato wa kukamata kumbukumbu.
 
-Hatimaye, tuondoe data yote isiyohitajika kutoka kwenye faili la logi na uhifadhi faili kama `jina la faili.rom` na tumie binwalk kuchambua maudhui:
+Hatimaye, ondolewa tu data zisizohitajika kutoka kwa faili la log na uhifadhi faili kama `filename.rom` na tumia binwalk kutoa maudhui:
 ```
 binwalk -e <filename.rom>
 ```
-Hii itaorodhesha maudhui yanayowezekana kutoka kwenye EEPROM kulingana na saini zilizopatikana kwenye faili ya hex.
+Hii itataja maudhui yanayowezekana kutoka kwa EEPROM kulingana na saini zilizopatikana katika faili la hex.
 
-Hata hivyo, ni muhimu kuzingatia kwamba sio mara zote uboot huwa wazi hata kama unatumika. Ikiwa Kitufe cha Kuingia hakifanyi chochote, angalia funguo tofauti kama vile Kitufe cha Nafasi, n.k. Ikiwa bootloader imefungwa na haikatishwi, njia hii haitafanya kazi. Ili kuthibitisha ikiwa uboot ndio bootloader wa kifaa, angalia matokeo kwenye Konsoli ya UART wakati kifaa kinapoanza. Inaweza kutaja uboot wakati wa kuanza.
+Ingawa, ni muhimu kutambua kwamba si kila wakati uboot imefunguliwa hata kama inatumika. Ikiwa Kitufe cha Kuingia hakifanyi chochote, angalia funguo tofauti kama Kitufe cha Nafasi, n.k. Ikiwa bootloader imefungwa na haikatizwa, njia hii haitafanya kazi. Ili kuangalia ikiwa uboot ni bootloader wa kifaa, angalia matokeo kwenye UART Console wakati wa kuanzisha kifaa. Inaweza kutaja uboot wakati wa kuanzisha.
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumiwa na **dark-web** inayotoa huduma za **bure** kuchunguza ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na programu hasidi za kuiba taarifa.
+Lengo lao kuu la WhiteIntel ni kupambana na kuchukuliwa kwa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
