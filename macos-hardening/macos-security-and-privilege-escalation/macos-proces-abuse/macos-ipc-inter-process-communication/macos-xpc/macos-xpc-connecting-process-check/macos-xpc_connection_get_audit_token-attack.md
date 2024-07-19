@@ -1,134 +1,152 @@
 # macOS xpc\_connection\_get\_audit\_token 攻撃
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする。
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
-**詳細については、元の投稿を確認してください:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。これは要約です:
+**詳細情報は元の投稿を確認してください：** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。これは要約です：
 
 ## Machメッセージの基本情報
 
-Machメッセージが何かわからない場合は、このページをチェックしてください:
+Machメッセージが何か知らない場合は、このページを確認してください：
 
 {% content-ref url="../../" %}
 [..](../../)
 {% endcontent-ref %}
 
-今のところ、([ここからの定義](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
-
-Machメッセージは _machポート_ を介して送信され、これは mach カーネルに組み込まれた **単一の受信者、複数の送信者通信** チャネルです。 **複数のプロセスが mach ポートにメッセージを送信**できますが、いつでも **単一のプロセスがそれを読み取る**ことができます。 ファイルディスクリプタやソケットと同様に、machポートはカーネルによって割り当てられ管理され、プロセスは整数しか見ません。これを使用して、カーネルに使用する mach ポートを示すことができます。
+現時点では、([こちらからの定義](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing))：\
+Machメッセージは_machポート_を介して送信され、これは**単一受信者、複数送信者通信**チャネルで、machカーネルに組み込まれています。**複数のプロセスがメッセージを**machポートに送信できますが、任意の時点で**単一のプロセスのみがそれを読み取ることができます**。ファイルディスクリプタやソケットと同様に、machポートはカーネルによって割り当てられ、管理され、プロセスは整数を見て、それを使用してカーネルにどのmachポートを使用したいかを示します。
 
 ## XPC接続
 
-XPC接続がどのように確立されるかわからない場合は、次を確認してください:
+XPC接続がどのように確立されるか知らない場合は、次を確認してください：
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## 脆弱性の要約
+## 脆弱性の概要
 
-知っておくと興味深いのは、**XPCの抽象化は1対1の接続**であるが、**複数の送信者を持つことができる技術**に基づいているということです:
+知っておくべき興味深い点は、**XPCの抽象化は一対一の接続ですが、**複数の送信者を持つ技術の上に構築されているため、以下のようになります：
 
-* Machポートは単一の受信者、**複数の送信者**です。
-* XPC接続の監査トークンは、**最後に受信したメッセージからコピーされた監査トークン**です。
-* XPC接続の監査トークンを取得することは、多くの **セキュリティチェック** にとって重要です。
+* Machポートは単一受信者、**複数送信者**です。
+* XPC接続の監査トークンは、**最近受信したメッセージからコピーされた監査トークン**です。
+* XPC接続の**監査トークン**を取得することは、多くの**セキュリティチェック**にとって重要です。
 
-前述の状況は有望に聞こえますが、問題を引き起こさないシナリオもいくつかあります ([ここから](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+前述の状況は有望に聞こえますが、これが問題を引き起こさないシナリオもいくつかあります（[こちらから](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)）：
 
-* 監査トークンは、接続を受け入れるかどうかを決定するための認可チェックによく使用されます。これはサービスポートへのメッセージを使用して行われるため、**接続はまだ確立されていません**。このポートへの追加のメッセージは、追加の接続要求として処理されます。したがって、**接続を受け入れる前のチェックは脆弱ではありません**（これは `-listener:shouldAcceptNewConnection:` 内での監査トークンが安全であることを意味します）。したがって、**特定のアクションを検証する XPC 接続を探しています**。
-* XPCイベントハンドラは同期的に処理されます。つまり、1つのメッセージのイベントハンドラを呼び出す前に、次のメッセージのイベントハンドラを呼び出さなければなりません。そのため、**XPCイベントハンドラ内では、他の通常の（非応答）メッセージによって監査トークンを上書きすることはできません**。
+* 監査トークンは、接続を受け入れるかどうかを決定するための認証チェックにしばしば使用されます。これはサービスポートへのメッセージを使用して行われるため、**接続はまだ確立されていません**。このポートへの追加のメッセージは、追加の接続要求として処理されます。したがって、接続を受け入れる前の**チェックは脆弱ではありません**（これは、`-listener:shouldAcceptNewConnection:`内で監査トークンが安全であることも意味します）。したがって、私たちは**特定のアクションを検証するXPC接続を探しています**。
+* XPCイベントハンドラは同期的に処理されます。これは、1つのメッセージのイベントハンドラが次のメッセージのために呼び出される前に完了する必要があることを意味し、同時にディスパッチキュー上でも同様です。したがって、**XPCイベントハンドラ内では、監査トークンは他の通常の（非応答！）メッセージによって上書きされることはありません**。
 
-これが悪用される可能性がある2つの異なる方法:
+この脆弱性が悪用される可能性のある2つの異なる方法：
 
-1. Variant1:
-* **Exploit** がサービス **A** とサービス **B** に **接続** します
-* サービス **B** は、ユーザーができない **特権機能** をサービス **A** で呼び出すことができます
-* サービス **A** が **`dispatch_async`** 内で **`xpc_connection_get_audit_token`** を呼び出すとき、**イベントハンドラ** の内部にいません
-* したがって、**異なる**メッセージが **監査トークンを上書き** できます。なぜなら、イベントハンドラの外部で非同期にディスパッチされているからです。
-* 悪用は **サービス A に対して SEND 権限をサービス B に渡します**。
-* したがって、svc **B** は実際にはサービス **A** に **メッセージを送信**します。
-* **悪用** は **特権アクションを呼び出そうとします**。RC svc **A** はこの **アクション** の認可を **チェック** しますが、**svc B が監査トークンを上書き** したため（悪用が特権アクションを呼び出す権限を与えられる）、アクセスできるようになります。
-2. Variant 2:
-* サービス **B** は、ユーザーができない **特権機能** をサービス **A** で呼び出すことができます
-* 悪用は、**サービス A** に接続し、特定の **リプライポート** で **応答を期待するメッセージ** を送信します。
-* 悪用は、**そのリプライポート** を渡すメッセージを **サービス B** に送信します。
-* サービス **B が応答する** と、**悪用** は **サービス A に異なるメッセージを送信** し、特権機能に到達しようとします。そして、サービス **B** からの返信が監査トークンを完璧なタイミングで上書きすることを期待します（競合状態）。
+1. バリアント1：
+* **攻撃**はサービス**A**およびサービス**B**に**接続**します。
+* サービス**B**は、ユーザーができないサービスAの**特権機能**を呼び出すことができます。
+* サービス**A**は、**`xpc_connection_get_audit_token`**を呼び出しますが、**接続のイベントハンドラ内ではなく**、**`dispatch_async`**内で行います。
+* したがって、**異なる**メッセージが**監査トークンを上書き**する可能性があります。なぜなら、それはイベントハンドラの外で非同期にディスパッチされているからです。
+* 攻撃は**サービスBにサービスAへのSEND権を渡します**。
+* したがって、svc **B**は実際にサービス**A**に**メッセージを送信**します。
+* **攻撃**は**特権アクションを呼び出そうとします**。RC svc **A**はこの**アクションの**認証を**チェック**しますが、**svc Bは監査トークンを上書きしました**（攻撃に特権アクションを呼び出すアクセスを与えます）。
+2. バリアント2：
+* サービス**B**は、ユーザーができないサービスAの**特権機能**を呼び出すことができます。
+* 攻撃は**サービスA**に接続し、サービスは攻撃に特定の**応答を期待するメッセージ**を送信します。
+* 攻撃は**サービス**Bにその**応答ポート**を渡すメッセージを送信します。
+* サービス**B**が応答すると、サービスAにメッセージを**送信し**、**攻撃**はサービスAに異なる**メッセージを送信し**、特権機能に到達しようとし、サービスBからの応答が監査トークンを完璧なタイミングで上書きすることを期待します（レースコンディション）。
 
-## Variant 1: イベントハンドラの外部で xpc\_connection\_get\_audit\_token を呼び出す <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## バリアント1：イベントハンドラの外でxpc\_connection\_get\_audit\_tokenを呼び出す <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
-シナリオ:
+シナリオ：
 
-* 両方に接続できる2つの mach サービス **`A`** と **`B`**（サンドボックスプロファイルと接続を受け入れる前の認可チェックに基づく）。
-* **`A`** は、**`B`** が通過できる特定のアクションの **認可チェック** を持っている必要があります（ただし、アプリはできません）。
-* たとえば、Bには **エンタイトルメント** があるか **root** として実行されている場合、Aに特権アクションを実行するように要求することができます。
-* この認可チェックのために、**`A`** は非同期で監査トークンを取得します。たとえば、**`dispatch_async`** から **`xpc_connection_get_audit_token`** を呼び出すことによって。
+* 接続できる2つのmachサービス**`A`**と**`B`**（サンドボックスプロファイルと接続を受け入れる前の認証チェックに基づく）。
+* _**A**_は、**`B`**が通過できる特定のアクションの**認証チェック**を持っている必要があります（しかし、私たちのアプリはできません）。
+* たとえば、Bがいくつかの**権利**を持っているか、**root**として実行されている場合、Aに特権アクションを実行するように要求できるかもしれません。
+* この認証チェックのために、**`A`**は非同期的に監査トークンを取得します。たとえば、**`dispatch_async`**から`xpc_connection_get_audit_token`を呼び出すことによって。
 
 {% hint style="danger" %}
-この場合、攻撃者は **悪用** をトリガーし、**`A` にアクションを実行するように要求** する **悪用** を複数回実行し、**`B` が `A` にメッセージを送信** するようにします。RC が **成功する** と、**`B`** の **監査トークン** が **メモリにコピー** され、**悪用** のリクエストが **A によって処理される間** に、特権アクションにアクセスできるようになります。これは **`A`** が `smd` として、**`B`** が `diagnosticd` として発生しました。[`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) 関数は、新しい特権ヘルパーツール（**root** として）をインストールするために使用できます。**root** として実行されているプロセスが **smd** に連絡を取る場合、他のチェックは実行されません。
+この場合、攻撃者は**レースコンディション**を引き起こし、**Aにアクションを実行するように要求する**攻撃を何度も行いながら、**Bが`A`にメッセージを送信**させることができます。RCが**成功すると**、**B**の**監査トークン**がメモリにコピーされ、**私たちの攻撃**のリクエストがAによって**処理されている間**、特権アクションに対する**アクセスを与えます**。
+{% endhint %}
 
-したがって、サービス **B** は **`diagnosticd`** であり、**root** として実行されているため、プロセスを監視するために使用でき、監視が開始されると、1秒あたり複数のメッセージを送信します。
+これは、**`A`**が`smd`で、**`B`**が`diagnosticd`で発生しました。関数[`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc)は、特権ヘルパーツールを新たにインストールするために使用できます（**root**として）。もし**rootとして実行されているプロセスが**`smd`に接触すると、他のチェックは行われません。
 
-攻撃を実行するには:
+したがって、サービス**B**は**`diagnosticd`**であり、**root**として実行され、プロセスを**監視**するために使用できます。監視が開始されると、**毎秒複数のメッセージを送信**します。
 
-1. 標準の XPC プロトコルを使用して、`smd` という名前のサービスに **接続** を開始します。
-2. `diagnosticd` に二次的な **接続** を形成します。通常の手順とは異なり、新しい mach ポートを作成して送信するのではなく、クライアントポートの送信権限は `smd` 接続に関連付けられた **送信権限** の複製で置き換えられます。
-3. その結果、XPC メッセージを `diagnosticd` にディスパッチできますが、`diagnosticd` からの応答は `smd` にリダイレクトされます。`smd` にとっては、ユーザーと `diagnosticd` からのメッセージが同じ接続から発信されているように見えます。
+攻撃を実行するには：
 
-![攻撃プロセスを描いた画像](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+1. 標準XPCプロトコルを使用して、`smd`という名前のサービスに**接続**を開始します。
+2. `diagnosticd`に二次的な**接続**を形成します。通常の手順とは異なり、2つの新しいmachポートを作成して送信するのではなく、クライアントポートの送信権が`smd`接続に関連付けられた**送信権**の複製に置き換えられます。
+3. 結果として、XPCメッセージは`diagnosticd`にディスパッチできますが、`diagnosticd`からの応答は`smd`に再ルーティングされます。`smd`にとっては、ユーザーと`diagnosticd`の両方からのメッセージが同じ接続から発信されているように見えます。
 
-4. 次のステップは、`diagnosticd` に選択したプロセス（おそらくユーザー自身）の監視を開始するよう指示することです。同時に、`smd` にルーチンの1004メッセージの洪水を送信します。ここでの目的は、特権を持つツールをインストールすることです。
-5. このアクションは、`handle_bless` 関数内でレースコンディションを引き起こします。タイミングが重要です：`xpc_connection_get_pid` 関数呼び出しはユーザーのプロセスの PID を返さなければなりません（特権ツールはユーザーのアプリバンドルに存在します）。しかし、`xpc_connection_get_audit_token` 関数は、特に `connection_is_authorized` サブルーチン内で、`diagnosticd` に属する監査トークンを参照しなければなりません。
+![攻撃プロセスを示す画像](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-## バリアント 2: リプライ転送
+4. 次のステップは、`diagnosticd`に選択したプロセス（おそらくユーザー自身のプロセス）の監視を開始するように指示することです。同時に、`smd`に対して通常の1004メッセージの洪水が送信されます。ここでの意図は、特権のあるツールをインストールすることです。
+5. このアクションは、`handle_bless`関数内でレースコンディションを引き起こします。タイミングが重要です：`xpc_connection_get_pid`関数呼び出しは、ユーザーのプロセスのPIDを返さなければなりません（特権ツールはユーザーのアプリバンドル内に存在します）。しかし、`xpc_connection_get_audit_token`関数は、特に`connection_is_authorized`サブルーチン内で、`diagnosticd`に属する監査トークンを参照しなければなりません。
 
-XPC（クロスプロセス通信）環境では、イベントハンドラは同時に実行されませんが、リプライメッセージの処理にはユニークな動作があります。具体的には、リプライを期待するメッセージを送信するための 2 つの異なるメソッドが存在します：
+## バリアント2：応答の転送
 
-1. **`xpc_connection_send_message_with_reply`**: ここでは、XPC メッセージは指定されたキューで受信および処理されます。
-2. **`xpc_connection_send_message_with_reply_sync`**: これに対して、このメソッドでは、XPC メッセージは現在のディスパッチキューで受信および処理されます。
+XPC（プロセス間通信）環境では、イベントハンドラは同時に実行されませんが、応答メッセージの処理には独自の動作があります。具体的には、応答を期待するメッセージを送信するための2つの異なる方法があります：
 
-この違いは重要です。なぜなら、**リプライパケットが XPC イベントハンドラの実行と同時に解析される可能性がある**からです。特に、`_xpc_connection_set_creds` は監査トークンの部分的な上書きを防ぐためにロックを実装していますが、この保護を接続オブジェクト全体には拡張していません。その結果、パケットの解析とそのイベントハンドラの実行の間に監査トークンが置換される脆弱性が生じます。
+1. **`xpc_connection_send_message_with_reply`**：ここでは、XPCメッセージが指定されたキューで受信され、処理されます。
+2. **`xpc_connection_send_message_with_reply_sync`**：対照的に、この方法では、XPCメッセージが現在のディスパッチキューで受信され、処理されます。
+
+この区別は重要です。なぜなら、**応答パケットがXPCイベントハンドラの実行と同時に解析される可能性があるからです**。特に、`_xpc_connection_set_creds`は監査トークンの部分的な上書きを防ぐためにロックを実装していますが、接続オブジェクト全体に対してこの保護を拡張していません。したがって、パケットの解析とそのイベントハンドラの実行の間の間隔で監査トークンが置き換えられる脆弱性が生じます。
 
 この脆弱性を悪用するには、次のセットアップが必要です：
 
-* **`A`** と **`B`** という名前の 2 つの mach サービスが必要で、どちらも接続を確立できます。
-* サービス **`A`** は、**`B`** のみが実行できる特定のアクションの認証チェックを含める必要があります（ユーザーのアプリケーションはできません）。
-* サービス **`A`** は、リプライを期待するメッセージを送信する必要があります。
-* ユーザーは、**`B`** に応答するメッセージを送信できます。
+* **`A`**および**`B`**と呼ばれる2つのmachサービスで、どちらも接続を確立できます。
+* サービス**`A`**は、**`B`**のみが実行できる特定のアクションのための認証チェックを含む必要があります（ユーザーのアプリケーションはできません）。
+* サービス**`A`**は、応答を期待するメッセージを送信する必要があります。
+* ユーザーは、**`B`**に応答するメッセージを送信できます。
 
-悪用プロセスは以下の手順を含みます：
+悪用プロセスは次のステップを含みます：
 
-1. サービス **`A`** がリプライを期待するメッセージを送信するのを待ちます。
-2. **`A`** に直接返信する代わりに、リプライポートがハイジャックされ、サービス **`B`** にメッセージを送信するために使用されます。
-3. その後、禁止されたアクションを含むメッセージがディスパッチされ、**`B`** からの返信と同時に処理されることが期待されます。
+1. サービス**`A`**が応答を期待するメッセージを送信するのを待ちます。
+2. **`A`**に直接応答するのではなく、応答ポートをハイジャックしてサービス**`B`**にメッセージを送信します。
+3. 次に、禁止されたアクションに関するメッセージをディスパッチし、**`B`**からの応答と同時に処理されることを期待します。
 
 以下は、説明された攻撃シナリオの視覚的表現です：
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (33).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
 ## 発見の問題
 
-* **インスタンスの特定の難しさ**: `xpc_connection_get_audit_token` の使用例を静的および動的に検索することは困難でした。
-* **方法論**: `xpc_connection_get_audit_token` 関数をフックするために Frida を使用し、イベントハンドラから発信されない呼び出しをフィルタリングしました。ただし、この方法はフックされたプロセスに限定され、アクティブな使用が必要でした。
-* **分析ツール**: IDA/Ghidra のようなツールを使用して到達可能な mach サービスを調査しましたが、dyld 共有キャッシュを含む呼び出しによって時間がかかり、複雑になりました。
-* **スクリプトの制限**: `dispatch_async` ブロックから `xpc_connection_get_audit_token` への呼び出しを解析するためのスクリプト化の試みは、ブロックの解析と dyld 共有キャッシュとの相互作用の複雑さによって妨げられました。
+* **インスタンスの特定の困難**：`xpc_connection_get_audit_token`の使用例を静的および動的に検索するのは困難でした。
+* **方法論**：Fridaを使用して`xpc_connection_get_audit_token`関数をフックし、イベントハンドラから発信されない呼び出しをフィルタリングしました。しかし、この方法はフックされたプロセスに限定され、アクティブな使用が必要でした。
+* **分析ツール**：IDA/Ghidraのようなツールを使用して到達可能なmachサービスを調査しましたが、プロセスは時間がかかり、dyld共有キャッシュに関与する呼び出しによって複雑化しました。
+* **スクリプトの制限**：`dispatch_async`ブロックからの`xpc_connection_get_audit_token`への呼び出しの分析をスクリプト化しようとしましたが、ブロックの解析とdyld共有キャッシュとの相互作用の複雑さによって妨げられました。
 
 ## 修正 <a href="#the-fix" id="the-fix"></a>
 
-* **報告された問題**: `smd` 内で見つかった一般的および特定の問題について、Apple に報告が提出されました。
-* **Apple の対応**: Apple は `smd` 内の問題を `xpc_connection_get_audit_token` を `xpc_dictionary_get_audit_token` で置き換えることで対処しました。
-* **修正の性質**: `xpc_dictionary_get_audit_token` 関数は、受信した XPC メッセージに関連付けられた mach メッセージから監査トークンを直接取得するため、安全であると見なされます。ただし、これは `xpc_connection_get_audit_token` と同様に公開APIの一部ではありません。
-* **より包括的な修正の不在**: Apple が接続の保存された監査トークンと一致しないメッセージを破棄するなど、より包括的な修正を実装しなかった理由は明確ではありません。特定のシナリオ（たとえば、`setuid` の使用）で正当な監査トークンの変更が可能である可能性があることが要因かもしれません。
-* **現在の状況**: 問題は iOS 17 および macOS 14 で依然として存在し、それを特定し理解しようとする人々にとって課題となっています。
+* **報告された問題**：Appleに、`smd`内で見つかった一般的および特定の問題を詳細に報告しました。
+* **Appleの対応**：Appleは、`smd`内の問題に対処し、`xpc_connection_get_audit_token`を`xpc_dictionary_get_audit_token`に置き換えました。
+* **修正の性質**：`xpc_dictionary_get_audit_token`関数は、受信したXPCメッセージに関連付けられたmachメッセージから直接監査トークンを取得するため、安全と見なされています。ただし、`xpc_connection_get_audit_token`と同様に、公開APIの一部ではありません。
+* **より広範な修正の不在**：Appleが接続の保存された監査トークンに一致しないメッセージを破棄するなど、より包括的な修正を実装しなかった理由は不明です。特定のシナリオ（例：`setuid`の使用）での正当な監査トークンの変更の可能性が要因かもしれません。
+* **現在の状況**：この問題はiOS 17およびmacOS 14に残っており、これを特定し理解しようとする人々にとって課題となっています。
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+
+</details>
+{% endhint %}

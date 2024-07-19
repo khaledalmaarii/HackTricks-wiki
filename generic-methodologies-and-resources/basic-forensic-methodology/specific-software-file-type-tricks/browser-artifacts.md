@@ -10,7 +10,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}
@@ -50,7 +50,7 @@ Firefoxは、ユーザーデータをプロファイル内に整理し、オペ�
 * **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
 * **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-これらのディレクトリ内の`profiles.ini`ファイルには、ユーザープロファイルがリストされています。各プロファイルのデータは、`profiles.ini`内の`Path`変数に名前が付けられたフォルダーに保存され、`profiles.ini`自体と同じディレクトリにあります。プロファイルのフォルダーが欠けている場合、それは削除された可能性があります。
+これらのディレクトリ内の`profiles.ini`ファイルには、ユーザープロファイルがリストされています。各プロファイルのデータは、`profiles.ini`内の`Path`変数に名前が付けられたフォルダーに保存され、`profiles.ini`自体と同じディレクトリにあります。プロファイルのフォルダーが欠けている場合は、削除された可能性があります。
 
 各プロファイルフォルダー内には、いくつかの重要なファイルがあります：
 
@@ -72,7 +72,7 @@ Firefoxは、ユーザーデータをプロファイル内に整理し、オペ�
 
 さらに、ブラウザのフィッシング対策設定を確認するには、`prefs.js`内の`browser.safebrowsing`エントリを検索し、安全なブラウジング機能が有効または無効になっているかを示します。
 
-マスターパスワードを解読しようとするには、[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)を使用できます。\
+マスターパスワードを解読しようとする場合は、[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)を使用できます。\
 次のスクリプトと呼び出しを使用して、ブルートフォースするパスワードファイルを指定できます：
 
 {% code title="brute.sh" %}
@@ -112,7 +112,7 @@ Google Chromeは、オペレーティングシステムに基づいて特定の�
 * **Extensions**: ブラウザ拡張機能やアドオンのディレクトリ。
 * **Thumbnails**: ウェブサイトのサムネイルを保存します。
 * **Preferences**: プラグイン、拡張機能、ポップアップ、通知などの設定を含む情報が豊富なファイル。
-* **Browser’s built-in anti-phishing**: フィッシング対策とマルウェア保護が有効かどうかを確認するには、`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`を実行します。出力に`{"enabled: true,"}`があるか探します。
+* **Browser’s built-in anti-phishing**: フィッシング対策とマルウェア保護が有効かどうかを確認するには、`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`を実行します。出力に`{"enabled: true,"}`があるか確認します。
 
 ## **SQLite DB Data Recovery**
 
@@ -132,7 +132,7 @@ Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\
 
 ### クッキー管理
 
-クッキーは[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)を使用して探索でき、メタデータには名前、URL、アクセス回数、さまざまな時間関連の詳細が含まれます。永続的なクッキーは`%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`に保存され、セッションクッキーはメモリに存在します。
+クッキーは[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)を使用して調査でき、メタデータには名前、URL、アクセス回数、さまざまな時間関連の詳細が含まれます。永続的なクッキーは`%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`に保存され、セッションクッキーはメモリに存在します。
 
 ### ダウンロード詳細
 
@@ -144,7 +144,7 @@ Internet Explorerのメタデータは、`%userprofile%\Appdata\Local\Microsoft\
 
 ### 入力されたURL
 
-入力されたURLとその使用時間は、`NTUSER.DAT`の`Software\Microsoft\InternetExplorer\TypedURLs`および`Software\Microsoft\InternetExplorer\TypedURLsTime`の下にレジストリに保存され、ユーザーが入力した最後の50のURLとその最後の入力時間を追跡します。
+入力されたURLとその使用時間は、`NTUSER.DAT`の`Software\Microsoft\InternetExplorer\TypedURLs`および`Software\Microsoft\InternetExplorer\TypedURLsTime`のレジストリに保存され、ユーザーが入力した最後の50のURLとその最後の入力時間を追跡します。
 
 ## Microsoft Edge
 
@@ -158,7 +158,7 @@ Microsoft Edgeは、`%userprofile%\Appdata\Local\Packages`にユーザーデー�
 
 ## Safari
 
-Safariデータは`/Users/$User/Library/Safari`に保存されます。主要なファイルは次のとおりです：
+Safariデータは`/Users/$User/Library/Safari`に保存されます。主なファイルは次のとおりです：
 
 * **History.db**: `history_visits`および`history_items`テーブルにURLと訪問タイムスタンプが含まれています。`sqlite3`を使用してクエリを実行します。
 * **Downloads.plist**: ダウンロードされたファイルに関する情報。
@@ -171,9 +171,9 @@ Safariデータは`/Users/$User/Library/Safari`に保存されます。主要な
 
 ## Opera
 
-Operaのデータは`/Users/$USER/Library/Application Support/com.operasoftware.Opera`にあり、履歴とダウンロードの形式はChromeと共有しています。
+Operaのデータは`/Users/$USER/Library/Application Support/com.operasoftware.Opera`にあり、履歴とダウンロードの形式はChromeと共有されています。
 
-* **Browser’s built-in anti-phishing**: `grep`を使用してPreferencesファイル内の`fraud_protection_enabled`が`true`に設定されているか確認します。
+* **Browser’s built-in anti-phishing**: `Preferences`ファイル内の`fraud_protection_enabled`が`true`に設定されているか確認することで検証します。`grep`を使用します。
 
 これらのパスとコマンドは、さまざまなウェブブラウザによって保存されたブラウジングデータにアクセスし、理解するために重要です。
 
@@ -187,21 +187,22 @@ Operaのデータは`/Users/$USER/Library/Application Support/com.operasoftware.
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築および自動化**します。\
+今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合**は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションをご覧ください
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)をフォローする。
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-デバイスの起動構成やU-bootなどのブートローダーを変更するために推奨される手順は次のとおりです：
+デバイスの起動設定やブートローダー（U-bootなど）を変更するための推奨手順は以下の通りです：
 
-1. **ブートローダーのインタープリターシェルにアクセス**：
-- 起動中に "0"、スペース、または他の特定の "マジックコード" を押して、ブートローダーのインタープリターシェルにアクセスします。
+1. **ブートローダーのインタプリタシェルにアクセス**:
+- ブート中に「0」やスペース、または他の特定された「マジックコード」を押してブートローダーのインタプリタシェルにアクセスします。
 
-2. **ブート引数の変更**：
+2. **ブート引数の変更**:
 - 以下のコマンドを実行して、ブート引数に '`init=/bin/sh`' を追加し、シェルコマンドを実行できるようにします：
 %%%
 #printenv
@@ -26,8 +27,8 @@ HackTricksをサポートする他の方法：
 #boot
 %%%
 
-3. **TFTPサーバーの設定**：
-- ローカルネットワーク経由でイメージをロードするためにTFTPサーバーを構成します：
+3. **TFTPサーバーの設定**:
+- ローカルネットワーク経由でイメージをロードするためにTFTPサーバーを設定します：
 %%%
 #setenv ipaddr 192.168.2.2 #デバイスのローカルIP
 #setenv serverip 192.168.2.1 #TFTPサーバーのIP
@@ -37,20 +38,36 @@ HackTricksをサポートする他の方法：
 #tftp ${loadaddr} uImage-3.6.35 #loadaddrはファイルをロードするアドレスとTFTPサーバー上のイメージのファイル名を取ります
 %%%
 
-4. **`ubootwrite.py`の利用**：
-- `ubootwrite.py`を使用してU-bootイメージを書き込み、ルートアクセスを取得するために変更されたファームウェアをプッシュします。
+4. **`ubootwrite.py`の利用**:
+- `ubootwrite.py`を使用してU-bootイメージを書き込み、ルートアクセスを得るために修正されたファームウェアをプッシュします。
 
-5. **デバッグ機能の確認**：
-- デバッグ機能が有効になっているかどうかを確認します。詳細なログ記録、任意のカーネルの読み込み、または信頼されていないソースからのブートなど。
+5. **デバッグ機能の確認**:
+- 詳細なログ記録、任意のカーネルのロード、または信頼できないソースからのブートなどのデバッグ機能が有効かどうかを確認します。
 
-6. **注意深いハードウェア干渉**：
-- デバイスの起動シーケンス中に1つのピンを接地に接続し、特にカーネルが解凍される前にSPIまたはNANDフラッシュチップとやり取りする際には、極めて注意してください。ピンをショートする前にNANDフラッシュチップのデータシートを参照してください。
+6. **注意すべきハードウェア干渉**:
+- デバイスのブートアップシーケンス中に1つのピンをグラウンドに接続し、SPIまたはNANDフラッシュチップと相互作用する際は注意が必要です。特にカーネルが解凍される前に行うべきです。ピンをショートさせる前にNANDフラッシュチップのデータシートを参照してください。
 
-7. **ローグDHCPサーバーの設定**：
-- デバイスがPXEブート中に摂取する悪意のあるパラメータを持つローグDHCPサーバーを設定します。Metasploit（MSF）のDHCP補助サーバーなどのツールを利用します。 'FILENAME'パラメータを`'a";/bin/sh;#'`などのコマンドインジェクションコマンドで変更して、デバイスの起動手順の入力検証をテストします。
+7. **悪意のあるDHCPサーバーの設定**:
+- PXEブート中にデバイスが取り込む悪意のあるパラメータを持つロゲDHCPサーバーを設定します。Metasploitの（MSF）DHCP補助サーバーなどのツールを利用します。'FILENAME'パラメータをコマンドインジェクションコマンド（例：`'a";/bin/sh;#'`）で変更し、デバイスの起動手順に対する入力検証をテストします。
 
-**注意**: デバイスのピンと物理的なやり取りを伴う手順（*アスタリスクでマークされています）は、デバイスを損傷させないように極めて注意してアプローチする必要があります。
+**注意**: デバイスのピンとの物理的な相互作用を伴う手順（*アスタリスクでマークされたもの）は、デバイスを損傷しないように極めて注意して行うべきです。
 
 
 ## 参考文献
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

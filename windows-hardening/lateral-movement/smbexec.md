@@ -1,60 +1,61 @@
 # SmbExec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)をフォローする。
-* **HackTricks**および**HackTricks Cloud**のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 動作原理
+## How it Works
 
-**Smbexec**は、Windowsシステムでリモートコマンドを実行するためのツールであり、**Psexec**に類似していますが、ターゲットシステムに悪意のあるファイルを配置することを避けます。
+**Smbexec**は、Windowsシステムでのリモートコマンド実行に使用されるツールで、**Psexec**に似ていますが、ターゲットシステムに悪意のあるファイルを配置することを避けます。
 
-### **SMBExec**に関する主なポイント
+### Key Points about **SMBExec**
 
-- ターゲットマシン上で一時的なサービス（たとえば、「BTOBTO」）を作成して、バイナリをドロップせずにcmd.exe（%COMSPEC%）を介してコマンドを実行します。
-- ステルス的なアプローチにもかかわらず、実行された各コマンドに対してイベントログを生成し、非対話的な「シェル」を提供します。
-- **Smbexec**を使用して接続するコマンドは次のようになります：
+- ターゲットマシン上に一時的なサービス（例えば、「BTOBTO」）を作成してcmd.exe (%COMSPEC%) を介してコマンドを実行し、バイナリを落とさないように動作します。
+- ステルスなアプローチにもかかわらず、実行された各コマンドのイベントログを生成し、非対話型の「シェル」の形式を提供します。
+- **Smbexec**を使用して接続するためのコマンドは次のようになります:
 ```bash
 smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### バイナリなしでコマンドを実行する
 
-- **Smbexec** は、サービスの binPaths を介して直接コマンドを実行できるようにし、ターゲット上で物理的なバイナリが必要なくなります。
-- この方法は、Windows ターゲット上で一度だけコマンドを実行するのに便利です。たとえば、Metasploit の `web_delivery` モジュールと組み合わせることで、PowerShell をターゲットとした逆接続 Meterpreter ペイロードを実行できます。
-- 攻撃者のマシンで binPath を設定して提供されたコマンドを cmd.exe を介して実行するリモートサービスを作成することで、サービスの応答エラーが発生した場合でも、Metasploit リスナーを使用してコールバックとペイロードの実行を成功させることができます。
+- **Smbexec** は、ターゲット上に物理的なバイナリを必要とせずにサービスの binPaths を通じて直接コマンドを実行することを可能にします。
+- この方法は、Windows ターゲット上で一時的なコマンドを実行するのに便利です。例えば、Metasploit の `web_delivery` モジュールと組み合わせることで、PowerShell 対象のリバース Meterpreter ペイロードを実行できます。
+- cmd.exe を通じて提供されたコマンドを実行するように binPath を設定したリモートサービスを攻撃者のマシン上に作成することで、サービス応答エラーが発生しても、ペイロードを成功裏に実行し、Metasploit リスナーとのコールバックとペイロード実行を達成することが可能です。
 
 ### コマンドの例
 
-以下のコマンドを使用して、サービスの作成と開始を行うことができます：
+サービスを作成して開始するには、以下のコマンドを使用できます：
 ```bash
 sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
 sc start [ServiceName]
 ```
-さらなる詳細については、[https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)を参照してください。
-
+FOr further details check [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 ## 参考文献
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を使って、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)で**フォロー**する
-* **HackTricks**および**HackTricks Cloud**のGitHubリポジトリにPRを提出して、**ハッキングトリックを共有**する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

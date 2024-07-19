@@ -1,30 +1,36 @@
-# macOS カーネルの脆弱性
+# macOSカーネルの脆弱性
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで企業を宣伝**したいですか？ または、**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？ [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をご覧ください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)をチェックして、[**NFTs**](https://opensea.io/collection/the-peass-family)の独占コレクションを発見しましょう。
-* [**公式PEASSとHackTricksのスウォッグ**](https://peass.creator-spring.com)を入手しましょう。
-* **[💬](https://emojipedia.org/speech-balloon/) Discordグループ**に参加するか、[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローしてください。
-* **[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)**と**[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)**にPRを送信して、ハッキングのヒントを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
 
-## [OTAの乗っ取り](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
+## [OTAのハッキング](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)では、ソフトウェアアップデーターを侵害することでカーネルを侵害することを可能にしたいくつかの脆弱性が説明されています。\
-[**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
+[**このレポート**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)では、ソフトウェアアップデーターを妥協させることによってカーネルを妥協させることを可能にしたいくつかの脆弱性が説明されています。\
+[**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722)。
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで企業を宣伝**したいですか？ または、**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？ [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をご覧ください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)をチェックして、[**NFTs**](https://opensea.io/collection/the-peass-family)の独占コレクションを発見しましょう。
-* [**公式PEASSとHackTricksのスウォッグ**](https://peass.creator-spring.com)を入手しましょう。
-* **[💬](https://emojipedia.org/speech-balloon/) Discordグループ**に参加するか、[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローしてください。
-* **[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)**と**[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)**にPRを送信して、ハッキングのヒントを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}

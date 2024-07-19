@@ -1,40 +1,56 @@
 # Skeleton Key
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦で**フォロー**する：[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **ハッキングトリックを共有するには、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Skeleton Key Attack
 
-**スケルトンキー攻撃**は、攻撃者がドメインコントローラーに**マスターパスワードを注入**することで、**Active Directory認証をバイパス**し、**任意のユーザーとして認証**できるようにする高度な技術です。これにより、攻撃者はパスワードなしで**任意のユーザーとして認証**され、ドメインへの**無制限アクセス**が可能となります。
+**Skeleton Key攻撃**は、攻撃者が**ドメインコントローラーにマスターパスワードを注入することによってActive Directory認証をバイパスする**高度な技術です。これにより、攻撃者は**任意のユーザーとして認証できる**ようになり、実質的に**ドメインへの無制限のアクセスを付与**します。
 
-これは[Mimikatz](https://github.com/gentilkiwi/mimikatz)を使用して実行できます。この攻撃を実行するには、**ドメイン管理者権限が前提条件**であり、攻撃者は包括的な侵害を確保するために各ドメインコントローラーを対象にする必要があります。ただし、攻撃の効果は一時的であり、**ドメインコントローラーを再起動するとマルウェアが消去**され、持続的なアクセスのために再実装する必要があります。
+この攻撃は[Mimikatz](https://github.com/gentilkiwi/mimikatz)を使用して実行できます。この攻撃を実行するには、**ドメイン管理者権限が前提条件**であり、攻撃者は包括的な侵害を確実にするために各ドメインコントローラーをターゲットにする必要があります。ただし、攻撃の効果は一時的であり、**ドメインコントローラーを再起動するとマルウェアが消去される**ため、持続的なアクセスのためには再実装が必要です。
 
-**攻撃の実行**には、`misc::skeleton`という1つのコマンドが必要です。
+**攻撃を実行する**には、単一のコマンドが必要です：`misc::skeleton`。
 
-## 緩和策
+## Mitigations
 
-このような攻撃に対する緩和策には、サービスのインストールや機密特権の使用を示す特定のイベントIDを監視することが含まれます。具体的には、SystemイベントID 7045またはSecurityイベントID 4673を探すことで、不審な活動を明らかにすることができます。さらに、`lsass.exe`を保護されたプロセスとして実行することは、攻撃者の努力を大幅に妨げることができます。これには、カーネルモードドライバーを使用する必要があるため、攻撃の複雑さが増します。
+このような攻撃に対する緩和策には、サービスのインストールや敏感な特権の使用を示す特定のイベントIDを監視することが含まれます。具体的には、システムイベントID 7045またはセキュリティイベントID 4673を探すことで、疑わしい活動を明らかにできます。さらに、`lsass.exe`を保護されたプロセスとして実行することで、攻撃者の努力を大幅に妨げることができ、これによりカーネルモードドライバーを使用する必要が生じ、攻撃の複雑さが増します。
 
-以下はセキュリティ対策を強化するためのPowerShellコマンドです：
+セキュリティ対策を強化するためのPowerShellコマンドは以下の通りです：
 
 - 疑わしいサービスのインストールを検出するには、次のコマンドを使用します：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
-  
+
 - 特にMimikatzのドライバーを検出するには、次のコマンドを利用できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
-  
-- `lsass.exe`を強化するために、保護されたプロセスとして有効にすることをお勧めします：`New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-システムの再起動後に保護措置が正常に適用されたことを確認することは重要です。これは次のコマンドで実現できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+- `lsass.exe`を強化するためには、保護されたプロセスとして有効にすることが推奨されます：`New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-## 参考文献
+システム再起動後の検証は、保護措置が正常に適用されたことを確認するために重要です。これは次のコマンドで実現できます：`Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,33 +1,34 @@
 # 制約付き委任
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を使って、ゼロからヒーローまでAWSハッキングを学びましょう！</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合**は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)を**フォロー**する。
-- **HackTricks**と**HackTricks Cloud**のgithubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 ## 制約付き委任
 
-これを使用すると、ドメイン管理者はコンピューターを特定の**サービス**に対して**ユーザーまたはコンピューターをなりすます**ことを許可できます。
+これを使用すると、ドメイン管理者はコンピュータが**ユーザーまたはコンピュータを**サービスに対して**なりすます**ことを**許可**できます。
 
-- **ユーザー自身のサービス（**_**S4U2self**_**）：** サービスアカウントが[TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx)（T2A4D）を含む_userAccountControl_値を持っている場合、他のユーザーの代わりに自分自身（サービス）のためにTGSを取得できます。
-- **ユーザーからプロキシへのサービス（**_**S4U2proxy**_**）：** サービスアカウントは、**msDS-AllowedToDelegateTo**に設定されたサービスに対して任意のユーザーのためにTGSを取得できます。そのためには、まずそのユーザーから自分自身へのTGSが必要ですが、他のTGSを要求する前にS4U2selfを使用してそのTGSを取得できます。
+* **ユーザーの自己サービス（**_**S4U2self**_**）：** もし**サービスアカウント**が[TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D)を含む_userAccountControl_値を持っている場合、そのアカウントは他の任意のユーザーの代わりに自分自身（サービス）のためにTGSを取得できます。
+* **ユーザーのプロキシサービス（**_**S4U2proxy**_**）：** **サービスアカウント**は、**msDS-AllowedToDelegateTo**に設定されたサービスのために任意のユーザーの代わりにTGSを取得できます。そのためには、まずそのユーザーから自分自身へのTGSが必要ですが、S4U2selfを使用してそのTGSを取得してから、他のTGSを要求できます。
 
 **注意**：ユーザーがADで「_アカウントは機密であり、委任できません_」とマークされている場合、そのユーザーを**なりすます**ことはできません。
 
-これは、サービスのハッシュを**侵害**すると、ユーザーを**なりすまして**、そのユーザーの代わりに**アクセス**を取得できることを意味します（可能な**昇格**）。
+これは、**サービスのハッシュを侵害**すると、**ユーザーをなりすまし**、**サービスに対して**そのユーザーの代わりに**アクセス**を取得できることを意味します（可能な**特権昇格**）。
 
-さらに、ユーザーがなりすますことができるサービスだけでなく、**任意のサービス**にもアクセスできます。なぜなら、SPN（要求されたサービス名）がチェックされていないため、特権のみがチェックされているからです。したがって、**CIFSサービス**にアクセスできる場合、Rubeusの`/altservice`フラグを使用して**HOSTサービス**にもアクセスできます。
+さらに、**ユーザーがなりすますことができるサービスだけでなく、任意のサービスにもアクセスできる**ため、SPN（要求されたサービス名）はチェックされず、特権のみがチェックされます。したがって、**CIFSサービス**にアクセスできる場合、Rubeusの`/altservice`フラグを使用して**HOSTサービス**にもアクセスできます。
 
-また、**DC上のLDAPサービス**へのアクセスは、**DCSync**を悪用するために必要です。
+また、**DC上のLDAPサービスアクセス**は、**DCSync**を悪用するために必要です。
 
 {% code title="列挙" %}
 ```bash
@@ -40,7 +41,7 @@ ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))"
 ```
 {% endcode %}
 
-{% code title="TGTの取得" %}
+{% code title="TGTを取得する" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -62,12 +63,12 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-コンピューター内でSYSTEMにならなくても、**TGTチケット**や**RC4**または**AES256**を取得する**他の方法**があります。プリンターバグや非制約委任、NTLM中継、Active Directory証明書サービスの悪用などがあります。
+**TGTチケット**や**RC4**または**AES256**を取得する**他の方法があります**。例えば、プリンターバグや制約のない委任、NTLMリレー、Active Directory証明書サービスの悪用などです。
 
-**TGTチケット（またはハッシュ化されたもの）を持っているだけで、コンピュータ全体を危険にさらすことなくこの攻撃を実行できます。**
+**そのTGTチケット（またはハッシュ）を持っているだけで、コンピュータ全体を危険にさらすことなくこの攻撃を実行できます。**
 {% endhint %}
 
-{% code title="Rubeusを使用する" %}
+{% code title="Using Rubeus" %}
 ```bash
 #Obtain a TGS of the Administrator user to self
 .\Rubeus.exe s4u /ticket:TGT_websvc.kirbi /impersonateuser:Administrator /outfile:TGS_administrator
@@ -99,18 +100,19 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 ```
 {% endcode %}
 
-[**詳細はired.teamを参照してください。**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+[**詳細情報はired.teamをご覧ください。**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)を**フォロー**する。
-* **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
+{% endhint %}

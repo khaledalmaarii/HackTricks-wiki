@@ -1,26 +1,29 @@
 # ゴールデンチケット
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)をフォローする
-- **ハッキングテクニックを共有するために、[HackTricks](https://github.com/carlospolop/hacktricks)と[HackTricks Cloud](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 ## ゴールデンチケット
 
-**ゴールデンチケット**攻撃は、**Active Directory（AD）krbtgtアカウントのNTLMハッシュを使用して任意のユーザーを偽装する合法的なチケット発行チケット（TGT）を作成**することにあります。この技術は、**偽装されたユーザーとしてドメイン内の任意のサービスやマシンにアクセス**できるため、特に有利です。**krbtgtアカウントの資格情報は自動的に更新されない**ことを覚えておくことが重要です。
+**ゴールデンチケット**攻撃は、**NTLMハッシュを使用して任意のユーザーを偽装した正当なチケットグラントチケット（TGT）を作成する**ことから成ります。この技術は、**偽装されたユーザーとしてドメイン内の任意のサービスやマシンにアクセスできる**ため、特に有利です。**krbtgtアカウントの資格情報は自動的に更新されない**ことを覚えておくことが重要です。
 
-krbtgtアカウントのNTLMハッシュを**取得**するためには、さまざまな方法があります。これは、ドメイン内の任意のドメインコントローラ（DC）にある**Local Security Authority Subsystem Service（LSASS）プロセス**または**NT Directory Services（NTDS.dit）ファイル**から抽出することができます。さらに、**DCsync攻撃を実行**することで、Mimikatzの**lsadump::dcsyncモジュール**やImpacketの**secretsdump.pyスクリプト**などのツールを使用してこのNTLMハッシュを取得することができます。これらの操作を行うには、通常**ドメイン管理者権限または同等のアクセスレベルが必要**です。
+krbtgtアカウントの**NTLMハッシュを取得する**ために、さまざまな方法が使用できます。これは、ドメイン内の任意のドメインコントローラー（DC）にある**ローカルセキュリティ機関サブシステムサービス（LSASS）プロセス**または**NTディレクトリサービス（NTDS.dit）ファイル**から抽出できます。さらに、**DCsync攻撃を実行する**ことも、このNTLMハッシュを取得するための別の戦略であり、Mimikatzの**lsadump::dcsyncモジュール**やImpacketの**secretsdump.pyスクリプト**などのツールを使用して実行できます。これらの操作を行うには、**ドメイン管理者権限または同等のアクセスレベルが通常必要**であることを強調することが重要です。
 
-NTLMハッシュはこの目的に適した方法ですが、**運用上のセキュリティ上の理由から、Advanced Encryption Standard（AES）Kerberosキー（AES128およびAES256）を使用してチケットを偽造することが強く推奨**されています。
+NTLMハッシュはこの目的に対して有効な方法ですが、運用上のセキュリティ理由から、**高度な暗号化標準（AES）Kerberosキー（AES128およびAES256）を使用してチケットを偽造することを強く推奨します**。 
+
+{% code title="From Linux" %}
 ```bash
 python ticketer.py -nthash 25b2076cda3bfd6209161a6c78a69c1c -domain-sid S-1-5-21-1339291983-1349129144-367733775 -domain jurassic.park stegosaurus
 export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
@@ -40,50 +43,49 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**ゴールデンチケットが注入**されたら、共有ファイル **(C$)** にアクセスし、サービスとWMIを実行できるため、**psexec** または **wmiexec** を使用してシェルを取得できます（winrmを介してシェルを取得することはできないようです）。
+**一度** **ゴールデンチケットが注入されると**、共有ファイル **(C$)** にアクセスでき、サービスやWMIを実行できるため、**psexec** や **wmiexec** を使用してシェルを取得できます（winrm経由でシェルを取得することはできないようです）。
 
-### 一般的な検知の回避
+### 一般的な検出を回避する
 
-ゴールデンチケットを検知する最も一般的な方法は、**Kerberosトラフィックを検査**することです。デフォルトでは、MimikatzはTGTに **10年間署名**を行います。これにより、それを使用して行われた後続のTGSリクエストで異常として目立ちます。
+ゴールデンチケットを検出する最も一般的な方法は、**ケルベロストラフィックを検査すること**です。デフォルトでは、Mimikatzは**TGTを10年間署名します**。これは、その後のTGSリクエストで異常として目立ちます。
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-`/startoffset`、`/endin`、`/renewmax` パラメータを使用して、開始オフセット、期間、および最大更新回数を制御します（すべて分単位）。
+`/startoffset`、`/endin`、および`/renewmax`パラメータを使用して、開始オフセット、期間、および最大更新回数（すべて分単位）を制御します。
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-```markdown
-残念ながら、TGTの寿命は4769の中に記録されていないため、Windowsイベントログでこの情報を見つけることはできません。ただし、**事前の4768がない4769を見る**ことができます。**TGTなしでTGSを要求することはできません**ので、発行されたTGTの記録がない場合、それがオフラインで偽造されたことを推測することができます。
+申し訳ありませんが、TGTの有効期限は4769のログに記録されていないため、この情報はWindowsイベントログには見つかりません。しかし、相関させることができるのは、**前の4768なしで4769を見ること**です。**TGTなしでTGSを要求することは不可能**であり、TGTが発行された記録がない場合、それがオフラインで偽造されたと推測できます。
 
-この検出を**バイパスする**ために、ダイヤモンドチケットをチェックしてください：
+この検出を**回避するために**、ダイヤモンドチケットを確認してください：
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-### 緩和
+### 緩和策
 
 * 4624: アカウントログオン
 * 4672: 管理者ログオン
 * `Get-WinEvent -FilterHashtable @{Logname='Security';ID=4672} -MaxEvents 1 | Format-List –Property`
 
-防御者ができる他の小技は、デフォルトのドメイン管理者アカウントなど、**機密ユーザーの4769に警告**を出すことです。
+防御者ができる他の小さなトリックは、**デフォルトのドメイン管理者アカウントなどの敏感なユーザーのために4769にアラートを出すこと**です。
 
 ## 参考文献
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
-* [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets] (https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
+* [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
+
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>！</strong></a></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や、**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を手に入れる
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)で**フォロー**する。
-* **ハッキングトリックを共有するために、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
-```
+{% endhint %}

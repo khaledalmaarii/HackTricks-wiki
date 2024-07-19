@@ -1,37 +1,36 @@
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合**は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* 独占的な[**NFT**](https://opensea.io/collection/the-peass-family)のコレクションである[**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦で**フォロー**する [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **ハッキングテクニックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
 
 
-# パッキングされたバイナリの特定
+# パックされたバイナリの識別
 
-* **文字列の不足**: パッキングされたバイナリにはほとんど文字列が含まれていないことが一般的です
-* **未使用の文字列が多い**: また、マルウェアが商用パッカーを使用している場合、相互参照がない多くの文字列が見つかることが一般的です。これらの文字列が存在しても、バイナリがパッキングされていないとは限りません。
-* バイナリがどのパッカーを使用してパッキングされたかを特定しようとするために、いくつかのツールを使用することもできます:
+* **文字列の不足**：パックされたバイナリにはほとんど文字列がないことが一般的です。
+* **未使用の文字列が多い**：マルウェアが商業的なパッカーを使用している場合、相互参照のない多くの文字列が見つかることが一般的です。これらの文字列が存在しても、バイナリがパックされていないことを意味するわけではありません。
+* バイナリをパックするために使用されたパッカーを特定するために、いくつかのツールを使用できます：
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
 * [Language 2000](http://farrokhi.net/language/)
 
 # 基本的な推奨事項
 
-* **IDAでパックされたバイナリを下から上に分析**することを**開始**します。アンパッカーは、アンパックされたコードが終了すると終了するため、アンパックされたコードに実行を渡す可能性は低いです。
-* **JMP**や**CALL**、**レジスタ**や**メモリ領域**への**関数の引数とアドレス方向をプッシュし、`retn`を呼び出す**関数を検索します。なぜなら、その場合、関数の戻り値は、呼び出される前にスタックにプッシュされたアドレスを呼び出す可能性があるからです。
-* `VirtualAlloc`に**ブレークポイント**を設定します。これは、プログラムがアンパックされたコードを書き込むことができるメモリ領域を割り当てるためです。関数を実行した後にEAX内の値に到達するために「ユーザーコードに実行」を実行するか、F8を使用して**そのアドレスをダンプで追跡**します。アンパックされたコードが保存される領域であるかどうかはわかりません。
-* 引数として値「**40**」を持つ**`VirtualAlloc`**は、Read+Write+Execute（実行が必要なコードがここにコピーされる）を意味します。
-* コードを**アンパック**する間に、**算術演算**や**`memcopy`**または**`Virtual`**`Alloc`のような関数への**複数の呼び出し**を見つけることが一般的です。関数が明らかに算術演算のみを実行し、おそらくいくつかの`memcopy`を実行している場合、関数の終わりを見つけてみることをお勧めします（おそらくJMPやレジスタへの呼び出し）**または**少なくとも**最後の関数への呼び出し**を見つけ、その後に実行してコードが興味深くないことを確認します。
-* コードをアンパックする際に、**メモリ領域が変更されるたびに**メモリ領域の変更がアンパックコードの**開始を示す可能性**があることに注意してください。Process Hackerを使用して簡単にメモリ領域をダンプできます（process --> properties --> memory）。
-* コードをアンパックしようとする際に、**バイナリの文字列をチェック**することで、**すでにアンパックされたコードで作業しているかどうかを知る**良い方法です（そのため、単にダンプできます）。ある時点でジャンプを実行し（おそらくメモリ領域を変更）、**追加された文字列がかなり増えた**ことに気付いた場合、**アンパックされたコードで作業している**ことがわかります。\
-ただし、パッカーにすでに多くの文字列が含まれている場合は、単語「http」を含む文字列の数を確認して、この数が増加するかどうかを確認できます。
-* メモリ領域から実行可能ファイルをダンプする際に、[PE-bear](https://github.com/hasherezade/pe-bear-releases/releases)を使用して一部のヘッダーを修正できます。
-
-</details>
+* **IDAでパックされたバイナリを下から上に**分析し始めます。アンパッカーはアンパックされたコードが終了すると終了するため、アンパッカーが最初にアンパックされたコードに実行を渡すことは考えにくいです。
+* **レジスタ**や**メモリ**の**領域**への**JMP**や**CALL**を探します。また、**引数とアドレスをプッシュしてから`retn`を呼び出す関数**を探します。なぜなら、その場合、関数の戻りはスタックにプッシュされたアドレスを呼び出す可能性があるからです。
+* `VirtualAlloc`に**ブレークポイント**を設定します。これは、プログラムがアンパックされたコードを書き込むためのメモリ内のスペースを割り当てます。「ユーザーコードまで実行」するか、F8を使用して**関数を実行した後にEAX内の値を取得**し、「**ダンプ内のそのアドレスを追跡**」します。アンパックされたコードが保存される領域であるかどうかはわかりません。
+* **`VirtualAlloc`**に**「40」**という値を引数として渡すことは、読み取り+書き込み+実行を意味します（実行が必要なコードがここにコピーされる予定です）。
+* コードをアンパックしているとき、**算術演算**や**`memcopy`**や**`Virtual`**`Alloc`のような関数への**いくつかの呼び出し**を見つけるのは普通です。もし、明らかに算術演算のみを行い、場合によっては`memcopy`を行う関数にいる場合、**関数の終わりを見つける**（おそらくレジスタへのJMPまたは呼び出し）**か、少なくとも最後の関数への呼び出しを見つけて実行する**ことをお勧めします。なぜなら、そのコードは興味深くないからです。
+* コードをアンパックしている間、**メモリ領域を変更する**たびに注意してください。メモリ領域の変更は、**アンパックコードの開始を示す**可能性があります。Process Hackerを使用してメモリ領域を簡単にダンプできます（プロセス --> プロパティ --> メモリ）。
+* コードをアンパックしようとしているとき、**アンパックされたコードで作業しているかどうかを知る良い方法**（そのため、単にダンプできます）は、**バイナリの文字列を確認すること**です。ある時点でジャンプを行い（おそらくメモリ領域を変更）、**はるかに多くの文字列が追加された**ことに気付いた場合、**アンパックされたコードで作業している**ことがわかります。\
+ただし、パッカーにすでに多くの文字列が含まれている場合、「http」という単語を含む文字列の数を確認し、この数が増加するかどうかを確認できます。
+* メモリの領域から実行可能ファイルをダンプするとき、[PE-bear](https://github.com/hasherezade/pe-bear-releases/releases)を使用していくつかのヘッダーを修正できます。

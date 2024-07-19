@@ -1,16 +1,17 @@
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)をフォローする
-* **ハッキングトリックを共有するには、[HackTricks](https://github.com/carlospolop/hacktricks)と[HackTricks Cloud](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 このチートシートの一部は、[angrドキュメント](https://docs.angr.io/_/downloads/en/stable/pdf/)に基づいています。
 
@@ -40,9 +41,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# ロードされたメインオブジェクト情報
+# Loaded and Main object information
 
-## ロードされたデータ
+## Loaded Data
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -104,9 +105,9 @@ block.pp() #Print disassembly of the block
 block.instructions #"0xb" Get number of instructions
 block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x401675, 0x401676, 0x401679, 0x40167d, 0x40167e, 0x40167f, 0x401686, 0x40168d, 0x401694]"
 ```
-# 動的解析
+# ダイナミック分析
 
-## シミュレーションマネージャ、ステート
+## シミュレーションマネージャー、ステート
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -131,11 +132,11 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## 関数の呼び出し
 
-- `args`を介して引数のリストと`env`を介して環境変数の辞書を`entry_state`と`full_init_state`に渡すことができます。これらの構造体内の値は文字列またはビットベクトルであり、シミュレートされた実行の引数と環境として状態にシリアル化されます。デフォルトの`args`は空のリストですので、分析しているプログラムが少なくとも`argv[0]`を見つけることを期待している場合は常にそれを提供する必要があります！
-- `argc`をシンボリックにしたい場合は、`entry_state`と`full_init_state`のコンストラクタにシンボリックビットベクトルとして`argc`を渡すことができます。ただし、これを行う場合は、`args`に渡した引数の数よりも`argc`の値が大きくならないように制約を生成する必要があります。
-- コールステートを使用するには、`.call_state(addr, arg1, arg2, ...)`として呼び出す必要があります。ここで、`addr`は呼び出したい関数のアドレスであり、`argN`はその関数へのN番目の引数として、Pythonの整数、文字列、または配列、またはビットベクトルとして渡す必要があります。メモリを割り当てて実際にオブジェクトへのポインタを渡したい場合は、PointerWrapperでラップする必要があります。つまり、`angr.PointerWrapper("point to me!")`です。このAPIの結果は少し予測できないことがありますが、改善に取り組んでいます。
+* `entry_state` と `full_init_state` に `args` を通じて引数のリストを、`env` を通じて環境変数の辞書を渡すことができます。これらの構造内の値は文字列またはビットベクタであり、シミュレーションされた実行の引数と環境として状態にシリアライズされます。デフォルトの `args` は空のリストなので、分析しているプログラムが少なくとも `argv[0]` を見つけることを期待している場合は、常にそれを提供する必要があります！
+* `argc` をシンボリックにしたい場合は、`entry_state` と `full_init_state` コンストラクタにシンボリックビットベクタを `argc` として渡すことができます。ただし、注意が必要です：これを行う場合は、結果の状態に対して、argc の値が `args` に渡した引数の数より大きくならないという制約も追加する必要があります。
+* コールステートを使用するには、`.call_state(addr, arg1, arg2, ...)` で呼び出す必要があります。ここで `addr` は呼び出したい関数のアドレスで、`argN` はその関数への N 番目の引数であり、Python の整数、文字列、配列、またはビットベクタとして指定できます。メモリを割り当ててオブジェクトへのポインタを実際に渡したい場合は、`angr.PointerWrapper("point to me!")` のように PointerWrapper でラップする必要があります。この API の結果は少し予測不可能な場合がありますが、改善に取り組んでいます。
 
-## ビットベクトル
+## ビットベクタ
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -144,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## シンボリックビットベクトルと制約
+## シンボリックビットベクターと制約
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -178,7 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## フックング
+## フッキング
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -196,20 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-さらに、最初の引数としてシンボルの名前を指定することで、`proj.hook_symbol(name, hook)` を使用して、シンボルが存在するアドレスにフックを設定できます。
+さらに、`proj.hook_symbol(name, hook)`を使用して、最初の引数としてシンボルの名前を提供することで、シンボルが存在するアドレスをフックすることができます。
 
 # 例
 
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じて、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい場合は** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)、当社の独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) コレクションを発見する
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) をフォローする
-* **HackTricks** および **HackTricks Cloud** の GitHub リポジトリに PR を提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
