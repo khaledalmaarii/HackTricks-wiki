@@ -1,46 +1,48 @@
 # macOS Apple Events
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## मूल जानकारी
+## Basic Information
 
-**Apple Events** Apple के macOS में एक सुविधा है जो एप्लिकेशनों को एक दूसरे के साथ संवाद करने की अनुमति देती है। ये **Apple Event Manager** का हिस्सा है, जो macOS ऑपरेटिंग सिस्टम का एक घटक है जो इंटरप्रोसेस कम्यूनिकेशन को संभालने के लिए जिम्मेदार है। यह सिस्टम एक एप्लिकेशन को दूसरे एप्लिकेशन को एक विशेष कार्य करने का अनुरोध करने के लिए संदेश भेजने के लिए एक एप्लिकेशन को सक्षम करता है, जैसे कि एक फ़ाइल खोलना, डेटा प्राप्त करना, या एक कमांड को निष्पादित करना।
+**Apple Events** एप्पल के macOS में एक विशेषता है जो अनुप्रयोगों को एक-दूसरे के साथ संवाद करने की अनुमति देती है। ये **Apple Event Manager** का हिस्सा हैं, जो macOS ऑपरेटिंग सिस्टम का एक घटक है जो इंटरप्रोसेस संचार को संभालने के लिए जिम्मेदार है। यह प्रणाली एक अनुप्रयोग को दूसरे अनुप्रयोग को एक संदेश भेजने की अनुमति देती है ताकि वह एक विशेष ऑपरेशन कर सके, जैसे कि एक फ़ाइल खोलना, डेटा प्राप्त करना, या एक आदेश निष्पादित करना।
 
-मीना डेमन `/System/Library/CoreServices/appleeventsd` है जो सेवा `com.apple.coreservices.appleevents` को रजिस्टर करता है।
+मिना डेमन `/System/Library/CoreServices/appleeventsd` है जो सेवा `com.apple.coreservices.appleevents` को पंजीकृत करता है।
 
-हर एप्लिकेशन जो इवेंट प्राप्त कर सकता है, वह इस डेमन के साथ अपना Apple Event Mach Port जांचेगा। और जब एक ऐप इसे इवेंट भेजना चाहता है, तो ऐप डेमन से इस पोर्ट का अनुरोध करेगा।
+हर अनुप्रयोग जो घटनाएँ प्राप्त कर सकता है, इस डेमन के साथ अपने Apple Event Mach Port की जांच करेगा। और जब एक ऐप इसे एक घटना भेजना चाहता है, तो ऐप इस पोर्ट को डेमन से अनुरोध करेगा।
 
-Sandboxed एप्लिकेशन को इवेंट भेजने की अनुमति के लिए विशेषाधिकार जैसे `allow appleevent-send` और `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` की आवश्यकता होती है। ध्यान दें कि entitlements जैसे `com.apple.security.temporary-exception.apple-events` उन्हें प्रत्यक्ष इवेंट भेजने की पहुंच किसके पास है इसे प्रतिबंधित कर सकते हैं जिसके लिए entitlements जैसे `com.apple.private.appleevents` की आवश्यकता होगी।
+सैंडबॉक्स किए गए अनुप्रयोगों को घटनाएँ भेजने के लिए `allow appleevent-send` और `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` जैसे विशेषाधिकार की आवश्यकता होती है। ध्यान दें कि `com.apple.security.temporary-exception.apple-events` जैसे अधिकार उन लोगों को प्रतिबंधित कर सकते हैं जिनके पास घटनाएँ भेजने की अनुमति है, जिसके लिए `com.apple.private.appleevents` जैसे अधिकार की आवश्यकता होगी।
 
 {% hint style="success" %}
-यह संदेश भेजने के बारे में जानकारी लॉग करने के लिए एनवी वेरिएबल **`AEDebugSends`** का उपयोग संभव है:
+It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
 {% endhint %}
 
+{% hint style="success" %}
+सीखें और AWS हैकिंग का अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+सीखें और GCP हैकिंग का अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-दूसरे तरीके HackTricks का समर्थन करने के लिए:
-
-* अगर आप अपनी **कंपनी का विज्ञापन HackTricks में** देखना चाहते हैं या **HackTricks को PDF में डाउनलोड** करना चाहते हैं तो [**सब्सक्रिप्शन प्लान**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें** द्वारा PRs सबमिट करके [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
+{% endhint %}
