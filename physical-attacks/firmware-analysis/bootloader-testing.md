@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ τρικς σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Οι παρακάτω βήματα συνιστώνται για την τροποποίηση των ρυθμίσεων εκκίνησης συσκευής και των bootloaders όπως το U-boot:
+Τα παρακάτω βήματα συνιστώνται για την τροποποίηση των ρυθμίσεων εκκίνησης συσκευών και των bootloaders όπως το U-boot:
 
-1. **Πρόσβαση στο Interpreter Shell του Bootloader**:
-- Κατά τη διάρκεια της εκκίνησης, πατήστε "0", κενό ή άλλους "μαγικούς κωδικούς" για να αποκτήσετε πρόσβαση στο interpreter shell του bootloader.
+1. **Πρόσβαση στο Shell του Bootloader**:
+- Κατά την εκκίνηση, πατήστε "0", space ή άλλους αναγνωρισμένους "μαγικούς κωδικούς" για να αποκτήσετε πρόσβαση στο shell του bootloader.
 
-2. **Τροποποίηση των Boot Arguments**:
-- Εκτελέστε τις παρακάτω εντολές για να προσθέσετε το '`init=/bin/sh`' στα boot arguments, επιτρέποντας την εκτέλεση μιας εντολής κέλυφους:
+2. **Τροποποίηση Boot Arguments**:
+- Εκτελέστε τις παρακάτω εντολές για να προσθέσετε '`init=/bin/sh`' στα boot arguments, επιτρέποντας την εκτέλεση μιας εντολής shell:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -26,41 +27,47 @@
 #boot
 %%%
 
-3. **Διαμόρφωση TFTP Server**:
-- Διαμορφώστε έναν TFTP server για να φορτώνει εικόνες μέσω του τοπικού δικτύου:
+3. **Ρύθμιση TFTP Server**:
+- Ρυθμίστε έναν TFTP server για να φορτώσετε εικόνες μέσω τοπικού δικτύου:
 %%%
 #setenv ipaddr 192.168.2.2 #τοπική IP της συσκευής
 #setenv serverip 192.168.2.1 #IP του TFTP server
 #saveenv
 #reset
 #ping 192.168.2.1 #έλεγχος πρόσβασης στο δίκτυο
-#tftp ${loadaddr} uImage-3.6.35 #το loadaddr παίρνει τη διεύθυνση για να φορτώσει το αρχείο και το όνομα της εικόνας στον TFTP server
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr παίρνει τη διεύθυνση για να φορτώσει το αρχείο και το όνομα του αρχείου στην TFTP server
 %%%
 
-4. **Χρήση του `ubootwrite.py`**:
-- Χρησιμοποιήστε το `ubootwrite.py` για να γράψετε την εικόνα του U-boot και να εισάγετε μια τροποποιημένη firmware για να αποκτήσετε root πρόσβαση.
+4. **Χρήση `ubootwrite.py`**:
+- Χρησιμοποιήστε το `ubootwrite.py` για να γράψετε την εικόνα U-boot και να σπρώξετε ένα τροποποιημένο firmware για να αποκτήσετε πρόσβαση root.
 
-5. **Έλεγχος Χαρακτηριστικών Debug**:
-- Επαληθεύστε εάν τα χαρακτηριστικά debug όπως η αναλυτική καταγραφή, η φόρτωση αυθαίρετων πυρήνων ή η εκκίνηση από μη έμπιστες πηγές είναι ενεργοποιημένα.
+5. **Έλεγχος Λειτουργιών Debug**:
+- Ελέγξτε αν οι λειτουργίες debug όπως η λεπτομερής καταγραφή, η φόρτωση αυθαίρετων πυρήνων ή η εκκίνηση από μη αξιόπιστες πηγές είναι ενεργοποιημένες.
 
-6. **Προσοχή στην Παρεμβολή Υλικού**:
-- Να είστε προσεκτικοί όταν συνδέετε ένα pin στη γείωση και αλληλεπιδράτε με τα flash chips SPI ή NAND κατά τη διάρκεια της ακολουθίας εκκίνησης της συσκευής, ιδιαίτερα πριν από την αποσυμπίεση του πυρήνα. Πριν από τη σύντομη σύνδεση των pin, συμβουλευτείτε το εγχειρίδιο του flash chip NAND.
+6. **Προσοχή σε Υλικοτεχνικές Παρεμβολές**:
+- Να είστε προσεκτικοί όταν συνδέετε ένα ακίδα στο έδαφος και αλληλεπιδράτε με τα τσιπ SPI ή NAND flash κατά τη διάρκεια της διαδικασίας εκκίνησης της συσκευής, ιδιαίτερα πριν αποσυμπιεστεί ο πυρήνας. Συμβουλευτείτε το datasheet του τσιπ NAND flash πριν βραχυκυκλώσετε ακίδες.
 
-7. **Διαμόρφωση Επιθετικού Διακομιστή DHCP**:
-- Δημιουργήστε έναν επιθετικό διακομιστή DHCP με κακόβουλες παραμέτρους για να χρησιμοποιηθούν από μια συσκευή κατά τη διάρκεια μιας PXE εκκίνησης. Χρησιμοποιήστε εργαλεία όπως ο επιπλέον διακομιστής DHCP του Metasploit (MSF). Τροποποιήστε την παράμετρο 'FILENAME' με εντολές ενσωμάτωσης εντολών όπως `'a";/bin/sh;#'` για να ελέγξετε τον έλεγχο εισόδου για τις διαδικασίες εκκίνησης της συσκευής.
+7. **Ρύθμιση Rogue DHCP Server**:
+- Ρυθμίστε έναν rogue DHCP server με κακόβουλες παραμέτρους για να τις καταναλώσει μια συσκευή κατά την εκκίνηση PXE. Χρησιμοποιήστε εργαλεία όπως το auxiliary server DHCP του Metasploit (MSF). Τροποποιήστε την παράμετρο 'FILENAME' με εντολές injection όπως `'a";/bin/sh;#'` για να δοκιμάσετε την επικύρωση εισόδου για τις διαδικασίες εκκίνησης της συσκευής.
 
-**Σημείωση**: Τα βήματα που απαιτούν φυσική αλληλεπίδραση με τα pin της συσκευής (*σημειωμένα με αστερίσκο) πρέπει να προσεγγίζονται με μεγάλη προσοχή για να αποφευχθεί η ζημιά της συσκευής.
+**Σημείωση**: Τα βήματα που περιλαμβάνουν φυσική αλληλεπίδραση με τις ακίδες της συσκευής (*σημειωμένα με αστερίσκους) θα πρέπει να προσεγγίζονται με εξαιρετική προσοχή για να αποφευχθεί η ζημιά στη συσκευή.
 
 
-## Αναφορές
+## References
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε τ
+</details>
+{% endhint %}

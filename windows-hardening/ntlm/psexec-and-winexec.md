@@ -1,49 +1,50 @@
 # PsExec/Winexec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Πώς λειτουργούν
 
-Η διαδικασία περιγράφεται στα παρακάτω βήματα, επιδεικνύοντας πώς τα δυαδικά αρχεία υπηρεσίας παραμορφώνονται για να επιτευχθεί απομακρυσμένη εκτέλεση σε έναν στόχο μηχανήματος μέσω του SMB:
+Η διαδικασία περιγράφεται στα παρακάτω βήματα, απεικονίζοντας πώς οι δυαδικοί κωδικοί υπηρεσιών χειρίζονται για να επιτευχθεί απομακρυσμένη εκτέλεση σε μια στοχοθετημένη μηχανή μέσω SMB:
 
-1. Πραγματοποιείται **αντιγραφή ενός δυαδικού αρχείου υπηρεσίας στον κοινόχρηστο φάκελο ADMIN$ μέσω SMB**.
-2. Πραγματοποιείται **δημιουργία μιας υπηρεσίας στο απομακρυσμένο μηχάνημα** δείχνοντας στο δυαδικό αρχείο.
+1. **Αντιγραφή ενός δυαδικού κωδικού υπηρεσίας στο ADMIN$ share μέσω SMB** πραγματοποιείται.
+2. **Δημιουργία μιας υπηρεσίας στη απομακρυσμένη μηχανή** γίνεται με την αναφορά στον δυαδικό κωδικό.
 3. Η υπηρεσία **ξεκινά απομακρυσμένα**.
-4. Μετά τη λήξη, η υπηρεσία **σταματά και το δυαδικό αρχείο διαγράφεται**.
+4. Με την έξοδο, η υπηρεσία **σταματά, και ο δυαδικός κωδικός διαγράφεται**.
 
-### **Διαδικασία Χειροκίνητης Εκτέλεσης του PsExec**
+### **Διαδικασία Χειροκίνητης Εκτέλεσης PsExec**
 
-Υποθέτοντας ότι υπάρχει ένα εκτελέσιμο φορτίο (δημιουργημένο με το msfvenom και αποκρυπτογραφημένο χρησιμοποιώντας το Veil για να αποφευχθεί η ανίχνευση από το αντιιικό πρόγραμμα), με το όνομα 'met8888.exe', που αντιπροσωπεύει ένα αντίστροφο payload του meterpreter μέσω του reverse_http, πραγματοποιούνται τα παρακάτω βήματα:
+Υποθέτοντας ότι υπάρχει ένα εκτελέσιμο payload (δημιουργημένο με msfvenom και κρυμμένο χρησιμοποιώντας Veil για να αποφευχθεί η ανίχνευση από το antivirus), ονόματι 'met8888.exe', που αντιπροσωπεύει ένα payload meterpreter reverse_http, ακολουθούνται τα εξής βήματα:
 
-- **Αντιγραφή του δυαδικού**: Το εκτελέσιμο αντιγράφεται στον κοινόχρηστο φάκελο ADMIN$ από ένα παράθυρο εντολών, αν και μπορεί να τοποθετηθεί οπουδήποτε στο σύστημα αρχείων για να παραμείνει κρυμμένο.
+- **Αντιγραφή του δυαδικού κωδικού**: Ο εκτελέσιμος κωδικός αντιγράφεται στο ADMIN$ share από μια γραμμή εντολών, αν και μπορεί να τοποθετηθεί οπουδήποτε στο σύστημα αρχείων για να παραμείνει κρυμμένος.
 
-- **Δημιουργία μιας υπηρεσίας**: Χρησιμοποιώντας την εντολή `sc` των Windows, η οποία επιτρέπει τον αναζήτηση, τη δημιουργία και τη διαγραφή υπηρεσιών των Windows απομακρυσμένα, δημιουργείται μια υπηρεσία με το όνομα "meterpreter" που δείχνει στο ανεβασμένο δυαδικό αρχείο.
+- **Δημιουργία μιας υπηρεσίας**: Χρησιμοποιώντας την εντολή `sc` των Windows, η οποία επιτρέπει την αναζήτηση, δημιουργία και διαγραφή υπηρεσιών Windows απομακρυσμένα, δημιουργείται μια υπηρεσία ονόματι "meterpreter" που δείχνει στον ανεβασμένο δυαδικό κωδικό.
 
-- **Έναρξη της υπηρεσίας**: Το τελικό βήμα περιλαμβάνει την έναρξη της υπηρεσίας, η οποία πιθανότατα θα οδηγήσει σε σφάλμα "time-out" λόγω του γεγονότος ότι το δυαδικό αρχείο δεν είναι γνήσιο δυαδικό αρχείο υπηρεσίας και αποτυγχάνει να επιστρέψει τον αναμενόμενο κωδικό απόκρισης. Αυτό το σφάλμα είναι ασήμαντο καθώς ο κύριος στόχος είναι η εκτέλεση του δυαδικού αρχείου.
+- **Έναρξη της υπηρεσίας**: Το τελευταίο βήμα περιλαμβάνει την εκκίνηση της υπηρεσίας, η οποία πιθανότατα θα έχει ως αποτέλεσμα ένα σφάλμα "time-out" λόγω του ότι ο δυαδικός κωδικός δεν είναι γνήσιος δυαδικός κωδικός υπηρεσίας και αποτυγχάνει να επιστρέψει τον αναμενόμενο κωδικό απόκρισης. Αυτό το σφάλμα είναι ασήμαντο καθώς ο κύριος στόχος είναι η εκτέλεση του δυαδικού κωδικού.
 
-Η παρατήρηση του ακροατή Metasploit θα αποκαλύψει ότι η συνεδρία έχει ξεκινήσει με επιτυχία.
+Η παρατήρηση του listener του Metasploit θα αποκαλύψει ότι η συνεδρία έχει ξεκινήσει επιτυχώς.
 
-[Μάθετε περισσότερα για την εντολή `sc`](https://technet.microsoft.com/en-us/library/bb490995.aspx).
+[Learn more about the `sc` command](https://technet.microsoft.com/en-us/library/bb490995.aspx).
 
-Βρείτε περισσότερα λεπτομερή βήματα στο: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+Βρείτε πιο λεπτομερή βήματα στο: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-**Μπορείτε επίσης να χρησιμοποιήσετε το δυαδικό PsExec.exe των Windows Sysinternals:**
+**Μπορείτε επίσης να χρησιμοποιήσετε τον δυαδικό κωδικό PsExec.exe των Windows Sysinternals:**
 
 ![](<../../.gitbook/assets/image (165).png>)
 
-Μπορείτε επίσης να χρησιμοποιήσετε το [**SharpLateral**](https://github.com/mertdas/SharpLateral):
+Μπορείτε επίσης να χρησιμοποιήσετε [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 
 {% code overflow="wrap" %}
 ```
@@ -51,16 +52,17 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

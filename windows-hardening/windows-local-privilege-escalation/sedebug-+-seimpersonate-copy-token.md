@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Ο παρακάτω κώδικας **εκμεταλλεύεται τα προνόμια SeDebug και SeImpersonate** για να αντιγράψει το token από ένα **διεργασία που εκτελείται ως SYSTEM** και με **όλα τα προνόμια του token**. \
-Σε αυτήν την περίπτωση, αυτός ο κώδικας μπορεί να μεταγλωττιστεί και να χρησιμοποιηθεί ως **δυαδικό αρχείο υπηρεσίας Windows** για να ελεγχθεί ότι λειτουργεί.\
-Ωστόσο, η κύρια μέρα του **κώδικα όπου γίνεται η ανύψωση** βρίσκεται μέσα στη **συνάρτηση `Exploit`**.\
-Μέσα σε αυτήν τη συνάρτηση μπορείτε να δείτε ότι αναζητείται η **διεργασία **_**lsass.exe**_**, στη συνέχεια αντιγράφεται το token της**, και τέλος αυτό το token χρησιμοποιείται για να δημιουργηθεί ένα νέο _**cmd.exe**_ με όλα τα προνόμια του αντιγραμμένου token.
+Ο παρακάτω κώδικας **εκμεταλλεύεται τα δικαιώματα SeDebug και SeImpersonate** για να αντιγράψει το token από μια **διαδικασία που εκτελείται ως SYSTEM** και με **όλα τα δικαιώματα του token**. \
+Σε αυτή την περίπτωση, αυτός ο κώδικας μπορεί να μεταγλωττιστεί και να χρησιμοποιηθεί ως **δυαδικό αρχείο υπηρεσίας Windows** για να ελέγξει ότι λειτουργεί.\
+Ωστόσο, το κύριο μέρος του **κώδικα όπου συμβαίνει η ανύψωση** είναι μέσα στη **λειτουργία** **`Exploit`**.\
+Μέσα σε αυτή τη λειτουργία μπορείτε να δείτε ότι η **διαδικασία **_**lsass.exe**_** αναζητείται**, στη συνέχεια το **token της αντιγράφεται**, και τελικά αυτό το token χρησιμοποιείται για να δημιουργήσει ένα νέο _**cmd.exe**_ με όλα τα δικαιώματα του αντιγραμμένου token.
 
-**Άλλες διεργασίες** που εκτελούνται ως SYSTEM με όλα ή τα περισσότερα από τα προνόμια του token είναι: **services.exe**, **svhost.exe** (ένα από τα πρώτα), **wininit.exe**, **csrss.exe**... (_να θυμάστε ότι δεν θα μπορείτε να αντιγράψετε ένα token από μια προστατευμένη διεργασία_). Επιπλέον, μπορείτε να χρησιμοποιήσετε το εργαλείο [Process Hacker](https://processhacker.sourceforge.io/downloads.php) που εκτελείται ως διαχειριστής για να δείτε τα token μιας διεργασίας.
+**Άλλες διαδικασίες** που εκτελούνται ως SYSTEM με όλα ή τα περισσότερα από τα δικαιώματα του token είναι: **services.exe**, **svhost.exe** (μία από τις πρώτες), **wininit.exe**, **csrss.exe**... (_θυμηθείτε ότι δεν θα μπορείτε να αντιγράψετε ένα token από μια προστατευμένη διαδικασία_). Επιπλέον, μπορείτε να χρησιμοποιήσετε το εργαλείο [Process Hacker](https://processhacker.sourceforge.io/downloads.php) εκτελώντας το ως διαχειριστής για να δείτε τα tokens μιας διαδικασίας.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -223,16 +224,17 @@ StartServiceCtrlDispatcher( serviceTable );
 return 0;
 }
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

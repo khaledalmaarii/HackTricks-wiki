@@ -1,25 +1,26 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Βασικά, αυτό το εργαλείο θα μας βοηθήσει να βρούμε τιμές για μεταβλητές που πρέπει να ικανοποιούν κάποιες συνθήκες και η χειροκίνητη υπολογιστική τους θα είναι ενοχλητική. Επομένως, μπορείτε να υποδείξετε στο Z3 τις συνθήκες που πρέπει να ικανοποιούν οι μεταβλητές και αυτό θα βρει κάποιες τιμές (εάν είναι δυνατόν).
+Πολύ βασικά, αυτό το εργαλείο θα μας βοηθήσει να βρούμε τιμές για μεταβλητές που πρέπει να ικανοποιούν κάποιες συνθήκες και η υπολογιστική τους χειροκίνητα θα είναι πολύ ενοχλητική. Επομένως, μπορείτε να υποδείξετε στο Z3 τις συνθήκες που πρέπει να ικανοποιούν οι μεταβλητές και θα βρει κάποιες τιμές (αν είναι δυνατόν).
 
-**Ορισμένα κείμενα και παραδείγματα εξάγονται από το [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**Ορισμένα κείμενα και παραδείγματα προέρχονται από [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Βασικές Λειτουργίες
+# Basic Operations
 
-## Λογικές Τιμές/Και/Ή/Όχι
+## Booleans/And/Or/Not
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -34,15 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Ακέραιοι/Απλοποίηση/Πραγματικοί
-
-Η βιβλιοθήκη Z3 παρέχει μια πληθώρα εργαλείων για την επίλυση προβλημάτων ικανοποίησης modulo θεωριών (SMT). Μερικά από αυτά τα εργαλεία περιλαμβάνουν τη δυνατότητα επίλυσης προβλημάτων με ακέραιους αριθμούς, απλοποίησης εκφράσεων και επίλυσης προβλημάτων με πραγματικούς αριθμούς.
-
-Για την επίλυση προβλημάτων με ακέραιους αριθμούς, μπορούμε να χρησιμοποιήσουμε τη συνάρτηση `Int` της Z3. Αυτή η συνάρτηση μας επιτρέπει να δημιουργήσουμε μεταβλητές ακεραίους και να εκφράσουμε περιορισμούς μεταξύ αυτών των μεταβλητών. Έπειτα, μπορούμε να χρησιμοποιήσουμε τη συνάρτηση `solve` για να επιλύσουμε το πρόβλημα και να βρούμε μια λύση.
-
-Για την απλοποίηση εκφράσεων, μπορούμε να χρησιμοποιήσουμε τη συνάρτηση `Simplify` της Z3. Αυτή η συνάρτηση μας επιτρέπει να μετατρέψουμε μια πολύπλοκη έκφραση σε μια απλούστερη μορφή, χωρίς να αλλάζει η σημασία της έκφρασης.
-
-Για την επίλυση προβλημάτων με πραγματικούς αριθμούς, μπορούμε να χρησιμοποιήσουμε τη συνάρτηση `Real` της Z3. Αυτή η συνάρτηση μας επιτρέπει να δημιουργήσουμε μεταβλητές πραγματικούς αριθμούς και να εκφράσουμε περιορισμούς μεταξύ αυτών των μεταβλητών. Με τη χρήση της συνάρτησης `solve`, μπορούμε να επιλύσουμε το πρόβλημα και να βρούμε μια λύση.
+## Ακέραιοι/Απλοποίηση/Πραγματικοί αριθμοί
 ```python
 from z3 import *
 
@@ -63,18 +56,6 @@ set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
 ## Εκτύπωση Μοντέλου
-
-To print the model, you can use the `model` object obtained from the solver. The `model` object represents the satisfying assignment for the given constraints.
-
-```python
-print(model)
-```
-
-Για να εκτυπώσετε το μοντέλο, μπορείτε να χρησιμοποιήσετε το αντικείμενο `model` που έχετε λάβει από τον επιλύτη. Το αντικείμενο `model` αναπαριστά την ικανοποιητική ανάθεση για τους δεδομένους περιορισμούς.
-
-```python
-print(model)
-```
 ```python
 from z3 import *
 
@@ -88,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Μηχανική Αριθμητική
+# Μηχανική Άλγεβρα
 
-Οι σύγχρονοι επεξεργαστές και οι κύριες γλώσσες προγραμματισμού χρησιμοποιούν αριθμητικές πράξεις πάνω σε **δυαδικούς αριθμούς με σταθερό μέγεθος**. Η μηχανική αριθμητική είναι διαθέσιμη στο Z3Py ως **Bit-Vectors**.
+Οι σύγχρονοι επεξεργαστές και οι κυριότερες γλώσσες προγραμματισμού χρησιμοποιούν άλγεβρα πάνω σε **σταθερού μεγέθους bit-vectors**. Η μηχανική άλγεβρα είναι διαθέσιμη στο Z3Py ως **Bit-Vectors**.
 ```python
 from z3 import *
 
@@ -105,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Υπογεγραμμένοι/Ανυπογράμμιστοι Αριθμοί
+## Υπογεγραμμένοι/Μη Υπογεγραμμένοι Αριθμοί
 
-Το Z3 παρέχει ειδικές υπογεγραμμένες εκδόσεις των αριθμητικών λειτουργιών όπου κάνει διαφορά εάν το **bit-vector** θεωρείται ως υπογεγραμμένο ή ανυπογεγραμμένο. Στην Z3Py, οι τελεστές **<, <=, >, >=, /, % και >>** αντιστοιχούν στις **υπογεγραμμένες** εκδόσεις. Οι αντίστοιχοι **ανυπογεγραμμένοι** τελεστές είναι **ULT, ULE, UGT, UGE, UDiv, URem και LShR.**
+Το Z3 παρέχει ειδικές υπογεγραμμένες εκδόσεις αριθμητικών λειτουργιών όπου έχει σημασία αν το **bit-vector αντιμετωπίζεται ως υπογεγραμμένο ή μη υπογεγραμμένο**. Στο Z3Py, οι τελεστές **<, <=, >, >=, /, % και >>** αντιστοιχούν στις **υπογεγραμμένες** εκδόσεις. Οι αντίστοιχοι **μη υπογεγραμμένοι** τελεστές είναι **ULT, ULE, UGT, UGE, UDiv, URem και LShR.**
 ```python
 from z3 import *
 
@@ -125,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Συναρτήσεις
+## Functions
 
-Οι **ερμηνευμένες συναρτήσεις** όπως η αριθμητική, όπου η **συνάρτηση +** έχει μια **σταθερή τυπική ερμηνεία** (προσθέτει δύο αριθμούς). Οι **μη ερμηνευμένες συναρτήσεις** και σταθερές είναι **μέγιστα ευέλικτες**· επιτρέπουν **οποιαδήποτε ερμηνεία** που είναι **συνεπής** με τους περιορισμούς πάνω στη συνάρτηση ή σταθερά.
+**Ερμηνευμένες συναρτήσεις** όπως η αριθμητική όπου η **συνάρτηση +** έχει μια **σταθερή τυπική ερμηνεία** (προσθέτει δύο αριθμούς). **Μη ερμηνευμένες συναρτήσεις** και σταθερές είναι **μέγιστης ευελιξίας**; επιτρέπουν **οποιαδήποτε ερμηνεία** που είναι **συνεπής** με τους **περιορισμούς** πάνω στη συνάρτηση ή τη σταθερά.
 
-Παράδειγμα: η εφαρμογή της f δύο φορές στο x έχει ως αποτέλεσμα το x ξανά, αλλά η εφαρμογή της f μία φορά στο x είναι διαφορετική από το x.
+Παράδειγμα: η f εφαρμοσμένη δύο φορές στο x έχει ως αποτέλεσμα το x ξανά, αλλά η f εφαρμοσμένη μία φορά στο x είναι διαφορετική από το x.
 ```python
 from z3 import *
 
@@ -151,75 +132,6 @@ print(m.model())
 # Παραδείγματα
 
 ## Λύτης Sudoku
-
-```python
-from z3 import *
-
-def solve_sudoku(grid):
-    # Δημιουργία μοντέλου Z3
-    s = Solver()
-
-    # Δημιουργία μεταβλητών για τις τιμές των κελιών
-    cells = [[Int(f"cell_{i}_{j}") for j in range(9)] for i in range(9)]
-
-    # Περιορισμοί για τις τιμές των κελιών
-    for i in range(9):
-        for j in range(9):
-            # Οι τιμές των κελιών είναι από 1 έως 9
-            s.add(And(cells[i][j] >= 1, cells[i][j] <= 9))
-
-    # Περιορισμοί για τις τιμές των γραμμών
-    for i in range(9):
-        s.add(Distinct(cells[i]))
-
-    # Περιορισμοί για τις τιμές των στηλών
-    for j in range(9):
-        s.add(Distinct([cells[i][j] for i in range(9)]))
-
-    # Περιορισμοί για τις τιμές των τετραγώνων 3x3
-    for i in range(0, 9, 3):
-        for j in range(0, 9, 3):
-            s.add(Distinct([cells[x][y] for x in range(i, i+3) for y in range(j, j+3)]))
-
-    # Περιορισμός για τις αρχικές τιμές του πίνακα Sudoku
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                s.add(cells[i][j] == grid[i][j])
-
-    # Επίλυση του προβλήματος
-    if s.check() == sat:
-        m = s.model()
-        solution = [[m.evaluate(cells[i][j]).as_long() for j in range(9)] for i in range(9)]
-        return solution
-    else:
-        return None
-
-# Αρχικός πίνακας Sudoku
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
-
-# Επίλυση του Sudoku
-solution = solve_sudoku(grid)
-
-# Εκτύπωση της λύσης
-if solution:
-    for row in solution:
-        print(row)
-else:
-    print("No solution found.")
-```
-
-Αυτός ο κώδικας χρησιμοποιεί τη βιβλιοθήκη Z3 για να επιλύσει ένα πρόβλημα Sudoku. Ο κώδικας δημιουργεί ένα μοντέλο Z3 και ορίζει τις μεταβλητές για τις τιμές των κελιών του Sudoku. Στη συνέχεια, ο κώδικας προσθέτει περιορισμούς για τις τιμές των κελιών, των γραμμών, των στηλών και των τετραγώνων 3x3. Επίσης, ο κώδικας προσθέτει περιορισμούς για τις αρχικές τιμές του πίνακα Sudoku. Τέλος, ο κώδικας επιλύει το πρόβλημα και εκτυπώνει τη λύση, αν υπάρχει.
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -274,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

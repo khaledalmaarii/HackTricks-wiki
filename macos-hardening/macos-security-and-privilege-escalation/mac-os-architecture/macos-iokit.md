@@ -1,28 +1,31 @@
 # macOS IOKit
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεσαι σε μια **εταιρεία κυβερνοασφάλειας**; Θέλεις να δεις την **εταιρεία σου να διαφημίζεται στο HackTricks**; Ή θέλεις πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσεις το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΥΝΔΡΟΜΗΣΤΙΚΑ ΠΛΑΝΑ**](https://github.com/sponsors/carlospolop)!
-* Ανακάλυψε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), την αποκλειστική μας συλλογή [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο swag του PEASS και του HackTricks**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) **ομάδα Discord** ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε με** στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Μοιραστείτε τα κόλπα σας για το χάκινγκ, στέλνοντας PR στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Βασικές Πληροφορίες
+## Basic Information
 
-Το I/O Kit είναι ένα ανοιχτού κώδικα, αντικειμενοστραφές **πλαίσιο οδηγών συσκευών** στον πυρήνα XNU, χειρίζεται **δυναμικά φορτωμένους οδηγούς συσκευών**. Επιτρέπει την προσθήκη αρθρωτού κώδικα στον πυρήνα κατά τη διάρκεια της εκτέλεσης, υποστηρίζοντας διάφορο υλικό.
+Το I/O Kit είναι ένα ανοιχτού κώδικα, αντικειμενοστραφές **πλαίσιο οδηγών συσκευών** στον πυρήνα XNU, που διαχειρίζεται **δυναμικά φορτωμένους οδηγούς συσκευών**. Επιτρέπει την προσθήκη αρθρωτού κώδικα στον πυρήνα εν κινήσει, υποστηρίζοντας ποικιλία υλικού.
 
-Οι οδηγοί IOKit βασικά **εξάγουν συναρτήσεις από τον πυρήνα**. Οι τύποι παραμέτρων αυτών των συναρτήσεων είναι **προκαθορισμένοι** και επαληθεύονται. Επιπλέον, παρόμοια με το XPC, το IOKit είναι απλώς ένα ακόμα επίπεδο πάνω από τα μηνύματα Mach.
+Οι οδηγοί IOKit θα **εξάγουν βασικά συναρτήσεις από τον πυρήνα**. Οι τύποι **παραμέτρων** αυτών των συναρτήσεων είναι **προκαθορισμένοι** και επαληθεύονται. Επιπλέον, παρόμοια με το XPC, το IOKit είναι απλώς ένα άλλο επίπεδο **πάνω από τα μηνύματα Mach**.
 
-Ο κώδικας του **IOKit XNU πυρήνα** είναι ανοιχτού κώδικα από την Apple στο [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Επιπλέον, οι συστατικές χώρου χρήστη του IOKit είναι επίσης ανοιχτού κώδικα [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
+Ο **κώδικας IOKit XNU kernel** είναι ανοιχτού κώδικα από την Apple στο [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit). Επιπλέον, τα στοιχεία IOKit του χώρου χρηστών είναι επίσης ανοιχτού κώδικα [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser).
 
-Ωστόσο, **κανένας οδηγός IOKit** δεν είναι ανοιχτού κώδικα. Παρ' όλα αυτά, κατά καιρούς μια έκδοση ενός οδηγού μπορεί να περιέχει σύμβολα που διευκολύνουν την αποσφαλμάτωσή του. Ελέγξτε πώς να [**πάρετε τις επεκτάσεις οδηγού από το firmware εδώ**](./#ipsw)**.**
+Ωστόσο, **κανένας οδηγός IOKit** δεν είναι ανοιχτού κώδικα. Ούτως ή άλλως, από καιρό σε καιρό μια έκδοση ενός οδηγού μπορεί να έρθει με σύμβολα που διευκολύνουν την αποσφαλμάτωσή του. Δείτε πώς να [**πάρετε τις επεκτάσεις οδηγών από το firmware εδώ**](./#ipsw)**.**
 
-Είναι γραμμένο σε **C++**. Μπορείτε να πάρετε αποδιαιρεμένα σύμβολα C++ με:
+Είναι γραμμένο σε **C++**. Μπορείτε να αποκτήσετε αποσυμβολισμένα σύμβολα C++ με:
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -33,19 +36,19 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-Οι **εκθέσεις συναρτήσεων** του IOKit μπορούν να πραγματοποιήσουν **επιπλέον ελέγχους ασφαλείας** όταν ένας πελάτης προσπαθεί να καλέσει μια συνάρτηση, αλλά να σημειωθεί ότι οι εφαρμογές είναι συνήθως **περιορισμένες** από το **sandbox** με το οποίο το IOKit μπορεί να αλληλεπιδράσει.
+Οι **εκτεθειμένες συναρτήσεις** του IOKit θα μπορούσαν να εκτελούν **επιπλέον ελέγχους ασφαλείας** όταν ένας πελάτης προσπαθεί να καλέσει μια συνάρτηση, αλλά σημειώστε ότι οι εφαρμογές είναι συνήθως **περιορισμένες** από το **sandbox** με το οποίο μπορούν να αλληλεπιδρούν οι συναρτήσεις του IOKit.
 {% endhint %}
 
 ## Οδηγοί
 
-Στο macOS βρίσκονται στα:
+Στο macOS βρίσκονται σε:
 
 * **`/System/Library/Extensions`**
-* Αρχεία KEXT που έχουν ενσωματωθεί στο λειτουργικό σύστημα OS X.
+* Αρχεία KEXT ενσωματωμένα στο λειτουργικό σύστημα OS X.
 * **`/Library/Extensions`**
-* Αρχεία KEXT που έχουν εγκατασταθεί από λογισμικό τρίτων
+* Αρχεία KEXT που εγκαθίστανται από λογισμικό τρίτων
 
-Στο iOS βρίσκονται στα:
+Στο iOS βρίσκονται σε:
 
 * **`/System/Library/Extensions`**
 ```bash
@@ -65,48 +68,48 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Μέχρι τον αριθμό 9, οι αναφερόμενοι οδηγοί φορτώνονται στη διεύθυνση 0. Αυτό σημαίνει ότι αυτοί δεν είναι πραγματικοί οδηγοί αλλά μέρος του πυρήνα και δεν μπορούν να απενεργοποιηθούν.
+Μέχρι τον αριθμό 9, οι αναφερόμενοι οδηγοί είναι **φορτωμένοι στη διεύθυνση 0**. Αυτό σημαίνει ότι δεν είναι πραγματικοί οδηγοί αλλά **μέρος του πυρήνα και δεν μπορούν να αποφορτωθούν**.
 
-Για να βρείτε συγκεκριμένες επεκτάσεις, μπορείτε να χρησιμοποιήσετε:
+Για να βρείτε συγκεκριμένες επεκτάσεις μπορείτε να χρησιμοποιήσετε:
 ```bash
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
 ```
-Για να φορτώσετε και να απενεργοποιήσετε επεκτάσεις πυρήνα, κάντε τα εξής:
+Για να φορτώσετε και να ξεφορτώσετε επεκτάσεις πυρήνα, κάντε:
 ```bash
 kextload com.apple.iokit.IOReportFamily
 kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-Το **IORegistry** είναι ένας κρίσιμος μέρος του πλαισίου IOKit στο macOS και το iOS, το οποίο λειτουργεί ως μια βάση δεδομένων για την αναπαράσταση της υπαρξιακής διάταξης και κατάστασης του υλικού του συστήματος. Είναι μια **ιεραρχική συλλογή αντικειμένων που αναπαριστούν όλο το υλικό και τους προγραμματιστές που φορτώνονται στο σύστημα** και τις σχέσεις τους μεταξύ τους.&#x20;
+Το **IORegistry** είναι ένα κρίσιμο μέρος του πλαισίου IOKit στο macOS και iOS που λειτουργεί ως βάση δεδομένων για την αναπαράσταση της υλικής διαμόρφωσης και κατάστασης του συστήματος. Είναι μια **ιεραρχική συλλογή αντικειμένων που αναπαριστούν όλο το υλικό και τους οδηγούς** που έχουν φορτωθεί στο σύστημα, και τις σχέσεις τους μεταξύ τους.
 
-Μπορείτε να αποκτήσετε το IORegistry χρησιμοποιώντας το εργαλείο γραμμής εντολών **`ioreg`** για να το επιθεωρήσετε από την κονσόλα (ιδιαίτερα χρήσιμο για το iOS).
+Μπορείτε να αποκτήσετε το IORegistry χρησιμοποιώντας το cli **`ioreg`** για να το επιθεωρήσετε από την κονσόλα (ιδιαίτερα χρήσιμο για iOS).
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-Μπορείτε να κατεβάσετε το **`IORegistryExplorer`** από τα **Επιπλέον Εργαλεία του Xcode** από το [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) και να επιθεωρήσετε το **macOS IORegistry** μέσω μιας **γραφικής** διεπαφής.
+Μπορείτε να κατεβάσετε **`IORegistryExplorer`** από τα **Xcode Additional Tools** από [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/) και να επιθεωρήσετε το **macOS IORegistry** μέσω μιας **γραφικής** διεπαφής.
 
-<figure><img src="../../../.gitbook/assets/image (695).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Στο IORegistryExplorer, τα "planes" χρησιμοποιούνται για να οργανώσουν και να εμφανίσουν τις σχέσεις μεταξύ διάφορων αντικειμένων στο IORegistry του macOS. Κάθε plane αντιπροσωπεύει ένα συγκεκριμένο τύπο σχέσης ή μια συγκεκριμένη προβολή της υλικής σύνθεσης και της διαμόρφωσης των οδηγών του συστήματος. Παρακάτω παρουσιάζονται μερικά από τα κοινά planes που μπορείτε να συναντήσετε στο IORegistryExplorer:
+Στο IORegistryExplorer, οι "επίπεδοι" χρησιμοποιούνται για να οργανώσουν και να εμφανίσουν τις σχέσεις μεταξύ διαφορετικών αντικειμένων στο IORegistry. Κάθε επίπεδο αντιπροσωπεύει έναν συγκεκριμένο τύπο σχέσης ή μια συγκεκριμένη άποψη της υλικού και της διαμόρφωσης οδηγών του συστήματος. Ακολουθούν μερικοί από τους κοινούς επίπεδους που μπορεί να συναντήσετε στο IORegistryExplorer:
 
-1. **IOService Plane**: Αυτό είναι το πιο γενικό plane, που εμφανίζει τα αντικείμενα υπηρεσίας που αντιπροσωπεύουν οδηγούς και nubs (κανάλια επικοινωνίας μεταξύ των οδηγών). Εμφανίζει τις σχέσεις παροχέα-πελάτη μεταξύ αυτών των αντικειμένων.
-2. **IODeviceTree Plane**: Αυτό το plane αναπαριστά τις φυσικές συνδέσεις μεταξύ συσκευών καθώς είναι συνδεδεμένες στο σύστημα. Χρησιμοποιείται συχνά για να οπτικοποιήσει την ιεραρχία των συσκευών που συνδέονται μέσω διαύλων όπως USB ή PCI.
-3. **IOPower Plane**: Εμφανίζει αντικείμενα και τις σχέσεις τους σε σχέση με τη διαχείριση ισχύος. Μπορεί να εμφανίσει ποια αντικείμενα επηρεάζουν την κατάσταση ισχύος άλλων, χρήσιμο για την αντιμετώπιση προβλημάτων που σχετίζονται με την ισχύ.
-4. **IOUSB Plane**: Εστιάζει ειδικά σε συσκευές USB και τις σχέσεις τους, εμφανίζοντας την ιεραρχία των USB hubs και των συνδεδεμένων συσκευών.
-5. **IOAudio Plane**: Αυτό το plane χρησιμοποιείται για την αναπαράσταση συσκευών ήχου και των σχέσεών τους εντός του συστήματος.
+1. **IOService Plane**: Αυτό είναι το πιο γενικό επίπεδο, που εμφανίζει τα αντικείμενα υπηρεσιών που αντιπροσωπεύουν οδηγούς και nubs (κανάλια επικοινωνίας μεταξύ οδηγών). Δείχνει τις σχέσεις προμηθευτή-πελάτη μεταξύ αυτών των αντικειμένων.
+2. **IODeviceTree Plane**: Αυτό το επίπεδο αντιπροσωπεύει τις φυσικές συνδέσεις μεταξύ συσκευών καθώς συνδέονται στο σύστημα. Χρησιμοποιείται συχνά για να οπτικοποιήσει την ιεραρχία των συσκευών που συνδέονται μέσω λεωφόρων όπως USB ή PCI.
+3. **IOPower Plane**: Εμφανίζει αντικείμενα και τις σχέσεις τους σε όρους διαχείρισης ενέργειας. Μπορεί να δείξει ποια αντικείμενα επηρεάζουν την κατάσταση ενέργειας άλλων, χρήσιμο για την αποσφαλμάτωση προβλημάτων που σχετίζονται με την ενέργεια.
+4. **IOUSB Plane**: Ειδικά επικεντρωμένο σε συσκευές USB και τις σχέσεις τους, δείχνοντας την ιεραρχία των USB hubs και των συνδεδεμένων συσκευών.
+5. **IOAudio Plane**: Αυτό το επίπεδο είναι για την αναπαράσταση συσκευών ήχου και των σχέσεών τους εντός του συστήματος.
 6. ...
 
-## Παράδειγμα Κώδικα Επικοινωνίας Οδηγού
+## Driver Comm Code Example
 
-Ο παρακάτω κώδικας συνδέεται με την υπηρεσία IOKit `"YourServiceNameHere"` και καλεί τη συνάρτηση μέσα στον επιλογέα 0. Για να το κάνετε:
+Ο παρακάτω κώδικας συνδέεται με την υπηρεσία IOKit `"YourServiceNameHere"` και καλεί τη συνάρτηση μέσα στον επιλεγέα 0. Για αυτό:
 
-* πρώτα καλεί την **`IOServiceMatching`** και την **`IOServiceGetMatchingServices`** για να λάβει την υπηρεσία.
-* Στη συνέχεια, εγκαθιστά μια σύνδεση καλώντας την **`IOServiceOpen`**.
-* Και τέλος καλεί μια συνάρτηση με την **`IOConnectCallScalarMethod`** δηλώνοντας τον επιλογέα 0 (ο επιλογέας είναι ο αριθμός που έχει ανατεθεί στη συνάρτηση που θέλετε να καλέσετε).
+* πρώτα καλεί **`IOServiceMatching`** και **`IOServiceGetMatchingServices`** για να αποκτήσει την υπηρεσία.
+* Στη συνέχεια, καθορίζει μια σύνδεση καλώντας **`IOServiceOpen`**.
+* Και τελικά καλεί μια συνάρτηση με **`IOConnectCallScalarMethod`** υποδεικνύοντας τον επιλεγέα 0 (ο επιλεγέας είναι ο αριθμός που έχει ανατεθεί στη συνάρτηση που θέλετε να καλέσετε).
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -161,25 +164,27 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-Υπάρχουν **άλλες** λειτουργίες που μπορούν να χρησιμοποιηθούν για να καλέσουν τις λειτουργίες του IOKit εκτός από τη **`IOConnectCallScalarMethod`** όπως η **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
+Υπάρχουν **άλλες** συναρτήσεις που μπορούν να χρησιμοποιηθούν για να καλέσουν τις συναρτήσεις IOKit εκτός από **`IOConnectCallScalarMethod`** όπως **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
 
-## Ανάκτηση του σημείου εισόδου του προγράμματος οδήγησης (driver entrypoint)
+## Αντίστροφη μηχανική σημείου εισόδου οδηγού
 
-Μπορείτε να αποκτήσετε αυτές, για παράδειγμα, από μια [**εικόνα firmware (ipsw)**](./#ipsw). Στη συνέχεια, φορτώστε την στον αγαπημένο σας αποκωδικοποιητή.
+Μπορείτε να τα αποκτήσετε αυτά για παράδειγμα από μια [**εικόνα firmware (ipsw)**](./#ipsw). Στη συνέχεια, φορτώστε την στο αγαπημένο σας decompiler.
 
-Μπορείτε να ξεκινήσετε την αποκωδικοποίηση της συνάρτησης **`externalMethod`** καθώς αυτή είναι η συνάρτηση του προγράμματος οδήγησης που θα λαμβάνει την κλήση και θα καλεί τη σωστή συνάρτηση:
+Μπορείτε να ξεκινήσετε την αποσυμπίεση της συνάρτησης **`externalMethod`** καθώς αυτή είναι η συνάρτηση του οδηγού που θα δέχεται την κλήση και θα καλεί τη σωστή συνάρτηση:
 
-<figure><img src="../../../.gitbook/assets/image (696).png" alt="" width="315"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (697).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-Αυτή η αποκωδικοποίηση της κλήσης σημαίνει:
+Αυτή η απαίσια κλήση αποκαταστάθηκε σημαίνει: 
+
+{% code overflow="wrap" %}
 ```cpp
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% endcode %}
 
-Παρατηρήστε ότι στον προηγούμενο ορισμό λείπει η παράμετρος **`self`**, ο σωστός ορισμός θα ήταν:
+Σημειώστε πώς στην προηγούμενη ορισμό λείπει η παράμετρος **`self`**, η καλή ορισμός θα ήταν:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -187,56 +192,59 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-Πραγματικά, μπορείτε να βρείτε τον πραγματικό ορισμό στο [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
+Στην πραγματικότητα, μπορείτε να βρείτε τον πραγματικό ορισμό στο [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388):
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-Με αυτές τις πληροφορίες μπορείτε να ξαναγράψετε το Ctrl+Right -> `Επεξεργασία υπογραφής συνάρτησης` και να ορίσετε τους γνωστούς τύπους:
+Με αυτές τις πληροφορίες μπορείτε να ξαναγράψετε Ctrl+Δεξί -> `Edit function signature` και να ορίσετε τους γνωστούς τύπους:
 
-<figure><img src="../../../.gitbook/assets/image (702).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-Ο νέος αποκωδικοποιημένος κώδικας θα φαίνεται όπως παρακάτω:
+Ο νέος αποσυμπιεσμένος κώδικας θα φαίνεται έτσι:
 
-<figure><img src="../../../.gitbook/assets/image (703).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-Για το επόμενο βήμα, πρέπει να έχουμε ορίσει τη δομή **`IOExternalMethodDispatch2022`**. Είναι ανοικτού κώδικα στο [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), μπορείτε να την ορίσετε:
+Για το επόμενο βήμα πρέπει να έχουμε ορίσει τη δομή **`IOExternalMethodDispatch2022`**. Είναι ανοιχτού κώδικα στο [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176), μπορείτε να το ορίσετε:
 
-<figure><img src="../../../.gitbook/assets/image (698).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
 Τώρα, ακολουθώντας το `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` μπορείτε να δείτε πολλά δεδομένα:
 
-<figure><img src="../../../.gitbook/assets/image (704).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Αλλάξτε τον τύπο δεδομένων σε **`IOExternalMethodDispatch2022:`**
+Αλλάξτε τον Τύπο Δεδομένων σε **`IOExternalMethodDispatch2022:`**
 
-<figure><img src="../../../.gitbook/assets/image (705).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1177).png" alt="" width="375"><figcaption></figcaption></figure>
 
 μετά την αλλαγή:
 
-<figure><img src="../../../.gitbook/assets/image (707).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Και τώρα μπορούμε να δημιουργήσουμε έναν πίνακα με 7 στοιχεία:
+Και όπως γνωρίζουμε εκεί έχουμε ένα **πίνακα 7 στοιχείων** (ελέγξτε τον τελικό αποσυμπιεσμένο κώδικα), κάντε κλικ για να δημιουργήσετε έναν πίνακα 7 στοιχείων:
 
-<figure><img src="../../../.gitbook/assets/image (708).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Αφού δημιουργηθεί ο πίνακας, μπορείτε να δείτε όλες τις εξαγόμενες συναρτήσεις:
 
-<figure><img src="../../../.gitbook/assets/image (709).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-Αν θυμάστε, για να **καλέσετε** μια **εξαγόμενη** συνάρτηση από τον χώρο χρήστη, δεν χρειάζεται να καλέσετε το όνομα της συνάρτησης, αλλά τον **αριθμό επιλογής**. Εδώ μπορείτε να δείτε ότι ο αριθμός επιλογής **0** είναι η συνάρτηση **`initializeDecoder`**, ο αριθμός επιλογής **1** είναι η **`startDecoder`**, ο αριθμός επιλογής **2** είναι η **`initializeEncoder`**...
+Αν θυμάστε, για να **καλέσουμε** μια **εξαγόμενη** συνάρτηση από τον χώρο χρήστη δεν χρειάζεται να καλέσουμε το όνομα της συνάρτησης, αλλά τον **αριθμό επιλεγέα**. Εδώ μπορείτε να δείτε ότι ο επιλεγέας **0** είναι η συνάρτηση **`initializeDecoder`**, ο επιλεγέας **1** είναι **`startDecoder`**, ο επιλεγέας **2** **`initializeEncoder`**...
 {% endhint %}
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΥΝΔΡΟΜΗΣΤΙΚΑ ΠΑΚΕΤΑ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), την αποκλειστική μας συλλογή [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο swag του PEASS και του HackTricks**](https://peass.creator-spring.com)
-* **Συμμετάσχετε στην** [**💬**](https://emojipedia.org/speech-balloon/) **ομάδα Discord** ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε με** στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Μοιραστείτε τα κόλπα σας για το hacking στέλνοντας PR στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

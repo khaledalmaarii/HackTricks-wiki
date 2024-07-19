@@ -1,39 +1,40 @@
-# AD CS Διατήρηση τομέα
+# AD CS Domain Persistence
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Αυτό είναι ένα σύνοψη των τεχνικών διατήρησης τομέα που κοινοποιούνται στο [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Ελέγξτε το για περαιτέρω λεπτομέρειες.
+**Αυτή είναι μια περίληψη των τεχνικών διαρκούς παρουσίας τομέα που μοιράστηκαν στο [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Ελέγξτε το για περισσότερες λεπτομέρειες.
 
-## Πλαστογράφηση Πιστοποιητικών με Κλεμμένα Πιστοποιητικά Αρχής - DPERSIST1
+## Forging Certificates with Stolen CA Certificates - DPERSIST1
 
-Πώς μπορείτε να πείτε ότι ένα πιστοποιητικό είναι πιστοποιητικό Αρχής;
+Πώς μπορείτε να καταλάβετε ότι ένα πιστοποιητικό είναι πιστοποιητικό CA;
 
-Μπορεί να προσδιοριστεί ότι ένα πιστοποιητικό είναι πιστοποιητικό Αρχής εάν πληρούνται αρκετές συνθήκες:
+Μπορεί να προσδιοριστεί ότι ένα πιστοποιητικό είναι πιστοποιητικό CA εάν πληρούνται αρκετές προϋποθέσεις:
 
-- Το πιστοποιητικό αποθηκεύεται στον διακομιστή Αρχής, με το ιδιωτικό του κλειδί ασφαλισμένο από το DPAPI της μηχανής, ή από υλικό όπως ένα TPM/HSM εάν το λειτουργικό σύστημα το υποστηρίζει.
-- Τόσο τα πεδία Εκδότης όσο και Θέματος του πιστοποιητικού ταιριάζουν με το διακριτικό όνομα της Αρχής.
-- Υπάρχει μια επέκταση "Έκδοση Αρχής" αποκλειστικά στα πιστοποιητικά Αρχής.
-- Το πιστοποιητικό δεν έχει πεδία Επεκτεινόμενης Χρήσης Κλειδιού (EKU).
+- Το πιστοποιητικό είναι αποθηκευμένο στον διακομιστή CA, με το ιδιωτικό του κλειδί ασφαλισμένο από το DPAPI της μηχανής ή από υλικό όπως TPM/HSM αν το λειτουργικό σύστημα το υποστηρίζει.
+- Τα πεδία Issuer και Subject του πιστοποιητικού ταιριάζουν με το διακριτό όνομα του CA.
+- Μια επέκταση "CA Version" είναι παρούσα στα πιστοποιητικά CA αποκλειστικά.
+- Το πιστοποιητικό δεν έχει πεδία Extended Key Usage (EKU).
 
-Για να εξαχθεί το ιδιωτικό κλειδί αυτού του πιστοποιητικού, η εργαλειοθήκη `certsrv.msc` στον διακομιστή Αρχής είναι η υποστηριζόμενη μέθοδος μέσω της ενσωματωμένης γραφικής διεπαφής χρήστη. Ωστόσο, αυτό το πιστοποιητικό δεν διαφέρει από άλλα που αποθηκεύονται στο σύστημα. Έτσι, μπορούν να εφαρμοστούν μεθόδοι όπως η τεχνική [THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) για την εξαγωγή.
+Για να εξαγάγετε το ιδιωτικό κλειδί αυτού του πιστοποιητικού, το εργαλείο `certsrv.msc` στον διακομιστή CA είναι η υποστηριζόμενη μέθοδος μέσω της ενσωματωμένης GUI. Παρ' όλα αυτά, αυτό το πιστοποιητικό δεν διαφέρει από άλλα που είναι αποθηκευμένα στο σύστημα. Έτσι, μέθοδοι όπως η [THEFT2 technique](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) μπορούν να εφαρμοστούν για την εξαγωγή.
 
 Το πιστοποιητικό και το ιδιωτικό κλειδί μπορούν επίσης να αποκτηθούν χρησιμοποιώντας το Certipy με την ακόλουθη εντολή:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-Μετά την απόκτηση του πιστοποιητικού CA και του ιδιωτικού του κλειδιού σε μορφή `.pfx`, μπορούν να χρησιμοποιηθούν εργαλεία όπως το [ForgeCert](https://github.com/GhostPack/ForgeCert) για τη δημιουργία έγκυρων πιστοποιητικών:
+Αφού αποκτηθεί το πιστοποιητικό CA και το ιδιωτικό του κλειδί σε μορφή `.pfx`, εργαλεία όπως το [ForgeCert](https://github.com/GhostPack/ForgeCert) μπορούν να χρησιμοποιηθούν για τη δημιουργία έγκυρων πιστοποιητικών:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -48,27 +49,43 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-Ο χρήστης που επιλέγεται για πλαστογράφηση πιστοποιητικού πρέπει να είναι ενεργός και να μπορεί να πιστοποιηθεί στο Active Directory για να επιτευχθεί η διαδικασία. Η πλαστογράφηση ενός πιστοποιητικού για ειδικούς λογαριασμούς όπως το krbtgt είναι αναποτελεσματική.
+Ο χρήστης που στοχεύεται για πλαστογράφηση πιστοποιητικού πρέπει να είναι ενεργός και ικανός να αυθεντικοποιείται στο Active Directory για να επιτύχει η διαδικασία. Η πλαστογράφηση ενός πιστοποιητικού για ειδικούς λογαριασμούς όπως ο krbtgt είναι αναποτελεσματική.
 {% endhint %}
 
-Αυτό το πλαστογραφημένο πιστοποιητικό θα είναι **έγκυρο** μέχρι την ημερομηνία λήξης που έχει οριστεί και όσο **είναι έγκυρο το πιστοποιητικό της ρίζας της Αρχής Πιστοποίησης** (συνήθως από 5 έως **10+ χρόνια**). Είναι επίσης έγκυρο για **μηχανές**, οπότε σε συνδυασμό με το **S4U2Self**, ένας επιτιθέμενος μπορεί να **διατηρήσει την μόνιμη παρουσία του σε οποιαδήποτε μηχανή του τομέα** για όσο είναι έγκυρο το πιστοποιητικό της Αρχής Πιστοποίησης.\
-Επιπλέον, τα **πιστοποιητικά που δημιουργούνται** με αυτήν τη μέθοδο **δεν μπορούν να ανακληθούν**, καθώς η Αρχή Πιστοποίησης δεν τα γνωρίζει.
+Αυτό το πλαστογραφημένο πιστοποιητικό θα είναι **έγκυρο** μέχρι την ημερομηνία λήξης που έχει καθοριστεί και **όσο το πιστοποιητικό της ρίζας CA είναι έγκυρο** (συνήθως από 5 έως **10+ χρόνια**). Είναι επίσης έγκυρο για **μηχανές**, οπότε σε συνδυασμό με το **S4U2Self**, ένας επιτιθέμενος μπορεί να **διατηρήσει επιμονή σε οποιαδήποτε μηχανή τομέα** όσο το πιστοποιητικό CA είναι έγκυρο.\
+Επιπλέον, τα **πιστοποιητικά που παράγονται** με αυτή τη μέθοδο **δεν μπορούν να ανακληθούν** καθώς η CA δεν είναι ενήμερη γι' αυτά.
 
-## Εμπιστοσύνη σε παράνομα πιστοποιητικά CA - DPERSIST2
+## Εμπιστοσύνη σε Rogue CA Πιστοποιητικά - DPERSIST2
 
-Το αντικείμενο `NTAuthCertificates` έχει οριστεί να περιέχει ένα ή περισσότερα **πιστοποιητικά CA** στο χαρακτηριστικό `cacertificate`, το οποίο χρησιμοποιεί το Active Directory (AD). Η διαδικασία επαλήθευσης από τον **ελεγκτή τομέα** περιλαμβάνει τον έλεγχο του αντικειμένου `NTAuthCertificates` για μια καταχώρηση που αντιστοιχεί στο **CA που έχει καθοριστεί** στο πεδίο Issuer του πιστοποιητικού πιστοποίησης. Η πιστοποίηση συνεχίζεται αν βρεθεί αντιστοιχία.
+Το αντικείμενο `NTAuthCertificates` ορίζεται για να περιέχει ένα ή περισσότερα **πιστοποιητικά CA** εντός του χαρακτηριστικού `cacertificate`, το οποίο χρησιμοποιεί το Active Directory (AD). Η διαδικασία επαλήθευσης από τον **ελεγκτή τομέα** περιλαμβάνει τον έλεγχο του αντικειμένου `NTAuthCertificates` για μια καταχώρηση που ταιριάζει με την **CA που καθορίζεται** στο πεδίο Εκδότη του αυθεντικοποιητικού **πιστοποιητικού**. Η αυθεντικοποίηση προχωρά εάν βρεθεί ταίριασμα.
 
-Ένα πιστοποιητικό CA που έχει υπογραφεί από τον ίδιο τον επιτιθέμενο μπορεί να προστεθεί στο αντικείμενο `NTAuthCertificates`, εφόσον ο επιτιθέμενος έχει έλεγχο επί αυτού του αντικειμένου AD. Συνήθως, μόνο τα μέλη της ομάδας **Enterprise Admin**, μαζί με τους **Domain Admins** ή τους **Administrators** στον **τομέα της ρίζας του δάσους**, έχουν δικαίωμα να τροποποιήσουν αυτό το αντικείμενο. Μπορούν να επεξεργαστούν το αντικείμενο `NTAuthCertificates` χρησιμοποιώντας το `certutil.exe` με την εντολή `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, ή χρησιμοποιώντας το [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
+Ένα αυτο-υπογεγραμμένο πιστοποιητικό CA μπορεί να προστεθεί στο αντικείμενο `NTAuthCertificates` από έναν επιτιθέμενο, εφόσον έχει έλεγχο αυτού του αντικειμένου AD. Κανονικά, μόνο τα μέλη της ομάδας **Enterprise Admin**, μαζί με τους **Domain Admins** ή **Administrators** στο **δενδρικό τομέα ρίζας**, έχουν άδεια να τροποποιούν αυτό το αντικείμενο. Μπορούν να επεξεργαστούν το αντικείμενο `NTAuthCertificates` χρησιμοποιώντας το `certutil.exe` με την εντολή `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, ή χρησιμοποιώντας το [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-Αυτή η δυνατότητα είναι ιδιαίτερα σημαντική όταν χρησιμοποιείται σε συνδυασμό με μια προηγουμένως αναφερθείσα μέθοδο που περιλαμβάνει τη χρήση του ForgeCert για τη δυναμική δημιουργία πιστοποιητικών.
+Αυτή η δυνατότητα είναι ιδιαίτερα σχετική όταν χρησιμοποιείται σε συνδυασμό με μια προηγουμένως περιγραφείσα μέθοδο που περιλαμβάνει το ForgeCert για τη δυναμική δημιουργία πιστοποιητικών.
 
-## Κακόβουλη Εσφαλμένη Διαμόρφωση - DPERSIST3
+## Κακόβουλη Λανθασμένη Ρύθμιση - DPERSIST3
 
-Οι ευκαιρίες για **μόνιμη παρουσία** μέσω **τροποποιήσεων των περιγραφών ασφαλείας των στοιχείων AD CS** είναι πολλές. Οι τροποποιήσεις που περιγράφονται στην ενότητα "[Ανόδου τομέα](domain-escalation.md)" μπορούν να εφαρμοστούν κακόβουλα από έναν επιτιθέμενο με αυξημένη πρόσβαση. Αυτό περιλαμβάνει την προσθήκη "δικαιωμάτων ελέγχου" (π.χ. WriteOwner/WriteDACL κλπ.) σε ευαίσθητα στοιχεία, όπως:
+Οι ευκαιρίες για **επιμονή** μέσω **τροποποιήσεων περιγραφής ασφαλείας των στοιχείων AD CS** είναι πολλές. Οι τροποποιήσεις που περιγράφονται στην ενότητα "[Domain Escalation](domain-escalation.md)" μπορούν να εφαρμοστούν κακόβουλα από έναν επιτιθέμενο με ανυψωμένη πρόσβαση. Αυτό περιλαμβάνει την προσθήκη "δικαιωμάτων ελέγχου" (π.χ., WriteOwner/WriteDACL κ.λπ.) σε ευαίσθητα στοιχεία όπως:
 
-- Το αντικείμενο υπολογιστή AD του **διακομιστή CA**
-- Ο διακομιστής **RPC/DCOM** του διακομιστή CA
-- Οποιοδήποτε **κατώτερο αντικείμενο ή δοχείο AD** στο **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (για παράδειγμα, το δοχείο προτύπων πιστοποιητικού, το δοχείο Αρχών Πιστοποίησης, το αντικείμενο NTAuthCertificates κλπ.)
-- **Ομάδες AD με εξουσιοδότηση για έλεγχο του AD CS** από προεπιλογή ή από τον οργανισμό (όπως η ενσωματωμένη ομάδα Cert Publishers και οποιοδήποτε από τα μέλη της)
+- Το **αντικείμενο υπολογιστή AD του CA server**
+- Ο **RPC/DCOM server του CA server**
+- Οποιοδήποτε **καταγωγικό αντικείμενο ή κοντέινερ AD** στο **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (για παράδειγμα, το κοντέινερ Πρότυπα Πιστοποιητικών, το κοντέινερ Αρχών Πιστοποίησης, το αντικείμενο NTAuthCertificates κ.λπ.)
+- **Ομάδες AD που έχουν δικαιώματα ελέγχου AD CS** από προεπιλογή ή από τον οργανισμό (όπως η ενσωματωμένη ομάδα Cert Publishers και οποιοδήποτε από τα μέλη της)
 
-Ένα παράδειγμα κακόβουλης εφαρμογής θα περιλάμβανε έναν επιτιθέμενο, ο οποίος έχει **αυξημένα δικαιώματα** στον τομέα, να προσθέτει το δικαίωμα **`WriteOwner`** στο προεπιλεγμένο πρότυπο πιστοποιητικού **`User`**, με τον επιτιθέμενο να είναι ο κύριος για το δικαίωμα. Για να εκμεταλλευτεί αυτό, ο επιτιθέμενος θα άλλαζε αρχικά την κυριότητα του προτύπου **`User`** σε εαυτόν. Στη συνέχεια, θα ορίζονταν το **`mspki-certificate-name-flag`** σε **1** σ
+Ένα παράδειγμα κακόβουλης εφαρμογής θα περιλάμβανε έναν επιτιθέμενο, ο οποίος έχει **ανυψωμένα δικαιώματα** στο τομέα, να προσθέτει την άδεια **`WriteOwner`** στο προεπιλεγμένο πρότυπο πιστοποιητικού **`User`**, με τον επιτιθέμενο να είναι ο κύριος για το δικαίωμα. Για να εκμεταλλευτεί αυτό, ο επιτιθέμενος θα άλλαζε πρώτα την ιδιοκτησία του προτύπου **`User`** σε αυτόν. Ακολούθως, η **`mspki-certificate-name-flag`** θα ρυθμιστεί σε **1** στο πρότυπο για να επιτρέψει το **`ENROLLEE_SUPPLIES_SUBJECT`**, επιτρέποντας σε έναν χρήστη να παρέχει ένα Subject Alternative Name στην αίτηση. Στη συνέχεια, ο επιτιθέμενος θα μπορούσε να **εγγραφεί** χρησιμοποιώντας το **πρότυπο**, επιλέγοντας ένα όνομα **τομεακού διαχειριστή** ως εναλλακτικό όνομα, και να χρησιμοποιήσει το αποκτηθέν πιστοποιητικό για αυθεντικοποίηση ως DA.
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

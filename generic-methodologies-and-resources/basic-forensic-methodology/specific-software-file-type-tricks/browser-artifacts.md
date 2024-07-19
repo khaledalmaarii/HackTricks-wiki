@@ -25,14 +25,14 @@ Get Access Today:
 
 ## Browsers Artifacts <a href="#id-3def" id="id-3def"></a>
 
-Τα αρχεία του προγράμματος περιήγησης περιλαμβάνουν διάφορους τύπους δεδομένων που αποθηκεύονται από τους προγράμματα περιήγησης ιστού, όπως το ιστορικό πλοήγησης, τα σελιδοδείκτες και τα δεδομένα cache. Αυτά τα αρχεία διατηρούνται σε συγκεκριμένους φακέλους εντός του λειτουργικού συστήματος, διαφέροντας σε τοποθεσία και όνομα μεταξύ των προγραμμάτων περιήγησης, αλλά γενικά αποθηκεύουν παρόμοιους τύπους δεδομένων.
+Τα αρχεία του προγράμματος περιήγησης περιλαμβάνουν διάφορους τύπους δεδομένων που αποθηκεύονται από τα προγράμματα περιήγησης ιστού, όπως το ιστορικό πλοήγησης, τα σελιδοδείκτες και τα δεδομένα cache. Αυτά τα αρχεία διατηρούνται σε συγκεκριμένους φακέλους εντός του λειτουργικού συστήματος, διαφέροντας σε τοποθεσία και όνομα μεταξύ των προγραμμάτων περιήγησης, αλλά γενικά αποθηκεύουν παρόμοιους τύπους δεδομένων.
 
 Ακολουθεί μια περίληψη των πιο κοινών αρχείων του προγράμματος περιήγησης:
 
 * **Ιστορικό Πλοήγησης**: Παρακολουθεί τις επισκέψεις του χρήστη σε ιστότοπους, χρήσιμο για την αναγνώριση επισκέψεων σε κακόβουλους ιστότοπους.
 * **Δεδομένα Αυτόματης Συμπλήρωσης**: Προτάσεις βασισμένες σε συχνές αναζητήσεις, προσφέροντας πληροφορίες όταν συνδυάζονται με το ιστορικό πλοήγησης.
 * **Σελιδοδείκτες**: Ιστότοποι που αποθηκεύει ο χρήστης για γρήγορη πρόσβαση.
-* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις ή πρόσθετα του προγράμματος περιήγησης που εγκαθιστά ο χρήστης.
+* **Επεκτάσεις και Πρόσθετα**: Επεκτάσεις ή πρόσθετα του προγράμματος περιήγησης που έχει εγκαταστήσει ο χρήστης.
 * **Cache**: Αποθηκεύει περιεχόμενο ιστού (π.χ., εικόνες, αρχεία JavaScript) για να βελτιώσει τους χρόνους φόρτωσης των ιστότοπων, πολύτιμο για την εγκληματολογική ανάλυση.
 * **Συνδέσεις**: Αποθηκευμένα διαπιστευτήρια σύνδεσης.
 * **Favicons**: Εικονίδια που σχετίζονται με ιστότοπους, που εμφανίζονται σε καρτέλες και σελιδοδείκτες, χρήσιμα για επιπλέον πληροφορίες σχετικά με τις επισκέψεις του χρήστη.
@@ -40,7 +40,7 @@ Get Access Today:
 * **Λήψεις**: Καταγραφές αρχείων που έχουν ληφθεί μέσω του προγράμματος περιήγησης.
 * **Δεδομένα Φόρμας**: Πληροφορίες που εισάγονται σε φόρμες ιστού, αποθηκευμένες για μελλοντικές προτάσεις αυτόματης συμπλήρωσης.
 * **Μικρογραφίες**: Εικόνες προεπισκόπησης ιστότοπων.
-* **Custom Dictionary.txt**: Λέξεις που προστίθενται από τον χρήστη στο λεξικό του προγράμματος περιήγησης.
+* **Custom Dictionary.txt**: Λέξεις που έχει προσθέσει ο χρήστης στο λεξικό του προγράμματος περιήγησης.
 
 ## Firefox
 
@@ -128,7 +128,7 @@ done < $passfile
 
 ### Cache Inspection
 
-Το εργαλείο [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) επιτρέπει την επιθεώρηση της cache, απαιτώντας την τοποθεσία του φακέλου εξαγωγής δεδομένων cache. Τα μεταδεδομένα για την cache περιλαμβάνουν το όνομα αρχείου, τον κατάλογο, τον αριθμό πρόσβασης, την προέλευση URL και χρονικές σφραγίδες που υποδεικνύουν τους χρόνους δημιουργίας, πρόσβασης, τροποποίησης και λήξης της cache.
+Το εργαλείο [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) επιτρέπει την επιθεώρηση της cache, απαιτώντας την τοποθεσία του φακέλου εξαγωγής δεδομένων cache. Τα μεταδεδομένα για την cache περιλαμβάνουν το όνομα αρχείου, τον κατάλογο, τον αριθμό πρόσβασης, την προέλευση URL και χρονικές σφραγίδες που υποδεικνύουν χρόνους δημιουργίας, πρόσβασης, τροποποίησης και λήξης της cache.
 
 ### Cookies Management
 
@@ -164,14 +164,14 @@ done < $passfile
 * **Downloads.plist**: Πληροφορίες σχετικά με τα ληφθέντα αρχεία.
 * **Bookmarks.plist**: Αποθηκεύει τα URLs που έχουν προστεθεί στους σελιδοδείκτες.
 * **TopSites.plist**: Οι πιο συχνά επισκεπτόμενοι ιστότοποι.
-* **Extensions.plist**: Λίστα με τις επεκτάσεις του προγράμματος περιήγησης Safari. Χρησιμοποιήστε το `plutil` ή το `pluginkit` για να τις ανακτήσετε.
+* **Extensions.plist**: Λίστα με τις επεκτάσεις του προγράμματος περιήγησης Safari. Χρησιμοποιήστε το `plutil` ή το `pluginkit` για να ανακτήσετε.
 * **UserNotificationPermissions.plist**: Τομείς που επιτρέπεται να στέλνουν ειδοποιήσεις. Χρησιμοποιήστε το `plutil` για να αναλύσετε.
 * **LastSession.plist**: Καρτέλες από την τελευταία συνεδρία. Χρησιμοποιήστε το `plutil` για να αναλύσετε.
 * **Browser’s built-in anti-phishing**: Ελέγξτε χρησιμοποιώντας `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Μια απάντηση 1 υποδεικνύει ότι η δυνατότητα είναι ενεργή.
 
 ## Opera
 
-Τα δεδομένα του Opera βρίσκονται στο `/Users/$USER/Library/Application Support/com.operasoftware.Opera` και μοιράζεται τη μορφή του Chrome για ιστορικό και λήψεις.
+Τα δεδομένα του Opera βρίσκονται στο `/Users/$USER/Library/Application Support/com.operasoftware.Opera` και μοιράζονται τη μορφή του Chrome για ιστορικό και λήψεις.
 
 * **Browser’s built-in anti-phishing**: Επαληθεύστε ελέγχοντας αν το `fraud_protection_enabled` στο αρχείο Preferences είναι ρυθμισμένο σε `true` χρησιμοποιώντας `grep`.
 
@@ -182,7 +182,7 @@ done < $passfile
 * [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
 * [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
 * [https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ\&pg=PA128\&lpg=PA128\&dq=%22This+file)
-* **Βιβλίο: OS X Incident Response: Scripting and Analysis By Jaron Bradley σελίδα 123**
+* **Book: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
@@ -192,16 +192,17 @@ done < $passfile
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε hacking AWS από το μηδέν έως τον ήρωα με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
 * **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα κόλπα hacking σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
