@@ -1,30 +1,31 @@
-# Injection d'applications .Net sur macOS
+# macOS .Net Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Il s'agit d'un résumé de l'article [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Consultez-le pour plus de détails !**
+**Ceci est un résumé du post [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Consultez-le pour plus de détails !**
 
-## Débogage .NET Core <a href="#net-core-debugging" id="net-core-debugging"></a>
+## .NET Core Debugging <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 ### **Établir une session de débogage** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-La gestion de la communication entre le débogueur et le débogué en .NET est gérée par [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Ce composant met en place deux tubes nommés par processus .NET, comme on peut le voir dans [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), qui sont initiés via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Ces tubes sont suffixés par **`-in`** et **`-out`**.
+La gestion de la communication entre le débogueur et le débogué dans .NET est gérée par [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Ce composant met en place deux pipes nommés par processus .NET comme vu dans [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), qui sont initiés via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Ces pipes sont suffixés par **`-in`** et **`-out`**.
 
-En visitant le répertoire **`$TMPDIR`** de l'utilisateur, on peut trouver des FIFO de débogage disponibles pour le débogage des applications .Net.
+En visitant le **`$TMPDIR`** de l'utilisateur, on peut trouver des FIFOs de débogage disponibles pour le débogage des applications .Net.
 
-[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) est responsable de la gestion de la communication depuis un débogueur. Pour initier une nouvelle session de débogage, un débogueur doit envoyer un message via le tube `out` commençant par une structure `MessageHeader`, détaillée dans le code source .NET :
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) est responsable de la gestion de la communication d'un débogueur. Pour initier une nouvelle session de débogage, un débogueur doit envoyer un message via le pipe `out` commençant par une structure `MessageHeader`, détaillée dans le code source .NET :
 ```c
 struct MessageHeader {
 MessageType   m_eType;        // Message type
@@ -54,7 +55,7 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMajorVersion = kCurrentMajorVersion
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion;
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-Ce titre est ensuite envoyé à la cible en utilisant l'appel système `write`, suivi de la structure `sessionRequestData` contenant un GUID pour la session :
+Cet en-tête est ensuite envoyé à la cible en utilisant l'appel système `write`, suivi de la structure `sessionRequestData` contenant un GUID pour la session :
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
@@ -65,7 +66,7 @@ Une opération de lecture sur le tuyau `out` confirme le succès ou l'échec de 
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
 ## Lecture de la mémoire
-Une fois qu'une session de débogage est établie, la mémoire peut être lue en utilisant le type de message [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). La fonction readMemory est détaillée, effectuant les étapes nécessaires pour envoyer une demande de lecture et récupérer la réponse :
+Une fois une session de débogage établie, la mémoire peut être lue en utilisant le [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896) type de message. La fonction readMemory est détaillée, effectuant les étapes nécessaires pour envoyer une demande de lecture et récupérer la réponse :
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
 // Allocation and initialization
@@ -77,11 +78,11 @@ bool readMemory(void *addr, int len, unsigned char **output) {
 return true;
 }
 ```
-Le concept de preuve complet (POC) est disponible [ici](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
+La preuve de concept complète (POC) est disponible [ici](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
 
 ## Écriture en mémoire
 
-De même, la mémoire peut être écrite en utilisant la fonction `writeMemory`. Le processus implique de définir le type de message sur `MT_WriteMemory`, de spécifier l'adresse et la longueur des données, puis d'envoyer les données :
+De même, la mémoire peut être écrite en utilisant la fonction `writeMemory`. Le processus consiste à définir le type de message sur `MT_WriteMemory`, à spécifier l'adresse et la longueur des données, puis à envoyer les données :
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 // Increment IDs, set message type, and specify memory location
@@ -95,18 +96,18 @@ return true;
 ```
 Le POC associé est disponible [ici](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
 
-## Exécution de code .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
+## Exécution de Code .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-Pour exécuter du code, il est nécessaire d'identifier une région mémoire avec des permissions rwx, ce qui peut être fait en utilisant vmmap -pages:
+Pour exécuter du code, il faut identifier une région mémoire avec des permissions rwx, ce qui peut être fait en utilisant vmmap -pages :
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-Trouver un endroit pour écraser un pointeur de fonction est nécessaire, et dans .NET Core, cela peut être fait en ciblant la **Table de Fonctions Dynamiques (DFT)**. Cette table, détaillée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), est utilisée par le runtime pour les fonctions d'aide à la compilation JIT.
+Localiser un endroit pour écraser un pointeur de fonction est nécessaire, et dans .NET Core, cela peut être fait en ciblant la **Dynamic Function Table (DFT)**. Cette table, détaillée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), est utilisée par le runtime pour les fonctions d'assistance à la compilation JIT.
 
-Pour les systèmes x64, la chasse aux signatures peut être utilisée pour trouver une référence au symbole `_hlpDynamicFuncTable` dans `libcorclr.dll`.
+Pour les systèmes x64, la recherche de signature peut être utilisée pour trouver une référence au symbole `_hlpDynamicFuncTable` dans `libcorclr.dll`.
 
-La fonction de débogage `MT_GetDCB` fournit des informations utiles, y compris l'adresse d'une fonction d'aide, `m_helperRemoteStartAddr`, indiquant l'emplacement de `libcorclr.dll` dans la mémoire du processus. Cette adresse est ensuite utilisée pour démarrer une recherche de la DFT et écraser un pointeur de fonction avec l'adresse du shellcode.
+La fonction de débogage `MT_GetDCB` fournit des informations utiles, y compris l'adresse d'une fonction d'assistance, `m_helperRemoteStartAddr`, indiquant l'emplacement de `libcorclr.dll` dans la mémoire du processus. Cette adresse est ensuite utilisée pour commencer une recherche pour la DFT et écraser un pointeur de fonction avec l'adresse du shellcode.
 
 Le code POC complet pour l'injection dans PowerShell est accessible [ici](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 
@@ -114,16 +115,17 @@ Le code POC complet pour l'injection dans PowerShell est accessible [ici](https:
 
 * [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

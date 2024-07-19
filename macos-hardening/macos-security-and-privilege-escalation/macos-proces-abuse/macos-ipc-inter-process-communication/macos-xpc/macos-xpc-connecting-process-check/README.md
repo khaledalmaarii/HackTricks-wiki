@@ -1,40 +1,41 @@
-# Vérification du processus de connexion macOS XPC
+# macOS XPC Connecting Process Check
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres moyens de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Vérification du processus de connexion XPC
+## XPC Connecting Process Check
 
-Lorsqu'une connexion est établie avec un service XPC, le serveur vérifie si la connexion est autorisée. Voici les vérifications habituellement effectuées :
+Lorsqu'une connexion est établie à un service XPC, le serveur vérifiera si la connexion est autorisée. Voici les vérifications qu'il effectuerait généralement :
 
-1. Vérifier si le processus de connexion est signé avec un certificat **signé par Apple** (uniquement délivré par Apple).
-   * Si cela n'est **pas vérifié**, un attaquant pourrait créer un **faux certificat** pour correspondre à tout autre contrôle.
-2. Vérifier si le processus de connexion est signé avec le certificat de **l'organisation** (vérification de l'ID de l'équipe).
-   * Si cela n'est **pas vérifié**, **n'importe quel certificat de développeur** d'Apple peut être utilisé pour signer et se connecter au service.
-3. Vérifier si le processus de connexion **contient un ID de bundle approprié**.
-   * Si cela n'est **pas vérifié**, n'importe quel outil **signé par la même organisation** pourrait être utilisé pour interagir avec le service XPC.
-4. (4 ou 5) Vérifier si le processus de connexion a un **numéro de version logicielle approprié**.
-   * Si cela n'est **pas vérifié**, des clients anciens et non sécurisés, vulnérables à l'injection de processus, pourraient être utilisés pour se connecter au service XPC même avec les autres contrôles en place.
-5. (4 ou 5) Vérifier si le processus de connexion a un runtime renforcé sans droits dangereux (comme ceux qui permettent de charger des bibliothèques arbitraires ou d'utiliser des variables d'environnement DYLD)
-   * Si cela n'est **pas vérifié**, le client pourrait être **vulnérable à l'injection de code**
-6. Vérifier si le processus de connexion a un **droit** qui lui permet de se connecter au service. Cela s'applique aux binaires Apple.
-7. La **vérification** doit être **basée** sur le **jeton d'audit du client** **au lieu** de son ID de processus (**PID**) car cela empêche les **attaques de réutilisation de PID**.
-   * Les développeurs **utilisent rarement l'appel API du jeton d'audit** car il est **privé**, donc Apple pourrait **changer** à tout moment. De plus, l'utilisation d'API privées n'est pas autorisée dans les applications Mac App Store.
-   * Si la méthode **`processIdentifier`** est utilisée, elle pourrait être vulnérable
-   * **`xpc_dictionary_get_audit_token`** devrait être utilisé à la place de **`xpc_connection_get_audit_token`**, car le dernier pourrait également être [vulnérable dans certaines situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Vérifiez si le **processus de connexion est signé avec un certificat signé par Apple** (délivré uniquement par Apple).
+* Si cela **n'est pas vérifié**, un attaquant pourrait créer un **certificat falsifié** pour correspondre à toute autre vérification.
+2. Vérifiez si le processus de connexion est signé avec le **certificat de l'organisation** (vérification de l'ID d'équipe).
+* Si cela **n'est pas vérifié**, **tout certificat de développeur** d'Apple peut être utilisé pour signer et se connecter au service.
+3. Vérifiez si le processus de connexion **contient un ID de bundle approprié**.
+* Si cela **n'est pas vérifié**, tout outil **signé par la même organisation** pourrait être utilisé pour interagir avec le service XPC.
+4. (4 ou 5) Vérifiez si le processus de connexion a un **numéro de version de logiciel approprié**.
+* Si cela **n'est pas vérifié**, un ancien client non sécurisé, vulnérable à l'injection de processus, pourrait être utilisé pour se connecter au service XPC même avec les autres vérifications en place.
+5. (4 ou 5) Vérifiez si le processus de connexion a un runtime durci sans droits dangereux (comme ceux qui permettent de charger des bibliothèques arbitraires ou d'utiliser des variables d'environnement DYLD).
+1. Si cela **n'est pas vérifié**, le client pourrait être **vulnérable à l'injection de code**.
+6. Vérifiez si le processus de connexion a un **droit** qui lui permet de se connecter au service. Cela s'applique aux binaires Apple.
+7. La **vérification** doit être **basée** sur le **jeton d'audit du client de connexion** **au lieu** de son ID de processus (**PID**) car le premier empêche les **attaques de réutilisation de PID**.
+* Les développeurs **utilisent rarement l'API de jeton d'audit** car elle est **privée**, donc Apple pourrait **changer** à tout moment. De plus, l'utilisation d'API privées n'est pas autorisée dans les applications du Mac App Store.
+* Si la méthode **`processIdentifier`** est utilisée, elle pourrait être vulnérable.
+* **`xpc_dictionary_get_audit_token`** devrait être utilisé à la place de **`xpc_connection_get_audit_token`**, car ce dernier pourrait également être [vulnérable dans certaines situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Attaques de communication
+### Communication Attacks
 
 Pour plus d'informations sur l'attaque de réutilisation de PID, consultez :
 
@@ -48,13 +49,13 @@ Pour plus d'informations sur l'attaque **`xpc_connection_get_audit_token`**, con
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Prévention des attaques par rétrogradation
+### Trustcache - Downgrade Attacks Prevention
 
-Trustcache est une méthode défensive introduite dans les machines Apple Silicon qui stocke une base de données de CDHSAH des binaires Apple afin que seuls les binaires non modifiés autorisés puissent être exécutés. Ce qui empêche l'exécution de versions antérieures.
+Trustcache est une méthode défensive introduite dans les machines Apple Silicon qui stocke une base de données de CDHSAH des binaires Apple afin que seuls les binaires non modifiés autorisés puissent être exécutés. Cela empêche l'exécution de versions rétrogrades.
 
-### Exemples de code
+### Code Examples
 
-Le serveur implémentera cette **vérification** dans une fonction appelée **`shouldAcceptNewConnection`**.
+Le serveur mettra en œuvre cette **vérification** dans une fonction appelée **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -65,7 +66,7 @@ return YES;
 ```
 {% endcode %}
 
-L'objet NSXPCConnection possède une propriété **privée** **`auditToken`** (celle qui devrait être utilisée mais qui pourrait changer) et une propriété **publique** **`processIdentifier`** (celle qui ne devrait pas être utilisée).
+L'objet NSXPCConnection a une propriété **privée** **`auditToken`** (celle qui devrait être utilisée mais pourrait changer) et une propriété **publique** **`processIdentifier`** (celle qui ne devrait pas être utilisée).
 
 Le processus de connexion pourrait être vérifié avec quelque chose comme :
 
@@ -91,7 +92,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-Si un développeur ne souhaite pas vérifier la version du client, il pourrait au moins s'assurer que le client n'est pas vulnérable à l'injection de processus :
+Si un développeur ne veut pas vérifier la version du client, il pourrait vérifier que le client n'est pas vulnérable à l'injection de processus au moins :
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -108,20 +109,19 @@ if ((csFlags & (cs_hard | cs_require_lv)) {
 return Yes; // Accept connection
 }
 ```
-```markdown
 {% endcode %}
+
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-Autres moyens de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
-```
+{% endhint %}

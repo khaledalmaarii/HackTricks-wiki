@@ -1,22 +1,23 @@
-# Injection d'applications Java sur macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Énumération
 
-Trouvez les applications Java installées sur votre système. Il a été remarqué que les applications Java dans le fichier **Info.plist** contiendront certains paramètres Java qui contiennent la chaîne **`java.`**, vous pouvez donc rechercher cela :
+Trouvez les applications Java installées sur votre système. Il a été remarqué que les applications Java dans le **Info.plist** contiendront certains paramètres java qui contiennent la chaîne **`java.`**, vous pouvez donc rechercher cela :
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Cependant, cela déclenchera une erreur sur l'application exécutée, une autre manière plus discrète est de créer un agent Java et d'utiliser :
+Cependant, cela déclenchera une erreur sur l'application exécutée, une autre méthode plus discrète consiste à créer un agent Java et à utiliser :
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Créer l'agent avec une **version Java différente** de l'application peut provoquer un crash de l'exécution à la fois de l'agent et de l'application
+Créer l'agent avec une **version Java différente** de l'application peut faire planter l'exécution de l'agent et de l'application
 {% endhint %}
 
 Où l'agent peut être :
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-Et ensuite exportez la variable d'environnement et exécutez l'application Java comme suit :
+Et ensuite, exportez la variable d'environnement et exécutez l'application java comme suit :
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## Fichier vmoptions
+## fichier vmoptions
 
-Ce fichier prend en charge la spécification des **paramètres Java** lors de l'exécution de Java. Vous pourriez utiliser certains des astuces précédentes pour modifier les paramètres Java et **faire exécuter des commandes arbitraires au processus**.\
-De plus, ce fichier peut également **inclure d'autres fichiers** avec le répertoire `include`, vous pourriez donc également modifier un fichier inclus.
+Ce fichier prend en charge la spécification des **params Java** lors de l'exécution de Java. Vous pourriez utiliser certaines des astuces précédentes pour modifier les params java et **faire exécuter des commandes arbitraires** au processus.\
+De plus, ce fichier peut également **inclure d'autres** avec le répertoire `include`, vous pourriez donc également modifier un fichier inclus.
 
-De plus, certaines applications Java **chargeront plus d'un fichier `vmoptions`**.
+Encore plus, certaines applications Java **chargeront plus d'un fichier `vmoptions`**.
 
-Certaines applications comme Android Studio indiquent dans leur **sortie où elles cherchent** ces fichiers, par exemple :
+Certaines applications comme Android Studio indiquent dans leur **sortie où elles recherchent** ces fichiers, comme :
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Certaines applications comme Android Studio indiquent dans leur **sortie où ell
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Si ce n'est pas le cas, vous pouvez facilement le vérifier avec :
+Si ce n'est pas le cas, vous pouvez facilement vérifier avec :
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Notez combien il est intéressant que dans cet exemple, Android Studio tente de charger le fichier **`/Applications/Android Studio.app.vmoptions`**, un endroit où tout utilisateur du groupe **`admin` a un accès en écriture.**
+Notez à quel point il est intéressant qu'Android Studio dans cet exemple essaie de charger le fichier **`/Applications/Android Studio.app.vmoptions`**, un endroit où tout utilisateur du **`groupe admin` a un accès en écriture.**
