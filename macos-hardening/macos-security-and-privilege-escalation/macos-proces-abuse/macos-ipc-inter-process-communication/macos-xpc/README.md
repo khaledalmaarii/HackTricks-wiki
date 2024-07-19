@@ -1,47 +1,47 @@
 # macOS XPC
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## 基本信息
 
-XPC，代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上**进程间通信**的框架。XPC提供了一种机制，用于在系统上的不同进程之间进行**安全的、异步的方法调用**。它是苹果安全范式的一部分，允许**创建权限分离的应用程序**，其中每个**组件**仅运行具有执行其工作所需的**权限**，从而限制了被攻破进程的潜在损害。
+XPC，即 XNU（macOS 使用的内核）进程间通信，是一个用于 macOS 和 iOS 上 **进程之间通信** 的框架。XPC 提供了一种机制，用于在系统上不同进程之间进行 **安全的异步方法调用**。它是苹果安全范式的一部分，允许 **创建特权分离的应用程序**，每个 **组件** 仅以 **执行其工作所需的权限** 运行，从而限制被攻陷进程可能造成的损害。
 
-XPC使用一种进程间通信（IPC）的形式，这是一组方法，用于在同一系统上运行的不同程序之间发送数据。
+XPC 使用一种进程间通信（IPC）的形式，这是一组方法，允许在同一系统上运行的不同程序相互发送数据。
 
-XPC的主要好处包括：
+XPC 的主要优点包括：
 
-1. **安全性**：通过将工作分离到不同的进程中，每个进程可以只被授予它所需的权限。这意味着即使一个进程被攻破，它造成的危害也有限。
-2. **稳定性**：XPC有助于将崩溃隔离到发生它们的组件中。如果一个进程崩溃，它可以被重启而不影响系统的其余部分。
-3. **性能**：XPC允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
+1. **安全性**：通过将工作分离到不同的进程中，每个进程只能被授予其所需的权限。这意味着即使一个进程被攻陷，它的危害能力也有限。
+2. **稳定性**：XPC 有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以在不影响系统其余部分的情况下重新启动。
+3. **性能**：XPC 允许轻松的并发，因为不同的任务可以在不同的进程中同时运行。
 
-唯一的**缺点**是，将应用程序分割成几个进程，通过XPC进行通信是**效率较低**的。但在今天的系统中这几乎是不明显的，而且好处更大。
+唯一的 **缺点** 是 **将应用程序分离为多个进程** 通过 XPC 进行通信的效率 **较低**。但在今天的系统中，这几乎是不可察觉的，且其好处更为明显。
 
-## 特定应用程序的XPC服务
+## 应用特定的 XPC 服务
 
-应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在\*\*`/Applications/Safari.app/Contents/XPCServices`**找到它们。它们有扩展名**`.xpc`**（如**`com.apple.Safari.SandboxBroker.xpc`**），并且**也是包含主二进制文件的包\*\*：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+应用程序的 XPC 组件是 **在应用程序内部**。例如，在 Safari 中，您可以在 **`/Applications/Safari.app/Contents/XPCServices`** 中找到它们。它们的扩展名为 **`.xpc`**（如 **`com.apple.Safari.SandboxBroker.xpc`**），并且 **也与主二进制文件捆绑** 在一起：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-正如您可能在想的，一个**XPC组件将具有不同的权利和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在**与调用它的应用程序相同的安全会话中运行**。
+正如您可能想到的，**XPC 组件将具有不同的权限和特权**，与其他 XPC 组件或主应用程序二进制文件不同。除非 XPC 服务在其 **Info.plist** 文件中配置了 [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) 设置为“True”。在这种情况下，XPC 服务将在 **与调用它的应用程序相同的安全会话中运行**。
 
-XPC服务由**launchd**在需要时**启动**，并在所有任务**完成**后**关闭**，以释放系统资源。**特定应用程序的XPC组件只能由应用程序使用**，从而降低了潜在漏洞相关风险。
+XPC 服务由 **launchd** 在需要时 **启动**，并在所有任务 **完成** 后 **关闭** 以释放系统资源。**应用程序特定的 XPC 组件只能由该应用程序使用**，从而降低与潜在漏洞相关的风险。
 
-## 系统范围的XPC服务
+## 系统范围的 XPC 服务
 
-系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中**定义**，例如\*\*`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`\*\*。
+系统范围的 XPC 服务对所有用户可用。这些服务，无论是 launchd 还是 Mach 类型，都需要在指定目录中的 plist 文件中 **定义**，例如 **`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`** 或 **`/Library/LaunchAgents`**。
 
-这些plist文件将有一个名为\*\*`MachServices`**的键，带有服务的名称，以及一个名为**`Program`\*\*的键，带有二进制文件的路径：
-
+这些 plist 文件将具有一个名为 **`MachServices`** 的键，包含服务的名称，以及一个名为 **`Program`** 的键，包含二进制文件的路径：
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -75,16 +75,66 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+The ones in **`LaunchDameons`** 是由 root 运行的。因此，如果一个无权限的进程可以与其中一个进行通信，它可能能够提升权限。
 
-**`LaunchDameons`** 中的服务是由 root 运行的。因此，如果一个非特权进程能够与其中一个服务通信，它可能能够提升权限。
+## XPC 对象
+
+* **`xpc_object_t`**
+
+每个 XPC 消息都是一个字典对象，简化了序列化和反序列化。此外，`libxpc.dylib` 声明了大多数数据类型，因此可以确保接收到的数据是预期的类型。在 C API 中，每个对象都是 `xpc_object_t`（其类型可以使用 `xpc_get_type(object)` 检查）。\
+此外，函数 `xpc_copy_description(object)` 可用于获取对象的字符串表示，这对于调试目的非常有用。\
+这些对象还具有一些可调用的方法，如 `xpc_<object>_copy`、`xpc_<object>_equal`、`xpc_<object>_hash`、`xpc_<object>_serialize`、`xpc_<object>_deserialize`...
+
+`xpc_object_t` 是通过调用 `xpc_<objetType>_create` 函数创建的，该函数内部调用 `_xpc_base_create(Class, Size)`，其中指明了对象的类类型（`XPC_TYPE_*` 之一）和大小（额外的 40B 将被添加到大小以用于元数据）。这意味着对象的数据将从偏移量 40B 开始。\
+因此，`xpc_<objectType>_t` 是 `xpc_object_t` 的一种子类，后者将是 `os_object_t*` 的子类。
+
+{% hint style="warning" %}
+请注意，应该由开发者使用 `xpc_dictionary_[get/set]_<objectType>` 来获取或设置键的类型和实际值。
+{% endhint %}
+
+* **`xpc_pipe`**
+
+**`xpc_pipe`** 是一个 FIFO 管道，进程可以用来进行通信（通信使用 Mach 消息）。\
+可以通过调用 `xpc_pipe_create()` 或 `xpc_pipe_create_from_port()` 创建 XPC 服务器，以使用特定的 Mach 端口创建它。然后，要接收消息，可以调用 `xpc_pipe_receive` 和 `xpc_pipe_try_receive`。
+
+请注意，**`xpc_pipe`** 对象是一个 **`xpc_object_t`**，其结构中包含有关使用的两个 Mach 端口和名称（如果有）的信息。例如，守护进程 `secinitd` 在其 plist `/System/Library/LaunchDaemons/com.apple.secinitd.plist` 中配置了名为 `com.apple.secinitd` 的管道。
+
+**`xpc_pipe`** 的一个示例是 **bootstrap pip**e，由 **`launchd`** 创建，使得共享 Mach 端口成为可能。
+
+* **`NSXPC*`**
+
+这些是 Objective-C 高级对象，允许对 XPC 连接进行抽象。\
+此外，使用 DTrace 调试这些对象比前面的对象更容易。
+
+* **`GCD 队列`**
+
+XPC 使用 GCD 传递消息，此外它生成某些调度队列，如 `xpc.transactionq`、`xpc.io`、`xpc-events.add-listenerq`、`xpc.service-instance`...
+
+## XPC 服务
+
+这些是位于其他项目的 **`XPCServices`** 文件夹中的 **`.xpc`** 扩展包，在 `Info.plist` 中，它们的 `CFBundlePackageType` 设置为 **`XPC!`**。\
+该文件具有其他配置键，如 `ServiceType`，可以是 Application、User、System 或 `_SandboxProfile`，可以定义沙箱或 `_AllowedClients`，可能指示与服务联系所需的权限或 ID。这些和其他配置选项在服务启动时将有助于配置服务。
+
+### 启动服务
+
+应用程序尝试使用 `xpc_connection_create_mach_service` **连接** 到 XPC 服务，然后 launchd 定位守护进程并启动 **`xpcproxy`**。**`xpcproxy`** 强制执行配置的限制，并使用提供的 FDs 和 Mach 端口生成服务。
+
+为了提高 XPC 服务搜索的速度，使用了缓存。
+
+可以使用以下方式跟踪 `xpcproxy` 的操作：
+```bash
+supraudit S -C -o /tmp/output /dev/auditpipe
+```
+The XPC library 使用 `kdebug` 来记录调用 `xpc_ktrace_pid0` 和 `xpc_ktrace_pid1` 的操作。它使用的代码是未记录的，因此需要将其添加到 `/usr/share/misc/trace.codes` 中。它们的前缀是 `0x29`，例如其中一个是 `0x29000004`: `XPC_serializer_pack`。\
+实用程序 `xpcproxy` 使用前缀 `0x22`，例如：`0x2200001c: xpcproxy:will_do_preexec`。
 
 ## XPC 事件消息
 
-应用程序可以**订阅**不同的事件**消息**，使它们能够在这些事件发生时**按需启动**。这些服务的**设置**是在 **launchd plist 文件**中完成的，这些文件位于**与前面提到的目录相同**，并包含一个额外的 **`LaunchEvent`** 键。
+应用程序可以 **订阅** 不同的事件 **消息**，使其能够在发生此类事件时 **按需启动**。这些服务的 **设置** 在 **launchd plist 文件** 中完成，位于 **与之前相同的目录** 中，并包含一个额外的 **`LaunchEvent`** 键。
 
 ### XPC 连接进程检查
 
-当一个进程尝试通过 XPC 连接调用方法时，**XPC 服务应该检查该进程是否被允许连接**。以下是常见的检查方式和常见的陷阱：
+当一个进程尝试通过 XPC 连接调用一个方法时，**XPC 服务应该检查该进程是否被允许连接**。以下是检查的常见方法和常见陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
@@ -92,7 +142,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ## XPC 授权
 
-苹果还允许应用程序**配置一些权限以及如何获取它们**，所以如果调用进程拥有这些权限，它将被**允许调用** XPC 服务的方法：
+苹果还允许应用程序 **配置一些权限以及如何获取它们**，因此如果调用进程拥有这些权限，它将 **被允许调用** XPC 服务中的方法：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -100,8 +150,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ## XPC 嗅探器
 
-要嗅探 XPC 消息，你可以使用 [**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用了 **Frida**。
-
+要嗅探 XPC 消息，可以使用 [**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用 **Frida**。
 ```bash
 # Install
 pip3 install xpcspy
@@ -112,8 +161,9 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
+另一个可能使用的工具是 [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html)。
 
-## XPC 通信 C 语言示例
+## XPC 通信 C 代码示例
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -224,15 +274,8 @@ return 0;
 </dict>
 </plist>
 ```
-
-```
-
-</div>
-
-</div>
-
-```
-
+{% endtab %}
+{% endtabs %}
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -252,8 +295,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-
-### XPC 通信 Objective-C 代码示例
+## XPC 通信 Objective-C 代码示例
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -356,27 +398,26 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
+```bash
+# Compile the server & client
+gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
+gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
+# Save server on it's location
+cp oc_xpc_server /tmp
 
-## Save server on it's location
+# Load daemon
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
+sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 
-cp oc\_xpc\_server /tmp
+# Call client
+./oc_xpc_client
 
-## Load daemon
-
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-
-## Call client
-
-./oc\_xpc\_client
-
-## Clean
-
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
-
-````
-## 客户端在 Dylb 代码内
+# Clean
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
+```
+## 客户端在 Dylb 代码中
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -409,20 +450,38 @@ NSLog(@"Done!");
 
 return;
 }
-````
+```
+## Remote XPC
+
+此功能由 `RemoteXPC.framework`（来自 `libxpc`）提供，允许通过不同主机进行 XPC 通信。\
+支持远程 XPC 的服务在其 plist 中将具有键 UsesRemoteXPC，就像 `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist` 的情况一样。然而，尽管该服务将与 `launchd` 注册，但提供该功能的是 `UserEventAgent`，其插件为 `com.apple.remoted.plugin` 和 `com.apple.remoteservicediscovery.events.plugin`。
+
+此外，`RemoteServiceDiscovery.framework` 允许从 `com.apple.remoted.plugin` 获取信息，暴露的函数包括 `get_device`、`get_unique_device`、`connect`...
+
+一旦使用 connect 并收集到服务的 socket `fd`，就可以使用 `remote_xpc_connection_*` 类。
+
+可以使用 cli 工具 `/usr/libexec/remotectl` 获取有关远程服务的信息，使用的参数包括：
+```bash
+/usr/libexec/remotectl list # Get bridge devices
+/usr/libexec/remotectl show ...# Get device properties and services
+/usr/libexec/remotectl dumpstate # Like dump withuot indicateing a servie
+/usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
+...
+```
+BridgeOS与主机之间的通信通过专用的IPv6接口进行。`MultiverseSupport.framework`允许建立套接字，其`fd`将用于通信。\
+可以使用`netstat`、`nettop`或开源选项`netbottom`找到这些通信。
+
+{% hint style="success" %}
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
-{% endtab %}
-{% endtabs %}
+{% endhint %}

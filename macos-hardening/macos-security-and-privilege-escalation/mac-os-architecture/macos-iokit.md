@@ -1,28 +1,31 @@
 # macOS IOKit
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## 基本信息
 
-I/O Kit是XNU内核中的一个开源、面向对象的**设备驱动程序框架**，处理**动态加载的设备驱动程序**。它允许将模块化代码动态添加到内核中，支持各种硬件。
+I/O Kit 是一个开源的面向对象的 **设备驱动框架**，位于 XNU 内核中，处理 **动态加载的设备驱动程序**。它允许在内核中动态添加模块化代码，支持多种硬件。
 
-IOKit驱动程序基本上会**从内核中导出函数**。这些函数参数的**类型**是**预定义的**并且经过验证。此外，类似于XPC，IOKit只是另一个建立在**Mach消息**之上的层。
+IOKit 驱动程序基本上会 **从内核导出函数**。这些函数参数的 **类型** 是 **预定义的** 并经过验证。此外，类似于 XPC，IOKit 只是 **Mach 消息** 之上的另一层。
 
-**IOKit XNU内核代码**由苹果在[https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit)中开源。此外，用户空间的IOKit组件也是开源的[https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser)。
+**IOKit XNU 内核代码** 由 Apple 在 [https://github.com/apple-oss-distributions/xnu/tree/main/iokit](https://github.com/apple-oss-distributions/xnu/tree/main/iokit) 开源。此外，用户空间的 IOKit 组件也开源 [https://github.com/opensource-apple/IOKitUser](https://github.com/opensource-apple/IOKitUser)。
 
-然而，**没有IOKit驱动程序**是开源的。无论如何，偶尔会发布带有符号的驱动程序版本，这样更容易调试。查看如何[**从固件中获取驱动程序扩展**](./#ipsw)**。**
+然而，**没有 IOKit 驱动程序** 是开源的。无论如何，偶尔会发布带有符号的驱动程序，这使得调试更容易。查看如何 [**从固件获取驱动程序扩展**](./#ipsw)**。**
 
-它是用**C++**编写的。您可以使用以下命令获取解开的C++符号：
+它是用 **C++** 编写的。您可以使用以下命令获取去除修饰的 C++ 符号：
 ```bash
 # Get demangled symbols
 nm -C com.apple.driver.AppleJPEGDriver
@@ -33,21 +36,21 @@ __ZN16IOUserClient202222dispatchExternalMethodEjP31IOExternalMethodArgumentsOpaq
 IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArgumentsOpaque*, IOExternalMethodDispatch2022 const*, unsigned long, OSObject*, void*)
 ```
 {% hint style="danger" %}
-IOKit **暴露的函数** 在客户端尝试调用函数时可以执行**额外的安全检查**，但请注意应用程序通常受到**沙箱**的限制，只能与IOKit函数进行交互。
+IOKit **暴露的函数** 在客户端尝试调用函数时可以执行 **额外的安全检查**，但请注意，应用程序通常受到 **沙箱** 的 **限制**，只能与特定的 IOKit 函数进行交互。
 {% endhint %}
 
 ## 驱动程序
 
 在 macOS 中，它们位于：
 
-- **`/System/Library/Extensions`**
-- 内置于 OS X 操作系统中的 KEXT 文件。
-- **`/Library/Extensions`**
-- 第三方软件安装的 KEXT 文件
+* **`/System/Library/Extensions`**
+* 内置于 OS X 操作系统的 KEXT 文件。
+* **`/Library/Extensions`**
+* 由第三方软件安装的 KEXT 文件
 
 在 iOS 中，它们位于：
 
-- **`/System/Library/Extensions`**
+* **`/System/Library/Extensions`**
 ```bash
 #Use kextstat to print the loaded drivers
 kextstat
@@ -65,9 +68,9 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
 9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
 10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-直到数字9，列出的驱动程序被**加载到地址0**。这意味着这些不是真正的驱动程序，而是**内核的一部分，无法卸载**。
+直到第9个，列出的驱动程序是**加载在地址0**。这意味着这些不是实际的驱动程序，而是**内核的一部分，无法卸载**。
 
-要查找特定的扩展，您可以使用：
+为了找到特定的扩展，您可以使用：
 ```bash
 kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
 kextfind -bundle-id -substring IOR #Search by substring in bundle-id
@@ -79,34 +82,34 @@ kextunload com.apple.iokit.IOReportFamily
 ```
 ## IORegistry
 
-**IORegistry** 是 macOS 和 iOS 中 IOKit 框架的关键部分，用作表示系统硬件配置和状态的数据库。它是一个**分层对象集合，表示系统上加载的所有硬件和驱动程序，以及它们之间的关系**。
+**IORegistry** 是 macOS 和 iOS 中 IOKit 框架的一个关键部分，作为表示系统硬件配置和状态的数据库。它是一个 **层次化的对象集合，代表系统上加载的所有硬件和驱动程序** 及其相互关系。
 
-您可以使用命令行工具 **`ioreg`** 来获取 IORegistry 并从控制台检查它（对于 iOS 特别有用）。
+您可以使用 cli **`ioreg`** 从控制台检查 IORegistry（对 iOS 特别有用）。
 ```bash
 ioreg -l #List all
 ioreg -w 0 #Not cut lines
 ioreg -p <plane> #Check other plane
 ```
-您可以从[Xcode附加工具](https://developer.apple.com/download/all/)下载**`IORegistryExplorer`**，并通过**图形**界面检查**macOS IORegistry**。
+您可以从 **Xcode 附加工具** 下载 **`IORegistryExplorer`**，网址为 [**https://developer.apple.com/download/all/**](https://developer.apple.com/download/all/)，并通过 **图形** 界面检查 **macOS IORegistry**。
 
 <figure><img src="../../../.gitbook/assets/image (1167).png" alt="" width="563"><figcaption></figcaption></figure>
 
-在IORegistryExplorer中，“平面”用于组织和显示IORegistry中不同对象之间的关系。每个平面代表一种特定类型的关系或系统硬件和驱动程序配置的特定视图。以下是您可能在IORegistryExplorer中遇到的一些常见平面：
+在 IORegistryExplorer 中，“平面”用于组织和显示 IORegistry 中不同对象之间的关系。每个平面代表特定类型的关系或系统硬件和驱动程序配置的特定视图。以下是您可能在 IORegistryExplorer 中遇到的一些常见平面：
 
-1. **IOService平面**：这是最常见的平面，显示代表驱动程序和nubs（驱动程序之间的通信通道）的服务对象。它显示这些对象之间的提供者-客户端关系。
-2. **IODeviceTree平面**：此平面表示设备之间的物理连接，因为它们连接到系统。通常用于可视化通过总线（如USB或PCI）连接的设备的层次结构。
-3. **IOPower平面**：根据电源管理显示对象及其关系。它可以显示哪些对象影响其他对象的电源状态，有助于调试与电源相关的问题。
-4. **IOUSB平面**：专门关注USB设备及其关系，显示USB集线器和连接设备的层次结构。
-5. **IOAudio平面**：此平面用于表示系统中音频设备及其关系。
+1. **IOService 平面**：这是最通用的平面，显示代表驱动程序和 nubs（驱动程序之间的通信通道）的服务对象。它显示这些对象之间的提供者-客户端关系。
+2. **IODeviceTree 平面**：该平面表示设备与系统之间的物理连接。它通常用于可视化通过 USB 或 PCI 等总线连接的设备层次结构。
+3. **IOPower 平面**：以电源管理的方式显示对象及其关系。它可以显示哪些对象影响其他对象的电源状态，便于调试与电源相关的问题。
+4. **IOUSB 平面**：专注于 USB 设备及其关系，显示 USB 集线器和连接设备的层次结构。
+5. **IOAudio 平面**：该平面用于表示音频设备及其在系统中的关系。
 6. ...
 
 ## 驱动程序通信代码示例
 
-以下代码连接到IOKit服务`"YourServiceNameHere"`，并在选择器0内调用函数。为此：
+以下代码连接到 IOKit 服务 `"YourServiceNameHere"` 并调用选择器 0 内的函数。为此：
 
-* 首先调用**`IOServiceMatching`**和**`IOServiceGetMatchingServices`**以获取服务。
-* 然后通过调用**`IOServiceOpen`**建立连接。
-* 最后使用**`IOConnectCallScalarMethod`**调用函数，指示选择器0（选择器是您要调用的函数分配的编号）。
+* 首先调用 **`IOServiceMatching`** 和 **`IOServiceGetMatchingServices`** 来获取服务。
+* 然后通过调用 **`IOServiceOpen`** 建立连接。
+* 最后调用 **`IOConnectCallScalarMethod`** 函数，指示选择器 0（选择器是您要调用的函数分配的数字）。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
@@ -161,19 +164,19 @@ IOObjectRelease(iter);
 return 0;
 }
 ```
-有**其他**函数可用于调用IOKit函数，除了**`IOConnectCallScalarMethod`**，还有**`IOConnectCallMethod`**，**`IOConnectCallStructMethod`**...
+There are **其他** functions that can be used to call IOKit functions apart of **`IOConnectCallScalarMethod`** like **`IOConnectCallMethod`**, **`IOConnectCallStructMethod`**...
 
-## 反向驱动程序入口点
+## 反向工程驱动入口点
 
-例如，您可以从[**固件映像（ipsw）**](./#ipsw)中获取这些内容。然后，将其加载到您喜欢的反编译器中。
+You could obtain these for example from a [**固件镜像 (ipsw)**](./#ipsw). Then, load it into your favourite decompiler.
 
-您可以开始反编译**`externalMethod`**函数，因为这是将接收调用并调用正确函数的驱动程序函数：
+You could start decompiling the **`externalMethod`** function as this is the driver function that will be receiving the call and calling the correct function:
 
 <figure><img src="../../../.gitbook/assets/image (1168).png" alt="" width="315"><figcaption></figcaption></figure>
 
 <figure><img src="../../../.gitbook/assets/image (1169).png" alt=""><figcaption></figcaption></figure>
 
-那个可怕的调用解析意味着：
+That awful call demagled means:
 
 {% code overflow="wrap" %}
 ```cpp
@@ -181,7 +184,7 @@ IOUserClient2022::dispatchExternalMethod(unsigned int, IOExternalMethodArguments
 ```
 {% endcode %}
 
-请注意，在上一个定义中缺少了 **`self`** 参数，正确的定义应该是：
+注意在之前的定义中缺少了 **`self`** 参数，正确的定义应该是：
 
 {% code overflow="wrap" %}
 ```cpp
@@ -189,25 +192,25 @@ IOUserClient2022::dispatchExternalMethod(self, unsigned int, IOExternalMethodArg
 ```
 {% endcode %}
 
-实际上，您可以在[https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388)找到真正的定义：
+实际上，您可以在 [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/Kernel/IOUserClient.cpp#L6388) 找到真实的定义：
 ```cpp
 IOUserClient2022::dispatchExternalMethod(uint32_t selector, IOExternalMethodArgumentsOpaque *arguments,
 const IOExternalMethodDispatch2022 dispatchArray[], size_t dispatchArrayCount,
 OSObject * target, void * reference)
 ```
-使用这些信息，您可以重写Ctrl+Right -> `编辑函数签名` 并设置已知类型：
+使用此信息，您可以重写 Ctrl+Right -> `Edit function signature` 并设置已知类型：
 
 <figure><img src="../../../.gitbook/assets/image (1174).png" alt=""><figcaption></figcaption></figure>
 
-新的反编译代码如下所示：
+新的反编译代码将如下所示：
 
 <figure><img src="../../../.gitbook/assets/image (1175).png" alt=""><figcaption></figcaption></figure>
 
-下一步，我们需要定义 **`IOExternalMethodDispatch2022`** 结构。在 [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) 中可以找到其开源定义，您可以进行定义：
+在下一步中，我们需要定义 **`IOExternalMethodDispatch2022`** 结构体。它是开源的，您可以在 [https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176](https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff177559b9f69dbd3c8c3fd30a/iokit/IOKit/IOUserClient.h#L168-L176) 中找到，您可以定义它：
 
 <figure><img src="../../../.gitbook/assets/image (1170).png" alt=""><figcaption></figcaption></figure>
 
-现在，根据 `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray` 您可以看到大量数据：
+现在，跟随 `(IOExternalMethodDispatch2022 *)&sIOExternalMethodArray`，您可以看到很多数据：
 
 <figure><img src="../../../.gitbook/assets/image (1176).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -219,14 +222,29 @@ OSObject * target, void * reference)
 
 <figure><img src="../../../.gitbook/assets/image (1179).png" alt="" width="563"><figcaption></figcaption></figure>
 
-现在，我们知道其中有一个 **包含7个元素的数组**（检查最终的反编译代码），单击以创建一个包含7个元素的数组：
+正如我们现在所看到的，这里有一个 **7 个元素的数组**（检查最终的反编译代码），点击以创建一个 7 个元素的数组：
 
 <figure><img src="../../../.gitbook/assets/image (1180).png" alt="" width="563"><figcaption></figcaption></figure>
 
-创建数组后，您可以查看所有导出的函数：
+数组创建后，您可以看到所有导出的函数：
 
 <figure><img src="../../../.gitbook/assets/image (1181).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="success" %}
-如果您记得，要从用户空间调用一个**导出的**函数，我们不需要调用函数的名称，而是需要调用**选择器编号**。在这里，您可以看到选择器 **0** 是函数 **`initializeDecoder`**，选择器 **1** 是 **`startDecoder`**，选择器 **2** 是 **`initializeEncoder`**...
+如果您记得，要从用户空间 **调用** 一个 **导出** 函数，我们不需要调用函数的名称，而是 **选择器编号**。在这里，您可以看到选择器 **0** 是函数 **`initializeDecoder`**，选择器 **1** 是 **`startDecoder`**，选择器 **2** 是 **`initializeEncoder`**...
+{% endhint %}
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
+
+</details>
 {% endhint %}

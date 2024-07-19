@@ -1,28 +1,29 @@
-# 金票
+# Golden Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 金票
+## Golden ticket
 
-**金票**攻击是指通过使用**Active Directory (AD) krbtgt账户的NTLM哈希**创建合法的票据授予票据（TGT），冒充任何用户。这种技术特别有利，因为它**允许访问域内的任何服务或计算机**，就像冒充的用户一样。关键是要记住**krbtgt账户的凭据永远不会自动更新**。
+**Golden Ticket** 攻击是指通过使用 **Active Directory (AD) krbtgt 账户的 NTLM 哈希** 来 **创建一个合法的票据授权票据 (TGT)，冒充任何用户**。这种技术特别有利，因为它 **使冒充的用户能够访问域内的任何服务或机器**。重要的是要记住，**krbtgt 账户的凭据从不自动更新**。
 
-要**获取krbtgt账户的NTLM哈希**，可以采用各种方法。可以从域内任何域控制器（DC）上的**本地安全性子系统服务（LSASS）进程**或**NT目录服务（NTDS.dit）文件**中提取。此外，**执行DCsync攻击**是另一种获取此NTLM哈希的策略，可以使用Mimikatz中的**lsadump::dcsync模块**或Impacket的**secretsdump.py脚本**执行。重要的是要强调，要执行这些操作，通常需要**域管理员权限或类似级别的访问权限**。
+要 **获取 krbtgt 账户的 NTLM 哈希**，可以采用多种方法。它可以从 **本地安全授权子系统服务 (LSASS) 进程** 或位于域内任何域控制器 (DC) 上的 **NT 目录服务 (NTDS.dit) 文件** 中提取。此外，**执行 DCsync 攻击** 是获取此 NTLM 哈希的另一种策略，可以使用 Mimikatz 中的 **lsadump::dcsync 模块** 或 Impacket 的 **secretsdump.py 脚本** 来执行。需要强调的是，进行这些操作通常需要 **域管理员权限或类似级别的访问权限**。
 
-尽管NTLM哈希可用作此目的的有效方法，但出于操作安全原因，**强烈建议**使用高级加密标准（AES）Kerberos密钥（AES128和AES256）**伪造票据**。
+尽管 NTLM 哈希作为此目的的有效方法，但 **强烈建议** 为了操作安全的原因，**使用高级加密标准 (AES) Kerberos 密钥 (AES128 和 AES256) 来伪造票据**。 
 
-{% code title="来自Linux" %}
+{% code title="From Linux" %}
 ```bash
 python ticketer.py -nthash 25b2076cda3bfd6209161a6c78a69c1c -domain-sid S-1-5-21-1339291983-1349129144-367733775 -domain jurassic.park stegosaurus
 export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
@@ -42,50 +43,49 @@ kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1
 ```
 {% endcode %}
 
-**一旦**您注入了**黄金票证**，您就可以访问共享文件**(C$)**，并执行服务和WMI，因此您可以使用**psexec**或**wmiexec**来获取一个shell（看起来您无法通过winrm获取shell）。
+**一旦**你注入了**金票**，你可以访问共享文件**(C$)**，并执行服务和WMI，因此你可以使用**psexec**或**wmiexec**来获取一个shell（看起来你无法通过winrm获取shell）。
 
 ### 绕过常见检测
 
-检测黄金票证最常见的方法是通过**检查Kerberos流量**。默认情况下，Mimikatz**为TGT签名10年**，这在随后使用它进行TGS请求时会显得异常。
+检测金票的最常见方法是**检查网络上的Kerberos流量**。默认情况下，Mimikatz**将TGT签名为10年**，这将在后续使用它的TGS请求中显得异常。
 
 `Lifetime : 3/11/2021 12:39:57 PM ; 3/9/2031 12:39:57 PM ; 3/9/2031 12:39:57 PM`
 
-使用`/startoffset`、`/endin`和`/renewmax`参数来控制开始偏移、持续时间和最大续订次数（均以分钟为单位）。
+使用`/startoffset`、`/endin`和`/renewmax`参数来控制开始偏移、持续时间和最大续订（均以分钟为单位）。
 ```
 Get-DomainPolicy | select -expand KerberosPolicy
 ```
-```markdown
-不幸的是，TGT 的生命周期未记录在 4769 中，因此您在 Windows 事件日志中找不到此信息。但是，您可以关联的是**在没有先前的 4768 的情况下看到 4769**。**没有 TGT 的情况下无法请求 TGS**，如果没有 TGT 发行记录，我们可以推断它是离线伪造的。
+不幸的是，TGT的生命周期没有记录在4769中，因此您无法在Windows事件日志中找到此信息。然而，您可以关联的是**看到4769而没有先前的4768**。**没有TGT就无法请求TGS**，如果没有TGT被发出的记录，我们可以推断它是离线伪造的。
 
-为了**绕过此检测**，检查 diamond tickets：
+为了**绕过此检测**，请检查diamond tickets：
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-### 缓解
+### 缓解措施
 
-* 4624: 帐户登录
+* 4624: 账户登录
 * 4672: 管理员登录
 * `Get-WinEvent -FilterHashtable @{Logname='Security';ID=4672} -MaxEvents 1 | Format-List –Property`
 
-防御者可以做的其他小技巧是**对敏感用户的 4769 进行警报**，例如默认域管理员帐户。
+防御者可以做的其他小技巧是**对敏感用户的4769进行警报**，例如默认域管理员账户。
 
-## 参考资料
+## 参考文献
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
-* [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets] (https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
+* [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-golden-tickets)
+
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** 上**关注我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
-```
+{% endhint %}

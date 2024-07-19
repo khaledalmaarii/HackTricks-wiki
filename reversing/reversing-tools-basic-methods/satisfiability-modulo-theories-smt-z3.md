@@ -1,21 +1,22 @@
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 
-非常基本地，这个工具将帮助我们找到需要满足一些条件的变量的值，手动计算将会很烦人。因此，您可以告诉Z3变量需要满足的条件，它将找到一些值（如果可能的话）。
+非常基本地，这个工具将帮助我们找到需要满足某些条件的变量的值，手动计算这些值将非常麻烦。因此，您可以向 Z3 指示变量需要满足的条件，它将找到一些值（如果可能的话）。
 
-**一些文本和示例摘自[https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**一些文本和示例摘自 [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
 # 基本操作
 
@@ -70,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # 机器算术
 
-现代 CPU 和主流编程语言使用固定大小比特向量进行算术运算。在 Z3Py 中，可以使用**比特向量**来进行机器算术。
+现代CPU和主流编程语言使用**固定大小位向量**进行算术运算。机器算术在Z3Py中作为**位向量**可用。
 ```python
 from z3 import *
 
@@ -87,7 +88,7 @@ print(simplify(a == b)) #This is False
 ```
 ## 有符号/无符号数字
 
-Z3提供了特殊的有符号版本的算术操作，在这些操作中，**位向量被视为有符号或无符号**会产生不同的结果。在Z3Py中，操作符**<, <=, >, >=, /, % 和 >>**对应于**有符号**版本。相应的**无符号**操作符是**ULT, ULE, UGT, UGE, UDiv, URem 和 LShR**。
+Z3 提供了特殊的有符号算术运算版本，在这里 **位向量是被视为有符号还是无符号** 是有区别的。在 Z3Py 中，运算符 **<, <=, >, >=, /, % 和 >>** 对应于 **有符号** 版本。相应的 **无符号** 运算符是 **ULT, ULE, UGT, UGE, UDiv, URem 和 LShR.**
 ```python
 from z3 import *
 
@@ -105,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## 函数
+## Functions
 
-**解释函数**，如算术，其中**函数 +**具有**固定的标准解释**（它将两个数字相加）。**未解释函数**和常量具有**最大的灵活性**；它们允许**与函数或常量上的约束一致的任何解释**。
+**解释函数**，例如算术，其中 **函数 +** 具有 **固定的标准解释**（它将两个数字相加）。**未解释函数**和常量是 **最大灵活的**；它们允许与函数或常量的 **约束** 一致的 **任何解释**。
 
-示例：f两次应用于x会再次得到x，但f应用一次于x与x不同。
+示例：将 f 应用两次于 x 结果再次得到 x，但将 f 应用一次于 x 则与 x 不同。
 ```python
 from z3 import *
 
@@ -128,7 +129,7 @@ s.add(f(x) == 4) #Find the value that generates 4 as response
 s.check()
 print(m.model())
 ```
-# 例子
+# 示例
 
 ## 数独求解器
 ```python
@@ -180,21 +181,22 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## 参考资料
+## 参考文献
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

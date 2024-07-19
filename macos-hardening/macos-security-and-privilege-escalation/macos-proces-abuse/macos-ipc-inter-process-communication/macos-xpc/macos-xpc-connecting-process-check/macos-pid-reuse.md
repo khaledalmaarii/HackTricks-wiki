@@ -1,39 +1,40 @@
 # macOS PID 重用
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-- 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-- 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上关注我们**。
-- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## PID 重用
 
-当 macOS **XPC 服务**基于 **PID** 而不是 **审计令牌** 来检查调用进程时，就容易受到 PID 重用攻击的影响。这种攻击基于 **竞争条件**，其中一个 **利用程序**将会 **向 XPC 服务发送消息**，**滥用**功能，然后**立即**执行 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** 与 **允许的** 二进制文件。
+当 macOS **XPC 服务**根据 **PID** 而不是 **审计令牌** 检查被调用的进程时，它就容易受到 PID 重用攻击。该攻击基于 **竞争条件**，其中 **利用** 将 **消息发送到 XPC** 服务 **滥用** 功能，随后执行 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** 使用 **允许的** 二进制文件。
 
-这个函数将使 **允许的二进制文件拥有 PID**，但**恶意 XPC 消息**将在此之前发送。因此，如果 **XPC** 服务在执行 **`posix_spawn`** 之后使用 **PID** 来 **验证**发送者并在此之后检查它，它将认为消息来自一个**授权的**进程。
+此函数将使 **允许的二进制文件拥有 PID**，但 **恶意的 XPC 消息会在此之前发送**。因此，如果 **XPC** 服务 **使用** **PID** 来 **验证** 发送者，并在执行 **`posix_spawn`** 之后检查它，它将认为消息来自 **授权** 进程。
 
-### 攻击示例
+### 利用示例
 
-如果您发现函数 **`shouldAcceptNewConnection`** 或其调用的函数 **调用** **`processIdentifier`** 而不调用 **`auditToken`**。这很可能意味着它正在**验证进程 PID** 而不是审计令牌。\
-例如，如下图所示（摘自参考资料）：
+如果你找到函数 **`shouldAcceptNewConnection`** 或其调用的函数 **调用** **`processIdentifier`** 而不调用 **`auditToken`**，这很可能意味着它在 **验证进程 PID** 而不是审计令牌。\
+例如在这张图片中（取自参考）：
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-检查此示例攻击（同样摘自参考资料）以查看攻击的两个部分：
+查看这个示例利用（同样取自参考）以查看利用的两个部分：
 
-- 一个**生成多个 fork**
-- **每个 fork** 将在发送消息后立即执行 **`posix_spawn`** 向 XPC 服务发送**有效载荷**。
+* 一个 **生成多个分叉**
+* **每个分叉** 将 **发送** **有效载荷** 到 XPC 服务，同时在发送消息后立即执行 **`posix_spawn`**。
 
 {% hint style="danger" %}
-为了使攻击生效，重要的是 ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** 或将其放入攻击中：
+为了使利用有效，重要的是 ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** 或将其放入利用中：
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-第一种选项是使用**`NSTasks`**和参数来启动子进程以利用 RC。
+使用 **`NSTasks`** 的第一个选项和参数来启动子进程以利用 RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-这个例子使用原始的 **`fork`** 来启动 **利用 PID 竞争条件的子进程**，然后通过硬链接 **利用另一个竞争条件：**
+这个例子使用原始 **`fork`** 来启动 **将利用 PID 竞争条件的子进程**，然后通过硬链接利用 **另一个竞争条件：**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -285,25 +286,29 @@ pwned = true;
 return 0;
 }
 ```
+{% endtab %}
+{% endtabs %}
+
 ## 其他示例
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
 
-## 参考资料
+## 参考文献
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

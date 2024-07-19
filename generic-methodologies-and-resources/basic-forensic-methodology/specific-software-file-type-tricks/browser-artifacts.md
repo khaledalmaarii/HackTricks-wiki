@@ -25,7 +25,7 @@
 
 ## 浏览器伪影 <a href="#id-3def" id="id-3def"></a>
 
-浏览器伪影包括由网络浏览器存储的各种类型的数据，例如导航历史、书签和缓存数据。这些伪影保存在操作系统中的特定文件夹中，不同浏览器的位置和名称各异，但通常存储相似的数据类型。
+浏览器伪影包括由网页浏览器存储的各种类型的数据，例如导航历史、书签和缓存数据。这些伪影保存在操作系统中的特定文件夹中，不同浏览器的位置和名称各异，但通常存储相似的数据类型。
 
 以下是最常见的浏览器伪影的总结：
 
@@ -46,9 +46,9 @@
 
 Firefox 在用户数据中组织配置文件，存储在基于操作系统的特定位置：
 
-* **Linux**: `~/.mozilla/firefox/`
-* **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
-* **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
+* **Linux**：`~/.mozilla/firefox/`
+* **MacOS**：`/Users/$USER/Library/Application Support/Firefox/Profiles/`
+* **Windows**：`%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
 这些目录中的 `profiles.ini` 文件列出了用户配置文件。每个配置文件的数据存储在 `profiles.ini` 中 `Path` 变量命名的文件夹中，位于与 `profiles.ini` 本身相同的目录中。如果配置文件的文件夹缺失，可能已被删除。
 
@@ -148,7 +148,7 @@ Internet Explorer 的元数据存储在 `%userprofile%\Appdata\Local\Microsoft\W
 
 ## Microsoft Edge
 
-Microsoft Edge 将用户数据存储在 `%userprofile%\Appdata\Local\Packages` 中。各种数据类型的路径如下：
+Microsoft Edge 将用户数据存储在 `%userprofile%\Appdata\Local\Packages` 中。各种数据类型的路径为：
 
 * **Profile Path**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
 * **History, Cookies, and Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
@@ -160,14 +160,14 @@ Microsoft Edge 将用户数据存储在 `%userprofile%\Appdata\Local\Packages` �
 
 Safari 数据存储在 `/Users/$User/Library/Safari`。关键文件包括：
 
-* **History.db**: 包含 `history_visits` 和 `history_items` 表，存储 URL 和访问时间戳。使用 `sqlite3` 查询。
+* **History.db**: 包含 `history_visits` 和 `history_items` 表，包含 URL 和访问时间戳。使用 `sqlite3` 查询。
 * **Downloads.plist**: 有关下载文件的信息。
 * **Bookmarks.plist**: 存储书签 URL。
 * **TopSites.plist**: 最常访问的网站。
-* **Extensions.plist**: Safari 浏览器扩展的列表。使用 `plutil` 或 `pluginkit` 获取。
+* **Extensions.plist**: Safari 浏览器扩展的列表。使用 `plutil` 或 `pluginkit` 检索。
 * **UserNotificationPermissions.plist**: 允许推送通知的域。使用 `plutil` 进行解析。
 * **LastSession.plist**: 上一会话的标签。使用 `plutil` 进行解析。
-* **Browser’s built-in anti-phishing**: 使用 `defaults read com.apple.Safari WarnAboutFraudulentWebsites` 检查。响应为 1 表示该功能已启用。
+* **Browser’s built-in anti-phishing**: 使用 `defaults read com.apple.Safari WarnAboutFraudulentWebsites` 检查。响应为 1 表示该功能处于活动状态。
 
 ## Opera
 
@@ -175,7 +175,7 @@ Opera 的数据位于 `/Users/$USER/Library/Application Support/com.operasoftwar
 
 * **Browser’s built-in anti-phishing**: 通过检查 Preferences 文件中的 `fraud_protection_enabled` 是否设置为 `true` 来验证，使用 `grep`。
 
-这些路径和命令对于访问和理解不同网页浏览器存储的浏览数据至关重要。
+这些路径和命令对于访问和理解不同网络浏览器存储的浏览数据至关重要。
 
 ## References
 
@@ -192,16 +192,17 @@ Opera 的数据位于 `/Users/$USER/Library/Application Support/com.operasoftwar
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+学习和实践 AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零到英雄学习 AWS 黑客技术，</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* 获取 [**官方 PEASS & HackTricks 周边产品**](https://peass.creator-spring.com)
-* 发现 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

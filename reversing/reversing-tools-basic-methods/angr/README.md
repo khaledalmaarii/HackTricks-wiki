@@ -1,18 +1,19 @@
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
-这份备忘录的部分内容基于[angr文档](https://docs.angr.io/_/downloads/en/stable/pdf/)。
+本备忘单的部分内容基于 [angr 文档](https://docs.angr.io/_/downloads/en/stable/pdf/)。
 
 # 安装
 ```bash
@@ -40,9 +41,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# 已加载和主对象信息
+# 加载和主对象信息
 
-## 已加载数据
+## 加载的数据
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -131,9 +132,9 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## 调用函数
 
-* 通过 `args` 和 `env` 将参数列表和环境变量字典传递给 `entry_state` 和 `full_init_state`。这些结构中的值可以是字符串或位向量，并将被序列化为状态中的参数和环境，用于模拟执行。默认的 `args` 是一个空列表，因此，如果您要分析的程序期望至少找到一个 `argv[0]`，您应该始终提供它！
-* 如果您希望 `argc` 是符号的，可以将符号位向量作为 `argc` 传递给 `entry_state` 和 `full_init_state` 构造函数。但要小心：如果这样做，您还应该向生成的状态添加一个约束，即您的 argc 值不能大于您传递给 `args` 的参数数量。
-* 要使用调用状态，应该使用 `.call_state(addr, arg1, arg2, ...)`，其中 `addr` 是您想要调用的函数的地址，`argN` 是该函数的第 N 个参数，可以是 Python 整数、字符串、数组或位向量。如果您想要分配内存并实际传递一个对象的指针，您应该将其包装在 PointerWrapper 中，即 `angr.PointerWrapper("point to me!")`。这个 API 的结果可能有点不可预测，但我们正在努力改进。 
+* 你可以通过 `args` 传递参数列表，通过 `env` 传递环境变量字典到 `entry_state` 和 `full_init_state`。这些结构中的值可以是字符串或位向量，并将被序列化为模拟执行的参数和环境。默认的 `args` 是一个空列表，因此如果你分析的程序期望至少找到一个 `argv[0]`，你应该始终提供它！
+* 如果你希望 `argc` 是符号的，可以将一个符号位向量作为 `argc` 传递给 `entry_state` 和 `full_init_state` 构造函数。不过要小心：如果这样做，你还应该向结果状态添加一个约束，确保你的 argc 值不能大于你传递给 `args` 的参数数量。
+* 要使用调用状态，你应该使用 `.call_state(addr, arg1, arg2, ...)` 调用它，其中 `addr` 是你想要调用的函数的地址，`argN` 是该函数的第 N 个参数，可以是 Python 整数、字符串、数组或位向量。如果你想分配内存并实际传递一个指向对象的指针，你应该将其包装在 PointerWrapper 中，即 `angr.PointerWrapper("point to me!")`。这个 API 的结果可能有点不可预测，但我们正在努力改进它。
 
 ## 位向量
 ```python
@@ -144,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## 符号位向量和约束
+## 符号位向量与约束
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -178,8 +179,6 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Hooking
-
 ## 钩子
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
@@ -198,20 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-此外，您可以使用`proj.hook_symbol(name, hook)`，将符号的名称作为第一个参数提供，以挂钩符号所在的地址
+此外，您可以使用 `proj.hook_symbol(name, hook)`，将符号的名称作为第一个参数，以挂钩符号所在的地址。
 
 # 示例
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
