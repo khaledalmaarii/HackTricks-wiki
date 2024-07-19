@@ -1,69 +1,71 @@
 # iButton
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Вступ
+## Intro
 
-iButton - це загальна назва для електронного ідентифікаційного ключа, упакованого в **металевий контейнер у формі монети**. Його також називають **Dallas Touch** Memory або контактна пам'ять. Незважаючи на те, що його часто неправильно називають "магнітним" ключем, в ньому **немає нічого магнітного**. Насправді всередині прихований повноцінний **мікросхема**, яка працює за цифровим протоколом.
+iButton - це загальна назва для електронного ідентифікаційного ключа, упакованого в **металевий контейнер у формі монети**. Його також називають **Dallas Touch** Memory або контактною пам'яттю. Хоча його часто неправильно називають "магнітним" ключем, у ньому **немає нічого магнітного**. Насправді всередині прихований повноцінний **мікросхема**, що працює на цифровому протоколі.
 
-<figure><img src="../../.gitbook/assets/image (19).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (915).png" alt=""><figcaption></figcaption></figure>
 
-### Що таке iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
+### What is iButton? <a href="#what-is-ibutton" id="what-is-ibutton"></a>
 
-Зазвичай, під iButton розуміється фізична форма ключа та читача - кругла монета з двома контактами. Щодо рамки, яка його оточує, існує багато варіацій, від найпоширенішого пластикового тримача з отвором до кілець, кулонів тощо.
+Зазвичай iButton означає фізичну форму ключа та зчитувача - кругла монета з двома контактами. Для рамки, що оточує його, існує безліч варіацій, від найпоширенішого пластикового тримача з отвором до кілець, підвісок тощо.
 
-<figure><img src="../../.gitbook/assets/image (23) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1078).png" alt=""><figcaption></figcaption></figure>
 
-Коли ключ доходить до читача, **контакти доторкаються** і ключ живиться для **передачі** свого ідентифікатора. Іноді ключ **не зчитується** одразу через те, що **контактна PSD інтеркому** більша, ніж повинна бути. Таким чином, зовнішні контури ключа та читача не можуть доторкнутися. У цьому випадку вам доведеться натиснути ключ на одну зі стін читача.
+Коли ключ досягає зчитувача, **контакти торкаються** і ключ отримує живлення для **передачі** свого ID. Іноді ключ **не зчитується** відразу, оскільки **контакт PSD домофона більший**, ніж повинен бути. Тому зовнішні контури ключа та зчитувача не можуть торкатися. Якщо це так, вам доведеться натиснути ключ на одну з стінок зчитувача.
 
-<figure><img src="../../.gitbook/assets/image (21) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (290).png" alt=""><figcaption></figcaption></figure>
 
-### **Протокол 1-Wire** <a href="#1-wire-protocol" id="1-wire-protocol"></a>
+### **1-Wire protocol** <a href="#id-1-wire-protocol" id="id-1-wire-protocol"></a>
 
-Ключі Dallas обмінюються даними за допомогою протоколу 1-Wire. З одним контактом для передачі даних (!!) в обидва напрямки, від майстра до раба і навпаки. Протокол 1-Wire працює відповідно до моделі Майстер-Раб. У цій топології Майстер завжди ініціює комунікацію, а Раб слідує його інструкціям.
+Ключі Dallas обмінюються даними, використовуючи протокол 1-wire. З лише одним контактом для передачі даних (!!) в обох напрямках, від майстра до раба і навпаки. Протокол 1-wire працює за моделлю Master-Slave. У цій топології Master завжди ініціює зв'язок, а Slave виконує його інструкції.
 
-Коли ключ (Раб) контактує з інтеркомом (Майстром), чіп всередині ключа увімкнеться, живиться інтеркомом, і ключ ініціалізується. Після цього інтерком запитує ідентифікатор ключа. Далі ми розглянемо цей процес більш детально.
+Коли ключ (Slave) контактує з домофоном (Master), мікросхема всередині ключа вмикається, живиться від домофона, і ключ ініціалізується. Після цього домофон запитує ID ключа. Далі ми розглянемо цей процес більш детально.
 
-Flipper може працювати як в режимі Майстра, так і в режимі Раба. У режимі читання ключа Flipper діє як читач, тобто він працює як Майстер. А в режимі емуляції ключа Flipper претендує на ключ, він перебуває в режимі Раба.
+Flipper може працювати як у режимі Master, так і в режимі Slave. У режимі зчитування ключа Flipper діє як зчитувач, тобто працює як Master. А в режимі емуляції ключа Flipper вдає з себе ключ, він у режимі Slave.
 
-### Ключі Dallas, Cyfral та Metakom
+### Dallas, Cyfral & Metakom keys
 
 Для отримання інформації про те, як працюють ці ключі, перегляньте сторінку [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
-### Атаки
+### Attacks
 
-Ключі iButton можуть бути атаковані за допомогою Flipper Zero:
+iButtons можуть бути атаковані за допомогою Flipper Zero:
 
 {% content-ref url="flipper-zero/fz-ibutton.md" %}
 [fz-ibutton.md](flipper-zero/fz-ibutton.md)
 {% endcontent-ref %}
 
-## Посилання
+## References
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
