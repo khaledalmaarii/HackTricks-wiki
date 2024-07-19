@@ -1,26 +1,27 @@
 # FZ - 125kHz RFID
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## Introducción
+## Intro
 
-Para obtener más información sobre cómo funcionan las etiquetas de 125kHz, consulta:
+Para más información sobre cómo funcionan las etiquetas de 125kHz, consulta:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -28,34 +29,34 @@ Para obtener más información sobre cómo funcionan las etiquetas de 125kHz, co
 
 ## Acciones
 
-Para obtener más información sobre estos tipos de etiquetas, [**lee esta introducción**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
+Para más información sobre estos tipos de etiquetas [**lee esta introducción**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 
 ### Leer
 
-Intenta **leer** la información de la tarjeta. Luego puede **emular**.
+Intenta **leer** la información de la tarjeta. Luego puede **emularlas**.
 
 {% hint style="warning" %}
-Ten en cuenta que algunos intercomunicadores intentan protegerse contra la duplicación de llaves enviando un comando de escritura antes de la lectura. Si la escritura tiene éxito, esa etiqueta se considera falsa. Cuando Flipper emula RFID, no hay forma de que el lector lo distinga del original, por lo que no se producen tales problemas.
+Ten en cuenta que algunos intercomunicadores intentan protegerse de la duplicación de llaves enviando un comando de escritura antes de leer. Si la escritura tiene éxito, esa etiqueta se considera falsa. Cuando Flipper emula RFID, no hay forma de que el lector la distinga de la original, por lo que no ocurren tales problemas.
 {% endhint %}
 
-### Añadir Manualmente
+### Agregar Manualmente
 
-Puedes crear **tarjetas falsas en Flipper Zero indicando los datos** manualmente y luego emularlas.
+Puedes crear **tarjetas falsas en Flipper Zero indicando los datos** que ingresas manualmente y luego emularla.
 
 #### IDs en tarjetas
 
-A veces, al obtener una tarjeta, encontrarás el ID (o parte) escrito en la tarjeta visible.
+A veces, cuando obtienes una tarjeta, encontrarás el ID (o parte de él) escrito en la tarjeta visible.
 
 * **EM Marin**
 
-Por ejemplo, en esta tarjeta EM-Marin es posible **leer los últimos 3 de 5 bytes en claro** en la tarjeta física.\
-Los otros 2 se pueden forzar si no puedes leerlos en la tarjeta.
+Por ejemplo, en esta tarjeta EM-Marin, en la tarjeta física es posible **leer los últimos 3 de 5 bytes en claro**.\
+Los otros 2 pueden ser forzados por fuerza bruta si no puedes leerlos de la tarjeta.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Lo mismo ocurre en esta tarjeta HID donde solo se pueden encontrar impresos 2 de 3 bytes en la tarjeta
+Lo mismo ocurre en esta tarjeta HID donde solo se pueden encontrar impresos 2 de 3 bytes en la tarjeta.
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
@@ -71,16 +72,17 @@ Después de **copiar** una tarjeta o **ingresar** el ID **manualmente**, es posi
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking de AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
+{% endhint %}

