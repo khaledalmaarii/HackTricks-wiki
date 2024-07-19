@@ -1,22 +1,23 @@
-# Пакети macOS TCC
+# macOS TCC Payloads
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Робочий стіл
+### Desktop
 
-* **Права доступу**: Немає
+* **Entitlement**: Немає
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
@@ -56,7 +57,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/Desktop` в `/tmp/desktop`.
+Скопіюйте `$HOME/Desktop` до `/tmp/desktop`.
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -65,7 +66,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Документи
 
-* **Право доступу**: Немає
+* **Право**: Немає
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
@@ -105,7 +106,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/`Documents в `/tmp/documents`.
+Скопіюйте `$HOME/`Documents до `/tmp/documents`.
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -114,7 +115,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 ### Завантаження
 
-* **Права доступу**: Немає
+* **Право**: Немає
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
@@ -154,7 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/Dowloads` в `/tmp/downloads`.
+Скопіюйте `$HOME/Dowloads` до `/tmp/downloads`.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -163,12 +164,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### Бібліотека фотографій
 
-* **Повноваження**: `com.apple.security.personal-information.photos-library`
+* **Право**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-Скопіюйте `$HOME/Pictures/Photos Library.photoslibrary` в `/tmp/photos`.
+Скопіюйте `$HOME/Pictures/Photos Library.photoslibrary` до `/tmp/photos`.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -203,7 +204,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/Pictures/Photos Library.photoslibrary` в `/tmp/photos`.
+Скопіюйте `$HOME/Pictures/Photos Library.photoslibrary` до `/tmp/photos`.
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -212,7 +213,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### Контакти
 
-* **Право доступу**: `com.apple.security.personal-information.addressbook`
+* **Право**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
@@ -252,7 +253,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/Library/Application Support/AddressBook` в `/tmp/contacts`.
+Скопіюйте `$HOME/Library/Application Support/AddressBook` до `/tmp/contacts`.
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -261,7 +262,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Календар
 
-* **Повноваження**: `com.apple.security.personal-information.calendars`
+* **Право**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
@@ -301,7 +302,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Скопіюйте `$HOME/Library/Calendars` в `/tmp/calendars`.
+Скопіюйте `$HOME/Library/Calendars` до `/tmp/calendars`.
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -310,12 +311,12 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 ### Камера
 
-* **Право доступу**: `com.apple.security.device.camera`
+* **Право**: `com.apple.security.device.camera`
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
 {% tab title="ObjetiveC - Запис" %}
-Записати відео тривалістю 3 секунди та зберегти його у **`/tmp/recording.mov`**
+Записати 3-секундне відео та зберегти його в **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -394,8 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - Перевірка" %}
-Перевірте, чи програма має доступ до камери.
-{% endtab %}
+Перевірте, чи має програма доступ до камери.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -428,7 +428,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Зробіть фото з камери
+Зробіть фото за допомогою камери
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -437,12 +437,12 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 ### Мікрофон
 
-* **Повноваження**: **com.apple.security.device.audio-input**
+* **Право**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
 {% tab title="ObjetiveC - Запис" %}
-Записати 5 секунд аудіо та зберегти його у `/tmp/recording.m4a`
+Записати 5 секунд аудіо та зберегти його в `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -541,9 +541,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Перевірка" %}
-Перевірте, чи додаток має доступ до мікрофону. 
-{% endtab %}
+{% tab title="ObjectiveC - Check" %}
+Перевірте, чи має додаток доступ до мікрофона.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -574,7 +573,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-Запишіть аудіо тривалістю 5 секунд та збережіть його у `/tmp/recording.wav`
+Запишіть 5-секундний аудіофайл і збережіть його в `/tmp/recording.wav`
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -587,13 +586,14 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Місцезнаходження
 
 {% hint style="success" %}
-Для того, щоб додаток отримав доступ до місцезнаходження, **Служби місцезнаходження** (з розділу Конфіденційність та безпека) **повинні бути увімкнені,** інакше він не зможе отримати до нього доступ.
+Щоб додаток міг отримати місцезнаходження, **Служби місцезнаходження** (з Конфіденційності та безпеки) **повинні бути увімкнені,** інакше він не зможе отримати доступ до нього.
 {% endhint %}
 
-* **Повноваження**: `com.apple.security.personal-information.location`
+* **Право**: `com.apple.security.personal-information.location`
 * **TCC**: Надано в `/var/db/locationd/clients.plist`
 
-### ObjectiveC
+{% tabs %}
+{% tab title="ObjectiveC" %}
 Запишіть місцезнаходження в `/tmp/logs.txt`
 ```objectivec
 #include <syslog.h>
@@ -653,12 +653,12 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 ### Запис екрану
 
-* **Право доступу**: Немає
+* **Право**: Немає
 * **TCC**: `kTCCServiceScreenCapture`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Запишіть основний екран протягом 5 секунд у `/tmp/screen.mov`
+Записати основний екран протягом 5 секунд у `/tmp/screen.mov`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -715,7 +715,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Запишіть основний екран протягом 5 секунд
+Записати головний екран на 5 секунд
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -724,10 +724,13 @@ screencapture -V 5 /tmp/screen.mov
 
 ### Доступність
 
-* **Посвідчення**: Немає
+* **Право**: Немає
 * **TCC**: `kTCCServiceAccessibility`
 
-Використовуйте привілеї TCC, щоб прийняти управління Finder, натискаючи клавішу Enter, тим самим обійти TCC.
+Використовуйте привілей TCC, щоб прийняти контроль над Finder, натискаючи Enter, і таким чином обійти TCC
+
+{% tabs %}
+{% tab title="Прийняти TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -780,7 +783,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="Кейлогер" %}
+{% tab title="Keylogger" %}
 Зберігайте натиснуті клавіші в **`/tmp/keystrokes.txt`**
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -889,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**Доступність - це дуже потужний дозвіл**, ви можете зловживати ним іншими способами, наприклад, ви можете виконати **атаку клавішами** просто з нього, не потрібно викликати Системні події.
+**Доступність є дуже потужним дозволом**, ви можете зловживати ним іншими способами, наприклад, ви можете виконати **атаку на натискання клавіш** лише з його допомогою, без необхідності викликати System Events.
 {% endhint %}
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

