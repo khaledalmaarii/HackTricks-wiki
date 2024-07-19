@@ -1,32 +1,35 @@
 # SID-History Injection
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Napad SID History Injection
+## SID History Injection Attack
 
-Fokus napada **SID History Injection** je olakšavanje **migracije korisnika između domena** uz istovremeno održavanje pristupa resursima iz prethodnog domena. Ovo se postiže **uključivanjem prethodnog Identifikatora Sigurnosti (SID) korisnika u SID History** njihovog novog naloga. Važno je napomenuti da se ovaj proces može manipulisati kako bi se omogućio neovlašćeni pristup dodavanjem SID-a grupe sa visokim privilegijama (kao što su Enterprise Admins ili Domain Admins) iz matičnog domena u SID History. Ova eksploatacija omogućava pristup svim resursima unutar matičnog domena.
+Fokus **SID History Injection Attack** je pomoć **migraciji korisnika između domena** dok se obezbeđuje nastavak pristupa resursima iz prethodne domene. To se postiže **uključivanjem prethodnog sigurnosnog identifikatora (SID) korisnika u SID istoriju** njihovog novog naloga. Važno je napomenuti da se ovaj proces može manipulisati kako bi se omogućio neovlašćen pristup dodavanjem SID-a grupe sa visokim privilegijama (kao što su Enterprise Admins ili Domain Admins) iz matične domene u SID istoriju. Ova eksploatacija omogućava pristup svim resursima unutar matične domene.
 
-Postoje dva načina za izvršavanje ovog napada: putem kreiranja **Golden Ticket**-a ili **Diamond Ticket**-a.
+Postoje dve metode za izvršavanje ovog napada: kroz kreiranje **Golden Ticket** ili **Diamond Ticket**.
 
-Da biste pronašli SID grupe **"Enterprise Admins"**, prvo morate pronaći SID korenskog domena. Nakon identifikacije, SID grupe Enterprise Admins se može konstruisati dodavanjem `-519` na SID korenskog domena. Na primer, ako je SID korenskog domena `S-1-5-21-280534878-1496970234-700767426`, rezultirajući SID za grupu "Enterprise Admins" bi bio `S-1-5-21-280534878-1496970234-700767426-519`.
+Da bi se odredio SID za grupu **"Enterprise Admins"**, prvo je potrebno pronaći SID matične domene. Nakon identifikacije, SID grupe Enterprise Admins može se konstruisati dodavanjem `-519` na SID matične domene. Na primer, ako je SID matične domene `S-1-5-21-280534878-1496970234-700767426`, rezultantni SID za grupu "Enterprise Admins" bi bio `S-1-5-21-280534878-1496970234-700767426-519`.
 
 Takođe možete koristiti grupe **Domain Admins**, koje se završavaju sa **512**.
 
-Još jedan način za pronalaženje SID-a grupe iz drugog domena (na primer "Domain Admins") je:
+Drugi način da se pronađe SID grupe iz druge domene (na primer "Domain Admins") je sa:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-### Zlatna karta (Mimikatz) sa KRBTGT-AES256
+### Zlatna ulaznica (Mimikatz) sa KRBTGT-AES256
 
 {% code overflow="wrap" %}
 ```bash
@@ -47,13 +50,13 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-Za više informacija o zlatnim kartama pogledajte:
+Za više informacija o zlatnim karticama pogledajte:
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Dijamantska karta (Rubeus + KRBTGT-AES256)
+### Dijamantska kartica (Rubeus + KRBTGT-AES256)
 
 {% code overflow="wrap" %}
 ```powershell
@@ -81,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Povećajte privilegije na DA ili Enterprise admin koristeći KRBTGT heš kompromitovanog domena:
+Povećajte privilegije na DA root ili Enterprise admin koristeći KRBTGT hash kompromitovane domene:
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,15 +100,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-Sa stečenim dozvolama iz napada možete izvršiti, na primer, DCSync napad u novom domenu:
+Sa stečenim dozvolama iz napada možete izvršiti, na primer, DCSync napad u novoj domeni:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Sa linuxa
+### Iz linux-a
 
-#### Ručno pomoću [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
+#### Ručno sa [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
 {% code overflow="wrap" %}
 ```bash
@@ -129,21 +132,21 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 ```
 {% endcode %}
 
-#### Automatsko korišćenje pomoću [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
+#### Automatski koristeći [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Ovo je Impacket skripta koja će **automatski izvršiti eskalaciju sa detetskog na roditeljski domen**. Skripta zahteva:
+Ovo je Impacket skripta koja će **automatizovati eskalaciju sa child na parent domen**. Skripta zahteva:
 
 * Ciljni kontroler domena
-* Kredencijale za admin korisnika u detetovom domenu
+* Akreditive za admin korisnika u child domenu
 
-Tok je sledeći:
+Tok rada je:
 
-* Dobija SID za grupu Enterprise Admins u roditeljskom domenu
-* Preuzima heš za KRBTGT nalog u detetovom domenu
-* Kreira Golden Ticket
-* Prijavljuje se na roditeljski domen
-* Preuzima kredencijale za Administrator nalog u roditeljskom domenu
-* Ako je specificiran prekidač `target-exec`, autentifikuje se na kontroleru domena roditeljskog domena putem Psexec-a.
+* Dobija SID za grupu Enterprise Admins u parent domenu
+* Preuzima hash za KRBTGT nalog u child domenu
+* Kreira Zlatnu Ulaznicu
+* Prijavljuje se u parent domen
+* Preuzima akreditive za Administrator nalog u parent domenu
+* Ako je `target-exec` prekidač specificiran, autentifikuje se na Kontroler Domenа parent domena putem Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
@@ -151,14 +154,17 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

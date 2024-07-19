@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-# Sudo/Admin Grupa
+# Sudo/Admin Grupe
 
-## **PE - Metoda 1**
+## **PE - Metod 1**
 
-**Ponekad**, **podrazumevano \(ili zato što neki softver to zahteva\)** unutar **/etc/sudoers** fajla možete pronaći neke od ovih linija:
+**Ponekad**, **podrazumevano \(ili zato što neka softverska rešenja to zahtevaju\)** unutar **/etc/sudoers** datoteke možete pronaći neke od ovih linija:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -25,9 +26,9 @@ Drugi načini podrške HackTricks-u:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-Ovo znači da **svaki korisnik koji pripada grupi sudo ili admin može izvršiti bilo šta kao sudo**.
+To znači da **bilo koji korisnik koji pripada grupi sudo ili admin može izvršavati bilo šta kao sudo**.
 
-Ako je to slučaj, da **postanete root samo izvršite**:
+Ako je to slučaj, da **postanete root, možete jednostavno izvršiti**:
 ```text
 sudo su
 ```
@@ -37,14 +38,14 @@ Pronađite sve suid binarne datoteke i proverite da li postoji binarna datoteka 
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Ako otkrijete da je binarna datoteka pkexec SUID binarna datoteka i da pripadate grupi sudo ili admin, verovatno možete izvršavati binarne datoteke kao sudo koristeći pkexec.
+Ako otkrijete da je binarni fajl pkexec SUID binarni fajl i da pripadate sudo ili admin grupi, verovatno biste mogli da izvršavate binarne fajlove kao sudo koristeći pkexec.  
 Proverite sadržaj:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Ovde ćete pronaći koje grupe imaju dozvolu da izvršavaju **pkexec** i **podrazumevano** u nekim Linux distribucijama se mogu pojaviti grupe poput **sudo** ili **admin**.
+Tamo ćete pronaći koje grupe imaju dozvolu da izvrše **pkexec** i **po defaultu** u nekim linuxima mogu **pojaviti** neke od grupa **sudo ili admin**.
 
-Da biste **postali root, možete izvršiti**:
+Da **postanete root možete izvršiti**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
@@ -54,44 +55,48 @@ polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Nije zato što nemate dozvole, već zato što niste povezani bez grafičkog korisničkog interfejsa**. Postoji način da se ovo reši ovde: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrebne su vam **2 različite SSH sesije**:
+**Nije zato što nemate dozvole, već zato što niste povezani bez GUI-a**. I postoji rešenje za ovaj problem ovde: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Potrebno vam je **2 različite ssh sesije**:
 
-{% code title="sesija1" %}
+{% code title="session1" %}
 ```bash
 echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
 #Step 5, if correctly authenticate, you will have a root session
 ```
-{% code title="sesija2" %}
+{% endcode %}
+
+{% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 #Step 4, you will be asked in this session to authenticate to pkexec
 ```
 {% endcode %}
 
-# Wheel grupa
+# Wheel Group
 
-**Ponekad**, **podrazumevano** unutar **/etc/sudoers** fajla možete pronaći ovu liniju:
+**Ponekad**, **po defaultu** unutar **/etc/sudoers** datoteke možete pronaći ovu liniju:
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
-Ovo znači da **svaki korisnik koji pripada grupi wheel može izvršiti bilo šta kao sudo**.
+To znači da **bilo koji korisnik koji pripada grupi wheel može izvršavati bilo šta kao sudo**.
 
-Ako je to slučaj, da **postanete root samo izvršite**:
+Ako je to slučaj, da **postanete root, možete jednostavno izvršiti**:
 ```text
 sudo su
 ```
-# Shadow grupa
+# Shadow Group
 
-Korisnici iz **shadow grupe** mogu **čitati** fajl **/etc/shadow**:
+Korisnici iz **grupe shadow** mogu **čitati** **/etc/shadow** datoteku:
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-# Disk grupa
+Тако да, прочитајте датотеку и покушајте да **разбијете неке хешеве**.
 
-Ova privilegija je skoro **ekvivalentna pristupu root-u** jer omogućava pristup svim podacima unutar mašine.
+# Диск Група
 
-Fajlovi: `/dev/sd[a-z][1-9]`
+Ова привилегија је скоро **еквивалентна root приступу** јер можете приступити свим подацима унутар машине.
+
+Фајлови: `/dev/sd[a-z][1-9]`
 ```text
 debugfs /dev/sda1
 debugfs: cd /root
@@ -99,47 +104,47 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-Imajte na umu da pomoću debugfs-a takođe možete **pisati datoteke**. Na primer, da biste kopirali `/tmp/asd1.txt` u `/tmp/asd2.txt`, možete uraditi:
+Napomena da pomoću debugfs možete takođe **pisati fajlove**. Na primer, da kopirate `/tmp/asd1.txt` u `/tmp/asd2.txt` možete uraditi:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Međutim, ako pokušate **pisati datoteke koje su vlasništvo root-a** (poput `/etc/shadow` ili `/etc/passwd`), dobićete grešku "**Permission denied**".
+Međutim, ako pokušate da **pišete datoteke koje su u vlasništvu root-a** \(kao što su `/etc/shadow` ili `/etc/passwd`\) dobićete grešku "**Permission denied**".
 
-# Video grupa
+# Video Grupa
 
-Koristeći komandu `w` možete pronaći **ko je prijavljen na sistemu** i prikazaće se izlaz kao u sledećem primeru:
+Korišćenjem komande `w` možete saznati **ko je prijavljen na sistem** i prikazaće izlaz kao što je sledeći:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
-**tty1** znači da je korisnik **yossi fizički prijavljen** na terminal na mašini.
+**tty1** znači da je korisnik **yossi fizički prijavljen** na terminalu na mašini.
 
-Grupa **video** ima pristup za pregledanje izlaza ekrana. U osnovi, možete posmatrati ekrane. Da biste to uradili, trebate **uzeti trenutnu sliku ekrana** u sirovim podacima i dobiti rezoluciju koju ekran koristi. Podaci ekrana mogu biti sačuvani u `/dev/fb0`, a rezoluciju ovog ekrana možete pronaći na `/sys/class/graphics/fb0/virtual_size`.
+**video grupa** ima pristup za pregled izlaza sa ekrana. U suštini, možete posmatrati ekrane. Da biste to uradili, potrebno je da **uhvatite trenutnu sliku na ekranu** u sirovim podacima i dobijete rezoluciju koju ekran koristi. Podaci sa ekrana mogu se sačuvati u `/dev/fb0`, a rezoluciju ovog ekrana možete pronaći na `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, izaberite datoteku **`screen.raw`** i odaberite kao vrstu datoteke **Podaci o sirovoj slici**:
+Da biste **otvorili** **sirovu sliku**, možete koristiti **GIMP**, odabrati **`screen.raw`** datoteku i odabrati tip datoteke **Sirovi podaci o slici**:
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Zatim promenite širinu i visinu na one koje se koriste na ekranu i proverite različite vrste slika \(i odaberite onu koja najbolje prikazuje ekran\):
+Zatim promenite Širinu i Visinu na one koje koristi ekran i proverite različite Tipove slika \(i odaberite onaj koji bolje prikazuje ekran\):
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
 # Root Grupa
 
-Izgleda da **članovi root grupe** podrazumevano mogu imati pristup za **izmenu** nekih **konfiguracionih datoteka servisa** ili nekih **biblioteka** ili **drugih interesantnih stvari** koje se mogu koristiti za eskalaciju privilegija...
+Izgleda da po defaultu **članovi root grupe** mogu imati pristup da **modifikuju** neke **konfiguracione** datoteke usluga ili neke **biblioteke** ili **druge zanimljive stvari** koje bi mogle biti korišćene za eskalaciju privilegija...
 
-**Proverite koje datoteke članovi root grupe mogu menjati**:
+**Proverite koje datoteke članovi root grupe mogu modifikovati**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-# Docker grupa
+# Docker Grupa
 
-Možete montirati korenski fajl sistem host mašine na volumen instance, tako da kada se instanca pokrene, odmah učitava `chroot` u taj volumen. Ovo vam efektivno daje root pristup mašini.
+Možete montirati root datotečni sistem host mašine na volumen instance, tako da kada se instanca pokrene, odmah učitava `chroot` u taj volumen. Ovo vam efektivno daje root pristup na mašini.
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
@@ -149,18 +154,17 @@ Možete montirati korenski fajl sistem host mašine na volumen instance, tako da
 
 [lxc - Eskalacija privilegija](lxd-privilege-escalation.md)
 
-
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

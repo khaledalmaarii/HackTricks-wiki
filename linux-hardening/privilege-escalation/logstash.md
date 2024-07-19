@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash se koristi za **sakupljanje, transformisanje i slanje logova** kroz sistem poznat kao **pipelines**. Ovi pipelines se sastoje od **input**, **filter** i **output** faza. Interesantan aspekt se javlja kada Logstash radi na kompromitovanoj mašini.
+Logstash se koristi za **prikupljanje, transformaciju i slanje logova** kroz sistem poznat kao **pipelines**. Ove pipelines se sastoje od **input**, **filter** i **output** faza. Zanimljiv aspekt se javlja kada Logstash radi na kompromitovanoj mašini.
 
-### Konfiguracija Pipelines-a
+### Pipeline Configuration
 
-Pipelines se konfigurišu u fajlu **/etc/logstash/pipelines.yml**, koji navodi lokacije konfiguracija pipelines-a:
+Pipelines se konfigurišu u datoteci **/etc/logstash/pipelines.yml**, koja navodi lokacije konfiguracija pipelines:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Ovaj fajl otkriva gde se nalaze **.conf** fajlovi koji sadrže konfiguracije cevovoda. Kada se koristi **Elasticsearch output modul**, često je uobičajeno da **cevovodi** uključuju **Elasticsearch akreditive**, koji često imaju proširene privilegije zbog potrebe Logstash-a da piše podatke u Elasticsearch. Džokere u putanjama konfiguracije omogućavaju Logstash-u da izvrši sve odgovarajuće cevovode u određenom direktorijumu.
+Ovaj fajl otkriva gde se nalaze **.conf** fajlovi, koji sadrže konfiguracije pipeline-a. Kada se koristi **Elasticsearch output module**, uobičajeno je da **pipelines** uključuju **Elasticsearch credentials**, koje često imaju opsežne privilegije zbog potrebe Logstash-a da piše podatke u Elasticsearch. Wildcard-ovi u konfiguracionim putanjama omogućavaju Logstash-u da izvrši sve odgovarajuće pipeline-ove u određenom direktorijumu.
 
-### Eskalacija privilegija putem upisivih cevovoda
+### Eskalacija privilegija putem zapisivih pipeline-a
 
-Da biste pokušali eskalaciju privilegija, prvo identifikujte korisnika pod kojim se izvršava Logstash servis, obično korisnika **logstash**. Proverite da ispunjavate **jedan** od ovih kriterijuma:
+Da biste pokušali eskalaciju privilegija, prvo identifikujte korisnika pod kojim Logstash servis radi, obično korisnika **logstash**. Uverite se da ispunjavate **jedan** od ovih kriterijuma:
 
-- Imate **pristup za pisanje** fajlu **.conf** cevovoda **ili**
-- Fajl **/etc/logstash/pipelines.yml** koristi džokere, i možete pisati u ciljni folder
+- Imate **pristup za pisanje** u **.conf** fajl pipeline-a **ili**
+- **/etc/logstash/pipelines.yml** fajl koristi wildcard, i možete pisati u ciljni folder
 
-Dodatno, mora biti ispunjen **jedan** od sledećih uslova:
+Pored toga, **jedan** od ovih uslova mora biti ispunjen:
 
-- Mogućnost restartovanja Logstash servisa **ili**
-- Fajl **/etc/logstash/logstash.yml** ima postavljenu opciju **config.reload.automatic: true**
+- Mogućnost ponovnog pokretanja Logstash servisa **ili**
+- **/etc/logstash/logstash.yml** fajl ima **config.reload.automatic: true** postavljeno
 
-Uzimajući u obzir džokere u konfiguraciji, kreiranje fajla koji odgovara ovom džokeru omogućava izvršavanje komandi. Na primer:
+S obzirom na wildcard u konfiguraciji, kreiranje fajla koji odgovara ovom wildcard-u omogućava izvršavanje komandi. Na primer:
 ```bash
 input {
 exec {
@@ -61,25 +66,31 @@ codec => rubydebug
 }
 }
 ```
-Ovde, **interval** određuje učestalost izvršavanja u sekundama. U datom primeru, komanda **whoami** se izvršava svakih 120 sekundi, a njen izlaz se usmerava u **/tmp/output.log**.
+Ovde, **interval** određuje učestalost izvršavanja u sekundama. U datom primeru, **whoami** komanda se izvršava svake 120 sekundi, a njen izlaz se usmerava u **/tmp/output.log**.
 
-Sa **config.reload.automatic: true** u **/etc/logstash/logstash.yml**, Logstash će automatski detektovati i primeniti nove ili izmenjene konfiguracije cevovoda bez potrebe za ponovnim pokretanjem. Ako nema džokera, i dalje je moguće izmeniti postojeće konfiguracije, ali se savetuje oprez kako bi se izbegle prekide.
+Sa **config.reload.automatic: true** u **/etc/logstash/logstash.yml**, Logstash će automatski otkriti i primeniti nove ili izmenjene konfiguracije cevi bez potrebe za ponovnim pokretanjem. Ako nema džokera, izmene se i dalje mogu praviti na postojećim konfiguracijama, ali se savetuje oprez kako bi se izbegle smetnje.
 
-## Reference
 
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
+## References
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **oglašavanje vaše kompanije u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

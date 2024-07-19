@@ -1,40 +1,43 @@
-# Osnovna forenzička metodologija
+# Osnovna Forenzička Metodologija
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
-## Kreiranje i montiranje slike
+## Kreiranje i Montiranje Slike
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md" %}
 [image-acquisition-and-mount.md](../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md)
 {% endcontent-ref %}
 
-## Analiza malvera
+## Analiza Malvera
 
-Ovo **nije neophodan prvi korak koji treba izvršiti nakon što imate sliku**. Ali možete koristiti tehnike analize malvera nezavisno ako imate datoteku, sliku fajl-sistema, memorijsku sliku, pcap... pa je dobro **imati ove akcije na umu**:
+Ovo **nije nužno prvi korak koji treba preduzeti kada imate sliku**. Ali možete koristiti ove tehnike analize malvera nezavisno ako imate datoteku, sliku datotečnog sistema, sliku memorije, pcap... tako da je dobro **imati na umu ove akcije**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Inspekcija slike
+## Istraživanje Slike
 
-Ako vam je data **forenzička slika** uređaja, možete početi **analizirati particije, korišćeni fajl-sistem** i **oporavljati** potencijalno **interesantne datoteke** (čak i one obrisane). Naučite kako u:
+Ako vam je data **forenzička slika** uređaja, možete početi **analizirati particije, datotečni sistem** koji se koristi i **opraviti** potencijalno **zanimljive datoteke** (čak i obrisane). Saznajte kako u:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Zavisno o korišćenim OS-ovima i čak platformi, treba tražiti različite interesantne artefakte:
+U zavisnosti od korišćenih OS-ova i čak platformi, različiti zanimljivi artefakti treba da se pretražuju:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -48,34 +51,34 @@ Zavisno o korišćenim OS-ovima i čak platformi, treba tražiti različite inte
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Dubinska inspekcija specifičnih tipova datoteka i softvera
+## Dubinska Inspekcija Specifičnih Tipova Datoteka i Softvera
 
-Ako imate veoma **sumnjivu** **datoteku**, onda **zavisno o tipu datoteke i softveru** koji ju je kreirao, nekoliko **trikova** može biti korisno.\
-Pročitajte sledeću stranicu da biste naučili neke interesantne trikove:
+Ako imate veoma **sumnjivu** **datoteku**, onda **u zavisnosti od tipa datoteke i softvera** koji je kreirao, nekoliko **trikova** može biti korisno.\
+Pročitajte sledeću stranicu da biste saznali neke zanimljive trikove:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
 [specific-software-file-type-tricks](specific-software-file-type-tricks/)
 {% endcontent-ref %}
 
-Želim da napomenem stranicu:
+Želim da posebno pomenem stranicu:
 
 {% content-ref url="specific-software-file-type-tricks/browser-artifacts.md" %}
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Inspekcija memorijskog ispusta
+## Inspekcija Dump-a Memorije
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Inspekcija pcap-a
+## Inspekcija Pcap-a
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)
 {% endcontent-ref %}
 
-## **Anti-forenzičke tehnike**
+## **Anti-forenzičke Tehnike**
 
 Imajte na umu moguću upotrebu anti-forenzičkih tehnika:
 
@@ -83,20 +86,23 @@ Imajte na umu moguću upotrebu anti-forenzičkih tehnika:
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
 {% endcontent-ref %}
 
-## Lov na pretnje
+## Lov na Pretnje
 
 {% content-ref url="file-integrity-monitoring.md" %}
 [file-integrity-monitoring.md](file-integrity-monitoring.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

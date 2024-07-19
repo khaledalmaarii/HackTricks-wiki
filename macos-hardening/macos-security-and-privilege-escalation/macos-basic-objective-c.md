@@ -1,34 +1,49 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Imajte na umu da programi napisani u Objective-C **zadržavaju** svoje deklaracije klasa **kada** **kompiliraju** u [Mach-O binarne datoteke](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Takve deklaracije klasa **uključuju** ime i tip:
+Napomena da programi napisani u Objective-C **zadržavaju** svoje deklaracije klasa **kada** su **kompilirani** u [Mach-O binarne datoteke](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Takve deklaracije klasa **uključuju** ime i tip:
 {% endhint %}
 
-* Klasa
+* Klase
 * Metode klase
-* Instancne varijable klase
+* Varijable instanci klase
 
-Ove informacije možete dobiti koristeći [**class-dump**](https://github.com/nygard/class-dump):
+Možete dobiti ove informacije koristeći [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Napomena da bi ova imena mogla biti prikrivena kako bi se otežalo preokretanje binarnog koda.
+Napomena da bi ova imena mogla biti obfuskovana kako bi se otežalo obrnuto inženjerstvo binarnog koda.
 
 ## Klase, Metode i Objekti
 
@@ -63,9 +78,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Objekat i poziv metode**
+### **Objekat & Pozivanje Metode**
 
-Da biste kreirali instancu klase, koristi se metoda **`alloc`** koja **alocira memoriju** za svako **svojstvo** i **postavlja na nulu** te alokacije. Zatim se poziva metoda **`init`**, koja **inicijalizuje svojstva** na **potrebne vrednosti**.
+Da biste kreirali instancu klase, poziva se metoda **`alloc`** koja **alokira memoriju** za svaku **svojstvo** i **postavlja** te alokacije na **nulu**. Zatim se poziva **`init`**, koja **inicijalizuje svojstva** na **potrebne vrednosti**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -77,15 +92,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Metode klase**
+### **Class Methods**
 
-Metode klase se definišu sa **plus znakom** (+), a ne sa crticom (-) koja se koristi kod instancnih metoda. Na primer, metoda klase **`stringWithString`** klase **NSString**:
+Klasa metode se definišu sa **plus znakom** (+) a ne sa crticom (-) koja se koristi sa instancama metoda. Kao što je **NSString** klasa metoda **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
-### Setter i Getter
+### Setter & Getter
 
-Da biste postavili i dobili vrednosti svojstava, to možete uraditi pomoću **tačkaste notacije** ili kao da pozivate **metodu**:
+Da **postavite** i **dobijete** svojstva, možete to uraditi sa **tačkom** ili kao da **pozivate metodu**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -97,18 +112,18 @@ NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
 ### **Instance Variables**
 
-Alternativno, umesto metoda za postavljanje i dobavljanje vrednosti, možete koristiti instance varijable. Ove varijable imaju isto ime kao i svojstva, ali počinju sa "\_":
+Alternativno setter i getter metodama možete koristiti instance varijable. Ove varijable imaju isto ime kao svojstva, ali počinju sa "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### Protokoli
+### Протоколи
 
-Protokoli su skup deklaracija metoda (bez svojstava). Klasa koja implementira protokol implementira deklarisane metode.
+Протоколи су сет декларација метода (без својстава). Класа која имплементира протокол имплементира декларисане методе.
 
-Postoje 2 vrste metoda: **obavezni** i **opcioni**. Po **podrazumevanju**, metoda je **obavezna** (ali možete je označiti i sa **`@required`** oznakom). Da biste označili da je metoda opciona, koristite **`@optional`**.
+Постоје 2 типа метода: **обавезни** и **опционални**. По **дефиницији** метод је **обавезан** (али то можете и да назначите са **`@required`** ознаком). Да бисте назначили да је метод опционалан, користите **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -119,29 +134,6 @@ Postoje 2 vrste metoda: **obavezni** i **opcioni**. Po **podrazumevanju**, metod
 @end
 ```
 ### Sve zajedno
-
-U ovom poglavlju ćemo se baviti osnovama Objective-C jezika i kako ga koristiti za hakiranje macOS sistema. Objective-C je objektno orijentisani jezik koji se često koristi za razvoj aplikacija na macOS platformi. Razumevanje osnovnih koncepata i sintakse Objective-C jezika je ključno za razumevanje i izvođenje određenih hakirajućih tehnika na macOS sistemu.
-
-#### Osnovni koncepti Objective-C jezika
-
-Objective-C je jezik koji kombinuje sintaksu C jezika sa dodatnim objektno orijentisanim konceptima. Osnovni koncepti koje treba razumeti uključuju:
-
-- Klase: Klase su temeljni elementi Objective-C jezika. One definišu objekte i njihove osobine i ponašanje.
-- Objekti: Objekti su instance klasa i predstavljaju konkretne entitete sa svojim stanjem i ponašanjem.
-- Metode: Metode su funkcije koje se izvršavaju nad objektima i definišu njihovo ponašanje.
-- Poruke: Poruke su način komunikacije između objekata. Objekti šalju poruke jedni drugima kako bi izvršili određene akcije.
-- Nasleđivanje: Nasleđivanje omogućava kreiranje novih klasa na osnovu postojećih klasa, čime se omogućava ponovno korišćenje koda i proširivanje funkcionalnosti.
-
-#### Hakiranje macOS sistema korišćenjem Objective-C jezika
-
-Objective-C jezik može se koristiti za izvođenje različitih hakirajućih tehnika na macOS sistemu. Neki od najčešće korišćenih tehnika uključuju:
-
-- Privilegija eskalacija: Korišćenje Objective-C jezika omogućava hakere da pristupe privilegijama koje su im inače nedostupne. To se može postići korišćenjem ranjivosti u macOS sistemu ili manipulacijom objekata i metoda.
-- Injekcija koda: Objective-C jezik omogućava hakere da ubace zlonamerni kod u postojeće aplikacije ili sistem, čime mogu izvršiti različite napade kao što su krađa podataka ili daljinsko izvršavanje koda.
-- Reverse engineering: Objective-C jezik olakšava analizu i dekompilaciju aplikacija kako bi se otkrile ranjivosti ili pronašle tajne funkcionalnosti.
-- Sniffing komunikacije: Korišćenjem Objective-C jezika, hakere je moguće izvršiti snimanje i analizu komunikacije između aplikacija i sistema radi otkrivanja osetljivih informacija.
-
-Razumevanje osnovnih koncepata Objective-C jezika i njegova primena u hakiranju macOS sistema omogućava hakerima da izvrše različite napade i postignu svoje ciljeve. Važno je napomenuti da je hakiranje nelegalno i da se ove tehnike trebaju koristiti samo u etičke svrhe, kao što je testiranje sigurnosti sistema ili otkrivanje ranjivosti.
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -204,7 +196,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Osnovne klase su **nepromenljive**, tako da bi se dodao string postojećem, potrebno je **kreirati novi NSString**.
+Osnovne klase su **nepromenljive**, tako da da biste dodali string postojećem, potrebno je **napraviti novi NSString**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -212,7 +204,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Ili možete koristiti i **mutable** klasu stringova:
+Ili možete koristiti i **mutable** klasu stringa:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -223,8 +215,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Broj
 
 {% code overflow="wrap" %}
@@ -246,9 +236,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-{% endcode %}
-
-#### Nizovi, skupovi i rečnici
+#### Nizovi, Skupovi i Rečnici
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -300,7 +288,9 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 
 ### Blokovi
 
-Blokovi su **funkcije koje se ponašaju kao objekti**, tako da se mogu proslediti funkcijama ili **čuvati** u **nizovima** ili **rečnicima**. Takođe, mogu **predstavljati vrednost ako im se dodeljuju vrednosti**, pa su slični lambda funkcijama.
+Blokovi su **funkcije koje se ponašaju kao objekti** tako da mogu biti prosleđeni funkcijama ili **smešteni** u **nizove** ili **rečnike**. Takođe, mogu **predstavljati vrednost ako im se dodele vrednosti** pa je to slično lambdama.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -337,7 +327,7 @@ genericLogger(^{
 NSLog(@"%@", @"This is my second block");
 });
 ```
-### Fajlovi
+### Datoteke
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -366,31 +356,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Takođe je moguće upravljati datotekama **koristeći `NSURL` objekte umesto `NSString` objekata**. Imena metoda su slična, ali **umesto `Path` koristimo `URL`**.
+Takođe je moguće upravljati datotekama **koristeći `NSURL` objekte umesto `NSString`** objekata. Imena metoda su slična, ali **sa `URL` umesto `Path`**.
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-Većina osnovnih klasa ima definisanu metodu `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` koja im omogućava da budu direktno upisane u fajl:
-
-{% code overflow="wrap" %}
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

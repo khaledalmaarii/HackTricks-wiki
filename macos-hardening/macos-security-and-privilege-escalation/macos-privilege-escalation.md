@@ -1,22 +1,23 @@
-# macOS Eskalacija privilegija
+# macOS Privilege Escalation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Eskalacija privilegija TCC-a
+## TCC Privilege Escalation
 
-Ako ste ovde došli u potrazi za eskalacijom privilegija TCC-a, idite na:
+Ako ste došli ovde tražeći TCC eskalaciju privilegija, idite na:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -24,19 +25,19 @@ Ako ste ovde došli u potrazi za eskalacijom privilegija TCC-a, idite na:
 
 ## Linux Privesc
 
-Imajte na umu da **većina trikova o eskalaciji privilegija koji utiču na Linux/Unix će takođe uticati na MacOS** mašine. Dakle, pogledajte:
+Imajte na umu da **većina trikova o eskalaciji privilegija koji utiču na Linux/Unix će takođe uticati na MacOS** mašine. Tako da pogledajte:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## Interakcija sa korisnikom
+## User Interaction
 
-### Sudo preuzimanje kontrole
+### Sudo Hijacking
 
-Originalnu tehniku **Sudo preuzimanja kontrole** možete pronaći u postu o eskalaciji privilegija u Linux-u](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+Možete pronaći originalnu [Sudo Hijacking tehniku unutar posta o Linux eskalaciji privilegija](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-Međutim, macOS **zadržava** korisnikov **`PATH`** kada izvršava **`sudo`**. Što znači da još jedan način za izvršenje ovog napada može biti **preuzimanje kontrole nad drugim binarnim fajlovima** koje žrtva izvršava prilikom **pokretanja sudo-a:**
+Međutim, macOS **održava** korisnikov **`PATH`** kada izvršava **`sudo`**. Što znači da bi drugi način za postizanje ovog napada bio da se **otmu drugi binarni fajlovi** koje žrtva još uvek izvršava kada **pokreće sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -51,17 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Napomena da će korisnik koji koristi terminal vrlo verovatno imati **Homebrew instaliran**. Dakle, moguće je preuzeti kontrolu nad binarnim fajlovima u **`/opt/homebrew/bin`**.
+Napomena da korisnik koji koristi terminal verovatno ima **Homebrew instaliran**. Tako da je moguće preuzeti binarne datoteke u **`/opt/homebrew/bin`**.
 
-### Prevara sa trakom
+### Imitacija Dock-a
 
-Korišćenjem **socijalnog inženjeringa** možete se **predstaviti kao na primer Google Chrome** unutar trake i zapravo izvršiti svoj sopstveni skript:
+Korišćenjem nekih **socijalnih inženjeringa** mogli biste **imitirati na primer Google Chrome** unutar dock-a i zapravo izvršiti svoj skript:
 
 {% tabs %}
-{% tab title="Prevara sa Chrome-om" %}
+{% tab title="Imitacija Chrome-a" %}
 Neki predlozi:
 
-* Proverite u traci da li postoji Chrome, i u tom slučaju **uklonite** tu stavku i **dodajte** **lažnu** **stavku Chrome na isto mesto** u nizu trake.&#x20;
+* Proverite u Dock-u da li postoji Chrome, i u tom slučaju **uklonite** tu stavku i **dodajte** **lažnu** **Chrome stavku na istu poziciju** u Dock nizu.&#x20;
 ```bash
 #!/bin/sh
 
@@ -133,14 +134,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Imitacija Findera" %}
+{% tab title="Finder Impersonacija" %}
 Neki predlozi:
 
-* Ne možete ukloniti Finder sa Dock-a, pa ako ga želite dodati na Dock, možete staviti lažni Finder odmah pored pravog. Za to trebate dodati unos za lažni Finder na početak niza Dock-a.
-* Druga opcija je da ga ne stavljate na Dock, već samo otvorite. "Finder koji traži kontrolu nad Finderom" nije toliko čudno.
-* Još jedna opcija za eskalaciju do root-a bez traženja lozinke sa groznim prozorom je da Finder stvarno zatraži lozinku radi izvršavanja privilegirane radnje:
-* Zamolite Finder da kopira novu datoteku **`sudo`** u **`/etc/pam.d`** (Poruka koja traži lozinku će pokazivati "Finder želi kopirati sudo")
-* Zamolite Finder da kopira novi **Authorization Plugin** (Možete kontrolisati ime datoteke tako da poruka koja traži lozinku pokazuje "Finder želi kopirati Finder.bundle")
+* Ne **možete ukloniti Finder iz Dock-a**, pa ako planirate da ga dodate u Dock, možete staviti lažni Finder odmah pored pravog. Za to treba da **dodate lažni Finder unos na početak Dock niza**.
+* Druga opcija je da ga ne stavljate u Dock i samo ga otvorite, "Finder traži da kontroliše Finder" nije tako čudno.
+* Još jedna opcija za **eskalaciju na root bez traženja** lozinke sa užasnom porukom, je da naterate Findera da stvarno traži lozinku za obavljanje privilegovane akcije:
+* Zatražite od Findera da kopira u **`/etc/pam.d`** novu **`sudo`** datoteku (Poruka koja traži lozinku će ukazati da "Finder želi da kopira sudo")
+* Zatražite od Findera da kopira novi **Authorization Plugin** (Možete kontrolisati ime datoteke tako da poruka koja traži lozinku ukazuje da "Finder želi da kopira Finder.bundle")
 ```bash
 #!/bin/sh
 
@@ -213,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Eskalacija privilegija za Root korisnika
+## TCC - Eskalacija privilegija za root
 
 ### CVE-2020-9771 - mount\_apfs TCC zaobilaženje i eskalacija privilegija
 
-**Bilo koji korisnik** (čak i oni bez privilegija) može kreirati i montirati snimak vremenske mašine i **pristupiti SVIM datotekama** tog snimka.\
-Jedina privilegija koja je potrebna je da aplikacija koja se koristi (kao što je `Terminal`) ima **Pristup celom disku** (Full Disk Access - FDA) (`kTCCServiceSystemPolicyAllfiles`), koju mora odobriti administrator. 
+**Bilo koji korisnik** (čak i oni bez privilegija) može kreirati i montirati snapshot vremenske mašine i **pristupiti SVIM datotekama** tog snapshot-a.\
+**Jedina privilegija** koja je potrebna je da aplikacija koja se koristi (kao što je `Terminal`) ima **Pristup celom disku** (FDA) (`kTCCServiceSystemPolicyAllfiles`) koji mora odobriti administrator. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -242,7 +243,7 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Detaljnije objašnjenje možete **pronaći u originalnom izveštaju**.
+Detaljnije objašnjenje može se [**pronaći u originalnom izveštaju**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
 ## Osetljive informacije
 
@@ -252,16 +253,17 @@ Ovo može biti korisno za eskalaciju privilegija:
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

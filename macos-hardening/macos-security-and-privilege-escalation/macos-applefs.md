@@ -1,60 +1,81 @@
 # macOS AppleFS
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Apple Proprietary File System (APFS)
 
-**Apple File System (APFS)** je moderni fajl sistem dizajniran da zameni Hierarchical File System Plus (HFS+). Njegov razvoj je pokrenut potrebom za **unapređenom performansom, sigurnošću i efikasnošću**.
+**Apple File System (APFS)** je moderan fajl sistem dizajniran da zameni Hierarchical File System Plus (HFS+). Njegov razvoj je vođen potrebom za **poboljšanom performansom, sigurnošću i efikasnošću**.
 
-Neki značajni elementi APFS-a uključuju:
+Neke od značajnih karakteristika APFS uključuju:
 
-1. **Deljenje prostora**: APFS omogućava više volumena da **deli isti slobodni prostor** na jednom fizičkom uređaju. Ovo omogućava efikasnije korišćenje prostora jer se volumeni mogu dinamički povećavati i smanjivati bez potrebe za ručnim promenama veličine ili reparticioniranjem.
-1. Ovo znači, u poređenju sa tradicionalnim particijama na fajl diskovima, **da u APFS-u različite particije (volumeni) dele sav prostor na disku**, dok je uobičajena particija obično imala fiksnu veličinu.
-2. **Snapshotovi**: APFS podržava **kreiranje snapshotova**, koji su **samo za čitanje**, trenutni trenuci fajl sistema. Snapshotovi omogućavaju efikasne rezerve i jednostavna vraćanja sistema, jer zauzimaju minimalan dodatni prostor i mogu se brzo kreirati ili vratiti.
-3. **Klonovi**: APFS može **kreirati klonove fajlova ili direktorijuma koji dele isti prostor za skladištenje** kao originalni fajl sve dok se klon ili originalni fajl ne izmene. Ova funkcija pruža efikasan način za kreiranje kopija fajlova ili direktorijuma bez dupliranja prostora za skladištenje.
-4. **Enkripcija**: APFS **nativno podržava enkripciju celog diska**, kao i enkripciju po fajlu i po direktorijumu, poboljšavajući sigurnost podataka u različitim slučajevima upotrebe.
-5. **Zaštita od pada sistema**: APFS koristi šemu metapodataka **kopiranja pri pisanju koja obezbeđuje doslednost fajl sistema** čak i u slučajevima iznenadnog gubitka napajanja ili pada sistema, smanjujući rizik od oštećenja podataka.
+1. **Deljenje prostora**: APFS omogućava više volumena da **dele isti osnovni slobodni prostor** na jednom fizičkom uređaju. Ovo omogućava efikasnije korišćenje prostora jer volumeni mogu dinamički rasti i opadati bez potrebe za ručnim promenama veličine ili reparticionisanjem.
+1. To znači, u poređenju sa tradicionalnim particijama na diskovima, **da u APFS različite particije (volumeni) dele sav prostor na disku**, dok je obična particija obično imala fiksnu veličinu.
+2. **Snapshot-ovi**: APFS podržava **kreiranje snapshot-ova**, koji su **samo za čitanje**, tačne instance fajl sistema. Snapshot-ovi omogućavaju efikasne rezervne kopije i jednostavne povratke sistema, jer troše minimalan dodatni prostor i mogu se brzo kreirati ili vratiti.
+3. **Kloni**: APFS može **kreirati klonove fajlova ili direktorijuma koji dele isti prostor** kao original dok se ili klon ili originalni fajl ne izmeni. Ova funkcija pruža efikasan način za kreiranje kopija fajlova ili direktorijuma bez dupliranja prostora za skladištenje.
+4. **Enkripcija**: APFS **nativno podržava enkripciju celog diska** kao i enkripciju po fajlu i po direktorijumu, poboljšavajući sigurnost podataka u različitim slučajevima korišćenja.
+5. **Zaštita od pada**: APFS koristi **shemu metapodataka kopiranja pri pisanju koja osigurava doslednost fajl sistema** čak i u slučajevima iznenadnog gubitka napajanja ili pada sistema, smanjujući rizik od oštećenja podataka.
 
-Ukupno gledano, APFS nudi moderniji, fleksibilniji i efikasniji fajl sistem za Apple uređaje, sa fokusom na unapređenu performansu, pouzdanost i sigurnost.
+Sve u svemu, APFS nudi moderniji, fleksibilniji i efikasniji fajl sistem za Apple uređaje, sa fokusom na poboljšanu performansu, pouzdanost i sigurnost.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
 ## Firmlinks
 
-`Data` volumen je montiran u **`/System/Volumes/Data`** (možete to provjeriti sa `diskutil apfs list`).
+`Data` volumen je montiran u **`/System/Volumes/Data`** (možete to proveriti sa `diskutil apfs list`).
 
-Lista firmlinks-a se može pronaći u datoteci **`/usr/share/firmlinks`**.
+Lista firmlinks-a može se naći u **`/usr/share/firmlinks`** datoteci.
 ```bash
-cat /usr/share/firmlinks
-/AppleInternal	AppleInternal
-/Applications	Applications
-/Library	Library
-[...]
-```
-Na **levom** delu se nalazi putanja direktorijuma na **Sistemskom volumenu**, a na **desnom** delu se nalazi putanja direktorijuma gde se mapira na **Podatkovnom volumenu**. Dakle, `/library` --> `/system/Volumes/data/library`
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

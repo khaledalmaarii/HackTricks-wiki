@@ -1,37 +1,39 @@
 # PID Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-PID (Process IDentifier) namespace je funkcionalnost u Linux kernelu koja omogućava izolaciju procesa omogućavajući grupi procesa da ima svoj set jedinstvenih PID-ova, odvojenih od PID-ova u drugim namespace-ima. Ovo je posebno korisno u kontejnerizaciji, gde je izolacija procesa ključna za bezbednost i upravljanje resursima.
+PID (Process IDentifier) namespace je funkcija u Linux kernelu koja obezbeđuje izolaciju procesa omogućavajući grupi procesa da imaju svoj set jedinstvenih PID-ova, odvojenih od PID-ova u drugim namespace-ima. Ovo je posebno korisno u kontejnerizaciji, gde je izolacija procesa ključna za bezbednost i upravljanje resursima.
 
-Kada se kreira novi PID namespace, prvom procesu u tom namespace-u se dodeljuje PID 1. Taj proces postaje "init" proces novog namespace-a i odgovoran je za upravljanje ostalim procesima unutar namespace-a. Svaki sledeći proces kreiran unutar namespace-a će imati jedinstveni PID unutar tog namespace-a, i ovi PID-ovi će biti nezavisni od PID-ova u drugim namespace-ima.
+Kada se kreira novi PID namespace, prvi proces u tom namespace-u dobija PID 1. Ovaj proces postaje "init" proces novog namespace-a i odgovoran je za upravljanje drugim procesima unutar namespace-a. Svaki sledeći proces kreiran unutar namespace-a će imati jedinstven PID unutar tog namespace-a, a ovi PID-ovi će biti nezavisni od PID-ova u drugim namespace-ima.
 
-Iz perspektive procesa unutar PID namespace-a, on može videti samo druge procese u istom namespace-u. Nije svestan procesa u drugim namespace-ima i ne može da interaguje sa njima koristeći tradicionalne alate za upravljanje procesima (npr. `kill`, `wait`, itd.). Ovo pruža nivo izolacije koji pomaže u sprečavanju međusobnog ometanja procesa.
+Sa stanovišta procesa unutar PID namespace-a, može videti samo druge procese u istom namespace-u. Nije svesno procesa u drugim namespace-ima i ne može interagovati s njima koristeći tradicionalne alate za upravljanje procesima (npr., `kill`, `wait`, itd.). Ovo obezbeđuje nivo izolacije koji pomaže u sprečavanju ometanja procesa jednih drugima.
 
-### Kako radi:
+### How it works:
 
-1. Kada se kreira novi proces (npr. korišćenjem `clone()` sistemskog poziva), proces može biti dodeljen novom ili postojećem PID namespace-u. **Ako se kreira novi namespace, proces postaje "init" proces tog namespace-a**.
-2. **Kernel** održava **mapiranje između PID-ova u novom namespace-u i odgovarajućih PID-ova** u roditeljskom namespace-u (tj. namespace-u iz kojeg je novi namespace kreiran). Ovo mapiranje **omogućava kernelu da prevodi PID-ove kada je to potrebno**, kao što je slanje signala između procesa u različitim namespace-ima.
+1. Kada se kreira novi proces (npr., korišćenjem `clone()` sistemskog poziva), proces može biti dodeljen novom ili postojećem PID namespace-u. **Ako se kreira novi namespace, proces postaje "init" proces tog namespace-a**.
+2. **Kernel** održava **mapiranje između PID-ova u novom namespace-u i odgovarajućih PID-ova** u roditeljskom namespace-u (tj. namespace-u iz kojeg je novi namespace kreiran). Ovo mapiranje **omogućava kernelu da prevodi PID-ove kada je to potrebno**, kao kada se šalju signali između procesa u različitim namespace-ima.
 3. **Procesi unutar PID namespace-a mogu videti i interagovati samo sa drugim procesima u istom namespace-u**. Nisu svesni procesa u drugim namespace-ima, a njihovi PID-ovi su jedinstveni unutar njihovog namespace-a.
-4. Kada se **PID namespace uništi** (npr. kada "init" proces namespace-a izađe), **svi procesi unutar tog namespace-a se terminiraju**. Ovo osigurava da se svi resursi povezani sa namespace-om pravilno očiste.
+4. Kada se **PID namespace uništi** (npr., kada "init" proces namespace-a izađe), **svi procesi unutar tog namespace-a se prekidaju**. Ovo osigurava da se svi resursi povezani sa namespace-om pravilno očiste.
 
 ## Lab:
 
-### Kreiranje različitih Namespace-ova
+### Create different Namespaces
 
 #### CLI
 ```bash
@@ -39,46 +41,38 @@ sudo unshare -pf --mount-proc /bin/bash
 ```
 <details>
 
-<summary>Greška: bash: fork: Ne može se alocirati memorija</summary>
+<summary>Error: bash: fork: Cannot allocate memory</summary>
 
-Kada se `unshare` izvršava bez opcije `-f`, javlja se greška zbog načina na koji Linux obrađuje nove PID (Process ID) namespace-ove. Ključni detalji i rešenje su opisani u nastavku:
+Kada se `unshare` izvrši bez `-f` opcije, dolazi do greške zbog načina na koji Linux upravlja novim PID (ID procesa) prostorima imena. Ključni detalji i rešenje su navedeni u nastavku:
 
 1. **Objašnjenje problema**:
-- Linux kernel omogućava procesu da kreira nove namespace-ove koristeći `unshare` sistemski poziv. Međutim, proces koji pokreće kreiranje novog PID namespace-a (nazvan "unshare" proces) ne ulazi u novi namespace; samo njegovi podprocesi to čine.
-- Pokretanje `%unshare -p /bin/bash%` pokreće `/bin/bash` u istom procesu kao i `unshare`. Kao rezultat, `/bin/bash` i njegovi podprocesi se nalaze u originalnom PID namespace-u.
-- Prvi podproces `/bin/bash` u novom namespace-u postaje PID 1. Kada ovaj proces završi, pokreće se čišćenje namespace-a ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja siročadi. Linux kernel tada onemogućava alokaciju PID-ova u tom namespace-u.
+- Linux kernel omogućava procesu da kreira nove prostore imena koristeći `unshare` sistemski poziv. Međutim, proces koji inicira kreiranje novog PID prostora imena (poznat kao "unshare" proces) ne ulazi u novi prostor imena; samo njegovi podprocesi to čine.
+- Pokretanjem `%unshare -p /bin/bash%` pokreće se `/bin/bash` u istom procesu kao `unshare`. Kao rezultat, `/bin/bash` i njegovi podprocesi su u originalnom PID prostoru imena.
+- Prvi podproces `/bin/bash` u novom prostoru imena postaje PID 1. Kada ovaj proces izađe, pokreće čišćenje prostora imena ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja siročadi. Linux kernel će tada onemogućiti alokaciju PID-a u tom prostoru imena.
 
 2. **Posledica**:
-- Izlazak PID 1 iz novog namespace-a dovodi do čišćenja `PIDNS_HASH_ADDING` zastavice. To rezultira neuspehom funkcije `alloc_pid` pri alociranju novog PID-a prilikom kreiranja novog procesa, što dovodi do greške "Ne može se alocirati memorija".
+- Izlazak PID 1 u novom prostoru imena dovodi do čišćenja `PIDNS_HASH_ADDING` oznake. To rezultira neuspehom funkcije `alloc_pid` da alocira novi PID prilikom kreiranja novog procesa, što proizvodi grešku "Cannot allocate memory".
 
 3. **Rešenje**:
-- Problem se može rešiti korišćenjem opcije `-f` sa `unshare`. Ova opcija čini da `unshare` fork-uje novi proces nakon kreiranja novog PID namespace-a.
-- Izvršavanje `%unshare -fp /bin/bash%` osigurava da sam `unshare` komanda postane PID 1 u novom namespace-u. `/bin/bash` i njegovi podprocesi su tada sigurno smešteni unutar ovog novog namespace-a, sprečavajući prevremeni izlazak PID 1 i omogućavajući normalnu alokaciju PID-ova.
+- Problem se može rešiti korišćenjem `-f` opcije sa `unshare`. Ova opcija čini da `unshare` fork-uje novi proces nakon kreiranja novog PID prostora imena.
+- Izvršavanje `%unshare -fp /bin/bash%` osigurava da sam `unshare` komanda postane PID 1 u novom prostoru imena. `/bin/bash` i njegovi podprocesi su tada sigurno sadržani unutar ovog novog prostora imena, sprečavajući preuranjeni izlazak PID 1 i omogućavajući normalnu alokaciju PID-a.
 
-Osiguravanjem da `unshare` radi sa opcijom `-f`, novi PID namespace se pravilno održava, omogućavajući `/bin/bash` i njegovim podprocesima da rade bez greške alokacije memorije.
+Osiguravanjem da `unshare` radi sa `-f` oznakom, novi PID prostor imena se ispravno održava, omogućavajući `/bin/bash` i njegove podprocese da funkcionišu bez susretanja greške u alokaciji memorije.
 
 </details>
 
-Montiranjem nove instance `/proc` fajl sistema, ako koristite parametar `--mount-proc`, obezbeđujete da novi mount namespace ima **tačan i izolovan prikaz informacija o procesima specifičnim za taj namespace**.
+Montiranjem nove instance `/proc` datotečnog sistema ako koristite parametar `--mount-proc`, osiguravate da novi prostor imena montiranja ima **tačan i izolovan prikaz informacija o procesima specifičnim za taj prostor imena**.
 
 #### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Proverite u kojem namespace-u se nalazi vaš proces
-
-Da biste proverili u kojem namespace-u se nalazi vaš proces, možete koristiti sledeću komandu:
-
-```bash
-ls -l /proc/$$/ns
-```
-
-Ova komanda će vam prikazati sve namespace-ove u kojima se trenutno nalazi vaš proces.
+### &#x20;Proverite u kojem je namespace vaš proces
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-### Pronađite sve PID namespace-ove
+### Pronađite sve PID imenske prostore
 
 {% code overflow="wrap" %}
 ```bash
@@ -86,29 +80,31 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Imajte na umu da korisnik sa root privilegijama iz početnog (podrazumevanog) PID namespace-a može videti sve procese, čak i one u novim PID namespace-ima, zbog čega možemo videti sve PID namespace-e.
+Napomena da root korisnik iz inicijalnog (podrazumevanog) PID imenskog prostora može videti sve procese, čak i one u novim PID imenskim prostorima, zato možemo videti sve PID imenske prostore.
 
-### Uđite unutar PID namespace-a
+### Ući unutar PID imenskog prostora
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
-Kada uđete unutar PID namespace-a iz zadanih namespace-a, i dalje ćete moći vidjeti sve procese. I proces iz tog PID ns-a će moći vidjeti novi bash na PID ns-u.
+Kada uđete u PID namespace iz podrazumevanog namespace-a, i dalje ćete moći da vidite sve procese. A proces iz tog PID ns će moći da vidi novi bash u PID ns.
 
-Takođe, možete **ući u drugi PID namespace samo ako ste root**. I **ne možete** **ući** u drugi namespace **bez deskriptora** koji na njega pokazuje (poput `/proc/self/ns/pid`)
+Takođe, možete **ući u drugi proces PID namespace samo ako ste root**. I **ne možete** **ući** u drugi namespace **bez deskriptora** koji pokazuje na njega (kao što je `/proc/self/ns/pid`)
 
-## Reference
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite vidjeti **oglašavanje vaše kompanije u HackTricks-u** ili **preuzeti HackTricks u PDF formatu** Provjerite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podijelite svoje hakirajuće trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,60 +1,61 @@
 # Network Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-Mrežni namespace je funkcionalnost Linux kernela koja omogućava izolaciju mrežnog sloja, omogućavajući **svakom mrežnom namespace-u da ima sopstvenu nezavisnu mrežnu konfiguraciju**, interfejse, IP adrese, rutne tabele i pravila za zaštitu od požara. Ova izolacija je korisna u raznim scenarijima, kao što je kontejnerizacija, gde svaki kontejner treba da ima sopstvenu mrežnu konfiguraciju, nezavisnu od drugih kontejnera i host sistema.
+Mrežni prostor imena je funkcija Linux jezgra koja obezbeđuje izolaciju mrežnog steka, omogućavajući **svakom mrežnom prostoru imena da ima svoju nezavisnu mrežnu konfiguraciju**, interfejse, IP adrese, tabele usmeravanja i pravila vatrozida. Ova izolacija je korisna u raznim scenarijima, kao što je kontejnerizacija, gde svaki kontejner treba da ima svoju mrežnu konfiguraciju, nezavisno od drugih kontejnera i host sistema.
 
-### Kako radi:
+### How it works:
 
-1. Kada se kreira novi mrežni namespace, on počinje sa **potpuno izolovanim mrežnim slojem**, sa **bez mrežnih interfejsa** osim petljačkog interfejsa (lo). To znači da procesi koji se izvršavaju u novom mrežnom namespace-u ne mogu komunicirati sa procesima u drugim namespace-ima ili host sistemu po default-u.
-2. **Virtuelni mrežni interfejsi**, kao što su veth parovi, mogu se kreirati i premestiti između mrežnih namespace-ova. Ovo omogućava uspostavljanje mrežne konekcije između namespace-ova ili između namespace-a i host sistema. Na primer, jedan kraj veth para može biti smešten u mrežnom namespace-u kontejnera, a drugi kraj može biti povezan sa **mostom** ili drugim mrežnim interfejsom u host namespace-u, pružajući mrežnu konekciju kontejneru.
-3. Mrežni interfejsi unutar namespace-a mogu imati **svoje IP adrese, rutne tabele i pravila za zaštitu od požara**, nezavisno od drugih namespace-a. Ovo omogućava procesima u različitim mrežnim namespace-ima da imaju različite mrežne konfiguracije i da funkcionišu kao da se izvršavaju na odvojenim mrežnim sistemima.
-4. Procesi mogu da se premeštaju između namespace-a koristeći `setns()` sistemski poziv, ili da kreiraju nove namespace-e koristeći `unshare()` ili `clone()` sistemski poziv sa `CLONE_NEWNET` zastavicom. Kada proces pređe u novi namespace ili ga kreira, počeće da koristi mrežnu konfiguraciju i interfejse povezane sa tim namespace-om.
+1. Kada se kreira novi mrežni prostor imena, počinje sa **potpuno izolovanim mrežnim stekom**, sa **nema mrežnih interfejsa** osim za loopback interfejs (lo). To znači da procesi koji se izvršavaju u novom mrežnom prostoru imena ne mogu komunicirati sa procesima u drugim prostorima imena ili host sistemu po defaultu.
+2. **Virtuelni mrežni interfejsi**, kao što su veth parovi, mogu se kreirati i premestiti između mrežnih prostora imena. To omogućava uspostavljanje mrežne povezanosti između prostora imena ili između prostora imena i host sistema. Na primer, jedan kraj veth para može biti postavljen u mrežni prostor imena kontejnera, a drugi kraj može biti povezan sa **mostom** ili drugim mrežnim interfejsom u host prostoru imena, obezbeđujući mrežnu povezanost kontejneru.
+3. Mrežni interfejsi unutar prostora imena mogu imati svoje **vlastite IP adrese, tabele usmeravanja i pravila vatrozida**, nezavisno od drugih prostora imena. To omogućava procesima u različitim mrežnim prostorima imena da imaju različite mrežne konfiguracije i funkcionišu kao da se izvršavaju na odvojenim umreženim sistemima.
+4. Procesi mogu prelaziti između prostora imena koristeći `setns()` sistemski poziv, ili kreirati nove prostore imena koristeći `unshare()` ili `clone()` sistemske pozive sa `CLONE_NEWNET` zastavicom. Kada proces pređe u novi prostor imena ili ga kreira, počeće da koristi mrežnu konfiguraciju i interfejse povezane sa tim prostorom imena.
 
 ## Lab:
 
-### Kreiranje različitih Namespace-ova
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -n [--mount-proc] /bin/bash
 # Run ifconfig or ip -a
 ```
-Montiranjem nove instance `/proc` fajl sistema, korišćenjem parametra `--mount-proc`, obezbeđujete da nova namespace za montiranje ima **tačan i izolovan prikaz informacija o procesu specifičnih za tu namespace**.
+Montiranjem nove instance `/proc` datotečnog sistema ako koristite parametar `--mount-proc`, osiguravate da nova mount namespace ima **tačan i izolovan prikaz informacija o procesima specifičnim za tu namespace**.
 
 <details>
 
-<summary>Greška: bash: fork: Ne može se alocirati memorija</summary>
+<summary>Greška: bash: fork: Ne može da alocira memoriju</summary>
 
-Kada se `unshare` izvršava bez opcije `-f`, javlja se greška zbog načina na koji Linux rukuje novim PID (Process ID) namespace-om. Ključni detalji i rešenje su opisani u nastavku:
+Kada se `unshare` izvrši bez `-f` opcije, dolazi do greške zbog načina na koji Linux obrađuje nove PID (ID procesa) namespace. Ključni detalji i rešenje su navedeni u nastavku:
 
 1. **Objašnjenje problema**:
-- Linux kernel omogućava procesu da kreira nove namespace-ove koristeći `unshare` sistemski poziv. Međutim, proces koji pokreće kreiranje novog PID namespace-a (nazvan "unshare" proces) ne ulazi u novi namespace; samo njegovi podprocesi to čine.
-- Pokretanje `%unshare -p /bin/bash%` pokreće `/bin/bash` u istom procesu kao i `unshare`. Kao rezultat, `/bin/bash` i njegovi podprocesi su u originalnom PID namespace-u.
-- Prvi podproces `/bin/bash` u novom namespace-u postaje PID 1. Kada ovaj proces završi, pokreće se čišćenje namespace-a ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja siročadi. Linux kernel će tada onemogućiti alokaciju PID-a u tom namespace-u.
+- Linux kernel omogućava procesu da kreira nove namespace koristeći `unshare` sistemski poziv. Međutim, proces koji inicira kreiranje novog PID namespace (poznat kao "unshare" proces) ne ulazi u novi namespace; samo njegovi podprocesi to čine.
+- Pokretanjem `%unshare -p /bin/bash%` pokreće se `/bin/bash` u istom procesu kao `unshare`. Kao rezultat, `/bin/bash` i njegovi podprocesi su u originalnom PID namespace.
+- Prvi podproces `/bin/bash` u novom namespace postaje PID 1. Kada ovaj proces izađe, pokreće čišćenje namespace-a ako nema drugih procesa, jer PID 1 ima posebnu ulogu usvajanja orfanskih procesa. Linux kernel će tada onemogućiti alokaciju PID-a u tom namespace-u.
 
 2. **Posledica**:
-- Izlazak PID 1 iz novog namespace-a dovodi do čišćenja `PIDNS_HASH_ADDING` zastavice. To rezultira neuspehom funkcije `alloc_pid` pri alociranju novog PID-a prilikom kreiranja novog procesa, što dovodi do greške "Ne može se alocirati memorija".
+- Izlazak PID 1 u novom namespace dovodi do čišćenja `PIDNS_HASH_ADDING` oznake. To rezultira neuspehom `alloc_pid` funkcije da alocira novi PID prilikom kreiranja novog procesa, proizvodeći grešku "Ne može da alocira memoriju".
 
 3. **Rešenje**:
-- Problem se može rešiti korišćenjem opcije `-f` sa `unshare`. Ova opcija čini da `unshare` fork-uje novi proces nakon kreiranja novog PID namespace-a.
-- Izvršavanje `%unshare -fp /bin/bash%` osigurava da sam `unshare` komanda postane PID 1 u novom namespace-u. `/bin/bash` i njegovi podprocesi su tada sigurno smešteni unutar ovog novog namespace-a, sprečavajući prevremeni izlazak PID 1 i omogućavajući normalnu alokaciju PID-a.
+- Problem se može rešiti korišćenjem `-f` opcije sa `unshare`. Ova opcija čini da `unshare` fork-uje novi proces nakon kreiranja novog PID namespace.
+- Izvršavanje `%unshare -fp /bin/bash%` osigurava da `unshare` komanda sama postane PID 1 u novom namespace-u. `/bin/bash` i njegovi podprocesi su tada sigurno sadržani unutar ovog novog namespace-a, sprečavajući prevremeni izlazak PID 1 i omogućavajući normalnu alokaciju PID-a.
 
-Obezbeđivanjem da `unshare` radi sa opcijom `-f`, novi PID namespace se pravilno održava, omogućavajući `/bin/bash` i njegovim podprocesima da rade bez greške alociranja memorije.
+Osiguravanjem da `unshare` radi sa `-f` oznakom, novi PID namespace se ispravno održava, omogućavajući `/bin/bash` i njegove podprocese da funkcionišu bez susretanja greške u alokaciji memorije.
 
 </details>
 
@@ -63,20 +64,12 @@ Obezbeđivanjem da `unshare` radi sa opcijom `-f`, novi PID namespace se praviln
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 # Run ifconfig or ip -a
 ```
-### &#x20;Proverite u kojem namespace-u se nalazi vaš proces
-
-Da biste proverili u kojem namespace-u se nalazi vaš proces, možete koristiti sledeću komandu:
-
-```bash
-ls -l /proc/$$/ns/net
-```
-
-Ova komanda će vam prikazati simboličku vezu koja pokazuje na trenutni namespace mreže u kojem se nalazi vaš proces.
+### &#x20;Proverite u kojem je namespace vaš proces
 ```bash
 ls -l /proc/self/ns/net
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/net -> 'net:[4026531840]'
 ```
-### Pronađi sve mrežne namespace-ove
+### Pronađite sve mrežne imenske prostore
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,29 +77,28 @@ sudo find /proc -maxdepth 3 -type l -name net -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name net -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Uđite unutar mrežnog namespace-a
-
 {% endcode %}
+
+### Uđite unutar mrežnog imenskog prostora
 ```bash
 nsenter -n TARGET_PID --pid /bin/bash
 ```
-Takođe, možete **ući u drugi proces namespace samo ako ste root**. I **ne možete** **ući** u drugi namespace **bez deskriptora** koji na njega pokazuje (poput `/proc/self/ns/net`).
+Takođe, možete **ući u drugi procesni prostor imena samo ako ste root**. I **ne možete** **ući** u drugo ime prostora **bez deskriptora** koji na njega pokazuje (kao što je `/proc/self/ns/net`).
 
-## Reference
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite videti **oglašavanje vaše kompanije u HackTricks-u** ili **preuzeti HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

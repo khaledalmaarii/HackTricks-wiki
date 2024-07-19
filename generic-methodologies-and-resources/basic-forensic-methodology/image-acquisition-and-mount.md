@@ -1,22 +1,25 @@
-# Akvizicija slike i montaža
+# Image Acquisition & Mount
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## Akvizicija
+## Acquisition
 
 ### DD
 ```bash
@@ -54,13 +57,13 @@ ewfacquire /dev/sdb
 #Then use default values
 #It will generate the disk image in the current directory
 ```
-## Montiranje
+## Mount
 
-### Više tipova
+### Several types
 
-Na **Windows** operativnom sistemu možete pokušati da koristite besplatnu verziju Arsenal Image Mounter alata ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) za **montiranje forenzičke slike**.
+U **Windows** možete pokušati da koristite besplatnu verziju Arsenal Image Mounter-a ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) da **montirate forenzičku sliku**.
 
-### Sirova
+### Raw
 ```bash
 #Get file type
 file evidence.img
@@ -88,10 +91,10 @@ mount output/ewf1 -o ro,norecovery /mnt
 
 To je Windows aplikacija za montiranje volumena. Možete je preuzeti ovde [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### Greške
+### Errors
 
-* **`ne može da montira /dev/loop0 samo za čitanje`** u ovom slučaju morate koristiti zastave **`-o ro,norecovery`**
-* **`pogrešan tip fs, loša opcija, loš superblock na /dev/loop0, nedostaje codepage ili pomoćni program, ili druga greška.`** u ovom slučaju montiranje nije uspelo jer je offset fajl sistema različit od offseta disk slike. Morate pronaći veličinu sektora i početni sektor:
+* **`cannot mount /dev/loop0 read-only`** u ovom slučaju treba da koristite oznake **`-o ro,norecovery`**
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** u ovom slučaju montiranje je neuspešno jer je pomeraj datotečnog sistema drugačiji od onog na slici diska. Treba da pronađete veličinu sektora i početni sektor:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Imajte na umu da je veličina sektora **512** i početak je **2048**. Zatim montirajte sliku na sledeći način:
+Napomena da je veličina sektora **512** a početak je **2048**. Zatim montirajte sliku ovako:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -112,14 +115,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite li da vidite svoju **kompaniju reklamiranu na HackTricks**? ili želite pristup **najnovijoj verziji PEASS-a ili preuzimanje HackTricks-a u PDF formatu**? Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova u [hacktricks repozitorijum](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repozitorijum](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

