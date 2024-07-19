@@ -1,25 +1,26 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Bardzo podstawowo, ten narzędzie pomoże nam znaleźć wartości dla zmiennych, które muszą spełniać pewne warunki, a ręczne obliczanie ich byłoby uciążliwe. Dlatego możemy wskazać Z3 warunki, które zmienne muszą spełniać, a on znajdzie pewne wartości (jeśli to możliwe).
+Bardzo ogólnie, to narzędzie pomoże nam znaleźć wartości dla zmiennych, które muszą spełniać pewne warunki, a obliczanie ich ręcznie byłoby bardzo irytujące. Dlatego możesz wskazać Z3 warunki, które zmienne muszą spełniać, a ono znajdzie pewne wartości (jeśli to możliwe).
 
 **Niektóre teksty i przykłady są zaczerpnięte z [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
 # Podstawowe operacje
 
-## Boole'owskie/I/Or/Not
+## Booleany/And/Or/Not
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -34,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Liczby całkowite/Uprość/Liczby rzeczywiste
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -55,10 +56,6 @@ set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
 ## Drukowanie modelu
-
-To print the model, you can use the `model` object obtained from the solver. The `model` object represents the satisfying assignment for the variables in the formula.
-
-Aby wydrukować model, można użyć obiektu `model` uzyskanego z solvera. Obiekt `model` reprezentuje przypisanie wartości zmiennym w formule.
 ```python
 from z3 import *
 
@@ -72,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Arytmetyka maszynowa
+# Aritmetyka Maszynowa
 
-Współczesne procesory i popularne języki programowania korzystają z arytmetyki na **wektorach bitów o stałej wielkości**. Arytmetyka maszynowa jest dostępna w Z3Py jako **wektory bitowe**.
+Nowoczesne procesory i popularne języki programowania używają arytmetyki na **wektorach bitowych o stałej wielkości**. Aritmetyka maszynowa jest dostępna w Z3Py jako **Wektory Bitowe**.
 ```python
 from z3 import *
 
@@ -91,7 +88,7 @@ print(simplify(a == b)) #This is False
 ```
 ## Liczby ze znakiem/bez znaku
 
-Z3 dostarcza specjalne wersje operacji arytmetycznych, w których istnieje różnica w traktowaniu wektora bitowego jako liczby ze znakiem lub bez znaku. W Z3Py, operatorzy **<, <=, >, >=, /, % i >>** odpowiadają wersjom **ze znakiem**. Odpowiednikiem tych operatorów **bez znaku** są **ULT, ULE, UGT, UGE, UDiv, URem i LShR**.
+Z3 oferuje specjalne wersje operacji arytmetycznych ze znakiem, gdzie ma znaczenie, czy **wektor bitowy jest traktowany jako ze znakiem, czy bez znaku**. W Z3Py, operatory **<, <=, >, >=, /, % i >>** odpowiadają wersjom **ze znakiem**. Odpowiednie operatory **bez znaku** to **ULT, ULE, UGT, UGE, UDiv, URem i LShR.**
 ```python
 from z3 import *
 
@@ -111,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Funkcje
 
-**Funkcje interpretowane** takie jak arytmetyka, gdzie **funkcja +** ma **ustaloną standardową interpretację** (dodaje dwie liczby). **Funkcje niewyinterpretowane** i stałe są **maksymalnie elastyczne**; pozwalają na **dowolną interpretację**, która jest **zgodna** z **ograniczeniami** na funkcję lub stałą.
+**Interpretowane funkcje** takie jak arytmetyka, gdzie **funkcja +** ma **stałą standardową interpretację** (dodaje dwie liczby). **Nieinterpretowane funkcje** i stałe są **maksymalnie elastyczne**; pozwalają na **dowolną interpretację**, która jest **spójna** z **ograniczeniami** nałożonymi na funkcję lub stałą.
 
-Przykład: dwukrotne zastosowanie funkcji f do x daje ponownie x, ale jednokrotne zastosowanie funkcji f do x jest różne od x.
+Przykład: f zastosowane dwa razy do x daje z powrotem x, ale f zastosowane raz do x jest różne od x.
 ```python
 from z3 import *
 
@@ -135,83 +132,6 @@ print(m.model())
 # Przykłady
 
 ## Rozwiązywacz Sudoku
-
-```python
-from z3 import *
-
-def solve_sudoku(grid):
-    # Tworzenie solvera Z3
-    solver = Solver()
-
-    # Tworzenie zmiennych dla każdej komórki Sudoku
-    cells = [[Int(f"cell_{i}_{j}") for j in range(9)] for i in range(9)]
-
-    # Dodawanie ograniczeń dla wartości komórek
-    for i in range(9):
-        for j in range(9):
-            # Ograniczenie wartości od 1 do 9
-            solver.add(And(cells[i][j] >= 1, cells[i][j] <= 9))
-
-            # Ograniczenie wartości unikalnych w wierszach
-            solver.add(Distinct(cells[i]))
-
-            # Ograniczenie wartości unikalnych w kolumnach
-            solver.add(Distinct([cells[k][j] for k in range(9)]))
-
-    # Ograniczenie wartości unikalnych w blokach 3x3
-    for i in range(0, 9, 3):
-        for j in range(0, 9, 3):
-            solver.add(Distinct([cells[i + di][j + dj] for di in range(3) for dj in range(3)]))
-
-    # Dodawanie ograniczeń dla znanych wartości w siatce Sudoku
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                solver.add(cells[i][j] == grid[i][j])
-
-    # Rozwiązanie Sudoku
-    if solver.check() == sat:
-        model = solver.model()
-        solution = [[model.evaluate(cells[i][j]).as_long() for j in range(9)] for i in range(9)]
-        return solution
-    else:
-        return None
-
-# Przykładowa siatka Sudoku
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
-
-# Rozwiązanie Sudoku
-solution = solve_sudoku(grid)
-if solution:
-    for row in solution:
-        print(row)
-else:
-    print("Brak rozwiązania")
-```
-
-Wynik:
-
-```
-[5, 3, 4, 6, 7, 8, 9, 1, 2]
-[6, 7, 2, 1, 9, 5, 3, 4, 8]
-[1, 9, 8, 3, 4, 2, 5, 6, 7]
-[8, 5, 9, 7, 6, 1, 4, 2, 3]
-[4, 2, 6, 8, 5, 3, 7, 9, 1]
-[7, 1, 3, 9, 2, 4, 8, 5, 6]
-[9, 6, 1, 5, 3, 7, 2, 8, 4]
-[2, 8, 7, 4, 1, 9, 6, 3, 5]
-[3, 4, 5, 2, 8, 6, 1, 7, 9]
-```
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -261,21 +181,22 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## Odwołania
+## Odniesienia
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

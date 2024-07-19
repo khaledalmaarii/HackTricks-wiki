@@ -2,29 +2,30 @@
 
 ## Algorytmy kryptograficzne/kompresji
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
 
-## Identyfikowanie algorytmów
+## Identyfikacja algorytmów
 
-Jeśli natrafisz na kod **używający przesunięć w prawo i w lewo, operacji XOR i kilku operacji arytmetycznych**, bardzo możliwe, że jest to implementacja **algorytmu kryptograficznego**. W tym miejscu zostaną przedstawione sposoby **identyfikacji używanego algorytmu bez konieczności odwracania każdego kroku**.
+Jeśli kończysz w kodzie **używając przesunięć w prawo i w lewo, xorów i kilku operacji arytmetycznych**, jest bardzo prawdopodobne, że jest to implementacja **algorytmu kryptograficznego**. Poniżej przedstawione zostaną sposoby na **identyfikację algorytmu, który jest używany bez potrzeby odwrotnego inżynierowania każdego kroku**.
 
 ### Funkcje API
 
 **CryptDeriveKey**
 
-Jeśli używana jest ta funkcja, można znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
+Jeśli ta funkcja jest używana, możesz znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
 
 ![](<../../.gitbook/assets/image (375) (1) (1) (1) (1).png>)
 
@@ -36,53 +37,54 @@ Kompresuje i dekompresuje dany bufor danych.
 
 **CryptAcquireContext**
 
-Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** służy do uzyskania uchwytu do określonego kontenera kluczy w określonym dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI**, które używają wybranego CSP.
+Z [dokumentacji](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptacquirecontexta): Funkcja **CryptAcquireContext** jest używana do uzyskania uchwytu do konkretnego kontenera kluczy w ramach konkretnego dostawcy usług kryptograficznych (CSP). **Ten zwrócony uchwyt jest używany w wywołaniach funkcji CryptoAPI**, które korzystają z wybranego CSP.
 
 **CryptCreateHash**
 
-Inicjuje hashowanie strumienia danych. Jeśli używana jest ta funkcja, można znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
+Inicjuje haszowanie strumienia danych. Jeśli ta funkcja jest używana, możesz znaleźć, który **algorytm jest używany**, sprawdzając wartość drugiego parametru:
 
 ![](<../../.gitbook/assets/image (376).png>)
 
+\
 Sprawdź tutaj tabelę możliwych algorytmów i ich przypisanych wartości: [https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id](https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id)
 
 ### Stałe kodu
 
-Czasami bardzo łatwo jest zidentyfikować algorytm dzięki temu, że musi używać specjalnej i unikalnej wartości.
+Czasami naprawdę łatwo jest zidentyfikować algorytm dzięki temu, że musi używać specjalnej i unikalnej wartości.
 
 ![](<../../.gitbook/assets/image (370).png>)
 
-Jeśli wyszukasz pierwszą stałą w Google, otrzymasz to:
+Jeśli wyszukasz pierwszą stałą w Google, oto co otrzymasz:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Dlatego można przypuszczać, że zdekompilowana funkcja to **kalkulator sha256**.\
-Możesz wyszukać dowolną inną stałą i prawdopodobnie otrzymasz ten sam wynik.
+Dlatego możesz założyć, że zdekompilowana funkcja to **kalkulator sha256.**\
+Możesz wyszukać dowolną z innych stałych, a prawdopodobnie uzyskasz ten sam wynik.
 
 ### Informacje o danych
 
-Jeśli kod nie ma żadnej istotnej stałej, może **wczytywać informacje z sekcji .data**.\
-Możesz uzyskać dostęp do tych danych, **zgrupować pierwsze słowo** i wyszukać je w Google, tak jak zrobiliśmy to wcześniej w sekcji:
+Jeśli kod nie ma żadnej znaczącej stałej, może być **ładowany informacje z sekcji .data**.\
+Możesz uzyskać dostęp do tych danych, **zgrupować pierwszy dword** i wyszukać go w Google, jak zrobiliśmy w poprzedniej sekcji:
 
 ![](<../../.gitbook/assets/image (372).png>)
 
-W tym przypadku, jeśli wyszukasz **0xA56363C6**, dowiesz się, że jest to związane z **tabelami algorytmu AES**.
+W tym przypadku, jeśli poszukasz **0xA56363C6**, możesz znaleźć, że jest to związane z **tabelami algorytmu AES**.
 
-## RC4 **(Symetryczne szyfrowanie)**
+## RC4 **(Kryptografia symetryczna)**
 
-### Charakterystyka
+### Cechy
 
 Składa się z 3 głównych części:
 
-* **Etap inicjalizacji/**: Tworzy **tabelę wartości od 0x00 do 0xFF** (łącznie 256 bajtów, 0x100). Ta tabela jest zwykle nazywana **Substitution Box** (lub SBox).
-* **Etap mieszania**: Przejdzie **pętlą przez tabelę** utworzoną wcześniej (pętla 0x100 iteracji, ponownie) modyfikując każdą wartość za pomocą **półlosowych** bajtów. Aby utworzyć te półlosowe bajty, używany jest **klucz RC4**. Klucze RC4 mogą mieć długość od 1 do 256 bajtów, ale zwykle zaleca się, aby były powyżej 5 bajtów. Zazwyczaj klucze RC4 mają długość 16 bajtów.
-* **Etap XOR**: Na koniec, tekst jawny lub tekst szyfrowany jest **XORowany z wartościami utworzonymi wcześniej**. Funkcja szyfrowania i deszyfrowania jest taka sama. W tym celu zostanie wykonana **pętla przez utworzone 256 bajtów** tak wiele razy, jak to konieczne. Zwykle jest to rozpoznawane w zdekompilowanym kodzie za pomocą **%256 (mod 256)**.
+* **Etap inicjalizacji/**: Tworzy **tabelę wartości od 0x00 do 0xFF** (łącznie 256 bajtów, 0x100). Ta tabela jest powszechnie nazywana **Substitution Box** (lub SBox).
+* **Etap mieszania**: Będzie **przechodzić przez tabelę** utworzoną wcześniej (pętla 0x100 iteracji, ponownie) modyfikując każdą wartość za pomocą **półlosowych** bajtów. Aby stworzyć te półlosowe bajty, używany jest klucz RC4. Klucze RC4 mogą mieć **od 1 do 256 bajtów długości**, jednak zazwyczaj zaleca się, aby miały więcej niż 5 bajtów. Zwykle klucze RC4 mają długość 16 bajtów.
+* **Etap XOR**: Na koniec, tekst jawny lub szyfrogram jest **XORowany z wartościami utworzonymi wcześniej**. Funkcja do szyfrowania i deszyfrowania jest taka sama. W tym celu zostanie wykonana **pętla przez utworzone 256 bajtów** tyle razy, ile to konieczne. Zwykle jest to rozpoznawane w zdekompilowanym kodzie z **%256 (mod 256)**.
 
 {% hint style="info" %}
-**Aby zidentyfikować RC4 w kodzie disassembly/zdekompilowanym, można sprawdzić, czy istnieją 2 pętle o rozmiarze 0x100 (z użyciem klucza), a następnie XOR danych wejściowych z 256 wartościami utworzonymi wcześniej w tych 2 pętlach, prawdopodobnie używając %256 (mod 256)**
+**Aby zidentyfikować RC4 w kodzie disassembly/zdekompilowanym, możesz sprawdzić 2 pętle o rozmiarze 0x100 (z użyciem klucza), a następnie XOR danych wejściowych z 256 wartościami utworzonymi wcześniej w 2 pętlach, prawdopodobnie używając %256 (mod 256)**
 {% endhint %}
 
-### **Etap inicjalizacji/Substitution Box:** (Zauważ liczbę 256 używaną jako licznik i jak 0 jest zapisywane na każdym miejscu z 256 znaków)
+### **Etap inicjalizacji/Substitution Box:** (Zauważ liczbę 256 używaną jako licznik i jak 0 jest zapisywane w każdym miejscu 256 znaków)
 
 ![](<../../.gitbook/assets/image (377).png>)
 
@@ -94,87 +96,99 @@ Składa się z 3 głównych części:
 
 ![](<../../.gitbook/assets/image (379).png>)
 
-## **AES (Symetryczne szyfrowanie)**
+## **AES (Kryptografia symetryczna)**
 
-### **Charakterystyka**
+### **Cechy**
 
-* Używa **skrzynek substytucji i tablic wyszukiwania**
-* Można **rozróżnić AES dzięki użyciu konkretnych wartości tablicy wyszukiwania** (stałych). _Zauważ, że **stała** może być **przechowywana** w postaci binarnej **lub tworzona**_ _**dynamicznie**._
-* Klucz **szyfrowania** musi być **podzielny** przez **16** (zwykle 32B), a zwykle używany jest również **wektor inicjalizacyjny (IV)** o długości 16B.
+* Użycie **tabel substytucji i tabel wyszukiwania**
+* Możliwe jest **rozróżnienie AES dzięki użyciu specyficznych wartości tabel wyszukiwania** (stałych). _Zauważ, że **stała** może być **przechowywana** w binarnym **lub tworzona** _**dynamicznie**._
+* **Klucz szyfrowania** musi być **podzielny** przez **16** (zwykle 32B) i zazwyczaj używa się **IV** o długości 16B.
 
 ### Stałe SBox
 
 ![](<../../.gitbook/assets/image (380).png>)
 
-## Serpent **(Symetryczne szyfrowanie)**
+## Serpent **(Kryptografia symetryczna)**
 
-### Charakterystyka
+### Cechy
 
-* Rzadko spotyka się złośliwe oprogramowanie używające tego algorytmu, ale są przykłady (Ursnif)
-* Łatwo jest określić, czy algorytm jest Serpentem, na podstawie jego długości (bardzo długa funkcja)
+* Rzadko można znaleźć złośliwe oprogramowanie używające go, ale są przykłady (Ursnif)
+* Łatwo określić, czy algorytm to Serpent, czy nie, na podstawie jego długości (ekstremalnie długa funkcja)
 
 ### Identyfikacja
-## RSA **(Szyfrowanie asymetryczne)**
 
-### Charakterystyka
+Na poniższym obrazie zauważ, jak stała **0x9E3779B9** jest używana (zauważ, że ta stała jest również używana przez inne algorytmy kryptograficzne, takie jak **TEA** - Tiny Encryption Algorithm).\
+Zauważ także **rozmiar pętli** (**132**) i **liczbę operacji XOR** w instrukcjach **disassembly** oraz w przykładzie **kodu**:
 
-* Bardziej skomplikowany niż algorytmy symetryczne
-* Brak stałych! (trudno określić niestandardowe implementacje)
-* KANAL (kryptoanalizator) nie wykazuje wskazówek dotyczących RSA, ponieważ polega on na stałych.
+![](<../../.gitbook/assets/image (381).png>)
+
+Jak wspomniano wcześniej, ten kod może być wizualizowany w dowolnym dekompilatorze jako **bardzo długa funkcja**, ponieważ **nie ma skoków** w jej wnętrzu. Zdekompilowany kod może wyglądać następująco:
+
+![](<../../.gitbook/assets/image (382).png>)
+
+Dlatego możliwe jest zidentyfikowanie tego algorytmu, sprawdzając **magiczną liczbę** i **początkowe XOR-y**, widząc **bardzo długą funkcję** i **porównując** niektóre **instrukcje** długiej funkcji **z implementacją** (jak przesunięcie w lewo o 7 i obrót w lewo o 22).
+
+## RSA **(Kryptografia asymetryczna)**
+
+### Cechy
+
+* Bardziej złożone niż algorytmy symetryczne
+* Nie ma stałych! (trudno określić niestandardowe implementacje)
+* KANAL (analityk kryptograficzny) nie pokazuje wskazówek dotyczących RSA, ponieważ opiera się na stałych.
 
 ### Identyfikacja przez porównania
 
 ![](<../../.gitbook/assets/image (383).png>)
 
-* W linii 11 (lewa strona) jest `+7) >> 3`, co jest takie samo jak w linii 35 (prawa strona): `+7) / 8`
-* Linia 12 (lewa strona) sprawdza, czy `modulus_len < 0x040`, a w linii 36 (prawa strona) sprawdza, czy `inputLen+11 > modulusLen`
+* W linii 11 (po lewej) jest `+7) >> 3`, co jest takie samo jak w linii 35 (po prawej): `+7) / 8`
+* Linia 12 (po lewej) sprawdza, czy `modulus_len < 0x040`, a w linii 36 (po prawej) sprawdza, czy `inputLen+11 > modulusLen`
 
-## MD5 & SHA (funkcje skrótu)
+## MD5 i SHA (hash)
 
-### Charakterystyka
+### Cechy
 
 * 3 funkcje: Init, Update, Final
-* Podobne funkcje inicjalizujące
+* Podobne funkcje inicjalizacyjne
 
 ### Identyfikacja
 
 **Init**
 
-Możesz je zidentyfikować, sprawdzając stałe. Zauważ, że sha\_init ma 1 stałą, której MD5 nie ma:
+Możesz zidentyfikować obie, sprawdzając stałe. Zauważ, że sha\_init ma 1 stałą, której MD5 nie ma:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
-**Transformacja MD5**
+**MD5 Transform**
 
 Zauważ użycie większej liczby stałych
 
 ![](<../../.gitbook/assets/image (253) (1) (1) (1).png>)
 
-## CRC (funkcja skrótu)
+## CRC (hash)
 
-* Mniejsza i bardziej wydajna, ponieważ jej funkcją jest wykrywanie przypadkowych zmian w danych
-* Używa tabel przeglądowych (dzięki czemu można zidentyfikować stałe)
+* Mniejszy i bardziej wydajny, ponieważ jego funkcją jest znajdowanie przypadkowych zmian w danych
+* Używa tabel wyszukiwania (więc możesz zidentyfikować stałe)
 
 ### Identyfikacja
 
-Sprawdź **stałe tabel przeglądowych**:
+Sprawdź **stałe tabeli wyszukiwania**:
 
 ![](<../../.gitbook/assets/image (387).png>)
 
-Algorytm skrótu CRC wygląda tak:
+Algorytm haszujący CRC wygląda jak:
 
 ![](<../../.gitbook/assets/image (386).png>)
 
 ## APLib (Kompresja)
 
-### Charakterystyka
+### Cechy
 
-* Brak rozpoznawalnych stałych
-* Możesz spróbować napisać algorytm w Pythonie i szukać podobnych rzeczy online
+* Nie rozpoznawalne stałe
+* Możesz spróbować napisać algorytm w Pythonie i poszukać podobnych rzeczy w Internecie
 
 ### Identyfikacja
 
-Graf jest dość duży:
+Wykres jest dość duży:
 
 ![](<../../.gitbook/assets/image (207) (2) (1).png>)
 
@@ -182,16 +196,17 @@ Sprawdź **3 porównania, aby go rozpoznać**:
 
 ![](<../../.gitbook/assets/image (384).png>)
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) **i** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github repos.**
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
