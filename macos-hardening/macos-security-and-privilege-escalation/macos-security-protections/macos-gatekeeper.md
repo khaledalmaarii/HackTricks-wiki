@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**merch officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -34,7 +37,7 @@ Voici comment cela fonctionne :
 2. **Distribution de l'application :** L'application signée est ensuite distribuée aux utilisateurs avec le certificat du développeur, qui contient la clé publique correspondante.
 3. **Vérification de l'application :** Lorsqu'un utilisateur télécharge et tente d'exécuter l'application, son système d'exploitation Mac utilise la clé publique du certificat du développeur pour déchiffrer le hachage. Il recalcule ensuite le hachage en fonction de l'état actuel de l'application et le compare avec le hachage déchiffré. S'ils correspondent, cela signifie que **l'application n'a pas été modifiée** depuis que le développeur l'a signée, et le système permet à l'application de s'exécuter.
 
-Les signatures d'application sont une partie essentielle de la technologie Gatekeeper d'Apple. Lorsque l'utilisateur tente d'**ouvrir une application téléchargée depuis Internet**, Gatekeeper vérifie la signature de l'application. Si elle est signée avec un certificat délivré par Apple à un développeur connu et que le code n'a pas été altéré, Gatekeeper permet à l'application de s'exécuter. Sinon, il bloque l'application et alerte l'utilisateur.
+Les signatures d'application sont une partie essentielle de la technologie Gatekeeper d'Apple. Lorsqu'un utilisateur tente d'**ouvrir une application téléchargée depuis Internet**, Gatekeeper vérifie la signature de l'application. Si elle est signée avec un certificat délivré par Apple à un développeur connu et que le code n'a pas été altéré, Gatekeeper permet à l'application de s'exécuter. Sinon, il bloque l'application et alerte l'utilisateur.
 
 À partir de macOS Catalina, **Gatekeeper vérifie également si l'application a été notariée** par Apple, ajoutant une couche de sécurité supplémentaire. Le processus de notarisation vérifie l'application pour des problèmes de sécurité connus et du code malveillant, et si ces vérifications sont réussies, Apple ajoute un ticket à l'application que Gatekeeper peut vérifier.
 
@@ -59,11 +62,11 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarisation
 
-Le processus de notarisation d'Apple sert de protection supplémentaire pour protéger les utilisateurs contre les logiciels potentiellement nuisibles. Il implique que le **développeur soumette son application à l'examen** par **le service de notarisation d'Apple**, qui ne doit pas être confondu avec l'examen des applications. Ce service est un **système automatisé** qui scrute le logiciel soumis à la recherche de **contenu malveillant** et de tout problème potentiel avec la signature du code.
+Le processus de notarisation d'Apple sert de protection supplémentaire pour protéger les utilisateurs contre les logiciels potentiellement nuisibles. Il implique que le **développeur soumette son application à l'examen** par **le service de notarisation d'Apple**, qui ne doit pas être confondu avec l'examen des applications. Ce service est un **système automatisé** qui scrute le logiciel soumis à la recherche de **contenu malveillant** et de tout problème potentiel lié à la signature du code.
 
 Si le logiciel **passe** cette inspection sans soulever de préoccupations, le service de notarisation génère un ticket de notarisation. Le développeur est ensuite tenu de **joindre ce ticket à son logiciel**, un processus connu sous le nom de 'stapling.' De plus, le ticket de notarisation est également publié en ligne où Gatekeeper, la technologie de sécurité d'Apple, peut y accéder.
 
-Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit attaché à l'exécutable ou trouvé en ligne - **informe Gatekeeper que le logiciel a été notarié par Apple**. En conséquence, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initiale, indiquant que le logiciel a subi des vérifications pour contenu malveillant par Apple. Ce processus renforce ainsi la confiance des utilisateurs dans la sécurité du logiciel qu'ils installent ou exécutent sur leurs systèmes.
+Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit attaché à l'exécutable ou trouvé en ligne - **informe Gatekeeper que le logiciel a été notarié par Apple**. En conséquence, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initiale, indiquant que le logiciel a été soumis à des vérifications pour contenu malveillant par Apple. Ce processus renforce ainsi la confiance des utilisateurs dans la sécurité du logiciel qu'ils installent ou exécutent sur leurs systèmes.
 
 ### Énumération de GateKeeper
 
@@ -323,7 +326,7 @@ Cependant, cela n'est plus possible car macOS **empêche la modification des fic
 
 ## Contournements de Gatekeeper
 
-Tout moyen de contourner Gatekeeper (réussir à faire télécharger quelque chose par l'utilisateur et à l'exécuter lorsque Gatekeeper devrait l'interdire) est considéré comme une vulnérabilité dans macOS. Voici quelques CVE attribués à des techniques qui ont permis de contourner Gatekeeper dans le passé :
+Tout moyen de contourner Gatekeeper (réussir à faire télécharger quelque chose par l'utilisateur et à l'exécuter alors que Gatekeeper devrait l'interdire) est considéré comme une vulnérabilité dans macOS. Voici quelques CVE attribués à des techniques qui ont permis de contourner Gatekeeper dans le passé :
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
