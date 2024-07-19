@@ -1,33 +1,49 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-请注意，使用Objective-C编写的程序在编译为[Mach-O二进制文件](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)时**保留**其类声明。这些类声明**包括**以下内容的名称和类型：
+请注意，用 Objective-C 编写的程序在编译成 [Mach-O 二进制文件](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md) 时 **保留** 其类声明。这样的类声明 **包括** 名称和类型：
 {% endhint %}
 
 * 类
 * 类方法
 * 类实例变量
 
-您可以使用[class-dump](https://github.com/nygard/class-dump)获取这些信息：
+您可以使用 [**class-dump**](https://github.com/nygard/class-dump) 获取此信息：
 ```bash
 class-dump Kindle.app
 ```
+注意，这些名称可能会被混淆，以使二进制文件的逆向工程更加困难。
+
 ## 类、方法和对象
 
 ### 接口、属性和方法
@@ -61,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **对象和调用方法**
+### **对象与调用方法**
 
-要创建一个类的实例，需要调用**`alloc`**方法，该方法会为每个**属性分配内存**并将这些分配**清零**。然后调用**`init`**方法，该方法会将属性**初始化为所需的值**。
+要创建一个类的实例，调用 **`alloc`** 方法，该方法 **分配内存** 给每个 **属性** 并 **将这些分配置为零**。然后调用 **`init`**，该方法 **初始化属性** 为 **所需的值**。
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -77,13 +93,13 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **类方法**
 
-类方法使用**加号**（+）而不是实例方法中使用的连字符（-）来定义。就像**NSString**类方法**`stringWithString`**一样：
+类方法是用 **加号** (+) 定义的，而不是用于实例方法的 **减号** (-)。像 **NSString** 类方法 **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
-### 设置器 & 获取器
+### Setter & Getter
 
-要设置和获取属性，可以使用**点符号表示法**或者像**调用方法**一样进行操作：
+要**设置**和**获取**属性，您可以使用**点表示法**或像**调用方法**一样进行：
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -95,18 +111,18 @@ NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
 ### **实例变量**
 
-与setter和getter方法相反，您可以使用实例变量。这些变量与属性具有相同的名称，但以“\_”开头：
+与 setter 和 getter 方法不同，您可以使用实例变量。这些变量与属性同名，但以“\_”开头：
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### 协议
+### Protocols
 
-协议是一组方法声明（不包括属性）。实现协议的类会实现声明的方法。
+协议是一组方法声明（没有属性）。实现协议的类实现声明的方法。
 
-有两种类型的方法：**必需**和**可选**。**默认情况下**，方法是**必需**的（但也可以用**`@required`**标签来指示）。要指示方法是可选的，请使用**`@optional`**。
+方法有两种类型：**必需**和**可选**。默认情况下，方法是**必需**的（但您也可以使用**`@required`**标签来指示）。要指示方法是可选的，请使用**`@optional`**。
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -116,7 +132,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 - (void) method3; //optional
 @end
 ```
-### 一切就绪
+### 一起
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -179,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-基本类是**不可变的**，因此要将字符串附加到现有字符串，需要**创建一个新的 NSString**。
+基本类是**不可变的**，因此要将一个字符串附加到现有字符串上，**需要创建一个新的 NSString**。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -187,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-或者您也可以使用一个**可变**字符串类：
+或者你也可以使用一个**可变**字符串类：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -198,8 +214,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### 数字
 
 {% code overflow="wrap" %}
@@ -221,7 +235,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-#### 数组，集合和字典
+#### 数组、集合和字典
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -269,9 +283,13 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 [mutFruitColorsDictionary setObject:@"green" forKey:@"apple"];
 [mutFruitColorsDictionary removeObjectForKey:@"grape"];
 ```
+{% endcode %}
+
 ### Blocks
 
-Blocks are **函数作为对象** 的行为，因此它们可以被传递给函数或**存储**在**数组**或**字典**中。此外，如果给定值，它们可以**表示一个值**，因此类似于 lambda。
+Blocks 是 **作为对象行为的函数**，因此可以传递给函数或 **存储** 在 **数组** 或 **字典** 中。此外，如果给定值，它们可以 **表示一个值**，因此类似于 lambdas。
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -286,7 +304,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-也可以**定义一个块类型以用作函数的参数**：
+也可以**定义一个块类型作为函数中的参数**：
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -337,29 +355,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-**也可以使用 `NSURL` 对象而不是 `NSString` 对象来管理文件**。方法名称类似，但是**使用 `URL` 代替 `Path`**。
+也可以使用 **`NSURL` 对象而不是 `NSString` 对象** 来管理文件。方法名称类似，但 **使用 `URL` 而不是 `Path`**。
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-大多数基本类都有一个名为`writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil`的方法，允许它们直接写入文件：
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

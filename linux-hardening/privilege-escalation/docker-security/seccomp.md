@@ -1,30 +1,39 @@
 # Seccomp
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-其他支持HackTricks的方式：
-
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## 基本信息
 
-**Seccomp**，全称Secure Computing mode，是**Linux内核的安全功能，旨在过滤系统调用**。它将进程限制在一组有限的系统调用上（`exit()`、`sigreturn()`、`read()`和`write()`，用于已打开的文件描述符）。如果进程尝试调用其他内容，内核将使用SIGKILL或SIGSYS终止该进程。该机制不会虚拟化资源，而是将进程与资源隔离开来。
+**Seccomp**，即安全计算模式，是**Linux内核的一个安全特性，旨在过滤系统调用**。它将进程限制在一组有限的系统调用中（对于已打开的文件描述符，`exit()`、`sigreturn()`、`read()`和`write()`）。如果进程尝试调用其他任何内容，内核将使用SIGKILL或SIGSYS终止该进程。该机制并不虚拟化资源，而是将进程与其隔离。
 
-有两种激活seccomp的方式：通过`prctl(2)`系统调用使用`PR_SET_SECCOMP`，或者对于Linux内核3.17及以上版本，使用`seccomp(2)`系统调用。通过向`/proc/self/seccomp`写入以启用seccomp的旧方法已被弃用，推荐使用`prctl()`。
+激活seccomp有两种方法：通过`prctl(2)`系统调用与`PR_SET_SECCOMP`，或者对于3.17及以上版本的Linux内核，使用`seccomp(2)`系统调用。通过写入`/proc/self/seccomp`启用seccomp的旧方法已被弃用，取而代之的是`prctl()`。
 
-一种增强功能**seccomp-bpf**，增加了使用伯克利数据包过滤器（BPF）规则自定义策略来过滤系统调用的能力。此扩展被软件如OpenSSH、vsftpd以及Chrome OS和Linux上的Chrome/Chromium浏览器所利用，用于灵活高效地过滤系统调用，提供了对于Linux中现在不再支持的systrace的替代方案。
+一个增强功能，**seccomp-bpf**，增加了使用可定制策略过滤系统调用的能力，使用伯克利数据包过滤器（BPF）规则。此扩展被OpenSSH、vsftpd以及Chrome OS和Linux上的Chrome/Chromium浏览器等软件利用，以实现灵活高效的系统调用过滤，提供了对现在不再支持的Linux systrace的替代方案。
 
 ### **原始/严格模式**
 
-在此模式下，Seccomp**仅允许系统调用**`exit()`、`sigreturn()`、`read()`和`write()`用于已打开的文件描述符。如果进行任何其他系统调用，进程将被使用SIGKILL终止。
+在此模式下，Seccomp **仅允许系统调用** `exit()`、`sigreturn()`、`read()`和`write()`对已打开的文件描述符。如果进行任何其他系统调用，进程将使用SIGKILL被终止。
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -58,9 +67,11 @@ int input = open("output.txt", O_RDONLY);
 printf("You will not see this message--the process will be killed first\n");
 }
 ```
+{% endcode %}
+
 ### Seccomp-bpf
 
-这种模式允许使用使用伯克利数据包过滤器规则实现的可配置策略来过滤系统调用。
+此模式允许**使用可配置策略过滤系统调用**，该策略是使用伯克利数据包过滤器规则实现的。
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -110,31 +121,33 @@ seccomp_release(ctx);
 printf("this process is %d\n", getpid());
 }
 ```
-## Docker中的Seccomp
+{% endcode %}
 
-**Seccomp-bpf**由**Docker**支持，用于限制容器中的**syscalls**，有效减少攻击面。您可以在[https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/)找到**默认情况下被阻止的syscalls**，并且可以在此处找到**默认的seccomp配置文件**：[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)。\
-您可以使用以下命令以**不同的seccomp策略**运行docker容器：
+## Seccomp in Docker
+
+**Seccomp-bpf** 被 **Docker** 支持，以限制容器中的 **syscalls**，有效地减少攻击面。您可以在 [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) 找到 **默认** 被 **阻止的 syscalls**，**默认 seccomp 配置文件** 可以在这里找到 [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)。\
+您可以使用以下命令运行具有 **不同 seccomp** 策略的 docker 容器：
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-如果您想例如**禁止**容器执行一些**系统调用**，比如 `uname`，您可以从[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)下载默认配置文件，然后只需**从列表中删除 `uname` 字符串**。\
-如果您想确保**某个二进制文件在 Docker 容器中无法运行**，您可以使用 strace 列出二进制文件正在使用的系统调用，然后禁止它们。\
-在以下示例中，发现了 `uname` 的**系统调用**：
+如果你想例如**禁止**一个容器执行某些**syscall**，像`uname`，你可以从[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)下载默认配置文件，然后**从列表中移除`uname`字符串**。\
+如果你想确保**某个二进制文件在docker容器内无法工作**，你可以使用strace列出该二进制文件使用的syscalls，然后禁止它们。\
+在以下示例中，发现了`uname`的**syscalls**：
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-如果您只是使用 **Docker 来启动一个应用程序**，您可以使用 **`strace`** 来为其创建 **配置文件**，并且只允许其需要的 **系统调用**
+如果您只是使用 **Docker 来启动一个应用程序**，您可以使用 **`strace`** 对其进行 **分析**，并 **仅允许它所需的系统调用**
 {% endhint %}
 
 ### 示例 Seccomp 策略
 
 [示例来自这里](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-为了说明 Seccomp 功能，让我们创建一个 Seccomp 配置文件，禁用 "chmod" 系统调用，如下所示。
+为了说明 Seccomp 功能，让我们创建一个 Seccomp 配置文件，禁用“chmod”系统调用，如下所示。
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -146,8 +159,8 @@ docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ]
 }
 ```
-在上述配置文件中，我们将默认操作设置为“允许”，并创建了一个黑名单来禁用“chmod”。为了更安全，我们可以将默认操作设置为“拒绝”，并创建一个白名单来有选择性地启用系统调用。\
-以下输出显示了“chmod”调用返回错误，因为在seccomp配置文件中已禁用了它。
+在上述配置文件中，我们将默认操作设置为“允许”，并创建了一个黑名单以禁用“chmod”。为了更安全，我们可以将默认操作设置为丢弃，并创建一个白名单以选择性地启用系统调用。\
+以下输出显示“chmod”调用返回错误，因为它在seccomp配置文件中被禁用。
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
@@ -156,10 +169,35 @@ chmod: /etc/hosts: Operation not permitted
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
-],
-```
-### 在Docker中停用它
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-使用标志启动一个容器：**`--security-opt seccomp=unconfined`**
+<details>
 
-截至Kubernetes 1.19，**所有Pod默认启用seccomp**。然而，应用于Pod的默认seccomp配置文件是由容器运行时（例如Docker、containerd）提供的“**RuntimeDefault**”配置文件。这个“RuntimeDefault”配置文件允许大多数系统调用，同时阻止一些被认为是危险的或容器通常不需要的系统调用。
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

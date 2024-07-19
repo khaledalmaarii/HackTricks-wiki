@@ -1,16 +1,19 @@
 # 基本取证方法论
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？想要在HackTricks中看到您的**公司广告**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## 创建和挂载镜像
 
@@ -20,7 +23,7 @@
 
 ## 恶意软件分析
 
-这**不一定是在获得镜像后执行的第一步**。但是，如果您有文件、文件系统镜像、内存镜像、pcap等，您可以独立使用这些恶意软件分析技术，因此**记住这些操作**是很有用的：
+这**并不是在获得镜像后必须执行的第一步**。但是如果你有一个文件、文件系统镜像、内存镜像、pcap...，你可以独立使用这些恶意软件分析技术，因此**记住这些操作是好的**：
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -28,13 +31,13 @@
 
 ## 检查镜像
 
-如果您获得了设备的**取证镜像**，您可以开始**分析分区、使用的文件系统**并**恢复**可能**有趣的文件**（甚至是已删除的文件）。在以下位置了解如何操作：
+如果你获得了一个**取证镜像**，你可以开始**分析分区、文件系统**以及**恢复**潜在的**有趣文件**（甚至是已删除的文件）。了解如何进行：
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-根据使用的操作系统甚至平台，应搜索不同的有趣的证据：
+根据使用的操作系统甚至平台，应该搜索不同的有趣文物：
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -48,16 +51,16 @@
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## 对特定文件类型和软件进行深入检查
+## 深入检查特定文件类型和软件
 
-如果您有一个非常**可疑的文件**，那么**根据文件类型和创建它的软件**，可能会有几种**技巧**很有用。\
+如果你有一个非常**可疑的****文件**，那么**根据文件类型和创建它的软件**，可能会有几种**技巧**是有用的。\
 阅读以下页面以了解一些有趣的技巧：
 
 {% content-ref url="specific-software-file-type-tricks/" %}
 [specific-software-file-type-tricks](specific-software-file-type-tricks/)
 {% endcontent-ref %}
 
-我想特别提到页面：
+我想特别提到以下页面：
 
 {% content-ref url="specific-software-file-type-tricks/browser-artifacts.md" %}
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
@@ -69,7 +72,7 @@
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Pcap检查
+## Pcap 检查
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)
@@ -77,26 +80,29 @@
 
 ## **反取证技术**
 
-请记住可能使用反取证技术：
+请记住可能使用的反取证技术：
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
 {% endcontent-ref %}
 
-## 威胁猎杀
+## 威胁狩猎
 
 {% content-ref url="file-integrity-monitoring.md" %}
 [file-integrity-monitoring.md](file-integrity-monitoring.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？想要在HackTricks中看到您的**公司广告**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

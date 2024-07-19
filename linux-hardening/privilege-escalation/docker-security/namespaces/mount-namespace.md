@@ -1,61 +1,62 @@
-# 挂载命名空间
+# Mount Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 基本信息
+## Basic Information
 
-挂载命名空间是Linux内核的一个功能，提供了一组进程看到的文件系统挂载点的隔离。每个挂载命名空间都有自己的文件系统挂载点集，**一个命名空间中对挂载点的更改不会影响其他命名空间**。这意味着在不同挂载命名空间中运行的进程可以对文件系统层次结构有不同的视图。
+挂载命名空间是一个Linux内核特性，它提供了一个进程组所看到的文件系统挂载点的隔离。每个挂载命名空间都有自己的一组文件系统挂载点，**对一个命名空间中挂载点的更改不会影响其他命名空间**。这意味着在不同挂载命名空间中运行的进程可以对文件系统层次结构有不同的视图。
 
-挂载命名空间在容器化中特别有用，每个容器应该有自己的文件系统和配置，与其他容器和主机系统隔离开来。
+挂载命名空间在容器化中尤其有用，其中每个容器应该有自己的文件系统和配置，与其他容器和主机系统隔离。
 
-### 工作原理：
+### How it works:
 
-1. 创建新的挂载命名空间时，它会使用**父命名空间的挂载点的副本进行初始化**。这意味着在创建时，新命名空间与其父命名空间共享相同的文件系统视图。但是，命名空间内的挂载点的任何后续更改都不会影响父命名空间或其他命名空间。
-2. 当进程修改其命名空间内的挂载点，例如挂载或卸载文件系统时，**更改仅限于该命名空间**，不会影响其他命名空间。这允许每个命名空间拥有自己独立的文件系统层次结构。
-3. 进程可以使用`setns()`系统调用在命名空间之间移动，或者使用带有`CLONE_NEWNS`标志的`unshare()`或`clone()`系统调用创建新的命名空间。当进程移动到新的命名空间或创建一个新的命名空间时，它将开始使用与该命名空间关联的挂载点。
-4. **文件描述符和inode在命名空间之间共享**，这意味着如果一个命名空间中的进程有指向文件的打开文件描述符，它可以将该文件描述符**传递给另一个命名空间中的进程**，**两个进程将访问同一个文件**。但是，由于挂载点的差异，两个命名空间中文件的路径可能不相同。
+1. 当创建一个新的挂载命名空间时，它会用**来自其父命名空间的挂载点的副本**进行初始化。这意味着在创建时，新的命名空间与其父命名空间共享相同的文件系统视图。然而，命名空间内的挂载点的任何后续更改都不会影响父命名空间或其他命名空间。
+2. 当进程在其命名空间内修改挂载点时，例如挂载或卸载文件系统，**更改仅限于该命名空间**，不会影响其他命名空间。这允许每个命名空间拥有自己的独立文件系统层次结构。
+3. 进程可以使用`setns()`系统调用在命名空间之间移动，或使用带有`CLONE_NEWNS`标志的`unshare()`或`clone()`系统调用创建新的命名空间。当进程移动到新命名空间或创建一个时，它将开始使用与该命名空间关联的挂载点。
+4. **文件描述符和inode在命名空间之间是共享的**，这意味着如果一个命名空间中的进程有一个指向文件的打开文件描述符，它可以**将该文件描述符传递给另一个命名空间中的进程**，并且**两个进程将访问同一个文件**。然而，由于挂载点的差异，文件的路径在两个命名空间中可能并不相同。
 
-## 实验：
+## Lab:
 
-### 创建不同的命名空间
+### Create different Namespaces
 
-#### 命令行界面
+#### CLI
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-通过使用参数`--mount-proc`挂载`/proc`文件系统的新实例，确保新的挂载命名空间具有**准确且独立的进程信息视图，特定于该命名空间**。
+通过挂载新的 `/proc` 文件系统实例，如果使用参数 `--mount-proc`，您可以确保新的挂载命名空间具有 **特定于该命名空间的进程信息的准确和隔离的视图**。
 
 <details>
 
 <summary>错误：bash: fork: 无法分配内存</summary>
 
-当执行`unshare`时没有使用`-f`选项时，会遇到错误，这是由于Linux处理新PID（进程ID）命名空间的方式。以下是关键细节和解决方案：
+当 `unshare` 在没有 `-f` 选项的情况下执行时，由于 Linux 处理新 PID（进程 ID）命名空间的方式，会遇到错误。关键细节和解决方案如下：
 
 1. **问题解释**：
-- Linux内核允许进程使用`unshare`系统调用创建新的命名空间。然而，发起新PID命名空间创建的进程（称为“unshare”进程）不会进入新的命名空间；只有它的子进程会。
-- 运行`%unshare -p /bin/bash%`会在与`unshare`相同的进程中启动`/bin/bash`。因此，`/bin/bash`及其子进程位于原始PID命名空间中。
-- 在新命名空间中，`/bin/bash`的第一个子进程变为PID 1。当此进程退出时，如果没有其他进程，它会触发命名空间的清理，因为PID 1具有接管孤立进程的特殊角色。然后Linux内核将在该命名空间中禁用PID分配。
+- Linux 内核允许进程使用 `unshare` 系统调用创建新的命名空间。然而，启动新 PID 命名空间创建的进程（称为 "unshare" 进程）并不会进入新的命名空间；只有它的子进程会进入。
+- 运行 `%unshare -p /bin/bash%` 会在与 `unshare` 相同的进程中启动 `/bin/bash`。因此，`/bin/bash` 及其子进程位于原始 PID 命名空间中。
+- 新命名空间中 `/bin/bash` 的第一个子进程成为 PID 1。当该进程退出时，如果没有其他进程，它会触发命名空间的清理，因为 PID 1 具有收养孤儿进程的特殊角色。然后，Linux 内核将禁用该命名空间中的 PID 分配。
 
 2. **后果**：
-- 在新命名空间中，PID 1的退出导致`PIDNS_HASH_ADDING`标志的清除。这导致`alloc_pid`函数在创建新进程时无法分配新的PID，从而产生“无法分配内存”错误。
+- 新命名空间中 PID 1 的退出导致 `PIDNS_HASH_ADDING` 标志的清理。这导致 `alloc_pid` 函数在创建新进程时无法分配新的 PID，从而产生 "无法分配内存" 的错误。
 
 3. **解决方案**：
-- 可以通过在`unshare`中使用`-f`选项来解决此问题。此选项使`unshare`在创建新PID命名空间后fork一个新进程。
-- 执行`%unshare -fp /bin/bash%`确保`unshare`命令本身成为新命名空间中的PID 1。然后，`/bin/bash`及其子进程安全地包含在此新命名空间中，防止PID 1过早退出，并允许正常的PID分配。
+- 通过在 `unshare` 中使用 `-f` 选项可以解决此问题。此选项使 `unshare` 在创建新的 PID 命名空间后分叉一个新进程。
+- 执行 `%unshare -fp /bin/bash%` 确保 `unshare` 命令本身在新命名空间中成为 PID 1。然后，`/bin/bash` 及其子进程安全地包含在这个新命名空间中，防止 PID 1 的过早退出，并允许正常的 PID 分配。
 
-通过确保`unshare`使用`-f`标志运行，新的PID命名空间将得到正确维护，使`/bin/bash`及其子进程能够正常运行，而不会遇到内存分配错误。
+通过确保 `unshare` 以 `-f` 标志运行，新的 PID 命名空间得以正确维护，允许 `/bin/bash` 及其子进程在不遇到内存分配错误的情况下运行。
 
 </details>
 
@@ -63,7 +64,7 @@ sudo unshare -m [--mount-proc] /bin/bash
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;检查您的进程位于哪个命名空间
+### &#x20;检查您的进程所在的命名空间
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
@@ -82,11 +83,11 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | g
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
-此外，只有**root用户**才能**进入另一个进程命名空间**。而且，**没有指向它的描述符**（如`/proc/self/ns/mnt`），你**无法**进入其他命名空间。
+此外，您只能**进入另一个进程命名空间，如果您是root**。并且您**不能**在没有指向它的**描述符**的情况下**进入**其他命名空间（例如`/proc/self/ns/mnt`）。
 
-由于新挂载点只能在命名空间内访问，因此可能存在包含只能从中访问的敏感信息的命名空间。
+因为新挂载仅在命名空间内可访问，所以命名空间可能包含只能从中访问的敏感信息。
 
-### 挂载某物
+### 挂载某些内容
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -100,20 +101,21 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-## 参考资料
+## 参考
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

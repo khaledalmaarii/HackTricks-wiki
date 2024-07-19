@@ -27,7 +27,7 @@
 
 ### 基本信息
 
-首先，建议准备一些 **USB**，上面有 **已知的良好二进制文件和库**（你可以直接获取 ubuntu 并复制文件夹 _/bin_, _/sbin_, _/lib,_ 和 _/lib64_），然后挂载 USB，并修改环境变量以使用这些二进制文件：
+首先，建议准备一个 **USB**，上面有 **已知的良好二进制文件和库**（你可以直接获取 ubuntu 并复制文件夹 _/bin_, _/sbin_, _/lib,_ 和 _/lib64_），然后挂载 USB，并修改环境变量以使用这些二进制文件：
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -54,17 +54,17 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 
 在获取基本信息时，您应该检查一些奇怪的事情，例如：
 
-* **Root 进程** 通常使用低 PIDS，因此如果您发现一个具有大 PID 的 root 进程，您可能会怀疑
-* 检查 `/etc/passwd` 中没有 shell 的用户的 **注册登录**
-* 检查 `/etc/shadow` 中没有 shell 的用户的 **密码哈希**
+* **Root 进程** 通常使用低 PIDS，因此如果您发现一个大 PID 的 root 进程，您可能会怀疑
+* 检查 **没有 shell 的用户** 在 `/etc/passwd` 中的 **注册登录**
+* 检查 **没有 shell 的用户** 在 `/etc/shadow` 中的 **密码哈希**
 
 ### 内存转储
 
-要获取运行系统的内存，建议使用 [**LiME**](https://github.com/504ensicsLabs/LiME)。\
+要获取正在运行的系统的内存，建议使用 [**LiME**](https://github.com/504ensicsLabs/LiME)。\
 要 **编译** 它，您需要使用受害者机器正在使用的 **相同内核**。
 
 {% hint style="info" %}
-请记住，您 **不能在受害者机器上安装 LiME 或其他任何东西**，因为这会对其进行多次更改
+请记住，您 **不能在受害者机器上安装 LiME 或其他任何东西**，因为这会对其进行多项更改
 {% endhint %}
 
 因此，如果您有一个相同版本的 Ubuntu，您可以使用 `apt-get install lime-forensics-dkms`\
@@ -79,7 +79,7 @@ LiME 支持 3 **格式**：
 * 填充（与原始相同，但右侧位用零填充）
 * Lime（推荐格式，带有元数据）
 
-LiME 还可以用于 **通过网络发送转储**，而不是使用类似 `path=tcp:4444` 的方式将其存储在系统上。
+LiME 还可以用来 **通过网络发送转储**，而不是使用类似 `path=tcp:4444` 的方式将其存储在系统上。
 
 ### 磁盘成像
 
@@ -206,7 +206,7 @@ find / -type f -executable | grep <something>
 
 \
 使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
-立即获取访问权限：
+今天获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
@@ -300,22 +300,22 @@ Linux 系统日志和审计子系统可能在入侵或恶意软件事件中被�
 
 检查可以授予额外权限的文件：
 
-* 检查 `/etc/sudoers` 是否有意外授予的用户权限。
-* 检查 `/etc/sudoers.d/` 是否有意外授予的用户权限。
-* 检查 `/etc/groups` 以识别任何异常的组成员资格或权限。
-* 检查 `/etc/passwd` 以识别任何异常的组成员资格或权限。
+* 审查 `/etc/sudoers` 以查找可能被授予的意外用户权限。
+* 审查 `/etc/sudoers.d/` 以查找可能被授予的意外用户权限。
+* 检查 `/etc/groups` 以识别任何不寻常的组成员资格或权限。
+* 检查 `/etc/passwd` 以识别任何不寻常的组成员资格或权限。
 
 一些应用程序还会生成自己的日志：
 
 * **SSH**: 检查 _\~/.ssh/authorized\_keys_ 和 _\~/.ssh/known\_hosts_ 以查找未经授权的远程连接。
-* **Gnome 桌面**: 查看 _\~/.recently-used.xbel_ 以获取通过 Gnome 应用程序访问的最近文件。
+* **Gnome 桌面**: 查看 _\~/.recently-used.xbel_ 以查找通过 Gnome 应用程序访问的最近文件。
 * **Firefox/Chrome**: 检查 _\~/.mozilla/firefox_ 或 _\~/.config/google-chrome_ 中的浏览器历史和下载，以查找可疑活动。
-* **VIM**: 检查 _\~/.viminfo_ 以获取使用详情，如访问的文件路径和搜索历史。
+* **VIM**: 检查 _\~/.viminfo_ 以获取使用详情，例如访问的文件路径和搜索历史。
 * **Open Office**: 检查最近的文档访问，以指示可能被破坏的文件。
 * **FTP/SFTP**: 检查 _\~/.ftp\_history_ 或 _\~/.sftp\_history_ 中的日志，以查找可能未经授权的文件传输。
 * **MySQL**: 检查 _\~/.mysql\_history_ 以调查执行的 MySQL 查询，可能揭示未经授权的数据库活动。
 * **Less**: 分析 _\~/.lesshst_ 以获取使用历史，包括查看的文件和执行的命令。
-* **Git**: 检查 _\~/.gitconfig_ 和项目 _.git/logs_ 以获取对存储库的更改。
+* **Git**: 检查 _\~/.gitconfig_ 和项目 _.git/logs_ 以查找对存储库的更改。
 
 ### USB 日志
 
@@ -360,14 +360,14 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 
 为了对抗这些反取证方法，至关重要的是：
 
-* 使用 **Autopsy** 进行全面的时间线分析，以可视化事件时间线，或使用 **Sleuth Kit** 的 `mactime` 获取详细的时间线数据。
-* 调查系统 $PATH 中的意外脚本，这可能包括攻击者使用的 shell 或 PHP 脚本。
-* 检查 `/dev` 中的非典型文件，因为它通常包含特殊文件，但可能存放与恶意软件相关的文件。
-* 搜索名称为 ".. "（点点空格）或 "..^G"（点点控制-G）的隐藏文件或目录，这可能隐藏恶意内容。
-* 使用命令 `find / -user root -perm -04000 -print` 识别 setuid root 文件。这将找到具有提升权限的文件，可能被攻击者滥用。
-* 检查 inode 表中的删除时间戳，以发现大规模文件删除，可能表明存在 rootkit 或木马。
-* 在识别一个恶意文件后，检查连续的 inode，以寻找附近的恶意文件，因为它们可能被放在一起。
-* 检查常见的二进制目录 (_/bin_、_/sbin_) 中最近修改的文件，因为这些文件可能被恶意软件更改。
+* **进行彻底的时间线分析**，使用像 **Autopsy** 这样的工具可视化事件时间线，或使用 **Sleuth Kit** 的 `mactime` 获取详细的时间线数据。
+* **调查系统 $PATH 中的意外脚本**，这些脚本可能包括攻击者使用的 shell 或 PHP 脚本。
+* **检查 `/dev` 中的非典型文件**，因为它通常包含特殊文件，但可能存放与恶意软件相关的文件。
+* **搜索隐藏文件或目录**，名称可能为 ".. "（点点空格）或 "..^G"（点点控制-G），这些可能隐藏恶意内容。
+* **识别 setuid root 文件**，使用命令：`find / -user root -perm -04000 -print`。这将找到具有提升权限的文件，可能被攻击者滥用。
+* **检查 inode 表中的删除时间戳**，以发现大规模文件删除，可能表明存在 rootkit 或木马。
+* **在识别到一个恶意文件后，检查连续的 inode**，因为它们可能被放置在一起。
+* **检查常见的二进制目录** (_/bin_、_/sbin_) 中最近修改的文件，因为这些文件可能被恶意软件更改。
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-注意，一个**攻击者**可以**修改**时间以使**文件看起来**是**合法的**，但他**无法**修改**inode**。如果你发现一个**文件**显示它的创建和修改时间与同一文件夹中其他文件的**时间相同**，但**inode**却**意外地更大**，那么该**文件的时间戳被修改**了。
+注意，一个**攻击者**可以**修改**时间以使**文件看起来**是**合法的**，但他**无法**修改**inode**。如果你发现一个**文件**显示它的创建和修改时间与同一文件夹中其他文件的时间**相同**，但**inode**却**意外地更大**，那么该**文件的时间戳被修改了**。
 {% endhint %}
 
 ## 比较不同文件系统版本的文件
@@ -385,7 +385,7 @@ ls -lai /bin | sort -n```
 
 为了比较文件系统版本并确定更改，我们使用简化的`git diff`命令：
 
-* **查找新文件**，比较两个目录：
+* **要查找新文件**，比较两个目录：
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
@@ -413,26 +413,27 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **书籍：Linux系统的恶意软件取证实用指南：数字取证实用指南**
+* **书籍：Linux系统恶意软件取证实用指南：数字取证实用指南**
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-你在一家**网络安全公司**工作吗？你想在HackTricks上看到你的**公司广告**吗？或者你想访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注我。**
-
-**通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR分享你的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics)轻松构建和**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
 今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

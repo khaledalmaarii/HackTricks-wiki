@@ -1,30 +1,31 @@
-# macOS网络服务与协议
+# macOS 网络服务与协议
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## 远程访问服务
 
-这些是常见的macOS远程访问服务。\
-您可以在`系统偏好设置` --> `共享`中启用/禁用这些服务
+这些是常见的 macOS 服务，用于远程访问它们。\
+您可以在 `系统设置` --> `共享` 中启用/禁用这些服务。
 
 * **VNC**，称为“屏幕共享”（tcp:5900）
 * **SSH**，称为“远程登录”（tcp:22）
-* **Apple远程桌面**（ARD），或称“远程管理”（tcp:3283，tcp:5900）
-* **AppleEvent**，称为“远程Apple事件”（tcp:3031）
+* **Apple 远程桌面**（ARD），或称为“远程管理”（tcp:3283, tcp:5900）
+* **AppleEvent**，称为“远程 Apple 事件”（tcp:3031）
 
-运行以下命令检查是否已启用任何服务：
+检查是否启用任何服务，运行：
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -34,60 +35,62 @@ rAE=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.3031" | wc -l);
 bmM=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.4488" | wc -l);
 printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharing: %s\nFile Sharing: %s\nRemote Login: %s\nRemote Mgmt: %s\nRemote Apple Events: %s\nBack to My Mac: %s\n\n" "$scrShrng" "$flShrng" "$rLgn" "$rmMgmt" "$rAE" "$bmM";
 ```
-### 渗透测试 ARD
+### Pentesting ARD
 
-Apple 远程桌面（ARD）是专为 macOS 定制的 [虚拟网络计算（VNC）](https://en.wikipedia.org/wiki/Virtual_Network_Computing) 的增强版本，提供了额外的功能。 ARD 中一个显著的漏洞是其用于控制屏幕密码的身份验证方法，仅使用密码的前 8 个字符，使其容易受到[暴力破解攻击](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html)的影响，使用 Hydra 或 [GoRedShell](https://github.com/ahhh/GoRedShell/) 等工具，因为没有默认速率限制。
+Apple Remote Desktop (ARD) 是一个针对 macOS 的增强版 [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing)，提供额外的功能。ARD 中一个显著的漏洞是其控制屏幕密码的认证方法，仅使用密码的前 8 个字符，这使其容易受到 [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) 的攻击，使用像 Hydra 或 [GoRedShell](https://github.com/ahhh/GoRedShell/) 这样的工具，因为没有默认的速率限制。
 
-可以使用 **nmap** 的 `vnc-info` 脚本来识别存在漏洞的实例。支持 `VNC Authentication (2)` 的服务特别容易受到暴力破解攻击的影响，因为密码被截断为 8 个字符。
+可以使用 **nmap** 的 `vnc-info` 脚本识别易受攻击的实例。支持 `VNC Authentication (2)` 的服务由于 8 字符密码截断而特别容易受到暴力攻击。
 
-要为各种管理任务（如特权升级、GUI 访问或用户监控）启用 ARD，请使用以下命令：
+要启用 ARD 以进行特权提升、GUI 访问或用户监控等各种管理任务，请使用以下命令：
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-## Bonjour协议
+ARD 提供多种控制级别，包括观察、共享控制和完全控制，且会话在用户密码更改后仍然持续。它允许直接发送 Unix 命令，并以 root 身份执行这些命令，适用于管理用户。任务调度和远程 Spotlight 搜索是显著的功能，便于在多台机器上进行远程、低影响的敏感文件搜索。
 
-Bonjour是苹果设计的技术，允许**同一网络上的设备检测彼此提供的服务**。也被称为Rendezvous、**零配置**或Zeroconf，它使设备可以加入TCP/IP网络，**自动选择IP地址**，并向其他网络设备广播其服务。
+## Bonjour 协议
 
-由Bonjour提供的零配置网络确保设备可以：
-* **即使没有DHCP服务器，也能自动获取IP地址**。
-* 在不需要DNS服务器的情况下执行**名称到地址的转换**。
-* **发现**网络上可用的服务。
+Bonjour 是苹果设计的技术，允许 **同一网络上的设备检测彼此提供的服务**。也称为 Rendezvous、**零配置**或 Zeroconf，它使设备能够加入 TCP/IP 网络，**自动选择 IP 地址**，并将其服务广播给其他网络设备。
 
-使用Bonjour的设备将从**169.254/16范围内分配给自己一个IP地址**，并验证其在网络上的唯一性。Mac会为这个子网维护一个路由表条目，可以通过`netstat -rn | grep 169`进行验证。
+Bonjour 提供的零配置网络确保设备可以：
+* **自动获取 IP 地址**，即使在没有 DHCP 服务器的情况下。
+* 执行 **名称到地址的转换**，而无需 DNS 服务器。
+* **发现网络上可用的服务**。
 
-对于DNS，Bonjour利用**多播DNS（mDNS）协议**。mDNS通过**端口5353/UDP**运行，使用**标准DNS查询**，但针对**多播地址224.0.0.251**。这种方法确保网络上所有监听设备都可以接收和响应查询，促进其记录的更新。
+使用 Bonjour 的设备将自我分配一个 **来自 169.254/16 范围的 IP 地址**，并验证其在网络上的唯一性。Mac 维护此子网的路由表条目，可以通过 `netstat -rn | grep 169` 验证。
 
-加入网络后，每个设备会自行选择一个名称，通常以**.local**结尾，可以从主机名或随机生成。
+对于 DNS，Bonjour 利用 **多播 DNS (mDNS) 协议**。mDNS 在 **port 5353/UDP** 上运行，采用 **标准 DNS 查询**，但目标是 **多播地址 224.0.0.251**。这种方法确保网络上所有监听设备都能接收和响应查询，从而促进其记录的更新。
 
-网络内的服务发现由**DNS服务发现（DNS-SD）**实现。利用DNS SRV记录的格式，DNS-SD使用**DNS PTR记录**来列出多个服务。寻找特定服务的客户端将请求`<Service>.<Domain>`的PTR记录，如果服务来自多个主机，则会收到格式为`<Instance>.<Service>.<Domain>`的PTR记录列表。
+加入网络后，每个设备自我选择一个名称，通常以 **.local** 结尾，该名称可能源自主机名或随机生成。
 
-`dns-sd`实用程序可用于**发现和广告网络服务**。以下是一些使用示例：
+网络内的服务发现由 **DNS 服务发现 (DNS-SD)** 促进。利用 DNS SRV 记录的格式，DNS-SD 使用 **DNS PTR 记录** 来启用多个服务的列出。寻求特定服务的客户端将请求 `<Service>.<Domain>` 的 PTR 记录，如果该服务在多个主机上可用，则返回格式为 `<Instance>.<Service>.<Domain>` 的 PTR 记录列表。
 
-### 搜索SSH服务
+`dns-sd` 工具可用于 **发现和广告网络服务**。以下是其用法的一些示例：
 
-要在网络上搜索SSH服务，使用以下命令：
+### 搜索 SSH 服务
+
+要在网络上搜索 SSH 服务，可以使用以下命令：
 ```bash
 dns-sd -B _ssh._tcp
 ```
-这个命令启动了对_ssh._tcp服务的浏览，并输出时间戳、标志、接口、域、服务类型和实例名称等详细信息。
+此命令启动对 _ssh._tcp 服务的浏览，并输出详细信息，如时间戳、标志、接口、域、服务类型和实例名称。
 
-### 广告一个HTTP服务
+### 广播 HTTP 服务
 
-要广告一个HTTP服务，你可以使用：
+要广播 HTTP 服务，可以使用：
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
-这个命令在端口80上注册了一个名为“Index”的HTTP服务，路径为`/index.html`。
+此命令在端口 80 上注册一个名为 "Index" 的 HTTP 服务，路径为 `/index.html`。
 
-要在网络上搜索HTTP服务：
+然后在网络上搜索 HTTP 服务：
 ```bash
 dns-sd -B _http._tcp
 ```
-当服务启动时，它通过多播方式宣布其在子网上的可用性，对这些服务感兴趣的设备无需发送请求，只需监听这些公告。
+当服务启动时，它通过多播其存在向子网中的所有设备宣布其可用性。对这些服务感兴趣的设备无需发送请求，只需监听这些公告。
 
-为了提供更用户友好的界面，可在Apple App Store上获取的**Discovery - DNS-SD Browser**应用程序可以可视化本地网络上提供的服务。
+为了提供更友好的界面，可以在Apple App Store上使用**Discovery - DNS-SD Browser**应用程序来可视化您本地网络上提供的服务。
 
-或者，可以编写自定义脚本来使用`python-zeroconf`库浏览和发现服务。[**python-zeroconf**](https://github.com/jstasiak/python-zeroconf)脚本演示了为`_http._tcp.local.`服务创建服务浏览器，打印已添加或已移除的服务：
+或者，可以编写自定义脚本，使用`python-zeroconf`库浏览和发现服务。 [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf)脚本演示了如何为`_http._tcp.local.`服务创建服务浏览器，打印添加或移除的服务：
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
@@ -108,27 +111,28 @@ input("Press enter to exit...\n\n")
 finally:
 zeroconf.close()
 ```
-### 禁用Bonjour
-如果有安全方面的顾虑或其他原因需要禁用Bonjour，可以使用以下命令关闭：
+### 禁用 Bonjour
+如果出于安全考虑或其他原因需要禁用 Bonjour，可以使用以下命令关闭它：
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
-## 参考资料
+## 参考文献
 
-* [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
+* [**Mac黑客手册**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
+{% endhint %}

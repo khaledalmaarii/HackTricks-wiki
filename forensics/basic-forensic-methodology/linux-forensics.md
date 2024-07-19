@@ -17,8 +17,8 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
@@ -68,7 +68,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 {% endhint %}
 
 因此，如果您有一个相同版本的 Ubuntu，您可以使用 `apt-get install lime-forensics-dkms`\
-在其他情况下，您需要从 github 下载 [**LiME**](https://github.com/504ensicsLabs/LiME) 并使用正确的内核头文件进行编译。要 **获取受害者机器的确切内核头文件**，您可以直接 **复制目录** `/lib/modules/<kernel version>` 到您的机器，然后 **使用它们编译** LiME：
+在其他情况下，您需要从 github 下载 [**LiME**](https://github.com/504ensicsLabs/LiME) 并使用正确的内核头文件进行编译。要 **获取受害者机器的确切内核头文件**，您可以直接 **复制目录** `/lib/modules/<kernel version>` 到您的机器，然后使用它们 **编译** LiME：
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -86,9 +86,9 @@ LiME 还可以用于 **通过网络发送转储**，而不是使用类似 `path=
 #### 关机
 
 首先，您需要 **关闭系统**。这并不总是一个选项，因为有时系统可能是公司无法承受关闭的生产服务器。\
-有 **2 种** 关闭系统的方法，**正常关机** 和 **“拔掉插头”关机**。第一种方法将允许 **进程正常终止**，并使 **文件系统** **同步**，但这也可能允许潜在的 **恶意软件** **破坏证据**。“拔掉插头”方法可能会导致 **一些信息丢失**（由于我们已经获取了内存的映像，丢失的信息不会很多），并且 **恶意软件将没有机会** 采取任何行动。因此，如果您 **怀疑** 可能存在 **恶意软件**，请在系统上执行 **`sync`** **命令** 然后拔掉插头。
+有 **2 种方式** 关闭系统，**正常关机** 和 **“拔掉插头”关机**。第一种方式将允许 **进程正常终止**，并使 **文件系统** **同步**，但这也可能允许潜在的 **恶意软件** **破坏证据**。“拔掉插头”方法可能会带来 **一些信息丢失**（由于我们已经获取了内存的镜像，丢失的信息不会很多），并且 **恶意软件将没有机会** 采取任何行动。因此，如果您 **怀疑** 可能存在 **恶意软件**，请在系统上执行 **`sync`** **命令** 然后拔掉插头。
 
-#### 获取磁盘映像
+#### 获取磁盘镜像
 
 重要的是要注意，在 **将计算机连接到与案件相关的任何设备之前**，您需要确保它将以 **只读方式挂载**，以避免修改任何信息。
 ```bash
@@ -171,7 +171,7 @@ Linux 提供工具以确保系统组件的完整性，这对于发现潜在问�
 * **基于 RedHat 的系统**：使用 `rpm -Va` 进行全面检查。
 * **基于 Debian 的系统**：使用 `dpkg --verify` 进行初步验证，然后使用 `debsums | grep -v "OK$"`（在使用 `apt-get install debsums` 安装 `debsums` 后）来识别任何问题。
 
-### 恶意软件/Rootkit 检测器
+### 恶意软件/根套件检测器
 
 阅读以下页面以了解可以帮助查找恶意软件的工具：
 
@@ -186,7 +186,7 @@ Linux 提供工具以确保系统组件的完整性，这对于发现潜在问�
 * 对于 Debian，检查 _**`/var/lib/dpkg/status`**_ 和 _**`/var/log/dpkg.log`**_ 以获取有关软件包安装的详细信息，使用 `grep` 过滤特定信息。
 * RedHat 用户可以使用 `rpm -qa --root=/mntpath/var/lib/rpm` 查询 RPM 数据库以列出已安装的软件包。
 
-要发现手动安装或在这些软件包管理器之外安装的软件，探索像 _**`/usr/local`**_、_**`/opt`**_、_**`/usr/sbin`**_、_**`/usr/bin`**_、_**`/bin`**_ 和 _**`/sbin`**_ 等目录。将目录列表与特定于系统的命令结合使用，以识别与已知软件包无关的可执行文件，从而增强您对所有已安装程序的搜索。
+要发现手动安装或在这些软件包管理器之外安装的软件，探索 _**`/usr/local`**_、_**`/opt`**_、_**`/usr/sbin`**_、_**`/usr/bin`**_、_**`/bin`**_ 和 _**`/sbin`**_ 等目录。将目录列表与特定于系统的命令结合使用，以识别与已知软件包无关的可执行文件，从而增强您对所有已安装程序的搜索。
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -245,8 +245,8 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 * **/etc/systemd/system**: 系统和服务管理器脚本的目录。
 * **/etc/systemd/system/multi-user.target.wants/**: 包含应在多用户运行级别启动的服务的链接。
 * **/usr/local/etc/rc.d/**: 用于自定义或第三方服务。
-* **\~/.config/autostart/**: 用户特定的自动启动应用程序，可以成为针对用户的恶意软件的隐藏地点。
-* **/lib/systemd/system/**: 安装包提供的系统范围的默认单元文件。
+* **\~/.config/autostart/**: 用户特定的自动启动应用程序，可以是针对用户的恶意软件的隐藏地点。
+* **/lib/systemd/system/**: 安装包提供的系统范围默认单元文件。
 
 ### 内核模块
 
@@ -261,7 +261,7 @@ Linux 内核模块，通常被恶意软件作为 rootkit 组件使用，在系�
 Linux 使用各种文件在用户登录时自动执行程序，可能隐藏恶意软件：
 
 * **/etc/profile.d/**\*, **/etc/profile** 和 **/etc/bash.bashrc**: 在任何用户登录时执行。
-* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile** 和 **\~/.config/autostart**: 用户特定的文件，在他们登录时运行。
+* **\~/.bashrc**，**\~/.bash\_profile**，**\~/.profile** 和 **\~/.config/autostart**: 用户特定的文件，在他们登录时运行。
 * **/etc/rc.local**: 在所有系统服务启动后运行，标志着过渡到多用户环境的结束。
 
 ## 检查日志
@@ -308,10 +308,10 @@ Linux 系统日志和审计子系统可能在入侵或恶意软件事件中被�
 一些应用程序还会生成自己的日志：
 
 * **SSH**: 检查 _\~/.ssh/authorized\_keys_ 和 _\~/.ssh/known\_hosts_ 以查找未经授权的远程连接。
-* **Gnome 桌面**: 查看 _\~/.recently-used.xbel_ 以查找通过 Gnome 应用程序访问的最近文件。
-* **Firefox/Chrome**: 检查 _\~/.mozilla/firefox_ 或 _\~/.config/google-chrome_ 中的浏览器历史记录和下载，以查找可疑活动。
+* **Gnome 桌面**: 查看 _\~/.recently-used.xbel_ 以查找通过 Gnome 应用程序最近访问的文件。
+* **Firefox/Chrome**: 检查 _\~/.mozilla/firefox_ 或 _\~/.config/google-chrome_ 中的浏览器历史和下载，以查找可疑活动。
 * **VIM**: 检查 _\~/.viminfo_ 以获取使用详情，例如访问的文件路径和搜索历史。
-* **Open Office**: 检查最近的文档访问，以确定是否有被破坏的文件。
+* **Open Office**: 检查最近的文档访问，以指示可能被破坏的文件。
 * **FTP/SFTP**: 检查 _\~/.ftp\_history_ 或 _\~/.sftp\_history_ 中的日志，以查找可能未经授权的文件传输。
 * **MySQL**: 检查 _\~/.mysql\_history_ 以调查执行的 MySQL 查询，可能揭示未经授权的数据库活动。
 * **Less**: 分析 _\~/.lesshst_ 以获取使用历史，包括查看的文件和执行的命令。
@@ -321,7 +321,7 @@ Linux 系统日志和审计子系统可能在入侵或恶意软件事件中被�
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯 Python 3 编写的小软件，它解析 Linux 日志文件（`/var/log/syslog*` 或 `/var/log/messages*`，具体取决于发行版），以构建 USB 事件历史表。
 
-了解 **所有使用过的 USB** 是很有趣的，如果你有一个授权的 USB 列表来查找“违规事件”（使用不在该列表中的 USB），将更有用。
+了解**所有使用过的 USB** 是很有趣的，如果你有一个授权的 USB 列表来查找“违规事件”（不在该列表中的 USB 使用），将更有用。
 
 ### 安装
 ```bash
@@ -349,7 +349,7 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ## 审查用户账户和登录活动
 
 检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，寻找不寻常的名称或在已知未授权事件附近创建和使用的账户。同时，检查可能的 sudo 暴力攻击。\
-此外，检查像 _**/etc/sudoers**_ 和 _**/etc/groups**_ 这样的文件，寻找意外授予用户的权限。\
+此外，检查像 _**/etc/sudoers**_ 和 _**/etc/groups**_ 这样的文件，查看是否有意外的权限授予给用户。\
 最后，查找 **没有密码** 或 **容易猜测** 的密码的账户。
 
 ## 检查文件系统
@@ -366,7 +366,7 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 * **搜索隐藏文件或目录**，名称可能为 ".. "（点点空格）或 "..^G"（点点控制-G），这些可能隐藏恶意内容。
 * **识别 setuid root 文件**，使用命令：`find / -user root -perm -04000 -print` 这将找到具有提升权限的文件，可能被攻击者滥用。
 * **检查 inode 表中的删除时间戳**，以发现大规模文件删除，可能表明存在 rootkit 或木马。
-* **检查连续的 inode**，在识别一个恶意文件后，寻找附近的恶意文件，因为它们可能被放在一起。
+* **检查连续的 inode**，在识别一个恶意文件后，查看附近的恶意文件，因为它们可能被放在一起。
 * **检查常见的二进制目录** (_/bin_、_/sbin_) 中最近修改的文件，因为这些文件可能被恶意软件更改。
 ````bash
 # List recent files in a directory:
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-注意，一个**攻击者**可以**修改**时间，使**文件看起来**是**合法的**，但他**无法**修改**inode**。如果你发现一个**文件**显示它的创建和修改时间与同一文件夹中其他文件的**时间相同**，但**inode**却**意外地更大**，那么该**文件的时间戳被修改**了。
+注意，一个**攻击者**可以**修改**时间，使**文件看起来**是**合法的**，但他**无法**修改**inode**。如果你发现一个**文件**显示它的创建和修改时间与同一文件夹中其他文件的**时间相同**，但**inode**却**意外地更大**，那么该**文件的时间戳被修改了**。
 {% endhint %}
 
 ## 比较不同文件系统版本的文件
@@ -415,24 +415,25 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **书籍：Linux系统恶意软件取证实用指南：数字取证实用指南**
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>支持 HackTricks</summary>
 
-你在一家**网络安全公司**工作吗？你想在HackTricks上看到你的**公司广告**吗？或者你想访问**最新版本的PEASS或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在Twitter上关注**我 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR分享你的黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和 **自动化工作流程**，由世界上 **最先进** 的社区工具提供支持。\
 今天就获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

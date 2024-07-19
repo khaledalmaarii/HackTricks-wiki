@@ -1,56 +1,64 @@
-# 武器化Distroless
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
+<dotsilp>
 
-支持HackTricks的其他方式：
+<oummpr>SupportHackTricks</smmay>
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## 什么是Distroless
+## 什么是 Distroless
 
-Distroless容器是一种**只包含运行特定应用程序所需依赖的容器**，不包含任何不必要的软件或工具。这些容器旨在尽可能地**轻量级**和**安全**，并通过移除任何不必要的组件来**最小化攻击面**。
+Distroless 容器是一种只包含运行特定应用程序所需的必要依赖项的容器，不包含任何不必要的软件或工具。这些容器旨在尽可能轻量和安全，并旨在通过移除任何不必要的组件来最小化攻击面。
 
-Distroless容器通常用于**安全性和可靠性至关重要的生产环境**。
+Distroless 容器通常用于安全性和可靠性至关重要的生产环境。
 
-一些**Distroless容器的例子**包括：
+一些 Distroless 容器的示例包括：
 
-* 由**Google**提供：[https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* 由**Chainguard**提供：[https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* 由 **Google** 提供：[https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* 由 **Chainguard** 提供：[https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## 武器化Distroless
+## 武器化 Distroless
 
-武器化Distroless容器的目标是能够**执行任意二进制文件和有效载荷，即使存在Distroless的限制**（系统中缺少常见二进制文件）以及通常在容器中发现的保护措施，如`/dev/shm`的**只读**或**不执行**。
+武器化 Distroless 容器的目标是能够在 Distroless 所带来的限制（系统中缺乏常见二进制文件）以及容器中常见的保护措施（如 `/dev/shm` 中的只读或不可执行）下执行任意二进制文件和有效负载。
 
 ### 通过内存
 
-将在2023年的某个时候到来...
+将在 2023 年的某个时候发布...
 
 ### 通过现有二进制文件
 
 #### openssl
 
-****[**在这篇文章中，**](https://www.form3.tech/engineering/content/exploiting-distroless-images) 解释了为什么在这些容器中经常发现**`openssl`**二进制文件，可能是因为它**需要**由即将在容器内运行的软件。
+****[**在这篇文章中，**](https://www.form3.tech/engineering/content/exploiting-distroless-images) 解释了二进制文件 **`openssl`** 经常出现在这些容器中，可能是因为它是容器内将要运行的软件所 **需要** 的。
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-滥用**`openssl`**二进制文件可以**执行任意操作**。
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-支持HackTricks的其他方式：
-
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
