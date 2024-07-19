@@ -1,48 +1,66 @@
-# FZ - Υπέρυθρο
+# FZ - Infrared
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν στον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγράφημα**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Εισαγωγή <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Intro <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Για περισσότερες πληροφορίες σχετικά με το πώς λειτουργεί η υπέρυθρη, ελέγξτε:
+Για περισσότερες πληροφορίες σχετικά με το πώς λειτουργεί το Infrared, ελέγξτε:
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
 {% endcontent-ref %}
 
-## Δέκτης Σήματος IR στο Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## IR Signal Receiver in Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Το Flipper χρησιμοποιεί ένα ψηφιακό δέκτη σήματος IR TSOP, ο οποίος **επιτρέπει την παρεμβολή σήματος από τηλεχειριστήρια IR**. Υπάρχουν **κάποια smartphones** όπως το Xiaomi, τα οποία έχουν επίσης θύρα IR, αλλά να έχετε υπόψη ότι **η πλειονότητά τους μπορεί μόνο να μεταδώσει** σήματα και είναι **ανίκανα να τα λάβουν**.
+Ο Flipper χρησιμοποιεί έναν ψηφιακό δέκτη σήματος IR TSOP, ο οποίος **επιτρέπει την παγίδευση σημάτων από IR τηλεχειριστήρια**. Υπάρχουν μερικά **smartphones** όπως η Xiaomi, που έχουν επίσης θύρα IR, αλλά να έχετε υπόψη ότι **οι περισσότεροι από αυτούς μπορούν μόνο να μεταδίδουν** σήματα και είναι **ανίκανοι να τα λάβουν**.
 
-Ο υπέρυθρος δέκτης του Flipper είναι αρκετά ευαίσθητος. Μπορείτε ακόμα να **αιχμαλωτίσετε το σήμα** παραμένοντας **κάπου ανάμεσα** στο τηλεχειριστήριο και την τηλεόραση. Η κατεύθυνση του τηλεχειριστηρίου απευθείας στη θύρα IR του Flipper είναι περιττή. Αυτό είναι χρήσιμο όταν κάποιος αλλάζει κανάλια ενώ βρίσκεται κοντά στην τηλεόραση, και εσείς και το Flipper είστε μακριά.
+Ο δέκτης υπερύθρων του Flipper είναι **αρκετά ευαίσθητος**. Μπορείτε ακόμη και να **πιάσετε το σήμα** ενώ βρίσκεστε **κάπου ενδιάμεσα** του τηλεχειριστηρίου και της τηλεόρασης. Δεν είναι απαραίτητο να στοχεύετε το τηλεχειριστήριο απευθείας στη θύρα IR του Flipper. Αυτό είναι χρήσιμο όταν κάποιος αλλάζει κανάλια ενώ στέκεται κοντά στην τηλεόραση, και εσείς και ο Flipper είστε σε κάποια απόσταση.
 
-Καθώς η **αποκωδικοποίηση του υπέρυθρου** σήματος συμβαίνει στην πλευρά του **λογισμικού**, το Flipper Zero υποστηρίζει δυνητικά την **λήψη και τη μετάδοση οποιωνδήποτε κωδικών τηλεχειριστηρίων IR**. Στην περίπτωση **άγνωστων** πρωτοκόλλων που δεν μπορούν να αναγνωριστούν - **καταγράφει και αναπαράγει** το ωμό σήμα ακριβώς όπως λήφθηκε.
+Καθώς η **αποκωδικοποίηση του σήματος υπερύθρων** συμβαίνει στην **πλευρά του λογισμικού**, ο Flipper Zero υποστηρίζει δυνητικά την **λήψη και μετάδοση οποιωνδήποτε κωδικών IR τηλεχειριστηρίου**. Στην περίπτωση **άγνωστων** πρωτοκόλλων που δεν μπορούν να αναγνωριστούν - **καταγράφει και αναπαράγει** το ακατέργαστο σήμα ακριβώς όπως το έλαβε.
 
-## Ενέργειες
+## Actions
 
-### Πανελλήνια Τηλεχειριστήρια
+### Universal Remotes
 
-Το Flipper Zero μπορεί να χρησιμοποιηθεί ως **πανελλήνιο τηλεχειριστήριο για τον έλεγχο οποιασδήποτε τηλεόρασης, κλιματιστικού ή κέντρου μέσων**. Σε αυτή τη λειτουργία, το Flipper **δοκιμάζει όλους τους γνωστούς κωδικούς** όλων των υποστηριζόμενων κατασκευαστών **σύμφωνα με το λεξικό από την κάρτα SD**. Δεν χρειάζεται να επιλέξετε ένα συγκεκριμένο τηλεχειριστήριο για να κλείσετε μια τηλεόραση σε ένα εστιατόριο.
+Ο Flipper Zero μπορεί να χρησιμοποιηθεί ως **καθολικό τηλεχειριστήριο για τον έλεγχο οποιασδήποτε τηλεόρασης, κλιματιστικού ή κέντρου πολυμέσων**. Σε αυτή τη λειτουργία, ο Flipper **δοκιμάζει** όλους τους **γνωστούς κωδικούς** όλων των υποστηριζόμενων κατασκευαστών **σύμφωνα με το λεξικό από την κάρτα SD**. Δεν χρειάζεται να επιλέξετε ένα συγκεκριμένο τηλεχειριστήριο για να απενεργοποιήσετε την τηλεόραση ενός εστιατορίου.
 
-Αρκεί να πατήσετε το κουμπί ενεργοποίησης στη λειτουργία Πανελλήνιου Τηλεχειριστηρίου, και το Flipper θα **στέλνει σειριακά εντολές "Απενεργοποίηση"** όλων των τηλεοράσεων που γνωρίζει: Sony, Samsung, Panasonic... και ούτω καθεξής. Όταν η τηλεόραση λάβει το σήμα της, θα αντιδράσει και θα κλείσει.
+Αρκεί να πατήσετε το κουμπί τροφοδοσίας στη λειτουργία Καθολικού Τηλεχειριστηρίου, και ο Flipper θα **στείλει διαδοχικά τις εντολές "Power Off"** όλων των τηλεοράσεων που γνωρίζει: Sony, Samsung, Panasonic... και ούτω καθεξής. Όταν η τηλεόραση λάβει το σήμα της, θα αντιδράσει και θα απενεργοποιηθεί.
 
-Τέτοιο brute-force απαιτεί χρόνο. Όσο μεγαλύτερο το λεξικό, τόσο περισσότερο θα πάρει να ολοκληρωθεί. Είναι αδύνατο να μάθετε ποιο σήμα αναγνώρισε ακριβώς η τηλεόραση αφού δεν υπάρχει ανατροφοδότηση από αυτήν.
+Αυτή η δοκιμή βίας απαιτεί χρόνο. Όσο μεγαλύτερο είναι το λεξικό, τόσο περισσότερο χρόνο θα χρειαστεί για να ολοκληρωθεί. Είναι αδύνατο να μάθετε ποιο σήμα ακριβώς αναγνώρισε η τηλεόραση, καθώς δεν υπάρχει ανατροφοδότηση από την τηλεόραση.
 
-### Μάθετε νέο Τηλεχειριστήριο
+### Learn New Remote
 
-Είναι δυνατόν να **αιχμαλωτίσετε ένα υπέρυθρο σήμα** με το Flipper Zero. Αν **βρει το σήμα στη βάση δεδομένων**, το Flipper θα γνωρίζει αυτόματα **ποια συσκευή είναι** και θα σας επιτρέψει να αλληλεπιδράσετε μαζί της.\
-Αν δεν το βρει, το Flipper μπορεί να **αποθηκεύσει** το **σήμα** και θα σας επιτρέψει να το **επαναλάβετε**.
+Είναι δυνατόν να **καταγράψετε ένα σήμα υπερύθρων** με τον Flipper Zero. Εάν **βρει το σήμα στη βάση δεδομένων**, ο Flipper θα γνωρίζει αυτόματα **ποια συσκευή είναι αυτή** και θα σας επιτρέψει να αλληλεπιδράσετε μαζί της.\
+Εάν δεν το βρει, ο Flipper μπορεί να **αποθηκεύσει** το **σήμα** και θα σας επιτρέψει να το **αναπαράγετε**.
 
-## Αναφορές
+## References
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
