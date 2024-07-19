@@ -1,59 +1,66 @@
 # FZ - इन्फ्रारेड
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जीरो से हीरो तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित देखना चाहते हैं**? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* [**द पीएस फैमिली**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **मुझे** **ट्विटर** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स रेपो** (https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **को PR जमा करके**।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## परिचय <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-इन्फ्रारेड कैसे काम करता है के बारे में अधिक जानकारी के लिए देखें:
+Infrared कैसे काम करता है इसके बारे में अधिक जानकारी के लिए देखें:
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
 {% endcontent-ref %}
 
-## फ्लिपर जीरो में आईआर सिग्नल रिसीवर <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Flipper Zero में IR सिग्नल रिसीवर <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-फ्लिपर एक डिजिटल आईआर सिग्नल रिसीवर TSOP का उपयोग करता है, जो **आईआर रिमोट से सिग्नल अंतरण करने की अनुमति देता है**। कुछ **स्मार्टफोन** जैसे Xiaomi, जिनमें भी एक आईआर पोर्ट होता है, लेकिन ध्यान रखें कि **अधिकांश उनमें केवल सिग्नल भेज सकते हैं** और **प्राप्त नहीं कर सकते**।
+Flipper एक डिजिटल IR सिग्नल रिसीवर TSOP का उपयोग करता है, जो **IR रिमोट से सिग्नल को इंटरसेप्ट करने की अनुमति देता है**। कुछ **स्मार्टफोन** जैसे Xiaomi में भी IR पोर्ट होता है, लेकिन ध्यान रखें कि **उनमें से अधिकांश केवल सिग्नल भेज सकते हैं** और **उन्हें प्राप्त करने में असमर्थ हैं**।
 
-फ्लिपर इन्फ्रारेड **रिसीवर काफी संवेदनशील है**। आप तब भी **सिग्नल को पकड़ सकते हैं** जब आप दूरी में होते हुए रिमोट और टीवी के बीच कहीं रहते हैं। फ्लिपर के आईआर पोर्ट की ओर सीधे रिमोट करना अनावश्यक है। यह उस समय उपयोगी होता है जब कोई टीवी के पास खड़ा होकर चैनल बदल रहा हो, और आप और फ्लिपर दोनों दूरी पर हैं।
+Flipper का इन्फ्रारेड **रिसीवर काफी संवेदनशील है**। आप **सिग्नल को पकड़ सकते हैं** जबकि आप **रिमोट और टीवी के बीच कहीं** हैं। रिमोट को सीधे Flipper के IR पोर्ट की ओर इंगित करना आवश्यक नहीं है। यह तब सहायक होता है जब कोई टीवी के पास खड़े होकर चैनल बदल रहा हो, और आप और Flipper दोनों कुछ दूरी पर हों।
 
-इन्फ्रारेड का **डिकोडिंग** सिग्नल **सॉफ़्टवेयर** द्वारा होता है, इसलिए फ्लिपर जीरो संभावित रूप से किसी भी आईआर रिमोट कोड का **प्राप्ति और प्रेषण समर्थन** करता है। **अज्ञात** प्रोटोकॉल के मामले में जो पहचान नहीं किया जा सकता था - यह **रॉ सिग्नल को बिल्कुल वैसे ही रिकॉर्ड और प्लेबैक** करता है जैसे कि प्राप्त हुआ।
-## Actions
+चूंकि **इन्फ्रारेड** सिग्नल का **डिकोडिंग** **सॉफ़्टवेयर** पक्ष पर होता है, Flipper Zero संभावित रूप से **किसी भी IR रिमोट कोड के रिसेप्शन और ट्रांसमिशन का समर्थन करता है**। **अज्ञात** प्रोटोकॉल के मामले में जिन्हें पहचाना नहीं जा सका - यह **कच्चे सिग्नल को रिकॉर्ड और प्ले बैक** करता है जैसे कि इसे प्राप्त किया गया था।
 
-### Universal Remotes
+## क्रियाएँ
 
-Flipper Zero can be used as a **universal remote to control any TV, air conditioner, or media center**. In this mode, Flipper **bruteforces** all **known codes** of all supported manufacturers **according to the dictionary from the SD card**. You don't need to choose a particular remote to turn off a restaurant TV.
+### यूनिवर्सल रिमोट
 
-It is enough to press the power button in the Universal Remote mode, and Flipper will **sequentially send "Power Off"** commands of all the TVs it knows: Sony, Samsung, Panasonic... and so on. When the TV receives its signal, it will react and turn off.
+Flipper Zero को **किसी भी टीवी, एयर कंडीशनर, या मीडिया सेंटर को नियंत्रित करने के लिए एक यूनिवर्सल रिमोट के रूप में उपयोग किया जा सकता है**। इस मोड में, Flipper **सभी समर्थित निर्माताओं के सभी **ज्ञात कोडों** को **SD कार्ड से शब्दकोश के अनुसार** ब्रूटफोर्स करता है। आपको किसी विशेष रिमोट को बंद करने के लिए चुनने की आवश्यकता नहीं है।
 
-Such brute-force takes time. The larger the dictionary, the longer it will take to finish. It is impossible to find out which signal exactly the TV recognized since there is no feedback from the TV.
+यूनिवर्सल रिमोट मोड में पावर बटन दबाना पर्याप्त है, और Flipper **सभी टीवी के "पावर ऑफ"** कमांड को क्रमबद्ध रूप से भेजेगा जो इसे पता है: Sony, Samsung, Panasonic... और इसी तरह। जब टीवी अपने सिग्नल को प्राप्त करता है, तो यह प्रतिक्रिया देगा और बंद हो जाएगा।
 
-### Learn New Remote
+इस तरह का ब्रूट-फोर्स समय लेता है। जितना बड़ा शब्दकोश होगा, इसे पूरा करने में उतना ही अधिक समय लगेगा। यह पता लगाना असंभव है कि टीवी ने किस सिग्नल को ठीक से पहचाना क्योंकि टीवी से कोई फीडबैक नहीं होता है।
 
-It's possible to **capture an infrared signal** with Flipper Zero. If it **finds the signal in the database** Flipper will automatically **know which device this is** and will let you interact with it.\
-If it doesn't, Flipper can **store** the **signal** and will allow you to **replay it**.
+### नया रिमोट सीखें
 
-## References
+Flipper Zero के साथ **इन्फ्रारेड सिग्नल को कैप्चर करना संभव है**। यदि यह **डेटाबेस में सिग्नल पाता है** तो Flipper स्वचालित रूप से **जान जाएगा कि यह कौन सा उपकरण है** और आपको इसके साथ इंटरैक्ट करने देगा।\
+यदि नहीं, तो Flipper **सिग्नल को स्टोर** कर सकता है और आपको इसे **प्ले बैक** करने की अनुमति देगा।
+
+## संदर्भ
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
