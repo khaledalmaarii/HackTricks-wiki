@@ -1,33 +1,40 @@
 # ユーザー名前空間
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>で**ゼロからヒーローまでAWSハッキングを学ぶ**</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)を**フォロー**する
-- **ハッキングトリックを共有するには、[HackTricks](https://github.com/carlospolop/hacktricks)と[HackTricks Cloud](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## 基本情報
 
-ユーザー名前空間は、Linuxカーネルの機能であり、**ユーザーとグループIDのマッピングを分離**し、各ユーザー名前空間が**独自のユーザーとグループIDセット**を持つことを可能にする。この分離により、異なるユーザー名前空間で実行されるプロセスは、数値的に同じユーザーとグループIDを共有していても、**異なる特権と所有権**を持つことができる。
+ユーザー名前空間は、**ユーザーおよびグループIDマッピングの隔離を提供する**Linuxカーネルの機能であり、各ユーザー名前空間が**独自のユーザーおよびグループIDのセット**を持つことを可能にします。この隔離により、異なるユーザー名前空間で実行されるプロセスは、同じユーザーおよびグループIDを数値的に共有していても、**異なる特権と所有権を持つことができます**。
 
-ユーザー名前空間は、コンテナ化において特に有用であり、各コンテナが独自のユーザーとグループIDセットを持ち、コンテナとホストシステムの間のセキュリティと分離が向上する。
+ユーザー名前空間は、各コンテナが独自の独立したユーザーおよびグループIDのセットを持つべきコンテナ化に特に役立ち、コンテナとホストシステム間のセキュリティと隔離を向上させます。
 
-### 動作方法:
+### 仕組み：
 
-1. 新しいユーザー名前空間が作成されると、**空のユーザーとグループIDマッピングセット**で開始される。これは、新しいユーザー名前空間で実行されるプロセスは、**初めは名前空間外で特権を持たない**ことを意味する。
-2. IDマッピングは、新しい名前空間内のユーザーとグループIDと親（またはホスト）名前空間内のそれらとの間に確立される。これにより、新しい名前空間内のプロセスが、親名前空間内のユーザーとグループIDに対応する特権と所有権を持つことができる。ただし、IDマッピングは特定の範囲やIDのサブセットに制限することができ、新しい名前空間内のプロセスに付与される特権を細かく制御することができる。
-3. ユーザー名前空間内では、**プロセスは名前空間内の操作に対して完全なルート特権（UID 0）を持つ**ことができ、名前空間外では制限された特権を持つ。これにより、**コンテナはホストシステムで完全なルート特権を持たずに、独自の名前空間内でルートのような機能を実行**することができる。
-4. プロセスは、`setns()`システムコールを使用して名前空間間を移動したり、`unshare()`または`clone()`システムコールを`CLONE_NEWUSER`フラグとともに使用して新しい名前空間を作成したりすることができる。プロセスが新しい名前空間に移動したり作成したりすると、その名前空間に関連付けられたユーザーとグループIDマッピングが使用される。
+1. 新しいユーザー名前空間が作成されると、**空のユーザーおよびグループIDマッピングのセットから始まります**。これは、新しいユーザー名前空間で実行されるプロセスが**名前空間の外で特権を持たないことを意味します**。
+2. 新しい名前空間のユーザーおよびグループIDと親（またはホスト）名前空間のIDとの間にIDマッピングを確立できます。これにより、**新しい名前空間のプロセスが親名前空間のユーザーおよびグループIDに対応する特権と所有権を持つことができます**。ただし、IDマッピングは特定の範囲やIDのサブセットに制限でき、名前空間内のプロセスに付与される特権を細かく制御できます。
+3. ユーザー名前空間内では、**プロセスは名前空間内の操作に対して完全なルート特権（UID 0）を持つことができます**が、名前空間の外では制限された特権を持ちます。これにより、**コンテナはホストシステム上で完全なルート特権を持たずに、自身の名前空間内でルートのような機能を持って実行できます**。
+4. プロセスは`setns()`システムコールを使用して名前空間間を移動したり、`unshare()`または`clone()`システムコールを使用して`CLONE_NEWUSER`フラグで新しい名前空間を作成したりできます。プロセスが新しい名前空間に移動するか、新しい名前空間を作成すると、その名前空間に関連付けられたユーザーおよびグループIDマッピングを使用し始めます。
 
-## Lab:
+## ラボ：
 
 ### 異なる名前空間を作成する
 
@@ -35,27 +42,27 @@ HackTricksをサポートする他の方法:
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-`--mount-proc`パラメータを使用して`/proc`ファイルシステムの新しいインスタンスをマウントすることで、新しいマウント名前空間がその名前空間固有のプロセス情報に正確で隔離されたビューを持つことが保証されます。
+新しいインスタンスの `/proc` ファイルシステムを `--mount-proc` パラメータを使用してマウントすることで、新しいマウント名前空間がその名前空間に特有のプロセス情報の **正確で隔離されたビュー** を持つことを保証します。
 
 <details>
 
-<summary>エラー: bash: fork: Cannot allocate memory</summary>
+<summary>エラー: bash: fork: メモリを割り当てることができません</summary>
 
-`unshare`を`-f`オプションなしで実行すると、Linuxが新しいPID（プロセスID）名前空間を処理する方法によりエラーが発生します。主要な詳細と解決策は以下に概説されています:
+`unshare` が `-f` オプションなしで実行されると、Linux が新しい PID (プロセス ID) 名前空間を処理する方法のためにエラーが発生します。重要な詳細と解決策は以下の通りです：
 
-1. **問題の説明**:
-- Linuxカーネルは、`unshare`システムコールを使用してプロセスが新しい名前空間を作成することを許可します。ただし、新しいPID名前空間の作成を開始するプロセス（「unshare」プロセスと呼ばれる）は、新しい名前空間に入りません。その子プロセスのみが入ります。
-- `%unshare -p /bin/bash%`を実行すると、`/bin/bash`が`unshare`と同じプロセスで開始されます。その結果、`/bin/bash`とその子プロセスは元のPID名前空間にあります。
-- 新しい名前空間内の`/bin/bash`の最初の子プロセスはPID 1になります。このプロセスが終了すると、他のプロセスがいない場合、孤児プロセスを引き取る特別な役割を持つPID 1が名前空間のクリーンアップをトリガーします。その後、Linuxカーネルはその名前空間でのPID割り当てを無効にします。
+1. **問題の説明**：
+- Linux カーネルは、プロセスが `unshare` システムコールを使用して新しい名前空間を作成することを許可します。しかし、新しい PID 名前空間の作成を開始するプロセス（「unshare」プロセスと呼ばれる）は新しい名前空間に入らず、その子プロセスのみが入ります。
+- `%unshare -p /bin/bash%` を実行すると、`unshare` と同じプロセスで `/bin/bash` が開始されます。その結果、`/bin/bash` とその子プロセスは元の PID 名前空間に存在します。
+- 新しい名前空間内の `/bin/bash` の最初の子プロセスは PID 1 になります。このプロセスが終了すると、他にプロセスがない場合、孤児プロセスを引き取る特別な役割を持つ PID 1 により名前空間のクリーンアップがトリガーされます。Linux カーネルはその名前空間での PID 割り当てを無効にします。
 
-2. **結果**:
-- 新しい名前空間内のPID 1の終了により、`PIDNS_HASH_ADDING`フラグのクリーニングが行われます。これにより、新しいプロセスを作成する際に`alloc_pid`関数が新しいPIDを割り当てられなくなり、「Cannot allocate memory」エラーが発生します。
+2. **結果**：
+- 新しい名前空間内の PID 1 の終了は `PIDNS_HASH_ADDING` フラグのクリーンアップを引き起こします。これにより、新しいプロセスを作成する際に `alloc_pid` 関数が新しい PID を割り当てることに失敗し、「メモリを割り当てることができません」というエラーが発生します。
 
-3. **解決策**:
-- `unshare`に`-f`オプションを使用することで問題を解決できます。このオプションにより、`unshare`は新しいPID名前空間を作成した後に新しいプロセスをフォークします。
-- `%unshare -fp /bin/bash%`を実行すると、`unshare`コマンド自体が新しい名前空間でPID 1になります。その後、`/bin/bash`とその子プロセスはこの新しい名前空間内に安全に含まれ、PID 1の早期終了を防ぎ、通常のPID割り当てを可能にします。
+3. **解決策**：
+- この問題は、`unshare` に `-f` オプションを使用することで解決できます。このオプションにより、`unshare` は新しい PID 名前空間を作成した後に新しいプロセスをフォークします。
+- `%unshare -fp /bin/bash%` を実行すると、`unshare` コマンド自体が新しい名前空間内で PID 1 になります。これにより、`/bin/bash` とその子プロセスはこの新しい名前空間内に安全に収容され、PID 1 の早期終了を防ぎ、通常の PID 割り当てを可能にします。
 
-`unshare`が`-f`フラグで実行されることを確認することで、新しいPID名前空間が正しく維持され、`/bin/bash`とそのサブプロセスがメモリ割り当てエラーに遭遇することなく動作するようになります。
+`unshare` が `-f` フラグで実行されることを保証することで、新しい PID 名前空間が正しく維持され、`/bin/bash` とそのサブプロセスがメモリ割り当てエラーに遭遇することなく動作できるようになります。
 
 </details>
 
@@ -63,18 +70,20 @@ sudo unshare -U [--mount-proc] /bin/bash
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;自分のプロセスがどの名前空間にあるかを確認する
+ユーザー名前空間を使用するには、Dockerデーモンを**`--userns-remap=default`**で起動する必要があります（Ubuntu 14.04では、`/etc/default/docker`を修正し、その後`sudo service docker restart`を実行することで行えます）
+
+### &#x20;プロセスがどの名前空間にあるかを確認する
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
-Dockerコンテナからユーザーマップを確認することができます：
+dockerコンテナからユーザーマップを確認することができます:
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
 0     231072      65536  --> Root is 231072 userid in host
 ```
-または、ホストから次のようにします：
+ホストからは：
 ```bash
 cat /proc/<pid>/uid_map
 ```
@@ -86,13 +95,13 @@ sudo find /proc -maxdepth 3 -type l -name user -exec readlink {} \; 2>/dev/null 
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-### ユーザー名前空間に入る
-
 {% endcode %}
+
+### ユーザー名前空間に入る
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-また、**rootユーザーでないと**、**他のプロセスの名前空間に入ることはできません**。そして、他の名前空間に入るには（`/proc/self/ns/user`のような）**それを指すディスクリプタ**が必要です。
+また、**ルートでない限り、他のプロセスの名前空間に入ることはできません**。そして、**ディスクリプタ**がそれを指していない限り（例えば `/proc/self/ns/user`）、他の名前空間に**入ることはできません**。
 
 ### 新しいユーザー名前空間を作成する（マッピング付き）
 
@@ -110,14 +119,14 @@ nobody@ip-172-31-28-169:/home/ubuntu$ #Check how the user is nobody
 ps -ef | grep bash # The user inside the host is still root, not nobody
 root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
-### 権限の回復
+### Recovering Capabilities
 
-ユーザー名前空間の場合、**新しいユーザー名前空間が作成されると、その名前空間内で入るプロセスには完全なセットの権限が付与されます**。これらの権限により、プロセスは特権操作（ファイルシステムのマウント、デバイスの作成、ファイルの所有権の変更など）を実行できますが、**そのユーザー名前空間のコンテキスト内でのみ**です。
+ユーザー名前空間の場合、**新しいユーザー名前空間が作成されると、その名前空間に入るプロセスには完全な権限のセットが付与されます**。これらの権限により、プロセスは**ファイルシステムのマウント**、デバイスの作成、ファイルの所有権の変更などの特権操作を実行できますが、**そのユーザー名前空間のコンテキスト内でのみ**実行できます。
 
-たとえば、ユーザー名前空間内で`CAP_SYS_ADMIN`権限を持っている場合、通常この権限が必要な操作（ファイルシステムのマウントなど）を実行できますが、ユーザー名前空間のコンテキスト内でのみです。この権限を使用して行う操作は、ホストシステムや他の名前空間には影響しません。
+例えば、ユーザー名前空間内で`CAP_SYS_ADMIN`権限を持っている場合、ファイルシステムのマウントなど、この権限を通常必要とする操作を実行できますが、あなたのユーザー名前空間のコンテキスト内でのみです。この権限を使用して実行する操作は、ホストシステムや他の名前空間には影響しません。
 
 {% hint style="warning" %}
-したがって、新しいプロセスを新しいユーザー名前空間内に取得しても、**すべての権限が戻ってくる**（CapEff: 000001ffffffffff）が、実際には**名前空間に関連する権限のみ**（たとえばマウント）を使用できます。したがって、これだけではDockerコンテナから脱出するのには十分ではありません。
+したがって、新しいユーザー名前空間内に新しいプロセスを取得することが**すべての権限を取り戻すことになります**（CapEff: 000001ffffffffff）としても、実際には**名前空間に関連するもののみを使用できます**（例えばマウント）が、すべての権限を使用できるわけではありません。したがって、これだけではDockerコンテナから脱出するには不十分です。
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -141,21 +150,29 @@ Probando: 0x130 . . . Error
 Probando: 0x139 . . . Error
 Probando: 0x140 . . . Error
 Probando: 0x141 . . . Error
-Probando: 0x143 . . . Error
-```
-## 参考文献
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>でAWSハッキングをゼロからヒーローまで学ぶ！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**、または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) をフォローする
-* **HackTricks** と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の GitHub リポジトリに PR を提出して、あなたのハッキングテクニックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

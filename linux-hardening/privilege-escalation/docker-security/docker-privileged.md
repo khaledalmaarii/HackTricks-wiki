@@ -1,32 +1,39 @@
 # Docker --privileged
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**してみたいですか？または、**最新バージョンのPEASSを入手したり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を手に入れましょう
-* [**💬**](https://emojipedia.org/speech-balloon/) **Discordグループ**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で私をフォローする🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **ハッキングトリックを共有するために、**[**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks)**と**[**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud)**にPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 影響
+## 影響するもの
 
-特権付きコンテナとしてコンテナを実行すると、次の保護が無効になります：
+特権コンテナを実行すると、無効にする保護は次のとおりです。
 
-### /dev をマウント
+### /devのマウント
 
-特権付きコンテナでは、すべての**デバイスに `/dev/` でアクセス**できます。そのため、ホストのディスクを**マウント**して**脱出**することができます。
+特権コンテナでは、すべての**デバイスが`/dev/`でアクセス可能です**。したがって、ホストのディスクを**マウント**することで**エスケープ**できます。
 
+{% tabs %}
+{% tab title="デフォルトコンテナ内" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
+{% endtab %}
 
+{% tab title="特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -36,11 +43,15 @@ core             mqueue           ptmx             stdin            tty26       
 cpu              nbd0             pts              stdout           tty27            tty47            ttyS0
 [...]
 ```
+{% endtab %}
+{% endtabs %}
 
-#### 読み取り専用のカーネルファイルシステム
+### 読み取り専用のカーネルファイルシステム
 
-カーネルファイルシステムは、プロセスがカーネルの動作を変更する仕組みを提供します。ただし、コンテナプロセスの場合、カーネルに変更を加えることを防ぎたいです。したがって、コンテナ内でカーネルファイルシステムを**読み取り専用**でマウントし、コンテナプロセスがカーネルを変更できないようにします。
+カーネルファイルシステムは、プロセスがカーネルの動作を変更するためのメカニズムを提供します。しかし、コンテナプロセスに関しては、カーネルに対する変更を防ぎたいと考えています。したがって、カーネルファイルシステムをコンテナ内で**読み取り専用**としてマウントし、コンテナプロセスがカーネルを変更できないようにします。
 
+{% tabs %}
+{% tab title="デフォルトコンテナ内" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -49,22 +60,26 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
+{% endtab %}
 
+{% tab title="特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
+{% endtab %}
+{% endtabs %}
 
 ### カーネルファイルシステムのマスキング
 
-**/proc**ファイルシステムは選択的に書き込み可能ですが、セキュリティのため、一部の部分は**tmpfs**でオーバーレイされ、コンテナプロセスが機密領域にアクセスできないように読み書きアクセスが遮断されています。
+**/proc** ファイルシステムは選択的に書き込み可能ですが、セキュリティのために、特定の部分は **tmpfs** でオーバーレイされ、コンテナプロセスが機密領域にアクセスできないように保護されています。
 
 {% hint style="info" %}
-**tmpfs**は仮想メモリにすべてのファイルを保存するファイルシステムです。tmpfsはハードドライブにファイルを作成しません。したがって、tmpfsファイルシステムをアンマウントすると、その中にあるすべてのファイルが永遠に失われます。
+**tmpfs** はすべてのファイルを仮想メモリに保存するファイルシステムです。tmpfs はハードドライブ上にファイルを作成しません。したがって、tmpfs ファイルシステムをアンマウントすると、その中に存在するすべてのファイルは永遠に失われます。
 {% endhint %}
 
 {% tabs %}
-{% tab title="デフォルトコンテナ内部" %}
+{% tab title="デフォルトコンテナ内" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -74,22 +89,24 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="特権コンテナ内部" %}
+{% tab title="特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
 ```
+{% endtab %}
+{% endtabs %}
 
-#### Linux capabilities
+### Linuxの能力
 
-コンテナエンジンは、コンテナを**デフォルトで内部で何が起こるかを制御するために、制限された数の機能で起動します。特権を持つものは、すべての**機能\*\*にアクセスできます。機能について学ぶには、以下を参照してください：
+コンテナエンジンは、デフォルトでコンテナ内で何が行われるかを制御するために、**限られた数の能力**でコンテナを起動します。**特権**のあるものは、**すべての** **能力**にアクセスできます。能力について学ぶには、次を読んでください：
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="デフォルトのコンテナ内部" %}
+{% tab title="デフォルトコンテナ内" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -100,7 +117,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="特権コンテナ内部" %}
+{% tab title="特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -112,16 +129,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-コンテナで利用可能な機能を`--privileged`モードで実行せずに、`--cap-add`および`--cap-drop`フラグを使用して操作することができます。
+コンテナに対して `--privileged` モードで実行せずに、`--cap-add` および `--cap-drop` フラグを使用して利用可能な機能を操作できます。
 
-#### Seccomp
+### Seccomp
 
-**Seccomp**は、コンテナが呼び出すことができる**syscalls**を**制限**するのに役立ちます。 Dockerコンテナを実行する際にはデフォルトでseccompプロファイルが有効になっていますが、特権モードでは無効になります。Seccompについて詳しくはこちらを参照してください：
+**Seccomp** は、コンテナが呼び出すことができる **syscalls** を **制限** するのに役立ちます。デフォルトの seccomp プロファイルは、docker コンテナを実行する際にデフォルトで有効ですが、特権モードでは無効になります。Seccomp についての詳細はこちらをご覧ください：
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
+{% tabs %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -130,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="特権コンテナ内部" %}
+{% tab title="特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -139,48 +158,42 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-また、Docker（または他のCRIs）が**Kubernetes**クラスターで使用される場合、**seccompフィルターはデフォルトで無効**になります。
+また、**Kubernetes** クラスターで Docker（または他の CRI）を使用する場合、**seccomp フィルターはデフォルトで無効**になっていることに注意してください。
 
 ### AppArmor
 
-**AppArmor**は、**プログラムごとのプロファイル**を使用して**コンテナ**を**限られた**リソースに制限するためのカーネルの拡張機能です。`--privileged`フラグを使用して実行すると、この保護が無効になります。
+**AppArmor** は、**コンテナ** を **制限された** **リソース** の **セット** に制限するためのカーネル拡張で、**プログラムごとのプロファイル**を使用します。`--privileged` フラグを使用して実行すると、この保護は無効になります。
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-`--privileged` フラグを使用してコンテナを実行すると、**SELinux ラベル**が無効になり、通常 `unconfined` のようなコンテナエンジンのラベルを継承し、コンテナエンジンと同様の完全アクセスが付与されます。ルートレスモードでは `container_runtime_t` を使用し、ルートモードでは `spc_t` が適用されます。
+`--privileged` フラグを使用してコンテナを実行すると、**SELinux ラベル**が無効になり、通常は `unconfined` のコンテナエンジンのラベルを継承し、コンテナエンジンと同様のフルアクセスが付与されます。ルートレスモードでは `container_runtime_t` が使用され、ルートモードでは `spc_t` が適用されます。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-
 ## 影響を受けないもの
 
-### 名前空間
+### ネームスペース
 
-名前空間は`--privileged`フラグの影響を受けません。セキュリティ制約が有効になっていないにもかかわらず、**システム上のすべてのプロセスやホストネットワークを見ることはできません**。ユーザーは、\*\*`--pid=host`、`--net=host`、`--ipc=host`、`--uts=host`\*\*のコンテナエンジンフラグを使用して個々の名前空間を無効にできます。
+ネームスペースは **`--privileged` フラグの影響を受けません**。セキュリティ制約が有効になっていないにもかかわらず、**システム上のすべてのプロセスやホストネットワークを見ることはできません**。ユーザーは **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** コンテナエンジンフラグを使用して、個々のネームスペースを無効にすることができます。
 
 {% tabs %}
-{% tab title="デフォルトの特権付きコンテナ内部" %}
+{% tab title="デフォルトの特権コンテナ内" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -190,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="ホスト内 --pid=host コンテナ" %}
+{% tab title="内部 --pid=host コンテナ" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -205,20 +218,23 @@ PID   USER     TIME  COMMAND
 
 ### ユーザー名前空間
 
-**デフォルトでは、コンテナエンジンはユーザー名前空間を利用しません。ただし、ルートレスコンテナでは、ファイルシステムのマウントや複数のUIDの使用に必要とされるため、ユーザー名前空間が使用されます。** ルートレスコンテナには不可欠であり、特権を制限することでセキュリティを大幅に向上させます。
+**デフォルトでは、コンテナエンジンはユーザー名前空間を利用しませんが、ルートレスコンテナはファイルシステムのマウントや複数のUIDを使用するためにそれを必要とします。** ルートレスコンテナに不可欠なユーザー名前空間は無効にできず、特権を制限することでセキュリティを大幅に向上させます。
 
 ## 参考文献
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を使って、ゼロからヒーローまでAWSハッキングを学びましょう！</summary>
+<summary>Support HackTricks</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**したいですか？または、**PEASSの最新バージョンを入手したり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションを見つけましょう
-* [**公式PEASS＆HackTricksスウェグ**](https://peass.creator-spring.com)を手に入れましょう
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)**に参加するか、**[**Telegramグループ**](https://t.me/peass)**に参加するか、Twitterで私をフォローしてください 🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* \*\*ハッキングトリックを共有するために、[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)と[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)\*\*にPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

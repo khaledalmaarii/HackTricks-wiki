@@ -1,41 +1,43 @@
-# macOS 防御アプリ
+# macOS Defensive Apps
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 で **@carlospolopm** をフォローする**.**
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## ファイアウォール
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): 各プロセスによって行われるすべての接続を監視します。モードに応じて（接続を許可する際のサイレント、接続を拒否する際のサイレント、アラート）新しい接続が確立されるたびに **アラートを表示** します。また、この情報をすべて見るための非常に素敵なGUIもあります。
-* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-Seeファイアウォール。これは疑わしい接続についてアラートを表示する基本的なファイアウォールです（GUIはLittle Snitchのものほど洗練されていません）。
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html)：各プロセスによって行われるすべての接続を監視します。モード（接続を静かに許可、接続を静かに拒否し警告）に応じて、新しい接続が確立されるたびに**警告を表示**します。また、この情報をすべて見るための非常に良いGUIがあります。
+* [**LuLu**](https://objective-see.org/products/lulu.html)：Objective-Seeのファイアウォール。これは、疑わしい接続に対して警告を出す基本的なファイアウォールです（GUIはありますが、Little Snitchのものほど豪華ではありません）。
 
-## 持続性検出
+## 永続性検出
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): **マルウェアが持続する可能性のある** 複数の場所を検索するObjective-Seeアプリケーション（ワンショットツールであり、監視サービスではありません）。
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): 持続性を生成するプロセスを監視することで、KnockKnockのようなもの。
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html)：**マルウェアが永続している可能性のある**いくつかの場所を検索するObjective-Seeのアプリケーションです（これは一回限りのツールで、監視サービスではありません）。
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html)：KnockKnockのように、永続性を生成するプロセスを監視します。
 
 ## キーロガー検出
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): キーボードの「イベントタップ」をインストールする **キーロガー** を見つけるためのObjective-Seeアプリケーション
-
-## ランサムウェア検出
-
-* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): **ファイルの暗号化** アクションを検出するためのObjective-Seeアプリケーション
-
-## マイク＆ウェブカメラ検出
-
-* [**OverSight**](https://objective-see.org/products/oversight.html): ウェブカメラとマイクを使用し始める **アプリケーション** を検出するためのObjective-Seeアプリケーション
-
-## プロセスインジェクション検出
-
-* [**Shield**](https://theevilbit.github.io/shield/): 異なるプロセスインジェクション **テクニックを検出** するアプリケーション
+* [**ReiKey**](https://objective-see.org/products/reikey.html)：キーボードの「イベントタップ」をインストールする**キーロガー**を見つけるためのObjective-Seeのアプリケーションです。

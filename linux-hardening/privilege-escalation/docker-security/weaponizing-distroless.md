@@ -1,56 +1,64 @@
-# Distrolessの武器化
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP ハッキング実践: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+学ぶ & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<dotsilp>
 
-HackTricksをサポートする他の方法:
+<oummpr>SupportHackTricks</smmay>
 
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングのコツを共有する。
+*チェックして [**subsrippangithub.cm/sorsarlosp!
+* **参加する** 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**テレグラムグループ**](https://t.me/peass) または **フォロー** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Distrolessとは
+## What is Distroless
 
-Distrolessコンテナは、特定のアプリケーションを実行するために必要な依存関係のみを含むコンテナのタイプであり、必要でない追加のソフトウェアやツールは含まれていません。これらのコンテナは、可能な限り**軽量**で**安全**であるように設計されており、不要なコンポーネントを削除することで**攻撃面を最小限に抑える**ことを目指しています。
+Distrolessコンテナは、**特定のアプリケーションを実行するために必要な依存関係のみを含む**コンテナの一種であり、不要なソフトウェアやツールは含まれていません。これらのコンテナは、**軽量**で**安全**であることを目的としており、不要なコンポーネントを削除することで**攻撃面を最小限に抑える**ことを目指しています。
 
-Distrolessコンテナは、**セキュリティと信頼性が最優先される生産環境**でよく使用されます。
+Distrolessコンテナは、**セキュリティと信頼性が最も重要な**生産環境でよく使用されます。
 
-Distrolessコンテナの**例**には以下のものがあります:
+**Distrolessコンテナのいくつかの例**は次のとおりです：
 
-* **Google**提供: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* **Chainguard**提供: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* **Google**が提供: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* **Chainguard**が提供: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Distrolessの武器化
+## Weaponizing Distroless
 
-Distrolessコンテナを武器化する目的は、**distroless**によって暗示される制限（システム内の一般的なバイナリの欠如）と、`/dev/shm`での**読み取り専用**または**実行不可**など、コンテナで一般的に見られる保護をもってしても、**任意のバイナリやペイロードを実行できるようにする**ことです。
+Distrolessコンテナを武器化する目的は、**distrolessによって示される制限**（システム内の一般的なバイナリの欠如）にもかかわらず、**任意のバイナリやペイロードを実行できる**ようにすることです。また、**読み取り専用**や**実行不可**など、コンテナに一般的に見られる保護も考慮します。
 
-### メモリを通じて
+### Through memory
 
-2023年のある時点で来る予定...
+2023年のある時点で...
 
-### 既存のバイナリを通じて
+### Via Existing binaries
 
 #### openssl
 
-****[**この投稿で、**](https://www.form3.tech/engineering/content/exploiting-distroless-images) コンテナ内で実行されるソフトウェアに**必要**である可能性があるため、**`openssl`** バイナリがこれらのコンテナで頻繁に見つかることが説明されています。
+****[**この投稿では、**](https://www.form3.tech/engineering/content/exploiting-distroless-images) バイナリ **`openssl`** がこれらのコンテナに頻繁に見られることが説明されています。これは、コンテナ内で実行されるソフトウェアによって**必要とされる**可能性があるためです。
+{% hnt stye="acceas" %}
+AWS ハッキング実践:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+学ぶ & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-**`openssl`** バイナリを悪用することで、**任意のものを実行する**ことが可能です。
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+*チェックして [**subsrippangithub.cm/sorsarlosp!
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!haktick\_ive\
+* **参加する** 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**テレグラムグループ**](https://t.me/peass) または **フォロー** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出してください。
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングのコツを共有する。
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,22 +1,23 @@
 # macOS Privilege Escalation
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬** [**Discordグループ**](https://discord.gg/hRep4RUj7f)**または**[**telegramグループ**](https://t.me/peass)**に参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)で**フォロー**する。
-* **ハッキングトリックを共有するには、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## TCC特権昇格
+## TCC Privilege Escalation
 
-TCC特権昇格を探している場合は、以下に移動してください：
+TCC特権昇格を探してここに来た場合は、次に進んでください：
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -24,20 +25,19 @@ TCC特権昇格を探している場合は、以下に移動してください�
 
 ## Linux Privesc
 
-Linux/Unixに影響を与える特権昇格に関するほとんどのトリックは、MacOSマシンにも影響を与えることに注意してください。したがって、以下を参照してください：
+**特権昇格に関するほとんどのトリックはLinux/Unixに影響を与えるものであり、MacOSにも影響を与えることに注意してください。** したがって、次を参照してください：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## ユーザーインタラクション
+## User Interaction
 
-### Sudoハイジャッキング
+### Sudo Hijacking
 
-オリジナルの[SudoハイジャッキングテクニックはLinux特権昇格ポスト内](../../linux-hardening/privilege-escalation/#sudo-hijacking)にあります。
+元の[Sudo Hijacking技術はLinux特権昇格の投稿内にあります](../../linux-hardening/privilege-escalation/#sudo-hijacking)。
 
-ただし、macOSは\*\*`sudo`**を実行するときにユーザーの**`PATH`**を**維持**します。つまり、この攻撃を達成する別の方法は、被害者が**`sudo`**を実行するときに実行する他のバイナリを**ハイジャック\*\*することです。
-
+しかし、macOSはユーザーの**`PATH`**を**`sudo`**を実行する際に保持します。つまり、この攻撃を達成する別の方法は、被害者が**sudoを実行する際に**実行する他のバイナリを**ハイジャックする**ことです：
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -52,15 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
+注意：ターミナルを使用するユーザーは、**Homebrewがインストールされている**可能性が高いです。したがって、**`/opt/homebrew/bin`**内のバイナリをハイジャックすることが可能です。
 
-### ドックの偽装
+### Dockのなりすまし
 
-ターミナルを使用するユーザーはほとんどが**Homebrewをインストールしている可能性**が高いことに注意してください。そのため、\*\*`/opt/homebrew/bin`\*\*内のバイナリを乗っ取ることが可能です。
+いくつかの**ソーシャルエンジニアリング**を使用して、Dock内で**Google Chromeのなりすまし**を行い、実際に自分のスクリプトを実行することができます：
 
-いくつかの提案:
+{% tabs %}
+{% tab title="Chromeのなりすまし" %}
+いくつかの提案：
 
-* ドックでChromeがあるかどうかをチェックし、その場合はそのエントリを**削除**して、ドック配列の**同じ位置に偽のChromeエントリを追加**します。
-
+* DockにChromeがあるか確認し、その場合はそのエントリを**削除**し、Dock配列の**同じ位置に****偽の**Chromeエントリを**追加**します。&#x20;
 ```bash
 #!/bin/sh
 
@@ -130,15 +132,16 @@ defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</
 sleep 0.1
 killall Dock
 ```
+{% endtab %}
 
+{% tab title="Finderの偽装" %}
 いくつかの提案：
 
-* **DockからFinderを削除することはできません**ので、Dockに追加する場合は、偽のFinderを本物のFinderのすぐ隣に配置することができます。そのためには、**Dock配列の先頭に偽のFinderエントリを追加する必要があります**。
-* 別のオプションは、Dockに配置せずに開くだけで、"FinderがFinderを制御するように要求しています"というのはそれほど奇妙ではありません。
-* ルートに**パスワードを尋ねずに昇格する**別のオプションは、Finderに特権操作を実行するためのパスワードを本当に求めるようにすることです：
-  * Finderに新しい\*\*`sudo`**ファイルを**`/etc/pam.d`\*\*にコピーするように要求します（パスワードを求めるプロンプトには"Finder wants to copy sudo"と表示されます）
-  * 新しい**認証プラグイン**をコピーするようにFinderに要求します（ファイル名を制御できるため、パスワードを求めるプロンプトには"Finder wants to copy Finder.bundle"と表示されます）
-
+* DockからFinderを**削除することはできない**ので、Dockに追加する場合は、偽のFinderを本物のFinderのすぐ隣に置くことができます。そのためには、**Dock配列の最初に偽のFinderエントリを追加する**必要があります。
+* 別のオプションは、Dockに置かずにただ開くことで、「FinderがFinderを制御するように求めています」はそれほど奇妙ではありません。
+* パスワードを尋ねることなく**rootに昇格する**別のオプションは、Finderに本当に特権アクションを実行するためのパスワードを要求させることです：
+* Finderに**`/etc/pam.d`**に新しい**`sudo`**ファイルをコピーするように依頼します（パスワードを要求するプロンプトは「Finderがsudoをコピーしたい」と示します）
+* Finderに新しい**Authorization Plugin**をコピーするように依頼します（ファイル名を制御できるので、パスワードを要求するプロンプトは「FinderがFinder.bundleをコピーしたい」と示します）
 ```bash
 #!/bin/sh
 
@@ -208,13 +211,15 @@ defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</
 sleep 0.1
 killall Dock
 ```
+{% endtab %}
+{% endtabs %}
 
-## TCC - ルート権限昇格
+## TCC - ルート特権昇格
 
-### CVE-2020-9771 - mount\_apfs TCC バイパスと権限昇格
+### CVE-2020-9771 - mount\_apfs TCC バイパスと特権昇格
 
-**どんなユーザー**（特権を持たないユーザーでも）がタイムマシンのスナップショットを作成し、マウントし、そのスナップショットの**すべてのファイルにアクセス**できます。\
-**唯一の特権**は、使用されるアプリケーション（例：`Terminal`）が**Full Disk Access**（FDA）アクセス（`kTCCServiceSystemPolicyAllfiles`）を持つ必要があり、これは管理者によって許可される必要があります。
+**任意のユーザー**（特権のないユーザーも含む）は、タイムマシンのスナップショットを作成し、マウントして、そのスナップショットの**すべてのファイルにアクセス**できます。\
+必要な**特権**は、使用するアプリケーション（`Terminal`など）が**フルディスクアクセス**（FDA）アクセス（`kTCCServiceSystemPolicyAllfiles`）を持つことであり、これは管理者によって付与される必要があります。
 
 {% code overflow="wrap" %}
 ```bash
@@ -238,26 +243,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-より詳しい説明は[**元のレポート**](https://theevilbit.github.io/posts/cve\_2020\_9771/)にあります\*\*。\*\*
+より詳細な説明は[**元のレポートで見つけることができます**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**。**
 
 ## 機密情報
 
-特権を昇格させるのに役立つ可能性があります:
+これは特権を昇格させるのに役立ちます：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬** [**Discordグループ**](https://discord.gg/hRep4RUj7f)**または**[**telegramグループ**](https://t.me/peass)**に参加するか、Twitter 🐦** [**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォローする**.\*\*
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}

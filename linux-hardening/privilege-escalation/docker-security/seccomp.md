@@ -1,30 +1,39 @@
 # Seccomp
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦で私をフォローする [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## 基本情報
 
-**Seccomp** は、Secure Computing mode の略で、**Linuxカーネルのセキュリティ機能**であり、システムコールをフィルタリングするように設計されています。プロセスをシステムコールの限られたセット（`exit()`、`sigreturn()`、`read()`、および既に開かれたファイルディスクリプタ用の`write()`）に制限します。プロセスが他の何かを呼び出そうとすると、カーネルによって SIGKILL または SIGSYS を使用して終了させられます。このメカニズムはリソースを仮想化するのではなく、プロセスをそれらから分離します。
+**Seccomp**（セキュアコンピューティングモードの略）は、**Linuxカーネルのシステムコールをフィルタリングするためのセキュリティ機能**です。これは、プロセスを限られたシステムコール（すでにオープンしているファイルディスクリプタに対する`exit()`、`sigreturn()`、`read()`、および`write()`）に制限します。プロセスが他のシステムコールを呼び出そうとすると、カーネルによってSIGKILLまたはSIGSYSで終了されます。このメカニズムはリソースを仮想化するのではなく、プロセスをそれらから隔離します。
 
-Seccomp をアクティブ化する方法には、`prctl(2)` システムコールを使用して `PR_SET_SECCOMP` を介して行う方法と、Linuxカーネル3.17以降では `seccomp(2)` システムコールを使用する方法があります。`/proc/self/seccomp` に書き込むことで Seccomp を有効にする古い方法は、`prctl()` に代わって非推奨となっています。
+seccompを有効にする方法は2つあります：`PR_SET_SECCOMP`を使用した`prctl(2)`システムコール、またはLinuxカーネル3.17以降の場合は`seccomp(2)`システムコールです。`/proc/self/seccomp`に書き込む古い方法は、`prctl()`に取って代わられました。
 
-拡張機能である **seccomp-bpf** は、Berkeley Packet Filter（BPF）ルールを使用してカスタマイズ可能なポリシーでシステムコールをフィルタリングする機能を追加します。この拡張機能は、OpenSSH、vsftpd、Chrome OS および Linux 上の Chrome/Chromium ブラウザなどのソフトウェアによって活用され、柔軟で効率的なシスコールフィルタリングを提供し、Linux でサポートされなくなった systrace に代わるものとなっています。
+拡張機能である**seccomp-bpf**は、Berkeley Packet Filter（BPF）ルールを使用してカスタマイズ可能なポリシーでシステムコールをフィルタリングする機能を追加します。この拡張は、OpenSSH、vsftpd、Chrome OSおよびLinux上のChrome/Chromiumブラウザなどのソフトウェアによって利用され、柔軟で効率的なシステムコールフィルタリングを提供し、現在サポートされていないLinux用のsystraceの代替手段を提供します。
 
 ### **オリジナル/厳格モード**
 
-このモードでは、Seccomp は既に開かれたファイルディスクリプタに対して `exit()`、`sigreturn()`、`read()`、`write()` のシスコールのみを許可します。他のシスコールが行われた場合、プロセスは SIGKILL を使用して終了されます。
+このモードでは、Seccompは**`exit()`、`sigreturn()`、`read()`、および`write()`**のシステムコールのみをすでにオープンしているファイルディスクリプタに対して許可します。他のシステムコールが行われると、プロセスはSIGKILLで終了されます。
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -58,9 +67,13 @@ int input = open("output.txt", O_RDONLY);
 printf("You will not see this message--the process will be killed first\n");
 }
 ```
+{% endcode %}
+
 ### Seccomp-bpf
 
-このモードは、Berkeley Packet Filter ルールを使用して実装された設定可能なポリシーを使用してシステムコールをフィルタリングすることを可能にします。
+このモードは、**バークレー・パケット・フィルタールールを使用して実装された構成可能なポリシーを使用してシステムコールをフィルタリングすることを許可します**。
+
+{% code title="seccomp_bpf.c" %}
 ```c
 #include <seccomp.h>
 #include <unistd.h>
@@ -108,31 +121,33 @@ seccomp_release(ctx);
 printf("this process is %d\n", getpid());
 }
 ```
+{% endcode %}
+
 ## DockerにおけるSeccomp
 
-**Seccomp-bpf**は、**Docker**によってサポートされており、コンテナからの**syscalls**を制限することで効果的に表面積を減らすことができます。**デフォルトでブロックされているsyscalls**は[https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/)で見つけることができ、**デフォルトのseccompプロファイル**はこちらにあります[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)。\
-異なるseccompポリシーを使用してdockerコンテナを実行することができます:
+**Seccomp-bpf**は、**Docker**によってサポートされており、コンテナからの**syscalls**を制限することで、攻撃面を効果的に減少させます。**デフォルト**でブロックされている**syscalls**は[https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/)で確認でき、**デフォルトのseccompプロファイル**はここで見つけることができます[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)。\
+**異なるseccomp**ポリシーでdockerコンテナを実行するには、次のようにします:
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-たとえば、`uname`のような**syscall**の実行を**禁止**したい場合は、[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) からデフォルトプロファイルをダウンロードし、単純に**リストから`uname`の文字列を削除**すればよいです。\
-**あるバイナリがdockerコンテナ内で動作しないように**するには、straceを使用してバイナリが使用している**syscall**をリストアップし、それらを禁止することができます。\
-次の例では、`uname`の**syscalls**が発見されます：
+もし、例えばコンテナが `uname` のような **syscall** を実行することを **禁止** したい場合は、[https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) からデフォルトプロファイルをダウンロードし、リストから **`uname` 文字列を削除** するだけです。\
+もし **あるバイナリが docker コンテナ内で動作しないことを確認** したい場合は、strace を使用してバイナリが使用している syscalls をリストし、それらを禁止することができます。\
+次の例では、`uname` の **syscalls** が発見されます：
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-**Dockerを単にアプリケーションを起動するために使用している場合**、**`strace`**でそれを**プロファイリング**し、必要な**システムコールのみを許可**できます。
+アプリケーションを起動するためだけに**Docker**を使用している場合は、**`strace`**で**プロファイル**を作成し、必要なシステムコールのみを**許可**できます
 {% endhint %}
 
 ### Seccompポリシーの例
 
-[こちらの例](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)からの例を示します。
+[こちらからの例](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Seccomp機能を説明するために、以下のように「chmod」システムコールを無効にするSeccompプロファイルを作成します。
+Seccomp機能を示すために、以下のように「chmod」システムコールを無効にするSeccompプロファイルを作成しましょう。
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -144,20 +159,45 @@ Seccomp機能を説明するために、以下のように「chmod」システ�
 ]
 }
 ```
-上記のプロファイルでは、デフォルトアクションを「allow」に設定し、「chmod」を無効にするブラックリストを作成しました。より安全にするために、デフォルトアクションを「drop」に設定し、システムコールを選択的に有効にするホワイトリストを作成することができます。\
-以下の出力は、seccompプロファイルで無効になっているため、「chmod」呼び出しがエラーを返すことを示しています。
+上記のプロファイルでは、デフォルトアクションを「allow」に設定し、「chmod」を無効にするブラックリストを作成しました。より安全にするために、デフォルトアクションをドロップに設定し、システムコールを選択的に有効にするホワイトリストを作成できます。\
+以下の出力は、「chmod」コールがseccompプロファイルで無効になっているため、エラーを返すことを示しています。
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-以下は、プロファイルを表示する「docker inspect」の出力を示しています：
+以下の出力は、プロファイルを表示する「docker inspect」を示しています：
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
-],
-```
-### Dockerで無効にする
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-フラグを使用してコンテナを起動します：**`--security-opt seccomp=unconfined`**
+<details>
 
-Kubernetes 1.19では、**すべてのPodに対してseccompがデフォルトで有効**になっています。ただし、Podに適用されるデフォルトのseccompプロファイルは、コンテナランタイム（例：Docker、containerd）によって**提供される** "**RuntimeDefault**"プロファイルです。 "RuntimeDefault"プロファイルは、ほとんどのシステムコールを許可し、コンテナにとって危険または一般的に必要とされないいくつかのシステムコールをブロックします。
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

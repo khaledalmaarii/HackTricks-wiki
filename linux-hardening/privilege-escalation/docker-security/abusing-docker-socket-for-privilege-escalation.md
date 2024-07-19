@@ -1,28 +1,33 @@
-# Dockerソケットの悪用による権限昇格
+# Dockerソケットを悪用した特権昇格
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* **HackTricks**の[**GitHubリポジトリ**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)にPRを提出して、あなたのハッキングのコツを共有する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Dockerソケットに**アクセスできる**場合があり、それを使用して**権限を昇格**したいと思うことがあります。いくつかのアクションは非常に怪しいかもしれませんので、避けたいと思うかもしれません。ここでは、権限を昇格するために役立つさまざまなフラグを見つけることができます：
+Dockerソケットに**アクセス**できる場合があり、それを使用して**特権を昇格**させたい場合があります。いくつかのアクションは非常に疑わしい可能性があるため、避けたい場合があります。ここでは、特権を昇格させるのに役立つさまざまなフラグを見つけることができます。
 
 ### マウントを介して
 
-rootとして実行されているコンテナ内で**ファイルシステム**の異なる部分を**マウント**し、それらに**アクセス**することができます。\
-また、コンテナ内で権限を昇格するためにマウントを**悪用**することもできます。
+ルートとして実行されているコンテナ内で**ファイルシステム**の異なる部分を**マウント**し、それに**アクセス**できます。\
+マウントを悪用してコンテナ内で特権を昇格させることもできます。
 
-* **`-v /:/host`** -> ホストファイルシステムをコンテナにマウントして、**ホストファイルシステムを読む**ことができます。
-* コンテナにいながら**ホストにいるように感じたい**場合は、以下のようなフラグを使用して他の防御メカニズムを無効にすることができます：
+* **`-v /:/host`** -> ホストのファイルシステムをコンテナにマウントし、**ホストのファイルシステムを読み取る**ことができます。
+* **ホストにいるように感じたいが、コンテナにいる場合**は、次のフラグを使用して他の防御メカニズムを無効にできます:
 * `--privileged`
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -32,41 +37,46 @@ rootとして実行されているコンテナ内で**ファイルシステム**
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> これは前述の方法と似ていますが、ここでは**デバイスディスクをマウント**しています。その後、コンテナ内で`mount /dev/sda1 /mnt`を実行し、`/mnt`で**ホストファイルシステムにアクセス**できます。
-* マウントする`</dev/sda1>`デバイスを見つけるためにホストで`fdisk -l`を実行します。
-* **`-v /tmp:/host`** -> 何らかの理由でホストのディレクトリを**マウントすることしかできない**場合、それをマウントして、マウントされたディレクトリに**suidを持つ`/bin/bash`**を作成し、ホストから実行して**rootに昇格**します。
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> これは前の方法に似ていますが、ここでは**デバイスディスクをマウント**しています。次に、コンテナ内で`mount /dev/sda1 /mnt`を実行すると、**/mnt**で**ホストのファイルシステムにアクセス**できます。
+* ホストで`fdisk -l`を実行して、マウントする`</dev/sda1>`デバイスを見つけます。
+* **`-v /tmp:/host`** -> 何らかの理由で**ホストから特定のディレクトリのみをマウント**でき、ホスト内にアクセスできる場合は、それをマウントし、マウントされたディレクトリに**suid**を持つ**`/bin/bash`**を作成して、**ホストから実行してrootに昇格**できます。
 
 {% hint style="info" %}
-`/tmp`フォルダをマウントできないかもしれませんが、**異なる書き込み可能なフォルダ**をマウントできることに注意してください。書き込み可能なディレクトリを見つけるには、`find / -writable -type d 2>/dev/null`を使用します。
+おそらく`/tmp`フォルダをマウントできないかもしれませんが、**異なる書き込み可能なフォルダ**をマウントできる場合があります。書き込み可能なディレクトリを見つけるには、`find / -writable -type d 2>/dev/null`を使用します。
 
-**すべてのディレクトリがsuidビットをサポートしているわけではないことに注意してください！** suidビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"`を実行します。例えば通常、`/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、`/var/lib/lxcfs`はsuidビットをサポートしていません。
+**Linuxマシンのすべてのディレクトリがsuidビットをサポートするわけではありません!** suidビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"`を実行します。たとえば、通常`/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、および`/var/lib/lxcfs`はsuidビットをサポートしていません。
 
-また、**`/etc`**や他の**設定ファイルを含むフォルダ**を**マウントできる**場合、dockerコンテナ内でrootとしてそれらを変更し、ホストで**悪用して権限を昇格**することができます（例えば`/etc/shadow`を変更することによって）
+また、**`/etc`**や**設定ファイルを含む他のフォルダ**を**マウント**できる場合、コンテナ内でrootとしてそれらを変更し、**ホストで悪用して特権を昇格**させることができます（たとえば、`/etc/shadow`を変更する）。
 {% endhint %}
 
 ### コンテナからの脱出
 
-* **`--privileged`** -> このフラグを使用すると、[コンテナからすべての隔離を取り除く](docker-privileged.md#what-affects)ことができます。rootとして[特権コンテナから脱出する](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape)テクニックを確認してください。
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> [機能を悪用して権限を昇格する](../linux-capabilities.md)ために、**その機能をコンテナに付与**し、エクスプロイトが機能するのを防ぐ可能性のある他の保護方法を無効にします。
+* **`--privileged`** -> このフラグを使用すると、[コンテナからのすべての隔離を削除します](docker-privileged.md#what-affects)。特権コンテナからrootとして脱出するための技術を確認してください。[特権コンテナからの脱出](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape)。
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> [能力を悪用して昇格するために](../linux-capabilities.md)、**その能力をコンテナに付与し、エクスプロイトが機能するのを妨げる可能性のある他の保護方法を無効にします。**
 
 ### Curl
 
-このページでは、dockerフラグを使用して権限を昇格する方法について議論しました。curlコマンドを使用してこれらの方法を悪用する方法については、以下のページで見つけることができます：
+このページでは、dockerフラグを使用して特権を昇格させる方法について説明しました。**curl**コマンドを使用してこれらの方法を悪用する方法を見つけることができます。
 
-{% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
-[authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
-{% endcontent-ref %}
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* **HackTricks**の[**GitHubリポジトリ**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)にPRを提出して、あなたのハッキングのコツを共有する。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

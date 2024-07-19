@@ -27,7 +27,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ### 基本情報
 
-まず、**良く知られたバイナリとライブラリが入ったUSB**を用意することをお勧めします（Ubuntuを取得して、_ /bin_、_ /sbin_、_ /lib_、および_ /lib64_フォルダーをコピーするだけで済みます）。次に、USBをマウントし、これらのバイナリを使用するように環境変数を変更します：
+まず、**良く知られたバイナリとライブラリが入ったUSB**を用意することをお勧めします（Ubuntuを取得して、_ /bin_、_ /sbin_、_ /lib_、_ /lib64_フォルダをコピーするだけで済みます）。次に、USBをマウントし、これらのバイナリを使用するように環境変数を変更します：
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -68,7 +68,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 {% endhint %}
 
 したがって、同一のUbuntuバージョンがある場合は、`apt-get install lime-forensics-dkms`を使用できます。\
-他の場合は、githubから[**LiME**](https://github.com/504ensicsLabs/LiME)をダウンロードし、正しいカーネルヘッダーでコンパイルする必要があります。被害者のマシンの**正確なカーネルヘッダー**を取得するには、単に`/lib/modules/<kernel version>`ディレクトリを自分のマシンに**コピー**し、それを使用してLiMEを**コンパイル**します：
+他の場合は、githubから[**LiME**](https://github.com/504ensicsLabs/LiME)をダウンロードし、正しいカーネルヘッダーでコンパイルする必要があります。被害者のマシンの**正確なカーネルヘッダー**を取得するには、単に`/lib/modules/<kernel version>`ディレクトリをあなたのマシンに**コピー**し、それを使用してLiMEを**コンパイル**します：
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -79,7 +79,7 @@ LiMEは3つの**フォーマット**をサポートしています：
 * Padded（Rawと同じですが、右側のビットにゼロが追加されています）
 * Lime（メタデータ付きの推奨フォーマット）
 
-LiMEは、`path=tcp:4444`のようなもので、システムに保存する代わりに**ネットワーク経由でダンプを送信する**こともできます。
+LiMEは、`path=tcp:4444`のようなもので、**システムに保存するのではなく、ネットワーク経由でダンプを送信する**ためにも使用できます。
 
 ### ディスクイメージング
 
@@ -90,7 +90,7 @@ LiMEは、`path=tcp:4444`のようなもので、システムに保存する代�
 
 #### ディスクのイメージを取得する
 
-**ケースに関連する何かにコンピュータを接続する前に**、情報を変更しないように**読み取り専用でマウントされる**ことを確認することが重要です。
+**ケースに関連する何かにコンピュータを接続する前に**、情報を変更しないように**読み取り専用としてマウントされる**ことを確認することが重要です。
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -173,7 +173,7 @@ Linuxは、システムコンポーネントの整合性を確保するための
 
 ### マルウェア/ルートキット検出ツール
 
-マルウェアを見つけるのに役立つツールについて学ぶには、以下のページをお読みください：
+マルウェアを見つけるのに役立つツールについては、以下のページをお読みください：
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -205,7 +205,7 @@ find / -type f -executable | grep <something>
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって駆動される**ワークフローを簡単に構築し、**自動化**します。\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
 今すぐアクセスを取得：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -250,7 +250,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 ### カーネルモジュール
 
-Linuxカーネルモジュールは、マルウェアがルートキットコンポーネントとして利用することが多く、システム起動時にロードされます。これらのモジュールにとって重要なディレクトリとファイルは以下の通りです：
+Linuxカーネルモジュールは、マルウェアによってルートキットコンポーネントとして利用されることが多く、システム起動時にロードされます。これらのモジュールにとって重要なディレクトリとファイルは以下の通りです：
 
 * **/lib/modules/$(uname -r)**: 実行中のカーネルバージョンのモジュールを保持します。
 * **/etc/modprobe.d**: モジュールのロードを制御するための設定ファイルを含みます。
@@ -270,7 +270,7 @@ Linuxシステムは、さまざまなログファイルを通じてユーザー
 
 * **/var/log/syslog** (Debian) または **/var/log/messages** (RedHat): システム全体のメッセージや活動をキャプチャします。
 * **/var/log/auth.log** (Debian) または **/var/log/secure** (RedHat): 認証試行、成功したログインおよび失敗したログインを記録します。
-* `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` を使用して関連する認証イベントをフィルタリングします。
+* `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` を使用して、関連する認証イベントをフィルタリングします。
 * **/var/log/boot.log**: システム起動メッセージを含みます。
 * **/var/log/maillog** または **/var/log/mail.log**: メールサーバーの活動をログに記録し、メール関連サービスの追跡に役立ちます。
 * **/var/log/kern.log**: カーネルメッセージを保存し、エラーや警告を含みます。
@@ -288,7 +288,7 @@ Linuxシステムは、さまざまなログファイルを通じてユーザー
 Linuxシステムのログと監査サブシステムは、侵入やマルウェアインシデントの際に無効化または削除されることがあります。Linuxシステムのログは、悪意のある活動に関する最も有用な情報を含むことが一般的であるため、侵入者はそれらを定期的に削除します。したがって、利用可能なログファイルを調査する際には、削除や改ざんの兆候である可能性のあるギャップや順序が乱れたエントリを探すことが重要です。
 {% endhint %}
 
-**Linuxは各ユーザーのコマンド履歴を保持します**。保存先は以下の通りです：
+**Linuxは各ユーザーのコマンド履歴を保持します**。これは以下に保存されます：
 
 * \~/.bash\_history
 * \~/.zsh\_history
@@ -300,10 +300,10 @@ Linuxシステムのログと監査サブシステムは、侵入やマルウェ
 
 追加の権限を付与できるファイルを確認します：
 
-* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers` を確認します。
-* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers.d/` を確認します。
-* 異常なグループメンバーシップや権限を特定するために、`/etc/groups` を調査します。
-* 異常なグループメンバーシップや権限を特定するために、`/etc/passwd` を調査します。
+* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers`を確認します。
+* 予期しないユーザー権限が付与されている可能性があるため、`/etc/sudoers.d/`を確認します。
+* 異常なグループメンバーシップや権限を特定するために、`/etc/groups`を調査します。
+* 異常なグループメンバーシップや権限を特定するために、`/etc/passwd`を調査します。
 
 一部のアプリも独自のログを生成します：
 
@@ -321,7 +321,7 @@ Linuxシステムのログと監査サブシステムは、侵入やマルウェ
 
 [**usbrip**](https://github.com/snovvcrash/usbrip) は、Linuxのログファイル（ディストリビューションに応じて `/var/log/syslog*` または `/var/log/messages*`）を解析してUSBイベント履歴テーブルを構築するために純粋なPython 3で書かれた小さなソフトウェアです。
 
-**使用されたすべてのUSBを知ることは興味深い**ことであり、"違反イベント"（そのリストに含まれていないUSBの使用）を見つけるために、承認されたUSBのリストがあるとさらに有用です。
+使用されたすべてのUSBを**知ることは興味深い**ことであり、"違反イベント"（そのリストに含まれていないUSBの使用）を見つけるために、承認されたUSBのリストがあるとさらに有用です。
 
 ### インストール
 ```bash
@@ -348,26 +348,26 @@ Get Access Today:
 
 ## ユーザーアカウントとログオン活動のレビュー
 
-_**/etc/passwd**_、_**/etc/shadow**_、および **セキュリティログ** を調べて、異常な名前や、既知の不正イベントに近い位置で作成または使用されたアカウントを確認します。また、sudoのブルートフォース攻撃の可能性もチェックしてください。\
-さらに、_**/etc/sudoers**_ や _**/etc/groups**_ のようなファイルを確認し、ユーザーに与えられた予期しない特権を探します。\
+_**/etc/passwd**_、_**/etc/shadow**_、および**セキュリティログ**を調査し、知られている不正なイベントに近い位置で作成または使用された異常な名前やアカウントを探します。また、sudoのブルートフォース攻撃の可能性も確認してください。\
+さらに、_**/etc/sudoers**_や_**/etc/groups**_のようなファイルをチェックし、ユーザーに与えられた予期しない特権を確認します。\
 最後に、**パスワードなし**または**簡単に推測できる**パスワードを持つアカウントを探します。
 
 ## ファイルシステムの調査
 
 ### マルウェア調査におけるファイルシステム構造の分析
 
-マルウェアインシデントを調査する際、ファイルシステムの構造は重要な情報源であり、イベントの順序やマルウェアの内容を明らかにします。しかし、マルウェアの作者は、ファイルのタイムスタンプを変更したり、データストレージのためにファイルシステムを回避したりするなど、この分析を妨げる技術を開発しています。
+マルウェアインシデントを調査する際、ファイルシステムの構造は重要な情報源であり、イベントの順序やマルウェアの内容を明らかにします。しかし、マルウェアの著者は、ファイルのタイムスタンプを変更したり、データストレージのためにファイルシステムを回避したりするなど、この分析を妨げる技術を開発しています。
 
 これらのアンチフォレンジック手法に対抗するためには、以下が重要です：
 
-* **Autopsy** のようなツールを使用して、イベントのタイムラインを視覚化するために**徹底的なタイムライン分析を行う**か、**Sleuth Kit** の `mactime` を使用して詳細なタイムラインデータを取得します。
-* 攻撃者によって使用されるシェルやPHPスクリプトを含む可能性のある、システムの $PATH にある**予期しないスクリプトを調査する**。
-* **/dev** で異常なファイルを調べる。通常は特別なファイルが含まれていますが、マルウェア関連のファイルが存在する可能性があります。
-* **隠しファイルやディレクトリを探す**。名前が ".. " (ドットドットスペース) や "..^G" (ドットドットコントロール-G) のようなものは、悪意のあるコンテンツを隠している可能性があります。
-* コマンド `find / -user root -perm -04000 -print` を使用して**setuid rootファイルを特定する**。これにより、攻撃者によって悪用される可能性のある権限の高いファイルが見つかります。
-* **inodeテーブルの削除タイムスタンプをレビューし**、大量のファイル削除を特定します。これは、rootkitやトロイの木馬の存在を示す可能性があります。
-* 1つの悪意のあるファイルを特定した後、**隣接するinodeを調査し**、近くに配置されている悪意のあるファイルを探します。
-* **一般的なバイナリディレクトリ** (_/bin_、_/sbin_) で最近変更されたファイルを確認します。これらはマルウェアによって変更されている可能性があります。
+* **Autopsy**のようなツールを使用して**徹底的なタイムライン分析**を行い、イベントのタイムラインを視覚化するか、**Sleuth Kit**の`mactime`を使用して詳細なタイムラインデータを取得します。
+* 攻撃者によって使用されるシェルやPHPスクリプトを含む可能性のある、システムの$PATH内の**予期しないスクリプトを調査**します。
+* **/dev**内の異常なファイルを**調査**します。通常、特別なファイルが含まれていますが、マルウェア関連のファイルが存在する可能性があります。
+* **隠しファイルやディレクトリを検索**します。名前が「.. 」(ドットドットスペース)や「..^G」(ドットドットコントロール-G)のようなものは、悪意のあるコンテンツを隠している可能性があります。
+* コマンドを使用して**setuid rootファイルを特定**します：`find / -user root -perm -04000 -print` これは、攻撃者によって悪用される可能性のある昇格された権限を持つファイルを見つけます。
+* **inodeテーブルの削除タイムスタンプをレビュー**し、大量のファイル削除を特定します。これは、rootkitやトロイの木馬の存在を示す可能性があります。
+* 1つの悪意のあるファイルを特定した後、**隣接するinodeを検査**し、近くに配置されている悪意のあるファイルを探します。
+* **一般的なバイナリディレクトリ**(_/bin_、_/sbin_)内の最近変更されたファイルを確認します。これらはマルウェアによって変更されている可能性があります。
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-注意してください、**攻撃者**は**ファイルを正当なものに見せるために** **時間**を**変更**することができますが、**inode**を**変更**することは**できません**。もし、**ファイル**が同じフォルダ内の他のファイルと**同じ時間**に作成および変更されたことを示しているが、**inode**が**予期せず大きい**場合、その**ファイルのタイムスタンプは変更された**ことになります。
+注意してください、**攻撃者**は**ファイルを正当なものに見せるために** **時間**を**変更**することができますが、**inode**を**変更**することはできません。同じフォルダ内の他のファイルと**同時に作成および変更された**ことを示す**ファイル**があり、しかし**inode**が**予期せず大きい**場合、その**ファイルのタイムスタンプは変更されています**。
 {% endhint %}
 
 ## 異なるファイルシステムバージョンの比較
@@ -389,11 +389,11 @@ ls -lai /bin | sort -n```
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **変更された内容**、特定の行を無視しながら変更をリストします：
+* **変更された内容**、特定の行を無視しながら変更をリストします:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-* **削除されたファイルを検出するために**:
+* **削除されたファイルを検出する**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
@@ -415,24 +415,25 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **書籍: Linuxシステムのマルウェアフォレンジックフィールドガイド: デジタルフォレンジックフィールドガイド**
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-あなたは**サイバーセキュリティ会社**で働いていますか？あなたの**会社をHackTricksで宣伝したいですか**？それとも**最新のPEASSにアクセスしたり、HackTricksをPDFでダウンロードしたいですか**？[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-
-* [**PEASSファミリー**](https://opensea.io/collection/the-peass-family)を発見し、私たちの独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションを見てください
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を手に入れましょう
-* **参加して** [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**私を** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**でフォローしてください。**
-
-**あなたのハッキングトリックを共有するために、** [**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを送信してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で**最も先進的な**コミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
-今すぐアクセスを取得：
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって強化された**ワークフローを簡単に構築し、自動化**します。\
+今すぐアクセスを取得： 
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

