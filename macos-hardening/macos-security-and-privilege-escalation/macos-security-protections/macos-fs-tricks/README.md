@@ -1,54 +1,55 @@
-# macOS FS Κόλπα
+# macOS FS Tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Συνδυασμοί δικαιωμάτων POSIX
 
-Δικαιώματα σε ένα **κατάλογο**:
+Δικαιώματα σε έναν **φάκελο**:
 
-* **ανάγνωση** - μπορείτε να **απαριθμήσετε** τα στοιχεία του καταλόγου
-* **εγγραφή** - μπορείτε να **διαγράψετε/γράψετε** **αρχεία** στον κατάλογο και μπορείτε να **διαγράψετε κενούς φακέλους**.
-* Αλλά δεν μπορείτε να **διαγράψετε/τροποποιήσετε μη-κενούς φακέλους** εκτός αν έχετε δικαιώματα εγγραφής πάνω σε αυτόν.
-* Δεν μπορείτε να τροποποιήσετε το όνομα ενός φακέλου εκτός αν το κατέχετε.
-* **εκτέλεση** - σας επιτρέπεται να διασχίσετε τον κατάλογο - αν δεν έχετε αυτό το δικαίωμα, δεν μπορείτε να έχετε πρόσβαση σε κανένα αρχείο μέσα σε αυτόν, ή σε οποιουσδήποτε υποκαταλόγους.
+* **ανάγνωση** - μπορείτε να **καταγράψετε** τις καταχωρήσεις του φακέλου
+* **εγγραφή** - μπορείτε να **διαγράψετε/γράψετε** **αρχεία** στον φάκελο και μπορείτε να **διαγράψετε άδειους φακέλους**.
+* Αλλά δεν μπορείτε να **διαγράψετε/τροποποιήσετε μη άδειους φακέλους** εκτός αν έχετε δικαιώματα εγγραφής σε αυτούς.
+* Δεν μπορείτε να **τροποποιήσετε το όνομα ενός φακέλου** εκτός αν τον κατέχετε.
+* **εκτέλεση** - σας επιτρέπεται να **περπατήσετε** στον φάκελο - αν δεν έχετε αυτό το δικαίωμα, δεν μπορείτε να έχετε πρόσβαση σε κανένα αρχείο μέσα σε αυτόν, ή σε οποιουσδήποτε υποφακέλους.
 
 ### Επικίνδυνοι Συνδυασμοί
 
-**Πώς να αντικαταστήσετε ένα αρχείο/φάκελο που ανήκει στο ριζικό χρήστη**, αλλά:
+**Πώς να αντικαταστήσετε ένα αρχείο/φάκελο που ανήκει στον root**, αλλά:
 
-* Ένας γονικός **κατόχος καταλόγου** στη διαδρομή είναι ο χρήστης
-* Ένας γονικός **κατόχος καταλόγου** στη διαδρομή είναι μια **ομάδα χρηστών** με **πρόσβαση εγγραφής**
-* Μια **ομάδα χρηστών** έχει **πρόσβαση εγγραφής** στο **αρχείο**
+* Ένας γονικός **ιδιοκτήτης φακέλου** στη διαδρομή είναι ο χρήστης
+* Ένας γονικός **ιδιοκτήτης φακέλου** στη διαδρομή είναι μια **ομάδα χρηστών** με **δικαιώματα εγγραφής**
+* Μια **ομάδα χρηστών** έχει **δικαιώματα εγγραφής** στο **αρχείο**
 
-Με οποιονδήποτε από τους προηγούμενους συνδυασμούς, ένας επιτιθέμενος θα μπορούσε να **ενθερμήσει** ένα **σύμβολο/σκληρό σύνδεσμο** στην αναμενόμενη διαδρομή για να αποκτήσει προνομιούχα αυθαίρετη εγγραφή.
+Με οποιονδήποτε από τους προηγούμενους συνδυασμούς, ένας επιτιθέμενος θα μπορούσε να **εισάγει** έναν **συμβολικό/σκληρό σύνδεσμο** στην αναμενόμενη διαδρομή για να αποκτήσει μια προνομιακή αυθαίρετη εγγραφή.
 
-### Ειδική περίπτωση ρίζας φακέλου R+X
+### Ειδική περίπτωση φακέλου root R+X
 
-Αν υπάρχουν αρχεία σε έναν **κατάλογο** όπου **μόνο η ρίζα έχει πρόσβαση R+X**, αυτά **δεν είναι προσβάσιμα από κανέναν άλλο**. Έτσι μια ευπάθεια που επιτρέπει τη **μετακίνηση ενός αρχείου που μπορεί να διαβαστεί από έναν χρήστη**, το οποίο δεν μπορεί να διαβαστεί λόγω αυτού του **περιορισμού**, από αυτόν τον φάκελο **σε έναν διαφορετικό**, θα μπορούσε να καταχραστείται για να διαβάσει αυτά τα αρχεία.
+Αν υπάρχουν αρχεία σε έναν **φάκελο** όπου **μόνο ο root έχει πρόσβαση R+X**, αυτά είναι **μη προσβάσιμα σε κανέναν άλλο**. Έτσι, μια ευπάθεια που επιτρέπει να **μετακινήσετε ένα αρχείο που είναι αναγνώσιμο από έναν χρήστη**, το οποίο δεν μπορεί να διαβαστεί λόγω αυτού του **περιορισμού**, από αυτόν τον φάκελο **σε έναν διαφορετικό**, θα μπορούσε να καταχραστεί για να διαβάσει αυτά τα αρχεία.
 
-Παράδειγμα στο: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+Παράδειγμα σε: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Συμβολικός Σύνδεσμος / Σκληρός Σύνδεσμος
 
-Αν ένα προνομιούχο διεργασία γράφει δεδομένα σε ένα **αρχείο** που θα μπορούσε να **ελεγχθεί** από έναν **χρήστη με χαμηλότερα προνόμια**, ή που θα μπορούσε να **έχει δημιουργηθεί προηγουμένως** από έναν χρήστη με χαμηλότερα προνόμια. Ο χρήστης θα μπορούσε απλά να **το κατευθύνει σε ένα άλλο αρχείο** μέσω ενός Συμβολικού ή Σκληρού συνδέσμου, και η προνομιούχα διεργασία θα γράψει σε αυτό το αρχείο.
+Αν μια προνομιακή διαδικασία γράφει δεδομένα σε **αρχείο** που θα μπορούσε να **ελεγχθεί** από έναν **χρήστη με χαμηλότερα προνόμια**, ή που θα μπορούσε να έχει **δημιουργηθεί προηγουμένως** από έναν χρήστη με χαμηλότερα προνόμια. Ο χρήστης θα μπορούσε απλά να **δείξει σε ένα άλλο αρχείο** μέσω ενός Συμβολικού ή Σκληρού συνδέσμου, και η προνομιακή διαδικασία θα γράψει σε αυτό το αρχείο.
 
-Ελέγξτε στις άλλες ενότητες όπου ένας επιτιθέμενος θα μπορούσε να **καταχραστεί μια αυθαίρετη εγγραφή για να αναβαθμίσει τα προνόμιά του**.
+Ελέγξτε σε άλλες ενότητες όπου ένας επιτιθέμενος θα μπορούσε να **καταχραστεί μια αυθαίρετη εγγραφή για να κλιμακώσει τα προνόμια**.
 
 ## .fileloc
 
-Τα αρχεία με την επέκταση **`.fileloc`** μπορούν να δείχνουν σε άλλες εφαρμογές ή δυαδικά αρχεία, έτσι όταν ανοίγονται, η εφαρμογή/δυαδικό θα εκτελεστεί.\
+Αρχεία με κατάληξη **`.fileloc`** μπορούν να δείχνουν σε άλλες εφαρμογές ή δυαδικά αρχεία, έτσι όταν ανοίγουν, η εφαρμογή/δυαδικό αρχείο θα είναι αυτό που θα εκτελείται.\
 Παράδειγμα:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,21 +63,21 @@
 </dict>
 </plist>
 ```
-## Τυχαίο FD
+## Arbitrary FD
 
-Εάν μπορείτε να κάνετε ένα **process να ανοίξει ένα αρχείο ή έναν φάκελο με υψηλά προνόμια**, μπορείτε να καταχραστείτε το **`crontab`** για να ανοίξετε ένα αρχείο στο `/etc/sudoers.d` με **`EDITOR=exploit.py`**, έτσι το `exploit.py` θα λάβει το FD στο αρχείο μέσα στο `/etc/sudoers` και θα το καταχραστεί.
+Αν μπορείτε να κάνετε μια **διαδικασία να ανοίξει ένα αρχείο ή έναν φάκελο με υψηλά δικαιώματα**, μπορείτε να εκμεταλλευτείτε το **`crontab`** για να ανοίξετε ένα αρχείο στο `/etc/sudoers.d` με **`EDITOR=exploit.py`**, έτσι ώστε το `exploit.py` να αποκτήσει το FD στο αρχείο μέσα στο `/etc/sudoers` και να το εκμεταλλευτεί.
 
 Για παράδειγμα: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Αποφύγετε τα κόλπα xattrs της καραντίνας
+## Avoid quarantine xattrs tricks
 
-### Αφαιρέστε τα
+### Remove it
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable flag
 
-Εάν ένα αρχείο/φάκελος έχει αυτήν τη μόνιμη ιδιότητα, δεν θα είναι δυνατή η τοποθέτηση ενός xattr σε αυτό.
+Αν ένα αρχείο/φάκελος έχει αυτό το αμετάβλητο χαρακτηριστικό, δεν θα είναι δυνατή η προσθήκη xattr σε αυτό.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -86,9 +87,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### Προσάρτηση defvfs
+### defvfs mount
 
-Μια προσάρτηση **devfs** **δεν υποστηρίζει xattr**, περισσότερες πληροφορίες στο [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+Ένα **devfs** mount **δεν υποστηρίζει xattr**, περισσότερες πληροφορίες στο [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -99,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Αυτό το ACL εμποδίζει την προσθήκη `xattrs` στο αρχείο
+Αυτή η ACL αποτρέπει την προσθήκη `xattrs` στο αρχείο
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-Η μορφή αρχείου **AppleDouble** αντιγράφει ένα αρχείο συμπεριλαμβανομένων των ACEs του.
+**AppleDouble** μορφή αρχείου αντιγράφει ένα αρχείο συμπεριλαμβανομένων των ACEs του.
 
-Στον [**πηγαίο κώδικα**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) είναι δυνατόν να δούμε ότι η αναπαράσταση κειμένου ACL που αποθηκεύεται μέσα στο xattr με το όνομα **`com.apple.acl.text`** θα οριστεί ως ACL στο αποσυμπιεσμένο αρχείο. Έτσι, αν συμπιέσετε μια εφαρμογή σε ένα αρχείο zip με τη μορφή αρχείου **AppleDouble** με ένα ACL που εμποδίζει άλλα xattrs να γραφτούν σε αυτό... το xattr καραντίνας δεν ορίστηκε στην εφαρμογή:
+Στον [**πηγαίο κώδικα**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) είναι δυνατόν να δούμε ότι η κείμενη αναπαράσταση ACL που αποθηκεύεται μέσα στο xattr που ονομάζεται **`com.apple.acl.text`** θα οριστεί ως ACL στο αποσυμπιεσμένο αρχείο. Έτσι, αν συμπίεσες μια εφαρμογή σε ένα αρχείο zip με μορφή αρχείου **AppleDouble** με ένα ACL που αποτρέπει την εγγραφή άλλων xattrs σε αυτό... το xattr καραντίνας δεν ορίστηκε στην εφαρμογή:
 
-Ελέγξτε την [**πρωτότυπη αναφορά**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) για περισσότερες πληροφορίες.
+Έλεγξε την [**αρχική αναφορά**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) για περισσότερες πληροφορίες.
 
-Για να αναπαράγουμε αυτό πρέπει πρώτα να αποκτήσουμε το σωστό αλφαριθμητικό acl:
+Για να το αναπαραγάγουμε, πρώτα πρέπει να αποκτήσουμε τη σωστή συμβολοσειρά acl:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -148,7 +149,7 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-Δεν είναι πραγματικά απαραίτητο, αλλά το αφήνω εκεί απλώς για περίπτωση:
+Not really needed but I leave it there just in case:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -156,9 +157,9 @@ ls -le test
 
 ## Παράκαμψη Υπογραφών Κώδικα
 
-Τα Bundles περιέχουν το αρχείο **`_CodeSignature/CodeResources`** το οποίο περιέχει το **hash** κάθε **αρχείου** στο **bundle**. Σημειώστε ότι το hash του CodeResources είναι επίσης **ενσωματωμένο στο εκτελέσιμο**, οπότε δεν μπορούμε να το αλλάξουμε.
+Τα πακέτα περιέχουν το αρχείο **`_CodeSignature/CodeResources`** το οποίο περιέχει το **hash** κάθε μεμονωμένου **αρχείου** στο **πακέτο**. Σημειώστε ότι το hash του CodeResources είναι επίσης **ενσωματωμένο στο εκτελέσιμο**, οπότε δεν μπορούμε να ασχοληθούμε με αυτό.
 
-Ωστόσο, υπάρχουν μερικά αρχεία των οποίων η υπογραφή δεν θα ελεγχθεί, αυτά έχουν το κλειδί omit στο plist, όπως:
+Ωστόσο, υπάρχουν κάποια αρχεία των οποίων η υπογραφή δεν θα ελεγχθεί, αυτά έχουν το κλειδί omit στο plist, όπως:
 ```xml
 <dict>
 ...
@@ -202,15 +203,19 @@ ls -le test
 ...
 </dict>
 ```
-Είναι δυνατόν να υπολογιστεί η υπογραφή ενός πόρου από το cli με:
+Είναι δυνατόν να υπολογίσετε την υπογραφή ενός πόρου από το cli με: 
+
+{% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
 {% endcode %}
 
-## Τοποθέτηση dmgs
+## Mount dmgs
 
-Ένας χρήστης μπορεί να τοποθετήσει ένα προσαρμοσμένο dmg ακόμα και πάνω σε ορισμένους υπάρχοντες φακέλους. Έτσι μπορείτε να δημιουργήσετε ένα προσαρμοσμένο πακέτο dmg με προσαρμοσμένο περιεχόμενο:
+Ένας χρήστης μπορεί να τοποθετήσει ένα προσαρμοσμένο dmg που έχει δημιουργηθεί ακόμη και πάνω από υπάρχοντες φακέλους. Έτσι μπορείτε να δημιουργήσετε ένα προσαρμοσμένο πακέτο dmg με προσαρμοσμένο περιεχόμενο:
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Συνήθως το macOS προσαρτά το δίσκο μιλώντας στην υπηρεσία Mach `com.apple.DiskArbitrarion.diskarbitrariond` (που παρέχεται από το `/usr/libexec/diskarbitrationd`). Εάν προστεθεί η παράμετρος `-d` στο αρχείο LaunchDaemons plist και επανεκκινηθεί, θα αποθηκεύσει καταγραφές στο `/var/log/diskarbitrationd.log`.\
-Ωστόσο, είναι δυνατόν να χρησιμοποιηθούν εργαλεία όπως το `hdik` και το `hdiutil` για να επικοινωνήσουν απευθείας με το `com.apple.driver.DiskImages` kext.
+Συνήθως, το macOS τοποθετεί δίσκους επικοινωνώντας με την υπηρεσία Mach `com.apple.DiskArbitration.diskarbitrationd` (παρέχεται από το `/usr/libexec/diskarbitrationd`). Αν προσθέσετε την παράμετρο `-d` στο plist αρχείο των LaunchDaemons και επανεκκινήσετε, θα αποθηκεύει τα logs στο `/var/log/diskarbitrationd.log`.\
+Ωστόσο, είναι δυνατόν να χρησιμοποιήσετε εργαλεία όπως το `hdik` και το `hdiutil` για να επικοινωνήσετε απευθείας με το kext `com.apple.driver.DiskImages`.
 
 ## Αυθαίρετες Εγγραφές
 
-### Περιοδικά scripts sh
+### Περιοδικά sh scripts
 
-Εάν το script σας μπορεί να ερμηνευτεί ως ένα **shell script** μπορείτε να αντικαταστήσετε το **`/etc/periodic/daily/999.local`** shell script που θα εκτελείται κάθε μέρα.
+Αν το script σας μπορεί να ερμηνευτεί ως **shell script**, μπορείτε να αντικαταστήσετε το **`/etc/periodic/daily/999.local`** shell script που θα ενεργοποιείται κάθε μέρα.
 
-Μπορείτε να **προσομοιώσετε** την εκτέλεση αυτού του script με: **`sudo periodic daily`**
+Μπορείτε να **προσομοιώσετε** μια εκτέλεση αυτού του script με: **`sudo periodic daily`**
 
 ### Daemons
 
-Γράψτε ένα αυθαίρετο **LaunchDaemon** όπως το **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** με ένα plist που εκτελεί ένα αυθαίρετο script όπως:
+Γράψτε μια αυθαίρετη **LaunchDaemon** όπως **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** με ένα plist που εκτελεί ένα αυθαίρετο script όπως:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -263,19 +268,21 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 </dict>
 </plist>
 ```
+Απλά δημιουργήστε το σενάριο `/Applications/Scripts/privesc.sh` με τις **εντολές** που θα θέλατε να εκτελέσετε ως root.
+
 ### Αρχείο Sudoers
 
-Αν έχετε **αυθαίρετη εγγραφή**, μπορείτε να δημιουργήσετε ένα αρχείο μέσα στον φάκελο **`/etc/sudoers.d/`** που να σας παρέχει δικαιώματα **sudo**.
+Αν έχετε **τυχαία εγγραφή**, μπορείτε να δημιουργήσετε ένα αρχείο μέσα στον φάκελο **`/etc/sudoers.d/`** παραχωρώντας στον εαυτό σας **sudo** δικαιώματα.
 
 ### Αρχεία PATH
 
-Το αρχείο **`/etc/paths`** είναι ένα από τα κύρια μέρη που γεμίζουν τη μεταβλητή περιβάλλοντος PATH. Πρέπει να είστε root για να το αντικαταστήσετε, αλλά αν ένα σενάριο από **προνομιούχο διεργασία** εκτελεί κάποια **εντολή χωρίς την πλήρη διαδρομή**, μπορείτε να το **αρπάξετε** τροποποιώντας αυτό το αρχείο.
+Το αρχείο **`/etc/paths`** είναι ένα από τα κύρια μέρη που γεμίζει τη μεταβλητή περιβάλλοντος PATH. Πρέπει να είστε root για να το αντικαταστήσετε, αλλά αν ένα σενάριο από **privileged process** εκτελεί κάποια **εντολή χωρίς την πλήρη διαδρομή**, μπορεί να είστε σε θέση να **παρακάμψετε** αυτό τροποποιώντας αυτό το αρχείο.
 
 Μπορείτε επίσης να γράψετε αρχεία στο **`/etc/paths.d`** για να φορτώσετε νέους φακέλους στη μεταβλητή περιβάλλοντος `PATH`.
 
 ## Δημιουργία εγγράψιμων αρχείων ως άλλοι χρήστες
 
-Αυτό θα δημιουργήσει ένα αρχείο που ανήκει στο ροοτ και είναι εγγράψιμο από εμένα ([**κώδικας από εδώ**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Αυτό ενδέχεται επίσης να λειτουργήσει ως προνομιακή αύξηση:
+Αυτό θα δημιουργήσει ένα αρχείο που ανήκει στον root και είναι εγγράψιμο από εμένα ([**κώδικας από εδώ**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Αυτό μπορεί επίσης να λειτουργήσει ως privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -289,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Shared Memory
 
-**Το POSIX shared memory** επιτρέπει σε διεργασίες σε λειτουργικά συστήματα συμβατά με το POSIX να έχουν πρόσβαση σε μια κοινή περιοχή μνήμης, διευκολύνοντας την ταχύτερη επικοινωνία σε σύγκριση με άλλες μεθόδους επικοινωνίας μεταξύ διεργασιών. Περιλαμβάνει τη δημιουργία ή το άνοιγμα ενός κοινού αντικειμένου μνήμης με τη χρήση της `shm_open()`, την ορισμό του μεγέθους του με τη χρήση της `ftruncate()`, και την αντιστοίχισή του στο χώρο διευθύνσεων της διεργασίας χρησιμοποιώντας την `mmap()`. Οι διεργασίες μπορούν στη συνέχεια να διαβάζουν και να γράφουν απευθείας σε αυτήν την περιοχή μνήμης. Για τη διαχείριση της ταυτόχρονης πρόσβασης και την πρόληψη διαφθοράς δεδομένων, συχνά χρησιμοποιούνται μηχανισμοί συγχρονισμού όπως mutexes ή semaphores. Τέλος, οι διεργασίες αποσυντονίζουν και κλείνουν την κοινή μνήμη με τη χρήση των `munmap()` και `close()`, και προαιρετικά αφαιρούν το αντικείμενο μνήμης με τη χρήση της `shm_unlink()`. Αυτό το σύστημα είναι ιδιαίτερα αποτελεσματικό για αποτελεσματική, γρήγορη IPC σε περιβάλλοντα όπου πολλές διεργασίες χρειάζεται να έχουν πρόσβαση σε κοινά δεδομένα με ταχύτητα. 
+**Η κοινή μνήμη POSIX** επιτρέπει στις διεργασίες σε λειτουργικά συστήματα συμβατά με POSIX να έχουν πρόσβαση σε μια κοινή περιοχή μνήμης, διευκολύνοντας ταχύτερη επικοινωνία σε σύγκριση με άλλες μεθόδους επικοινωνίας μεταξύ διεργασιών. Περιλαμβάνει τη δημιουργία ή το άνοιγμα ενός αντικειμένου κοινής μνήμης με `shm_open()`, την ρύθμιση του μεγέθους του με `ftruncate()`, και την αντιστοίχιση του στη διεύθυνση μνήμης της διεργασίας χρησιμοποιώντας `mmap()`. Οι διεργασίες μπορούν στη συνέχεια να διαβάζουν και να γράφουν απευθείας σε αυτήν την περιοχή μνήμης. Για τη διαχείριση ταυτόχρονων προσβάσεων και την αποφυγή διαφθοράς δεδομένων, χρησιμοποιούνται συχνά μηχανισμοί συγχρονισμού όπως οι mutexes ή οι semaphores. Τέλος, οι διεργασίες αποδεσμεύουν και κλείνουν την κοινή μνήμη με `munmap()` και `close()`, και προαιρετικά αφαιρούν το αντικείμενο μνήμης με `shm_unlink()`. Αυτό το σύστημα είναι ιδιαίτερα αποτελεσματικό για αποδοτική, γρήγορη IPC σε περιβάλλοντα όπου πολλές διεργασίες χρειάζεται να έχουν γρήγορη πρόσβαση σε κοινά δεδομένα.
 
 <details>
 
@@ -341,7 +348,7 @@ return 0;
 
 <details>
 
-<summary>Παράδειγμα Καταναλωτή Κώδικα</summary>
+<summary>Παράδειγμα Κώδικα Καταναλωτή</summary>
 ```c
 // gcc consumer.c -o consumer -lrt
 #include <fcntl.h>
@@ -383,30 +390,31 @@ return 0;
 ```
 </details>
 
-## macOS Προστατευμένοι Δείκτες
+## macOS Guarded Descriptors
 
-Οι **προστατευμένοι δείκτες του macOS** είναι μια λειτουργία ασφαλείας που εισήχθη στο macOS για να βελτιώσει την ασφάλεια και την αξιοπιστία των λειτουργιών των **αποκλειστικών δεικτών αρχείων** σε εφαρμογές χρήστη. Αυτοί οι προστατευμένοι δείκτες παρέχουν έναν τρόπο σύνδεσης συγκεκριμένων περιορισμών ή "φρουρών" με τους δείκτες αρχείων, οι οποίοι επιβάλλονται από τον πυρήνα.
+**macOSCguarded descriptors** είναι μια λειτουργία ασφαλείας που εισήχθη στο macOS για να ενισχύσει την ασφάλεια και την αξιοπιστία των **λειτουργιών περιγραφής αρχείων** σε εφαρμογές χρήστη. Αυτοί οι προστατευμένοι περιγραφείς παρέχουν έναν τρόπο για να συσχετίσουν συγκεκριμένους περιορισμούς ή "φύλακες" με περιγραφείς αρχείων, οι οποίοι επιβάλλονται από τον πυρήνα.
 
-Αυτή η λειτουργία είναι ιδιαίτερα χρήσιμη για την πρόληψη ορισμένων κατηγοριών ευπαθειών ασφάλειας όπως η **μη εξουσιοδοτημένη πρόσβαση σε αρχεία** ή οι **συνθήκες ανταγωνισμού**. Αυτές οι ευπαθείς σημεία εμφανίζονται όταν, για παράδειγμα, ένα νήμα έχει πρόσβαση σε μια περιγραφή αρχείου δίνοντας **σε ένα άλλο ευάλωτο νήμα πρόσβαση πάνω σε αυτό** ή όταν ένας δείκτης αρχείου **κληρονομείται** από ένα ευάλωτο παιδικό διεργασία. Κάποιες λειτουργίες που σχετίζονται με αυτήν τη λειτουργικότητα είναι:
+Αυτή η λειτουργία είναι ιδιαίτερα χρήσιμη για την πρόληψη ορισμένων κατηγοριών ευπαθειών ασφαλείας, όπως η **μη εξουσιοδοτημένη πρόσβαση σε αρχεία** ή οι **συνθήκες αγώνα**. Αυτές οι ευπάθειες συμβαίνουν όταν, για παράδειγμα, ένα νήμα έχει πρόσβαση σε μια περιγραφή αρχείου δίνοντας **σε ένα άλλο ευάλωτο νήμα πρόσβαση σε αυτήν** ή όταν ένας περιγραφέας αρχείου **κληρονομείται** από μια ευάλωτη διεργασία παιδί. Ορισμένες συναρτήσεις που σχετίζονται με αυτή τη λειτουργικότητα είναι:
 
-* `guarded_open_np`: Άνοιγμα ενός FD με φρουρό
-* `guarded_close_np`: Κλείσιμο
-* `change_fdguard_np`: Αλλαγή σημαιών φρουράς σε έναν δείκτη (ακόμα και αφαίρεση της προστασίας του φρουρού)
+* `guarded_open_np`: Άνοιγμα ενός FD με έναν φύλακα
+* `guarded_close_np`: Κλείσιμο του
+* `change_fdguard_np`: Αλλαγή σημαιών φύλακα σε έναν περιγραφέα (ακόμη και αφαίρεση της προστασίας φύλακα)
 
-## Αναφορές
+## References
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Ειδικός Ερυθρού Συνεργείου AWS του HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ σας χάρη στην υποβολή PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

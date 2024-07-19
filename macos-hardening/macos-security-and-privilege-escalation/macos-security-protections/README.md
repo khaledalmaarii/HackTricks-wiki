@@ -1,22 +1,23 @@
-# Προστασίες ασφάλειας του macOS
+# macOS Security Protections
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Gatekeeper
 
-Ο Gatekeeper συνήθως χρησιμοποιείται για να αναφέρεται στον συνδυασμό των **Quarantine + Gatekeeper + XProtect**, 3 ασφαλείας modules του macOS που θα προσπαθήσουν να **εμποδίσουν τους χρήστες να εκτελέσουν πιθανώς κακόβουλο λογισμικό που έχει ληφθεί**.
+Ο Gatekeeper χρησιμοποιείται συνήθως για να αναφέρεται στον συνδυασμό **Quarantine + Gatekeeper + XProtect**, 3 μονάδες ασφαλείας του macOS που προσπαθούν να **αποτρέψουν τους χρήστες από το να εκτελούν δυνητικά κακόβουλο λογισμικό που έχει κατεβεί**.
 
 Περισσότερες πληροφορίες στο:
 
@@ -24,41 +25,62 @@
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Περιορισμοί Διεργασιών
+## Processes Limitants
 
-### SIP - Προστασία Ακεραιότητας Συστήματος
+### SIP - System Integrity Protection
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
 {% endcontent-ref %}
 
-### Αμμοθύρα
+### Sandbox
 
-Η Αμμοθύρα του macOS **περιορίζει τις εφαρμογές** που εκτελούνται μέσα στην αμμοθύρα στις **επιτρεπόμενες ενέργειες που καθορίζονται στο προφίλ της αμμοθύρας** με το οποίο η εφαρμογή εκτελείται. Αυτό βοηθά να διασφαλιστεί ότι **η εφαρμογή θα έχει πρόσβαση μόνο σε αναμενόμενους πόρους**.
+Το MacOS Sandbox **περιορίζει τις εφαρμογές** που εκτελούνται μέσα στο sandbox στις **επιτρεπόμενες ενέργειες που καθορίζονται στο προφίλ Sandbox** με το οποίο εκτελείται η εφαρμογή. Αυτό βοηθά να διασφαλιστεί ότι **η εφαρμογή θα έχει πρόσβαση μόνο σε αναμενόμενους πόρους**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Διαφάνεια, Συναίνεση και Έλεγχος**
+### TCC - **Transparency, Consent, and Control**
 
-Το TCC (Διαφάνεια, Συναίνεση και Έλεγχος) είναι ένα πλαίσιο ασφαλείας. Σχεδιάστηκε για να **διαχειρίζεται τις άδειες** των εφαρμογών, ειδικότερα ρυθμίζοντας την πρόσβασή τους σε ευαίσθητα χαρακτηριστικά. Αυτό περιλαμβάνει στοιχεία όπως **υπηρεσίες τοποθεσίας, επαφές, φωτογραφίες, μικρόφωνο, κάμερα, προσβασιμότητα και πλήρη πρόσβαση στο δίσκο**. Το TCC διασφαλίζει ότι οι εφαρμογές μπορούν να έχουν πρόσβαση σε αυτά τα χαρακτηριστικά μόνο μετά από ρητή συναίνεση του χρήστη, ενισχύοντας έτσι την ιδιωτικότητα και τον έλεγχο των προσωπικών δεδομένων.
+**TCC (Transparency, Consent, and Control)** είναι ένα πλαίσιο ασφαλείας. Είναι σχεδιασμένο για να **διαχειρίζεται τις άδειες** των εφαρμογών, ρυθμίζοντας συγκεκριμένα την πρόσβασή τους σε ευαίσθητες δυνατότητες. Αυτό περιλαμβάνει στοιχεία όπως **υπηρεσίες τοποθεσίας, επαφές, φωτογραφίες, μικρόφωνο, κάμερα, προσβασιμότητα και πλήρη πρόσβαση δίσκου**. Το TCC διασφαλίζει ότι οι εφαρμογές μπορούν να έχουν πρόσβαση σε αυτές τις δυνατότητες μόνο μετά την απόκτηση ρητής συγκατάθεσης του χρήστη, ενισχύοντας έτσι την ιδιωτικότητα και τον έλεγχο των προσωπικών δεδομένων.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Περιορισμοί Εκκίνησης/Περιβάλλοντος & Προσωπική Εμπιστοσύνη
+### Launch/Environment Constraints & Trust Cache
 
-Οι περιορισμοί εκκίνησης στο macOS είναι μια λειτουργία ασφαλείας για να **ρυθμίζει την έναρξη διεργασιών** καθορίζοντας **ποιος μπορεί να ξεκινήσει** μια διεργασία, **πώς** και **από πού**. Εισήχθηκαν στο macOS Ventura, κατηγοριοποιούν τις δυαδικές αρχεία του συστήματος σε κατηγορίες περιορισμών μέσα σε μια **προσωπική εμπιστοσύνη**. Κάθε εκτελέσιμο δυαδικό έχει ορισμένους κανόνες για την έναρξή του, συμπεριλαμβανομένων των περιορισμών **αυτού, του γονέα και του υπεύθυνου**. Επεκτάθηκαν σε εφαρμογές τρίτων ως **Περιορισμοί Περιβάλλοντος** στο macOS Sonoma, αυτά τα χαρακτηριστικά βοηθούν στη μείωση των πιθανών εκμεταλλεύσεων του συστήματος διαχειρίζοντας τις συνθήκες έναρξης διεργασιών.
+Οι περιορισμοί εκκίνησης στο macOS είναι μια λειτουργία ασφαλείας για να **ρυθμίζουν την εκκίνηση διαδικασιών** καθορίζοντας **ποιος μπορεί να εκκινήσει** μια διαδικασία, **πώς** και **από πού**. Εισήχθη στο macOS Ventura, κατηγοριοποιούν τα συστήματα δυαδικών σε κατηγορίες περιορισμών εντός ενός **trust cache**. Κάθε εκτελέσιμο δυαδικό έχει καθορισμένους **κανόνες** για την **εκκίνηση** του, συμπεριλαμβανομένων των **self**, **parent** και **responsible** περιορισμών. Επεκτάθηκε σε εφαρμογές τρίτων ως **Environment** Constraints στο macOS Sonoma, αυτές οι δυνατότητες βοηθούν στη μείωση πιθανών εκμεταλλεύσεων του συστήματος ρυθμίζοντας τις συνθήκες εκκίνησης διαδικασιών.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Εργαλείο Αφαίρεσης Κακόβουλου Λογισμικού
+## MRT - Malware Removal Tool
 
-Το Εργαλείο Αφαίρεσης Κακόβουλου Λογισμικού (MRT) είναι μέρος της ασφαλείας του macOS.
+Το Malware Removal Tool (MRT) είναι άλλο ένα μέρος της υποδομής ασφαλείας του macOS. Όπως υποδηλώνει το όνομα, η κύρια λειτουργία του MRT είναι να **αφαιρεί γνωστό κακόβουλο λογισμικό από μολυσμένα συστήματα**.
+
+Μόλις ανιχνευθεί κακόβουλο λογισμικό σε ένα Mac (είτε από το XProtect είτε με κάποιο άλλο μέσο), το MRT μπορεί να χρησιμοποιηθεί για να **αφαιρέσει αυτόματα το κακόβουλο λογισμικό**. Το MRT λειτουργεί σιωπηλά στο παρασκήνιο και συνήθως εκτελείται κάθε φορά που το σύστημα ενημερώνεται ή όταν κατεβαίνει μια νέα ορισμός κακόβουλου λογισμικού (φαίνεται ότι οι κανόνες που έχει το MRT για την ανίχνευση κακόβουλου λογισμικού είναι μέσα στο δυαδικό).
+
+Ενώ τόσο το XProtect όσο και το MRT είναι μέρος των μέτρων ασφαλείας του macOS, εκτελούν διαφορετικές λειτουργίες:
+
+* **XProtect** είναι ένα προληπτικό εργαλείο. **Ελέγχει τα αρχεία καθώς κατεβαίνουν** (μέσω ορισμένων εφαρμογών), και αν ανιχνεύσει οποιουσδήποτε γνωστούς τύπους κακόβουλου λογισμικού, **αποτρέπει το άνοιγμα του αρχείου**, αποτρέποντας έτσι το κακόβουλο λογισμικό από το να μολύνει το σύστημά σας εξαρχής.
+* **MRT**, από την άλλη πλευρά, είναι ένα **αντιδραστικό εργαλείο**. Λειτουργεί αφού ανιχνευθεί κακόβουλο λογισμικό σε ένα σύστημα, με στόχο την αφαίρεση του ενοχλητικού λογισμικού για να καθαρίσει το σύστημα.
+
+Η εφαρμογή MRT βρίσκεται στο **`/Library/Apple/System/Library/CoreServices/MRT.app`**
+
+## Background Tasks Management
+
+**macOS** τώρα **ειδοποιεί** κάθε φορά που ένα εργαλείο χρησιμοποιεί μια γνωστή **τεχνική για την επιμονή εκτέλεσης κώδικα** (όπως τα Login Items, Daemons...), έτσι ώστε ο χρήστης να γνωρίζει καλύτερα **ποιο λογισμικό επιμένει**.
+
+<figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
+
+Αυτό λειτουργεί με έναν **daemon** που βρίσκεται στο `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` και τον **agent** στο `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+
+Ο τρόπος που **`backgroundtaskmanagementd`** γνωρίζει ότι κάτι είναι εγκατεστημένο σε έναν επίμονο φάκελο είναι μέσω της **λήψης των FSEvents** και της δημιουργίας ορισμένων **handlers** για αυτά.
+
+Επιπλέον, υπάρχει ένα αρχείο plist που περιέχει **γνωστές εφαρμογές** που συχνά επιμένουν και διατηρούνται από την Apple που βρίσκεται στο: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -74,33 +96,33 @@
 }
 [...]
 ```
-### Απαρίθμηση
+### Enumeration
 
-Είναι δυνατόν να **απαριθμήσετε όλα** τα ρυθμισμένα στοιχεία φόντου που εκτελούνται με το εργαλείο γραμμής εντολών της Apple:
+Είναι δυνατόν να **καταμετρήσετε όλα** τα ρυθμισμένα στοιχεία παρασκηνίου που εκτελούνται με το εργαλείο cli της Apple:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-Επιπλέον, είναι επίσης δυνατό να αναφέρετε αυτές τις πληροφορίες με το [**DumpBTM**](https://github.com/objective-see/DumpBTM).
+Επιπλέον, είναι επίσης δυνατό να καταχωρηθεί αυτή η πληροφορία με το [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Αυτές οι πληροφορίες αποθηκεύονται στο **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** και ο Τερματικός χρειάζεται FDA.
+Αυτές οι πληροφορίες αποθηκεύονται στο **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** και το Terminal χρειάζεται FDA.
 
-### Αλλοίωση του BTM
+### Ανακατεύοντας με το BTM
 
-Όταν βρεθεί μια νέα διαρκής λειτουργία, γίνεται μια ειδοποίηση τύπου **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Έτσι, οποιοδήποτε τρόπος για να **αποτρέψει** αυτή η **ειδοποίηση** να σταλεί ή ο **πράκτορας να ειδοποιήσει** τον χρήστη θα βοηθήσει έναν επιτιθέμενο να _**παρακάμψει**_ το BTM.
+Όταν βρεθεί μια νέα επιμονή, δημιουργείται ένα γεγονός τύπου **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Έτσι, οποιοσδήποτε τρόπος για να **αποτραπεί** αυτή η **εκδήλωση** από το να σταλεί ή ο **πράκτορας από το να ειδοποιήσει** τον χρήστη θα βοηθήσει έναν επιτιθέμενο να _**παρακάμψει**_ το BTM.
 
-* **Επαναφορά της βάσης δεδομένων**: Εκτελώντας την παρακάτω εντολή θα επαναφέρει τη βάση δεδομένων (θα την ξαναχτίσει από την αρχή), ωστόσο, για κάποιο λόγο, μετά την εκτέλεση αυτής της εντολής, **δεν θα ειδοποιηθεί καμία νέα διαρκής λειτουργία μέχρι να γίνει επανεκκίνηση του συστήματος**.
-* Απαιτείται **root** πρόσβαση.
+* **Επαναφορά της βάσης δεδομένων**: Η εκτέλεση της παρακάτω εντολής θα επαναφέρει τη βάση δεδομένων (θα πρέπει να την ξαναχτίσει από την αρχή), ωστόσο, για κάποιο λόγο, μετά την εκτέλεση αυτού, **καμία νέα επιμονή δεν θα ειδοποιηθεί μέχρι να επανεκκινήσει το σύστημα**.
+* Απαιτείται **root**.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-* **Διακοπή του Πράκτορα**: Είναι δυνατόν να στείλετε ένα σήμα διακοπής στον πράκτορα, έτσι ώστε να **μην ειδοποιεί τον χρήστη** όταν ανιχνεύονται νέες αποκαλύψεις.
+* **Σταματήστε τον Πράκτορα**: Είναι δυνατόν να στείλετε ένα σήμα διακοπής στον πράκτορα ώστε να **μην ειδοποιεί τον χρήστη** όταν εντοπίζονται νέες ανιχνεύσεις.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -113,24 +135,25 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
-* **Σφάλμα**: Εάν η διαδικασία που δημιούργησε την μόνιμη παρουσία υπάρχει γρήγορα αμέσως μετά, το daemon θα προσπαθήσει να λάβει πληροφορίες για αυτήν, θα αποτύχει και δεν θα είναι σε θέση να στείλει το γεγονός που υποδηλώνει ότι μια νέα πράξη είναι μόνιμη.
+* **Σφάλμα**: Αν η **διαδικασία που δημιούργησε την επιμονή υπάρχει γρήγορα αμέσως μετά από αυτήν**, ο δαίμονας θα προσπαθήσει να **λάβει πληροφορίες** γι' αυτήν, **θα αποτύχει**, και **δεν θα μπορέσει να στείλει το γεγονός** που υποδεικνύει ότι ένα νέο πράγμα επιμένει.
 
-Αναφορές και **περισσότερες πληροφορίες για το BTM**:
+Αναφορές και **περισσότερες πληροφορίες σχετικά με το BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
 * [https://support.apple.com/en-gb/guide/deployment/depdca572563/web](https://support.apple.com/en-gb/guide/deployment/depdca572563/web)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
-
+</details>
+{% endhint %}
 </details>

