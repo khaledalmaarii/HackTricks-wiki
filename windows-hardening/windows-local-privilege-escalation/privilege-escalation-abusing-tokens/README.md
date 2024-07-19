@@ -1,30 +1,33 @@
-# Kudhuru Vitambulisho
+# Abusing Tokens
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikitangazwa kwenye HackTricks**? au unataka kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Vitambulisho
+## Tokens
 
-Ikiwa **hujui ni nini Vitambulisho vya Kufikia Windows** soma ukurasa huu kabla ya kuendelea:
+Ikiwa **hujui ni nini Windows Access Tokens** soma ukurasa huu kabla ya kuendelea:
 
 {% content-ref url="../access-tokens.md" %}
 [access-tokens.md](../access-tokens.md)
 {% endcontent-ref %}
 
-**Labda unaweza kuwa na uwezo wa kudhuru vitambulisho unavyo tayari**
+**Labda unaweza kuwa na uwezo wa kupandisha mamlaka kwa kutumia tokens ulizonazo tayari**
 
 ### SeImpersonatePrivilege
 
-Hii ni haki ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini sio uumbaji) wa kifungo chochote, ikitoa kwamba kushughulikia kwake kunaweza kupatikana. Kifungo cha kifahari kinaweza kupatikana kutoka kwa huduma ya Windows (DCOM) kwa kuiwezesha kufanya uthibitishaji wa NTLM dhidi ya shambulio, kisha kuruhusu utekelezaji wa mchakato na mamlaka ya SYSTEM. Udhaifu huu unaweza kutumiwa kwa kutumia zana mbalimbali, kama vile [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (inayohitaji winrm iwe imezimwa), [SweetPotato](https://github.com/CCob/SweetPotato), na [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+Hii ni mamlaka ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini sio uundaji) wa token yoyote, ikiwa tu mkono wake unaweza kupatikana. Token yenye mamlaka inaweza kupatikana kutoka kwa huduma ya Windows (DCOM) kwa kuifanya ifanye uthibitishaji wa NTLM dhidi ya exploit, na hivyo kuwezesha utekelezaji wa mchakato wenye mamlaka ya SYSTEM. Uthibitisho huu unaweza kutumika kwa kutumia zana mbalimbali, kama vile [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (ambayo inahitaji winrm kuzuiliwa), [SweetPotato](https://github.com/CCob/SweetPotato), na [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -36,23 +39,23 @@ Hii ni haki ambayo inashikiliwa na mchakato wowote inaruhusu uigaji (lakini sio 
 
 ### SeAssignPrimaryPrivilege
 
-Ni sawa sana na **SeImpersonatePrivilege**, itatumia **njia ile ile** kupata kifungo cha kifahari.\
-Kisha, haki hii inaruhusu **kuweka kifungo cha msingi** kwa mchakato mpya/uliosimamishwa. Kwa kifungo cha uigaji cha kifahari unaweza kuzalisha kifungo cha msingi (DuplicateTokenEx).\
-Kwa kifungo, unaweza kuunda **mchakato mpya** na 'CreateProcessAsUser' au kuunda mchakato uliosimamishwa na **kuweka kifungo** (kwa ujumla, huwezi kurekebisha kifungo cha msingi cha mchakato unaofanya kazi).
+Ni sawa sana na **SeImpersonatePrivilege**, itatumia **mbinu ile ile** kupata token yenye mamlaka.\
+Kisha, mamlaka hii inaruhusu **kupewa token ya msingi** kwa mchakato mpya/uliokamatwa. Kwa token ya uigaji yenye mamlaka unaweza kuunda token ya msingi (DuplicateTokenEx).\
+Kwa token hiyo, unaweza kuunda **mchakato mpya** kwa 'CreateProcessAsUser' au kuunda mchakato ulio kamatwa na **kuiweka token** (kwa ujumla, huwezi kubadilisha token ya msingi ya mchakato unaoendelea).
 
 ### SeTcbPrivilege
 
-Ikiwa umewezesha kifungo hiki unaweza kutumia **KERB\_S4U\_LOGON** kupata **kifungo cha uigaji** kwa mtumiaji mwingine yeyote bila kujua siri, **kuongeza kikundi cha aina yoyote** (wasimamizi) kwenye kifungo, kuweka **kiwango cha usalama** cha kifungo kuwa "**wa kati**", na kuweka kifungo hiki kwa **mnyororo wa sasa** (SetThreadToken).
+Ikiwa umewezeshwa token hii unaweza kutumia **KERB\_S4U\_LOGON** kupata **token ya uigaji** kwa mtumiaji mwingine yeyote bila kujua nywila, **ongeza kundi lolote** (admins) kwenye token, weka **kiwango cha uaminifu** cha token kuwa "**medium**", na kupewa token hii kwa **thread ya sasa** (SetThreadToken).
 
 ### SeBackupPrivilege
 
-Mfumo unalazimishwa **kutoa udhibiti wa kusoma** kwa faili yoyote (iliyopunguzwa kwa shughuli za kusoma) kupitia kwa haki hii. Inatumika kwa **kusoma vibonye vya nywila za akaunti za Wasimamizi wa Mitaa** kutoka kwa usajili, kufuatia ambayo, zana kama "**psexec**" au "**wmicexec**" zinaweza kutumika na kibonye hicho (mbinu ya Pass-the-Hash). Walakini, mbinu hii inashindwa chini ya hali mbili: wakati akaunti ya Msimamizi wa Mitaa imelemazwa, au wakati sera inawekwa ambayo inaondoa haki za utawala kutoka kwa Wasimamizi wa Mitaa wanaounganisha kijijini.\
-Unaweza **kudhuru haki hii** na:
+Mfumo unalazimishwa **kutoa udhibiti wa ufikiaji wa kusoma** kwa faili yoyote (iliyopunguzwa kwa operesheni za kusoma) kwa mamlaka hii. Inatumika kwa **kusoma hash za nywila za akaunti za Msimamizi wa ndani** kutoka kwenye rejista, baada ya hapo, zana kama "**psexec**" au "**wmiexec**" zinaweza kutumika na hash hiyo (Pass-the-Hash technique). Hata hivyo, mbinu hii inashindwa chini ya hali mbili: wakati akaunti ya Msimamizi wa ndani imezuiliwa, au wakati sera ipo inayondoa haki za kiutawala kutoka kwa Wasimamizi wa ndani wanaounganisha kwa mbali.\
+Unaweza **kuabudu mamlaka hii** kwa:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
 * kufuata **IppSec** katika [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* Au kama ilivyoelezwa katika sehemu ya **kudhuru haki za Backup Operators** ya:
+* Au kama ilivyoelezwa katika sehemu ya **kupandisha mamlaka na Watoa Hifadhi** ya:
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -60,29 +63,29 @@ Unaweza **kudhuru haki hii** na:
 
 ### SeRestorePrivilege
 
-Ruhusa ya **upatikanaji wa kuandika** kwa faili yoyote ya mfumo, bila kujali Orodha ya Kudhibiti ya Upatikanaji (ACL) ya faili hiyo, inatolewa na haki hii. Inafungua fursa nyingi za kudhuru, ikiwa ni pamoja na uwezo wa **kurekebisha huduma**, kutekeleza DLL Hijacking, na kuweka **wadukuzi** kupitia Chaguo za Utekelezaji wa Faili ya Picha kati ya mbinu mbalimbali.
+Ruhusa ya **ufikiaji wa kuandika** kwa faili yoyote ya mfumo, bila kujali Orodha ya Udhibiti wa Ufikiaji (ACL) ya faili hiyo, inatolewa na mamlaka hii. Inafungua uwezekano mwingi wa kupandisha mamlaka, ikiwa ni pamoja na uwezo wa **kubadilisha huduma**, kufanya DLL Hijacking, na kuweka **debuggers** kupitia Chaguzi za Utekelezaji wa Faili ya Picha kati ya mbinu nyingine mbalimbali.
 
 ### SeCreateTokenPrivilege
 
-SeCreateTokenPrivilege ni ruhusa yenye nguvu, hasa inayofaa wakati mtumiaji ana uwezo wa kudai vitambulisho, lakini pia bila SeImpersonatePrivilege. Uwezo huu unategemea uwezo wa kudai kifungo kinachowakilisha mtumiaji huyo huyo na ambaye kiwango chake cha usalama hakiendi zaidi ya mchakato wa sasa.
+SeCreateTokenPrivilege ni ruhusa yenye nguvu, hasa inavyofaa wakati mtumiaji ana uwezo wa kuigiza tokens, lakini pia katika ukosefu wa SeImpersonatePrivilege. Uwezo huu unategemea uwezo wa kuigiza token inayowakilisha mtumiaji yule yule na ambayo kiwango chake cha uaminifu hakizidi kile cha mchakato wa sasa.
 
-**Muhimu:**
-- **Uigaji bila SeImpersonatePrivilege:** Inawezekana kutumia SeCreateTokenPrivilege kwa EoP kwa kudai vitambulisho chini ya hali maalum.
-- **Hali za Uigaji wa Kifungo:** Uigaji mafanikio unahitaji kifungo cha lengo kuwa cha mtumiaji huyo huyo na kiwango cha usalama ambacho ni kidogo au sawa na kiwango cha usalama wa mchakato unaojaribu uigaji.
-- **Uundaji na Kubadilisha Vitambulisho vya Uigaji:** Watumiaji wanaweza kuunda kifungo cha uigaji na kukiimarisha kwa kuongeza SID ya kikundi cha kifahari.
+**Mambo Muhimu:**
+- **Uigaji bila SeImpersonatePrivilege:** Inawezekana kutumia SeCreateTokenPrivilege kwa EoP kwa kuigiza tokens chini ya hali maalum.
+- **Hali za Uigaji wa Token:** Uigaji wa mafanikio unahitaji token lengwa kuwa ya mtumiaji yule yule na kuwa na kiwango cha uaminifu ambacho ni kidogo au sawa na kiwango cha uaminifu wa mchakato unaojaribu kuigiza.
+- **Uundaji na Ubadilishaji wa Tokens za Uigaji:** Watumiaji wanaweza kuunda token ya uigaji na kuiboresha kwa kuongeza SID ya kundi lenye mamlaka (Security Identifier).
 
 ### SeLoadDriverPrivilege
 
-Haki hii inaruhusu **kupakia na kufuta madereva ya kifaa** kwa kuunda kuingiza ya usajili na thamani maalum kwa `ImagePath` na `Type`. Kwa kuwa upatikanaji wa kuandika moja kwa moja kwa `HKLM` (HKEY_LOCAL_MACHINE) umepunguzwa, `HKCU` (HKEY_CURRENT_USER) lazima itumike badala yake. Walakini, ili kufanya `HKCU` itambulike na kernel kwa usanidi wa dereva, njia maalum lazima ifuatwe.
+Mamlaka hii inaruhusu **kuchaji na kuondoa madereva ya vifaa** kwa kuunda kipengee cha rejista chenye thamani maalum za `ImagePath` na `Type`. Kwa kuwa ufikiaji wa moja kwa moja wa kuandika kwenye `HKLM` (HKEY_LOCAL_MACHINE) umepunguzika, `HKCU` (HKEY_CURRENT_USER) lazima itumike badala yake. Hata hivyo, ili kufanya `HKCU` itambulike kwa kernel kwa ajili ya usanidi wa dereva, njia maalum lazima ifuatwe.
 
-Njia hii ni `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, ambapo `<RID>` ni Kitambulisho cha Kihusishi cha mtumiaji wa sasa. Ndani ya `HKCU`, njia nzima hii lazima iundwe, na thamani mbili zinahitaji kuwekwa:
-- `ImagePath`, ambayo ni njia ya utekelezaji wa binary
-- `Type`, na thamani ya `SERVICE_KERNEL_DRIVER` (`0x00000001`).
+Njia hii ni `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, ambapo `<RID>` ni Kitambulisho cha Kijumla cha mtumiaji wa sasa. Ndani ya `HKCU`, njia hii yote lazima iundwe, na thamani mbili zinahitaji kuwekwa:
+- `ImagePath`, ambayo ni njia ya binary itakayotekelezwa
+- `Type`, ikiwa na thamani ya `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
-**Hatua za Kufuata:**
-1. Fikia `HKCU` badala ya `HKLM` kutokana na upatikanaji mdogo wa kuandika.
-2. Unda njia `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` ndani ya `HKCU`, ambapo `<RID>` inawakilisha Kitambulisho cha Kihusishi cha mtumiaji wa sasa.
-3. Weka `ImagePath` kwa njia ya utekelezaji wa binary.
+**Hatua za Kufuatia:**
+1. Fikia `HKCU` badala ya `HKLM` kutokana na ufikiaji wa kuandika uliozuiliwa.
+2. Unda njia `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` ndani ya `HKCU`, ambapo `<RID>` inawakilisha Kitambulisho cha Kijumla cha mtumiaji wa sasa.
+3. Weka `ImagePath` kuwa njia ya utekelezaji wa binary.
 4. Weka `Type` kama `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
 # Example Python code to set the registry values
@@ -95,11 +98,11 @@ reg.SetValueEx(key, "ImagePath", 0, reg.REG_SZ, "path_to_binary")
 reg.SetValueEx(key, "Type", 0, reg.REG_DWORD, 0x00000001)
 reg.CloseKey(key)
 ```
-Njia zaidi za kutumia haki hii kwa [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
+More ways to abuse this privilege in [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
 
 ### SeTakeOwnershipPrivilege
 
-Hii inafanana na **SeRestorePrivilege**. Kazi yake kuu inaruhusu mchakato kuchukua **umiliki wa kitu**, kuzunguka mahitaji ya ufikiaji wa hiari kupitia utoaji wa haki za ufikiaji wa WRITE_OWNER. Mchakato huu unahusisha kwanza kusimika umiliki wa funguo ya usajili inayokusudiwa kwa madhumuni ya kuandika, kisha kubadilisha DACL kuruhusu operesheni za kuandika.
+Hii ni sawa na **SeRestorePrivilege**. Kazi yake kuu inaruhusu mchakato **kuchukua umiliki wa kitu**, ikiepuka hitaji la ufikiaji wa hiari kupitia utoaji wa haki za ufikiaji wa WRITE_OWNER. Mchakato huu unahusisha kwanza kupata umiliki wa funguo za rejista zinazokusudiwa kwa madhumuni ya kuandika, kisha kubadilisha DACL ili kuwezesha operesheni za kuandika.
 ```bash
 takeown /f 'C:\some\file.txt' #Now the file is owned by you
 icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
@@ -117,13 +120,13 @@ c:\inetpub\wwwwroot\web.config
 ```
 ### SeDebugPrivilege
 
-Haki hii inaruhusu **kudebugi michakato mingine**, ikiwa ni pamoja na kusoma na kuandika kwenye kumbukumbu. Mikakati mbalimbali ya kuingiza kumbukumbu, inayoweza kuepuka zaidi ya programu za kupambana na virusi na ufumbuzi wa kuzuia uvamizi wa mwenyeji, inaweza kutumika na haki hii.
+Haki hii inaruhusu **kudebug mchakato mingine**, ikiwa ni pamoja na kusoma na kuandika katika kumbukumbu. Mikakati mbalimbali ya kuingiza kumbukumbu, inayoweza kukwepa antivirusi nyingi na suluhisho za kuzuia uvamizi wa mwenyeji, zinaweza kutumika kwa haki hii.
 
-#### Pindua kumbukumbu
+#### Dump memory
 
-Unaweza kutumia [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) kutoka [Suite ya SysInternals](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) kwa **kukamata kumbukumbu ya mchakato**. Hasa, hii inaweza kutumika kwa **Mchakato wa Huduma ya Subsystem ya Usalama wa Mitaa ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, ambao unahusika na kuhifadhi siri za mtumiaji mara tu mtumiaji anapofanikiwa kuingia kwenye mfumo.
+Unaweza kutumia [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) kutoka [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) ili **kukamata kumbukumbu ya mchakato**. Kwa hakika, hii inaweza kutumika kwa mchakato wa **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, ambao unawajibika kuhifadhi akidi za mtumiaji mara tu mtumiaji anapofanikiwa kuingia kwenye mfumo.
 
-Kisha unaweza kupakia pindu hili kwenye mimikatz ili upate nywila:
+Kisha unaweza kupakia dump hii katika mimikatz ili kupata nywila:
 ```
 mimikatz.exe
 mimikatz # log
@@ -132,11 +135,11 @@ mimikatz # sekurlsa::logonpasswords
 ```
 #### RCE
 
-Ikiwa unataka kupata kifaa cha `NT SYSTEM` unaweza kutumia:
+Ikiwa unataka kupata `NT SYSTEM` shell unaweza kutumia:
 
-- ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
-- ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
-- ****[**psgetsys.ps1 (Powershell Script)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
+* ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
+* ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
+* ****[**psgetsys.ps1 (Powershell Script)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
 ```powershell
 # Get the PID of a process running as NT SYSTEM
 import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<command_to_execute>)
@@ -145,33 +148,48 @@ import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<c
 ```
 whoami /priv
 ```
-**Vidakuzi vinavyoonekana kama Vilivyozimwa** vinaweza kuwezeshwa, kwa kweli unaweza kutumia vidakuzi vilivyo **Vilivyowezeshwa** na **Vilivyozimwa**.
+The **tokens that appear as Disabled** zinaweza kuwezeshwa, unaweza kweli kutumia _Enabled_ na _Disabled_ tokens.
 
-### Wezesha Vidakuzi Vyote
+### Wezesha Token Zote
 
-Ikiwa una vidakuzi vilivyozimwa, unaweza kutumia skripti [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) kuwezesha vidakuzi vyote:
+Ikiwa una tokens zilizozuiliwa, unaweza kutumia script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) kuwezesha token zote:
 ```powershell
 .\EnableAllTokenPrivs.ps1
 whoami /priv
 ```
-Au **script** uliowekwa katika [**chapisho hili**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
+Or the **script** embed in this [**post**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
 
-## Jedwali
+## Table
 
-Mwongozo kamili wa mizania ya ruhusa ya token unapatikana kwa [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), muhtasari hapa chini utaorodhesha njia za moja kwa moja za kutumia ruhusa hiyo kwa kupata kikao cha msimamizi au kusoma faili nyeti.
+Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), summary below will only list direct ways to exploit the privilege to obtain an admin session or read sensitive files.
 
-| Ruhusa                    | Athari      | Zana                    | Njia ya utekelezaji                                                                                                                                                                                                                                                                                                                                | Maelezo                                                                                                                                                                                                                                                                                                                        |
+| Privilege                  | Impact      | Tool                    | Execution path                                                                                                                                                                                                                                                                                                                                     | Remarks                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Msimamizi**_ | Zana ya tatu          | _"It would allow a user to impersonate tokens and privesc to nt system using tools such as potato.exe, rottenpotato.exe and juicypotato.exe"_                                                                                                                                                                                                      | Asante [Aurélien Chalot](https://twitter.com/Defte\_) kwa sasisho. Nitajaribu kubadilisha maneno kuwa kama mapishi hivi karibuni.                                                                                                                                                                                        |
-| **`SeBackup`**             | **Tishio**  | _**Amri zilizojengwa**_ | Soma faili nyeti kwa kutumia `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Inaweza kuwa ya kuvutia zaidi ikiwa unaweza kusoma %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (na robocopy) haifai linapokuja kufungua faili.<br><br>- Robocopy inahitaji SeBackup na SeRestore kufanya kazi na /b parameter.</p>                                                                      |
-| **`SeCreateToken`**        | _**Msimamizi**_ | Zana ya tatu          | Unda token ya kupindukia ikiwa ni pamoja na ruhusa za msimamizi wa ndani kwa kutumia `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
-| **`SeDebug`**              | _**Msimamizi**_ | **PowerShell**          | Nakili token ya `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script inapatikana kwa [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
-| **`SeLoadDriver`**         | _**Msimamizi**_ | Zana ya tatu          | <p>1. Pakia dereva dhaifu wa kernel kama vile <code>szkg64.sys</code><br>2. Tumia udhaifu wa dereva<br><br>Kwa upande mwingine, ruhusa inaweza kutumika kufuta dereva zinazohusiana na usalama kwa kutumia amri ya kujengwa ya <code>ftlMC</code>. yaani: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. Udhaifu wa <code>szkg64</code> umetajwa kama <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Msimbo wa udhaifu wa <code>szkg64</code> ulibuniwa na <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
-| **`SeRestore`**            | _**Msimamizi**_ | **PowerShell**          | <p>1. Anzisha PowerShell/ISE na ruhusa ya SeRestore ikiwepo.<br>2. Wezesha ruhusa hiyo kwa kutumia <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Badilisha utilman.exe kuwa utilman.old<br>4. Badilisha cmd.exe kuwa utilman.exe<br>5. Funga konsoli na bonyeza Win+U</p> | <p>Shambulio linaweza kugunduliwa na programu fulani za AV.</p><p>Njia mbadala inategemea kubadilisha programu za huduma zilizohifadhiwa katika "Program Files" kwa kutumia ruhusa hiyo hiyo</p>                                                                                                                                                            |
-| **`SeTakeOwnership`**      | _**Msimamizi**_ | _**Amri zilizojengwa**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Badilisha cmd.exe kuwa utilman.exe<br>4. Funga konsoli na bonyeza Win+U</p>                                                                                                                                       | <p>Shambulio linaweza kugunduliwa na programu fulani za AV.</p><p>Njia mbadala inategemea kubadilisha programu za huduma zilizohifadhiwa katika "Program Files" kwa kutumia ruhusa hiyo hiyo.</p>                                                                                                                                                           |
-| **`SeTcb`**                | _**Msimamizi**_ | Zana ya tatu          | <p>Tumia mizania kuwa na ruhusa za msimamizi wa ndani zilizojumuishwa. Inaweza kuhitaji SeImpersonate.</p><p>Kuthibitishwa.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
+| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"It would allow a user to impersonate tokens and privesc to nt system using tools such as potato.exe, rottenpotato.exe and juicypotato.exe"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
+| **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Read sensitve files with `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Inaweza kuwa ya kuvutia zaidi ikiwa unaweza kusoma %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (na robocopy) si ya msaada linapokuja kwa faili zilizo wazi.<br><br>- Robocopy inahitaji zote SeBackup na SeRestore kufanya kazi na /b parameter.</p>                                                                      |
+| **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Create arbitrary token including local admin rights with `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
+| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplicate the `lsass.exe` token.                                                                                                                                                                                                                                                                                                                   | Script to be found at [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
+| **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Load buggy kernel driver such as <code>szkg64.sys</code><br>2. Exploit the driver vulnerability<br><br>Alternatively, the privilege may be used to unload security-related drivers with <code>ftlMC</code> builtin command. i.e.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. The <code>szkg64</code> vulnerability is listed as <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. The <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">exploit code</a> was created by <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
+| **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Launch PowerShell/ISE with the SeRestore privilege present.<br>2. Enable the privilege with <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Rename utilman.exe to utilman.old<br>4. Rename cmd.exe to utilman.exe<br>5. Lock the console and press Win+U</p> | <p>Attack may be detected by some AV software.</p><p>Alternative method relies on replacing service binaries stored in "Program Files" using the same privilege</p>                                                                                                                                                            |
+| **`SeTakeOwnership`**      | _**Admin**_ | _**Built-in commands**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Rename cmd.exe to utilman.exe<br>4. Lock the console and press Win+U</p>                                                                                                                                       | <p>Attack may be detected by some AV software.</p><p>Alternative method relies on replacing service binaries stored in "Program Files" using the same privilege.</p>                                                                                                                                                           |
+| **`SeTcb`**                | _**Admin**_ | 3rd party tool          | <p>Manipulate tokens to have local admin rights included. May require SeImpersonate.</p><p>To be verified.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
 
-## Marejeo
+## Reference
 
-* Angalia jedwali hili linaloelezea vidole vya Windows: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Angalia [**karatasi hii**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) kuhusu privesc na vidole.
+* Take a look to this table defining Windows tokens: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
+* Take a look to [**this paper**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) about privesc with tokens.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

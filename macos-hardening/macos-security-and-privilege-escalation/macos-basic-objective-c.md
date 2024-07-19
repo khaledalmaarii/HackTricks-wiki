@@ -1,38 +1,52 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Tafadhali kumbuka kuwa programu zilizoandikwa kwa Objective-C **huzingatia** tamko la darasa **wakati** **zinafanywa** kuwa [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Tamko hilo la darasa **linajumuisha** jina na aina ya:
+Kumbuka kwamba programu zilizoandikwa kwa Objective-C **zinahifadhi** matangazo yao ya darasa **wakati** **zinapokanzwa** kuwa [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Matangazo kama hayo ya darasa **yanajumuisha** jina na aina ya:
 {% endhint %}
 
 * Darasa
-* Njia za darasa
-* Viwango vya kipekee vya darasa
+* Mbinu za darasa
+* Vigezo vya mfano wa darasa
 
 Unaweza kupata habari hii kwa kutumia [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Tafadhali kumbuka kuwa majina haya yanaweza kufichwa ili kufanya kurejesha ya binary iwe ngumu zaidi.
+Kumbuka kwamba majina haya yanaweza kufichwa ili kufanya kurudi nyuma kwa binary kuwa ngumu zaidi.
 
-## Madarasa, Njia & Vitu
+## Madarasa, Mbinu & Vitu
 
-### Kiolesura, Mali & Njia
+### Kiolesura, Mali & Mbinu
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -63,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Kitu & Piga Njia**
+### **Object & Call Method**
 
-Ili kuunda kipengele cha darasa, njia ya **`alloc`** inaitwa ambayo **hutenga kumbukumbu** kwa kila **mali** na **kuzifuta** kumbukumbu hizo. Kisha **`init`** inaitwa, ambayo **inaweka mali** kwa **thamani zinazohitajika**.
+Ili kuunda mfano wa darasa, njia ya **`alloc`** inaitwa ambayo **inagawanya kumbukumbu** kwa kila **sifa** na **kuweka sifahizi kuwa sifuri**. Kisha **`init`** inaitwa, ambayo **inaanzisha sifa** kwa **thamani zinazohitajika**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -79,13 +93,13 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **Njia za Darasa**
 
-Njia za darasa zinatambulishwa na ishara ya **alama ya plus** (+) badala ya alama ya nukta (hyphen) (-) inayotumiwa na njia za kipengee. Kama njia ya darasa ya **NSString** njia ya darasa **`stringWithString`**:
+Njia za darasa zinaelezewa kwa kutumia **ishara ya kuongeza** (+) si alama ya kupunguza (-) inayotumika na njia za mfano. Kama njia ya darasa ya **NSString** **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
-### Setteri na Getteri
+### Setter & Getter
 
-Kuweka na kupata mali, unaweza kufanya hivyo kwa kutumia **notation ya dot** au kama vile unaita **njia**:
+Ili **kueka** & **kupata** mali, unaweza kufanya hivyo kwa **alama ya nukta** au kama ungekuwa **ukitaja njia**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -95,20 +109,20 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Majina ya Kipekee**
+### **Mabadiliko ya Kiholela**
 
-Badala ya kutumia njia za kuweka na kupata, unaweza kutumia majina ya kipekee. Majina haya yanafanana na mali lakini yananza na "\_":
+Badala ya mbinu za setter & getter unaweza kutumia mabadiliko ya kiholela. Mabadiliko haya yana jina sawa na mali lakini yanaanza na "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### Itifaki
+### Protocols
 
-Itifaki ni seti ya matangazo ya njia (bila mali). Darasa ambalo linatekeleza itifaki linatekeleza njia zilizotangazwa.
+Protocols ni seti ya matamko ya mbinu (bila mali). Darasa linalotekeleza protokali linafanya kazi za kutangazwa.
 
-Kuna aina 2 za njia: **lazima** na **hiari**. Kwa **kawaida** njia ni **lazima** (lakini unaweza pia kuonyesha hilo na lebo ya **`@required`**). Ili kuonyesha kuwa njia ni hiari, tumia **`@optional`**.
+Kuna aina 2 za mbinu: **lazima** na **hiari**. Kwa **kawaida** mbinu ni **lazima** (lakini unaweza pia kuashiria hivyo kwa lebo ya **`@required`**). Kuashiria kwamba mbinu ni hiari tumia **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -119,30 +133,6 @@ Kuna aina 2 za njia: **lazima** na **hiari**. Kwa **kawaida** njia ni **lazima**
 @end
 ```
 ### Pamoja yote
-
-Kwa kuzingatia usalama wa macOS na kuongeza mamlaka, kuna mambo kadhaa ya kuzingatia. Hapa kuna orodha ya vitu muhimu vya kufanya:
-
-1. **Sasisha mfumo wa uendeshaji**: Hakikisha kuwa macOS yako imeboreshwa na toleo la hivi karibuni la mfumo wa uendeshaji. Sasisha mara kwa mara ili kupata maboresho ya usalama na kurekebisha kasoro zilizojulikana.
-
-2. **Tumia nenosiri lenye nguvu**: Chagua nenosiri lenye nguvu na lisiloweza kutabiriwa kwa akaunti yako ya mtumiaji. Tumia mchanganyiko wa herufi za juu na za chini, nambari, na alama za kipekee.
-
-3. **Washa firewall**: Weka firewall ya macOS kuwezesha ulinzi wa ziada dhidi ya mashambulizi ya mtandao. Hakikisha kuwa mipangilio ya firewall imeboreshwa na inazuia trafiki isiyohitajika.
-
-4. **Tumia encryption**: Tumia encryption kwenye diski yako ili kuhakikisha kuwa data yako iko salama hata kama kifaa chako kimeibiwa au kupotea. Unaweza kutumia FileVault kwenye macOS kuanzisha encryption ya diski.
-
-5. **Washa Gatekeeper**: Gatekeeper ni huduma ya usalama inayopatikana kwenye macOS ambayo inazuia ufungaji wa programu kutoka kwa vyanzo visivyoaminika. Hakikisha Gatekeeper imeamilishwa ili kuzuia programu zisizoaminika kufanya kazi kwenye mfumo wako.
-
-6. **Tumia ufunguo wa kuingia**: Badilisha kuingia kwa akaunti yako ya mtumiaji kutoka kwa nenosiri hadi ufunguo wa kuingia. Ufunguo wa kuingia ni njia salama zaidi ya kuthibitisha utambulisho wako.
-
-7. **Tumia programu za antivirus**: Sakinisha programu ya antivirus yenye sifa nzuri kwenye macOS yako ili kuchunguza na kuzuia vitisho vya usalama. Fanya uhakiki wa mara kwa mara ili kuhakikisha kuwa mfumo wako haujathiriwa na programu hasidi.
-
-8. **Zima huduma zisizotumiwa**: Funga huduma zisizotumiwa kwenye macOS yako ili kupunguza hatari ya mashambulizi. Kagua mipangilio ya mfumo wako na zima huduma ambazo hazihitajiki.
-
-9. **Tumia akaunti ya mtumiaji mdogo**: Tumia akaunti ya mtumiaji mdogo badala ya akaunti ya msimamizi kwa shughuli za kawaida. Hii inapunguza hatari ya kutokea kwa makosa yanayoweza kusababisha uharibifu mkubwa.
-
-10. **Fuatilia shughuli za mfumo**: Tumia zana za ufuatiliaji kama vile Console.app kuchunguza shughuli za mfumo na kugundua shughuli zisizo za kawaida au za kushuku.
-
-Kwa kufuata hatua hizi, unaweza kuimarisha usalama wa macOS yako na kupunguza hatari ya kuvuja kwa data au kushambuliwa na wahalifu mtandaoni.
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -192,7 +182,7 @@ NSLog(@"Number of wheels: %i", mySuperCar.numberOfWheels);
 [mySuperCar makeLongTruck];
 }
 ```
-### Darasa za Msingi
+### Basic Classes
 
 #### String
 
@@ -205,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Darasa za msingi ni **zisizobadilika**, kwa hivyo ili kuongeza herufi kwenye herufi iliyopo, **NSString mpya inahitaji kuundwa**.
+Darasa za msingi ni **zisizoweza kubadilishwa**, hivyo ili kuongeza mfuatano wa herufi kwenye moja iliyopo **NSString mpya inahitaji kuundwa**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -213,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Au unaweza kutumia pia darasa la herufi inayoweza kubadilishwa:
+Au unaweza pia kutumia darasa la **mutable** string:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -224,8 +214,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Nambari
 
 {% code overflow="wrap" %}
@@ -247,7 +235,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-#### Mfumo wa Array, Sets & Dictionary
+#### Array, Sets & Dictionary
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -297,9 +285,11 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Vitengo
+### Blocks
 
-Vitengo ni **kazi ambazo hufanya kama vitu** hivyo vinaweza kupitishwa kwa kazi au **kuhifadhiwa** katika **makundi** au **orodha**. Pia, vinaweza **kuwakilisha thamani ikiwa wanapewa thamani** hivyo ni sawa na lambdas.
+Blocks ni **kazi zinazofanya kama vitu** hivyo zinaweza kupitishwa kwa kazi au **kuhifadhiwa** katika **mifumo** au **kamusi**. Pia, zinaweza **kuwakilisha thamani ikiwa zitatolewa thamani** hivyo ni sawa na lambdas.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -314,7 +304,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Pia ni **wakati mwingine inawezekana kufafanua aina ya kizuizi** itakayotumiwa kama parameter katika kazi:
+Ni pia inawezekana **kufafanua aina ya block inayotumika kama parameter** katika kazi:
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -365,31 +355,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Pia niwezekano wa kusimamia faili **kwa kutumia vitu vya `NSURL` badala ya vitu vya `NSString`**. Majina ya njia ni sawa, lakini **badala ya `Path` tumia `URL`**.
+Ni pia inawezekana kusimamia faili **ukitumia vitu vya `NSURL` badala ya vitu vya `NSString`**. Majina ya mbinu ni sawa, lakini **pamoja na `URL` badala ya `Path`**.
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-Darasa kuu zaidi lina njia `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` iliyofafanuliwa ambayo inaruhusu kuandikwa moja kwa moja kwenye faili:
-
-{% code overflow="wrap" %}
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

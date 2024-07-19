@@ -1,28 +1,33 @@
-# Kufanya Matumizi Mabaya ya Docker Socket kwa Kupandisha Hadhi
+# Abusing Docker Socket for Privilege Escalation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Kuna nyakati ambapo una **upatikanaji wa soketi ya docker** na unataka kuitumia ku **pandisha hadhi**. Baadhi ya vitendo vinaweza kuwa vya kushuku sana na unaweza kutaka kuviepuka, hivyo hapa unaweza kupata bendera tofauti ambazo zinaweza kuwa na manufaa kwa kupandisha hadhi:
+Kuna nyakati fulani ambapo una **ufikiaji wa docker socket** na unataka kuutumia ili **kuinua mamlaka**. Vitendo vingine vinaweza kuwa vya kutatanisha na unaweza kutaka kuvikwepa, hivyo hapa unaweza kupata bendera tofauti ambazo zinaweza kuwa na manufaa katika kuinua mamlaka:
 
-### Kupitia kufunga
+### Via mount
 
-Unaweza **kufunga** sehemu tofauti za **mfumo wa faili** kwenye kontena linaloendeshwa kama root na **kuzifikia**.\
-Pia unaweza **kufanya matumizi mabaya ya kufunga ili kupandisha hadhi** ndani ya kontena.
+Unaweza **kuweka** sehemu tofauti za **filesystem** katika kontena linaloendesha kama root na **kuzipata**.\
+Pia unaweza **kudhulumu mount ili kuinua mamlaka** ndani ya kontena.
 
-* **`-v /:/host`** -> Funga mfumo wa faili wa mwenyeji kwenye kontena ili uweze **kusoma mfumo wa faili wa mwenyeji.**
-* Ikiwa unataka **kuwa kama wewe uko kwenye mwenyeji** lakini ukiwa kwenye kontena unaweza kulemaza vifaa vingine vya ulinzi kwa kutumia bendera kama:
+* **`-v /:/host`** -> Weka filesystem ya mwenyeji katika kontena ili uweze **kusoma filesystem ya mwenyeji.**
+* Ikiwa unataka **kujisikia kama uko kwenye mwenyeji** lakini ukiwa kwenye kontena unaweza kuzima mitambo mingine ya ulinzi kwa kutumia bendera kama:
 * `--privileged`
 * `--cap-add=ALL`
 * `--security-opt apparmor=unconfined`
@@ -32,41 +37,46 @@ Pia unaweza **kufanya matumizi mabaya ya kufunga ili kupandisha hadhi** ndani ya
 * `--userns=host`
 * `--uts=host`
 * `--cgroupns=host`
-* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Hii ni sawa na njia iliyotangulia, lakini hapa tunafanya **kufunga diski ya kifaa**. Kisha, ndani ya kontena endesha `mount /dev/sda1 /mnt` na unaweza **kufikia** mfumo wa faili wa **mwenyeji** kwenye `/mnt`
-* Endesha `fdisk -l` kwenye mwenyeji ili kupata kifaa cha `</dev/sda1>` cha kufunga
-* **`-v /tmp:/host`** -> Ikiwa kwa sababu fulani unaweza **kufunga tu saraka fulani** kutoka kwenye mwenyeji na una upatikanaji ndani ya mwenyeji. Funga na uunde **`/bin/bash`** na **suid** kwenye saraka iliyofungwa ili uweze **kuitekeleza kutoka kwenye mwenyeji na kupandisha hadhi hadi root**.
+* \*\*`--device=/dev/sda1 --cap-add=SYS_ADMIN --security-opt apparmor=unconfined` \*\* -> Hii ni sawa na njia ya awali, lakini hapa tuna **weka diski ya kifaa**. Kisha, ndani ya kontena endesha `mount /dev/sda1 /mnt` na unaweza **kupata** **filesystem ya mwenyeji** katika `/mnt`
+* Endesha `fdisk -l` kwenye mwenyeji ili kupata kifaa `</dev/sda1>` cha kuweka
+* **`-v /tmp:/host`** -> Ikiwa kwa sababu fulani unaweza **kweka tu directory fulani** kutoka kwa mwenyeji na una ufikiaji ndani ya mwenyeji. Weka na unda **`/bin/bash`** yenye **suid** katika directory iliyowekwa ili uweze **kuitekeleza kutoka kwa mwenyeji na kuinua hadi root**.
 
 {% hint style="info" %}
-Tafadhali kumbuka kuwa labda huwezi kufunga saraka `/tmp` lakini unaweza kufunga saraka **nyingine inayoweza kuandikwa**. Unaweza kupata saraka zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
+Kumbuka kwamba huenda usiweze kuweka folda `/tmp` lakini unaweza kuweka **folda nyingine inayoweza kuandikwa**. Unaweza kupata directories zinazoweza kuandikwa kwa kutumia: `find / -writable -type d 2>/dev/null`
 
-**Tafadhali kumbuka kuwa sio saraka zote kwenye mashine ya Linux zitasaidia biti ya suid!** Ili kuchunguza ni saraka zipi zinasaidia biti ya suid, endesha `mount | grep -v "nosuid"` Kwa mfano kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii biti ya suid.
+**Kumbuka kwamba si directories zote katika mashine ya linux zitasaidia suid bit!** Ili kuangalia ni zipi zinasaidia suid bit endesha `mount | grep -v "nosuid"` Kwa mfano kawaida `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` na `/var/lib/lxcfs` hazisaidii suid bit.
 
-Pia kumbuka kuwa ikiwa unaweza **kufunga `/etc`** au saraka nyingine yoyote **yenye faili za usanidi**, unaweza kuzibadilisha kutoka kwenye kontena ya docker kama root ili **kuzitumia vibaya kwenye mwenyeji** na kupandisha hadhi (labda kwa kubadilisha `/etc/shadow`)
+Kumbuka pia kwamba ikiwa unaweza **kweka `/etc`** au folda nyingine yoyote **iliyokuwa na faili za usanidi**, unaweza kuzibadilisha kutoka kwa kontena la docker kama root ili **uzitumie kwenye mwenyeji** na kuinua mamlaka (labda kubadilisha `/etc/shadow`)
 {% endhint %}
 
-### Kutoroka kutoka kwenye kontena
+### Escaping from the container
 
-* **`--privileged`** -> Kwa bendera hii unatoa [kizuizi chote kutoka kwenye kontena](docker-privileged.md#what-affects). Angalia mbinu za [kutoroka kutoka kwenye kontena zenye kizuizi kama root](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
-* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Ili [pandisha hadhi kwa kufanya matumizi mabaya ya uwezo](../linux-capabilities.md), **tolea uwezo huo kwa kontena** na lemaza njia nyingine za ulinzi ambazo zinaweza kuzuia shambulio kufanya kazi.
+* **`--privileged`** -> Kwa bendera hii un [ondoa kila ulinzi kutoka kwa kontena](docker-privileged.md#what-affects). Angalia mbinu za [kutoroka kutoka kwa kontena zenye mamlaka kama root](docker-breakout-privilege-escalation/#automatic-enumeration-and-escape).
+* **`--cap-add=<CAPABILITY/ALL> [--security-opt apparmor=unconfined] [--security-opt seccomp=unconfined] [-security-opt label:disable]`** -> Ili [kuinua kwa kudhulumu uwezo](../linux-capabilities.md), **pata uwezo huo kwa kontena** na uzime njia nyingine za ulinzi ambazo zinaweza kuzuia exploit kufanya kazi.
 
 ### Curl
 
-Katika ukurasa huu tumegusia njia za kupandisha hadhi kwa kutumia bendera za docker, unaweza kupata **njia za kufanya matumizi mabaya ya njia hizi kwa kutumia amri ya curl** kwenye ukurasa:
+Katika ukurasa huu tumajadili njia za kuinua mamlaka kwa kutumia bendera za docker, unaweza kupata **njia za kudhulumu mbinu hizi kwa kutumia amri ya curl** katika ukurasa:
 
-{% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
-[authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
-{% endcontent-ref %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

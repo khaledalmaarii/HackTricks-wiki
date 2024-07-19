@@ -9,8 +9,8 @@ Pata Ufikiaji Leo:
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -18,7 +18,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -52,7 +52,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 ```
 #### Taarifa za kushuku
 
-Wakati unapata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
+Wakati wa kupata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
 
 * **Mchakato wa Root** kawaida huendesha na PIDS za chini, hivyo ukiona mchakato wa root wenye PID kubwa unaweza kushuku
 * Angalia **kuingia kwa watumiaji** waliojiandikisha bila shell ndani ya `/etc/passwd`
@@ -61,10 +61,10 @@ Wakati unapata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
 ### Dump ya Kumbukumbu
 
 Ili kupata kumbukumbu ya mfumo unaoendesha, inashauriwa kutumia [**LiME**](https://github.com/504ensicsLabs/LiME).\
-Ili **kuunda** hiyo, unahitaji kutumia **kernel sawa** ambayo mashine ya mwathirika inatumia.
+Ili **kuunda** hiyo, unahitaji kutumia **kernel sawa** na ile inayotumiwa na mashine ya mwathirika.
 
 {% hint style="info" %}
-Kumbuka kwamba huwezi **kusanidi LiME au kitu kingine chochote** kwenye mashine ya mwathirika kwani itafanya mabadiliko kadhaa
+Kumbuka kwamba huwezi **kufunga LiME au kitu kingine chochote** kwenye mashine ya mwathirika kwani kitatengeneza mabadiliko kadhaa
 {% endhint %}
 
 Hivyo, ikiwa una toleo sawa la Ubuntu unaweza kutumia `apt-get install lime-forensics-dkms`\
@@ -86,7 +86,7 @@ LiME pia inaweza kutumika **kutuma dump kupitia mtandao** badala ya kuihifadhi k
 #### Kuzima
 
 Kwanza kabisa, utahitaji **kuzima mfumo**. Hii si chaguo kila wakati kwani wakati mwingine mfumo utakuwa seva ya uzalishaji ambayo kampuni haiwezi kumudu kuzima.\
-Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **"kuvuta plug" kuzima**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **filesystem** kuwa **synchronized**, lakini pia itaruhusu **malware** inay posible **kuharibu ushahidi**. Njia ya "kuvuta plug" inaweza kuleta **kupoteza taarifa** (sio nyingi za taarifa zitapotea kwani tayari tumepata picha ya kumbukumbu) na **malware haitakuwa na fursa yoyote** ya kufanya chochote kuhusu hilo. Hivyo, ikiwa unadhani kuna **malware**, tekeleza tu **amri ya `sync`** kwenye mfumo na uvute plug.
+Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **"kuvuta plug" kuzima**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **filesystem** kuwa **synchronized**, lakini pia itaruhusu **malware** inayoweza **kuharibu ushahidi**. Njia ya "kuvuta plug" inaweza kuleta **kupoteza taarifa** (sio nyingi za taarifa zitapotea kwani tayari tumepata picha ya kumbukumbu) na **malware haitakuwa na fursa yoyote** ya kufanya chochote kuhusu hilo. Hivyo, ikiwa unadhani kuna **malware**, tekeleza tu **amri ya `sync`** kwenye mfumo na uvute plug.
 
 #### Kuchukua picha ya diski
 
@@ -179,14 +179,14 @@ Soma ukurasa ufuatao kujifunza kuhusu zana ambazo zinaweza kuwa na manufaa katik
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Tafuta programu zilizowekwa
+## Tafuta programu zilizofungwa
 
-Ili kutafuta kwa ufanisi programu zilizowekwa kwenye mifumo ya Debian na RedHat, fikiria kutumia kumbukumbu za mfumo na hifadhidata pamoja na ukaguzi wa mikono katika directories za kawaida.
+Ili kutafuta kwa ufanisi programu zilizofungwa kwenye mifumo ya Debian na RedHat, fikiria kutumia kumbukumbu za mfumo na hifadhidata pamoja na ukaguzi wa mikono katika directories za kawaida.
 
-* Kwa Debian, angalia _**`/var/lib/dpkg/status`**_ na _**`/var/log/dpkg.log`**_ kupata maelezo kuhusu usakinishaji wa pakiti, ukitumia `grep` kuchuja taarifa maalum.
-* Watumiaji wa RedHat wanaweza kuuliza hifadhidata ya RPM kwa `rpm -qa --root=/mntpath/var/lib/rpm` ili orodhesha pakiti zilizowekwa.
+* Kwa Debian, angalia _**`/var/lib/dpkg/status`**_ na _**`/var/log/dpkg.log`**_ kupata maelezo kuhusu ufungaji wa pakiti, ukitumia `grep` kuchuja taarifa maalum.
+* Watumiaji wa RedHat wanaweza kuuliza hifadhidata ya RPM kwa `rpm -qa --root=/mntpath/var/lib/rpm` ili orodhesha pakiti zilizofungwa.
 
-Ili kugundua programu zilizowekwa kwa mikono au nje ya wasimamizi hawa wa pakiti, chunguza directories kama _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, na _**`/sbin`**_. Changanya orodha za directories na amri maalum za mfumo ili kubaini executable zisizohusishwa na pakiti zinazojulikana, kuboresha utafutaji wako wa programu zote zilizowekwa.
+Ili kugundua programu zilizofungwa kwa mikono au nje ya wasimamizi hawa wa pakiti, chunguza directories kama _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, na _**`/sbin`**_. Changanya orodha za directories na amri maalum za mfumo ili kubaini executable zisizohusishwa na pakiti zinazojulikana, kuboresha utafutaji wako wa programu zote zilizofungwa.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -239,11 +239,11 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 Njia ambapo malware inaweza kuwekwa kama huduma:
 
 * **/etc/inittab**: Inaita skripti za kuanzisha kama rc.sysinit, ikielekeza zaidi kwenye skripti za kuanzisha.
-* **/etc/rc.d/** na **/etc/rc.boot/**: Zina skripti za kuanzisha huduma, ya pili ikipatikana katika matoleo ya zamani ya Linux.
-* **/etc/init.d/**: Inatumika katika matoleo fulani ya Linux kama Debian kwa kuhifadhi skripti za kuanzisha.
+* **/etc/rc.d/** na **/etc/rc.boot/**: Zina skripti za kuanzisha huduma, ya pili ikipatikana katika toleo za zamani za Linux.
+* **/etc/init.d/**: Inatumika katika toleo fulani za Linux kama Debian kwa kuhifadhi skripti za kuanzisha.
 * Huduma zinaweza pia kuanzishwa kupitia **/etc/inetd.conf** au **/etc/xinetd/**, kulingana na toleo la Linux.
 * **/etc/systemd/system**: Katalogi ya skripti za meneja wa mfumo na huduma.
-* **/etc/systemd/system/multi-user.target.wants/**: Inashikilia viungo kwa huduma ambazo zinapaswa kuanzishwa katika kiwango cha kuendesha watumiaji wengi.
+* **/etc/systemd/system/multi-user.target.wants/**: Inashikilia viungo vya huduma ambazo zinapaswa kuanzishwa katika kiwango cha kuendesha watumiaji wengi.
 * **/usr/local/etc/rc.d/**: Kwa huduma za kawaida au za wahusika wengine.
 * **\~/.config/autostart/**: Kwa programu za kuanzisha kiotomatiki maalum kwa mtumiaji, ambazo zinaweza kuwa mahali pa kuficha malware inayolenga watumiaji.
 * **/lib/systemd/system/**: Faili za kitengo za kawaida za mfumo zinazotolewa na pakiti zilizowekwa.
@@ -254,7 +254,7 @@ Moduli za kernel za Linux, mara nyingi hutumiwa na malware kama sehemu za rootki
 
 * **/lib/modules/$(uname -r)**: Inashikilia moduli za toleo la kernel linaloendesha.
 * **/etc/modprobe.d**: Inashikilia faili za usanidi kudhibiti upakiaji wa moduli.
-* **/etc/modprobe** na **/etc/modprobe.conf**: Faili za mipangilio ya moduli za kimataifa.
+* **/etc/modprobe** na **/etc/modprobe.conf**: Faili za mipangilio ya kimataifa ya moduli.
 
 ### Other Autostart Locations
 
@@ -285,7 +285,7 @@ Mifumo ya Linux inafuatilia shughuli za watumiaji na matukio ya mfumo kupitia fa
 * **/var/log/**: Daima angalia kumbukumbu zisizotarajiwa hapa.
 
 {% hint style="info" %}
-Kumbukumbu za mfumo wa Linux na mifumo ya ukaguzi zinaweza kuzuiwa au kufutwa katika uvunjaji au tukio la malware. Kwa sababu kumbukumbu kwenye mifumo ya Linux kwa ujumla zina taarifa muhimu zaidi kuhusu shughuli za uhalifu, wavamizi mara nyingi huzifuta. Hivyo, wakati wa kuchunguza faili za kumbukumbu zilizopo, ni muhimu kutafuta mapengo au kuingia zisizo za kawaida ambazo zinaweza kuwa dalili za kufutwa au kuingilia.
+Kumbukumbu za mfumo wa Linux na mifumo ya ukaguzi zinaweza kuzuiwa au kufutwa katika uvunjaji au tukio la malware. Kwa sababu kumbukumbu kwenye mifumo ya Linux kwa ujumla zina taarifa muhimu zaidi kuhusu shughuli za uhalifu, wavamizi mara kwa mara huzifuta. Hivyo, wakati wa kuchunguza faili za kumbukumbu zilizopo, ni muhimu kutafuta mapengo au kuingia zisizo za kawaida ambazo zinaweza kuwa dalili za kufutwa au kuingilia.
 {% endhint %}
 
 **Linux inahifadhi historia ya amri kwa kila mtumiaji**, iliyohifadhiwa katika:
@@ -348,7 +348,7 @@ Get Access Today:
 
 ## Review User Accounts and Logon Activities
 
-Chunguza _**/etc/passwd**_, _**/etc/shadow**_ na **logs za usalama** kwa majina yasiyo ya kawaida au akaunti zilizoundwa na au kutumika karibu na matukio yaliyojulikana yasiyoidhinishwa. Pia, angalia mashambulizi ya sudo brute-force.\
+Chunguza _**/etc/passwd**_, _**/etc/shadow**_ na **logs za usalama** kwa majina yasiyo ya kawaida au akaunti zilizoundwa na au kutumika karibu na matukio yasiyoidhinishwa yanayojulikana. Pia, angalia mashambulizi ya sudo brute-force.\
 Zaidi ya hayo, angalia faili kama _**/etc/sudoers**_ na _**/etc/groups**_ kwa ruhusa zisizotarajiwa zilizotolewa kwa watumiaji.\
 Hatimaye, angalia akaunti zenye **hakuna nywila** au **nywila zinazoweza kukisiwa kwa urahisi**.
 
@@ -356,7 +356,7 @@ Hatimaye, angalia akaunti zenye **hakuna nywila** au **nywila zinazoweza kukisiw
 
 ### Analyzing File System Structures in Malware Investigation
 
-Wakati wa kuchunguza matukio ya malware, muundo wa mfumo wa faili ni chanzo muhimu cha taarifa, kinachoonyesha mfululizo wa matukio na maudhui ya malware. Hata hivyo, waandishi wa malware wanatengeneza mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za wakati wa faili au kuepuka mfumo wa faili kwa ajili ya uhifadhi wa data.
+Wakati wa kuchunguza matukio ya malware, muundo wa mfumo wa faili ni chanzo muhimu cha habari, kinachoonyesha mfululizo wa matukio na maudhui ya malware. Hata hivyo, waandishi wa malware wanatengeneza mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za wakati wa faili au kuepuka mfumo wa faili kwa ajili ya uhifadhi wa data.
 
 Ili kupambana na mbinu hizi za anti-forensic, ni muhimu:
 
@@ -383,7 +383,7 @@ Kumbuka kwamba **mshambuliaji** anaweza **kubadilisha** **wakati** ili kufanya *
 
 ### Muhtasari wa Linganisho la Toleo la Mfumo wa Faili
 
-Ili kulinganisha toleo la mfumo wa faili na kubaini mabadiliko, tunatumia amri rahisi za `git diff`:
+Ili kulinganisha matoleo ya mfumo wa faili na kubaini mabadiliko, tunatumia amri rahisi za `git diff`:
 
 * **Ili kupata faili mpya**, linganisha directories mbili:
 ```bash
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Chaguo za kuchuja** (`--diff-filter`) husaidia kupunguza hadi mabadiliko maalum kama vile faili zilizoongezwa (`A`), kufutwa (`D`), au kubadilishwa (`M`).
+* **Chaguzi za kuchuja** (`--diff-filter`) husaidia kupunguza hadi mabadiliko maalum kama vile faili zilizoongezwa (`A`), kufutwa (`D`), au kubadilishwa (`M`).
 * `A`: Faili zilizoongezwa
 * `C`: Faili zilizokopiwa
 * `D`: Faili zilizofutwa
@@ -408,31 +408,32 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `X`: Faili zisizojulikana
 * `B`: Faili zilizovunjika
 
-## Marejeo
+## Marejeleo
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Kitabu: Mwongozo wa Upelelezi wa Malware kwa Mifumo ya Linux: Mwongozo wa Upelelezi wa Kidijitali**
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa katika HackTricks**? au unataka kuwa na ufikiaji wa **toleo jipya la PEASS au kupakua HackTricks katika PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**PEASS rasmi & HackTricks swag**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Shiriki mbinu zako za hacking kwa kuwasilisha PRs kwa** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **na** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kujenga na **kujiendesha kiotomatiki** kwa urahisi kwa zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) kujenga na **kujiendesha** kwa urahisi kazi zinazotolewa na zana za jamii **za kisasa zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

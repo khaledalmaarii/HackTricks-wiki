@@ -1,30 +1,39 @@
 # Seccomp
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-**Seccomp**, inayosimama kwa Secure Computing mode, ni kipengele cha usalama cha **kernel ya Linux kilichoundwa kufanya uchujaji wa wito wa mfumo**. Inazuia michakato kwa seti ndogo ya wito wa mfumo (`exit()`, `sigreturn()`, `read()`, na `write()`) kwa file descriptors zilizofunguliwa tayari. Ikiwa mchakato unajaribu kuita kitu kingine chochote, unakomeshwa na kernel kwa kutumia SIGKILL au SIGSYS. Mfumo huu haufanyi upya rasilimali lakini unaisolate michakato kutoka kwazo.
+**Seccomp**, inamaanisha Hali ya Usalama wa Kompyuta, ni kipengele cha usalama cha **kernel ya Linux kilichoundwa kuchuja wito wa mfumo**. Inapunguza michakato kwa seti ndogo ya wito wa mfumo (`exit()`, `sigreturn()`, `read()`, na `write()` kwa waandishi wa faili waliofunguliwa tayari). Ikiwa mchakato unajaribu kuita chochote kingine, unakatishwa na kernel kwa kutumia SIGKILL au SIGSYS. Mekanism hii haisimamishi rasilimali lakini inatenga mchakato kutoka kwao.
 
-Kuna njia mbili za kuwezesha seccomp: kupitia wito wa mfumo wa `prctl(2)` na `PR_SET_SECCOMP`, au kwa kernel za Linux 3.17 na zaidi, wito wa mfumo wa `seccomp(2)`. Njia ya zamani ya kuwezesha seccomp kwa kuandika kwenye `/proc/self/seccomp` imepitwa na wakati na badala yake kutumia `prctl()`.
+Kuna njia mbili za kuanzisha seccomp: kupitia wito wa mfumo `prctl(2)` na `PR_SET_SECCOMP`, au kwa kernel za Linux 3.17 na juu, wito wa mfumo `seccomp(2)`. Njia ya zamani ya kuwezesha seccomp kwa kuandika kwenye `/proc/self/seccomp` imeondolewa kwa ajili ya `prctl()`.
 
-Kuboresha, **seccomp-bpf**, inaongeza uwezo wa kuchuja wito wa mfumo kwa kutumia sera inayoweza kubadilishwa, kwa kutumia sheria za Berkeley Packet Filter (BPF). Programu kama OpenSSH, vsftpd, na vivinjari vya Chrome/Chromium kwenye Chrome OS na Linux hutumia kipengele hiki cha kuchuja wito wa mfumo kwa njia inayoweza kubadilika na yenye ufanisi, kutoa mbadala kwa systrace ambayo sasa haipatikani tena kwa Linux.
+Kuongeza, **seccomp-bpf**, kunatoa uwezo wa kuchuja wito wa mfumo kwa sera inayoweza kubadilishwa, kwa kutumia sheria za Berkeley Packet Filter (BPF). Kupanua hii inatumika na programu kama OpenSSH, vsftpd, na vivinjari vya Chrome/Chromium kwenye Chrome OS na Linux kwa kuchuja syscall kwa njia rahisi na yenye ufanisi, ikitoa mbadala kwa systrace ambayo sasa haipati msaada kwa Linux.
 
-### **Njia ya Asili/Inayodhibitiwa**
+### **Original/Strict Mode**
 
-Katika hali hii, Seccomp **inaruhusu tu wito wa mfumo** `exit()`, `sigreturn()`, `read()` na `write()` kwa file descriptors zilizofunguliwa tayari. Ikiwa wito wa mfumo mwingine wowote unafanywa, mchakato unauawa kwa kutumia SIGKILL.
+Katika hali hii Seccomp **inaruhusu tu syscalls** `exit()`, `sigreturn()`, `read()` na `write()` kwa waandishi wa faili waliofunguliwa tayari. Ikiwa syscall nyingine yoyote inafanywa, mchakato unauawa kwa kutumia SIGKILL
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -62,7 +71,7 @@ printf("You will not see this message--the process will be killed first\n");
 
 ### Seccomp-bpf
 
-Hii hali inaruhusu **uchujaji wa wito wa mfumo kwa kutumia sera inayoweza kusanidiwa** iliyotekelezwa kwa kutumia sheria za Berkeley Packet Filter.
+Hali hii inaruhusu **kuchuja wito wa mfumo kwa kutumia sera inayoweza kubadilishwa** iliyotekelezwa kwa kutumia sheria za Berkeley Packet Filter.
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -116,29 +125,29 @@ printf("this process is %d\n", getpid());
 
 ## Seccomp katika Docker
 
-**Seccomp-bpf** inasaidiwa na **Docker** ili kuzuia **syscalls** kutoka kwenye kontena na kupunguza eneo la hatari kwa ufanisi. Unaweza kupata **syscalls zilizozuiliwa** kwa **chaguo-msingi** katika [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) na **seccomp profile ya chaguo-msingi** inaweza kupatikana hapa [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-Unaweza kuendesha kontena ya docker na sera ya **seccomp tofauti** na:
+**Seccomp-bpf** inasaidiwa na **Docker** ili kupunguza **syscalls** kutoka kwa kontena kwa ufanisi kupunguza eneo la uso. Unaweza kupata **syscalls zilizozuiwa** kwa **default** katika [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) na **profil ya seccomp ya default** inaweza kupatikana hapa [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+Unaweza kuendesha kontena la docker na sera ya **seccomp** tofauti kwa:
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-Ikiwa unataka, kwa mfano, **kuzuia** chombo cha kutekeleza baadhi ya **syscall** kama vile `uname` unaweza kupakua maelezo ya msingi kutoka [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) na tu **ondoa neno `uname` kutoka orodha**.\
-Ikiwa unataka kuhakikisha kwamba **baadhi ya faili za binary hazifanyi kazi ndani ya kontena ya docker** unaweza kutumia strace kuorodhesha syscalls ambazo faili ya binary inatumia na kisha kuzizuia.\
-Katika mfano ufuatao, **syscalls** za `uname` zinagunduliwa:
+Ikiwa unataka kwa mfano **kuzuia** kontena kutekeleza **syscall** kama `uname` unaweza kupakua profaili ya default kutoka [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) na tu **ondoa mfuatano wa `uname` kutoka kwenye orodha**.\
+Ikiwa unataka kuhakikisha kwamba **binafsi fulani haifanyi kazi ndani ya kontena la docker** unaweza kutumia strace kuorodhesha syscalls ambazo binafsi inatumia na kisha kuzikataa.\
+Katika mfano ufuatao **syscalls** za `uname` zinagunduliwa:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Ikiwa unatumia **Docker tu kuendesha programu**, unaweza **kuipima** na **`strace`** na **ruhusu tu syscalls** inayohitaji
+Ikiwa unatumia **Docker kuzindua programu tu**, unaweza **kuunda profaili** nayo **`strace`** na **kuruhusu tu syscalls** inazohitaji
 {% endhint %}
 
 ### Mfano wa sera ya Seccomp
 
 [Mfano kutoka hapa](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Ili kuelezea kipengele cha Seccomp, hebu tujenge maelezo ya Seccomp yanayozuia wito wa mfumo wa "chmod" kama ifuatavyo.
+Ili kuonyesha kipengele cha Seccomp, hebu tuunde profaili ya Seccomp inayozuia wito wa mfumo wa “chmod” kama ilivyo hapa chini.
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -150,34 +159,45 @@ Ili kuelezea kipengele cha Seccomp, hebu tujenge maelezo ya Seccomp yanayozuia w
 ]
 }
 ```
-Katika wasifu uliopita, tumeweka hatua ya msingi kuwa "ruhusu" na tumeunda orodha nyeusi ya kuzima "chmod". Ili kuwa salama zaidi, tunaweza kuweka hatua ya msingi kuwa "ondoa" na kuunda orodha nyeupe ya kuwezesha wito wa mfumo kwa uchaguzi.\
-Matokeo yanayofuata yanaweka wito wa "chmod" ukirudi kosa kwa sababu umewezeshwa katika wasifu wa seccomp.
+Katika wasifu hapo juu, tumepanga hatua ya default kuwa "kuruhusu" na kuunda orodha ya mblack ili kuzima "chmod". Ili kuwa salama zaidi, tunaweza kuweka hatua ya default kuwa kuacha na kuunda orodha ya nyeupe ili kuwezesha simu za mfumo kwa kuchagua.\
+Matokeo yafuatayo yanaonyesha wito wa "chmod" ukirudisha kosa kwa sababu umezimwa katika wasifu wa seccomp.
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-Matokeo yafuatayo yanaweka wazi "docker inspect" yanayoonyesha maelezo ya wasifu:
+Ifuatayo ni matokeo yanayoonyesha “docker inspect” ikionyesha profaili:
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
-],
-```
-### Kuzima katika Docker
-
-Zindua chombo na bendera: **`--security-opt seccomp=unconfined`**
-
-Kuanzia Kubernetes 1.19, **seccomp imeamilishwa kwa chaguo-msingi kwa Pods zote**. Walakini, maelezo ya seccomp ya chaguo-msingi yanayotumiwa kwa Pods ni maelezo ya "**RuntimeDefault**", ambayo **hutolewa na runtime ya chombo** (k.m., Docker, containerd). Maelezo ya "RuntimeDefault" inaruhusu wito wa mfumo wengi wakati inazuia wachache ambao wanachukuliwa kuwa hatari au kwa ujumla sio lazima kwa vyombo.
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

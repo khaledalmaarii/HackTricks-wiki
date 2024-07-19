@@ -1,61 +1,62 @@
-# Nafasi ya Kufunga
+# Mount Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Nafasi ya kufunga ni kipengele cha kernel ya Linux kinachotoa kujitenga kwa sehemu za kufunga mfumo wa faili zinazoonekana na kikundi cha michakato. Kila nafasi ya kufunga ina seti yake ya sehemu za kufunga mfumo wa faili, na **mabadiliko kwenye sehemu za kufunga kwenye nafasi moja hayawaathiri nafasi nyingine**. Hii inamaanisha kuwa michakato inayotumia nafasi tofauti za kufunga inaweza kuwa na maoni tofauti ya muundo wa mfumo wa faili.
+Mount namespace ni kipengele cha kernel ya Linux kinachotoa kutengwa kwa maeneo ya mfumo wa faili yanayoonekana na kundi la michakato. Kila mount namespace ina seti yake ya maeneo ya mfumo wa faili, na **mabadiliko kwenye maeneo ya mount katika namespace moja hayathiri namespaces nyingine**. Hii inamaanisha kwamba michakato inayofanya kazi katika namespaces tofauti inaweza kuwa na maoni tofauti ya hierarchi ya mfumo wa faili.
 
-Nafasi za kufunga ni muhimu sana katika uwekaji wa kontena, ambapo kila kontena inapaswa kuwa na mfumo wake wa faili na usanidi, ukiwa umetengwa na kontena zingine na mfumo wa mwenyeji.
+Mount namespaces ni muhimu sana katika uundaji wa kontena, ambapo kila kontena linapaswa kuwa na mfumo wake wa faili na usanidi, uliojitenga na kontena nyingine na mfumo wa mwenyeji.
 
-### Jinsi inavyofanya kazi:
+### How it works:
 
-1. Wakati nafasi mpya ya kufunga inapoundwa, inaanzishwa na **nakala ya sehemu za kufunga kutoka kwenye nafasi ya mzazi**. Hii inamaanisha kuwa, wakati wa kuundwa, nafasi mpya inashiriki maoni sawa ya mfumo wa faili kama mzazi wake. Walakini, mabadiliko yoyote yanayofuata kwenye sehemu za kufunga ndani ya nafasi hayataathiri mzazi au nafasi nyingine.
-2. Wakati michakato inapobadilisha sehemu ya kufunga ndani ya nafasi yake, kama vile kufunga au kufungua mfumo wa faili, **mabadiliko ni ya ndani ya nafasi hiyo** na hayawaathiri nafasi nyingine. Hii inaruhusu kila nafasi kuwa na muundo wake wa mfumo wa faili huru.
-3. Michakato inaweza kuhamia kati ya nafasi kwa kutumia wito wa mfumo wa `setns()`, au kuunda nafasi mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNS`. Wakati michakato inahamia kwenye nafasi mpya au kuunda moja, itaanza kutumia sehemu za kufunga zinazohusiana na nafasi hiyo.
-4. **Vidokezo vya faili na inode vimeshiriki kati ya nafasi**, maana yake ikiwa michakato katika nafasi moja ina kipeperushi cha faili kilichofunguliwa kinachoelekeza kwa faili, inaweza **kupitisha kipeperushi hicho cha faili** kwa michakato katika nafasi nyingine, na **michakato yote itapata ufikiaji sawa wa faili hiyo**. Walakini, njia ya faili inaweza kutofautiana kati ya nafasi hizo kutokana na tofauti katika sehemu za kufunga.
+1. Wakati mount namespace mpya inaundwa, inaanzishwa na **nakala ya maeneo ya mount kutoka namespace yake ya mzazi**. Hii inamaanisha kwamba, wakati wa uundaji, namespace mpya inashiriki maoni sawa ya mfumo wa faili kama mzazi wake. Hata hivyo, mabadiliko yoyote yanayofuata kwenye maeneo ya mount ndani ya namespace hayatamathiri mzazi au namespaces nyingine.
+2. Wakati mchakato unabadilisha eneo la mount ndani ya namespace yake, kama vile kuunganisha au kutenganisha mfumo wa faili, **mabadiliko ni ya ndani kwa namespace hiyo** na hayathiri namespaces nyingine. Hii inaruhusu kila namespace kuwa na hierarchi yake ya mfumo wa faili isiyoegemea.
+3. Michakato inaweza kuhamasisha kati ya namespaces kwa kutumia wito wa mfumo wa `setns()`, au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNS`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia maeneo ya mount yanayohusishwa na namespace hiyo.
+4. **Vifunguo vya faili na inodes vinashirikiwa kati ya namespaces**, ikimaanisha kwamba ikiwa mchakato katika namespace moja una funguo la faili lililo wazi linaloelekeza kwenye faili, linaweza **kupitisha funguo hilo la faili** kwa mchakato katika namespace nyingine, na **michakato yote itapata faili hiyo hiyo**. Hata hivyo, njia ya faili inaweza isiwe sawa katika namespaces zote mbili kutokana na tofauti katika maeneo ya mount.
 
-## Maabara:
+## Lab:
 
-### Unda Nafasi Tofauti
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-Kwa kusakinisha kipengele kipya cha mfumo wa faili ya `/proc` ikiwa unatumia paramu `--mount-proc`, unahakikisha kuwa kipengele kipya cha kufunga kina **mtazamo sahihi na uliojitosheleza wa habari za mchakato maalum kwa kipengele hicho**.
+Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba mount namespace mpya ina **mtazamo sahihi na uliojitegemea wa taarifa za mchakato zinazohusiana na namespace hiyo**.
 
 <details>
 
-<summary>Kosa: bash: fork: Haiwezi kugawa kumbukumbu</summary>
+<summary>Hitilafu: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linatokea kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Process ID) namespaces. Maelezo muhimu na suluhisho vimeelezewa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, hitilafu inakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya za namespaces kwa kutumia wito wa mfumo wa `unshare`. Walakini, mchakato ambao unazindua uundaji wa nafasi mpya ya PID (unaoitwa "mchakato wa unshare") haingii kwenye nafasi mpya; ni mchakato wake wa watoto tu ndio unaingia.
-- Kukimbia `%unshare -p /bin/bash%` kuanza `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako kwenye nafasi ya PID ya awali.
-- Mchakato wa kwanza wa watoto wa `/bin/bash` katika nafasi mpya hufanywa kuwa PID 1. Wakati mchakato huu unapoondoka, husababisha kusafisha kwa nafasi hiyo ikiwa hakuna michakato mingine, kwani PID 1 ina jukumu maalum la kuwachukua michakato yatima. Kernel ya Linux kisha itazima ugawaji wa PID katika nafasi hiyo.
+- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu wanajumuishwa.
+- Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika namespace ya awali ya PID.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kuteua PID katika namespace hiyo.
 
 2. **Matokeo**:
-- Kutoka kwa PID 1 katika nafasi mpya kunasababisha kusafisha kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kushindwa kwa kazi ya `alloc_pid` kuweka PID mpya wakati wa kuunda mchakato mpya, na kusababisha kosa la "Haiwezi kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika namespace mpya kunasababisha usafishaji wa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa hitilafu ya "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
-- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` na `unshare`. Chaguo hili linamfanya `unshare` kugawanya mchakato mpya baada ya kuunda nafasi mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kuwa amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako salama ndani ya nafasi hii mpya, kuzuia kutoka kwa kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID kawaida.
+- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda namespace mpya ya PID.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake wanakuwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu kuteua PID kwa kawaida.
 
-Kwa kuhakikisha kuwa `unshare` inaendeshwa na bendera ya `-f`, nafasi mpya ya PID inasimamiwa kwa usahihi, kuruhusu `/bin/bash` na michakato yake ya chini kufanya kazi bila kukutana na kosa la ugawaji wa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, namespace mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na hitilafu ya kugawa kumbukumbu.
 
 </details>
 
@@ -63,24 +64,12 @@ Kwa kuhakikisha kuwa `unshare` inaendeshwa na bendera ya `-f`, nafasi mpya ya PI
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### Angalia ni kwenye namespace gani mchakato wako uko
-
-To check which namespace your process is in, you can use the following command:
-
-Kuangalia ni kwenye namespace gani mchakato wako uko, unaweza kutumia amri ifuatayo:
-
-```bash
-cat /proc/$$/mountinfo | grep "ns"
-```
-
-This command will display the mount information for your process and filter the output to show only the lines containing "ns". The namespace information will be displayed in the output.
-
-Amri hii itaonyesha habari ya kufunga kwa mchakato wako na kuchuja matokeo ili kuonyesha tu mistari inayohusiana na "ns". Habari ya namespace itaonyeshwa kwenye matokeo.
+### &#x20;Angalia ni namespace ipi mchakato wako uko ndani yake
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-### Tafuta majina yote ya nafasi za kufunga
+### Pata majina yote ya Mount
 
 {% code overflow="wrap" %}
 ```bash
@@ -88,19 +77,17 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Ingia ndani ya jina nafasi ya Mount
-
 {% endcode %}
+
+### Ingia ndani ya Mount namespace
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
-Pia, unaweza **ingia kwenye namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** kwenye namespace nyingine **bila kigeuzi** kinachoelekeza kwake (kama vile `/proc/self/ns/mnt`).
+Pia, unaweza tu **kuingia katika nafasi nyingine ya mchakato ikiwa wewe ni root**. Na huwezi **kuingia** katika nafasi nyingine **bila desktopa** inayorejelea hiyo (kama `/proc/self/ns/mnt`).
 
-Kwa sababu vifungu vipya vinapatikana tu ndani ya namespace, ni muhimu kuzingatia kwamba namespace inaweza kuwa na habari nyeti ambayo inaweza kupatikana tu ndani yake.
+Kwa sababu milima mipya inapatikana tu ndani ya nafasi, inawezekana kwamba nafasi ina taarifa nyeti ambazo zinaweza kupatikana tu kutoka ndani yake.
 
-### Sakinisha kitu
+### Pandisha kitu
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -114,20 +101,21 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-## Marejeo
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

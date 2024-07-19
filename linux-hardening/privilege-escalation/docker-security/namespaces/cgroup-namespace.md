@@ -1,66 +1,67 @@
 # CGroup Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-CGroup namespace ni kipengele cha kernel ya Linux kinachotoa **kutengwa kwa ierarkia za cgroup kwa michakato inayotumia ndani ya namespace**. Cgroups, kifupi cha **control groups**, ni kipengele cha kernel kinachoruhusu kuandaa michakato katika vikundi vya ierarkia ili kusimamia na kutekeleza **mipaka kwenye rasilimali za mfumo** kama vile CPU, kumbukumbu, na I/O.
+Cgroup namespace ni kipengele cha kernel ya Linux ambacho kinatoa **kujitengea kwa hierarchies za cgroup kwa michakato inayofanya kazi ndani ya namespace**. Cgroups, kifupi kwa **control groups**, ni kipengele cha kernel kinachoruhusu kupanga michakato katika makundi ya kihierarkia ili kudhibiti na kutekeleza **mipaka kwenye rasilimali za mfumo** kama CPU, kumbukumbu, na I/O.
 
-Ingawa cgroup namespaces sio aina tofauti ya namespace kama zile tulizojadili hapo awali (PID, mount, mtandao, nk), zina uhusiano na dhana ya kutengwa kwa namespace. **Cgroup namespaces hufanya kuonekana kwa ierarkia ya cgroup kuwa ya kubuni**, hivyo michakato inayotumia ndani ya cgroup namespace inaona ierarkia tofauti ya cgroup ikilinganishwa na michakato inayotumia kwenye mwenyeji au namespaces nyingine.
+Ingawa cgroup namespaces si aina tofauti ya namespace kama zile tulizozijadili awali (PID, mount, network, n.k.), zinahusiana na dhana ya kujitengea kwa namespace. **Cgroup namespaces zinafanya virtualize mtazamo wa hierarchi ya cgroup**, ili michakato inayofanya kazi ndani ya cgroup namespace iwe na mtazamo tofauti wa hierarchi ikilinganishwa na michakato inayofanya kazi kwenye mwenyeji au namespaces nyingine.
 
-### Jinsi inavyofanya kazi:
+### How it works:
 
-1. Wakati namespace mpya ya cgroup inaundwa, **inaanza na mtazamo wa ierarkia ya cgroup kulingana na cgroup ya michakato inayounda**. Hii inamaanisha kuwa michakato inayotumia ndani ya cgroup namespace mpya itaona tu sehemu ya ierarkia ya cgroup nzima, iliyopunguzwa kwa mti wa cgroup ulioanzishwa na cgroup ya michakato inayounda.
-2. Michakato ndani ya cgroup namespace itaona **cgroup yao wenyewe kama mzizi wa ierarkia**. Hii inamaanisha kuwa, kutoka mtazamo wa michakato ndani ya namespace, cgroup yao wenyewe inaonekana kama mzizi, na hawawezi kuona au kufikia cgroups nje ya mti wao wenyewe.
-3. Cgroup namespaces hazitoi moja kwa moja kutengwa kwa rasilimali; **zinafanya tu kuonekana kwa ierarkia ya cgroup kuwa ya kubuni**. **Kudhibiti na kutenga rasilimali bado kunatekelezwa na** subsistemi za cgroup (k.m., cpu, kumbukumbu, nk) wenyewe.
+1. Wakati cgroup namespace mpya inaundwa, **inaanza na mtazamo wa hierarchi ya cgroup kulingana na cgroup ya mchakato unaounda**. Hii inamaanisha kwamba michakato inayofanya kazi katika cgroup namespace mpya itaona tu sehemu ya hierarchi ya cgroup yote, iliyopunguzia kwenye cgroup subtree iliyoanzishwa kwenye cgroup ya mchakato unaounda.
+2. Michakato ndani ya cgroup namespace itakuwa **inaona cgroup yao wenyewe kama mzizi wa hierarchi**. Hii inamaanisha kwamba, kutoka mtazamo wa michakato ndani ya namespace, cgroup yao wenyewe inaonekana kama mzizi, na hawawezi kuona au kufikia cgroups nje ya subtree yao wenyewe.
+3. Cgroup namespaces hazitoi moja kwa moja kujitengea kwa rasilimali; **zinatoa tu kujitengea kwa mtazamo wa hierarchi ya cgroup**. **Udhibiti wa rasilimali na kujitengea bado unatekelezwa na cgroup** subsystems (mfano, cpu, kumbukumbu, n.k.) wenyewe.
 
-Kwa habari zaidi kuhusu CGroups angalia:
+Kwa maelezo zaidi kuhusu CGroups angalia:
 
 {% content-ref url="../cgroups.md" %}
 [cgroups.md](../cgroups.md)
 {% endcontent-ref %}
 
-## Maabara:
+## Lab:
 
-### Unda Namespaces Tofauti
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -C [--mount-proc] /bin/bash
 ```
-Kwa kusakinisha kifungu kipya cha mfumo wa faili ya `/proc` ikiwa unatumia paramu `--mount-proc`, unahakikisha kuwa kifungu kipya cha kuziba kinaona **taarifa sahihi na iliyotengwa ya mchakato maalum kwa kifungu hicho**.
+Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba nafasi mpya ya kuunganisha ina **mtazamo sahihi na wa kutengwa wa taarifa za mchakato maalum kwa nafasi hiyo**.
 
 <details>
 
-<summary>Kosa: bash: fork: Haiwezi kugawa kumbukumbu</summary>
+<summary>Hitilafu: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linatokea kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Process ID). Maelezo muhimu na suluhisho vimeelezewa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, hitilafu inakutana kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya za kutumia `unshare` wito wa mfumo. Walakini, mchakato ambao unaanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") haingii katika nafasi mpya; ni mchakato wake wa watoto tu ndio unaingia.
-- Kukimbia `%unshare -p /bin/bash%` kuanza `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako katika nafasi ya PID ya awali.
-- Mchakato wa kwanza wa watoto wa `/bin/bash` katika nafasi mpya hufanywa kuwa PID 1. Wakati mchakato huu unatoka, husababisha kusafisha kwa nafasi hiyo ikiwa hakuna michakato mingine, kwani PID 1 ina jukumu maalum la kuwachukua michakato yatima. Kernel ya Linux kisha itazima ugawaji wa PID katika nafasi hiyo.
+- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye nafasi mpya; ni mchakato zake za watoto pekee ndizo zinaingia.
+- Kukimbia `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato zake za watoto ziko katika nafasi ya awali ya PID.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika nafasi mpya inakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa nafasi hiyo ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kisha ugawaji wa PID katika nafasi hiyo.
 
 2. **Matokeo**:
-- Kutoka kwa kutoka kwa PID 1 katika nafasi mpya kunasababisha kusafisha kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kushindwa kwa kazi ya `alloc_pid` kuweka PID mpya wakati wa kuunda mchakato mpya, na kusababisha kosa la "Haiwezi kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika nafasi mpya kunasababisha usafishaji wa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa hitilafu ya "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
-- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` na `unshare`. Chaguo hili linamfanya `unshare` kugawanya mchakato mpya baada ya kuunda nafasi mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kuwa amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na mchakato wake wa watoto kisha wako salama ndani ya nafasi hii mpya, kuzuia kutoka kwa kutoka mapema kwa PID 1 na kuruhusu ugawaji wa PID kawaida.
+- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda nafasi mpya ya PID.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na mchakato zake za watoto kisha zinahifadhiwa salama ndani ya nafasi hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID wa kawaida.
 
-Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya PID inasimamiwa kwa usahihi, kuruhusu `/bin/bash` na michakato yake ya chini kufanya kazi bila kukutana na kosa la ugawaji wa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inakimbia na bendera ya `-f`, nafasi mpya ya PID inatunzwa kwa usahihi, ikiruhusu `/bin/bash` na mchakato zake za chini kufanya kazi bila kukutana na hitilafu ya ugawaji wa kumbukumbu.
 
 </details>
 
@@ -68,22 +69,12 @@ Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya P
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### Angalia ni kwenye namespace gani mchakato wako uko
-
-To check which namespace your process is in, you can use the following command:
-
-Kuangalia ni kwenye namespace gani mchakato wako uko, unaweza kutumia amri ifuatayo:
-
-```bash
-cat /proc/$$/cgroup
-```
-
-This command will display the cgroup namespace information for your process.
+### &#x20;Angalia ni namespace ipi mchakato wako uko ndani yake
 ```bash
 ls -l /proc/self/ns/cgroup
 lrwxrwxrwx 1 root root 0 Apr  4 21:19 /proc/self/ns/cgroup -> 'cgroup:[4026531835]'
 ```
-### Tafuta majina yote ya CGroup namespaces
+### Pata majina yote ya CGroup
 
 {% code overflow="wrap" %}
 ```bash
@@ -91,29 +82,28 @@ sudo find /proc -maxdepth 3 -type l -name cgroup -exec readlink {} \; 2>/dev/nul
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name cgroup -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Ingia ndani ya CGroup namespace
-
 {% endcode %}
+
+### Ingia ndani ya cgroup namespace
 ```bash
 nsenter -C TARGET_PID --pid /bin/bash
 ```
-Pia, unaweza **ingia kwenye namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** kwenye namespace nyingine **bila kigeuzi** kinachoelekeza kwake (kama vile `/proc/self/ns/cgroup`).
+Pia, unaweza tu **kuingia katika nafasi nyingine ya mchakato ikiwa wewe ni root**. Na huwezi **kuingia** katika nafasi nyingine **bila desktopa** inayorejelea hiyo (kama `/proc/self/ns/cgroup`).
 
-## Marejeo
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

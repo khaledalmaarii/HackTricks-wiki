@@ -1,81 +1,85 @@
-# Mashambulizi ya Kimwili
+# Physical Attacks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## Kurejesha Nenosiri la BIOS na Usalama wa Mfumo
+## BIOS Password Recovery and System Security
 
-Kurejesha **BIOS** kunaweza kufikiwa kwa njia kadhaa. Kwenye baadhi ya motherboard kuna **betri** ambayo, ikiondolewa kwa takriban **dakika 30**, itarejesha mipangilio ya BIOS, ikiwa ni pamoja na nenosiri. Vinginevyo, **jumper kwenye motherboard** inaweza kurekebishwa ili kurejesha mipangilio hii kwa kuunganisha pins maalum.
+**Kurekebisha BIOS** kunaweza kufanywa kwa njia kadhaa. Bodi nyingi za mama zina **betri** ambayo, ikiondolewa kwa takriban **dakika 30**, itarejesha mipangilio ya BIOS, ikiwa ni pamoja na nenosiri. Vinginevyo, **jumper kwenye bodi ya mama** inaweza kubadilishwa ili kurekebisha mipangilio hii kwa kuunganisha pini maalum.
 
-Katika hali ambapo marekebisho ya vifaa siwezekani au si rahisi, **zana za programu** zinatoa suluhisho. Kuendesha mfumo kutoka kwenye **CD/USB ya Moja kwa Moja** na usambazaji kama **Kali Linux** hutoa ufikivu wa zana kama **_killCmos_** na **_CmosPWD_**, ambazo zinaweza kusaidia katika kurejesha nenosiri la BIOS.
+Kwa hali ambapo marekebisho ya vifaa hayawezekani au si rahisi, **zana za programu** hutoa suluhisho. Kuendesha mfumo kutoka kwa **Live CD/USB** na usambazaji kama **Kali Linux** kunatoa ufikiaji wa zana kama **_killCmos_** na **_CmosPWD_**, ambazo zinaweza kusaidia katika urejeleaji wa nenosiri la BIOS.
 
-Katika hali ambapo nenosiri la BIOS halijulikani, kulipiga **mara tatu** kwa kawaida kutasababisha nambari ya kosa. Nambari hii inaweza kutumika kwenye tovuti kama [https://bios-pw.org](https://bios-pw.org) ili kupata nenosiri linaloweza kutumika.
+Katika matukio ambapo nenosiri la BIOS halijulikani, kuingiza kwa makosa **maradufu tatu** kawaida husababisha nambari ya kosa. Nambari hii inaweza kutumika kwenye tovuti kama [https://bios-pw.org](https://bios-pw.org) ili kupata nenosiri linaloweza kutumika.
 
-### Usalama wa UEFI
+### UEFI Security
 
-Kwa mifumo ya kisasa inayotumia **UEFI** badala ya BIOS ya jadi, zana **chipsec** inaweza kutumika kuchambua na kurekebisha mipangilio ya UEFI, ikiwa ni pamoja na kulegeza **Secure Boot**. Hii inaweza kufanywa kwa amri ifuatayo:
+Kwa mifumo ya kisasa inayotumia **UEFI** badala ya BIOS ya jadi, zana **chipsec** inaweza kutumika kuchambua na kubadilisha mipangilio ya UEFI, ikiwa ni pamoja na kuzima **Secure Boot**. Hii inaweza kufanywa kwa amri ifuatayo:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
-### Uchambuzi wa RAM na Mashambulizi ya Boot Baridi
+### RAM Analysis and Cold Boot Attacks
 
-RAM inahifadhi data kwa muda mfupi baada ya umeme kukatwa, kawaida kwa muda wa **1 hadi 2 dakika**. Uimara huu unaweza kuongezwa hadi **dakika 10** kwa kutumia vitu baridi, kama vile nitrojeni ya majimaji. Wakati wa kipindi hiki kirefu, **dumpu ya kumbukumbu** inaweza kuundwa kwa kutumia zana kama **dd.exe** na **volatility** kwa uchambuzi.
+RAM huhifadhi data kwa muda mfupi baada ya nguvu kukatwa, kawaida kwa **dakika 1 hadi 2**. Ustahimilivu huu unaweza kupanuliwa hadi **dakika 10** kwa kutumia vitu baridi, kama vile nitrojeni ya kioevu. Wakati wa kipindi hiki kirefu, **memory dump** inaweza kuundwa kwa kutumia zana kama **dd.exe** na **volatility** kwa uchambuzi.
 
-### Mashambulizi ya Upatikanaji wa Kumbukumbu Moja kwa Moja (DMA)
+### Direct Memory Access (DMA) Attacks
 
-**INCEPTION** ni zana iliyoundwa kwa **udanganyifu wa kumbukumbu ya kimwili** kupitia DMA, inayofanya kazi na viunganishi kama **FireWire** na **Thunderbolt**. Inaruhusu kupitisha taratibu za kuingia kwa kusahihisha kumbukumbu ili kukubali nenosiri lolote. Hata hivyo, haifanyi kazi vizuri kwenye mifumo ya **Windows 10**.
+**INCEPTION** ni zana iliyoundwa kwa ajili ya **manipulation ya kumbukumbu ya kimwili** kupitia DMA, inayoendana na interfaces kama **FireWire** na **Thunderbolt**. Inaruhusu kupita taratibu za kuingia kwa kubadilisha kumbukumbu ili kukubali nenosiri lolote. Hata hivyo, haiwezi kufanya kazi dhidi ya mifumo ya **Windows 10**.
 
-### CD/USB ya Moja kwa Moja kwa Upatikanaji wa Mfumo
+### Live CD/USB for System Access
 
-Kubadilisha faili za mfumo kama **_sethc.exe_** au **_Utilman.exe_** na nakala ya **_cmd.exe_** inaweza kutoa dirisha la amri lenye mamlaka ya mfumo. Zana kama **chntpw** inaweza kutumika kuhariri faili ya **SAM** ya usanidi wa Windows, kuruhusu mabadiliko ya nenosiri.
+Kubadilisha binaries za mfumo kama **_sethc.exe_** au **_Utilman.exe_** kwa nakala ya **_cmd.exe_** kunaweza kutoa dirisha la amri lenye mamlaka ya mfumo. Zana kama **chntpw** zinaweza kutumika kuhariri faili ya **SAM** ya usakinishaji wa Windows, kuruhusu mabadiliko ya nenosiri.
 
-**Kon-Boot** ni zana inayorahisisha kuingia kwenye mifumo ya Windows bila kujua nenosiri kwa muda kwa kurekebisha muda mfupi wa Windows au UEFI. Taarifa zaidi inaweza kupatikana kwenye [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
+**Kon-Boot** ni zana inayorahisisha kuingia kwenye mifumo ya Windows bila kujua nenosiri kwa kubadilisha kwa muda kernel ya Windows au UEFI. Taarifa zaidi zinaweza kupatikana kwenye [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/).
 
-### Kushughulikia Vipengele vya Usalama wa Windows
+### Handling Windows Security Features
 
-#### Vielekezo vya Kuanzisha na Kurejesha
+#### Boot and Recovery Shortcuts
 
-- **Supr**: Kufikia mipangilio ya BIOS.
-- **F8**: Ingia kwenye hali ya Kurejesha.
-- Kupiga **Shift** baada ya bendera ya Windows kunaweza kuzidi kiotomatiki.
+- **Supr**: Fikia mipangilio ya BIOS.
+- **F8**: Ingia katika hali ya Urejeleaji.
+- Kubonyeza **Shift** baada ya bendera ya Windows kunaweza kupita autologon.
 
-#### Vifaa vya BAD USB
+#### BAD USB Devices
 
-Vifaa kama **Rubber Ducky** na **Teensyduino** hutumika kama majukwaa ya kuunda vifaa vya **USB mbaya**, vinavyoweza kutekeleza malipo yaliyopangwa awali wakati vinapounganishwa kwenye kompyuta ya lengo.
+Vifaa kama **Rubber Ducky** na **Teensyduino** vinatumika kama majukwaa ya kuunda **bad USB** devices, zenye uwezo wa kutekeleza payload zilizowekwa awali zinapounganishwa na kompyuta lengwa.
 
-#### Nakala ya Kivuli cha Kiasi
+#### Volume Shadow Copy
 
-Mamlaka ya msimamizi inaruhusu uundaji wa nakala za faili nyeti, ikiwa ni pamoja na faili ya **SAM**, kupitia PowerShell.
+Mamlaka ya msimamizi yanaruhusu kuunda nakala za faili nyeti, ikiwa ni pamoja na faili ya **SAM**, kupitia PowerShell.
 
-### Kupitisha Ufichaji wa BitLocker
+### Bypassing BitLocker Encryption
 
-Ufichaji wa BitLocker unaweza kupitishwa ikiwa **nenosiri la urejeshaji** linapatikana ndani ya faili ya dumpu ya kumbukumbu (**MEMORY.DMP**). Zana kama **Elcomsoft Forensic Disk Decryptor** au **Passware Kit Forensic** zinaweza kutumika kwa madhumuni haya.
+BitLocker encryption inaweza kupita ikiwa **nenosiri la urejeleaji** linapatikana ndani ya faili ya memory dump (**MEMORY.DMP**). Zana kama **Elcomsoft Forensic Disk Decryptor** au **Passware Kit Forensic** zinaweza kutumika kwa kusudi hili.
 
-### Uhandisi wa Kijamii kwa Kuongeza Funguo za Uokoaji
+### Social Engineering for Recovery Key Addition
 
-Funguo mpya za urejeshaji wa BitLocker zinaweza kuongezwa kupitia mbinu za uhandisi wa kijamii, kuwashawishi watumiaji kutekeleza amri ambayo inaongeza funguo mpya za urejeshaji zilizoundwa na sifuri, hivyo kusahilisha mchakato wa kufichua. 
+Nenosiri jipya la urejeleaji la BitLocker linaweza kuongezwa kupitia mbinu za ushirikiano wa kijamii, kumshawishi mtumiaji kutekeleza amri inayoongeza nenosiri jipya lililotengenezwa kwa sifuri, hivyo kurahisisha mchakato wa ufichuzi. 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJISAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

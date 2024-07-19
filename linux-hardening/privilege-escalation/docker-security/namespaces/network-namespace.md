@@ -1,60 +1,61 @@
-# Nafasi ya Mtandao
+# Network Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Nafasi ya mtandao ni kipengele cha kernel ya Linux kinachotoa kujitenga kwa safu ya mtandao, kuruhusu **kila nafasi ya mtandao kuwa na usanidi wake wa mtandao huru**, interface, anwani za IP, meza za kuelekeza, na sheria za firewall. Kujitenga huku kunafaa katika mazingira mbalimbali, kama vile kubebeshaji, ambapo kila kibebeshaji kinapaswa kuwa na usanidi wake wa mtandao, huru na mabebeshaji mengine na mfumo wa mwenyeji.
+Namespace ya mtandao ni kipengele cha kernel ya Linux kinachotoa kutengwa kwa stack ya mtandao, ikiruhusu **kila namespace ya mtandao kuwa na usanidi wake wa mtandao huru**, interfaces, anwani za IP, meza za routing, na sheria za firewall. Kutengwa huku kuna manufaa katika hali mbalimbali, kama vile uundaji wa kontena, ambapo kila kontena linapaswa kuwa na usanidi wake wa mtandao, huru kutoka kwa kontena nyingine na mfumo wa mwenyeji.
 
-### Jinsi inavyofanya kazi:
+### How it works:
 
-1. Wakati nafasi mpya ya mtandao inapoundwa, inaanza na **safu ya mtandao iliyotengwa kabisa**, bila kuwa na interface za mtandao isipokuwa kwa interface ya loopback (lo). Hii inamaanisha kuwa michakato inayofanya kazi katika nafasi mpya ya mtandao haiwezi kuwasiliana na michakato katika nafasi nyingine au mfumo wa mwenyeji kwa chaguo-msingi.
-2. **Interface za mtandao za kubuni**, kama vile jozi za veth, zinaweza kuundwa na kuhamishwa kati ya nafasi za mtandao. Hii inaruhusu kuweka uunganisho wa mtandao kati ya nafasi au kati ya nafasi na mfumo wa mwenyeji. Kwa mfano, mwisho mmoja wa jozi ya veth unaweza kuwekwa katika nafasi ya mtandao ya kontena, na mwisho mwingine unaweza kuunganishwa na **daraja** au interface nyingine ya mtandao katika nafasi ya mwenyeji, ikitoa uunganisho wa mtandao kwa kontena.
-3. Interface za mtandao ndani ya nafasi zinaweza kuwa na **anwani zao za IP, meza za kuelekeza, na sheria za firewall**, huru na nafasi nyingine. Hii inaruhusu michakato katika nafasi tofauti za mtandao kuwa na usanidi tofauti wa mtandao na kufanya kazi kana kwamba inafanya kazi kwenye mifumo tofauti ya mtandao.
-4. Michakato inaweza kuhamia kati ya nafasi kwa kutumia wito wa mfumo wa `setns()`, au kuunda nafasi mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNET`. Wakati michakato inahamia kwenye nafasi mpya au kuunda moja, itaanza kutumia usanidi wa mtandao na interface zinazohusiana na nafasi hiyo.
+1. Wakati namespace mpya ya mtandao inaundwa, inaanza na **stack ya mtandao iliyotengwa kabisa**, ikiwa na **interfaces za mtandao** isipokuwa kwa interface ya loopback (lo). Hii inamaanisha kwamba michakato inayofanyika katika namespace mpya ya mtandao haiwezi kuwasiliana na michakato katika namespaces nyingine au mfumo wa mwenyeji kwa default.
+2. **Interfaces za mtandao za virtual**, kama vile veth pairs, zinaweza kuundwa na kuhamishwa kati ya namespaces za mtandao. Hii inaruhusu kuanzisha muunganisho wa mtandao kati ya namespaces au kati ya namespace na mfumo wa mwenyeji. Kwa mfano, mwisho mmoja wa veth pair unaweza kuwekwa katika namespace ya mtandao ya kontena, na mwisho mwingine unaweza kuunganishwa na **bridge** au interface nyingine ya mtandao katika namespace ya mwenyeji, ikitoa muunganisho wa mtandao kwa kontena.
+3. Interfaces za mtandao ndani ya namespace zinaweza kuwa na **anwani zao za IP, meza za routing, na sheria za firewall**, huru kutoka kwa namespaces nyingine. Hii inaruhusu michakato katika namespaces tofauti za mtandao kuwa na usanidi tofauti wa mtandao na kufanya kazi kana kwamba zinafanyika kwenye mifumo tofauti ya mtandao.
+4. Michakato inaweza kuhamishwa kati ya namespaces kwa kutumia wito wa mfumo wa `setns()`, au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWNET`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia usanidi wa mtandao na interfaces zinazohusiana na namespace hiyo.
 
-## Maabara:
+## Lab:
 
-### Unda Nafasi Tofauti
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -n [--mount-proc] /bin/bash
 # Run ifconfig or ip -a
 ```
-Kwa kusakinisha kifungu kipya cha mfumo wa faili ya `/proc` ikiwa unatumia paramu `--mount-proc`, unahakikisha kuwa kifungu kipya cha kufunga kinaona **taarifa sahihi na iliyotengwa ya mchakato maalum kwa kifungu hicho**.
+Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba namespace mpya ya kuunganisha ina **mtazamo sahihi na uliojitegemea wa taarifa za mchakato maalum kwa namespace hiyo**.
 
 <details>
 
-<summary>Kosa: bash: fork: Haiwezi kugawa kumbukumbu</summary>
+<summary>Kosa: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linatokea kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Process ID). Maelezo muhimu na suluhisho vimeelezewa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia namespaces mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya za kutumia wito wa mfumo wa `unshare`. Walakini, mchakato ambao unaanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") haingii katika nafasi mpya; ni mchakato wake wa watoto tu ndio unaingia.
-- Kukimbia `%unshare -p /bin/bash%` kuanza `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako katika nafasi ya PID ya awali.
-- Mchakato wa kwanza wa watoto wa `/bin/bash` katika nafasi mpya hufanywa kuwa PID 1. Wakati mchakato huu unapoondoka, husababisha kusafisha kwa nafasi hiyo ikiwa hakuna michakato mingine, kwani PID 1 ina jukumu maalum la kuwachukua michakato yatima. Kernel ya Linux kisha itazima ugawaji wa PID katika nafasi hiyo.
+- Kernel ya Linux inaruhusu mchakato kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa namespace mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii kwenye namespace mpya; ni watoto wake tu ndio wanaingia.
+- Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na watoto wake wako katika namespace ya awali ya PID.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika namespace mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa namespace ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kuteua PID katika namespace hiyo.
 
 2. **Matokeo**:
-- Kutoka kwa PID 1 katika nafasi mpya kunasababisha kusafisha kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kushindwa kwa kazi ya `alloc_pid` kuweka PID mpya wakati wa kuunda mchakato mpya, na kusababisha kosa la "Haiwezi kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika namespace mpya kunasababisha kusafishwa kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
-- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` na `unshare`. Chaguo hili linamfanya `unshare` kugawanya mchakato mpya baada ya kuunda nafasi mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kuwa amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na mchakato wake wa watoto wako salama ndani ya nafasi hii mpya, kuzuia kutoka kwa kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID kawaida.
+- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda namespace mpya ya PID.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika namespace mpya. `/bin/bash` na watoto wake wanakuwa salama ndani ya namespace hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu kuteua PID kwa kawaida.
 
-Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya PID inasimamiwa kwa usahihi, kuruhusu `/bin/bash` na michakato yake ya chini kufanya kazi bila kukutana na kosa la ugawaji wa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, namespace mpya ya PID inatunzwa kwa usahihi, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la kugawa kumbukumbu.
 
 </details>
 
@@ -63,20 +64,12 @@ Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya P
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 # Run ifconfig or ip -a
 ```
-### Angalia kwenye namespace gani mchakato wako uko
-
-Unaweza kuangalia kwenye namespace gani mchakato wako uko kwa kutumia amri ifuatayo:
-
-```bash
-ls -l /proc/<PID>/ns/
-```
-
-Badilisha `<PID>` na kitambulisho cha mchakato unayotaka kuangalia. Amri hii itakuonyesha viungo kwa namespace tofauti ambazo mchakato wako amehusishwa nazo.
+### &#x20;Angalia ni namespace ipi mchakato wako uko ndani yake
 ```bash
 ls -l /proc/self/ns/net
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/net -> 'net:[4026531840]'
 ```
-### Tafuta majina yote ya nafasi za mtandao
+### Pata majina yote ya Mtandao
 
 {% code overflow="wrap" %}
 ```bash
@@ -84,29 +77,28 @@ sudo find /proc -maxdepth 3 -type l -name net -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name net -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Ingia ndani ya kipeperushi cha mtandao
-
 {% endcode %}
+
+### Ingia ndani ya Network namespace
 ```bash
 nsenter -n TARGET_PID --pid /bin/bash
 ```
-Pia, unaweza **ingia kwenye namespace nyingine ya mchakato ikiwa wewe ni root**. Na huwezi **kuingia** kwenye namespace nyingine **bila kigeuzi** kinachoelekeza kwake (kama vile `/proc/self/ns/net`).
+Pia, unaweza tu **kuingia katika nafasi nyingine ya mchakato ikiwa wewe ni root**. Na huwezi **kuingia** katika nafasi nyingine **bila desktopa** inayorejelea hiyo (kama `/proc/self/ns/net`).
 
-## Marejeo
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

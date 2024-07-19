@@ -1,28 +1,31 @@
 # Suricata & Iptables cheatsheet
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Iptables
 
 ### Chains
 
-Katika iptables, orodha ya sheria inayojulikana kama chains hupangwa kwa utaratibu. Miongoni mwao, kuna chains tatu kuu ambazo zipo kila mahali, na nyingine zaidi kama NAT zinaweza kuwa zinasaidiwa kulingana na uwezo wa mfumo.
+Katika iptables, orodha za sheria zinazojulikana kama chains zinashughulikiwa kwa mpangilio. Kati ya hizi, chains tatu kuu zipo kila wakati, huku zingine kama NAT zikiwa zinaweza kuungwa mkono kulingana na uwezo wa mfumo.
 
-- **Chain ya Input**: Hutumiwa kusimamia tabia ya uhusiano unaokuja.
-- **Chain ya Forward**: Hutumiwa kushughulikia uhusiano unaokuja ambao sio kwa ajili ya mfumo wa ndani. Hii ni kawaida kwa vifaa vinavyofanya kazi kama rutuba, ambapo data iliyopokelewa inalenga kupelekwa kwa marudio mengine. Chain hii ni muhimu hasa wakati mfumo unahusika katika kusambaza, kubadilisha anwani ya IP, au shughuli kama hizo.
-- **Chain ya Output**: Imetengwa kwa udhibiti wa uhusiano unaotoka.
+- **Input Chain**: Inatumika kwa usimamizi wa tabia ya muunganisho unaoingia.
+- **Forward Chain**: Inatumika kwa kushughulikia muunganisho unaoingia ambao haujielekezi kwa mfumo wa ndani. Hii ni ya kawaida kwa vifaa vinavyofanya kazi kama route, ambapo data inayopokelewa inakusudiwa kupelekwa kwenye eneo lingine. Chain hii inahusiana hasa wakati mfumo unahusika katika routing, NATing, au shughuli zinazofanana.
+- **Output Chain**: Imejitolea kwa udhibiti wa muunganisho unaotoka.
 
-Chains hizi zinahakikisha usindikaji wa utaratibu wa trafiki ya mtandao, kuruhusu kuweka sheria za kina zinazosimamia mtiririko wa data ndani, kupitia, na nje ya mfumo.
+Chains hizi zinahakikisha usindikaji wa mpangilio wa trafiki ya mtandao, zikiruhusu kuwekwa kwa sheria za kina zinazodhibiti mtiririko wa data kuingia, kupitia, na kutoka kwenye mfumo.
 ```bash
 # Delete all rules
 iptables -F
@@ -61,67 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Sakinisha na Sanidi
-
-```bash
-# Install Suricata
-sudo apt-get install suricata
-
-# Configure Suricata
-sudo nano /etc/suricata/suricata.yaml
-```
-
-### Enable IPS Mode
-
-```bash
-# Edit Suricata configuration file
-sudo nano /etc/suricata/suricata.yaml
-
-# Uncomment the following line
-# mode: inline
-```
-
-### Start Suricata
-
-```bash
-sudo suricata -c /etc/suricata/suricata.yaml -i eth0
-```
-
-## iptables
-
-### Enable Packet Logging
-
-```bash
-# Enable packet logging
-sudo iptables -A INPUT -j LOG
-sudo iptables -A OUTPUT -j LOG
-sudo iptables -A FORWARD -j LOG
-```
-
-### View Packet Logs
-
-```bash
-# View packet logs
-sudo tail -f /var/log/kern.log
-```
-
-### Disable Packet Logging
-
-```bash
-# Disable packet logging
-sudo iptables -D INPUT -j LOG
-sudo iptables -D OUTPUT -j LOG
-sudo iptables -D FORWARD -j LOG
-```
-
-### Clear iptables Rules
-
-```bash
-# Clear iptables rules
-sudo iptables -F
-sudo iptables -X
-sudo iptables -Z
-```
+### Sakinisha & Sanidi
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -187,70 +130,70 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Maelezo ya Sheria
+### Mwelekeo wa Kanuni
 
-[Kutoka kwa nyaraka:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Sheria/ishara inajumuisha yafuatayo:
+[Kutoka kwenye hati:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Kanuni/saini inajumuisha yafuatayo:
 
-* **Hatua**, inaamua kinachotokea wakati ishara inalingana.
-* **Kichwa**, kinatambua itifaki, anwani za IP, bandari, na mwelekeo wa sheria.
-* **Chaguo za sheria**, zinatambua maelezo maalum ya sheria.
+* **kitendo**, kinatathmini kinachotokea wakati saini inapatana.
+* **kichwa**, kinaelezea itifaki, anwani za IP, bandari na mwelekeo wa kanuni.
+* **chaguzi za kanuni**, zinaelezea maelezo maalum ya kanuni.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Vitendo halali ni**
+#### **Hatua halali ni**
 
-* tahadhari - toa tahadhari
-* pita - acha ukaguzi zaidi wa pakiti
-* **ondoa** - ondoa pakiti na toa tahadhari
-* **kataa** - tuma RST/ICMP kosa lisilopatikana kwa mtumaji wa pakiti inayolingana.
-* kataasrc - sawa na tu _kataa_
-* kataadst - tuma pakiti ya kosa ya RST/ICMP kwa mpokeaji wa pakiti inayolingana.
-* kataote - tuma pakiti za kosa za RST/ICMP kwa pande zote za mazungumzo.
+* alert - tengeneza onyo
+* pass - simamisha ukaguzi zaidi wa pakiti
+* **drop** - angusha pakiti na tengeneza onyo
+* **reject** - tuma kosa la RST/ICMP lisilopatikana kwa mtumaji wa pakiti inayolingana.
+* rejectsrc - sawa na tu _reject_
+* rejectdst - tuma pakiti ya kosa la RST/ICMP kwa mpokeaji wa pakiti inayolingana.
+* rejectboth - tuma pakiti za kosa la RST/ICMP kwa pande zote za mazungumzo.
 
-#### **Itifaki**
+#### **Protokali**
 
 * tcp (kwa trafiki ya tcp)
 * udp
 * icmp
-* ip (ip inasimama kwa 'zote' au 'yoyote')
-* _itifaki za safu ya 7_: http, ftp, tls, smb, dns, ssh... (zaidi katika [**nyaraka**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip inasimama kwa ‘yote’ au ‘yoyote’)
+* _protokali za layer7_: http, ftp, tls, smb, dns, ssh... (zaidi katika [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Anwani za Chanzo na Kichwa
+#### Anwani za Chanzo na Kielelezo
 
-Inasaidia safu za IP, negations na orodha ya anwani:
+Inasaidia anuwai za IP, kukanusha na orodha ya anwani:
 
-| Mfano                          | Maana                                    |
-| ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Kila anwani ya IP isipokuwa 1.1.1.1       |
-| !\[1.1.1.1, 1.1.1.2]           | Kila anwani ya IP isipokuwa 1.1.1.1 na 1.1.1.2 |
-| $HOME\_NET                     | Mipangilio yako ya HOME\_NET katika yaml  |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET na sio HOME\_NET            |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 isipokuwa 10.0.0.5           |
+| Mfano                          | Maana                                   |
+| ------------------------------ | --------------------------------------- |
+| ! 1.1.1.1                      | Anwani yoyote ya IP isipokuwa 1.1.1.1   |
+| !\[1.1.1.1, 1.1.1.2]           | Anwani yoyote ya IP isipokuwa 1.1.1.1 na 1.1.1.2 |
+| $HOME\_NET                     | Mpangilio wako wa HOME\_NET katika yaml |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET na si HOME\_NET          |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 isipokuwa 10.0.0.5         |
 
-#### Bandari za Chanzo na Kichwa
+#### Bandari za Chanzo na Kielelezo
 
-Inasaidia safu za bandari, negations na orodha ya bandari
+Inasaidia anuwai za bandari, kukanusha na orodha za bandari
 
-| Mfano         | Maana                                |
-| --------------- | -------------------------------------- |
-| any             | anwani yoyote                            |
-| \[80, 81, 82]   | bandari 80, 81 na 82                     |
-| \[80: 82]       | Safu kutoka 80 hadi 82                  |
-| \[1024: ]       | Kutoka 1024 hadi nambari ya bandari ya juu zaidi |
-| !80             | Kila bandari isipokuwa 80                      |
-| \[80:100,!99]   | Safu kutoka 80 hadi 100 lakini 99 imeondolewa |
-| \[1:80,!\[2,4]] | Safu kutoka 1-80, isipokuwa bandari 2 na 4  |
+| Mfano           | Maana                                 |
+| --------------- | ------------------------------------- |
+| any             | anwani yoyote                         |
+| \[80, 81, 82]   | bandari 80, 81 na 82                 |
+| \[80: 82]       | Anuwai kutoka 80 hadi 82              |
+| \[1024: ]       | Kuanzia 1024 hadi nambari ya bandari ya juu |
+| !80             | Bandari yoyote isipokuwa 80           |
+| \[80:100,!99]   | Anuwai kutoka 80 hadi 100 lakini 99 haijajumuishwa |
+| \[1:80,!\[2,4]] | Anuwai kutoka 1-80, isipokuwa bandari 2 na 4 |
 
 #### Mwelekeo
 
-Inawezekana kuonyesha mwelekeo wa sheria ya mawasiliano inayotumiwa:
+Inawezekana kuashiria mwelekeo wa sheria ya mawasiliano inayotumika:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
-#### Maneno muhimu
+#### Keywords
 
-Kuna **chaguo nyingi** zinazopatikana katika Suricata ili kutafuta **pakiti maalum** unayotafuta, hapa itatajwa ikiwa kitu chochote cha kuvutia kitapatikana. Angalia [**nyaraka**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) kwa maelezo zaidi!
+Kuna **mamia ya chaguzi** zinazopatikana katika Suricata kutafuta **pakiti maalum** unayotafuta, hapa itatajwa ikiwa kitu cha kuvutia kimepatikana. Angalia [**nyaraka**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) kwa maelezo zaidi!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -291,14 +234,17 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye repo ya [hacktricks](https://github.com/carlospolop/hacktricks) na repo ya [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

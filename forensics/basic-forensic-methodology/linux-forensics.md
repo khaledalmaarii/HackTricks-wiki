@@ -3,7 +3,7 @@
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kuandaa kazi** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -18,7 +18,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 ### Taarifa za Msingi
 
-Kwanza kabisa, inapendekezwa kuwa na **USB** yenye **binaries na maktaba zinazojulikana vizuri** (unaweza kupata tu ubuntu na nakala za folda _/bin_, _/sbin_, _/lib,_ na _/lib64_), kisha unganisha USB, na badilisha mabadiliko ya mazingira kutumia hizo binaries:
+Kwanza kabisa, inapendekezwa kuwa na **USB** yenye **binaries na maktaba zinazojulikana vizuri** (unaweza tu kupata ubuntu na nakala za folda _/bin_, _/sbin_, _/lib,_ na _/lib64_), kisha unganisha USB, na badilisha mabadiliko ya mazingira ili kutumia hizo binaries:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -50,9 +50,9 @@ cat /etc/passwd #Unexpected data?
 cat /etc/shadow #Unexpected data?
 find /directory -type f -mtime -1 -print #Find modified files during the last minute in the directory
 ```
-#### Taarifa za kushuku
+#### Taarifa za kushangaza
 
-Wakati wa kupata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
+Wakati unapata taarifa za msingi unapaswa kuangalia mambo ya ajabu kama:
 
 * **Mchakato wa Root** kawaida huendesha na PIDS za chini, hivyo ikiwa utapata mchakato wa root wenye PID kubwa unaweza kushuku
 * Angalia **kuingia kwa watumiaji** waliojiandikisha bila shell ndani ya `/etc/passwd`
@@ -86,7 +86,7 @@ LiME pia inaweza kutumika **kutuma dump kupitia mtandao** badala ya kuihifadhi k
 #### Kuzima
 
 Kwanza kabisa, utahitaji **kuzima mfumo**. Hii si chaguo kila wakati kwani wakati mwingine mfumo utakuwa seva ya uzalishaji ambayo kampuni haiwezi kumudu kuzima.\
-Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **"kuvuta plug" kuzima**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **filesystem** kuwa **synchronized**, lakini pia itaruhusu **malware** inay posible **kuharibu ushahidi**. Njia ya "kuvuta plug" inaweza kuleta **kupoteza taarifa** (sio nyingi za taarifa zitapotea kwani tayari tumepata picha ya kumbukumbu) na **malware haitakuwa na fursa yoyote** ya kufanya chochote kuhusu hilo. Hivyo, ikiwa unadhani kuna **malware**, tekeleza tu **amri ya `sync`** kwenye mfumo na uvute plug.
+Kuna **njia 2** za kuzima mfumo, **kuzima kawaida** na **"kuvuta plug" kuzima**. Ya kwanza itaruhusu **mchakato kumalizika kama kawaida** na **filesystem** kuwa **synchronized**, lakini pia itaruhusu **malware** inayoweza **kuharibu ushahidi**. Njia ya "kuvuta plug" inaweza kuleta **kupoteza taarifa** (sio nyingi za taarifa zitapotea kwani tayari tumepata picha ya kumbukumbu) na **malware haitakuwa na fursa yoyote** ya kufanya chochote kuhusu hilo. Hivyo, ikiwa unahisi kuwa kuna **malware**, tekeleza tu **amri ya `sync`** kwenye mfumo na uvute plug.
 
 #### Kuchukua picha ya diski
 
@@ -157,7 +157,7 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kazi zinazotumiwa na zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kazi zinazotolewa na zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -210,7 +210,7 @@ Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Rejesha Binaries Zilizofutwa
+## Rejesha Binaries Zilizofutwa Zinazoendesha
 
 Fikiria mchakato uliofanywa kutoka /tmp/exec na kisha kufutwa. Inawezekana kuutoa
 ```bash
@@ -356,7 +356,7 @@ Hatimaye, tafuta akaunti zenye **hakuna nywila** au **nywila zinazoweza kukisiwa
 
 ### Analyzing File System Structures in Malware Investigation
 
-Wakati wa kuchunguza matukio ya malware, muundo wa mfumo wa faili ni chanzo muhimu cha habari, kinachoonyesha mfululizo wa matukio na maudhui ya malware. Hata hivyo, waandishi wa malware wanatengeneza mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za muda za faili au kuepuka mfumo wa faili kwa ajili ya uhifadhi wa data.
+Wakati wa kuchunguza matukio ya malware, muundo wa mfumo wa faili ni chanzo muhimu cha habari, ukifunua mfululizo wa matukio na maudhui ya malware. Hata hivyo, waandishi wa malware wanatengeneza mbinu za kuzuia uchambuzi huu, kama vile kubadilisha alama za muda za faili au kuepuka mfumo wa faili kwa ajili ya uhifadhi wa data.
 
 Ili kupambana na mbinu hizi za anti-forensic, ni muhimu:
 
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Kumbuka kwamba **mshambuliaji** anaweza **kubadilisha** **wakati** ili kufanya **faili kuonekana** **halali**, lakini hawezi **kubadilisha** **inode**. Ikiwa unapata kwamba **faili** inaonyesha kwamba iliumbwa na kubadilishwa kwa **wakati mmoja** na faili zingine katika folda hiyo hiyo, lakini **inode** ni **kubwa zaidi** **kivyake**, basi **alama za wakati za faili hiyo zilibadilishwa**.
+Kumbuka kwamba **mshambuliaji** anaweza **kubadilisha** **wakati** ili kufanya **faili kuonekana** **halali**, lakini hawezi **kubadilisha** **inode**. Ikiwa unapata kwamba **faili** inaonyesha kwamba iliumbwa na kubadilishwa kwa **wakati mmoja** na faili zingine katika folda hiyo hiyo, lakini **inode** ni **kubwa zaidi** kwa **kushtukiza**, basi **alama za wakati za faili hiyo zilibadilishwa**.
 {% endhint %}
 
 ## Linganisha faili za toleo tofauti la mfumo wa faili
@@ -393,7 +393,7 @@ git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
-* **Kugundua faili zilizofutwa**:
+* **Ili kugundua faili zilizofutwa**:
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
@@ -415,24 +415,25 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Kitabu: Mwongozo wa Upelelezi wa Malware kwa Mifumo ya Linux: Mwongozo wa Upelelezi wa Kidijitali**
 
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, unataka kuona **kampuni yako ikitangazwa katika HackTricks**? au unataka kupata **toleo jipya la PEASS au kupakua HackTricks katika PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**mavazi rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Shiriki mbinu zako za hacking kwa kuwasilisha PRs kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha kiotomatiki** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kwa kutumia zana za jamii **zilizoendelea zaidi** duniani.\
 Pata Ufikiaji Leo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

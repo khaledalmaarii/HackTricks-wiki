@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash hutumiwa kukusanya, kubadilisha, na kutuma magogo kupitia mfumo unaojulikana kama **pipelines**. Pipelines hizi zinaundwa na hatua za **kuingiza**, **kuchuja**, na **kutoa**. Jambo la kuvutia linatokea wakati Logstash inafanya kazi kwenye kompyuta iliyoathiriwa.
+Logstash inatumika kwa **kusanya, kubadilisha, na kutuma logi** kupitia mfumo unaojulikana kama **pipelines**. Pipelines hizi zinajumuisha hatua za **input**, **filter**, na **output**. Kipengele cha kuvutia kinajitokeza wakati Logstash inafanya kazi kwenye mashine iliyoathiriwa.
 
-### Usanidi wa Mpipa
+### Pipeline Configuration
 
-Pipelines zinasanidiwa kwenye faili **/etc/logstash/pipelines.yml**, ambayo inaorodhesha maeneo ya usanidi wa mipipa:
+Pipelines zinapangiliwa katika faili **/etc/logstash/pipelines.yml**, ambayo inataja maeneo ya mipangilio ya pipeline:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Hii faili inafichua mahali ambapo faili za **.conf**, zinazohifadhi mipangilio ya mifumo ya mabomba, zinapatikana. Wakati wa kutumia moduli ya **Elasticsearch output**, ni kawaida kwa mifumo ya mabomba kuwa na **sifa za Elasticsearch**, ambazo mara nyingi zina uwezo mkubwa kutokana na haja ya Logstash kuandika data kwenye Elasticsearch. Alama za mwanya katika njia za mipangilio huruhusu Logstash kutekeleza mifumo yote inayolingana katika saraka iliyotengwa.
+This file reveals where the **.conf** files, containing pipeline configurations, are located. When employing an **Elasticsearch output module**, it's common for **pipelines** to include **Elasticsearch credentials**, which often possess extensive privileges due to Logstash's need to write data to Elasticsearch. Wildcards in configuration paths allow Logstash to execute all matching pipelines in the designated directory.
 
-### Kuongeza Uwezo kwa Kutumia Mifumo ya Mabomba Inayoweza Kuandikwa
+### Privilege Escalation via Writable Pipelines
 
-Kwa kujaribu kuongeza uwezo, kwanza tafuta mtumiaji ambaye huduma ya Logstash inafanya kazi chini yake, kawaida mtumiaji wa **logstash**. Hakikisha unakidhi **mojawapo** ya vigezo hivi:
+Ili kujaribu kupandisha hadhi, kwanza tambua mtumiaji ambaye huduma ya Logstash inafanya kazi chini yake, kawaida ni mtumiaji **logstash**. Hakikisha unakidhi **moja** ya vigezo hivi:
 
-- Kuwa na **ufikiaji wa kuandika** kwenye faili ya mifumo ya mabomba ya **.conf** **au**
-- Faili ya **/etc/logstash/pipelines.yml** inatumia alama za mwanya, na unaweza kuandika kwenye saraka ya lengo
+- Kuwa na **ufikiaji wa kuandika** kwenye faili ya pipeline **.conf** **au**
+- Faili ya **/etc/logstash/pipelines.yml** inatumia wildcard, na unaweza kuandika kwenye folda lengwa
 
-Aidha, lazima kutimizwe **mojawapo** ya hali hizi:
+Zaidi ya hayo, **moja** ya masharti haya lazima itimizwe:
 
 - Uwezo wa kuanzisha upya huduma ya Logstash **au**
 - Faili ya **/etc/logstash/logstash.yml** ina **config.reload.automatic: true** imewekwa
 
-Kwa kuwa kuna alama za mwanya katika mipangilio, kuunda faili inayolingana na alama hii ya mwanya inaruhusu utekelezaji wa amri. Kwa mfano:
+Ili kuwa na wildcard katika usanidi, kuunda faili inayolingana na wildcard hii inaruhusu utekelezaji wa amri. Kwa mfano:
 ```bash
 input {
 exec {
@@ -61,26 +66,6 @@ codec => rubydebug
 }
 }
 ```
-Hapa, **interval** inaamua mara ngapi amri itatekelezwa kwa sekunde. Katika mfano uliopewa, amri ya **whoami** inatekelezwa kila baada ya sekunde 120, na matokeo yake yanaelekezwa kwenye **/tmp/output.log**.
+Hapa, **interval** inatambulisha mzunguko wa utekelezaji kwa sekunde. Katika mfano uliopewa, amri ya **whoami** inatekelezwa kila sekunde 120, na matokeo yake yanaelekezwa kwenye **/tmp/output.log**.
 
-Kwa kuwa kuna **config.reload.automatic: true** katika **/etc/logstash/logstash.yml**, Logstash itagundua na kutumia moja kwa moja mipangilio mipya au iliyobadilishwa ya mabomba bila haja ya kuanza upya. Ikiwa hakuna alama ya wilcard, mabadiliko bado yanaweza kufanywa kwenye mipangilio iliyopo, lakini tahadhari inashauriwa ili kuepuka usumbufu.
-
-
-## Marejeo
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
-
-<details>
-
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
-
-</details>
+Kwa **config.reload.automatic: true** katika **/etc/logstash/logstash.yml**, Logstash itagundua na kutekeleza kiotomatiki mipangilio mipya au iliyobadilishwa ya pipeline bila kuhitaji kuanzisha upya. Ikiwa hakuna wildcard, mabadiliko bado yanaweza kufanywa kwa mipangilio iliyopo, lakini tahadhari inashauriwa ili kuepuka usumbufu.

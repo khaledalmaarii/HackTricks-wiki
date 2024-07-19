@@ -1,61 +1,68 @@
 # User Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-User Namespace ni kipengele cha kernel ya Linux ambacho **hutoa kujitenga kwa ramani za kitambulisho cha mtumiaji na kikundi**, kuruhusu kila user namespace kuwa na **seti yake ya kitambulisho cha mtumiaji na kikundi**. Kujitenga huku kunawezesha michakato inayotumia user namespaces to **kuwa na mamlaka na umiliki tofauti**, hata kama wanashiriki kitambulisho cha mtumiaji na kikundi sawasawa kwa idadi.
+User namespace ni kipengele cha kernel ya Linux ambacho **kinatoa kutengwa kwa ramani za ID za mtumiaji na kundi**, kuruhusu kila user namespace kuwa na **seti yake ya kipekee ya ID za mtumiaji na kundi**. Kutengwa huku kunaruhusu michakato inayofanya kazi katika user namespaces tofauti **kuwa na mamlaka na umiliki tofauti**, hata kama zinashiriki ID za mtumiaji na kundi kwa nambari.
 
-User namespaces ni muhimu sana katika uwekaji wa kontena, ambapo kila kontena inapaswa kuwa na seti yake ya kujitegemea ya kitambulisho cha mtumiaji na kikundi, kuruhusu usalama na kujitenga bora kati ya kontena na mfumo mwenyeji.
+User namespaces ni muhimu sana katika uundaji wa kontena, ambapo kila kontena linapaswa kuwa na seti yake huru ya ID za mtumiaji na kundi, kuruhusu usalama bora na kutengwa kati ya kontena na mfumo wa mwenyeji.
 
-### Jinsi inavyofanya kazi:
+### How it works:
 
-1. Wakati user namespace mpya inaundwa, **inaanza na seti tupu ya ramani za kitambulisho cha mtumiaji na kikundi**. Hii inamaanisha kuwa mchakato wowote unaotumia user namespace mpya **kwa kuanzia hautakuwa na mamlaka nje ya namespace**.
-2. Ramani za kitambulisho zinaweza kuwekwa kati ya kitambulisho cha mtumiaji na kikundi katika user namespace mpya na zile katika namespace ya mzazi (au mwenyeji). Hii **inaruhusu michakato katika user namespace mpya kuwa na mamlaka na umiliki unaolingana na kitambulisho cha mtumiaji na kikundi katika namespace ya mzazi**. Walakini, ramani za kitambulisho zinaweza kuzuiliwa kwa safu na subset maalum za kitambulisho, kuruhusu udhibiti wa kina juu ya mamlaka zinazotolewa kwa michakato katika user namespace mpya.
-3. Ndani ya user namespace, **michakato inaweza kuwa na mamlaka kamili ya mizizi (UID 0) kwa shughuli ndani ya namespace**, wakati bado ina mamlaka mdogo nje ya namespace. Hii inaruhusu **kontena kufanya kazi na uwezo kama mizizi ndani ya namespace yake bila kuwa na mamlaka kamili ya mizizi kwenye mfumo mwenyeji**.
-4. Michakato inaweza kuhamia kati ya namespaces kwa kutumia wito wa mfumo wa `setns()` au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWUSER`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, itaanza kutumia ramani za kitambulisho cha mtumiaji na kikundi zinazohusiana na namespace hiyo.
+1. Wakati user namespace mpya inaundwa, **inaanza na seti tupu ya ramani za ID za mtumiaji na kundi**. Hii inamaanisha kwamba mchakato wowote unaofanya kazi katika user namespace mpya utakuwa **na mamlaka hakuna nje ya namespace**.
+2. Ramani za ID zinaweza kuanzishwa kati ya ID za mtumiaji na kundi katika namespace mpya na zile katika namespace ya mzazi (au mwenyeji). Hii **inawaruhusu michakato katika namespace mpya kuwa na mamlaka na umiliki yanayolingana na ID za mtumiaji na kundi katika namespace ya mzazi**. Hata hivyo, ramani za ID zinaweza kuwekewa mipaka kwa anuwai maalum na sehemu za IDs, kuruhusu udhibiti wa kina juu ya mamlaka zinazotolewa kwa michakato katika namespace mpya.
+3. Ndani ya user namespace, **michakato inaweza kuwa na mamlaka kamili ya root (UID 0) kwa shughuli ndani ya namespace**, wakati bado ikiwa na mamlaka ndogo nje ya namespace. Hii inaruhusu **kontena kuendesha kwa uwezo kama root ndani ya namespace yao bila kuwa na mamlaka kamili ya root kwenye mfumo wa mwenyeji**.
+4. Michakato inaweza kuhamia kati ya namespaces kwa kutumia wito wa mfumo wa `setns()` au kuunda namespaces mpya kwa kutumia wito wa mfumo wa `unshare()` au `clone()` na bendera ya `CLONE_NEWUSER`. Wakati mchakato unahamia kwenye namespace mpya au kuunda moja, utaanza kutumia ramani za ID za mtumiaji na kundi zinazohusiana na namespace hiyo.
 
-## Maabara:
+## Lab:
 
-### Unda Namespaces Tofauti
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-Kwa kusakinisha kipengele kipya cha mfumo wa faili ya `/proc` ikiwa unatumia paramu `--mount-proc`, unahakikisha kuwa kipengele kipya cha kufunga kinaona **taarifa sahihi na iliyotengwa ya mchakato maalum kwa kipengele hicho**.
+Kwa kuunganisha mfano mpya wa mfumo wa `/proc` ikiwa unatumia param `--mount-proc`, unahakikisha kwamba nafasi mpya ya kuunganisha ina **mtazamo sahihi na wa kutengwa wa taarifa za mchakato maalum kwa nafasi hiyo**.
 
 <details>
 
-<summary>Kosa: bash: fork: Haiwezi kugawa kumbukumbu</summary>
+<summary>Kosa: bash: fork: Haiwezekani kugawa kumbukumbu</summary>
 
-Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linatokea kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Process ID). Maelezo muhimu na suluhisho vimeelezewa hapa chini:
+Wakati `unshare` inatekelezwa bila chaguo la `-f`, kosa linakutana kutokana na jinsi Linux inavyoshughulikia nafasi mpya za PID (Kitambulisho cha Mchakato). Maelezo muhimu na suluhisho yameelezwa hapa chini:
 
 1. **Maelezo ya Tatizo**:
-- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya za kutumia wito wa mfumo wa `unshare`. Walakini, mchakato ambao unaanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") haingii katika nafasi mpya; ni mchakato wake wa watoto tu ndio unaingia.
-- Kukimbia `%unshare -p /bin/bash%` kuanza `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako katika nafasi ya PID ya awali.
-- Mchakato wa kwanza wa watoto wa `/bin/bash` katika nafasi mpya hupata PID 1. Wakati mchakato huu unatoka, husababisha kusafisha kwa nafasi hiyo ikiwa hakuna michakato mingine, kwani PID 1 ina jukumu maalum la kuwachukua michakato yatima. Kernel ya Linux kisha itazima ugawaji wa PID katika nafasi hiyo.
+- Kernel ya Linux inaruhusu mchakato kuunda nafasi mpya kwa kutumia wito wa mfumo wa `unshare`. Hata hivyo, mchakato unaoanzisha uundaji wa nafasi mpya ya PID (inayojulikana kama mchakato wa "unshare") hauingii katika nafasi mpya; ni mchakato wake wa watoto pekee ndio wanaingia.
+- Kuendesha `%unshare -p /bin/bash%` kunaanzisha `/bin/bash` katika mchakato sawa na `unshare`. Kwa hivyo, `/bin/bash` na mchakato wake wa watoto wako katika nafasi ya asili ya PID.
+- Mchakato wa kwanza wa mtoto wa `/bin/bash` katika nafasi mpya unakuwa PID 1. Wakati mchakato huu unapoondoka, unachochea usafishaji wa nafasi hiyo ikiwa hakuna mchakato mwingine, kwani PID 1 ina jukumu maalum la kupokea mchakato wa yatima. Kernel ya Linux itazima kisha ugawaji wa PID katika nafasi hiyo.
 
 2. **Matokeo**:
-- Kutoka kwa kutoka kwa PID 1 katika nafasi mpya kunasababisha kusafisha kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kushindwa kwa kazi ya `alloc_pid` kuweka PID mpya wakati wa kuunda mchakato mpya, na kusababisha kosa la "Haiwezi kugawa kumbukumbu".
+- Kuondoka kwa PID 1 katika nafasi mpya kunasababisha kusafishwa kwa bendera ya `PIDNS_HASH_ADDING`. Hii inasababisha kazi ya `alloc_pid` kushindwa kugawa PID mpya wakati wa kuunda mchakato mpya, ikitoa kosa la "Haiwezekani kugawa kumbukumbu".
 
 3. **Suluhisho**:
-- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` na `unshare`. Chaguo hili linamfanya `unshare` kugawanya mchakato mpya baada ya kuunda nafasi mpya ya PID.
-- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kuwa amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na mchakato wake wa watoto kisha wako salama ndani ya nafasi hii mpya, kuzuia kutoka kwa kutoka mapema kwa PID 1 na kuruhusu ugawaji wa PID kawaida.
+- Tatizo linaweza kutatuliwa kwa kutumia chaguo la `-f` pamoja na `unshare`. Chaguo hili linafanya `unshare` kuunda mchakato mpya baada ya kuunda nafasi mpya ya PID.
+- Kutekeleza `%unshare -fp /bin/bash%` kunahakikisha kwamba amri ya `unshare` yenyewe inakuwa PID 1 katika nafasi mpya. `/bin/bash` na mchakato wake wa watoto kisha vinashikiliwa salama ndani ya nafasi hii mpya, kuzuia kuondoka mapema kwa PID 1 na kuruhusu ugawaji wa PID wa kawaida.
 
-Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya PID inasimamiwa kwa usahihi, kuruhusu `/bin/bash` na michakato yake ya chini kufanya kazi bila kukutana na kosa la ugawaji wa kumbukumbu.
+Kwa kuhakikisha kwamba `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya PID inatunzwa ipasavyo, ikiruhusu `/bin/bash` na mchakato wake wa chini kufanya kazi bila kukutana na kosa la ugawaji wa kumbukumbu.
 
 </details>
 
@@ -63,24 +70,24 @@ Kwa kuhakikisha kuwa `unshare` inatekelezwa na bendera ya `-f`, nafasi mpya ya P
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-Kutumia user namespace, kifaa cha Docker kinahitaji kuanzishwa na **`--userns-remap=default`** (Katika ubuntu 14.04, hii inaweza kufanywa kwa kubadilisha `/etc/default/docker` na kisha kutekeleza `sudo service docker restart`)
+Ili kutumia user namespace, Docker daemon inahitaji kuanzishwa na **`--userns-remap=default`**(Katika ubuntu 14.04, hii inaweza kufanywa kwa kubadilisha `/etc/default/docker` na kisha kutekeleza `sudo service docker restart`)
 
-### &#x20;Angalia ni namespace gani mchakato wako uko ndani yake
+### &#x20;Angalia ni namespace ipi mchakato wako uko ndani
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
-Inawezekana kuangalia ramani ya mtumiaji kutoka kwenye chombo cha docker kwa kutumia:
+Ni rahisi kuangalia ramani ya mtumiaji kutoka kwenye kontena la docker kwa:
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
 0     231072      65536  --> Root is 231072 userid in host
 ```
-Au kutoka kwenye mwenyeji na:
+Au kutoka kwa mwenyeji na:
 ```bash
 cat /proc/<pid>/uid_map
 ```
-### Tafuta majina yote ya nafasi za mtumiaji
+### Pata majina yote ya Mtumiaji
 
 {% code overflow="wrap" %}
 ```bash
@@ -88,17 +95,15 @@ sudo find /proc -maxdepth 3 -type l -name user -exec readlink {} \; 2>/dev/null 
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Ingia ndani ya jina nafasi ya mtumiaji
-
 {% endcode %}
+
+### Ingia ndani ya User namespace
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-Pia, unaweza **ingia kwenye namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** kwenye namespace nyingine **bila kigeuzi** kinachoelekeza kwake (kama vile `/proc/self/ns/user`).
+Pia, unaweza tu **kuingia katika namespace ya mchakato mwingine ikiwa wewe ni root**. Na huwezi **kuingia** katika namespace nyingine **bila deskteta** inayorejelea hiyo (kama `/proc/self/ns/user`).
 
-### Unda namespace mpya ya mtumiaji (na ramani) 
+### Unda namespace mpya ya Mtumiaji (ikiwa na ramani)
 
 {% code overflow="wrap" %}
 ```bash
@@ -114,14 +119,14 @@ nobody@ip-172-31-28-169:/home/ubuntu$ #Check how the user is nobody
 ps -ef | grep bash # The user inside the host is still root, not nobody
 root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
-### Kurejesha Uwezo
+### Kupata Uwezo Tena
 
-Katika kesi ya majina ya watumiaji, **wakati jina jipya la mtumiaji linapoundwa, mchakato unaotumia jina hilo linapewa seti kamili ya uwezo ndani ya jina hilo**. Uwezo huu unaruhusu mchakato kufanya operesheni za kihalali kama vile **kufunga** **mfumo wa faili**, kuunda vifaa, au kubadilisha umiliki wa faili, lakini **tu ndani ya muktadha wa jina lake la mtumiaji**.
+Katika kesi ya majina ya watumiaji, **wakati jina jipya la mtumiaji linaundwa, mchakato unaoingia kwenye jina hilo unapata seti kamili ya uwezo ndani ya jina hilo**. Uwezo huu unaruhusu mchakato kufanya operesheni zenye mamlaka kama **kuunganisha** **sistimu za faili**, kuunda vifaa, au kubadilisha umiliki wa faili, lakini **tu ndani ya muktadha wa jina lake la mtumiaji**.
 
-Kwa mfano, wakati una uwezo wa `CAP_SYS_ADMIN` ndani ya jina la mtumiaji, unaweza kufanya operesheni ambazo kwa kawaida zinahitaji uwezo huu, kama vile kufunga mfumo wa faili, lakini tu ndani ya muktadha wa jina lako la mtumiaji. Operesheni yoyote unayofanya na uwezo huu haitaathiri mfumo mwenyeji au majina mengine.
+Kwa mfano, unapokuwa na uwezo wa `CAP_SYS_ADMIN` ndani ya jina la mtumiaji, unaweza kufanya operesheni ambazo kawaida zinahitaji uwezo huu, kama kuunganisha sistimu za faili, lakini tu ndani ya muktadha wa jina lako la mtumiaji. Operesheni zozote unazofanya kwa uwezo huu hazitaathiri mfumo wa mwenyeji au majina mengine.
 
 {% hint style="warning" %}
-Kwa hiyo, hata kama kupata mchakato mpya ndani ya Jina jipya la Mtumiaji **kutakupa uwezo wote tena** (CapEff: 000001ffffffffff), kimsingi unaweza **kutumia tu wale unaohusiana na jina la mtumiaji** (kama vile kufunga) lakini sio wote. Kwa hiyo, hii pekee haitoshi kutoroka kutoka kwenye kontena ya Docker.
+Hivyo, hata kama kupata mchakato mpya ndani ya jina jipya la Mtumiaji **kutakupa uwezo wote tena** (CapEff: 000001ffffffffff), kwa kweli unaweza **kutumia tu zile zinazohusiana na jina hilo** (kuunganisha kwa mfano) lakini si kila mmoja. Hivyo, hii peke yake haitoshi kutoroka kutoka kwa kontena la Docker.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -145,21 +150,29 @@ Probando: 0x130 . . . Error
 Probando: 0x139 . . . Error
 Probando: 0x140 . . . Error
 Probando: 0x141 . . . Error
-Probando: 0x143 . . . Error
-```
-## Marejeo
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

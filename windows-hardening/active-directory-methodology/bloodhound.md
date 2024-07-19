@@ -1,78 +1,81 @@
-# BloodHound na Zana Zingine za AD Enum
+# BloodHound & Other AD Enum Tools
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) ni sehemu ya Suite ya Sysinternal:
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) ni kutoka Sysinternal Suite:
 
-> Ni mtazamaji na mhariri wa Active Directory (AD) wa juu. Unaweza kutumia AD Explorer kuvinjari kwa urahisi kwenye database ya AD, kufafanua maeneo ya kupendelea, kuona mali na sifa za vitu bila kufungua sanduku la mazungumzo, kuhariri ruhusa, kuona mpangilio wa vitu, na kutekeleza utafutaji wa kisasa ambao unaweza kuokoa na kutekeleza tena.
+> Mtazamaji na mhariri wa Active Directory (AD) wa hali ya juu. Unaweza kutumia AD Explorer kuvinjari hifadhidata ya AD kwa urahisi, kufafanua maeneo unayopenda, kuona mali za vitu, na sifa bila kufungua masanduku ya mazungumzo, kuhariri ruhusa, kuona muundo wa kitu, na kutekeleza utafutaji wa hali ya juu ambao unaweza kuokoa na kuutekeleza tena.
 
-### Picha za Skrini
+### Snapshots
 
-AD Explorer inaweza kuunda picha za skrini za AD ili uweze kuiangalia nje ya mtandao.\
-Inaweza kutumika kugundua udhaifu nje ya mtandao, au kulinganisha hali tofauti za DB ya AD kwa wakati.
+AD Explorer inaweza kuunda snapshots za AD ili uweze kuangalia mtandaoni.\
+Inaweza kutumika kugundua vulns mtandaoni, au kulinganisha hali tofauti za DB ya AD kwa muda.
 
-Utahitaji jina la mtumiaji, nenosiri, na mwelekeo wa kuunganisha (mtumiaji yeyote wa AD inahitajika).
+Utahitaji jina la mtumiaji, nenosiri, na mwelekeo wa kuungana (mtumiaji yeyote wa AD anahitajika).
 
-Ili kuchukua picha ya skrini ya AD, nenda kwa `File` --> `Create Snapshot` na ingiza jina kwa picha ya skrini.
+Ili kuchukua snapshot ya AD, nenda kwenye `File` --> `Create Snapshot` na ingiza jina la snapshot.
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon) ni zana ambayo inachambua na kuunganisha vielelezo mbalimbali kutoka kwenye mazingira ya AD. Taarifa inaweza kuwasilishwa katika **ripoti** ya Microsoft Excel **iliyopangwa maalum** ambayo inajumuisha muhtasari na takwimu za kurahisisha uchambuzi na kutoa picha kamili ya hali ya sasa ya mazingira ya AD ya lengo.
+[**ADRecon**](https://github.com/adrecon/ADRecon) ni chombo ambacho kinatoa na kuunganisha vitu mbalimbali kutoka katika mazingira ya AD. Taarifa zinaweza kuwasilishwa katika **ripoti** ya Microsoft Excel **iliyoundwa kwa namna maalum** ambayo inajumuisha muonekano wa muhtasari na vipimo ili kuwezesha uchambuzi na kutoa picha kamili ya hali ya sasa ya mazingira ya AD ya lengo.
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
 ## BloodHound
 
-Kutoka [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
+From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-> BloodHound ni programu-jalizi ya wavuti ya Javascript ya ukurasa mmoja, iliyojengwa juu ya [Linkurious](http://linkurio.us/), iliyopewa muundo na [Electron](http://electron.atom.io/), na hifadhidata ya [Neo4j](https://neo4j.com/) iliyojazwa na mkusanyaji wa data ya C#.
+> BloodHound ni programu ya wavuti ya Javascript ya ukurasa mmoja, iliyojengwa juu ya [Linkurious](http://linkurio.us/), iliyokusanywa na [Electron](http://electron.atom.io/), ikiwa na hifadhidata ya [Neo4j](https://neo4j.com/) inayopatiwa na mkusanyiko wa data wa C#.
 
-BloodHound hutumia nadharia ya grafu kuonyesha uhusiano uliofichika na mara nyingi usiotarajiwa ndani ya Mazingira ya Active Directory au Azure. Wadukuzi wanaweza kutumia BloodHound kwa urahisi kutambua njia za mashambulizi zenye utata ambazo kwa kawaida ingekuwa vigumu kutambua haraka. Watetezi wanaweza kutumia BloodHound kutambua na kuondoa njia hizo za mashambulizi. Timu za bluu na nyekundu zote wanaweza kutumia BloodHound kwa urahisi kupata ufahamu zaidi wa uhusiano wa mamlaka katika Mazingira ya Active Directory au Azure.
+BloodHound inatumia nadharia ya grafu kufichua uhusiano wa siri na mara nyingi usiokusudiwa ndani ya mazingira ya Active Directory au Azure. Washambuliaji wanaweza kutumia BloodHound kutambua kwa urahisi njia za shambulio zenye ugumu mkubwa ambazo vinginevyo zingekuwa ngumu kutambua haraka. Walinzi wanaweza kutumia BloodHound kutambua na kuondoa njia hizo za shambulio. Timu za buluu na nyekundu zinaweza kutumia BloodHound kupata uelewa mzuri wa uhusiano wa mamlaka katika mazingira ya Active Directory au Azure.
 
-Kwa hivyo, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) ni chombo cha kushangaza ambacho kinaweza kuchunguza kikoa kiotomatiki, kuhifadhi habari zote, kupata njia za kuongeza mamlaka na kuonyesha habari zote kwa kutumia grafu.
+Hivyo, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) ni chombo cha ajabu ambacho kinaweza kuhesabu kikoa kiotomatiki, kuhifadhi taarifa zote, kutafuta njia zinazowezekana za kupandisha mamlaka na kuonyesha taarifa zote kwa kutumia grafu.
 
-Bloodhound ina sehemu kuu 2: **ingestors** na **programu ya kuonyesha**.
+Bloodhound inajumuisha sehemu 2 kuu: **ingestors** na **programu ya uonyeshaji**.
 
-**Ingestors** hutumiwa kwa **kuchunguza kikoa na kutoa habari zote** katika muundo ambao programu ya kuonyesha itaelewa.
+**Ingestors** zinatumika ku **hesabu kikoa na kutoa taarifa zote** katika muundo ambao programu ya uonyeshaji itaelewa.
 
-**Programu ya kuonyesha inatumia neo4j** kuonyesha jinsi habari zote zinavyohusiana na kuonyesha njia tofauti za kuongeza mamlaka katika kikoa.
+**Programu ya uonyeshaji inatumia neo4j** kuonyesha jinsi taarifa zote zinavyohusiana na kuonyesha njia tofauti za kupandisha mamlaka katika kikoa.
 
-### Usanidi
-Baada ya uundaji wa BloodHound CE, mradi mzima ulisasishwa ili kuwa rahisi kutumia Docker. Njia rahisi ya kuanza ni kutumia usanidi wa Docker Compose uliopangwa tayari.
+### Installation
+Baada ya kuundwa kwa BloodHound CE, mradi mzima ulisasishwa ili urahisi wa matumizi na Docker. Njia rahisi ya kuanza ni kutumia usanidi wa Docker Compose ulioandaliwa mapema.
 
-1. Sakinisha Docker Compose. Hii inapaswa kuwa pamoja na usanidi wa [Docker Desktop](https://www.docker.com/products/docker-desktop/).
-2. Chalisha:
+1. Sakinisha Docker Compose. Hii inapaswa kujumuishwa na usakinishaji wa [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+2. Endesha:
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Tafuta nenosiri lililoundwa kwa nasibu katika matokeo ya terminal ya Docker Compose.
-4. Kwenye kivinjari, nenda kwenye http://localhost:8080/ui/login. Ingia kwa kutumia jina la mtumiaji la admin na nenosiri lililoundwa kwa nasibu kutoka kwenye magogo.
+3. Pata nenosiri lililotengenezwa kwa bahati katika matokeo ya terminal ya Docker Compose.  
+4. Katika kivinjari, tembelea http://localhost:8080/ui/login. Ingia kwa jina la mtumiaji admin na nenosiri lililotengenezwa kwa bahati kutoka kwenye kumbukumbu.
 
-Baada ya hapo utahitaji kubadilisha nenosiri lililoundwa kwa nasibu na utakuwa na kiolesura kipya tayari, ambapo unaweza kupakua moja kwa moja wachambuzi wa data.
+Baada ya hii, utahitaji kubadilisha nenosiri lililotengenezwa kwa bahati na utakuwa na kiolesura kipya kilichokuwa tayari, ambacho unaweza kupakua ingestors moja kwa moja.
 
 ### SharpHound
 
-Wana chaguo kadhaa lakini ikiwa unataka kukimbia SharpHound kutoka kwenye PC uliyounganishwa kwenye kikoa, ukitumia mtumiaji wako wa sasa na kuchambua habari zote unaweza kufanya yafuatayo:
+Wana chaguzi kadhaa lakini ikiwa unataka kuendesha SharpHound kutoka kwa PC iliyojiunga na eneo, ukitumia mtumiaji wako wa sasa na kutoa taarifa zote unaweza kufanya:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
-> Unaweza kusoma zaidi kuhusu **CollectionMethod** na kikao cha mzunguko [hapa](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
+> Unaweza kusoma zaidi kuhusu **CollectionMethod** na kikao cha loop [hapa](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained)
 
-Ikiwa unataka kutekeleza SharpHound ukitumia sifa tofauti za uwakilishi, unaweza kuunda kikao cha CMD cha netonly na kukimbia SharpHound kutoka hapo:
+Ikiwa unataka kutekeleza SharpHound kwa kutumia akidi tofauti unaweza kuunda kikao cha CMD netonly na kuendesha SharpHound kutoka hapo:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
@@ -81,8 +84,8 @@ runas /netonly /user:domain\user "powershell.exe -exec bypass"
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) ni chombo cha kutafuta **mapungufu** katika Active Directory yanayohusiana na **Group Policy**. \
-Unahitaji **kuendesha group3r** kutoka kwenye mwenyeji ndani ya kikoa kwa kutumia **mtumiaji yeyote wa kikoa**.
+[**Group3r**](https://github.com/Group3r/Group3r) ni chombo cha kutafuta **vulnerabilities** katika Active Directory zinazohusiana na **Group Policy**. \
+Unahitaji **kukimbia group3r** kutoka kwa mwenyeji ndani ya eneo kwa kutumia **mtumiaji yeyote wa eneo**.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -90,18 +93,21 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **inahakiki hali ya usalama wa mazingira ya AD** na hutoa **ripoti** nzuri na chati.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **inasimamia usalama wa mazingira ya AD** na inatoa **ripoti** nzuri yenye grafu.
 
-Ili kuendesha, unaweza kutekeleza faili ya binary `PingCastle.exe` na itaanza **kikao cha kuingiliana** kinachoonyesha menyu ya chaguo. Chaguo la msingi la kutumia ni **`healthcheck`** ambayo itaweka **muhtasari** wa **kikoa**, na kupata **makosa ya usanidi** na **mapungufu ya usalama**.&#x20;
+Ili kuikimbia, unaweza kutekeleza binary `PingCastle.exe` na itaanzisha **sehemu ya maingiliano** ikionyesha menyu ya chaguzi. Chaguo la msingi kutumia ni **`healthcheck`** ambalo litaanzisha **muonekano** wa **domeni**, na kutafuta **makosa ya usanidi** na **udhaifu**.&#x20;
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa [repo ya hacktricks](https://github.com/carlospolop/hacktricks) na [repo ya hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

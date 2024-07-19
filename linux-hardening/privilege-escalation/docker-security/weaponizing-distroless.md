@@ -1,42 +1,64 @@
-# Kutumia Distroless kama Silaha
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Njia nyingine za kusaidia HackTricks:
+<oummpr>SupportHackTricks</smmay>
 
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Distroless ni Nini
+## What is Distroless
 
-Chombo cha distroless ni aina ya chombo ambacho **kinajumuisha tu tegemezi muhimu za kuendesha programu fulani**, bila programu au zana zingine zisizohitajika. Vyombo hivi vimeundwa kuwa **nyepesi** na **salama** iwezekanavyo, na lengo lake ni **kupunguza eneo la shambulio** kwa kuondoa sehemu zisizohitajika.
+Konteina isiyo na mfumo wa uendeshaji ni aina ya kontena ambayo **ina vitu muhimu pekee vya kutekeleza programu maalum**, bila programu au zana za ziada ambazo hazihitajiki. Kontena hizi zimeundwa kuwa **nyepesi** na **salama** kadri iwezekanavyo, na zina lengo la **kupunguza uso wa shambulio** kwa kuondoa vipengele visivyohitajika.
 
-Vyombo vya distroless mara nyingi hutumiwa katika **mazingira ya uzalishaji ambapo usalama na uaminifu ni muhimu**.
+Kontena zisizo na mfumo wa uendeshaji mara nyingi hutumiwa katika **mazingira ya uzalishaji ambapo usalama na uaminifu ni muhimu**.
 
-Baadhi ya **mifano** ya **vyombo vya distroless** ni:
+Baadhi ya **mfano** wa **kontena zisizo na mfumo wa uendeshaji** ni:
 
 * Iliyotolewa na **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
 * Iliyotolewa na **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Kutumia Distroless kama Silaha
+## Weaponizing Distroless
 
-Lengo la kutumia chombo cha distroless kama silaha ni kuweza **kutekeleza programu na malipo yoyote hata na vikwazo** vilivyotokana na **distroless** (ukosefu wa programu za kawaida katika mfumo) na pia ulinzi unaopatikana kawaida katika vyombo kama vile **soma tu** au **isitekeleze** katika `/dev/shm`.
+Lengo la kuunda silaha kutoka kwa kontena isiyo na mfumo wa uendeshaji ni kuwa na uwezo wa **kutekeleza binaries na payloads bila mipaka** inayohusishwa na **distroless** (ukosefu wa binaries za kawaida katika mfumo) na pia ulinzi ambao mara nyingi hupatikana katika kontena kama **kusoma tu** au **hakuna utekelezaji** katika `/dev/shm`.
 
-### Kupitia Kumbukumbu
+### Through memory
 
-Inakuja wakati fulani wa 2023...
+Kujitokeza katika wakati fulani wa 2023...
 
-### Kupitia Programu Zilizopo
+### Via Existing binaries
 
 #### openssl
 
-****[**Katika chapisho hili,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) imeelezewa kuwa programu ya **`openssl`** mara nyingi hupatikana katika vyombo hivi, labda kwa sababu inahitajika na programu ambayo itaendeshwa ndani ya chombo.
+****[**Katika chapisho hili,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) inaelezwa kuwa binary **`openssl`** mara nyingi hupatikana katika kontena hizi, labda kwa sababu inahitajika na programu ambayo itakuwa ikifanya kazi ndani ya kontena.
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-Kwa kutumia programu ya **`openssl`** ni iwezekanavyo kutekeleza mambo yoyote.
+<dtil>
+
+<ummr>SupportHackTricks</smmay>
+
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

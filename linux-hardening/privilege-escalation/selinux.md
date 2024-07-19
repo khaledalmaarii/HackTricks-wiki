@@ -1,25 +1,27 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
 
-# SELinux katika Kontena
+# SELinux katika Mifuko
 
-[Utangulizi na mfano kutoka kwenye nyaraka za redhat](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
+[Utangulizi na mfano kutoka kwa nyaraka za redhat](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
-[SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux) ni **mfumo wa lebo**. Kila **mchakato** na kila **faili** kwenye mfumo una **lebo**. Sera za SELinux hutoa sheria juu ya kile **lebo ya mchakato inaruhusiwa kufanya na lebo zingine zote** kwenye mfumo.
+[SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux) ni **mfumo wa kuweka lebo**. Kila **mchakato** na kila **kitu** cha mfumo wa faili kina **lebo**. Sera za SELinux zinaelezea sheria kuhusu kile **lebo ya mchakato inaruhusiwa kufanya na lebo nyingine zote** kwenye mfumo.
 
-Injini za kontena huzindua **mchakato wa kontena na lebo moja iliyozuiwa ya SELinux**, kawaida `container_t`, na kisha kuweka kontena ndani ya kontena kuwa na lebo `container_file_t`. Sheria za sera za SELinux kimsingi zinasema kuwa **mchakato wa `container_t` unaweza tu kusoma/kuandika/kutekeleza faili zenye lebo `container_file_t`**. Ikiwa mchakato wa kontena unafanikiwa kutoroka kutoka kwenye kontena na kujaribu kuandika kwenye yaliyomo kwenye mwenyeji, kernel ya Linux inakataa ufikiaji na inaruhusu mchakato wa kontena kuandika tu kwenye yaliyomo yenye lebo `container_file_t`.
+Mifumo ya mifuko inazindua **michakato ya mifuko yenye lebo moja ya SELinux iliyo na mipaka**, kawaida `container_t`, na kisha kuweka mfuko ndani ya mfuko kuwa na lebo `container_file_t`. Sheria za sera za SELinux kimsingi zinasema kwamba **michakato ya `container_t` inaweza kusoma/kandika/kutekeleza faili zilizo na lebo `container_file_t` pekee**. Ikiwa mchakato wa mfuko unatoroka mfuko na kujaribu kuandika kwenye maudhui kwenye mwenyeji, kernel ya Linux inakataa ufikiaji na inaruhusu tu mchakato wa mfuko kuandika kwenye maudhui yaliyo na lebo `container_file_t`.
 ```shell
 $ podman run -d fedora sleep 100
 d4194babf6b877c7100e79de92cd6717166f7302113018686cea650ea40bd7cb
@@ -29,4 +31,21 @@ system_u:system_r:container_t:s0:c647,c780
 ```
 # Watumiaji wa SELinux
 
-Kuna watumiaji wa SELinux mbali na watumiaji wa kawaida wa Linux. Watumiaji wa SELinux ni sehemu ya sera ya SELinux. Kila mtumiaji wa Linux ameunganishwa na mtumiaji wa SELinux kama sehemu ya sera. Hii inaruhusu watumiaji wa Linux kuurithi vizuizi na sheria za usalama zilizowekwa kwa watumiaji wa SELinux.
+Kuna watumiaji wa SELinux mbali na watumiaji wa kawaida wa Linux. Watumiaji wa SELinux ni sehemu ya sera ya SELinux. Kila mtumiaji wa Linux ameunganishwa na mtumiaji wa SELinux kama sehemu ya sera hiyo. Hii inaruhusu watumiaji wa Linux kurithi vizuizi na sheria za usalama na mitambo iliyowekwa kwa watumiaji wa SELinux. 
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
