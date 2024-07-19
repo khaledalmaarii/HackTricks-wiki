@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash word gebruik om **logs te versamel, transformeer en versprei** deur 'n stelsel wat bekend staan as **pipelines**. Hierdie pipelines bestaan uit **invoer**, **filter** en **uitvoer** fases. 'n Interessante aspek ontstaan wanneer Logstash op 'n gekompromitteerde masjien werk.
+Logstash word gebruik om **logs te versamel, te transformeer en te stuur** deur 'n stelsel bekend as **pipelines**. Hierdie pipelines bestaan uit **invoer**, **filter**, en **uitvoer** fases. 'n Interessante aspek ontstaan wanneer Logstash op 'n gecompromitteerde masjien werk.
 
-### Pipeline-konfigurasie
+### Pipeline Konfigurasie
 
-Pipelines word gekonfigureer in die lêer **/etc/logstash/pipelines.yml**, wat die plekke van die pipeline-konfigurasies lys:
+Pipelines word geconfigureer in die lêer **/etc/logstash/pipelines.yml**, wat die plekke van die pipeline konfigurasies lys:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Hierdie lêer onthul waar die **.conf** lêers, wat pyplynkonfigurasies bevat, geleë is. Wanneer 'n **Elasticsearch uitsetmodule** gebruik word, is dit algemeen dat **pyplyne** **Elasticsearch-legitimasie** insluit, wat dikwels uitgebreide voorregte het as gevolg van Logstash se behoefte om data na Elasticsearch te skryf. Wildcards in konfigurasiepaaie stel Logstash in staat om alle ooreenstemmende pyplyne in die aangewese gids uit te voer.
+This lêer onthul waar die **.conf** lêers, wat pyplyn konfigurasies bevat, geleë is. Wanneer 'n **Elasticsearch output module** gebruik word, is dit algemeen dat **pyplyne** **Elasticsearch kredensiale** insluit, wat dikwels uitgebreide bevoegdhede het weens Logstash se behoefte om data na Elasticsearch te skryf. Wildcards in konfigurasiepaaie laat Logstash toe om alle ooreenstemmende pyplyne in die aangewese gids uit te voer.
 
-### Voorregverhoging deur Skryfbare Pyplyne
+### Bevoegdheidstoename deur Skryfbare Pyplyne
 
-Om voorregverhoging te probeer, identifiseer eers die gebruiker waaronder die Logstash-diens gewoonlik loop, tipies die **logstash**-gebruiker. Maak seker dat jy aan **een** van hierdie kriteria voldoen:
+Om 'n poging tot bevoegdheidstoename te doen, identifiseer eers die gebruiker waaronder die Logstash diens loop, tipies die **logstash** gebruiker. Verseker dat jy aan **een** van hierdie kriteria voldoen:
 
-- Besit **skryftoegang** tot 'n pyplyn **.conf** lêer **of**
-- Die **/etc/logstash/pipelines.yml** lêer gebruik 'n wildcard, en jy kan na die teikengids skryf
+- Besit **skryfgemagtigdheid** tot 'n pyplyn **.conf** lêer **of**
+- Die **/etc/logstash/pipelines.yml** lêer gebruik 'n wildcard, en jy kan na die teiken gids skryf
 
-Daarbenewens moet **een** van hierdie voorwaardes vervul word:
+Boonop moet **een** van hierdie toestande vervul word:
 
-- Die vermoë om die Logstash-diens te herlaai **of**
+- Vermoë om die Logstash diens te herbegin **of**
 - Die **/etc/logstash/logstash.yml** lêer het **config.reload.automatic: true** ingestel
 
-Met 'n wildcard in die konfigurasie, maak dit moontlik om 'n lêer te skep wat ooreenstem met hierdie wildcard en sodoende opdraguitvoering toe te laat. Byvoorbeeld:
+Gegewe 'n wildcard in die konfigurasie, laat die skep van 'n lêer wat met hierdie wildcard ooreenstem toe dat opdragte uitgevoer word. Byvoorbeeld:
 ```bash
 input {
 exec {
@@ -61,26 +66,6 @@ codec => rubydebug
 }
 }
 ```
-Hier bepaal **interval** die uitvoeringsfrekwensie in sekondes. In die gegewe voorbeeld word die **whoami**-opdrag elke 120 sekondes uitgevoer, met die uitvoer wat na **/tmp/output.log** gerig word.
+Hier, **interval** bepaal die uitvoeringsfrekwensie in sekondes. In die gegewe voorbeeld, die **whoami** opdrag loop elke 120 sekondes, met sy uitvoer gerig na **/tmp/output.log**.
 
-Met **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, sal Logstash outomaties nuwe of gewysigde pyplynkonfigurasies opspoor en toepas sonder om 'n herlaaiing te benodig. As daar geen wildcards is nie, kan wysigings steeds aangebring word aan bestaande konfigurasies, maar voorsoorsigtigheid word aanbeveel om ontwrigting te voorkom.
-
-
-## Verwysings
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
-
-<details>
-
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
-
-</details>
+Met **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, sal Logstash outomaties nuwe of gewysigde pyplyn konfigurasies opspoor en toepas sonder om 'n herlaai te benodig. As daar geen wildcard is nie, kan wysigings steeds aan bestaande konfigurasies gemaak word, maar versigtigheid word aanbeveel om ontwrigtings te vermy.

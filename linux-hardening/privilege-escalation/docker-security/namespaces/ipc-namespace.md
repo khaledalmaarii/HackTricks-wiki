@@ -1,28 +1,30 @@
-# IPC-namespace
+# IPC Naamruimte
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling van eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
 ## Basiese Inligting
 
-'n IPC (Inter-Process Communication)-naamruimte is 'n Linux-kernelkenmerk wat **afsondering** van System V IPC-voorwerpe bied, soos boodskaprye, gedeelde geheue-segmente en semafore. Hierdie afsondering verseker dat prosesse in **verskillende IPC-naamruimtes nie direk toegang tot of wysiging van mekaar se IPC-voorwerpe kan hê nie**, wat 'n addisionele laag van veiligheid en privaatheid tussen prosesgroepe bied.
+'n IPC (Inter-Process Communication) naamruimte is 'n Linux-kernfunksie wat **isolasie** van System V IPC-objekte bied, soos boodskapqueues, gedeelde geheue-segmente en semafore. Hierdie isolasie verseker dat prosesse in **verskillende IPC naamruimtes nie direk toegang kan verkry tot of mekaar se IPC-objekte kan verander nie**, wat 'n ekstra laag van sekuriteit en privaatheid tussen prosesgroepe bied.
 
 ### Hoe dit werk:
 
-1. Wanneer 'n nuwe IPC-naamruimte geskep word, begin dit met 'n **volledig afgesonderde stel System V IPC-voorwerpe**. Dit beteken dat prosesse wat in die nuwe IPC-naamruimte loop, nie standaard toegang tot of inmenging met die IPC-voorwerpe in ander naamruimtes of die gasheerstelsel kan hê nie.
-2. IPC-voorwerpe wat binne 'n naamruimte geskep word, is slegs sigbaar en **toeganklik vir prosesse binne daardie naamruimte**. Elke IPC-voorwerp word geïdentifiseer deur 'n unieke sleutel binne sy naamruimte. Alhoewel die sleutel dieselfde kan wees in verskillende naamruimtes, is die voorwerpe self afgesonderd en kan nie oor naamruimtes heen toegang verkry nie.
-3. Prosesse kan tussen naamruimtes beweeg deur die `setns()`-sisteemaanroep te gebruik of nuwe naamruimtes te skep deur die `unshare()`- of `clone()`-sisteemaanroep met die `CLONE_NEWIPC`-vlag te gebruik. Wanneer 'n proses na 'n nuwe naamruimte beweeg of een skep, begin dit die IPC-voorwerpe wat met daardie naamruimte geassosieer word, gebruik.
+1. Wanneer 'n nuwe IPC naamruimte geskep word, begin dit met 'n **heeltemal geïsoleerde stel van System V IPC-objekte**. Dit beteken dat prosesse wat in die nuwe IPC naamruimte loop nie toegang kan verkry tot of inmeng met die IPC-objekte in ander naamruimtes of die gasheerstelsel nie, per standaard.
+2. IPC-objekte wat binne 'n naamruimte geskep word, is sigbaar en **slegs toeganklik vir prosesse binne daardie naamruimte**. Elke IPC-objek word geïdentifiseer deur 'n unieke sleutel binne sy naamruimte. Alhoewel die sleutel identies kan wees in verskillende naamruimtes, is die objekte self geïsoleer en kan nie oor naamruimtes toeganklik wees nie.
+3. Prosesse kan tussen naamruimtes beweeg deur die `setns()` stelselskakel of nuwe naamruimtes skep met die `unshare()` of `clone()` stelselskakels met die `CLONE_NEWIPC` vlag. Wanneer 'n proses na 'n nuwe naamruimte beweeg of een skep, sal dit begin om die IPC-objekte wat met daardie naamruimte geassosieer is, te gebruik.
 
 ## Laboratorium:
 
@@ -32,27 +34,27 @@ Ander maniere om HackTricks te ondersteun:
 ```bash
 sudo unshare -i [--mount-proc] /bin/bash
 ```
-Deur 'n nuwe instansie van die `/proc`-lêersisteem te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe berg-namespace 'n **akkurate en geïsoleerde siening van die prosesinligting spesifiek vir daardie namespace** het.
+Deur 'n nuwe instansie van die `/proc` lêerstelsel te monteer as jy die parameter `--mount-proc` gebruik, verseker jy dat die nuwe monteernaamruimte 'n **akkurate en geïsoleerde weergawe van die prosesinligting spesifiek vir daardie naamruimte** het.
 
 <details>
 
 <summary>Fout: bash: fork: Kan nie geheue toewys nie</summary>
 
-Wanneer `unshare` uitgevoer word sonder die `-f`-opsie, word 'n fout aangetref as gevolg van die manier waarop Linux nuwe PID (Proses-ID) namespaces hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
+Wanneer `unshare` sonder die `-f` opsie uitgevoer word, word 'n fout ondervind weens die manier waarop Linux nuwe PID (Proses ID) naamruimtes hanteer. Die sleutelbesonderhede en die oplossing word hieronder uiteengesit:
 
-1. **Probleemverduideliking**:
-- Die Linux-kernel maak dit moontlik vir 'n proses om nuwe namespaces te skep deur die `unshare`-sisteemaanroep te gebruik. Die proses wat die skepping van 'n nuwe PID-namespace inisieer (bekend as die "unshare"-proses) betree egter nie die nuwe namespace nie; slegs sy kinderprosesse doen dit.
-- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kinderprosesse in die oorspronklike PID-namespace.
-- Die eerste kinderproses van `/bin/bash` in die nuwe namespace word PID 1. Wanneer hierdie proses afsluit, veroorsaak dit die skoonmaak van die namespace as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weesouerprosesse aan te neem. Die Linux-kernel sal dan PID-toekenning in daardie namespace deaktiveer.
+1. **Probleemverklaring**:
+- Die Linux-kern laat 'n proses toe om nuwe naamruimtes te skep met die `unshare` stelselaanroep. Die proses wat die skepping van 'n nuwe PID naamruimte inisieer (genoem die "unshare" proses) betree egter nie die nuwe naamruimte nie; slegs sy kindproses doen.
+- Die uitvoering van `%unshare -p /bin/bash%` begin `/bin/bash` in dieselfde proses as `unshare`. Gevolglik is `/bin/bash` en sy kindproses in die oorspronklike PID naamruimte.
+- Die eerste kindproses van `/bin/bash` in die nuwe naamruimte word PID 1. Wanneer hierdie proses verlaat, aktiveer dit die opruiming van die naamruimte as daar geen ander prosesse is nie, aangesien PID 1 die spesiale rol het om weeskindprosesse aan te neem. Die Linux-kern sal dan PID-toewysing in daardie naamruimte deaktiveer.
 
 2. **Gevolg**:
-- Die afsluiting van PID 1 in 'n nuwe namespace lei tot die skoonmaak van die `PIDNS_HASH_ADDING`-vlag. Dit veroorsaak dat die `alloc_pid`-funksie nie 'n nuwe PID kan toeken by die skep van 'n nuwe proses nie, wat die "Kan nie geheue toewys nie" -fout veroorsaak.
+- Die uitgang van PID 1 in 'n nuwe naamruimte lei tot die opruiming van die `PIDNS_HASH_ADDING` vlag. Dit lei tot die `alloc_pid` funksie wat misluk om 'n nuwe PID toe te wys wanneer 'n nuwe proses geskep word, wat die "Kan nie geheue toewys nie" fout veroorsaak.
 
 3. **Oplossing**:
-- Die probleem kan opgelos word deur die `-f`-opsie saam met `unshare` te gebruik. Hierdie opsie maak `unshare` 'n nuwe proses na die skepping van die nuwe PID-namespace.
-- Deur `%unshare -fp /bin/bash%` uit te voer, verseker jy dat die `unshare`-opdrag self PID 1 in die nuwe namespace word. `/bin/bash` en sy kinderprosesse word dan veilig binne hierdie nuwe namespace gehou, wat die voortydige afsluiting van PID 1 voorkom en normale PID-toekenning moontlik maak.
+- Die probleem kan opgelos word deur die `-f` opsie saam met `unshare` te gebruik. Hierdie opsie maak dat `unshare` 'n nuwe proses fork nadat die nuwe PID naamruimte geskep is.
+- Die uitvoering van `%unshare -fp /bin/bash%` verseker dat die `unshare` opdrag self PID 1 in die nuwe naamruimte word. `/bin/bash` en sy kindproses is dan veilig binne hierdie nuwe naamruimte, wat die voortydige uitgang van PID 1 voorkom en normale PID-toewysing toelaat.
 
-Deur te verseker dat `unshare` met die `-f`-vlag uitgevoer word, word die nuwe PID-namespace korrek onderhou, sodat `/bin/bash` en sy subprosesse kan werk sonder om die geheue-toewysingsfout te ondervind.
+Deur te verseker dat `unshare` met die `-f` vlag loop, word die nuwe PID naamruimte korrek gehandhaaf, wat toelaat dat `/bin/bash` en sy sub-prosesse kan werk sonder om die geheue toewysing fout te ondervind.
 
 </details>
 
@@ -60,25 +62,12 @@ Deur te verseker dat `unshare` met die `-f`-vlag uitgevoer word, word die nuwe P
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;Kyk watter namespace jou proses in is
-
-Om te bepaal in watter namespace jou proses tans is, kan jy die volgende opdrag gebruik:
-
-```bash
-ls -l /proc/$$/ns/ipc
-```
-
-Hier is die betekenis van die opdrag:
-
-- `ls -l`: Gee 'n gedetailleerde lys van die spesifiseerde lêer.
-- `/proc/$$/ns/ipc`: Die pad na die IPC-namespace van die huidige proses.
-
-As die uitset van die opdrag 'n simboliese skakel na 'n lêer in die `/proc`-sisteem is, beteken dit dat jou proses in daardie spesifieke namespace is.
+### &#x20;Kontroleer in watter naamruimte jou proses is
 ```bash
 ls -l /proc/self/ns/ipc
 lrwxrwxrwx 1 root root 0 Apr  4 20:37 /proc/self/ns/ipc -> 'ipc:[4026531839]'
 ```
-### Vind alle IPC-ruimtes
+### Vind alle IPC-namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -86,17 +75,15 @@ sudo find /proc -maxdepth 3 -type l -name ipc -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name ipc -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Betree binne 'n IPC-namespace
-
 {% endcode %}
+
+### Gaan binne 'n IPC-namespace in
 ```bash
 nsenter -i TARGET_PID --pid /bin/bash
 ```
-Verder kan jy slegs **toegang verkry tot 'n ander proses-namespace as jy root is**. En jy kan **nie** **toegang kry tot 'n ander namespace sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/net`).
+Ook, jy kan slegs **in 'n ander prosesnaamruimte ingaan as jy root is**. En jy **kan nie** **ingaan** in 'n ander naamruimte **sonder 'n beskrywer** wat daarna verwys nie (soos `/proc/self/ns/net`).
 
-### Skep IPC-voorwerp
+### Skep IPC objek
 ```bash
 # Container
 sudo unshare -i /bin/bash
@@ -115,17 +102,19 @@ ipcs -m # Nothing is seen
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

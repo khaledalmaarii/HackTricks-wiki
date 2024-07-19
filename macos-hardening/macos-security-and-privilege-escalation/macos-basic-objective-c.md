@@ -1,34 +1,49 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Let daarop dat programme geskryf in Objective-C **hul klasverklarings behou** wanneer hulle gekompileer word in [Mach-O-binêre](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **bevat** die naam en tipe van:
+Let daarop dat programme wat in Objective-C geskryf is **behou** hul klasverklarings **wanneer** **gecompileer** word in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Sulke klasverklarings **sluit** die naam en tipe van:
 {% endhint %}
 
 * Die klas
-* Die klasmetodes
-* Die klas-instansie-variables
+* Die klas metodes
+* Die klas instansie veranderlikes
 
-Jy kan hierdie inligting kry deur [**class-dump**](https://github.com/nygard/class-dump) te gebruik:
+Jy kan hierdie inligting verkry deur [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Let wel dat hierdie name geobfuskeer kan word om die omkeer van die binêre kode moeiliker te maak.
+Let daarop dat hierdie name obfuskeer kan word om die omkering van die binêre meer moeilik te maak.
 
 ## Klasse, Metodes & Objekte
 
@@ -63,9 +78,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Objek & Roep Metode Aan**
+### **Object & Call Method**
 
-Om 'n instansie van 'n klas te skep, word die **`alloc`**-metode geroep wat geheue toewys vir elke **eienskap** en dit **nulstel**. Dan word **`init`** geroep, wat die eienskappe **inisialiseer** na die **vereiste waardes**.
+Om 'n instansie van 'n klas te skep, word die **`alloc`** metode aangeroep wat **geheue toewys** vir elke **eienskap** en **nul** daardie toewysings. Dan word **`init`** aangeroep, wat die **eienskappe** tot die **vereiste waardes** **initaliseer**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -77,15 +92,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Klasmetodes**
+### **Klas Metodes**
 
-Klasmetodes word gedefinieer met die **plusteken** (+) en nie die strepie (-) wat gebruik word met instansiemetodes. Soos die **NSString** klasmetode **`stringWithString`**:
+Klas metodes word gedefinieer met die **plusteken** (+) en nie die koppelteken (-) wat met instansiemetodes gebruik word nie. Soos die **NSString** klas metode **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Om eienskappe te **stel** en **kry**, kan jy dit doen met 'n **puntnotasie** of asof jy 'n **metode aanroep**:
+Om **te stel** & **te kry** eienskappe, kan jy dit doen met 'n **puntnotasie** of soos asof jy 'n **metode aanroep**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -97,7 +112,7 @@ NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
 ### **Instansie Veranderlikes**
 
-Alternatiewelik tot setter- en getter-metodes kan jy instansie veranderlikes gebruik. Hierdie veranderlikes het dieselfde naam as die eienskappe, maar begin met 'n "\_":
+Alternatiewelik tot setter & getter metodes kan jy instansie veranderlikes gebruik. Hierdie veranderlikes het dieselfde naam as die eienskappe, maar begin met 'n "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
@@ -108,7 +123,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 Protokolle is 'n stel metodeverklarings (sonder eienskappe). 'n Klas wat 'n protokol implementeer, implementeer die verklaarde metodes.
 
-Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Standaard is 'n metode **verpligtend** (maar jy kan dit ook aandui met 'n **`@required`** etiket). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
+Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Deur **default** is 'n metode **verpligtend** (maar jy kan dit ook met 'n **`@required`** etiket aandui). Om aan te dui dat 'n metode opsioneel is, gebruik **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -119,54 +134,6 @@ Daar is 2 tipes metodes: **verpligtend** en **opsioneel**. Standaard is 'n metod
 @end
 ```
 ### Alles saam
-
-Hier is 'n oorsig van die belangrikste aspekte van die Objective-C-programmeertaal:
-
-#### Klasdefinisies
-
-Klasdefinisies word gebruik om die eienskappe en gedrag van 'n objek te beskryf. Dit sluit in die definisie van instansie- en klasmetodes, eienskappe en protokolle.
-
-#### Metodes
-
-Metodes is funksies wat spesifieke gedrag aan 'n objek toeken. Dit kan instansie- of klasmetodes wees.
-
-#### Eienskappe
-
-Eienskappe is veranderlikes wat die toestand van 'n objek voorstel. Dit kan openbaar of privaat wees.
-
-#### Protokolle
-
-Protokolle definieer 'n stel vereistes wat 'n klas moet nakom. Dit maak interaksie tussen klasse moontlik sonder om 'n gemeenskaplike basisimplementering te vereis.
-
-#### Inhouding
-
-Inhouding is die proses waarin 'n klas die eienskappe en metodes van 'n ander klas erwe. Dit maak hergebruik van kode moontlik en bevorder die herbruikbaarheid en onderhoudbaarheid van programme.
-
-#### Polimorfisme
-
-Polimorfisme verwys na die vermoë van 'n objek om verskillende vorme aan te neem. Dit maak dit moontlik om 'n enkele metode te gebruik om verskillende tipes objekte te hanteer.
-
-#### Geheuebestuur
-
-Objective-C maak gebruik van handmatige geheuebestuur. Dit beteken dat die ontwikkelaar verantwoordelik is vir die toekenning en vrylating van geheue vir objekte.
-
-#### Uitsonderingshantering
-
-Objective-C bied 'n stelsel vir die hantering van uitsonderings. Dit maak dit moontlik om fouttoestande te hanteer en te herstel.
-
-#### Delegasie
-
-Delegasie is 'n ontwerppatroon wat gebruik word om die verantwoordelikhede van 'n objek na 'n ander objek te skuif. Dit bevorder die herbruikbaarheid en modulariteit van kode.
-
-#### Kategorieë
-
-Kategorieë maak dit moontlik om bestaande klasse uit te brei sonder om die oorspronklike bronkode te wysig. Dit bied 'n manier om funksionaliteit by te voeg sonder om 'n nuwe klasse te skep.
-
-#### Blokke
-
-Blokke is stukke kode wat as argumente aan metodes kan oorgedra word. Dit maak dit moontlik om funksionaliteit dinamies te verander en te hergebruik.
-
-Hierdie konsepte is van kritieke belang vir die begrip van Objective-C en sal jou help om effektief te programmeer in hierdie taal.
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -229,7 +196,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Basiese klasse is **onveranderlik**, so om 'n string by 'n bestaande een te voeg, moet 'n **nuwe NSString geskep word**.
+Basiese klasse is **onveranderlik**, so om 'n string aan 'n bestaande een toe te voeg, moet 'n **nuwe NSString geskep word**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -237,7 +204,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Of jy kan ook 'n **veranderlike** string klas gebruik:
+Of jy kan ook 'n **mutable** string klas gebruik:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -248,8 +215,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Nommer
 
 {% code overflow="wrap" %}
@@ -271,9 +236,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-#### Reeks, Stelle & Woordeboek
-
-{% code overflow="wrap" %}
+#### Array, Sets & Dictionary
 ```objectivec
 // Inmutable arrays
 NSArray *colorsArray1 = [NSArray arrayWithObjects:@"red", @"green", @"blue", nil];
@@ -323,7 +286,9 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 
 ### Blokke
 
-Blokke is **funksies wat as objekte optree**, sodat hulle aan funksies kan word oorgedra of in **arrays** of **woordeboeke** kan word **gestoor**. Hulle kan ook **'n waarde verteenwoordig as daar waardes aan hulle gegee word**, so dit is soortgelyk aan lambdas.
+Blokke is **funksies wat as objekte optree** sodat hulle aan funksies oorgedra kan word of **gestoor** kan word in **arrays** of **woordeboeke**. Ook, hulle kan **'n waarde verteenwoordig as hulle waardes gegee word** so dit is soortgelyk aan lambdas.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -338,7 +303,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Dit is ook moontlik om **'n blok tipe te definieer wat as 'n parameter gebruik kan word** in funksies:
+Dit is ook moontlik om **'n bloktipe te definieer wat as 'n parameter** in funksies gebruik kan word:
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -389,31 +354,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Dit is ook moontlik om lêers te bestuur **deur gebruik te maak van `NSURL`-voorwerpe in plaas van `NSString`-voorwerpe**. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
+Dit is ook moontlik om lêers **te bestuur met `NSURL`-objekte in plaas van `NSString`**-objekte. Die metode name is soortgelyk, maar **met `URL` in plaas van `Path`**.
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-Die meeste basiese klasse het 'n metode `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` wat dit moontlik maak om hulle direk na 'n lêer te skryf:
-
-{% code overflow="wrap" %}
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

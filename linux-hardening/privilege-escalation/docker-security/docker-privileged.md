@@ -1,24 +1,27 @@
-# Docker --bevoorreg
+# Docker --privileged
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Wat Affekteer Dit
+## Wat beïnvloed
 
-Wanneer jy 'n houer as bevoorreg uitvoer, word hierdie beskermings gedeaktiveer:
+Wanneer jy 'n houer as bevoorregte uitvoer, is dit die beskermings wat jy deaktiveer:
 
 ### Monteer /dev
 
-In 'n bevoorregte houer kan **alle toestelle in `/dev/`** benader word. Jy kan dus **ontsnap** deur die skandering van die bediener se skyf te **monteer**.
+In 'n bevoorregte houer kan alle **toestelle in `/dev/`** toeganklik wees. Daarom kan jy **ontsnap** deur die **disk** van die gasheer te **monteer**.
 
 {% tabs %}
 {% tab title="Binne standaard houer" %}
@@ -30,7 +33,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Binne die Bevoorregte Houer" %}
+{% tab title="Binne Bevoorregte Houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -43,12 +46,12 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Lees-slegs kernel-lêerstelsels
+### Lees-slegs kern lêerstelsels
 
-Kernel-lêerstelsels bied 'n meganisme vir 'n proses om die gedrag van die kernel te wysig. Tog wil ons voorkom dat houerprosesse enige veranderinge aan die kernel maak. Daarom monteer ons kernel-lêerstelsels as **lees-slegs** binne die houer, om te verseker dat die houerprosesse die kernel nie kan wysig nie.
+Kern lêerstelsels bied 'n mekanisme vir 'n proses om die gedrag van die kern te verander. egter, wanneer dit by houerprosesse kom, wil ons voorkom dat hulle enige veranderinge aan die kern aanbring. Daarom monteer ons kern lêerstelsels as **lees-slegs** binne die houer, wat verseker dat die houerprosesse nie die kern kan verander nie.
 
 {% tabs %}
-{% tab title="Binne die verstekhouer" %}
+{% tab title="Binne standaard houer" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -59,7 +62,7 @@ cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,c
 ```
 {% endtab %}
 
-{% tab title="Binne die Bevoorregte Houer" %}
+{% tab title="Binne Bevoorregte Houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -67,16 +70,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Maskering oor kernel-lêersisteme
+### Maskering oor kern lêerstelsels
 
-Die **/proc**-lêersisteem is selektief skryfbaar, maar vir sekuriteit is sekere dele beskerm teen skryf- en leestoegang deur dit met **tmpfs** te oorlê, wat verseker dat houerprosesse nie toegang tot sensitiewe areas kan verkry nie.
+Die **/proc** lêerstelsel is selektief skryfbaar, maar vir sekuriteit is sekere dele beskerm teen skryf- en lees toegang deur dit met **tmpfs** te oorlaai, wat verseker dat houerprosesse nie toegang tot sensitiewe areas het nie.
 
 {% hint style="info" %}
-**tmpfs** is 'n lêersisteem wat al die lêers in virtuele geheue stoor. tmpfs skep geen lêers op jou harde skyf nie. As jy 'n tmpfs-lêersisteem ontlaai, gaan al die lêers wat daarin woon, vir ewig verlore.
+**tmpfs** is 'n lêerstelsel wat al die lêers in virtuele geheue stoor. tmpfs skep nie enige lêers op jou hardeskyf nie. So as jy 'n tmpfs-lêerstelsel ontkoppel, gaan al die lêers wat daarin is vir altyd verlore.
 {% endhint %}
 
 {% tabs %}
-{% tab title="Binne die verstekhouer" %}
+{% tab title="Binne standaard houer" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -86,7 +89,7 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="Binne die Bevoorregte Houer" %}
+{% tab title="Binne Bevoorregte Houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -94,16 +97,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux-vermoëns
+### Linux vermoëns
 
-Houer-enjins begin die houers met 'n **beperkte aantal vermoëns** om te beheer wat binne die houer gebeur. **Bevoorregte** eenhede het **alle** die **vermoëns** toeganklik. Om meer te leer oor vermoëns, lees:
+Container enjinse begin die houers met 'n **beperkte aantal vermoëns** om te beheer wat binne die houer gebeur per standaard. **Bevoorregte** houers het **alle** die **vermoëns** beskikbaar. Om meer oor vermoëns te leer, lees:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Binne die verstekhouer" %}
+{% tab title="Binne standaard houer" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -114,7 +117,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Binne die Bevoorregte Houer" %}
+{% tab title="Binne Bevoorregte Houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -126,18 +129,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-Jy kan die vermoëns wat beskikbaar is vir 'n houer manipuleer sonder om in `--privileged`-modus te loop deur die `--cap-add` en `--cap-drop` vlae te gebruik.
+Jy kan die vermoëns wat beskikbaar is vir 'n houer manipuleer sonder om in `--privileged` modus te loop deur die `--cap-add` en `--cap-drop` vlae te gebruik.
 
 ### Seccomp
 
-**Seccomp** is nuttig om die **syscalls** wat 'n houer kan aanroep, te **beperk**. 'n Standaard seccomp-profiel is standaard geaktiveer wanneer docker-houers uitgevoer word, maar in bevoorregte modus is dit gedeaktiveer. Lees meer oor Seccomp hier:
+**Seccomp** is nuttig om die **syscalls** wat 'n houer kan aanroep te **beperk**. 'n Standaard seccomp-profiel is standaard geaktiveer wanneer docker-houers loop, maar in privilige-modus is dit gedeaktiveer. Leer meer oor Seccomp hier:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Binne die standaard houer" %}
+{% tab title="Binne standaard houer" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -146,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Binne die Bevoorregte Houer" %}
+{% tab title="Binne Bevoorregte Houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -159,11 +162,11 @@ Seccomp_filters:	0
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-Verder moet daarop gelet word dat wanneer Docker (of ander CRIs) in 'n **Kubernetes**-groep gebruik word, die **seccomp-filter standaard gedeaktiveer** is.
+Ook, let daarop dat wanneer Docker (of ander CRI's) in 'n **Kubernetes** kluster gebruik word, die **seccomp-filter is standaard gedeaktiveer**.
 
 ### AppArmor
 
-**AppArmor** is 'n kernel-verbetering om **houers** tot 'n **beperkte** stel **hulpbronne** met **per-program profiele** te beperk. Wanneer jy met die `--privileged` vlag hardloop, word hierdie beskerming gedeaktiveer.
+**AppArmor** is 'n kernverbetering om **houers** te beperk tot 'n **beperkte** stel **hulpbronne** met **per-program profiele**. Wanneer jy met die `--privileged` vlag loop, is hierdie beskerming gedeaktiveer.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -174,7 +177,7 @@ Verder moet daarop gelet word dat wanneer Docker (of ander CRIs) in 'n **Kuberne
 ```
 ### SELinux
 
-Die uitvoer van 'n houer met die `--privileged` vlag deaktiveer **SELinux-etikette**, wat veroorsaak dat dit die etiket van die houermotor erf, tipies `unconfined`, wat volle toegang gee soortgelyk aan die houermotor. In rootless-modus gebruik dit `container_runtime_t`, terwyl in root-modus `spc_t` toegepas word.
+Die uitvoering van 'n houer met die `--privileged` vlag deaktiveer **SELinux etikette**, wat veroorsaak dat dit die etiket van die houer enjin oorneem, tipies `unconfined`, wat volle toegang toeken aan die houer enjin. In rootless-modus gebruik dit `container_runtime_t`, terwyl in root-modus `spc_t` toegepas word.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -183,14 +186,14 @@ Die uitvoer van 'n houer met die `--privileged` vlag deaktiveer **SELinux-etiket
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-## Wat nie beïnvloed word nie
+## Wat Nie Beïnvloed Word Nie
 
 ### Namespaces
 
-Namespaces word **NIET beïnvloed** deur die `--privileged` vlag. Alhoewel hulle nie die sekuriteitsbeperkings geaktiveer het nie, **sien hulle nie al die prosesse op die stelsel of die gasheer-netwerk nie, byvoorbeeld**. Gebruikers kan individuele namespaces deaktiveer deur die **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** kontainer-enjin vlae te gebruik.
+Namespaces word **NIE beïnvloed** deur die `--privileged` vlag. Alhoewel hulle nie die sekuriteitsbeperkings geaktiveer het nie, **sien hulle nie al die prosesse op die stelsel of die gasheer netwerk nie, byvoorbeeld**. Gebruikers kan individuele namespaces deaktiveer deur die **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** houer enjin vlae te gebruik.
 
 {% tabs %}
-{% tab title="Binne die standaard bevoorregte houer" %}
+{% tab title="Binne standaard bevoorregte houer" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -213,22 +216,25 @@ PID   USER     TIME  COMMAND
 {% endtab %}
 {% endtabs %}
 
-### Gebruikersnaamruimte
+### Gebruiker naamruimte
 
-**Standaard maak container-engines geen gebruik van gebruikersnaamruimtes, behalve voor rootless containers**, die ze nodig hebben voor het koppelen van bestandssystemen en het gebruik van meerdere UID's. Gebruikersnaamruimtes, die essentieel zijn voor rootless containers, kunnen niet worden uitgeschakeld en verbeteren de beveiliging aanzienlijk door privileges te beperken.
+**Standaard gebruik container enjin nie gebruiker naamruimtes nie, behalwe vir rootless houers**, wat dit benodig vir lêerstelsel montering en die gebruik van verskeie UID's. Gebruiker naamruimtes, wat noodsaaklik is vir rootless houers, kan nie gedeaktiveer word nie en verbeter sekuriteit aansienlik deur voorregte te beperk.
 
 ## Verwysings
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-* Werk jy in 'n **cybersecurity-maatskappy**? Wil jy jou **maatskappy adverteer in HackTricks**? Of wil jy toegang hê tot die **nuutste weergawe van die PEASS of laai HackTricks in PDF af**? Kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Sluit aan by die** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** my op **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die [hacktricks repo](https://github.com/carlospolop/hacktricks) en [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
