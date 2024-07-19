@@ -1,14 +1,14 @@
-# macOS Gatekeeper / Karantina / XProtect
+# macOS Gatekeeper / Quarantine / XProtect
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? ya da PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'nı kontrol edin!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks deposuna** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **üzerinden paylaşın**
+* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
 
 </details>
 
@@ -18,29 +18,29 @@
 
 ## Gatekeeper
 
-**Gatekeeper**, Mac işletim sistemleri için geliştirilen bir güvenlik özelliğidir ve kullanıcıların sistemlerinde **yalnızca güvenilir yazılımları çalıştırmalarını** sağlamak amacıyla tasarlanmıştır. Kullanıcıların **App Store dışındaki kaynaklardan** (uygulama, eklenti veya yükleyici paketi gibi) indirdikleri ve açmaya çalıştıkları yazılımları **doğrulayarak** çalışmasını sağlar.
+**Gatekeeper**, Mac işletim sistemleri için geliştirilmiş bir güvenlik özelliğidir ve kullanıcıların sistemlerinde **yalnızca güvenilir yazılımları çalıştırmalarını** sağlamak için tasarlanmıştır. Kullanıcıların **App Store dışındaki kaynaklardan** indirdiği ve açmaya çalıştığı yazılımları **doğrulayarak** çalışır; bu kaynaklar arasında bir uygulama, eklenti veya yükleyici paketi bulunur.
 
-Gatekeeper'ın ana mekanizması, **doğrulama** sürecinde yatar. İndirilen yazılımın **tanınmış bir geliştirici tarafından imzalandığını** kontrol eder, yazılımın gerçekliğini sağlar. Ayrıca yazılımın **Apple tarafından noterleme işleminden geçip geçmediğini** de kontrol eder, bu da yazılımın bilinen kötü amaçlı içerikten yoksun olduğunu ve noterlemeden sonra değiştirilmediğini doğrular.
+Gatekeeper'ın temel mekanizması, **doğrulama** sürecinde yatmaktadır. İndirilen yazılımın **tanınmış bir geliştirici tarafından imzalanıp imzalanmadığını** kontrol eder ve yazılımın özgünlüğünü sağlar. Ayrıca, yazılımın **Apple tarafından onaylanıp onaylanmadığını** belirler; bu, yazılımın bilinen kötü amaçlı içerikten arındırıldığını ve onaylandıktan sonra değiştirilmediğini doğrular.
 
-Ayrıca, Gatekeeper, kullanıcıların indirdikleri yazılımın ilk kez açılmasını **onaylamalarını isteyerek** kullanıcı kontrolünü ve güvenliğini güçlendirir. Bu koruma, kullanıcıların zararlı olabilecek yürütülebilir kodları yanlışlıkla zararsız veri dosyası olarak algılayabileceği durumları önlemeye yardımcı olur.
+Ayrıca, Gatekeeper, kullanıcıların indirdikleri yazılımları ilk kez açmalarını onaylamaları için **kullanıcılara bir uyarı göstererek** kontrol ve güvenliği artırır. Bu koruma, kullanıcıların yanlışlıkla zararlı olabilecek çalıştırılabilir kodları, zararsız bir veri dosyası olarak yanlış değerlendirmelerini önlemeye yardımcı olur.
 
 ### Uygulama İmzaları
 
-Uygulama imzaları, Apple'ın güvenlik altyapısının kritik bir bileşenidir. Bunlar, yazılım yazarının (geliştiricinin) kimliğini **doğrulamak** ve kodun son imzalandığından bu yana değiştirilmediğinden emin olmak için kullanılır.
+Uygulama imzaları, kod imzaları olarak da bilinir ve Apple'ın güvenlik altyapısının kritik bir bileşenidir. Yazılım yazarının (geliştiricinin) kimliğini **doğrulamak** ve kodun en son imzalandığı tarihten bu yana değiştirilmediğini sağlamak için kullanılır.
 
-İşleyiş şu şekildedir:
+İşte nasıl çalıştığı:
 
-1. **Uygulamanın İmzalanması:** Bir geliştirici uygulamasını dağıtmaya hazır olduğunda, uygulamayı **özel bir anahtar kullanarak imzalar**. Bu özel anahtar, geliştiricinin Apple Geliştirici Programı'na kaydolduğunda Apple'ın geliştiriciye verdiği bir **sertifika ile ilişkilidir**. İmzalama işlemi, uygulamanın tüm parçalarının kriptografik bir özetini oluşturmayı ve bu özeti geliştiricinin özel anahtarıyla şifrelemeyi içerir.
-2. **Uygulamanın Dağıtılması:** İmzalanan uygulama, kullanıcılara geliştiricinin sertifikasını içeren ve karşılık gelen genel anahtarı içeren birlikte dağıtılır.
-3. **Uygulamanın Doğrulanması:** Bir kullanıcı uygulamayı indirip çalıştırmaya çalıştığında, Mac işletim sistemi geliştiricinin sertifikasındaki genel anahtarı kullanarak özeti şifreler. Daha sonra uygulamanın mevcut durumuna dayanarak özeti yeniden hesaplar ve bunu şifrelenmiş özetiyle karşılaştırır. Eşleşirse, bu, uygulamanın geliştirici tarafından imzalandığından beri değiştirilmediği anlamına gelir ve sistem uygulamanın çalışmasına izin verir.
+1. **Uygulamayı İmzalama:** Bir geliştirici uygulamasını dağıtmaya hazır olduğunda, **uygulamayı özel bir anahtar kullanarak imzalar**. Bu özel anahtar, geliştirici Apple Geliştirici Programı'na kaydolduğunda Apple tarafından kendisine verilen bir **sertifika ile ilişkilidir**. İmzalama süreci, uygulamanın tüm parçalarının kriptografik bir hash'ini oluşturmayı ve bu hash'i geliştiricinin özel anahtarıyla şifrelemeyi içerir.
+2. **Uygulamayı Dağıtma:** İmzalanmış uygulama, geliştiricinin sertifikasıyla birlikte kullanıcılara dağıtılır; bu sertifika, ilgili genel anahtarı içerir.
+3. **Uygulamayı Doğrulama:** Bir kullanıcı uygulamayı indirip çalıştırmaya çalıştığında, Mac işletim sistemi geliştiricinin sertifikasından genel anahtarı kullanarak hash'i çözer. Ardından, uygulamanın mevcut durumu temelinde hash'i yeniden hesaplar ve bu değeri çözülen hash ile karşılaştırır. Eğer eşleşiyorsa, bu, **uygulamanın geliştirici tarafından imzalandığı tarihten bu yana değiştirilmediği** anlamına gelir ve sistem uygulamanın çalışmasına izin verir.
 
-Uygulama imzaları, Apple'ın Gatekeeper teknolojisinin önemli bir parçasıdır. Bir kullanıcı **internetten indirilen bir uygulamayı açmaya çalıştığında**, Gatekeeper uygulama imzasını doğrular. Eğer Apple tarafından bilinen bir geliştiriciye verilen bir sertifika ile imzalanmışsa ve kod değiştirilmemişse, Gatekeeper uygulamanın çalışmasına izin verir. Aksi takdirde uygulamayı engeller ve kullanıcıyı uyarır.
+Uygulama imzaları, Apple'ın Gatekeeper teknolojisinin temel bir parçasıdır. Bir kullanıcı **internetten indirilen bir uygulamayı açmaya çalıştığında**, Gatekeeper uygulama imzasını doğrular. Eğer imza, Apple tarafından tanınmış bir geliştiriciye verilen bir sertifika ile imzalanmışsa ve kod değiştirilmemişse, Gatekeeper uygulamanın çalışmasına izin verir. Aksi takdirde, uygulamayı engeller ve kullanıcıyı uyarır.
 
-macOS Catalina'dan itibaren, **Gatekeeper ayrıca uygulamanın Apple tarafından noterleme işleminden geçip geçmediğini** de kontrol eder, ek bir güvenlik katmanı ekler. Noterleme işlemi, uygulamayı bilinen güvenlik sorunları ve kötü amaçlı kodlar açısından kontrol eder ve bu kontrolleri geçerse, Apple uygulamaya Gatekeeper'ın doğrulayabileceği bir bilet ekler.
+macOS Catalina'dan itibaren, **Gatekeeper ayrıca uygulamanın Apple tarafından onaylanıp onaylanmadığını** kontrol eder ve bu, ek bir güvenlik katmanı ekler. Onaylama süreci, uygulamayı bilinen güvenlik sorunları ve kötü amaçlı kod için kontrol eder ve bu kontroller geçerse, Apple uygulamaya Gatekeeper'ın doğrulayabileceği bir bilet ekler.
 
-#### İmzaları Kontrol Etme
+#### İmzaları Kontrol Et
 
-Bazı **kötü amaçlı yazılım örneğini** kontrol ederken her zaman **binary'nin imzasını kontrol etmelisiniz**, çünkü **imzayı atan geliştirici** zaten **kötü amaçlı yazılımla ilişkili** olabilir.
+Bazı **kötü amaçlı yazılım örneklerini** kontrol ederken, her zaman **ikili dosyanın imzasını kontrol etmelisiniz** çünkü imzayı atan **geliştirici** zaten **kötü amaçlı yazılımla ilişkili** olabilir.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -57,17 +57,17 @@ spctl --assess --verbose /Applications/Safari.app
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
 ```
-### Notarizasyon
+### Notarization
 
-Apple'ın notarizasyon süreci, kullanıcıları potansiyel olarak zararlı yazılımlardan korumak için ek bir güvenlik önlemi olarak hizmet verir. Bu, geliştiricinin uygulamasını Apple'ın Notary Service tarafından incelenmesi için sunmasıyla gerçekleşir, bu da App Review ile karıştırılmamalıdır. Bu hizmet, gönderilen yazılımı **zararlı içerik** ve kod imzalama ile ilgili olası sorunlar açısından inceleyen **otomatik bir sistem**dir.
+Apple'ın notarizasyon süreci, kullanıcıları potansiyel olarak zararlı yazılımlardan korumak için ek bir güvenlik önlemi olarak hizmet eder. Bu süreç, **geliştiricinin uygulamasını** **Apple'ın Noter Servisi** tarafından incelenmek üzere göndermesini içerir; bu, App Review ile karıştırılmamalıdır. Bu hizmet, **kötü niyetli içerik** ve kod imzalama ile ilgili olası sorunlar için gönderilen yazılımı inceleyen **otomatik bir sistemdir**.
 
-Eğer yazılım bu incelemeyi **sorunsuz bir şekilde geçerse**, Notary Service bir notarizasyon bileti oluşturur. Geliştiricinin daha sonra bu bileti yazılımlarına **eklemesi** gerekir, bu işlem 'stapling' olarak bilinir. Ayrıca, notarizasyon bileti de çevrimiçi olarak yayınlanır ve Gatekeeper, Apple'ın güvenlik teknolojisi, buna erişebilir.
+Eğer yazılım, herhangi bir endişe yaratmadan bu incelemeyi **geçerse**, Noter Servisi bir notarizasyon belgesi oluşturur. Geliştiricinin, bu belgeyi yazılımlarına **eklemesi** gerekmektedir; bu işleme 'stapling' denir. Ayrıca, notarizasyon belgesi çevrimiçi olarak da yayınlanır ve Gatekeeper, Apple'ın güvenlik teknolojisi, buna erişebilir.
 
-Kullanıcının yazılımı ilk kez yüklediğinde veya çalıştırdığında, yürütülebilir dosyaya eklenmiş veya çevrimiçi bulunan notarizasyon bileti - Gatekeeper'a yazılımın Apple tarafından notarize edildiğini bildirir. Sonuç olarak, Gatekeeper, kullanıcıya yazılımın Apple tarafından zararlı içerik açısından kontrol edildiğini belirten açıklayıcı bir mesaj gösterir. Bu süreç, kullanıcıların sistemlerine yükledikleri veya çalıştırdıkları yazılımların güvenliği konusundaki güvenlerini artırır.
+Kullanıcının yazılımı ilk yüklemesi veya çalıştırması sırasında, notarizasyon belgesinin varlığı - ister çalıştırılabilir dosyaya eklenmiş olsun, ister çevrimiçi bulunsun - **Gatekeeper'a yazılımın Apple tarafından notarize edildiğini bildirir**. Sonuç olarak, Gatekeeper, yazılımın Apple tarafından kötü niyetli içerik için kontrol edildiğini belirten açıklayıcı bir mesajı ilk başlatma iletişim kutusunda gösterir. Bu süreç, kullanıcıların sistemlerine yükledikleri veya çalıştırdıkları yazılımların güvenliğine olan güvenini artırır.
 
-### GateKeeper'ı Sıralama
+### Enumerating GateKeeper
 
-GateKeeper, güvenilmeyen uygulamaların yürütülmesini engelleyen **birkaç güvenlik bileşeni** ve aynı zamanda **bileşenlerden biri**dir.
+GateKeeper, **güvenilir olmayan uygulamaların çalıştırılmasını engelleyen birkaç güvenlik bileşeni** ve ayrıca **bileşenlerden biridir**.
 
 GateKeeper'ın **durumunu** görmek mümkündür:
 ```bash
@@ -75,14 +75,14 @@ GateKeeper'ın **durumunu** görmek mümkündür:
 spctl --status
 ```
 {% hint style="danger" %}
-GateKeeper imza kontrollerinin yalnızca **Karantina özniteliğine sahip dosyalara** uygulandığını unutmayın.
+GateKeeper imza kontrollerinin yalnızca **Quarantine niteliğine sahip dosyalar** için yapıldığını, her dosya için yapılmadığını unutmayın.
 {% endhint %}
 
-GateKeeper, bir ikili dosyanın yürütülebilir olup olmadığını **tercihlere ve imzaya** göre kontrol eder:
+GateKeeper, **tercihler ve imza** doğrultusunda bir ikili dosyanın çalıştırılıp çalıştırılamayacağını kontrol edecektir:
 
 <figure><img src="../../../.gitbook/assets/image (1150).png" alt=""><figcaption></figcaption></figure>
 
-Bu yapılandırmayı tutan veritabanı **`/var/db/SystemPolicy`** konumundadır. Bu veritabanını kök olarak şu şekilde kontrol edebilirsiniz:
+Bu yapılandırmayı saklayan veritabanı **`/var/db/SystemPolicy`** konumundadır. Bu veritabanını root olarak kontrol edebilirsiniz:
 ```bash
 # Open database
 sqlite3 /var/db/SystemPolicy
@@ -96,10 +96,10 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
-Not: İlk kuralın "**App Store**" ile bittiğine ve ikincisinin "**Developer ID**" ile bittiğine dikkat edin ve önceki görüntüde **App Store ve tanımlanmış geliştiricilerden uygulamaları çalıştırmaya izin verildiği** unutulmamalıdır.\
-Eğer o ayarı App Store olarak **değiştirirseniz, "Notarized Developer ID" kuralları kaybolacaktır**.
+Not edin ki ilk kural "**App Store**" ile bitti ve ikincisi "**Developer ID**" ile bitti ve önceki görüntüde **App Store ve tanımlanmış geliştiricilerden uygulama çalıştırmak için etkinleştirildi**.\
+Eğer o ayarı App Store olarak **değiştirirseniz**, "**Notarized Developer ID" kuralları kaybolacaktır**.
 
-Ayrıca **binlerce GKE türünde kural** bulunmaktadır:
+Ayrıca **tip GKE** olan binlerce kural da bulunmaktadır:
 ```bash
 SELECT requirement,allow,disabled,label from authority where label = 'GKE' limit 5;
 cdhash H"b40281d347dc574ae0850682f0fd1173aa2d0a39"|1|0|GKE
@@ -108,13 +108,13 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-Bu, **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** ve **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`** dosyalarından gelen karma değerlerdir.
+Bunlar **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** ve **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`** dosyalarından gelen hash'lerdir.
 
-Ya da önceki bilgileri şu şekilde listeleyebilirsiniz:
+Ya da önceki bilgiyi şu şekilde listeleyebilirsiniz:
 ```bash
 sudo spctl --list
 ```
-**`spctl`**'ın **`--master-disable`** ve **`--global-disable`** seçenekleri bu imza kontrollerini tamamen **devre dışı bırakacaktır**:
+The options **`--master-disable`** and **`--global-disable`** of **`spctl`** will completely **devre dışı bırakmak** these signature checks:
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -128,11 +128,11 @@ Tamamen etkinleştirildiğinde, yeni bir seçenek görünecektir:
 
 <figure><img src="../../../.gitbook/assets/image (1151).png" alt=""><figcaption></figcaption></figure>
 
-GateKeeper tarafından izin verilip verilmeyeceğini kontrol etmek mümkündür:
+**GateKeeper tarafından bir Uygulamanın izin verilip verilmeyeceğini kontrol etmek mümkündür**:
 ```bash
 spctl --assess -v /Applications/App.app
 ```
-GateKeeper'a belirli uygulamaların yürütülmesine izin vermek için yeni kurallar eklemek mümkündür:
+GateKeeper'da belirli uygulamaların çalıştırılmasına izin vermek için yeni kurallar eklemek mümkündür:
 ```bash
 # Check if allowed - nop
 spctl --assess -v /Applications/App.app
@@ -147,29 +147,29 @@ sudo spctl --enable --label "whitelist"
 spctl --assess -v /Applications/App.app
 /Applications/App.app: accepted
 ```
-### Karantina Dosyaları
+### Quarantine Files
 
-Bir uygulama veya dosya indirildiğinde, web tarayıcıları veya e-posta istemcileri gibi belirli macOS uygulamaları, indirilen dosyaya genellikle "**karantina bayrağı**" olarak bilinen bir genişletilmiş dosya özniteliği ekler. Bu öznitelik, dosyayı güvenilmeyen bir kaynaktan (internet) geldiği ve potansiyel riskler taşıdığı şeklinde işaretlemek için bir güvenlik önlemi olarak hareket eder. Ancak, tüm uygulamalar bu özniteliği eklemeyebilir, örneğin, yaygın BitTorrent istemci yazılımları genellikle bu süreci atlar.
+Bir uygulama veya dosya **indirildiğinde**, web tarayıcıları veya e-posta istemcileri gibi belirli macOS **uygulamaları**, indirilen dosyaya genellikle "**karantina bayrağı**" olarak bilinen bir **uzatılmış dosya niteliği** ekler. Bu nitelik, dosyayı güvenilmeyen bir kaynaktan (internet) geldiği ve potansiyel olarak risk taşıdığı için **işaretlemek** amacıyla bir güvenlik önlemi olarak işlev görür. Ancak, tüm uygulamalar bu niteliği eklemez; örneğin, yaygın BitTorrent istemci yazılımları genellikle bu süreci atlar.
 
-**Karantina bayrağının varlığı, bir kullanıcının dosyayı çalıştırmaya çalıştığında macOS'in Gatekeeper güvenlik özelliğine sinyal verir**.
+**Karantina bayrağının varlığı, bir kullanıcının dosyayı çalıştırmaya çalıştığında macOS'un Gatekeeper güvenlik özelliğine sinyal gönderir.**
 
-**Karantina bayrağının bulunmadığı durumda** (bazı BitTorrent istemcileri aracılığıyla indirilen dosyalar gibi), Gatekeeper'ın **kontrolleri gerçekleştirilmeyebilir**. Bu nedenle, kullanıcılar, güvenli olmayan veya bilinmeyen kaynaklardan indirilen dosyaları açarken dikkatli olmalıdır.
+**Karantina bayrağı mevcut değilse** (bazı BitTorrent istemcileri aracılığıyla indirilen dosyalar gibi), Gatekeeper'ın **kontrolleri yapılmayabilir**. Bu nedenle, kullanıcıların daha az güvenli veya bilinmeyen kaynaklardan indirilen dosyaları açarken dikkatli olmaları gerekir.
 
 {% hint style="info" %}
-Kod imzalarının **geçerliliğini kontrol etmek**, kodun ve tüm paketlenmiş kaynaklarının kriptografik **hash'lerini oluşturmayı** içeren **kaynak yoğun** bir süreçtir. Ayrıca, sertifika geçerliliğini kontrol etmek, sertifikanın verildikten sonra iptal edilip edilmediğini görmek için Apple'ın sunucularına **çevrimiçi bir kontrol** yapmayı içerir. Bu nedenlerden dolayı, tam bir kod imzası ve noterlik kontrolü her uygulama başlatıldığında **her seferinde çalıştırılması pratik değildir**.
+**Kod imzalarının** **geçerliliğini kontrol etmek**, kodun ve tüm paketlenmiş kaynaklarının kriptografik **hash'lerini** oluşturmayı içeren **kaynak yoğun** bir süreçtir. Ayrıca, sertifika geçerliliğini kontrol etmek, verilmesinden sonra iptal edilip edilmediğini görmek için Apple'ın sunucularında bir **çevrimiçi kontrol** yapmayı gerektirir. Bu nedenlerden dolayı, tam bir kod imzası ve notlandırma kontrolü, **her uygulama başlatıldığında çalıştırmak pratik değildir**.
 
-Bu nedenle, bu kontroller **yalnızca karantina özniteliğine sahip uygulamalar çalıştırıldığında çalıştırılır**.
+Bu nedenle, bu kontroller **yalnızca karantina niteliğine sahip uygulamalar çalıştırıldığında yapılır.**
 {% endhint %}
 
 {% hint style="warning" %}
-Bu öznitelik, dosyayı oluşturan/indiren uygulama tarafından **ayarlanmalıdır**.
+Bu nitelik, dosyayı oluşturan/indiren **uygulama tarafından ayarlanmalıdır**.
 
-Ancak, kumlanmış dosyalar bu özniteliğe her oluşturdukları dosyada ayarlanmış olacaktır. Ve kumlanmamış uygulamalar kendileri ayarlayabilir veya **Info.plist** içinde [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) anahtarını belirleyebilirler, bu da sistemin oluşturulan dosyalara `com.apple.quarantine` genişletilmiş özniteliğini eklemesini sağlar,
+Ancak, sandbox'lanmış dosyalar, oluşturdukları her dosya için bu niteliği alacaktır. Sandbox'lanmamış uygulamalar ise bunu kendileri ayarlayabilir veya sistemin oluşturulan dosyalara `com.apple.quarantine` uzatılmış niteliğini ayarlamasını sağlayacak **[LSFileQuarantineEnabled](https://developer.apple.com/documentation/bundleresources/information_property_list/lsfilequarantineenabled?language=objc)** anahtarını **Info.plist** içinde belirtebilirler.
 {% endhint %}
 
-Ayrıca, **`qtn_proc_apply_to_self`** çağrısını yapan bir işlem tarafından oluşturulan tüm dosyalar karantinaya alınır. Veya **`qtn_file_apply_to_path`** API'si belirtilen dosya yoluna karantina özniteliğini ekler.
+Ayrıca, **`qtn_proc_apply_to_self`** çağrısı yapan bir süreç tarafından oluşturulan tüm dosyalar karantinaya alınır. Veya API **`qtn_file_apply_to_path`**, belirtilen bir dosya yoluna karantina niteliğini ekler.
 
-Durumunu **kontrol etmek ve etkinleştirmek/devre dışı bırakmak** (kök gerekli) mümkündür:
+Durumunu **kontrol etmek ve etkinleştirmek/devre dışı bırakmak** (root gereklidir) mümkündür:
 ```bash
 spctl --status
 assessments enabled
@@ -178,13 +178,13 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-Ayrıca, bir dosyanın karantina uzatılmış özniteliğe sahip olup olmadığını şu şekilde **bulabilirsiniz**:
+You can also **find if a file has the quarantine extended attribute** with:
 ```bash
 xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-**Genişletilmiş** **özniteliklerin** **değerini** kontrol edin ve karantina özniteliğini yazan uygulamayı bulun:
+**Genişletilmiş** **özelliklerin** **değerini** kontrol edin ve karantina özelliğini yazan uygulamayı bulun:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -200,11 +200,11 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-Gerçekte bir işlem "oluşturduğu dosyalara karantina bayrakları ayarlayabilir" (oluşturulan bir dosyaya USER\_APPROVED bayrağını uygulamayı denedim ancak uygulanmadı):
+Aslında bir süreç "oluşturduğu dosyalara karantina bayrakları ayarlayabilir" (oluşturulan bir dosyada USER_APPROVED bayrağını uygulamaya çalıştım ama uygulayamadım):
 
 <details>
 
-<summary>Kaynak Kodu karantina bayraklarını uygula</summary>
+<summary>Kaynak Kod karantina bayraklarını uygula</summary>
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -264,15 +264,15 @@ return 0;
 
 }
 ```
-</detaylar>
+</details>
 
-Ve şu komutla **kaldırın**:
+Ve o niteliği **kaldır**:
 ```bash
 xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-Ve karantinaya alınmış tüm dosyaları bulun:
+Ve karantinaya alınmış tüm dosyaları bulmak için: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -280,21 +280,21 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 ```
 {% endcode %}
 
-Karantina bilgileri ayrıca **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`** dizinindeki LaunchServices tarafından yönetilen merkezi bir veritabanında saklanır.
+Karantina bilgileri, **`~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2`** dosyasında LaunchServices tarafından yönetilen merkezi bir veritabanında da saklanır.
 
-#### **Quarantine.kext**
+#### **Karantina.kext**
 
-Çekirdek uzantısı yalnızca sistemdeki **çekirdek önbelleği** aracılığıyla erişilebilir; ancak, **https://developer.apple.com/** adresinden Kernel Hata Ayıklama Kiti'ni indirebilir ve uzantının sembolleştirilmiş bir sürümünü alabilirsiniz.
+Çekirdek uzantısı yalnızca **sistemdeki çekirdek önbelleği aracılığıyla** mevcuttur; ancak, **https://developer.apple.com/** adresinden **Kernel Debug Kit** indirebilirsiniz, bu da uzantının sembolik bir versiyonunu içerecektir.
 
 ### XProtect
 
-XProtect, macOS'ta yerleşik bir **anti-malware** özelliğidir. XProtect, herhangi bir uygulama ilk kez başlatıldığında veya değiştirildiğinde, bilinen kötü amaçlı yazılım ve güvensiz dosya türleri veritabanına karşı kontrol eder. Belirli uygulamalar aracılığıyla dosya indirdiğinizde, örneğin Safari, Posta veya Mesajlar, XProtect dosyayı otomatik olarak tarar. Veritabanındaki herhangi bir bilinen kötü amaçlı yazılıma uyan bir dosya indirirseniz, XProtect dosyanın çalışmasını **engeller ve tehdidi size bildirir**.
+XProtect, macOS'ta yerleşik bir **kötü amaçlı yazılım** karşıtı özelliktir. XProtect, **herhangi bir uygulama ilk kez başlatıldığında veya değiştirildiğinde, bilinen kötü amaçlı yazılımlar ve güvensiz dosya türleri veritabanıyla karşılaştırır**. Safari, Mail veya Mesajlar gibi belirli uygulamalar aracılığıyla bir dosya indirdiğinizde, XProtect otomatik olarak dosyayı tarar. Eğer dosya veritabanındaki bilinen kötü amaçlı yazılımlardan herhangi biriyle eşleşirse, XProtect **dosyanın çalışmasını engeller** ve sizi tehdit hakkında uyarır.
 
-XProtect veritabanı, Apple tarafından düzenli olarak yeni kötü amaçlı yazılım tanımlarıyla güncellenir ve bu güncellemeler otomatik olarak Mac'inize indirilir ve yüklenir. Bu, XProtect'in her zaman en son bilinen tehditlerle güncel olmasını sağlar.
+XProtect veritabanı, Apple tarafından yeni kötü amaçlı yazılım tanımlarıyla **düzenli olarak güncellenir** ve bu güncellemeler otomatik olarak Mac'inize indirilip yüklenir. Bu, XProtect'in her zaman en son bilinen tehditlerle güncel olmasını sağlar.
 
-Ancak, **XProtect'in tam özellikli bir antivirüs çözümü olmadığını** belirtmek önemlidir. Yalnızca belirli bilinen tehditler için kontrol eder ve çoğu antivirüs yazılımı gibi erişim üzerinden tarama yapmaz.
+Ancak, **XProtect'in tam özellikli bir antivirüs çözümü olmadığını** belirtmekte fayda var. Sadece bilinen tehditlerin belirli bir listesini kontrol eder ve çoğu antivirüs yazılımı gibi erişim taraması yapmaz.
 
-En son XProtect güncellemesi hakkında bilgi alabilirsiniz:
+En son XProtect güncellemesi hakkında bilgi almak için çalıştırabilirsiniz:
 
 {% code overflow="wrap" %}
 ```bash
@@ -302,71 +302,75 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect, **/Library/Apple/System/Library/CoreServices/XProtect.bundle** konumunda bulunur ve içinde XProtect'ın kullandığı bilgilere ulaşabilirsiniz:
+XProtect, **/Library/Apple/System/Library/CoreServices/XProtect.bundle** konumunda SIP korumalı bir yerde bulunmaktadır ve bundle içinde XProtect'in kullandığı bilgileri bulabilirsiniz:
 
-- **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Bu cdhash'lere sahip kodların eski ayrıcalıkları kullanmasına izin verir.
-- **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: BundleID ve TeamID aracılığıyla yüklenmesine izin verilmeyen eklentilerin ve eklentilerin listesi veya bir minimum sürümü belirtir.
-- **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Zararlı yazılımları tespit etmek için Yara kuralları.
-- **`XProtect.bundle/Contents/Resources/gk.db`**: Engellenen uygulamaların ve TeamID'lerin karma değerlerini içeren SQLite3 veritabanı.
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Bu cdhash'lere sahip kodların eski yetkilendirmeleri kullanmasına izin verir.
+* **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: BundleID ve TeamID aracılığıyla yüklenmesine izin verilmeyen eklentilerin ve uzantıların listesi veya minimum sürümü belirtir.
+* **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Kötü amaçlı yazılımları tespit etmek için Yara kuralları.
+* **`XProtect.bundle/Contents/Resources/gk.db`**: Engellenen uygulamaların ve TeamID'lerin hash'lerini içeren SQLite3 veritabanı.
 
-XProtect ile ilgili **`/Library/Apple/System/Library/CoreServices/XProtect.app`** konumunda başka bir Uygulama olduğunu unutmayın ve bu Uygulama Gatekeeper işlemiyle ilgili değildir.
+**`/Library/Apple/System/Library/CoreServices/XProtect.app`** konumunda, Gatekeeper süreciyle ilgili olmayan başka bir XProtect uygulaması olduğunu unutmayın.
 
-### Gatekeeper Değil
+### Not Gatekeeper
 
 {% hint style="danger" %}
-Gatekeeper'ın **her uygulamayı çalıştırdığını** unutmayın, sadece _**AppleMobileFileIntegrity**_ (AMFI) yalnızca Gatekeeper tarafından zaten çalıştırılmış ve doğrulanmış bir uygulamayı çalıştırdığınızda **yürütülebilir kod imzalarını doğrular**.
+Gatekeeper'ın **her seferinde** bir uygulama çalıştırdığınızda **çalıştırılmadığını** unutmayın, sadece _**AppleMobileFileIntegrity**_ (AMFI) **çalıştırdığınız ve Gatekeeper tarafından daha önce çalıştırılıp doğrulanmış bir uygulamanın** yürütülebilir kod imzalarını **doğrulayacaktır.**
 {% endhint %}
 
-Bu nedenle, önceden bir uygulamayı Gatekeeper ile önbelleğe almak için uygulamayı çalıştırmak ve ardından uygulamanın **yürütülebilir olmayan dosyalarını değiştirmek** (örneğin Electron asar veya NIB dosyaları gibi) mümkündü ve başka korumalar olmadığı sürece uygulama **zararlı eklemelerle** çalıştırılıyordu.
+Bu nedenle, daha önce bir uygulamayı çalıştırarak Gatekeeper ile önbelleğe almak, ardından **uygulamanın yürütülebilir olmayan dosyalarını değiştirmek** (Electron asar veya NIB dosyaları gibi) mümkündü ve başka korumalar yoksa, uygulama **kötü amaçlı** eklemelerle **çalıştırılıyordu**.
 
-Ancak şimdi macOS, uygulama paketlerinin içindeki dosyaları **değiştirmeyi engeller**. Bu nedenle, [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) saldırısını denerseniz, artık paketi değiştiremeyeceğinizi fark edeceksiniz çünkü Gatekeeper ile önbelleğe almak için uygulamayı çalıştırdıktan sonra paketi değiştiremeyeceksiniz. Örneğin, İçerik dizininin adını NotCon olarak değiştirirseniz (saldırıda belirtildiği gibi) ve ardından uygulamanın ana ikili dosyasını Gatekeeper ile önbelleğe almak için çalıştırırsanız, bir hata alacak ve çalıştırmayacaktır.
+Ancak, şimdi bu mümkün değil çünkü macOS **uygulama bundle'ları içindeki dosyaların değiştirilmesini** engelliyor. Yani, [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md) saldırısını denerseniz, Gatekeeper ile önbelleğe almak için uygulamayı çalıştırdıktan sonra bundle'ı değiştiremeyeceğinizi göreceksiniz. Örneğin, İçerikler dizininin adını NotCon olarak değiştirirseniz (saldırıda belirtildiği gibi) ve ardından uygulamanın ana ikili dosyasını çalıştırarak Gatekeeper ile önbelleğe alırsanız, bir hata tetiklenecek ve çalıştırılmayacaktır.
 
 ## Gatekeeper Atlatmaları
 
-Kullanıcının bir şeyi indirmesini ve Gatekeeper'ın bunu engellemesi gereken bir şeyi çalıştırmasını başarmak her zaman macOS'ta bir güvenlik açığı olarak kabul edilir. Geçmişte Gatekeeper'ı atlamayı sağlayan tekniklere atanan bazı CVE'ler şunlardır:
+Gatekeeper'ı atlatmanın (kullanıcının bir şey indirmesini ve Gatekeeper'ın engellemesi gereken bir şeyi çalıştırmasını sağlamak) herhangi bir yolu, macOS'ta bir güvenlik açığı olarak kabul edilir. Geçmişte Gatekeeper'ı atlatmaya izin veren bazı tekniklere atanmış CVE'ler şunlardır:
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
-**Arşiv Yardımcısı**'nın kullanılması durumunda, **886 karakteri aşan yollara sahip dosyaların** com.apple.quarantine genişletilmiş özniteliğini almadığı gözlemlendi. Bu durum yanlışlıkla bu dosyaların **Gatekeeper'ın** güvenlik kontrollerini **atlamasına** izin verir.
+**Archive Utility** kullanılarak çıkarma yapıldığında, **886 karakteri aşan yollar** olan dosyaların com.apple.quarantine genişletilmiş niteliğini almadığı gözlemlendi. Bu durum, bu dosyaların **Gatekeeper'ın** güvenlik kontrollerini **aşmasına** neden olmaktadır.
 
-Daha fazla bilgi için [**orijinal rapora**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) bakın.
+Daha fazla bilgi için [**orijinal raporu**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) kontrol edin.
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-Bir uygulama **Automator** ile oluşturulduğunda, uygulamanın neyi yürüteceği hakkındaki bilgiler `application.app/Contents/document.wflow` içindedir, yürütülebilirde değil. Yürütülebilir sadece **Automator Uygulama Taklidi** olarak adlandırılan genel bir Automator ikilisidir.
+Bir uygulama **Automator** ile oluşturulduğunda, çalıştırmak için ihtiyaç duyduğu bilgiler `application.app/Contents/document.wflow` içinde bulunur, yürütülebilir dosyada değil. Yürütülebilir dosya, **Automator Application Stub** adı verilen genel bir Automator ikili dosyasıdır.
 
-Bu nedenle, `application.app/Contents/MacOS/Automator\ Application\ Stub`'ı başka bir sistemdeki başka bir Automator Uygulama Taklidi'ne sembolik bir bağlantı yaparak yaparsanız, `document.wflow` içinde ne varsa (betiğiniz) **Gatekeeper'ı tetiklemeden** çalıştırır çünkü gerçek yürütülebilirin karantina xattr'ı yoktur.
+Bu nedenle, `application.app/Contents/MacOS/Automator\ Application\ Stub` **sistem içindeki başka bir Automator Application Stub'a sembolik bir bağlantı ile işaret edebilir** ve `document.wflow` (sizin script'iniz) içindekileri **Gatekeeper'ı tetiklemeksizin çalıştırır** çünkü gerçek yürütülebilir dosya karantina xattr'ına sahip değildir.
 
 Beklenen konum örneği: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
-Daha fazla bilgi için [**orijinal rapora**](https://ronmasas.com/posts/bypass-macos-gatekeeper) bakın.
+Daha fazla bilgi için [**orijinal raporu**](https://ronmasas.com/posts/bypass-macos-gatekeeper) kontrol edin.
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-Bu atlatmada, bir zip dosyası `application.app` yerine `application.app/Contents`'den sıkıştırmaya başlayan bir uygulama oluşturuldu. Bu nedenle, **karantina özniteliği** tüm **dosyalara `application.app/Contents`** uygulandı ancak **`application.app`'e** uygulanmadı, Gatekeeper'ın kontrol ettiği dosyalara uygulanmadı, bu nedenle Gatekeeper, `application.app` tetiklendiğinde **karantina özniteliğine sahip olmadığı için** atlatıldı.
+Bu atlatmada, `application.app/Contents`'den sıkıştırmaya başlayan bir uygulama ile bir zip dosyası oluşturuldu, `application.app` yerine. Bu nedenle, **karantina niteliği** tüm **`application.app/Contents`** dosyalarına uygulandı ancak **`application.app`**'ye uygulanmadı, bu da Gatekeeper'ın kontrol ettiği yerdi, bu nedenle Gatekeeper atlatıldı çünkü `application.app` tetiklendiğinde **karantina niteliğine sahip değildi.**
 ```bash
 zip -r test.app/Contents test.zip
 ```
-Daha fazla bilgi için [**orijinal rapora**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) bakın.
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/) for more information.
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-Bileşenler farklı olsa da, bu zafiyetin sömürülmesi öncekine çok benzer. Bu durumda, **`application.app/Contents`**'ten bir Apple Arşivi oluşturacağız, böylece **Archive Utility** tarafından açıldığında **`application.app` karantina özniteliği almayacak**.
+Bileşenler farklı olsa da, bu güvenlik açığının istismarı öncekiyle çok benzer. Bu durumda, **`application.app/Contents`**'dan bir Apple Archive oluşturacağız, böylece **`application.app`** **Archive Utility** tarafından açıldığında karantina özelliğini almayacak.
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
+Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-macos-archive-utility-vulnerability/) for more information.
+
 ### [CVE-2022-42821](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)
 
-ACL **`writeextattr`** kullanılarak bir dosyada bir öznitelik yazılmasını engellemek için kullanılabilir:
+ACL **`writeextattr`** bir dosyada bir niteliğin yazılmasını önlemek için kullanılabilir:
 ```bash
 touch /tmp/no-attr
 chmod +a "everyone deny writeextattr" /tmp/no-attr
 xattr -w attrname vale /tmp/no-attr
 xattr: [Errno 13] Permission denied: '/tmp/no-attr'
 ```
-Ayrıca, **AppleDouble** dosya biçimi, ACE'lerini içeren bir dosyanın kopyasını oluşturur.
+Ayrıca, **AppleDouble** dosya formatı, bir dosyayı ACE'leri ile birlikte kopyalar.
 
-[**Kaynak kodunda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) görülebileceği gibi, **`com.apple.acl.text`** adlı xattr içinde depolanan ACL metin temsili, dekompresyon dosyasında ACL olarak ayarlanacaktır. Dolayısıyla, bir uygulamayı diğer xattr'lerin yazılmasını engelleyen bir ACL ile birlikte **AppleDouble** dosya biçimine sahip bir zip dosyasına sıkıştırırsanız... karantina xattr'si uygulamaya ayarlanmazdı:
+[**kaynak kodunda**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) **`com.apple.acl.text`** adlı xattr içinde saklanan ACL metin temsilinin, açılmış dosyada ACL olarak ayarlanacağını görebilirsiniz. Yani, bir uygulamayı ACL'si diğer xattr'ların yazılmasını engelleyen bir zip dosyasına **AppleDouble** dosya formatı ile sıkıştırdıysanız... karantina xattr'ı uygulamaya ayarlanmamıştı:
+
+{% code overflow="wrap" %}
 ```bash
 chmod +a "everyone deny write,writeattr,writeextattr" /tmp/test
 ditto -c -k test test.zip
@@ -377,7 +381,7 @@ python3 -m http.server
 
 Daha fazla bilgi için [**orijinal raporu**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kontrol edin.
 
-Bu aynı zamanda AppleArchives ile de sömürülebilir:
+Bunun AppleArchives ile de istismar edilebileceğini unutmayın:
 ```bash
 mkdir app
 touch app/test
@@ -386,11 +390,13 @@ aa archive -d app -o test.aar
 ```
 ### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-**Google Chrome'un indirilen dosyalara karantina özniteliği ayarlamadığı keşfedildi** çünkü bazı macOS iç sorunlarından dolayı.
+**Google Chrome'un indirilen dosyalara karantina niteliğini ayarlamadığı** bazı macOS iç sorunları nedeniyle keşfedildi.
 
 ### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
 
-AppleDouble dosya biçimleri, bir dosyanın özniteliklerini `._` ile başlayan ayrı bir dosyada saklar, bu **macOS makineleri arasında dosya özniteliklerini kopyalamaya yardımcı olur**. Ancak, bir AppleDouble dosyası sıkıştırıldıktan sonra, `._` ile başlayan dosyaya **karantina özniteliği verilmediği fark edildi**.
+AppleDouble dosya formatları, bir dosyanın niteliklerini `._` ile başlayan ayrı bir dosyada saklar, bu da dosya niteliklerini **macOS makineleri arasında kopyalamaya** yardımcı olur. Ancak, bir AppleDouble dosyası açıldıktan sonra, `._` ile başlayan dosyanın **karantina niteliği verilmediği** fark edildi.
+
+{% code overflow="wrap" %}
 ```bash
 mkdir test
 echo a > test/a
@@ -402,8 +408,8 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Karantina özniteliği ayarlanmayan bir dosya oluşturabilme yeteneği sayesinde **Gatekeeper'ı atlamak mümkündü.** Hile, AppleDouble adlandırma kuralını kullanarak (`._` ile başlat) bir DMG dosyası uygulaması oluşturmak ve karantina özniteliği olmayan bu gizli dosyaya bir sembolik bağ oluşturmaktı.\
-**Dmg dosyası yürütüldüğünde**, karantina özniteliğine sahip olmadığı için **Gatekeeper'ı atlayacaktır.**
+Karantina niteliği ayarlanmamış bir dosya oluşturabilmek, **Gatekeeper'ı atlatmayı mümkün kıldı.** Hile, **AppleDouble adlandırma kuralını** kullanarak bir **DMG dosya uygulaması** oluşturmak ve karantina niteliği olmayan bu gizli dosyaya **görünür bir dosya olarak sembolik bağlantı** oluşturmaktı.\
+**Dmg dosyası çalıştırıldığında**, karantina niteliği olmadığı için **Gatekeeper'ı atlatacaktır.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -419,15 +425,34 @@ ln -s ._app.dmg s/app/app.dmg
 echo "[+] compressing files"
 aa archive -d s/ -o app.aar
 ```
-### uchg (bu [sunumdan](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
+### uchg (from this [talk](https://codeblue.jp/2023/result/pdf/cb23-bypassing-macos-security-and-privacy-mechanisms-from-gatekeeper-to-system-integrity-protection-by-koh-nakagawa.pdf))
 
 * Bir uygulama içeren bir dizin oluşturun.
 * Uygulamaya uchg ekleyin.
 * Uygulamayı tar.gz dosyasına sıkıştırın.
-* Tar.gz dosyasını bir kurbanın üzerine gönderin.
+* Tar.gz dosyasını bir kurbanına gönderin.
 * Kurban tar.gz dosyasını açar ve uygulamayı çalıştırır.
 * Gatekeeper uygulamayı kontrol etmez.
 
-### Karantina xattr'yi Önle
+### Quarantine xattr'ı Önleme
 
-Bir ".app" demetinde karantina xattr eklenmediğinde, **Gatekeeper tetiklenmeyecek**.
+Bir ".app" paketinde, karantina xattr'ı eklenmemişse, çalıştırıldığında **Gatekeeper tetiklenmeyecek**.
+
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+
+</details>
+{% endhint %}
