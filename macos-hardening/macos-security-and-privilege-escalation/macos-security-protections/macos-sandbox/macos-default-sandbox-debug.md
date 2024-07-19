@@ -1,24 +1,23 @@
 # macOS Default Sandbox Debug
 
-## macOS デフォルトサンドボックスのデバッグ
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)、当社の独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) コレクションを発見する
-* \*\*💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする。
-* **ハッキングテクニックを共有するために PR を送信して** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の GitHub リポジトリに貢献する。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-このページでは、デフォルトの macOS サンドボックス内から任意のコマンドを実行するアプリを作成する方法が記載されています:
+このページでは、デフォルトのmacOSサンドボックス内から任意のコマンドを実行するアプリを作成する方法を見つけることができます。
 
-1. アプリケーションをコンパイルする:
+1. アプリケーションをコンパイルします：
 
 {% code title="main.m" %}
 ```objectivec
@@ -52,10 +51,9 @@ return 0;
 ```
 {% endcode %}
 
-実行してコンパイルします：`clang -framework Foundation -o SandboxedShellApp main.m`
+コンパイルするには、次のコマンドを実行します: `clang -framework Foundation -o SandboxedShellApp main.m`
 
-2. `.app` バンドルをビルドします
-
+2. `.app` バンドルをビルドする
 ```bash
 mkdir -p SandboxedShellApp.app/Contents/MacOS
 mv SandboxedShellApp SandboxedShellApp.app/Contents/MacOS/
@@ -77,9 +75,10 @@ cat << EOF > SandboxedShellApp.app/Contents/Info.plist
 </plist>
 EOF
 ```
+3. 権限を定義する
 
-3. エンタイトルメントを定義する
-
+{% tabs %}
+{% tab title="sandbox" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -92,25 +91,45 @@ cat << EOF > entitlements.plist
 </plist>
 EOF
 ```
+{% endtab %}
 
-\`\`\`bash cat << EOF > entitlements.plist com.apple.security.app-sandbox com.apple.security.files.downloads.read-write EOF \`\`\` 4. アプリに署名します（キーチェーンで証明書を作成する必要があります） \`\`\`bash codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
-
-## An d in case you need this in the future
-
-codesign --remove-signature SandboxedShellApp.app
-
+{% tab title="サンドボックス + ダウンロード" %}
+```bash
+cat << EOF > entitlements.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>com.apple.security.app-sandbox</key>
+<true/>
+<key>com.apple.security.files.downloads.read-write</key>
+<true/>
+</dict>
+</plist>
+EOF
 ```
+{% endtab %}
+{% endtabs %}
+
+4. アプリに署名する（キーチェーンに証明書を作成する必要があります）
+```bash
+codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
+./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
+
+# An d in case you need this in the future
+codesign --remove-signature SandboxedShellApp.app
+```
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または**HackTricks をPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、当社の独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)で**フォロー**してください。
-* **HackTricks**（https://github.com/carlospolop/hacktricks）および**HackTricks Cloud**（https://github.com/carlospolop/hacktricks-cloud）のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
-```
+{% endhint %}

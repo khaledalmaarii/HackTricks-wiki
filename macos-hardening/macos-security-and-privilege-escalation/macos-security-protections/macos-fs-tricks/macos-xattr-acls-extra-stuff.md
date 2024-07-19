@@ -1,23 +1,19 @@
-# macOS xattr-acls extra stuff
-
-```markdown
 # macOS xattr-acls 追加情報
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)でAWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksにあなたの会社を広告したい**、または**HackTricksをPDFでダウンロードしたい**場合は、[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションをチェックする
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に**参加する**か、[**テレグラムグループ**](https://t.me/peass)に参加する、または**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)を**フォローする**。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のgithubリポジトリにPRを提出して、あなたのハッキングのコツを**共有する**。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
-```
-
+{% endhint %}
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -29,35 +25,195 @@ group:ABCDEFAB-CDEF-ABCD-EFAB-CDEF0000000C:everyone:12:deny:write,writeattr,writ
 
 ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a
 ```
-
 <details>
 
 <summary>get_aclsのコード</summary>
+```c
+// gcc -o get_acls get_acls
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/acl.h>
 
-\`\`\`c // gcc -o get\_acls get\_acls #include #include #include
+int main(int argc, char *argv[]) {
+if (argc != 2) {
+fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
+return 1;
+}
 
-int main(int argc, char \*argv\[]) { if (argc != 2) { fprintf(stderr, "Usage: %s \n", argv\[0]); return 1; }
+const char *filepath = argv[1];
+acl_t acl = acl_get_file(filepath, ACL_TYPE_EXTENDED);
+if (acl == NULL) {
+perror("acl_get_file");
+return 1;
+}
 
-const char \*filepath = argv\[1]; acl\_t acl = acl\_get\_file(filepath, ACL\_TYPE\_EXTENDED); if (acl == NULL) { perror("acl\_get\_file"); return 1; }
+char *acl_text = acl_to_text(acl, NULL);
+if (acl_text == NULL) {
+perror("acl_to_text");
+acl_free(acl);
+return 1;
+}
 
-char \*acl\_text = acl\_to\_text(acl, NULL); if (acl\_text == NULL) { perror("acl\_to\_text"); acl\_free(acl); return 1; }
+printf("ACL for %s:\n%s\n", filepath, acl_text);
 
-printf("ACL for %s:\n%s\n", filepath, acl\_text);
+// Convert acl_text to hexadecimal and print it
+printf("ACL in hex: ");
+for (char *c = acl_text; *c != '\0'; c++) {
+printf("\\x%02x", (unsigned char)*c);
+}
+printf("\n");
 
-// Convert acl\_text to hexadecimal and print it printf("ACL in hex: "); for (char \*c = acl\_text; \*c != '\0'; c++) { printf("\x%02x", (unsigned char)\*c); } printf("\n");
+acl_free(acl);
+acl_free(acl_text);
+return 0;
+}
+```
+```markdown
+<details>
+<summary>macOSのファイルシステムトリック</summary>
 
-acl\_free(acl); acl\_free(acl\_text); return 0; }
+macOSは、ファイルシステムに関していくつかのセキュリティ機能を提供しています。これには、拡張属性（xattr）やアクセス制御リスト（ACL）が含まれます。これらの機能を利用することで、特定のファイルやディレクトリに対するアクセス権を細かく制御できます。
 
-````
-Since you haven't provided any English text to translate, I'm unable to proceed with the translation. Please provide the specific English content from the file you mentioned, and I'll be happy to translate it into Japanese for you.
+### 拡張属性（xattr）
+
+拡張属性は、ファイルに追加のメタデータを保存するための機能です。これにより、ファイルの特性や状態に関する情報を保持できます。例えば、特定のアプリケーションがファイルをどのように扱うかを指定するために使用されることがあります。
+
+### アクセス制御リスト（ACL）
+
+ACLは、ファイルやディレクトリに対するアクセス権を詳細に設定するための仕組みです。これにより、ユーザーやグループごとに異なる権限を設定できます。ACLを使用することで、より柔軟なアクセス管理が可能になります。
+
+### 追加の情報
+
+macOSのセキュリティ機能を理解し、適切に利用することで、システムの安全性を高めることができます。特に、xattrやACLを活用することで、ファイルシステムのセキュリティを強化することができます。
+
+</details>
+```
 ```bash
 # Lets add the xattr com.apple.xxx.xxxx with the acls
 mkdir start
 mkdir start/protected
 ./set_xattr start/protected
 echo something > start/protected/something
-````
+```
+<details>
+
+<summary>set_xattrのコード</summary>
+```c
+// gcc -o set_xattr set_xattr.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/xattr.h>
+#include <sys/acl.h>
 
 
+void print_xattrs(const char *filepath) {
+ssize_t buflen = listxattr(filepath, NULL, 0, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+return;
+}
+
+char *buf = malloc(buflen);
+if (buf == NULL) {
+perror("malloc");
+return;
+}
+
+buflen = listxattr(filepath, buf, buflen, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+free(buf);
+return;
+}
+
+printf("All current extended attributes for %s:\n", filepath);
+for (char *name = buf; name < buf + buflen; name += strlen(name) + 1) {
+printf("%s: ", name);
+ssize_t valuelen = getxattr(filepath, name, NULL, 0, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+continue;
+}
+
+char *value = malloc(valuelen + 1);
+if (value == NULL) {
+perror("malloc");
+continue;
+}
+
+valuelen = getxattr(filepath, name, value, valuelen, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+free(value);
+continue;
+}
+
+value[valuelen] = '\0';  // Null-terminate the value
+printf("%s\n", value);
+free(value);
+}
+
+free(buf);
+}
+
+
+int main(int argc, char *argv[]) {
+if (argc != 2) {
+fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
+return 1;
+}
+
+const char *hex = "\x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a";
+const char *filepath = argv[1];
+
+int result = setxattr(filepath, "com.apple.xxx.xxxx", hex, strlen(hex), 0, 0);
+if (result == 0) {
+printf("Extended attribute set successfully.\n\n");
+} else {
+perror("setxattr");
+return 1;
+}
+
+print_xattrs(filepath);
+
+return 0;
+}
+```
+</details>
+
+{% code overflow="wrap" %}
+```bash
+# Create appledoublefile with the xattr entitlement
+ditto -c -k start protected.zip
+rm -rf start
+# extract the files
+unzip protected.zip
+# Replace the name of the xattr here (if you put it before ditto would have destroyed it)
+python3 -c "with open('._protected', 'rb+') as f: content = f.read().replace(b'com.apple.xxx.xxxx', b'com.apple.acl.text'); f.seek(0); f.write(content); f.truncate()"
+# zip everything back together
+rm -rf protected.zip
+zip -r protected.zip protected ._protected
+rm -rf protected
+rm ._*
+```
+{% endcode %}
+```bash
+# Check if it worked
+ditto -x -k --rsrc protected.zip .
+xattr -l protected
+```
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
