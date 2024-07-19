@@ -17,7 +17,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 **팔로우**하세요.**
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입하거나** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
 
 </details>
@@ -64,7 +64,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 **컴파일**하려면 피해자 머신이 사용하는 **동일한 커널**을 사용해야 합니다.
 
 {% hint style="info" %}
-피해자 머신에 **LiME 또는 다른 어떤 것**도 설치할 수 없다는 점을 기억하십시오. 이는 여러 가지 변경을 초래할 수 있습니다.
+피해자 머신에 **LiME 또는 다른 어떤 것**도 설치할 수 없다는 점을 기억하십시오. 이는 여러 가지 변경을 초래할 것입니다.
 {% endhint %}
 
 따라서 동일한 버전의 Ubuntu가 있다면 `apt-get install lime-forensics-dkms`를 사용할 수 있습니다.\
@@ -79,14 +79,14 @@ LiME는 3가지 **형식**을 지원합니다:
 * Padded (raw와 동일하지만 오른쪽 비트에 제로 추가)
 * Lime (메타데이터가 포함된 추천 형식)
 
-LiME는 또한 **네트워크를 통해 덤프를 전송**하는 데 사용할 수 있습니다. 예: `path=tcp:4444`
+LiME는 또한 **네트워크를 통해 덤프를 전송**하는 데 사용할 수 있습니다. 예를 들어: `path=tcp:4444`
 
 ### 디스크 이미징
 
 #### 시스템 종료
 
 우선, **시스템을 종료**해야 합니다. 이는 항상 가능한 옵션이 아니며, 때때로 시스템이 회사가 종료할 수 없는 프로덕션 서버일 수 있습니다.\
-시스템을 종료하는 방법은 **정상 종료**와 **"플러그를 뽑는" 종료**의 **2가지 방법**이 있습니다. 첫 번째 방법은 **프로세스가 정상적으로 종료**되고 **파일 시스템**이 **동기화**되도록 허용하지만, 가능한 **악성코드**가 **증거를 파괴**할 수 있게 합니다. "플러그를 뽑는" 접근 방식은 **일부 정보 손실**을 초래할 수 있습니다(메모리 이미지를 이미 가져왔기 때문에 많은 정보가 손실되지는 않을 것입니다) 그리고 **악성코드가 아무것도 할 기회**가 없습니다. 따라서 **악성코드**가 있을 것으로 **의심**되는 경우, 시스템에서 **`sync`** **명령**을 실행하고 플러그를 뽑으십시오.
+시스템을 종료하는 **2가지 방법**이 있습니다: **정상 종료**와 **"플러그를 뽑는" 종료**. 첫 번째 방법은 **프로세스가 정상적으로 종료**되고 **파일 시스템**이 **동기화**되도록 허용하지만, 가능한 **악성코드**가 **증거를 파괴**할 수 있게 합니다. "플러그를 뽑는" 접근 방식은 **일부 정보 손실**을 초래할 수 있습니다(메모리 이미지를 이미 가져왔기 때문에 많은 정보가 손실되지 않을 것입니다) 그리고 **악성코드가 아무것도 할 기회**가 없습니다. 따라서 **악성코드**가 있을 것으로 **의심**되는 경우, 시스템에서 **`sync`** **명령**을 실행하고 플러그를 뽑으십시오.
 
 #### 디스크 이미지 가져오기
 
@@ -166,14 +166,14 @@ ThisisTheMasterSecret
 
 ### 수정된 시스템 파일
 
-Linux는 시스템 구성 요소의 무결성을 보장하는 도구를 제공하여 잠재적으로 문제가 있는 파일을 발견하는 데 중요합니다.
+Linux는 시스템 구성 요소의 무결성을 보장하는 도구를 제공하여 잠재적으로 문제를 일으킬 수 있는 파일을 발견하는 데 중요합니다.
 
 * **RedHat 기반 시스템**: 포괄적인 검사를 위해 `rpm -Va`를 사용하세요.
 * **Debian 기반 시스템**: 초기 검증을 위해 `dpkg --verify`를 사용한 후, `debsums | grep -v "OK$"` (먼저 `apt-get install debsums`로 `debsums`를 설치한 후)로 문제를 식별하세요.
 
 ### 악성코드/루트킷 탐지기
 
-악성코드를 찾는 데 유용한 도구에 대해 알아보려면 다음 페이지를 읽어보세요:
+악성코드를 찾는 데 유용할 수 있는 도구에 대해 알아보려면 다음 페이지를 읽어보세요:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -300,26 +300,26 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 추가 권한을 부여할 수 있는 파일을 확인하십시오:
 
-* `/etc/sudoers`에서 예상치 못한 사용자 권한이 부여되었는지 검토합니다.
-* `/etc/sudoers.d/`에서 예상치 못한 사용자 권한이 부여되었는지 검토합니다.
-* `/etc/groups`를 검사하여 비정상적인 그룹 구성원 또는 권한을 식별합니다.
-* `/etc/passwd`를 검사하여 비정상적인 그룹 구성원 또는 권한을 식별합니다.
+* `/etc/sudoers`에서 예상치 못한 사용자 권한이 부여되었는지 검토하십시오.
+* `/etc/sudoers.d/`에서 예상치 못한 사용자 권한이 부여되었는지 검토하십시오.
+* `/etc/groups`를 검사하여 비정상적인 그룹 구성원 또는 권한을 식별하십시오.
+* `/etc/passwd`를 검사하여 비정상적인 그룹 구성원 또는 권한을 식별하십시오.
 
 일부 앱은 자체 로그를 생성합니다:
 
-* **SSH**: 무단 원격 연결을 위해 _\~/.ssh/authorized\_keys_ 및 _\~/.ssh/known\_hosts_를 검사합니다.
-* **Gnome Desktop**: Gnome 애플리케이션을 통해 최근에 접근한 파일을 위해 _\~/.recently-used.xbel_를 확인합니다.
-* **Firefox/Chrome**: 의심스러운 활동을 위해 _\~/.mozilla/firefox_ 또는 _\~/.config/google-chrome_에서 브라우저 기록 및 다운로드를 확인합니다.
-* **VIM**: 접근한 파일 경로 및 검색 기록과 같은 사용 세부정보를 위해 _\~/.viminfo_를 검토합니다.
-* **Open Office**: 손상된 파일을 나타낼 수 있는 최근 문서 접근을 확인합니다.
-* **FTP/SFTP**: 무단 파일 전송이 있을 수 있는 _\~/.ftp\_history_ 또는 _\~/.sftp\_history_의 로그를 검토합니다.
-* **MySQL**: 무단 데이터베이스 활동을 드러낼 수 있는 실행된 MySQL 쿼리를 위해 _\~/.mysql\_history_를 조사합니다.
-* **Less**: 본 파일 및 실행된 명령을 포함한 사용 기록을 위해 _\~/.lesshst_를 분석합니다.
-* **Git**: 리포지토리에 대한 변경 사항을 위해 _\~/.gitconfig_ 및 프로젝트 _.git/logs_를 검사합니다.
+* **SSH**: 무단 원격 연결을 위해 _\~/.ssh/authorized\_keys_ 및 _\~/.ssh/known\_hosts_를 검사하십시오.
+* **Gnome Desktop**: Gnome 애플리케이션을 통해 최근에 접근한 파일을 위해 _\~/.recently-used.xbel_를 살펴보십시오.
+* **Firefox/Chrome**: 의심스러운 활동을 위해 _\~/.mozilla/firefox_ 또는 _\~/.config/google-chrome_에서 브라우저 기록 및 다운로드를 확인하십시오.
+* **VIM**: 접근한 파일 경로 및 검색 기록과 같은 사용 세부정보를 위해 _\~/.viminfo_를 검토하십시오.
+* **Open Office**: 손상된 파일을 나타낼 수 있는 최근 문서 접근을 확인하십시오.
+* **FTP/SFTP**: 무단 파일 전송이 있을 수 있는 _\~/.ftp\_history_ 또는 _\~/.sftp\_history_의 로그를 검토하십시오.
+* **MySQL**: 무단 데이터베이스 활동을 드러낼 수 있는 실행된 MySQL 쿼리를 위해 _\~/.mysql\_history_를 조사하십시오.
+* **Less**: 본 파일 및 실행된 명령을 포함한 사용 기록을 위해 _\~/.lesshst_를 분석하십시오.
+* **Git**: 리포지토리에 대한 변경 사항을 위해 _\~/.gitconfig_ 및 프로젝트 _.git/logs_를 검사하십시오.
 
 ### USB Logs
 
-[**usbrip**](https://github.com/snovvcrash/usbrip)는 리눅스 로그 파일(`/var/log/syslog*` 또는 `/var/log/messages*`, 배포판에 따라 다름)을 파싱하여 USB 이벤트 이력 테이블을 구성하는 순수 Python 3로 작성된 작은 소프트웨어입니다.
+[**usbrip**](https://github.com/snovvcrash/usbrip)는 리눅스 로그 파일(`/var/log/syslog*` 또는 `/var/log/messages*`, 배포판에 따라 다름)을 파싱하여 USB 이벤트 기록 테이블을 구성하는 순수 Python 3로 작성된 작은 소프트웨어입니다.
 
 모든 USB 사용 내역을 아는 것은 흥미롭고, "위반 사건"(목록에 없는 USB 사용)을 찾기 위해 승인된 USB 목록이 있다면 더욱 유용할 것입니다.
 
@@ -346,28 +346,28 @@ Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Review User Accounts and Logon Activities
+## 사용자 계정 및 로그인 활동 검토
 
-_**/etc/passwd**_, _**/etc/shadow**_ 및 **보안 로그**에서 비정상적인 이름이나 계정을 조사하여 알려진 무단 이벤트와 가까운 시기에 생성되거나 사용된 계정을 확인하십시오. 또한 가능한 sudo 무차별 대입 공격을 확인하십시오.\
-또한, _**/etc/sudoers**_ 및 _**/etc/groups**_와 같은 파일에서 사용자에게 부여된 예상치 못한 권한을 확인하십시오.\
-마지막으로, **비밀번호가 없는** 계정이나 **쉽게 추측할 수 있는** 비밀번호를 가진 계정을 찾아보십시오.
+_**/etc/passwd**_, _**/etc/shadow**_ 및 **보안 로그**에서 비정상적인 이름이나 계정을 조사하고, 알려진 무단 이벤트와 가까운 시기에 생성되거나 사용된 계정을 확인합니다. 또한 가능한 sudo 무차별 대입 공격을 확인합니다.\
+또한, _**/etc/sudoers**_ 및 _**/etc/groups**_와 같은 파일에서 사용자에게 부여된 예상치 못한 권한을 확인합니다.\
+마지막으로, **비밀번호가 없는** 계정이나 **쉽게 추측할 수 있는** 비밀번호를 가진 계정을 찾아보세요.
 
-## Examine File System
+## 파일 시스템 검사
 
-### Analyzing File System Structures in Malware Investigation
+### 악성 코드 조사에서 파일 시스템 구조 분석
 
-악성코드 사건을 조사할 때, 파일 시스템의 구조는 사건의 순서와 악성코드의 내용을 드러내는 중요한 정보 출처입니다. 그러나 악성코드 작성자들은 파일 타임스탬프를 수정하거나 데이터 저장을 위해 파일 시스템을 피하는 등의 분석을 방해하는 기술을 개발하고 있습니다.
+악성 코드 사건을 조사할 때, 파일 시스템의 구조는 사건의 순서와 악성 코드의 내용을 드러내는 중요한 정보 출처입니다. 그러나 악성 코드 작성자들은 파일 타임스탬프를 수정하거나 데이터 저장을 위해 파일 시스템을 피하는 등의 분석을 방해하는 기술을 개발하고 있습니다.
 
-이러한 반포렌식 방법에 대응하기 위해서는 다음이 필수적입니다:
+이러한 반법의 방법에 대응하기 위해서는:
 
-* **Autopsy**와 같은 도구를 사용하여 사건 타임라인을 시각화하거나 **Sleuth Kit의** `mactime`을 사용하여 상세한 타임라인 데이터를 통해 **철저한 타임라인 분석을 수행**하십시오.
-* 공격자가 사용할 수 있는 셸 또는 PHP 스크립트를 포함할 수 있는 시스템의 $PATH에서 **예상치 못한 스크립트를 조사**하십시오.
-* **/dev에서 비정상적인 파일을 검사**하십시오. 전통적으로 특별한 파일이 포함되어 있지만, 악성코드 관련 파일이 있을 수 있습니다.
-* **".. " (dot dot space) 또는 "..^G" (dot dot control-G)와 같은 이름의 숨겨진 파일이나 디렉토리를 검색**하십시오. 이는 악성 콘텐츠를 숨길 수 있습니다.
-* 공격자가 악용할 수 있는 권한이 상승된 파일을 찾기 위해 다음 명령어를 사용하여 **setuid root 파일을 식별**하십시오: `find / -user root -perm -04000 -print`
-* **inode 테이블에서 삭제 타임스탬프를 검토**하여 대량 파일 삭제를 발견하십시오. 이는 루트킷이나 트로이 목마의 존재를 나타낼 수 있습니다.
-* 하나의 악성 파일을 식별한 후 **인접한 inode를 검사**하여 근처에 악성 파일이 있을 수 있습니다.
-* **최근 수정된 파일을 위해 일반 바이너리 디렉토리** (_/bin_, _/sbin_)를 확인하십시오. 이는 악성코드에 의해 변경되었을 수 있습니다.
+* **Autopsy**와 같은 도구를 사용하여 사건 타임라인을 시각화하거나 **Sleuth Kit의** `mactime`을 사용하여 상세한 타임라인 데이터를 통해 철저한 타임라인 분석을 수행합니다.
+* 공격자가 사용할 수 있는 셸 또는 PHP 스크립트를 포함할 수 있는 시스템의 $PATH에서 예상치 못한 스크립트를 조사합니다.
+* 전통적으로 특수 파일을 포함하는 `/dev`에서 비정상적인 파일을 검사합니다. 그러나 악성 코드 관련 파일이 있을 수 있습니다.
+* ".. " (점 점 공백) 또는 "..^G" (점 점 제어-G)와 같은 이름을 가진 숨겨진 파일이나 디렉토리를 검색하여 악성 콘텐츠를 숨길 수 있습니다.
+* 명령어 `find / -user root -perm -04000 -print`를 사용하여 setuid root 파일을 식별합니다. 이는 공격자가 악용할 수 있는 권한이 상승된 파일을 찾습니다.
+* 루트킷이나 트로이 목마의 존재를 나타낼 수 있는 대량 파일 삭제를 감지하기 위해 inode 테이블의 삭제 타임스탬프를 검토합니다.
+* 하나의 악성 파일을 식별한 후 인접한 inode를 검사하여 근처에 악성 파일이 있을 수 있습니다.
+* 최근에 수정된 파일이 있을 수 있는 일반 바이너리 디렉토리 (_/bin_, _/sbin_)를 확인합니다. 이는 악성 코드에 의해 변경되었을 수 있습니다.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-**공격자**는 **파일이 합법적으로 보이도록** **시간**을 **수정**할 수 있지만, **inode**는 **수정**할 수 없습니다. 같은 폴더의 나머지 파일과 **동일한 시간**에 생성 및 수정된 것으로 표시된 **파일**을 발견했지만 **inode**가 **예상보다 더 크다면**, 해당 **파일의 타임스탬프가 수정된 것입니다**.
+공격자가 **파일**을 **합법적으로 보이게** 하기 위해 **시간**을 **수정**할 수 있지만, **inode**는 **수정**할 수 없다는 점에 유의하십시오. 동일한 폴더의 나머지 파일과 **동일한 시간**에 생성 및 수정된 것으로 표시된 **파일**을 발견했지만 **inode**가 **예상보다 더 크면**, 해당 **파일의 타임스탬프가 수정된 것입니다**.
 {% endhint %}
 
 ## 서로 다른 파일 시스템 버전 비교
@@ -385,11 +385,11 @@ ls -lai /bin | sort -n```
 
 파일 시스템 버전을 비교하고 변경 사항을 파악하기 위해 간소화된 `git diff` 명령을 사용합니다:
 
-* **새로운 파일을 찾으려면**, 두 디렉토리를 비교합니다:
+* **새로운 파일을 찾으려면**, 두 디렉토리를 비교하십시오:
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **수정된 콘텐츠**: 특정 라인을 무시하고 변경 사항을 나열합니다:
+* **수정된 콘텐츠**: 특정 라인을 무시하면서 변경 사항을 나열합니다:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -408,31 +408,32 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * `X`: 알 수 없는 파일
 * `B`: 손상된 파일
 
-## References
+## 참고 문헌
 
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **책: Linux 시스템을 위한 악성코드 포렌식 필드 가이드: 디지털 포렌식 필드 가이드**
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS 해킹을 제로에서 히어로로 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-당신은 **사이버 보안 회사**에서 일하고 있습니까? 당신의 **회사가 HackTricks에 광고되기를 원하십니까**? 아니면 **최신 버전의 PEASS에 접근하거나 HackTricks를 PDF로 다운로드**하고 싶습니까? [**구독 계획**](https://github.com/sponsors/carlospolop)을 확인하세요!
-
-* [**PEASS 패밀리**](https://opensea.io/collection/the-peass-family), 우리의 독점 [**NFT**](https://opensea.io/collection/the-peass-family) 컬렉션을 발견하세요.
-* [**공식 PEASS & HackTricks 상품**](https://peass.creator-spring.com)을 받으세요.
-* **[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter**에서 저를 **팔로우**하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**당신의 해킹 트릭을** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **와** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **에 PR을 제출하여 공유하세요.**
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우를 쉽게 구축하고 자동화**하세요.\
-지금 바로 접근하세요:
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
+오늘 바로 접근하세요:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

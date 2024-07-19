@@ -1,22 +1,25 @@
-# 이미지 획득 및 마운트
+# 이미지 수집 및 마운트
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>을 통해 **제로부터 영웅이 되는 AWS 해킹을 배우세요**!</summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **회사가 HackTricks에 광고되길 원하시나요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인해보세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견해보세요, 저희의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
-* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받아보세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 **가입**하거나 [텔레그램 그룹](https://t.me/peass)에 **참여**하거나 **트위터**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **해킹 요령을 공유하고 싶으시다면 [hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**로 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## 획득
+## 수집
 
 ### DD
 ```bash
@@ -29,15 +32,15 @@ dd if=/dev/sdb of=disk.img
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### FTK 이미저
+### FTK Imager
 
-[여기에서 FTK 이미저를 다운로드할 수 있습니다](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
+여기에서 [**FTK 이미저를 다운로드할 수 있습니다**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
 ```bash
 ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --description 'A description' --examiner 'Your name'
 ```
 ### EWF
 
-[**ewf tools**](https://github.com/libyal/libewf)를 사용하여 디스크 이미지를 생성할 수 있습니다.
+디스크 이미지를 생성하려면 [**ewf tools**](https://github.com/libyal/libewf)를 사용할 수 있습니다.
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -54,11 +57,11 @@ ewfacquire /dev/sdb
 #Then use default values
 #It will generate the disk image in the current directory
 ```
-## 마운트
+## Mount
 
 ### 여러 유형
 
-**Windows**에서는 **포렌식 이미지를 마운트**하기 위해 Arsenal Image Mounter의 무료 버전을 사용해 볼 수 있습니다 ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)).
+**Windows**에서는 무료 버전의 Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/))를 사용하여 **포렌식 이미지**를 **마운트**할 수 있습니다.
 
 ### Raw
 ```bash
@@ -86,12 +89,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-볼륨을 마운트하는 Windows 응용 프로그램입니다. [여기](https://arsenalrecon.com/downloads/)에서 다운로드할 수 있습니다.
+Windows 애플리케이션으로 볼륨을 마운트합니다. 여기에서 다운로드할 수 있습니다 [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### 오류
+### Errors
 
-* **`/dev/loop0을 읽기 전용으로 마운트할 수 없음`** 이 경우 **`-o ro,norecovery`** 플래그를 사용해야 합니다.
-* **`/dev/loop0에 잘못된 fs 유형, 잘못된 옵션, 잘못된 수퍼블록, 코드 페이지 누락 또는 도우미 프로그램이 없음`** 이 경우 파일 시스템의 오프셋이 디스크 이미지의 것과 다른 경우 마운트에 실패합니다. 섹터 크기와 시작 섹터를 찾아야 합니다:
+* **`cannot mount /dev/loop0 read-only`** 이 경우 플래그 **`-o ro,norecovery`**를 사용해야 합니다.
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** 이 경우 마운트가 실패한 이유는 파일 시스템의 오프셋이 디스크 이미지의 오프셋과 다르기 때문입니다. 섹터 크기와 시작 섹터를 찾아야 합니다:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-섹터 크기가 **512**이고 시작 위치가 **2048**임을 유의하십시오. 그런 다음 이미지를 다음과 같이 마운트하십시오:
+섹터 크기가 **512**이고 시작이 **2048**임을 주의하세요. 그런 다음 이미지를 다음과 같이 마운트하세요:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -112,14 +115,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS 해킹을 배우고 연습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>영웨이 에이더블유에스 해킹을 제로부터 히어로로 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-* **사이버 보안 회사에서 일하시나요**? **HackTricks에 귀사의 회사를 광고하고 싶으신가요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드하고 싶으신가요**? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요
-* **💬** [**디스코드 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하시거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우하세요**.
-* **[hacktricks repo](https://github.com/carlospolop/hacktricks) 및 [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**로 PR을 제출하여 귀하의 해킹 트릭을 공유하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
