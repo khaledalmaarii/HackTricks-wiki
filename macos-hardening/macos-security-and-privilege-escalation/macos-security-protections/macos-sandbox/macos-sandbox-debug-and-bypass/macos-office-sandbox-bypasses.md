@@ -1,72 +1,78 @@
-# macOS Office Sandbox Geçişleri
+# macOS Office Sandbox Bypasses
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **tanıtmak** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Word Sandbox Geçişi Launch Agentlar aracılığıyla
+### Word Sandbox bypass via Launch Agents
 
-Uygulama, **`com.apple.security.temporary-exception.sbpl`** yetkisi kullanarak **özel bir Sandbox** kullanır ve bu özel Sandbox, dosya adı `~$` ile başladığı sürece herhangi bir yere dosya yazmaya izin verir: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
+Uygulama, **`com.apple.security.temporary-exception.sbpl`** yetkisini kullanarak **özel bir Sandbox** kullanıyor ve bu özel sandbox, dosya adının `~$` ile başlaması koşuluyla her yere dosya yazılmasına izin veriyor: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
 
-Bu nedenle, kaçış işlemi, `~/Library/LaunchAgents/~$escape.plist` konumunda bir `plist` LaunchAgent'ı yazmak kadar kolaydı.
+Bu nedenle, kaçış yapmak **`~/Library/LaunchAgents/~$escape.plist`** içinde bir **`plist`** LaunchAgent yazmak kadar kolaydı.
 
-[**Orijinal rapora buradan**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/) bakın.
+[**orijinal raporu buradan kontrol edin**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
 
-### Word Sandbox Geçişi Login Öğeleri ve zip ile
+### Word Sandbox bypass via Login Items and zip
 
-İlk kaçıştan hatırlayın, Word, `~$` ile başlayan keyfi dosyalar yazabilir, ancak önceki zafiyetin düzeltmesinden sonra `/Library/Application Scripts` veya `/Library/LaunchAgents` dizinlerine yazmak mümkün olmamıştır.
+İlk kaçıştan hatırlayın, Word `~$` ile başlayan rastgele dosyalar yazabilir, ancak önceki güvenlik açığının yamanmasından sonra `/Library/Application Scripts` veya `/Library/LaunchAgents` içine yazmak mümkün değildi.
 
-Sandbox içinden bir **Giriş Öğesi** (kullanıcı oturum açtığında çalıştırılacak uygulamalar) oluşturmanın mümkün olduğu keşfedildi. Ancak, bu uygulamalar **imzalanmadıkça** çalışmayacak ve argüman eklemek mümkün olmayacak (yani **`bash`** kullanarak ters kabuk çalıştıramazsınız).
+Sandbox içinde bir **Login Item** (kullanıcı giriş yaptığında çalıştırılacak uygulamalar) oluşturmanın mümkün olduğu keşfedildi. Ancak, bu uygulamalar **notarize edilmedikçe** **çalışmayacak** ve **argüman eklemek mümkün değil** (yani sadece **`bash`** kullanarak bir ters shell çalıştıramazsınız).
 
-Önceki Sandbox geçişinden sonra, Microsoft `~/Library/LaunchAgents` dizinine dosya yazma seçeneğini devre dışı bıraktı. Ancak, bir **zip dosyasını Giriş Öğesi** olarak eklerseniz, `Archive Utility` bunu mevcut konumunda sadece **açacaktır**. Bu nedenle, varsayılan olarak `~/Library` dizininde `LaunchAgents` klasörü oluşturulmadığından, `LaunchAgents/~$escape.plist` konumunda bir plist'i sıkıştırıp **zip dosyasını `~/Library`** dizinine yerleştirmek mümkün olmuştur, böylece açıldığında kalıcılık hedefine ulaşacaktır.
+Önceki Sandbox kaçışından sonra, Microsoft `~/Library/LaunchAgents` içine dosya yazma seçeneğini devre dışı bıraktı. Ancak, bir **zip dosyasını Login Item olarak koyarsanız**, `Archive Utility` sadece mevcut konumda **açacaktır**. Bu nedenle, varsayılan olarak `~/Library` içindeki `LaunchAgents` klasörü oluşturulmadığı için, **`LaunchAgents/~$escape.plist`** içindeki bir plist'i **zipleyip** **`~/Library`** içine yerleştirmek mümkün oldu, böylece açıldığında kalıcılık hedefine ulaşacaktır.
 
-[**Orijinal rapora buradan**](https://objective-see.org/blog/blog\_0x4B.html) bakın.
+[**orijinal raporu buradan kontrol edin**](https://objective-see.org/blog/blog\_0x4B.html).
 
-### Word Sandbox Geçişi Login Öğeleri ve .zshenv ile
+### Word Sandbox bypass via Login Items and .zshenv
 
-(İlk kaçıştan hatırlayın, Word, `~$` ile başlayan keyfi dosyalar yazabilir).
+(İlk kaçıştan hatırlayın, Word `~$` ile başlayan rastgele dosyalar yazabilir).
 
-Ancak, önceki teknik bir kısıtlamaya sahipti, eğer **`~/Library/LaunchAgents`** dizini başka bir yazılım tarafından oluşturulduysa başarısız olacaktı. Bu nedenle, bunun için farklı bir Login Öğeleri zinciri keşfedildi.
+Ancak, önceki teknik bir sınırlamaya sahipti; eğer **`~/Library/LaunchAgents`** klasörü başka bir yazılım tarafından oluşturulmuşsa, başarısız oluyordu. Bu nedenle, bunun için farklı bir Login Items zinciri keşfedildi.
 
-Saldırgan, yürütülecek yükü içeren **`.bash_profile`** ve **`.zshenv`** dosyalarını oluşturabilir ve ardından bunları zipleyebilir ve zip dosyasını kurbanın kullanıcı klasörüne **`~/~$escape.zip`** yazabilir.
+Bir saldırgan, çalıştırılacak yüklemi içeren **`.bash_profile`** ve **`.zshenv`** dosyalarını oluşturabilir ve ardından bunları zipleyip **kurbanın** kullanıcı klasörüne yazabilirdi: **`~/~$escape.zip`**.
 
-Daha sonra, zip dosyasını **Login Öğeleri'ne** ve ardından **`Terminal`** uygulamasına ekleyin. Kullanıcı yeniden oturum açtığında, zip dosyası kullanıcının dosyasına sıkıştırılmadan açılacak ve **`.bash_profile`** ve **`.zshenv`** üzerine yazacak ve bu nedenle terminal bu dosyalardan birini yürütecektir (bash veya zsh kullanılıp kullanılmadığına bağlı olarak).
+Sonra, zip dosyasını **Login Items**'a ekleyip ardından **`Terminal`** uygulamasını ekleyin. Kullanıcı tekrar giriş yaptığında, zip dosyası kullanıcı dosyasında açılacak, **`.bash_profile`** ve **`.zshenv`** dosyalarını üzerine yazacak ve dolayısıyla terminal bu dosyalardan birini çalıştıracaktır (bash veya zsh kullanılıp kullanılmadığına bağlı olarak).
 
-[**Orijinal rapora buradan**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) bakın.
+[**orijinal raporu buradan kontrol edin**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
 
-### Word Sandbox Geçişi Open ve env değişkenleri ile
+### Word Sandbox Bypass with Open and env variables
 
-Sandbox süreçlerinden, diğer süreçleri **`open`** yardımıyla çağırmak hala mümkündür. Dahası, bu süreçler kendi Sandbox'larında çalışacaktır.
+Sandboxlı süreçlerden, diğer süreçleri **`open`** aracıyla çağırmak hala mümkündür. Dahası, bu süreçler **kendi sandbox'larında** çalışacaktır.
 
-`open` yardımcı programının, **belirli env** değişkenleriyle bir uygulamayı çalıştırmak için **`--env`** seçeneğine sahip olduğu keşfedildi. Bu nedenle, Sandbox'ın **içinde** bir klasörün içine **`.zshenv` dosyası** oluşturmak ve `open`'ı kullanarak `--env` ile **`HOME` değişkenini** o klasöre ayarlamak ve bu `Terminal` uygulamasını açmak mümkün oldu, bu da `.zshenv` dosyasını yürütecektir (bir nedenle değişken `__OSINSTALL_ENVIROMENT`'in ayarlanması gerekiyordu).
+Open aracının **belirli env** değişkenleri ile bir uygulama çalıştırmak için **`--env`** seçeneğine sahip olduğu keşfedildi. Bu nedenle, **sandbox** içinde bir klasör içinde **`.zshenv` dosyası** oluşturmak ve `--env` ile `HOME` değişkenini o klasöre ayarlayarak `Terminal` uygulamasını açmak mümkün oldu; bu, `.zshenv` dosyasını çalıştıracaktır (bir nedenle `__OSINSTALL_ENVIROMENT` değişkenini de ayarlamak gerekiyordu).
 
-[**Orijinal rapora buradan**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/) bakın.
+[**orijinal raporu buradan kontrol edin**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
 
-### Word Sandbox Geçişi Open ve stdin ile
+### Word Sandbox Bypass with Open and stdin
 
-**`open`** yardımcı programı ayrıca **`--stdin`** parametresini de desteklemektedir (ve önceki geçişten sonra `--env` kullanmak artık mümkün değildi).
+**`open`** aracı ayrıca **`--stdin`** parametresini destekliyordu (ve önceki kaçıştan sonra `--env` kullanmak artık mümkün değildi).
 
-Mesele şu ki, **`python`** Apple tarafından imzalanmış olsa bile, **`karantina`** özniteliğine sahip bir betiği **çalıştırmaz**. Bununla birlikte, stdin'den bir betik geçirilebildiğinden, karantinaya alınıp alınmadığı kontrol edilmez:&#x20;
+Şu durum var ki, **`python`** Apple tarafından imzalanmış olsa da, **`quarantine`** niteliğine sahip bir betiği **çalıştırmaz**. Ancak, stdin'den bir betik geçirebilmek mümkündü, böylece karantinada olup olmadığını kontrol etmeyecekti: 
 
-1. Keyfi Python komutları içeren bir **`~$exploit.py`** dosyası bırakın.
-2. _open_ **`–stdin='~$exploit.py' -a Python`** komutunu çalıştırın, bu da Python uygulamasını bıraktığımız dosya ile standart girişi olarak çalıştırır. Python kodumuzu mutlu bir şekilde çalıştırır ve _launchd_'nin bir alt süreci olduğu için Word'ün sandbox kurallarına bağlı değildir.
+1. Rastgele Python komutları içeren bir **`~$exploit.py`** dosyası bırakın.
+2. _open_ **`–stdin='~$exploit.py' -a Python`** komutunu çalıştırın; bu, Python uygulamasını standart girdi olarak bıraktığımız dosya ile çalıştırır. Python, kodumuzu memnuniyetle çalıştırır ve çünkü bu, _launchd_'nin bir çocuk süreci olduğundan, Word'ün sandbox kurallarına bağlı değildir.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Şirketinizi HackTricks'te **tanıtmak** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS
+</details>
+{% endhint %}

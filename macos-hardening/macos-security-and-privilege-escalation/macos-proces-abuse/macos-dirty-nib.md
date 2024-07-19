@@ -1,38 +1,39 @@
-# macOS Kirli NIB
+# macOS Dirty NIB
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan ileri seviyeye öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **pull request** göndererek paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Teknik hakkında daha fazla ayrıntı için orijinal yayına bakın: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** İşte bir özet:
+**Tekniğin detayları için orijinal gönderiyi kontrol edin: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** İşte bir özet:
 
-NIB dosyaları, Apple'ın geliştirme ekosisteminin bir parçası olarak uygulamalardaki **UI öğelerini** ve etkileşimlerini tanımlamak için kullanılır. Pencereler ve düğmeler gibi seri nesneleri içerir ve çalışma zamanında yüklenir. Apple, NIB dosyalarının devam eden kullanımına rağmen, daha kapsamlı bir UI akış görselleştirmesi için Artık Storyboard'ları önermektedir.
+NIB dosyaları, Apple'ın geliştirme ekosisteminin bir parçası olarak, uygulamalardaki **UI öğelerini** ve etkileşimlerini tanımlamak için tasarlanmıştır. Pencereler ve düğmeler gibi serileştirilmiş nesneleri kapsar ve çalışma zamanında yüklenir. Sürekli kullanımlarına rağmen, Apple artık daha kapsamlı UI akış görselleştirmesi için Storyboard'ları önermektedir.
 
-### NIB Dosyalarıyla İlgili Güvenlik Endişeleri
-NIB dosyalarının bir güvenlik riski olabileceğini unutmamak önemlidir. Bunlar, **keyfi komutları** yürütebilir ve bir uygulamadaki NIB dosyalarının değiştirilmesi, Gatekeeper'ın uygulamayı yürütmesini engellemez, bu da ciddi bir tehdit oluşturur.
+### NIB Dosyaları ile İlgili Güvenlik Endişeleri
+**NIB dosyalarının bir güvenlik riski olabileceğini** belirtmek önemlidir. **Rastgele komutlar çalıştırma** potansiyeline sahiptirler ve bir uygulama içindeki NIB dosyalarındaki değişiklikler, Gatekeeper'ın uygulamayı çalıştırmasını engellemez, bu da önemli bir tehdit oluşturur.
 
-### Kirli NIB Enjeksiyon Süreci
-#### Bir NIB Dosyası Oluşturma ve Ayarlama
-1. **Başlangıç Ayarları**:
+### Dirty NIB Enjeksiyon Süreci
+#### NIB Dosyası Oluşturma ve Ayarlama
+1. **İlk Kurulum**:
 - XCode kullanarak yeni bir NIB dosyası oluşturun.
-- Arayüze bir Nesne ekleyin ve sınıfını `NSAppleScript` olarak ayarlayın.
-- Başlangıç `source` özelliğini Kullanıcı Tanımlı Çalışma Zamanı Öznitelikleri aracılığıyla yapılandırın.
+- Arayüze bir Nesne ekleyin, sınıfını `NSAppleScript` olarak ayarlayın.
+- Kullanıcı Tanımlı Çalışma Zamanı Özellikleri aracılığıyla ilk `source` özelliğini yapılandırın.
 
-2. **Kod Yürütme Aracı**:
-- Ayarlar, AppleScript'in isteğe bağlı olarak çalıştırılmasını sağlar.
-- `Apple Script` nesnesini etkinleştirmek için bir düğme entegre edin ve özellikle `executeAndReturnError:` seçicisini tetikleyin.
+2. **Kod Çalıştırma Aleti**:
+- Kurulum, AppleScript'in talep üzerine çalıştırılmasını sağlar.
+- `Apple Script` nesnesini etkinleştirmek için bir düğme ekleyin, özellikle `executeAndReturnError:` seçicisini tetikleyin.
 
-3. **Test**:
+3. **Test Etme**:
 - Test amaçlı basit bir Apple Script:
 ```bash
 set theDialogText to "PWND"
@@ -41,31 +42,31 @@ display dialog theDialogText
 - XCode hata ayıklayıcısında çalıştırarak ve düğmeye tıklayarak test edin.
 
 #### Bir Uygulamayı Hedefleme (Örnek: Pages)
-1. **Hazelik**:
+1. **Hazırlık**:
 - Hedef uygulamayı (örneğin, Pages) ayrı bir dizine (örneğin, `/tmp/`) kopyalayın.
-- Gatekeeper sorunlarını atlamak ve önbelleğe almak için uygulamayı başlatın.
+- Gatekeeper sorunlarını aşmak ve önbelleğe almak için uygulamayı başlatın.
 
 2. **NIB Dosyasını Üzerine Yazma**:
-- Varolan bir NIB dosyasını (örneğin, About Panel NIB) oluşturulan DirtyNIB dosyasıyla değiştirin.
+- Mevcut bir NIB dosyasını (örneğin, Hakkında Panel NIB) oluşturulan DirtyNIB dosyasıyla değiştirin.
 
-3. **Yürütme**:
-- Uygulamayla etkileşime geçerek (örneğin, `About` menü öğesini seçerek) yürütmeyi tetikleyin.
+3. **Çalıştırma**:
+- Uygulama ile etkileşimde bulunarak çalıştırmayı tetikleyin (örneğin, `Hakkında` menü öğesini seçerek).
 
-#### Kanıt: Kullanıcı Verilerine Erişim
-- AppleScript'i değiştirerek, kullanıcının izni olmaksızın fotoğraflar gibi kullanıcı verilerine erişebilir ve çıkarabilirsiniz.
+#### Kavramsal Kanıt: Kullanıcı Verilerine Erişim
+- Kullanıcı izni olmadan fotoğraflar gibi kullanıcı verilerine erişmek ve çıkarmak için AppleScript'i değiştirin.
 
-### Örnek Kod: Zararlı .xib Dosyası
-- Keyfi kod yürütme gösteren [**zararlı bir .xib dosyasının örneğine**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) erişin ve inceleyin.
+### Kod Örneği: Kötü Amaçlı .xib Dosyası
+- Rastgele kod çalıştırmayı gösteren bir [**kötü amaçlı .xib dosyası örneği**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) erişin ve inceleyin.
 
-### Başlatma Kısıtlamalarıyla İlgilenme
-- Başlatma Kısıtlamaları, beklenmeyen konumlardan (örneğin, `/tmp`) uygulama yürütmesini engeller.
-- Başlatma Kısıtlamaları tarafından korunmayan uygulamaları belirlemek ve NIB dosyası enjeksiyonu için hedef almak mümkündür.
+### Başlatma Kısıtlamalarını Ele Alma
+- Başlatma Kısıtlamaları, uygulama çalıştırmayı beklenmedik yerlerden (örneğin, `/tmp`) engeller.
+- Başlatma Kısıtlamaları ile korunmayan uygulamaları tanımlamak ve NIB dosyası enjeksiyonu için hedeflemek mümkündür.
 
-### Ek macOS Korumaları
-macOS Sonoma'dan itibaren, App paketleri içindeki değişiklikler kısıtlanmıştır. Ancak, önceki yöntemler şunları içerir:
-1. Uygulamayı farklı bir konuma (örneğin, `/tmp/`) kopyalama.
-2. Uygulama paketi içindeki dizinleri yeniden adlandırarak başlangıç korumalarını atlatma.
-3. Uygulamayı Gatekeeper ile kaydetmek için çalıştırdıktan sonra, uygulama paketini (örneğin, MainMenu.nib'i Dirty.nib ile değiştirme) değiştirme.
-4. Dizinleri yeniden adlandırma ve enjekte edilen NIB dosyasını yürütmek için uygulamayı yeniden çalıştırma.
+### Ek macOS Koruma Önlemleri
+macOS Sonoma'dan itibaren, Uygulama paketleri içindeki değişiklikler kısıtlanmıştır. Ancak, önceki yöntemler şunları içeriyordu:
+1. Uygulamayı farklı bir konuma (örneğin, `/tmp/`) kopyalamak.
+2. İlk korumaları aşmak için uygulama paketindeki dizinleri yeniden adlandırmak.
+3. Uygulamayı çalıştırarak Gatekeeper ile kaydolduktan sonra, uygulama paketini değiştirmek (örneğin, MainMenu.nib'i Dirty.nib ile değiştirmek).
+4. Dizinleri geri yeniden adlandırmak ve enjeksiyon yapılan NIB dosyasını çalıştırmak için uygulamayı yeniden çalıştırmak.
 
-**Not**: Son macOS güncellemeleri, Gatekeeper önbelleğinde dosya değişikliklerini engelleyerek bu saldırıyı etkisiz hale getirmiştir.
+**Not**: Son macOS güncellemeleri, Gatekeeper önbelleklemesinden sonra uygulama paketleri içinde dosya değişikliklerini engelleyerek bu istismarı etkisiz hale getirmiştir.
