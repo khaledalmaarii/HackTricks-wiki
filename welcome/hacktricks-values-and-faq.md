@@ -1,33 +1,34 @@
 # HackTricks Values & FAQ
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## HackTricks Values
 
 {% hint style="success" %}
-这些是**HackTricks项目的价值观**：
+这些是 **HackTricks 项目的价值观**：
 
-* 为**所有**互联网用户提供**免费**的**教育性黑客**资源。
-* 黑客是关于学习的，学习应该尽可能免费。
-* 本书的目的是作为全面的**教育资源**。
-* **存储**社区发布的精彩**黑客**技术，给予**原作者**所有**荣誉**。
-* **我们不想要其他人的荣誉**，我们只想为每个人存储酷炫的技巧。
-* 我们还在HackTricks中撰写**我们自己的研究**。
-* 在几种情况下，我们将在HackTricks中仅写下技术的重要部分的摘要，并鼓励读者访问原始帖子以获取更多详细信息。
-* **组织**书中的所有黑客技术，使其**更易访问**
-* HackTricks团队已经免费投入了数千小时**仅仅为了组织内容**，以便人们可以**更快地学习**
+* 为 **所有** 互联网用户提供 **免费** 的 **教育黑客** 资源。
+* 黑客是关于学习的，而学习应该尽可能免费。
+* 本书的目的是作为一个全面的 **教育资源**。
+* **存储** 社区发布的精彩 **黑客** 技巧，并给予 **原作者** 所有的 **荣誉**。
+* **我们不想要其他人的荣誉**，我们只想为大家存储酷炫的技巧。
+* 我们还在 HackTricks 中撰写 **我们自己的研究**。
+* 在某些情况下，我们将仅在 HackTricks 中撰写 **技术的重要部分的摘要**，并 **鼓励读者访问原始帖子** 以获取更多细节。
+* **组织** 书中的所有黑客技术，使其 **更易获取**。
+* HackTricks 团队投入了数千小时的时间，**仅仅是为了组织内容**，以便人们可以 **更快学习**。
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
@@ -38,33 +39,33 @@
 * **非常感谢这些资源，我该如何感谢你们？**
 {% endhint %}
 
-您可以在推特上公开感谢HackTricks团队，提到[**@hacktricks\_live**](https://twitter.com/hacktricks\_live)为所有人公开整理这些资源。\
-如果您特别感激，还可以[**在这里赞助项目**](https://github.com/sponsors/carlospolop)。\
-不要忘记**给Github项目点个星！**（找到下面的链接）。
+您可以在推特上公开感谢 HackTricks 团队将所有这些资源公开整理，提及 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)。\
+如果您特别感激，您也可以 [**在这里赞助该项目**](https://github.com/sponsors/carlospolop)。\
+并且不要忘记 **在 GitHub 项目中给个星星！**（在下面找到链接）。
 
 {% hint style="success" %}
-* **我如何为项目做贡献？**
+* **我该如何为该项目做贡献？**
 {% endhint %}
 
-您可以与社区分享新的技巧和窍门，或修复您在书籍中发现的错误，通过向相应的Github页面发送**Pull Request**来做出贡献：
+您可以 **与社区分享新的技巧和窍门或修复您在书中发现的错误**，通过向相应的 GitHub 页面发送 **Pull Request**：
 
 * [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
 * [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
 
-不要忘记**给Github项目点个星！**
+不要忘记 **在 GitHub 项目中给个星星！**
 
 {% hint style="success" %}
-* **我可以复制HackTricks的一些内容放到我的博客中吗？**
+* **我可以复制 HackTricks 的一些内容并放到我的博客吗？**
 {% endhint %}
 
-可以，但**不要忘记提及具体的链接**内容来源。
+可以，但 **不要忘记提及具体的链接**，内容是从哪里获取的。
 
 {% hint style="success" %}
-* **我如何引用HackTricks的某一页？**
+* **我该如何引用 HackTricks 的页面？**
 {% endhint %}
 
-只要出现您提取信息的页面的链接即可。\
-如果您需要bibtex，可以使用类似以下的内容：
+只要您引用的页面的 **链接** 出现即可。\
+如果您需要 bibtex，您可以使用类似的格式：
 ```latex
 @misc{hacktricks-bibtexing,
 author = {"HackTricks Team" or the Authors name of the specific page/trick},
@@ -74,96 +75,97 @@ url = {\url{https://book.hacktricks.xyz/specific-page}},
 }
 ```
 {% hint style="warning" %}
-* **我可以在我的博客上复制所有HackTricks吗？**
+* **我可以在我的博客中复制所有HackTricks吗？**
 {% endhint %}
 
-**我宁愿不这样做**。因为所有内容已经在官方的HackTricks书籍中免费公开提供，这样做**对任何人都没有好处**。
+**我不建议这样做**。这对**任何人都没有好处**，因为所有的**内容已经在官方HackTricks书籍中免费公开**。
 
-如果你担心内容会消失，只需在Github上fork它或下载它，就像我说的，它已经是免费的了。
+如果你担心它会消失，可以在Github上fork它或下载它，正如我所说的，它已经是免费的。
 
 {% hint style="warning" %}
-* **为什么你们有赞助商？HackTricks书籍是为了商业目的吗？**
+* **你为什么有赞助商？HackTricks书籍是商业用途吗？**
 {% endhint %}
 
-**HackTricks**的第一个**价值观**是为**全世界提供免费**的黑客教育资源。HackTricks团队已经**投入了数千小时**来提供这些内容，再次强调，是**免费**的。
+第一个**HackTricks**的**价值**是为**全世界**提供**免费的**黑客教育资源。HackTricks团队已经**投入了数千小时**来提供这些内容，再次强调，都是**免费的**。
 
-如果你认为HackTricks书籍是为了**商业目的**而制作的，那你是**完全错误**的。
+如果你认为HackTricks书籍是为了**商业目的**而制作的，你是**完全错误的**。
 
-我们有赞助商是因为，即使所有内容都是免费的，我们希望给予社区欣赏我们的工作的可能性。因此，我们为人们提供通过[**Github赞助**](https://github.com/sponsors/carlospolop)向HackTricks捐款的选项，以及**相关的网络安全公司**赞助HackTricks并在书中**放置一些广告**，这些广告总是放在**显眼的位置**，但**不会干扰学习**过程，如果有人专注于内容。
+我们有赞助商，因为即使所有内容都是免费的，我们也希望**给社区提供欣赏我们工作的可能性**，如果他们愿意。因此，我们提供人们通过[**Github赞助商**](https://github.com/sponsors/carlospolop)捐赠给HackTricks的选项，以及**相关的网络安全公司**赞助HackTricks并在书中**放置一些广告**，这些**广告**总是放在不会干扰学习过程的地方，以便让人们在专注于内容时仍能看到。
 
-你不会在HackTricks中发现像其他博客那样充斥着讨厌的广告，而这些博客的内容远不如HackTricks丰富，因为HackTricks不是为了商业目的而制作的。
+你不会发现HackTricks充满了烦人的广告，就像其他内容远不如HackTricks的博客一样，因为HackTricks不是为了商业目的而制作的。
 
 {% hint style="danger" %}
-* **如果某个HackTricks页面是基于我的博客文章但没有引用，我该怎么办？**
+* **如果某个HackTricks页面基于我的博客文章但没有引用，我该怎么办？**
 {% endhint %}
 
-**非常抱歉。这不应该发生**。请通过Github问题、Twitter、Discord等方式告诉我们，提供包含内容的HackTricks页面链接以及你的博客链接，**我们将立即检查并添加引用**。
+**我们非常抱歉。这不应该发生**。请通过Github问题、Twitter、Discord等告知我们HackTricks页面的链接和你的博客链接，**我们会尽快检查并添加引用**。
 
 {% hint style="danger" %}
-* **如果HackTricks中有来自我的博客的内容，而我不希望它出现在那里，我该怎么办？**
+* **如果我的博客内容出现在HackTricks中，我不想要它在那里，我该怎么办？**
 {% endhint %}
 
-请注意，在HackTricks中有指向你页面的链接：
+请注意，在HackTricks中有链接到你的页面：
 
-* 提高你的**SEO**
-* 内容被**翻译成15种以上的语言**，使更多人可以访问这些内容
-* **HackTricks鼓励**人们**查看你的页面**（有几个人告诉我们，因为他们的某个页面出现在HackTricks中，他们收到了更多访问量）
+* 改善你的**SEO**
+* 内容被**翻译成15种以上的语言**，使更多人能够访问这些内容
+* **HackTricks鼓励**人们**查看你的页面**（有几个人提到，自从他们的某个页面出现在HackTricks后，他们的访问量增加了）
 
-但是，如果你仍然希望从HackTricks中删除你博客的内容，请告诉我们，我们将**绝对删除指向你博客的每个链接**，以及任何基于它的内容。
+然而，如果你仍然希望从HackTricks中删除你博客的内容，请告诉我们，我们一定会**删除所有指向你博客的链接**，以及任何基于它的内容。
 
 {% hint style="danger" %}
-* **如果我在HackTricks中发现了复制粘贴的内容，我该怎么办？**
+* **如果我在HackTricks中发现抄袭的内容，我该怎么办？**
 {% endhint %}
 
-我们始终**给予原作者所有的功劳**。如果你发现有未引用原始来源的复制粘贴内容的页面，请告诉我们，我们将**删除它**，**在文本之前添加链接**，或者**重写它并添加链接**。
+我们始终**给予原作者所有的信用**。如果你发现某个页面有抄袭的内容而没有引用原始来源，请告诉我们，我们将**删除它**、**在文本前添加链接**，或**重写并添加链接**。
 
-## 许可证
+## LICENSE
 
-版权所有，除非另有说明。
+Copyright © 保留所有权利，除非另有说明。
 
 #### 许可证摘要：
 
-* 归因：您可以自由：
-* 分享 — 在任何媒体或格式中复制和重新分发材料。
-* 调整 — 混合、转换和构建基于该材料的作品。
+* 署名：你可以自由：
+* 分享 — 以任何媒介或格式复制和重新分发材料。
+* 改编 — 混合、转换和基于材料进行创作。
 
 #### 附加条款：
 
-* 第三方内容：本博客/书籍的某些部分可能包含来自其他来源的内容，例如其他博客或出版物的摘录。使用此类内容是根据公平使用原则或在获得各自版权持有者的明确许可的情况下进行的。有关第三方内容的特定许可信息，请参考原始来源。
-* 作者身份：由HackTricks撰写的原始内容受本许可证条款约束。在分享或调整此作品时，鼓励您将此工作归因于作者。
+* 第三方内容：本博客/书籍的某些部分可能包含来自其他来源的内容，例如其他博客或出版物的摘录。使用此类内容是基于合理使用原则或获得相应版权持有者的明确许可。有关第三方内容的具体许可信息，请参阅原始来源。
+* 作者身份：HackTricks创作的原始内容受此许可证条款的约束。鼓励在分享或改编此作品时注明作者。
 
-#### 例外：
+#### 免责条款：
 
-* 商业用途：有关商业使用此内容的查询，请与我联系。
+* 商业用途：有关此内容的商业用途的询问，请与我联系。
 
-该许可证不授予与内容相关的任何商标或品牌权利。本博客/书籍中出现的所有商标和品牌都归其各自所有者所有。
+本许可证不授予与内容相关的任何商标或品牌权利。本博客/书籍中出现的所有商标和品牌均为其各自所有者的财产。
 
-**通过访问或使用HackTricks，您同意遵守本许可证的条款。如果您不同意这些条款，请不要访问本网站。**
+**通过访问或使用HackTricks，你同意遵守本许可证的条款。如果你不同意这些条款，请不要访问本网站。**
 
 ## **免责声明**
 
 {% hint style="danger" %}
-本书《HackTricks》仅供教育和信息目的。本书中的内容基于“原样”提供，作者和出版商对本书中包含的信息、产品、服务或相关图形的完整性、准确性、可靠性、适用性或可用性不作任何明示或暗示的陈述或保证。因此，您对此类信息的任何依赖完全是自担风险的。
+本书《HackTricks》仅用于教育和信息目的。本书中的内容以“按现状”提供，作者和出版商不对本书中包含的信息、产品、服务或相关图形的完整性、准确性、可靠性、适用性或可用性作出任何明示或暗示的陈述或保证。因此，你对这些信息的任何依赖均由你自行承担风险。
 
-作者和出版商在任何情况下均不对任何损失或损害承担责任，包括但不限于间接或后果性的损失或损害，或因使用本书而导致的任何数据或利润损失或损害。
+作者和出版商在任何情况下均不对任何损失或损害负责，包括但不限于间接或后果性损失或损害，或因使用本书而导致的数据或利润损失的任何损失或损害。
 
-此外，本书中描述的技术和提示仅供教育和信息目的，不应用于任何非法或恶意活动。作者和出版商不支持或支持任何非法或不道德的活动，任何使用本书中包含的信息都由用户自行承担风险和决定。
+此外，本书中描述的技术和技巧仅供教育和信息目的，不应用于任何非法或恶意活动。作者和出版商不支持或纵容任何非法或不道德的活动，使用本书中包含的信息的任何行为均由用户自行承担风险和判断。
 
-用户应对基于本书中包含的信息采取的任何行动负全部责任，并在尝试实施本书中描述的任何技术或提示时，应始终寻求专业建议和帮助。
+用户对基于本书中包含的信息采取的任何行动负全部责任，并应在尝试实施本书中描述的任何技术或技巧时始终寻求专业建议和帮助。
 
-通过使用本书，用户同意免除作者和出版商对因使用本书或其中包含的任何信息而导致的任何损害、损失或伤害承担的任何和所有责任和责任。
+通过使用本书，用户同意解除作者和出版商对因使用本书或其中任何信息而可能导致的任何损害、损失或伤害的责任和责任。
 {% endhint %}
+
+{% hint style="success" %}
+学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧**。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR分享黑客技巧。
 
 </details>
+{% endhint %}

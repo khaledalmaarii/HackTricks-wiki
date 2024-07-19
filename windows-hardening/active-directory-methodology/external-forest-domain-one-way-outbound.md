@@ -1,20 +1,21 @@
 # 外部森林域 - 单向（出站）
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
-在这种情况下，**您的域**正在将一些**特权**委托给来自**不同域**的主体。
+在此场景中 **您的域** 正在 **信任** 来自 **不同域** 的某些 **权限**。
 
 ## 枚举
 
@@ -40,58 +41,59 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-## 信任账户攻击
+## Trust Account Attack
 
-当两个域之间建立信任关系时，即域 **A** 和域 **B** 之间建立信任关系时存在安全漏洞，其中域 **B** 将其信任扩展到域 **A**。在这种设置中，在域 **A** 中为域 **B** 创建了一个特殊账户，该账户在两个域之间的身份验证过程中起着至关重要的作用。与域 **B** 关联的这个账户用于加密跨域访问服务的票证。
+当在两个域之间建立信任关系时，存在安全漏洞，这里将其称为域 **A** 和域 **B**，其中域 **B** 将其信任扩展到域 **A**。在此设置中，在域 **A** 中为域 **B** 创建了一个特殊帐户，该帐户在两个域之间的身份验证过程中发挥着关键作用。与域 **B** 关联的此帐户用于加密跨域访问服务的票证。
 
-在这里需要理解的关键方面是，可以使用命令行工具从域 **A** 中的域控制器中提取此特殊账户的密码和哈希值。执行此操作的命令为：
+这里需要理解的关键点是，可以使用命令行工具从域 **A** 的域控制器中提取此特殊帐户的密码和哈希。执行此操作的命令是：
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-这种提取是可能的，因为带有名称后面的 **$** 的帐户是活动的，并且属于域 **A** 的 "Domain Users" 组，从而继承与该组关联的权限。这允许个人使用该帐户的凭据对域 **A** 进行身份验证。
+此提取之所以可能，是因为该账户名称后带有 **$**，处于活动状态，并且属于域 **A** 的“域用户”组，从而继承了与该组相关的权限。这使得个人可以使用该账户的凭据对域 **A** 进行身份验证。
 
-**警告：** 可以利用这种情况在域 **A** 中作为用户获得立足点，尽管权限有限。但是，这种访问权限足以在域 **A** 上执行枚举。
+**警告：** 利用这种情况以用户身份在域 **A** 中获得立足点是可行的，尽管权限有限。然而，这种访问足以对域 **A** 进行枚举。
 
-在`ext.local`是信任域，`root.local`是受信任域的情况下，将在`root.local`中创建一个名为`EXT$`的用户帐户。通过特定工具，可以转储Kerberos信任密钥，揭示`root.local`中`EXT$`的凭据。实现此目的的命令是：
+在 `ext.local` 是信任域而 `root.local` 是被信任域的场景中，将在 `root.local` 中创建一个名为 `EXT$` 的用户账户。通过特定工具，可以转储 Kerberos 信任密钥，从而揭示 `root.local` 中 `EXT$` 的凭据。实现此目的的命令是：
 ```bash
 lsadump::trust /patch
 ```
-接下来，可以使用提取的RC4密钥通过另一个工具命令进行身份验证，身份验证为`root.local\EXT$`，在`root.local`中。
+在此之后，可以使用提取的 RC4 密钥通过另一个工具命令以 `root.local\EXT$` 身份在 `root.local` 中进行身份验证：
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-这个认证步骤打开了在 `root.local` 内枚举甚至利用服务的可能性，比如执行 Kerberoast 攻击来提取服务账户凭据：
+此身份验证步骤打开了枚举甚至利用 `root.local` 中服务的可能性，例如执行 Kerberoast 攻击以提取服务帐户凭据，使用：
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### 获取明文信任密码
+### 收集明文信任密码
 
-在先前的流程中，使用了信任哈希而不是**明文密码**（也被**mimikatz转储**）。
+在之前的流程中，使用了信任哈希而不是**明文密码**（该密码也被**mimikatz**提取）。
 
-可以通过将mimikatz的\[ CLEAR ]输出从十六进制转换并移除空字节‘\x00’来获取明文密码：
+明文密码可以通过将mimikatz的\[ CLEAR ]输出从十六进制转换并去除空字节‘\x00’来获得：
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-有时，在创建信任关系时，用户必须输入信任的密码。在这个演示中，关键是原始的信任密码，因此是可读的。随着密钥的循环（30天），明文将不再是可读的，但在技术上仍然可用。
+有时在创建信任关系时，用户必须输入信任的密码。在这个演示中，密钥是原始信任密码，因此是人类可读的。随着密钥的循环（30天），明文将不再是人类可读的，但在技术上仍然可以使用。
 
-明文密码可用于以信任帐户的身份执行常规身份验证，这是使用信任帐户的Kerberos密钥请求TGT的替代方法。在这里，从ext.local查询root.local的Domain Admins成员：
+明文密码可以用作信任账户进行常规身份验证，作为使用信任账户的Kerberos密钥请求TGT的替代方案。在这里，从ext.local查询root.local的Domain Admins成员：
 
 ![](<../../.gitbook/assets/image (792).png>)
 
-## 参考
+## 参考文献
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
+{% hint style="success" %}
+学习与实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>
+{% endhint %}

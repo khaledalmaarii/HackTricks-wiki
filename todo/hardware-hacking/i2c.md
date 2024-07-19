@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
-## 总线海盗
+## Bus Pirate
 
-要测试总线海盗是否工作正常，请将+5V连接到VPU，将3.3V连接到ADC，然后访问总线海盗（例如使用Tera Term），并使用命令`~`：
+要测试 Bus Pirate 是否正常工作，将 +5V 连接到 VPU，将 3.3V 连接到 ADC，然后访问 Bus Pirate（例如使用 Tera Term），并使用命令 `~`：
 ```bash
 # Use command
 HiZ>~
@@ -55,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-正如您在上一个命令行中看到的，它显示找到了 0 个错误。在购买设备或刷新固件后，了解它是否正常工作非常有用。
+如您在前面的命令行中看到的，它显示找到0个错误。这在购买后或刷新固件后确认其正常工作时非常有用。
 
-要连接到总线海盗，您可以按照文档操作：
+要连接到bus pirate，您可以参考文档：
 
 ![](<../../.gitbook/assets/image (484).png>)
 
-在这种情况下，我将连接到一个 EPROM：ATMEL901 24C256 PU27：
+在这种情况下，我将连接到一个EPROM：ATMEL901 24C256 PU27：
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-要与总线海盗通信，我使用了 Tera Term 连接到海盗总线的 COM 端口，设置为 115200 的串行端口速度。\
-在以下通信中，您可以找到如何准备总线海盗以进行 I2C 通信，以及如何从存储器中写入和读取数据（注释使用“#”表示，通信中不包含这部分内容）：
+与bus pirate通信时，我使用Tera Term连接到pirate bus的COM端口，设置为Setup --> Serial Port --> Speed为115200。\
+在以下通信中，您可以找到如何准备bus pirate以进行I2C通信，以及如何从内存中写入和读取（注释部分使用"#"出现，不要期待在通信中看到那部分）：
 ```bash
 # Check communication with buspirate
 i
@@ -167,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-在这种情况下，我们将嗅探Arduino和之前的EPROM之间的I2C通信，您只需要让这两个设备进行通信，然后将总线海盗连接到SCL、SDA和GND引脚：
+在这个场景中，我们将嗅探 Arduino 和之前的 EPROM 之间的 I2C 通信，您只需将两个设备连接起来，然后将总线海盗连接到 SCL、SDA 和 GND 引脚：
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品，称为[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

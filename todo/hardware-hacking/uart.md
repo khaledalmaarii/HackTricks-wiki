@@ -1,26 +1,27 @@
 # UART
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-- 如果您想看到您的**公司在HackTricks中被广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
+[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
 
-WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫持和勒索软件攻击。
+WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
 
 您可以访问他们的网站并免费尝试他们的引擎：
 
@@ -30,76 +31,76 @@ WhiteIntel的主要目标是打击由窃取信息恶意软件导致的账户劫�
 
 ## 基本信息
 
-UART是一种串行协议，意味着它一次传输一个比特的数据。相比之下，并行通信协议通过多个通道同时传输数据。常见的串行协议包括RS-232、I2C、SPI、CAN、Ethernet、HDMI、PCI Express和USB。
+UART 是一种串行协议，这意味着它一次传输一个比特的数据。相比之下，平行通信协议通过多个通道同时传输数据。常见的串行协议包括 RS-232、I2C、SPI、CAN、以太网、HDMI、PCI Express 和 USB。
 
-通常，当UART处于空闲状态时，线路保持高电平（逻辑1值）。然后，为了表示数据传输的开始，发送器向接收器发送起始位，在此期间信号保持低电平（逻辑0值）。接下来，发送器发送包含实际消息的五到八个数据位，然后是一个可选的奇偶校验位和一个或两个停止位（逻辑1值），具体取决于配置。奇偶校验位用于错误检查，在实践中很少见。停止位（或位）表示传输结束。
+通常，在 UART 处于空闲状态时，线路保持高电平（逻辑 1 值）。然后，为了表示数据传输的开始，发射器向接收器发送一个起始位，此时信号保持低电平（逻辑 0 值）。接下来，发射器发送五到八个数据位，包含实际消息，后面跟着一个可选的奇偶校验位和一个或两个停止位（逻辑 1 值），具体取决于配置。用于错误检查的奇偶校验位在实际中很少见。停止位（或位）表示传输结束。
 
-我们称最常见的配置为8N1：八个数据位，无奇偶校验，一个停止位。例如，如果我们想要在8N1 UART配置中发送字符C，或ASCII中的0x43，我们将发送以下位：0（起始位）；0、1、0、0、0、0、1、1（二进制0x43的值），以及0（停止位）。
+我们称最常见的配置为 8N1：八个数据位，无奇偶校验和一个停止位。例如，如果我们想在 8N1 UART 配置中发送字符 C，或 0x43 的 ASCII 码，我们将发送以下位：0（起始位）；0, 1, 0, 0, 0, 0, 1, 1（0x43 的二进制值），和 0（停止位）。
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-与UART通信的硬件工具：
+与 UART 通信的硬件工具：
 
-- USB转串口适配器
-- 带有CP2102或PL2303芯片的适配器
-- 通用工具，如：Bus Pirate、Adafruit FT232H、Shikra或Attify Badge
+* USB 转串口适配器
+* 带有 CP2102 或 PL2303 芯片的适配器
+* 多功能工具，如：Bus Pirate、Adafruit FT232H、Shikra 或 Attify Badge
 
-### 识别UART端口
+### 识别 UART 端口
 
-UART有4个端口：**TX**（发送）、**RX**（接收）、**Vcc**（电压）和**GND**（地）。您可能会在PCB上找到带有**`TX`**和**`RX`**字样的4个端口。但如果没有指示，您可能需要使用**万用表**或**逻辑分析仪**自行查找。
+UART 有 4 个端口：**TX**（发送）、**RX**（接收）、**Vcc**（电压）和 **GND**（接地）。您可能会在 PCB 上找到带有 **`TX`** 和 **`RX`** 字母的 4 个端口。但如果没有指示，您可能需要使用 **万用表** 或 **逻辑分析仪** 自行查找。
 
-使用**万用表**和设备关闭时：
+使用 **万用表** 并关闭设备电源：
 
-- 使用**连续性测试**模式来识别**GND**引脚，将后端插入地线，用红色探针测试，直到听到万用表发出声音。在PCB上可能会找到几个GND引脚，因此您可能已经找到或未找到属于UART的引脚。
-- 要识别**VCC端口**，设置**直流电压模式**并将其设置为20V电压。黑色探针接地，红色探针接引脚。打开设备电源。如果万用表测量到3.3V或5V的恒定电压，则找到了Vcc引脚。如果得到其他电压，请尝试其他端口。
-- 要识别**TX** **端口**，**直流电压模式**最高20V电压，黑色探针接地，红色探针接引脚，打开设备电源。如果发现电压在几秒钟内波动，然后稳定在Vcc值，您很可能找到了TX端口。这是因为在上电时，它会发送一些调试数据。
-- **RX端口**将是其他3个端口中最接近的一个，其电压波动最小，所有UART引脚中的总值最低。
+* 要识别 **GND** 引脚，请使用 **连续性测试** 模式，将黑色引线放入接地并用红色引线测试，直到听到万用表发出声音。PCB 上可能会找到多个 GND 引脚，因此您可能找到或未找到属于 UART 的引脚。
+* 要识别 **VCC 端口**，请设置 **直流电压模式** 并将其设置为 20 V 电压。黑色探头接地，红色探头接引脚。打开设备电源。如果万用表测量到恒定电压为 3.3 V 或 5 V，您就找到了 Vcc 引脚。如果测得其他电压，请尝试其他端口。
+* 要识别 **TX** **端口**，将 **直流电压模式** 设置为 20 V 电压，黑色探头接地，红色探头接引脚，并打开设备电源。如果您发现电压波动几秒钟后稳定在 Vcc 值，您很可能找到了 TX 端口。这是因为在开机时，它会发送一些调试数据。
+* **RX 端口** 是与其他 3 个端口最接近的，它的电压波动最低，所有 UART 引脚中整体值最低。
 
-您可能会混淆TX和RX端口，什么都不会发生，但如果混淆GND和VCC端口，可能会烧毁电路。
+您可以混淆 TX 和 RX 端口，没什么问题，但如果混淆 GND 和 VCC 端口，可能会烧毁电路。
 
-在某些目标设备中，制造商通过禁用RX或TX甚至两者都禁用来禁用UART端口。在这种情况下，追踪电路板中的连接并找到一些分支点可能会有所帮助。关于确认未检测到UART和电路断开的强烈提示是检查设备保修。如果设备已经附带了一些保修，制造商会留下一些调试接口（在本例中为UART），因此必须已经断开了UART，并且在调试时会重新连接。这些分支引脚可以通过焊接或跳线线连接。
+在某些目标设备中，制造商通过禁用 RX 或 TX 或甚至两者来禁用 UART 端口。在这种情况下，追踪电路板中的连接并找到一些断点可能会有所帮助。确认没有检测到 UART 和电路断开的一个强烈提示是检查设备保修。如果设备附带某些保修，制造商会留下某些调试接口（在这种情况下是 UART），因此，必须断开 UART，并在调试时重新连接。这些断点引脚可以通过焊接或跳线连接。
 
-### 识别UART波特率
+### 识别 UART 波特率
 
-识别正确的波特率的最简单方法是查看**TX引脚的输出并尝试读取数据**。如果收到的数据无法读取，请切换到下一个可能的波特率，直到数据可读。您可以使用USB转串口适配器或与辅助脚本配对的通用设备（如Bus Pirate）来执行此操作，例如[baudrate.py](https://github.com/devttys0/baudrate/)。最常见的波特率是9600、38400、19200、57600和115200。
+识别正确波特率的最简单方法是查看 **TX 引脚的输出并尝试读取数据**。如果您收到的数据不可读，请切换到下一个可能的波特率，直到数据变得可读。您可以使用 USB 转串口适配器或像 Bus Pirate 这样的多功能设备来做到这一点，并配合一个辅助脚本，例如 [baudrate.py](https://github.com/devttys0/baudrate/)。最常见的波特率为 9600、38400、19200、57600 和 115200。
 
 {% hint style="danger" %}
-重要提示：在此协议中，您需要将一个设备的TX连接到另一个设备的RX！
+请注意，在此协议中，您需要将一个设备的 TX 连接到另一个设备的 RX！
 {% endhint %}
 
-## CP210X UART转TTY适配器
+## CP210X UART 到 TTY 适配器
 
-CP210X芯片用于许多原型板，如NodeMCU（带有esp8266）用于串行通信。这些适配器相对便宜，可用于连接到目标的UART接口。该设备有5个引脚：5V、GND、RXD、TXD、3.3V。确保将电压连接到目标支持的电压，以避免任何损坏。最后，将适配器的RXD引脚连接到目标的TXD，将适配器的TXD引脚连接到目标的RXD。
+CP210X 芯片广泛用于许多原型板，如 NodeMCU（带 esp8266）进行串行通信。这些适配器相对便宜，可用于连接目标的 UART 接口。该设备有 5 个引脚：5V、GND、RXD、TXD、3.3V。确保连接目标支持的电压，以避免任何损坏。最后，将适配器的 RXD 引脚连接到目标的 TXD，引脚将适配器的 TXD 引脚连接到目标的 RXD。
 
-如果适配器未被检测到，请确保在主机系统中安装了CP210X驱动程序。一旦检测到并连接了适配器，可以使用picocom、minicom或screen等工具。
+如果适配器未被检测到，请确保主机系统中已安装 CP210X 驱动程序。一旦适配器被检测到并连接，可以使用 picocom、minicom 或 screen 等工具。
 
-要列出连接到Linux/MacOS系统的设备：
+要列出连接到 Linux/MacOS 系统的设备：
 ```
 ls /dev/
 ```
-要与UART接口进行基本交互，请使用以下命令：
+对于与UART接口的基本交互，请使用以下命令：
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-对于 minicom，请使用以下命令进行配置：
+对于minicom，使用以下命令进行配置：
 ```
 minicom -s
 ```
-配置`串口设置`选项中的波特率和设备名称等设置。
+配置 `Serial port setup` 选项中的波特率和设备名称。
 
-配置完成后，使用`minicom`命令启动UART控制台。
+配置完成后，使用命令 `minicom` 启动 UART 控制台。
 
-## 通过Arduino UNO R3进行UART连接（可拆卸Atmel 328p芯片板）
+## 通过 Arduino UNO R3 的 UART（可拆卸的 Atmel 328p 芯片板）
 
-如果没有UART串口到USB适配器可用，可以通过快速hack使用Arduino UNO R3。由于Arduino UNO R3通常随处可得，这可以节省大量时间。
+如果没有可用的 UART 串行到 USB 适配器，可以通过快速黑客技术使用 Arduino UNO R3。由于 Arduino UNO R3 通常随处可用，这可以节省很多时间。
 
-Arduino UNO R3板上已经内置了USB到串口适配器。要获得UART连接，只需从板上拔下Atmel 328p微控制器芯片。这个hack适用于Arduino UNO R3变种，其上没有焊接Atmel 328p芯片（采用SMD版本）。将Arduino的RX引脚（数字引脚0）连接到UART接口的TX引脚，将Arduino的TX引脚（数字引脚1）连接到UART接口的RX引脚。
+Arduino UNO R3 板上内置了 USB 到串行适配器。要获取 UART 连接，只需将 Atmel 328p 微控制器芯片从板上拔出。此黑客技术适用于 Atmel 328p 未焊接在板上的 Arduino UNO R3 变体（使用的是 SMD 版本）。将 Arduino 的 RX 引脚（数字引脚 0）连接到 UART 接口的 TX 引脚，将 Arduino 的 TX 引脚（数字引脚 1）连接到 UART 接口的 RX 引脚。
 
-最后，建议使用Arduino IDE获取串行控制台。在菜单中的`工具`部分中，选择`串行控制台`选项，并根据UART接口设置波特率。
+最后，建议使用 Arduino IDE 获取串行控制台。在菜单的 `tools` 部分，选择 `Serial Console` 选项，并根据 UART 接口设置波特率。
 
-## 怪盗船长
+## Bus Pirate
 
-在这种情况下，我们将窃取Arduino的UART通信，该通信将所有程序的打印发送到串行监视器。
+在这种情况下，我们将嗅探 Arduino 的 UART 通信，该通信将程序的所有打印信息发送到串行监视器。
 ```bash
 # Check the modes
 UART>m
@@ -171,54 +172,55 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-## 使用UART控制台转储固件
+## Dumping Firmware with UART Console
 
-UART控制台提供了在运行时环境中处理底层固件的绝佳方式。但是当UART控制台访问是只读时，可能会引入许多限制。在许多嵌入式设备中，固件存储在EEPROM中，并在具有易失性内存的处理器中执行。因此，固件保持为只读，因为制造过程中的原始固件位于EEPROM本身中，任何新文件都会由于易失性内存而丢失。因此，在处理嵌入式固件时，转储固件是一项有价值的工作。
+UART Console 提供了一种在运行时环境中与底层固件进行交互的好方法。但是，当 UART Console 访问为只读时，可能会引入许多限制。在许多嵌入式设备中，固件存储在 EEPROM 中，并在具有易失性内存的处理器中执行。因此，固件保持只读状态，因为制造时的原始固件就在 EEPROM 内部，任何新文件都可能因易失性内存而丢失。因此，在处理嵌入式固件时，转储固件是一项有价值的工作。
 
-有许多方法可以做到这一点，SPI部分涵盖了使用各种设备直接从EEPROM提取固件的方法。尽管如此，建议首先尝试使用UART转储固件，因为使用物理设备和外部交互转储固件可能存在风险。
+有很多方法可以做到这一点，SPI 部分涵盖了使用各种设备直接从 EEPROM 中提取固件的方法。尽管如此，建议首先尝试使用 UART 转储固件，因为使用物理设备和外部交互转储固件可能存在风险。
 
-从UART控制台转储固件需要首先访问引导加载程序。许多知名供应商使用uboot（通用引导加载程序）作为其引导加载程序来加载Linux。因此，访问uboot是必要的。
+从 UART Console 转储固件需要首先获取对引导加载程序的访问权限。许多流行的供应商使用 uboot（通用引导加载程序）作为其引导加载程序来加载 Linux。因此，获取对 uboot 的访问权限是必要的。
 
-要访问引导加载程序，请将UART端口连接到计算机，并使用任何串行控制台工具，并保持设备的电源断开。设置准备就绪后，按下回车键并保持按住。最后，连接设备的电源并让其启动。
+要访问引导加载程序，请将 UART 端口连接到计算机，并使用任何串行控制台工具，同时保持设备的电源断开。一旦设置完成，按下 Enter 键并保持不放。最后，连接设备的电源并让其启动。
 
-这样做将中断uboot的加载并提供一个菜单。建议了解uboot命令并使用帮助菜单列出它们。这可能是`help`命令。由于不同供应商使用不同配置，因此有必要分别了解每个配置。
+这样做将中断 uboot 的加载并提供一个菜单。建议了解 uboot 命令并使用帮助菜单列出它们。这可能是 `help` 命令。由于不同的供应商使用不同的配置，因此有必要分别理解每个配置。
 
 通常，转储固件的命令是：
 ```
 md
 ```
-which stands for "memory dump". This will dump the memory (EEPROM Content) on the screen. It is recommended to log the Serial Console output before starting the proceedure to capture the memory dump.
+这代表“内存转储”。这将把内存（EEPROM 内容）转储到屏幕上。建议在开始过程之前记录串行控制台输出，以捕获内存转储。
 
-Finally, just strip out all the unnecessary data from the log file and store the file as `filename.rom` and use binwalk to extract the contents:
+最后，只需从日志文件中剥离所有不必要的数据，并将文件存储为 `filename.rom`，然后使用 binwalk 提取内容：
 ```
 binwalk -e <filename.rom>
 ```
-这将列出根据在十六进制文件中找到的签名可能的EEPROM内容。
+这将根据在十六进制文件中找到的签名列出 EEPROM 的可能内容。
 
-尽管如此，需要注意的是，即使正在使用uboot，也不总是情况如此。如果按Enter键没有任何反应，请检查不同的键，如空格键等。如果引导加载程序被锁定且无法中断，则此方法将无效。要检查uboot是否是设备的引导加载程序，请在设备启动时检查UART控制台上的输出。在启动时可能会提到uboot。
+虽然需要注意的是，即使正在使用 uboot，它并不总是解锁的。如果 Enter 键没有任何反应，请检查其他键，如空格键等。如果引导加载程序被锁定且没有被中断，则此方法将无效。要检查 uboot 是否是设备的引导加载程序，请在设备启动时检查 UART 控制台的输出。它可能在启动时提到 uboot。
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**推动的搜索引擎，提供**免费**功能，用于检查公司或其客户是否受到**窃取恶意软件**的**威胁**。
+[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **泄露**。
 
-WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
+WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
 
 您可以访问他们的网站并免费尝试他们的引擎：
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我们。
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

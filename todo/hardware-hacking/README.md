@@ -1,76 +1,78 @@
 # 硬件黑客
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## JTAG
 
-JTAG允许执行边界扫描。边界扫描分析特定电路，包括每个引脚的嵌入式边界扫描单元和寄存器。
+JTAG 允许执行边界扫描。边界扫描分析某些电路，包括每个引脚的嵌入式边界扫描单元和寄存器。
 
-JTAG标准定义了用于进行边界扫描的**特定命令**，包括以下内容：
+JTAG 标准定义了 **进行边界扫描的特定命令**，包括以下内容：
 
-* **BYPASS** 允许您在不经过其他芯片的开销的情况下测试特定芯片。
-* **SAMPLE/PRELOAD** 在设备处于正常工作模式时，获取进入和离开设备的数据样本。
+* **BYPASS** 允许您测试特定芯片，而无需通过其他芯片的开销。
+* **SAMPLE/PRELOAD** 在设备正常工作模式下获取进入和离开设备的数据样本。
 * **EXTEST** 设置和读取引脚状态。
 
 它还可以支持其他命令，例如：
 
 * **IDCODE** 用于识别设备
-* **INTEST** 用于对设备进行内部测试
+* **INTEST** 用于设备的内部测试
 
-当您使用类似JTAGulator的工具时，您可能会遇到这些指令。
+当您使用像 JTAGulator 这样的工具时，可能会遇到这些指令。
 
 ### 测试访问端口
 
-边界扫描包括对四线**测试访问端口（TAP）**的测试，这是一个通用端口，提供了内置在组件中的JTAG测试支持功能的**访问**。TAP使用以下五个信号：
+边界扫描包括四线 **测试访问端口 (TAP)** 的测试，这是一个通用端口，提供 **对 JTAG 测试支持** 功能的访问。TAP 使用以下五个信号：
 
-* 测试时钟输入（**TCK**）TCK是定义TAP控制器将多久执行一次操作（换句话说，在状态机中跳转到下一个状态）的**时钟**。
-* 测试模式选择（**TMS**）输入TMS控制**有限状态机**。在每个时钟节拍中，设备的JTAG TAP控制器会检查TMS引脚上的电压。如果电压低于某个阈值，则信号被视为低并解释为0，而如果电压高于某个阈值，则信号被视为高并解释为1。
-* 测试数据输入（**TDI**）TDI是通过扫描单元将数据发送到芯片的引脚。每个供应商负责定义通过此引脚的通信协议，因为JTAG不定义此协议。
-* 测试数据输出（**TDO**）TDO是将数据从芯片发送出去的引脚。
-* 测试复位（**TRST**）输入可选的TRST将有限状态机重置到已知的良好状态。或者，如果TMS保持在1状态五个连续的时钟周期，它会调用一个重置，就像TRST引脚一样，这就是为什么TRST是可选的。
+* 测试时钟输入 (**TCK**) TCK 是定义 TAP 控制器将执行单个操作的频率的 **时钟**（换句话说，跳转到状态机中的下一个状态）。
+* 测试模式选择 (**TMS**) 输入 TMS 控制 **有限状态机**。在每个时钟脉冲上，设备的 JTAG TAP 控制器检查 TMS 引脚上的电压。如果电压低于某个阈值，则信号被视为低并解释为 0，而如果电压高于某个阈值，则信号被视为高并解释为 1。
+* 测试数据输入 (**TDI**) TDI 是通过扫描单元将 **数据发送到芯片** 的引脚。每个供应商负责定义通过此引脚的通信协议，因为 JTAG 并未定义此内容。
+* 测试数据输出 (**TDO**) TDO 是将 **数据从芯片发送出去** 的引脚。
+* 测试复位 (**TRST**) 输入 可选的 TRST 将有限状态机 **重置为已知良好状态**。或者，如果 TMS 在连续五个时钟周期内保持为 1，则会调用复位，方式与 TRST 引脚相同，这就是 TRST 是可选的原因。
 
-有时您可以在PCB上找到标记这些引脚的情况。在其他情况下，您可能需要**找到它们**。
+有时您可以在 PCB 上找到标记的引脚。在其他情况下，您可能需要 **找到它们**。
 
-### 识别JTAG引脚
+### 识别 JTAG 引脚
 
-检测JTAG端口的最快但最昂贵的方法是使用**JTAGulator**，这是专门为此目的创建的设备（尽管它也可以**检测UART引脚布局**）。
+检测 JTAG 端口的最快但最昂贵的方法是使用 **JTAGulator**，这是一种专门为此目的创建的设备（尽管它也 **可以检测 UART 引脚**）。
 
-它有**24个通道**，您可以连接到板上的引脚。然后，它对所有可能的组合执行**BF攻击**，发送**IDCODE**和**BYPASS**边界扫描命令。如果收到响应，它会显示与每个JTAG信号对应的通道。
+它有 **24 个通道**，您可以将其连接到电路板引脚。然后，它执行所有可能组合的 **BF 攻击**，发送 **IDCODE** 和 **BYPASS** 边界扫描命令。如果收到响应，它会显示每个 JTAG 信号对应的通道。
 
-识别JTAG引脚的一种更便宜但速度较慢的方法是使用加载在兼容Arduino微控制器上的[JTAGenum](https://github.com/cyphunk/JTAGenum/)。
+识别 JTAG 引脚的更便宜但速度较慢的方法是使用 [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) 加载在 Arduino 兼容的微控制器上。
 
-使用**JTAGenum**，您首先需要**定义用于枚举的探测设备的引脚**。您需要参考设备的引脚图，然后将这些引脚与目标设备上的测试点连接起来。
+使用 **JTAGenum**，您首先需要 **定义您将用于枚举的探测设备的引脚**。您需要参考设备的引脚图，然后将这些引脚与目标设备上的测试点连接。
 
-通过**检查PCB**以找到其中一个引脚布局是识别JTAG引脚的第三种方法。在某些情况下，PCB可能会方便地提供**Tag-Connect接口**，这清楚地表明该板有一个JTAG连接器。您可以在[https://www.tag-connect.com/info/](https://www.tag-connect.com/info/)上查看该接口的外观。此外，检查PCB上芯片组的**数据表**可能会显示指向JTAG接口的引脚布局图。 
+识别 JTAG 引脚的 **第三种方法** 是通过 **检查 PCB** 中的引脚图。在某些情况下，PCB 可能方便地提供 **Tag-Connect 接口**，这清楚地表明该电路板也具有 JTAG 连接器。您可以在 [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/) 查看该接口的外观。此外，检查 PCB 上芯片组的 **数据手册** 可能会揭示指向 JTAG 接口的引脚图。
 
 ## SDW
 
-SWD是一种专为ARM设计的调试协议。
+SWD 是一种专为调试设计的 ARM 特定协议。
 
-SWD接口需要**两个引脚**：一个双向**SWDIO**信号，相当于JTAG的**TDI和TDO引脚和一个时钟**，即**SWCLK**，相当于JTAG中的**TCK**。许多设备支持**串行线或JTAG调试端口（SWJ-DP）**，这是一个结合了JTAG和SWD接口的接口，使您可以将SWD或JTAG探针连接到目标设备。 
+SWD 接口需要 **两个引脚**：一个双向的 **SWDIO** 信号，相当于 JTAG 的 **TDI 和 TDO 引脚**，以及一个时钟 **SWCLK**，相当于 JTAG 中的 **TCK**。许多设备支持 **串行线或 JTAG 调试端口 (SWJ-DP)**，这是一个结合了 JTAG 和 SWD 接口的接口，使您能够将 SWD 或 JTAG 探头连接到目标。 
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
