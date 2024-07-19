@@ -1,24 +1,25 @@
-# Writable Sys Path + Dll Hijacking Privesc
+# Writable Sys Path +Dll Hijacking Privesc
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Wprowadzenie
 
-Jeśli odkryłeś, że możesz **pisać w folderze System Path** (zauważ, że to nie zadziała, jeśli możesz pisać w folderze User Path), istnieje możliwość, że możesz **eskalować uprawnienia** w systemie.
+Jeśli odkryłeś, że możesz **zapisywać w folderze System Path** (zauważ, że to nie zadziała, jeśli możesz zapisywać w folderze User Path), istnieje możliwość, że możesz **eskalować uprawnienia** w systemie.
 
-Aby to zrobić, możesz wykorzystać **Dll Hijacking**, gdzie **przechwycisz bibliotekę, która jest ładowana** przez usługę lub proces z **większymi uprawnieniami** niż Twoje, a ponieważ ta usługa ładuje Dll, który prawdopodobnie nie istnieje w całym systemie, spróbuje go załadować z System Path, gdzie możesz pisać.
+Aby to zrobić, możesz wykorzystać **Dll Hijacking**, gdzie zamierzasz **przejąć bibliotekę ładowaną** przez usługę lub proces z **wyższymi uprawnieniami** niż twoje, a ponieważ ta usługa ładuje Dll, która prawdopodobnie nawet nie istnieje w całym systemie, spróbuje załadować ją z System Path, w którym możesz zapisywać.
 
 Aby uzyskać więcej informacji na temat **czym jest Dll Hijacking**, sprawdź:
 
@@ -26,13 +27,13 @@ Aby uzyskać więcej informacji na temat **czym jest Dll Hijacking**, sprawdź:
 [.](./)
 {% endcontent-ref %}
 
-## Privesc z Dll Hijacking
+## Eskalacja uprawnień z Dll Hijacking
 
-### Znalezienie brakującego Dll
+### Znalezienie brakującej Dll
 
-Pierwszą rzeczą, którą musisz zrobić, jest **zidentyfikowanie procesu**, który działa z **większymi uprawnieniami** niż Ty i próbuje **załadować Dll z System Path**, w którym możesz pisać.
+Pierwszą rzeczą, którą musisz zrobić, jest **zidentyfikowanie procesu** działającego z **wyższymi uprawnieniami** niż ty, który próbuje **załadować Dll z System Path**, w którym możesz zapisywać.
 
-Problem w tych przypadkach polega na tym, że prawdopodobnie te procesy już działają. Aby dowiedzieć się, które pliki .dll brakuje usługom, musisz uruchomić procmon tak szybko jak to możliwe (przed załadowaniem procesów). Więc, aby znaleźć brakujące .dll, wykonaj:
+Problem w tych przypadkach polega na tym, że prawdopodobnie te procesy już działają. Aby znaleźć, które Dll brakuje usługom, musisz uruchomić procmon tak szybko, jak to możliwe (zanim procesy zostaną załadowane). Aby znaleźć brakujące .dll, wykonaj:
 
 * **Utwórz** folder `C:\privesc_hijacking` i dodaj ścieżkę `C:\privesc_hijacking` do **zmiennej środowiskowej System Path**. Możesz to zrobić **ręcznie** lub za pomocą **PS**:
 ```powershell
@@ -51,43 +52,58 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-* Uruchom **`procmon`** i przejdź do **`Opcje`** --> **`Włącz logowanie rozruchu`** i naciśnij **`OK`** w oknie dialogowym.
-* Następnie **zrestartuj** system. Po ponownym uruchomieniu komputera **`procmon`** rozpocznie **rejestrację** zdarzeń natychmiast.
-* Gdy **Windows** się **uruchomi, uruchom ponownie `procmon`**, program poinformuje Cię, że działał i zapyta, czy chcesz **zapisać** zdarzenia w pliku. Wybierz **tak** i **zapisz zdarzenia w pliku**.
-* **Po** wygenerowaniu **pliku**, **zamknij** otwarte okno **`procmon`** i **otwórz plik zdarzeń**.
-* Dodaj te **filtry**, aby znaleźć wszystkie biblioteki DLL, które próbowały zostać załadowane z zapisalnego folderu Ścieżki Systemowej:
+* Uruchom **`procmon`** i przejdź do **`Options`** --> **`Enable boot logging`** i naciśnij **`OK`** w oknie dialogowym.
+* Następnie **zrestartuj** komputer. Gdy komputer się uruchomi, **`procmon`** zacznie **rejestrować** zdarzenia jak najszybciej.
+* Po **uruchomieniu Windows** uruchom ponownie **`procmon`**, powie ci, że działa i **zapyta, czy chcesz zapisać** zdarzenia w pliku. Powiedz **tak** i **zapisz zdarzenia w pliku**.
+* **Po** **wygenerowaniu pliku**, **zamknij** otwarte okno **`procmon`** i **otwórz plik ze zdarzeniami**.
+* Dodaj te **filtry**, a znajdziesz wszystkie Dll, które niektóre **procesy próbowały załadować** z folderu zapisywalnego System Path:
 
 <figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
 
-### Brakujące DLL
+### Przegapione Dll
 
-Uruchamiając to na darmowej **wirtualnej maszynie Windows 11 (vmware)**, otrzymałem następujące wyniki:
+Uruchamiając to na darmowej **wirtualnej maszynie (vmware) Windows 11** uzyskałem te wyniki:
 
 <figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
 
-W tym przypadku pliki .exe są bezużyteczne, więc zignoruj je, brakujące DLL pochodziły z:
+W tym przypadku .exe są bezużyteczne, więc je zignoruj, przegapione DLL pochodziły od:
 
-| Usługa                         | Dll                | Wiersz poleceń                                                      |
-| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Harmonogram zadań (Schedule)   | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Usługa zasad diagnostycznych (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
-| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
+| Usługa                          | Dll                | Linia CMD                                                           |
+| ------------------------------- | ------------------ | ------------------------------------------------------------------- |
+| Harmonogram zadań (Schedule)   | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`         |
+| Usługa polityki diagnostycznej (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`               |
 
-Po znalezieniu tego, natrafiłem na interesujący post na blogu, który również wyjaśnia, jak [**wykorzystać WptsExtensions.dll do eskalacji uprawnień**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). To właśnie **zamierzamy teraz zrobić**.
+Po znalezieniu tego, znalazłem ten interesujący post na blogu, który również wyjaśnia, jak [**nadużyć WptsExtensions.dll do podniesienia uprawnień**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Co właśnie **zamierzamy teraz zrobić**.
 
 ### Wykorzystanie
 
-Aby **zwiększyć uprawnienia**, zamierzamy przejąć bibliotekę **WptsExtensions.dll**. Mając **ścieżkę** i **nazwę**, musimy tylko **wygenerować złośliwą bibliotekę DLL**.
+Aby **podnieść uprawnienia**, zamierzamy przejąć bibliotekę **WptsExtensions.dll**. Mając **ścieżkę** i **nazwę**, musimy tylko **wygenerować złośliwy dll**.
 
-Możesz [**spróbować użyć któregoś z tych przykładów**](./#creating-and-compiling-dlls). Możesz uruchamiać ładunki takie jak: uzyskać powłokę rev, dodać użytkownika, wykonać beacon...
+Możesz [**spróbować użyć któregokolwiek z tych przykładów**](./#creating-and-compiling-dlls). Możesz uruchomić payloady takie jak: uzyskać powłokę rev, dodać użytkownika, wykonać beacon...
 
 {% hint style="warning" %}
-Zauważ, że **nie wszystkie usługi są uruchamiane** z kontem **`NT AUTHORITY\SYSTEM`**, niektóre są również uruchamiane z kontem **`NT AUTHORITY\LOCAL SERVICE`**, które ma **mniej uprawnień**, i nie będziesz mógł utworzyć nowego użytkownika, nadużyć jego uprawnień.\
-Jednak ten użytkownik ma uprawnienie **`seImpersonate`**, więc możesz użyć [**pakietu potato do eskalacji uprawnień**](../roguepotato-and-printspoofer.md). W tym przypadku powłoka rev jest lepszą opcją niż próba utworzenia użytkownika.
+Zauważ, że **nie wszystkie usługi są uruchamiane** z **`NT AUTHORITY\SYSTEM`**, niektóre są również uruchamiane z **`NT AUTHORITY\LOCAL SERVICE`**, co ma **mniejsze uprawnienia** i **nie będziesz mógł stworzyć nowego użytkownika** nadużywając jego uprawnień.\
+Jednak ten użytkownik ma uprawnienie **`seImpersonate`**, więc możesz użyć [**potato suite do podniesienia uprawnień**](../roguepotato-and-printspoofer.md). W tym przypadku powłoka rev jest lepszą opcją niż próba stworzenia użytkownika.
 {% endhint %}
 
-W chwili pisania usługa **Harmonogram zadań** jest uruchamiana z kontem **NT AUTHORITY\SYSTEM**.
+W momencie pisania usługa **Harmonogram zadań** jest uruchamiana z **Nt AUTHORITY\SYSTEM**.
 
-Po **wygenerowaniu złośliwej biblioteki DLL** (_w moim przypadku użyłem powłoki rev x64 i uzyskałem powłokę, ale defender ją zabił, ponieważ pochodziła z msfvenom_), zapisz ją w zapisalnym folderze Ścieżki Systemowej pod nazwą **WptsExtensions.dll** i **zrestartuj** komputer (lub zrestartuj usługę lub wykonaj inne czynności, aby ponownie uruchomić dotkniętą usługę/program).
+Mając **wygenerowany złośliwy Dll** (_w moim przypadku użyłem x64 rev shell i uzyskałem powłokę, ale defender ją zabił, ponieważ pochodziła z msfvenom_), zapisz go w zapisywalnym System Path pod nazwą **WptsExtensions.dll** i **zrestartuj** komputer (lub zrestartuj usługę lub zrób cokolwiek, aby ponownie uruchomić dotkniętą usługę/program).
 
-Gdy usługa zostanie ponownie uruchomiona, **biblioteka DLL powinna zostać załadowana i wykonana** (możesz **ponownie użyć** sztuczki z **procmonem**, aby sprawdzić, czy **biblioteka została załadowana zgodnie z oczekiwaniami**).
+Gdy usługa zostanie ponownie uruchomiona, **dll powinien zostać załadowany i wykonany** (możesz **ponownie użyć** sztuczki **procmon**, aby sprawdzić, czy **biblioteka została załadowana zgodnie z oczekiwaniami**).
+
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Wsparcie dla HackTricks</summary>
+
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+
+</details>
+{% endhint %}

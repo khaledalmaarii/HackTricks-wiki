@@ -1,67 +1,84 @@
-# Jak działa podczerwień <a href="#jak-działa-port-podczerwieni" id="jak-działa-port-podczerwieni"></a>
+# Infrared
 
-**Światło podczerwone jest niewidoczne dla ludzi**. Długość fali podczerwieni wynosi od **0,7 do 1000 mikronów**. Piloty do domu używają sygnału podczerwonego do transmisji danych i działają w zakresie długości fali od 0,75 do 1,4 mikrona. Mikrokontroler w pilocie sprawia, że dioda podczerwona migocze z określoną częstotliwością, zamieniając sygnał cyfrowy w sygnał podczerwony.
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-Do odbierania sygnałów podczerwonych używa się **fotoodbiornika**. **Konwertuje on światło podczerwone na impulsy napięcia**, które są już **sygnałami cyfrowymi**. Zazwyczaj w odbiorniku znajduje się **filtr światła ciemnego**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szum.
+<details>
 
-### Różnorodność protokołów podczerwieni <a href="#różnorodność-protokołów-podczerwieni" id="różnorodność-protokołów-podczerwieni"></a>
+<summary>Support HackTricks</summary>
 
-Protokoły podczerwieni różnią się pod względem 3 czynników:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+
+## Jak działa podczerwień <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+
+**Światło podczerwone jest niewidoczne dla ludzi**. Długość fali IR wynosi od **0,7 do 1000 mikronów**. Piloty domowe używają sygnału IR do przesyłania danych i działają w zakresie długości fal od 0,75 do 1,4 mikrona. Mikrokontroler w pilocie sprawia, że dioda LED podczerwieni miga z określoną częstotliwością, przekształcając sygnał cyfrowy w sygnał IR.
+
+Aby odbierać sygnały IR, używa się **fotoreceptora**. On **przekształca światło IR w impulsy napięcia**, które są już **sygnałami cyfrowymi**. Zwykle wewnątrz odbiornika znajduje się **filtr ciemnego światła**, który przepuszcza **tylko pożądaną długość fali** i eliminuje szumy.
+
+### Różnorodność protokołów IR <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+
+Protokoły IR różnią się w 3 czynnikach:
 
 * kodowanie bitów
 * struktura danych
-* częstotliwość nośna — często w zakresie 36 do 38 kHz
+* częstotliwość nośna — często w zakresie 36..38 kHz
 
-#### Sposoby kodowania bitów <a href="#sposoby-kodowania-bitów" id="sposoby-kodowania-bitów"></a>
+#### Sposoby kodowania bitów <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
 **1. Kodowanie odległości impulsów**
 
-Bity są kodowane poprzez modulację czasu trwania przestrzeni między impulsami. Szerokość samego impulsu jest stała.
+Bity są kodowane przez modulację czasu trwania przestrzeni między impulsami. Szerokość samego impulsu jest stała.
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
-**2. Kodowanie szerokości impulsu**
+**2. Kodowanie szerokości impulsów**
 
-Bity są kodowane poprzez modulację szerokości impulsu. Szerokość przestrzeni po wybuchu impulsu jest stała.
+Bity są kodowane przez modulację szerokości impulsu. Szerokość przestrzeni po serii impulsów jest stała.
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
 **3. Kodowanie fazy**
 
-Jest również znane jako kodowanie Manchester. Wartość logiczna jest określana przez polaryzację przejścia między wybuchem impulsu a przestrzenią. "Przejście z przestrzeni na wybuch impulsu" oznacza logikę "0", "wybuch impulsu na przestrzeń" oznacza logikę "1".
+Jest również znane jako kodowanie Manchester. Wartość logiczna jest definiowana przez polaryzację przejścia między serią impulsów a przestrzenią. "Przestrzeń do serii impulsów" oznacza logikę "0", "seria impulsów do przestrzeni" oznacza logikę "1".
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
-**4. Kombinacja powyższych i innych egzotycznych**
+**4. Kombinacja poprzednich i innych egzotyków**
 
 {% hint style="info" %}
-Istnieją protokoły podczerwieni, które **starają się stać uniwersalne** dla kilku rodzajów urządzeń. Najbardziej znane to RC5 i NEC. Niestety, najbardziej znane **nie oznacza najbardziej powszechne**. W moim środowisku spotkałem tylko dwa pilociki NEC i żadnego RC5.
+Istnieją protokoły IR, które **próbują stać się uniwersalne** dla kilku typów urządzeń. Najbardziej znane to RC5 i NEC. Niestety, najbardziej znane **nie oznacza najbardziej powszechne**. W moim otoczeniu spotkałem tylko dwa piloty NEC i żadnego RC5.
 
-Producenci lubią używać swoich własnych unikalnych protokołów podczerwieni, nawet w obrębie tego samego rodzaju urządzeń (na przykład dekodery TV). Dlatego pilociki od różnych firm, a czasem od różnych modeli tej samej firmy, nie są w stanie działać z innymi urządzeniami tego samego typu.
+Producenci uwielbiają używać swoich unikalnych protokołów IR, nawet w obrębie tej samej grupy urządzeń (na przykład, TV-boxy). Dlatego piloty z różnych firm, a czasami z różnych modeli tej samej firmy, nie są w stanie współpracować z innymi urządzeniami tego samego typu.
 {% endhint %}
 
-### Badanie sygnału podczerwieni
+### Badanie sygnału IR
 
-Najbardziej niezawodnym sposobem zobaczenia, jak wygląda sygnał podczerwony z pilota, jest użycie oscyloskopu. Nie demoduluje on ani nie odwraca otrzymanego sygnału, po prostu wyświetla go "tak jak jest". Jest to przydatne do testowania i debugowania. Pokażę oczekiwany sygnał na przykładzie protokołu IR NEC.
+Najbardziej niezawodnym sposobem na zobaczenie, jak wygląda sygnał IR z pilota, jest użycie oscyloskopu. Nie demoduluje ani nie odwraca odebranego sygnału, jest po prostu wyświetlany "tak jak jest". To jest przydatne do testowania i debugowania. Pokażę oczekiwany sygnał na przykładzie protokołu IR NEC.
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Zazwyczaj na początku zakodowanego pakietu znajduje się preambuła. Pozwala to odbiornikowi określić poziom wzmocnienia i tło. Istnieją również protokoły bez preambuły, na przykład Sharp.
+Zwykle na początku zakodowanego pakietu znajduje się preambuła. Umożliwia to odbiornikowi określenie poziomu wzmocnienia i tła. Istnieją również protokoły bez preambuły, na przykład Sharp.
 
-Następnie przesyłane są dane. Struktura, preambuła i sposób kodowania bitów są określone przez konkretny protokół.
+Następnie przesyłane są dane. Struktura, preambuła i metoda kodowania bitów są określane przez konkretny protokół.
 
-Protokół IR **NEC** zawiera krótki kod i kod powtórzenia, który jest wysyłany podczas naciśnięcia przycisku. Zarówno kod, jak i kod powtórzenia mają tę samą preambułę na początku.
+**Protokół IR NEC** zawiera krótki kod komendy i kod powtórzenia, który jest wysyłany podczas przytrzymywania przycisku. Zarówno kod komendy, jak i kod powtórzenia mają tę samą preambułę na początku.
 
-Kod **NEC** składa się, oprócz preambuły, z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co ma zrobić. Bajty adresu i numeru komendy są zduplikowane z odwróconymi wartościami, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
+**Kod komendy NEC**, oprócz preambuły, składa się z bajtu adresu i bajtu numeru komendy, dzięki którym urządzenie rozumie, co należy wykonać. Bajty adresu i numeru komendy są powielane z odwrotnymi wartościami, aby sprawdzić integralność transmisji. Na końcu komendy znajduje się dodatkowy bit stopu.
 
-Kod **powtórzenia** ma "1" po preambule, co oznacza bit stopu.
+**Kod powtórzenia** ma "1" po preambule, co jest bitem stopu.
 
-Dla logicznych "0" i "1" **NEC** używa kodowania odległości impulsów: najpierw przesyłany jest wybuch impulsu, po którym następuje pauza, której długość określa wartość bitu.
+Dla **logiki "0" i "1"** NEC używa kodowania odległości impulsów: najpierw przesyłany jest impuls, po którym następuje pauza, której długość ustala wartość bitu.
 
 ### Klimatyzatory
 
-W przeciwieństwie do innych pilotów, **klimatyzatory nie przesyłają tylko kodu naciśniętego przycisku**. Przesyłają również **wszystkie informacje** po naciśnięciu przycisku, aby zapewnić **synchronizację między urządzeniem klimatyzacyjnym a pilotem**.\
-Dzięki temu unikniemy sytuacji, w której urządzenie ustawione na 20ºC zostanie zwiększone do 21ºC za pomocą jednego pilota, a następnie gdy inny pilot, który nadal ma temperaturę ustawioną na 20ºC, zostanie użyty do dalszego zwiększenia temperatury, "zwiększy" ją do 21ºC (a nie do 22ºC myśląc, że jest w 21ºC).
+W przeciwieństwie do innych pilotów, **klimatyzatory nie przesyłają tylko kodu naciśniętego przycisku**. Przesyłają również **wszystkie informacje**, gdy przycisk jest naciśnięty, aby zapewnić, że **urządzenie klimatyzacyjne i pilot są zsynchronizowane**.\
+To zapobiegnie sytuacji, w której urządzenie ustawione na 20ºC zostanie zwiększone do 21ºC za pomocą jednego pilota, a następnie, gdy użyty zostanie inny pilot, który nadal ma temperaturę 20ºC, temperatura zostanie "zwiększona" do 21ºC (a nie do 22ºC, myśląc, że jest w 21ºC).
 
 ### Ataki
 
@@ -74,3 +91,18 @@ Możesz zaatakować podczerwień za pomocą Flipper Zero:
 ## Referencje
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,23 +1,24 @@
-# SeImpersonate od Wysokiego do Systemu
+# SeImpersonate z High do System
+
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}
 
 ### Kod
 
-Następujący kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Pozwala **wskazać identyfikator procesu jako argument** i CMD **uruchomione jako użytkownik** wskazanego procesu zostanie uruchomione.\
-Uruchamiając w procesie o wysokiej integralności, można **wskazać PID procesu uruchamianego jako System** (np. winlogon, wininit) i wykonać cmd.exe jako system.
+Poniższy kod pochodzi [stąd](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Umożliwia **wskazanie identyfikatora procesu jako argumentu** i uruchomienie CMD **działającego jako użytkownik** wskazanego procesu.\
+Uruchamiając w procesie o wysokiej integralności, możesz **wskazać PID procesu działającego jako System** (takiego jak winlogon, wininit) i wykonać cmd.exe jako system.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -152,9 +153,11 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
+{% endcode %}
+
 ### Błąd
 
-W niektórych sytuacjach możesz próbować podszyć się pod System i nie zadziała to, pokazując wynik podobny do poniższego:
+W niektórych przypadkach możesz spróbować przejąć tożsamość Systemu i to nie zadziała, pokazując wynik podobny do poniższego:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -165,22 +168,37 @@ W niektórych sytuacjach możesz próbować podszyć się pod System i nie zadzi
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-To oznacza, że nawet jeśli działasz na poziomie Wysokiej Integralności **nie masz wystarczających uprawnień**.\
-Sprawdź bieżące uprawnienia Administratora dla procesów `svchost.exe` za pomocą **exploratora procesów** (lub możesz także użyć procesu hacker):
+To oznacza, że nawet jeśli działasz na poziomie wysokiej integralności, **nie masz wystarczających uprawnień**.\
+Sprawdźmy aktualne uprawnienia Administratora nad procesami `svchost.exe` za pomocą **processes explorer** (lub możesz również użyć process hacker):
 
 1. Wybierz proces `svchost.exe`
-2. Kliknij prawym przyciskiem --> Właściwości
+2. Kliknij prawym przyciskiem myszy --> Właściwości
 3. W zakładce "Zabezpieczenia" kliknij w prawym dolnym rogu przycisk "Uprawnienia"
-4. Kliknij "Zaawansowane"
+4. Kliknij na "Zaawansowane"
 5. Wybierz "Administratorzy" i kliknij "Edytuj"
-6. Kliknij "Pokaż zaawansowane uprawnienia"
+6. Kliknij na "Pokaż zaawansowane uprawnienia"
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Poprzednie zdjęcie zawiera wszystkie uprawnienia, jakie "Administratorzy" mają wobec wybranego procesu (jak widać w przypadku `svchost.exe`, posiadają tylko uprawnienia "Zapytanie")
+Poprzedni obrazek zawiera wszystkie uprawnienia, które "Administratorzy" mają nad wybranym procesem (jak widać w przypadku `svchost.exe`, mają tylko uprawnienia "Zapytanie")
 
-Sprawdź uprawnienia "Administratorów" dla `winlogon.exe`:
+Zobacz uprawnienia, które "Administratorzy" mają nad `winlogon.exe`:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Wewnątrz tego procesu "Administratorzy" mogą "Odczytywać pamięć" i "Odczytywać uprawnienia", co prawdopodobnie pozwala Administratorom na podszywanie się pod token używany przez ten proces.
+W tym procesie "Administratorzy" mogą "Czytać pamięć" i "Czytać uprawnienia", co prawdopodobnie pozwala Administratorom na przejęcie tokena używanego przez ten proces.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
