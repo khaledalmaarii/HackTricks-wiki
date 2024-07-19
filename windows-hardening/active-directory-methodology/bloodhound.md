@@ -1,86 +1,90 @@
-# BloodHound ve Diğer AD Enum Araçları
+# BloodHound & Diğer AD Enum Araçları
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) alın
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## AD Explorer
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer), Sysinternal Suite'den bir araçtır:
+[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) Sysinternal Suite'ten:
 
-> Gelişmiş bir Active Directory (AD) görüntüleyici ve düzenleyicidir. AD Explorer'ı kullanarak AD veritabanında kolayca gezinebilir, favori konumları tanımlayabilir, nesne özelliklerini ve özniteliklerini açmadan görüntüleyebilir, izinleri düzenleyebilir, bir nesnenin şemasını görüntüleyebilir ve kaydedip yeniden çalıştırabileceğiniz karmaşık aramaları gerçekleştirebilirsiniz.
+> Gelişmiş bir Active Directory (AD) görüntüleyici ve düzenleyici. AD Explorer'ı, bir AD veritabanında kolayca gezinmek, favori konumları tanımlamak, nesne özelliklerini ve niteliklerini diyalog kutuları açmadan görüntülemek, izinleri düzenlemek, bir nesnenin şemasını görüntülemek ve kaydedip yeniden çalıştırabileceğiniz karmaşık aramalar gerçekleştirmek için kullanabilirsiniz.
 
 ### Anlık Görüntüler
 
-AD Explorer, AD'nin bir anlık görüntülerini oluşturabilir, böylece çevrimdışı olarak kontrol edebilirsiniz.\
-Bu, çevrimdışı olarak zafiyetleri keşfetmek veya AD DB'nin farklı durumlarını karşılaştırmak için kullanılabilir.
+AD Explorer, AD'nin anlık görüntülerini oluşturabilir, böylece çevrimdışı kontrol edebilirsiniz.\
+Çevrimdışı zafiyetleri keşfetmek veya AD DB'nin farklı durumlarını zaman içinde karşılaştırmak için kullanılabilir.
 
-AD'nin bir anlık görüntüsünü almak için, `File` --> `Create Snapshot`'a gidin ve bir görüntü için bir ad girin.
+Bağlanmak için kullanıcı adı, şifre ve yönlendirme gereklidir (herhangi bir AD kullanıcısı gereklidir).
+
+AD'nin anlık görüntüsünü almak için `File` --> `Create Snapshot` yolunu izleyin ve anlık görüntü için bir isim girin.
 
 ## ADRecon
 
-[**ADRecon**](https://github.com/adrecon/ADRecon), bir AD ortamından çeşitli verileri çıkaran ve birleştiren bir araçtır. Bilgiler, analizi kolaylaştırmak ve hedef AD ortamının mevcut durumunun bütünsel bir resmini sağlamak için özet görünümler içeren **özel olarak biçimlendirilmiş** bir Microsoft Excel **raporu** şeklinde sunulabilir.
+[**ADRecon**](https://github.com/adrecon/ADRecon), bir AD ortamından çeşitli artefaktları çıkaran ve birleştiren bir araçtır. Bilgiler, analiz kolaylığı sağlamak ve hedef AD ortamının mevcut durumu hakkında bütünsel bir resim sunmak için metriklerle birlikte özet görünümler içeren **özel formatlanmış** Microsoft Excel **raporu** şeklinde sunulabilir.
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
 ## BloodHound
 
-[https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound) adresinden alınmıştır.
+From [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-> BloodHound, [Linkurious](http://linkurio.us/) üzerine inşa edilmiş, [Electron](http://electron.atom.io/) ile derlenmiş, C# veri toplayıcı tarafından beslenen bir Neo4j veritabanıyla çalışan tek sayfalık bir JavaScript web uygulamasıdır.
+> BloodHound, [Linkurious](http://linkurio.us/) üzerine inşa edilmiş, [Electron](http://electron.atom.io/) ile derlenmiş, C# veri toplayıcı tarafından beslenen bir [Neo4j](https://neo4j.com/) veritabanına sahip tek sayfa Javascript web uygulamasıdır.
 
-BloodHound, graf teorisi kullanarak Active Directory veya Azure ortamında gizli ve genellikle istenmeyen ilişkileri ortaya çıkarır. Saldırganlar, BloodHound'u kullanarak aksi takdirde hızlı bir şekilde tespit edilemeyecek karmaşık saldırı yollarını kolayca belirleyebilir. Savunma ekipleri, BloodHound'u aynı saldırı yollarını belirlemek ve ortadan kaldırmak için kullanabilir. Hem mavi hem de kırmızı takımlar, BloodHound'u Active Directory veya Azure ortamında ayrıcalık ilişkilerini daha iyi anlamak için kolayca kullanabilir.
+BloodHound, bir Active Directory veya Azure ortamındaki gizli ve genellikle istenmeyen ilişkileri ortaya çıkarmak için grafik teorisini kullanır. Saldırganlar, BloodHound'u kullanarak, aksi takdirde hızlı bir şekilde tanımlanması imkansız olan son derece karmaşık saldırı yollarını kolayca belirleyebilirler. Savunucular, BloodHound'u kullanarak aynı saldırı yollarını tanımlayıp ortadan kaldırabilirler. Hem mavi hem de kırmızı takımlar, BloodHound'u kullanarak bir Active Directory veya Azure ortamındaki ayrıcalık ilişkilerini daha derinlemesine anlamak için kolayca faydalanabilirler.
 
-Bu nedenle, [Bloodhound](https://github.com/BloodHoundAD/BloodHound), bir etki alanını otomatik olarak numaralandırabilen, tüm bilgileri kaydedebilen, olası ayrıcalık yükseltme yollarını bulabilen ve grafikler kullanarak tüm bilgileri gösterebilen harika bir araçtır.
+Bu nedenle, [Bloodhound ](https://github.com/BloodHoundAD/BloodHound) otomatik olarak bir alanı listeleyebilen, tüm bilgileri kaydedebilen, olası ayrıcalık yükseltme yollarını bulabilen ve tüm bilgileri grafikler kullanarak gösterebilen harika bir araçtır.
 
-Bloodhound, **ingestörler** ve **görselleştirme uygulaması** olmak üzere iki ana bölümden oluşur.
+BloodHound, 2 ana bölümden oluşur: **veri toplayıcılar** ve **görselleştirme uygulaması**.
 
-**Ingestörler**, etki alanını **numaralandırmak ve tüm bilgileri çıkarmak** için kullanılır ve görselleştirme uygulamasının anlayabileceği bir formatta veri toplar.
+**Veri toplayıcılar**, alanı **listelemek ve tüm bilgileri** görselleştirme uygulamasının anlayacağı bir formatta çıkarmak için kullanılır.
 
-**Görselleştirme uygulaması neo4j** kullanarak tüm bilgilerin nasıl ilişkili olduğunu ve etki alanında ayrıcalıkları yükseltmek için farklı yolları gösterir.
+**Görselleştirme uygulaması, tüm bilgilerin nasıl ilişkili olduğunu göstermek ve alandaki ayrıcalıkları yükseltmenin farklı yollarını göstermek için neo4j kullanır.**
 
 ### Kurulum
-BloodHound CE'nin oluşturulmasından sonra, tüm proje Docker ile kolay kullanım için güncellendi. Başlamak için en kolay yol, önceden yapılandırılmış Docker Compose yapılandırmasını kullanmaktır.
+BloodHound CE'nin oluşturulmasından sonra, tüm proje Docker ile kullanım kolaylığı için güncellendi. Başlamak için en kolay yol, önceden yapılandırılmış Docker Compose yapılandırmasını kullanmaktır.
 
-1. Docker Compose'u yükleyin. Bu, [Docker Desktop](https://www.docker.com/products/docker-desktop/) kurulumuyla birlikte gelmelidir.
+1. Docker Compose'u kurun. Bu, [Docker Desktop](https://www.docker.com/products/docker-desktop/) kurulumu ile birlikte gelmelidir.
 2. Çalıştırın:
 ```
 curl -L https://ghst.ly/getbhce | docker compose -f - up
 ```
-3. Docker Compose'in terminal çıktısında rastgele oluşturulan şifreyi bulun.
-4. Bir tarayıcıda http://localhost:8080/ui/login adresine gidin. Kullanıcı adı olarak admin ve günlüklerden elde edilen rastgele oluşturulan şifre ile giriş yapın.
+3. Docker Compose'un terminal çıktısında rastgele oluşturulmuş şifreyi bulun.  
+4. Bir tarayıcıda http://localhost:8080/ui/login adresine gidin. admin kullanıcı adı ve günlüklerden rastgele oluşturulmuş şifre ile giriş yapın.  
 
-Bundan sonra rastgele oluşturulan şifreyi değiştirmeniz gerekecek ve yeni arayüzü hazır olacak, bu arayüzden doğrudan ingestorları indirebilirsiniz.
+Bundan sonra rastgele oluşturulmuş şifreyi değiştirmeniz gerekecek ve ingestor'ları doğrudan indirebileceğiniz yeni arayüz hazır olacak.  
 
-### SharpHound
+### SharpHound  
 
-Birkaç seçenekleri var, ancak etki alanına katılmış bir PC'den SharpHound'u çalıştırmak, mevcut kullanıcınızı kullanarak tüm bilgileri çıkarmak istiyorsanız, aşağıdaki adımları izleyebilirsiniz:
+Birçok seçeneği var ama eğer alan adına katılmış bir PC'den SharpHound'u çalıştırmak ve mevcut kullanıcıyı kullanarak tüm bilgileri çıkarmak istiyorsanız:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
 ```
-> **CollectionMethod** hakkında daha fazla bilgi edinebilir ve döngü oturumunu [buradan](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained) okuyabilirsiniz.
+> **CollectionMethod** ve döngü oturumu hakkında daha fazla bilgi için [buraya](https://support.bloodhoundenterprise.io/hc/en-us/articles/17481375424795-All-SharpHound-Community-Edition-Flags-Explained) göz atabilirsiniz.
 
-Farklı kimlik bilgileri kullanarak SharpHound'u çalıştırmak isterseniz, CMD netonly oturumu oluşturabilir ve SharpHound'u oradan çalıştırabilirsiniz:
+Farklı kimlik bilgileri kullanarak SharpHound'u çalıştırmak isterseniz, bir CMD netonly oturumu oluşturabilir ve oradan SharpHound'u çalıştırabilirsiniz:
 ```
 runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
-[**Bloodhound hakkında daha fazla bilgi için ired.team'a göz atın.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
-
+[**Bloodhound hakkında daha fazla bilgi edinin ired.team'de.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r), Active Directory ile ilişkili **Grup Politikası**'ndaki **zayıflıkları** bulmak için bir araçtır. \
-Herhangi bir etki alanı kullanıcısı kullanarak etki alanı içindeki bir ana bilgisayardan **group3r'ı çalıştırmanız gerekmektedir**.
+[**Group3r**](https://github.com/Group3r/Group3r), **Grup Politikası** ile ilişkili Active Directory'deki **açıkları** bulmak için bir araçtır. \
+**Herhangi bir alan kullanıcısı** kullanarak alan içindeki bir hosttan **group3r'ı çalıştırmanız** gerekir.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -88,18 +92,21 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-[**PingCastle**](https://www.pingcastle.com/documentation/) **AD ortamının güvenlik durumunu değerlendirir** ve güzel bir **rapor** sunar.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **AD ortamının güvenlik durumunu değerlendirir** ve grafiklerle güzel bir **rapor** sunar.
 
-Çalıştırmak için, `PingCastle.exe` ikili dosyasını çalıştırabilirsiniz ve etkileşimli bir oturum başlatacaktır. Bir seçenek menüsü sunar. Kullanılması gereken varsayılan seçenek **`healthcheck`**'tir. Bu seçenek, **alanın** bir **genel bakışını** oluşturacak ve **yanlış yapılandırmaları** ve **zayıflıkları** bulacaktır.&#x20;
+Bunu çalıştırmak için, `PingCastle.exe` ikili dosyasını çalıştırabilir ve seçeneklerin bir menüsünü sunan bir **etkileşimli oturum** başlatır. Kullanılacak varsayılan seçenek **`healthcheck`** olup, **alan** hakkında bir temel **genel bakış** oluşturacak ve **yanlış yapılandırmaları** ve **zayıflıkları** bulacaktır.&#x20;
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını yapmak** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

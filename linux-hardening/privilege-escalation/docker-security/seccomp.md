@@ -1,30 +1,40 @@
 # Seccomp
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine çıkarın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Temel Bilgiler
 
-**Seccomp**, Linux çekirdeğinin bir güvenlik özelliğidir ve **sistem çağrılarını filtrelemek** için tasarlanmıştır. Bu, işlemleri sınırlı bir sistem çağrısı kümesine (`exit()`, `sigreturn()`, `read()` ve `write()`) kısıtlar. Bir işlem başka bir şey çağırmaya çalışırsa, çekirdek tarafından SIGKILL veya SIGSYS kullanılarak sonlandırılır. Bu mekanizma kaynakları sanallaştırmaz, ancak işlemi onlardan izole eder.
+**Seccomp**, Güvenli Hesaplama modu anlamına gelir, **sistem çağrılarını filtrelemek için tasarlanmış bir Linux çekirdek güvenlik özelliğidir**. Süreçleri sınırlı bir sistem çağrısı kümesine (`exit()`, `sigreturn()`, `read()` ve `write()` zaten açık dosya tanımlayıcıları için) kısıtlar. Bir süreç başka bir şey çağırmaya çalışırsa, çekirdek tarafından SIGKILL veya SIGSYS kullanılarak sonlandırılır. Bu mekanizma kaynakları sanallaştırmaz, ancak süreci onlardan izole eder.
 
-Seccomp'i etkinleştirmenin iki yolu vardır: `prctl(2)` sistem çağrısıyla `PR_SET_SECCOMP` kullanarak veya Linux çekirdekleri 3.17 ve üstü için `seccomp(2)` sistem çağrısıyla. Seccomp'i etkinleştirmenin eski yöntemi, `/proc/self/seccomp`'a yazarak seccomp'i etkinleştirmekti, ancak bu yöntem `prctl()` lehine kullanımdan kaldırılmıştır.
+Seccomp'ı etkinleştirmenin iki yolu vardır: `PR_SET_SECCOMP` ile `prctl(2)` sistem çağrısı veya Linux çekirdekleri 3.17 ve üzeri için `seccomp(2)` sistem çağrısı. `/proc/self/seccomp` dosyasına yazarak seccomp'ı etkinleştirmenin eski yöntemi, `prctl()` lehine kullanımdan kaldırılmıştır.
 
-Bir geliştirme olan **seccomp-bpf**, özelleştirilebilir bir politika ile sistem çağrılarını filtreleme yeteneği ekler ve Berkeley Packet Filter (BPF) kurallarını kullanır. Bu uzantı, OpenSSH, vsftpd ve Chrome OS ve Linux üzerindeki Chrome/Chromium tarayıcıları gibi yazılımlar tarafından kullanılır ve eski desteklenmeyen systrace için esnek ve verimli sistem çağrısı filtreleme sağlar.
+Bir geliştirme olan **seccomp-bpf**, özelleştirilebilir bir politika ile sistem çağrılarını filtreleme yeteneği ekler ve Berkeley Paket Filtreleme (BPF) kurallarını kullanır. Bu uzantı, OpenSSH, vsftpd ve Chrome OS ile Linux'taki Chrome/Chromium tarayıcıları gibi yazılımlar tarafından esnek ve verimli sistem çağrı filtrelemesi için kullanılmaktadır ve artık desteklenmeyen systrace için bir alternatif sunmaktadır.
 
-### **Orijinal/Katı Mod**
+### **Orijinal/Sıkı Mod**
 
-Bu modda Seccomp, yalnızca `exit()`, `sigreturn()`, `read()` ve `write()` sistem çağrılarına izin verir. Başka bir sistem çağrısı yapılırsa, işlem SIGKILL kullanılarak sonlandırılır.
+Bu modda Seccomp **yalnızca sistem çağrılarına izin verir** `exit()`, `sigreturn()`, `read()` ve `write()` zaten açık dosya tanımlayıcıları için. Başka bir sistem çağrısı yapılırsa, süreç SIGKILL kullanılarak öldürülür.
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -62,7 +72,7 @@ printf("You will not see this message--the process will be killed first\n");
 
 ### Seccomp-bpf
 
-Bu mod, Berkeley Packet Filter kuralları kullanılarak uygulanan yapılandırılabilir bir politika ile sistem çağrılarının filtrelenmesine izin verir.
+Bu mod, **Berkeley Paket Filtreleme kuralları kullanılarak uygulanan yapılandırılabilir bir politika ile sistem çağrılarının filtrelenmesine** olanak tanır.
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -116,29 +126,29 @@ printf("this process is %d\n", getpid());
 
 ## Docker'da Seccomp
 
-**Seccomp-bpf**, **Docker** tarafından desteklenir ve konteynerlerden gelen **sistem çağrılarını** kısıtlamak için kullanılır, böylece yüzey alanı azaltılır. **Varsayılan olarak engellenen sistem çağrılarını** [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) adresinde bulabilirsiniz ve **varsayılan seccomp profili** burada bulunabilir: [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-Farklı bir seccomp politikasıyla bir docker konteyneri çalıştırabilirsiniz:
+**Seccomp-bpf**, **Docker** tarafından konteynerlerden **syscall'ları** kısıtlamak için desteklenmektedir ve bu, yüzey alanını etkili bir şekilde azaltır. **Varsayılan** olarak **engellenen syscall'ları** [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) adresinde bulabilirsiniz ve **varsayılan seccomp profili** burada bulunmaktadır [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+Farklı bir **seccomp** politikası ile bir docker konteyneri çalıştırabilirsiniz:
 ```bash
 docker run --rm \
 -it \
 --security-opt seccomp=/path/to/seccomp/profile.json \
 hello-world
 ```
-Örneğin, `uname` gibi bazı **sistem çağrılarının** bir konteyner tarafından **yürütülmesini yasaklamak** istiyorsanız, varsayılan profil dosyasını [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) adresinden indirebilir ve sadece listeden `uname` dizesini **kaldırabilirsiniz**.\
-Bir **docker konteyneri içinde bazı ikili dosyaların çalışmadığından** emin olmak isterseniz, strace kullanarak ikili dosyanın kullandığı sistem çağrılarını listelemek ve ardından bunları yasaklamak mümkündür.\
-Aşağıdaki örnekte, `uname`'in sistem çağrıları keşfedilir:
+Eğer bir konteynerin bazı **syscall**'ları, örneğin `uname`'i **yasaklamak** istiyorsanız, [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) adresinden varsayılan profili indirebilir ve sadece **`uname` dizesini listeden kaldırabilirsiniz**.\
+Eğer **bir ikili dosyanın bir docker konteyneri içinde çalışmadığından emin olmak** istiyorsanız, ikili dosyanın kullandığı syscall'ları listelemek için strace kullanabilir ve ardından bunları yasaklayabilirsiniz.\
+Aşağıdaki örnekte `uname`'in **syscall**'ları keşfedilmektedir:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
 {% hint style="info" %}
-Eğer sadece bir uygulama başlatmak için Docker kullanıyorsanız, onu `strace` ile **profilleyebilir** ve sadece ihtiyaç duyduğu sistem çağrılarını **izin verebilirsiniz**.
+Eğer **Docker'ı sadece bir uygulamayı başlatmak için kullanıyorsanız**, onu **`strace`** ile **profil oluşturabilir** ve ihtiyaç duyduğu sistem çağrılarına **sadece izin verebilirsiniz.**
 {% endhint %}
 
 ### Örnek Seccomp politikası
 
-[Örnek buradan alınmıştır](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
+[Buradan örnek](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-2docker-engine/)
 
-Seccomp özelliğini göstermek için, aşağıdaki gibi "chmod" sistem çağrısını devre dışı bırakan bir Seccomp profil oluşturalım.
+Seccomp özelliğini göstermek için, aşağıda “chmod” sistem çağrısını devre dışı bırakan bir Seccomp profili oluşturalım.
 ```json
 {
 "defaultAction": "SCMP_ACT_ALLOW",
@@ -151,33 +161,44 @@ Seccomp özelliğini göstermek için, aşağıdaki gibi "chmod" sistem çağrı
 }
 ```
 Yukarıdaki profilde, varsayılan eylemi "izin ver" olarak ayarladık ve "chmod"u devre dışı bırakmak için bir kara liste oluşturduk. Daha güvenli olmak için, varsayılan eylemi "düşür" olarak ayarlayabilir ve sistem çağrılarını seçici olarak etkinleştirmek için bir beyaz liste oluşturabiliriz.\
-Aşağıdaki çıktı, seccomp profilde devre dışı bırakıldığı için "chmod" çağrısının hata döndürdüğünü göstermektedir.
+Aşağıdaki çıktı, "chmod" çağrısının, seccomp profilinde devre dışı bırakıldığı için hata döndürdüğünü göstermektedir.
 ```bash
 $ docker run --rm -it --security-opt seccomp:/home/smakam14/seccomp/profile.json busybox chmod 400 /etc/hosts
 chmod: /etc/hosts: Operation not permitted
 ```
-Aşağıdaki çıktı, profilin görüntülendiği "docker inspect" komutunu göstermektedir:
+Aşağıdaki çıktı, profilin görüntülendiği “docker inspect” komutunu göstermektedir:
 ```json
 "SecurityOpt": [
 "seccomp:{\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"chmod\",\"action\":\"SCMP_ACT_ERRNO\"}]}"
-],
-```
-### Docker'da Devre Dışı Bırakma
-
-Bayrakla birlikte bir konteyner başlatın: **`--security-opt seccomp=unconfined`**
-
-Kubernetes 1.19'dan itibaren, **seccomp varsayılan olarak tüm Pod'lar için etkinleştirilmiştir**. Bununla birlikte, Pod'lara uygulanan varsayılan seccomp profili, konteyner çalışma zamanı tarafından sağlanan "**RuntimeDefault**" profili olup (örneğin Docker, containerd), "RuntimeDefault" profili, çoğu sistem çağrısına izin verirken, konteynerler için tehlikeli veya genellikle gereksiz olarak kabul edilen birkaç sistem çağrısını engeller.
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

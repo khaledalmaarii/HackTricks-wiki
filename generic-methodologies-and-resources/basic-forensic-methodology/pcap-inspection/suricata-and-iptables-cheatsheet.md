@@ -1,28 +1,31 @@
-# Suricata & Iptables hile yaprağı
+# Suricata & Iptables cheatsheet
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) alın
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Iptables
 
 ### Zincirler
 
-Iptables'ta, zincir olarak bilinen kurallar listeleri sıralı olarak işlenir. Bunlar arasında, üç temel zincir evrensel olarak bulunur ve NAT gibi ek zincirler, sistem yeteneklerine bağlı olarak desteklenebilir.
+Iptables'ta, kuralların listeleri zincirler olarak adlandırılır ve sıralı bir şekilde işlenir. Bunlar arasında, evrensel olarak mevcut olan üç ana zincir bulunur; sistemin yeteneklerine bağlı olarak NAT gibi ek zincirler de desteklenebilir.
 
 - **Giriş Zinciri**: Gelen bağlantıların davranışını yönetmek için kullanılır.
-- **İleri Zinciri**: Yerel sistem için hedeflenmeyen gelen bağlantıları yönetmek için kullanılır. Bu, yönlendirici olarak hareket eden cihazlar için tipiktir, burada alınan veriler başka bir hedefe iletilmek üzere yönlendirilmelidir. Bu zincir, sistem yönlendirme, NAT veya benzeri faaliyetlerle ilgili olduğunda öncelikli olarak ilgilidir.
-- **Çıkış Zinciri**: Çıkış bağlantılarının düzenlenmesine adanmıştır.
+- **İleri Zincir**: Yerel sisteme yönlendirilmeyen gelen bağlantıları işlemek için kullanılır. Bu, verilerin başka bir hedefe iletilmesi gereken yönlendirici olarak işlev gören cihazlar için tipiktir. Bu zincir, sistemin yönlendirme, NAT yapma veya benzeri faaliyetlerde bulunduğu durumlarda önemlidir.
+- **Çıkış Zinciri**: Giden bağlantıların düzenlenmesine adanmıştır.
 
-Bu zincirler, ağ trafiğinin düzenli işlenmesini sağlar ve bir sisteme giren, içinden geçen ve çıkan veri akışını ayrıntılı kuralların belirlenmesine olanak tanır.
+Bu zincirler, ağ trafiğinin düzenli bir şekilde işlenmesini sağlar ve bir sistemin içine, içinden ve dışına veri akışını yöneten ayrıntılı kuralların belirtilmesine olanak tanır.
 ```bash
 # Delete all rules
 iptables -F
@@ -61,80 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Kurulum ve Yapılandırma
-
-```bash
-# Suricata'yı yüklemek için aşağıdaki komutu kullanın:
-sudo apt-get install suricata
-
-# Suricata'nın yapılandırma dosyasını düzenlemek için aşağıdaki komutu kullanın:
-sudo nano /etc/suricata/suricata.yaml
-
-# Suricata'nın çalışmasını sağlamak için aşağıdaki komutu kullanın:
-sudo suricata -c /etc/suricata/suricata.yaml -i eth0
-
-# Suricata'nın sistem başlangıcında otomatik olarak çalışmasını sağlamak için aşağıdaki komutu kullanın:
-sudo systemctl enable suricata
-
-# Suricata'nın çalıştığı arayüzleri kontrol etmek için aşağıdaki komutu kullanın:
-sudo suricata --list-interfaces
-```
-
-### Kurallar
-
-```bash
-# Suricata kurallarını güncellemek için aşağıdaki komutu kullanın:
-sudo suricata-update
-
-# Suricata kurallarını kontrol etmek için aşağıdaki komutu kullanın:
-sudo suricata-update list-enabled-rulesets
-
-# Suricata kurallarını etkinleştirmek veya devre dışı bırakmak için aşağıdaki komutu kullanın:
-sudo suricata-update enable-rule <rule-id>
-sudo suricata-update disable-rule <rule-id>
-```
-
-### Loglar
-
-```bash
-# Suricata loglarını kontrol etmek için aşağıdaki komutu kullanın:
-sudo tail -f /var/log/suricata/fast.log
-sudo tail -f /var/log/suricata/stats.log
-```
-
-## IPTables
-
-### Kurallar
-
-```bash
-# IPTables kurallarını listelemek için aşağıdaki komutu kullanın:
-sudo iptables -L
-
-# IPTables kurallarını temizlemek için aşağıdaki komutu kullanın:
-sudo iptables -F
-
-# IPTables kurallarını kaydetmek için aşağıdaki komutu kullanın:
-sudo iptables-save > iptables-rules.txt
-
-# IPTables kurallarını yüklemek için aşağıdaki komutu kullanın:
-sudo iptables-restore < iptables-rules.txt
-
-# IPTables kurallarını geçici olarak devre dışı bırakmak için aşağıdaki komutu kullanın:
-sudo iptables -P INPUT ACCEPT
-sudo iptables -P OUTPUT ACCEPT
-sudo iptables -P FORWARD ACCEPT
-```
-
-### NAT
-
-```bash
-# IPTables NAT kurallarını etkinleştirmek için aşağıdaki komutu kullanın:
-sudo sysctl -w net.ipv4.ip_forward=1
-
-# IPTables NAT kurallarını eklemek için aşağıdaki komutu kullanın:
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-```
+### Kurulum ve Konfigürasyon
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -200,59 +130,59 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Kural Tanımları
+### Kurallar Tanımları
 
-[Dökümantasyondan:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Bir kural/imza aşağıdakilerden oluşur:
+[Belgelerden:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Bir kural/imza aşağıdakilerden oluşur:
 
-* **Eylem**, imza eşleştiğinde ne olduğunu belirler.
-* **Başlık**, kuralın protokolünü, IP adreslerini, portları ve yönünü tanımlar.
-* **Kural seçenekleri**, kuralın ayrıntılarını belirler.
+* **hareket**, imza eşleştiğinde ne olacağını belirler.
+* **başlık**, kuralın protokolünü, IP adreslerini, portları ve yönünü tanımlar.
+* **kural seçenekleri**, kuralın ayrıntılarını tanımlar.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
 #### **Geçerli eylemler şunlardır**
 
 * alert - bir uyarı oluştur
-* pass - paketin daha fazla denetimini durdur
+* pass - paketin daha fazla incelenmesini durdur
 * **drop** - paketi düşür ve uyarı oluştur
-* **reject** - eşleşen paketin gönderene RST/ICMP ulaşılamaz hata gönder
+* **reject** - eşleşen paketin göndericisine RST/ICMP ulaşılamaz hatası gönder
 * rejectsrc - sadece _reject_ ile aynı
-* rejectdst - eşleşen paketin alıcıya RST/ICMP hata paketi gönder
-* rejectboth - konuşmanın her iki tarafına da RST/ICMP hata paketi gönder
+* rejectdst - eşleşen paketin alıcısına RST/ICMP hata paketi gönder
+* rejectboth - konuşmanın her iki tarafına RST/ICMP hata paketleri gönder
 
 #### **Protokoller**
 
-* tcp (tcp trafiği için)
+* tcp (tcp-trafik için)
 * udp
 * icmp
-* ip (ip 'tümü' veya 'herhangi biri' anlamına gelir)
-* _katman 7 protokolleri_: http, ftp, tls, smb, dns, ssh... (daha fazlası için [**dokümantasyon**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip 'tümü' veya 'herhangi' anlamına gelir)
+* _layer7 protokolleri_: http, ftp, tls, smb, dns, ssh... (daha fazlası için [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Kaynak ve Hedef Adresler
+#### Kaynak ve Hedef Adresleri
 
-IP aralıklarını, inkarları ve adres listelerini destekler:
+IP aralıklarını, olumsuzlamaları ve adres listelerini destekler:
 
-| Örnek                          | Anlam                                    |
+| Örnek                          | Anlamı                                   |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | 1.1.1.1 dışındaki her IP adresi           |
-| !\[1.1.1.1, 1.1.1.2]           | 1.1.1.1 ve 1.1.1.2 dışındaki her IP adresi |
-| $HOME\_NET                     | yaml'daki HOME\_NET ayarınız              |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET ve HOME\_NET dışındaki adresler |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24, 10.0.0.5 hariç               |
+| ! 1.1.1.1                      | 1.1.1.1 hariç her IP adresi             |
+| !\[1.1.1.1, 1.1.1.2]           | 1.1.1.1 ve 1.1.1.2 hariç her IP adresi  |
+| $HOME\_NET                     | yaml'daki HOME\_NET ayarınız           |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET ve HOME\_NET hariç       |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24, 10.0.0.5 hariç            |
 
-#### Kaynak ve Hedef Portlar
+#### Kaynak ve Hedef Portları
 
-Port aralıklarını, inkarları ve port listelerini destekler
+Port aralıklarını, olumsuzlamaları ve port listelerini destekler
 
-| Örnek         | Anlam                                |
+| Örnek           | Anlamı                                 |
 | --------------- | -------------------------------------- |
-| any             | herhangi bir adres                            |
+| any             | herhangi bir adres                     |
 | \[80, 81, 82]   | port 80, 81 ve 82                     |
-| \[80: 82]       | 80'den 82'ye kadar olan aralık                  |
+| \[80: 82]       | 80'den 82'ye kadar aralık             |
 | \[1024: ]       | 1024'ten en yüksek port numarasına kadar |
-| !80             | 80 hariç her port                      |
-| \[80:100,!99]   | 80'den 100'e kadar olan aralık, ancak 99 hariç |
-| \[1:80,!\[2,4]] | 1-80 aralığı, 2 ve 4 portları hariç  |
+| !80             | 80 hariç her port                     |
+| \[80:100,!99]   | 80'den 100'e kadar aralık ama 99 hariç |
+| \[1:80,!\[2,4]] | 1-80 aralığı, port 2 ve 4 hariç       |
 
 #### Yön
 
@@ -263,7 +193,7 @@ source <> destination  (both directions)
 ```
 #### Anahtar Kelimeler
 
-Suricata'da **yüzlerce seçenek** bulunmaktadır ve aradığınız **belirli paketi** bulmak için kullanılabilir. Eğer ilginç bir şey bulunursa burada belirtilecektir. Daha fazlası için [**belgelendirmeye**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) göz atın!
+Suricata'da aradığınız **belirli paketi** bulmak için **yüzlerce seçenek** mevcuttur, burada ilginç bir şey bulunursa belirtilir. Daha fazla bilgi için [**belgelere**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) göz atın!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -304,14 +234,17 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde çalışıyor musunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu keşfedin.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud) PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

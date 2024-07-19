@@ -1,66 +1,70 @@
-# Diğer Organizasyonlara Cihaz Kaydetme
+# Diğer Kuruluşlarda Cihaz Kaydı
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Giriş
 
-[**Daha önce belirtildiği gibi**](./#what-is-mdm-mobile-device-management)**,** bir cihazı bir organizasyona kaydetmek için **yalnızca o Organizasyona ait bir Seri Numarası gereklidir**. Cihaz kaydedildikten sonra, birçok organizasyon yeni cihaza hassas veriler yükleyecektir: sertifikalar, uygulamalar, WiFi şifreleri, VPN yapılandırmaları [ve benzeri](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Bu nedenle, kayıt süreci doğru şekilde korunmadığında saldırganlar için tehlikeli bir giriş noktası olabilir.
+[**daha önce belirtildiği gibi**](./#what-is-mdm-mobile-device-management)**,** bir cihazı bir kuruluşa kaydetmek için **sadece o Kuruluşa ait bir Seri Numarası gereklidir**. Cihaz kaydedildikten sonra, birçok kuruluş yeni cihaza hassas veriler yükleyecektir: sertifikalar, uygulamalar, WiFi şifreleri, VPN yapılandırmaları [ve benzeri](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Bu nedenle, kayıt süreci doğru bir şekilde korunmazsa, bu saldırganlar için tehlikeli bir giriş noktası olabilir.
 
-**Aşağıdaki, araştırmanın özeti [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Teknik ayrıntılar için kontrol edin!**
+**Aşağıda, araştırmanın bir özeti bulunmaktadır [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Daha fazla teknik detay için kontrol edin!**
 
-## DEP ve MDM İkili Analizine Genel Bakış
+## DEP ve MDM İkili Analizi Genel Görünümü
 
-Bu araştırma, macOS'ta Cihaz Kayıt Programı (DEP) ve Mobil Cihaz Yönetimi (MDM) ile ilişkili ikili dosyalara derinlemesine iner. Ana bileşenler şunları içerir:
+Bu araştırma, macOS'taki Cihaz Kaydı Programı (DEP) ve Mobil Cihaz Yönetimi (MDM) ile ilişkili ikililere dalmaktadır. Ana bileşenler şunlardır:
 
-- **`mdmclient`**: macOS 10.13.4 öncesi sürümlerde MDM sunucularıyla iletişim kurar ve DEP kontrol noktalarını tetikler.
+- **`mdmclient`**: MDM sunucularıyla iletişim kurar ve macOS 10.13.4 öncesi sürümlerde DEP kontrol noktalarını tetikler.
 - **`profiles`**: Yapılandırma Profillerini yönetir ve macOS 10.13.4 ve sonraki sürümlerde DEP kontrol noktalarını tetikler.
-- **`cloudconfigurationd`**: DEP API iletişimlerini yönetir ve Cihaz Kayıt profillerini alır.
+- **`cloudconfigurationd`**: DEP API iletişimlerini yönetir ve Cihaz Kaydı profillerini alır.
 
-DEP kontrol noktaları, Aktivasyon Kaydını almak için özel Yapılandırma Profilleri çerçevesinden `CPFetchActivationRecord` ve `CPGetActivationRecord` işlevlerini kullanır ve `CPFetchActivationRecord`, XPC aracılığıyla `cloudconfigurationd` ile koordine olur.
+DEP kontrol noktaları, Aktivasyon Kaydını almak için özel Yapılandırma Profilleri çerçevesinden `CPFetchActivationRecord` ve `CPGetActivationRecord` işlevlerini kullanır; `CPFetchActivationRecord`, `cloudconfigurationd` ile XPC üzerinden koordine eder.
 
-## Tesla Protokolü ve Absinthe Şemasının Tersine Mühendisliği
+## Tesla Protokolü ve Absinthe Şeması Ters Mühendislik
 
-DEP kontrol noktası, `cloudconfigurationd`nin şifrelenmiş, imzalı bir JSON yükünü _iprofiles.apple.com/macProfile_ adresine göndermesini içerir. Yük, cihazın seri numarasını ve "RequestProfileConfiguration" eylemini içerir. Kullanılan şifreleme şeması, içeriden "Absinthe" olarak adlandırılır. Bu şemanın çözülmesi karmaşıktır ve birçok adım içerir, bu da Aktivasyon Kaydı isteğinde keyfi seri numaraları eklemek için alternatif yöntemleri keşfetmeye yol açmıştır.
+DEP kontrol noktası, `cloudconfigurationd`'nin _iprofiles.apple.com/macProfile_ adresine şifreli, imzalı bir JSON yükü göndermesini içerir. Yük, cihazın seri numarasını ve "RequestProfileConfiguration" eylemini içerir. Kullanılan şifreleme şeması dahili olarak "Absinthe" olarak adlandırılmaktadır. Bu şemanın çözülmesi karmaşıktır ve birçok adım içerir; bu da Aktivasyon Kaydı isteğine keyfi seri numaraları eklemek için alternatif yöntemlerin araştırılmasına yol açmıştır.
 
-## DEP İsteklerinin Proxy Edilmesi
+## DEP İsteklerini Proxyleme
 
-Charles Proxy gibi araçlar kullanılarak _iprofiles.apple.com_ adresine yönelik DEP isteklerinin yakalanması ve değiştirilmesi girişimleri, yük şifrelemesi ve SSL/TLS güvenlik önlemleri nedeniyle engellenmiştir. Bununla birlikte, `MCCloudConfigAcceptAnyHTTPSCertificate` yapılandırmasının etkinleştirilmesi, sunucu sertifikası doğrulamasını atlamayı sağlar, ancak yükün şifreli olması seri numarasının şifre çözme anahtarı olmadan değiştirilmesini engeller.
+_iprofiles.apple.com_ adresine yapılan DEP isteklerini kesmek ve değiştirmek için Charles Proxy gibi araçlar kullanma girişimleri, yük şifrelemesi ve SSL/TLS güvenlik önlemleri nedeniyle engellendi. Ancak, `MCCloudConfigAcceptAnyHTTPSCertificate` yapılandırmasını etkinleştirmek, sunucu sertifika doğrulamasını atlamaya olanak tanır; ancak yükün şifreli doğası, şifre çözme anahtarı olmadan seri numarasının değiştirilmesini engeller.
 
-## DEP ile Etkileşim Halindeki Sistem İkili Dosyalarının Enstrümantasyonu
+## DEP ile Etkileşime Geçen Sistem İkili Dosyalarını Araçlandırma
 
-`cloudconfigurationd` gibi sistem ikili dosyalarının enstrümantasyonu, macOS'ta Sistem Bütünlük Koruması'nın (SIP) devre dışı bırakılmasını gerektirir. SIP devre dışı bırakıldığında, LLDB gibi araçlar sistem süreçlerine bağlanmak ve DEP API etkileşimlerinde kullanılan seri numarasını potansiyel olarak değiştirmek için kullanılabilir. Bu yöntem, yetkilendirmelerin ve kod imzalamanın karmaşıklıklarını önlediği için tercih edilir.
+`cloudconfigurationd` gibi sistem ikili dosyalarını araçlandırmak, macOS'ta Sistem Bütünlüğü Koruması (SIP) devre dışı bırakılmasını gerektirir. SIP devre dışı bırakıldığında, LLDB gibi araçlar sistem süreçlerine bağlanmak ve DEP API etkileşimlerinde kullanılan seri numarasını potansiyel olarak değiştirmek için kullanılabilir. Bu yöntem, yetkilendirme ve kod imzalama karmaşıklıklarından kaçındığı için tercih edilmektedir.
 
-**İkili Enstrümantasyonun Sömürülmesi:**
-`cloudconfigurationd`de JSON serileştirmeden önce DEP isteği yükünün değiştirilmesi etkili oldu. Süreç şunları içeriyordu:
+**İkili Araçlandırmayı Sömürme:**
+`cloudconfigurationd`'de JSON serileştirmeden önce DEP istek yükünü değiştirmek etkili oldu. Süreç şunları içeriyordu:
 
-1. LLDB'yi `cloudconfigurationd`ye bağlamak.
+1. LLDB'yi `cloudconfigurationd`'ye bağlamak.
 2. Sistem seri numarasının alındığı noktayı bulmak.
-3. Yük şifrelenip gönderilmeden önce belleğe keyfi bir seri numarası enjekte etmek.
+3. Yük şifrelenmeden ve gönderilmeden önce belleğe keyfi bir seri numarası enjekte etmek.
 
-Bu yöntem, keyfi seri numaraları için tam DEP profillerinin alınmasına olanak sağladı ve potansiyel bir güvenlik açığı gösterdi.
+Bu yöntem, keyfi seri numaraları için tam DEP profillerinin alınmasını sağladı ve potansiyel bir zafiyeti gösterdi.
 
-### Python ile Enstrümantasyonun Otomatikleştirilmesi
+### Python ile Araçlandırmayı Otomatikleştirme
 
-Sömürü süreci, LLDB API'si kullanılarak Python ile otomatikleştirildi, bu da keyfi seri numaraları programatik olarak enjekte etmeyi ve ilgili DEP profillerini almayı mümkün kıldı.
+Sömürü süreci, keyfi seri numaralarını programatik olarak enjekte etmek ve karşılık gelen DEP profillerini almak için Python ile LLDB API kullanılarak otomatikleştirildi.
 
-### DEP ve MDM Güvenlik Açıklarının Potansiyel Etkileri
+### DEP ve MDM Zafiyetlerinin Potansiyel Etkileri
 
 Araştırma, önemli güvenlik endişelerini vurguladı:
 
-1. **Bilgi Sızdırma**: DEP kayıtlı bir seri numarası sağlayarak, DEP profili içinde bulunan hassas kurumsal bilgiler alınabilir.
-2. **Sahte DEP Kaydı**: Doğru kimlik doğrulama olmadan, DEP kayıtlı bir seri numarasına sahip bir saldırgan, kuruluşun MDM sunucusuna sahte bir cihaz kaydedebilir ve hassas verilere ve ağ kaynaklarına erişim elde edebilir.
-
-Sonuç olarak, DEP ve MDM, kurumsal ortamlarda Apple cihazlarını yönetmek için güçlü araçlar sağlasa da, güvenli ve izlenmesi gereken potansiyel saldırı vektörleri de sunar.
+1. **Bilgi Sızdırma**: DEP'e kayıtlı bir seri numarası sağlayarak, DEP profilinde bulunan hassas kurumsal bilgilere erişim sağlanabilir.

@@ -1,26 +1,27 @@
-# macOS Fonksiyon Hooking
+# macOS Function Hooking
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Fonksiyon Interposing
+## Function Interposing
 
-Bir **dylib** oluşturun ve **`__interpose`** bölümü (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüm) içeren **fonksiyon işaretçileri**nden oluşan demetler oluşturun. Bu demetler, **orijinal** ve **değiştirme** fonksiyonlarına işaret eder.
+Bir **dylib** oluşturun ve **`__interpose`** bölümüne (veya **`S_INTERPOSING`** ile işaretlenmiş bir bölüme) **orijinal** ve **değiştirilmiş** fonksiyonlara atıfta bulunan **fonksiyon işaretçileri** çiftleri ekleyin.
 
-Ardından, dylib'i **`DYLD_INSERT_LIBRARIES`** ile **enjekte edin** (interposing, ana uygulama yüklenmeden önce gerçekleşmelidir). Açıkçası, [**`DYLD_INSERT_LIBRARIES`** kullanımına uygulanan **kısıtlamalar** burada da geçerlidir](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Ardından, **`DYLD_INSERT_LIBRARIES`** ile dylib'i **enjekte** edin (interposing, ana uygulama yüklenmeden önce gerçekleşmelidir). Açıkça, [**`DYLD_INSERT_LIBRARIES`** kullanımına uygulanan **kısıtlamalar** burada da geçerlidir](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
-### printf'i Interpose Et
+### Interpose printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -46,7 +47,7 @@ __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned lon
 {% endcode %}
 {% endtab %}
 
-{% tab title="merhaba.c" %}
+{% tab title="hello.c" %}
 ```c
 //gcc hello.c -o hello
 #include <stdio.h>
@@ -56,54 +57,9 @@ printf("Hello World!\n");
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="interpose2.c" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-
-// Function pointer type for the original function
-typedef int (*orig_open_type)(const char *pathname, int flags);
-
-// Function pointer type for the interposed function
-typedef int (*interposed_open_type)(const char *pathname, int flags);
-
-// Define the interposed function
-int interposed_open(const char *pathname, int flags) {
-    printf("Interposed open called with pathname: %s\n", pathname);
-    
-    // Call the original function
-    orig_open_type orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
-    return orig_open(pathname, flags);
-}
-
-// Constructor function to register the interposed function
-__attribute__((constructor))
-void interpose_open() {
-    printf("Interposing open function\n");
-    
-    // Get the handle to the dynamic linker
-    void *handle = dlopen(NULL, RTLD_NOW);
-    
-    // Get the address of the original function
-    orig_open_type orig_open = (orig_open_type)dlsym(handle, "open");
-    
-    // Get the address of the interposed function
-    interposed_open_type interposed_open = (interposed_open_type)interposed_open;
-    
-    // Replace the original function with the interposed function
-    if (orig_open && interposed_open) {
-        printf("Replacing open function\n");
-        interposed_open = orig_open;
-    }
-    
-    // Close the handle to the dynamic linker
-    dlclose(handle);
-}
-```
-
-Bu örnek, `open` işlevini interpose eden bir C programıdır. İnterpose edilen işlev, `open` işlevini çağıran ve çağrılan dosya yolunu yazdıran bir işlevdir. İnterpose edilen işlev, `dlsym` işlevi kullanılarak orijinal işlevin adresini alır ve ardından bu adresi kullanarak orijinal işlevi çağırır. İnterpose edilen işlev, `dlopen` işlevi kullanılarak dinamik bağlayıcının tutamağını alır ve ardından orijinal işlevin adresini alır. Son olarak, orijinal işlevin yerine interpose edilen işlev atanır.
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -136,23 +92,23 @@ Hello from interpose
 DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
 Hello from interpose
 ```
-## Yöntem Swizzling
+## Method Swizzling
 
-ObjectiveC'de bir yöntem şu şekilde çağrılır: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
+ObjectiveC'de bir metod şu şekilde çağrılır: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-**Nesne**, **yöntem** ve **parametreler** gereklidir. Ve bir yöntem çağrıldığında bir **mesaj gönderilir** ve bunun için **`objc_msgSend`** fonksiyonu kullanılır: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+**nesne**, **metod** ve **parametreler** gereklidir. Ve bir metod çağrıldığında **msg gönderilir** ve bu işlem **`objc_msgSend`** fonksiyonu kullanılarak yapılır: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-Nesne **`someObject`**, yöntem **`@selector(method1p1:p2:)`** ve argümanlar **value1**, **value2**'dir.
+Nesne **`someObject`**, metod **`@selector(method1p1:p2:)`** ve argümanlar **value1**, **value2**'dir.
 
-Nesne yapılarına göre, yöntemlerin **isimlerine** ve **yöntem kodunun işaretçilerine** ulaşmak mümkündür.
+Nesne yapıları takip edilerek, **isimlerin** ve metod koduna ait **işaretçilerin** bulunduğu bir **metodlar dizisine** ulaşmak mümkündür.
 
 {% hint style="danger" %}
-Yöntemler ve sınıflar isimlerine göre erişildiği için bu bilgiler ikili dosyada saklanır, bu yüzden `otool -ov </path/bin>` veya [`class-dump </path/bin>`](https://github.com/nygard/class-dump) ile geri alınabilir.
+Metodlar ve sınıflar isimlerine göre erişildiğinden, bu bilginin ikili dosyada saklandığını unutmayın, bu nedenle `otool -ov </path/bin>` veya [`class-dump </path/bin>`](https://github.com/nygard/class-dump) ile geri alınması mümkündür.
 {% endhint %}
 
-### Ham yöntemlere erişim
+### Ham metodlara erişim
 
-Aşağıdaki örnekte olduğu gibi yöntemlerin isimleri, parametre sayısı veya adres gibi bilgilere erişmek mümkündür:
+Aşağıdaki örnekte olduğu gibi, metodların adı, parametre sayısı veya adresi gibi bilgilerine erişmek mümkündür:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -218,12 +174,12 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### method\_exchangeImplementations ile Method Swizzling
+### Method Swizzling with method\_exchangeImplementations
 
-**method\_exchangeImplementations** fonksiyonu, bir fonksiyonun **uygulamasının adresini diğerine değiştirmeyi** sağlar.
+Fonksiyon **`method_exchangeImplementations`**, **bir fonksiyonun** **uygulama adresini** **diğeriyle değiştirmeye** olanak tanır.
 
 {% hint style="danger" %}
-Bu nedenle bir fonksiyon çağrıldığında **çalıştırılan diğer fonksiyondur**.
+Bu nedenle bir fonksiyon çağrıldığında **çalıştırılan diğeri**dir.
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -269,16 +225,16 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-Bu durumda, **meşru** yöntemin **uygulama kodu** **yöntem adını doğrularsa**, bu swizzling'i **tespit edebilir** ve çalışmasını engelleyebilir.
+Bu durumda, eğer **meşru** metodun **uygulama kodu** **metod** **adını** **doğruluyorsa**, bu swizzling'i **tespit** edebilir ve çalışmasını engelleyebilir.
 
-Aşağıdaki teknikte bu kısıtlama yoktur.
+Aşağıdaki teknik bu kısıtlamaya sahip değildir.
 {% endhint %}
 
-### method\_setImplementation ile Yöntem Swizzling
+### Method Swizzling with method\_setImplementation
 
-Önceki format garip çünkü bir yöntemin uygulamasını diğerine değiştiriyorsunuz. **`method_setImplementation`** fonksiyonunu kullanarak bir yöntemin uygulamasını diğerinin uygulamasıyla değiştirebilirsiniz.
+Önceki format garip çünkü bir metodun uygulamasını diğerinin üzerine değiştiriyorsunuz. **`method_setImplementation`** fonksiyonunu kullanarak bir **metodun uygulamasını diğerinin** üzerine **değiştirebilirsiniz**.
 
-Sadece, yeni uygulamadan önce orijinalinin uygulama adresini saklamayı unutmayın, çünkü daha sonra o adresi bulmak çok daha karmaşık olacaktır.
+Sadece, **orijinal olanın uygulama adresini saklamayı** unutmayın, eğer onu yeni uygulamadan çağıracaksanız, çünkü daha sonra o adresi bulmak çok daha karmaşık olacaktır.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -330,17 +286,17 @@ return 0;
 }
 }
 ```
-## Hooking Saldırı Metodolojisi
+## Hooking Attack Methodology
 
-Bu sayfada, fonksiyonları kancalamak için farklı yöntemler tartışıldı. Ancak, bunlar **saldırı yapmak için işlem içinde kod çalıştırmayı** gerektiriyordu.
+Bu sayfada fonksiyonları hooklamak için farklı yollar tartışıldı. Ancak, bunlar **saldırı için süreç içinde kod çalıştırmayı** içeriyordu.
 
-Bunu yapmak için kullanılabilecek en kolay teknik, [Dyld aracılığıyla çevre değişkenleri veya kaçırma](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md) enjekte etmektir. Bununla birlikte, bunun aynı zamanda [Dylib işlem enjeksiyonu](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) yoluyla da yapılabilmesi mümkündür.
+Bunu yapmak için en kolay teknik, bir [Dyld'yi ortam değişkenleri aracılığıyla veya kaçırarak](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md) enjekte etmektir. Ancak, bunun [Dylib süreç enjeksiyonu](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) aracılığıyla da yapılabileceğini düşünüyorum.
 
-Ancak, her iki seçenek de **korumasız** ikili/işlemlerle **sınırlıdır**. Sınırlamalar hakkında daha fazla bilgi edinmek için her tekniği kontrol edin.
+Ancak, her iki seçenek de **korumasız** ikili/dizilerle **sınırlıdır**. Sınırlamalar hakkında daha fazla bilgi edinmek için her tekniği kontrol edin.
 
-Ancak, bir fonksiyon kancalama saldırısı çok spesifik bir saldırıdır, bir saldırgan bunu yaparak bir işlem içinden **hassas bilgileri çalmayı** amaçlar (aksi takdirde bir işlem enjeksiyon saldırısı yapardınız). Ve bu hassas bilgiler, MacPass gibi kullanıcı tarafından indirilen Uygulamalar içinde bulunabilir.
+Ancak, bir fonksiyon hooklama saldırısı çok spesifiktir, bir saldırgan bunu **bir süreçten hassas bilgileri çalmak için** yapar (aksi takdirde sadece bir süreç enjeksiyonu saldırısı yapardınız). Ve bu hassas bilgiler, MacPass gibi kullanıcı tarafından indirilen uygulamalarda bulunabilir.
 
-Bu nedenle, saldırganın vektörü, ya bir zafiyet bulmak ya da uygulamanın imzasını kaldırmak, uygulamanın Info.plist dosyasına **`DYLD_INSERT_LIBRARIES`** çevre değişkenini enjekte etmek olacaktır. Buna benzer bir şey eklemek:
+Bu nedenle, saldırgan vektörü ya bir zafiyet bulmak ya da uygulamanın imzasını kaldırmak, uygulamanın Info.plist dosyasına **`DYLD_INSERT_LIBRARIES`** env değişkenini ekleyerek bir şeyler enjekte etmek olacaktır:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -348,7 +304,7 @@ Bu nedenle, saldırganın vektörü, ya bir zafiyet bulmak ya da uygulamanın im
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-ve ardından uygulamayı **yeniden kaydetmek**:
+ve ardından **yeniden kaydet** uygulamayı:
 
 {% code overflow="wrap" %}
 ```bash
@@ -356,10 +312,10 @@ ve ardından uygulamayı **yeniden kaydetmek**:
 ```
 {% endcode %}
 
-Bu kütüphaneye, bilgileri dışarı çıkarmak için kancalama kodunu ekleyin: Şifreler, mesajlar...
+O kütüphaneye bilgileri dışarı aktarmak için hooking kodunu ekleyin: Parolalar, mesajlar...
 
 {% hint style="danger" %}
-Yeni macOS sürümlerinde, uygulama ikili dosyasının imzasını **kaldırırsanız** ve daha önce çalıştırılmışsa, macOS artık uygulamayı **çalıştırmayacaktır**.
+Yeni macOS sürümlerinde, eğer uygulama ikili dosyasının **imzasını kaldırırsanız** ve daha önce çalıştırılmışsa, macOS **uygulamayı bir daha çalıştırmayacaktır**.
 {% endhint %}
 
 #### Kütüphane örneği
@@ -402,16 +358,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

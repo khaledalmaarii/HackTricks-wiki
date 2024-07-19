@@ -1,30 +1,31 @@
 # macOS Yetki Yükseltme
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahramana kadar AWS hackleme öğrenin<strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## TCC Yetki Yükseltme
 
-TCC yetki yükseltme için buraya geldiyseniz, şuraya gidin:
+Eğer TCC yetki yükseltme ile ilgili bilgi arıyorsanız, buraya gidin:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
 {% endcontent-ref %}
 
-## Linux Yetki Yükseltme
+## Linux Privesc
 
-Lütfen unutmayın ki, **Linux/Unix üzerindeki yetki yükseltme hilelerinin çoğu MacOS makineleri üzerinde de etkili olacaktır**. Bu yüzden şuna bakın:
+Lütfen **Linux/Unix üzerinde etkili olan yetki yükseltme ipuçlarının çoğunun MacOS** makinelerini de etkileyeceğini unutmayın. Bu yüzden:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
@@ -32,11 +33,11 @@ Lütfen unutmayın ki, **Linux/Unix üzerindeki yetki yükseltme hilelerinin ço
 
 ## Kullanıcı Etkileşimi
 
-### Sudo Kaçırma
+### Sudo Ele Geçirme
 
-Orijinal Sudo Kaçırma tekniğini [Linux Yetki Yükseltme yazısının içinde bulabilirsiniz](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+Orijinal [Sudo Ele Geçirme tekniğini Linux Yetki Yükseltme yazısında bulabilirsiniz](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-Ancak, macOS, kullanıcının **`sudo`** komutunu çalıştırdığında kullanıcının **`PATH`**'ini korur. Bu da saldırıyı gerçekleştirmenin başka bir yolunun, kurbanın **sudo çalıştırırken** yürüteceği **diğer ikili dosyaları kaçırmak** olabileceği anlamına gelir:
+Ancak, macOS **kullanıcının** **`PATH`**'ini **`sudo`** komutunu çalıştırdığında **korur**. Bu, bu saldırıyı gerçekleştirmenin başka bir yolunun, mağdurun **sudo çalıştırırken** yine de çalıştıracağı **diğer ikili dosyaları ele geçirmek** olacağı anlamına gelir:
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -51,19 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-### Dock Taklit Etme
-
-Terminal kullanan bir kullanıcının büyük olasılıkla **Homebrew yüklü** olacağını unutmayın. Bu nedenle **`/opt/homebrew/bin`** dizinindeki ikili dosyaları ele geçirmek mümkündür.
+Not edin ki terminal kullanan bir kullanıcının **Homebrew yüklü olma olasılığı yüksektir**. Bu nedenle **`/opt/homebrew/bin`** içindeki ikili dosyaları ele geçirmek mümkündür.
 
 ### Dock Taklit Etme
 
-Bazı **sosyal mühendislik** kullanarak örneğin Google Chrome'u taklit edebilir ve aslında kendi betiğinizi çalıştırabilirsiniz:
+Bazı **sosyal mühendislik** teknikleri kullanarak dock içinde **örneğin Google Chrome'u taklit edebilir** ve aslında kendi scriptinizi çalıştırabilirsiniz:
 
 {% tabs %}
-{% tab title="Chrome Taklit Etme" %}
+{% tab title="Chrome Taklidi" %}
 Bazı öneriler:
 
-* Dock'ta Chrome var mı diye kontrol edin ve bu durumda o girişi **kaldırın** ve Dock dizisinde aynı konuma **sahte Chrome girişi ekleyin**.
+* Dock'ta bir Chrome olup olmadığını kontrol edin, eğer varsa o girişi **kaldırın** ve Dock dizisinde aynı konuma **sahte** **Chrome girişini ekleyin**.&#x20;
 ```bash
 #!/bin/sh
 
@@ -138,11 +137,11 @@ killall Dock
 {% tab title="Finder Taklit Etme" %}
 Bazı öneriler:
 
-* Dock'tan Finder'ı **kaldıramazsınız**, bu yüzden Dock'a ekleyecekseniz, sahte Finder'ı gerçek Finder'ın hemen yanına koyabilirsiniz. Bunun için Dock dizisinin başına sahte Finder girişini eklemeniz gerekmektedir.
-* Başka bir seçenek, onu Dock'a koymamak ve sadece açmak, "Finder'ın Finder'ı kontrol etmesini istemesi" o kadar da garip değil.
-* Şifre sormadan kök yetkisine **yükselmek için başka seçenekler**:
-* Finder'a, bir ayrıcalıklı işlem gerçekleştirmek için şifre sorması için **`/etc/pam.d`** dizinine yeni bir **`sudo`** dosyası kopyalamasını isteyin (Şifre sorma isteği, "Finder'ın sudo kopyalamak istediği" şeklinde belirtilecektir)
-* Finder'a yeni bir **Yetkilendirme Eklentisi** kopyalamasını isteyin (Dosya adını kontrol edebilirsiniz, böylece şifre sorma isteği, "Finder'ın Finder.bundle kopyalamak istediği" şeklinde belirtilecektir)
+* **Finder'ı Dock'tan kaldıramazsınız**, bu yüzden eğer Dock'a ekleyecekseniz, sahte Finder'ı gerçek Finder'ın hemen yanına koyabilirsiniz. Bunun için **sahte Finder girişini Dock dizisinin başına eklemeniz gerekir**.
+* Diğer bir seçenek, Dock'a yerleştirmemek ve sadece açmaktır; "Finder, Finder'ı kontrol etmesi için izin istiyor" o kadar da garip değil.
+* Şifre sormadan **root'a yükselmek** için başka bir seçenek, Finder'ın gerçekten bir ayrıcalıklı işlem gerçekleştirmek için şifre sormasını sağlamaktır:
+* Finder'dan **`/etc/pam.d`** dizinine yeni bir **`sudo`** dosyası kopyalamasını isteyin (Şifre isteyen istem, "Finder sudo'yu kopyalamak istiyor" diye belirtecektir)
+* Finder'dan yeni bir **Yetkilendirme Eklentisi** kopyalamasını isteyin (Dosya adını kontrol edebilirsiniz, böylece şifre isteyen istem "Finder Finder.bundle'ı kopyalamak istiyor" diye belirtecektir)
 ```bash
 #!/bin/sh
 
@@ -215,12 +214,12 @@ killall Dock
 {% endtab %}
 {% endtabs %}
 
-## TCC - Kök Ayrıcalığı Yükseltme
+## TCC - Root Yetki Yükseltme
 
-### CVE-2020-9771 - mount\_apfs TCC atlatma ve ayrıcalık yükseltme
+### CVE-2020-9771 - mount\_apfs TCC atlatma ve yetki yükseltme
 
-**Herhangi bir kullanıcı** (yetkisiz olanlar bile) bir zaman makinesi anlık görüntüsü oluşturabilir ve bağlayabilir ve o anlık görüntünün **tüm dosyalarına erişebilir**.\
-**Yalnızca ayrıcalıklı** olan, kullanılan uygulamanın (örneğin `Terminal`) **Tam Disk Erişimi** (FDA) erişimine (`kTCCServiceSystemPolicyAllfiles`) sahip olması gerekmektedir ve bunun için bir yönetici tarafından verilmelidir.
+**Herhangi bir kullanıcı** (hatta yetkisiz olanlar bile) bir zaman makinesi anlık görüntüsü oluşturabilir ve bu anlık görüntünün **TÜM dosyalarına** erişebilir.\
+Gerekli olan **tek yetki**, kullanılan uygulamanın (örneğin `Terminal`) **Tam Disk Erişimi** (FDA) erişimine sahip olmasıdır (`kTCCServiceSystemPolicyAllfiles`), bu da bir yönetici tarafından verilmelidir.
 
 {% code overflow="wrap" %}
 ```bash
@@ -244,26 +243,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-Daha detaylı bir açıklama [**orijinal raporda bulunabilir**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+Daha ayrıntılı bir açıklama [**orijinal raporda**](https://theevilbit.github.io/posts/cve\_2020\_9771/)** bulunabilir.**
 
 ## Hassas Bilgiler
 
-Bu, ayrıcalıkları yükseltmek için kullanışlı olabilir:
+Bu, ayrıcalıkları artırmak için faydalı olabilir:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini keşfedin**](https://peass.creator-spring.com)
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
