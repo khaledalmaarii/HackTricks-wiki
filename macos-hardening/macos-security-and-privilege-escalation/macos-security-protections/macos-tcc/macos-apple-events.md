@@ -1,46 +1,48 @@
-# macOS Matukio ya Apple
+# macOS Apple Events
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-**Matukio ya Apple** ni kipengele katika macOS ya Apple kinachoruhusu programu kuwasiliana na nyingine. Wanahusiana na **Meneja wa Matukio ya Apple**, ambayo ni sehemu ya mfumo wa uendeshaji wa macOS inayowajibika kwa kushughulikia mawasiliano kati ya michakato. Mfumo huu huwezesha programu moja kutuma ujumbe kwa programu nyingine kuomba ifanye operesheni fulani, kama kufungua faili, kupata data, au kutekeleza amri.
+**Apple Events** ni kipengele katika macOS ya Apple ambacho kinawawezesha programu kuwasiliana na kila mmoja. Ni sehemu ya **Meneja wa Matukio ya Apple**, ambao ni kipengele cha mfumo wa uendeshaji wa macOS kinachohusika na ushirikiano wa mchakato. Mfumo huu unaruhusu programu moja kutuma ujumbe kwa programu nyingine kuomba ifanye operesheni fulani, kama kufungua faili, kupata data, au kutekeleza amri.
 
-Mnara wa mina ni `/System/Library/CoreServices/appleeventsd` ambao hujisajili kama huduma `com.apple.coreservices.appleevents`.
+Daemoni ya mina ni `/System/Library/CoreServices/appleeventsd` ambayo inasajili huduma `com.apple.coreservices.appleevents`.
 
-Kila programu inayoweza kupokea matukio itaangalia hili na daemon kwa kutoa Bandari yake ya Matukio ya Apple. Na wakati programu inataka kutuma tukio kwake, programu itaomba bandari hii kutoka kwa daemon.
+Kila programu inayoweza kupokea matukio itakuwa ikikagua na daemoni hii ikitoa Apple Event Mach Port yake. Na wakati programu inataka kutuma tukio kwake, programu hiyo itahitaji port hii kutoka kwa daemoni.
 
-Programu zilizowekwa kwenye sanduku zinahitaji ruhusa kama `ruhusu kutuma matukio ya apple` na `(ruhusu mach-lookup (jina la kawaida "com.apple.coreservices.appleevents))` ili kuweza kutuma matukio. Kumbuka kuwa ruhusa kama `com.apple.security.temporary-exception.apple-events` inaweza kuzuia nani anaye ruhusa ya kutuma matukio ambayo itahitaji ruhusa kama `com.apple.private.appleevents`.
+Programu zilizowekwa kwenye sandbox zinahitaji ruhusa kama `allow appleevent-send` na `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` ili kuweza kutuma matukio. Kumbuka kwamba haki kama `com.apple.security.temporary-exception.apple-events` zinaweza kuzuia nani anayeweza kutuma matukio ambayo yatahitaji haki kama `com.apple.private.appleevents`.
 
 {% hint style="success" %}
-Inawezekana kutumia mazingira ya mazingira **`AEDebugSends`** ili kurekodi habari kuhusu ujumbe uliotumwa:
+It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
 {% endhint %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
