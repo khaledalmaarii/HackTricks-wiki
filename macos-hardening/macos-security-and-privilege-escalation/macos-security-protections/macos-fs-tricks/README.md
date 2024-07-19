@@ -1,54 +1,55 @@
-# macOS FS 技巧
+# macOS FS Tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) 上**关注**我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## POSIX 权限组合
 
 **目录**中的权限：
 
-* **读取** - 您可以**枚举**目录条目
-* **写入** - 您可以**删除/写入**目录中的**文件**，并且您可以**删除空文件夹**。
-* 但是，除非您对其具有写入权限，否则**无法删除/修改非空文件夹**。
-* 除非您拥有它，否则**无法修改文件夹的名称**。
-* **执行** - 您被**允许遍历**目录 - 如果您没有此权限，您将无法访问其中的任何文件，或任何子目录中的文件。
+* **读取** - 你可以**枚举**目录条目
+* **写入** - 你可以**删除/写入**目录中的**文件**，并且可以**删除空文件夹**。
+* 但你**不能删除/修改非空文件夹**，除非你对其拥有写入权限。
+* 你**不能修改文件夹的名称**，除非你拥有它。
+* **执行** - 你被**允许遍历**目录 - 如果你没有这个权限，你将无法访问其中的任何文件或任何子目录中的文件。
 
 ### 危险组合
 
-**如何覆盖 root 拥有的文件/文件夹**，但：
+**如何覆盖一个由 root 拥有的文件/文件夹**，但：
 
 * 路径中的一个父**目录所有者**是用户
-* 路径中的一个父**目录所有者**是具有**写入访问权限**的**用户组**
-* 一个用户**组**对**文件**具有**写入**访问权限
+* 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
+* 一个用户**组**对**文件**具有**写入**权限
 
-使用上述任何组合，攻击者可以**注入**一个**符号链接/硬链接**到预期路径，以获取特权任意写入。
+在任何上述组合中，攻击者可以**注入**一个**符号/硬链接**到预期路径，以获得特权的任意写入。
 
-### 文件夹根目录 R+X 特殊情况
+### 文件夹 root R+X 特殊情况
 
-如果**目录**中有**只有 root 具有 R+X 访问权限**的文件，那些文件对其他人**不可访问**。因此，如果存在一个漏洞允许**移动一个用户可读的文件**（由于该**限制**而无法读取），从该目录**到另一个目录**，则可能被滥用以读取这些文件。
+如果在一个**目录**中，**只有 root 拥有 R+X 访问权限**，那么这些文件对**其他任何人都不可访问**。因此，允许将一个用户可读的**文件**从这个文件夹**移动到另一个文件夹**的漏洞，可能会被滥用以读取这些文件。
 
-示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+示例在：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可能被**低权限用户控制**，或者可能是由低权限用户**先前创建**的。用户只需通过符号链接或硬链接**将其指向另一个文件**，特权进程将写入该文件。
+如果一个特权进程正在写入一个**文件**，该文件可能被**低权限用户控制**，或者可能是**之前由低权限用户创建**的。用户可以通过符号链接或硬链接**指向另一个文件**，特权进程将会在该文件上写入。
 
-请查看其他部分，攻击者可能**滥用任意写入以提升权限**。
+查看其他部分，攻击者可能会**滥用任意写入以提升权限**。
 
 ## .fileloc
 
-具有**`.fileloc`**扩展名的文件可以指向其他应用程序或二进制文件，因此当打开它们时，将执行该应用程序/二进制文件。\
+具有**`.fileloc`** 扩展名的文件可以指向其他应用程序或二进制文件，因此当它们被打开时，执行的将是该应用程序/二进制文件。\
 示例：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,21 +63,21 @@
 </dict>
 </plist>
 ```
-## 任意FD
+## Arbitrary FD
 
-如果你可以让一个**进程以高权限打开文件或文件夹**，你可以滥用**`crontab`**来打开`/etc/sudoers.d`中的文件，使用**`EDITOR=exploit.py`**，这样`exploit.py`将获得`/etc/sudoers`中文件的FD并滥用它。
+如果你能让一个 **进程以高权限打开一个文件或文件夹**，你可以利用 **`crontab`** 以 **`EDITOR=exploit.py`** 打开 `/etc/sudoers.d` 中的一个文件，这样 `exploit.py` 将获得对 `/etc/sudoers` 中文件的 FD 并加以利用。
 
-例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
+例如: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## 避免隔离xattrs技巧
+## Avoid quarantine xattrs tricks
 
-### 删除它
+### Remove it
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable标志
+### uchg / uchange / uimmutable flag
 
-如果文件/文件夹具有此不可变属性，则无法在其上放置xattr
+如果一个文件/文件夹具有此不可变属性，则无法在其上放置 xattr。
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -86,9 +87,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### defvfs挂载
+### defvfs mount
 
-**devfs**挂载**不支持xattr**，更多信息请参考[**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+一个 **devfs** 挂载 **不支持 xattr**，更多信息请参见 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -99,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-此 ACL 阻止向文件添加 `xattrs`。
+此 ACL 防止向文件添加 `xattrs`
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会复制文件及其ACEs。
+**AppleDouble** 文件格式复制一个文件及其 ACE。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将一个应用程序压缩成一个使用**AppleDouble**文件格式的zip文件，并且该文件格式具有防止其他xattr被写入的ACL... 那么隔离xattr 将不会被设置到该应用程序中：
+在 [**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) 中可以看到，存储在名为 **`com.apple.acl.text`** 的 xattr 中的 ACL 文本表示将被设置为解压缩文件中的 ACL。因此，如果你将一个应用程序压缩成一个带有 ACL 的 **AppleDouble** 文件格式的 zip 文件，该 ACL 阻止其他 xattrs 被写入... 那么隔离 xattr 并没有被设置到应用程序中：
 
-查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)以获取更多信息。
+查看 [**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) 获取更多信息。
 
-要复制这一过程，首先需要获取正确的acl字符串：
+要复制这个，我们首先需要获取正确的 acl 字符串：
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -148,7 +149,7 @@ ls -le test
 ```
 (Note that even if this works the sandbox write the quarantine xattr before)
 
-并不是真的需要，但我还是留着以防万一：
+不是真的需要，但我留着以防万一：
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -156,9 +157,9 @@ ls -le test
 
 ## 绕过代码签名
 
-Bundle 包含文件 **`_CodeSignature/CodeResources`**，其中包含 **bundle** 中每个 **文件** 的 **哈希值**。请注意，CodeResources 的哈希值也被**嵌入在可执行文件中**，因此我们无法对其进行更改。
+Bundles 包含文件 **`_CodeSignature/CodeResources`**，其中包含每个 **file** 在 **bundle** 中的 **hash**。请注意，CodeResources 的 hash 也 **嵌入在可执行文件中**，因此我们也不能对其进行修改。
 
-然而，有一些文件的签名不会被检查，这些文件在属性列表中具有省略键，如：
+然而，有一些文件的签名不会被检查，这些文件在 plist 中具有 omit 键，例如：
 ```xml
 <dict>
 ...
@@ -202,15 +203,19 @@ Bundle 包含文件 **`_CodeSignature/CodeResources`**，其中包含 **bundle**
 ...
 </dict>
 ```
-可以使用以下命令行计算资源的签名：
+可以通过命令行计算资源的签名： 
 
 {% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## 挂载dmgs
+{% endcode %}
 
-用户可以挂载一个自定义的dmg，甚至可以覆盖一些现有文件夹。以下是如何创建一个带有自定义内容的自定义dmg包的方法：
+## 挂载 dmgs
+
+用户可以挂载一个自定义的 dmg，即使是在某些现有文件夹上。这就是您如何创建一个包含自定义内容的自定义 dmg 包： 
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -233,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-通常 macOS 会通过与 `com.apple.DiskArbitrarion.diskarbitrariond` Mach 服务通信（由 `/usr/libexec/diskarbitrationd` 提供）来挂载磁盘。如果在 LaunchDaemons plist 文件中添加参数 `-d` 并重新启动，它将会将日志存储在 `/var/log/diskarbitrationd.log` 中。\
-然而，可以使用诸如 `hdik` 和 `hdiutil` 这样的工具直接与 `com.apple.driver.DiskImages` kext 通信。
+通常，macOS通过与`com.apple.DiskArbitrarion.diskarbitrariond` Mach服务（由`/usr/libexec/diskarbitrationd`提供）进行通信来挂载磁盘。如果在LaunchDaemons plist文件中添加参数`-d`并重启，它将把日志存储在`/var/log/diskarbitrationd.log`中。\
+然而，可以使用像`hdik`和`hdiutil`这样的工具直接与`com.apple.driver.DiskImages` kext进行通信。
 
 ## 任意写入
 
-### 定期 sh 脚本
+### 定期sh脚本
 
-如果您的脚本可以被解释为 **shell 脚本**，则可以覆盖 **`/etc/periodic/daily/999.local`** shell 脚本，该脚本将每天触发一次。
+如果您的脚本可以被解释为**shell脚本**，您可以覆盖**`/etc/periodic/daily/999.local`** shell脚本，该脚本将每天触发。
 
-您可以使用以下命令**伪造**执行此脚本：**`sudo periodic daily`**
+您可以用以下命令**伪造**此脚本的执行：**`sudo periodic daily`**
 
-### 守护程序
+### 守护进程
 
-编写一个任意的 **LaunchDaemon**，如 **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**，其中包含执行任意脚本的 plist，如下所示：
+编写一个任意的**LaunchDaemon**，如**`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**，其中plist执行一个任意脚本，如：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -263,19 +268,21 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 </dict>
 </plist>
 ```
+Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
+
 ### Sudoers File
 
-如果你有**任意写入权限**，你可以创建一个文件在文件夹**`/etc/sudoers.d/`**里，授予自己**sudo**权限。
+如果你有 **任意写入** 权限，你可以在 **`/etc/sudoers.d/`** 文件夹内创建一个文件，授予自己 **sudo** 权限。
 
 ### PATH files
 
-文件**`/etc/paths`** 是一个主要用来设置PATH环境变量的地方。你必须是root才能覆盖它，但如果一个来自**特权进程**的脚本在执行一些**没有完整路径的命令**，你也许可以通过修改这个文件来**劫持**它。
+文件 **`/etc/paths`** 是填充 PATH 环境变量的主要位置之一。你必须是 root 才能覆盖它，但如果 **特权进程** 执行某些 **没有完整路径** 的 **命令**，你可能能够通过修改此文件来 **劫持** 它。
 
-你也可以在**`/etc/paths.d`**里写入文件来加载新的文件夹到`PATH`环境变量中。
+你还可以在 **`/etc/paths.d`** 中写入文件，以将新文件夹加载到 `PATH` 环境变量中。
 
-## 生成其他用户可写文件
+## 生成其他用户可写的文件
 
-这将生成一个属于root但我可以写入的文件（[**代码在这里**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)）。这也可能作为权限提升：
+这将生成一个属于 root 的文件，我可以写入（[**代码来自这里**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)）。这也可能作为提权工作：
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -289,7 +296,7 @@ echo $FILENAME
 ```
 ## POSIX 共享内存
 
-**POSIX 共享内存** 允许 POSIX 兼容操作系统中的进程访问一个共享内存区域，相比其他进程间通信方法，可以实现更快的通信。它涉及使用 `shm_open()` 创建或打开一个共享内存对象，使用 `ftruncate()` 设置其大小，并使用 `mmap()` 将其映射到进程的地址空间。进程可以直接从这个内存区域读取和写入数据。为了管理并发访问并防止数据损坏，通常会使用诸如互斥锁或信号量等同步机制。最后，进程使用 `munmap()` 和 `close()` 取消映射和关闭共享内存，并可选择使用 `shm_unlink()` 删除内存对象。在需要多个进程快速访问共享数据的环境中，这种系统特别适用于高效快速的进程间通信。
+**POSIX 共享内存** 允许在符合 POSIX 的操作系统中的进程访问一个公共内存区域，与其他进程间通信方法相比，促进了更快的通信。它涉及使用 `shm_open()` 创建或打开一个共享内存对象，使用 `ftruncate()` 设置其大小，并使用 `mmap()` 将其映射到进程的地址空间。进程可以直接从这个内存区域读取和写入。为了管理并发访问并防止数据损坏，通常使用互斥锁或信号量等同步机制。最后，进程使用 `munmap()` 和 `close()` 解除映射并关闭共享内存，并可选择使用 `shm_unlink()` 删除内存对象。该系统在多个进程需要快速访问共享数据的环境中，尤其有效于高效、快速的 IPC。
 
 <details>
 
@@ -385,28 +392,29 @@ return 0;
 
 ## macOS 受保护描述符
 
-**macOS 受保护描述符**是 macOS 中引入的一项安全功能，旨在增强用户应用程序中的**文件描述符操作**的安全性和可靠性。这些受保护描述符提供了一种将特定限制或“保护”与文件描述符关联起来的方式，这些限制由内核强制执行。
+**macOS 受保护描述符** 是在 macOS 中引入的一项安全功能，旨在增强用户应用程序中 **文件描述符操作** 的安全性和可靠性。这些受保护的描述符提供了一种将特定限制或“保护”与文件描述符关联的方法，这些限制由内核强制执行。
 
-该功能特别有助于防止某些类别的安全漏洞，如**未经授权的文件访问**或**竞争条件**。这些漏洞会在例如一个线程正在访问一个文件描述符时，给**另一个易受攻击的线程访问权限**，或者当一个文件描述符被**易受攻击的子进程继承**时发生。与此功能相关的一些函数包括：
+此功能特别有助于防止某些类别的安全漏洞，例如 **未经授权的文件访问** 或 **竞争条件**。这些漏洞发生在例如一个线程正在访问一个文件描述符，导致 **另一个易受攻击的线程对其的访问**，或者当一个文件描述符被 **继承** 给一个易受攻击的子进程时。与此功能相关的一些函数包括：
 
-* `guarded_open_np`: 使用保护打开一个文件描述符
+* `guarded_open_np`: 以保护方式打开文件描述符
 * `guarded_close_np`: 关闭它
 * `change_fdguard_np`: 更改描述符上的保护标志（甚至移除保护）
 
-## 参考资料
+## 参考文献
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** 上**关注我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
