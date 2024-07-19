@@ -1,94 +1,96 @@
 # macOS Sandbox Debug & Bypass
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## Proces učitavanja peska
+## Sandbox loading process
 
-<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Slika sa <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (901).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Na prethodnoj slici je moguće posmatrati **kako će se pesak učitati** kada se pokrene aplikacija sa privilegijom **`com.apple.security.app-sandbox`**.
+U prethodnoj slici moguće je posmatrati **kako će sandbox biti učitan** kada se pokrene aplikacija sa ovlašćenjem **`com.apple.security.app-sandbox`**.
 
 Kompajler će povezati `/usr/lib/libSystem.B.dylib` sa binarnim fajlom.
 
-Zatim, **`libSystem.B`** će pozivati druge funkcije sve dok **`xpc_pipe_routine`** ne pošalje privilegije aplikacije **`securityd`**-u. Securityd proverava da li bi proces trebalo da bude izolovan unutar peska, i ako jeste, biće izolovan.\
-Na kraju, pesak će biti aktiviran pozivom **`__sandbox_ms`** koji će pozvati **`__mac_syscall`**.
+Zatim, **`libSystem.B`** će pozivati nekoliko drugih funkcija dok **`xpc_pipe_routine`** ne pošalje ovlašćenja aplikacije **`securityd`**. Securityd proverava da li proces treba da bude u karantinu unutar Sandbox-a, i ako je tako, biće stavljeni u karantinu.\
+Na kraju, sandbox će biti aktiviran pozivom **`__sandbox_ms`** koji će pozvati **`__mac_syscall`**.
 
-## Mogući zaobiđeni
+## Possible Bypasses
 
-### Zaobilaženje atributa karantina
+### Bypassing quarantine attribute
 
-**Fajlovi kreirani od strane procesa u pesku** dobijaju **atribut karantina** kako bi se sprečilo izbegavanje peska. Međutim, ako uspete da **kreirate `.app` folder bez atributa karantina** unutar aplikacije u pesku, možete naterati binarni paket aplikacije da pokazuje na **`/bin/bash`** i dodati neke env promenljive u **plist** kako biste iskoristili **`open`** da **pokrenete novu aplikaciju van peska**.
+**Fajlovi koje kreiraju procesi u sandbox-u** dobijaju **atribut karantina** kako bi se sprečilo bekstvo iz sandbox-a. Međutim, ako uspete da **napravite `.app` folder bez atributa karantina** unutar aplikacije u sandbox-u, mogli biste da usmerite binarni fajl aplikacije na **`/bin/bash`** i dodate neke env varijable u **plist** da zloupotrebite **`open`** kako biste **pokrenuli novu aplikaciju bez sandbox-a**.
 
-To je urađeno u [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
+To je ono što je učinjeno u [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
 
 {% hint style="danger" %}
-Dakle, trenutno, ako ste u mogućnosti samo da kreirate folder sa imenom koje se završava na **`.app`** bez atributa karantina, možete izbeći pesak jer macOS samo **proverava** atribut **karantina** u **`.app` folderu** i u **glavnom izvršnom fajlu** (i mi ćemo usmeriti glavni izvršni fajl na **`/bin/bash`**).
+Stoga, u ovom trenutku, ako ste samo sposobni da kreirate folder sa imenom koje se završava na **`.app`** bez atributa karantina, možete pobjeći iz sandbox-a jer macOS samo **proverava** **atribut karantina** u **`.app` folderu** i u **glavnom izvršnom fajlu** (a mi ćemo usmeriti glavni izvršni fajl na **`/bin/bash`**).
 
-Imajte na umu da ako je .app paket već autorizovan za pokretanje (ima karantinski xttr sa autorizovanom zastavicom za pokretanje), takođe ga možete iskoristiti... osim što sada ne možete pisati unutar **`.app`** paketa osim ako imate neke privilegovane TCC dozvole (koje nećete imati unutar peska visokog nivoa).
+Imajte na umu da ako je .app paket već autorizovan za pokretanje (ima atribut karantina sa oznakom autorizacije za pokretanje), takođe biste mogli da ga zloupotrebite... osim što sada ne možete pisati unutar **`.app`** paketa osim ako nemate neka privilegovana TCC dopuštenja (koja nećete imati unutar visokog sandbox-a).
 {% endhint %}
 
-### Zloupotreba funkcionalnosti Open
+### Abusing Open functionality
 
-U [**poslednjim primerima zaobiđenja peska u Word-u**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) može se primetiti kako se **`open`** cli funkcionalnost može zloupotrebiti za zaobilaženje peska.
+U [**poslednjim primerima za zaobilaženje Word sandbox-a**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv) može se primetiti kako se **`open`** CLI funkcionalnost može zloupotrebiti za zaobilaženje sandbox-a.
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Pokretanje Agensa/Demona
+### Launch Agents/Daemons
 
-Čak i ako je aplikacija **namenjena za pesak** (`com.apple.security.app-sandbox`), moguće je zaobići pesak ako se **izvršava iz LaunchAgent-a** (`~/Library/LaunchAgents`) na primer.\
-Kao što je objašnjeno u [**ovom postu**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ako želite da dobijete postojanost sa aplikacijom koja je u pesku, možete je automatski izvršiti kao LaunchAgent i možda ubaciti zlonamerni kod putem DyLib env promenljivih.
+Čak i ako je aplikacija **namenjena za sandbox** (`com.apple.security.app-sandbox`), moguće je zaobići sandbox ako se **izvrši iz LaunchAgent-a** (`~/Library/LaunchAgents`), na primer.\
+Kao što je objašnjeno u [**ovom postu**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), ako želite da dobijete postojanost sa aplikacijom koja je u sandbox-u, mogli biste je automatski izvršiti kao LaunchAgent i možda injektovati zloćudni kod putem DyLib varijabli okruženja.
 
-### Zloupotreba lokacija automatskog pokretanja
+### Abusing Auto Start Locations
 
-Ako proces u pesku može **pisati** na mestu gde će se **kasnije izvršiti binarni fajl van peska**, moći će **pobeci samo postavljanjem** binarnog fajla tamo. Dobar primer ovakvih lokacija su `~/Library/LaunchAgents` ili `/System/Library/LaunchDaemons`.
+Ako proces u sandbox-u može **pisati** na mesto gde **kasnije nesandbox aplikacija planira da pokrene binarni fajl**, moći će da **pobegne jednostavno postavljanjem** binarnog fajla tamo. Dobar primer ovakvih lokacija su `~/Library/LaunchAgents` ili `/System/Library/LaunchDaemons`.
 
-Za ovo možda čak treba **2 koraka**: Da napravite proces sa **više dozvola peska** (`file-read*`, `file-write*`) koji će izvršiti vaš kod koji će zapravo pisati na mestu gde će biti **izvršen van peska**.
+Za ovo možda čak i trebate **2 koraka**: Da napravite proces sa **permisivnijim sandbox-om** (`file-read*`, `file-write*`) koji će izvršiti vaš kod koji će zapravo pisati na mesto gde će biti **izvršen bez sandbox-a**.
 
-Proverite ovu stranicu o **lokacijama automatskog pokretanja**:
+Proverite ovu stranicu o **Auto Start lokacijama**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-### Zloupotreba drugih procesa
+### Abusing other processes
 
-Ako iz peska možete **ugroziti druge procese** koji se izvršavaju u manje restriktivnim peskovima (ili bez njih), moći ćete pobeći iz njihovih peskova:
+Ako iz sandbox procesa uspete da **kompromitujete druge procese** koji se izvršavaju u manje restriktivnim sandbox-ima (ili nijednom), moći ćete da pobegnete u njihove sandbox-e:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Statičko kompajliranje & Dinamičko povezivanje
+### Static Compiling & Dynamically linking
 
-[**Ovo istraživanje**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) otkrilo je 2 načina zaobiđenja peska. Jer se pesak primenjuje iz korisničkog prostora kada se učita biblioteka **libSystem**. Ako bi binarni fajl mogao da izbegne učitavanje te biblioteke, nikada ne bi bio stavljen u pesak:
+[**Ova istraživanja**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) otkrila su 2 načina za zaobilaženje Sandbox-a. Zato što se sandbox primenjuje iz korisničkog prostora kada se **libSystem** biblioteka učita. Ako bi binarni fajl mogao da izbegne učitavanje, nikada ne bi bio pod sandbox-om:
 
-* Ako bi binarni fajl bio **potpuno statički kompajliran**, mogao bi izbeći učitavanje te biblioteke.
-* Ako **binarni fajl ne bi trebao da učita bilo koje biblioteke** (jer je i linker u libSystem), neće morati da učita libSystem.
+* Ako je binarni fajl **potpuno statički kompajliran**, mogao bi da izbegne učitavanje te biblioteke.
+* Ako **binarni fajl ne bi trebao da učita nijednu biblioteku** (jer je linker takođe u libSystem), ne bi trebao da učita libSystem.
 
-### Shellkodovi
+### Shellcodes
 
-Imajte na umu da **čak i shellkodovi** u ARM64 moraju biti povezani u `libSystem.dylib`:
+Imajte na umu da **čak i shellcodes** u ARM64 treba da budu povezani u `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-### Ovlašćenja
+### Entitlements
 
-Imajte na umu da čak i ako su neke **radnje** možda **dozvoljene u pesku** ako aplikacija ima određeno **ovlašćenje**, kao u:
+Napomena da čak i ako su neke **akcije** možda **dozvoljene od strane sandučeta** ako aplikacija ima specifičnu **ovlašćenost**, kao u:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -98,15 +100,15 @@ Imajte na umu da čak i ako su neke **radnje** možda **dozvoljene u pesku** ako
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
-### Interpostovanje Bypass
+### Interposting Bypass
 
-Za više informacija o **Interpostovanju** pogledajte:
+Za više informacija o **Interpostingu** pogledajte:
 
 {% content-ref url="../../../macos-proces-abuse/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../macos-proces-abuse/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interpostovanje `_libsecinit_initializer` da bi se sprečio pesak
+#### Interpost `_libsecinit_initializer` da sprečite sandbox
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -130,7 +132,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-#### Interpost `__mac_syscall` da biste sprečili pesak
+#### Interpost `__mac_syscall` da sprečite Sandbox
 
 {% code title="interpose.c" %}
 ```c
@@ -176,9 +178,9 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
-### Debug & zaobilaženje peska pomoću lldb
+### Debug & bypass Sandbox with lldb
 
-Kompajlirajmo aplikaciju koja bi trebalo da bude u pesku:
+Hajde da kompajliramo aplikaciju koja bi trebala biti u sandboxu:
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -190,21 +192,7 @@ system("cat ~/Desktop/del.txt");
 ```
 {% endtab %}
 
-{% tab title="entitlements.xml" %} 
-
-## macOS Pesničenje
-
-Ovaj direktorijum sadrži informacije o pesničenju macOS pesničenja, uključujući detalje o pesničenju, pesničenju i zaobilasku macOS pesničenja.
-
-### Pesničenje macOS pesničenja
-
-Pesničenje macOS pesničenja je proces pronalaženja propusta ili slabosti u pesničenju macOS pesničenja kako bi se omogućio pristup resursima ili privilegijama koje inače ne bi trebalo imati.
-
-### Pesničenje i zaobilazak macOS pesničenja
-
-Pesničenje i zaobilazak macOS pesničenja odnosi se na pronalaženje načina da se zaobiđu sigurnosne zaštite macOS pesničenja kako bi se omogućio pristup osetljivim resursima ili privilegijama. 
-
-{% endtab %}
+{% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -215,21 +203,7 @@ Pesničenje i zaobilazak macOS pesničenja odnosi se na pronalaženje načina da
 ```
 {% endtab %}
 
-{% tab title="Info.plist" %} 
-
-## Bezbednosne mere za macOS pesak
-
-macOS Sandbox je bezbednosna funkcija koja ograničava aplikacije na određene resurse i operacije kako bi se smanjio potencijalni uticaj sigurnosnih pretnji. Međutim, pesak nije savršen i može biti zaobiđen ili probijen. Ovaj dokument istražuje načine za debagovanje i zaobilaženje macOS Sandbox-a radi boljeg razumevanja njegovih slabosti i potencijalnih rizika.
-
-### Debugovanje macOS Sandbox-a
-
-Debugovanje macOS Sandbox-a može pružiti uvid u njegovo funkcionisanje i pomoći u identifikaciji mogućih tačaka zaobilaženja. Korišćenje alata za debagovanje poput LLDB-a može biti korisno za analizu kako aplikacija komunicira sa Sandbox-om i kako se ponaša pod različitim uslovima.
-
-### Zaobilaženje macOS Sandbox-a
-
-Postoje različiti načini zaobilaženja macOS Sandbox-a, uključujući iskorišćavanje ranjivosti u samoj Sandbox implementaciji ili u samim aplikacijama koje su podložne Sandbox ograničenjima. Razumevanje ovih tehnika može pomoći developerima i bezbednosnim istraživačima da unaprede bezbednost svojih aplikacija i identifikuju potencijalne ranjivosti. 
-
-{% endtab %}
+{% tab title="Info.plist" %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -258,14 +232,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-Aplikacija će pokušati da **pročita** fajl **`~/Desktop/del.txt`**, što **Pesakboks neće dozvoliti**.\
-Napravite fajl tamo, jer kada se Pesakboks zaobiđe, aplikacija će moći da ga pročita:
+Aplikacija će pokušati da **pročita** datoteku **`~/Desktop/del.txt`**, koju **Sandbox neće dozvoliti**.\
+Kreirajte datoteku tamo jer će, kada se Sandbox zaobiđe, moći da je pročita:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Hajde da debagujemo aplikaciju da vidimo kada je Sandbox učitan:
+Hajde da debagujemo aplikaciju da vidimo kada se Sandbox učitava:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -343,25 +317,27 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Čak i kada je Sandbox zaobiđen, TCC** će pitati korisnika da li želi da dozvoli procesu da čita fajlove sa desktopa.
+**Čak i kada je Sandbox zaobiđen, TCC** će pitati korisnika da li želi da dozvoli procesu da čita datoteke sa radne površine
 {% endhint %}
 
-## Reference
+## References
 
 * [http://newosxbook.com/files/HITSB.pdf](http://newosxbook.com/files/HITSB.pdf)
 * [https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)
 * [https://www.youtube.com/watch?v=mG715HcDgO8](https://www.youtube.com/watch?v=mG715HcDgO8)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

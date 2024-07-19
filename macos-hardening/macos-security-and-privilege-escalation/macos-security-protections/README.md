@@ -1,22 +1,23 @@
-# Zaštita macOS sistema
+# macOS Security Protections
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Gatekeeper
 
-Gatekeeper se obično koristi za referisanje na kombinaciju **Karantina + Gatekeeper + XProtect**, 3 macOS sigurnosna modula koji će pokušati da **spreče korisnike da izvrše potencijalno zlonamerni softver koji su preuzeli**.
+Gatekeeper se obično koristi da se odnosi na kombinaciju **Quarantine + Gatekeeper + XProtect**, 3 macOS sigurnosna modula koja će pokušati da **spreče korisnike da izvršavaju potencijalno zlonamerni softver preuzet**.
 
 Više informacija u:
 
@@ -24,62 +25,62 @@ Više informacija u:
 [macos-gatekeeper.md](macos-gatekeeper.md)
 {% endcontent-ref %}
 
-## Ograničenja procesa
+## Processes Limitants
 
-### SIP - Sistem Integritetske Zaštite
+### SIP - System Integrity Protection
 
 {% content-ref url="macos-sip.md" %}
 [macos-sip.md](macos-sip.md)
 {% endcontent-ref %}
 
-### Pesak
+### Sandbox
 
-macOS Pesak **ograničava aplikacije** koje se izvršavaju unutar peska na **dozvoljene akcije navedene u profilu Peska** sa kojim aplikacija radi. Ovo pomaže da se osigura da **aplikacija pristupa samo očekivanim resursima**.
+MacOS Sandbox **ograničava aplikacije** koje se izvršavaju unutar sandboxes na **dozvoljene radnje specificirane u Sandbox profilu** sa kojim aplikacija radi. Ovo pomaže da se osigura da **aplikacija pristupa samo očekivanim resursima**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)
 {% endcontent-ref %}
 
-### TCC - **Transparentnost, Saglasnost i Kontrola**
+### TCC - **Transparency, Consent, and Control**
 
-**TCC (Transparentnost, Saglasnost i Kontrola)** je sigurnosni okvir. Namenski je dizajniran da **upravlja dozvolama** aplikacija, posebno regulišući njihov pristup osetljivim funkcijama. To uključuje elemente poput **usluga lokacije, kontakata, fotografija, mikrofona, kamere, pristupačnosti i pristupa celom disku**. TCC osigurava da aplikacije mogu pristupiti ovim funkcijama samo nakon dobijanja eksplicitne saglasnosti korisnika, čime se jača privatnost i kontrola nad ličnim podacima.
+**TCC (Transparency, Consent, and Control)** je sigurnosni okvir. Dizajniran je da **upravlja dozvolama** aplikacija, posebno regulisanjem njihovog pristupa osetljivim funkcijama. Ovo uključuje elemente kao što su **usluge lokacije, kontakti, fotografije, mikrofon, kamera, pristupačnost i pristup celom disku**. TCC osigurava da aplikacije mogu pristupiti ovim funkcijama samo nakon dobijanja eksplicitne saglasnosti korisnika, čime se jača privatnost i kontrola nad ličnim podacima.
 
 {% content-ref url="macos-tcc/" %}
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Ograničenja Pokretanja/Okruženja i Keš Poverenja
+### Launch/Environment Constraints & Trust Cache
 
-Ograničenja pokretanja u macOS-u su sigurnosna funkcija za **regulisanje pokretanja procesa** definisanjem **ko može pokrenuti** proces, **kako** i **odakle**. Uvedena u macOS Ventura, kategorizuju sistemski binarni fajlovi u kategorije ograničenja unutar **keša poverenja**. Svaki izvršni binarni fajl ima postavljena **pravila** za njegovo **pokretanje**, uključujući **sopstvena**, **roditeljska** i **odgovorna** ograničenja. Proširena na aplikacije trećih strana kao **Ograničenja Okruženja** u macOS Sonoma, ove funkcije pomažu u ublažavanju potencijalnih eksploatacija sistema regulisanjem uslova pokretanja procesa.
+Ograničenja pokretanja u macOS-u su sigurnosna funkcija koja **reguliše inicijaciju procesa** definišući **ko može pokrenuti** proces, **kako** i **odakle**. Uvedena u macOS Ventura, kategorizuju sistemske binarne datoteke u kategorije ograničenja unutar **trust cache**. Svaka izvršna binarna datoteka ima postavljena **pravila** za svoje **pokretanje**, uključujući **self**, **parent** i **responsible** ograničenja. Proširena na aplikacije trećih strana kao **Environment** Constraints u macOS Sonoma, ove funkcije pomažu u ublažavanju potencijalnih sistemskih eksploatacija regulisanjem uslova pokretanja procesa.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
 {% endcontent-ref %}
 
-## MRT - Alat za Uklanjanje Malvera
+## MRT - Malware Removal Tool
 
-Alat za uklanjanje malvera (MRT) je još jedan deo sigurnosne infrastrukture macOS-a. Kao što naziv sugeriše, glavna funkcija MRT-a je da **ukloni poznati malver sa zaraženih sistema**.
+Alat za uklanjanje zlonamernog softvera (MRT) je još jedan deo sigurnosne infrastrukture macOS-a. Kao što ime sugeriše, glavna funkcija MRT-a je da **ukloni poznati zlonamerni softver sa zaraženih sistema**.
 
-Kada se malver otkrije na Mac-u (bilo od strane XProtect-a ili na neki drugi način), MRT se može koristiti za automatsko **uklanjanje malvera**. MRT radi tiho u pozadini i obično se pokreće kada se sistem ažurira ili kada se preuzme nova definicija malvera (izgleda da su pravila koja MRT koristi za otkrivanje malvera unutar binarnog fajla).
+Kada se zlonamerni softver otkrije na Mac-u (bilo putem XProtect-a ili nekim drugim sredstvima), MRT se može koristiti za automatsko **uklanjanje zlonamernog softvera**. MRT radi tiho u pozadini i obično se pokreće svaki put kada se sistem ažurira ili kada se preuzima nova definicija zlonamernog softvera (izgleda da su pravila koja MRT ima za otkrivanje zlonamernog softvera unutar binarne datoteke).
 
-Iako su i XProtect i MRT deo sigurnosnih mera macOS-a, obavljaju različite funkcije:
+Dok su i XProtect i MRT deo sigurnosnih mera macOS-a, oni obavljaju različite funkcije:
 
-* **XProtect** je preventivni alat. **Proverava fajlove prilikom preuzimanja** (putem određenih aplikacija), i ako otkrije bilo koje poznate vrste malvera, **sprečava otvaranje fajla**, čime sprečava malver da inficira sistem u prvom redu.
-* **MRT**, s druge strane, je **reaktivni alat**. Radi nakon što je malver otkriven na sistemu, sa ciljem uklanjanja štetnog softvera radi čišćenja sistema.
+* **XProtect** je preventivni alat. **Proverava datoteke dok se preuzimaju** (putem određenih aplikacija), i ako otkrije bilo koje poznate vrste zlonamernog softvera, **sprečava otvaranje datoteke**, čime sprečava zlonamerni softver da inficira vaš sistem u prvom redu.
+* **MRT**, s druge strane, je **reaktivni alat**. Deluje nakon što je zlonamerni softver otkriven na sistemu, sa ciljem da ukloni problematični softver kako bi očistio sistem.
 
 Aplikacija MRT se nalazi u **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
-## Upravljanje Zadacima u Pozadini
+## Background Tasks Management
 
-**macOS** sada **upozorava** svaki put kada alat koristi dobro poznatu **tehniku za trajno izvršavanje koda** (kao što su Stavke za prijavljivanje, Demoni...), tako da korisnik bolje zna **koji softver se održava**.
+**macOS** sada **obaveštava** svaki put kada alat koristi dobro poznatu **tehniku za persistenciju izvršavanja koda** (kao što su Login Items, Daemons...), tako da korisnik bolje zna **koji softver persistira**.
 
 <figure><img src="../../../.gitbook/assets/image (1183).png" alt=""><figcaption></figcaption></figure>
 
-Ovo se izvršava sa **demonom** smeštenim u `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` i **agentom** u `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Ovo se pokreće sa **daemon**-om lociranim u `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` i **agentom** u `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
-Način na koji **`backgroundtaskmanagementd`** zna da je nešto instalirano u trajnom folderu je putem **dobijanja FSEvents** i kreiranja nekih **rukovatelja** za njih.
+Način na koji **`backgroundtaskmanagementd`** zna da je nešto instalirano u persistentnom folderu je **dobijanje FSEvents** i kreiranje nekih **handler-a** za njih.
 
-Osim toga, postoji plist fajl koji sadrži **dobro poznate aplikacije** koje često ostaju održavane od strane Apple-a smeštene u: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+Štaviše, postoji plist datoteka koja sadrži **dobro poznate aplikacije** koje često persistiraju, a koju održava Apple, locirana u: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json
 [...]
 "us.zoom.ZoomDaemon" => {
@@ -95,33 +96,33 @@ Osim toga, postoji plist fajl koji sadrži **dobro poznate aplikacije** koje če
 }
 [...]
 ```
-### Enumeracija
+### Enumeration
 
-Moguće je **enumerisati sve** konfigurisane pozadinske stavke pokretanjem Apple CLI alata:
+Moguće je **enumerisati sve** konfigurirane pozadinske stavke koristeći Apple cli alat:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
 ```
-Osim toga, moguće je i prikazati ove informacije pomoću [**DumpBTM**](https://github.com/objective-see/DumpBTM).
+Pored toga, takođe je moguće prikazati ove informacije pomoću [**DumpBTM**](https://github.com/objective-see/DumpBTM).
 ```bash
 # You need to grant the Terminal Full Disk Access for this to work
 chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Ove informacije se čuvaju u **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** i Terminalu je potreban FDA.
+Ove informacije se čuvaju u **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** i Terminalu je potrebna FDA.
 
-### Igranje sa BTM
+### Mešanje sa BTM
 
-Kada se pronađe nova postojanost, događa se događaj tipa **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Dakle, bilo koji način da se **spreči** slanje ovog **događaja** ili da se **agent obavesti** korisnika pomoći će napadaču da _**zaobiđe**_ BTM.
+Kada se pronađe nova perzistencija, događa se događaj tipa **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Dakle, bilo koji način da se **spreči** slanje ovog **događaja** ili da **agent ne obavesti** korisnika će pomoći napadaču da _**zaobiđe**_ BTM.
 
-* **Resetovanje baze podataka**: Pokretanje sledeće komande će resetovati bazu podataka (trebalo bi je ponovo izgraditi od početka), međutim, iz nekog razloga, nakon pokretanja ove komande, **nijedna nova postojanost neće biti obaveštena dok se sistem ne ponovo pokrene**.
-* Potreban je **root**.
+* **Resetovanje baze podataka**: Pokretanje sledeće komande će resetovati bazu podataka (trebalo bi da je ponovo izgradi od nule), međutim, iz nekog razloga, nakon pokretanja ovoga, **nema novih perzistencija koje će biti obaveštene dok se sistem ne restartuje**.
+* **root** je potreban.
 ```bash
 # Reset the database
 sfltool resettbtm
 ```
-* **Zaustavite agenta**: Moguće je poslati signal za zaustavljanje agentu kako se **ne bi obaveštavao korisnik** kada se pronađu nove detekcije.
+* **Zaustavite agenta**: Moguće je poslati signal za zaustavljanje agentu tako da **neće obaveštavati korisnika** kada se pronađu nova otkrića.
 ```bash
 # Get PID
 pgrep BackgroundTaskManagementAgent
@@ -134,24 +135,25 @@ kill -SIGSTOP 1011
 ps -o state 1011
 T
 ```
-* **Greška**: Ako **proces koji je stvorio upornost brzo prestane da postoji nakon toga**, demon će pokušati da **dobije informacije** o tome, **neće uspeti**, i **neće moći da pošalje događaj** koji ukazuje da se nešto novo upornošću.
+* **Greška**: Ako **proces koji je stvorio postojanost brzo nestane nakon njega**, demon će pokušati da **dobije informacije** o njemu, **neće uspeti** i **neće moći da pošalje događaj** koji ukazuje na to da nova stvar postojano traje.
 
 Reference i **više informacija o BTM**:
 
 * [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
 * [https://support.apple.com/en-gb/guide/deployment/depdca572563/web](https://support.apple.com/en-gb/guide/deployment/depdca572563/web)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
+</details>
+{% endhint %}
 </details>
