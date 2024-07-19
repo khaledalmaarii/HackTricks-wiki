@@ -1,43 +1,46 @@
-# छवि प्राप्ति और माउंट
+# Image Acquisition & Mount
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित देखना चाहते हैं**? या क्या आप **PEASS के नवीनतम संस्करण देखना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* [**द पीएस फैमिली**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**एनएफटीज़**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **मुझे** **ट्विटर** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) पर पीआर जमा करके**।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## प्राप्ति
+## अधिग्रहण
 
 ### DD
 ```bash
 #This will generate a raw copy of the disk
 dd if=/dev/sdb of=disk.img
 ```
-### डीसीएफएलडी
+### dcfldd
 ```bash
 #Raw copy with hashes along the way (more secur as it checks hashes while it's copying the data)
 dcfldd if=<subject device> of=<image file> bs=512 hash=<algorithm> hashwindow=<chunk size> hashlog=<hash file>
 dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/media/usb/pc.hashes
 ```
-### FTK इमेजर
+### FTK Imager
 
-आप यहाँ से [**FTK इमेजर डाउनलोड कर सकते हैं**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1)।
+आप [**यहां से FTK इमेजर डाउनलोड कर सकते हैं**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
 ```bash
 ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --description 'A description' --examiner 'Your name'
 ```
 ### EWF
 
-आप **ewf tools** का उपयोग करके एक डिस्क छवि उत्पन्न कर सकते हैं। [**ewf tools**](https://github.com/libyal/libewf)।
+आप [**ewf tools**](https://github.com/libyal/libewf) का उपयोग करके एक डिस्क इमेज उत्पन्न कर सकते हैं।
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -54,11 +57,11 @@ ewfacquire /dev/sdb
 #Then use default values
 #It will generate the disk image in the current directory
 ```
-## माउंट
+## Mount
 
-### कई प्रकार
+### Several types
 
-**Windows** में आप फ्री संस्करण का उपयोग कर सकते हैं Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) को **फोरेंसिक्स इमेज को माउंट** करने के लिए।
+In **Windows** आप Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) का मुफ्त संस्करण **फॉरेंसिक इमेज** को **माउंट** करने के लिए आजमा सकते हैं।
 
 ### Raw
 ```bash
@@ -70,6 +73,8 @@ evidence.img: Linux rev 1.0 ext4 filesystem data, UUID=1031571c-f398-4bfb-a414-b
 mount evidence.img /mnt
 ```
 ### EWF
+
+EWF (Expert Witness Format) एक फॉरेंसिक इमेज फॉर्मेट है जो डिजिटल साक्ष्यों को सुरक्षित रूप से संग्रहित करने के लिए उपयोग किया जाता है। यह फॉर्मेट डेटा की अखंडता को बनाए रखने में मदद करता है और इसे विभिन्न फॉरेंसिक टूल्स द्वारा पढ़ा जा सकता है। EWF फाइलें आमतौर पर .E01 एक्सटेंशन के साथ होती हैं और इनमें डेटा, मेटाडेटा और एक चेकसम शामिल होता है।
 ```bash
 #Get file type
 file evidence.E01
@@ -84,14 +89,14 @@ output/ewf1: Linux rev 1.0 ext4 filesystem data, UUID=05acca66-d042-4ab2-9e9c-be
 #Mount
 mount output/ewf1 -o ro,norecovery /mnt
 ```
-### आर्सेनल इमेज माउंटर
+### ArsenalImageMounter
 
-यह एक Windows एप्लिकेशन है जो वॉल्यूम को माउंट करने के लिए है। आप इसे यहाँ से डाउनलोड कर सकते हैं [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+यह एक Windows एप्लिकेशन है जो वॉल्यूम को माउंट करता है। आप इसे यहाँ डाउनलोड कर सकते हैं [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
-### त्रुटियाँ
+### Errors
 
-* **`/dev/loop0 को केवल पढ़ने के लिए माउंट नहीं किया जा सकता`** इस मामले में आपको फ्लैग **`-o ro,norecovery`** का उपयोग करना होगा।
-* **`गलत एफएस प्रकार, बुरा विकल्प, /dev/loop0 पर बुरा सुपरब्लॉक, कोडपेज या हेल्पर प्रोग्राम गायब है, या अन्य त्रुटि।`** इस मामले में माउंट विफल हुआ क्योंकि फाइलसिस्टम का ऑफसेट डिस्क इमेज के ऑफसेट से भिन्न है। आपको सेक्टर साइज और स्टार्ट सेक्टर खोजने की आवश्यकता है:
+* **`cannot mount /dev/loop0 read-only`** इस मामले में आपको फ्लैग्स **`-o ro,norecovery`** का उपयोग करना होगा।
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** इस मामले में माउंट विफल हो गया क्योंकि फाइल सिस्टम का ऑफसेट डिस्क इमेज के ऑफसेट से अलग है। आपको सेक्टर का आकार और प्रारंभिक सेक्टर ढूंढना होगा:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,7 +109,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-नोट करें कि सेक्टर का आकार **512** है और प्रारंभ **2048** है। फिर छवि को इस तरह माउंट करें:
+ध्यान दें कि सेक्टर का आकार **512** है और प्रारंभ **2048** है। फिर छवि को इस तरह माउंट करें:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -112,14 +117,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+सीखें और AWS हैकिंग का अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+सीखें और GCP हैकिंग का अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित देखना चाहते हैं**? या क्या आपको **PEASS के नवीनतम संस्करण देखना है या HackTricks को PDF में डाउनलोड करना है**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर फॉलो करें 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) पर PR जमा करके**. 
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो** करें [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* हैकिंग ट्रिक्स साझा करें और [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
+{% endhint %}
