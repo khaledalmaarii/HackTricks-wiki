@@ -1,4 +1,4 @@
-# 1723 - Pentesting PPTP
+# macOS Apple Events
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -15,36 +15,22 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) - це **пошукова система**, що працює на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **скомпрометовані** **шкідливими програмами-крадіями**.
-
-Основна мета WhiteIntel - боротися з захопленням облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, що крадуть інформацію.
-
-Ви можете перевірити їхній вебсайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 ## Basic Information
 
-**Point-to-Point Tunneling Protocol (PPTP)** - це метод, який широко використовується для **віддаленого доступу** до мобільних пристроїв. Він використовує **TCP порт 1723** для обміну ключами, тоді як **IP протокол 47** (Generic Routing Encapsulation, або **GRE**) використовується для шифрування даних, що передаються між партнерами. Ця конфігурація є критично важливою для встановлення безпечного каналу зв'язку через інтернет, забезпечуючи конфіденційність даних, що обмінюються, і захист від несанкціонованого доступу.
+**Apple Events** — це функція в macOS від Apple, яка дозволяє додаткам спілкуватися один з одним. Вони є частиною **Apple Event Manager**, який є компонентом операційної системи macOS, відповідальним за обробку міжпроцесного спілкування. Ця система дозволяє одному додатку надсилати повідомлення іншому додатку з проханням виконати певну операцію, наприклад, відкрити файл, отримати дані або виконати команду.
 
-**Default Port**:1723
+Основний демон — це `/System/Library/CoreServices/appleeventsd`, який реєструє сервіс `com.apple.coreservices.appleevents`.
 
-## Enumeration
+Кожен додаток, який може отримувати події, перевіряє з цим демоном, надаючи свій Apple Event Mach Port. І коли додаток хоче надіслати подію, він запитує цей порт у демона.
+
+Пісочничні додатки потребують привілеїв, таких як `allow appleevent-send` та `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))`, щоб мати можливість надсилати події. Зверніть увагу, що права, такі як `com.apple.security.temporary-exception.apple-events`, можуть обмежити доступ до надсилання подій, для чого знадобляться права, такі як `com.apple.private.appleevents`.
+
+{% hint style="success" %}
+It's possible to use the env variable **`AEDebugSends`** in order to log informtion about the message sent:
 ```bash
-nmap –Pn -sSV -p1723 <IP>
+AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
-### [Brute Force](../generic-methodologies-and-resources/brute-force.md#pptp)
-
-## Вразливості
-
-* [https://www.schneier.com/academic/pptp/](https://www.schneier.com/academic/pptp/)
-* [https://github.com/moxie0/chapcrack](https://github.com/moxie0/chapcrack)
+{% endhint %}
 
 {% hint style="success" %}
 Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
