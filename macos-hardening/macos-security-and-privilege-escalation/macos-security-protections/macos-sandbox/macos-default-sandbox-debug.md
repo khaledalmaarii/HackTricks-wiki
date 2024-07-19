@@ -1,20 +1,21 @@
 # macOS Default Sandbox Debug
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}
 
-In questa pagina puoi trovare come creare un'applicazione per eseguire comandi arbitrari all'interno del sandbox predefinito di macOS:
+In questa pagina puoi trovare come creare un'app per lanciare comandi arbitrari dall'interno della sandbox predefinita di macOS:
 
 1. Compila l'applicazione:
 
@@ -52,8 +53,7 @@ return 0;
 
 Compilalo eseguendo: `clang -framework Foundation -o SandboxedShellApp main.m`
 
-2. Costruisci il bundle `.app`
-
+2. Crea il pacchetto `.app`
 ```bash
 mkdir -p SandboxedShellApp.app/Contents/MacOS
 mv SandboxedShellApp SandboxedShellApp.app/Contents/MacOS/
@@ -75,8 +75,7 @@ cat << EOF > SandboxedShellApp.app/Contents/Info.plist
 </plist>
 EOF
 ```
-
-3. Definire i privilegi
+3. Definire i diritti
 
 {% tabs %}
 {% tab title="sandbox" %}
@@ -92,32 +91,9 @@ cat << EOF > entitlements.plist
 </plist>
 EOF
 ```
+{% endtab %}
 
-## macOS Sandbox
-
-Il sandbox di macOS è un meccanismo di sicurezza che limita le azioni che un'applicazione può eseguire sul sistema operativo. Questo meccanismo è progettato per proteggere il sistema da applicazioni dannose o non attendibili.
-
-### Protezioni predefinite del sandbox
-
-Quando un'applicazione viene eseguita all'interno del sandbox di macOS, viene automaticamente limitata nelle sue azioni. Alcune delle protezioni predefinite del sandbox includono:
-
-* Accesso limitato ai file e alle cartelle del sistema
-* Limitazioni sulle comunicazioni di rete
-* Limitazioni sull'accesso all'hardware del sistema
-* Limitazioni sull'accesso alle risorse del sistema, come la fotocamera o il microfono
-
-### Debug del sandbox predefinito
-
-Il sandbox predefinito di macOS è progettato per essere sicuro e limitare le azioni delle applicazioni. Tuttavia, è possibile che alcune applicazioni richiedano funzionalità aggiuntive che non sono consentite dal sandbox predefinito. In questi casi, è possibile abilitare il debug del sandbox predefinito per consentire l'accesso a queste funzionalità aggiuntive.
-
-Il debug del sandbox predefinito può essere abilitato utilizzando il comando `sandbox-exec`. Questo comando consente di specificare un profilo di sandbox personalizzato che definisce le azioni consentite per un'applicazione specifica.
-
-### Download all'interno del sandbox
-
-Quando un'applicazione viene eseguita all'interno del sandbox di macOS, il download di file può essere limitato. Il sandbox predefinito di macOS consente solo il download di file in determinate posizioni, come la cartella "Downloads" dell'utente corrente.
-
-Se un'applicazione richiede di scaricare file in una posizione diversa, è possibile abilitare il debug del sandbox predefinito e specificare un profilo di sandbox personalizzato che consenta il download in una posizione specifica.
-
+{% tab title="sandbox + downloads" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -135,8 +111,7 @@ EOF
 {% endtab %}
 {% endtabs %}
 
-4. Firma l'app (è necessario creare un certificato nel portachiavi)
-
+4. Firma l'app (devi creare un certificato nel portachiavi)
 ```bash
 codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
 ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
@@ -144,17 +119,17 @@ codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.a
 # An d in case you need this in the future
 codesign --remove-signature SandboxedShellApp.app
 ```
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository su github.
 
 </details>
+{% endhint %}

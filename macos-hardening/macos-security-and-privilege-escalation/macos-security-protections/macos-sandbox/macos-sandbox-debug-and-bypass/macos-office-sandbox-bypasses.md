@@ -1,76 +1,78 @@
-# Bypass del Sandbox di macOS Office
+# macOS Office Sandbox Bypasses
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Bypass del Sandbox di Word tramite Launch Agents
+### Bypass della Sandbox di Word tramite Launch Agents
 
-L'applicazione utilizza un **Sandbox personalizzato** utilizzando l'entitlement **`com.apple.security.temporary-exception.sbpl`** e questo Sandbox personalizzato consente di scrivere file ovunque purché il nome del file inizi con `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
+L'applicazione utilizza una **Sandbox personalizzata** usando il diritto **`com.apple.security.temporary-exception.sbpl`** e questa sandbox personalizzata consente di scrivere file ovunque purché il nome del file inizi con `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
 
-Pertanto, l'escape è stato semplice come **scrivere un file `plist`** LaunchAgent in `~/Library/LaunchAgents/~$escape.plist`.
+Pertanto, l'escape era facile come **scrivere un `plist`** LaunchAgent in `~/Library/LaunchAgents/~$escape.plist`.
 
-Controlla il [**rapporto originale qui**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
+Controlla il [**report originale qui**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
 
-### Bypass del Sandbox di Word tramite Login Items e zip
+### Bypass della Sandbox di Word tramite Login Items e zip
 
 Ricorda che dal primo escape, Word può scrivere file arbitrari il cui nome inizia con `~$`, anche se dopo la patch della vulnerabilità precedente non era possibile scrivere in `/Library/Application Scripts` o in `/Library/LaunchAgents`.
 
-È stato scoperto che all'interno del sandbox è possibile creare un **Login Item** (applicazioni che verranno eseguite quando l'utente accede). Tuttavia, queste app **non verranno eseguite** a meno che non siano **notarizzate** e non è possibile aggiungere argomenti (quindi non è possibile eseguire una reverse shell usando **`bash`**).
+È stato scoperto che dall'interno della sandbox è possibile creare un **Login Item** (app che verranno eseguite quando l'utente accede). Tuttavia, queste app **non verranno eseguite a meno che** non siano **notarizzate** e **non è possibile aggiungere argomenti** (quindi non puoi semplicemente eseguire una reverse shell usando **`bash`**).
 
-Dal precedente bypass del Sandbox, Microsoft ha disabilitato l'opzione di scrittura dei file in `~/Library/LaunchAgents`. Tuttavia, è stato scoperto che se si inserisce un **file zip come Login Item**, l'`Archive Utility` lo scompatterà nella sua posizione corrente. Quindi, poiché per impostazione predefinita la cartella `LaunchAgents` di `~/Library` non viene creata, è stato possibile **creare un file plist in `LaunchAgents/~$escape.plist`** e **posizionare** il file zip in **`~/Library`** in modo che, quando viene decompresso, raggiunga la destinazione di persistenza.
+Dalla precedente bypass della Sandbox, Microsoft ha disabilitato l'opzione di scrivere file in `~/Library/LaunchAgents`. Tuttavia, è stato scoperto che se si mette un **file zip come Login Item**, l'`Archive Utility` semplicemente **decomprimerà** il file nella sua posizione attuale. Quindi, poiché per impostazione predefinita la cartella `LaunchAgents` di `~/Library` non viene creata, è stato possibile **zipare un plist in `LaunchAgents/~$escape.plist`** e **posizionare** il file zip in **`~/Library`** in modo che, quando viene decompresso, raggiunga la destinazione di persistenza.
 
-Controlla il [**rapporto originale qui**](https://objective-see.org/blog/blog\_0x4B.html).
+Controlla il [**report originale qui**](https://objective-see.org/blog/blog\_0x4B.html).
 
-### Bypass del Sandbox di Word tramite Login Items e .zshenv
+### Bypass della Sandbox di Word tramite Login Items e .zshenv
 
 (Ricorda che dal primo escape, Word può scrivere file arbitrari il cui nome inizia con `~$`).
 
-Tuttavia, la tecnica precedente aveva una limitazione: se la cartella **`~/Library/LaunchAgents`** esiste perché è stata creata da un altro software, il bypass fallirebbe. Quindi è stata scoperta una catena di Login Items diversa per questo caso.
+Tuttavia, la tecnica precedente aveva una limitazione, se la cartella **`~/Library/LaunchAgents`** esiste perché qualche altro software l'ha creata, fallirebbe. Quindi è stata scoperta una diversa catena di Login Items per questo.
 
-Un attaccante potrebbe creare i file **`.bash_profile`** e **`.zshenv`** con il payload da eseguire e quindi comprimerli in un file zip e **scrivere il file zip nella cartella** dell'utente vittima: **`~/~$escape.zip`**.
+Un attaccante potrebbe creare i file **`.bash_profile`** e **`.zshenv`** con il payload da eseguire e poi zipparli e **scrivere lo zip nella cartella** dell'utente vittima: **`~/~$escape.zip`**.
 
-Successivamente, aggiungi il file zip ai **Login Items** e quindi all'app **`Terminal`**. Quando l'utente effettua nuovamente l'accesso, il file zip verrà decompresso nella cartella dell'utente, sovrascrivendo **`.bash_profile`** e **`.zshenv** e quindi il terminale eseguirà uno di questi file (a seconda se viene utilizzato bash o zsh).
+Poi, aggiungere il file zip ai **Login Items** e poi all'app **`Terminal`**. Quando l'utente effettua nuovamente il login, il file zip verrebbe decompresso nella cartella dell'utente, sovrascrivendo **`.bash_profile`** e **`.zshenv`** e quindi, il terminale eseguirà uno di questi file (a seconda se viene utilizzato bash o zsh).
 
-Controlla il [**rapporto originale qui**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
+Controlla il [**report originale qui**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
 
-### Bypass del Sandbox di Word con Open e variabili di ambiente
+### Bypass della Sandbox di Word con Open e variabili env
 
-Dai processi sandboxed è ancora possibile invocare altri processi utilizzando l'utilità **`open`**. Inoltre, questi processi verranno eseguiti **all'interno del proprio sandbox**.
+Dai processi sandboxed è ancora possibile invocare altri processi utilizzando l'utility **`open`**. Inoltre, questi processi verranno eseguiti **all'interno della propria sandbox**.
 
-È stato scoperto che l'utilità open ha l'opzione **`--env`** per eseguire un'app con **specifiche variabili di ambiente**. Pertanto, è stato possibile creare il file **`.zshenv`** all'interno di una cartella **all'interno** del **sandbox** e utilizzare `open` con `--env` impostando la variabile **`HOME`** su quella cartella aprendo l'app **Terminal**, che eseguirà il file `.zshenv` (per qualche motivo era anche necessario impostare la variabile `__OSINSTALL_ENVIROMENT`).
+È stato scoperto che l'utility open ha l'opzione **`--env`** per eseguire un'app con **variabili env** specifiche. Pertanto, è stato possibile creare il **file `.zshenv`** all'interno di una cartella **dentro** la **sandbox** e utilizzare `open` con `--env` impostando la **variabile `HOME`** su quella cartella aprendo l'app `Terminal`, che eseguirà il file `.zshenv` (per qualche motivo era anche necessario impostare la variabile `__OSINSTALL_ENVIROMENT`).
 
-Controlla il [**rapporto originale qui**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
+Controlla il [**report originale qui**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
 
-### Bypass del Sandbox di Word con Open e stdin
+### Bypass della Sandbox di Word con Open e stdin
 
-L'utilità **`open`** supporta anche il parametro **`--stdin`** (e dopo il bypass precedente non era più possibile utilizzare `--env`).
+L'utility **`open`** supportava anche il parametro **`--stdin`** (e dopo il bypass precedente non era più possibile utilizzare `--env`).
 
-Il punto è che anche se **`python`** è firmato da Apple, **non eseguirà** uno script con l'attributo **`quarantine`**. Tuttavia, era possibile passargli uno script da stdin in modo che non controllasse se era stato messo in quarantena o meno:&#x20;
+Il fatto è che anche se **`python`** era firmato da Apple, **non eseguirà** uno script con l'attributo **`quarantine`**. Tuttavia, era possibile passargli uno script da stdin in modo che non controllasse se fosse stato quarantinato o meno:&#x20;
 
-1. Crea un file **`~$exploit.py`** con comandi Python arbitrari.
-2. Esegui _open_ **`–stdin='~$exploit.py' -a Python`**, che esegue l'app Python con il nostro file inserito come input standard. Python esegue tranquillamente il nostro codice e poiché è un processo figlio di _launchd_, non è vincolato alle regole del sandbox di Word.
+1. Creare un file **`~$exploit.py`** con comandi Python arbitrari.
+2. Eseguire _open_ **`–stdin='~$exploit.py' -a Python`**, che esegue l'app Python con il nostro file creato come input standard. Python esegue felicemente il nostro codice e, poiché è un processo figlio di _launchd_, non è vincolato alle regole della sandbox di Word.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository GitHub di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

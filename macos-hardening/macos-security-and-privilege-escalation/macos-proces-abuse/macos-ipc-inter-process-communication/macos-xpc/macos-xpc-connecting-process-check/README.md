@@ -1,58 +1,59 @@
-# Controllo del processo di connessione XPC su macOS
+# macOS XPC Connecting Process Check
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Controllo del processo di connessione XPC
+## XPC Connecting Process Check
 
-Quando viene stabilita una connessione a un servizio XPC, il server verifica se la connessione è consentita. Di seguito sono riportati i controlli che solitamente vengono eseguiti:
+Quando viene stabilita una connessione a un servizio XPC, il server verificherà se la connessione è consentita. Questi sono i controlli che di solito esegue:
 
-1. Verifica se il **processo di connessione è firmato con un certificato firmato da Apple** (concesso solo da Apple).
-* Se ciò **non viene verificato**, un attaccante potrebbe creare un **certificato falso** per corrispondere a qualsiasi altro controllo.
-2. Verifica se il processo di connessione è firmato con il **certificato dell'organizzazione** (verifica dell'ID del team).
-* Se ciò **non viene verificato**, **qualsiasi certificato di sviluppatore** di Apple può essere utilizzato per la firma e la connessione al servizio.
-3. Verifica se il processo di connessione **contiene un bundle ID corretto**.
-* Se ciò **non viene verificato**, qualsiasi strumento **firmato dalla stessa organizzazione** potrebbe essere utilizzato per interagire con il servizio XPC.
-4. (4 o 5) Verifica se il processo di connessione ha un **numero di versione del software corretto**.
-* Se ciò **non viene verificato**, potrebbe essere utilizzato un client obsoleto e non sicuro, vulnerabile all'iniezione di processo, per connettersi al servizio XPC anche con gli altri controlli in atto.
-5. (4 o 5) Verifica se il processo di connessione ha un runtime protetto senza entitlement pericolosi (come quelli che consentono di caricare librerie arbitrarie o utilizzare variabili di ambiente DYLD).
-1. Se ciò **non viene verificato**, il client potrebbe essere **vulnerabile all'iniezione di codice**.
-6. Verifica se il processo di connessione ha un **entitlement** che gli consente di connettersi al servizio. Questo si applica alle applicazioni Apple.
-7. La **verifica** deve essere **basata** sul **token di audit del client** di connessione **anziché** sul suo ID di processo (**PID**) poiché il primo previene gli attacchi di **riutilizzo del PID**.
-* Gli sviluppatori **raramente utilizzano** la chiamata API del token di audit poiché è **privata**, quindi Apple potrebbe **modificarla** in qualsiasi momento. Inoltre, l'uso di API private non è consentito nelle app del Mac App Store.
-* Se viene utilizzato il metodo **`processIdentifier`**, potrebbe essere vulnerabile
-* Dovrebbe essere utilizzato **`xpc_dictionary_get_audit_token`** invece di **`xpc_connection_get_audit_token`**, poiché quest'ultimo potrebbe anche essere [vulnerabile in determinate situazioni](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Controlla se il **processo di connessione è firmato con un certificato firmato da Apple** (rilasciato solo da Apple).
+* Se questo **non è verificato**, un attaccante potrebbe creare un **certificato falso** per soddisfare qualsiasi altro controllo.
+2. Controlla se il processo di connessione è firmato con il **certificato dell'organizzazione** (verifica dell'ID del team).
+* Se questo **non è verificato**, **qualsiasi certificato di sviluppatore** di Apple può essere utilizzato per la firma e connettersi al servizio.
+3. Controlla se il processo di connessione **contiene un ID bundle appropriato**.
+* Se questo **non è verificato**, qualsiasi strumento **firmato dalla stessa org** potrebbe essere utilizzato per interagire con il servizio XPC.
+4. (4 o 5) Controlla se il processo di connessione ha un **numero di versione software appropriato**.
+* Se questo **non è verificato**, un client vecchio e insicuro, vulnerabile all'iniezione di processi, potrebbe essere utilizzato per connettersi al servizio XPC anche con gli altri controlli in atto.
+5. (4 o 5) Controlla se il processo di connessione ha un runtime rinforzato senza diritti pericolosi (come quelli che consentono di caricare librerie arbitrarie o utilizzare variabili d'ambiente DYLD).
+1. Se questo **non è verificato**, il client potrebbe essere **vulnerabile all'iniezione di codice**.
+6. Controlla se il processo di connessione ha un **diritto** che gli consente di connettersi al servizio. Questo è applicabile per i binari Apple.
+7. La **verifica** deve essere **basata** sul **token di audit del client di connessione** **invece** che sul suo ID processo (**PID**) poiché il primo previene **attacchi di riutilizzo del PID**.
+* Gli sviluppatori **raramente utilizzano la chiamata API del token di audit** poiché è **privata**, quindi Apple potrebbe **cambiarla** in qualsiasi momento. Inoltre, l'uso di API private non è consentito nelle app del Mac App Store.
+* Se viene utilizzato il metodo **`processIdentifier`**, potrebbe essere vulnerabile.
+* **`xpc_dictionary_get_audit_token`** dovrebbe essere utilizzato invece di **`xpc_connection_get_audit_token`**, poiché quest'ultimo potrebbe anche essere [vulnerabile in determinate situazioni](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Attacchi di comunicazione
+### Communication Attacks
 
-Per ulteriori informazioni sull'attacco di riutilizzo del PID, controlla:
+Per ulteriori informazioni sull'attacco di riutilizzo del PID controlla:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-Per ulteriori informazioni sull'attacco **`xpc_connection_get_audit_token`**, controlla:
+Per ulteriori informazioni sull'attacco **`xpc_connection_get_audit_token`** controlla:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - Prevenzione degli attacchi di declassamento
+### Trustcache - Downgrade Attacks Prevention
 
-Trustcache è un metodo difensivo introdotto nelle macchine Apple Silicon che memorizza un database di CDHSAH dei binari Apple in modo che solo i binari non modificati consentiti possano essere eseguiti. Ciò impedisce l'esecuzione di versioni di declassamento.
+Trustcache è un metodo difensivo introdotto nelle macchine Apple Silicon che memorizza un database di CDHSAH dei binari Apple in modo che solo i binari non modificati autorizzati possano essere eseguiti. Questo previene l'esecuzione di versioni downgrade.
 
-### Esempi di codice
+### Code Examples
 
 Il server implementerà questa **verifica** in una funzione chiamata **`shouldAcceptNewConnection`**.
 
@@ -65,9 +66,9 @@ return YES;
 ```
 {% endcode %}
 
-L'oggetto NSXPCConnection ha una proprietà **privata** chiamata **`auditToken`** (quella che dovrebbe essere utilizzata ma potrebbe cambiare) e una proprietà **pubblica** chiamata **`processIdentifier`** (quella che non dovrebbe essere utilizzata).
+L'oggetto NSXPCConnection ha una proprietà **privata** **`auditToken`** (quella che dovrebbe essere utilizzata ma potrebbe cambiare) e una proprietà **pubblica** **`processIdentifier`** (quella che non dovrebbe essere utilizzata).
 
-Il processo di connessione potrebbe essere verificato con qualcosa del genere:
+Il processo di connessione potrebbe essere verificato con qualcosa come:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -89,7 +90,9 @@ SecCodeCheckValidity(code, kSecCSDefaultFlags, requirementRef);
 SecTaskRef taskRef = SecTaskCreateWithAuditToken(NULL, ((ExtendedNSXPCConnection*)newConnection).auditToken);
 SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString))
 ```
-Se uno sviluppatore non vuole controllare la versione del client, potrebbe almeno verificare che il client non sia vulnerabile all'iniezione di processo:
+{% endcode %}
+
+Se un sviluppatore non vuole controllare la versione del client, potrebbe verificare che il client non sia vulnerabile all'iniezione di processi almeno:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -108,16 +111,17 @@ return Yes; // Accept connection
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Impara e pratica il hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}
