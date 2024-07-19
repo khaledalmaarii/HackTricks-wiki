@@ -1,22 +1,23 @@
-# Injeção em Aplicações Java no macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Enumeração
 
-Encontre aplicações Java instaladas em seu sistema. Foi observado que aplicações Java no arquivo **Info.plist** conterão alguns parâmetros Java que contêm a string **`java.`**, então você pode procurar por isso:
+Encontre aplicativos Java instalados em seu sistema. Foi notado que aplicativos Java no **Info.plist** conterão alguns parâmetros java que contêm a string **`java.`**, então você pode procurar por isso:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-No entanto, isso irá desencadear um erro no aplicativo executado, outra maneira mais furtiva é criar um agente Java e usar:
+No entanto, isso irá gerar um erro no aplicativo executado, uma maneira mais discreta é criar um agente Java e usar:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-E então exporte a variável de ambiente e execute a aplicação Java assim:
+E então exporte a variável de ambiente e execute o aplicativo java assim:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## Ficheiro vmoptions
+## arquivo vmoptions
 
-Este ficheiro suporta a especificação de **parâmetros Java** quando o Java é executado. Pode-se usar alguns dos truques anteriores para alterar os parâmetros Java e **fazer o processo executar comandos arbitrários**.\
-Além disso, este ficheiro também pode **incluir outros** com o diretório `include`, então também poderia alterar um ficheiro incluído.
+Este arquivo suporta a especificação de **parâmetros Java** quando o Java é executado. Você pode usar alguns dos truques anteriores para alterar os parâmetros java e **fazer o processo executar comandos arbitrários**.\
+Além disso, este arquivo também pode **incluir outros** com o diretório `include`, então você também pode alterar um arquivo incluído.
 
-Ainda mais, algumas aplicações Java irão **carregar mais do que um ficheiro `vmoptions`**.
+Ainda mais, alguns aplicativos Java irão **carregar mais de um arquivo `vmoptions`**.
 
-Algumas aplicações como o Android Studio indicam na sua **saída onde estão à procura** destes ficheiros, como:
+Alguns aplicativos como o Android Studio indicam em sua **saída onde estão procurando** por esses arquivos, como:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Algumas aplicações como o Android Studio indicam na sua **saída onde estão �
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Se não o fizerem, você pode facilmente verificar isso com:
+Se não o fizerem, você pode facilmente verificar com:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,4 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Note como é interessante que o Android Studio neste exemplo está tentando carregar o arquivo **`/Applications/Android Studio.app.vmoptions`**, um local onde qualquer usuário do grupo **`admin` tem acesso de escrita.**
+Note como é interessante que o Android Studio neste exemplo está tentando carregar o arquivo **`/Applications/Android Studio.app.vmoptions`**, um lugar onde qualquer usuário do **`admin` group tem acesso de escrita.**

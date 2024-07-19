@@ -1,32 +1,33 @@
 # macOS Dirty NIB
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Para mais detalhes sobre a técnica, confira o post original em: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Aqui está um resumo:
 
-Os arquivos NIB, parte do ecossistema de desenvolvimento da Apple, são destinados a definir **elementos de UI** e suas interações em aplicativos. Eles abrangem objetos serializados como janelas e botões, e são carregados em tempo de execução. Apesar de seu uso contínuo, a Apple agora defende o uso de Storyboards para uma visualização mais abrangente do fluxo da UI.
+Os arquivos NIB, parte do ecossistema de desenvolvimento da Apple, são destinados a definir **elementos de UI** e suas interações em aplicativos. Eles abrangem objetos serializados, como janelas e botões, e são carregados em tempo de execução. Apesar de seu uso contínuo, a Apple agora defende o uso de Storyboards para uma visualização de fluxo de UI mais abrangente.
 
 ### Preocupações de Segurança com Arquivos NIB
-É crucial notar que os **arquivos NIB podem representar um risco de segurança**. Eles têm o potencial de **executar comandos arbitrários**, e alterações nos arquivos NIB dentro de um aplicativo não impedem o Gatekeeper de executar o aplicativo, representando uma ameaça significativa.
+É crítico notar que **os arquivos NIB podem ser um risco de segurança**. Eles têm o potencial de **executar comandos arbitrários**, e alterações em arquivos NIB dentro de um aplicativo não impedem o Gatekeeper de executar o aplicativo, representando uma ameaça significativa.
 
 ### Processo de Injeção de Dirty NIB
 #### Criando e Configurando um Arquivo NIB
 1. **Configuração Inicial**:
 - Crie um novo arquivo NIB usando o XCode.
 - Adicione um Objeto à interface, definindo sua classe como `NSAppleScript`.
-- Configure a propriedade `source` inicial via Atributos de Tempo de Execução Definidos pelo Usuário.
+- Configure a propriedade `source` inicial através de Atributos de Tempo de Execução Definidos pelo Usuário.
 
 2. **Gadget de Execução de Código**:
 - A configuração facilita a execução de AppleScript sob demanda.
@@ -38,18 +39,18 @@ Os arquivos NIB, parte do ecossistema de desenvolvimento da Apple, são destinad
 set theDialogText to "PWND"
 display dialog theDialogText
 ```
-- Teste executando no depurador XCode e clicando no botão.
+- Teste executando no depurador do XCode e clicando no botão.
 
-#### Mirando em um Aplicativo (Exemplo: Pages)
+#### Alvo de um Aplicativo (Exemplo: Pages)
 1. **Preparação**:
 - Copie o aplicativo alvo (por exemplo, Pages) para um diretório separado (por exemplo, `/tmp/`).
-- Inicie o aplicativo para contornar problemas do Gatekeeper e armazene em cache.
+- Inicie o aplicativo para contornar problemas do Gatekeeper e armazená-lo em cache.
 
-2. **Sobrescrevendo o Arquivo NIB**:
-- Substitua um arquivo NIB existente (por exemplo, Painel Sobre NIB) pelo arquivo DirtyNIB criado.
+2. **Substituindo o Arquivo NIB**:
+- Substitua um arquivo NIB existente (por exemplo, About Panel NIB) pelo arquivo DirtyNIB criado.
 
 3. **Execução**:
-- Acione a execução interagindo com o aplicativo (por exemplo, selecionando o item de menu `Sobre`).
+- Acione a execução interagindo com o aplicativo (por exemplo, selecionando o item de menu `About`).
 
 #### Prova de Conceito: Acessando Dados do Usuário
 - Modifique o AppleScript para acessar e extrair dados do usuário, como fotos, sem o consentimento do usuário.
@@ -57,30 +58,31 @@ display dialog theDialogText
 ### Exemplo de Código: Arquivo .xib Malicioso
 - Acesse e revise um [**exemplo de um arquivo .xib malicioso**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) que demonstra a execução de código arbitrário.
 
-### Abordando Restrições de Inicialização
-- Restrições de Inicialização impedem a execução do aplicativo em locais inesperados (por exemplo, `/tmp`).
-- É possível identificar aplicativos não protegidos por Restrições de Inicialização e direcioná-los para injeção de arquivo NIB.
+### Abordando Restrições de Lançamento
+- Restrições de Lançamento dificultam a execução de aplicativos de locais inesperados (por exemplo, `/tmp`).
+- É possível identificar aplicativos que não estão protegidos por Restrições de Lançamento e direcioná-los para injeção de arquivos NIB.
 
 ### Proteções Adicionais do macOS
-A partir do macOS Sonoma em diante, modificações dentro de pacotes de aplicativos são restritas. No entanto, métodos anteriores envolviam:
+A partir do macOS Sonoma, modificações dentro de pacotes de aplicativos são restritas. No entanto, métodos anteriores envolviam:
 1. Copiar o aplicativo para um local diferente (por exemplo, `/tmp/`).
 2. Renomear diretórios dentro do pacote do aplicativo para contornar proteções iniciais.
-3. Após executar o aplicativo para registrar no Gatekeeper, modificar o pacote do aplicativo (por exemplo, substituindo MainMenu.nib por Dirty.nib).
-4. Renomear diretórios de volta e executar novamente o aplicativo para executar o arquivo NIB injetado.
+3. Após executar o aplicativo para registrar com o Gatekeeper, modificar o pacote do aplicativo (por exemplo, substituindo MainMenu.nib por Dirty.nib).
+4. Renomear os diretórios de volta e executar novamente o aplicativo para executar o arquivo NIB injetado.
 
-**Nota**: Atualizações recentes do macOS mitigaram esse exploit ao impedir modificações de arquivos dentro de pacotes de aplicativos após o cache do Gatekeeper, tornando o exploit ineficaz.
+**Nota**: Atualizações recentes do macOS mitigaram essa exploração, impedindo modificações de arquivos dentro de pacotes de aplicativos após o cache do Gatekeeper, tornando a exploração ineficaz.
 
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
