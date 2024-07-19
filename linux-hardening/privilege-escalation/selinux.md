@@ -1,25 +1,27 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
 
 
-# SELinux σε Εμπορεύματα
+# SELinux σε Κοντέινερ
 
-[Εισαγωγή και παράδειγμα από τα redhat docs](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
+[Εισαγωγή και παράδειγμα από τα έγγραφα της redhat](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
-[Το SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux) είναι ένα **σύστημα επισήμανσης**. Κάθε **διεργασία** και κάθε **αντικείμενο συστήματος αρχείου έχει μια ετικέτα**. Οι πολιτικές του SELinux καθορίζουν κανόνες για το τι μπορεί να κάνει μια ετικέτα διεργασίας με όλες τις άλλες ετικέτες στο σύστημα.
+[SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux) είναι ένα **σύστημα** **ετικετοποίησης**. Κάθε **διαδικασία** και κάθε **αντικείμενο** συστήματος αρχείων έχει μια **ετικέτα**. Οι πολιτικές SELinux καθορίζουν κανόνες σχετικά με το τι μπορεί να κάνει μια **ετικέτα διαδικασίας** με όλες τις άλλες ετικέτες στο σύστημα.
 
-Οι μηχανές εμπορευμάτων εκκινούν **διεργασίες εμπορευμάτων με μια μόνο περιορισμένη ετικέτα SELinux**, συνήθως `container_t`, και στη συνέχεια ορίζουν το εμπόρευμα μέσα στο εμπόρευμα να έχει ετικέτα `container_file_t`. Οι κανόνες της πολιτικής SELinux ουσιαστικά λένε ότι οι **διεργασίες `container_t` μπορούν μόνο να διαβάζουν/γράφουν/εκτελούν αρχεία με ετικέτα `container_file_t`**. Εάν μια διεργασία εμπορεύματος δραπετεύσει από το εμπόρευμα και προσπαθήσει να γράψει σε περιεχόμενο στον κεντρικό υπολογιστή, το πυρήνας του Linux απορρίπτει την πρόσβαση και επιτρέπει μόνο στη διεργασία εμπορεύματος να γράψει σε περιεχόμενο με ετικέτα `container_file_t`.
+Οι μηχανές κοντέινερ εκκινούν **διαδικασίες κοντέινερ με μια μόνο περιορισμένη ετικέτα SELinux**, συνήθως `container_t`, και στη συνέχεια ορίζουν το κοντέινερ μέσα στο κοντέινερ να έχει την ετικέτα `container_file_t`. Οι κανόνες πολιτικής SELinux βασικά λένε ότι οι **διαδικασίες `container_t` μπορούν μόνο να διαβάζουν/γράφουν/εκτελούν αρχεία με ετικέτα `container_file_t`**. Εάν μια διαδικασία κοντέινερ διαφύγει από το κοντέινερ και προσπαθήσει να γράψει περιεχόμενο στον οικοδεσπότη, ο πυρήνας του Linux αρνείται την πρόσβαση και επιτρέπει μόνο στη διαδικασία κοντέινερ να γράψει σε περιεχόμενο με ετικέτα `container_file_t`.
 ```shell
 $ podman run -d fedora sleep 100
 d4194babf6b877c7100e79de92cd6717166f7302113018686cea650ea40bd7cb
@@ -27,6 +29,23 @@ $ podman top -l label
 LABEL
 system_u:system_r:container_t:s0:c647,c780
 ```
-# Χρήστες SELinux
+# SELinux Users
 
-Υπάρχουν χρήστες SELinux εκτός από τους κανονικούς χρήστες του Linux. Οι χρήστες SELinux ανήκουν σε μια πολιτική SELinux. Κάθε χρήστης Linux αντιστοιχίζεται σε έναν χρήστη SELinux ως μέρος της πολιτικής. Αυτό επιτρέπει στους χρήστες Linux να κληρονομούν τους περιορισμούς και τους κανόνες ασφαλείας που έχουν τεθεί στους χρήστες SELinux.
+Υπάρχουν χρήστες SELinux εκτός από τους κανονικούς χρήστες Linux. Οι χρήστες SELinux είναι μέρος μιας πολιτικής SELinux. Κάθε χρήστης Linux αντιστοιχεί σε έναν χρήστη SELinux ως μέρος της πολιτικής. Αυτό επιτρέπει στους χρήστες Linux να κληρονομούν τους περιορισμούς και τους κανόνες και μηχανισμούς ασφαλείας που έχουν επιβληθεί στους χρήστες SELinux.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}

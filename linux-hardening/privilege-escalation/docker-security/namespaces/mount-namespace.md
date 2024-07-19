@@ -1,108 +1,93 @@
 # Mount Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Βασικές Πληροφορίες
+## Basic Information
 
-Ο χώρος ονομάτων mount είναι μια δυνατότητα του πυρήνα Linux που παρέχει απομόνωση των σημείων προσάρτησης του συστήματος αρχείων που βλέπονται από μια ομάδα διεργασιών. Κάθε χώρος ονομάτων mount έχει το δικό του σύνολο σημείων προσάρτησης του συστήματος αρχείων και **οι αλλαγές στα σημεία προσάρτησης σε έναν χώρο ονομάτων δεν επηρεάζουν άλλους χώρους ονομάτων**. Αυτό σημαίνει ότι οι διεργασίες που εκτελούνται σε διαφορετικούς χώρους ονομάτων mount μπορούν να έχουν διαφορετικές απόψεις της ιεραρχίας του συστήματος αρχείων.
+Ένα mount namespace είναι μια δυνατότητα του πυρήνα Linux που παρέχει απομόνωση των σημείων προσάρτησης του συστήματος αρχείων που βλέπει μια ομάδα διεργασιών. Κάθε mount namespace έχει το δικό του σύνολο σημείων προσάρτησης του συστήματος αρχείων, και **οι αλλαγές στα σημεία προσάρτησης σε ένα namespace δεν επηρεάζουν άλλα namespaces**. Αυτό σημαίνει ότι οι διεργασίες που εκτελούνται σε διαφορετικά mount namespaces μπορούν να έχουν διαφορετικές απόψεις της ιεραρχίας του συστήματος αρχείων.
 
-Οι χώροι ονομάτων mount είναι ιδιαίτερα χρήσιμοι στην ενθυλάκωση, όπου κάθε ενθυλακωμένος χώρος θα πρέπει να έχει το δικό του σύστημα αρχείων και διαμόρφωση, απομονωμένο από άλλους ενθυλακωμένους χώρους και το σύστημα του κεντρικού υπολογιστή.
+Τα mount namespaces είναι ιδιαίτερα χρήσιμα στην κοντεντοποίηση, όπου κάθε κοντέινερ θα πρέπει να έχει το δικό του σύστημα αρχείων και ρύθμιση, απομονωμένα από άλλα κοντέινερ και το σύστημα φιλοξενίας.
 
-### Πώς λειτουργεί:
+### How it works:
 
-1. Όταν δημιουργείται ένας νέος χώρος ονομάτων mount, αρχικοποιείται με ένα **αντίγραφο των σημείων προσάρτησης από τον γονικό χώρο ονομάτων του**. Αυτό σημαίνει ότι, κατά τη δημιουργία, ο νέος χώρος ονομάτων μοιράζεται την ίδια απεικόνιση του συστήματος αρχείων με τον γονικό του. Ωστόσο, οποιεσδήποτε μεταγενέστερες αλλαγές στα σημεία προσάρτησης εντός του χώρου ονομάτων δεν επηρεάζουν τον γονικό χώρο ονομάτων ή άλλους χώρους ονομάτων.
-2. Όταν μια διεργασία τροποποιεί ένα σημείο προσάρτησης εντός του χώρου ονομάτων της, όπως προσαρτά ή αποσυνδέει ένα σύστημα αρχείων, η **αλλαγή είναι τοπική σε αυτόν τον χώρο ονομάτων** και δεν επηρεάζει άλλους χώρους ονομάτων. Αυτό επιτρέπει σε κάθε χώρο ονομάτων να έχει τη δική του ανεξάρτητη ιεραρχία συστήματος αρχείων.
-3. Οι διεργασίες μπορούν να μετακινηθούν μεταξύ χώρων ονομάτων χρησιμοποιώντας την κλήση συστήματος `setns()`, ή να δημιουργήσουν νέους χώρους ονομάτων χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με τη σημαία `CLONE_NEWNS`. Όταν μια διεργασία μετακινείται σε έναν νέο χώρο ονομάτων ή δημιουργεί έναν νέο, θα αρχίσει να χρησιμοποιεί τα σημεία προσάρτησης που σχετίζονται με αυτόν τον χώρο ονομάτων.
-4. **Οι περιγραφείς αρχείων και οι inodes κοινοποιούνται σε όλους τους χώρους ονομάτων**, πράγμα που σημαίνει ότι αν μια διεργασία σε έναν χώρο ονομάτων έχει έναν ανοιχτό περιγραφέα αρχείου που δείχνει σε ένα αρχείο, μπορεί να **περάσει αυτόν τον περιγραφέα αρχείου** σε μια διεργασία σε άλλο χώρο ονομάτων, και **και οι δύο διεργασίες θα έχουν πρόσβαση στο ίδιο αρχείο**. Ωστόσο, η διαδρομή του αρχείου μπορεί να μην είναι η ίδια σε και τους δύο χώρους ονομάτων λόγω διαφορών στα σημεία προσάρτησης.
+1. Όταν δημιουργείται ένα νέο mount namespace, αρχικοποιείται με μια **αντίγραφο των σημείων προσάρτησης από το γονικό namespace**. Αυτό σημαίνει ότι, κατά τη δημιουργία, το νέο namespace μοιράζεται την ίδια άποψη του συστήματος αρχείων με το γονικό του. Ωστόσο, οποιεσδήποτε επακόλουθες αλλαγές στα σημεία προσάρτησης εντός του namespace δεν θα επηρεάσουν το γονικό ή άλλα namespaces.
+2. Όταν μια διεργασία τροποποιεί ένα σημείο προσάρτησης εντός του namespace της, όπως η προσάρτηση ή η αποσύνδεση ενός συστήματος αρχείων, η **αλλαγή είναι τοπική σε αυτό το namespace** και δεν επηρεάζει άλλα namespaces. Αυτό επιτρέπει σε κάθε namespace να έχει τη δική του ανεξάρτητη ιεραρχία συστήματος αρχείων.
+3. Οι διεργασίες μπορούν να μετακινούνται μεταξύ namespaces χρησιμοποιώντας την κλήση συστήματος `setns()`, ή να δημιουργούν νέα namespaces χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με την σημαία `CLONE_NEWNS`. Όταν μια διεργασία μετακινείται σε ένα νέο namespace ή δημιουργεί ένα, θα αρχίσει να χρησιμοποιεί τα σημεία προσάρτησης που σχετίζονται με αυτό το namespace.
+4. **Οι περιγραφείς αρχείων και οι inodes μοιράζονται μεταξύ των namespaces**, πράγμα που σημαίνει ότι αν μια διεργασία σε ένα namespace έχει έναν ανοιχτό περιγραφέα αρχείου που δείχνει σε ένα αρχείο, μπορεί να **περάσει αυτόν τον περιγραφέα αρχείου** σε μια διεργασία σε άλλο namespace, και **οι δύο διεργασίες θα έχουν πρόσβαση στο ίδιο αρχείο**. Ωστόσο, η διαδρομή του αρχείου μπορεί να μην είναι η ίδια και στα δύο namespaces λόγω διαφορών στα σημεία προσάρτησης.
 
-## Εργαστήριο:
+## Lab:
 
-### Δημιουργία διαφορετικών Χώρων Ονομάτων
+### Create different Namespaces
 
-#### Εντολή CLI
-
+#### CLI
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-
-Με την προσάρτηση μιας νέας περίπτωσης του αρχείου `/proc` εάν χρησιμοποιήσετε την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος περιβάλλοντος προσάρτησης έχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασίας που είναι συγκεκριμένες για αυτό το περιβάλλον**.
+Με την τοποθέτηση μιας νέας παρουσίας του συστήματος αρχείων `/proc` αν χρησιμοποιήσετε την παράμετρο `--mount-proc`, διασφαλίζετε ότι η νέα mount namespace έχει μια **ακριβή και απομονωμένη άποψη των πληροφοριών διαδικασίας που είναι συγκεκριμένες για αυτή τη namespace**.
 
 <details>
 
-<summary>Σφάλμα: bash: fork: Δεν είναι δυνατή η δέσμευση μνήμης</summary>
+<summary>Σφάλμα: bash: fork: Cannot allocate memory</summary>
 
-Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου με τον οποίο το Linux χειρίζεται τα νέα PID (Process ID) namespaces. Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
+Όταν εκτελείται το `unshare` χωρίς την επιλογή `-f`, προκύπτει ένα σφάλμα λόγω του τρόπου που διαχειρίζεται το Linux τις νέες PID (Process ID) namespaces. Οι βασικές λεπτομέρειες και η λύση περιγράφονται παρακάτω:
 
-1. **Εξήγηση του προβλήματος**:
-
-* Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι διεργασίες παιδιά της.
-* Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι διεργασίες παιδιά του βρίσκονται στο αρχικό PID namespace.
-* Η πρώτη διεργασία παιδί του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
+1. **Εξήγηση Προβλήματος**:
+- Ο πυρήνας του Linux επιτρέπει σε μια διαδικασία να δημιουργεί νέες namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διαδικασία που ξεκινά τη δημιουργία μιας νέας PID namespace (αναφερόμενη ως η διαδικασία "unshare") δεν εισέρχεται στη νέα namespace; μόνο οι παιδικές της διαδικασίες το κάνουν.
+- Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διαδικασία με το `unshare`. Κατά συνέπεια, το `/bin/bash` και οι παιδικές του διαδικασίες βρίσκονται στην αρχική PID namespace.
+- Η πρώτη παιδική διαδικασία του `/bin/bash` στη νέα namespace γίνεται PID 1. Όταν αυτή η διαδικασία τερματίσει, ενεργοποιεί την καθαριότητα της namespace αν δεν υπάρχουν άλλες διαδικασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διαδικασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την κατανομή PID σε αυτή τη namespace.
 
 2. **Συνέπεια**:
-
-* Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+- Η έξοδος του PID 1 σε μια νέα namespace οδηγεί στον καθαρισμό της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα η συνάρτηση `alloc_pid` να αποτύχει να κατανοήσει ένα νέο PID κατά τη δημιουργία μιας νέας διαδικασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
+- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει μια νέα διαδικασία μετά τη δημιουργία της νέας PID namespace.
+- Η εκτέλεση `%unshare -fp /bin/bash%` διασφαλίζει ότι η εντολή `unshare` γίνεται PID 1 στη νέα namespace. Το `/bin/bash` και οι παιδικές του διαδικασίες είναι τότε ασφαλώς περιορισμένες μέσα σε αυτή τη νέα namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική κατανομή PID.
 
-* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
-* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι διεργασίες παιδιά του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+Διασφαλίζοντας ότι το `unshare` εκτελείται με την επιλογή `-f`, η νέα PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υπο-διαδικασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα κατανομής μνήμης.
 
-Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, το νέο PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+</details>
 
+#### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
-#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
-
-To check which namespace your process is in, you can use the following command:
-
-```bash
-cat /proc/$$/mountinfo | grep "ns"
-```
-
-This command will display the mount namespace information for your process.
-
+### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διαδικασία σας
 ```bash
 ls -l /proc/self/ns/mnt
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/mnt -> 'mnt:[4026531841]'
 ```
-
-#### Βρείτε όλα τα Mount namespaces
+### Βρείτε όλα τα Mount namespaces
 
 {% code overflow="wrap" %}
-```
-```
-{% endcode %}
-
 ```bash
 sudo find /proc -maxdepth 3 -type l -name mnt -exec readlink {} \; 2>/dev/null | sort -u
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
+{% endcode %}
 
+### Είσοδος σε ένα Mount namespace
+```bash
+nsenter -m TARGET_PID --pid /bin/bash
 ```
-```
+Επίσης, μπορείτε να **μπείτε σε άλλη διαδικασία namespace μόνο αν είστε root**. Και **δεν μπορείτε** να **μπείτε** σε άλλο namespace **χωρίς έναν περιγραφέα** που να δείχνει σε αυτό (όπως το `/proc/self/ns/mnt`).
 
-\`\`\`bash nsenter -m TARGET\_PID --pid /bin/bash \`\`\` Επίσης, μπορείτε να \*\*εισέλθετε σε ένα άλλο namespace διεργασίας μόνο αν είστε root\*\*. Και \*\*δεν μπορείτε\*\* να \*\*εισέλθετε\*\* σε άλλο namespace \*\*χωρίς έναν περιγραφέα\*\* που να δείχνει προς αυτό (όπως \`/proc/self/ns/mnt\`).
+Επειδή οι νέες προσβάσεις είναι προσβάσιμες μόνο εντός του namespace, είναι πιθανό ένα namespace να περιέχει ευαίσθητες πληροφορίες που μπορούν να είναι προσβάσιμες μόνο από αυτό.
 
-Επειδή οι νέες προσαρτήσεις είναι προσβάσιμες μόνο εντός του namespace, είναι δυνατόν ένα namespace να περιέχει ευαίσθητες πληροφορίες που μπορούν να προσπελαστούν μόνο από αυτό.
-
-#### Προσάρτηση κάτι
-
+### Mount something
 ```bash
 # Generate new mount ns
 unshare -m /bin/bash
@@ -116,9 +101,21 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
-
-### Αναφορές
-
+## Αναφορές
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξη HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
 </details>
+{% endhint %}

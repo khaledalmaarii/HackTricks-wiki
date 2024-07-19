@@ -1,95 +1,93 @@
 # User Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Βασικές Πληροφορίες
+## Basic Information
 
-Ο ονοματοχώρος χρήστη είναι μια δυνατότητα του πυρήνα του Linux που **παρέχει απομόνωση των αντιστοιχίσεων ταυτότητας χρήστη και ομάδας**, επιτρέποντας σε κάθε ονοματοχώρο χρήστη να έχει το **δικό του σύνολο ταυτότητας χρήστη και ομάδας**. Αυτή η απομόνωση επιτρέπει σε διεργασίες που εκτελούνται σε διαφορετικούς ονοματοχώρους χρήστη να **έχουν διαφορετικά προνόμια και ιδιοκτησία**, ακόμα κι αν μοιράζονται τις ίδιες ταυτότητες χρήστη και ομάδας αριθμητικά.
+Ένα user namespace είναι μια δυνατότητα του πυρήνα Linux που **παρέχει απομόνωση των αναγνωριστικών χρηστών και ομάδων**, επιτρέποντας σε κάθε user namespace να έχει το **δικό του σύνολο αναγνωριστικών χρηστών και ομάδων**. Αυτή η απομόνωση επιτρέπει σε διαδικασίες που εκτελούνται σε διαφορετικά user namespaces να **έχουν διαφορετικά προνόμια και ιδιοκτησία**, ακόμη και αν μοιράζονται τα ίδια αναγνωριστικά χρηστών και ομάδων αριθμητικά.
 
-Οι ονοματοχώροι χρήστη είναι ιδιαίτερα χρήσιμοι στην ενθυλάκωση, όπου κάθε ενθυλακωμένος χώρος θα πρέπει να έχει το δικό του ανεξάρτητο σύνολο ταυτότητας χρήστη και ομάδας, επιτρέποντας καλύτερη ασφάλεια και απομόνωση μεταξύ των ενθυλακωμένων χώρων και του συστήματος φιλοξενίας.
+Τα user namespaces είναι ιδιαίτερα χρήσιμα στην κοντεντοποίηση, όπου κάθε κοντέινερ θα πρέπει να έχει το δικό του ανεξάρτητο σύνολο αναγνωριστικών χρηστών και ομάδων, επιτρέποντας καλύτερη ασφάλεια και απομόνωση μεταξύ των κοντέινερ και του συστήματος φιλοξενίας.
 
-### Πώς λειτουργεί:
+### How it works:
 
-1. Όταν δημιουργείται ένας νέος ονοματοχώρος χρήστη, **ξεκινά με ένα κενό σύνολο αντιστοιχίσεων ταυτότητας χρήστη και ομάδας**. Αυτό σημαίνει ότι οποιαδήποτε διεργασία που εκτελείται στον νέο ονοματοχώρο χρήστη θα **μην έχει αρχικά προνόμια έξω από τον ονοματοχώρο**.
-2. Οι αντιστοιχίσεις ταυτότητας μπορούν να δημιουργηθούν μεταξύ των ταυτοτήτων χρήστη και ομάδας στον νέο ονοματοχώρο και αυτών στον γονικό (ή φιλοξενούμενο) ονοματοχώρο. Αυτό **επιτρέπει στις διεργασίες στον νέο ονοματοχώρο να έχουν προνόμια και ιδιοκτησία που αντιστοιχούν στις ταυτότητες χρήστη και ομάδας στον γονικό ονοματοχώρο**. Ωστόσο, οι αντιστοιχίσεις ταυτότητας μπορούν να περιοριστούν σε συγκεκριμένες εύρους και υποσύνολα ταυτοτήτων, επιτρέποντας λεπτομερή έλεγχο των προνομίων που χορηγούνται στις διεργασίες στον νέο ονοματοχώρο.
-3. Εντός ενός ονοματοχώρου χρήστη, **οι διεργασίες μπορούν να έχουν πλήρη προνόμια ρίζας (UID 0) για λειτουργίες εντός του ονοματοχώρου**, ενώ παράλληλα έχουν περιορισμένα προνόμια έξω από τον ονοματοχώρο. Αυτό επιτρέπει στα **ενθυλακωμένα περιβάλλοντα να εκτελούνται με δυνατότητες παρόμοιες με τη ρίζα μέσα στον δικό τους ονοματοχώρο χωρίς να έχουν πλήρη προνόμια ρίζας στο σύστημα φιλοξενίας**.
-4. Οι διεργασίες μπορούν να μετακινηθούν μεταξύ ονοματοχώρων χρήστη χρησιμοποιώντας την κλήση συστήματος `setns()` ή να δημιουργήσουν νέους ονοματοχώρους χρήστη χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με τη σημαία `CLONE_NEWUSER`. Όταν μια διεργασία μετακινείται σε έναν νέο ονοματοχώρο ή δημιουργεί έναν νέο, θα αρχίσει να χρησιμοποιεί τις αντιστοιχίσεις ταυτότητας χρήστη και ομάδας που σχετίζονται με αυτόν τον ονοματοχώρο.
+1. Όταν δημιουργείται ένα νέο user namespace, **ξεκινά με ένα κενό σύνολο αναγνωριστικών χρηστών και ομάδων**. Αυτό σημαίνει ότι οποιαδήποτε διαδικασία εκτελείται στο νέο user namespace θα **έχει αρχικά κανένα προνόμιο εκτός του namespace**.
+2. Τα αναγνωριστικά μπορούν να καθοριστούν μεταξύ των αναγνωριστικών χρηστών και ομάδων στο νέο namespace και εκείνων στο γονικό (ή κεντρικό) namespace. Αυτό **επιτρέπει στις διαδικασίες στο νέο namespace να έχουν προνόμια και ιδιοκτησία που αντιστοιχούν σε αναγνωριστικά χρηστών και ομάδων στο γονικό namespace**. Ωστόσο, τα αναγνωριστικά μπορούν να περιοριστούν σε συγκεκριμένα εύρη και υποσύνολα αναγνωριστικών, επιτρέποντας λεπτομερή έλεγχο των προνομίων που χορηγούνται σε διαδικασίες στο νέο namespace.
+3. Μέσα σε ένα user namespace, **οι διαδικασίες μπορούν να έχουν πλήρη προνόμια root (UID 0) για λειτουργίες μέσα στο namespace**, ενώ εξακολουθούν να έχουν περιορισμένα προνόμια εκτός του namespace. Αυτό επιτρέπει **στα κοντέινερ να εκτελούνται με δυνατότητες παρόμοιες με του root μέσα στο δικό τους namespace χωρίς να έχουν πλήρη προνόμια root στο σύστημα φιλοξενίας**.
+4. Οι διαδικασίες μπορούν να μετακινηθούν μεταξύ namespaces χρησιμοποιώντας την κλήση συστήματος `setns()` ή να δημιουργήσουν νέα namespaces χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με την σημαία `CLONE_NEWUSER`. Όταν μια διαδικασία μετακινείται σε ένα νέο namespace ή δημιουργεί ένα, θα αρχίσει να χρησιμοποιεί τα αναγνωριστικά χρηστών και ομάδων που σχετίζονται με αυτό το namespace.
 
-## Εργαστήριο:
+## Lab:
 
-### Δημιουργία διαφορετικών Ονοματοχώρων
+### Create different Namespaces
 
-#### Εντολή CLI
-
+#### CLI
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-
-Με την προσάρτηση μιας νέας περίπτωσης του αρχείου `/proc` εάν χρησιμοποιήσετε την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος περιβάλλοντος προβολής έχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασίας που είναι συγκεκριμένες για αυτό το περιβάλλον**.
+Με την τοποθέτηση μιας νέας παρουσίας του συστήματος αρχείων `/proc` αν χρησιμοποιήσετε την παράμετρο `--mount-proc`, διασφαλίζετε ότι η νέα namespace τοποθέτησης έχει μια **ακριβή και απομονωμένη άποψη των πληροφοριών διαδικασίας που είναι συγκεκριμένες για αυτή τη namespace**.
 
 <details>
 
-<summary>Σφάλμα: bash: fork: Δεν είναι δυνατή η δέσμευση μνήμης</summary>
+<summary>Σφάλμα: bash: fork: Cannot allocate memory</summary>
 
-Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου με τον οποίο το Linux χειρίζεται τα νέα PID (Process ID) namespaces. Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
+Όταν εκτελείται το `unshare` χωρίς την επιλογή `-f`, προκύπτει ένα σφάλμα λόγω του τρόπου που το Linux διαχειρίζεται τις νέες namespaces PID (Process ID). Οι βασικές λεπτομέρειες και η λύση περιγράφονται παρακάτω:
 
-1. **Εξήγηση του προβλήματος**:
-
-* Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου PID namespace (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στο νέο namespace, μόνο οι παιδικές διεργασίες της.
-* Η εκτέλεση της εντολής `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι παιδικές διεργασίες του βρίσκονται στο αρχικό PID namespace.
-* Η πρώτη παιδική διεργασία του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του namespace αν δεν υπάρχουν άλλες διεργασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτό το namespace.
+1. **Εξήγηση Προβλήματος**:
+- Ο πυρήνας του Linux επιτρέπει σε μια διαδικασία να δημιουργήσει νέες namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διαδικασία που ξεκινά τη δημιουργία μιας νέας namespace PID (αναφερόμενη ως η διαδικασία "unshare") δεν εισέρχεται στη νέα namespace; μόνο οι παιδικές της διαδικασίες το κάνουν.
+- Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διαδικασία με το `unshare`. Ως εκ τούτου, το `/bin/bash` και οι παιδικές του διαδικασίες βρίσκονται στην αρχική namespace PID.
+- Η πρώτη παιδική διαδικασία του `/bin/bash` στη νέα namespace γίνεται PID 1. Όταν αυτή η διαδικασία τερματίσει, ενεργοποιεί την καθαριότητα της namespace αν δεν υπάρχουν άλλες διαδικασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διαδικασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την κατανομή PID σε αυτή τη namespace.
 
 2. **Συνέπεια**:
-
-* Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να δεσμεύσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+- Η έξοδος του PID 1 σε μια νέα namespace οδηγεί στον καθαρισμό της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα τη αποτυχία της συνάρτησης `alloc_pid` να κατανεμηθεί ένα νέο PID κατά τη δημιουργία μιας νέας διαδικασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
+- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει μια νέα διαδικασία μετά τη δημιουργία της νέας namespace PID.
+- Η εκτέλεση `%unshare -fp /bin/bash%` διασφαλίζει ότι η εντολή `unshare` γίνεται PID 1 στη νέα namespace. Το `/bin/bash` και οι παιδικές του διαδικασίες είναι τότε ασφαλώς περιορισμένες μέσα σε αυτή τη νέα namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική κατανομή PID.
 
-* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου PID namespace.
-* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι παιδικές διεργασίες του περιορίζονται στο νέο αυτό namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+Διασφαλίζοντας ότι το `unshare` εκτελείται με την επιλογή `-f`, η νέα namespace PID διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υπο-διαδικασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα κατανομής μνήμης.
 
-Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, το νέο PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και στις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+</details>
 
+#### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+Για να χρησιμοποιήσετε το user namespace, ο Docker daemon πρέπει να ξεκινήσει με **`--userns-remap=default`** (Στο ubuntu 14.04, αυτό μπορεί να γίνει τροποποιώντας το `/etc/default/docker` και στη συνέχεια εκτελώντας `sudo service docker restart`)
 
-Για να χρησιμοποιήσετε το user namespace, ο δαίμονας του Docker πρέπει να ξεκινήσει με την επιλογή **`--userns-remap=default`** (Στο Ubuntu 14.04, αυτό μπορεί να γίνει τροποποιώντας το αρχείο `/etc/default/docker` και στη συνέχεια εκτελώντας `sudo service docker restart`)
-
-#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
-
+### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διαδικασία σας
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
-
-Είναι δυνατόν να ελέγξετε τον χάρτη χρήστη από το container του Docker με την εντολή:
-
+Είναι δυνατόν να ελέγξετε τον χάρτη χρηστών από το κοντέινερ docker με:
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
 0     231072      65536  --> Root is 231072 userid in host
 ```
-
 Ή από τον κεντρικό υπολογιστή με:
-
 ```bash
 cat /proc/<pid>/uid_map
 ```
-
-#### Βρείτε όλους τους χώρους ονομάτων χρηστών
+### Βρείτε όλα τα User namespaces
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,30 +97,19 @@ sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | 
 ```
 {% endcode %}
 
-#### Εισέλθετε μέσα σε ένα χώρο ονομάτων χρήστη
-
-To enter inside a User namespace, follow these steps:
-
-1. Ανοίξτε ένα τερματικό και εκτελέστε την εντολή `unshare -r bash`. Αυτή η εντολή θα δημιουργήσει ένα νέο χώρο ονομάτων χρήστη και θα εκτελέσει ένα νέο αντίγραφο του τερματικού shell μέσα σε αυτόν.
-2. Τώρα είστε μέσα στον νέο χώρο ονομάτων χρήστη. Μπορείτε να εκτελέσετε εντολές με τα δικαιώματα του χρήστη που ανήκει σε αυτόν τον χώρο ονομάτων.
-3. Για να επιστρέψετε στον αρχικό χώρο ονομάτων χρήστη, απλά εκτελέστε την εντολή `exit`.
-
-Με αυτόν τον τρόπο, μπορείτε να εξερευνήσετε και να εκτελέσετε εντολές με διαφορετικά δικαιώματα χρήστη, εντός ενός απομονωμένου χώρου ονομάτων.
-
+### Είσοδος σε ένα User namespace
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
+Επίσης, μπορείτε μόνο **να εισέλθετε σε άλλο namespace διαδικασίας αν είστε root**. Και **δεν μπορείτε** **να εισέλθετε** σε άλλο namespace **χωρίς έναν περιγραφέα** που να δείχνει σε αυτό (όπως το `/proc/self/ns/user`).
 
-Επίσης, μπορείτε να **εισέλθετε μόνο σε ένα άλλο namespace διεργασίας αν είστε root**. Και **δεν μπορείτε** να **εισέλθετε** σε άλλο namespace **χωρίς έναν δείκτη** που να δείχνει σε αυτό (όπως `/proc/self/ns/user`).
-
-#### Δημιουργία νέου User namespace (με αντιστοιχίσεις)
+### Δημιουργία νέου User namespace (με αντιστοιχίσεις)
 
 {% code overflow="wrap" %}
 ```bash
 unshare -U [--map-user=<uid>|<name>] [--map-group=<gid>|<name>] [--map-root-user] [--map-current-user]
 ```
 {% endcode %}
-
 ```bash
 # Container
 sudo unshare -U /bin/bash
@@ -132,36 +119,60 @@ nobody@ip-172-31-28-169:/home/ubuntu$ #Check how the user is nobody
 ps -ef | grep bash # The user inside the host is still root, not nobody
 root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
+### Ανάκτηση Δυνατοτήτων
 
-#### Ανάκτηση Δυνατοτήτων
+Στην περίπτωση των namespaces χρηστών, **όταν δημιουργείται ένα νέο namespace χρηστών, η διαδικασία που εισέρχεται στο namespace αποκτά ένα πλήρες σύνολο δυνατοτήτων εντός αυτού του namespace**. Αυτές οι δυνατότητες επιτρέπουν στη διαδικασία να εκτελεί προνομιακές λειτουργίες όπως **mounting** **filesystems**, δημιουργία συσκευών ή αλλαγή ιδιοκτησίας αρχείων, αλλά **μόνο εντός του πλαισίου του namespace χρηστών της**.
 
-Στην περίπτωση των user namespaces, **όταν δημιουργείται ένα νέο user namespace, η διεργασία που εισέρχεται στο namespace αυτό αποκτά ένα πλήρες σύνολο δυνατοτήτων μέσα σε αυτό το namespace**. Αυτές οι δυνατότητες επιτρέπουν στη διεργασία να εκτελεί προνομιούχες λειτουργίες, όπως **προσάρτηση** **αρχείων συστήματος**, δημιουργία συσκευών ή αλλαγή κυριότητας αρχείων, αλλά **μόνο μέσα στο πλαίσιο του user namespace της**.
+Για παράδειγμα, όταν έχετε τη δυνατότητα `CAP_SYS_ADMIN` εντός ενός namespace χρηστών, μπορείτε να εκτελείτε λειτουργίες που συνήθως απαιτούν αυτή τη δυνατότητα, όπως το mounting filesystems, αλλά μόνο εντός του πλαισίου του namespace χρηστών σας. Οποιεσδήποτε λειτουργίες εκτελείτε με αυτή τη δυνατότητα δεν θα επηρεάσουν το σύστημα host ή άλλα namespaces.
 
-Για παράδειγμα, όταν έχετε τη δυνατότητα `CAP_SYS_ADMIN` μέσα σε ένα user namespace, μπορείτε να εκτελέσετε λειτουργίες που συνήθως απαιτούν αυτή τη δυνατότητα, όπως η προσάρτηση αρχείων συστήματος, αλλά μόνο μέσα στο πλαίσιο του user namespace σας. Οι λειτουργίες που εκτελείτε με αυτή τη δυνατότητα δεν θα επηρεάσουν το σύστημα του κεντρικού υπολογιστή ή άλλα namespaces.
+{% hint style="warning" %}
+Επομένως, ακόμη και αν η απόκτηση μιας νέας διαδικασίας μέσα σε ένα νέο namespace χρηστών **θα σας δώσει όλες τις δυνατότητες πίσω** (CapEff: 000001ffffffffff), στην πραγματικότητα μπορείτε **μόνο να χρησιμοποιήσετε αυτές που σχετίζονται με το namespace** (mount για παράδειγμα) αλλά όχι όλες. Έτσι, αυτό από μόνο του δεν είναι αρκετό για να ξεφύγετε από ένα Docker container.
+{% endhint %}
+```bash
+# There are the syscalls that are filtered after changing User namespace with:
+unshare -UmCpf  bash
 
-Επομένως, ακόμα κι αν η απόκτηση μιας νέας διεργασίας μέσα σε ένα νέο User namespace **θα σας δώσει όλες τις δυνατότητες πίσω** (CapEff: 000001ffffffffff), στην πραγματικότητα μπορείτε **να χρησιμοποιήσετε μόνο αυτές που σχετίζονται με το namespace** (π.χ. προσάρτηση) αλλά όχι όλες. Έτσι, αυτό καθαυτό δεν είναι αρκετό για να δραπετεύσετε από ένα Docker container.
-
-\`\`\`bash # There are the syscalls that are filtered after changing User namespace with: unshare -UmCpf bash
-
-Probando: 0x067 . . . Error Probando: 0x070 . . . Error Probando: 0x074 . . . Error Probando: 0x09b . . . Error Probando: 0x0a3 . . . Error Probando: 0x0a4 . . . Error Probando: 0x0a7 . . . Error Probando: 0x0a8 . . . Error Probando: 0x0aa . . . Error Probando: 0x0ab . . . Error Probando: 0x0af . . . Error Probando: 0x0b0 . . . Error Probando: 0x0f6 . . . Error Probando: 0x12c . . . Error Probando: 0x130 . . . Error Probando: 0x139 . . . Error Probando: 0x140 . . . Error Probando: 0x141 . . . Error Probando: 0x143 . . . Error
-
-```
-## Αναφορές
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+Probando: 0x067 . . . Error
+Probando: 0x070 . . . Error
+Probando: 0x074 . . . Error
+Probando: 0x09b . . . Error
+Probando: 0x0a3 . . . Error
+Probando: 0x0a4 . . . Error
+Probando: 0x0a7 . . . Error
+Probando: 0x0a8 . . . Error
+Probando: 0x0aa . . . Error
+Probando: 0x0ab . . . Error
+Probando: 0x0af . . . Error
+Probando: 0x0b0 . . . Error
+Probando: 0x0f6 . . . Error
+Probando: 0x12c . . . Error
+Probando: 0x130 . . . Error
+Probando: 0x139 . . . Error
+Probando: 0x140 . . . Error
+Probando: 0x141 . . . Error
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-```
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,38 +1,52 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Σημειώστε ότι τα προγράμματα που γράφονται σε Objective-C **διατηρούν** τις δηλώσεις των κλάσεών τους **όταν** **μεταγλωττίζονται** σε [Mach-O δυαδικά αρχεία](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Αυτές οι δηλώσεις κλάσης περιλαμβάνουν το όνομα και τον τύπο των:
+Σημειώστε ότι τα προγράμματα που έχουν γραφτεί σε Objective-C **διατηρούν** τις δηλώσεις κλάσης τους **όταν** **συμπιέζονται** σε [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Τέτοιες δηλώσεις κλάσης **περιλαμβάνουν** το όνομα και τον τύπο του:
 {% endhint %}
 
-* Η κλάση
-* Οι μέθοδοι της κλάσης
-* Οι μεταβλητές παρουσίας της κλάσης
+* Της κλάσης
+* Των μεθόδων της κλάσης
+* Των μεταβλητών στιγμής της κλάσης
 
-Μπορείτε να αποκτήσετε αυτές τις πληροφορίες χρησιμοποιώντας το [**class-dump**](https://github.com/nygard/class-dump):
+Μπορείτε να αποκτήσετε αυτές τις πληροφορίες χρησιμοποιώντας [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Σημείωση ότι αυτά τα ονόματα μπορεί να έχουν κρυπτογραφηθεί για να δυσκολέψει την αντίστροφη μηχανική του δυαδικού.
+Σημειώστε ότι αυτά τα ονόματα θα μπορούσαν να είναι κρυπτογραφημένα για να καταστήσουν την αναστροφή του δυαδικού αρχείου πιο δύσκολη.
 
-## Κλάσεις, Μέθοδοι και Αντικείμενα
+## Κλάσεις, Μέθοδοι & Αντικείμενα
 
-### Διεπαφή, Ιδιότητες και Μέθοδοι
+### Διεπαφή, Ιδιότητες & Μέθοδοι
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -65,7 +79,7 @@ self.numberOfWheels += value;
 ```
 ### **Αντικείμενο & Κλήση Μεθόδου**
 
-Για να δημιουργηθεί μια περίπτωση μιας κλάσης, καλείται η μέθοδος **`alloc`** η οποία **δεσμεύει μνήμη** για κάθε **ιδιότητα** και **μηδενίζει** αυτές τις δεσμεύσεις. Στη συνέχεια, καλείται η **`init`**, η οποία **αρχικοποιεί τις ιδιότητες** με τις **απαιτούμενες τιμές**.
+Για να δημιουργήσετε μια παρουσία μιας κλάσης, καλείται η μέθοδος **`alloc`**, η οποία **κατανέμει μνήμη** για κάθε **ιδιότητα** και **μηδενίζει** αυτές τις κατανομές. Στη συνέχεια, καλείται η **`init`**, η οποία **αρχικοποιεί τις ιδιότητες** στις **απαιτούμενες τιμές**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -79,13 +93,13 @@ MyVehicle *newVehicle = [MyVehicle new];
 ```
 ### **Μέθοδοι Κλάσης**
 
-Οι μέθοδοι κλάσης ορίζονται με το **σύμβολο του συν** (+) και όχι με το παύλα (-) που χρησιμοποιείται για τις μεθόδους παραδείγματος. Όπως η μέθοδος κλάσης **`stringWithString`** της κλάσης **NSString**:
+Οι μέθοδοι κλάσης ορίζονται με το **συν (+)** και όχι με την παύλα (-) που χρησιμοποιείται με τις μεθόδους στιγμής. Όπως η μέθοδος κλάσης **NSString** **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Για να **ορίσετε** και **πάρετε** ιδιότητες, μπορείτε να το κάνετε με τη **σημειογραφία με τελεία** ή σαν να **καλείτε μια μέθοδο**:
+Για να **ορίσετε** & **πάρετε** ιδιότητες, μπορείτε να το κάνετε με **σημείο αναφοράς** ή σαν να καλούσατε μια **μέθοδο**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -95,9 +109,9 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Μεταβλητές Παραδείγματος**
+### **Μεταβλητές Στιγμής**
 
-Εναλλακτικά με τις μεθόδους setter και getter, μπορείτε να χρησιμοποιήσετε μεταβλητές παραδείγματος. Αυτές οι μεταβλητές έχουν το ίδιο όνομα με τις ιδιότητες, αλλά ξεκινούν με ένα "\_":
+Εναλλακτικά στις μεθόδους setter & getter μπορείτε να χρησιμοποιήσετε μεταβλητές στιγμής. Αυτές οι μεταβλητές έχουν το ίδιο όνομα με τις ιδιότητες αλλά ξεκινούν με ένα "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
@@ -106,9 +120,9 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 ```
 ### Πρωτόκολλα
 
-Τα πρωτόκολλα είναι σύνολο δηλώσεων μεθόδων (χωρίς ιδιότητες). Μια κλάση που υλοποιεί ένα πρωτόκολλο υλοποιεί τις δηλωμένες μεθόδους.
+Τα πρωτόκολλα είναι σύνολα δηλώσεων μεθόδων (χωρίς ιδιότητες). Μια κλάση που υλοποιεί ένα πρωτόκολλο υλοποιεί τις δηλωμένες μεθόδους.
 
-Υπάρχουν 2 τύποι μεθόδων: **υποχρεωτικές** και **προαιρετικές**. Από προεπιλογή, μια μέθοδος είναι **υποχρεωτική** (αλλά μπορείτε επίσης να το υποδείξετε με την ετικέτα **`@required`**). Για να υποδείξετε ότι μια μέθοδος είναι προαιρετική, χρησιμοποιήστε το **`@optional`**.
+Υπάρχουν 2 τύποι μεθόδων: **υποχρεωτικές** και **προαιρετικές**. Από **προεπιλογή** μια μέθοδος είναι **υποχρεωτική** (αλλά μπορείτε επίσης να το υποδείξετε με μια ετικέτα **`@required`**). Για να υποδείξετε ότι μια μέθοδος είναι προαιρετική, χρησιμοποιήστε **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -119,18 +133,6 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 @end
 ```
 ### Όλα μαζί
-
-Σε αυτήν την ενότητα θα εξετάσουμε μερικές βασικές έννοιες της γλώσσας προγραμματισμού Objective-C που είναι απαραίτητες για την κατανόηση των τεχνικών ασφάλειας και εκμετάλλευσης προνομίων στο macOS. Αυτές οι έννοιες περιλαμβάνουν την αντικειμενοστραφή προγραμματισμό, την ανάλυση αντικειμένων, την ανάκτηση πληροφοριών από αντικείμενα και την εκτέλεση κώδικα Objective-C. Αυτές οι γνώσεις θα μας βοηθήσουν να κατανοήσουμε καλύτερα τις ευπάθειες του macOS και να αναπτύξουμε τεχνικές για την εκμετάλλευσή τους. 
-
-Ας ξεκινήσουμε με μια εισαγωγή στην αντικειμενοστραφή προγραμματισμό. Ο αντικειμενοστραφής προγραμματισμός είναι μια μεθοδολογία προγραμματισμού που βασίζεται στην έννοια των αντικειμένων. Σε αυτήν την προσέγγιση, ο κώδικας οργανώνεται σε αντικείμενα, τα οποία είναι συλλογές δεδομένων που περιέχουν μεταβλητές και συναρτήσεις που λειτουργούν πάνω σε αυτές τις μεταβλητές. Οι αντικειμενοστραφείς γλώσσες προγραμματισμού, όπως η Objective-C, χρησιμοποιούν αυτήν τη μεθοδολογία για την ανάπτυξη εφαρμογών.
-
-Στη συνέχεια, θα εξετάσουμε την ανάλυση αντικειμένων. Η ανάλυση αντικειμένων είναι η διαδικασία της αναγνώρισης και της κατανόησης των αντικειμένων που χρησιμοποιούνται σε μια εφαρμογή. Αυτό μας επιτρέπει να ανακτήσουμε πληροφορίες για τη δομή και τη λειτουργία των αντικειμένων, καθώς και να εντοπίσουμε ευπάθειες που μπορούν να εκμεταλλευτούμε.
-
-Στη συνέχεια, θα εξετάσουμε την ανάκτηση πληροφοριών από αντικείμενα. Η ανάκτηση πληροφοριών από αντικείμενα είναι η διαδικασία της ανάκτησης ευαίσθητων πληροφοριών από τα αντικείμενα μιας εφαρμογής. Αυτό μπορεί να περιλαμβάνει την ανάκτηση κρυπτογραφημένων δεδομένων, κλειδιών πρόσβασης ή άλλων ευαίσθητων πληροφοριών που αποθηκεύονται στη μνήμη των αντικειμένων.
-
-Τέλος, θα εξετάσουμε την εκτέλεση κώδικα Objective-C. Η εκτέλεση κώδικα Objective-C είναι η διαδικασία της εκτέλεσης κώδικα που γράφτηκε σε Objective-C. Αυτό μας επιτρέπει να εκτελέσουμε κώδικα που εκμεταλλεύεται ευπάθειες του macOS ή που προκαλεί εκτελέσιμο κώδικα με προνόμια που δεν θα έπρεπε να έχει ο χρήστης.
-
-Αυτές οι βασικές έννοιες της Objective-C θα μας βοηθήσουν να κατανοήσουμε καλύτερα την ασφάλεια και την εκμετάλλευση προνομίων στο macOS. Με τη χρήση αυτών των γνώσεων, μπορούμε να αναπτύξουμε αποτελεσματικές τεχνικές για την εκμετάλλευση ευπαθειών και την απόκτηση προνομίων σε ένα σύστημα macOS.
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -182,7 +184,7 @@ NSLog(@"Number of wheels: %i", mySuperCar.numberOfWheels);
 ```
 ### Βασικές Κλάσεις
 
-#### String
+#### Συμβολοσειρά
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -193,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Οι βασικές κλάσεις είναι **αμετάβλητες**, οπότε για να προσθέσετε ένα συμβολοσειρά σε μια υπάρχουσα πρέπει να δημιουργηθεί **νέο NSString**. 
+Οι βασικές κλάσεις είναι **αμετάβλητες**, οπότε για να προστεθεί μια συμβολοσειρά σε μια υπάρχουσα, πρέπει να **δημιουργηθεί μια νέα NSString**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -201,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Ή μπορείτε επίσης να χρησιμοποιήσετε μια κλάση συμβολοσειράς **μεταβλητής**:
+Ή μπορείτε επίσης να χρησιμοποιήσετε μια **μεταβλητή** κλάση συμβολοσειράς:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -212,8 +214,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Αριθμός
 
 {% code overflow="wrap" %}
@@ -235,9 +235,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-{% endcode %}
-
-#### Πίνακες, Σύνολα και Λεξικά
+#### Πίνακες, Σύνολα & Λεξικά
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -287,9 +285,11 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Μπλοκ
+### Blocks
 
-Τα μπλοκ είναι **συναρτήσεις που συμπεριφέρονται ως αντικείμενα**, έτσι μπορούν να περάσουν σε συναρτήσεις ή να **αποθηκευτούν** σε **πίνακες** ή **λεξικά**. Επίσης, μπορούν να **αναπαραστήσουν μια τιμή αν τους δοθούν τιμές**, οπότε είναι παρόμοια με τις λάμδα.
+Τα Blocks είναι **συναρτήσεις που συμπεριφέρονται ως αντικείμενα** έτσι ώστε να μπορούν να περαστούν σε συναρτήσεις ή να **αποθηκευτούν** σε **πίνακες** ή **λεξικά**. Επίσης, μπορούν να **αντιπροσωπεύουν μια τιμή αν τους δοθούν τιμές** οπότε είναι παρόμοια με τα lambdas.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -304,7 +304,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-Είναι επίσης δυνατόν να **ορίσετε έναν τύπο μπλοκ για χρήση ως παράμετρο** σε συναρτήσεις:
+Είναι επίσης δυνατό να **ορίσετε έναν τύπο μπλοκ για να χρησιμοποιηθεί ως παράμετρος** σε συναρτήσεις:
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -355,31 +355,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-Είναι επίσης δυνατόν να διαχειριστείτε αρχεία **χρησιμοποιώντας αντικείμενα `NSURL` αντί για αντικείμενα `NSString`**. Τα ονόματα των μεθόδων είναι παρόμοια, αλλά **με `URL` αντί για `Path`**.
+Είναι επίσης δυνατό να διαχειριστείτε αρχεία **χρησιμοποιώντας αντικείμενα `NSURL` αντί για αντικείμενα `NSString`**. Τα ονόματα μεθόδων είναι παρόμοια, αλλά **με `URL` αντί για `Path`**.
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-Οι περισσότερες βασικές κλάσεις έχουν ορισμένη μια μέθοδο `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` που τους επιτρέπει να γραφούν απευθείας σε ένα αρχείο:
-
-{% code overflow="wrap" %}
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

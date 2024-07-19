@@ -54,7 +54,7 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 
 Ενώ αποκτάτε τις βασικές πληροφορίες, θα πρέπει να ελέγξετε για περίεργα πράγματα όπως:
 
-* **Διεργασίες root** συνήθως εκτελούνται με χαμηλά PIDS, οπότε αν βρείτε μια διεργασία root με μεγάλο PID μπορεί να υποψιαστείτε
+* **Διεργασίες root** συνήθως εκτελούνται με χαμηλά PIDS, οπότε αν βρείτε μια διεργασία root με μεγάλο PID, μπορεί να υποψιαστείτε
 * Ελέγξτε για **καταγεγραμμένες συνδέσεις** χρηστών χωρίς shell μέσα στο `/etc/passwd`
 * Ελέγξτε για **hash κωδικών πρόσβασης** μέσα στο `/etc/shadow` για χρήστες χωρίς shell
 
@@ -64,11 +64,11 @@ find /directory -type f -mtime -1 -print #Find modified files during the last mi
 Για να **συγκεντρώσετε** το, πρέπει να χρησιμοποιήσετε τον **ίδιο πυρήνα** που χρησιμοποιεί η μηχανή του θύματος.
 
 {% hint style="info" %}
-Θυμηθείτε ότι **δεν μπορείτε να εγκαταστήσετε το LiME ή οτιδήποτε άλλο** στη μηχανή του θύματος καθώς θα κάνει πολλές αλλαγές σε αυτήν
+Θυμηθείτε ότι **δεν μπορείτε να εγκαταστήσετε το LiME ή οτιδήποτε άλλο** στη μηχανή του θύματος, καθώς θα κάνει πολλές αλλαγές σε αυτήν
 {% endhint %}
 
-Έτσι, αν έχετε μια ταυτόσημη έκδοση του Ubuntu μπορείτε να χρησιμοποιήσετε `apt-get install lime-forensics-dkms`\
-Σε άλλες περιπτώσεις, πρέπει να κατεβάσετε [**LiME**](https://github.com/504ensicsLabs/LiME) από το github και να το συγκεντρώσετε με σωστές κεφαλίδες πυρήνα. Για να **αποκτήσετε τις ακριβείς κεφαλίδες πυρήνα** της μηχανής του θύματος, μπορείτε απλά να **αντιγράψετε τον κατάλογο** `/lib/modules/<kernel version>` στη μηχανή σας, και στη συνέχεια να **συγκεντρώσετε** το LiME χρησιμοποιώντας αυτές:
+Έτσι, αν έχετε μια ταυτόσημη έκδοση του Ubuntu, μπορείτε να χρησιμοποιήσετε `apt-get install lime-forensics-dkms`\
+Σε άλλες περιπτώσεις, πρέπει να κατεβάσετε [**LiME**](https://github.com/504ensicsLabs/LiME) από το github και να το συγκεντρώσετε με τους σωστούς επικεφαλής πυρήνα. Για να **αποκτήσετε τους ακριβείς επικεφαλής πυρήνα** της μηχανής του θύματος, μπορείτε απλά να **αντιγράψετε τον κατάλογο** `/lib/modules/<kernel version>` στη μηχανή σας και στη συνέχεια να **συγκεντρώσετε** το LiME χρησιμοποιώντας τους:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -101,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Disk Image προ-ανάλυση
 
-Η απεικόνιση μιας δισκέτας χωρίς περισσότερα δεδομένα.
+Imaging a disk image with no more data.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -157,7 +157,7 @@ ThisisTheMasterSecret
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
@@ -173,7 +173,7 @@ ThisisTheMasterSecret
 
 ### Ανιχνευτές κακόβουλου λογισμικού/Rootkit
 
-Διαβάστε την παρακάτω σελίδα για να μάθετε για εργαλεία που μπορεί να είναι χρήσιμα για την ανεύρεση κακόβουλου λογισμικού:
+Διαβάστε την παρακάτω σελίδα για να μάθετε για εργαλεία που μπορεί να είναι χρήσιμα για την εύρεση κακόβουλου λογισμικού:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
@@ -186,7 +186,7 @@ ThisisTheMasterSecret
 * Για Debian, ελέγξτε _**`/var/lib/dpkg/status`**_ και _**`/var/log/dpkg.log`**_ για να αποκτήσετε λεπτομέρειες σχετικά με τις εγκαταστάσεις πακέτων, χρησιμοποιώντας `grep` για να φιλτράρετε συγκεκριμένες πληροφορίες.
 * Οι χρήστες RedHat μπορούν να ερωτήσουν τη βάση δεδομένων RPM με `rpm -qa --root=/mntpath/var/lib/rpm` για να καταγράψουν τα εγκατεστημένα πακέτα.
 
-Για να αποκαλύψετε λογισμικό που έχει εγκατασταθεί χειροκίνητα ή εκτός αυτών των διαχειριστών πακέτων, εξερευνήστε καταλόγους όπως _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, και _**`/sbin`**_. Συνδυάστε τις καταχωρήσεις καταλόγων με εντολές συγκεκριμένες για το σύστημα για να εντοπίσετε εκτελέσιμα που δεν σχετίζονται με γνωστά πακέτα, ενισχύοντας την αναζήτησή σας για όλα τα εγκατεστημένα προγράμματα.
+Για να αποκαλύψετε λογισμικό που έχει εγκατασταθεί χειροκίνητα ή εκτός αυτών των διαχειριστών πακέτων, εξερευνήστε καταλόγους όπως _**`/usr/local`**_, _**`/opt`**_, _**`/usr/sbin`**_, _**`/usr/bin`**_, _**`/bin`**_, και _**`/sbin`**_. Συνδυάστε τις καταχωρίσεις καταλόγων με εντολές συγκεκριμένες για το σύστημα για να εντοπίσετε εκτελέσιμα που δεν σχετίζονται με γνωστά πακέτα, ενισχύοντας την αναζήτησή σας για όλα τα εγκατεστημένα προγράμματα.
 ```bash
 # Debian package and log details
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -206,13 +206,13 @@ find / -type f -executable | grep <something>
 
 \
 Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τη βοήθεια των **πιο προηγμένων** εργαλείων της κοινότητας.\
-Αποκτήστε Πρόσβαση Σήμερα:
+Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}
 
 ## Ανάκτηση Διαγραμμένων Εκτελέσιμων Αρχείων
 
-Φανταστείτε μια διαδικασία που εκτελέστηκε από το /tmp/exec και στη συνέχεια διαγράφηκε. Είναι δυνατόν να την εξαγάγετε
+Φανταστείτε μια διαδικασία που εκτελέστηκε από το /tmp/exec και στη συνέχεια διαγράφηκε. Είναι δυνατόν να την εξαγάγετε.
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -239,7 +239,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 Διαδρομές όπου ένα κακόβουλο λογισμικό θα μπορούσε να εγκατασταθεί ως υπηρεσία:
 
 * **/etc/inittab**: Καλεί σενάρια αρχικοποίησης όπως το rc.sysinit, κατευθύνοντας περαιτέρω σε σενάρια εκκίνησης.
-* **/etc/rc.d/** και **/etc/rc.boot/**: Περιέχουν σενάρια για την εκκίνηση υπηρεσιών, το δεύτερο βρίσκεται σε παλαιότερες εκδόσεις Linux.
+* **/etc/rc.d/** και **/etc/rc.boot/**: Περιέχουν σενάρια για την εκκίνηση υπηρεσιών, το τελευταίο βρίσκεται σε παλαιότερες εκδόσεις Linux.
 * **/etc/init.d/**: Χρησιμοποιείται σε ορισμένες εκδόσεις Linux όπως το Debian για την αποθήκευση σεναρίων εκκίνησης.
 * Οι υπηρεσίες μπορούν επίσης να ενεργοποιηθούν μέσω **/etc/inetd.conf** ή **/etc/xinetd/**, ανάλογα με την παραλλαγή του Linux.
 * **/etc/systemd/system**: Ένας φάκελος για σενάρια διαχείρισης συστήματος και υπηρεσιών.
@@ -250,7 +250,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 ### Μονάδες Πυρήνα
 
-Οι μονάδες πυρήνα Linux, που συχνά χρησιμοποιούνται από κακόβουλο λογισμικό ως συστατικά rootkit, φορτώνονται κατά την εκκίνηση του συστήματος. Οι καταλόγοι και τα αρχεία που είναι κρίσιμα για αυτές τις μονάδες περιλαμβάνουν:
+Οι μονάδες πυρήνα Linux, που συχνά χρησιμοποιούνται από κακόβουλο λογισμικό ως συστατικά rootkit, φορτώνονται κατά την εκκίνηση του συστήματος. Οι φάκελοι και τα αρχεία που είναι κρίσιμα για αυτές τις μονάδες περιλαμβάνουν:
 
 * **/lib/modules/$(uname -r)**: Περιέχει μονάδες για την τρέχουσα έκδοση του πυρήνα.
 * **/etc/modprobe.d**: Περιέχει αρχεία ρυθμίσεων για τον έλεγχο της φόρτωσης μονάδων.
@@ -270,7 +270,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 
 * **/var/log/syslog** (Debian) ή **/var/log/messages** (RedHat): Καταγράφουν μηνύματα και δραστηριότητες σε επίπεδο συστήματος.
 * **/var/log/auth.log** (Debian) ή **/var/log/secure** (RedHat): Καταγράφουν προσπάθειες αυθεντικοποίησης, επιτυχείς και αποτυχημένες συνδέσεις.
-* Χρησιμοποιήστε `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` για να φιλτράρετε σχετικά γεγονότα αυθεντικοποίησης.
+* Χρησιμοποιήστε `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` για να φιλτράρετε σχετικές αυθεντικοποιητικές εκδηλώσεις.
 * **/var/log/boot.log**: Περιέχει μηνύματα εκκίνησης του συστήματος.
 * **/var/log/maillog** ή **/var/log/mail.log**: Καταγράφει δραστηριότητες του διακομιστή email, χρήσιμο για την παρακολούθηση υπηρεσιών σχετικών με email.
 * **/var/log/kern.log**: Αποθηκεύει μηνύματα πυρήνα, συμπεριλαμβανομένων σφαλμάτων και προειδοποιήσεων.
@@ -308,13 +308,13 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 Ορισμένες εφαρμογές επίσης δημιουργούν τα δικά τους αρχεία καταγραφής:
 
 * **SSH**: Εξετάστε το _\~/.ssh/authorized\_keys_ και _\~/.ssh/known\_hosts_ για μη εξουσιοδοτημένες απομακρυσμένες συνδέσεις.
-* **Gnome Desktop**: Ρίξτε μια ματιά στο _\~/.recently-used.xbel_ για πρόσφατα προσπελάσιμα αρχεία μέσω εφαρμογών Gnome.
+* **Gnome Desktop**: Ρίξτε μια ματιά στο _\~/.recently-used.xbel_ για πρόσφατα προσπελασμένα αρχεία μέσω εφαρμογών Gnome.
 * **Firefox/Chrome**: Ελέγξτε το ιστορικό του προγράμματος περιήγησης και τις λήψεις στο _\~/.mozilla/firefox_ ή _\~/.config/google-chrome_ για ύποπτες δραστηριότητες.
-* **VIM**: Εξετάστε το _\~/.viminfo_ για λεπτομέρειες χρήσης, όπως διαδρομές προσπελάσιμων αρχείων και ιστορικό αναζητήσεων.
+* **VIM**: Εξετάστε το _\~/.viminfo_ για λεπτομέρειες χρήσης, όπως διαδρομές προσπελασμένων αρχείων και ιστορικό αναζητήσεων.
 * **Open Office**: Ελέγξτε για πρόσφατη πρόσβαση σε έγγραφα που μπορεί να υποδηλώνει παραβιασμένα αρχεία.
 * **FTP/SFTP**: Εξετάστε τα αρχεία καταγραφής στο _\~/.ftp\_history_ ή _\~/.sftp\_history_ για μεταφορές αρχείων που μπορεί να είναι μη εξουσιοδοτημένες.
 * **MySQL**: Εξετάστε το _\~/.mysql\_history_ για εκτελεσμένα ερωτήματα MySQL, που μπορεί να αποκαλύπτουν μη εξουσιοδοτημένες δραστηριότητες βάσης δεδομένων.
-* **Less**: Αναλύστε το _\~/.lesshst_ για ιστορικό χρήσης, συμπεριλαμβανομένων των προσπελάσιμων αρχείων και των εκτελούμενων εντολών.
+* **Less**: Αναλύστε το _\~/.lesshst_ για ιστορικό χρήσης, συμπεριλαμβανομένων των προσπελασμένων αρχείων και των εκτελούμενων εντολών.
 * **Git**: Εξετάστε το _\~/.gitconfig_ και το έργο _.git/logs_ για αλλαγές σε αποθετήρια.
 
 ### Καταγραφές USB
@@ -360,12 +360,12 @@ Get Access Today:
 
 Για να αντισταθούμε σε αυτές τις μεθόδους αντεπίθεσης, είναι απαραίτητο να:
 
-* **Διεξάγετε μια λεπτομερή ανάλυση χρονολογίας** χρησιμοποιώντας εργαλεία όπως το **Autopsy** για την οπτικοποίηση χρονολογιών γεγονότων ή το `mactime` του **Sleuth Kit** για λεπτομερή δεδομένα χρονολογίας.
+* **Διεξάγετε μια λεπτομερή ανάλυση χρονολογίου** χρησιμοποιώντας εργαλεία όπως το **Autopsy** για την οπτικοποίηση χρονολογίων γεγονότων ή το `mactime` του **Sleuth Kit** για λεπτομερή δεδομένα χρονολογίου.
 * **Εξετάσετε απροσδόκητα σενάρια** στο $PATH του συστήματος, τα οποία μπορεί να περιλαμβάνουν shell ή PHP σενάρια που χρησιμοποιούνται από επιτιθέμενους.
 * **Εξετάσετε το `/dev` για ασυνήθιστα αρχεία**, καθώς παραδοσιακά περιέχει ειδικά αρχεία, αλλά μπορεί να φιλοξενεί αρχεία που σχετίζονται με κακόβουλο λογισμικό.
 * **Αναζητήσετε κρυφά αρχεία ή καταλόγους** με ονόματα όπως ".. " (dot dot space) ή "..^G" (dot dot control-G), τα οποία θα μπορούσαν να αποκρύπτουν κακόβουλο περιεχόμενο.
 * **Εντοπίσετε αρχεία setuid root** χρησιμοποιώντας την εντολή: `find / -user root -perm -04000 -print` Αυτό βρίσκει αρχεία με ανυψωμένα δικαιώματα, τα οποία θα μπορούσαν να καταχραστούν από επιτιθέμενους.
-* **Ανασκοπήσετε τις χρονικές σφραγίδες διαγραφής** στους πίνακες inode για να εντοπίσετε μαζικές διαγραφές αρχείων, που ενδέχεται να υποδεικνύουν την παρουσία rootkits ή trojans.
+* **Ανασκοπήσετε τις χρονικές σφραγίδες διαγραφής** στους πίνακες inode για να εντοπίσετε μαζικές διαγραφές αρχείων, πιθανώς υποδεικνύοντας την παρουσία rootkits ή trojans.
 * **Εξετάσετε διαδοχικά inodes** για κοντινά κακόβουλα αρχεία μετά την αναγνώριση ενός, καθώς μπορεί να έχουν τοποθετηθεί μαζί.
 * **Ελέγξετε κοινούς καταλόγους δυαδικών αρχείων** (_/bin_, _/sbin_) για πρόσφατα τροποποιημένα αρχεία, καθώς αυτά θα μπορούσαν να έχουν τροποποιηθεί από κακόβουλο λογισμικό.
 ````bash
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Σημειώστε ότι ένας **επιτιθέμενος** μπορεί να **τροποποιήσει** τον **χρόνο** για να κάνει τα **αρχεία να φαίνονται** **νόμιμα**, αλλά δεν μπορεί να **τροποποιήσει** το **inode**. Εάν διαπιστώσετε ότι ένα **αρχείο** υποδεικνύει ότι δημιουργήθηκε και τροποποιήθηκε την **ίδια στιγμή** με τα υπόλοιπα αρχεία στον ίδιο φάκελο, αλλά το **inode** είναι **αναπάντεχα μεγαλύτερο**, τότε οι **χρόνοι** αυτού του αρχείου έχουν **τροποποιηθεί**.
+Σημειώστε ότι ένας **επιτιθέμενος** μπορεί να **τροποποιήσει** τον **χρόνο** για να κάνει τα **αρχεία να φαίνονται** **νόμιμα**, αλλά **δεν μπορεί** να τροποποιήσει το **inode**. Εάν διαπιστώσετε ότι ένα **αρχείο** υποδεικνύει ότι δημιουργήθηκε και τροποποιήθηκε την **ίδια στιγμή** με τα υπόλοιπα αρχεία στον ίδιο φάκελο, αλλά το **inode** είναι **αναπάντεχα μεγαλύτερο**, τότε οι **χρόνοι του αρχείου αυτού τροποποιήθηκαν**.
 {% endhint %}
 
 ## Σύγκριση αρχείων διαφορετικών εκδόσεων συστήματος αρχείων
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Επιλογές φίλτρου** (`--diff-filter`) βοηθούν να περιορίσετε σε συγκεκριμένες αλλαγές όπως προσθήκες (`A`), διαγραφές (`D`), ή τροποποιημένα (`M`) αρχεία.
+* **Επιλογές φίλτρου** (`--diff-filter`) βοηθούν στη στένωση σε συγκεκριμένες αλλαγές όπως προσθήκες (`A`), διαγραφές (`D`), ή τροποποιημένα (`M`) αρχεία.
 * `A`: Προσθήκες αρχείων
 * `C`: Αντιγραμμένα αρχεία
 * `D`: Διαγραμμένα αρχεία
@@ -415,19 +415,20 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Βιβλίο: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε hacking AWS από το μηδέν έως τον ήρωα με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Δουλεύετε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks**; ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Μοιραστείτε τα κόλπα hacking σας υποβάλλοντας PRs στο** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **και** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

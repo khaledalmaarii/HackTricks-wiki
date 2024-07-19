@@ -1,32 +1,35 @@
-# Επίθεση SID History Injection
+# SID-History Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Επίθεση SID History Injection
+## SID History Injection Attack
 
-Ο στόχος της επίθεσης **SID History Injection** είναι να βοηθήσει στη μετάβαση του χρήστη μεταξύ τομέων ενώ εξασφαλίζει τη συνεχή πρόσβαση σε πόρους από τον προηγούμενο τομέα. Αυτό επιτυγχάνεται με την **ενσωμάτωση του προηγούμενου Security Identifier (SID) του χρήστη στο SID History** του νέου λογαριασμού του. Είναι σημαντικό να σημειωθεί ότι αυτή η διαδικασία μπορεί να χρησιμοποιηθεί για να παραχωρηθεί μη εξουσιοδοτημένη πρόσβαση προσθέτοντας το SID μιας ομάδας υψηλών προνομίων (όπως οι Enterprise Admins ή οι Domain Admins) από το γονικό τομέα στο SID History. Αυτή η εκμετάλλευση παρέχει πρόσβαση σε όλους τους πόρους εντός του γονικού τομέα.
+Η εστίαση της **Επίθεσης Εισαγωγής Ιστορικού SID** είναι η βοήθεια **μεταφοράς χρηστών μεταξύ τομέων** ενώ διασφαλίζεται η συνεχής πρόσβαση σε πόρους από τον πρώην τομέα. Αυτό επιτυγχάνεται με **την ενσωμάτωση του προηγούμενου Αναγνωριστικού Ασφαλείας (SID) του χρήστη στο Ιστορικό SID** του νέου του λογαριασμού. Σημαντικό είναι ότι αυτή η διαδικασία μπορεί να παραποιηθεί για να παραχωρήσει μη εξουσιοδοτημένη πρόσβαση προσθέτοντας το SID μιας ομάδας υψηλών προνομίων (όπως οι Enterprise Admins ή οι Domain Admins) από τον γονικό τομέα στο Ιστορικό SID. Αυτή η εκμετάλλευση παρέχει πρόσβαση σε όλους τους πόρους εντός του γονικού τομέα.
 
-Υπάρχουν δύο μέθοδοι για την εκτέλεση αυτής της επίθεσης: μέσω της δημιουργίας ενός **Golden Ticket** ή ενός **Diamond Ticket**.
+Δύο μέθοδοι υπάρχουν για την εκτέλεση αυτής της επίθεσης: μέσω της δημιουργίας είτε ενός **Golden Ticket** είτε ενός **Diamond Ticket**.
 
-Για να εντοπίσετε το SID της ομάδας **"Enterprise Admins"**, πρέπει πρώτα να εντοπίσετε το SID του ριζικού τομέα. Αφού εντοπίσετε το SID, το SID της ομάδας Enterprise Admins μπορεί να δημιουργηθεί προσθέτοντας το `-519` στο SID του ριζικού τομέα. Για παράδειγμα, αν το SID του ριζικού τομέα είναι `S-1-5-21-280534878-1496970234-700767426`, το αποτέλεσμα SID για την ομάδα "Enterprise Admins" θα ήταν `S-1-5-21-280534878-1496970234-700767426-519`.
+Για να προσδιορίσετε το SID της ομάδας **"Enterprise Admins"**, πρέπει πρώτα να εντοπίσετε το SID του ριζικού τομέα. Αφού γίνει η αναγνώριση, το SID της ομάδας Enterprise Admins μπορεί να κατασκευαστεί προσθέτοντας `-519` στο SID του ριζικού τομέα. Για παράδειγμα, αν το SID του ριζικού τομέα είναι `S-1-5-21-280534878-1496970234-700767426`, το προκύπτον SID για την ομάδα "Enterprise Admins" θα ήταν `S-1-5-21-280534878-1496970234-700767426-519`.
 
 Μπορείτε επίσης να χρησιμοποιήσετε τις ομάδες **Domain Admins**, οι οποίες τελειώνουν σε **512**.
 
-Ένας άλλος τρόπος για να βρείτε το SID μιας ομάδας από τον άλλο τομέα (για παράδειγμα "Domain Admins") είναι με:
+Ένας άλλος τρόπος για να βρείτε το SID μιας ομάδας του άλλου τομέα (για παράδειγμα "Domain Admins") είναι με:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-### Χρυσό εισιτήριο (Mimikatz) με KRBTGT-AES256
+### Χρυσό Εισιτήριο (Mimikatz) με KRBTGT-AES256
 
 {% code overflow="wrap" %}
 ```bash
@@ -53,7 +56,7 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Διαμαντένιο εισιτήριο (Rubeus + KRBTGT-AES256)
+### Διαμαντένιο Εισιτήριο (Rubeus + KRBTGT-AES256)
 
 {% code overflow="wrap" %}
 ```powershell
@@ -67,7 +70,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-Για περισσότερες πληροφορίες σχετικά με τα diamond tickets, ελέγξτε:
+Για περισσότερες πληροφορίες σχετικά με τα διαμάντια εισιτήρια, ελέγξτε:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -81,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Αναβαθμίστε σε DA ή root ή Enterprise admin χρησιμοποιώντας το KRBTGT hash του παραβιασμένου domain:
+Αναβάθμιση σε DA του root ή Enterprise admin χρησιμοποιώντας το KRBTGT hash του παραβιασμένου τομέα:
 
 {% code overflow="wrap" %}
 ```bash
@@ -97,15 +100,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-Με τα αποκτηθέντα δικαιώματα από την επίθεση, μπορείτε να εκτελέσετε, για παράδειγμα, μια επίθεση DCSync στο νέο τομέα:
+Με τις αποκτηθείσες άδειες από την επίθεση μπορείτε να εκτελέσετε, για παράδειγμα, μια επίθεση DCSync στο νέο τομέα:
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Από το linux
+### Από linux
 
-#### Εγχειρίδιο με το [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
+#### Χειροκίνητα με [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
 {% code overflow="wrap" %}
 ```bash
@@ -129,21 +132,21 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 ```
 {% endcode %}
 
-#### Αυτόματο χρησιμοποιώντας το [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
+#### Αυτόματα χρησιμοποιώντας [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Αυτό είναι ένα script του Impacket που θα **αυτοματοποιήσει την ανόδο από το παιδικό στο γονικό domain**. Το script χρειάζεται:
+Αυτό είναι ένα σενάριο Impacket που θα **αυτοματοποιήσει την αναβάθμιση από το παιδικό στο γονικό domain**. Το σενάριο χρειάζεται:
 
-* Τον domain controller στον οποίο στοχεύει
-* Τα διαπιστευτήρια ενός διαχειριστή στο παιδικό domain
+* Στόχο domain controller
+* Διαπιστευτήρια για έναν διαχειριστή στο παιδικό domain
 
-Η διαδικασία είναι η εξής:
+Η ροή είναι:
 
 * Αποκτά το SID για την ομάδα Enterprise Admins του γονικού domain
 * Ανακτά το hash για τον λογαριασμό KRBTGT στο παιδικό domain
 * Δημιουργεί ένα Golden Ticket
 * Συνδέεται στο γονικό domain
-* Ανακτά τα διαπιστευτήρια για τον λογαριασμό Administrator στο γονικό domain
-* Εάν καθοριστεί η επιλογή `target-exec`, εκτελεί πιστοποίηση στον Domain Controller του γονικού domain μέσω του Psexec.
+* Ανακτά διαπιστευτήρια για τον λογαριασμό Administrator στο γονικό domain
+* Εάν έχει καθοριστεί η επιλογή `target-exec`, αυθεντικοποιείται στον Domain Controller του γονικού domain μέσω Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
@@ -151,14 +154,17 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

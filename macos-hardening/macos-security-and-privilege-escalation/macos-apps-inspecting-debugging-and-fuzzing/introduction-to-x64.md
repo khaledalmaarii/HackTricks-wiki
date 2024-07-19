@@ -1,73 +1,88 @@
 # Εισαγωγή στο x64
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## **Εισαγωγή στο x64**
 
-Το x64, επίσης γνωστό ως x86-64, είναι μια αρχιτεκτονική επεξεργαστή 64-bit που χρησιμοποιείται κυρίως στους υπολογιστές επιφάνειας εργασίας και σε εξυπηρετητές. Προέρχεται από την αρχιτεκτονική x86 που παρήγαγε η Intel και υιοθετήθηκε αργότερα από την AMD με το όνομα AMD64, είναι η κυρίαρχη αρχιτεκτονική στους προσωπικούς υπολογιστές και σε εξυπηρετητές σήμερα.
+x64, γνωστό και ως x86-64, είναι μια αρχιτεκτονική επεξεργαστή 64-bit που χρησιμοποιείται κυρίως σε υπολογιστές και διακομιστές. Προέρχεται από την αρχιτεκτονική x86 που παράγεται από την Intel και αργότερα υιοθετήθηκε από την AMD με την ονομασία AMD64, είναι η κυρίαρχη αρχιτεκτονική στους προσωπικούς υπολογιστές και τους διακομιστές σήμερα.
 
 ### **Καταχωρητές**
 
-Το x64 επεκτείνει την αρχιτεκτονική x86, προσφέροντας **16 καταχωρητές γενικής χρήσης** με ετικέτες `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi` και `r8` έως `r15`. Κάθε ένας από αυτούς μπορεί να αποθηκεύσει μια τιμή **64-bit** (8-byte). Αυτοί οι καταχωρητές έχουν επίσης υπο-καταχωρητές 32-bit, 16-bit και 8-bit για συμβατότητα και συγκεκριμένες εργασίες.
+x64 επεκτείνει την αρχιτεκτονική x86, διαθέτοντας **16 γενικούς καταχωρητές** που φέρουν τις ετικέτες `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi`, και `r8` έως `r15`. Κάθε ένας από αυτούς μπορεί να αποθηκεύσει μια **64-bit** (8-byte) τιμή. Αυτοί οι καταχωρητές διαθέτουν επίσης υποκαταχωρητές 32-bit, 16-bit και 8-bit για συμβατότητα και συγκεκριμένες εργασίες.
 
-1. **`rax`** - Χρησιμοποιείται παραδοσιακά για τις **τιμές επιστροφής** από συναρτήσεις.
-2. **`rbx`** - Συχνά χρησιμοποιείται ως **καταχωρητής βάσης** για λειτουργίες μνήμης.
-3. **`rcx`** - Χρησιμοποιείται συνήθως για **μετρητές βρόχων**.
-4. **`rdx`** - Χρησιμοποιείται σε διάφορους ρόλους συμπεριλαμβανομένων των επεκτεινόμενων αριθμητικών λειτουργιών.
-5. **`rbp`** - **Δείκτης βάσης** για το πλαίσιο στοίβας.
+1. **`rax`** - Παραδοσιακά χρησιμοποιείται για **τιμές επιστροφής** από συναρτήσεις.
+2. **`rbx`** - Συχνά χρησιμοποιείται ως **βασικός καταχωρητής** για λειτουργίες μνήμης.
+3. **`rcx`** - Συνήθως χρησιμοποιείται για **μετρητές βρόχων**.
+4. **`rdx`** - Χρησιμοποιείται σε διάφορους ρόλους, συμπεριλαμβανομένων των επεκτεινόμενων αριθμητικών λειτουργιών.
+5. **`rbp`** - **Βασικός δείκτης** για το πλαίσιο της στοίβας.
 6. **`rsp`** - **Δείκτης στοίβας**, παρακολουθεί την κορυφή της στοίβας.
-7. **`rsi`** και **`rdi`** - Χρησιμοποιούνται για τους **δείκτες πηγής** και **προορισμού** σε λειτουργίες συμβολοσειράς/μνήμης.
-8. **`r8`** έως **`r15`** - Επιπλέον καταχωρητές γενικής χρήσης που εισήχθησαν στο x64.
+7. **`rsi`** και **`rdi`** - Χρησιμοποιούνται για **δείκτες πηγής** και **προορισμού** σε λειτουργίες συμβολοσειρών/μνήμης.
+8. **`r8`** έως **`r15`** - Πρόσθετοι γενικοί καταχωρητές που εισήχθησαν στο x64.
 
 ### **Σύμβαση Κλήσης**
 
-Η σύμβαση κλήσης x64 διαφέρει μεταξύ λειτουργικών συστημάτων. Για παράδειγμα:
+Η σύμβαση κλήσης x64 διαφέρει μεταξύ των λειτουργικών συστημάτων. Για παράδειγμα:
 
-* **Windows**: Οι πρώτες **τέσσερις παράμετροι** περνιούνται στους καταχωρητές **`rcx`**, **`rdx`**, **`r8`** και **`r9`**. Επιπλέον παράμετροι προστίθενται στη στοίβα. Η τιμή επιστροφής βρίσκεται στον **`rax`**.
-* **System V (συνηθισμένα χρησιμοποιούμενο σε συστήματα UNIX-like)**: Οι πρώτες **έξι ακέραιες ή δείκτες παράμετροι** περνιούνται στους καταχωρητές **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** και **`r9`**. Η τιμή επιστροφής βρίσκεται επίσης στον **`rax`**.
+* **Windows**: Οι πρώτες **τέσσερις παράμετροι** μεταφέρονται στους καταχωρητές **`rcx`**, **`rdx`**, **`r8`**, και **`r9`**. Οι περαιτέρω παράμετροι τοποθετούνται στη στοίβα. Η τιμή επιστροφής είναι στον **`rax`**.
+* **System V (συνήθως χρησιμοποιούμενη σε συστήματα τύπου UNIX)**: Οι πρώτες **έξι παραμέτρους ακέραιων ή δεικτών** μεταφέρονται στους καταχωρητές **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`**, και **`r9`**. Η τιμή επιστροφής είναι επίσης στον **`rax`**.
 
-Αν η συνάρτηση έχει περισσότερες από έξι εισόδους, οι **υπόλοιπες περνιούνται στη στοίβα**. Το **RSP**, ο δείκτης στοίβας, πρέπει να είναι **16 bytes ευθυγραμμισμένος**, που σημαίνει ότι η διεύθυνση στην οποία δείχνει πρέπει να είναι διαιρέσιμη με το 16 πριν συμβεί οποιαδήποτε κλήση. Αυτό σημαίνει ότι συνήθως θα πρέπει να διασφαλίσουμε ότι το RSP είναι σωστά ευθυγραμμισμένο στο shellcode μας πριν κάνουμε μια κλήση συνάρτησης. Ωστόσο, στην πράξη, οι κλήσεις συστήματος λειτουργούν πολλές φορές ακόμα κι αν αυτή η απαίτηση δεν πληροίται.
+Εάν η συνάρτηση έχει περισσότερες από έξι εισόδους, οι **υπόλοιπες θα μεταφερθούν στη στοίβα**. **RSP**, ο δείκτης στοίβας, πρέπει να είναι **ευθυγραμμισμένος στα 16 bytes**, που σημαίνει ότι η διεύθυνση στην οποία δείχνει πρέπει να είναι διαιρετή του 16 πριν από οποιαδήποτε κλήση. Αυτό σημαίνει ότι κανονικά θα πρέπει να διασφαλίσουμε ότι το RSP είναι σωστά ευθυγραμμισμένο στον κώδικα μας πριν κάνουμε μια κλήση συνάρτησης. Ωστόσο, στην πράξη, οι κλήσεις συστήματος λειτουργούν πολλές φορές ακόμη και αν αυτή η απαίτηση δεν πληρούται.
 
 ### Σύμβαση Κλήσης στο Swift
 
 Το Swift έχει τη δική του **σύμβαση κλήσης** που μπορεί να βρεθεί στο [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
 
-### **Κοινές Οδηγίες**
+### **Κοινές Εντολές**
 
-Οι οδηγίες x64 διαθέτουν ένα πλούσιο σύνολο, διατηρώντας τη συμβατότητα με προηγούμενες οδηγίες x86 και εισάγοντας νέες.
+Οι εντολές x64 διαθέτουν ένα πλούσιο σύνολο, διατηρώντας τη συμβατότητα με τις προηγούμενες εντολές x86 και εισάγοντας νέες.
 
-* **`mov`**: **Μετακίνηση** μιας τιμής από έναν **καταχωρητή** ή **τοποθεσία μνήμης** σε άλλον.
-* Παράδειγμα: `mov rax, rbx` — Μετακινεί την τιμή από το `rbx` στο `rax`.
-* **`push`** και **`pop`**: Προσθέτει ή αφαιρεί τιμές από/στη **στοίβα**.
-* Παράδειγμα: `push rax` — Προσθέτει την τιμή στο `rax` στη στοίβα.
+* **`mov`**: **Μεταφορά** μιας τιμής από έναν **καταχωρητή** ή **θέση μνήμης** σε άλλη.
+* Παράδειγμα: `mov rax, rbx` — Μεταφέρει την τιμή από `rbx` στο `rax`.
+* **`push`** και **`pop`**: Πιέστε ή αφαιρέστε τιμές από/στην **στοίβα**.
+* Παράδειγμα: `push rax` — Πιέζει την τιμή στο `rax` στη στοίβα.
 * Παράδειγμα: `pop rax` — Αφαιρεί την κορυφαία τιμή από τη στοίβα στο `rax`.
 * **`add`** και **`sub`**: Λειτουργίες **πρόσθεσης** και **αφαίρεσης**.
-* Παράδειγμα: `add rax, rcx` — Προσθέτει τις τιμές στο `rax` και `rcx` αποθηκεύοντας το αποτέλεσμα στο `rax`.
-* **`mul`** και **`div`**: Λειτουργίες **πολλαπλασιασμού** και **διαίρεσης**. Σημείωση: αυτές έχουν συγκεκριμένες συμπεριφορές όσον αφορά τη χρήση των τελεστών.
-* **`call`** και **`ret`**: Χρησιμοποιούνται για την **κλήση** και την **επιστροφή από συναρτήσεις**.
-* **`int`**: Χρησιμοποιείται για την ενεργοποίηση ενός λογισμικού **διακοπής**. Π.χ., το `int 0x80` χρησιμοποιήθηκε για κλήσεις συστήματος στο 32-bit x86 Linux.
-* **`cmp`**: **Σύγκριση** δύο τιμών και ρύθμιση των σημαιών της CPU βάσει του αποτελέσματος.
+* Παράδειγμα: `add rax, rcx` — Προσθέτει τις τιμές στο `rax` και `rcx`, αποθηκεύοντας το αποτέλεσμα στο `rax`.
+* **`mul`** και **`div`**: Λειτουργίες **πολλαπλασιασμού** και **διαίρεσης**. Σημείωση: αυτές έχουν συγκεκριμένες συμπεριφορές σχετικά με τη χρήση των τελεστών.
+* **`call`** και **`ret`**: Χρησιμοποιούνται για **κλήση** και **επιστροφή από συναρτήσεις**.
+* **`int`**: Χρησιμοποιείται για να προκαλέσει μια **διακοπή** λογισμικού. Π.χ., `int 0x80` χρησιμοποιήθηκε για κλήσεις συστήματος σε 32-bit x86 Linux.
+* **`cmp`**: **Συγκρίνει** δύο τιμές και ρυθμίζει τις σημαίες της CPU με βάση το αποτέλεσμα.
 * Παράδειγμα: `cmp rax, rdx` — Συγκρίνει το `rax` με το `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: **Οδηγίες συνθήκης άλματος** που αλλάζουν τη ροή ελέγχου βάσει των αποτελεσμάτων μιας προηγούμενης `cmp` ή δοκιμής.
-* Παράδειγμα: Μετά από μια οδηγία `cmp rax, rdx`, `je label` — Αλλάζει στην ετικέτα `label` αν το `rax` είναι ίσο με το `rdx`.
-* **`syscall`**: Χρησιμοποιείται για **
+* **`je`, `jne`, `jl`, `jge`, ...**: **Συνθήκες άλματος** που αλλάζουν τη ροή ελέγχου με βάση τα αποτελέσματα μιας προηγούμενης εντολής `cmp` ή test.
+* Παράδειγμα: Μετά από μια εντολή `cmp rax, rdx`, `je label` — Πηδάει στο `label` αν το `rax` είναι ίσο με το `rdx`.
+* **`syscall`**: Χρησιμοποιείται για **κλήσεις συστήματος** σε ορισμένα συστήματα x64 (όπως οι σύγχρονες Unix).
+* **`sysenter`**: Μια βελτιστοποιημένη εντολή **κλήσης συστήματος** σε ορισμένες πλατφόρμες.
+
+### **Πρόλογος Συνάρτησης**
+
+1. **Πιέστε τον παλιό βασικό δείκτη**: `push rbp` (αποθηκεύει τον βασικό δείκτη του καλούντος)
+2. **Μεταφέρετε τον τρέχοντα δείκτη στοίβας στον βασικό δείκτη**: `mov rbp, rsp` (ρυθμίζει τον νέο βασικό δείκτη για την τρέχουσα συνάρτηση)
+3. **Δημιουργήστε χώρο στη στοίβα για τοπικές μεταβλητές**: `sub rsp, <size>` (όπου `<size>` είναι ο αριθμός των bytes που χρειάζονται)
+
+### **Επίλογος Συνάρτησης**
+
+1. **Μεταφέρετε τον τρέχοντα βασικό δείκτη στον δείκτη στοίβας**: `mov rsp, rbp` (απελευθερώνει τις τοπικές μεταβλητές)
+2. **Αφαιρέστε τον παλιό βασικό δείκτη από τη στοίβα**: `pop rbp` (αποκαθιστά τον βασικό δείκτη του καλούντος)
+3. **Επιστροφή**: `ret` (επιστρέφει τον έλεγχο στον καλούντα)
+
 ## macOS
 
-### συσκευές συστήματος
+### syscalls
 
-Υπάρχουν διαφορετικές κατηγορίες συσκευών συστήματος, μπορείτε να [**τις βρείτε εδώ**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Υπάρχουν διαφορετικές κατηγορίες syscalls, μπορείτε να [**τις βρείτε εδώ**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -76,7 +91,7 @@
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Στη συνέχεια, μπορείτε να βρείτε τον αριθμό κάθε συστοιχίας [**σε αυτήν τη διεύθυνση URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Τότε, μπορείτε να βρείτε κάθε αριθμό syscall [**σε αυτή τη διεύθυνση**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -93,13 +108,13 @@
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-Έτσι, για να καλέσετε το `open` syscall (**5**) από την κλάση **Unix/BSD** πρέπει να προσθέσετε: `0x2000000`
+Έτσι, για να καλέσετε το `open` syscall (**5**) από την **Unix/BSD class** πρέπει να το προσθέσετε: `0x2000000`
 
-Έτσι, ο αριθμός syscall για να καλέσετε το open θα είναι `0x2000005`
+Έτσι, ο αριθμός syscall για να καλέσετε το open θα ήταν `0x2000005`
 
 ### Shellcodes
 
-Για να μεταγλωττίσετε:
+Για να το μεταγλωττίσετε:
 
 {% code overflow="wrap" %}
 ```bash
@@ -108,7 +123,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 ```
 {% endcode %}
 
-Για να εξάγετε τα bytes:
+Για να εξαγάγετε τα bytes:
 
 {% code overflow="wrap" %}
 ```bash
@@ -124,7 +139,7 @@ otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g'
 
 <details>
 
-<summary>Κώδικας C για να δοκιμάσετε το shellcode</summary>
+<summary>Κώδικας C για δοκιμή του shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -174,7 +189,7 @@ return 0;
 
 #### Shell
 
-Προέρχεται από [**εδώ**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) και εξηγείται.
+Ληφθέν από [**εδώ**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) και εξηγημένο.
 
 {% tabs %}
 {% tab title="με adr" %}
@@ -213,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Διάβασμα με την εντολή cat
+#### Διαβάστε με cat
 
-Ο στόχος είναι να εκτελεστεί η εντολή `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, οπότε το δεύτερο όρισμα (x1) είναι ένας πίνακας παραμέτρων (ο οποίος στη μνήμη αντιστοιχεί σε ένα σωρό διευθύνσεων).
+Ο στόχος είναι να εκτελέσετε `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, έτσι ώστε το δεύτερο επιχείρημα (x1) να είναι ένα πίνακας παραμέτρων (που στη μνήμη σημαίνει μια στοίβα διευθύνσεων).
 ```armasm
 bits 64
 section .text
@@ -286,7 +301,7 @@ touch_command:  db "touch /tmp/lalala", 0
 ```
 #### Bind shell
 
-Δέστε το shell από [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) στη **θύρα 4444**
+Bind shell από [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) σε **θύρα 4444**
 ```armasm
 section .text
 global _main
@@ -361,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Αντίστροφη κέλυφωση
+#### Reverse Shell
 
-Αντίστροφη κέλυφωση από [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Αντίστροφη κέλυφωση προς **127.0.0.1:4444**
+Reverse shell από [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell σε **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -425,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

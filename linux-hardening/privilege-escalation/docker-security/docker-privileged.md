@@ -1,27 +1,30 @@
 # Docker --privileged
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Τι Επηρεάζει
 
-Όταν εκτελείτε ένα container με τα δικαιώματα privileged, απενεργοποιείτε τις παρακάτω προστασίες:
+Όταν εκτελείτε ένα κοντέινερ ως privileged, αυτές είναι οι προστασίες που απενεργοποιείτε:
 
-### Προσάρτηση /dev
+### Mount /dev
 
-Σε ένα privileged container, όλες οι **συσκευές μπορούν να προσπελαστούν στο `/dev/`**. Επομένως, μπορείτε να **δραπετεύσετε** προσαρτώντας το δίσκο του host.
+Σε ένα privileged κοντέινερ, όλες οι ** συσκευές μπορούν να προσπελαστούν στο `/dev/`**. Επομένως, μπορείτε να **escape** κάνοντας **mount** τον δίσκο του host.
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -30,7 +33,7 @@ core     full     null     pts      shm      stdin    tty      zero
 ```
 {% endtab %}
 
-{% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
+{% tab title="Μέσα σε Προνομιακό Κοντέινερ" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -43,10 +46,12 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Ανάγνωση μόνο των αρχείων συστήματος του πυρήνα
+### Σύστημα αρχείων πυρήνα μόνο για ανάγνωση
 
-Τα αρχεία συστήματος του πυρήνα παρέχουν ένα μηχανισμό για ένα διεργασία να τροποποιήσει τη συμπεριφορά του πυρήνα. Ωστόσο, όσον αφορά τις διεργασίες ενός εμπορεύματος, θέλουμε να τους εμποδίσουμε από το να κάνουν οποιεσδήποτε αλλαγές στον πυρήνα. Για τον λόγο αυτό, προσαρτούμε τα αρχεία συστήματος του πυρήνα ως **μόνο για ανάγνωση** μέσα στο εμπόρευμα, εξασφαλίζοντας ότι οι διεργασίες του εμπορεύματος δεν μπορούν να τροποποιήσουν τον πυρήνα.
+Τα συστήματα αρχείων πυρήνα παρέχουν έναν μηχανισμό για μια διαδικασία να τροποποιήσει τη συμπεριφορά του πυρήνα. Ωστόσο, όταν πρόκειται για διαδικασίες κοντέινερ, θέλουμε να αποτρέψουμε την πραγματοποίηση οποιωνδήποτε αλλαγών στον πυρήνα. Επομένως, τοποθετούμε τα συστήματα αρχείων πυρήνα ως **μόνο για ανάγνωση** εντός του κοντέινερ, διασφαλίζοντας ότι οι διαδικασίες του κοντέινερ δεν μπορούν να τροποποιήσουν τον πυρήνα.
 
+{% tabs %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -55,22 +60,26 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
+{% endtab %}
 
+{% tab title="Μέσα σε Προνομιακό Κοντέινερ" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
 ```
+{% endtab %}
+{% endtabs %}
 
-### Μάσκαρε τα αρχεία συστήματος πυρήνα
+### Απόκρυψη πάνω από τα συστήματα αρχείων πυρήνα
 
-Το σύστημα αρχείων **/proc** είναι εκλεκτικά εγγράψιμο, αλλά για λόγους ασφαλείας, ορισμένα μέρη προστατεύονται από εγγραφή και ανάγνωση με την επικάλυψή τους με το **tmpfs**, εξασφαλίζοντας ότι οι διεργασίες του εμπορεύματος δεν μπορούν να έχουν πρόσβαση σε ευαίσθητες περιοχές.
+Το **/proc** σύστημα αρχείων είναι επιλεκτικά εγγράψιμο, αλλά για λόγους ασφαλείας, ορισμένα μέρη είναι προστατευμένα από πρόσβαση εγγραφής και ανάγνωσης, επικαλύπτοντάς τα με **tmpfs**, διασφαλίζοντας ότι οι διαδικασίες κοντέινερ δεν μπορούν να έχουν πρόσβαση σε ευαίσθητες περιοχές.
 
 {% hint style="info" %}
-Το **tmpfs** είναι ένα σύστημα αρχείων που αποθηκεύει όλα τα αρχεία στην εικονική μνήμη. Το tmpfs δεν δημιουργεί κανένα αρχείο στον σκληρό σας δίσκο. Έτσι, αν αποσυναρμολογήσετε ένα σύστημα αρχείων tmpfs, όλα τα αρχεία που βρίσκονται σε αυτό χάνονται για πάντα.
+**tmpfs** είναι ένα σύστημα αρχείων που αποθηκεύει όλα τα αρχεία στη εικονική μνήμη. Το tmpfs δεν δημιουργεί κανένα αρχείο στον σκληρό σας δίσκο. Έτσι, αν αποσυνδέσετε ένα σύστημα αρχείων tmpfs, όλα τα αρχεία που βρίσκονται σε αυτό χάνονται για πάντα.
 {% endhint %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Μέσα στο προεπιλεγμένο κοντέινερ" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -80,7 +89,7 @@ tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
 {% endtab %}
 
-{% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
+{% tab title="Μέσα σε Προνομιακό Κοντέινερ" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -88,16 +97,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Δυνατότητες Linux
+### Linux capabilities
 
-Οι μηχανές εκτέλεσης εμφυτεύουν τα containers με έναν **περιορισμένο αριθμό δυνατοτήτων** για να ελέγχουν τι συμβαίνει μέσα στο container από προεπιλογή. Τα **προνομιούχα** έχουν **πρόσβαση σε όλες** τις **δυνατότητες**. Για να μάθετε περισσότερα για τις δυνατότητες, διαβάστε:
+Οι μηχανές κοντέινερ εκκινούν τα κοντέινερ με **περιορισμένο αριθμό δυνατοτήτων** για να ελέγχουν τι συμβαίνει μέσα στο κοντέινερ από προεπιλογή. Οι **προνομιακές** έχουν **όλες** τις **δυνατότητες** προσβάσιμες. Για να μάθετε για τις δυνατότητες διαβάστε:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -108,7 +117,7 @@ Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setg
 ```
 {% endtab %}
 
-{% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
+{% tab title="Μέσα σε Προνομιακό Κοντέινερ" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -120,18 +129,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-Μπορείτε να παραμετροποιήσετε τις δυνατότητες που είναι διαθέσιμες σε ένα container χωρίς να τρέχει σε κατάσταση `--privileged` χρησιμοποιώντας τις σημαίες `--cap-add` και `--cap-drop`.
+Μπορείτε να χειριστείτε τις δυνατότητες που είναι διαθέσιμες σε ένα κοντέινερ χωρίς να τρέχετε σε `--privileged` λειτουργία χρησιμοποιώντας τις σημαίες `--cap-add` και `--cap-drop`.
 
 ### Seccomp
 
-Το **Seccomp** είναι χρήσιμο για να **περιορίσει** τις **κλήσεις συστήματος** που μπορεί να κάνει ένα container. Ένα προεπιλεγμένο προφίλ Seccomp είναι ενεργοποιημένο από προεπιλογή όταν τρέχουν τα containers του Docker, αλλά σε προνομιούχο καθεστώς είναι απενεργοποιημένο. Μάθετε περισσότερα για το Seccomp εδώ:
+**Seccomp** είναι χρήσιμο για να **περιορίσει** τις **syscalls** που μπορεί να καλέσει ένα κοντέινερ. Ένα προεπιλεγμένο προφίλ seccomp είναι ενεργοποιημένο από προεπιλογή όταν τρέχουν κοντέινερ docker, αλλά σε privileged mode είναι απενεργοποιημένο. Μάθετε περισσότερα για το Seccomp εδώ:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -140,7 +149,7 @@ Seccomp_filters:	1
 ```
 {% endtab %}
 
-{% tab title="Μέσα σε ένα Προνομιούχο Εμπορευματοκιβώτιο" %}
+{% tab title="Μέσα σε Προνομιακό Κοντέινερ" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -149,48 +158,42 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Επίσης, σημειώστε ότι όταν το Docker (ή άλλα CRIs) χρησιμοποιούνται σε ένα **Kubernetes** cluster, ο **φίλτρος seccomp είναι απενεργοποιημένος από προεπιλογή**.
+Επίσης, σημειώστε ότι όταν χρησιμοποιούνται Docker (ή άλλες CRIs) σε ένα **Kubernetes** cluster, το **seccomp filter είναι απενεργοποιημένο από προεπιλογή**
 
 ### AppArmor
 
-Το **AppArmor** είναι μια ενίσχυση του πυρήνα για τον περιορισμό των **containers** σε ένα **περιορισμένο** σύνολο **πόρων** με **προφίλ ανά πρόγραμμα**. Όταν εκτελείτε με τη σημαία `--privileged`, αυτή η προστασία απενεργοποιείται.
+**AppArmor** είναι μια βελτίωση του πυρήνα για να περιορίσει **containers** σε ένα **περιορισμένο** σύνολο **πόρων** με **προφίλ ανά πρόγραμμα**. Όταν εκτελείτε με την επιλογή `--privileged`, αυτή η προστασία είναι απενεργοποιημένη.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-Η εκτέλεση ενός container με την σημαία `--privileged` απενεργοποιεί τις **ετικέτες SELinux**, προκαλώντας την κληρονομική λήψη της ετικέτας της μηχανής του container, συνήθως `unconfined`, παρέχοντας πλήρη πρόσβαση παρόμοια με τη μηχανή του container. Στη λειτουργία χωρίς ρίζες, χρησιμοποιείται το `container_runtime_t`, ενώ στη λειτουργία ρίζας εφαρμόζεται το `spc_t`.
+Η εκτέλεση ενός κοντέινερ με την επιλογή `--privileged` απενεργοποιεί τις **ετικέτες SELinux**, προκαλώντας να κληρονομήσει την ετικέτα της μηχανής κοντέινερ, συνήθως `unconfined`, παρέχοντας πλήρη πρόσβαση παρόμοια με αυτή της μηχανής κοντέινερ. Σε λειτουργία χωρίς δικαιώματα root, χρησιμοποιεί `container_runtime_t`, ενώ σε λειτουργία root, εφαρμόζεται το `spc_t`.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+## Τι Δεν Επηρεάζεται
 
-## Τι δεν επηρεάζεται
+### Namespaces
 
-### Ονοματοχώροι
-
-Οι ονοματοχώροι **ΔΕΝ επηρεάζονται** από την σημαία `--privileged`. Αν και δεν έχουν ενεργοποιημένους περιορισμούς ασφαλείας, **δεν βλέπουν όλες τις διεργασίες στο σύστημα ή το δίκτυο του οικοδεσπότη, για παράδειγμα**. Οι χρήστες μπορούν να απενεργοποιήσουν μεμονωμένους ονοματοχώρους χρησιμοποιώντας τις σημαίες `--pid=host`, `--net=host`, `--ipc=host`, `--uts=host` των μηχανισμών εκτέλεσης των εμπορευματοκιβωτίων.
+Τα Namespaces **ΔΕΝ επηρεάζονται** από την επιλογή `--privileged`. Ακόμα και αν δεν έχουν ενεργοποιηθεί οι περιορισμοί ασφαλείας, **δεν βλέπουν όλες τις διεργασίες στο σύστημα ή το δίκτυο του host, για παράδειγμα**. Οι χρήστες μπορούν να απενεργοποιήσουν μεμονωμένα namespaces χρησιμοποιώντας τις επιλογές **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** των μηχανών κοντέινερ.
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Inside default privileged container" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -200,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Μέσα στον επιλεγμένο --pid=host Container" %}
+{% tab title="Μέσα στο --pid=host Container" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -213,22 +216,25 @@ PID   USER     TIME  COMMAND
 {% endtab %}
 {% endtabs %}
 
-### Ονοματοχώρηση χρήστη
+### Χώρος ονομάτων χρήστη
 
-**Από προεπιλογή, οι μηχανές εκτέλεσης εμπορευματοκιβωτίων δεν χρησιμοποιούν ονοματοχώρηση χρήστη, εκτός από τα εμπορευματοκιβώτια χωρίς ρίζα**, τα οποία την απαιτούν για την προσάρτηση του συστήματος αρχείων και τη χρήση πολλαπλών UID. Η ονοματοχώρηση χρήστη, η οποία είναι απαραίτητη για τα εμπορευματοκιβώτια χωρίς ρίζα, δεν μπορεί να απενεργοποιηθεί και βελτιώνει σημαντικά την ασφάλεια περιορίζοντας τα προνόμια.
+**Από προεπιλογή, οι μηχανές κοντέινερ δεν χρησιμοποιούν χώρους ονομάτων χρήστη, εκτός από τα κοντέινερ χωρίς δικαιώματα root**, τα οποία τα απαιτούν για την τοποθέτηση συστήματος αρχείων και τη χρήση πολλαπλών UIDs. Οι χώροι ονομάτων χρήστη, που είναι αναπόσπαστο μέρος των κοντέινερ χωρίς δικαιώματα root, δεν μπορούν να απενεργοποιηθούν και ενισχύουν σημαντικά την ασφάλεια περιορίζοντας τα δικαιώματα.
 
 ## Αναφορές
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε στην** [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο** [**αποθετήριο hacktricks**](https://github.com/carlospolop/hacktricks) **και** [**αποθετήριο hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

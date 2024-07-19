@@ -1,56 +1,64 @@
-# Οπλοποίηση του Distroless
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+<oummpr>SupportHackTricks</smmay>
 
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Τι είναι το Distroless
 
-Ένας δοχείο τύπου distroless είναι ένας τύπος δοχείου που **περιέχει μόνο τις απαραίτητες εξαρτήσεις για να εκτελέσει μια συγκεκριμένη εφαρμογή**, χωρίς κανένα επιπλέον λογισμικό ή εργαλεία που δεν απαιτούνται. Αυτά τα δοχεία σχεδιάστηκαν για να είναι όσο **ελαφριά** και **ασφαλή** γίνεται και στοχεύουν να **ελαχιστοποιήσουν την επιφάνεια επίθεσης** αφαιρώντας οποιαδήποτε περιττή συνιστώσα.
+Ένα distroless container είναι ένας τύπος container που **περιέχει μόνο τις απαραίτητες εξαρτήσεις για να τρέξει μια συγκεκριμένη εφαρμογή**, χωρίς επιπλέον λογισμικό ή εργαλεία που δεν απαιτούνται. Αυτά τα containers έχουν σχεδιαστεί για να είναι όσο το δυνατόν **ελαφρύτερα** και **ασφαλέστερα**, και στοχεύουν να **ελαχιστοποιήσουν την επιφάνεια επίθεσης** αφαιρώντας οποιαδήποτε περιττά στοιχεία.
 
-Τα δοχεία distroless χρησιμοποιούνται συχνά σε **περιβάλλοντα παραγωγής όπου η ασφάλεια και η αξιοπιστία είναι κρίσιμες**.
+Τα distroless containers χρησιμοποιούνται συχνά σε **παραγωγικά περιβάλλοντα όπου η ασφάλεια και η αξιοπιστία είναι πρωταρχικής σημασίας**.
 
-Ορισμένα **παραδείγματα** δοχείων **distroless** είναι:
+Ορισμένα **παραδείγματα** **distroless containers** είναι:
 
-* Παρέχονται από την **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* Παρέχονται από την **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* Παρέχονται από **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* Παρέχονται από **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Οπλοποίηση του Distroless
+## Weaponizing Distroless
 
-Ο στόχος της οπλοποίησης ενός δοχείου distroless είναι να είναι δυνατή η **εκτέλεση αυθαίρετων δυαδικών αρχείων και φορτίων ακόμα και με τους περιορισμούς** που επιβάλλονται από το **distroless** (έλλειψη κοινών δυαδικών αρχείων στο σύστημα) και επίσης προστασίες που συνήθως βρίσκονται σε δοχεία, όπως **μόνο για ανάγνωση** ή **μη εκτέλεση** στο `/dev/shm`.
+Ο στόχος της οπλοποίησης ενός distroless container είναι να μπορεί να **εκτελεί αυθαίρετους δυαδικούς κώδικες και payloads ακόμη και με τους περιορισμούς** που επιβάλλει το **distroless** (έλλειψη κοινών δυαδικών κωδικών στο σύστημα) και επίσης προστασίες που συχνά βρίσκονται σε containers όπως **μόνο για ανάγνωση** ή **χωρίς εκτέλεση** στο `/dev/shm`.
 
 ### Μέσω μνήμης
 
 Έρχεται κάποια στιγμή το 2023...
 
-### Μέσω υπαρχόντων δυαδικών αρχείων
+### Μέσω Υπαρχόντων δυαδικών κωδικών
 
 #### openssl
 
-****[**Σε αυτήν την ανάρτηση,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) εξηγείται ότι το δυαδικό αρχείο **`openssl`** βρίσκεται συχνά σε αυτά τα δοχεία, πιθανώς επειδή είναι **απαραίτητο** για το λογισμικό που θα εκτελεστεί μέσα στο δοχείο.
+****[**Σε αυτή την ανάρτηση,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) εξηγείται ότι ο δυαδικός κώδικας **`openssl`** βρίσκεται συχνά σε αυτά τα containers, πιθανώς επειδή είναι **απαραίτητος** από το λογισμικό που πρόκειται να εκτελείται μέσα στο container.
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-Με την κατάχρηση του δυαδικού αρχείου **`openssl`** είναι δυνατή η **εκτέλεση αυθαίρετων πραγμάτων**.
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,16 +1,19 @@
-# Βασική Μεθοδολογία Εγκληματολογικής Εξέτασης
+# Βασική Εγκληματολογική Μεθοδολογία
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Δημιουργία και Προσάρτηση Εικόνας
 
@@ -20,21 +23,21 @@
 
 ## Ανάλυση Κακόβουλου Λογισμικού
 
-Αυτό **δεν είναι απαραίτητο το πρώτο βήμα που πρέπει να γίνει μόλις έχετε την εικόνα**. Ωστόσο, μπορείτε να χρησιμοποιήσετε αυτές τις τεχνικές ανάλυσης κακόβουλου λογισμικού ανεξάρτητα αν έχετε ένα αρχείο, μια εικόνα αρχείου συστήματος, μια εικόνα μνήμης, pcap... οπότε είναι καλό να **έχετε αυτές τις ενέργειες υπόψη**:
+Αυτό **δεν είναι απαραίτητο το πρώτο βήμα που πρέπει να εκτελέσετε μόλις έχετε την εικόνα**. Αλλά μπορείτε να χρησιμοποιήσετε αυτές τις τεχνικές ανάλυσης κακόβουλου λογισμικού ανεξάρτητα αν έχετε ένα αρχείο, μια εικόνα συστήματος αρχείων, μια εικόνα μνήμης, pcap... οπότε είναι καλό να **κρατάτε αυτές τις ενέργειες στο μυαλό σας**:
 
 {% content-ref url="malware-analysis.md" %}
 [malware-analysis.md](malware-analysis.md)
 {% endcontent-ref %}
 
-## Επιθεώρηση μιας Εικόνας
+## Επιθεώρηση Εικόνας
 
-Αν σας δίνεται μια **εγκληματολογική εικόνα** ενός συσκευής, μπορείτε να αρχίσετε να **αναλύετε τις διαμερίσματα, το αρχείο-σύστημα** που χρησιμοποιήθηκε και να **ανακτήσετε** πιθανώς **ενδιαφέροντα αρχεία** (ακόμα και διαγραμμένα). Μάθετε πώς στο:
+Αν σας δοθεί μια **εγκληματολογική εικόνα** μιας συσκευής μπορείτε να ξεκινήσετε **να αναλύετε τις κατατμήσεις, το σύστημα αρχείων** που χρησιμοποιείται και **να ανακτάτε** δυνητικά **ενδιαφέροντα αρχεία** (ακόμα και διαγραμμένα). Μάθετε πώς στο:
 
 {% content-ref url="partitions-file-systems-carving/" %}
 [partitions-file-systems-carving](partitions-file-systems-carving/)
 {% endcontent-ref %}
 
-Ανάλογα με τα χρησιμοποιούμενα λειτουργικά συστήματα και ακόμα και πλατφόρμες, πρέπει να αναζητηθούν διάφορα ενδιαφέροντα στοιχεία:
+Ανάλογα με τα χρησιμοποιούμενα λειτουργικά συστήματα και ακόμη και την πλατφόρμα, θα πρέπει να αναζητηθούν διάφορα ενδιαφέροντα τεκμήρια:
 
 {% content-ref url="windows-forensics/" %}
 [windows-forensics](windows-forensics/)
@@ -48,9 +51,9 @@
 [docker-forensics.md](docker-forensics.md)
 {% endcontent-ref %}
 
-## Εμβάθυνση σε συγκεκριμένους τύπους αρχείων και Λογισμικό
+## Βαθιά επιθεώρηση συγκεκριμένων τύπων αρχείων και Λογισμικού
 
-Αν έχετε ένα πολύ **ύποπτο αρχείο**, τότε, **ανάλογα με τον τύπο αρχείου και το λογισμικό** που το δημιούργησε, μπορεί να είναι χρήσιμα διάφορα **κόλπα**.\
+Αν έχετε ένα πολύ **ύποπτο** **αρχείο**, τότε **ανάλογα με τον τύπο αρχείου και το λογισμικό** που το δημιούργησε, διάφορα **κόλπα** μπορεί να είναι χρήσιμα.\
 Διαβάστε την παρακάτω σελίδα για να μάθετε μερικά ενδιαφέροντα κόλπα:
 
 {% content-ref url="specific-software-file-type-tricks/" %}
@@ -63,7 +66,7 @@
 [browser-artifacts.md](specific-software-file-type-tricks/browser-artifacts.md)
 {% endcontent-ref %}
 
-## Επιθεώρηση Αντιγράφου Μνήμης
+## Επιθεώρηση Dump Μνήμης
 
 {% content-ref url="memory-dump-analysis/" %}
 [memory-dump-analysis](memory-dump-analysis/)
@@ -75,22 +78,31 @@
 [pcap-inspection](pcap-inspection/)
 {% endcontent-ref %}
 
-## **Τεχνικές Αντι-Εγκληματολογικής Ανάλυσης**
+## **Αντι-Εγκληματολογικές Τεχνικές**
 
-Να έχετε υπόψη την πιθανή χρήση τεχνικών αντι-εγκληματολογικής ανάλυσης:
+Λάβετε υπόψη τη δυνατότητα χρήσης αντι-εγκληματολογικών τεχνικών:
 
 {% content-ref url="anti-forensic-techniques.md" %}
 [anti-forensic-techniques.md](anti-forensic-techniques.md)
 {% endcontent-ref %}
 
-## Κυνήγι Απειλών
+## Κυνηγώντας Απειλές
 
 {% content-ref url="file-integrity-monitoring.md" %}
 [file-integrity-monitoring.md](file-integrity-monitoring.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε π
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

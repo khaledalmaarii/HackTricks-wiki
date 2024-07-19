@@ -1,106 +1,104 @@
 # Network Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Βασικές Πληροφορίες
+## Basic Information
 
-Ένα namespace δικτύου είναι μια δυνατότητα του πυρήνα του Linux που παρέχει απομόνωση του δικτύου, επιτρέποντας σε **κάθε namespace δικτύου να έχει τη δική του ανεξάρτητη διαμόρφωση δικτύου**, διεπαφές, διευθύνσεις IP, πίνακες δρομολόγησης και κανόνες της προστασίας της πρόσβασης. Αυτή η απομόνωση είναι χρήσιμη σε διάφορα σενάρια, όπως η ενσωμάτωση σε εμπορευματοκιβώτια, όπου κάθε εμπορευματοκιβώτιο θα πρέπει να έχει τη δική του διαμόρφωση δικτύου, ανεξάρτητα από άλλα εμπορευματοκιβώτια και το σύστημα του κεντρικού υπολογιστή.
+Ένα network namespace είναι μια δυνατότητα του πυρήνα Linux που παρέχει απομόνωση της στοίβας δικτύου, επιτρέποντας **σε κάθε network namespace να έχει τη δική του ανεξάρτητη ρύθμιση δικτύου**, διεπαφές, διευθύνσεις IP, πίνακες δρομολόγησης και κανόνες τείχους προστασίας. Αυτή η απομόνωση είναι χρήσιμη σε διάφορα σενάρια, όπως η κοντενέρωση, όπου κάθε κοντέινερ θα πρέπει να έχει τη δική του ρύθμιση δικτύου, ανεξάρτητη από άλλα κοντέινερ και το σύστημα φιλοξενίας.
 
-### Πώς λειτουργεί:
+### How it works:
 
-1. Όταν δημιουργείται ένα νέο namespace δικτύου, ξεκινά με ένα **πλήρως απομονωμένο στοίβα δικτύου**, χωρίς διεπαφές δικτύου εκτός από τη διεπαφή loopback (lo). Αυτό σημαίνει ότι οι διεργασίες που εκτελούνται στο νέο namespace δικτύου δεν μπορούν να επικοινωνήσουν με διεργασίες σε άλλα namespaces ή το σύστημα του κεντρικού υπολογιστή από προεπιλογή.
-2. Μπορούν να δημιουργηθούν και να μετακινηθούν **εικονικές διεπαφές δικτύου**, όπως ζευγάρια veth, μεταξύ των namespaces δικτύου. Αυτό επιτρέπει τη δημιουργία συνδεσιμότητας δικτύου μεταξύ των namespaces ή μεταξύ ενός namespace και του συστήματος του κεντρικού υπολογιστή. Για παράδειγμα, ένα άκρο ενός ζευγαριού veth μπορεί να τοποθετηθεί στο namespace δικτύου ενός εμπορευματοκιβωτίου, και το άλλο άκρο μπορεί να συνδεθεί με ένα **γέφυρα** ή μια άλλη διεπαφή δικτύου στο namespace του κεντρικού υπολογιστή, παρέχοντας συνδεσιμότητα δικτύου στο εμπορευματοκιβώτιο.
-3. Οι διεπαφές δικτύου εντός ενός namespace μπορούν να έχουν τις **δικές τους διευθύνσεις IP, πίνακες δρομολόγησης και κανόνες προστασίας**, ανεξάρτητα από άλλα namespaces. Αυτό επιτρέπει σε διεργασίες σε διάφορα namespaces να έχουν διαφορετικές διαμορφώσεις δικτύου και να λειτουργούν σαν να εκτελούνται σε ξεχωριστά δικτυωμένα συστήματα.
-4. Οι διεργασίες μπορούν να μετακινηθούν μεταξύ των namespaces χρησιμοποιώντας την κλήση συστήματος `setns()`, ή να δημιουργήσουν νέα namespaces χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με τη σημαία `CLONE_NEWNET`. Όταν μια διεργασία μετακινείται σε ένα νέο namespace ή δημιουργεί ένα νέο, θα αρχίσει να χρησιμοποιεί τη διαμόρφωση δικτύου και τις διεπαφές που σχετίζονται με αυτό το namespace.
+1. Όταν δημιουργείται ένα νέο network namespace, ξεκινά με μια **εντελώς απομονωμένη στοίβα δικτύου**, με **κανένα δίκτυο διεπαφών** εκτός από τη διεπαφή loopback (lo). Αυτό σημαίνει ότι οι διαδικασίες που εκτελούνται στο νέο network namespace δεν μπορούν να επικοινωνήσουν με διαδικασίες σε άλλα namespaces ή το σύστημα φιλοξενίας από προεπιλογή.
+2. **Εικονικές διεπαφές δικτύου**, όπως τα veth ζεύγη, μπορούν να δημιουργηθούν και να μετακινηθούν μεταξύ των network namespaces. Αυτό επιτρέπει τη δημιουργία δικτυακής συνδεσιμότητας μεταξύ namespaces ή μεταξύ ενός namespace και του συστήματος φιλοξενίας. Για παράδειγμα, το ένα άκρο ενός veth ζεύγους μπορεί να τοποθετηθεί στο network namespace ενός κοντέινερ, και το άλλο άκρο μπορεί να συνδεθεί σε μια **γέφυρα** ή άλλη διεπαφή δικτύου στο namespace του φιλοξενούμενου, παρέχοντας δικτυακή συνδεσιμότητα στο κοντέινερ.
+3. Οι διεπαφές δικτύου εντός ενός namespace μπορούν να έχουν τις **δικές τους διευθύνσεις IP, πίνακες δρομολόγησης και κανόνες τείχους προστασίας**, ανεξάρτητες από άλλα namespaces. Αυτό επιτρέπει στις διαδικασίες σε διαφορετικά network namespaces να έχουν διαφορετικές ρυθμίσεις δικτύου και να λειτουργούν σαν να εκτελούνται σε ξεχωριστά δικτυωμένα συστήματα.
+4. Οι διαδικασίες μπορούν να μετακινηθούν μεταξύ namespaces χρησιμοποιώντας την κλήση συστήματος `setns()`, ή να δημιουργήσουν νέα namespaces χρησιμοποιώντας τις κλήσεις συστήματος `unshare()` ή `clone()` με την σημαία `CLONE_NEWNET`. Όταν μια διαδικασία μετακινείται σε ένα νέο namespace ή δημιουργεί ένα, θα αρχίσει να χρησιμοποιεί τη ρύθμιση δικτύου και τις διεπαφές που σχετίζονται με αυτό το namespace.
 
-## Εργαστήριο:
+## Lab:
 
-### Δημιουργία διαφορετικών Namespaces
+### Create different Namespaces
 
-#### Εντολική γραμμή
-
+#### CLI
 ```bash
 sudo unshare -n [--mount-proc] /bin/bash
 # Run ifconfig or ip -a
 ```
-
-Με την προσάρτηση μιας νέας περίπτωσης του συστήματος αρχείων `/proc` χρησιμοποιώντας την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος χώρος ονομάτων περιέχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασιών που είναι συγκεκριμένες για αυτόν τον χώρο ονομάτων**.
+Με την τοποθέτηση μιας νέας παρουσίας του συστήματος αρχείων `/proc` αν χρησιμοποιήσετε την παράμετρο `--mount-proc`, διασφαλίζετε ότι το νέο mount namespace έχει μια **ακριβή και απομονωμένη άποψη των πληροφοριών διαδικασίας που είναι συγκεκριμένες για αυτό το namespace**.
 
 <details>
 
-<summary>Σφάλμα: bash: fork: Δεν είναι δυνατή η δέσμευση μνήμης</summary>
+<summary>Σφάλμα: bash: fork: Cannot allocate memory</summary>
 
-Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου με τον οποίο το Linux χειρίζεται τους νέους χώρους ονομάτων PID (Process ID). Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
+Όταν εκτελείται το `unshare` χωρίς την επιλογή `-f`, προκύπτει ένα σφάλμα λόγω του τρόπου που διαχειρίζεται το Linux τα νέα PID (Process ID) namespaces. Οι βασικές λεπτομέρειες και η λύση περιγράφονται παρακάτω:
 
-1. **Εξήγηση του προβλήματος**:
-
-* Ο πυρήνας του Linux επιτρέπει σε μια διεργασία να δημιουργεί νέους χώρους ονομάτων χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου χώρου ονομάτων PID (αναφέρεται ως "διεργασία unshare") δεν εισέρχεται στον νέο χώρο ονομάτων, μόνο οι υποδιεργασίες της το κάνουν.
-* Η εκτέλεση της εντολής `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι υποδιεργασίες του βρίσκονται στον αρχικό χώρο ονομάτων PID.
-* Η πρώτη υποδιεργασία του `/bin/bash` στον νέο χώρο ονομάτων γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του χώρου ονομάτων αν δεν υπάρχουν άλλες διεργασίες, καθώς η PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτόν τον χώρο ονομάτων.
+1. **Εξήγηση Προβλήματος**:
+- Ο πυρήνας του Linux επιτρέπει σε μια διαδικασία να δημιουργήσει νέα namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διαδικασία που ξεκινά τη δημιουργία ενός νέου PID namespace (αναφερόμενη ως η διαδικασία "unshare") δεν εισέρχεται στο νέο namespace; μόνο οι παιδικές της διαδικασίες το κάνουν.
+- Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διαδικασία με το `unshare`. Ως εκ τούτου, το `/bin/bash` και οι παιδικές του διαδικασίες βρίσκονται στο αρχικό PID namespace.
+- Η πρώτη παιδική διαδικασία του `/bin/bash` στο νέο namespace γίνεται PID 1. Όταν αυτή η διαδικασία τερματίσει, ενεργοποιεί την καθαριότητα του namespace αν δεν υπάρχουν άλλες διαδικασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διαδικασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την κατανομή PID σε αυτό το namespace.
 
 2. **Συνέπεια**:
-
-* Η έξοδος της PID 1 σε έναν νέο χώρο ονομάτων οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να εκχωρήσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+- Η έξοδος του PID 1 σε ένα νέο namespace οδηγεί στον καθαρισμό της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα τη αποτυχία της συνάρτησης `alloc_pid` να κατανοήσει ένα νέο PID κατά τη δημιουργία μιας νέας διαδικασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
+- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει μια νέα διαδικασία μετά τη δημιουργία του νέου PID namespace.
+- Η εκτέλεση `%unshare -fp /bin/bash%` διασφαλίζει ότι η εντολή `unshare` γίνεται PID 1 στο νέο namespace. Το `/bin/bash` και οι παιδικές του διαδικασίες είναι τότε ασφαλώς περιεχόμενες μέσα σε αυτό το νέο namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική κατανομή PID.
 
-* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου χώρου ονομάτων PID.
-* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στον νέο χώρο ονομάτων. Το `/bin/bash` και οι υποδιεργασίες του περιορίζονται στον νέο αυτόν χώρο ονομάτων, αποτρέποντας την πρόωρη έξοδο της PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+Διασφαλίζοντας ότι το `unshare` εκτελείται με την επιλογή `-f`, το νέο PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υπο-διαδικασίες του να λειτουργούν χωρίς να συναντούν το σφάλμα κατανομής μνήμης.
 
-Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, ο νέος χώρος ονομάτων PID διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και στις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+</details>
 
+#### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 # Run ifconfig or ip -a
 ```
-
-#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
-
-To check which namespace your process is in, you can use the following command:
-
-```bash
-ls -l /proc/$$/ns/net
-```
-
-This command will display the network namespace of your process. The `$$` represents the process ID of the current shell.
-
+### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διαδικασία σας
 ```bash
 ls -l /proc/self/ns/net
 lrwxrwxrwx 1 root root 0 Apr  4 20:30 /proc/self/ns/net -> 'net:[4026531840]'
 ```
-
-#### Βρείτε όλα τα δίκτυα namespaces
+### Βρείτε όλα τα Network namespaces
 
 {% code overflow="wrap" %}
-```
-```
-{% endcode %}
-
 ```bash
 sudo find /proc -maxdepth 3 -type l -name net -exec readlink {} \; 2>/dev/null | sort -u | grep "net:"
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name net -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
+{% endcode %}
 
+### Είσοδος σε ένα Network namespace
+```bash
+nsenter -n TARGET_PID --pid /bin/bash
 ```
-```
+Επίσης, μπορείτε να **μπείτε σε άλλο namespace διαδικασίας μόνο αν είστε root**. Και **δεν μπορείτε** να **μπείτε** σε άλλο namespace **χωρίς έναν περιγραφέα** που να δείχνει σε αυτό (όπως το `/proc/self/ns/net`).
 
-\`\`\`bash nsenter -n TARGET\_PID --pid /bin/bash \`\`\` Επίσης, μπορείτε να \*\*εισέλθετε σε ένα άλλο namespace διεργασίας μόνο αν είστε root\*\*. Και \*\*δεν μπορείτε\*\* να \*\*εισέλθετε\*\* σε άλλο namespace \*\*χωρίς έναν δείκτη\*\* που να δείχνει σε αυτό (όπως \`/proc/self/ns/net\`).
-
-### Αναφορές
-
+## Αναφορές
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
 </details>
+{% endhint %}

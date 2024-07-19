@@ -1,28 +1,31 @@
-# Οδηγός αναφοράς για Suricata & Iptables
+# Suricata & Iptables cheatsheet
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Iptables
 
-### Αλυσίδες
+### Chains
 
-Στο iptables, λίστες κανόνων γνωστές ως αλυσίδες επεξεργάζονται σειριακά. Ανάμεσα σε αυτές, τρεις κύριες αλυσίδες είναι παντού παρόντες, με επιπλέον αλυσίδες όπως η NAT να υποστηρίζονται ανάλογα με τις δυνατότητες του συστήματος.
+Στο iptables, οι λίστες κανόνων που είναι γνωστές ως αλυσίδες επεξεργάζονται διαδοχικά. Μεταξύ αυτών, τρεις κύριες αλυσίδες είναι παρούσες καθολικά, με επιπλέον όπως το NAT να υποστηρίζονται δυνητικά ανάλογα με τις δυνατότητες του συστήματος.
 
-- **Αλυσίδα Εισόδου (Input Chain)**: Χρησιμοποιείται για τη διαχείριση της συμπεριφοράς των εισερχόμενων συνδέσεων.
-- **Αλυσίδα Διαμετακόμισης (Forward Chain)**: Χρησιμοποιείται για την χειρισμό των εισερχόμενων συνδέσεων που δεν προορίζονται για το τοπικό σύστημα. Αυτό είναι τυπικό για συσκευές που λειτουργούν ως δρομολογητές, όπου τα δεδομένα που λαμβάνονται προορίζονται να προωθηθούν σε άλλο προορισμό. Αυτή η αλυσίδα είναι σημαντική κυρίως όταν το σύστημα εμπλέκεται σε δρομολόγηση, NATing ή παρόμοιες δραστηριότητες.
-- **Αλυσίδα Εξόδου (Output Chain)**: Αφιερώνεται στον έλεγχο των εξερχόμενων συνδέσεων.
+- **Input Chain**: Χρησιμοποιείται για τη διαχείριση της συμπεριφοράς των εισερχόμενων συνδέσεων.
+- **Forward Chain**: Χρησιμοποιείται για την επεξεργασία εισερχόμενων συνδέσεων που δεν προορίζονται για το τοπικό σύστημα. Αυτό είναι τυπικό για συσκευές που λειτουργούν ως δρομολογητές, όπου τα δεδομένα που λαμβάνονται προορίζονται να προωθηθούν σε άλλο προορισμό. Αυτή η αλυσίδα είναι σχετική κυρίως όταν το σύστημα εμπλέκεται σε δρομολόγηση, NATing ή παρόμοιες δραστηριότητες.
+- **Output Chain**: Αφιερωμένη στη ρύθμιση των εξερχόμενων συνδέσεων.
 
-Αυτές οι αλυσίδες εξασφαλίζουν την τακτοποιημένη επεξεργασία της δικτυακής κίνησης, επιτρέποντας τον καθορισμό λεπτομερών κανόνων που διέπουν τη ροή δεδομένων εισόδου, διέλευσης και εξόδου από ένα σύστημα.
+Αυτές οι αλυσίδες διασφαλίζουν την τακτική επεξεργασία της δικτυακής κίνησης, επιτρέποντας τον καθορισμό λεπτομερών κανόνων που διέπουν τη ροή των δεδομένων μέσα, μέσω και έξω από ένα σύστημα.
 ```bash
 # Delete all rules
 iptables -F
@@ -62,52 +65,6 @@ iptables-restore < /etc/sysconfig/iptables
 ## Suricata
 
 ### Εγκατάσταση & Ρύθμιση
-
-```bash
-# Εγκατάσταση Suricata
-sudo apt-get install suricata
-
-# Ρύθμιση αρχείου ρυθμίσεων
-sudo nano /etc/suricata/suricata.yaml
-
-# Ρύθμιση κανόνων
-sudo nano /etc/suricata/rules/suricata.rules
-
-# Εκκίνηση Suricata
-sudo suricata -c /etc/suricata/suricata.yaml -i eth0
-```
-
-### Επιθέσεις & Αποκλεισμός IP
-
-```bash
-# Προσθήκη κανόνα στο Suricata
-sudo suricatactl rule-update add "alert tcp any any -> any any (msg:\"Possible attack\"; sid:1000001; rev:1;)"
-
-# Επαναφόρτωση κανόνων
-sudo suricatactl rule-update
-
-# Επιθέσεις από IP
-sudo iptables -A INPUT -s <IP_ADDRESS> -j DROP
-
-# Αποκλεισμός IP
-sudo iptables -A INPUT -s <IP_ADDRESS> -j ACCEPT
-```
-
-### Επιθέσεις & Αποκλεισμός Πόρων
-
-```bash
-# Προσθήκη κανόνα στο Suricata
-sudo suricatactl rule-update add "alert tcp any any -> any any (msg:\"Possible attack\"; sid:1000001; rev:1;)"
-
-# Επαναφόρτωση κανόνων
-sudo suricatactl rule-update
-
-# Αποκλεισμός πόρων
-sudo iptables -A INPUT -p tcp --dport <PORT_NUMBER> -j DROP
-
-# Αποκλεισμός πόρων με εξαίρεση IP
-sudo iptables -A INPUT -p tcp --dport <PORT_NUMBER> -s <IP_ADDRESS> -j ACCEPT
-```
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -173,59 +130,59 @@ Type=simple
 
 systemctl daemon-reload
 ```
-### Ορισμοί Κανόνων
+### Κανόνες Ορισμοί
 
 [Από τα έγγραφα:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Ένας κανόνας/υπογραφή αποτελείται από τα εξής:
 
-* Η **ενέργεια**, καθορίζει τι συμβαίνει όταν ο κανόνας ταιριάζει.
-* Η **κεφαλίδα**, καθορίζει το πρωτόκολλο, τις διευθύνσεις IP, τις θύρες και την κατεύθυνση του κανόνα.
-* Οι **επιλογές του κανόνα**, καθορίζουν τις λεπτομέρειες του κανόνα.
+* Η **ενέργεια**, καθορίζει τι συμβαίνει όταν η υπογραφή ταιριάζει.
+* Η **κεφαλίδα**, ορίζει το πρωτόκολλο, τις διευθύνσεις IP, τις θύρες και την κατεύθυνση του κανόνα.
+* Οι **επιλογές κανόνα**, καθορίζουν τις λεπτομέρειες του κανόνα.
 ```bash
 alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
 ```
-#### **Οι έγκυρες ενέργειες είναι**
+#### **Έγκυρες ενέργειες είναι**
 
 * alert - δημιουργία ειδοποίησης
-* pass - διακοπή περαιτέρω επιθεώρησης του πακέτου
-* **drop** - απόρριψη του πακέτου και δημιουργία ειδοποίησης
-* **reject** - αποστολή RST/ICMP ανεπιτυχούς απάντησης στον αποστολέα του αντίστοιχου πακέτου.
-* rejectsrc - ίδιο με το _reject_
-* rejectdst - αποστολή RST/ICMP πακέτου σφάλματος στον παραλήπτη του αντίστοιχου πακέτου.
-* rejectboth - αποστολή RST/ICMP πακέτων σφάλματος σε και τις δύο πλευρές της συνομιλίας.
+* pass - σταματήστε την περαιτέρω επιθεώρηση του πακέτου
+* **drop** - απόρριψη πακέτου και δημιουργία ειδοποίησης
+* **reject** - αποστολή σφάλματος RST/ICMP μη προσβάσιμο στον αποστολέα του αντίστοιχου πακέτου.
+* rejectsrc - το ίδιο με το _reject_
+* rejectdst - αποστολή σφάλματος RST/ICMP στον παραλήπτη του αντίστοιχου πακέτου.
+* rejectboth - αποστολή σφαλμάτων RST/ICMP και στις δύο πλευρές της συνομιλίας.
 
 #### **Πρωτόκολλα**
 
-* tcp (για tcp-κίνηση)
+* tcp (για tcp-traffic)
 * udp
 * icmp
-* ip (το ip σημαίνει 'όλα' ή 'οποιοδήποτε')
-* _πρωτόκολλα επιπέδου 7_: http, ftp, tls, smb, dns, ssh... (περισσότερα στα [**έγγραφα**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip σημαίνει ‘όλα’ ή ‘οποιοδήποτε’)
+* _layer7 πρωτόκολλα_: http, ftp, tls, smb, dns, ssh... (περισσότερα στα [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Διευθύνσεις προέλευσης και προορισμού
+#### Διευθύνσεις Πηγής και Προορισμού
 
-Υποστηρίζει εύρος διευθύνσεων IP, αρνήσεις και λίστες διευθύνσεων:
+Υποστηρίζει εύρος IP, αρνήσεις και μια λίστα διευθύνσεων:
 
-| Παράδειγμα                        | Σημασία                                  |
+| Παράδειγμα                     | Σημασία                                  |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Κάθε διεύθυνση IP εκτός από την 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]           | Κάθε διεύθυνση IP εκτός από την 1.1.1.1 και 1.1.1.2 |
-| $HOME\_NET                     | Η ρύθμισή σας για το HOME\_NET στο αρχείο yaml        |
+| ! 1.1.1.1                      | Κάθε διεύθυνση IP εκτός από 1.1.1.1     |
+| !\[1.1.1.1, 1.1.1.2]           | Κάθε διεύθυνση IP εκτός από 1.1.1.1 και 1.1.1.2 |
+| $HOME\_NET                     | Η ρύθμισή σας για το HOME\_NET στο yaml  |
 | \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET και όχι HOME\_NET          |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 εκτός από το 10.0.0.5          |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 εκτός από 10.0.0.5          |
 
-#### Θύρες προέλευσης και προορισμού
+#### Θύρες Πηγής και Προορισμού
 
 Υποστηρίζει εύρος θυρών, αρνήσεις και λίστες θυρών
 
 | Παράδειγμα         | Σημασία                                |
 | --------------- | -------------------------------------- |
-| any             | οποιαδήποτε διεύθυνση                            |
+| any             | οποιαδήποτε διεύθυνση                |
 | \[80, 81, 82]   | θύρα 80, 81 και 82                     |
-| \[80: 82]       | Εύρος από 80 έως 82                  |
+| \[80: 82]       | Εύρος από 80 έως 82                   |
 | \[1024: ]       | Από 1024 έως τον υψηλότερο αριθμό θύρας |
-| !80             | Κάθε θύρα εκτός από την 80                      |
-| \[80:100,!99]   | Εύρος από 80 έως 100 αλλά εξαιρούνται οι 99 |
-| \[1:80,!\[2,4]] | Εύρος από 1-80, εκτός θυρών 2 και 4  |
+| !80             | Κάθε θύρα εκτός από 80                |
+| \[80:100,!99]   | Εύρος από 80 έως 100 αλλά 99 εξαιρούμενο |
+| \[1:80,!\[2,4]] | Εύρος από 1-80, εκτός από τις θύρες 2 και 4  |
 
 #### Κατεύθυνση
 
@@ -234,9 +191,9 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 source -> destination
 source <> destination  (both directions)
 ```
-#### Λέξεις-κλειδιά
+#### Keywords
 
-Υπάρχουν **εκατοντάδες επιλογές** διαθέσιμες στο Suricata για να αναζητήσετε το **συγκεκριμένο πακέτο** που ψάχνετε, εδώ θα αναφερθεί αν βρεθεί κάτι ενδιαφέρον. Ελέγξτε την [**τεκμηρίωση**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) για περισσότερες πληροφορίες!
+Υπάρχουν **εκατοντάδες επιλογές** διαθέσιμες στο Suricata για να αναζητήσετε το **συγκεκριμένο πακέτο** που ψάχνετε, εδώ θα αναφερθεί αν βρεθεί κάτι ενδιαφέρον. Ελέγξτε την [**τεκμηρίωση**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) για περισσότερα!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -277,14 +234,17 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Εργάζεστε σε μια **εταιρεία κυβερνοασφάλειας**; Θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks**; Ή θέλετε να έχετε πρόσβαση στην **τελευταία έκδοση του PEASS ή να κατεβάσετε το HackTricks σε μορφή PDF**; Ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Ανακαλύψτε την [**Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Συμμετάσχετε** στην [**💬**](https://emojipedia.org/speech-balloon/) [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** με στο **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στο [αποθετήριο hacktricks](https://github.com/carlospolop/hacktricks) και [αποθετήριο hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

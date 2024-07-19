@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Το Logstash χρησιμοποιείται για να **συγκεντρώνει, μετασχηματίζει και αποστέλλει καταγραφές** μέσω ενός συστήματος που ονομάζεται **pipelines**. Αυτά τα pipelines αποτελούνται από στάδια **εισόδου**, **φίλτρου** και **εξόδου**. Ένα ενδιαφέρον στοιχείο προκύπτει όταν το Logstash λειτουργεί σε ένα μηχάνημα που έχει παραβιαστεί.
+Το Logstash χρησιμοποιείται για **να συγκεντρώνει, να μετασχηματίζει και να αποστέλλει αρχεία καταγραφής** μέσω ενός συστήματος που ονομάζεται **pipelines**. Αυτές οι pipelines αποτελούνται από στάδια **input**, **filter** και **output**. Ένα ενδιαφέρον στοιχείο προκύπτει όταν το Logstash λειτουργεί σε μια συμβιβασμένη μηχανή.
 
-### Ρύθμιση του Pipeline
+### Pipeline Configuration
 
-Τα pipelines ρυθμίζονται στο αρχείο **/etc/logstash/pipelines.yml**, το οποίο αναφέρει τις τοποθεσίες των ρυθμίσεων του pipeline:
+Οι pipelines ρυθμίζονται στο αρχείο **/etc/logstash/pipelines.yml**, το οποίο απαριθμεί τις τοποθεσίες των ρυθμίσεων των pipelines:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Αυτό το αρχείο αποκαλύπτει πού βρίσκονται τα αρχεία **.conf**, που περιέχουν τις ρυθμίσεις των αγωγών, του **Logstash**. Όταν χρησιμοποιείται ένα **εξαρτήματος εξόδου Elasticsearch**, είναι συνηθισμένο για τις **αγωγές** να περιλαμβάνουν **διαπιστευτήρια Elasticsearch**, τα οποία συχνά έχουν εκτεταμένα προνόμια λόγω της ανάγκης του Logstash να γράφει δεδομένα στο Elasticsearch. Οι μπαλαντέρ στις διαδρομές ρυθμίσεων επιτρέπουν στο Logstash να εκτελεί όλες τις αντίστοιχες αγωγές στον καθορισμένο φάκελο.
+Αυτό το αρχείο αποκαλύπτει πού βρίσκονται τα αρχεία **.conf**, που περιέχουν ρυθμίσεις pipeline. Όταν χρησιμοποιείται ένα **Elasticsearch output module**, είναι συνηθισμένο τα **pipelines** να περιλαμβάνουν **Elasticsearch credentials**, οι οποίες συχνά διαθέτουν εκτενή δικαιώματα λόγω της ανάγκης του Logstash να γράφει δεδομένα στο Elasticsearch. Οι χαρακτήρες μπαλαντέρ σε διαδρομές ρύθμισης επιτρέπουν στο Logstash να εκτελεί όλα τα αντίστοιχα pipelines στον καθορισμένο φάκελο.
 
-### Ανέβασμα Προνομίων μέσω Εγγράψιμων Αγωγών
+### Privilege Escalation via Writable Pipelines
 
-Για να προσπαθήσετε να ανεβάσετε προνόμια, πρώτα εντοπίστε τον χρήστη κάτω από τον οποίο λειτουργεί η υπηρεσία Logstash, συνήθως ο χρήστης **logstash**. Βεβαιωθείτε ότι πληροίτε **ένα** από τα παρακάτω κριτήρια:
+Για να προσπαθήσετε να αποκτήσετε δικαιώματα, πρώτα προσδιορίστε τον χρήστη υπό τον οποίο εκτελείται η υπηρεσία Logstash, συνήθως ο χρήστης **logstash**. Βεβαιωθείτε ότι πληροίτε **ένα** από αυτά τα κριτήρια:
 
-- Διαθέτετε **δικαιώματα εγγραφής** σε ένα αρχείο αγωγής **.conf** **ή**
-- Το αρχείο **/etc/logstash/pipelines.yml** χρησιμοποιεί μια μπαλαντέρ, και μπορείτε να γράψετε στον κατάλογο προορισμού
+- Έχετε **δικαίωμα εγγραφής** σε ένα αρχείο pipeline **.conf** **ή**
+- Το αρχείο **/etc/logstash/pipelines.yml** χρησιμοποιεί έναν χαρακτήρα μπαλαντέρ και μπορείτε να γράψετε στον στόχο φάκελο
 
-Επιπλέον, πρέπει να πληρούνται **ένα** από τα παρακάτω συνθήματα:
+Επιπλέον, **μία** από αυτές τις συνθήκες πρέπει να πληρούται:
 
 - Δυνατότητα επανεκκίνησης της υπηρεσίας Logstash **ή**
-- Το αρχείο **/etc/logstash/logstash.yml** έχει την επιλογή **config.reload.automatic: true** ορισμένη
+- Το αρχείο **/etc/logstash/logstash.yml** έχει ρυθμιστεί σε **config.reload.automatic: true**
 
-Δεδομένης μιας μπαλαντέρ στη διαμόρφωση, η δημιουργία ενός αρχείου που ταιριάζει με αυτήν τη μπαλαντέρ επιτρέπει την εκτέλεση εντολών. Για παράδειγμα:
+Δεδομένου ενός χαρακτήρα μπαλαντέρ στη ρύθμιση, η δημιουργία ενός αρχείου που ταιριάζει με αυτόν τον χαρακτήρα μπαλαντέρ επιτρέπει την εκτέλεση εντολών. Για παράδειγμα:
 ```bash
 input {
 exec {
@@ -61,25 +66,30 @@ codec => rubydebug
 }
 }
 ```
-Εδώ, το **interval** καθορίζει τη συχνότητα εκτέλεσης σε δευτερόλεπτα. Στο παράδειγμα που δίνεται, η εντολή **whoami** εκτελείται κάθε 120 δευτερόλεπτα, με την έξοδό της να κατευθύνεται στο **/tmp/output.log**.
+Εδώ, το **interval** καθορίζει τη συχνότητα εκτέλεσης σε δευτερόλεπτα. Στο δοθέν παράδειγμα, η εντολή **whoami** εκτελείται κάθε 120 δευτερόλεπτα, με την έξοδό της να κατευθύνεται στο **/tmp/output.log**.
 
-Με την επιλογή **config.reload.automatic: true** στο **/etc/logstash/logstash.yml**, το Logstash θα ανιχνεύει αυτόματα και θα εφαρμόζει νέες ή τροποποιημένες ρυθμίσεις αγωγού χωρίς να χρειάζεται επανεκκίνηση. Αν δεν υπάρχει μπαλαντέρ, εξακολουθεί να είναι δυνατή η τροποποίηση υπαρχουσών ρυθμίσεων, αλλά συνιστάται προσοχή για να αποφευχθούν διακοπές.
+Με το **config.reload.automatic: true** στο **/etc/logstash/logstash.yml**, το Logstash θα ανιχνεύει και θα εφαρμόζει αυτόματα νέες ή τροποποιημένες ρυθμίσεις pipeline χωρίς να απαιτείται επανεκκίνηση. Εάν δεν υπάρχει wildcard, οι τροποποιήσεις μπορούν να γίνουν σε υπάρχουσες ρυθμίσεις, αλλά συνιστάται προσοχή για να αποφευχθούν διαταραχές.
 
-## Αναφορές
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
+## References
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΠΑΚΕΤΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

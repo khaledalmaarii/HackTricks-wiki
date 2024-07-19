@@ -1,98 +1,114 @@
 # Time Namespace
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο χάκινγκ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Βασικές πληροφορίες
+## Basic Information
 
-Ο χώρος ονομάτων χρόνου στο Linux επιτρέπει την ανάθεση ανεξάρτητων αποκλίσεων στους χρονομετρητές του συστήματος και του χρόνου εκκίνησης ανά ονοματοχώρο. Χρησιμοποιείται συχνά σε εφαρμογές Linux για να αλλάξει η ημερομηνία/ώρα μέσα σε έναν χώρο ονομάτων και να προσαρμόσει τους χρονομετρητές μετά από αποκατάσταση από ένα σημείο ελέγχου ή αντίγραφο ασφαλείας.
+Ο χρόνος namespace στο Linux επιτρέπει για offsets ανά namespace στους συστήματος monotonic και boot-time ρολόγια. Χρησιμοποιείται συνήθως σε κοντέινερ Linux για να αλλάξει την ημερομηνία/ώρα μέσα σε ένα κοντέινερ και να ρυθμίσει τα ρολόγια μετά την αποκατάσταση από ένα checkpoint ή snapshot.
 
-## Εργαστήριο:
+## Lab:
 
-### Δημιουργία διαφορετικών ονομάτων χώρου
+### Create different Namespaces
 
-#### Εντολική γραμμή
-
+#### CLI
 ```bash
 sudo unshare -T [--mount-proc] /bin/bash
 ```
-
-Με την προσάρτηση μιας νέας περίπτωσης του συστήματος αρχείων `/proc` χρησιμοποιώντας την παράμετρο `--mount-proc`, εξασφαλίζετε ότι ο νέος χώρος ονομάτων περιέχει μια **ακριβή και απομονωμένη προβολή των πληροφοριών διεργασιών που είναι συγκεκριμένες για αυτόν τον χώρο ονομάτων**.
+Με την τοποθέτηση μιας νέας παρουσίας του συστήματος αρχείων `/proc` αν χρησιμοποιήσετε την παράμετρο `--mount-proc`, διασφαλίζετε ότι η νέα mount namespace έχει μια **ακριβή και απομονωμένη άποψη των πληροφοριών διαδικασίας που είναι συγκεκριμένες για αυτή τη namespace**.
 
 <details>
 
-<summary>Σφάλμα: bash: fork: Δεν είναι δυνατή η δέσμευση μνήμης</summary>
+<summary>Σφάλμα: bash: fork: Cannot allocate memory</summary>
 
-Όταν το `unshare` εκτελείται χωρίς την επιλογή `-f`, συναντάται ένα σφάλμα λόγω του τρόπου που ο πυρήνας Linux χειρίζεται τους νέους χώρους ονομάτων PID (Process ID). Τα κύρια στοιχεία και η λύση παρουσιάζονται παρακάτω:
+Όταν εκτελείται το `unshare` χωρίς την επιλογή `-f`, προκύπτει ένα σφάλμα λόγω του τρόπου που το Linux χειρίζεται τις νέες PID (Process ID) namespaces. Οι βασικές λεπτομέρειες και η λύση περιγράφονται παρακάτω:
 
-1. **Εξήγηση του προβλήματος**:
-
-* Ο πυρήνας Linux επιτρέπει σε μια διεργασία να δημιουργεί νέους χώρους ονομάτων χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διεργασία που προκαλεί τη δημιουργία ενός νέου χώρου ονομάτων PID (που αναφέρεται ως "διαδικασία unshare") δεν εισέρχεται στον νέο χώρο ονομάτων, μόνο οι υποδιεργασίες της το κάνουν.
-* Η εκτέλεση της εντολής `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διεργασία με το `unshare`. Ως αποτέλεσμα, το `/bin/bash` και οι υποδιεργασίες του βρίσκονται στον αρχικό χώρο ονομάτων PID.
-* Η πρώτη υποδιεργασία του `/bin/bash` στον νέο χώρο ονομάτων γίνεται PID 1. Όταν αυτή η διεργασία τερματίζει, ενεργοποιείται η εκκαθάριση του χώρου ονομάτων αν δεν υπάρχουν άλλες διεργασίες, καθώς η PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διεργασιών. Ο πυρήνας Linux θα απενεργοποιήσει στη συνέχεια την εκχώρηση PID σε αυτόν τον χώρο ονομάτων.
+1. **Εξήγηση Προβλήματος**:
+- Ο πυρήνας του Linux επιτρέπει σε μια διαδικασία να δημιουργεί νέες namespaces χρησιμοποιώντας την κλήση συστήματος `unshare`. Ωστόσο, η διαδικασία που ξεκινά τη δημιουργία μιας νέας PID namespace (αναφερόμενη ως η διαδικασία "unshare") δεν εισέρχεται στη νέα namespace; μόνο οι παιδικές της διαδικασίες το κάνουν.
+- Η εκτέλεση `%unshare -p /bin/bash%` ξεκινά το `/bin/bash` στην ίδια διαδικασία με το `unshare`. Ως εκ τούτου, το `/bin/bash` και οι παιδικές του διαδικασίες βρίσκονται στην αρχική PID namespace.
+- Η πρώτη παιδική διαδικασία του `/bin/bash` στη νέα namespace γίνεται PID 1. Όταν αυτή η διαδικασία τερματίσει, ενεργοποιεί την καθαριότητα της namespace αν δεν υπάρχουν άλλες διαδικασίες, καθώς το PID 1 έχει τον ειδικό ρόλο της υιοθέτησης ορφανών διαδικασιών. Ο πυρήνας του Linux θα απενεργοποιήσει στη συνέχεια την κατανομή PID σε αυτή τη namespace.
 
 2. **Συνέπεια**:
-
-* Η έξοδος της PID 1 σε έναν νέο χώρο ονομάτων οδηγεί στην απενεργοποίηση της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα την αποτυχία της συνάρτησης `alloc_pid` να εκχωρήσει ένα νέο PID κατά τη δημιουργία μιας νέας διεργασίας, παράγοντας το σφάλμα "Cannot allocate memory".
+- Η έξοδος του PID 1 σε μια νέα namespace οδηγεί στον καθαρισμό της σημαίας `PIDNS_HASH_ADDING`. Αυτό έχει ως αποτέλεσμα η συνάρτηση `alloc_pid` να αποτύχει να κατανοήσει ένα νέο PID κατά τη δημιουργία μιας νέας διαδικασίας, παράγοντας το σφάλμα "Cannot allocate memory".
 
 3. **Λύση**:
+- Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει μια νέα διαδικασία μετά τη δημιουργία της νέας PID namespace.
+- Η εκτέλεση `%unshare -fp /bin/bash%` διασφαλίζει ότι η εντολή `unshare` γίνεται PID 1 στη νέα namespace. Το `/bin/bash` και οι παιδικές του διαδικασίες είναι τότε ασφαλώς περιορισμένες μέσα σε αυτή τη νέα namespace, αποτρέποντας την πρόωρη έξοδο του PID 1 και επιτρέποντας την κανονική κατανομή PID.
 
-* Το πρόβλημα μπορεί να επιλυθεί χρησιμοποιώντας την επιλογή `-f` με το `unshare`. Αυτή η επιλογή κάνει το `unshare` να δημιουργήσει ένα νέο διεργασία μετά τη δημιουργία του νέου χώρου ονομάτων PID.
-* Εκτελώντας `%unshare -fp /bin/bash%` εξασφαλίζεται ότι η εντολή `unshare` ίδια γίνεται PID 1 στον νέο χώρο ονομάτων. Το `/bin/bash` και οι υποδιεργασίες του περιορίζονται στον νέο αυτόν χώρο ονομάτων, αποτρέποντας την πρόωρη έξοδο της PID 1 και επιτρέποντας την κανονική εκχώρηση PID.
+Διασφαλίζοντας ότι το `unshare` εκτελείται με την επιλογή `-f`, η νέα PID namespace διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και τις υπο-διαδικασίες του να λειτουργούν χωρίς να συναντούν το σφάλμα κατανομής μνήμης.
 
-Εξασφαλίζοντας ότι το `unshare` εκτελείται με τη σημαία `-f`, ο νέος χώρος ονομάτων PID διατηρείται σωστά, επιτρέποντας στο `/bin/bash` και στις υποδιεργασίες του να λειτουργούν χωρίς να αντιμετωπίζουν το σφάλμα δέσμευσης μνήμης.
+</details>
 
+#### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-
-#### Ελέγξτε σε ποιο namespace βρίσκεται η διεργασία σας
-
-To check which namespace your process is in, you can use the following command:
-
-```bash
-cat /proc/$$/ns/pid
-```
-
-This will display the inode number of the namespace that your process is currently in.
-
+### &#x20;Ελέγξτε σε ποιο namespace βρίσκεται η διαδικασία σας
 ```bash
 ls -l /proc/self/ns/time
 lrwxrwxrwx 1 root root 0 Apr  4 21:16 /proc/self/ns/time -> 'time:[4026531834]'
 ```
-
-#### Βρείτε όλα τα Time namespaces
+### Βρείτε όλα τα Time namespaces
 
 {% code overflow="wrap" %}
-```
-```
-{% endcode %}
-
 ```bash
 sudo find /proc -maxdepth 3 -type l -name time -exec readlink {} \; 2>/dev/null | sort -u
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name time -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
+{% endcode %}
 
+### Είσοδος σε ένα Χρονικό namespace
+```bash
+nsenter -T TARGET_PID --pid /bin/bash
 ```
-```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-\`\`\`bash nsenter -T TARGET\_PID --pid /bin/bash \`\`\` Επίσης, μπορείτε να \*\*εισέλθετε σε ένα άλλο namespace διεργασίας μόνο αν είστε root\*\*. Και \*\*δεν μπορείτε\*\* να \*\*εισέλθετε\*\* σε άλλο namespace \*\*χωρίς έναν δείκτη\*\* που να τον δείχνει (όπως \`/proc/self/ns/net\`).
+<details>
 
-### Αναφορές
+<summary>Υποστήριξη HackTricks</summary>
 
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
-* [https://www.phoronix.com/news/Linux-Time-Namespace-Coming](https://www.phoronix.com/news/Linux-Time-Namespace-Coming)
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

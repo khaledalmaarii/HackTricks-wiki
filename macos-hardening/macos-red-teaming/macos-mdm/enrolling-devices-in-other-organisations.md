@@ -1,40 +1,96 @@
-# Εγγραφή Συσκευών σε Άλλους Οργανισμούς
+# Εγγραφή Συσκευών σε Άλλες Οργανώσεις
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Εισαγωγή
 
-Όπως [**προαναφέρθηκε**](./#what-is-mdm-mobile-device-management), για να προσπαθήσετε να εγγράψετε μια συσκευή σε έναν οργανισμό, χρειάζεται μόνο ένας αριθμός σειράς που ανήκει σε αυτόν τον Οργανισμό. Αφού η συσκευή εγγραφεί, πολλοί οργανισμοί θα εγκαταστήσουν ευαίσθητα δεδομένα στη νέα συσκευή: πιστοποιητικά, εφαρμογές, κωδικούς πρόσβασης WiFi, ρυθμίσεις VPN [και ούτω καθεξής](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Επομένως, αυτό μπορεί να αποτελέσει μια επικίνδυνη ευκαιρία για επιτιθέμενους εάν η διαδικασία εγγραφής δεν προστατεύεται σωστά.
+Όπως [**σχολιάστηκε προηγουμένως**](./#what-is-mdm-mobile-device-management)**,** για να προσπαθήσετε να εγγραφείτε μια συσκευή σε μια οργάνωση **χρειάζεται μόνο ένας Αριθμός Σειράς που ανήκει σε αυτή την Οργάνωση**. Μόλις η συσκευή εγγραφεί, πολλές οργανώσεις θα εγκαταστήσουν ευαίσθητα δεδομένα στη νέα συσκευή: πιστοποιητικά, εφαρμογές, κωδικούς WiFi, ρυθμίσεις VPN [και ούτω καθεξής](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Επομένως, αυτό θα μπορούσε να είναι ένα επικίνδυνο σημείο εισόδου για επιτιθέμενους αν η διαδικασία εγγραφής δεν προστατεύεται σωστά.
 
-**Το παρακάτω είναι ένα σύνοψη της έρευνας [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Ελέγξτε το για περαιτέρω τεχνικές λεπτομέρειες!**
+**Ακολουθεί μια περίληψη της έρευνας [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Ελέγξτε το για περαιτέρω τεχνικές λεπτομέρειες!**
 
-## Επισκόπηση του DEP και της Ανάλυσης του MDM Binary
+## Επισκόπηση Ανάλυσης Δυαδικών DEP και MDM
 
-Αυτή η έρευνα εξετάζει τα δυαδικά αρχεία που σχετίζονται με το Device Enrollment Program (DEP) και τη Διαχείριση Συσκευών Mobile (MDM) στο macOS. Οι κύριες συνιστώσες περιλαμβάνουν:
+Αυτή η έρευνα εμβαθύνει στα δυαδικά αρχεία που σχετίζονται με το Πρόγραμμα Εγγραφής Συσκευών (DEP) και τη Διαχείριση Κινητών Συσκευών (MDM) στο macOS. Τα κύρια στοιχεία περιλαμβάνουν:
 
-- **`mdmclient`**: Επικοινωνεί με τους διακομιστές MDM και ενεργοποιεί ελέγχους DEP σε εκδόσεις macOS πριν από την 10.13.4.
-- **`profiles`**: Διαχειρίζεται τις Προφίλ Διαμόρφωσης και ενεργοποιεί ελέγχους DEP σε εκδόσεις macOS 10.13.4 και μεταγενέστερες.
-- **`cloudconfigurationd`**: Διαχειρίζεται τις επικοινωνίες του DEP API και ανακτά προφίλ εγγραφής συσκευής.
+- **`mdmclient`**: Επικοινωνεί με τους διακομιστές MDM και ενεργοποιεί τις εγγραφές DEP σε εκδόσεις macOS πριν από την 10.13.4.
+- **`profiles`**: Διαχειρίζεται τα Προφίλ Ρυθμίσεων και ενεργοποιεί τις εγγραφές DEP σε εκδόσεις macOS 10.13.4 και μεταγενέστερες.
+- **`cloudconfigurationd`**: Διαχειρίζεται τις επικοινωνίες API DEP και ανακτά τα προφίλ Εγγραφής Συσκευών.
 
-Οι ελέγχοι DEP χρησιμοποιούν τις λειτουργίες `CPFetchActivationRecord` και `CPGetActivationRecord` από το ιδιωτικό πλαίσιο Configuration Profiles για να ανακτήσουν το Αρχείο Ενεργοποίησης, με το `CPFetchActivationRecord` να συνεργάζεται με το `cloudconfigurationd` μέσω του XPC.
+Οι εγγραφές DEP χρησιμοποιούν τις συναρτήσεις `CPFetchActivationRecord` και `CPGetActivationRecord` από το ιδιωτικό πλαίσιο Προφίλ Ρυθμίσεων για να ανακτήσουν το Activation Record, με το `CPFetchActivationRecord` να συντονίζεται με το `cloudconfigurationd` μέσω XPC.
 
-## Ανάπτυξη του Πρωτοκόλλου Tesla και Ανάλυση του Σχήματος Absinthe
+## Ανάλυση Αντίστροφης Μηχανικής Πρωτοκόλλου Tesla και Σχήματος Absinthe
 
-Ο έλεγχος DEP περιλαμβάνει το `cloudconfigurationd` να στέλνει ένα κρυπτογραφημένο, υπογεγραμμένο JSON φορτίο στο _iprofiles.apple.com/macProfile_. Το φορτίο περιλαμβάνει τον αριθμό σειράς της συσκευής και την ενέργεια "RequestProfileConfiguration". Το σχήμα κρυπτογράφησης που χρησιμοποιείται αναφέρεται εσωτερικά ως "Absinthe". Η αποκωδικοποίηση αυτού του σχήματος είναι πολύπλοκη και περιλαμβάνει πολλά βήματα, τα οποία οδήγησαν στην εξερεύνηση εναλλακτικών μεθόδων για την εισαγωγή αυθαίρετων αριθμών σειράς στο αίτημα Εγγραφής Ενεργοποίησης.
+Η εγγραφή DEP περιλαμβάνει το `cloudconfigurationd` να στέλνει ένα κρυπτογραφημένο, υπογεγραμμένο JSON payload στο _iprofiles.apple.com/macProfile_. Το payload περιλαμβάνει τον αριθμό σειράς της συσκευής και την ενέργεια "RequestProfileConfiguration". Το σχήμα κρυπτογράφησης που χρησιμοποιείται αναφέρεται εσωτερικά ως "Absinthe". Η αποκωδικοποίηση αυτού του σχήματος είναι περίπλοκη και περιλαμβάνει πολλές διαδικασίες, γεγονός που οδήγησε στην εξερεύνηση εναλλακτικών μεθόδων για την εισαγωγή αυθαίρετων αριθμών σειράς στο αίτημα Activation Record.
 
-## Προϊστάμενοι των Αιτημάτων DEP
+## Διαμεσολάβηση Αιτημάτων DEP
 
-Οι προσπάθειες παρεμβολής και τροποποίησης των αιτημάτων DEP προς το _iprofiles.apple.com_ χρησιμοποιώντας εργαλεί
+Οι προσπάθειες να παρεμποδιστούν και να τροποποιηθούν τα αιτήματα DEP προς το _iprofiles.apple.com_ χρησιμοποιώντας εργαλεία όπως το Charles Proxy εμποδίστηκαν από την κρυπτογράφηση του payload και τα μέτρα ασφαλείας SSL/TLS. Ωστόσο, η ενεργοποίηση της ρύθμισης `MCCloudConfigAcceptAnyHTTPSCertificate` επιτρέπει την παράκαμψη της επικύρωσης του πιστοποιητικού διακομιστή, αν και η κρυπτογραφημένη φύση του payload εμποδίζει ακόμα την τροποποίηση του αριθμού σειράς χωρίς το κλειδί αποκρυπτογράφησης.
+
+## Εργαλειοποίηση Συστήματος Δυαδικών που Αλληλεπιδρούν με το DEP
+
+Η εργαλειοποίηση συστημικών δυαδικών όπως το `cloudconfigurationd` απαιτεί την απενεργοποίηση της Προστασίας Ακεραιότητας Συστήματος (SIP) στο macOS. Με την SIP απενεργοποιημένη, εργαλεία όπως το LLDB μπορούν να χρησιμοποιηθούν για να συνδεθούν σε συστημικές διαδικασίες και ενδεχομένως να τροποποιήσουν τον αριθμό σειράς που χρησιμοποιείται στις αλληλεπιδράσεις API DEP. Αυτή η μέθοδος είναι προτιμότερη καθώς αποφεύγει τις πολυπλοκότητες των δικαιωμάτων και της υπογραφής κώδικα.
+
+**Εκμετάλλευση Δυαδικής Εργαλειοποίησης:**
+Η τροποποίηση του payload αίτησης DEP πριν από την σειριοποίηση JSON στο `cloudconfigurationd` αποδείχθηκε αποτελεσματική. Η διαδικασία περιλάμβανε:
+
+1. Σύνδεση του LLDB στο `cloudconfigurationd`.
+2. Εντοπισμός του σημείου όπου ανακτάται ο αριθμός σειράς του συστήματος.
+3. Εισαγωγή ενός αυθαίρετου αριθμού σειράς στη μνήμη πριν από την κρυπτογράφηση και αποστολή του payload.
+
+Αυτή η μέθοδος επέτρεψε την ανάκτηση πλήρων προφίλ DEP για αυθαίρετους αριθμούς σειράς, αποδεικνύοντας μια πιθανή ευπάθεια.
+
+### Αυτοματοποίηση Εργαλειοποίησης με Python
+
+Η διαδικασία εκμετάλλευσης αυτοματοποιήθηκε χρησιμοποιώντας Python με το API LLDB, καθιστώντας εφικτή την προγραμματισμένη εισαγωγή αυθαίρετων αριθμών σειράς και την ανάκτηση των αντίστοιχων προφίλ DEP.
+
+### Πιθανές Επιπτώσεις Ευπαθειών DEP και MDM
+
+Η έρευνα ανέδειξε σημαντικές ανησυχίες ασφαλείας:
+
+1. **Αποκάλυψη Πληροφοριών**: Παρέχοντας έναν αριθμό σειράς που είναι εγγεγραμμένος στο DEP, μπορεί να ανακτηθεί ευαίσθητη οργανωτική πληροφορία που περιέχεται στο προφίλ DEP.
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Υποστήριξη HackTricks</summary>
+
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

