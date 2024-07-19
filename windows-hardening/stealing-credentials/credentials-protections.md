@@ -1,105 +1,103 @@
-# Προστασία διαπιστευτηρίων στα Windows
+# Windows Credentials Protections
 
-## Προστασία διαπιστευτηρίων
+## Credentials Protections
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## WDigest
 
-Το πρωτόκολλο [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868(v=ws.10).aspx?f=255&MSPPError=-2147217396), που εισήχθη με τα Windows XP, είναι σχεδιασμένο για την πιστοποίηση μέσω του πρωτοκόλλου HTTP και **είναι ενεργοποιημένο από προεπιλογή στα Windows XP έως Windows 8.0 και Windows Server 2003 έως Windows Server 2012**. Αυτή η προεπιλεγμένη ρύθμιση οδηγεί στην **αποθήκευση των κωδικών πρόσβασης σε απλό κείμενο στο LSASS** (Local Security Authority Subsystem Service). Ένας επιτιθέμενος μπορεί να χρησιμοποιήσει το Mimikatz για να **εξάγει αυτά τα διαπιστευτήρια** εκτελώντας:
+Το [WDigest](https://technet.microsoft.com/pt-pt/library/cc778868\(v=ws.10\).aspx?f=255\&MSPPError=-2147217396) πρωτόκολλο, που εισήχθη με τα Windows XP, έχει σχεδιαστεί για αυθεντικοποίηση μέσω του Πρωτοκόλλου HTTP και είναι **ενεργοποιημένο από προεπιλογή στα Windows XP μέχρι τα Windows 8.0 και Windows Server 2003 έως Windows Server 2012**. Αυτή η προεπιλεγμένη ρύθμιση έχει ως αποτέλεσμα **την αποθήκευση κωδικών πρόσβασης σε απλό κείμενο στο LSASS** (Local Security Authority Subsystem Service). Ένας επιτιθέμενος μπορεί να χρησιμοποιήσει το Mimikatz για να **εξάγει αυτά τα διαπιστευτήρια** εκτελώντας:
 ```bash
 sekurlsa::wdigest
 ```
-Για να **απενεργοποιήσετε ή ενεργοποιήσετε αυτήν τη λειτουργία**, οι κλειδιά καταχώρησης _**UseLogonCredential**_ και _**Negotiate**_ εντός του _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ πρέπει να οριστούν σε "1". Εάν αυτά τα κλειδιά είναι **απών ή ορισμένα σε "0"**, το WDigest είναι **απενεργοποιημένο**:
+Για να **απενεργοποιήσετε ή να ενεργοποιήσετε αυτή τη δυνατότητα**, τα _**UseLogonCredential**_ και _**Negotiate**_ κλειδιά μητρώου μέσα στο _**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\SecurityProviders\WDigest**_ πρέπει να ρυθμιστούν σε "1". Εάν αυτά τα κλειδιά είναι **απουσία ή ρυθμισμένα σε "0"**, το WDigest είναι **απενεργοποιημένο**:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential
 ```
-## Προστασία LSA
+## LSA Protection
 
-Από την έκδοση **Windows 8.1** και μετά, η Microsoft ενισχύει την ασφάλεια του LSA για να **αποτρέπει την μη εξουσιοδοτημένη ανάγνωση μνήμης ή εισαγωγή κώδικα από μη αξιόπιστες διεργασίες**. Αυτή η βελτίωση δυσκολεύει την κανονική λειτουργία εντολών όπως `mimikatz.exe sekurlsa:logonpasswords`. Για να **ενεργοποιήσετε αυτήν τη βελτιωμένη προστασία**, η τιμή _**RunAsPPL**_ στο μονοπάτι _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ πρέπει να ρυθμιστεί σε 1:
+Αρχής γενομένης από το **Windows 8.1**, η Microsoft ενίσχυσε την ασφάλεια του LSA για να **μπλοκάρει μη εξουσιοδοτημένες αναγνώσεις μνήμης ή εισαγωγές κώδικα από μη αξιόπιστες διεργασίες**. Αυτή η βελτίωση εμποδίζει τη συνήθη λειτουργία εντολών όπως το `mimikatz.exe sekurlsa:logonpasswords`. Για να **επιτρέψετε αυτήν την ενισχυμένη προστασία**, η τιμή _**RunAsPPL**_ στο _**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\LSA**_ θα πρέπει να ρυθμιστεί σε 1:
 ```
 reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL
 ```
-### Παράκαμψη
+### Bypass
 
-Είναι δυνατόν να παρακαμφθεί αυτή η προστασία χρησιμοποιώντας τον οδηγό Mimikatz mimidrv.sys:
+Είναι δυνατή η παράκαμψη αυτής της προστασίας χρησιμοποιώντας τον οδηγό Mimikatz mimidrv.sys:
 
 ![](../../.gitbook/assets/mimidrv.png)
 
-## Προστασία διαπιστευτηρίων
+## Credential Guard
 
-Το **Credential Guard**, μια λειτουργία αποκλειστική για τα **Windows 10 (Enterprise και Education εκδόσεις)**, ενισχύει την ασφάλεια των διαπιστευτηρίων της μηχανής χρησιμοποιώντας το **Virtual Secure Mode (VSM)** και το **Virtualization Based Security (VBS)**. Χρησιμοποιεί επεκτάσεις εικονικοποίησης της CPU για να απομονώσει βασικές διεργασίες εντός ενός προστατευμένου χώρου μνήμης, μακριά από την πρόσβαση του κύριου λειτουργικού συστήματος. Αυτή η απομόνωση εξασφαλίζει ότι ακόμα και το πυρήνας δεν μπορεί να έχει πρόσβαση στη μνήμη του VSM, προστατεύοντας αποτελεσματικά τα διαπιστευτήρια από επιθέσεις όπως το **pass-the-hash**. Ο **Local Security Authority (LSA)** λειτουργεί μέσα σε αυτό το ασφαλές περιβάλλον ως ένα trustlet, ενώ η διεργασία **LSASS** στο κύριο λειτουργικό σύστημα λειτουργεί απλώς ως επικοινωνητής με το LSA του VSM.
+**Credential Guard**, μια δυνατότητα αποκλειστική για **Windows 10 (Enterprise και Education εκδόσεις)**, ενισχύει την ασφάλεια των διαπιστευτηρίων μηχανής χρησιμοποιώντας **Virtual Secure Mode (VSM)** και **Virtualization Based Security (VBS)**. Εκμεταλλεύεται τις επεκτάσεις εικονικοποίησης CPU για να απομονώσει βασικές διαδικασίες εντός ενός προστατευμένου χώρου μνήμης, μακριά από την προσέγγιση του κύριου λειτουργικού συστήματος. Αυτή η απομόνωση διασφαλίζει ότι ακόμη και ο πυρήνας δεν μπορεί να έχει πρόσβαση στη μνήμη στο VSM, προστατεύοντας αποτελεσματικά τα διαπιστευτήρια από επιθέσεις όπως το **pass-the-hash**. Η **Local Security Authority (LSA)** λειτουργεί εντός αυτού του ασφαλούς περιβάλλοντος ως trustlet, ενώ η διαδικασία **LSASS** στο κύριο OS λειτουργεί απλώς ως επικοινωνιακός σύνδεσμος με την LSA του VSM.
 
-Από προεπιλογή, το **Credential Guard** δεν είναι ενεργό και απαιτεί χειροκίνητη ενεργοποίηση εντός μιας οργάνωσης. Είναι κρίσιμο για την ενίσχυση της ασφάλειας έναντι εργαλείων όπως το **Mimikatz**, τα οποία περιορίζονται στην ικανότητά τους να εξάγουν διαπιστευτήρια. Ωστόσο, ευπάθειες μπορούν ακόμα να εκμεταλλευτούνται μέσω της προσθήκης προσαρμοσμένων **Security Support Providers (SSP)** για την καταγραφή διαπιστευτηρίων σε καθαρό κείμενο κατά τη διάρκεια προσπαθειών σύνδεσης.
+Από προεπιλογή, **Credential Guard** δεν είναι ενεργό και απαιτεί χειροκίνητη ενεργοποίηση εντός ενός οργανισμού. Είναι κρίσιμο για την ενίσχυση της ασφάλειας κατά εργαλείων όπως το **Mimikatz**, τα οποία περιορίζονται στην ικανότητά τους να εξάγουν διαπιστευτήρια. Ωστόσο, οι ευπάθειες μπορούν να εκμεταλλευτούν μέσω της προσθήκης προσαρμοσμένων **Security Support Providers (SSP)** για να συλλάβουν διαπιστευτήρια σε καθαρό κείμενο κατά τις προσπάθειες σύνδεσης.
 
-Για να επαληθευτεί η κατάσταση ενεργοποίησης του **Credential Guard**, μπορεί να ελεγχθεί το κλειδί μητρώου **_LsaCfgFlags_** κάτω από **_HKLM\System\CurrentControlSet\Control\LSA_**. Μια τιμή "**1**" υποδηλώνει ενεργοποίηση με **UEFI lock**, "**2**" χωρίς κλείδωμα και "**0**" υποδηλώνει ότι δεν είναι ενεργοποιημένο. Αυτός ο έλεγχος του μητρώου, ενώ είναι ένα ισχυρό ένδειξη, δεν είναι το μόνο βήμα για την ενεργοποίηση του Credential Guard. Λεπτομερείς οδηγίες και ένα σενάριο PowerShell για την ενεργοποίηση αυτής της λειτουργίας είναι διαθέσιμα στο διαδίκτυο.
+Για να επαληθεύσετε την κατάσταση ενεργοποίησης του **Credential Guard**, μπορεί να ελεγχθεί το κλειδί μητρώου _**LsaCfgFlags**_ κάτω από _**HKLM\System\CurrentControlSet\Control\LSA**_. Μια τιμή "**1**" υποδηλώνει ενεργοποίηση με **UEFI lock**, "**2**" χωρίς κλείδωμα, και "**0**" δηλώνει ότι δεν είναι ενεργοποιημένο. Αυτός ο έλεγχος μητρώου, αν και είναι ισχυρός δείκτης, δεν είναι το μόνο βήμα για την ενεργοποίηση του Credential Guard. Λεπτομερείς οδηγίες και ένα σενάριο PowerShell για την ενεργοποίηση αυτής της δυνατότητας είναι διαθέσιμα online.
 ```powershell
 reg query HKLM\System\CurrentControlSet\Control\LSA /v LsaCfgFlags
 ```
-Για μια συνεπή κατανόηση και οδηγίες για την ενεργοποίηση του **Credential Guard** στα Windows 10 και την αυτόματη ενεργοποίησή του σε συμβατά συστήματα των **Windows 11 Enterprise και Education (έκδοση 22H2)**, επισκεφθείτε την [τεκμηρίωση της Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
+Για μια ολοκληρωμένη κατανόηση και οδηγίες σχετικά με την ενεργοποίηση του **Credential Guard** στα Windows 10 και την αυτόματη ενεργοποίησή του σε συμβατά συστήματα του **Windows 11 Enterprise και Education (έκδοση 22H2)**, επισκεφθείτε την [τεκμηρίωση της Microsoft](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-manage).
 
-Περαιτέρω λεπτομέρειες για την εφαρμογή προσαρμοσμένων SSPs για την καταγραφή διαπιστευτηρίων παρέχονται στο [ακόλουθο εγχειρίδιο](../active-directory-methodology/custom-ssp.md).
+Περισσότερες λεπτομέρειες σχετικά με την υλοποίηση προσαρμοσμένων SSP για την καταγραφή διαπιστευτηρίων παρέχονται [σε αυτόν τον οδηγό](../active-directory-methodology/custom-ssp.md).
 
+## RDP RestrictedAdmin Mode
 
-## Λειτουργία RestrictedAdmin για το RDP
+**Windows 8.1 και Windows Server 2012 R2** εισήγαγαν πολλές νέες δυνατότητες ασφαλείας, συμπεριλαμβανομένου του _**Restricted Admin mode για RDP**_. Αυτή η λειτουργία σχεδιάστηκε για να ενισχύσει την ασφάλεια μειώνοντας τους κινδύνους που σχετίζονται με τις επιθέσεις [**pass the hash**](https://blog.ahasayen.com/pass-the-hash/).
 
-Τα **Windows 8.1 και Windows Server 2012 R2** εισήγαγαν αρκετά νέα χαρακτηριστικά ασφαλείας, συμπεριλαμβανομένης της **_Restricted Admin mode για το RDP_**. Αυτή η λειτουργία σχεδιάστηκε για να ενισχύσει την ασφάλεια μειώνοντας τους κινδύνους που συνδέονται με επιθέσεις **[pass the hash](https://blog.ahasayen.com/pass-the-hash/)**.
+Παραδοσιακά, όταν συνδέεστε σε έναν απομακρυσμένο υπολογιστή μέσω RDP, τα διαπιστευτήριά σας αποθηκεύονται στη στοχοθετημένη μηχανή. Αυτό συνιστά σημαντικό κίνδυνο ασφαλείας, ειδικά όταν χρησιμοποιείτε λογαριασμούς με αυξημένα δικαιώματα. Ωστόσο, με την εισαγωγή του _**Restricted Admin mode**_, αυτός ο κίνδυνος μειώνεται σημαντικά.
 
-Παραδοσιακά, κατά τη σύνδεση σε έναν απομακρυσμένο υπολογιστή μέσω RDP, τα διαπιστευτήριά σας αποθηκεύονται στον στόχο. Αυτό αποτελεί σημαντικό κίνδυνο για την ασφάλεια, ειδικά όταν χρησιμοποιούνται λογαριασμοί με αυξημένα προνόμια. Ωστόσο, με την εισαγωγή της **_Restricted Admin mode_**, αυτός ο κίνδυνος μειώνεται σημαντικά.
+Όταν ξεκινάτε μια σύνδεση RDP χρησιμοποιώντας την εντολή **mstsc.exe /RestrictedAdmin**, η αυθεντικοποίηση στον απομακρυσμένο υπολογιστή πραγματοποιείται χωρίς να αποθηκεύονται τα διαπιστευτήριά σας σε αυτόν. Αυτή η προσέγγιση διασφαλίζει ότι, σε περίπτωση μόλυνσης από κακόβουλο λογισμικό ή αν ένας κακόβουλος χρήστης αποκτήσει πρόσβαση στον απομακρυσμένο διακομιστή, τα διαπιστευτήριά σας δεν θα διακυβευτούν, καθώς δεν αποθηκεύονται στον διακομιστή.
 
-Όταν πραγματοποιείτε μια σύνδεση RDP χρησιμοποιώντας την εντολή **mstsc.exe /RestrictedAdmin**, η πιστοποίηση στον απομακρυσμένο υπολογιστή πραγματοποιείται χωρίς να αποθηκεύονται τα διαπιστευτήριά σας σε αυτόν. Με αυτήν την προσέγγιση, διασφαλίζεται ότι, σε περίπτωση μόλυνσης από κακόβουλο λογισμικό ή αν κακόβουλος χρήστης αποκτήσει πρόσβαση στον απομακρυσμένο διακομιστή, τα διαπιστευτήριά σας δεν κινδυνεύουν, καθώς δεν αποθηκεύονται στον διακομιστή.
+Είναι σημαντικό να σημειωθεί ότι στο **Restricted Admin mode**, οι προσπάθειες πρόσβασης σε πόρους δικτύου από τη συνεδρία RDP δεν θα χρησιμοποιούν τα προσωπικά σας διαπιστευτήρια. Αντίθετα, χρησιμοποιείται η **ταυτότητα της μηχανής**.
 
-Σημαντικό είναι να σημειωθεί ότι στην **Restricted Admin mode**, οι προσπάθειες πρόσβασης σε πόρους του δικτύου από τη συνεδρία RDP δεν θα χρησιμοποιήσουν τα προσωπικά σας διαπιστευτήρια, αλλά θα χρησιμοποιήσουν την **ταυτότητα της μηχανής**.
+Αυτή η δυνατότητα σηματοδοτεί ένα σημαντικό βήμα προς τα εμπρός στην ασφάλιση των απομακρυσμένων συνδέσεων επιφάνειας εργασίας και στην προστασία ευαίσθητων πληροφοριών από την έκθεση σε περίπτωση παραβίασης ασφαλείας.
 
-Αυτό το χαρακτηριστικό αποτελεί ένα σημαντικό βήμα προόδου στην ασφάλεια των απομακρυσμένων συνδέσεων επιφάνειας εργασίας και στην προστασία ευαίσθητων πληροφοριών από αποκάλυψη σε περίπτωση παραβίασης της ασφάλειας.
+![](../../.gitbook/assets/RAM.png)
 
-![](../../.gitbook/assets/ram.png)
+Για περισσότερες λεπτομέρειες επισκεφθείτε [αυτή την πηγή](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
 
-Για περισσότερες λεπτομερείς πληροφορίες, επισκεφθείτε την [πηγή αυτή](https://blog.ahasayen.com/restricted-admin-mode-for-rdp/).
+## Cached Credentials
 
+Τα Windows ασφαλίζουν τα **διαπιστευτήρια τομέα** μέσω της **Τοπικής Αρχής Ασφαλείας (LSA)**, υποστηρίζοντας τις διαδικασίες σύνδεσης με πρωτόκολλα ασφαλείας όπως το **Kerberos** και το **NTLM**. Μια βασική δυνατότητα των Windows είναι η ικανότητά τους να αποθηκεύουν στην κρυφή μνήμη τις **τελευταίες δέκα συνδέσεις τομέα** για να διασφαλίσουν ότι οι χρήστες μπορούν να έχουν πρόσβαση στους υπολογιστές τους ακόμη και αν ο **διακομιστής τομέα είναι εκτός σύνδεσης**—ένα πλεονέκτημα για τους χρήστες φορητών υπολογιστών που συχνά βρίσκονται μακριά από το δίκτυο της εταιρείας τους.
 
-## Κρυφά διαπιστευτήρια
-
-Τα Windows ασφαλίζουν τα **διαπιστευτήρια του τομέα** μέσω της **Τοπικής Αρχής Ασφαλείας (LSA)**, υποστηρίζοντας διαδικασίες σύνδεσης με πρωτόκολλα ασφαλείας όπως το **Kerberos** και το **NTLM**. Ένα βασικό χαρακτηριστικό των Windows είναι η δυνατότητά τους να αποθηκεύουν τις **τελευταίες δέκα συνδέσεις στον τομέα** για να εξασφαλίζουν ότι οι χρήστες μπορούν ακόμα να έχουν πρόσβαση στους υπολογιστές τους ακόμα και αν ο **ελεγκτής τομέα είναι εκτός σύνδεσης** - μια ευκαιρία για τους χρήστες φορητών υπολογιστών που συχνά βρίσκονται μακριά από το δίκτυο της εταιρείας τους.
-
-Ο αριθμός των κρυφών συνδέσεων μπορεί να προσαρμοστεί μέσω ενός συγκεκριμένου **κλειδιού μητρώου ή πολιτικής ομάδας**. Για να δείτε ή να αλλάξετε αυτήν τη ρύθμιση, χρησιμοποιείται η ακόλουθη εντολή:
+Ο αριθμός των αποθηκευμένων συνδέσεων είναι ρυθμιζόμενος μέσω ενός συγκεκριμένου **κλειδιού μητρώου ή πολιτικής ομάδας**. Για να δείτε ή να αλλάξετε αυτή τη ρύθμιση, χρησιμοποιείται η εξής εντολή:
 ```bash
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLOGON" /v CACHEDLOGONSCOUNT
 ```
-Η πρόσβαση σε αυτές τις κρυφές πιστοποιητικές πληροφορίες ελέγχεται αυστηρά, με μόνο τον λογαριασμό **SYSTEM** να έχει τις απαραίτητες άδειες για να τις προβάλει. Οι διαχειριστές που χρειάζονται πρόσβαση σε αυτές τις πληροφορίες πρέπει να το κάνουν με τα δικαιώματα χρήστη SYSTEM. Τα πιστοποιητικά αποθηκεύονται στη διεύθυνση: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
+Η πρόσβαση σε αυτές τις αποθηκευμένες διαπιστεύσεις ελέγχεται αυστηρά, με μόνο τον λογαριασμό **SYSTEM** να έχει τις απαραίτητες άδειες για να τις δει. Οι διαχειριστές που χρειάζονται πρόσβαση σε αυτές τις πληροφορίες πρέπει να το κάνουν με δικαιώματα χρήστη SYSTEM. Οι διαπιστεύσεις αποθηκεύονται στο: `HKEY_LOCAL_MACHINE\SECURITY\Cache`
 
-Το **Mimikatz** μπορεί να χρησιμοποιηθεί για να εξαχθούν αυτά τα κρυφά πιστοποιητικά χρησιμοποιώντας την εντολή `lsadump::cache`.
+**Mimikatz** μπορεί να χρησιμοποιηθεί για την εξαγωγή αυτών των αποθηκευμένων διαπιστεύσεων χρησιμοποιώντας την εντολή `lsadump::cache`.
 
-Για περισσότερες λεπτομέρειες, η αρχική [πηγή](http://juggernaut.wikidot.com/cached-credentials) παρέχει πλήρεις πληροφορίες.
+Για περισσότερες λεπτομέρειες, η αρχική [πηγή](http://juggernaut.wikidot.com/cached-credentials) παρέχει εκτενή πληροφορίες.
 
+## Protected Users
 
-## Προστατευμένοι Χρήστες
+Η συμμετοχή στην **ομάδα Protected Users** εισάγει αρκετές βελτιώσεις ασφαλείας για τους χρήστες, εξασφαλίζοντας υψηλότερα επίπεδα προστασίας κατά της κλοπής και κακής χρήσης διαπιστεύσεων:
 
-Η συμμετοχή στην ομάδα **Προστατευμένοι Χρήστες** εισάγει αρκετές ενισχύσεις ασφαλείας για τους χρήστες, εξασφαλίζοντας υψηλότερα επίπεδα προστασίας από κλοπή και κατάχρηση διαπιστευτηρίων:
+* **Credential Delegation (CredSSP)**: Ακόμα και αν η ρύθμιση Πολιτικής Ομάδας για **Allow delegating default credentials** είναι ενεργοποιημένη, οι διαπιστεύσεις κειμένου απλού των Protected Users δεν θα αποθηκευτούν.
+* **Windows Digest**: Από **Windows 8.1 και Windows Server 2012 R2**, το σύστημα δεν θα αποθηκεύει τις διαπιστεύσεις κειμένου απλού των Protected Users, ανεξάρτητα από την κατάσταση του Windows Digest.
+* **NTLM**: Το σύστημα δεν θα αποθηκεύει τις διαπιστεύσεις κειμένου απλού των Protected Users ή τις μονοκατευθυντικές συναρτήσεις NT (NTOWF).
+* **Kerberos**: Για τους Protected Users, η πιστοποίηση Kerberos δεν θα δημιουργεί **DES** ή **RC4 keys**, ούτε θα αποθηκεύει διαπιστεύσεις κειμένου απλού ή μακροχρόνιες κλειδαριές πέρα από την αρχική απόκτηση του Ticket-Granting Ticket (TGT).
+* **Offline Sign-In**: Οι Protected Users δεν θα έχουν έναν αποθηκευμένο επαληθευτή που θα δημιουργείται κατά την είσοδο ή την ξεκλείδωμα, πράγμα που σημαίνει ότι η offline είσοδος δεν υποστηρίζεται για αυτούς τους λογαριασμούς.
 
-- **Αναθέσεις Διαπιστευτηρίων (CredSSP)**: Ακόμα κι αν η ρύθμιση ομάδας πολιτικής για το **Επιτρέπεται η ανάθεση προεπιλεγμένων διαπιστευτηρίων** είναι ενεργοποιημένη, τα καθαρά κείμενα διαπιστευτήρια των Προστατευμένων Χρηστών δεν θα αποθηκευτούν στην μνήμη cache.
-- **Windows Digest**: Από τα **Windows 8.1 και Windows Server 2012 R2** και μετά, το σύστημα δεν θα αποθηκεύει στην μνήμη cache τα καθαρά κείμενα διαπιστευτήρια των Προστατευμένων Χρηστών, ανεξάρτητα από την κατάσταση του Windows Digest.
-- **NTLM**: Το σύστημα δεν θα αποθηκεύει στην μνήμη cache τα καθαρά κείμενα διαπιστευτήρια ή τις μονοδρομικές συναρτήσεις NT (NTOWF) των Προστατευμένων Χρηστών.
-- **Kerberos**: Για τους Προστατευμένους Χρήστες, η πιστοποίηση Kerberos δεν θα δημιουργήσει κλειδιά **DES** ή **RC4**, ούτε θα αποθηκεύσει καθαρά κείμενα διαπιστευτήρια ή μακροπρόθεσμα κλειδιά πέρα ​​από την αρχική απόκτηση του Ticket-Granting Ticket (TGT).
-- **Είσοδος εκτός σύνδεσης**: Οι Προστατευμένοι Χρήστες δεν θα έχουν έναν διαθέσιμο επαληθευτή που θα δημιουργείται κατά την είσοδο ή το ξεκλείδωμα, πράγμα που σημαίνει ότι η είσοδος εκτός σύνδεσης δεν υποστηρίζεται για αυτούς τους λογαριασμούς.
-
-Αυτές οι προστασίες ενεργοποιούνται από τη στιγμή που ένας χρήστης, που είναι μέλος της ομάδας **Προστατευμένοι Χρήστες**, συνδέεται στη συσκευή. Αυτό εξασφαλίζει ότι υπάρχουν κρίσιμα μέτρα ασφαλείας για την προστασία από διάφορες μεθόδους κλοπής διαπιστευτηρίων.
+Αυτές οι προστασίες ενεργοποιούνται τη στιγμή που ένας χρήστης, ο οποίος είναι μέλος της **ομάδας Protected Users**, συνδέεται στη συσκευή. Αυτό εξασφαλίζει ότι κρίσιμα μέτρα ασφαλείας είναι σε εφαρμογή για την προστασία από διάφορες μεθόδους παραβίασης διαπιστεύσεων.
 
 Για περισσότερες λεπτομερείς πληροφορίες, ανατρέξτε στην επίσημη [τεκμηρίωση](https://docs.microsoft.com/en-us/windows-server/security/credentials-protection-and-management/protected-users-security-group).
 
-**Πίνακας από** [**τα έγγραφα**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
+**Πίνακας από** [**the docs**](https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-c--protected-accounts-and-groups-in-active-directory)**.**
 
 | Windows Server 2003 RTM | Windows Server 2003 SP1+ | <p>Windows Server 2012,<br>Windows Server 2008 R2,<br>Windows Server 2008</p> | Windows Server 2016          |
 | ----------------------- | ------------------------ | ----------------------------------------------------------------------------- | ---------------------------- |
@@ -120,13 +118,17 @@ reg query "HKEY_LOCAL_MACHINE\SOFTWARE\MICROSOFT\WINDOWS NT\CURRENTVERSION\WINLO
 | Schema Admins           | Schema Admins            | Schema Admins                                                                 | Schema Admins                |
 | Server Operators        | Server Operators         | Server Operators                                                              | Server Operators             |
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον επαγγελματία με</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας
+</details>
+{% endhint %}

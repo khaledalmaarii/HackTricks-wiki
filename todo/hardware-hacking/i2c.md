@@ -1,25 +1,23 @@
+# I2C
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στο** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) ή στο [**telegram group**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
+## Bus Pirate
 
-
-
-
-
-# Bus Pirate
-
-Για να ελέγξετε αν ένα Bus Pirate λειτουργεί, συνδέστε το +5V με το VPU και το 3.3V με το ADC και αποκτήστε πρόσβαση στο Bus Pirate (χρησιμοποιώντας για παράδειγμα το Tera Term) και χρησιμοποιήστε την εντολή `~`:
+Για να ελέγξετε αν ένα Bus Pirate λειτουργεί, συνδέστε +5V με VPU και 3.3V με ADC και αποκτήστε πρόσβαση στο bus pirate (χρησιμοποιώντας το Tera Term για παράδειγμα) και χρησιμοποιήστε την εντολή `~`:
 ```bash
 # Use command
 HiZ>~
@@ -58,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Όπως μπορείτε να δείτε στην προηγούμενη γραμμή εντολών, αναφέρει ότι βρέθηκαν 0 σφάλματα. Αυτό είναι πολύ χρήσιμο για να γνωρίζετε ότι λειτουργεί μετά την αγορά ή μετά την αναβάθμιση του firmware.
+Όπως μπορείτε να δείτε στην προηγούμενη γραμμή εντολών, είπε ότι βρήκε 0 σφάλματα. Αυτό είναι πολύ χρήσιμο για να γνωρίζετε ότι λειτουργεί μετά την αγορά του ή μετά την αναβάθμιση ενός firmware.
 
-Για να συνδεθείτε με τον bus pirate, μπορείτε να ακολουθήσετε τα έγγραφα:
+Για να συνδεθείτε με το bus pirate, μπορείτε να ακολουθήσετε τα έγγραφα:
 
-![](<../../.gitbook/assets/image (307) (2).png>)
+![](<../../.gitbook/assets/image (484).png>)
 
-Σε αυτήν την περίπτωση, θα συνδεθώ με ένα EPROM: ATMEL901 24C256 PU27:
+Σε αυτή την περίπτωση, θα συνδεθώ με μια EPROM: ATMEL901 24C256 PU27:
 
-![](<../../.gitbook/assets/image (465) (2) (1).png>)
+![](<../../.gitbook/assets/image (964).png>)
 
-Για να επικοινωνήσω με τον bus pirate, χρησιμοποίησα το Tera Term συνδεδεμένο με τη θύρα COM του bus pirate με τις ακόλουθες ρυθμίσεις: Setup --> Serial Port --> Ταχύτητα 115200.\
-Στην παρακάτω επικοινωνία μπορείτε να βρείτε πώς να προετοιμάσετε τον bus pirate για να επικοινωνήσετε με το I2C και πώς να γράψετε και να διαβάσετε από τη μνήμη (Τα σχόλια εμφανίζονται χρησιμοποιώντας τον χαρακτήρα "#", μην περιμένετε αυτό το μέρος στην επικοινωνία):
+Για να μιλήσω με το bus pirate, χρησιμοποίησα το Tera Term συνδεδεμένο στη θύρα COM του pirate bus με μια Ρύθμιση --> Σειριακή Θύρα --> Ταχύτητα 115200.\
+Στην παρακάτω επικοινωνία μπορείτε να βρείτε πώς να προετοιμάσετε το bus pirate για να μιλήσει I2C και πώς να γράψετε και να διαβάσετε από τη μνήμη (Σχόλια εμφανίζονται χρησιμοποιώντας "#", μην περιμένετε αυτό το μέρος στην επικοινωνία):
 ```bash
 # Check communication with buspirate
 i
@@ -168,11 +166,11 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-## Καταγραφέας
+### Sniffer
 
-Σε αυτό το σενάριο θα καταγράψουμε την επικοινωνία I2C μεταξύ του Arduino και της προηγούμενης EPROM. Απλά χρειάζεται να συνδέσετε και τις δύο συσκευές και στη συνέχεια να συνδέσετε το Bus Pirate στις ακίδες SCL, SDA και GND:
+Σε αυτό το σενάριο θα καταγράψουμε την επικοινωνία I2C μεταξύ του arduino και της προηγούμενης EPROM, απλά χρειάζεται να επικοινωνήσετε και τα δύο συσκευές και στη συνέχεια να συνδέσετε το bus pirate στις ακίδες SCL, SDA και GND:
 
-![](<../../.gitbook/assets/image (201) (2) (1).png>)
+![](<../../.gitbook/assets/image (166).png>)
 ```bash
 I2C>m
 1. HiZ
@@ -218,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

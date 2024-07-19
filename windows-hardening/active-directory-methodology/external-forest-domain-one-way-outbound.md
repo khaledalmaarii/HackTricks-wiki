@@ -1,24 +1,25 @@
-# Εξωτερικό Δάσος Τομέας - Μονόδρομος (Εξερχόμενος)
+# External Forest Domain - One-Way (Outbound)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Σε αυτό το σενάριο, **ο τομέας σας** εμπιστεύεται **κάποια προνόμια** σε έναν αρχέτυπο από έναν **διαφορετικό τομέα**.
+Σε αυτό το σενάριο **το domain σας** **εμπιστεύεται** κάποιες **privileges** σε κύριους από **διαφορετικά domains**.
 
-## Απαρίθμηση
+## Enumeration
 
-### Εξερχόμενη Εμπιστοσύνη
+### Outbound Trust
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -40,58 +41,59 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-## Επίθεση στον Λογαριασμό Εμπιστοσύνης
+## Trust Account Attack
 
-Υπάρχει μια ευπάθεια ασφάλειας όταν δημιουργείται μια σχέση εμπιστοσύνης μεταξύ δύο τομέων, που εδώ αναφέρονται ως τομέας **A** και τομέας **B**, όπου ο τομέας **B** επεκτείνει την εμπιστοσύνη του στον τομέα **A**. Σε αυτήν τη διάταξη, δημιουργείται ένας ειδικός λογαριασμός στον τομέα **A** για τον τομέα **B**, ο οποίος παίζει κρίσιμο ρόλο στη διαδικασία πιστοποίησης μεταξύ των δύο τομέων. Αυτός ο λογαριασμός, που σχετίζεται με τον τομέα **B**, χρησιμοποιείται για την κρυπτογράφηση εισιτηρίων για την πρόσβαση σε υπηρεσίες σε όλους τους τομείς.
+Μια ευπάθεια ασφαλείας υπάρχει όταν μια σχέση εμπιστοσύνης καθορίζεται μεταξύ δύο τομέων, που αναγνωρίζονται εδώ ως τομέας **A** και τομέας **B**, όπου ο τομέας **B** επεκτείνει την εμπιστοσύνη του στον τομέα **A**. Σε αυτή τη ρύθμιση, δημιουργείται ένας ειδικός λογαριασμός στον τομέα **A** για τον τομέα **B**, ο οποίος παίζει κρίσιμο ρόλο στη διαδικασία πιστοποίησης μεταξύ των δύο τομέων. Αυτός ο λογαριασμός, που σχετίζεται με τον τομέα **B**, χρησιμοποιείται για την κρυπτογράφηση εισιτηρίων για την πρόσβαση σε υπηρεσίες μεταξύ των τομέων.
 
-Το κρίσιμο στοιχείο που πρέπει να κατανοήσουμε εδώ είναι ότι ο κωδικός πρόσβασης και το hash αυτού του ειδικού λογαριασμού μπορούν να εξαχθούν από έναν ελεγκτή τομέα στον τομέα **A** χρησιμοποιώντας ένα εργαλείο γραμμής εντολών. Η εντολή για να εκτελέσετε αυτήν την ενέργεια είναι:
+Η κρίσιμη πτυχή που πρέπει να κατανοηθεί εδώ είναι ότι ο κωδικός πρόσβασης και το hash αυτού του ειδικού λογαριασμού μπορούν να εξαχθούν από έναν Domain Controller στον τομέα **A** χρησιμοποιώντας ένα εργαλείο γραμμής εντολών. Η εντολή για την εκτέλεση αυτής της ενέργειας είναι:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Αυτή η εξαγωγή είναι δυνατή επειδή ο λογαριασμός, που αναγνωρίζεται με ένα **$** μετά το όνομά του, είναι ενεργός και ανήκει στην ομάδα "Domain Users" του τομέα **A**, κληρονομώντας έτσι τα δικαιώματα που συνδέονται με αυτήν την ομάδα. Αυτό επιτρέπει σε άτομα να πιστοποιηθούν εναντίον του τομέα **A** χρησιμοποιώντας τα διαπιστευτήρια αυτού του λογαριασμού.
+Αυτή η εξαγωγή είναι δυνατή επειδή ο λογαριασμός, που αναγνωρίζεται με ένα **$** μετά το όνομά του, είναι ενεργός και ανήκει στην ομάδα "Domain Users" του τομέα **A**, κληρονομώντας έτσι τις άδειες που σχετίζονται με αυτήν την ομάδα. Αυτό επιτρέπει σε άτομα να πιστοποιούνται κατά του τομέα **A** χρησιμοποιώντας τα διαπιστευτήρια αυτού του λογαριασμού.
 
-**Προειδοποίηση:** Είναι εφικτό να εκμεταλλευτείτε αυτήν την κατάσταση για να αποκτήσετε πρόσβαση στον τομέα **A** ως χρήστης, αν και με περιορισμένα δικαιώματα. Ωστόσο, αυτή η πρόσβαση είναι αρκετή για να πραγματοποιηθεί απαρίθμηση στον τομέα **A**.
+**Προειδοποίηση:** Είναι εφικτό να εκμεταλλευτεί κανείς αυτή την κατάσταση για να αποκτήσει πρόσβαση στον τομέα **A** ως χρήστης, αν και με περιορισμένες άδειες. Ωστόσο, αυτή η πρόσβαση είναι επαρκής για να εκτελέσει καταμέτρηση στον τομέα **A**.
 
-Σε ένα σενάριο όπου το `ext.local` είναι ο τομέας που εμπιστεύεται και το `root.local` είναι ο τομέας που εμπιστεύεται, θα δημιουργηθεί ένας λογαριασμός χρήστη με το όνομα `EXT$` εντός του `root.local`. Μέσω συγκεκριμένων εργαλείων, είναι δυνατό να ανακτηθούν οι κλειδιά εμπιστοσύνης Kerberos, αποκαλύπτοντας τα διαπιστευτήρια του `EXT$` στο `root.local`. Η εντολή για την επίτευξη αυτού είναι:
+Σε ένα σενάριο όπου το `ext.local` είναι ο τομέας εμπιστοσύνης και το `root.local` είναι ο εμπιστευμένος τομέας, θα δημιουργηθεί ένας λογαριασμός χρήστη με το όνομα `EXT$` εντός του `root.local`. Μέσω συγκεκριμένων εργαλείων, είναι δυνατόν να εκφορτωθούν τα κλειδιά εμπιστοσύνης Kerberos, αποκαλύπτοντας τα διαπιστευτήρια του `EXT$` στο `root.local`. Η εντολή για να επιτευχθεί αυτό είναι:
 ```bash
 lsadump::trust /patch
 ```
-Ακολουθώντας αυτό, μπορεί κανείς να χρησιμοποιήσει το εξαγόμενο κλειδί RC4 για να πιστοποιηθεί ως `root.local\EXT$` εντός του `root.local` χρησιμοποιώντας ένα άλλο εργαλείο εντολής:
+Ακολουθώντας αυτό, θα μπορούσε να χρησιμοποιήσει το εξαγόμενο κλειδί RC4 για να πιστοποιηθεί ως `root.local\EXT$` εντός του `root.local` χρησιμοποιώντας μια άλλη εντολή εργαλείου:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Αυτό το βήμα πιστοποίησης ανοίγει τη δυνατότητα να απαριθμήσετε και ακόμα και να εκμεταλλευτείτε υπηρεσίες εντός του `root.local`, όπως να πραγματοποιήσετε μια επίθεση Kerberoast για να εξαγάγετε διαπιστευτήρια λογαριασμού υπηρεσίας χρησιμοποιώντας:
+Αυτό το βήμα αυθεντικοποίησης ανοίγει τη δυνατότητα να καταμετρήσουμε και ακόμη και να εκμεταλλευτούμε υπηρεσίες εντός του `root.local`, όπως η εκτέλεση μιας επίθεσης Kerberoast για την εξαγωγή διαπιστευτηρίων λογαριασμού υπηρεσίας χρησιμοποιώντας:
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### Συλλογή καθαρού κειμένου κωδικού εμπιστοσύνης
+### Συλλογή καθαρού κωδικού εμπιστοσύνης
 
-Στην προηγούμενη διαδικασία χρησιμοποιήθηκε το hash εμπιστοσύνης αντί για τον **καθαρό κείμενο κωδικό** (ο οποίος επίσης **ανακτήθηκε από το mimikatz**).
+Στην προηγούμενη ροή χρησιμοποιήθηκε το hash εμπιστοσύνης αντί για τον **καθαρό κωδικό** (ο οποίος επίσης **dumped από το mimikatz**).
 
-Ο καθαρός κείμενος κωδικός μπορεί να αποκτηθεί μετατρέποντας την έξοδο \[ CLEAR ] από το mimikatz από δεκαεξαδική μορφή και αφαιρώντας τα μηδενικά bytes ‘\x00’:
+Ο καθαρός κωδικός μπορεί να αποκτηθεί μετατρέποντας την έξοδο \[ CLEAR ] από το mimikatz από δεκαεξαδικό και αφαιρώντας τα null bytes ‘\x00’:
 
-![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
+![](<../../.gitbook/assets/image (938).png>)
 
-Μερικές φορές, κατά τη δημιουργία μιας σχέσης εμπιστοσύνης, ο χρήστης πρέπει να πληκτρολογήσει έναν κωδικό για την εμπιστοσύνη. Σε αυτήν την επίδειξη, το κλειδί είναι ο αρχικός κωδικός εμπιστοσύνης και επομένως αναγνώσιμος από ανθρώπους. Καθώς το κλειδί αλλάζει (κάθε 30 ημέρες), ο καθαρός κείμενος δεν θα είναι αναγνώσιμος από ανθρώπους, αλλά τεχνικά ακόμα χρήσιμος.
+Μερικές φορές, κατά τη δημιουργία μιας σχέσης εμπιστοσύνης, ένας κωδικός πρέπει να πληκτρολογηθεί από τον χρήστη για την εμπιστοσύνη. Σε αυτή τη демонстрация, το κλειδί είναι ο αρχικός κωδικός εμπιστοσύνης και επομένως αναγνώσιμο από άνθρωπο. Καθώς το κλειδί κυκλώνει (30 ημέρες), ο καθαρός κωδικός δεν θα είναι αναγνώσιμος από άνθρωπο αλλά τεχνικά θα είναι ακόμα χρήσιμος.
 
-Ο καθαρός κείμενος κωδικός μπορεί να χρησιμοποιηθεί για να πραγματοποιηθεί κανονική πιστοποίηση ως λογαριασμός εμπιστοσύνης, μια εναλλακτική λύση για την αίτηση ενός TGT χρησιμοποιώντας το μυστικό κλειδί Kerberos του λογαριασμού εμπιστοσύνης. Εδώ, ερωτώντας το root.local από το ext.local για τα μέλη των Domain Admins:
+Ο καθαρός κωδικός μπορεί να χρησιμοποιηθεί για κανονική αυθεντικοποίηση ως ο λογαριασμός εμπιστοσύνης, μια εναλλακτική λύση για την αίτηση ενός TGT χρησιμοποιώντας το μυστικό κλειδί Kerberos του λογαριασμού εμπιστοσύνης. Εδώ, ερωτώντας το root.local από το ext.local για μέλη των Domain Admins:
 
-![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
+![](<../../.gitbook/assets/image (792).png>)
 
 ## Αναφορές
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας στο hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

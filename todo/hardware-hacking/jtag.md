@@ -1,50 +1,52 @@
+# JTAG
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
+## JTAGenum
 
-# JTAGenum
+[**JTAGenum** ](https://github.com/cyphunk/JTAGenum)είναι ένα εργαλείο που μπορεί να χρησιμοποιηθεί με ένα Raspberry PI ή ένα Arduino για να βρει και να δοκιμάσει τα JTAG pins από ένα άγνωστο τσιπ.\
+Στο **Arduino**, συνδέστε τα **pins από 2 έως 11 σε 10pins που ενδέχεται να ανήκουν σε JTAG**. Φορτώστε το πρόγραμμα στο Arduino και θα προσπαθήσει να βρει όλα τα pins για να δει αν κάποιο από αυτά ανήκει σε JTAG και ποιο είναι το καθένα.\
+Στο **Raspberry PI** μπορείτε να χρησιμοποιήσετε μόνο **pins από 1 έως 6** (6pins, οπότε θα προχωρήσετε πιο αργά δοκιμάζοντας κάθε πιθανό JTAG pin).
 
-Το [**JTAGenum** ](https://github.com/cyphunk/JTAGenum)είναι ένα εργαλείο που μπορεί να χρησιμοποιηθεί με ένα Raspberry PI ή ένα Arduino για να εντοπίσει τα JTAG pins ενός άγνωστου chip.\
-Στο **Arduino**, συνδέστε τα **pin από 2 έως 11 στα 10 pins που ανήκουν πιθανώς σε ένα JTAG**. Φορτώστε το πρόγραμμα στο Arduino και θα προσπαθήσει να δοκιμάσει όλα τα pins για να βρει αν κάποιο ανήκει στο JTAG και ποιο είναι κάθε ένα.\
-Στο **Raspberry PI** μπορείτε να χρησιμοποιήσετε μόνο τα **pin από 1 έως 6** (6 pins, οπότε θα πάτε πιο αργά ελέγχοντας κάθε πιθανό JTAG pin).
+### Arduino
 
-## Arduino
+Στο Arduino, μετά τη σύνδεση των καλωδίων (pin 2 έως 11 σε JTAG pins και Arduino GND στη βάση GND), **φορτώστε το πρόγραμμα JTAGenum στο Arduino** και στο Serial Monitor στείλτε ένα **`h`** (εντολή για βοήθεια) και θα πρέπει να δείτε τη βοήθεια:
 
-Στο Arduino, μετά τη σύνδεση των καλωδίων (pin 2 έως 11 στα JTAG pins και το Arduino GND στο baseboard GND), **φορτώστε το πρόγραμμα JTAGenum στο Arduino** και στο Serial Monitor στείλτε ένα **`h`** (εντολή για βοήθεια) και θα πρέπει να δείτε τη βοήθεια:
+![](<../../.gitbook/assets/image (939).png>)
 
-![](<../../.gitbook/assets/image (643).png>)
+![](<../../.gitbook/assets/image (578).png>)
 
-![](<../../.gitbook/assets/image (650).png>)
-
-Διαμορφώστε **"No line ending" και 115200baud**.\
+Ρυθμίστε **"No line ending" και 115200baud**.\
 Στείλτε την εντολή s για να ξεκινήσετε τη σάρωση:
 
-![](<../../.gitbook/assets/image (651) (1) (1) (1).png>)
+![](<../../.gitbook/assets/image (774).png>)
 
-Εάν έχετε επαφή με ένα JTAG, θα βρείτε ένα ή περισσότερες **γραμμές που ξεκινούν με FOUND!** που υποδηλώνουν τα pins του JTAG.
+Αν επικοινωνείτε με ένα JTAG, θα βρείτε μία ή περισσότερες **γραμμές που αρχίζουν με FOUND!** υποδεικνύοντας τα pins του JTAG.
 
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

