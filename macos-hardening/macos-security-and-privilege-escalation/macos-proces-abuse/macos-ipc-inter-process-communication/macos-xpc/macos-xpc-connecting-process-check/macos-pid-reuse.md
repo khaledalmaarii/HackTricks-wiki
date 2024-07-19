@@ -1,39 +1,40 @@
-# Повторне використання PID в macOS
+# macOS PID Reuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану в HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Повторне використання PID
+## PID Reuse
 
-Коли служба macOS **XPC** перевіряє викликаний процес на основі **PID**, а не на основі **аудитного токена**, вона стає вразливою до атаки повторного використання PID. Ця атака базується на **гонитві**, де **експлойт** буде **надсилати повідомлення до служби XPC**, **зловживаючи** функціональністю, і **лише після цього** виконувати **`posix_spawn(NULL, цільовий_виконуваний_файл, NULL, &attr, цільовий_argv, environ)`** з **дозволеним** виконуваним файлом.
+Коли **XPC сервіс** macOS перевіряє викликаний процес на основі **PID**, а не на основі **аудит-токена**, він вразливий до атаки повторного використання PID. Ця атака базується на **умовах гонки**, де **експлойт** буде **надсилати повідомлення до XPC** сервісу, **зловживаючи** функціональністю, а лише **після** цього виконуючи **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** з **дозволеним** бінарним файлом.
 
-Ця функція зробить так, що **дозволений виконуваний файл володітиме PID**, але **зловмисне XPC-повідомлення буде відправлене** саме перед цим. Таким чином, якщо **служба XPC** використовує **PID** для **аутентифікації** відправника і перевіряє його **ПІСЛЯ** виконання **`posix_spawn`**, вона буде вважати, що воно походить від **авторизованого** процесу.
+Ця функція зробить так, що **дозволений бінарний файл отримає PID**, але **зловмисне XPC повідомлення буде надіслано** якраз перед цим. Отже, якщо **XPC** сервіс **використовує** **PID** для **аутентифікації** відправника і перевіряє його **ПІСЛЯ** виконання **`posix_spawn`**, він подумає, що воно походить від **авторизованого** процесу.
 
 ### Приклад експлойту
 
-Якщо ви знаходите функцію **`shouldAcceptNewConnection`** або функцію, яку викликає вона, яка викликає **`processIdentifier`** і не викликає **`auditToken`**, це високо ймовірно означає, що вона **перевіряє PID процесу**, а не аудитний токен.\
-Наприклад, як на цьому зображенні (взятому з посилання):
+Якщо ви знайдете функцію **`shouldAcceptNewConnection`** або функцію, яку вона викликає, **яка** викликає **`processIdentifier`** і не викликає **`auditToken`**. Це, ймовірно, означає, що вона **перевіряє PID процесу**, а не аудит-токен.\
+Як, наприклад, на цьому зображенні (взято з посилання):
 
-<figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Перевірте цей приклад експлойту (знову, взятий з посилання), щоб побачити 2 частини експлойту:
+Перевірте цей приклад експлойту (знову ж таки, взятий з посилання), щоб побачити 2 частини експлойту:
 
-* Один, що **генерує кілька розгалужень**
-* **Кожне розгалуження** буде **надсилати** **навантаження** до служби XPC під час виконання **`posix_spawn`** одразу після надсилання повідомлення.
+* Одна, яка **генерує кілька форків**
+* **Кожен форк** буде **надсилати** **payload** до XPC сервісу, виконуючи **`posix_spawn`** одразу після надсилання повідомлення.
 
 {% hint style="danger" %}
-Для роботи експлойту важливо виконати `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** або включити у експлойт:
+Для того, щоб експлойт працював, важливо ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** або вставити всередину експлойту:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Перша опція використання **`NSTasks`** та аргументу для запуску дітей для експлуатації RC
+Перший варіант використання **`NSTasks`** та аргументу для запуску дочірніх процесів для експлуатації RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-У цьому прикладі використовується **`fork`**, щоб запустити **дочірні процеси, які використовуватимуть гонку PID** та потім використовуватимуть **іншу гонку через жорстке посилання:**
+Цей приклад використовує сирий **`fork`** для запуску **дочірніх процесів, які експлуатуватимуть умову гонки PID** і потім експлуатуватимуть **іншу умову гонки через жорстке посилання:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -288,21 +289,26 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
+## Інші приклади
+
+* [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
+
 ## Посилання
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}

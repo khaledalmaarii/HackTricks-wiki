@@ -109,7 +109,7 @@ Google Chrome зберігає профілі користувачів у спе
 * **Login Data**: Включає облікові дані для входу, такі як імена користувачів та паролі.
 * **Current Session**/**Current Tabs**: Дані про поточну сесію перегляду та відкриті вкладки.
 * **Last Session**/**Last Tabs**: Інформація про сайти, активні під час останньої сесії перед закриттям Chrome.
-* **Extensions**: Каталоги для розширень браузера та аддонів.
+* **Extensions**: Каталоги для розширень браузера та додатків.
 * **Thumbnails**: Зберігає ескізи веб-сайтів.
 * **Preferences**: Файл, багатий на інформацію, включаючи налаштування для плагінів, розширень, спливаючих вікон, сповіщень та інше.
 * **Browser’s built-in anti-phishing**: Щоб перевірити, чи увімкнено захист від фішингу та шкідливого ПЗ, виконайте `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Шукайте `{"enabled: true,"}` у виході.
@@ -124,7 +124,7 @@ Internet Explorer 11 управляє своїми даними та метад�
 
 ### Metadata Storage
 
-Метадані для Internet Explorer зберігаються в `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (з VX, що є V01, V16 або V24). У супроводі цього файл `V01.log` може показувати розбіжності в часі модифікації з `WebcacheVX.data`, що вказує на необхідність ремонту за допомогою `esentutl /r V01 /d`. Ці метадані, що містяться в базі даних ESE, можна відновити та перевірити за допомогою таких інструментів, як photorec та [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html). У таблиці **Containers** можна розрізнити специфічні таблиці або контейнери, де зберігається кожен сегмент даних, включаючи деталі кешу для інших інструментів Microsoft, таких як Skype.
+Метадані для Internet Explorer зберігаються в `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (з VX, що є V01, V16 або V24). У супроводі цього файл `V01.log` може показувати розбіжності в часі модифікації з `WebcacheVX.data`, що вказує на необхідність ремонту за допомогою `esentutl /r V01 /d`. Ці метадані, що містяться в базі даних ESE, можна відновити та перевірити за допомогою таких інструментів, як photorec та [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html). У таблиці **Containers** можна розрізнити конкретні таблиці або контейнери, де зберігається кожен сегмент даних, включаючи деталі кешу для інших інструментів Microsoft, таких як Skype.
 
 ### Cache Inspection
 
@@ -187,21 +187,22 @@ Microsoft Edge зберігає дані користувачів у `%userprofi
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) для легкого створення та **автоматизації робочих процесів**, підтримуваних **найсучаснішими** інструментами спільноти.\
+Використовуйте [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts), щоб легко створювати та **автоматизувати робочі процеси**, що працюють на основі **найсучасніших** інструментів спільноти.\
 Отримайте доступ сьогодні:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Навчіться хакінгу AWS з нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-Інші способи підтримати HackTricks:
-
-* Якщо ви хочете, щоб ваша **компанія була рекламована в HackTricks** або **завантажити HackTricks у PDF** перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційні PEASS & HackTricks сувеніри**](https://peass.creator-spring.com)
-* Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поділіться своїми хакерськими трюками, надіславши PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
+{% endhint %}

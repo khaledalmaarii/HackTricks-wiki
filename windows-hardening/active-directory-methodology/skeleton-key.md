@@ -1,38 +1,56 @@
-# Атака Skeleton Key
+# Skeleton Key
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Атака **Skeleton Key** - це складна техніка, яка дозволяє зловмисникам **обійти аутентифікацію Active Directory**, **впроваджуючи майстер-пароль** на контролер домену. Це дозволяє зловмиснику **аутентифікуватися як будь-який користувач** без їх пароля, ефективно **надаючи їм необмежений доступ** до домену.
+## Skeleton Key Attack
 
-Це можна зробити за допомогою [Mimikatz](https://github.com/gentilkiwi/mimikatz). Для виконання цієї атаки **необхідні права адміністратора домену**, і зловмиснику потрібно атакувати кожен контролер домену, щоб забезпечити всебічне порушення. Однак ефект атаки тимчасовий, оскільки **перезапуск контролера домену знищує шкідливе ПЗ**, що вимагає повторної реалізації для постійного доступу.
+Атака **Skeleton Key** є складною технікою, яка дозволяє зловмисникам **обійти аутентифікацію Active Directory**, **впроваджуючи майстер-пароль** у контролер домену. Це дозволяє зловмиснику **аутентифікуватися як будь-який користувач** без їх пароля, фактично **надаючи їм необмежений доступ** до домену.
 
-**Виконання атаки** вимагає однієї команди: `misc::skeleton`.
+Цю атаку можна виконати за допомогою [Mimikatz](https://github.com/gentilkiwi/mimikatz). Для здійснення цієї атаки **потрібні права адміністратора домену**, і зловмисник повинен націлитися на кожен контролер домену, щоб забезпечити всебічне порушення. Однак ефект атаки є тимчасовим, оскільки **перезавантаження контролера домену знищує шкідливе ПЗ**, що вимагає повторної реалізації для підтримки доступу.
 
-## Заходи запобігання
+**Виконання атаки** вимагає єдиної команди: `misc::skeleton`.
 
-Стратегії запобігання таким атакам включають моніторинг конкретних ідентифікаторів подій, які вказують на встановлення служб або використання чутливих привілеїв. Зокрема, пошук події System Event ID 7045 або Security Event ID 4673 може розкрити підозрілі дії. Крім того, запуск `lsass.exe` як захищеного процесу може значно ускладнити зусилля зловмисників, оскільки для цього їм потрібно використовувати драйвер режиму ядра, що підвищує складність атаки.
+## Mitigations
+
+Стратегії пом'якшення проти таких атак включають моніторинг конкретних ідентифікаторів подій, які вказують на установку служб або використання чутливих привілеїв. Зокрема, пошук системного ідентифікатора події 7045 або ідентифікатора події безпеки 4673 може виявити підозрілі дії. Крім того, запуск `lsass.exe` як захищеного процесу може значно ускладнити зусилля зловмисників, оскільки це вимагає від них використання драйвера режиму ядра, що підвищує складність атаки.
 
 Ось команди PowerShell для підвищення заходів безпеки:
 
-- Для виявлення встановлення підозрілих служб використовуйте: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Щоб виявити установку підозрілих служб, використовуйте: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- Зокрема, для виявлення драйвера Mimikatz можна використати наступну команду: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- Зокрема, для виявлення драйвера Mimikatz можна використовувати наступну команду: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- Для зміцнення `lsass.exe` рекомендується ввести його як захищений процес: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- Щоб зміцнити `lsass.exe`, рекомендується активувати його як захищений процес: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Перевірка після перезавантаження системи є важливою для того, щоб переконатися, що захисні заходи були успішно застосовані. Це можливо за допомогою: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Перевірка після перезавантаження системи є критично важливою для забезпечення того, що захисні заходи були успішно застосовані. Це можна досягти за допомогою: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Посилання
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,18 +1,36 @@
-# Вразливості ядра macOS
+# macOS Kernel Vulnerabilities
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* ¿Ти працюєш у **кібербезпецівій компанії**? Хочеш, щоб твоя **компанія була рекламована на HackTricks**? Або ти хочеш мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевір [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Дізнайся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу ексклюзивну колекцію [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримай [**офіційний мерч PEASS та HackTricks**](https://peass.creator-spring.com)
-* **Приєднуйся до** [**💬**](https://emojipedia.org/speech-balloon/) **групи Discord** або до [**групи телеграм**](https://t.me/peass) або **слідкуй** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Поділися своїми хакерськими трюками, надсилай PR на** [**репо hacktricks**](https://github.com/carlospolop/hacktricks) **та** [**репо hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## [Pwning OTA](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**У цьому звіті**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) пояснюються кілька вразливостей, які дозволили компрометувати ядро, порушуючи програмне забезпечення оновлення.\
+[**У цьому звіті**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) пояснюються кілька вразливостей, які дозволили скомпрометувати ядро, скомпрометувавши програмне забезпечення для оновлення.\
 [**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

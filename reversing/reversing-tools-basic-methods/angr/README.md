@@ -1,18 +1,19 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Частина цього шпаргалки базується на [документації angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Частина цього чіт-листа базується на [angr documentation](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
 # Встановлення
 ```bash
@@ -40,7 +41,7 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Завантажена та основна інформація об'єкта
+# Завантажена та основна інформація про об'єкт
 
 ## Завантажені дані
 ```python
@@ -79,7 +80,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-## Символи та Переміщення
+## Символи та Релокації
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -106,7 +107,7 @@ block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x4016
 ```
 # Динамічний аналіз
 
-## Менеджер симуляції, Стани
+## Менеджер симуляції, стани
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -131,9 +132,9 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## Виклик функцій
 
-* Ви можете передати список аргументів через `args` та словник змінних середовища через `env` в `entry_state` та `full_init_state`. Значення в цих структурах можуть бути рядками або бітовими векторами, і вони будуть серіалізовані в стан як аргументи та середовище для симульованого виконання. За замовчуванням `args` - це порожній список, тому якщо програма, яку ви аналізуєте, очікує знайти принаймні `argv[0]`, ви завжди повинні це надати!
-* Якщо ви хочете, щоб `argc` був символьним, ви можете передати символьний бітовий вектор як `argc` до конструкторів `entry_state` та `full_init_state`. Проте будьте обережні: якщо ви це зробите, вам також слід додати обмеження до отриманого стану, що ваше значення для argc не може бути більшим, ніж кількість аргументів, які ви передали в `args`.
-* Для використання стану виклику ви повинні викликати його з `.call_state(addr, arg1, arg2, ...)`, де `addr` - це адреса функції, яку ви хочете викликати, а `argN` - це N-тий аргумент для цієї функції, як python ціле число, рядок, масив або бітовий вектор. Якщо ви хочете виділити пам'ять та фактично передати вказівник на об'єкт, ви повинні обгорнути його в PointerWrapper, тобто `angr.PointerWrapper("point to me!")`. Результати цього API можуть бути трохи непередбачуваними, але ми працюємо над цим.
+* Ви можете передати список аргументів через `args` та словник змінних середовища через `env` у `entry_state` та `full_init_state`. Значення в цих структурах можуть бути рядками або бітовими векторами, і будуть серіалізовані в стан як аргументи та середовище для симульованого виконання. За замовчуванням `args` є порожнім списком, тому якщо програма, яку ви аналізуєте, очікує знайти принаймні `argv[0]`, ви завжди повинні це надати!
+* Якщо ви хочете, щоб `argc` був символічним, ви можете передати символічний бітовий вектор як `argc` конструкторам `entry_state` та `full_init_state`. Будьте обережні, проте: якщо ви це зробите, ви також повинні додати обмеження до отриманого стану, що ваше значення для argc не може бути більшим за кількість аргументів, які ви передали в `args`.
+* Щоб використовувати стан виклику, ви повинні викликати його з `.call_state(addr, arg1, arg2, ...)`, де `addr` - це адреса функції, яку ви хочете викликати, а `argN` - це N-й аргумент для цієї функції, або як ціле число Python, рядок або масив, або бітовий вектор. Якщо ви хочете виділити пам'ять і насправді передати вказівник на об'єкт, ви повинні обернути його в PointerWrapper, тобто `angr.PointerWrapper("point to me!")`. Результати цього API можуть бути трохи непередбачуваними, але ми над цим працюємо.
 
 ## Бітові вектори
 ```python
@@ -144,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## Символьні бітові вектори та обмеження
+## Символічні BitVectors та обмеження
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -178,7 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Підключення (Hooking)
+## Хукінг
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -196,6 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Крім того, ви можете використовувати `proj.hook_symbol(name, hook)`, вказавши ім'я символу як перший аргумент, щоб підключити адресу, де знаходиться символ
+Крім того, ви можете використовувати `proj.hook_symbol(name, hook)`, надаючи ім'я символу як перший аргумент, щоб підключити адресу, де знаходиться символ.
 
 # Приклади
+
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Підтримати HackTricks</summary>
+
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
+
+</details>
+{% endhint %}

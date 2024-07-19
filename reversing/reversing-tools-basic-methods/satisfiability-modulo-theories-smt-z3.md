@@ -1,25 +1,26 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Дуже просто, цей інструмент допоможе нам знайти значення для змінних, які повинні задовольняти певні умови, і розрахувати їх вручну буде настільки надокучливо. Тому ви можете вказати Z3 умови, яким повинні задовольняти змінні, і він знайде деякі значення (якщо це можливо).
+Дуже просто, цей інструмент допоможе нам знайти значення для змінних, які повинні задовольняти певним умовам, і обчислювати їх вручну буде дуже незручно. Тому ви можете вказати Z3 умови, які змінні повинні задовольняти, і він знайде деякі значення (якщо це можливо).
 
 **Деякі тексти та приклади взяті з [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
 # Основні операції
 
-## Логічні значення/І/АБО/НІ
+## Булеві/І/Або/Не
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -34,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Цілі/Спрощення/Дійсні числа
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -54,7 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Друк моделі
+## Друк Моделі
 ```python
 from z3 import *
 
@@ -70,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # Машинна арифметика
 
-Сучасні ЦП та мови програмування використовують арифметику над **бітовими векторами фіксованого розміру**. Машинна арифметика доступна в Z3Py як **Бітові вектори**.
+Сучасні ЦП та основні мови програмування використовують арифметику над **фіксованими бітовими векторами**. Машинна арифметика доступна в Z3Py як **Бітові Вектори**.
 ```python
 from z3 import *
 
@@ -85,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Знакові/Беззнакові Числа
+## Signed/Unsigned Numbers
 
-Z3 надає спеціальні знакові версії арифметичних операцій, де важливо, чи розглядається **бітовий вектор як знаковий чи беззнаковий**. У Z3Py оператори **<, <=, >, >=, /, % та >>** відповідають **знаковим** версіям. Відповідні **беззнакові** оператори - **ULT, ULE, UGT, UGE, UDiv, URem та LShR.**
+Z3 надає спеціальні підписані версії арифметичних операцій, де важливо, чи **бітовий вектор розглядається як підписаний чи беззнаковий**. У Z3Py оператори **<, <=, >, >=, /, % та >>** відповідають **підписаним** версіям. Відповідні **беззнакові** оператори - це **ULT, ULE, UGT, UGE, UDiv, URem та LShR.**
 ```python
 from z3 import *
 
@@ -105,9 +106,9 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Функції
+## Functions
 
-**Інтерпретовані функції**, такі як арифметичні, де **функція +** має **фіксовану стандартну інтерпретацію** (додає два числа). **Неінтерпретовані функції** та константи є **максимально гнучкими**; вони дозволяють **будь-яку інтерпретацію**, яка **відповідає** **обмеженням** на функцію або константу.
+**Інтерпретовані функції** такі як арифметичні, де **функція +** має **фіксовану стандартну інтерпретацію** (вона додає два числа). **Неінтерпретовані функції** та константи є **максимально гнучкими**; вони дозволяють **будь-яку інтерпретацію**, яка є **послідовною** з **обмеженнями** над функцією або константою.
 
 Приклад: f, застосоване двічі до x, знову дає x, але f, застосоване один раз до x, відрізняється від x.
 ```python
@@ -130,7 +131,7 @@ print(m.model())
 ```
 # Приклади
 
-## Розв'язувач Судоку
+## Розв'язувач судоку
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -185,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

@@ -1,32 +1,33 @@
-# Алмазний квиток
+# Diamond Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Алмазний квиток
+## Diamond Ticket
 
-**Подібно до золотого квитка**, алмазний квиток є TGT, який може бути використаний для **доступу до будь-якої служби як будь-який користувач**. Золотий квиток повністю фальсифікується офлайн, шифрується хешем krbtgt цієї доменної системи, а потім передається в сеанс входу для використання. Оскільки контролери домену не відстежують TGT, які вони (або вони) видали законно, вони з радістю приймуть TGT, які зашифровані за допомогою власного хешу krbtgt.
+**Як золотий квиток**, діамантовий квиток - це TGT, який можна використовувати для **доступу до будь-якої служби як будь-який користувач**. Золотий квиток підробляється повністю офлайн, зашифрований хешем krbtgt цього домену, а потім передається в сеанс входу для використання. Оскільки контролери домену не відстежують TGT, які (або які) вони легітимно видали, вони з радістю приймуть TGT, зашифровані їх власним хешем krbtgt.
 
-Існують два загальні методи виявлення використання золотих квитків:
+Існує дві поширені техніки для виявлення використання золотих квитків:
 
-* Шукайте TGS-REQs, які не мають відповідного AS-REQ.
-* Шукайте TGT з неправдоподібними значеннями, такими як типовий термін дії 10 років Mimikatz.
+* Шукати TGS-REQ, які не мають відповідного AS-REQ.
+* Шукати TGT, які мають смішні значення, такі як стандартний 10-річний термін дії Mimikatz.
 
-**Алмазний квиток** створюється **шляхом зміни полів законного TGT, яке видав контролер домену**. Це досягається **запитом** TGT, **розшифруванням** його за допомогою хешу krbtgt домену, **зміною** бажаних полів квитка, а потім **перезашифруванням** його. Це **переборює дві вищезгадані недоліки** золотого квитка, оскільки:
+**Діамантовий квиток** створюється шляхом **модифікації полів легітимного TGT, який був виданий DC**. Це досягається шляхом **запиту** **TGT**, **дешифрування** його за допомогою хешу krbtgt домену, **модифікації** бажаних полів квитка, а потім **зашифрування** його знову. Це **переборює дві вищезгадані недоліки** золотого квитка, оскільки:
 
-* TGS-REQs матимуть попередній AS-REQ.
-* TGT був виданий контролером домену, що означає, що він матиме всі правильні дані з політики Kerberos домену. Навіть якщо ці дані можна точно підробити в золотому квитку, це складніше і вразливе до помилок.
+* TGS-REQ матиме попередній AS-REQ.
+* TGT був виданий DC, що означає, що він матиме всі правильні деталі з політики Kerberos домену. Навіть якщо ці деталі можна точно підробити в золотому квитку, це складніше і відкрито для помилок.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -39,16 +40,17 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /groups are the desired group RIDs (512 being Domain Admins).
 # /krbkey is the krbtgt AES256 hash.
 ```
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}
