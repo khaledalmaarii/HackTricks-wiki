@@ -18,7 +18,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
@@ -68,7 +68,7 @@ Pamiętaj, że **nie możesz zainstalować LiME ani nic innego** na maszynie ofi
 {% endhint %}
 
 Więc, jeśli masz identyczną wersję Ubuntu, możesz użyć `apt-get install lime-forensics-dkms`\
-W innych przypadkach musisz pobrać [**LiME**](https://github.com/504ensicsLabs/LiME) z githuba i skompilować go z odpowiednimi nagłówkami jądra. Aby **uzyskać dokładne nagłówki jądra** maszyny ofiary, możesz po prostu **skopiować katalog** `/lib/modules/<kernel version>` na swoją maszynę, a następnie **skompilować** LiME używając ich:
+W innych przypadkach musisz pobrać [**LiME**](https://github.com/504ensicsLabs/LiME) z github i skompilować go z odpowiednimi nagłówkami jądra. Aby **uzyskać dokładne nagłówki jądra** maszyny ofiary, możesz po prostu **skopiować katalog** `/lib/modules/<wersja jądra>` na swoją maszynę, a następnie **skompilować** LiME używając ich:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -86,7 +86,7 @@ LiME może być również używany do **wysyłania zrzutu przez sieć** zamiast 
 #### Wyłączanie
 
 Przede wszystkim musisz **wyłączyć system**. Nie zawsze jest to opcja, ponieważ czasami system będzie serwerem produkcyjnym, którego firma nie może sobie pozwolić na wyłączenie.\
-Istnieją **2 sposoby** na wyłączenie systemu, **normalne wyłączenie** i **wyłączenie "wyciągnięciem wtyczki"**. Pierwsze pozwoli **procesom zakończyć się jak zwykle** i **system plików** będzie **zsynchronizowany**, ale pozwoli również potencjalnemu **złośliwemu oprogramowaniu** na **zniszczenie dowodów**. Podejście "wyciągnięcia wtyczki" może wiązać się z **pewną utratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **złośliwe oprogramowanie nie będzie miało żadnej możliwości** działania w tej sprawie. Dlatego, jeśli **podejrzewasz**, że może być **złośliwe oprogramowanie**, po prostu wykonaj **komendę** **`sync`** w systemie i wyciągnij wtyczkę.
+Istnieją **2 sposoby** na wyłączenie systemu, **normalne wyłączenie** i **wyłączenie "wyciągnięciem wtyczki"**. Pierwsze pozwoli na **normalne zakończenie procesów** i **synchronizację systemu plików**, ale również umożliwi potencjalnemu **złośliwemu oprogramowaniu** **zniszczenie dowodów**. Podejście "wyciągnięcia wtyczki" może wiązać się z **pewną utratą informacji** (nie wiele informacji zostanie utraconych, ponieważ już zrobiliśmy obraz pamięci) i **złośliwe oprogramowanie nie będzie miało żadnej możliwości** działania w tej sprawie. Dlatego, jeśli **podejrzewasz**, że może być **złośliwe oprogramowanie**, po prostu wykonaj **komendę** **`sync`** w systemie i wyciągnij wtyczkę.
 
 #### Robienie obrazu dysku
 
@@ -218,7 +218,7 @@ cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
 dd if=mem bs=1 skip=08048000 count=1000 of=/tmp/exec2 #Recorver it
 ```
-## Inspekcja lokalizacji autostartu
+## Inspekcja lokalizacji autostartowych
 
 ### Zaplanowane zadania
 ```bash
@@ -245,7 +245,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 * **/etc/systemd/system**: Katalog dla skryptów menedżera systemu i usług.
 * **/etc/systemd/system/multi-user.target.wants/**: Zawiera linki do usług, które powinny być uruchamiane w trybie wieloużytkownikowym.
 * **/usr/local/etc/rc.d/**: Dla usług niestandardowych lub firm trzecich.
-* **\~/.config/autostart/**: Dla aplikacji uruchamianych automatycznie specyficznych dla użytkownika, które mogą być miejscem ukrycia złośliwego oprogramowania skierowanego na użytkownika.
+* **\~/.config/autostart/**: Dla aplikacji uruchamiających się automatycznie dla konkretnego użytkownika, które mogą być miejscem ukrycia złośliwego oprogramowania skierowanego na użytkownika.
 * **/lib/systemd/system/**: Domyślne pliki jednostek w skali systemu dostarczane przez zainstalowane pakiety.
 
 ### Moduły jądra
@@ -258,10 +258,10 @@ Moduły jądra Linuksa, często wykorzystywane przez złośliwe oprogramowanie j
 
 ### Inne lokalizacje autostartu
 
-Linux wykorzystuje różne pliki do automatycznego uruchamiania programów po zalogowaniu użytkownika, co może skrywać złośliwe oprogramowanie:
+Linux wykorzystuje różne pliki do automatycznego uruchamiania programów po zalogowaniu użytkownika, co może sprzyjać ukrywaniu złośliwego oprogramowania:
 
 * **/etc/profile.d/**\*, **/etc/profile**, i **/etc/bash.bashrc**: Wykonywane dla każdego logowania użytkownika.
-* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, i **\~/.config/autostart**: Pliki specyficzne dla użytkownika, które uruchamiają się po ich logowaniu.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, i **\~/.config/autostart**: Pliki specyficzne dla użytkownika, które uruchamiają się po jego logowaniu.
 * **/etc/rc.local**: Uruchamia się po uruchomieniu wszystkich usług systemowych, oznaczając koniec przejścia do środowiska wieloużytkownikowego.
 
 ## Sprawdź logi
@@ -285,7 +285,7 @@ Systemy Linux śledzą aktywności użytkowników i zdarzenia systemowe za pomoc
 * **/var/log/**: Zawsze sprawdzaj nieoczekiwane logi tutaj.
 
 {% hint style="info" %}
-Logi systemowe Linuksa i podsystemy audytu mogą być wyłączone lub usunięte w przypadku naruszenia lub incydentu złośliwego oprogramowania. Ponieważ logi w systemach Linuksa zazwyczaj zawierają jedne z najbardziej użytecznych informacji o złośliwych działaniach, intruzi rutynowo je usuwają. Dlatego, przeglądając dostępne pliki logów, ważne jest, aby szukać luk lub nieuporządkowanych wpisów, które mogą wskazywać na usunięcie lub manipulację.
+Logi systemowe Linuksa i podsystemy audytu mogą być wyłączone lub usunięte w przypadku incydentu włamania lub złośliwego oprogramowania. Ponieważ logi w systemach Linux zazwyczaj zawierają jedne z najbardziej użytecznych informacji o złośliwych działaniach, intruzi rutynowo je usuwają. Dlatego, przeglądając dostępne pliki logów, ważne jest, aby szukać luk lub nieuporządkowanych wpisów, które mogą wskazywać na usunięcie lub manipulację.
 {% endhint %}
 
 **Linux utrzymuje historię poleceń dla każdego użytkownika**, przechowywaną w:
@@ -300,8 +300,8 @@ Ponadto, polecenie `last -Faiwx` dostarcza listę logowań użytkowników. Spraw
 
 Sprawdź pliki, które mogą przyznać dodatkowe uprawnienia:
 
-* Przejrzyj `/etc/sudoers` w poszukiwaniu nieprzewidzianych uprawnień użytkowników, które mogły zostać przyznane.
-* Przejrzyj `/etc/sudoers.d/` w poszukiwaniu nieprzewidzianych uprawnień użytkowników, które mogły zostać przyznane.
+* Przejrzyj `/etc/sudoers` w poszukiwaniu nieoczekiwanych uprawnień użytkowników, które mogły zostać przyznane.
+* Przejrzyj `/etc/sudoers.d/` w poszukiwaniu nieoczekiwanych uprawnień użytkowników, które mogły zostać przyznane.
 * Zbadaj `/etc/groups`, aby zidentyfikować wszelkie nietypowe członkostwa grupowe lub uprawnienia.
 * Zbadaj `/etc/passwd`, aby zidentyfikować wszelkie nietypowe członkostwa grupowe lub uprawnienia.
 
@@ -348,7 +348,7 @@ Uzyskaj dostęp już dziś:
 
 ## Przeglądaj konta użytkowników i aktywności logowania
 
-Sprawdź _**/etc/passwd**_, _**/etc/shadow**_ i **dzienniki zabezpieczeń** pod kątem nietypowych nazw lub kont utworzonych i/lub używanych w bliskiej odległości od znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki brute-force na sudo.\
+Zbadaj _**/etc/passwd**_, _**/etc/shadow**_ i **dzienniki zabezpieczeń** w poszukiwaniu nietypowych nazw lub kont utworzonych i/lub używanych w bliskiej odległości od znanych nieautoryzowanych zdarzeń. Sprawdź również możliwe ataki brute-force na sudo.\
 Ponadto sprawdź pliki takie jak _**/etc/sudoers**_ i _**/etc/groups**_ pod kątem nieoczekiwanych uprawnień przyznanych użytkownikom.\
 Na koniec poszukaj kont z **brakującymi hasłami** lub **łatwymi do odgadnięcia** hasłami.
 
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wyglądały** **na legalne**, ale **nie może** zmienić **inode**. Jeśli odkryjesz, że **plik** wskazuje, że został utworzony i zmodyfikowany w **tym samym czasie** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **znaczniki czasu tego pliku zostały zmodyfikowane**.
+Zauważ, że **atakujący** może **zmodyfikować** **czas**, aby **pliki wyglądały** **na legalne**, ale **nie może** zmienić **inode**. Jeśli odkryjesz, że **plik** wskazuje, że został utworzony i zmodyfikowany w **tym samym czasie** co reszta plików w tym samym folderze, ale **inode** jest **niespodziewanie większy**, to **czasy tego pliku zostały zmodyfikowane**.
 {% endhint %}
 
 ## Porównaj pliki różnych wersji systemu plików
@@ -397,7 +397,7 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **Opcje filtru** (`--diff-filter`) pomagają zawęzić zmiany do konkretnych, takich jak dodane (`A`), usunięte (`D`) lub zmodyfikowane (`M`) pliki.
+* **Opcje filtrowania** (`--diff-filter`) pomagają zawęzić zmiany do konkretnych, takich jak dodane (`A`), usunięte (`D`) lub zmodyfikowane (`M`) pliki.
 * `A`: Dodane pliki
 * `C`: Skopiowane pliki
 * `D`: Usunięte pliki
@@ -415,19 +415,20 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Książka: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
 
+{% hint style="success" %}
+Ucz się i ćwicz AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hackowania AWS od podstaw do mistrza z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie HackTricks</summary>
 
-Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz, aby Twoja **firma była reklamowana w HackTricks**? A może chcesz mieć dostęp do **najświeższej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Podziel się swoimi sztuczkami hackingowymi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

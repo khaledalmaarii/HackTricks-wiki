@@ -1,16 +1,19 @@
 # Docker --privileged
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Co wpływa
 
@@ -18,10 +21,10 @@ Kiedy uruchamiasz kontener jako uprzywilejowany, wyłączasz następujące zabez
 
 ### Montowanie /dev
 
-W kontenerze uprzywilejowanym wszystkie **urządzenia są dostępne w `/dev/`**. Dlatego można **ujść** przez **zamontowanie** dysku hosta.
+W uprzywilejowanym kontenerze wszystkie **urządzenia mogą być dostępne w `/dev/`**. Dlatego możesz **uciec** przez **zamontowanie** dysku hosta.
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Wewnątrz domyślnego kontenera" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
@@ -43,12 +46,12 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### System call filtering
+### Systemy plików jądra tylko do odczytu
 
-System calls are the interface between user space and the kernel. By filtering system calls, we can restrict the actions that container processes can perform. Docker provides a feature called **seccomp** that allows us to filter system calls and define a whitelist of allowed system calls for container processes.
+Systemy plików jądra zapewniają mechanizm, który pozwala procesowi modyfikować zachowanie jądra. Jednak w przypadku procesów kontenerowych chcemy zapobiec ich wprowadzaniu jakichkolwiek zmian w jądrze. Dlatego montujemy systemy plików jądra jako **tylko do odczytu** w obrębie kontenera, zapewniając, że procesy kontenerowe nie mogą modyfikować jądra.
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Wewnątrz domyślnego kontenera" %}
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -67,16 +70,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Maskowanie systemów plików jądra
+### Maskowanie nad systemami plików jądra
 
-System plików **/proc** jest selektywnie zapisywalny, ale dla bezpieczeństwa niektóre części są zabezpieczone przed zapisem i odczytem przez nałożenie na nie **tmpfs**, co zapewnia, że procesy kontenera nie mogą uzyskać dostępu do wrażliwych obszarów.
+System plików **/proc** jest selektywnie zapisywalny, ale dla bezpieczeństwa, niektóre części są chronione przed dostępem do zapisu i odczytu poprzez nałożenie na nie **tmpfs**, co zapewnia, że procesy kontenera nie mogą uzyskać dostępu do wrażliwych obszarów.
 
 {% hint style="info" %}
-**tmpfs** to system plików, który przechowuje wszystkie pliki w pamięci wirtualnej. tmpfs nie tworzy żadnych plików na dysku twardym. Jeśli odmontujesz system plików tmpfs, wszystkie pliki w nim zostaną utracone na zawsze.
+**tmpfs** to system plików, który przechowuje wszystkie pliki w pamięci wirtualnej. tmpfs nie tworzy żadnych plików na twoim dysku twardym. Więc jeśli odmontujesz system plików tmpfs, wszystkie pliki w nim zawarte zostaną na zawsze utracone.
 {% endhint %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Wewnątrz domyślnego kontenera" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -94,16 +97,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linuxowe uprawnienia
+### Możliwości Linuxa
 
-Silniki kontenerów uruchamiają kontenery z **ograniczoną liczbą uprawnień**, aby kontrolować to, co dzieje się wewnątrz kontenera domyślnie. **Uprawnienia** uprzywilejowane mają dostęp do **wszystkich** **uprawnień**. Aby dowiedzieć się więcej o uprawnieniach, przeczytaj:
+Silniki kontenerowe uruchamiają kontenery z **ograniczoną liczbą możliwości**, aby kontrolować, co dzieje się wewnątrz kontenera domyślnie. **Privileged** mają **wszystkie** **możliwości** dostępne. Aby dowiedzieć się więcej o możliwościach, przeczytaj:
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Wewnątrz domyślnego kontenera" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -126,18 +129,18 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-Możesz manipulować dostępnymi możliwościami dla kontenera bez uruchamiania go w trybie `--privileged`, używając flag `--cap-add` i `--cap-drop`.
+Możesz manipulować możliwościami dostępnymi dla kontenera bez uruchamiania w trybie `--privileged`, używając flag `--cap-add` i `--cap-drop`.
 
 ### Seccomp
 
-**Seccomp** jest przydatny do **ograniczania** wywołań **syscalls**, które kontener może wywołać. Domyślny profil seccomp jest włączony domyślnie podczas uruchamiania kontenerów Docker, ale w trybie uprzywilejowanym jest wyłączony. Dowiedz się więcej o Seccomp tutaj:
+**Seccomp** jest przydatny do **ograniczenia** **syscalli**, które kontener może wywołać. Domyślny profil seccomp jest włączony domyślnie podczas uruchamiania kontenerów docker, ale w trybie uprzywilejowanym jest wyłączony. Dowiedz się więcej o Seccomp tutaj:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Inside default container" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
@@ -155,48 +158,42 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Dodatkowo, należy zauważyć, że gdy Docker (lub inne CRIs) jest używany w klastrze **Kubernetes**, filtr **seccomp** jest domyślnie wyłączony.
+Również zauważ, że gdy Docker (lub inne CRI) są używane w klastrze **Kubernetes**, **filtr seccomp jest domyślnie wyłączony**.
 
 ### AppArmor
 
-**AppArmor** to ulepszenie jądra, które ogranicza **kontenery** do **ograniczonego** zestawu **zasobów** za pomocą **profilów dla poszczególnych programów**. Gdy uruchamiasz z flagą `--privileged`, ta ochrona jest wyłączona.
+**AppArmor** to ulepszenie jądra, które ogranicza **kontenery** do **ograniczonego** zestawu **zasobów** z **profilami per program**. Gdy uruchamiasz z flagą `--privileged`, ta ochrona jest wyłączona.
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-Uruchomienie kontenera z flagą `--privileged` wyłącza **etykiety SELinux**, powodując dziedziczenie etykiety silnika kontenera, zwykle `unconfined`, co daje pełny dostęp podobny do silnika kontenera. W trybie bez uprawnień roota używane jest `container_runtime_t`, podczas gdy w trybie roota stosowane jest `spc_t`.
+Uruchomienie kontenera z flagą `--privileged` wyłącza **etykiety SELinux**, powodując, że dziedziczy on etykietę silnika kontenerowego, zazwyczaj `unconfined`, co przyznaje pełny dostęp podobny do silnika kontenerowego. W trybie bezrootowym używa `container_runtime_t`, podczas gdy w trybie rootowym stosuje `spc_t`.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
-
 ## Co nie ma wpływu
 
 ### Przestrzenie nazw
 
-Przestrzenie nazw **NIE są dotknięte** flagą `--privileged`. Chociaż nie mają włączonych ograniczeń bezpieczeństwa, **nie widzą wszystkich procesów w systemie ani sieci hosta, na przykład**. Użytkownicy mogą wyłączyć poszczególne przestrzenie nazw, używając flag kontenerów silników **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`**.
+Przestrzenie nazw **NIE są dotknięte** flagą `--privileged`. Mimo że nie mają włączonych ograniczeń bezpieczeństwa, **nie widzą wszystkich procesów w systemie ani hosta sieciowego, na przykład**. Użytkownicy mogą wyłączyć poszczególne przestrzenie nazw, używając flag silnika kontenerów **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`**.
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="Wewnątrz domyślnego uprzywilejowanego kontenera" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
@@ -206,7 +203,7 @@ PID   USER     TIME  COMMAND
 ```
 {% endtab %}
 
-{% tab title="Wewnątrz kontenera --pid=host" %}
+{% tab title="Wewnątrz --pid=host Kontenera" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
@@ -221,20 +218,23 @@ PID   USER     TIME  COMMAND
 
 ### Przestrzeń nazw użytkownika
 
-**Domyślnie, silniki kontenerów nie wykorzystują przestrzeni nazw użytkownika, z wyjątkiem kontenerów bez uprawnień root**, które wymagają ich do montowania systemu plików i korzystania z wielu UID. Przestrzenie nazw użytkownika, niezbędne dla kontenerów bez uprawnień root, nie mogą być wyłączone i znacznie zwiększają bezpieczeństwo poprzez ograniczenie uprawnień.
+**Domyślnie silniki kontenerów nie wykorzystują przestrzeni nazw użytkownika, z wyjątkiem kontenerów bezrootowych**, które ich wymagają do montowania systemu plików i używania wielu UID. Przestrzenie nazw użytkownika, niezbędne dla kontenerów bezrootowych, nie mogą być wyłączane i znacznie zwiększają bezpieczeństwo, ograniczając uprawnienia.
 
-## Referencje
+## Odniesienia
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć **reklamę swojej firmy w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do repozytorium** [**hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}

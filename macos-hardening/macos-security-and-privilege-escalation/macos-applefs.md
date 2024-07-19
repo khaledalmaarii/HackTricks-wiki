@@ -1,60 +1,81 @@
 # macOS AppleFS
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Apple Propietary File System (APFS)
+## Apple Proprietary File System (APFS)
 
 **Apple File System (APFS)** to nowoczesny system plików zaprojektowany w celu zastąpienia Hierarchical File System Plus (HFS+). Jego rozwój był napędzany potrzebą **poprawy wydajności, bezpieczeństwa i efektywności**.
 
-Niektóre ważne cechy APFS to:
+Niektóre z istotnych cech APFS to:
 
-1. **Dzielenie przestrzeni**: APFS umożliwia wielu woluminom **dzielenie tej samej wolnej przestrzeni** na jednym fizycznym urządzeniu. Umożliwia to bardziej efektywne wykorzystanie przestrzeni, ponieważ woluminy mogą dynamicznie rosnąć i zmniejszać się bez konieczności ręcznego zmieniania rozmiaru lub partycjonowania.
-1. Oznacza to, w porównaniu do tradycyjnych partycji na dyskach plików, **że w APFS różne partycje (woluminy) dzielą całą przestrzeń dyskową**, podczas gdy zwykła partycja zazwyczaj miała ustalony rozmiar.
-2. **Snapshoty**: APFS obsługuje **tworzenie snapshotów**, które są **tylko do odczytu**, punktami w czasie instancji systemu plików. Snapshoty umożliwiają efektywne tworzenie kopii zapasowych i łatwe przywracanie systemu, ponieważ zużywają minimalną dodatkową przestrzeń dyskową i można je szybko tworzyć lub przywracać.
-3. **Klony**: APFS może **tworzyć klony plików lub katalogów, które dzielą tę samą przestrzeń dyskową** co oryginał, dopóki klon lub oryginalny plik nie zostanie zmodyfikowany. Ta funkcja zapewnia efektywny sposób tworzenia kopii plików lub katalogów bez duplikowania przestrzeni dyskowej.
-4. **Szyfrowanie**: APFS **natywnie obsługuje szyfrowanie całego dysku**, a także szyfrowanie na poziomie pliku i katalogu, zwiększając bezpieczeństwo danych w różnych przypadkach użycia.
-5. **Ochrona przed awariami**: APFS używa schematu metadanych **kopiuj przy zapisie**, który zapewnia spójność systemu plików nawet w przypadku nagłej utraty zasilania lub awarii systemu, zmniejszając ryzyko uszkodzenia danych.
+1. **Współdzielenie przestrzeni**: APFS pozwala wielu woluminom na **współdzielenie tej samej podstawowej wolnej przestrzeni** na jednym fizycznym urządzeniu. Umożliwia to bardziej efektywne wykorzystanie przestrzeni, ponieważ woluminy mogą dynamicznie rosnąć i kurczyć się bez potrzeby ręcznego zmieniania rozmiaru lub ponownego partycjonowania.
+1. Oznacza to, w porównaniu do tradycyjnych partycji na dyskach plikowych, **że w APFS różne partycje (woluminy) dzielą całą przestrzeń dyskową**, podczas gdy zwykła partycja miała zazwyczaj stały rozmiar.
+2. **Migawki**: APFS obsługuje **tworzenie migawek**, które są **tylko do odczytu**, punktowymi instancjami systemu plików. Migawki umożliwiają efektywne tworzenie kopii zapasowych i łatwe przywracanie systemu, ponieważ zajmują minimalną dodatkową przestrzeń i mogą być szybko tworzone lub przywracane.
+3. **Klonowanie**: APFS może **tworzyć klony plików lub katalogów, które dzielą tę samą przestrzeń** z oryginałem, aż do momentu, gdy klon lub oryginalny plik zostanie zmodyfikowany. Ta funkcja zapewnia efektywny sposób tworzenia kopii plików lub katalogów bez duplikowania przestrzeni dyskowej.
+4. **Szyfrowanie**: APFS **natywnie obsługuje szyfrowanie całego dysku** oraz szyfrowanie na poziomie pliku i katalogu, co zwiększa bezpieczeństwo danych w różnych zastosowaniach.
+5. **Ochrona przed awarią**: APFS wykorzystuje **schemat metadanych copy-on-write, który zapewnia spójność systemu plików** nawet w przypadku nagłej utraty zasilania lub awarii systemu, co zmniejsza ryzyko uszkodzenia danych.
 
-Ogólnie APFS oferuje bardziej nowoczesny, elastyczny i wydajny system plików dla urządzeń Apple, skupiając się na poprawie wydajności, niezawodności i bezpieczeństwa.
+Ogólnie rzecz biorąc, APFS oferuje nowocześniejszy, elastyczniejszy i bardziej efektywny system plików dla urządzeń Apple, z naciskiem na poprawę wydajności, niezawodności i bezpieczeństwa.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
 ## Firmlinks
 
-Wolumin `Data` jest zamontowany w **`/System/Volumes/Data`** (możesz to sprawdzić za pomocą polecenia `diskutil apfs list`).
+Wolumin `Data` jest zamontowany w **`/System/Volumes/Data`** (możesz to sprawdzić za pomocą `diskutil apfs list`).
 
-Lista firmlinksów znajduje się w pliku **`/usr/share/firmlinks`**.
+Lista firmlinków znajduje się w pliku **`/usr/share/firmlinks`**.
 ```bash
-cat /usr/share/firmlinks
-/AppleInternal	AppleInternal
-/Applications	Applications
-/Library	Library
-[...]
-```
-Na **lewo** znajduje się ścieżka katalogu na **woluminie Systemowym**, a na **prawo** ścieżka katalogu, gdzie jest mapowany na **wolumin Danych**. Więc `/library` --> `/system/Volumes/data/library`
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakowania, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

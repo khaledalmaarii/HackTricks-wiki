@@ -1,61 +1,68 @@
-# Przestrzeń nazw użytkownika
+# User Namespace
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć swoją **firmę reklamowaną w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Podstawowe informacje
+## Basic Information
 
-Przestrzeń nazw użytkownika to funkcja jądra Linux, która **zapewnia izolację mapowania identyfikatorów użytkownika i grupy**, umożliwiając każdej przestrzeni nazw użytkownika posiadanie **własnego zestawu identyfikatorów użytkownika i grupy**. Ta izolacja umożliwia procesom działającym w różnych przestrzeniach nazw użytkownika **posiadanie różnych uprawnień i właścicieli**, nawet jeśli mają te same identyfikatory użytkownika i grupy numerycznie.
+Przestrzeń nazw użytkownika to funkcja jądra Linux, która **zapewnia izolację mapowań identyfikatorów użytkowników i grup**, pozwalając każdej przestrzeni nazw użytkownika na posiadanie **własnego zestawu identyfikatorów użytkowników i grup**. Ta izolacja umożliwia procesom działającym w różnych przestrzeniach nazw użytkownika **posiadanie różnych uprawnień i własności**, nawet jeśli dzielą te same identyfikatory użytkowników i grup numerycznie.
 
-Przestrzenie nazw użytkownika są szczególnie przydatne w konteneryzacji, gdzie każdy kontener powinien mieć własny niezależny zestaw identyfikatorów użytkownika i grupy, co umożliwia lepsze zabezpieczenie i izolację między kontenerami a systemem hosta.
+Przestrzenie nazw użytkownika są szczególnie przydatne w konteneryzacji, gdzie każdy kontener powinien mieć swój niezależny zestaw identyfikatorów użytkowników i grup, co pozwala na lepsze bezpieczeństwo i izolację między kontenerami a systemem gospodarza.
 
-### Jak to działa:
+### How it works:
 
-1. Po utworzeniu nowej przestrzeni nazw użytkownika, **rozpoczyna się ona z pustym zestawem mapowania identyfikatorów użytkownika i grupy**. Oznacza to, że każdy proces działający w nowej przestrzeni nazw użytkownika **początkowo nie ma uprawnień poza przestrzenią nazw**.
-2. Mapowania identyfikatorów mogą być ustanawiane między identyfikatorami użytkownika i grupy w nowej przestrzeni nazw a tymi w przestrzeni nadrzędnej (lub hosta). **Pozwala to procesom w nowej przestrzeni nazw na posiadanie uprawnień i właścicieli odpowiadających identyfikatorom użytkownika i grupy w przestrzeni nadrzędnej**. Jednak mapowania identyfikatorów mogą być ograniczone do określonych zakresów i podzbiorów identyfikatorów, co umożliwia precyzyjną kontrolę nad uprawnieniami przyznawanymi procesom w nowej przestrzeni nazw.
-3. W obrębie przestrzeni nazw użytkownika **procesy mogą mieć pełne uprawnienia roota (UID 0) do operacji wewnątrz przestrzeni nazw**, jednocześnie posiadając ograniczone uprawnienia poza przestrzenią nazw. Pozwala to **kontenerom na uruchamianie się z uprawnieniami podobnymi do roota w ich własnej przestrzeni nazw, bez posiadania pełnych uprawnień roota na systemie hosta**.
-4. Procesy mogą przenosić się między przestrzeniami nazw za pomocą wywołania systemowego `setns()` lub tworzyć nowe przestrzenie nazw za pomocą wywołań systemowych `unshare()` lub `clone()` z flagą `CLONE_NEWUSER`. Gdy proces przenosi się do nowej przestrzeni nazw lub ją tworzy, zaczyna korzystać z mapowania identyfikatorów użytkownika i grupy powiązanego z tą przestrzenią nazw.
+1. Gdy tworzona jest nowa przestrzeń nazw użytkownika, **zaczyna się od pustego zestawu mapowań identyfikatorów użytkowników i grup**. Oznacza to, że każdy proces działający w nowej przestrzeni nazw użytkownika **początkowo nie będzie miał uprawnień poza tą przestrzenią**.
+2. Mapowania identyfikatorów mogą być ustalane między identyfikatorami użytkowników i grup w nowej przestrzeni a tymi w przestrzeni nadrzędnej (lub gospodarza). To **pozwala procesom w nowej przestrzeni na posiadanie uprawnień i własności odpowiadających identyfikatorom użytkowników i grup w przestrzeni nadrzędnej**. Jednak mapowania identyfikatorów mogą być ograniczone do określonych zakresów i podzbiorów identyfikatorów, co pozwala na precyzyjną kontrolę nad uprawnieniami przyznawanymi procesom w nowej przestrzeni.
+3. W obrębie przestrzeni nazw użytkownika **procesy mogą mieć pełne uprawnienia roota (UID 0) do operacji wewnątrz przestrzeni**, jednocześnie mając ograniczone uprawnienia poza tą przestrzenią. To pozwala **kontenerom działać z możliwościami podobnymi do roota w ich własnej przestrzeni, nie mając pełnych uprawnień roota w systemie gospodarza**.
+4. Procesy mogą przemieszczać się między przestrzeniami nazw, używając wywołania systemowego `setns()` lub tworzyć nowe przestrzenie nazw, używając wywołań systemowych `unshare()` lub `clone()` z flagą `CLONE_NEWUSER`. Gdy proces przemieszcza się do nowej przestrzeni lub ją tworzy, zacznie używać mapowań identyfikatorów użytkowników i grup związanych z tą przestrzenią.
 
-## Laboratorium:
+## Lab:
 
-### Utwórz różne przestrzenie nazw
+### Create different Namespaces
 
 #### CLI
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-Montując nową instancję systemu plików `/proc` przy użyciu parametru `--mount-proc`, zapewniasz, że nowa przestrzeń montowania ma **dokładny i izolowany widok informacji o procesach specyficznych dla tej przestrzeni**.
+Mountując nową instancję systemu plików `/proc`, używając parametru `--mount-proc`, zapewniasz, że nowa przestrzeń montowania ma **dokładny i izolowany widok informacji o procesach specyficznych dla tej przestrzeni**.
 
 <details>
 
 <summary>Błąd: bash: fork: Nie można przydzielić pamięci</summary>
 
-Gdy polecenie `unshare` jest wykonywane bez opcji `-f`, występuje błąd związany z tym, jak Linux obsługuje nowe przestrzenie nazw PID (Process ID). Poniżej przedstawiono kluczowe szczegóły i rozwiązanie:
+Gdy `unshare` jest wykonywane bez opcji `-f`, napotykany jest błąd z powodu sposobu, w jaki Linux obsługuje nowe przestrzenie nazw PID (identyfikator procesu). Kluczowe szczegóły i rozwiązanie są opisane poniżej:
 
 1. **Wyjaśnienie problemu**:
-- Jądro Linuxa umożliwia procesowi tworzenie nowych przestrzeni nazw za pomocą wywołania systemowego `unshare`. Jednak proces, który inicjuje tworzenie nowej przestrzeni nazw PID (nazywany procesem "unshare"), nie wchodzi do nowej przestrzeni nazw; tylko jego procesy potomne to robią.
-- Uruchomienie `%unshare -p /bin/bash%` uruchamia `/bin/bash` w tym samym procesie co `unshare`. W rezultacie `/bin/bash` i jego procesy potomne znajdują się w oryginalnej przestrzeni nazw PID.
-- Pierwszy proces potomny `/bin/bash` w nowej przestrzeni nazw staje się PID 1. Gdy ten proces się zakończy, powoduje to oczyszczenie przestrzeni nazw, jeśli nie ma innych procesów, ponieważ PID 1 ma specjalną rolę przyjmowania procesów sierot. Jądro Linuxa wyłączy wtedy przydział PID w tej przestrzeni nazw.
+- Jądro Linuxa pozwala procesowi na tworzenie nowych przestrzeni nazw za pomocą wywołania systemowego `unshare`. Jednak proces, który inicjuje tworzenie nowej przestrzeni nazw PID (nazywany "procesem unshare"), nie wchodzi do nowej przestrzeni; tylko jego procesy potomne to robią.
+- Uruchomienie `%unshare -p /bin/bash%` uruchamia `/bin/bash` w tym samym procesie co `unshare`. W konsekwencji, `/bin/bash` i jego procesy potomne znajdują się w oryginalnej przestrzeni nazw PID.
+- Pierwszy proces potomny `/bin/bash` w nowej przestrzeni staje się PID 1. Gdy ten proces kończy działanie, uruchamia czyszczenie przestrzeni nazw, jeśli nie ma innych procesów, ponieważ PID 1 ma specjalną rolę przyjmowania osieroconych procesów. Jądro Linuxa wyłączy wtedy przydzielanie PID w tej przestrzeni.
 
-2. **Konsekwencje**:
-- Wyjście PID 1 z nowej przestrzeni nazw prowadzi do usunięcia flagi `PIDNS_HASH_ADDING`. Powoduje to niepowodzenie funkcji `alloc_pid` przy przydzielaniu nowego PID podczas tworzenia nowego procesu, co powoduje błąd "Nie można przydzielić pamięci".
+2. **Konsekwencja**:
+- Zakończenie PID 1 w nowej przestrzeni prowadzi do usunięcia flagi `PIDNS_HASH_ADDING`. Skutkuje to niepowodzeniem funkcji `alloc_pid` w przydzieleniu nowego PID podczas tworzenia nowego procesu, co skutkuje błędem "Nie można przydzielić pamięci".
 
 3. **Rozwiązanie**:
-- Problem można rozwiązać, używając opcji `-f` wraz z `unshare`. Ta opcja powoduje, że `unshare` rozgałęzia nowy proces po utworzeniu nowej przestrzeni nazw PID.
-- Wykonanie `%unshare -fp /bin/bash%` zapewnia, że samo polecenie `unshare` staje się PID 1 w nowej przestrzeni nazw. `/bin/bash` i jego procesy potomne są wtedy bezpiecznie zawarte w tej nowej przestrzeni nazw, co zapobiega przedwczesnemu zakończeniu PID 1 i umożliwia normalne przydzielanie PID.
+- Problem można rozwiązać, używając opcji `-f` z `unshare`. Ta opcja sprawia, że `unshare` fork'uje nowy proces po utworzeniu nowej przestrzeni nazw PID.
+- Wykonanie `%unshare -fp /bin/bash%` zapewnia, że polecenie `unshare` samo staje się PID 1 w nowej przestrzeni. `/bin/bash` i jego procesy potomne są wtedy bezpiecznie zawarte w tej nowej przestrzeni, co zapobiega przedwczesnemu zakończeniu PID 1 i umożliwia normalne przydzielanie PID.
 
-Zapewnienie, że `unshare` jest uruchamiane z flagą `-f`, umożliwia prawidłowe utrzymanie nowej przestrzeni nazw PID, co pozwala `/bin/bash` i jego podprocesom działać bez napotkania błędu przydzielania pamięci.
+Zapewniając, że `unshare` działa z flagą `-f`, nowa przestrzeń nazw PID jest prawidłowo utrzymywana, co pozwala `/bin/bash` i jego podprocesom działać bez napotkania błędu przydzielania pamięci.
 
 </details>
 
@@ -63,14 +70,14 @@ Zapewnienie, że `unshare` jest uruchamiane z flagą `-f`, umożliwia prawidłow
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-Aby korzystać z przestrzeni nazw użytkownika, demona Dockera należy uruchomić z opcją **`--userns-remap=default`** (W Ubuntu 14.04 można to zrobić, modyfikując plik `/etc/default/docker`, a następnie wykonując polecenie `sudo service docker restart`).
+Aby użyć przestrzeni nazw użytkownika, demon Dockera musi być uruchomiony z **`--userns-remap=default`** (W ubuntu 14.04 można to zrobić, modyfikując `/etc/default/docker`, a następnie wykonując `sudo service docker restart`)
 
-### Sprawdź, w jakiej przestrzeni nazw znajduje się Twój proces
+### &#x20;Sprawdź, w której przestrzeni nazw znajduje się twój proces
 ```bash
 ls -l /proc/self/ns/user
 lrwxrwxrwx 1 root root 0 Apr  4 20:57 /proc/self/ns/user -> 'user:[4026531837]'
 ```
-Możliwe jest sprawdzenie mapy użytkowników z kontenera Docker za pomocą polecenia:
+Można sprawdzić mapę użytkowników z kontenera docker za pomocą:
 ```bash
 cat /proc/self/uid_map
 0          0 4294967295  --> Root is root in host
@@ -88,17 +95,15 @@ sudo find /proc -maxdepth 3 -type l -name user -exec readlink {} \; 2>/dev/null 
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### Wejdź do przestrzeni nazw użytkownika
-
 {% endcode %}
+
+### Wejście do przestrzeni nazw użytkownika
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-Dodatkowo, możesz **wejść do innego przestrzeni nazw procesu tylko jeśli jesteś rootem**. I **nie możesz** **wejść** do innej przestrzeni nazw bez deskryptora wskazującego na nią (takiego jak `/proc/self/ns/user`).
+Również, możesz **wejść do innej przestrzeni nazw procesu tylko jeśli jesteś root**. I **nie możesz** **wejść** do innej przestrzeni nazw **bez deskryptora** wskazującego na nią (jak `/proc/self/ns/user`).
 
-### Tworzenie nowej przestrzeni nazw użytkownika (z mapowaniem)
+### Utwórz nową przestrzeń nazw użytkownika (z mapowaniami)
 
 {% code overflow="wrap" %}
 ```bash
@@ -116,12 +121,12 @@ root       27756   27755  0 21:11 pts/10   00:00:00 /bin/bash
 ```
 ### Odzyskiwanie uprawnień
 
-W przypadku przestrzeni nazw użytkownika, **po utworzeniu nowej przestrzeni nazw użytkownika, proces, który do niej wchodzi, otrzymuje pełny zestaw uprawnień w ramach tej przestrzeni nazw**. Uprawnienia te pozwalają procesowi wykonywać operacje uprzywilejowane, takie jak **montowanie** **systemów plików**, tworzenie urządzeń lub zmiana właściciela plików, ale **tylko w kontekście swojej przestrzeni nazw użytkownika**.
+W przypadku przestrzeni nazw użytkowników, **gdy tworzona jest nowa przestrzeń nazw użytkowników, proces, który wchodzi do tej przestrzeni, otrzymuje pełny zestaw uprawnień w tej przestrzeni**. Te uprawnienia pozwalają procesowi na wykonywanie operacji uprzywilejowanych, takich jak **montowanie** **systemów plików**, tworzenie urządzeń czy zmiana właściciela plików, ale **tylko w kontekście jego przestrzeni nazw użytkowników**.
 
-Na przykład, posiadając uprawnienie `CAP_SYS_ADMIN` w przestrzeni nazw użytkownika, możesz wykonywać operacje, które zwykle wymagają tego uprawnienia, takie jak montowanie systemów plików, ale tylko w kontekście swojej przestrzeni nazw użytkownika. Operacje wykonywane z tym uprawnieniem nie będą miały wpływu na system hosta ani inne przestrzenie nazw.
+Na przykład, gdy masz uprawnienie `CAP_SYS_ADMIN` w przestrzeni nazw użytkowników, możesz wykonywać operacje, które zazwyczaj wymagają tego uprawnienia, takie jak montowanie systemów plików, ale tylko w kontekście swojej przestrzeni nazw użytkowników. Jakiekolwiek operacje, które wykonasz z tym uprawnieniem, nie wpłyną na system gospodarza ani inne przestrzenie nazw.
 
 {% hint style="warning" %}
-Dlatego nawet jeśli uzyskanie nowego procesu w nowej przestrzeni nazw użytkownika **przywróci wszystkie uprawnienia** (CapEff: 000001ffffffffff), faktycznie możesz **używać tylko tych związanych z przestrzenią nazw** (np. montowanie), ale nie wszystkich. Samo to nie wystarczy, aby uciec z kontenera Docker.
+Dlatego, nawet jeśli uzyskanie nowego procesu w nowej przestrzeni nazw użytkowników **przywróci ci wszystkie uprawnienia** (CapEff: 000001ffffffffff), w rzeczywistości możesz **używać tylko tych związanych z przestrzenią nazw** (na przykład montowanie), a nie wszystkich. Tak więc, samo to nie wystarczy, aby uciec z kontenera Docker.
 {% endhint %}
 ```bash
 # There are the syscalls that are filtered after changing User namespace with:
@@ -145,21 +150,29 @@ Probando: 0x130 . . . Error
 Probando: 0x139 . . . Error
 Probando: 0x140 . . . Error
 Probando: 0x141 . . . Error
-Probando: 0x143 . . . Error
-```
-## Odwołania
-* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Inne sposoby wsparcia HackTricks:
-
-* Jeśli chcesz zobaczyć **reklamę swojej firmy w HackTricks** lub **pobrać HackTricks w formacie PDF**, sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
