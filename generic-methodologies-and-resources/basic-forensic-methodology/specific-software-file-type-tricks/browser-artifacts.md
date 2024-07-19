@@ -35,12 +35,12 @@ Browser artifacts में विभिन्न प्रकार के ड�
 * **एक्सटेंशन और ऐड-ऑन**: उपयोगकर्ता द्वारा स्थापित ब्राउज़र एक्सटेंशन या ऐड-ऑन।
 * **कैश**: वेबसाइट लोडिंग समय में सुधार के लिए वेब सामग्री (जैसे, चित्र, जावास्क्रिप्ट फ़ाइलें) को संग्रहीत करता है, फोरेंसिक विश्लेषण के लिए मूल्यवान।
 * **लॉगिन**: संग्रहीत लॉगिन क्रेडेंशियल्स।
-* **फेविकॉन**: वेबसाइटों से जुड़े आइकन, जो टैब और बुकमार्क में दिखाई देते हैं, उपयोगकर्ता के दौरे पर अतिरिक्त जानकारी के लिए उपयोगी।
-* **ब्राउज़र सत्र**: खुले ब्राउज़र सत्र से संबंधित डेटा।
+* **फेविकॉन**: वेबसाइटों से जुड़े आइकन, जो टैब और बुकमार्क में दिखाई देते हैं, उपयोगकर्ता दौरे पर अतिरिक्त जानकारी के लिए उपयोगी।
+* **ब्राउज़र सत्र**: खुले ब्राउज़र सत्रों से संबंधित डेटा।
 * **डाउनलोड**: ब्राउज़र के माध्यम से डाउनलोड की गई फ़ाइलों का रिकॉर्ड।
 * **फॉर्म डेटा**: वेब फॉर्म में दर्ज की गई जानकारी, भविष्य के ऑटोफिल सुझावों के लिए सहेजी गई।
 * **थंबनेल**: वेबसाइटों की पूर्वावलोकन छवियाँ।
-* **कस्टम डिक्शनरी.txt**: ब्राउज़र की डिक्शनरी में उपयोगकर्ता द्वारा जोड़े गए शब्द।
+* **कस्टम डिक्शनरी.txt**: ब्राउज़र के डिक्शनरी में उपयोगकर्ता द्वारा जोड़े गए शब्द।
 
 ## Firefox
 
@@ -140,7 +140,7 @@ Internet Explorer के लिए मेटाडेटा `%userprofile%\Appda
 
 ### Browsing History
 
-ब्राउज़िंग इतिहास की समीक्षा करने के लिए, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) का उपयोग किया जा सकता है, जिसमें निकाले गए इतिहास फ़ाइलों का स्थान और Internet Explorer के लिए कॉन्फ़िगरेशन की आवश्यकता होती है। यहाँ मेटाडेटा में संशोधन और पहुँच समय, साथ ही पहुँच संख्या शामिल हैं। इतिहास फ़ाइलें `%userprofile%\Appdata\Local\Microsoft\Windows\History` में स्थित हैं।
+ब्राउज़िंग इतिहास की समीक्षा करने के लिए, [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) का उपयोग किया जा सकता है, जिसमें निकाले गए इतिहास फ़ाइलों का स्थान और Internet Explorer के लिए कॉन्फ़िगरेशन की आवश्यकता होती है। यहाँ मेटाडेटा में संशोधन और पहुँच समय, साथ ही पहुँच संख्या शामिल है। इतिहास फ़ाइलें `%userprofile%\Appdata\Local\Microsoft\Windows\History` में स्थित हैं।
 
 ### Typed URLs
 
@@ -192,16 +192,17 @@ Get Access Today:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
 * **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,30 +1,36 @@
-# macOS कर्नल सुरक्षा रिक्तियां
+# macOS Kernel Vulnerabilities
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम कर रहे हैं? क्या आप अपनी **कंपनी को हैकट्रिक्स में विज्ञापित करना चाहते हैं**? या आप **PEASS की नवीनतम संस्करण देखना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता की योजनाएं देखें**](https://github.com/sponsors/carlospolop)!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खास [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह का खुलासा करें
-* [**PEASS और HackTricks की आधिकारिक स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **डिस्कॉर्ड समूह** में शामिल हों [**💬**](https://emojipedia.org/speech-balloon/) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **मुझे** **ट्विटर** पर फॉलो करें 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)।
-* **हैकिंग ट्रिक्स को साझा करें PR भेजकर** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud)।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## [OTA को Pwning](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
+## [Pwning OTA](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)
 
-[**इस रिपोर्ट में**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) कई रिक्तियां स्पष्ट की गई हैं जिनसे कर्नल को कंप्रोमाइज़ किया जा सकता था जो सॉफ़्टवेयर अपडेटर को कंप्रोमाइज़ करता है।\
+[**इस रिपोर्ट में**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) कई कमजोरियों को समझाया गया है जिन्होंने सॉफ़्टवेयर अपडेटर को समझौता करके कर्नेल को समझौता करने की अनुमति दी।\
 [**PoC**](https://github.com/jhftss/POC/tree/main/CVE-2022-46722).
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* क्या आप **साइबर सुरक्षा कंपनी** में काम कर रहे हैं? क्या आप अपनी **कंपनी को हैकट्रिक्स में विज्ञापित करना चाहते हैं**? या आप **PEASS की नवीनतम संस्करण देखना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता की योजनाएं देखें**](https://github.com/sponsors/carlospolop)!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खास [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह का खुलासा करें
-* [**PEASS और HackTricks की आधिकारिक स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **डिस्कॉर्ड समूह** में शामिल हों [**💬**](https://emojipedia.org/speech-balloon/) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **मुझे** **ट्विटर** पर फॉलो करें 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)।
-* **हैकिंग ट्रिक्स को साझा करें PR भेजकर** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud)।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
