@@ -68,7 +68,7 @@ Lembre-se de que você **não pode instalar LiME ou qualquer outra coisa** na m�
 {% endhint %}
 
 Então, se você tiver uma versão idêntica do Ubuntu, pode usar `apt-get install lime-forensics-dkms`\
-Em outros casos, você precisa baixar [**LiME**](https://github.com/504ensicsLabs/LiME) do github e compilá-lo com os cabeçalhos de kernel corretos. Para **obter os cabeçalhos de kernel exatos** da máquina vítima, você pode simplesmente **copiar o diretório** `/lib/modules/<versão do kernel>` para sua máquina e, em seguida, **compilar** LiME usando-os:
+Em outros casos, você precisa baixar [**LiME**](https://github.com/504ensicsLabs/LiME) do github e compilá-lo com os cabeçalhos de kernel corretos. Para **obter os cabeçalhos de kernel exatos** da máquina vítima, você pode simplesmente **copiar o diretório** `/lib/modules/<versão do kernel>` para sua máquina e, em seguida, **compilar** o LiME usando-os:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -86,7 +86,7 @@ LiME também pode ser usado para **enviar o dump via rede** em vez de armazená-
 #### Desligando
 
 Primeiro de tudo, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
-Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "puxar o plugue"**. O primeiro permitirá que os **processos sejam encerrados normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "puxar o plugue" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá nenhuma oportunidade** de fazer algo a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e puxe o plugue.
+Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "puxar o plugue"**. O primeiro permitirá que os **processos terminem normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "puxar o plugue" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá nenhuma oportunidade** de fazer algo a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e puxe o plugue.
 
 #### Tirando uma imagem do disco
 
@@ -101,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Análise pré-imagem do disco
 
-Imagens de uma imagem de disco sem mais dados.
+Imaginando uma imagem de disco sem mais dados.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -245,7 +245,7 @@ Caminhos onde um malware poderia ser instalado como um serviço:
 * **/etc/systemd/system**: Um diretório para scripts do gerenciador de sistema e serviços.
 * **/etc/systemd/system/multi-user.target.wants/**: Contém links para serviços que devem ser iniciados em um nível de execução multiusuário.
 * **/usr/local/etc/rc.d/**: Para serviços personalizados ou de terceiros.
-* **\~/.config/autostart/**: Para aplicativos de inicialização automática específicos do usuário, que podem ser um esconderijo para malware direcionado a usuários.
+* **\~/.config/autostart/**: Para aplicativos de inicialização automática específicos do usuário, que podem ser um esconderijo para malware direcionado ao usuário.
 * **/lib/systemd/system/**: Arquivos de unidade padrão do sistema fornecidos por pacotes instalados.
 
 ### Módulos do Kernel
@@ -272,7 +272,7 @@ Sistemas Linux rastreiam atividades de usuários e eventos do sistema através d
 * **/var/log/auth.log** (Debian) ou **/var/log/secure** (RedHat): Registram tentativas de autenticação, logins bem-sucedidos e falhados.
 * Use `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log` para filtrar eventos de autenticação relevantes.
 * **/var/log/boot.log**: Contém mensagens de inicialização do sistema.
-* **/var/log/maillog** ou **/var/log/mail.log**: Registra atividades do servidor de e-mail, útil para rastrear serviços relacionados a e-mail.
+* **/var/log/maillog** ou **/var/log/mail.log**: Registra atividades do servidor de email, útil para rastrear serviços relacionados a email.
 * **/var/log/kern.log**: Armazena mensagens do kernel, incluindo erros e avisos.
 * **/var/log/dmesg**: Contém mensagens do driver de dispositivo.
 * **/var/log/faillog**: Registra tentativas de login falhadas, auxiliando em investigações de violação de segurança.
@@ -348,7 +348,7 @@ Acesse hoje:
 
 ## Revisar Contas de Usuário e Atividades de Logon
 
-Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta no sudo.\
+Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta ao sudo.\
 Além disso, verifique arquivos como _**/etc/sudoers**_ e _**/etc/groups**_ em busca de privilégios inesperados concedidos a usuários.\
 Por fim, procure contas com **senhas ausentes** ou **senhas facilmente adivinháveis**.
 
@@ -365,7 +365,7 @@ Para combater esses métodos anti-forenses, é essencial:
 * **Examinar `/dev` em busca de arquivos atípicos**, pois tradicionalmente contém arquivos especiais, mas pode abrigar arquivos relacionados a malware.
 * **Procurar arquivos ou diretórios ocultos** com nomes como ".. " (ponto ponto espaço) ou "..^G" (ponto ponto controle-G), que podem ocultar conteúdo malicioso.
 * **Identificar arquivos setuid root** usando o comando: `find / -user root -perm -04000 -print` Isso encontra arquivos com permissões elevadas, que podem ser abusadas por atacantes.
-* **Revisar timestamps de exclusão** nas tabelas de inode para detectar exclusões em massa de arquivos, possivelmente indicando a presença de rootkits ou trojans.
+* **Revisar timestamps de exclusão** em tabelas de inode para detectar exclusões em massa de arquivos, possivelmente indicando a presença de rootkits ou trojans.
 * **Inspecionar inodes consecutivos** em busca de arquivos maliciosos próximos após identificar um, pois podem ter sido colocados juntos.
 * **Verificar diretórios binários comuns** (_/bin_, _/sbin_) em busca de arquivos recentemente modificados, pois estes podem ter sido alterados por malware.
 ````bash
@@ -397,13 +397,13 @@ git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | 
 ```bash
 git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 ```
-* **As opções de filtro** (`--diff-filter`) ajudam a restringir a mudanças específicas, como arquivos adicionados (`A`), excluídos (`D`) ou modificados (`M`).
+* **Opções de filtro** (`--diff-filter`) ajudam a restringir a mudanças específicas, como arquivos adicionados (`A`), excluídos (`D`) ou modificados (`M`).
 * `A`: Arquivos adicionados
 * `C`: Arquivos copiados
 * `D`: Arquivos excluídos
 * `M`: Arquivos modificados
 * `R`: Arquivos renomeados
-* `T`: Mudanças de tipo (por exemplo, de arquivo para symlink)
+* `T`: Mudanças de tipo (por exemplo, arquivo para symlink)
 * `U`: Arquivos não mesclados
 * `X`: Arquivos desconhecidos
 * `B`: Arquivos quebrados
@@ -413,26 +413,27 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Livro: Guia de Campo de Análise Forense de Malware para Sistemas Linux: Guias de Campo de Análise Forense Digital**
+* **Livro: Guia de Campo de Análise de Malware para Sistemas Linux: Guias de Campo de Análise Digital**
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivas
-* Obtenha o [**merch oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **me siga** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Compartilhe suas dicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.\
-Obtenha Acesso Hoje:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas** comunitárias **mais avançadas** do mundo.\
+Acesse hoje: 
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

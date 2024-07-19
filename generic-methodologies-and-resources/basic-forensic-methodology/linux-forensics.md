@@ -68,7 +68,7 @@ Lembre-se de que você **não pode instalar LiME ou qualquer outra coisa** na m�
 {% endhint %}
 
 Então, se você tiver uma versão idêntica do Ubuntu, pode usar `apt-get install lime-forensics-dkms`\
-Em outros casos, você precisa baixar [**LiME**](https://github.com/504ensicsLabs/LiME) do github e compilá-lo com os cabeçalhos de kernel corretos. Para **obter os cabeçalhos de kernel exatos** da máquina vítima, você pode simplesmente **copiar o diretório** `/lib/modules/<versão do kernel>` para sua máquina e, em seguida, **compilar** o LiME usando-os:
+Em outros casos, você precisa baixar [**LiME**](https://github.com/504ensicsLabs/LiME) do github e compilá-lo com os cabeçalhos de kernel corretos. Para **obter os cabeçalhos de kernel exatos** da máquina vítima, você pode simplesmente **copiar o diretório** `/lib/modules/<versão do kernel>` para sua máquina e, em seguida, **compilar** LiME usando-os:
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -86,7 +86,7 @@ LiME também pode ser usado para **enviar o dump via rede** em vez de armazená-
 #### Desligando
 
 Primeiro de tudo, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
-Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "puxar o plugue"**. O primeiro permitirá que os **processos sejam encerrados normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "puxar o plugue" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá nenhuma oportunidade** de fazer algo a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e puxe o plugue.
+Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento "puxar o plugue"**. O primeiro permitirá que os **processos terminem normalmente** e o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem "puxar o plugue" pode acarretar **alguma perda de informação** (não muita informação será perdida, pois já tiramos uma imagem da memória) e o **malware não terá nenhuma oportunidade** de fazer algo a respeito. Portanto, se você **suspeitar** que pode haver um **malware**, apenas execute o **comando** **`sync`** no sistema e puxe o plugue.
 
 #### Tirando uma imagem do disco
 
@@ -101,7 +101,7 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### Análise pré-imagem do disco
 
-Imagens de um disco com nenhum dado a mais.
+Imagens de uma imagem de disco sem mais dados.
 ```bash
 #Find out if it's a disk image using "file" command
 file disk.img
@@ -212,7 +212,7 @@ Obtenha Acesso Hoje:
 
 ## Recuperar Binários em Execução Deletados
 
-Imagine um processo que foi executado de /tmp/exec e depois deletado. É possível extraí-lo.
+Imagine um processo que foi executado de /tmp/exec e depois deletado. É possível extraí-lo
 ```bash
 cd /proc/3746/ #PID with the exec file deleted
 head -1 maps #Get address of the file. It was 08048000-08049000
@@ -258,10 +258,10 @@ Módulos do kernel Linux, frequentemente utilizados por malware como componentes
 
 ### Outros Locais de Autostart
 
-O Linux emprega vários arquivos para executar automaticamente programas ao fazer login do usuário, potencialmente abrigando malware:
+O Linux emprega vários arquivos para executar automaticamente programas na entrada do usuário, potencialmente abrigando malware:
 
 * **/etc/profile.d/**\*, **/etc/profile**, e **/etc/bash.bashrc**: Executados para qualquer login de usuário.
-* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, e **\~/.config/autostart**: Arquivos específicos do usuário que são executados ao fazer login.
+* **\~/.bashrc**, **\~/.bash\_profile**, **\~/.profile**, e **\~/.config/autostart**: Arquivos específicos do usuário que são executados em seu login.
 * **/etc/rc.local**: Executa após todos os serviços do sistema terem sido iniciados, marcando o fim da transição para um ambiente multiusuário.
 
 ## Examinar Logs
@@ -285,7 +285,7 @@ Sistemas Linux rastreiam atividades de usuários e eventos do sistema através d
 * **/var/log/**: Sempre verifique se há logs inesperados aqui.
 
 {% hint style="info" %}
-Logs do sistema Linux e subsistemas de auditoria podem ser desativados ou excluídos em um incidente de intrusão ou malware. Como os logs em sistemas Linux geralmente contêm algumas das informações mais úteis sobre atividades maliciosas, intrusos rotineiramente os excluem. Portanto, ao examinar os arquivos de log disponíveis, é importante procurar lacunas ou entradas fora de ordem que possam ser uma indicação de exclusão ou adulteração.
+Os logs do sistema Linux e subsistemas de auditoria podem ser desativados ou excluídos em um incidente de intrusão ou malware. Como os logs em sistemas Linux geralmente contêm algumas das informações mais úteis sobre atividades maliciosas, intrusos rotineiramente os excluem. Portanto, ao examinar os arquivos de log disponíveis, é importante procurar lacunas ou entradas fora de ordem que possam ser uma indicação de exclusão ou adulteração.
 {% endhint %}
 
 **O Linux mantém um histórico de comandos para cada usuário**, armazenado em:
@@ -311,7 +311,7 @@ Alguns aplicativos também geram seus próprios logs:
 * **Gnome Desktop**: Verifique _\~/.recently-used.xbel_ para arquivos acessados recentemente via aplicativos Gnome.
 * **Firefox/Chrome**: Verifique o histórico do navegador e downloads em _\~/.mozilla/firefox_ ou _\~/.config/google-chrome_ para atividades suspeitas.
 * **VIM**: Revise _\~/.viminfo_ para detalhes de uso, como caminhos de arquivos acessados e histórico de pesquisa.
-* **Open Office**: Verifique o acesso recente a documentos que pode indicar arquivos comprometidos.
+* **Open Office**: Verifique o acesso recente a documentos que podem indicar arquivos comprometidos.
 * **FTP/SFTP**: Revise logs em _\~/.ftp\_history_ ou _\~/.sftp\_history_ para transferências de arquivos que podem ser não autorizadas.
 * **MySQL**: Investigue _\~/.mysql\_history_ para consultas MySQL executadas, potencialmente revelando atividades não autorizadas no banco de dados.
 * **Less**: Analise _\~/.lesshst_ para histórico de uso, incluindo arquivos visualizados e comandos executados.
@@ -348,9 +348,9 @@ Acesse hoje:
 
 ## Revisar Contas de Usuário e Atividades de Logon
 
-Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta ao sudo.\
+Examine o _**/etc/passwd**_, _**/etc/shadow**_ e **logs de segurança** em busca de nomes ou contas incomuns criadas e ou usadas em estreita proximidade com eventos não autorizados conhecidos. Além disso, verifique possíveis ataques de força bruta sudo.\
 Além disso, verifique arquivos como _**/etc/sudoers**_ e _**/etc/groups**_ em busca de privilégios inesperados concedidos a usuários.\
-Finalmente, procure contas com **sem senhas** ou **senhas facilmente adivinháveis**.
+Finalmente, procure contas com **senhas ausentes** ou **senhas facilmente adivinháveis**.
 
 ## Examinar Sistema de Arquivos
 
@@ -360,7 +360,7 @@ Ao investigar incidentes de malware, a estrutura do sistema de arquivos é uma f
 
 Para combater esses métodos anti-forenses, é essencial:
 
-* **Realizar uma análise de linha do tempo** minuciosa usando ferramentas como **Autopsy** para visualizar linhas do tempo de eventos ou `mactime` do **Sleuth Kit** para dados detalhados da linha do tempo.
+* **Realizar uma análise de linha do tempo completa** usando ferramentas como **Autopsy** para visualizar linhas do tempo de eventos ou `mactime` do **Sleuth Kit** para dados de linha do tempo detalhados.
 * **Investigar scripts inesperados** no $PATH do sistema, que podem incluir scripts shell ou PHP usados por atacantes.
 * **Examinar `/dev` em busca de arquivos atípicos**, pois tradicionalmente contém arquivos especiais, mas pode abrigar arquivos relacionados a malware.
 * **Procurar arquivos ou diretórios ocultos** com nomes como ".. " (ponto ponto espaço) ou "..^G" (ponto ponto controle-G), que podem ocultar conteúdo malicioso.
@@ -413,21 +413,22 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf](https://cdn.ttgtmedia.com/rms/security/Malware%20Forensics%20Field%20Guide%20for%20Linux%20Systems\_Ch3.pdf)
 * [https://www.plesk.com/blog/featured/linux-logs-explained/](https://www.plesk.com/blog/featured/linux-logs-explained/)
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
-* **Livro: Guia de Campo de Forense de Malware para Sistemas Linux: Guias de Campo de Forense Digital**
+* **Livro: Guia de Campo de Análise Forense de Malware para Sistemas Linux: Guias de Campo de Análise Digital**
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivas
-* Obtenha o [**merch oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **me siga** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Compartilhe suas dicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 

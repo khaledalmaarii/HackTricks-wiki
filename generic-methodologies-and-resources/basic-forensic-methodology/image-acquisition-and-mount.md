@@ -1,16 +1,19 @@
 # Aquisição de Imagem & Montagem
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -37,7 +40,7 @@ ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --descript
 ```
 ### EWF
 
-Você pode gerar uma imagem de disco usando as [**ferramentas ewf**](https://github.com/libyal/libewf).
+Você pode gerar uma imagem de disco usando as [**ewf tools**](https://github.com/libyal/libewf).
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -54,7 +57,7 @@ ewfacquire /dev/sdb
 #Then use default values
 #It will generate the disk image in the current directory
 ```
-## Montagem
+## Mount
 
 ### Vários tipos
 
@@ -86,12 +89,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-É uma aplicação do Windows para montar volumes. Você pode baixá-lo aqui [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+É um aplicativo para Windows para montar volumes. Você pode baixá-lo aqui [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
 ### Erros
 
-* **`não é possível montar /dev/loop0 somente leitura`** neste caso, você precisa usar as flags **`-o ro,norecovery`**
-* **`tipo de sistema de arquivos incorreto, opção inválida, superbloco inválido em /dev/loop0, página de código ausente ou programa auxiliar, ou outro erro.`** neste caso, a montagem falhou devido ao deslocamento do sistema de arquivos ser diferente do da imagem do disco. Você precisa encontrar o tamanho do setor e o setor de início:
+* **`cannot mount /dev/loop0 read-only`** neste caso, você precisa usar as flags **`-o ro,norecovery`**
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** neste caso, a montagem falhou devido ao fato de que o deslocamento do sistema de arquivos é diferente do da imagem do disco. Você precisa encontrar o tamanho do setor e o setor de início:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Note que o tamanho do setor é **512** e o início é **2048**. Em seguida, monte a imagem da seguinte forma:
+Note que o tamanho do setor é **512** e o início é **2048**. Então monte a imagem assim:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -112,14 +115,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporte o HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

