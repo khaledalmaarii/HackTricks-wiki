@@ -1,34 +1,45 @@
-# Numéro de série macOS
+# macOS Serial Number
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-## Informations de base
+## Basic Information
 
 Les appareils Apple post-2010 ont des numéros de série composés de **12 caractères alphanumériques**, chaque segment transmettant des informations spécifiques :
 
-- **3 premiers caractères** : Indiquent l'**emplacement de fabrication**.
-- **Caractères 4 et 5** : Indiquent l'**année et la semaine de fabrication**.
+- **Premiers 3 Caractères** : Indiquent le **lieu de fabrication**.
+- **Caractères 4 & 5** : Dénote l'**année et la semaine de fabrication**.
 - **Caractères 6 à 8** : Servent d'**identifiant unique** pour chaque appareil.
-- **4 derniers caractères** : Spécifient le **numéro de modèle**.
+- **Derniers 4 Caractères** : Spécifient le **numéro de modèle**.
 
 Par exemple, le numéro de série **C02L13ECF8J2** suit cette structure.
 
-### **Emplacements de fabrication (3 premiers caractères)**
+### **Lieux de Fabrication (Premiers 3 Caractères)**
 Certains codes représentent des usines spécifiques :
-- **FC, F, XA/XB/QP/G8** : Divers endroits aux États-Unis.
+- **FC, F, XA/XB/QP/G8** : Divers lieux aux États-Unis.
 - **RN** : Mexique.
 - **CK** : Cork, Irlande.
 - **VM** : Foxconn, République tchèque.
@@ -36,36 +47,45 @@ Certains codes représentent des usines spécifiques :
 - **MB** : Malaisie.
 - **PT/CY** : Corée.
 - **EE/QT/UV** : Taïwan.
-- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7** : Différents endroits en Chine.
+- **FK/F1/F2, W8, DL/DM, DN, YM/7J, 1C/4H/WQ/F7** : Différents lieux en Chine.
 - **C0, C3, C7** : Villes spécifiques en Chine.
-- **RM** : Appareils reconditionnés.
+- **RM** : Appareils remis à neuf.
 
-### **Année de fabrication (4e caractère)**
-Ce caractère varie de 'C' (représentant la première moitié de 2010) à 'Z' (deuxième moitié de 2019), avec des lettres différentes indiquant des périodes semestrielles différentes.
+### **Année de Fabrication (4ème Caractère)**
+Ce caractère varie de 'C' (représentant la première moitié de 2010) à 'Z' (deuxième moitié de 2019), avec différentes lettres indiquant différentes périodes de six mois.
 
-### **Semaine de fabrication (5e caractère)**
-Les chiffres 1 à 9 correspondent aux semaines 1 à 9. Les lettres C-Y (à l'exclusion des voyelles et du 'S') représentent les semaines 10 à 27. Pour la deuxième moitié de l'année, 26 est ajouté à ce nombre.
+### **Semaine de Fabrication (5ème Caractère)**
+Les chiffres 1-9 correspondent aux semaines 1-9. Les lettres C-Y (à l'exception des voyelles et de 'S') représentent les semaines 10-27. Pour la seconde moitié de l'année, 26 est ajouté à ce nombre.
 
-### **Identifiant unique (Caractères 6 à 8)**
-Ces trois chiffres garantissent que chaque appareil, même du même modèle et lot, a un numéro de série distinct.
-
-### **Numéro de modèle (4 derniers caractères)**
-Ces chiffres identifient le modèle spécifique de l'appareil.
-
-### Référence
-
-* [https://beetstech.com/blog/decode-meaning-behind-apple-serial-number](https://beetstech.com/blog/decode-meaning-behind-apple-serial-number)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-- Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-- Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-- **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-- **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
 # Groupes Sudo/Admin
 
 ## **PE - Méthode 1**
 
-**Parfois**, **par défaut \(ou parce que certains logiciels en ont besoin\)** à l'intérieur du fichier **/etc/sudoers**, vous pouvez trouver certaines de ces lignes:
+**Parfois**, **par défaut \(ou parce que certains logiciels en ont besoin\)** dans le fichier **/etc/sudoers**, vous pouvez trouver certaines de ces lignes :
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -25,7 +26,7 @@ Autres façons de soutenir HackTricks:
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
-Cela signifie que **tout utilisateur appartenant au groupe sudo ou admin peut exécuter n'importe quelle commande en tant que sudo**.
+Cela signifie que **tout utilisateur appartenant au groupe sudo ou admin peut exécuter n'importe quoi en tant que sudo**.
 
 Si c'est le cas, pour **devenir root, vous pouvez simplement exécuter**:
 ```text
@@ -33,28 +34,28 @@ sudo su
 ```
 ## PE - Méthode 2
 
-Trouvez tous les binaires suid et vérifiez s'il y a le binaire **Pkexec**:
+Trouvez tous les binaires suid et vérifiez s'il y a le binaire **Pkexec** :
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-Si vous constatez que le binaire pkexec est un binaire SUID et que vous appartenez au groupe sudo ou admin, vous pourriez probablement exécuter des binaires en tant que sudo en utilisant pkexec.
+Si vous constatez que le binaire pkexec est un binaire SUID et que vous appartenez à sudo ou admin, vous pourriez probablement exécuter des binaires en tant que sudo en utilisant pkexec.  
 Vérifiez le contenu de :
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
-Là, vous trouverez quels groupes sont autorisés à exécuter **pkexec** et **par défaut** dans certains systèmes Linux, certains groupes peuvent **inclure** **sudo ou admin**.
+Là, vous trouverez quels groupes sont autorisés à exécuter **pkexec** et **par défaut** dans certains linux peuvent **apparaître** certains des groupes **sudo ou admin**.
 
 Pour **devenir root, vous pouvez exécuter**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-Si vous essayez d'exécuter **pkexec** et que vous obtenez cette **erreur**:
+Si vous essayez d'exécuter **pkexec** et que vous obtenez cette **erreur** :
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-**Ce n'est pas parce que vous n'avez pas les autorisations mais parce que vous n'êtes pas connecté sans GUI**. Et il y a une solution de contournement pour ce problème ici: [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Vous avez besoin de **2 sessions ssh différentes**:
+**Ce n'est pas parce que vous n'avez pas de permissions mais parce que vous n'êtes pas connecté sans une interface graphique**. Et il existe une solution à ce problème ici : [https://github.com/NixOS/nixpkgs/issues/18012\#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). Vous avez besoin de **2 sessions ssh différentes** :
 
 {% code title="session1" %}
 ```bash
@@ -73,7 +74,7 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 
 # Groupe Wheel
 
-**Parfois**, **par défaut** à l'intérieur du fichier **/etc/sudoers**, vous pouvez trouver cette ligne :
+**Parfois**, **par défaut** dans le fichier **/etc/sudoers**, vous pouvez trouver cette ligne :
 ```text
 %wheel	ALL=(ALL:ALL) ALL
 ```
@@ -85,13 +86,15 @@ sudo su
 ```
 # Groupe Shadow
 
-Les utilisateurs du **groupe shadow** peuvent **lire** le fichier **/etc/shadow** :
+Les utilisateurs du **groupe shadow** peuvent **lire** le **/etc/shadow** fichier :
 ```text
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
-# Groupe de disques
+Alors, lisez le fichier et essayez de **craquer quelques hashes**.
 
-Ce privilège est presque **équivalent à un accès root** car vous pouvez accéder à toutes les données à l'intérieur de la machine.
+# Groupe de Disque
+
+Ce privilège est presque **équivalent à l'accès root** car vous pouvez accéder à toutes les données à l'intérieur de la machine.
 
 Fichiers : `/dev/sd[a-z][1-9]`
 ```text
@@ -106,7 +109,7 @@ Notez qu'en utilisant debugfs, vous pouvez également **écrire des fichiers**. 
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
-Cependant, si vous essayez de **modifier des fichiers appartenant à root** \(comme `/etc/shadow` ou `/etc/passwd`\), vous obtiendrez une erreur "**Permission denied**".
+Cependant, si vous essayez de **écrire des fichiers appartenant à root** \(comme `/etc/shadow` ou `/etc/passwd`\), vous obtiendrez une erreur "**Permission denied**".
 
 # Groupe Vidéo
 
@@ -118,51 +121,50 @@ moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
 Le **tty1** signifie que l'utilisateur **yossi est connecté physiquement** à un terminal sur la machine.
 
-Le groupe **video** a accès pour visualiser la sortie de l'écran. Fondamentalement, vous pouvez observer les écrans. Pour ce faire, vous devez **capturer l'image actuelle à l'écran** en données brutes et obtenir la résolution utilisée par l'écran. Les données de l'écran peuvent être enregistrées dans `/dev/fb0` et vous pouvez trouver la résolution de cet écran sur `/sys/class/graphics/fb0/virtual_size`.
+Le **groupe vidéo** a accès pour voir la sortie de l'écran. En gros, vous pouvez observer les écrans. Pour ce faire, vous devez **capturer l'image actuelle à l'écran** en données brutes et obtenir la résolution que l'écran utilise. Les données de l'écran peuvent être enregistrées dans `/dev/fb0` et vous pouvez trouver la résolution de cet écran dans `/sys/class/graphics/fb0/virtual_size`
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-Pour **ouvrir** l'**image brute**, vous pouvez utiliser **GIMP**, sélectionnez le fichier **`screen.raw`** et choisissez comme type de fichier **Données d'image brute** :
+Pour **ouvrir** l'**image brute**, vous pouvez utiliser **GIMP**, sélectionner le fichier **`screen.raw`** et choisir comme type de fichier **Données d'image brute** :
 
 ![](../../.gitbook/assets/image%20%28208%29.png)
 
-Ensuite, modifiez la largeur et la hauteur pour celles utilisées sur l'écran et vérifiez différents types d'images \(et sélectionnez celui qui affiche mieux l'écran\) :
+Ensuite, modifiez la largeur et la hauteur pour celles utilisées sur l'écran et vérifiez différents types d'image \(et sélectionnez celui qui montre mieux l'écran\) :
 
 ![](../../.gitbook/assets/image%20%28295%29.png)
 
 # Groupe Root
 
-Il semble qu'en **par défaut les membres du groupe root** pourraient avoir accès pour **modifier** certains fichiers de configuration de **services** ou certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
+Il semble qu'en par défaut, les **membres du groupe root** pourraient avoir accès à **modifier** certains fichiers de configuration de **service** ou certains fichiers de **bibliothèques** ou **d'autres choses intéressantes** qui pourraient être utilisées pour escalader les privilèges...
 
-**Vérifiez quels fichiers les membres de root peuvent modifier** :
+**Vérifiez quels fichiers les membres root peuvent modifier** :
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
-# Groupe Docker
+# Docker Group
 
-Vous pouvez monter le système de fichiers racine de la machine hôte sur le volume d'une instance, de sorte que lorsque l'instance démarre, elle charge immédiatement un `chroot` dans ce volume. Cela vous donne effectivement un accès root sur la machine.
+Vous pouvez monter le système de fichiers racine de la machine hôte sur le volume d'une instance, de sorte que lorsque l'instance démarre, elle charge immédiatement un `chroot` dans ce volume. Cela vous donne effectivement les droits root sur la machine.
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
 {% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
-# Groupe lxc/lxd
+# lxc/lxd Group
 
-[lxc - Élévation de privilèges](lxd-privilege-escalation.md)
+[lxc - Escalade de privilèges](lxd-privilege-escalation.md)
 
-
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supportez HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}

