@@ -1,16 +1,19 @@
 # DCOM Exec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS 해킹을 제로에서 영웅으로 배우기</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* 당신은 **사이버 보안 회사**에서 일하고 있습니까? 당신의 **회사가 HackTricks에 광고되기를 원하십니까**? 또는 **최신 버전의 PEASS에 접근하거나 HackTricks를 PDF로 다운로드**하고 싶습니까? [**구독 계획**](https://github.com/sponsors/carlospolop)을 확인하세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family), 우리의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션을 발견하세요.
-* [**공식 PEASS & HackTricks 상품**](https://peass.creator-spring.com)을 받으세요.
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **해킹 트릭을 공유하려면** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **와** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -54,7 +57,7 @@ ls \\10.10.10.10\c$\Users
 
 **이 기술에 대한 자세한 정보는 원본 게시물을 확인하세요 [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-**MMC20.Application** 객체는 명시적인 "LaunchPermissions"가 부족하여 기본적으로 관리자가 접근할 수 있는 권한으로 설정되어 있음을 확인했습니다. 추가 세부정보는 [여기](https://twitter.com/tiraniddo/status/817532039771525120)에서 확인할 수 있으며, 명시적인 Launch Permission이 없는 객체를 필터링하기 위해 [@tiraniddo](https://twitter.com/tiraniddo)의 OleView .NET 사용을 권장합니다.
+**MMC20.Application** 객체는 명시적인 "LaunchPermissions"가 부족하여 기본적으로 관리자가 접근할 수 있는 권한으로 설정되어 있습니다. 추가 세부정보는 [여기](https://twitter.com/tiraniddo/status/817532039771525120)에서 확인할 수 있으며, 명시적인 Launch Permission이 없는 객체를 필터링하기 위해 [@tiraniddo](https://twitter.com/tiraniddo)의 OleView .NET 사용을 권장합니다.
 
 명시적인 Launch Permissions가 부족한 두 개의 특정 객체인 `ShellBrowserWindow`와 `ShellWindows`가 강조되었습니다. `HKCR:\AppID\{guid}` 아래에 `LaunchPermission` 레지스트리 항목이 없다는 것은 명시적인 권한이 없음을 의미합니다.
 
@@ -133,7 +136,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

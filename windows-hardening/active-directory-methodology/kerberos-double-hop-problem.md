@@ -1,100 +1,105 @@
 # Kerberos Double Hop Problem
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 처음부터 전문가까지 배우세요!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **HackTricks에서 귀하의 회사를 광고**하고 싶으신가요? 또는 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFT 컬렉션**](https://opensea.io/collection/the-peass-family)
-* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받으세요
-* **[💬](https://emojipedia.org/speech-balloon/) Discord 그룹**에 가입하거나 [텔레그램 그룹](https://t.me/peass)에 참여하거나 **Twitter**에서 저를 팔로우하세요 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **해킹 요령을 공유하려면 PR을** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **에 제출하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-## 소개
+## Introduction
 
-Kerberos "Double Hop" 문제는 **Kerberos 인증을 통해 두 개의** **호핑**을 시도할 때 발생합니다. 예를 들어 **PowerShell**/**WinRM**을 사용하는 경우입니다.
+Kerberos "Double Hop" 문제는 공격자가 **PowerShell**/**WinRM**을 사용하여 **두 번의 홉**을 통해 **Kerberos 인증**을 시도할 때 발생합니다.
 
-**Kerberos**를 통해 **인증**이 발생할 때 **자격 증명**이 **메모리에 캐시되지 않습니다.** 따라서 mimikatz를 실행해도 사용자의 자격 증명을 찾을 수 없습니다.
+**Kerberos**를 통해 **인증**이 발생할 때, **자격 증명**은 **메모리**에 캐시되지 않습니다. 따라서 사용자가 프로세스를 실행하고 있더라도 mimikatz를 실행하면 해당 사용자의 **자격 증명**을 찾을 수 없습니다.
 
-이는 Kerberos로 연결할 때 다음 단계를 거치기 때문입니다:
+Kerberos로 연결할 때의 단계는 다음과 같습니다:
 
 1. User1이 자격 증명을 제공하고 **도메인 컨트롤러**가 User1에게 Kerberos **TGT**를 반환합니다.
-2. User1이 **TGT**를 사용하여 **Server1에 연결**하기 위한 **서비스 티켓**을 요청합니다.
-3. User1이 **Server1에 연결**하고 **서비스 티켓**을 제공합니다.
-4. **Server1**에는 User1의 자격 증명이 캐시되어 있지 않거나 User1의 **TGT**가 없습니다. 따라서 Server1에서 두 번째 서버에 로그인하려고 할 때 **인증할 수 없습니다.**
+2. User1이 **TGT**를 사용하여 **Server1**에 연결하기 위한 **서비스 티켓**을 요청합니다.
+3. User1이 **Server1**에 **연결**하고 **서비스 티켓**을 제공합니다.
+4. **Server1**은 User1의 **자격 증명**이나 User1의 **TGT**를 캐시하지 않습니다. 따라서 Server1의 User1이 두 번째 서버에 로그인하려고 할 때 **인증할 수 없습니다**.
 
 ### Unconstrained Delegation
 
-PC에서 **제한되지 않은 위임**이 활성화되어 있는 경우, **서버**는 액세스하는 각 사용자의 **TGT**를 **받게** 됩니다. 또한, 제한되지 않은 위임이 사용되면 아마도 **도메인 컨트롤러를** **손상시킬 수 있습니다.**\
-[**제한되지 않은 위임 페이지에서 자세한 정보 확인**](unconstrained-delegation.md).
+PC에서 **제한 없는 위임**이 활성화되어 있으면, **서버**가 접근하는 각 사용자의 **TGT**를 **얻기** 때문에 이러한 일이 발생하지 않습니다. 또한, 제한 없는 위임을 사용하면 **도메인 컨트롤러**를 **타격**할 수 있습니다.\
+[**제한 없는 위임 페이지에서 더 많은 정보**](unconstrained-delegation.md).
 
 ### CredSSP
 
-이 문제를 피하는 또 다른 방법은 [**안전하지 않은 것으로 알려진**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) **Credential Security Support Provider**입니다. Microsoft에 따르면:
+이 문제를 피하는 또 다른 방법은 [**상당히 안전하지 않은**](https://docs.microsoft.com/en-us/powershell/module/microsoft.wsman.management/enable-wsmancredssp?view=powershell-7) **자격 증명 보안 지원 공급자**입니다. Microsoft에서:
 
-> CredSSP 인증은 로컬 컴퓨터에서 원격 컴퓨터로 사용자 자격 증명을 위임합니다. 이 관행은 원격 작업의 보안 위험을 증가시킵니다. 원격 컴퓨터가 침해당하면 자격 증명이 전달되어 네트워크 세션을 제어하는 데 사용될 수 있습니다.
+> CredSSP 인증은 로컬 컴퓨터에서 원격 컴퓨터로 사용자 자격 증명을 위임합니다. 이 관행은 원격 작업의 보안 위험을 증가시킵니다. 원격 컴퓨터가 손상되면 자격 증명이 전달될 때 해당 자격 증명을 사용하여 네트워크 세션을 제어할 수 있습니다.
 
-**CredSSP**를 프로덕션 시스템, 민감한 네트워크 및 유사한 환경에서 **비활성화**하는 것이 매우 권장됩니다. **CredSSP**가 활성화되어 있는지 확인하려면 `Get-WSManCredSSP` 명령을 실행할 수 있습니다. 이 명령을 사용하면 **CredSSP 상태를 확인**할 수 있으며 **WinRM**이 활성화되어 있다면 원격으로 실행할 수도 있습니다.
+보안 문제로 인해 **CredSSP**는 프로덕션 시스템, 민감한 네트워크 및 유사한 환경에서 비활성화하는 것이 강력히 권장됩니다. **CredSSP**가 활성화되어 있는지 확인하려면 `Get-WSManCredSSP` 명령을 실행할 수 있습니다. 이 명령은 **CredSSP 상태를 확인**할 수 있으며, **WinRM**이 활성화되어 있으면 원격으로도 실행할 수 있습니다.
 ```powershell
 Invoke-Command -ComputerName bizintel -Credential ta\redsuit -ScriptBlock {
 Get-WSManCredSSP
 }
 ```
-## 해결책
+## Workarounds
 
 ### Invoke Command
 
-더블 호핑 문제를 해결하기 위해 중첩된 `Invoke-Command`를 활용하는 방법이 제시됩니다. 이 방법은 문제를 직접 해결하지는 않지만 특별한 구성이 필요하지 않는 해결책을 제공합니다. 이 접근 방식을 사용하면 초기 공격 머신에서 실행되는 PowerShell 명령 또는 처음 서버와 이전에 설정된 PS-Session을 통해 초기 서버에서 두 번째 서버에서 명령(`hostname`)을 실행할 수 있습니다. 다음은 이 작업 방법입니다:
+더블 홉 문제를 해결하기 위해 중첩된 `Invoke-Command`를 사용하는 방법이 제시됩니다. 이는 문제를 직접적으로 해결하지는 않지만 특별한 구성이 필요 없는 우회 방법을 제공합니다. 이 접근 방식은 초기 공격 머신에서 실행된 PowerShell 명령어 또는 첫 번째 서버와 이전에 설정된 PS-Session을 통해 보조 서버에서 명령어(`hostname`)를 실행할 수 있게 합니다. 방법은 다음과 같습니다:
 ```powershell
 $cred = Get-Credential ta\redsuit
 Invoke-Command -ComputerName bizintel -Credential $cred -ScriptBlock {
 Invoke-Command -ComputerName secdev -Credential $cred -ScriptBlock {hostname}
 }
 ```
-### 등록 PSSession 구성
+대안으로, 첫 번째 서버와 PS-Session을 설정하고 `$cred`를 사용하여 `Invoke-Command`를 실행하는 것이 작업을 중앙 집중화하는 데 권장됩니다.
 
-더블 홉 문제를 우회하는 해결책으로 `Register-PSSessionConfiguration`을 `Enter-PSSession`과 함께 사용하는 것이 제안됩니다. 이 방법은 `evil-winrm`과는 다른 접근 방식을 요구하며 더블 홉 제한을 겪지 않는 세션을 허용합니다.
+### PSSession 구성 등록
+
+더블 홉 문제를 우회하는 솔루션은 `Enter-PSSession`과 함께 `Register-PSSessionConfiguration`을 사용하는 것입니다. 이 방법은 `evil-winrm`과는 다른 접근 방식을 요구하며, 더블 홉 제한을 겪지 않는 세션을 허용합니다.
 ```powershell
 Register-PSSessionConfiguration -Name doublehopsess -RunAsCredential domain_name\username
 Restart-Service WinRM
 Enter-PSSession -ConfigurationName doublehopsess -ComputerName <pc_name> -Credential domain_name\username
 klist
 ```
-### 포트포워딩
+### PortForwarding
 
-중간 대상의 로컬 관리자는 `netsh`를 사용하여 포트포워딩을 허용하는 규칙을 추가할 수 있으며, 이를 통해 Windows 방화벽 규칙을 추가하여 포워딩된 포트를 허용할 수 있습니다.
+중간 대상의 로컬 관리자에게 포트 포워딩은 요청을 최종 서버로 전송할 수 있게 해줍니다. `netsh`를 사용하여 포트 포워딩을 위한 규칙을 추가하고, 포워딩된 포트를 허용하기 위해 Windows 방화벽 규칙을 추가할 수 있습니다.
 ```bash
 netsh interface portproxy add v4tov4 listenport=5446 listenaddress=10.35.8.17 connectport=5985 connectaddress=10.35.8.23
 netsh advfirewall firewall add rule name=fwd dir=in action=allow protocol=TCP localport=5446
 ```
 #### winrs.exe
 
-`winrs.exe`는 WinRM 요청을 전달하는 데 사용할 수 있으며 PowerShell 모니터링이 우려되는 경우 덜 감지될 수 있는 옵션으로 사용할 수 있습니다. 아래 명령은 그 사용법을 보여줍니다:
+`winrs.exe`는 WinRM 요청을 전달하는 데 사용할 수 있으며, PowerShell 모니터링이 우려되는 경우 덜 감지 가능한 옵션으로 사용할 수 있습니다. 아래 명령은 그 사용법을 보여줍니다:
 ```bash
 winrs -r:http://bizintel:5446 -u:ta\redsuit -p:2600leet hostname
 ```
 ### OpenSSH
 
-첫 번째 서버에 OpenSSH를 설치하면 더블 홉 문제에 대한 해결책이 활성화되어 점프 박스 시나리오에 특히 유용합니다. 이 방법은 Windows용 OpenSSH의 CLI 설치 및 설정을 필요로 합니다. 암호 인증을 위해 구성된 경우 중간 서버가 사용자를 대신하여 TGT를 획들할 수 있습니다.
+첫 번째 서버에 OpenSSH를 설치하면 더블 홉 문제에 대한 우회 방법이 가능해지며, 특히 점프 박스 시나리오에 유용합니다. 이 방법은 Windows용 OpenSSH의 CLI 설치 및 설정을 요구합니다. 비밀번호 인증을 위해 구성되면, 중간 서버가 사용자를 대신하여 TGT를 얻을 수 있습니다.
 
 #### OpenSSH 설치 단계
 
-1. 최신 OpenSSH 릴리스 zip을 다운로드하고 대상 서버로 이동합니다.
+1. 최신 OpenSSH 릴리스 zip 파일을 다운로드하여 대상 서버로 이동합니다.
 2. 압축을 풀고 `Install-sshd.ps1` 스크립트를 실행합니다.
-3. 포트 22를 열기 위한 방화벽 규칙을 추가하고 SSH 서비스가 실행 중인지 확인합니다.
+3. 포트 22를 열기 위해 방화벽 규칙을 추가하고 SSH 서비스가 실행 중인지 확인합니다.
 
-`Connection reset` 오류를 해결하려면 OpenSSH 디렉토리에서 모든 사람에게 읽기 및 실행 액세스를 허용하도록 권한을 업데이트해야 할 수 있습니다.
+`Connection reset` 오류를 해결하려면 OpenSSH 디렉토리에 대해 모든 사용자가 읽기 및 실행 권한을 갖도록 권한을 업데이트해야 할 수 있습니다.
 ```bash
 icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 ```
-## 참고 자료
+## References
 
 * [https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20](https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/understanding-kerberos-double-hop/ba-p/395463?lightbox-message-images-395463=102145i720503211E78AC20)
 * [https://posts.slayerlabs.com/double-hop/](https://posts.slayerlabs.com/double-hop/)
@@ -105,14 +110,17 @@ icacls.exe "C:\Users\redsuit\Documents\ssh\OpenSSH-Win64" /grant Everyone:RX /T
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>와 함께 **제로부터 영웅이 되기까지 AWS 해킹을 배우세요**!</summary>
+<summary>Support HackTricks</summary>
 
-* **사이버 보안 회사**에서 일하시나요? **HackTricks에서 귀사를 광고하고 싶으신가요**? 혹은 **PEASS의 최신 버전에 액세스하거나 HackTricks를 PDF로 다운로드**하고 싶으신가요? [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 저희의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* [**공식 PEASS & HackTricks 스왹**](https://peass.creator-spring.com)을 받으세요
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 그룹**](https://discord.gg/hRep4RUj7f)이나 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**를 팔로우**하세요.
-* **해킹 트릭을 공유하고 싶으시다면** [**hacktricks 레포**](https://github.com/carlospolop/hacktricks) **및** [**hacktricks-cloud 레포**](https://github.com/carlospolop/hacktricks-cloud) **에 PR을 제출**하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
