@@ -1,30 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Επιφάνεια εργασίας
+### Desktop
 
-* **Δικαίωμα**: Κανένα
+* **Entitlement**: Κανένα
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Αντιγράψτε το `$HOME/Desktop` στο `/tmp/desktop`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -60,7 +58,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Αντιγράψτε το `$HOME/Desktop` στο `/tmp/desktop`.
-
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -69,15 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Έγγραφα
 
-* **Δικαίωμα**: Κανένα
+* **Δικαιώματα**: Κανένα
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Αντιγράψτε το `$HOME/Documents` στο `/tmp/documents`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -113,7 +107,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Αντιγράψτε το `$HOME/`Documents στο `/tmp/documents`.
-
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -122,15 +115,12 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 ### Λήψεις
 
-* **Δικαίωμα**: Κανένα
+* **Δικαιώματα**: Κανένα
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Αντιγράψτε το `$HOME/Downloads` στο `/tmp/downloads`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -165,8 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Αντιγράψτε το `$HOME/Λήψεις` στο `/tmp/λήψεις`.
-
+Αντιγράψτε το `$HOME/Dowloads` στο `/tmp/downloads`.
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -175,15 +164,12 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 ### Βιβλιοθήκη Φωτογραφιών
 
-* **Προνόμιο**: `com.apple.security.personal-information.photos-library`
+* **Δικαιώματα**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Αντιγράψτε το `$HOME/Pictures/Photos Library.photoslibrary` στο `/tmp/photos`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -219,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Αντιγράψτε το `$HOME/Pictures/Photos Library.photoslibrary` στο `/tmp/photos`.
-
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -228,15 +213,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### Επαφές
 
-* **Δικαίωμα**: `com.apple.security.personal-information.addressbook`
+* **Δικαιώματα**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Αντιγράψτε το `$HOME/Library/Application Support/AddressBook` στο `/tmp/contacts`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -272,7 +254,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Αντιγράψτε το `$HOME/Library/Application Support/AddressBook` στο `/tmp/contacts`.
-
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -281,11 +262,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Ημερολόγιο
 
-* **Δικαίωμα**: `com.apple.security.personal-information.calendars`
+* **Δικαιώματα**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
+{% tabs %}
+{% tab title="ObjectiveC" %}
 Αντιγράψτε το `$HOME/Library/Calendars` στο `/tmp/calendars`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -317,19 +299,24 @@ NSLog(@"Copy completed successfully.", error);
 fclose(stderr); // Close the file stream
 }
 ```
+{% endtab %}
 
+{% tab title="Shell" %}
 Αντιγράψτε το `$HOME/Library/Calendars` στο `/tmp/calendars`.
-
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+{% endtab %}
+{% endtabs %}
+
+### Κάμερα
+
+* **Δικαιώματα**: `com.apple.security.device.camera`
+* **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="undefined" %}
-Καταγράψτε ένα βίντεο διάρκειας 3 δευτερολέπτων και αποθηκεύστε το στο **`/tmp/recording.mov`**
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Εγγραφή" %}
+Εγγραφή ενός βίντεο 3 δευτερολέπτων και αποθήκευση στο **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -407,11 +394,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
-Ελέγξτε εάν το πρόγραμμα έχει πρόσβαση στην κάμερα.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjectiveC - Έλεγχος" %}
+Ελέγξτε αν το πρόγραμμα έχει πρόσβαση στην κάμερα.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -444,8 +428,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-Λήψη φωτογραφίας με την κάμερα
-
+Βγάλε μια φωτογραφία με την κάμερα
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -454,15 +437,12 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 ### Μικρόφωνο
 
-* **Προνόμιο**: **com.apple.security.device.audio-input**
+* **Δικαιώματα**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="undefined" %}
-Εγγράψτε 5 δευτερόλεπτα ήχου και αποθηκεύστε το στο `/tmp/recording.m4a`
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjetiveC - Εγγραφή" %}
+Εγγραφή 5 δευτερολέπτων ήχου και αποθήκευση στο `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -561,11 +541,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
-Ελέγξτε εάν η εφαρμογή έχει πρόσβαση στο μικρόφωνο.
-{% endtab %}
-
-{% tab title="undefined" %}
+{% tab title="ObjectiveC - Έλεγχος" %}
+Ελέγξτε αν η εφαρμογή έχει πρόσβαση στο μικρόφωνο.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -596,8 +573,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-Καταγράψτε έναν ήχο διάρκειας 5 δευτερολέπτων και αποθηκεύστε τον στο `/tmp/recording.wav`
-
+Καταγράψτε ένα ήχο 5 δευτερολέπτων και αποθηκεύστε τον στο `/tmp/recording.wav`
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -610,18 +586,15 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### Τοποθεσία
 
 {% hint style="success" %}
-Για να μπορεί μια εφαρμογή να λάβει την τοποθεσία, **πρέπει να είναι ενεργοποιημένες οι Υπηρεσίες Τοποθεσίας** (από τις Ρυθμίσεις Απορρήτου & Ασφάλειας), αλλιώς δεν θα μπορεί να την αποκτήσει.
+Για να αποκτήσει μια εφαρμογή την τοποθεσία, **Οι Υπηρεσίες Τοποθεσίας** (από την Ιδιωτικότητα & Ασφάλεια) **πρέπει να είναι ενεργοποιημένες,** αλλιώς δεν θα μπορεί να έχει πρόσβαση σε αυτήν.
 {% endhint %}
 
-* **Entitlement**: `com.apple.security.personal-information.location`
-* **TCC**: Χορηγήθηκε στο `/var/db/locationd/clients.plist`
+* **Δικαιώματα**: `com.apple.security.personal-information.location`
+* **TCC**: Χορηγείται στο `/var/db/locationd/clients.plist`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjectiveC" %}
 Γράψτε την τοποθεσία στο `/tmp/logs.txt`
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -670,23 +643,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="Shell" %}
 Αποκτήστε πρόσβαση στην τοποθεσία
-{% endtab %}
-
-{% tab title="undefined" %}
 ```
 ???
 ```
 {% endtab %}
+{% endtabs %}
 
-{% tab title="undefined" %}
+### Καταγραφή Οθόνης
+
+* **Δικαιώματα**: Κανένα
+* **TCC**: `kTCCServiceScreenCapture`
+
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjectiveC" %}
 Καταγράψτε την κύρια οθόνη για 5 δευτερόλεπτα στο `/tmp/screen.mov`
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -744,28 +716,21 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Καταγράψτε την κύρια οθόνη για 5 δευτερόλεπτα
-
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
-{% endtab %}
 
-{% tab title="undefined" %}
-#### Προσβασιμότητα
-{% endtab %}
+### Προσβασιμότητα
 
-{% tab title="undefined" %}
-* **Προνόμιο**: Κανένα
+* **Δικαιώματα**: Κανένα
 * **TCC**: `kTCCServiceAccessibility`
-{% endtab %}
 
-{% tab title="undefined" %}
-Χρησιμοποιήστε το προνόμιο TCC για να αποδεχθείτε τον έλεγχο του Finder πατώντας το πλήκτρο enter και να παρακάμψετε έτσι το TCC.
-{% endtab %}
+Χρησιμοποιήστε το δικαίωμα TCC για να αποδεχθείτε τον έλεγχο του Finder πατώντας enter και να παρακάμψετε το TCC με αυτόν τον τρόπο
 
-{% tab title="undefined" %}
+{% tabs %}
+{% tab title="Αποδοχή TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -820,7 +785,6 @@ return 0;
 
 {% tab title="Keylogger" %}
 Αποθηκεύστε τα πατημένα πλήκτρα στο **`/tmp/keystrokes.txt`**
-
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -928,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-Η πρόσβαση στην προσβασιμότητα είναι μια πολύ ισχυρή άδεια, μπορείτε να την καταχραστείτε με άλλους τρόπους, για παράδειγμα μπορείτε να πραγματοποιήσετε επίθεση με πληκτρολόγηση μόνο από αυτήν χωρίς να χρειάζεται να καλέσετε το System Events.
+**Η προσβασιμότητα είναι μια πολύ ισχυρή άδεια**, θα μπορούσατε να την καταχραστείτε με άλλους τρόπους, για παράδειγμα θα μπορούσατε να εκτελέσετε την **επίθεση πληκτρολογίου** μόνο από αυτήν χωρίς να χρειάζεται να καλέσετε τα System Events.
 {% endhint %}
+
+{% hint style="success" %}
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την εταιρεία σας να διαφημίζεται στο HackTricks ή να κατεβάσετε το HackTricks σε μορφή PDF, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στη [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

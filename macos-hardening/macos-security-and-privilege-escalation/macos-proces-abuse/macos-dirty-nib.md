@@ -1,36 +1,37 @@
 # macOS Dirty NIB
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ στο AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι υποστήριξης του HackTricks:
-
-* Αν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Συμμετάσχετε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs** στα αποθετήρια του [**HackTricks**](https://github.com/carlospolop/hacktricks) και του [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) στο github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Για περισσότερες λεπτομέρειες σχετικά με την τεχνική, ελέγξτε την αρχική ανάρτηση από: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Εδώ υπάρχει ένα σύνοψη:
+**Για περισσότερες λεπτομέρειες σχετικά με την τεχνική, ελέγξτε την αρχική ανάρτηση από: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Ακολουθεί μια περίληψη:
 
-Τα αρχεία NIB, που ανήκουν στο αναπτυξιακό οικοσύστημα της Apple, προορίζονται για τον καθορισμό των **στοιχείων του χρήστικού περιβάλλοντος** και των αλληλεπιδράσεών τους στις εφαρμογές. Περιλαμβάνουν αντικείμενα που έχουν σειριοποιηθεί, όπως παράθυρα και κουμπιά, και φορτώνονται κατά την εκτέλεση. Παρά τη συνεχή χρήση τους, η Apple προτείνει πλέον τα Storyboards για μια πιο ολοκληρωμένη οπτικοποίηση της ροής του χρήστη.
+Τα αρχεία NIB, μέρος του οικοσυστήματος ανάπτυξης της Apple, προορίζονται για τον καθορισμό **στοιχείων UI** και των αλληλεπιδράσεών τους σε εφαρμογές. Περιλαμβάνουν σειριοποιημένα αντικείμενα όπως παράθυρα και κουμπιά, και φορτώνονται κατά την εκτέλεση. Παρά τη συνεχιζόμενη χρήση τους, η Apple τώρα προτείνει τα Storyboards για πιο ολοκληρωμένη οπτικοποίηση ροής UI.
 
-### Ανησυχίες ασφαλείας με τα αρχεία NIB
-Είναι σημαντικό να σημειωθεί ότι τα αρχεία NIB μπορούν να αποτελέσουν κίνδυνο για την ασφάλεια. Έχουν τη δυνατότητα να **εκτελέσουν αυθαίρετες εντολές**, και οι αλλαγές στα αρχεία NIB μέσα σε μια εφαρμογή δεν εμποδίζουν τον Gatekeeper από την εκτέλεση της εφαρμογής, δημιουργώντας ένα σημαντικό απειλητικό περιβάλλον.
+### Ανησυχίες Ασφαλείας με τα Αρχεία NIB
+Είναι κρίσιμο να σημειωθεί ότι **τα αρχεία NIB μπορεί να είναι κίνδυνος ασφαλείας**. Έχουν τη δυνατότητα να **εκτελούν αυθαίρετες εντολές**, και οι τροποποιήσεις στα αρχεία NIB εντός μιας εφαρμογής δεν εμποδίζουν τον Gatekeeper από την εκτέλεση της εφαρμογής, θέτοντας μια σημαντική απειλή.
 
-### Διαδικασία Dirty NIB Injection
-#### Δημιουργία και Ρύθμιση ενός αρχείου NIB
-1. **Αρχική ρύθμιση**:
+### Διαδικασία Εισαγωγής Dirty NIB
+#### Δημιουργία και Ρύθμιση ενός Αρχείου NIB
+1. **Αρχική Ρύθμιση**:
 - Δημιουργήστε ένα νέο αρχείο NIB χρησιμοποιώντας το XCode.
-- Προσθέστε ένα αντικείμενο στη διεπαφή, ορίζοντας την κλάση του σε `NSAppleScript`.
-- Διαμορφώστε την αρχική ιδιότητα `source` μέσω των Ορισμένων Χρονικών Χαρακτηριστικών Εκτέλεσης του Χρήστη.
+- Προσθέστε ένα Αντικείμενο στη διεπαφή, ρυθμίζοντας την κλάση του σε `NSAppleScript`.
+- Ρυθμίστε την αρχική ιδιότητα `source` μέσω των Χαρακτηριστικών Χρόνου Εκτέλεσης που Ορίζονται από τον Χρήστη.
 
-2. **Κωδικός εκτέλεσης**:
-- Η ρύθμιση διευκολύνει την εκτέλεση του AppleScript κατά παραγγελία.
-- Ενσωματώστε ένα κουμπί για να ενεργοποιήσετε το αντικείμενο `Apple Script`, ενεργοποιώντας ειδικά τον επιλογέα `executeAndReturnError:`.
+2. **Gadget Εκτέλεσης Κώδικα**:
+- Η ρύθμιση διευκολύνει την εκτέλεση AppleScript κατόπιν αιτήματος.
+- Ενσωματώστε ένα κουμπί για να ενεργοποιήσετε το αντικείμενο `Apple Script`, ενεργοποιώντας συγκεκριμένα τον επιλεγέα `executeAndReturnError:`.
 
 3. **Δοκιμή**:
 - Ένα απλό Apple Script για δοκιμαστικούς σκοπούς:
@@ -38,18 +39,50 @@
 set theDialogText to "PWND"
 display dialog theDialogText
 ```
-- Δοκιμάστε το τρέχοντα στον αποσφαλματωτή του XCode και κάντε κλικ στο κουμπί.
+- Δοκιμάστε τρέχοντας στον αποσφαλματωτή XCode και κάνοντας κλικ στο κουμπί.
 
-#### Στόχευση μιας εφαρμογής (παράδειγμα: Pages)
+#### Στοχοποίηση μιας Εφαρμογής (Παράδειγμα: Pages)
 1. **Προετοιμασία**:
-- Αντιγράψτε την επιθυμητή εφαρμογή (π.χ., Pages) σε έναν ξεχωριστό κατάλογο (π.χ., `/tmp/`).
-- Εκκινήστε την εφαρμογή για να αποφύγετε προβλήματα με τον Gatekeeper και να την κρατήσετε στην προσωρινή μνήμη.
+- Αντιγράψτε την στοχοθετημένη εφαρμογή (π.χ., Pages) σε έναν ξεχωριστό φάκελο (π.χ., `/tmp/`).
+- Ξεκινήστε την εφαρμογή για να παρακάμψετε τα προβλήματα του Gatekeeper και να την αποθηκεύσετε στην κρυφή μνήμη.
 
-2. **Αντικατάσταση αρχείου NIB**:
-- Αντικαταστήστε ένα υπάρχον αρχείο NIB (π.χ., About Panel NIB) με το δημιουργημένο αρχείο DirtyNIB.
+2. **Αντικατάσταση Αρχείου NIB**:
+- Αντικαταστήστε ένα υπάρχον αρχείο NIB (π.χ., About Panel NIB) με το κατασκευασμένο αρχείο DirtyNIB.
 
 3. **Εκτέλεση**:
-- Ενεργοποιήστε την εκτέλεση αλληλεπίδρασης με την εφαρμογή (π.χ., επιλέγοντας το στοιχείο μενού `About`).
+- Ενεργοποιήστε την εκτέλεση αλληλεπιδρώντας με την εφαρμογή (π.χ., επιλέγοντας το στοιχείο μενού `About`).
 
-#### Απόδειξη Έννοιας: Πρόσβαση σε Δεδομένα Χρήστη
-- Τροποποιήστε το AppleScript για να αποκτήσετε πρόσβαση και να εξαγάγετε δεδομένα χρήστη, όπ
+#### Απόδειξη της Έννοιας: Πρόσβαση σε Δεδομένα Χρήστη
+- Τροποποιήστε το AppleScript για να αποκτήσετε πρόσβαση και να εξάγετε δεδομένα χρήστη, όπως φωτογραφίες, χωρίς τη συγκατάθεση του χρήστη.
+
+### Δείγμα Κώδικα: Κακόβουλο Αρχείο .xib
+- Αποκτήστε πρόσβαση και ελέγξτε ένα [**δείγμα κακόβουλου αρχείου .xib**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) που δείχνει την εκτέλεση αυθαίρετου κώδικα.
+
+### Αντιμετώπιση Περιορισμών Εκκίνησης
+- Οι Περιορισμοί Εκκίνησης εμποδίζουν την εκτέλεση εφαρμογών από απροσδόκητες τοποθεσίες (π.χ., `/tmp`).
+- Είναι δυνατόν να εντοπιστούν εφαρμογές που δεν προστατεύονται από Περιορισμούς Εκκίνησης και να στοχοποιηθούν για εισαγωγή αρχείου NIB.
+
+### Πρόσθετες Προστασίες macOS
+Από το macOS Sonoma και μετά, οι τροποποιήσεις μέσα σε πακέτα εφαρμογών είναι περιορισμένες. Ωστόσο, οι προηγούμενες μέθοδοι περιλάμβαναν:
+1. Αντιγραφή της εφαρμογής σε διαφορετική τοποθεσία (π.χ., `/tmp/`).
+2. Μετονομασία φακέλων εντός του πακέτου εφαρμογής για να παρακαμφθούν οι αρχικές προστασίες.
+3. Μετά την εκτέλεση της εφαρμογής για να καταχωρηθεί με τον Gatekeeper, τροποποίηση του πακέτου εφαρμογής (π.χ., αντικατάσταση του MainMenu.nib με το Dirty.nib).
+4. Επαναφορά των φακέλων και επανεκτέλεση της εφαρμογής για να εκτελεστεί το εισαγόμενο αρχείο NIB.
+
+**Σημείωση**: Οι πρόσφατες ενημερώσεις του macOS έχουν μετριάσει αυτήν την εκμετάλλευση αποτρέποντας τις τροποποιήσεις αρχείων εντός των πακέτων εφαρμογών μετά την αποθήκευση στην κρυφή μνήμη του Gatekeeper, καθιστώντας την εκμετάλλευση αναποτελεσματική.
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

